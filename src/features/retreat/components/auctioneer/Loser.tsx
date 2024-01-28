@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { AuctionResults } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { AuctionLeaderboardTable } from "./AuctionLeaderboardTable";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   onRefund: () => void;
   results: AuctionResults;
@@ -14,6 +14,8 @@ interface Props {
 }
 
 export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
 
   const refund = () => {
@@ -31,10 +33,10 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
         status="loser"
       />
       <div className="my-2">
-        <Label type="danger">{translate("loser.unsuccess")}</Label>
+        <Label type="danger">{t("loser.unsuccess")}</Label>
       </div>
       <Button className="mt-2" onClick={refund}>
-        {translate("loser.refund")}
+        {t("loser.refund")}
       </Button>
     </div>
   );

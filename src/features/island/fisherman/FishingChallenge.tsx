@@ -10,7 +10,6 @@ import { useSpring, animated } from "react-spring";
 import { SensitiveButton } from "components/ui/SensitiveButton";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 // Function to generate a random angle at least 150 degrees away from a given angle
 function getRandomAngle(minDistance: number, existingAngle: number) {
@@ -86,17 +85,13 @@ export const FishingChallengeIntro: React.FC<{ onNext: () => void }> = ({
     <>
       <div className="p-2">
         <p className="text-sm mb-1">
-          {translate("fishingChallengeIntro.powerfulCatch")}
+          {t("fishingChallengeIntro.powerfulCatch")}
         </p>
+        <p className="text-sm mb-1">{t("fishingChallengeIntro.useStrength")}</p>
         <p className="text-sm mb-1">
-          {translate("fishingChallengeIntro.useStrength")}
+          {t("fishingChallengeIntro.stopGreenBar")}
         </p>
-        <p className="text-sm mb-1">
-          {translate("fishingChallengeIntro.stopGreenBar")}
-        </p>
-        <p className="text-sm mb-1">
-          {translate("fishingChallengeIntro.beQuick")}
-        </p>
+        <p className="text-sm mb-1">{t("fishingChallengeIntro.beQuick")}</p>
       </div>
       <Button onClick={onNext}>{t("next")}</Button>
     </>

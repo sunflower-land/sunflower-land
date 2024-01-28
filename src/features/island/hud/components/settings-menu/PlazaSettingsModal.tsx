@@ -11,8 +11,11 @@ interface Props {
 
 import SoundOffIcon from "assets/icons/sound_off.png";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useAppTranslation();
+
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
     "MAIN"
   );
@@ -61,14 +64,14 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2 px-1">
                 <img src={SoundOffIcon} className="h-8" />
                 <p className="text-sm">
-                  {translate("plazaSettings.mutedPlayers.button")}
+                  {t("plazaSettings.mutedPlayers.button")}
                 </p>
               </div>
               <p className="text-xs px-1">
-                {translate("plazaSettings.mutedPlayers.description")}
+                {t("plazaSettings.mutedPlayers.description")}
               </p>
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
-                {translate("plazaSettings.mutedPlayers.button")}
+                {t("plazaSettings.mutedPlayers.button")}
               </Button>
             </div>
             {/* <div className="flex flex-col gap-2">
@@ -77,7 +80,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 <p className="text-sm">Keybinds</p>
               </div>
               <p className="text-xs">
-                {translate("plazaSettings.keybind")}
+                {t("plazaSettings.keybind")}
               </p>
               <Button onClick={() => setStep("KEYBINDS")}>Keybinds</Button>
             </div> */}
@@ -99,20 +102,20 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                         onClick={() => removeMutedPlayer(farmId)}
                         className="w-1/3 text-xs"
                       >
-                        {translate("plazaSettings.unmute")}
+                        {t("plazaSettings.unmute")}
                       </Button>
                     </div>
                   ))}
                 </>
               ) : (
                 <p className="text-sm text-center">
-                  {translate("plazaSettings.noMutedPlayers")}
+                  {t("plazaSettings.noMutedPlayers")}
                 </p>
               )}
             </div>
 
             <Button onClick={() => setStep("MAIN")}>
-              {translate("plazaSettings.back")}
+              {t("plazaSettings.back")}
             </Button>
           </div>
         )}

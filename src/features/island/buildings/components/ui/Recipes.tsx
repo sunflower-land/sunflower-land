@@ -19,7 +19,6 @@ import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 interface Props {
   selected: Cookable;
@@ -81,7 +80,7 @@ export const Recipes: React.FC<Props> = ({
         </Button>
         {crafting && (
           <p className="text-xxs sm:text-xs text-center my-1">
-            {translate("sceneDialogues.chefIsBusy")}
+            {t("sceneDialogues.chefIsBusy")}
           </p>
         )}
       </>

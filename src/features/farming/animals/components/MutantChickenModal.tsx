@@ -12,6 +12,7 @@ import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 
 import { Button } from "components/ui/Button";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
   "Speed Chicken": {
@@ -47,6 +48,7 @@ interface Props {
 }
 
 export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
+  const { t } = useAppTranslation();
   return (
     <Modal show={show} centered>
       <Panel>
@@ -55,14 +57,12 @@ export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
           <div className="flex my-4 justify-center">
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>
-          <p className="text-sm mb-2">
-            {translate("statements.mutant.chicken")}
-          </p>
+          <p className="text-sm mb-2">{t("statements.mutant.chicken")}</p>
           <p className="text-sm mb-2">{mutants[type].description}</p>
         </div>
 
         <div className="flex">
-          <Button onClick={onContinue}>{translate("continue")}</Button>
+          <Button onClick={onContinue}>{t("continue")}</Button>
         </div>
       </Panel>
     </Modal>

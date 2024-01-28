@@ -10,14 +10,13 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { MapPlacement } from "./MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 const ModalDescription = () => {
   const { t } = useAppTranslation();
   return (
     <>
       <div className="flex justify-center mb-3"></div>
-      <p className="mb-2 text-sm">{translate("piratequest.welcome")}</p>
+      <p className="mb-2 text-sm">{t("piratequest.welcome")}</p>
       <a
         className="mb-4 underline text-sm"
         href="https://docs.sunflower-land.com/player-guides/islands/treasure-island"
@@ -31,10 +30,11 @@ const ModalDescription = () => {
 };
 
 const QuestCompletion = () => {
+  const { t } = useAppTranslation();
   return (
     <div className="p-2">
-      <p className="mb-2">{translate("piratequest.finestPirate")}</p>
-      <p>{`${translate("piratequest.noMoreGifts")}`}</p>
+      <p className="mb-2">{t("piratequest.finestPirate")}</p>
+      <p>{`${t("piratequest.noMoreGifts")}`}</p>
     </div>
   );
 };

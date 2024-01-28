@@ -6,11 +6,14 @@ import {
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 export const Birdie: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+
   const [showFeatherHelp, setShowFeatherHelp] = useState(false);
   const [showSeasonHelp, setShowSeasonHelp] = useState(false);
 
@@ -28,32 +31,26 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.birdie}
         message={[
           {
-            text: `${translate(
+            text: `${t(
               "birdieplaza.earnTicketsVariety"
-            )} ${getSeasonalTicket()} ${translate(
+            )} ${getSeasonalTicket()} ${t(
               "birdieplaza.earnTicketsVariety.two"
             )}`, //Translate
           },
           {
-            text: `${translate(
-              "birdieplaza.commonMethod"
-            )} ${getSeasonalTicket()} ${translate(
+            text: `${t("birdieplaza.commonMethod")} ${getSeasonalTicket()} ${t(
               "birdieplaza.commonMethod.two"
             )}`, //Translate
           },
           {
-            text: `${translate(
+            text: `${t(
               "birdieplaza.choresAndRewards"
-            )} ${getSeasonalTicket()} ${translate(
-              "birdieplaza.choresAndRewards.two"
-            )}`, //Translate
+            )} ${getSeasonalTicket()} ${t("birdieplaza.choresAndRewards.two")}`, //Translate
           },
           {
-            text: `${translate(
+            text: `${t(
               "birdieplaza.gatherAndCraft"
-            )} ${getSeasonalTicket()} ${translate(
-              "birdieplaza.gatherAndCraft.two"
-            )}`, //Translate
+            )} ${getSeasonalTicket()} ${t("birdieplaza.gatherAndCraft.two")}`, //Translate
           },
         ]}
       />
@@ -79,7 +76,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
             text: translate("birdieplaza.craftItems"),
             actions: [
               {
-                text: `${translate(
+                text: `${t(
                   "birdieplaza.howToEarnTickets"
                 )} ${getSeasonalTicket()}?`,
                 cb: () => setShowFeatherHelp(true),
@@ -106,16 +103,12 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
           text: translate("birdieplaza.admiringOutfit"),
         },
         {
-          text: `${translate(
-            "birdieplaza.currentSeason"
-          )} ${getCurrentSeason()} ${translate(
+          text: `${t("birdieplaza.currentSeason")} ${getCurrentSeason()} ${t(
             "birdieplaza.currentSeason.two"
           )} ${getSeasonalTicket()}`,
         },
         {
-          text: `${translate(
-            "birdieplaza.collectTickets"
-          )} ${getSeasonalTicket()} ${translate(
+          text: `${t("birdieplaza.collectTickets")} ${getSeasonalTicket()} ${t(
             "birdieplaza.collectTickets.two"
           )}`,
           actions: [
@@ -124,7 +117,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
               cb: () => setShowSeasonHelp(true),
             },
             {
-              text: `${translate(
+              text: `${t(
                 "birdieplaza.howToEarnTickets"
               )} ${getSeasonalTicket()}?`,
               cb: () => setShowFeatherHelp(true),

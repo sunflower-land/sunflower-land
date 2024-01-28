@@ -92,7 +92,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       obsessionCompletedAt >= currentObsession.startDate &&
       obsessionCompletedAt <= currentObsession.endDate
     ) {
-      return <Label type="info">{translate("alr.completed")}</Label>;
+      return <Label type="info">{t("alr.completed")}</Label>;
     }
 
     return (

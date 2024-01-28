@@ -7,7 +7,6 @@ import goldPass from "assets/announcements/gold_pass.png";
 import { Panel } from "components/ui/Panel";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 interface Props {
   onClose: () => void;
 }
@@ -30,7 +29,7 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
               onClose();
             }}
           >
-            {translate("confirm")}
+            {t("confirm")}
           </Button>
         </GameWallet>
       );
@@ -42,18 +41,16 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
             src={goldPass}
             className="w-full rounded-md my-2 img-highlight mr-2"
           />
-          <p className="text-sm mb-1">{translate("goldPass.unlockPower")}</p>
+          <p className="text-sm mb-1">{t("goldPass.unlockPower")}</p>
           <ul className="list-disc">
-            <li className="text-xs ml-4">{translate("goldPass.craftNFTs")}</li>
-            <li className="text-xs ml-4">{translate("goldPass.trade")}</li>
+            <li className="text-xs ml-4">{t("goldPass.craftNFTs")}</li>
+            <li className="text-xs ml-4">{t("goldPass.trade")}</li>
+            <li className="text-xs ml-4">{t("goldPass.participateAuction")}</li>
             <li className="text-xs ml-4">
-              {translate("goldPass.participateAuction")}
+              {t("goldPass.withdrawTransferNFTs")}
             </li>
             <li className="text-xs ml-4">
-              {translate("goldPass.withdrawTransferNFTs")}
-            </li>
-            <li className="text-xs ml-4">
-              {translate("goldPass.accessRestrictedAreas")}
+              {t("goldPass.accessRestrictedAreas")}
             </li>
           </ul>
 

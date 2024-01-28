@@ -36,9 +36,11 @@ import { getKeys } from "features/game/types/craftables";
 import { Panel } from "components/ui/Panel";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ZoomContext } from "components/ZoomProvider";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const Reward: React.FC<{ reward?: TreasureHole }> = ({ reward }) => {
+  const { t } = useAppTranslation();
+
   if (!reward || !reward.discovered) return null;
 
   return (
@@ -139,6 +141,8 @@ export const SandPlot: React.FC<{
   shownMissingShovelModal: boolean;
   onMissingShovelAcknowledge: () => void;
 }> = ({ id, shownMissingShovelModal, onMissingShovelAcknowledge }) => {
+  const { t } = useAppTranslation();
+
   const { scale } = useContext(ZoomContext);
 
   const goblinDiggingRef = useRef<SpriteSheetInstance>();
@@ -321,7 +325,7 @@ export const SandPlot: React.FC<{
     return (
       <Modal centered show onHide={handleAcknowledgeNoSandShovel}>
         <CloseButtonPanel
-          title={translate("treasureModal.noShovelTitle")}
+          title={t("treasureModal.noShovelTitle")}
           onClose={handleAcknowledgeNoSandShovel}
         >
           <div className="p-2 pt-0 mb-2 flex flex-col items-center space-y-2">
@@ -330,11 +334,11 @@ export const SandPlot: React.FC<{
               alt="Sand Shovel"
               onLoad={(e) => setImageWidth(e.currentTarget)}
             />
-            <p>{translate("treasureModal.needShovel")}</p>
-            <p>{translate("treasureModal.purchaseShovel")}</p>
+            <p>{t("treasureModal.needShovel")}</p>
+            <p>{t("treasureModal.purchaseShovel")}</p>
           </div>
           <Button onClick={handleAcknowledgeNoSandShovel}>
-            {translate("treasureModal.gotIt")}
+            {t("treasureModal.gotIt")}
           </Button>
         </CloseButtonPanel>
       </Modal>
@@ -345,7 +349,7 @@ export const SandPlot: React.FC<{
     return (
       <Modal centered show onHide={() => setShowMaxHolesModal(false)}>
         <CloseButtonPanel
-          title={translate("treasureModal.maxHolesTitle")}
+          title={t("treasureModal.maxHolesTitle")}
           onClose={() => setShowMaxHolesModal(false)}
         >
           <div className="p-2 pt-0 mb-2 flex flex-col items-center space-y-2">
@@ -355,14 +359,14 @@ export const SandPlot: React.FC<{
               onLoad={(e) => setImageWidth(e.currentTarget)}
             />
             <p className="text-sm text-center">
-              {translate("treasureModal.saveTreasure")}
+              {t("treasureModal.saveTreasure")}
             </p>
             <p className="text-sm text-center">
-              {translate("treasureModal.comeBackTomorrow")}
+              {t("treasureModal.comeBackTomorrow")}
             </p>
           </div>
           <Button onClick={() => setShowMaxHolesModal(false)}>
-            {translate("treasureModal.gotIt")}
+            {t("treasureModal.gotIt")}
           </Button>
         </CloseButtonPanel>
       </Modal>
@@ -374,9 +378,7 @@ export const SandPlot: React.FC<{
       <Modal centered show>
         <Panel>
           <div className="flex flex-col items-center mt-2">
-            <p className="text-center loading">
-              {translate("treasureModal.drilling")}
-            </p>
+            <p className="text-center loading">{t("treasureModal.drilling")}</p>
             <img
               className="mx-auto my-2"
               style={{

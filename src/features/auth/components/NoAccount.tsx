@@ -13,7 +13,7 @@ import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { removeJWT } from "../actions/social";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
@@ -23,12 +23,12 @@ export const NoAccount: React.FC = () => {
   const [promoCode, setPromoCode] = useState(getPromoCode());
 
   const [showClaimAccount, setShowClaimAccount] = useState(false);
-
+  const { t } = useAppTranslation();
   if (showPromoCode) {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">{translate("reward.promo.code")}</p>
+          <p className="text-xs mb-1">{t("reward.promo.code")}</p>
           <input
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
@@ -51,7 +51,7 @@ export const NoAccount: React.FC = () => {
               setShowPromoCode(false);
             }}
           >
-            {translate("back")}
+            {t("back")}
           </Button>
           <Button
             disabled={!promoCode}
@@ -60,7 +60,7 @@ export const NoAccount: React.FC = () => {
               savePromoCode(promoCode as string);
             }}
           >
-            {translate("ok")}
+            {t("ok")}
           </Button>
         </div>
       </>
@@ -83,11 +83,11 @@ export const NoAccount: React.FC = () => {
       <div className="px-2">
         <div className="flex items-center justify-between mb-2">
           <Label type="chill" icon={SUNNYSIDE.icons.heart}>
-            {translate("noaccount.newFarmer")}
+            {t("noaccount.newFarmer")}
           </Label>
           {promoCode && (
             <Label type="formula" icon={SUNNYSIDE.icons.search}>
-              {`${translate("noaccount.promoCodeLabel")} ${getPromoCode()}`}
+              {`${t("noaccount.promoCodeLabel")} ${getPromoCode()}`}
             </Label>
           )}
           {!promoCode && (
@@ -97,13 +97,11 @@ export const NoAccount: React.FC = () => {
               className="underline text-white text-xs cursor-pointer"
               onClick={() => setShowPromoCode(true)}
             >
-              {translate("noaccount.addPromoCode")}
+              {t("noaccount.addPromoCode")}
             </a>
           )}
         </div>
-        <p className="text-sm mb-2">
-          {`${translate("noaccount.welcomeMessage")}`}
-        </p>
+        <p className="text-sm mb-2">{`${t("noaccount.welcomeMessage")}`}</p>
         {isAddress(authState.context.user.token?.address ?? "") && (
           <div className="mb-2">
             <a
@@ -112,7 +110,7 @@ export const NoAccount: React.FC = () => {
               className="underline text-white text-xs cursor-pointer"
               onClick={() => setShowClaimAccount(true)}
             >
-              {translate("noaccount.alreadyHaveNFTFarm")}
+              {t("noaccount.alreadyHaveNFTFarm")}
             </a>
           </div>
         )}
@@ -125,10 +123,10 @@ export const NoAccount: React.FC = () => {
             authService.send("BACK");
           }}
         >
-          {translate("back")}
+          {t("back")}
         </Button>
         <Button onClick={() => authService.send("CREATE_FARM")}>
-          {translate("noaccount.createFarm")}
+          {t("noaccount.createFarm")}
         </Button>
       </div>
     </>
@@ -141,6 +139,7 @@ export const ClaimAccount: React.FC<{
 }> = ({ onBack, onClaim }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [tokenIds, setTokenIds] = useState<number[]>([]);
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const load = async () => {
@@ -161,14 +160,13 @@ export const ClaimAccount: React.FC<{
     load();
   }, []);
 
-  if (isLoading)
-    return <p className="loading">{translate("noaccount.loading")}</p>;
+  if (isLoading) return <p className="loading">{t("noaccount.loading")}</p>;
 
   if (tokenIds.length === 0) {
     return (
       <>
-        <div className="p-2">{translate("noaccount.noFarmNFTs")}</div>
-        <Button onClick={onBack}>{translate("noaccount.createNewFarm")}</Button>
+        <div className="p-2">{t("noaccount.noFarmNFTs")}</div>
+        <Button onClick={onBack}>{t("noaccount.createNewFarm")}</Button>
       </>
     );
   }
@@ -176,7 +174,7 @@ export const ClaimAccount: React.FC<{
   return (
     <>
       <div className="p-1">
-        <p className="m-1 text-sm">{translate("noaccount.selectNFTID")}</p>
+        <p className="m-1 text-sm">{t("noaccount.selectNFTID")}</p>
         {tokenIds.map((id) => (
           <OuterPanel
             className={
@@ -189,7 +187,7 @@ export const ClaimAccount: React.FC<{
           </OuterPanel>
         ))}
       </div>
-      <Button onClick={onBack}>{translate("back")}</Button>
+      <Button onClick={onBack}>{t("back")}</Button>
     </>
   );
 };

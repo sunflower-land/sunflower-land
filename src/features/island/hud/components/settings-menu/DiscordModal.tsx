@@ -12,7 +12,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const GROUPS: {
   channel: string;
@@ -39,6 +39,7 @@ interface Props {
 
 export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(Auth.Context);
+  const { t } = useAppTranslation();
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
@@ -76,16 +77,12 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const getContent = (): JSX.Element => {
     if (state === "error") {
-      return (
-        <span className="text-shadow">{translate("getContent.error")}</span>
-      );
+      return <span className="text-shadow">{t("getContent.error")}</span>;
     }
 
     if (state === "joining") {
       return (
-        <span className="text-shadow loading">
-          {translate("getContent.joining")}
-        </span>
+        <span className="text-shadow loading">{t("getContent.joining")}</span>
       );
     }
 
@@ -93,10 +90,10 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <>
           <span className="text-shadow mt-2 block text-center">
-            {translate("getContent.congratulations")}
+            {t("getContent.congratulations")}
           </span>
           <span className="text-shadow my-2 block text-center">
-            {translate("getContent.accessGranted")}
+            {t("getContent.accessGranted")}
           </span>
         </>
       );
@@ -106,23 +103,23 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <>
           <span className="text-shadow my-2 block text-sm p-2">
-            {translate("getContent.connectToDiscord")}
+            {t("getContent.connectToDiscord")}
           </span>
-          <Button onClick={oauth}>{translate("getContent.connect")}</Button>
+          <Button onClick={oauth}>{t("getContent.connect")}</Button>
         </>
       );
     }
 
     return (
       <span className="text-shadow my-2 block text-sm">
-        {translate("getContent.getAccess")}
+        {t("getContent.getAccess")}
         {GROUPS.map((group) => (
           <div key={group.channel} className="flex justify-between w-full mt-4">
             <div>
               <span className="flex-1">{group.channel}</span>
               <div className="flex items-center flex-wrap">
                 <span className="text-xs mr-2">
-                  {translate("getContent.requires")}{" "}
+                  {t("getContent.requires")}{" "}
                 </span>
                 {group.items.map((name) => (
                   <img
@@ -138,7 +135,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
               onClick={() => addRole(group.role)}
               disabled={!group.items.some((name) => inventory[name])}
             >
-              {translate("getContent.join")}
+              {t("getContent.join")}
             </Button>
           </div>
         ))}
@@ -146,9 +143,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
           <div>
             <span className="flex-1">#bud-clubhouse</span>
             <div className="flex items-center flex-wrap">
-              <span className="text-xs mr-2">
-                {translate("getContent.requires")}
-              </span>
+              <span className="text-xs mr-2">{t("getContent.requires")}</span>
               <img src={budIcon} className="h-6 mr-2" />
             </div>
           </div>
@@ -157,7 +152,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
             onClick={() => addRole("bud-clubhouse")}
             disabled={Object.keys(buds ?? {}).length === 0}
           >
-            {translate("getContent.join")}
+            {t("getContent.join")}
           </Button>
         </div>
       </span>

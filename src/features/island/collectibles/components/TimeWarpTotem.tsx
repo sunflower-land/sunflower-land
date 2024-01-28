@@ -11,13 +11,14 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   createdAt,
   id,
   location,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const [_, setRender] = useState(0);
@@ -37,7 +38,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
               className="w-10 mx-auto my-2"
             />
             <p className="text-xs mb-2 text-center">
-              {translate("description.time.warp.totem.expired")}
+              {t("description.time.warp.totem.expired")}
             </p>
           </div>
           <Button
@@ -49,7 +50,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
               });
             }}
           >
-            {translate("remove")}
+            {t("remove")}
           </Button>
         </>
       );
@@ -63,7 +64,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
             className="w-10 mx-auto my-2"
           />
           <p className="text-xs mb-2 text-center">
-            {translate("description.time.warp.totem.temporarily")}
+            {t("description.time.warp.totem.temporarily")}
           </p>
         </div>
         <Button
@@ -71,7 +72,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
             setShowModal(false);
           }}
         >
-          {translate("gotIt")}
+          {t("gotIt")}
         </Button>
       </>
     );

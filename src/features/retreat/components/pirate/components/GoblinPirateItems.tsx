@@ -18,7 +18,7 @@ import {
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { Loading } from "features/auth/components";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const API_URL = CONFIG.API_URL;
 
@@ -27,6 +27,8 @@ interface Props {
 }
 
 export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+
   const { goblinService } = useContext(Context);
   const [
     {
@@ -105,17 +107,13 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
 
     if (selectedItem.disabled) {
       return (
-        <span className="text-xxs text-center my-1">
-          {translate("coming.soon")}
-        </span>
+        <span className="text-xxs text-center my-1">{t("coming.soon")}</span>
       );
     }
 
     if (inventory[selectedName] || collectibles[selectedName])
       return (
-        <span className="text-xxs text-center my-1">
-          {translate("alr.minted")}
-        </span>
+        <span className="text-xxs text-center my-1">{t("alr.minted")}</span>
       );
 
     return (
@@ -125,7 +123,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
         }
         onClick={craft}
       >
-        {translate("craft")}
+        {t("craft")}
       </Button>
     );
   };

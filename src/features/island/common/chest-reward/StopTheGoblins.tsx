@@ -23,6 +23,7 @@ import { CONSUMABLES } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -126,6 +127,7 @@ export const StopTheGoblins: React.FC<Props> = ({
   onFail,
   collectedItem,
 }) => {
+  const { t } = useAppTranslation();
   const [wrongAttempts, setWrongAttempts] = useState(new Set<number>());
   const [correctAttempts, setCorrectAttempts] = useState(new Set<number>());
   const [isMoonSeekerMode] = useState(randomBoolean());
@@ -198,13 +200,11 @@ export const StopTheGoblins: React.FC<Props> = ({
           );
         })}
         <span className="text-sm mt-2 text-center">
-          {isMoonSeekerMode
-            ? translate("stopGoblin.tap.one")
-            : translate("stopGoblin.tap.two")}
+          {isMoonSeekerMode ? t("stopGoblin.tap.one") : t("stopGoblin.tap.two")}
         </span>
 
         <Label className="my-1" type={attemptsLeft <= 2 ? "danger" : "info"}>
-          {translate("stopGoblin.left")}: ({attemptsLeft})
+          {t("stopGoblin.left")}: ({attemptsLeft})
         </Label>
       </div>
     </div>

@@ -3,7 +3,6 @@ import React from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import chest from "assets/icons/chest.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 export const DeliveryHelp: React.FC = () => {
   const { t } = useAppTranslation();
@@ -14,27 +13,27 @@ export const DeliveryHelp: React.FC = () => {
           <img src={ITEM_DETAILS["Pumpkin Soup"].image} className="h-7" />
         </div>
         <p className="text-sm flex-1 justify-center">
-          {translate("deliveryHelp.pumpkinSoup")}
+          {t("deliveryHelp.pumpkinSoup")}
         </p>
       </div>
       <div className="flex">
         <div className="w-12 flex justify-center">
           <img src={ITEM_DETAILS["Hammer"].image} className="h-7" />
         </div>
-        <p className="text-sm flex-1">{translate("deliveryHelp.hammer")}</p>
+        <p className="text-sm flex-1">{t("deliveryHelp.hammer")}</p>
       </div>
       <div className="flex">
         <div className="w-12 flex justify-center">
           <img src={ITEM_DETAILS["Axe"].image} className="h-7" />
         </div>
-        <p className="text-sm flex-1">{translate("deliveryHelp.axe")}</p>
+        <p className="text-sm flex-1">{t("deliveryHelp.axe")}</p>
       </div>
       <div className="flex">
         <div className="w-12 flex justify-center">
           <img src={chest} className="h-7" />
         </div>
         <p className="text-sm flex-1">
-          {translate("deliveryHelp.chest")}
+          {t("deliveryHelp.chest")}
           <span className="italic text-xs ml-1">(Coming soon)</span>
         </p>
       </div>

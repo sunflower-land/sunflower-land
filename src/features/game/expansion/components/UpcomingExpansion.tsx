@@ -70,6 +70,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
 
   const showRequirements = inventory["Basic Land"]?.lte(5);
 
+  const { t } = useAppTranslation();
   return (
     <>
       <Modal
@@ -80,15 +81,14 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
-              {translate("lvl")} {requirements.bumpkinLevel}{" "}
-              {translate("required")}
+              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
             </Label>
             <img
               src={ITEM_DETAILS.Hammer.image}
               className="w-10 mx-auto my-2"
             />
             <p className="text-sm text-center mb-2">
-              {translate("statements.visit.firePit")}
+              {t("statements.visit.firePit")}
             </p>
           </div>
         </CloseButtonPanel>
@@ -146,7 +146,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
               </div>
               {isLocked && (
                 <Label type="default" icon={lockIcon} className="mt-2">
-                  {translate("lvl")} {requirements.bumpkinLevel}
+                  {t("lvl")} {requirements.bumpkinLevel}
                 </Label>
               )}
             </>
@@ -159,7 +159,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   icon={SUNNYSIDE.icons.confirm}
                   className="mt-2"
                 >
-                  {translate("expand")}
+                  {t("expand")}
                 </Label>
               ) : (
                 <Label
@@ -167,7 +167,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   icon={SUNNYSIDE.icons.cancel}
                   className="mt-2"
                 >
-                  {translate("expand")}
+                  {t("expand")}
                 </Label>
               )}
             </>

@@ -6,7 +6,6 @@ import * as Auth from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 type FormEvent = Element & {
   landId: {
@@ -64,7 +63,7 @@ export const VisitLandExpansionForm: React.FC<{ onBack?: () => void }> = ({
       <form onSubmit={visit}>
         <div className="flex items-center mb-2">
           <span className="text-shadow text-small px-1 whitespace-nowrap">
-            {translate("visitIsland.enterIslandId")}{" "}
+            {t("visitIsland.enterIslandId")}{" "}
           </span>
           <input
             type="number"

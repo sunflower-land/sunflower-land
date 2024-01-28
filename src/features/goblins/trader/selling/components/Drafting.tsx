@@ -13,6 +13,7 @@ import token from "assets/icons/token_2.png";
 import { ItemLimits } from "lib/blockchain/Trader";
 import { Draft } from "../lib/sellingMachine";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const MAX_SFL = new Decimal(10000);
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
@@ -37,6 +38,7 @@ export const Drafting: React.FC<DraftingProps> = ({
   onUpdate,
   onConfirm,
 }) => {
+  const { t } = useAppTranslation();
   const inventoryItems = getKeys(inventory).filter((itemName) =>
     itemLimits[itemName].gt(0)
   );
@@ -123,7 +125,7 @@ export const Drafting: React.FC<DraftingProps> = ({
             "opacity-50": !hasItemsToList,
           })}
         >
-          <h1 className="mb-4">{translate("drafting.trade.detail")}</h1>
+          <h1 className="mb-4">{t("drafting.trade.detail")}</h1>
           <div className="flex items-start justify-between mb-2">
             <div className="relative w-full mr-4">
               <input
@@ -153,7 +155,7 @@ export const Drafting: React.FC<DraftingProps> = ({
               )}
             </div>
           </div>
-          <div className="text-left w-full mb-2">{translate("for")}</div>
+          <div className="text-left w-full mb-2">{t("for")}</div>
           <div className="flex items-center justify-between mb-2">
             <div className="relative w-full mr-4">
               <input
@@ -178,13 +180,13 @@ export const Drafting: React.FC<DraftingProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>{translate("back")}</Button>
+        <Button onClick={onBack}>{t("back")}</Button>
         <Button
           onClick={onConfirm}
           disabled={disableListTradeButton}
           className="whitespace-nowrap"
         >
-          {translate("list.trade")}
+          {t("list.trade")}
         </Button>
       </div>
     </>

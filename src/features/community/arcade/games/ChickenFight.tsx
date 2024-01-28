@@ -39,7 +39,7 @@ import { chickenFightAudio, loadAudio } from "src/lib/utils/sfx";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { randomBoolean } from "lib/utils/random";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const BORDER_WIDTH = PIXEL_SCALE * 2;
 const CANVAS_WIDTH = PIXEL_SCALE * 128;
@@ -168,6 +168,7 @@ const ArrowButton: React.FC<ButtonProps> = ({
 };
 
 export const ChickenFight: React.FC = () => {
+  const { t } = useAppTranslation();
   const [p1ChickenAction, setP1ChickenAction] = useState<Action>(
     INITIAL_CHICKEN.action
   );
@@ -685,7 +686,7 @@ export const ChickenFight: React.FC = () => {
                 }}
               />
               <span className="cursor-pointer text-sm">
-                {translate("chicken.winner.playagain")}
+                {t("chicken.winner.playagain")}
               </span>
             </div>
           )}

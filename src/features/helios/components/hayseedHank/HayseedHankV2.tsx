@@ -8,6 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // UTC
 export function secondsTillReset() {
@@ -27,6 +28,7 @@ interface Props {
   onClose: () => void;
 }
 export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [introDone, setIntroDone] = useState(!!acknowedlgedNPCs()["hank"]);
 
   const close = () => {
@@ -42,9 +44,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             text: translate("hayseedHankv2.greeting"),
           },
           {
-            text: `${translate(
-              "hayseedHankv2.dialog2"
-            )} ${getSeasonalTicket()}.`,
+            text: `${t("hayseedHankv2.dialog2")} ${getSeasonalTicket()}.`,
             actions: [
               {
                 text: translate("hayseedHankv2.action"),
@@ -63,7 +63,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
 
   return (
     <CloseButtonPanel
-      title={translate("hayseedHankv2.title")}
+      title={t("hayseedHankv2.title")}
       bumpkinParts={NPC_WEARABLES.hank}
       onClose={close}
     >
@@ -76,7 +76,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             <div className="w-6">
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">{`${translate(
+            <span className="text-xs">{`${t(
               "hayseedHankv2.newChoresAvailable"
             )} ${secondsToString(secondsTillReset(), {
               length: "full",
@@ -86,9 +86,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             <div className="w-6">
               <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">
-              {translate("hayseedHankv2.skipChores")}
-            </span>
+            <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
           </div>
         </div>
 

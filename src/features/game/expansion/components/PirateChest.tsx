@@ -13,9 +13,10 @@ import { MapPlacement } from "./MapPlacement";
 import { Revealing } from "features/game/components/Revealing";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { isWearableActive } from "features/game/lib/wearables";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PirateChest: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -113,13 +114,9 @@ export const PirateChest: React.FC = () => {
                 width: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <span className="text-center">
-              {translate("piratechest.greeting")}
-            </span>
+            <span className="text-center">{t("piratechest.greeting")}</span>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">
-                {translate("piratechest.refreshesIn")}
-              </p>
+              <p className="text-xxs mr-2">{t("piratechest.refreshesIn")}</p>
               <CountdownLabel timeLeft={nextRefreshInSeconds} />
             </div>
           </div>
@@ -140,9 +137,7 @@ export const PirateChest: React.FC = () => {
                 width: `${PIXEL_SCALE * 16}px`,
               }}
             />
-            <span className="mb-2 text-sm">
-              {translate("piratechest.warning")}
-            </span>
+            <span className="mb-2 text-sm">{t("piratechest.warning")}</span>
           </div>
         </CloseButtonPanel>
       </Modal>

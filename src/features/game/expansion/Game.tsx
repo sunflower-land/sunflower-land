@@ -56,7 +56,7 @@ import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
 import { hasFeatureAccess } from "lib/flags";
 import { Wallet } from "features/wallet/Wallet";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -155,7 +155,7 @@ const GameContent = () => {
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const canAccessHome = useSelector(gameService, accessHome);
-
+  const { t } = useAppTranslation();
   if (landToVisitNotFound) {
     return (
       <>
@@ -177,7 +177,7 @@ const GameContent = () => {
             >
               <div className="flex flex-col items-center">
                 <h2 className="text-center">
-                  {translate("visitislandNotFound.title")}
+                  {t("visitislandNotFound.title")}
                 </h2>
                 <img src={land} className="h-9 my-3" />
               </div>

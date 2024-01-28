@@ -13,7 +13,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 interface Props {
@@ -21,6 +21,7 @@ interface Props {
 }
 
 export const FruitQuest: React.FC<Props> = ({ offset }) => {
+  const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
   // useSelector to select farmAddress
@@ -29,8 +30,8 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const ModalDescription = () => {
     return (
       <>
-        <p className="mb-4">{translate("modalDescription.limited.abilitie")}</p>
-        <p className="mb-4">{translate("modalDescription.trail")}</p>
+        <p className="mb-4">{t("modalDescription.limited.abilitie")}</p>
+        <p className="mb-4">{t("modalDescription.trail")}</p>
         <div className="flex justify-center mb-4">
           <img
             src={appleTree}
@@ -61,8 +62,8 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const QuestCompletion = () => {
     return (
       <div className="pr-4 pl-2 py-2">
-        <p className="mb-3">{translate("modalDescription.love.fruit")}</p>
-        <p>{translate("modalDescription.gift")}</p>
+        <p className="mb-3">{t("modalDescription.love.fruit")}</p>
+        <p>{t("modalDescription.gift")}</p>
       </div>
     );
   };
@@ -100,7 +101,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
       <Modal show={showModal} onHide={() => setShowModal(false)} centered>
         <Quest
           quests={["Fruit Quest 1", "Fruit Quest 2", "Fruit Quest 3"]}
-          questTitle={translate("modalDescription.friend")}
+          questTitle={t("modalDescription.friend")}
           onClose={() => setShowModal(false)}
           questDescription={ModalDescription()}
           bumpkinParts={{

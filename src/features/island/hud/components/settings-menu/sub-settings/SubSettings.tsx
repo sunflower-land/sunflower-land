@@ -12,7 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -20,6 +20,8 @@ interface Props {
 }
 
 export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useAppTranslation();
+
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations, toggleAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -55,10 +57,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     return (
-      <CloseButtonPanel
-        title={translate("subSettings.title")}
-        onClose={onClose}
-      >
+      <CloseButtonPanel title={t("subSettings.title")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>
@@ -69,11 +68,11 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               className="col p-1 mt-2"
               onClick={() => setView("transfer")}
             >
-              {translate("subSettings.transferOwnership")}
+              {t("subSettings.transferOwnership")}
             </Button>
 
             <Button className="col p-1 mt-2" onClick={refreshSession}>
-              {translate("subSettings.refresh")}
+              {t("subSettings.refresh")}
             </Button>
 
             <div className="flex items-start">
@@ -82,7 +81,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="w-12 pt-2 pr-2"
               />
               <span className="text-xs mt-2">
-                {translate("subSettings.refreshDescription")}
+                {t("subSettings.refreshDescription")}
               </span>
             </div>
           </>

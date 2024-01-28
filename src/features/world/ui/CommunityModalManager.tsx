@@ -3,7 +3,7 @@ import { Modal } from "react-bootstrap";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type CommunityModal = {
   npc: {
@@ -43,6 +43,8 @@ class CommunityModalManager {
 export const communityModalManager = new CommunityModalManager();
 
 export const CommunityModals: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const [modal, setModal] = useState<CommunityModal>();
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export const CommunityModals: React.FC = () => {
         )}
         {modal?.type === "loading" && (
           <Panel>
-            <span className="loading">{translate("loading")}</span>
+            <span className="loading">{t("loading")}</span>
           </Panel>
         )}
       </Modal>

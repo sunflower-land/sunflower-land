@@ -18,7 +18,6 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 interface Props {
   show: boolean;
@@ -158,14 +157,14 @@ const Content: React.FC<{
   onCreditCardBuy: () => void;
 }> = ({ isSaving, price, setPrice, onMaticBuy, onCreditCardBuy }) => {
   const [showMaticConfirm, setShowMaticConfirm] = useState(false);
-
+  const { t } = useAppTranslation();
   if (!!price && showMaticConfirm) {
     return (
       <GameWallet action="purchase">
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {translate("blockbuckmodal.item")} {price.amount} x
+              {t("blockbuckmodal.item")} {price.amount} x
             </p>
             <img
               src={ticket}
@@ -174,17 +173,17 @@ const Content: React.FC<{
               }}
             />
           </div>
-          <p className="mr-2 mb-1">{`${translate("blockbuckmodal.total")} ${
+          <p className="mr-2 mb-1">{`${t("blockbuckmodal.total")} ${
             price.usd
           } USD`}</p>
         </div>
 
         <Button onClick={() => onMaticBuy()}>
-          {translate("blockbuckmodal.confirm")}
+          {t("blockbuckmodal.confirm")}
         </Button>
 
         <p className="text-xxs italic text-center py-2">
-          {translate("blockbuckmodal.pricesExcludeFees")}
+          {t("blockbuckmodal.pricesExcludeFees")}
         </p>
       </GameWallet>
     );
@@ -193,9 +192,7 @@ const Content: React.FC<{
   if (isSaving) {
     return (
       <div className="flex justify-center">
-        <p className="loading text-center">
-          {translate("blockbuckmodal.loading")}
-        </p>
+        <p className="loading text-center">{t("blockbuckmodal.loading")}</p>
       </div>
     );
   }
@@ -206,7 +203,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {translate("blockbuckmodal.item")} {price.amount} x
+              {t("blockbuckmodal.item")} {price.amount} x
             </p>
             <img
               src={ticket}
@@ -215,7 +212,7 @@ const Content: React.FC<{
               }}
             />
           </div>
-          <p className="mr-2 mb-1">{`${translate("blockbuckmodal.total")} ${
+          <p className="mr-2 mb-1">{`${t("blockbuckmodal.total")} ${
             price.usd
           } USD`}</p>
         </div>
@@ -223,7 +220,7 @@ const Content: React.FC<{
           <OuterPanel className="w-full flex flex-col items-center relative">
             <div className="flex w-full items-center justify-center py-4 px-2">
               <p className="mr-2 mb-1 text-xs">
-                {translate("blockbuckmodal.cashCard")}
+                {t("blockbuckmodal.cashCard")}
               </p>
               <img
                 src={creditCard}
@@ -234,14 +231,14 @@ const Content: React.FC<{
             </div>
             {price.amount === 1 && (
               <Label type="info" className="mb-1">
-                {translate("blockbuckmodal.minimum")} 5 Block Bucks
+                {t("blockbuckmodal.minimum")} 5 Block Bucks
               </Label>
             )}
             <Button
               onClick={() => onCreditCardBuy()}
               disabled={price.amount === 1}
             >
-              {translate("blockbuckmodal.payWithCash")}
+              {t("blockbuckmodal.payWithCash")}
             </Button>
           </OuterPanel>
           <OuterPanel
@@ -258,16 +255,16 @@ const Content: React.FC<{
               />
             </div>
             <Button onClick={() => setShowMaticConfirm(true)}>
-              {translate("blockbuckmodal.payWithMatic")}
+              {t("blockbuckmodal.payWithMatic")}
             </Button>
           </OuterPanel>
         </div>
 
         <p className="text-xs text-center pt-2">
-          {translate("blockbuckmodal.blockBucksStored")}
+          {t("blockbuckmodal.blockBucksStored")}
         </p>
         <p className="text-xxs italic text-center py-2">
-          {translate("blockbuckmodal.pricesExcludeFees")}
+          {t("blockbuckmodal.pricesExcludeFees")}
         </p>
       </>
     );
@@ -280,7 +277,7 @@ const Content: React.FC<{
         style={{ maxHeight: "280px" }}
       >
         <p className="text-xxs italic text-center pt-2">
-          {translate("blockbuckmodal.pricesExcludeFees")}
+          {t("blockbuckmodal.pricesExcludeFees")}
         </p>
         <div className="flex flex-wrap">
           {PRICES.map((price) => (
@@ -311,7 +308,7 @@ const Content: React.FC<{
           target="_blank"
           rel="noreferrer"
         >
-          {translate("read.more")}
+          {t("read.more")}
         </a>
       </div>
     </>

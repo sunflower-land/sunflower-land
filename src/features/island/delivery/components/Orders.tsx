@@ -43,7 +43,6 @@ import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -227,9 +226,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           // Give 24 hours heads up before tasks close
           tasksAreClosing && (
             <div className="flex flex-col items-center">
-              <p className="text-xs text-center">
-                {translate("orderhelp.New.Season")}
-              </p>
+              <p className="text-xs text-center">{t("orderhelp.New.Season")}</p>
               <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
                 {secondsToString((tasksCloseAt - Date.now()) / 1000, {
                   length: "full",
@@ -241,7 +238,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
         {tasksAreFrozen && (
           <div className="flex flex-col items-center">
             <p className="text-xs text-center">
-              {translate("orderhelp.New.Season.arrival")}
+              {t("orderhelp.New.Season.arrival")}
             </p>
             <Label
               type="info"
@@ -486,7 +483,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {canSkip && <p className="text-xs">Choose wisely!</p>}
                 {!canSkip && (
                   <>
-                    <p className="text-xs">{translate("orderhelp.SkipIn")}</p>
+                    <p className="text-xs">{t("orderhelp.SkipIn")}</p>
                     <div className="flex-1">
                       <RequirementLabel
                         type="time"
@@ -499,7 +496,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               {canSkip && (
                 <>
                   <Button onClick={() => setShowSkipDialog(false)}>
-                    {translate("orderhelp.NoRight")}
+                    {t("orderhelp.NoRight")}
                   </Button>
                   <Button onClick={skip} className="mt-1">
                     Skip Order
@@ -508,7 +505,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
               {!canSkip && (
                 <Button onClick={() => setShowSkipDialog(false)}>
-                  {translate("back")}
+                  {t("back")}
                 </Button>
               )}
             </>

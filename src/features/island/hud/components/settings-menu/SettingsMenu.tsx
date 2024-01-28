@@ -6,7 +6,6 @@ import { CONFIG } from "lib/config";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import * as Auth from "features/auth/lib/Provider";
-import { translate } from "lib/i18n/translate";
 
 import { Context as GameContext } from "features/game/GameProvider";
 
@@ -32,6 +31,7 @@ import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -47,6 +47,8 @@ interface Props {
 }
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
+  const { t } = useAppTranslation();
+
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
   const { gameService } = useContext(GameContext);
@@ -187,7 +189,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       <Button
                         onClick={() => setShowTimeMachine(!showTimeMachine)}
                       >
-                        {translate("settingsMenu.timeMachine")}
+                        {t("settingsMenu.timeMachine")}
                       </Button>
                     </li>
 
@@ -198,13 +200,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 )}
                 <li className="p-1">
                   <Button onClick={storeOnChain}>
-                    <span>{translate("settingsMenu.storeOnChain")}</span>
+                    <span>{t("settingsMenu.storeOnChain")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">
-                      <span>{translate("settingsMenu.howToPlay")}</span>
+                      <span>{t("settingsMenu.howToPlay")}</span>
                       <img
                         src={SUNNYSIDE.icons.expression_confused}
                         className="w-3 ml-2"
@@ -216,7 +218,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 <>
                   <li className="p-1">
                     <Button onClick={() => setMenuLevel(MENU_LEVELS.COMMUNITY)}>
-                      <span>{translate("settingsMenu.community")}</span>
+                      <span>{t("settingsMenu.community")}</span>
                     </Button>
                   </li>
 
@@ -227,24 +229,24 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </li>
                   <li className="p-1">
                     <Button onClick={handleSwapSFL}>
-                      <span>{translate("settingsMenu.swapMaticForSFL")}</span>
+                      <span>{t("settingsMenu.swapMaticForSFL")}</span>
                     </Button>
                   </li>
                 </>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettingsClick}>
-                    <span>{translate("settingsMenu.plazaSettings")}</span>
+                    <span>{t("settingsMenu.plazaSettings")}</span>
                   </Button>
                 </li>
 
                 <li className="p-1">
                   <Button onClick={handleSettingsClick}>
-                    <span>{translate("settingsMenu.advanced")}</span>
+                    <span>{t("settingsMenu.advanced")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={openConfirmLogoutModal}>
-                    {translate("settingsMenu.logout")}
+                    {t("settingsMenu.logout")}
                   </Button>
                   <Modal
                     centered
@@ -254,15 +256,15 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <CloseButtonPanel className="sm:w-4/5 m-auto">
                       <div className="flex flex-col p-2">
                         <span className="text-sm text-center">
-                          {translate("settingsMenu.confirmLogout")}
+                          {t("settingsMenu.confirmLogout")}
                         </span>
                       </div>
                       <div className="flex justify-content-around mt-2 space-x-1">
                         <Button onClick={onLogout}>
-                          {translate("settingsMenu.logout")}
+                          {t("settingsMenu.logout")}
                         </Button>
                         <Button onClick={closeConfirmLogoutModal}>
-                          {translate("cancel")}
+                          {t("cancel")}
                         </Button>
                       </div>
                     </CloseButtonPanel>
@@ -285,12 +287,12 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 </li>
                 <li className="p-1">
                   <Button onClick={handleCommunityGardenClick}>
-                    <span>{translate("settingsMenu.communityGarden")}</span>
+                    <span>{t("settingsMenu.communityGarden")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleShareClick}>
-                    <span>{translate("settingsMenu.share")}</span>
+                    <span>{t("settingsMenu.share")}</span>
                   </Button>
                 </li>
               </>

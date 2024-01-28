@@ -7,9 +7,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "react-bootstrap";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const BeachConstruction: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -43,8 +45,8 @@ export const BeachConstruction: React.FC = () => {
           onClose={() => setShowModal(false)}
         >
           <div className="p-2">
-            <p className="mb-2 text-sm">{translate("beach.party")}</p>
-            <p className="mb-2 text-sm">{translate("beach.ready")}</p>
+            <p className="mb-2 text-sm">{t("beach.party")}</p>
+            <p className="mb-2 text-sm">{t("beach.ready")}</p>
           </div>
         </CloseButtonPanel>
       </Modal>

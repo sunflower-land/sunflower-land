@@ -17,7 +17,6 @@ import { hasMaxItems } from "features/game/lib/processEvent";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 interface Props {
   farmId: number;
@@ -66,7 +65,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     return (
       <div className="relative">
         <Label type="info" className="absolute top-2 right-2">
-          {translate("beta")}
+          {t("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={lock} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
@@ -78,16 +77,14 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   }
 
   if (isLoading) {
-    return <p className="loading">{translate("playerTrade.loading")}</p>;
+    return <p className="loading">{t("playerTrade.loading")}</p>;
   }
 
   if (!listing)
     return (
       <div className="p-2">
         <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
-        <p className="text-sm mb-2 text-center">
-          {translate("playerTrade.no.trade")}
-        </p>
+        <p className="text-sm mb-2 text-center">{t("playerTrade.no.trade")}</p>
       </div>
     );
 
@@ -95,12 +92,8 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     return (
       <div className="p-1 flex flex-col items-center">
         <img src={lock} className="w-1/5 mb-2" />
-        <p className="text-sm mb-1 text-center">
-          {translate("playerTrade.max.item")}
-        </p>
-        <p className="text-xs mb-1 text-center">
-          {translate("playerTrade.Progress")}
-        </p>
+        <p className="text-sm mb-1 text-center">{t("playerTrade.max.item")}</p>
+        <p className="text-xs mb-1 text-center">{t("playerTrade.Progress")}</p>
       </div>
     );
   }
@@ -110,11 +103,9 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       <div className="p-1 flex flex-col items-center">
         <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
         <p className="text-sm mb-1 text-center">
-          {translate("playerTrade.transaction")}
+          {t("playerTrade.transaction")}
         </p>
-        <p className="text-xs mb-1 text-center">
-          {translate("playerTrade.Please")}
-        </p>
+        <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
       </div>
     );
   }
@@ -159,7 +150,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         <div className="flex items-center justify-end">
           <img src={SUNNYSIDE.icons.neutral} className="h-4 mr-1"></img>
 
-          <span className="text-xs">{translate("playerTrade.sold")}</span>
+          <span className="text-xs">{t("playerTrade.sold")}</span>
         </div>
       );
     }
@@ -177,7 +168,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         >
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-            <span className="text-xs">{translate("confirm")}</span>
+            <span className="text-xs">{t("confirm")}</span>
           </div>
         </Button>
       );
@@ -201,7 +192,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-1">
-        <p className="text-xs mb-1 ml-0.5">{translate("playerTrade.sale")}</p>
+        <p className="text-xs mb-1 ml-0.5">{t("playerTrade.sale")}</p>
         <Label type="info">{t("beta")}</Label>
       </div>
       <OuterPanel>

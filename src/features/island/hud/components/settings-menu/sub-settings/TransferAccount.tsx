@@ -15,7 +15,7 @@ import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -23,6 +23,8 @@ interface Props {
 }
 
 export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useAppTranslation();
+
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -66,10 +68,10 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
           className="text-center mb-2"
         >
-          {translate("transfer.Account")} {gameService.state.context.farmId}{" "}
-          {translate("transfer.Account.Trans")} {receiver.address}!
+          {t("transfer.Account")} {gameService.state.context.farmId}{" "}
+          {t("transfer.Account.Trans")} {receiver.address}!
         </span>
-        <Button onClick={handleContinue}>{translate("continue")}</Button>
+        <Button onClick={handleContinue}>{t("continue")}</Button>
       </div>
     );
   }
@@ -81,10 +83,10 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   if (state === "loading") {
     return (
       <div className="flex flex-col text-center items-center p-2">
-        <span>{translate("transfer.Farm")}</span>
+        <span>{t("transfer.Farm")}</span>
         <img src={transferring} className="w-1/2 mt-2" />
         <span className="text-xs mt-4 underline mb-1">
-          {translate("transfer.Refresh")}
+          {t("transfer.Refresh")}
         </span>
       </div>
     );
@@ -93,8 +95,8 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
   const Content = () => {
     return (
       <div className="p-2">
-        <p>{translate("transfer.Taccount")}</p>
-        <p className="text-xs mt-2">{translate("transfer.address")}</p>
+        <p>{t("transfer.Taccount")}</p>
+        <p className="text-xs mt-2">{t("transfer.address")}</p>
         <input
           type="text"
           name="farmId"
@@ -107,16 +109,14 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
             src={SUNNYSIDE.icons.expression_alerted}
             className="h-6 pt-2 pr-2"
           />
-          <span className="text-xs mt-2">
-            {translate("transfer.sure.adress")}
-          </span>
+          <span className="text-xs mt-2">{t("transfer.sure.adress")}</span>
         </div>
         <Button
           className="mt-2"
           onClick={transfer}
           disabled={!isAddress(receiver.address.toLowerCase())}
         >
-          {translate("transfer")}
+          {t("transfer")}
         </Button>
         <a
           href="https://docs.sunflower-land.com/support/faq#how-can-i-send-my-account-to-a-new-wallet"
@@ -124,7 +124,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {translate("read.more")}
+          {t("read.more")}
         </a>
         <img
           src={SUNNYSIDE.icons.close}

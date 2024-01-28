@@ -4,7 +4,7 @@ import { Button } from "components/ui/Button";
 import { MuteModal } from "../components/Mute";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   scene?: any;
@@ -17,6 +17,8 @@ export const Actions: React.FC<Props> = ({
   authState,
   moderatorFarmId,
 }) => {
+  const { t } = useAppTranslation();
+
   const [step, setStep] = useState<"MAIN" | "MUTE" | "LOADING">("MAIN");
 
   return (
@@ -26,15 +28,15 @@ export const Actions: React.FC<Props> = ({
           <div className="flex flex-col gap-2 h-96">
             <div className="flex items-center gap-2">
               <img src={SoundOffIcon} className="w-8 h-8" />
-              <p className="text-sm">{translate("mute.playe")}</p>
+              <p className="text-sm">{t("mute.playe")}</p>
             </div>
-            <p className="text-xs">{translate("mute.online")}</p>
+            <p className="text-xs">{t("mute.online")}</p>
             <Button
               onClick={() => {
                 setStep("MUTE");
               }}
             >
-              {translate("mute.playe")}
+              {t("mute.playe")}
             </Button>
           </div>
         )}

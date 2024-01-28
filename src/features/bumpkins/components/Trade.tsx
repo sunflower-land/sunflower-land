@@ -21,7 +21,6 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -343,7 +342,7 @@ export const Trade: React.FC = () => {
     return (
       <div className="relative">
         <Label type="info" className="absolute top-2 right-2">
-          {translate("beta")}
+          {t("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img src={token} className="w-1/5 mx-auto my-2 img-highlight-heavy" />

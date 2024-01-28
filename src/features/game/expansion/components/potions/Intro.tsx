@@ -6,13 +6,14 @@ import { Button } from "components/ui/Button";
 import potionMasterIdleSheet from "assets/npcs/potion_master_sheet_idle.png";
 import { SpringValue } from "react-spring";
 import Spritesheet from "components/animation/SpriteAnimator";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface IntroProps {
   onClose: () => void;
 }
 
 export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -43,13 +44,13 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
               />
             )}
           </div>
-          <p>{translate("introPage.welcome")}</p>
-          <p>{translate("introPage.description")}</p>
-          <p>{translate("introPage.mission")}</p>
-          <p>{translate("introPage.tip")}</p>
+          <p>{t("introPage.welcome")}</p>
+          <p>{t("introPage.description")}</p>
+          <p>{t("introPage.mission")}</p>
+          <p>{t("introPage.tip")}</p>
         </div>
         <InnerPanel className="text-xxs space-y-1 p-1 mt-1">
-          <p className="mb-2">{translate("introPage.feedbackIcons")}</p>
+          <p className="mb-2">{t("introPage.feedbackIcons")}</p>
           <div className="flex items-center space-x-1">
             <img
               src={FeedbackIcons["correct"]}
@@ -58,7 +59,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{translate("introPage.correctPosition")}</span>
+            <span>{t("introPage.correctPosition")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -68,7 +69,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{translate("introPage.correctPotionWrongPosition")}</span>
+            <span>{t("introPage.correctPotionWrongPosition")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -78,7 +79,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{translate("introPage.wrongPotion")}</span>
+            <span>{t("introPage.wrongPotion")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -88,11 +89,11 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{translate("introPage.chaosPotion")}</span>
+            <span>{t("introPage.chaosPotion")}</span>
           </div>
         </InnerPanel>
       </div>
-      <Button onClick={onClose}>{translate("introPage.playButton")}</Button>
+      <Button onClick={onClose}>{t("introPage.playButton")}</Button>
     </>
   );
 };

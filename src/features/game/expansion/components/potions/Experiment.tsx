@@ -15,7 +15,6 @@ import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { MixingPotion } from "./MixingPotion";
 import { PotionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -234,7 +233,7 @@ export const Experiment: React.FC<Props> = ({
       </div>
       {showStartButton && (
         <div className="flex flex-col-reverse space-y-reverse space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1 ">
-          <Button onClick={onClose}>{translate("close")}</Button>
+          <Button onClick={onClose}>{t("close")}</Button>
           <Button
             onClick={handleStart}
             disabled={gameService.state.context.state.balance.lessThan(1)}

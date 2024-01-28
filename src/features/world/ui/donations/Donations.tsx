@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { GameWallet } from "features/wallet/Wallet";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTRIBUTORS = [
   "Netherzapdos",
@@ -31,6 +31,8 @@ const CONTRIBUTORS = [
 ];
 
 export const Donations: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const [state, send] = useMachine(donationMachine);
   const [donation, setDonation] = useState(1);
   const CHRISTMAS_EVENT_DONATION_ADDRESS = CONFIG.CHRISTMAS_EVENT_DONATION;
@@ -62,7 +64,7 @@ export const Donations: React.FC = () => {
     <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
-          <p className="mb-2 text-center">{translate("donation.one")}</p>
+          <p className="mb-2 text-center">{t("donation.one")}</p>
 
           <div className="flex flex-wrap mt-1 mb-2 justify-center">
             {CONTRIBUTORS.map((name) => (
@@ -106,7 +108,7 @@ export const Donations: React.FC = () => {
               </div>
             </div>
             <span className="text-xs text-shadow my-2">
-              {translate("donation.amount")}
+              {t("donation.amount")}
             </span>
           </div>
 
@@ -116,24 +118,24 @@ export const Donations: React.FC = () => {
             disabled={donation < 0.1}
           >
             <span className="text-xs whitespace-nowrap">
-              {translate("donation.donate")}
+              {t("donation.donate")}
             </span>
           </Button>
         </div>
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">{translate("donation.donating")}</p>
+          <p className="loading mb-4">{t("donation.donating")}</p>
         </div>
       )}
       {state.matches("donated") && (
         <div className="flex flex-col items-center">
-          <p className="mb-4">{translate("donation.Ty")}</p>
+          <p className="mb-4">{t("donation.Ty")}</p>
         </div>
       )}
       {state.matches("error") && (
         <div className="flex flex-col items-center">
-          <p className="my-4">{translate("donation.wrong")}</p>
+          <p className="my-4">{t("donation.wrong")}</p>
         </div>
       )}
       {state.matches("confirming") && (

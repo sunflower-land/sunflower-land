@@ -28,7 +28,6 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type SpriteFrames = { startAt: number; endAt: number };
@@ -80,9 +79,9 @@ const _catchTheKraken = (state: MachineState) =>
   state.context.state.catchTheKraken;
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
+  const { t } = useAppTranslation();
   const spriteRef = useRef<SpriteSheetInstance>();
   const didRefresh = useRef(false);
-  const { t } = useAppTranslation();
 
   const [showReelLabel, setShowReelLabel] = useState(false);
   const [showLockedModal, setShowLockedModal] = useState(false);
@@ -244,7 +243,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
             </Label>
             <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />
             <p className="text-sm text-center mb-2">
-              {translate("statements.visit.firePit")}
+              {t("statements.visit.firePit")}
             </p>
           </div>
         </CloseButtonPanel>

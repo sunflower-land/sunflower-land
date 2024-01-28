@@ -7,6 +7,7 @@ import powerup from "assets/icons/level_up.png";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -34,6 +35,7 @@ const FishingGuideItem: React.FC<{ icon: string; content: string }> = ({
 };
 
 export const FishingGuide: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const basicGuide: GuideItem[] = [
     {
       icon: SUNNYSIDE.tools.fishing_rod,
@@ -86,7 +88,7 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
         ))}
 
         <Button onClick={onClose} className="mt-2">
-          {translate("gotIt")}
+          {t("gotIt")}
         </Button>
       </div>
     </div>

@@ -25,6 +25,7 @@ import { GoldTooth } from "./npcs/GoldTooth";
 import { Luna } from "./npcs/Luna";
 import { Mayor } from "./npcs/Mayor";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -56,6 +57,8 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 }
 
 export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
@@ -123,8 +126,8 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
             bumpkinParts={NPC_WEARABLES.craig}
           >
             <div className="p-2">
-              <p className="mb-2">{translate("npc.Modal.Craig")}</p>
-              <p className="mb-2">{translate("npc.Modal.Craig.one")}</p>
+              <p className="mb-2">{t("npc.Modal.Craig")}</p>
+              <p className="mb-2">{t("npc.Modal.Craig.one")}</p>
             </div>
           </CloseButtonPanel>
         )}
@@ -164,8 +167,8 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
             bumpkinParts={NPC_WEARABLES.gabi}
           >
             <div className="p-2">
-              <p className="mb-2">{translate("npc.Modal.Gabi")}</p>
-              <p className="mb-2">{translate("npc.Modal.Gabi.one")}</p>
+              <p className="mb-2">{t("npc.Modal.Gabi")}</p>
+              <p className="mb-2">{t("npc.Modal.Gabi.one")}</p>
             </div>
           </CloseButtonPanel>
         )}

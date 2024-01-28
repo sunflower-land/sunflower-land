@@ -4,7 +4,7 @@ import { ITEM_DETAILS } from "../types/images";
 import { KNOWN_ITEMS } from "../types";
 import { getFarmSlots, ListingStatus } from "lib/blockchain/Trader";
 import { CONFIG } from "lib/config";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type OnChainEvent = {
   icon: string;
@@ -30,11 +30,11 @@ async function loadPastEvents({ farmId }: LoadPastEventArgs) {
 
   const tradeEvents: OnChainEvent[] = recentPurchases.map(({ listing }) => {
     const item = KNOWN_ITEMS[Number(listing?.resourceId)];
-
+    const { t } = useAppTranslation();
     return {
       icon: ITEM_DETAILS[item].image,
       timestamp: listing?.purchasedAt || 0,
-      message: `${translate("land")} #${listing?.purchasedById} ${translate(
+      message: `${t("land")} #${listing?.purchasedById} ${t(
         "purchased"
       )} ${Number(listing?.resourceAmount.toString())} ${item}`,
     };

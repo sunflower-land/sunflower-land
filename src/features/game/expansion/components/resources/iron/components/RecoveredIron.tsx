@@ -20,7 +20,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 const tool = "Stone Pickaxe";
 
@@ -166,8 +165,8 @@ const RecoveredIronComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
               <span>
-                {translate("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
-                {translate("resources.required")}
+                {t("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
+                {t("resources.required")}
               </span>
             </div>
           </InnerPanel>

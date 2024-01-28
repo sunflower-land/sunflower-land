@@ -47,7 +47,7 @@ import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -82,6 +82,8 @@ export const PhaserComponent: React.FC<Props> = ({
   inventory,
   route,
 }) => {
+  const { t } = useAppTranslation();
+
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
@@ -449,13 +451,13 @@ export const PhaserComponent: React.FC<Props> = ({
         backdrop={false}
       >
         <Panel>
-          <p className="loading">{translate("chat.Loading")}</p>
+          <p className="loading">{t("chat.Loading")}</p>
         </Panel>
       </Modal>
 
       <Modal show={mmoState === "joinRoom"} centered backdrop={false}>
         <Panel>
-          <p className="loading">{translate("chat.Loading")}</p>
+          <p className="loading">{t("chat.Loading")}</p>
         </Panel>
       </Modal>
       {mmoState === "error" && (
@@ -465,7 +467,7 @@ export const PhaserComponent: React.FC<Props> = ({
         >
           <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
           <div className="mb-0.5">
-            <Label type="danger">{translate("chat.Fail")}</Label>
+            <Label type="danger">{t("chat.Fail")}</Label>
           </div>
         </InnerPanel>
       )}
@@ -474,9 +476,9 @@ export const PhaserComponent: React.FC<Props> = ({
         <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
           <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
           <div className="flex flex-col p-1">
-            <span className="text-sm">{translate("chat.mute")}</span>
+            <span className="text-sm">{t("chat.mute")}</span>
             <span className="text-xxs">
-              {translate("chat.again")}{" "}
+              {t("chat.again")}{" "}
               {isMuted.mutedUntil
                 ? calculateMuteTime(isMuted.mutedUntil, "remaining")
                 : "Unknown"}

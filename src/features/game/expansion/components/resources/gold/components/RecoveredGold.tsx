@@ -19,7 +19,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Iron Pickaxe";
 
@@ -40,6 +40,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
 }) => {
+  const { t } = useAppTranslation();
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
@@ -163,8 +164,8 @@ const RecoveredGoldComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
               <span>
-                {translate("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
-                {translate("resources.required")}
+                {t("resources.bumpkinLevel")} {bumpkinLevelRequired}{" "}
+                {t("resources.required")}
               </span>
             </div>
           </InnerPanel>
@@ -182,7 +183,7 @@ const RecoveredGoldComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
               <span>
-                {translate("equip")} {tool.toLowerCase()}
+                {t("equip")} {tool.toLowerCase()}
               </span>
             </div>
           </InnerPanel>

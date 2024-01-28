@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import stone from "assets/resources/stone_small.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   timeLeft: number;
 }
 
 const DepletedStoneComponent: React.FC<Props> = ({ timeLeft }) => {
+  const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
   return (
@@ -34,7 +35,7 @@ const DepletedStoneComponent: React.FC<Props> = ({ timeLeft }) => {
           }}
         >
           <TimeLeftPanel
-            text={translate("resources.recoversIn")}
+            text={t("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
           />

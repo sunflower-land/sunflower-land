@@ -17,7 +17,6 @@ import {
   PotionHouseItem,
 } from "features/game/types/collectibles";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { translate } from "lib/i18n/translate";
 
 export const PotionHouseItems: React.FC = () => {
   const { t } = useAppTranslation();
@@ -62,9 +61,7 @@ export const PotionHouseItems: React.FC = () => {
   const Action = () => {
     if (selected.name in POTION_HOUSE_ITEMS && inventory[selected.name])
       return (
-        <span className="text-xxs text-center my-1">
-          {translate("alr.minted")}
-        </span>
+        <span className="text-xxs text-center my-1">{t("alr.minted")}</span>
       );
 
     return (

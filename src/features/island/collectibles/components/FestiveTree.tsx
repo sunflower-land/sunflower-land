@@ -13,13 +13,14 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: string;
 }
 
 export const FestiveTree: React.FC<Props> = ({ id }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -67,12 +68,8 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
           onClose={() => setShowGiftedModal(false)}
         >
           <div className="p-2">
-            <Label type="danger">
-              {translate("festivetree.greedyBumpkin")}
-            </Label>
-            <p className="text-sm mt-2">
-              {translate("festivetree.alreadyGifted")}
-            </p>
+            <Label type="danger">{t("festivetree.greedyBumpkin")}</Label>
+            <p className="text-sm mt-2">{t("festivetree.alreadyGifted")}</p>
           </div>
         </CloseButtonPanel>
       </Modal>
@@ -87,12 +84,8 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
           onClose={() => setShowWrongTimeModal(false)}
         >
           <div className="p-2">
-            <Label type="danger">
-              {translate("festivetree.greedyBumpkin")}
-            </Label>
-            <p className="text-sm mt-2">
-              {translate("festivetree.notFestiveSeason")}
-            </p>
+            <Label type="danger">{t("festivetree.greedyBumpkin")}</Label>
+            <p className="text-sm mt-2">{t("festivetree.notFestiveSeason")}</p>
           </div>
         </CloseButtonPanel>
       </Modal>

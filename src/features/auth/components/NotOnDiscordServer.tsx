@@ -5,42 +5,40 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { redirectOAuth } from "../actions/oauth";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NotOnDiscordServer: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center ml-8">
         <img
           src={humanDeath}
-          alt={translate("notOnDiscordServer.warning")}
+          alt={t("notOnDiscordServer.warning")}
           className="w-full"
         />
       </div>
       <p className="text-sm text-center mb-3">
-        {translate("notOnDiscordServer.intro")}
+        {t("notOnDiscordServer.intro")}
       </p>
 
       <p className="mb-1 text-sm">
-        {translate("notOnDiscordServer.joinDiscord")}
+        {t("notOnDiscordServer.joinDiscord")}
         <a
           className="underline"
           target="_blank"
           href="https://discord.gg/sunflowerland"
           rel="noreferrer"
         >
-          {translate("notOnDiscordServer.discordServer")}
+          {t("notOnDiscordServer.discordServer")}
         </a>{" "}
       </p>
       <p className="mb-1 text-sm">
-        {translate("notOnDiscordServer.completeVerification")}
+        {t("notOnDiscordServer.completeVerification")}
       </p>
-      <p className="mb-1 text-sm">
-        {translate("notOnDiscordServer.acceptRules")}
-      </p>
-      <p className="mb-3 text-sm">{translate("notOnDiscordServer.tryAgain")}</p>
+      <p className="mb-1 text-sm">{t("notOnDiscordServer.acceptRules")}</p>
+      <p className="mb-3 text-sm">{t("notOnDiscordServer.tryAgain")}</p>
 
       <div className="flex w-full">
         <Button
@@ -51,14 +49,14 @@ export const NotOnDiscordServer: React.FC = () => {
           }}
           className="mr-1"
         >
-          {translate("notOnDiscordServer.close")}
+          {t("notOnDiscordServer.close")}
         </Button>
         <Button
           onClick={() => {
             redirectOAuth();
           }}
         >
-          {translate("notOnDiscordServer.tryAgainButton")}
+          {t("notOnDiscordServer.tryAgainButton")}
         </Button>
       </div>
     </div>

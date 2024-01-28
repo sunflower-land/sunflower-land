@@ -50,6 +50,7 @@ const ChumSelection: React.FC<{
   onCancel: () => void;
   initial?: Chum;
 }> = ({ inventory, onList, onCancel, initial }) => {
+  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Chum | undefined>(initial);
   const select = (name: Chum) => {
     setSelected(name);
@@ -60,7 +61,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">{translate("select.resource")}</p>
+      <p className="mb-1 p-1 text-xs">{t("select.resource")}</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -97,13 +98,13 @@ const ChumSelection: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={() => onCancel()}>
-          {translate("cancel")}
+          {t("cancel")}
         </Button>
         <Button
           disabled={!hasRequirements}
           onClick={() => onList(selected as Chum)}
         >
-          {translate("confirm")}
+          {t("confirm")}
         </Button>
       </div>
     </div>
@@ -215,19 +216,19 @@ const BaitSelection: React.FC<{
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!state.inventory[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-1" type="default">
-                  {translate("statements.craft.composter")}
+                  {t("statements.craft.composter")}
                 </Label>
               )}
               {!state.inventory[bait] && bait === "Fishing Lure" && (
                 <Label className="mt-1" type="default">
-                  {translate("fishermanModal.craft.beach")}
+                  {t("fishermanModal.craft.beach")}
                 </Label>
               )}
             </div>
           </div>
           {!state.inventory[bait] && (
             <Label className="absolute -top-3 right-0" type={"danger"}>
-              {translate("fishermanModal.zero.available")}
+              {t("fishermanModal.zero.available")}
             </Label>
           )}
         </OuterPanel>
@@ -251,9 +252,7 @@ const BaitSelection: React.FC<{
               src={SUNNYSIDE.icons.expression_confused}
               className="h-4 mr-1"
             />
-            <p className="text-xs mb-1">
-              {translate("fishermanModal.attractFish")}
-            </p>
+            <p className="text-xs mb-1">{t("fishermanModal.attractFish")}</p>
           </div>
           <Button
             disabled={fishingLimitReached}
@@ -269,13 +268,13 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {translate("fishermanModal.dailyLimitReached")} {dailyFishingMax}
+          {t("fishermanModal.dailyLimitReached")} {dailyFishingMax}
         </Label>
       )}
 
       {!fishingLimitReached && missingRod && (
         <Label className="mb-1" type="danger">
-          {translate("fishermanModal.needCraftRod")}
+          {t("fishermanModal.needCraftRod")}
         </Label>
       )}
 
@@ -337,9 +336,9 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: `${translate(
+              text: `${t(
                 "fishermanmodal.greetingPart1"
-              )} ${capitalizeFirstLetters(npc)} ${translate(
+              )} ${capitalizeFirstLetters(npc)} ${t(
                 "fishermanmodal.greetingPart2"
               )}`,
             },

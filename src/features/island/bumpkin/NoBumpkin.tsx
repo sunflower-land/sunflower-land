@@ -10,9 +10,10 @@ import { wallet } from "lib/blockchain/wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NoBumpkin: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();
@@ -73,7 +74,7 @@ export const NoBumpkin: React.FC = () => {
   if (isLoading) {
     return (
       <div className="p-2">
-        <p className="loading">{translate("noBumpkin.loading")}</p>
+        <p className="loading">{t("noBumpkin.loading")}</p>
       </div>
     );
   }
@@ -82,11 +83,9 @@ export const NoBumpkin: React.FC = () => {
     return (
       <>
         <div className="p-2">
-          <p className="mb-2 text-center">
-            {translate("noBumpkin.readyToFarm")}
-          </p>
+          <p className="mb-2 text-center">{t("noBumpkin.readyToFarm")}</p>
         </div>
-        <Button onClick={refresh}>{translate("noBumpkin.play")}</Button>
+        <Button onClick={refresh}>{t("noBumpkin.play")}</Button>
       </>
     );
   }
@@ -95,11 +94,11 @@ export const NoBumpkin: React.FC = () => {
     return (
       <>
         <div className="flex items-center flex-col p-2">
-          <span> {translate("noBumpkin.missingBumpkin")}</span>
+          <span> {t("noBumpkin.missingBumpkin")}</span>
           <img src={SUNNYSIDE.icons.heart} className="w-20 my-2" />
-          <p className="text-sm my-2">{translate("noBumpkin.bumpkinNFT")}</p>
-          <p className="text-sm my-2">{translate("noBumpkin.bumpkinHelp")}</p>
-          <p className="text-sm my-2">{translate("noBumpkin.mintBumpkin")}</p>
+          <p className="text-sm my-2">{t("noBumpkin.bumpkinNFT")}</p>
+          <p className="text-sm my-2">{t("noBumpkin.bumpkinHelp")}</p>
+          <p className="text-sm my-2">{t("noBumpkin.mintBumpkin")}</p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
               className="underline"
@@ -122,9 +121,9 @@ export const NoBumpkin: React.FC = () => {
   return (
     <>
       <div className="p-2">
-        <p className="mb-3 text-center">{translate("noBumpkin.allBumpkins")}</p>
+        <p className="mb-3 text-center">{t("noBumpkin.allBumpkins")}</p>
         <p className="mb-2 text-center text-xs">
-          {translate("noBumpkin.chooseBumpkin")}
+          {t("noBumpkin.chooseBumpkin")}
         </p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
           {(walletBumpkins ?? []).map((bumpkin) => {
@@ -157,7 +156,7 @@ export const NoBumpkin: React.FC = () => {
         </div>
       </div>
       <Button disabled={!selectedBumpkinId} onClick={deposit}>
-        {translate("noBumpkin.deposit")}
+        {t("noBumpkin.deposit")}
       </Button>
     </>
   );

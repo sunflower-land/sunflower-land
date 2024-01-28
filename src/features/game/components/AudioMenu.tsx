@@ -15,7 +15,7 @@ import {
   cacheAudioSetting,
   getCachedAudioSetting,
 } from "../lib/audio";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   musicPlayer: React.MutableRefObject<HTMLAudioElement>;
@@ -34,6 +34,7 @@ export const AudioMenu: React.FC<Props> = ({
   show,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const [audioMuted, setAudioMuted] = useState<boolean>(
     getCachedAudioSetting<boolean>(AudioLocalStorageKeys.audioMuted, false)
   );
@@ -80,7 +81,7 @@ export const AudioMenu: React.FC<Props> = ({
     <Modal show={show} centered onHide={onClose}>
       <CloseButtonPanel title="Audio Settings" onClose={onClose}>
         <div className="p-1 relative">
-          <p className="mb-2">{translate("music")}</p>
+          <p className="mb-2">{t("music")}</p>
           {/* Music display */}
           <div className="mb-1.5 overflow-hidden bg-brown-200 ">
             <p
@@ -128,8 +129,8 @@ export const AudioMenu: React.FC<Props> = ({
 
           {/* Sound effects controls */}
           <p className="mb-2">
-            {translate("sound.effects")}
-            {audioMuted ? "Off" : "On"}
+            {t("sound.effects")}
+            {audioMuted ? t("off") : t("on")}
           </p>
           <img
             src={audioMuted ? sound_off : sound_on}

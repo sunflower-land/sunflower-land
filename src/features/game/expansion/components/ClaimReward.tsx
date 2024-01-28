@@ -16,7 +16,7 @@ import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -29,6 +29,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   onClaim,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const itemNames = getKeys(airdrop.items);
 
   const { showAnimations } = useContext(Context);
@@ -45,7 +46,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          {translate("reward.discovered")}
+          {t("reward.discovered")}
         </Label>
         {airdrop.message && (
           <p className="text-xs mb-2 ml-1">{airdrop.message}</p>
@@ -58,7 +59,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <Label type="warning">
                   {setPrecision(new Decimal(airdrop.sfl)).toString()} SFL
                 </Label>
-                <p className="text-xs">{translate("reward.spendWisely")}</p>
+                <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>
             </div>
           )}
@@ -99,7 +100,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   <Label type="default">{`${setPrecision(
                     new Decimal(airdrop.wearables[name] ?? 1)
                   ).toString()} x ${name}`}</Label>
-                  <p className="text-xs">{translate("reward.wearable")}</p>
+                  <p className="text-xs">{t("reward.wearable")}</p>
                 </div>
               </div>
             ))}
@@ -107,10 +108,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       </div>
 
       <div className="flex items-center mt-1">
-        {onClose && <Button onClick={onClose}>{translate("close")}</Button>}
+        {onClose && <Button onClick={onClose}>{t("close")}</Button>}
         {onClaim && (
           <Button onClick={onClaim} className="ml-1">
-            {translate("claim")}
+            {t("claim")}
           </Button>
         )}
       </div>

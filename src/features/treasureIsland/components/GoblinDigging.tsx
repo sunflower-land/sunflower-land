@@ -11,9 +11,10 @@ import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { CountdownLabel } from "components/ui/CountdownLabel";
-import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const GoblinDigging: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
@@ -75,13 +76,11 @@ export const GoblinDigging: React.FC = () => {
           }}
         >
           <div className="p-2">
-            <p className="mb-4 text-lg">{translate("beachLuck.tryLuck")}</p>
-            <p className="mb-3">{translate("beachLuck.uncleFound")}</p>
-            <p className="mb-3">{translate("beachLuck.grabShovel")}</p>
+            <p className="mb-4 text-lg">{t("beachLuck.tryLuck")}</p>
+            <p className="mb-3">{t("beachLuck.uncleFound")}</p>
+            <p className="mb-3">{t("beachLuck.grabShovel")}</p>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">
-                {translate("beachLuck.refreshesIn")}
-              </p>
+              <p className="text-xxs mr-2">{t("beachLuck.refreshesIn")}</p>
               <CountdownLabel timeLeft={secondsLeft} />
             </div>
           </div>
