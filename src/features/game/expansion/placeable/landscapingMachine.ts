@@ -18,6 +18,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
 import { BudName, isBudName } from "features/game/types/buds";
 import { RESOURCE_MOVE_EVENTS } from "features/island/collectibles/MovableComponent";
+import { CollectibleLocation } from "features/game/types/collectibles";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
   Record<ResourceName, GameEventName<PlacementEvent>>
@@ -26,8 +27,12 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   "Stone Rock": "stone.placed",
   "Iron Rock": "iron.placed",
   "Gold Rock": "gold.placed",
+  "Crimstone Rock": "crimstone.placed",
   "Crop Plot": "plot.placed",
   "Fruit Patch": "fruitPatch.placed",
+  Beehive: "beehive.placed",
+  "Flower Bed": "flowerBed.placed",
+  "Sunstone Rock": "sunstone.placed",
 };
 
 export function placeEvent(
@@ -91,6 +96,7 @@ type PlaceEvent = {
   type: "PLACE";
   nextOrigin?: Coordinates;
   nextWillCollide?: boolean;
+  location: CollectibleLocation;
 };
 
 type RemoveEvent = {
@@ -98,6 +104,7 @@ type RemoveEvent = {
   event: GameEventName<PlacementEvent>;
   id: string;
   name: PlaceableName;
+  location: CollectibleLocation;
 };
 
 type ConstructEvent = {
@@ -181,7 +188,6 @@ export const landscapingMachine = createMachine<
             SAVE: { target: "autosaving" },
           },
         },
-
         autosaving: {
           invoke: {
             src: async (_: Context, event: any) => {
@@ -267,6 +273,7 @@ export const landscapingMachine = createMachine<
                         ? {}
                         : { name: event.name }),
                       id: event.id,
+                      location: event.location,
                     } as PlacementEvent)
                 ),
                 assign({ moving: (_) => undefined }),
@@ -274,7 +281,6 @@ export const landscapingMachine = createMachine<
             },
           },
         },
-
         placing: {
           on: {
             UPDATE: {
@@ -300,14 +306,17 @@ export const landscapingMachine = createMachine<
                   return !!context.multiple && !!e.nextOrigin;
                 },
                 actions: [
-                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
-                    return {
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent;
-                  }),
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }, e) => {
+                      return {
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                        location: e.location,
+                      } as PlacementEvent;
+                    }
+                  ),
                   assign({
                     collisionDetected: (_, event) => !!event.nextWillCollide,
                     origin: (_, event) => event.nextOrigin ?? { x: 0, y: 0 },
@@ -325,14 +334,17 @@ export const landscapingMachine = createMachine<
                   context.action === "collectible.placed" ||
                   context.action === "building.constructed",
                 actions: [
-                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
-                    return {
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent;
-                  }),
+                  sendParent(
+                    ({ placeable, action, coordinates: { x, y } }, e) => {
+                      return {
+                        type: action,
+                        name: placeable,
+                        coordinates: { x, y },
+                        id: uuidv4().slice(0, 8),
+                        location: e.location,
+                      } as PlacementEvent;
+                    }
+                  ),
                   assign({
                     placeable: (_) => undefined,
                   }),
@@ -341,21 +353,28 @@ export const landscapingMachine = createMachine<
               {
                 target: ["#saving.done", "idle"],
                 actions: [
-                  sendParent(({ placeable, action, coordinates: { x, y } }) => {
-                    if (isBudName(placeable)) {
+                  sendParent(
+                    (
+                      { placeable, action, coordinates: { x, y } },
+                      { location }
+                    ) => {
+                      if (isBudName(placeable)) {
+                        return {
+                          type: action,
+                          coordinates: { x, y },
+                          id: placeable.split("-")[1],
+                          location,
+                        } as PlacementEvent;
+                      }
                       return {
                         type: action,
+                        name: placeable,
                         coordinates: { x, y },
-                        id: placeable.split("-")[1],
+                        id: uuidv4().slice(0, 8),
+                        location,
                       } as PlacementEvent;
                     }
-                    return {
-                      type: action,
-                      name: placeable,
-                      coordinates: { x, y },
-                      id: uuidv4().slice(0, 8),
-                    } as PlacementEvent;
-                  }),
+                  ),
                   assign({
                     placeable: (_) => undefined,
                   }),

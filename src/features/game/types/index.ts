@@ -42,6 +42,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Eggplant Seed": 118,
   "Corn Seed": 119,
   "Banana Plant": 120,
+  "Sunpetal Seed": 121,
+  "Bloom Seed": 122,
+  "Lily Seed": 123,
 
   Sunflower: 201,
   Potato: 202,
@@ -60,6 +63,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Eggplant: 215,
   Corn: 216,
   Banana: 217,
+  "Flower 1": 218,
+  "Flower 2": 219,
+  "Flower 3": 220,
+  "Flower 4": 221,
 
   Axe: 301,
   Pickaxe: 302,
@@ -72,6 +79,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   //  Power Shovel was remove, 309 is available
   "Sand Shovel": 310,
   "Sand Drill": 311,
+  "Gold Pickaxe": 312,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,
@@ -250,6 +258,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Fruitful Blend": 630,
   "Rapid Root": 631,
   "Fishing Lure": 632,
+  Beehive: 633,
+  "Flower Bed": 634,
+  "Crimstone Rock": 635,
+  Crimstone: 636,
+  "Sunstone Rock": 637,
+  Sunstone: 638,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -284,6 +298,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Mermaid Scale": 731,
   "Community Coin": 732,
   "Arcade Token": 733,
+  "Farmhand Coupon": 734,
+  Farmhand: 735,
+  "Spring Blossom Banner": 736,
+  "Tulip Bulb": 737,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -376,6 +394,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Compost Bin": 1014,
   "Turbo Composter": 1015,
   "Premium Composter": 1016,
+  House: 1017,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -555,6 +574,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Parrotfish: 1536,
 
   "White Festive Fox": 2001,
+  Rug: 2002,
+  Wardrobe: 2003,
 };
 
 // The reverse of above

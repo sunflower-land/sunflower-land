@@ -2,6 +2,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { castRod } from "./castRod";
 import Decimal from "decimal.js-light";
 import { Bumpkin } from "features/game/types/game";
+import { Chum } from "features/game/types/fishing";
 
 const farm = { ...TEST_FARM };
 
@@ -39,7 +40,7 @@ describe("castRod", () => {
         action: {
           location: "wharf",
           bait: "Earthworm",
-          chum: "Axe",
+          chum: "Axe" as Chum,
           type: "rod.casted",
         },
         state: {

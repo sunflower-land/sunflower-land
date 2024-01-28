@@ -25,6 +25,7 @@ const GAME_STATE: GameState = {
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
     },
   },
@@ -137,6 +138,7 @@ describe("plant", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
+                amount: 1,
               },
             },
           },
@@ -1560,7 +1562,7 @@ describe("getCropTime", () => {
   it("applies a 5% speed boost with Cultivator skill", () => {
     const time = getCropTime({
       crop: "Carrot",
-      collectibles: {},
+      game: TEST_FARM,
       buds: {},
       bumpkin: { ...INITIAL_BUMPKIN, skills: { Cultivator: 1 } },
       plot,
@@ -1575,7 +1577,8 @@ describe("getCropTime", () => {
       crop: "Carrot",
       inventory: {},
       buds: {},
-      collectibles: {},
+      game: TEST_FARM,
+
       bumpkin: {
         ...INITIAL_BUMPKIN,
         equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
@@ -1591,15 +1594,19 @@ describe("getCropTime", () => {
       crop: "Carrot",
       inventory: {},
       buds: {},
-      collectibles: {
-        "Lunar Calendar": [
-          {
-            id: "123",
-            coordinates: { x: -1, y: -1 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+
+        collectibles: {
+          "Lunar Calendar": [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       plot,
@@ -1613,15 +1620,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Cabbage",
       buds: {},
-      collectibles: {
-        "Cabbage Girl": [
-          {
-            id: "123",
-            coordinates: { x: -1, y: -1 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Cabbage Girl": [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       inventory: {},
 
@@ -1637,15 +1647,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Eggplant",
       inventory: {},
-      collectibles: {
-        Obie: [
-          {
-            id: "123",
-            coordinates: { x: -1, y: -1 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          Obie: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
@@ -1666,7 +1679,16 @@ describe("getCropTime", () => {
           onesie: "Eggplant Onesie",
         },
       },
-      collectibles: {},
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            onesie: "Eggplant Onesie",
+          },
+        },
+      },
       buds: {},
       plot,
     });
@@ -1685,7 +1707,16 @@ describe("getCropTime", () => {
           onesie: "Corn Onesie",
         },
       },
-      collectibles: {},
+      game: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            onesie: "Corn Onesie",
+          },
+        },
+      },
       buds: {},
       plot,
     });
@@ -1698,15 +1729,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Corn",
       inventory: {},
-      collectibles: {
-        Kernaldo: [
-          {
-            id: "123",
-            coordinates: { x: -1, y: -1 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          Kernaldo: [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
@@ -1723,15 +1757,18 @@ describe("getCropTime", () => {
       crop: "Sunflower",
       inventory: {},
       buds: {},
-      collectibles: {
-        "Basic Scarecrow": [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       plot: { ...plot, x: 0, y: -2 },
@@ -1746,15 +1783,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Potato",
       inventory: {},
-      collectibles: {
-        "Basic Scarecrow": [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       plot: { ...plot, x: 0, y: -2 },
@@ -1770,15 +1810,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Pumpkin",
       inventory: {},
-      collectibles: {
-        "Basic Scarecrow": [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
@@ -1794,15 +1837,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Beetroot",
       inventory: {},
-      collectibles: {
-        "Basic Scarecrow": [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
@@ -1818,15 +1864,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Sunflower",
       inventory: {},
-      collectibles: {
-        "Basic Scarecrow": [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: dateNow - 100,
-            readyAt: dateNow - 100,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
@@ -1842,15 +1891,18 @@ describe("getCropTime", () => {
     const time = getCropTime({
       crop: "Sunflower",
       inventory: {},
-      collectibles: {
-        "Basic Scarecrow": [
-          {
-            id: "123",
-            coordinates: { x: 0, y: 0 },
-            createdAt: dateNow,
-            readyAt: dateNow + 600000,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Basic Scarecrow": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow,
+              readyAt: dateNow + 600000,
+            },
+          ],
+        },
       },
       bumpkin: { ...INITIAL_BUMPKIN },
       buds: {},
@@ -2032,15 +2084,18 @@ describe("getCropYield", () => {
     const amount = getCropYieldAmount({
       crop: "Sunflower",
       bumpkin: INITIAL_BUMPKIN,
-      collectibles: {
-        "Sir Goldensnout": [
-          {
-            coordinates: { x: 6, y: 6 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Sir Goldensnout": [
+            {
+              coordinates: { x: 6, y: 6 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       inventory: {},
       buds: {},
@@ -2054,15 +2109,18 @@ describe("getCropYield", () => {
     const amount = getCropYieldAmount({
       crop: "Sunflower",
       bumpkin: INITIAL_BUMPKIN,
-      collectibles: {
-        "Sir Goldensnout": [
-          {
-            coordinates: { x: 6, y: 6 },
-            createdAt: 0,
-            id: "123",
-            readyAt: 0,
-          },
-        ],
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Sir Goldensnout": [
+            {
+              coordinates: { x: 6, y: 6 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
       },
       inventory: {},
       buds: {},
@@ -2368,15 +2426,18 @@ describe("getCropYield", () => {
         bumpkin: INITIAL_BUMPKIN,
         crop: "Sunflower",
         inventory: {},
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now - 2 * 60 * 60 * 1000 - 1,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 2 * 60 * 60 * 1000 - 1,
-            },
-          ],
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now - 2 * 60 * 60 * 1000 - 1,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 2 * 60 * 60 * 1000 - 1,
+              },
+            ],
+          },
         },
         createdAt: now,
         plot: {
@@ -2400,15 +2461,18 @@ describe("getCropYield", () => {
         bumpkin: INITIAL_BUMPKIN,
         crop: "Sunflower",
         inventory: {},
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
         },
         createdAt: now,
         plot: {

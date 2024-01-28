@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { Collectibles, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import {
   SellableTreasure,
   BeachBountyTreasure,
@@ -22,13 +22,10 @@ type Options = {
   action: SellTreasureAction;
 };
 
-export const getSellPrice = (
-  item: SellableTreasure,
-  collectibles: Collectibles
-) => {
+export const getSellPrice = (item: SellableTreasure, gameState: GameState) => {
   const price = item.sellPrice || new Decimal(0);
 
-  if (isCollectibleBuilt("Treasure Map", collectibles)) {
+  if (isCollectibleBuilt({ name: "Treasure Map", game: gameState })) {
     return price.mul(1.2);
   }
 
@@ -68,7 +65,7 @@ export function sellTreasure({ state, action }: Options) {
 
   const price = isExoticCrop(item)
     ? EXOTIC_CROPS[item].sellPrice
-    : getSellPrice(SELLABLES[item], collectibles);
+    : getSellPrice(SELLABLES[item], statecopy);
   const sflEarned = price.mul(amount);
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
   bumpkin.activity = trackActivity(

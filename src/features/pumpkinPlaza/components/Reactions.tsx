@@ -75,21 +75,21 @@ export const Reactions: React.FC<Props> = ({
   return (
     <>
       <div className="flex flex-col  items-center justify-center">
-        <Button className="h-8 mt-1" onClick={() => onReact("heart")}>
-          <img src={SUNNYSIDE.icons.heart} className="h-4 mt-1" />
+        <Button className="h-12  w-12 mt-1" onClick={() => onReact("heart")}>
+          <img src={SUNNYSIDE.icons.heart} className="h-6 mt-1" />
         </Button>
-        <Button className="h-8 mt-1" onClick={() => onReact("sad")}>
-          <img src={SUNNYSIDE.icons.sad} className="h-4 mt-1" />
+        <Button className="h-12 w-12 mt-1" onClick={() => onReact("sad")}>
+          <img src={SUNNYSIDE.icons.sad} className="h-6 mt-1" />
         </Button>
-        <Button className="h-8 mt-1" onClick={() => onReact("happy")}>
-          <img src={SUNNYSIDE.icons.happy} className="h-4 mt-1" />
+        <Button className="h-12  w-12 mt-1" onClick={() => onReact("happy")}>
+          <img src={SUNNYSIDE.icons.happy} className="h-6 mt-1" />
         </Button>
         {scene === "plaza" && (
           <Button
-            className="h-8 mt-1"
+            className="h-12 w-12 mt-1"
             onClick={() => setShowBudReactions(true)}
           >
-            <img src={SUNNYSIDE.icons.drag} className="h-4 mt-1" />
+            <img src={SUNNYSIDE.icons.drag} className="h-6 mt-1" />
           </Button>
         )}
       </div>

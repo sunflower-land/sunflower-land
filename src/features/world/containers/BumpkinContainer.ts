@@ -243,6 +243,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
 
     this.clothing = clothing;
     this.loadSprites(this.scene);
+
+    this.showSmoke();
   }
 
   public faceRight() {
@@ -417,5 +419,39 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         container.destroy();
       }
     });
+  }
+
+  public showSmoke() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const container = this;
+
+    if (container.destroyed || !container.scene) {
+      return;
+    }
+
+    if (container.scene.textures.exists("smoke")) {
+      const poof = this.scene.add.sprite(0, 4, "smoke").setOrigin(0.5);
+      this.add(poof);
+
+      this.scene.anims.create({
+        key: `smoke_anim`,
+        frames: this.scene.anims.generateFrameNumbers("smoke", {
+          start: 0,
+          end: 20,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+
+      poof.play(`smoke_anim`, true);
+
+      // Listen for the animation complete loop event
+      poof.on("animationrepeat", function (animation: { key: string }) {
+        if (animation.key === "smoke_anim" && container.ready) {
+          // This block will execute every time the animation loop completes
+          poof.destroy();
+        }
+      });
+    }
   }
 }

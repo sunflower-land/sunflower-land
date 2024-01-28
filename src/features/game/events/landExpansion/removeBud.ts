@@ -45,6 +45,7 @@ export function removeBud({
   }
 
   delete bud.coordinates;
+  delete bud.location;
 
   return stateCopy;
 }

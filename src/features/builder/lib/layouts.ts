@@ -6,8 +6,12 @@ export type Layout = {
   stones: Coordinates[];
   iron: Coordinates[];
   gold: Coordinates[];
+  crimstones: Coordinates[];
+  sunstones: Coordinates[];
   fruitPatches: Coordinates[];
   boulder: Coordinates[];
+  beehives: Coordinates[];
+  flowers: Coordinates[];
 };
 
 export const INITIAL_LAYOUTS: Record<string, Layout> = {};

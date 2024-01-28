@@ -322,11 +322,11 @@ img {
 
 @keyframes boating {
   0% {
-    transform: translateX(-1600px);
+    transform: translateX(-850px);
     animation-timing-function: linear;
   }
   100% {
-    transform: translateX(3200px);
+    transform: translateX(1800px);
     animation-timing-function: linear;
   }
 }
@@ -604,14 +604,14 @@ img {
   }
 }
 
-.dawn-breaker-gradient {
-  background: rgb(62, 39, 49);
+.honey-production-gradient {
+  background: rgb(190, 74, 47);
   background: linear-gradient(
     90deg,
-    rgba(62, 39, 49, 1) 8%,
-    rgba(104, 56, 108, 1) 33%,
-    rgba(181, 80, 136, 1) 70%,
-    rgba(246, 117, 122, 1) 100%
+    rgb(190, 74, 47) 8%,
+    rgb(247, 118, 34) 33%,
+    rgb(254, 174, 52) 70%,
+    rgb(254, 231, 97) 100%
   );
 }
 
@@ -866,4 +866,276 @@ img {
 .snowflake:nth-of-type(11) {
   left: 65%;
   animation-delay: 2.5s;
+}
+
+.bee-flight {
+  animation: floating 750ms infinite;
+}
+
+@keyframes enter-hive {
+  0% {
+    transform: translate(-50%, 0) scale(1);
+    transform-origin: center center;
+    opacity: 1;
+  }
+  60% {
+    transform: translate(-50%, -9px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  90% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 0;
+  }
+}
+
+@keyframes exit-hive {
+  0% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 0;
+  }
+  60% {
+    transform: translate(-50%, -7px) scale(0);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  90% {
+    transform: translate(-50%, -8px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0) scale(1);
+    transform-origin: center center;
+    opacity: 1;
+  }
+}
+
+.animate-enter-hive {
+  animation: enter-hive 1.5s ease-out;
+  animation-fill-mode: forwards;
+}
+
+.animate-exit-hive {
+  animation: exit-hive 1.5s ease-in;
+  animation-fill-mode: forwards;
+}
+
+@keyframes honey-drop {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.05);
+  }
+}
+
+.honey-drop-ready {
+  animation: honey-drop 1s infinite;
+  animation-delay: 1.5s;
+}
+
+@keyframes fly-up-right {
+  0% {
+    transform: translate(0, -5px) scale(0) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -15px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+}
+
+@keyframes fly-up-left {
+  0% {
+    transform: translate(0, -5px) scale(0);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -15px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+}
+
+/* Bee Swarm of 5 bees coming out of the hive and flying in different directions and then fading out */
+@keyframes bee-1 {
+  0% {
+    transform: translate(0, -7px) scale(0) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  15% {
+    transform: translate(0, -15px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(5px, 150px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+/* Bee 2 should fly towards a 60 deg angle */
+@keyframes bee-2 {
+  0% {
+    transform: translate(0, -16px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(40px, 160px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-3 {
+  0% {
+    transform: translate(0, -8px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  10% {
+    transform: translate(0, -20px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(60px, 140px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-4 {
+  0% {
+    transform: translate(-10px, -8px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-12px, -15px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-40px, 175px) scale(1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-5 {
+  0% {
+    transform: translate(-30px, -8px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  10% {
+    transform: translate(-32px, -15px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-70px, 90px) scale(1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-6 {
+  0% {
+    transform: translate(-20px, -20px) scale(1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-70px, 80px) scale(1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+@keyframes bee-7 {
+  0% {
+    transform: translate(5px, -8px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  15% {
+    transform: translate(8px, -14px) scale(1) scaleX(-1);
+    transform-origin: center bottom;
+    opacity: 1;
+  }
+  100% {
+    transform: translate(50px, 60px) scale(1) scaleX(-1);
+    transform-origin: center center;
+    opacity: 0;
+  }
+}
+
+.swarm-bee-1 {
+  animation: fly-up-right 4s, bee-1 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-2 {
+  animation: fly-up-right 4s, bee-2 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-3 {
+  animation: fly-up-right 4s, bee-3 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-4 {
+  animation: fly-up-left 4s, bee-4 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-5 {
+  animation: fly-up-left 4s, bee-5 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-6 {
+  animation: fly-up-left 4s, bee-6 4s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.swarm-bee-7 {
+  animation: fly-up-right 3s, bee-7 3s;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.36, 0.03, 0.18, 1.08);
+}
+.clouds {
+  animation-duration: 10s;
+  animation-name: clouds;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+@keyframes clouds {
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(10px, 0px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
 }

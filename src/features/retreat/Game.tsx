@@ -1,10 +1,11 @@
 import React, { useContext, useLayoutEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { GRID_WIDTH_PX } from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import background from "assets/land/retreat.webp";
 import frozenBackground from "assets/land/frozen_retreat.png";
+import ocean from "assets/decorations/ocean.webp";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
 import { RetreatHotAirBalloon } from "./components/hotAirBalloon/RetreatHotAirBalloon";
@@ -12,7 +13,6 @@ import { RetreatTailor } from "./components/tailor/RetreatTailor";
 import { RetreatBlacksmith } from "./components/blacksmith/RetreatBlacksmith";
 import { Resale } from "./components/resale/Resale";
 import { RetreatWishingWell } from "./components/wishingWell/RetreatWishingWell";
-import { IslandTravelWrapper } from "./components/islandTravel/IslandTravelWrapper";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
@@ -41,6 +41,8 @@ import { GameBoard } from "components/GameBoard";
 import { Auctioneer } from "./components/auctioneer/Auctioneer";
 import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
+import { Notifications } from "features/game/components/Notifications";
+import { Ocean } from "features/world/ui/Ocean";
 
 const spawn = [
   [35, 15],
@@ -65,6 +67,7 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
   error: true,
   depositing: true,
   refreshing: true,
+  tradeNotification: true,
 };
 
 export const Game = () => {
@@ -116,6 +119,8 @@ export const Game = () => {
           {goblinState.matches("minting") && <Minting />}
           {goblinState.matches("minted") && <Minted />}
           {goblinState.matches("depositing") && <Loading text="Depositing" />}
+          {goblinState.matches("tradeNotification") && <Notifications />}
+
           {goblinState.matches("refreshing") && <Refreshing />}
         </Panel>
       </Modal>
@@ -146,6 +151,10 @@ export const Game = () => {
               style={{
                 width: `${40 * GRID_WIDTH_PX}px`,
                 height: `${40 * GRID_WIDTH_PX}px`,
+
+                backgroundImage: `url(${ocean})`,
+                backgroundSize: `${64 * PIXEL_SCALE}px`,
+                imageRendering: "pixelated",
               }}
             >
               {Date.now() > new Date("2023-12-10").getTime() &&
@@ -184,7 +193,6 @@ export const Game = () => {
               <RetreatPirate />
               <Resale />
               <RetreatWishingWell />
-              <IslandTravelWrapper />
             </div>
           )}
           {!hasRequiredLevel && !goblinState.matches("loading") && (
@@ -192,6 +200,7 @@ export const Game = () => {
               <Forbidden />
             </Splash>
           )}
+          {goblinState.matches("loading") && <Ocean />}
         </GameBoard>
       </ScrollContainer>
       <div className="absolute z-20">

@@ -8,7 +8,6 @@ import { Label } from "components/ui/Label";
 import { SceneId } from "features/world/mmoMachine";
 import { ReactionName, Reactions } from "./Reactions";
 import { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 
 export type Message = {
   farmId: number;
@@ -49,7 +48,7 @@ export const ChatUI: React.FC<Props> = ({
   const [messageCountOnChatClose, setMessageCountOnChatClose] = useState(0);
   const [newMessageCount, setNewMessageCount] = useState(0);
 
-  const canReact = hasFeatureAccess(gameState, "REACTIONS");
+  const canReact = true;
   useEffect(() => {
     if (!showOptions) {
       const newMessageCount = messages.length - messageCountOnChatClose;
@@ -128,23 +127,21 @@ export const ChatUI: React.FC<Props> = ({
           cooledDownAt={cooldown}
         />
       </div>
-      {hasFeatureAccess(gameState, "REACTIONS") && (
-        <div
-          className={classNames(
-            "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
-            { "scale-0": !showReactions, "scale-100": showReactions }
-          )}
-          // eslint-disable-next-line no-console
-          onClick={console.log}
-        >
-          <Reactions
-            gameState={gameState}
-            onReact={onReact}
-            onBudPlace={onBudPlace}
-            scene={scene}
-          />
-        </div>
-      )}
+      <div
+        className={classNames(
+          "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          { "scale-0": !showReactions, "scale-100": showReactions }
+        )}
+        // eslint-disable-next-line no-console
+        onClick={console.log}
+      >
+        <Reactions
+          gameState={gameState}
+          onReact={onReact}
+          onBudPlace={onBudPlace}
+          scene={scene}
+        />
+      </div>
 
       <div
         className={classNames(

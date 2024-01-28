@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import metamaskIcon from "src/assets/icons/metamask_pixel.png";
 import walletIcon from "src/assets/icons/wallet.png";
@@ -15,12 +15,13 @@ import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
 import { getPromoCode } from "features/game/actions/loadSession";
-import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { Wallet } from "features/wallet/Wallet";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
+import googleIcon from "src/assets/ui/sign_in_with_google.svg";
+import { pixelGrayBorderStyle } from "features/game/lib/style";
 
 const CONTENT_HEIGHT = 300;
 
@@ -300,11 +301,16 @@ export const SignIn = () => {
   const { walletService } = useContext(WalletContext);
 
   const [walletState] = useActor(walletService);
-
-  const [showSSO, setShowSSO] = useState(
-    hasFeatureAccess(TEST_FARM, "GOOGLE_LOGIN")
-  );
+  const [showLoading, setShowLoading] = useState(false);
   const { t } = useAppTranslation();
+
+  if (showLoading) {
+    return (
+      <div className="">
+        <p className="text-sm loading">Loading</p>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -323,21 +329,17 @@ export const SignIn = () => {
               }}
             />
           </div>
-          {showSSO && (
-            <Button
-              className="mb-2 py-2 text-sm relative"
-              onClick={() =>
-                (window.location.href = `${CONFIG.API_URL}/auth/google/authorize`)
-              }
-            >
-              <div className="px-8 mr-2 flex">
-                <div className="ml-2 mr-6 absolute left-0 top-1">
-                  <GoogleIcon />
-                </div>
-                Google
-              </div>
-            </Button>
-          )}
+          <button
+            className="w-full p-1 object-contain justify-center items-center cursor-pointer flex mb-2 text-sm relative h-[46px] bg-[#F2F2F2]"
+            type="button"
+            style={pixelGrayBorderStyle}
+            onClick={() => {
+              setShowLoading(true);
+              window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
+            }}
+          >
+            <img src={googleIcon} />
+          </button>
         </>
       )}
 

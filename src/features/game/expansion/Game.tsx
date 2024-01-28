@@ -20,8 +20,8 @@ import { Syncing } from "../components/Syncing";
 import logo from "assets/brand/logo_v2.png";
 import winterLogo from "assets/brand/winter_logo.png";
 import sparkle from "assets/fx/sparkle2.gif";
+import ocean from "assets/decorations/ocean.webp";
 
-import { Notifications } from "../components/Notifications";
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
 import { Swarming } from "../components/Swarming";
@@ -36,7 +36,6 @@ import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
-import { NoTownCenter } from "../components/NoTownCenter";
 import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
 import { Transacting } from "../components/Transacting";
@@ -54,6 +53,9 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
+import { Home } from "features/home/Home";
+import { hasFeatureAccess } from "lib/flags";
+import { Wallet } from "features/wallet/Wallet";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -66,11 +68,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   purchasing: true,
   buyingBlockBucks: true,
   refreshing: true,
-  deposited: true,
   hoarding: true,
   landscaping: false,
   noBumpkinFound: true,
-  noTownCenter: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -111,7 +111,6 @@ const isTraded = (state: MachineState) => state.matches("traded");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
-const isDeposited = (state: MachineState) => state.matches("deposited");
 const isError = (state: MachineState) => state.matches("error");
 const isSynced = (state: MachineState) => state.matches("synced");
 const isSyncing = (state: MachineState) => state.matches("syncing");
@@ -119,8 +118,10 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches("purchasing") || state.matches("buyingBlockBucks");
-const isNoTownCenter = (state: MachineState) => state.matches("noTownCenter");
+  state.matches({ purchasing: "fetching" }) ||
+  state.matches({ purchasing: "transacting" }) ||
+  state.matches({ buyingBlockBucks: "fetching" }) ||
+  state.matches({ buyingBlockBucks: "transacting" });
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
@@ -144,12 +145,15 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
+const accessHome = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "HOME");
 
 const GameContent = () => {
   const { gameService } = useContext(Context);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
+  const canAccessHome = useSelector(gameService, accessHome);
 
   if (landToVisitNotFound) {
     return (
@@ -201,6 +205,7 @@ const GameContent = () => {
           <Route path="/" element={<Land />} />
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
+          {canAccessHome && <Route path="/home" element={<Home />} />}
           <Route path="/helios" element={<Helios key="helios" />} />
           <Route path="*" element={<IslandNotFound />} />
         </Routes>
@@ -227,7 +232,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const sniped = useSelector(gameService, isSniped);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
-  const deposited = useSelector(gameService, isDeposited);
   const error = useSelector(gameService, isError);
   const synced = useSelector(gameService, isSynced);
   const syncing = useSelector(gameService, isSyncing);
@@ -235,7 +239,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
-  const noTownCenter = useSelector(gameService, isNoTownCenter);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
@@ -291,7 +294,16 @@ export const GameWrapper: React.FC = ({ children }) => {
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
-        <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+        <div
+          className="h-screen w-full fixed top-0"
+          style={{
+            zIndex: 1050,
+
+            backgroundImage: `url(${ocean})`,
+            backgroundSize: `${64 * PIXEL_SCALE}px`,
+            imageRendering: "pixelated",
+          }}
+        >
           <Modal show centered backdrop={false}>
             <div
               className={classNames(
@@ -363,16 +375,18 @@ export const GameWrapper: React.FC = ({ children }) => {
           {loading && <Loading />}
           {refreshing && <Refreshing />}
           {buyingSFL && <AddingSFL />}
-          {deposited && <Notifications />}
           {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
           {synced && <Success />}
           {syncing && <Syncing />}
           {purchasing && <Purchasing />}
           {hoarding && <Hoarding />}
           {swarming && <Swarming />}
-          {noBumpkinFound && <NoBumpkin />}
+          {noBumpkinFound && (
+            <Wallet action="deposit">
+              <NoBumpkin />
+            </Wallet>
+          )}
 
-          {noTownCenter && <NoTownCenter />}
           {coolingDown && <Cooldown />}
           {gameRules && <Rules />}
           {transacting && <Transacting />}

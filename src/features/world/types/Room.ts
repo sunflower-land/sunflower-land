@@ -68,9 +68,9 @@ export interface Action extends Schema {
 }
 export interface Trade extends Schema {
   text: string;
-  sellerId: number;
+  sellerId: string;
   createdAt: number;
-  buyerId?: number;
+  buyerId?: string;
   boughtAt?: number;
   sceneId?: string;
   tradeId: string;

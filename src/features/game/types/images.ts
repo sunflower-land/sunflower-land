@@ -6,6 +6,9 @@ import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
+import sunpetalSeed from "assets/fruit/banana/banana_plant.png";
+import bloomSeed from "assets/fruit/banana/banana_plant.png";
+import lilySeed from "assets/fruit/banana/banana_plant.png";
 
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
@@ -139,6 +142,7 @@ import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 // Resources
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
+import crimstone from "assets/resources/crimstone.png";
 import honey from "assets/resources/honey.png";
 import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
@@ -218,6 +222,7 @@ import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png"
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 
@@ -323,6 +328,7 @@ import warehouse from "src/assets/buildings/warehouse.png";
 import basicComposter from "assets/composters/composter_basic.png";
 import advancedComposter from "assets/composters/composter_advanced.png";
 import expertComposter from "assets/composters/composter_expert.png";
+import house from "assets/buildings/house.png";
 
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
@@ -466,6 +472,7 @@ import grainGrinder from "assets/sfts/grain_grinder.png";
 import goldRock from "assets/resources/gold_small.png";
 import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
+import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -528,6 +535,10 @@ import whiteFestiveFox from "assets/sfts/white-xmas-fox.png";
 import sapoDocuras from "assets/sfts/sapo_docuras.gif";
 import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
+// Flowers
+import beehive from "assets/sfts/beehive.webp";
+import flowerBed from "assets/flowers/flower_bed.webp";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -565,6 +576,7 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { BuffLabel } from ".";
 import { PURCHASEABLE_BAIT } from "./fishing";
+import { FLOWER_SEEDS } from "./flowers";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   description: string;
@@ -722,6 +734,18 @@ export const ITEM_DETAILS: Items = {
     description: FRUIT_SEEDS()["Banana Plant"].description,
     image: bananaPlant,
   },
+  "Sunpetal Seed": {
+    description: FLOWER_SEEDS()["Sunpetal Seed"].description,
+    image: sunpetalSeed,
+  },
+  "Bloom Seed": {
+    description: FLOWER_SEEDS()["Bloom Seed"].description,
+    image: bloomSeed,
+  },
+  "Lily Seed": {
+    description: FLOWER_SEEDS()["Lily Seed"].description,
+    image: lilySeed,
+  },
 
   "Apple Pie": {
     description: CONSUMABLES["Apple Pie"].description,
@@ -850,6 +874,10 @@ export const ITEM_DETAILS: Items = {
     ...COMMODITIES["Iron"],
     image: iron,
   },
+  Crimstone: {
+    ...COMMODITIES["Crimstone"],
+    image: crimstone,
+  },
   Gold: {
     ...COMMODITIES["Gold"],
     image: gold,
@@ -857,6 +885,11 @@ export const ITEM_DETAILS: Items = {
   Diamond: {
     ...COMMODITIES["Diamond"],
     image: SUNNYSIDE.resource.diamond,
+  },
+  Sunstone: {
+    ...COMMODITIES["Sunstone"],
+    image: SUNNYSIDE.resource.iron_rock, //Placeholder
+    // image: SUNNYSIDE.resource.sunstone_rock,
   },
   Egg: {
     ...COMMODITIES["Egg"],
@@ -895,6 +928,10 @@ export const ITEM_DETAILS: Items = {
   "Iron Pickaxe": {
     ...TOOLS["Iron Pickaxe"],
     image: SUNNYSIDE.tools.iron_pickaxe,
+  },
+  "Gold Pickaxe": {
+    ...TOOLS["Gold Pickaxe"],
+    image: SUNNYSIDE.tools.gold_pickaxe,
   },
   Hammer: {
     ...TOOLS["Hammer"],
@@ -1472,6 +1509,10 @@ export const ITEM_DETAILS: Items = {
   "Town Center": {
     image: townCenter,
     description: "Gather around the town center for the latest news",
+  },
+  House: {
+    image: house,
+    description: "A place to rest your head",
   },
   Kitchen: {
     image: kitchen,
@@ -2267,6 +2308,10 @@ export const ITEM_DETAILS: Items = {
     image: mermaidScale,
     description: "A ticket used during the Catch the Kraken Season",
   },
+  "Tulip Bulb": {
+    image: mermaidScale,
+    description: "A ticket used during the Spring Blossom",
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2303,6 +2348,11 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.plot,
     description: "An empty plot to plant crops on",
   },
+  "Sunstone Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    // image: sunstoneRock,
+    description: "A mineable rock to collect sunstone",
+  },
   "Gold Rock": {
     image: goldRock,
     description: "A mineable rock to collect gold",
@@ -2315,6 +2365,10 @@ export const ITEM_DETAILS: Items = {
     image: stoneRock,
     description: "A mineable rock to collect stone",
   },
+  "Crimstone Rock": {
+    image: crimstoneRock,
+    description: "A mineable rock to collect crimstone",
+  },
   Tree: {
     image: SUNNYSIDE.resource.tree,
     description: "A choppable tree to collect wood",
@@ -2322,6 +2376,10 @@ export const ITEM_DETAILS: Items = {
   "Fruit Patch": {
     image: SUNNYSIDE.resource.fruitPatch,
     description: "An empty plot to plant fruit on",
+  },
+  "Flower Bed": {
+    image: flowerBed,
+    description: "An empty plot to plant flowers on",
   },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
@@ -2380,6 +2438,10 @@ export const ITEM_DETAILS: Items = {
     image: catchTheKrakenBanner,
     description:
       "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
+  },
+  "Spring Blossom Banner": {
+    image: springBlossomBanner,
+    description: "",
   },
   "Luminous Lantern": {
     image: luminousLantern,
@@ -3015,5 +3077,43 @@ export const ITEM_DETAILS: Items = {
     description:
       "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
     howToGetItem: ["Beach fishing"],
+  },
+  Rug: {
+    image: SUNNYSIDE.decorations.rug,
+    description: "?",
+  },
+  Wardrobe: {
+    image: SUNNYSIDE.decorations.wardrobe,
+    description: "?",
+  },
+  "Farmhand Coupon": {
+    image: budTicket,
+    description: "?",
+  },
+  Farmhand: {
+    image: SUNNYSIDE.icons.player,
+    description: "A helpful farmhand",
+  },
+  Beehive: {
+    image: beehive,
+    description:
+      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+  },
+
+  "Flower 1": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Flower 2": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Flower 3": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
+  },
+  "Flower 4": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "?",
   },
 };

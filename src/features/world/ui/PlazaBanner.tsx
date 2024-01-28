@@ -17,8 +17,8 @@ export const PlazaBanner: React.FC<Props> = ({ isOpen, closeModal }) => {
   return (
     <PromotingModal
       isOpen={isOpen}
-      hasDiscount={!!state.inventory["Witches' Eve Banner"]}
-      hasPurchased={!!state.inventory["Catch the Kraken Banner"]}
+      hasDiscount={!!state.inventory["Catch the Kraken Banner"]}
+      hasPurchased={!!state.inventory["Spring Blossom Banner"]}
       onClose={closeModal}
     />
   );

@@ -41,6 +41,7 @@ import {
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
+import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 
 export type Reward = {
   sfl?: Decimal;
@@ -153,6 +154,8 @@ export type Coupons =
   | "Bud Seedling"
   | "Community Coin"
   | "Arcade Token"
+  | "Farmhand Coupon"
+  | "Farmhand"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -217,6 +220,15 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description:
       "A token earned from mini-games and adventures. Can be exchanged for rewards.",
   },
+  "Farmhand Coupon": {
+    description: "A coupon to exchange for a farm hand of your choice.",
+  },
+  Farmhand: {
+    description: "An adopted Bumpkin on your farm",
+  },
+  "Tulip Bulb": {
+    description: "A ticket used during the Spring Blossom",
+  },
 };
 
 export type Points = "Human War Point" | "Goblin War Point";
@@ -251,6 +263,7 @@ export type InventoryItemName =
   | MutantCropName
   | FruitName
   | FruitSeedName
+  | FlowerSeedName
   | CraftableName
   | CommodityName
   | ResourceName
@@ -284,7 +297,8 @@ export type InventoryItemName =
   | FishingBait
   | CompostName
   | FishName
-  | MarineMarvelName;
+  | MarineMarvelName
+  | FlowerName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -363,7 +377,7 @@ export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount?: number;
+  amount: number;
   reward?: Reward;
 };
 
@@ -384,6 +398,10 @@ export type Stone = {
   // Epoch time in milliseconds
   minedAt: number;
 };
+
+export type FiniteResource = {
+  minesLeft: number;
+} & Rock;
 
 export type Rock = {
   stone: Stone;
@@ -526,6 +544,10 @@ export type WitchesEve = {
 export type CatchTheKraken = {
   weeklyCatches: Partial<Record<SeasonWeek, number>>;
   hunger: InventoryItemName;
+};
+
+export type FarmHand = {
+  equipped: BumpkinParts;
 };
 
 export type Mushroom = {
@@ -748,7 +770,51 @@ export type Christmas = {
   >;
 };
 
+export type IslandType = "basic" | "spring" | "desert";
+
+export type Home = {
+  collectibles: Collectibles;
+};
+
+export type PlantedFlower = {
+  name: "Flower 1";
+  plantedAt: number;
+  amount: number;
+};
+
+export type FlowerBed = {
+  flower?: PlantedFlower;
+  createdAt: number;
+} & Position;
+
+export type FlowerBeds = Record<string, FlowerBed>;
+
+export type AttachedFlower = {
+  id: string;
+  attachedAt: number;
+  attachedUntil: number;
+};
+
+export type Beehive = {
+  swarm: boolean;
+  honey: {
+    updatedAt: number;
+    produced: number;
+  };
+  flowers: AttachedFlower[];
+} & Position;
+
+export type Beehives = Record<string, Beehive>;
+
 export interface GameState {
+  home: Home;
+
+  island: {
+    type: IslandType;
+    upgradedAt?: number;
+    previousExpansions?: number;
+  };
+
   username?: string;
   balance: Decimal;
   previousBalance: Decimal;
@@ -765,6 +831,10 @@ export interface GameState {
   islands?: Record<string, CommunityIsland>;
   portals?: Partial<Record<PortalName, Portal>>;
 
+  farmHands: {
+    bumpkins: Record<string, FarmHand>;
+  };
+
   chickens: Record<string, Chicken>;
   inventory: Inventory;
   previousInventory: Inventory;
@@ -779,8 +849,16 @@ export interface GameState {
   stones: Record<string, Rock>;
   gold: Record<string, Rock>;
   iron: Record<string, Rock>;
+  crimstones: Record<string, FiniteResource>;
+  sunstones: Record<string, FiniteResource>;
+
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
+  beehives: Beehives;
+  flowers: {
+    discovered: Partial<Record<FlowerName, FlowerCrossBreedName[]>>;
+    flowerBeds: FlowerBeds;
+  };
   fishing: Fishing;
   farmActivity: Partial<Record<FarmActivityName, number>>;
   milestones: Partial<Record<MilestoneName, number>>;
@@ -789,7 +867,9 @@ export interface GameState {
   expansionRequirements?: ExpansionRequirements;
   expandedAt?: number;
 
+  // TODO - make mandatory
   bumpkin?: Bumpkin;
+
   buildings: Buildings;
   collectibles: Collectibles;
   delivery: Delivery;

@@ -30,8 +30,12 @@ export const Builder: React.FC = () => {
     gold: [],
     iron: [],
     stones: [],
+    crimstones: [],
+    sunstones: [],
     trees: [],
     boulder: [],
+    flowers: [],
+    beehives: [],
   });
 
   const [layouts, setLayouts] = useState<Layout[]>(
@@ -125,8 +129,12 @@ export const Builder: React.FC = () => {
                 gold: [],
                 iron: [],
                 stones: [],
+                crimstones: [],
+                sunstones: [],
                 trees: [],
                 boulder: [],
+                beehives: [],
+                flowers: [],
               })
             }
           >

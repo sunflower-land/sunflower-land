@@ -15,7 +15,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
 import {
   Bumpkin,
-  Collectibles,
   CropFertiliser,
   CropPlot,
   GameState,
@@ -36,7 +35,7 @@ interface Props {
   bumpkinLevelRequired: number;
   cropName?: CropName;
   inventory: Inventory;
-  collectibles: Collectibles;
+  game: GameState;
   bumpkin?: Bumpkin;
   buds?: NonNullable<GameState["buds"]>;
   plot: CropPlot;
@@ -51,7 +50,7 @@ const FertilePlotComponent: React.FC<Props> = ({
   bumpkinLevelRequired,
   cropName,
   inventory,
-  collectibles,
+  game,
   bumpkin,
   buds,
   plot,
@@ -75,7 +74,7 @@ const FertilePlotComponent: React.FC<Props> = ({
     harvestSeconds = getCropTime({
       crop: cropName,
       inventory,
-      collectibles,
+      game,
       bumpkin,
       buds: buds ?? {},
       plot,

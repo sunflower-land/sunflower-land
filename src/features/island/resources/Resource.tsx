@@ -22,6 +22,10 @@ import { isLocked as isGoldLocked } from "features/game/events/landExpansion/mov
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import lockIcon from "assets/skills/lock.png";
+import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
+import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
+import { FlowerBed } from "../flowers/FlowerBed";
+import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 
 export interface ResourceProps {
   name: ResourceName;
@@ -96,6 +100,17 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Crimstone Rock": () => (
+    <img
+      src={ITEM_DETAILS["Crimstone Rock"].image}
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * 14}px`,
+        top: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+    />
+  ),
   Tree: () => (
     <img
       src={SUNNYSIDE.resource.tree}
@@ -128,6 +143,35 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  Beehive: () => (
+    <img
+      src={ITEM_DETAILS["Beehive"].image}
+      className="absolute bottom-0 h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+    />
+  ),
+  "Flower Bed": () => (
+    <img
+      src={ITEM_DETAILS["Flower Bed"].image}
+      className="absolute bottom-0 h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 48}px`,
+      }}
+    />
+  ),
+  "Sunstone Rock": () => (
+    <img
+      src={SUNNYSIDE.resource.iron_rock}
+      className="absolute h-auto w-full"
+      style={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 7}px`,
+        left: `${PIXEL_SCALE * 7}px`,
+      }}
+    />
+  ),
 };
 
 export const RESOURCE_COMPONENTS: Record<
@@ -138,14 +182,17 @@ export const RESOURCE_COMPONENTS: Record<
   "Gold Rock": Gold,
   "Iron Rock": Iron,
   "Stone Rock": Stone,
+  "Crimstone Rock": Crimstone,
   Tree: Tree,
   "Fruit Patch": FruitPatch,
   Boulder: Boulder,
+  Beehive: Beehive,
+  "Flower Bed": FlowerBed,
+  "Sunstone Rock": Sunstone,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const _collectibles = (state: MachineState) => state.context.state.collectibles;
-const _buildings = (state: MachineState) => state.context.state.buildings;
 const _crops = (state: MachineState) => state.context.state.crops;
 const _stones = (state: MachineState) => state.context.state.stones;
 const _iron = (state: MachineState) => state.context.state.iron;

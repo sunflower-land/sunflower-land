@@ -6,29 +6,29 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import cossies from "assets/decorations/cossies.png";
-import bearIsland from "assets/land/bear_island.webp";
-import abandonedLand from "assets/land/abandoned_land.webp";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
 import { SharkBumpkin } from "./water/SharkBumpkin";
-import { Arcade } from "features/community/arcade/Arcade";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { DailyReward } from "./dailyReward/DailyReward";
 import { SeasonTeaser } from "./SeasonTeaser";
 import { LAND_WIDTH } from "../Land";
 import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
+import { IslandUpgrader } from "./IslandUpgrader";
+import { GameState } from "features/game/types/game";
 
 interface Props {
   townCenterBuilt: boolean;
   expansionCount: number;
+  gameState: GameState;
 }
 
 export const WaterComponent: React.FC<Props> = ({
   townCenterBuilt,
   expansionCount,
+  gameState,
 }) => {
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
@@ -96,42 +96,12 @@ export const WaterComponent: React.FC<Props> = ({
         />
       </MapPlacement>
 
-      {/* Islands */}
-
-      {/* Top right island */}
-      <MapPlacement x={7 + offset} y={15 + offset} width={6}>
-        <img
-          src={bearIsland}
-          style={{
-            width: `${PIXEL_SCALE * 86}px`,
-          }}
-        />
-        <div
-          className="absolute"
-          style={{
-            top: `${GRID_WIDTH_PX * 2 - PIXEL_SCALE * 1}px`,
-            left: `${GRID_WIDTH_PX * 3}px`,
-          }}
-        >
-          <Arcade />
-        </div>
-      </MapPlacement>
-
       {/* Bottom island */}
       <SeasonTeaser offset={offset} />
 
       <TravelTeaser />
 
-      {/* Bottom right island */}
-      <MapPlacement x={7 + offset} y={-2 - offset} width={6}>
-        {!townCenterBuilt && <DailyReward />}
-        <img
-          src={abandonedLand}
-          style={{
-            width: `${PIXEL_SCALE * 46}px`,
-          }}
-        />
-      </MapPlacement>
+      <IslandUpgrader gameState={gameState} offset={offset} />
     </div>
   );
 };

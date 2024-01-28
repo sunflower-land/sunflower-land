@@ -12,12 +12,11 @@ import {
   GoblinPirateItemName,
   HeliosBlacksmithItem,
   PotionHouseItemName,
-  SeasonPassName,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
-import { RESOURCE_DIMENSIONS } from "./resources";
 import { MarineMarvelName } from "./fishing";
+import { SeasonalBanner } from "./seasons";
 
 export { FLAGS };
 
@@ -194,9 +193,7 @@ export type CollectibleName =
   | GoblinBlacksmithItemName
   | SoldOutCollectibleName
   | GoblinPirateItemName
-  | SeasonPassName
-  | "Dawn Breaker Banner"
-  | "Solar Flare Banner"
+  | SeasonalBanner
   | BoostTreasure
   | WarBanner
   | LanternName
@@ -212,6 +209,7 @@ export type ToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
+  | "Gold Pickaxe"
   | "Hammer"
   | "Rod";
 
@@ -530,6 +528,21 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
       },
       {
         item: "Iron",
+        amount: new Decimal(3),
+      },
+    ],
+  },
+  "Gold Pickaxe": {
+    name: "Gold Pickaxe",
+    description: "Used to collect crimstones",
+    tokenAmount: new Decimal(7),
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(3),
+      },
+      {
+        item: "Gold",
         amount: new Decimal(3),
       },
     ],
@@ -1055,8 +1068,6 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
 
   ...DECORATION_DIMENSIONS,
 
-  ...RESOURCE_DIMENSIONS,
-
   // Blacksmith Items
   "Sunflower Statue": { width: 3, height: 4 },
   "Potato Statue": { width: 2, height: 2 },
@@ -1167,6 +1178,8 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Human War Banner": { width: 1, height: 2 },
   "Goblin War Banner": { width: 1, height: 2 },
   "Catch the Kraken Banner": { width: 1, height: 2 },
+  "Spring Blossom Banner": { width: 1, height: 2 },
+
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },
   "Luminous Lantern": { height: 2, width: 1 },

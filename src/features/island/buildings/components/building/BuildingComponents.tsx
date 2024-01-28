@@ -21,6 +21,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
+import { House } from "./house/House";
 
 export interface BuildingProps {
   buildingId: string;
@@ -78,6 +79,7 @@ export const BUILDING_COMPONENTS: Record<
   Market: Market,
   Tent: Tent,
   "Town Center": TownCenter,
+  House: House,
   "Water Well": WaterWell,
   Warehouse: Warehouse,
   Toolshed: Toolshed,

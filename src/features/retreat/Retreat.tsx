@@ -6,7 +6,6 @@ import { GoblinProvider } from "features/game/GoblinProvider";
 import { Game } from "./Game";
 import { Context, GameProvider } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { GameBoard } from "components/GameBoard";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
@@ -19,14 +18,14 @@ const GoblinRetreat: React.FC = () => {
 
   if (!gameState.context.farmAddress) {
     return (
-      <>
-        <GameBoard />
+      <Ocean>
+        {/* <GameBoard /> */}
         <Modal centered show backdrop={false}>
           <Panel>
             <Loading />
           </Panel>
         </Modal>
-      </>
+      </Ocean>
     );
   }
 

@@ -32,6 +32,8 @@ export function makeGame(farm: any): GameState {
       }),
       {} as Record<InventoryItemName, Decimal>
     ),
+    island: farm.island,
+    home: farm.home,
     createdAt: farm.createdAt,
     chickens: farm.chickens || {},
     stockExpiry: farm.stockExpiry || {},
@@ -39,6 +41,7 @@ export function makeGame(farm: any): GameState {
     previousBalance: new Decimal(farm.previousBalance),
     username: farm.username,
     trades: farm.trades,
+    farmHands: farm.farmHands,
     tradeOffer: farm.tradeOffer
       ? {
           ...farm.tradeOffer,
@@ -88,8 +91,11 @@ export function makeGame(farm: any): GameState {
     stones: farm.stones ?? {},
     iron: farm.iron ?? {},
     gold: farm.gold ?? {},
+    crimstones: farm.crimstones ?? {},
+    sunstones: farm.sunstones ?? {},
     crops: farm.crops ?? {},
     fruitPatches: farm.fruitPatches ?? {},
+    flowers: farm.flowers ?? {},
     conversations: farm.conversations ?? [],
     mailbox: farm.mailbox ?? {
       read: [],
@@ -102,6 +108,7 @@ export function makeGame(farm: any): GameState {
     npcs: farm.npcs,
     buds: farm.buds,
     christmas: farm.christmas,
+    beehives: farm.beehives ?? {},
   };
 }
 

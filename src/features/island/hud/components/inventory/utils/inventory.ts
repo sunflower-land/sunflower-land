@@ -84,6 +84,28 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Crimstone Rock") {
+      return {
+        ...acc,
+        "Crimstone Rock": new Decimal(
+          state.inventory["Crimstone Rock"]?.minus(
+            Object.keys(state.crimstones).length
+          ) ?? 0
+        ),
+      };
+    }
+
+    if (itemName === "Sunstone Rock") {
+      return {
+        ...acc,
+        "Sunstone Rock": new Decimal(
+          state.inventory["Sunstone Rock"]?.minus(
+            Object.keys(state.sunstones).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName === "Crop Plot") {
       return {
         ...acc,
@@ -106,13 +128,38 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Beehive") {
+      return {
+        ...acc,
+        Beehive: new Decimal(
+          state.inventory.Beehive?.minus(Object.keys(state.beehives).length) ??
+            0
+        ),
+      };
+    }
+
+    if (itemName === "Flower Bed") {
+      return {
+        ...acc,
+        "Flower Bed": new Decimal(
+          state.inventory["Flower Bed"]?.minus(
+            Object.keys(state.flowers.flowerBeds).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName in COLLECTIBLES_DIMENSIONS) {
       return {
         ...acc,
         [itemName]: new Decimal(
-          state.inventory[itemName]?.minus(
-            state.collectibles[itemName as CollectibleName]?.length ?? 0
-          ) ?? 0
+          state.inventory[itemName]
+            ?.minus(
+              state.collectibles[itemName as CollectibleName]?.length ?? 0
+            )
+            ?.minus(
+              state.home.collectibles[itemName as CollectibleName]?.length ?? 0
+            ) ?? 0
         ),
       };
     }

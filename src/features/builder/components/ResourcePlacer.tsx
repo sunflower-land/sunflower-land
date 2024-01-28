@@ -7,6 +7,8 @@ import classNames from "classnames";
 import fruitPatch from "assets/fruit/apple/apple_tree.png";
 import goldStone from "assets/resources/gold_small.png";
 import ironStone from "assets/resources/iron_small.png";
+import crimstone from "assets/resources/crimstone/crimstone_rock_1.webp";
+import beehive from "assets/sfts/beehive.webp";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { ResourceBUttons } from "./ResourceButtons";
@@ -14,13 +16,18 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { Stone } from "features/game/expansion/components/resources/stone/Stone";
 import { Iron } from "features/game/expansion/components/resources/iron/Iron";
 import { Gold } from "features/game/expansion/components/resources/gold/Gold";
+import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Plot } from "features/island/plots/Plot";
 import { Tree } from "features/game/expansion/components/resources/tree/Tree";
 import { Layout } from "../lib/layouts";
 import { Boulder } from "features/island/boulder/Boulder";
+import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { ZoomContext } from "components/ZoomProvider";
+import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { FlowerBed } from "features/island/flowers/FlowerBed";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -31,7 +38,7 @@ export const RESOURCES: Record<
   }
 > = {
   trees: {
-    component: () => <Tree id="0" index={0} />,
+    component: () => <Tree id="1" index={0} />,
     icon: SUNNYSIDE.resource.tree,
     dimensions: {
       height: 2,
@@ -39,7 +46,7 @@ export const RESOURCES: Record<
     },
   },
   fruitPatches: {
-    component: () => <FruitPatch id="0" index={0} />,
+    component: () => <FruitPatch id="1" index={0} />,
     icon: fruitPatch,
     dimensions: {
       height: 2,
@@ -47,7 +54,7 @@ export const RESOURCES: Record<
     },
   },
   stones: {
-    component: () => <Stone id="0" index={0} />,
+    component: () => <Stone id="1" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
@@ -55,7 +62,7 @@ export const RESOURCES: Record<
     icon: SUNNYSIDE.resource.small_stone,
   },
   iron: {
-    component: () => <Iron id="0" index={0} />,
+    component: () => <Iron id="1" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
@@ -63,15 +70,31 @@ export const RESOURCES: Record<
     icon: ironStone,
   },
   gold: {
-    component: () => <Gold id="0" index={0} />,
+    component: () => <Gold id="1" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
     },
     icon: goldStone,
   },
+  crimstones: {
+    component: () => <Crimstone id="1" index={0} />,
+    dimensions: {
+      height: 2,
+      width: 2,
+    },
+    icon: crimstone,
+  },
+  sunstones: {
+    component: () => <Sunstone id="1" index={0} />,
+    dimensions: {
+      height: 2,
+      width: 2,
+    },
+    icon: ITEM_DETAILS["Sunstone"].image,
+  },
   plots: {
-    component: () => <Plot id="0" index={0} />,
+    component: () => <Plot id="1" index={0} />,
     dimensions: {
       height: 1,
       width: 1,
@@ -85,6 +108,22 @@ export const RESOURCES: Record<
       width: 2,
     },
     icon: SUNNYSIDE.resource.boulder,
+  },
+  beehives: {
+    component: () => <Beehive id="1" />,
+    dimensions: {
+      height: 1,
+      width: 1,
+    },
+    icon: beehive,
+  },
+  flowers: {
+    component: () => <FlowerBed id="1" />,
+    dimensions: {
+      height: 1,
+      width: 1,
+    },
+    icon: ITEM_DETAILS["Tulip Bulb"].image,
   },
 };
 

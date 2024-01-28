@@ -12,6 +12,7 @@ import {
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -174,12 +175,26 @@ export class PlazaScene extends BaseScene {
       frameHeight: 15,
     });
 
+    this.load.spritesheet(
+      "goblin_hammer",
+      SUNNYSIDE.npcs.goblin_hammering_sheet,
+      {
+        frameWidth: 70,
+        frameHeight: 30,
+      }
+    );
+
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
     });
 
     this.load.image("chest", "world/rare_chest.png");
+
+    this.load.spritesheet("banner", "world/spring_banner.png", {
+      frameWidth: 22,
+      frameHeight: 36,
+    });
 
     super.preload();
 
@@ -254,6 +269,24 @@ export class PlazaScene extends BaseScene {
       interactableModalManager.open("fat_chicken");
     });
 
+    // Goblin Hammering
+    const hammerinGoblin = this.add.sprite(250, 268, "goblin_hammer");
+    this.anims.create({
+      key: "goblin_hammer_animation",
+      frames: this.anims.generateFrameNumbers("goblin_hammer", {
+        start: 0,
+        end: 22,
+      }),
+      repeat: -1,
+      frameRate: 14,
+    });
+    hammerinGoblin.play("goblin_hammer_animation", true);
+    hammerinGoblin
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("goblin_hammer");
+      });
+
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
     this.anims.create({
@@ -290,6 +323,52 @@ export class PlazaScene extends BaseScene {
         interactableModalManager.open("bud");
       });
     bud2.setDepth(100000000000);
+
+    // Banner
+    const banner = this.add.sprite(400, 220, "banner");
+    this.anims.create({
+      key: "banner_animation",
+      frames: this.anims.generateFrameNumbers("banner", {
+        start: 0,
+        end: 1,
+      }),
+      repeat: -1,
+      frameRate: 7,
+    });
+    banner
+      .play("banner_animation", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("banner");
+      });
+    banner.setDepth(100000000000);
+
+    const banner2 = this.add.sprite(464, 220, "banner");
+    banner2
+      .play("banner_animation", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("banner");
+      });
+    banner2.setDepth(100000000000);
+
+    const banner3 = this.add.sprite(480, 382, "banner");
+    banner3
+      .play("banner_animation", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("banner");
+      });
+    banner3.setDepth(100000000000);
+
+    const banner4 = this.add.sprite(385, 382, "banner");
+    banner4
+      .play("banner_animation", true)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("banner");
+      });
+    banner4.setDepth(100000000000);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({

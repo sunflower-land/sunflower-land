@@ -26,15 +26,26 @@ type FeatureName =
   | "LOCALISATION"
   | "PORTALS"
   | "BEACH_FISHING"
-  | "REACTIONS"
-  | "GOOGLE_LOGIN";
+  | "HOME"
+  | "ISLAND_UPGRADE"
+  | "FLOWERS";
 
 // Used for testing production features
-export const ADMIN_IDS = [1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51];
+export const ADMIN_IDS = [
+  1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51, 56, 73795, 21303, 2253,
+  128015,
+];
 
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  ISLAND_UPGRADE: (_: GameState) => {
+    if (Date.now() > new Date("2024-02-01").getTime()) {
+      return true;
+    }
+
+    return testnetFeatureFlag();
+  },
   BEACH_FISHING: () => true,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
@@ -42,8 +53,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
-
-  REACTIONS: defaultFeatureFlag,
+  HOME: defaultFeatureFlag,
 
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
@@ -80,7 +90,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
-  GOOGLE_LOGIN: testnetFeatureFlag,
+  FLOWERS: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

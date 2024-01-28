@@ -44,8 +44,23 @@ export function removePlaceable({
     return game;
   }
 
+  if (name === "Crimstone Rock") {
+    delete game.crimstones[id];
+    return game;
+  }
+
+  if (name === "Sunstone Rock") {
+    delete game.sunstones[id];
+    return game;
+  }
+
   if (name === "Fruit Patch") {
     delete game.fruitPatches[id];
+    return game;
+  }
+
+  if (name === "Beehive") {
+    delete game.beehives[id];
     return game;
   }
 
