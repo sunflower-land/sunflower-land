@@ -1688,7 +1688,7 @@ export type ModalDescription =
   | "modalDescription.friend"
   | "modalDescription.love.fruit"
   | "modalDescription.gift"
-  | "modalDescription.limited.abilitie"
+  | "modalDescription.limited.abilities"
   | "modalDescription.trail";
 
 export type Mute =

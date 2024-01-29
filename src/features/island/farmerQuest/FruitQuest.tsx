@@ -30,7 +30,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
   const ModalDescription = () => {
     return (
       <>
-        <p className="mb-4">{t("modalDescription.limited.abilitie")}</p>
+        <p className="mb-4">{t("modalDescription.limited.abilities")}</p>
         <p className="mb-4">{t("modalDescription.trail")}</p>
         <div className="flex justify-center mb-4">
           <img

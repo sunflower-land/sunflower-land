@@ -2416,7 +2416,7 @@ const modalDescription: Record<ModalDescription, string> = {
     "Wow, you really do love Fruits as much as I do!",
   "modalDescription.gift":
     "I have no more gifts for you. Don't forget to wear your new items!",
-  "modalDescription.limited.abilitie":
+  "modalDescription.limited.abilities":
     "I've been designing limited edition wearables that can enhance your fruit picking abilities",
   "modalDescription.trail":
     "I am looking for dedicated fruit pickers to trial this clothing....for FREE!",
