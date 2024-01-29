@@ -66,7 +66,7 @@ describe("harvestFlower", () => {
                 y: 0,
                 flower: {
                   amount: 1,
-                  name: "Flower 1",
+                  name: "Red Pansy",
                   plantedAt: Date.now(),
                 },
               },
@@ -94,7 +94,7 @@ describe("harvestFlower", () => {
               y: 0,
               flower: {
                 amount: 1,
-                name: "Flower 1",
+                name: "Red Pansy",
                 plantedAt: 0,
               },
             },
@@ -104,7 +104,7 @@ describe("harvestFlower", () => {
       action: { type: "flower.harvested", id: flowerBedId },
     });
 
-    expect(state.inventory["Flower 1"]).toEqual(new Decimal(1));
+    expect(state.inventory["Red Pansy"]).toEqual(new Decimal(1));
   });
 
   it("removes the flower from the flower bed", () => {
@@ -123,7 +123,7 @@ describe("harvestFlower", () => {
               y: 0,
               flower: {
                 amount: 1,
-                name: "Flower 1",
+                name: "Red Pansy",
                 plantedAt: 0,
               },
             },
@@ -153,7 +153,7 @@ describe("harvestFlower", () => {
               y: 0,
               flower: {
                 amount,
-                name: "Flower 1",
+                name: "Red Pansy",
                 plantedAt: 0,
               },
             },
@@ -163,7 +163,7 @@ describe("harvestFlower", () => {
       action: { type: "flower.harvested", id: flowerBedId },
     });
 
-    expect(state.bumpkin?.activity?.["Flower 1 Harvested"]).toEqual(amount);
+    expect(state.bumpkin?.activity?.["Red Pansy Harvested"]).toEqual(amount);
   });
 
   it("increments the farm flower harvested activity", () => {
@@ -183,7 +183,7 @@ describe("harvestFlower", () => {
               y: 0,
               flower: {
                 amount,
-                name: "Flower 1",
+                name: "Red Pansy",
                 plantedAt: 0,
               },
             },
@@ -193,6 +193,6 @@ describe("harvestFlower", () => {
       action: { type: "flower.harvested", id: flowerBedId },
     });
 
-    expect(state.farmActivity["Flower 1 Harvested"]).toEqual(amount);
+    expect(state.farmActivity["Red Pansy Harvested"]).toEqual(amount);
   });
 });

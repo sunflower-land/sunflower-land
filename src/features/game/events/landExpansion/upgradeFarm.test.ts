@@ -140,7 +140,7 @@ describe("upgradeFarm", () => {
     expect(state.fishing.wharf).toEqual({});
     expect(state.mushrooms).toEqual({
       mushrooms: {},
-      spawnedAt: createdAt,
+      spawnedAt: 0,
     });
     expect(state.buds).toEqual({
       1: {

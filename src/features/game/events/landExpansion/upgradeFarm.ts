@@ -290,7 +290,7 @@ const INITIAL_LAND: Pick<
       width: 1,
       height: 1,
       stone: {
-        amount: 0,
+        amount: 2,
         minedAt: 0,
       },
     },
@@ -302,7 +302,7 @@ const INITIAL_LAND: Pick<
       width: 1,
       height: 1,
       stone: {
-        amount: 0,
+        amount: 1,
         minedAt: 0,
       },
     },
@@ -418,7 +418,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   game.fishing.wharf = {};
   game.mushrooms = {
     mushrooms: {},
-    spawnedAt: createdAt,
+    spawnedAt: game.mushrooms?.spawnedAt ?? 0,
   };
   game.buds = getKeys(game.buds ?? {}).reduce(
     (acc, key) => ({

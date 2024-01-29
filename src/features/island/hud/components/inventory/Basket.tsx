@@ -39,6 +39,7 @@ import {
   FRUIT_COMPOST,
 } from "features/game/types/composters";
 import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
+import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Prop {
@@ -94,7 +95,6 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       crop,
       inventory,
       game: gameState,
-      bumpkin: bumpkin as Bumpkin,
       buds: buds ?? {},
     });
   };
@@ -135,14 +135,22 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
 
-  const itemsSection = (title: string, items: InventoryItemName[]) => {
+  const itemsSection = (
+    title: string,
+    items: InventoryItemName[],
+    icon: string
+  ) => {
     if (!items.length) {
       return <></>;
     }
 
     return (
       <div className="flex flex-col pl-2 mb-2 w-full" key={title}>
-        {<p className="mb-2">{title}</p>}
+        {
+          <Label type="default" icon={icon} className="mb-2">
+            {title}
+          </Label>
+        }
         <div className="flex mb-2 flex-wrap -ml-1.5">
           {items.map((item) => (
             <Box
@@ -199,23 +207,47 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       }
       content={
         <>
-          {itemsSection(t("seeds"), allSeeds)}
-          {itemsSection(t("fertilisers"), [
-            ...cropCompost,
-            ...fruitCompost,
-            ...fertilisers,
-          ])}
-          {itemsSection(t("crops"), crops)}
-          {itemsSection(t("fruits"), fruits)}
-          {itemsSection(t("exotics"), [...exotic, ...exotics])}
-          {itemsSection(t("tools"), allTools)}
-          {itemsSection(t("resources"), resources)}
-          {itemsSection(t("bait"), [...worm, ...purchaseableBait])}
-          {itemsSection(t("fish"), fish)}
-          {itemsSection(t("tools"), [...foods, ...pirateCake])}
-          {itemsSection(t("bounty"), bounty)}
-          {itemsSection(t("coupons"), coupons)}
-          {itemsSection(t("easter.eggs"), easterEggs)}
+          {itemsSection(t("seeds"), allSeeds, SUNNYSIDE.icons.seeds)}
+          {itemsSection(
+            t("fertilisers"),
+            [...cropCompost, ...fruitCompost, ...fertilisers],
+            ITEM_DETAILS["Rapid Root"].image
+          )}
+          {itemsSection(t("crops"), crops, ITEM_DETAILS.Sunflower.image)}
+          {itemsSection(t("fruits"), fruits, ITEM_DETAILS["Orange"].image)}
+          {itemsSection(
+            t("exotics"),
+            [...exotic, ...exotics],
+            ITEM_DETAILS["White Carrot"].image
+          )}
+          {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}
+          {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
+          {itemsSection(
+            t("bait"),
+            [...worm, ...purchaseableBait],
+            ITEM_DETAILS["Earthworm"].image
+          )}
+          {itemsSection(t("fish"), fish, ITEM_DETAILS["Anchovy"].image)}
+          {itemsSection(
+            t("foods"),
+            [...foods, ...pirateCake],
+            ITEM_DETAILS["Carrot Cake"].image
+          )}
+          {itemsSection(
+            t("bounty"),
+            bounty,
+            ITEM_DETAILS["Pirate Bounty"].image
+          )}
+          {itemsSection(
+            t("coupons"),
+            coupons,
+            ITEM_DETAILS["Trading Ticket"].image
+          )}
+          {itemsSection(
+            t("easter.eggs"),
+            easterEggs,
+            ITEM_DETAILS["Red Egg"].image
+          )}
         </>
       }
     />
