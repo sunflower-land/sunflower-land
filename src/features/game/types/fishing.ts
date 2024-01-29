@@ -95,6 +95,9 @@ export type Chum = Extract<
   | "Squid"
   | "Wood"
   | "Red Pansy"
+  | "Rich Chicken"
+  | "Fat Chicken"
+  | "Speed Chicken"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -127,6 +130,9 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   Squid: 1,
   Wood: 5,
   "Red Pansy": 1,
+  "Fat Chicken": 3,
+  "Rich Chicken": 3,
+  "Speed Chicken": 3,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -158,7 +164,10 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Tuna: translate("chumDetails.tuna"),
   Squid: translate("chumDetails.squid"),
   Wood: translate("chumDetails.wood"),
-  "Red Pansy": "Fiery allure for elusive fish.",
+  "Red Pansy": translate("chumDetails.redPansy"),
+  "Fat Chicken": translate("chumDetails.fatChicken"),
+  "Rich Chicken": translate("chumDetails.richChicken"),
+  "Speed Chicken": translate("chumDetails.speedChicken"),
 };
 
 export type FishingLocation = "beach" | "wharf";

@@ -804,7 +804,11 @@ export type ChumDetails =
   | "chumDetails.redSnapper"
   | "chumDetails.tuna"
   | "chumDetails.squid"
-  | "chumDetails.wood";
+  | "chumDetails.wood"
+  | "chumDetails.redPansy"
+  | "chumDetails.richChicken"
+  | "chumDetails.fatChicken"
+  | "chumDetails.speedChicken";
 
 export type Community = "community.toast" | "community.url" | "comunity.Travel";
 

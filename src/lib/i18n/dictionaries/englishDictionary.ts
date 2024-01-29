@@ -1127,6 +1127,12 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.tuna": "What is big enough to eat a tuna?",
   "chumDetails.squid": "Awaken a ray with its favorite treat!",
   "chumDetails.wood": "Wood. An interesting choice....",
+  "chumDetails.redPansy": "Fiery allure for elusive fish.",
+  "chumDetails.fatChicken":
+    "The original white meat that the largest of quarry cannot resist.",
+  "chumDetails.speedChicken": "Fast food dessert for sharp-teeth hunters.",
+  "chumDetails.richChicken":
+    "Delicacy for the bright-bellied terror of the screen.",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {

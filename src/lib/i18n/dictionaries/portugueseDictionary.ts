@@ -1161,6 +1161,10 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.tuna": "O que é grande o suficiente para comer um atum?",
   "chumDetails.squid": "Acorde uma raia com seu petisco favorito!",
   "chumDetails.wood": "Madeira. Uma escolha interessante....",
+  "chumDetails.fatChicken": ENGLISH_TERMS["chumDetails.fatChicken"],
+  "chumDetails.richChicken": ENGLISH_TERMS["chumDetails.richChicken"],
+  "chumDetails.speedChicken": ENGLISH_TERMS["chumDetails.speedChicken"],
+  "chumDetails.redPansy": ENGLISH_TERMS["chumDetails.redPansy"],
 };
 
 const community: Record<Community, string> = {
