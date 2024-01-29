@@ -3,33 +3,69 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { FlowerBedModal } from "./FlowerBedModal";
-import flowerBedImage from "assets/flowers/flower_bed.webp";
+import emptyFlowerBed from "assets/flowers/stages/empty.webp";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useActor } from "@xstate/react";
-import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
+import {
+  FLOWERS,
+  FLOWER_LIFECYCLE,
+  FLOWER_SEEDS,
+  FlowerName,
+} from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
 import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { NPC_WEARABLES } from "lib/npcs";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { SpeakingText } from "features/game/components/SpeakingModal";
+import { Panel } from "components/ui/Panel";
+import { Button } from "components/ui/Button";
 
 interface Props {
   id: string;
 }
+
+const FlowerCongratulations: React.FC<{ flowerName: FlowerName }> = ({
+  flowerName,
+}) => (
+  <div
+    id="congratulations"
+    className="absolute -top-1 left-1/2 -translate-x-1/2 h-36 w-40 pointer-events-none"
+  >
+    {Array.from({ length: 7 }).map((_, i) => (
+      <img
+        key={`flower-${i + 1}`}
+        src={ITEM_DETAILS[flowerName].image}
+        alt="Flower"
+        // Steal bee animations
+        className={`absolute left-1/2 -translate-x-1/2 swarm-bee-${i + 1}`}
+        style={{
+          width: `${PIXEL_SCALE * 7}px`,
+        }}
+      />
+    ))}
+  </div>
+);
 
 export const FlowerBed: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
   const [
     {
       context: {
-        state: { flowers },
+        state: { flowers, farmActivity },
       },
     },
   ] = useActor(gameService);
 
   const flowerBed = flowers.flowerBeds[id];
 
-  const [showModal, setShowModal] = useState(false);
+  const [showPlantModal, setShowPlantModal] = useState(false);
+  const [showCongratulationsModal, setShowCongratulationsModal] =
+    useState(true);
+  const [congratulationsPage, setCongratulationsPage] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
 
   useUiRefresher();
@@ -39,10 +75,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       <>
         <div
           className="relative w-full h-full hover:img-highlight cursor-pointer"
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowPlantModal(true)}
         >
           <img
-            src={flowerBedImage}
+            src={emptyFlowerBed}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 48}px`,
@@ -50,8 +86,12 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             }}
           />
         </div>
-        <Modal show={showModal} onHide={() => setShowModal(false)} centered>
-          <FlowerBedModal id={id} onClose={() => setShowModal(false)} />
+        <Modal
+          show={showPlantModal}
+          onHide={() => setShowPlantModal(false)}
+          centered
+        >
+          <FlowerBedModal id={id} onClose={() => setShowPlantModal(false)} />
         </Modal>
       </>
     );
@@ -64,11 +104,37 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
   const timeLeftSeconds = Math.round(timeLeft / 1000);
 
-  const growPercentage = Math.max(timeLeft, 0) / growTime;
+  const growPercentage = 100 - (Math.max(timeLeft, 0) / growTime) * 100;
 
   const isGrowing = timeLeft > 0;
 
+  const stage =
+    growPercentage >= 100
+      ? "ready"
+      : growPercentage >= 66
+      ? "almost"
+      : growPercentage >= 44
+      ? "halfway"
+      : growPercentage >= 22
+      ? "sprout"
+      : "seedling";
+
   const handlePlotClick = () => {
+    const hasHarvested = !!farmActivity[`${flower.name} Harvested`];
+    if (!hasHarvested) {
+      setShowCongratulationsModal(true);
+      return;
+    }
+
+    gameService.send({
+      type: "flower.harvested",
+      id,
+    });
+  };
+
+  const handleCongratulationsClose = () => {
+    setShowCongratulationsModal(false);
+
     gameService.send({
       type: "flower.harvested",
       id,
@@ -86,11 +152,11 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         onMouseLeave={() => setShowPopover(false)}
       >
         <img
-          src={flowerBedImage}
+          src={FLOWER_LIFECYCLE[flower.name][stage]}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 48}px`,
-            height: `${PIXEL_SCALE * 16}px`,
+            bottom: 0,
           }}
         />
         {flowerBed.flower && isGrowing && (
@@ -127,6 +193,41 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           </div>
         )}
       </div>
+
+      <Modal centered show={showCongratulationsModal}>
+        <Panel
+          className="relative space-y-1"
+          bumpkinParts={NPC_WEARABLES.poppy}
+        >
+          {congratulationsPage === 0 && (
+            <SpeakingText
+              message={[
+                {
+                  text: "By golly, you've discovered a new species of flower!",
+                },
+              ]}
+              onClose={() => setCongratulationsPage(1)}
+            />
+          )}
+          {congratulationsPage === 1 && (
+            <div className="flex flex-col justify-center items-center">
+              <Label type="warning" icon={SUNNYSIDE.icons.search}>
+                New species
+              </Label>
+              <span className="text-sm mb-2">{flower.name}</span>
+              <img
+                src={ITEM_DETAILS[flower.name]?.image}
+                className="h-12 mb-2"
+              />
+              <span className="text-xs text-center mb-2">
+                {ITEM_DETAILS[flower.name].description}
+              </span>
+              <Button onClick={handleCongratulationsClose}>Ok</Button>
+            </div>
+          )}
+          <FlowerCongratulations flowerName={flower.name} />
+        </Panel>
+      </Modal>
     </>
   );
 };

@@ -36,6 +36,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   cancel: "Cancel",
   for: "for",
+  flowers: "Flowers",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {

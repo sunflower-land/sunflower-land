@@ -1,12 +1,11 @@
+import { FLOWER_SEEDS } from "../types/flowers";
 import { Beehive, Beehives, FlowerBed, FlowerBeds } from "../types/game";
-import {
-  FLOWER_GROW_TIME,
-  HONEY_PRODUCTION_TIME,
-  updateBeehives,
-} from "./updateBeehives";
+import { HONEY_PRODUCTION_TIME, updateBeehives } from "./updateBeehives";
 
 describe("updateBeehives", () => {
   const now = Date.now();
+
+  const FLOWER_GROW_TIME = FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000;
 
   const DEFAULT_FLOWER_BED: FlowerBed = {
     createdAt: now,
@@ -483,7 +482,7 @@ describe("updateBeehives", () => {
     const flowerId1 = "123";
     const beehiveId1 = "abc";
 
-    const quarterTime = HONEY_PRODUCTION_TIME / 4;
+    const quarterTime = FLOWER_GROW_TIME / 4;
     const threeQuarterTime = quarterTime * 3;
 
     const beehives: Beehives = {
@@ -632,7 +631,7 @@ describe("updateBeehives", () => {
         flowers: [
           {
             id: flowerId1,
-            attachedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+            attachedAt: now - FLOWER_GROW_TIME - tenMinutes,
             attachedUntil: now - tenMinutes,
           },
         ],
@@ -644,7 +643,7 @@ describe("updateBeehives", () => {
         flower: {
           name: "Red Pansy",
           amount: 1,
-          plantedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+          plantedAt: now - FLOWER_GROW_TIME - tenMinutes,
         },
       },
     };
@@ -672,7 +671,7 @@ describe("updateBeehives", () => {
         flowers: [
           {
             id: flowerId1,
-            attachedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+            attachedAt: now - FLOWER_GROW_TIME - tenMinutes,
             attachedUntil: now - tenMinutes,
           },
         ],
@@ -684,7 +683,7 @@ describe("updateBeehives", () => {
         flower: {
           name: "Red Pansy",
           amount: 1,
-          plantedAt: now - HONEY_PRODUCTION_TIME - tenMinutes,
+          plantedAt: now - FLOWER_GROW_TIME - tenMinutes,
         },
       },
       [flowerId2]: {

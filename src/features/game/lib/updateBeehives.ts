@@ -2,6 +2,7 @@
 import cloneDeep from "lodash.clonedeep";
 import { Beehive, Beehives, FlowerBeds } from "../types/game";
 import { getKeys } from "../types/craftables";
+import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
@@ -14,7 +15,6 @@ import { getKeys } from "../types/craftables";
  */
 
 export const HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
-export const FLOWER_GROW_TIME = 24 * 60 * 60 * 1000;
 
 interface GetFlowerDetail {
   flowerId: string;
@@ -76,7 +76,10 @@ const getFlowerReadyAt = (flowerId: string, flowerBeds: FlowerBeds) => {
     return 0;
   }
 
-  return plantedFlower.plantedAt + FLOWER_GROW_TIME;
+  const plantMilliseconds =
+    FLOWER_SEEDS()[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000;
+
+  return plantedFlower.plantedAt + plantMilliseconds;
 };
 
 const updateProducedHoney = ({

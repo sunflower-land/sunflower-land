@@ -19,8 +19,6 @@ import { GameState } from "features/game/types/game";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { getFlowerBySeed } from "../lib/utils";
 import { Detail } from "../components/Detail";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import flowerBed from "assets/flowers/flower_bed_modal.png";
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _milestones = (state: MachineState) => state.context.state.milestones;
@@ -101,62 +99,19 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
             >
               {FLOWERS[selectedFlower].seed}
             </Label>
+            {crossBreeds.map((crossbreed) => (
+              <Label
+                key={crossbreed}
+                type="formula"
+                className="px-0.5 text-xxs whitespace-nowrap"
+                icon={ITEM_DETAILS[crossbreed].image}
+              >
+                {crossbreed}
+              </Label>
+            ))}
           </>
         }
-      >
-        {crossBreeds.length > 0 && (
-          <>
-            <span className="text-lg">Cross Breeding</span>
-            <div className="flex flex-col">
-              {crossBreeds.map((crossbreed) => (
-                <div
-                  key={crossbreed}
-                  className="relative mx-auto w-full mt-2"
-                  style={{
-                    width: `${PIXEL_SCALE * 80}px`,
-                  }}
-                >
-                  <img src={flowerBed} className="w-full" />
-
-                  <div
-                    className={
-                      "absolute z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md"
-                    }
-                    style={{
-                      height: `${PIXEL_SCALE * 16}px`,
-                      width: `${PIXEL_SCALE * 16}px`,
-                      top: `${PIXEL_SCALE * 6}px`,
-                      left: `${PIXEL_SCALE * 12}px`,
-                    }}
-                  >
-                    <img
-                      src={ITEM_DETAILS[FLOWERS[selectedFlower].seed].image}
-                      className="w-full absolute inset-0 -top-1"
-                    />
-                  </div>
-
-                  <div
-                    className={
-                      "absolute z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md"
-                    }
-                    style={{
-                      height: `${PIXEL_SCALE * 16}px`,
-                      width: `${PIXEL_SCALE * 16}px`,
-                      top: `${PIXEL_SCALE * 6}px`,
-                      right: `${PIXEL_SCALE * 12}px`,
-                    }}
-                  >
-                    <img
-                      src={ITEM_DETAILS[crossbreed].image}
-                      className="h-full absolute inset-0 -top-1 mx-auto"
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
-      </Detail>
+      ></Detail>
     );
   }
 

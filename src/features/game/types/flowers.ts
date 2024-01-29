@@ -42,25 +42,25 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     price: new Decimal(0),
     bumpkinLevel: 0,
     sfl: new Decimal(0),
-    description: "A seed for a flower",
-    plantSeconds: 1,
-    disabled: true,
+    description: "A sunpetal seed",
+    plantSeconds: 1 * 24 * 60 * 60,
+    disabled: false,
   },
   "Bloom Seed": {
     price: new Decimal(0),
     bumpkinLevel: 0,
     sfl: new Decimal(0),
-    description: "A seed for a flower",
-    plantSeconds: 1,
-    disabled: true,
+    description: "A bloom seed",
+    plantSeconds: 2 * 24 * 60 * 60,
+    disabled: false,
   },
   "Lily Seed": {
     price: new Decimal(0),
     bumpkinLevel: 0,
     sfl: new Decimal(0),
-    description: "A seed for a flower",
-    plantSeconds: 1,
-    disabled: true,
+    description: "A lily seed",
+    plantSeconds: 5 * 24 * 60 * 60,
+    disabled: false,
   },
 });
 
@@ -73,6 +73,12 @@ export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
   {
     Sunflower: 50,
     Cauliflower: 10,
+  };
+
+export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
+  {
+    Sunflower: "Bumpkin scientists swear they're not flowers",
+    Cauliflower: "I wouldn't even ask the Bumpkin scientists about this one",
   };
 
 type Flower = {
@@ -107,3 +113,45 @@ export const FLOWERS: Record<FlowerName, Flower> = {
   ...BLOOM_FLOWERS,
   ...LILY_FLOWERS,
 };
+
+type Lifecycle = {
+  seedling: any;
+  sprout: any;
+  halfway: any;
+  almost: any;
+  ready: any;
+};
+
+const IMAGES: Record<FlowerName, string> = {
+  "Red Pansy": "red_pansy",
+  "Yellow Pansy": "red_pansy",
+  "Purple Pansy": "red_pansy",
+  "Red Cosmos": "red_pansy",
+  "Yellow Cosmos": "red_pansy",
+  "Purple Cosmos": "red_pansy",
+  "Red Daffodil": "red_pansy",
+  "Yellow Daffodil": "red_pansy",
+  "Purple Daffodil": "red_pansy",
+  "Red Balloon Flower": "red_pansy",
+  "Yellow Balloon Flower": "red_pansy",
+  "Purple Balloon Flower": "red_pansy",
+  "Red Lotus": "red_pansy",
+  "Yellow Lotus": "red_pansy",
+  "Purple Lotus": "red_pansy",
+};
+
+export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
+  IMAGES
+).reduce(
+  (acc, name) => ({
+    ...acc,
+    [name]: {
+      seedling: `src/assets/flowers/stages/seedling.webp`,
+      sprout: `src/assets/flowers/stages/sprout.webp`,
+      halfway: `src/assets/flowers/stages/halfway.webp`,
+      almost: `src/assets/flowers/stages/${IMAGES[name]}_almost.webp`,
+      ready: `src/assets/flowers/stages/${IMAGES[name]}_ready.webp`,
+    },
+  }),
+  {} as Record<FlowerName, Lifecycle>
+);

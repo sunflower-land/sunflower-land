@@ -6,9 +6,9 @@ import appleSeed from "assets/fruit/apple/apple_seed.png";
 import orangeSeed from "assets/fruit/orange/orange_seed.png";
 import blueberrySeed from "assets/fruit/blueberry/blueberry_seed.png";
 import bananaPlant from "assets/fruit/banana/banana_plant.png";
-import sunpetalSeed from "assets/fruit/banana/banana_plant.png";
-import bloomSeed from "assets/fruit/banana/banana_plant.png";
-import lilySeed from "assets/fruit/banana/banana_plant.png";
+import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
+import bloomSeed from "assets/flowers/bloom_seed.webp";
+import lilySeed from "assets/flowers/lily_seed.webp";
 
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
@@ -540,6 +540,7 @@ import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
 import flowerBed from "assets/flowers/flower_bed.webp";
+import redPansy from "assets/flowers/red_pansy.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3101,7 +3102,7 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Red Pansy": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: redPansy,
     description: "A red pansy",
   },
   "Yellow Pansy": {
