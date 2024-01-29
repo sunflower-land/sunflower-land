@@ -418,7 +418,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   game.fishing.wharf = {};
   game.mushrooms = {
     mushrooms: {},
-    spawnedAt: createdAt,
+    spawnedAt: game.mushrooms?.spawnedAt ?? 0,
   };
   game.buds = getKeys(game.buds ?? {}).reduce(
     (acc, key) => ({
