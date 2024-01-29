@@ -119,9 +119,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       ? "sprout"
       : "seedling";
 
+  const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
+
   const handlePlotClick = () => {
-    const hasHarvested = !!farmActivity[`${flower.name} Harvested`];
-    if (!hasHarvested) {
+    if (!hasHarvestedBefore) {
       setShowCongratulationsModal(true);
       return;
     }
@@ -167,8 +168,14 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             }}
           >
             <TimerPopover
-              image={ITEM_DETAILS[flowerBed.flower.name].image}
-              description={flowerBed.flower.name}
+              image={
+                hasHarvestedBefore
+                  ? ITEM_DETAILS[flowerBed.flower.name].image
+                  : SUNNYSIDE.icons.search
+              }
+              description={
+                hasHarvestedBefore ? flowerBed.flower.name : "Unknown"
+              }
               showPopover={showPopover}
               timeLeft={timeLeftSeconds}
             />
