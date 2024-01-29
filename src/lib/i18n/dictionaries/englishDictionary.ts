@@ -232,6 +232,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   fertilisers: "Fertilisers",
   fish: "Fish",
   "fish.caught": "Fish Caught",
+  flowers: "Flowers",
   foods: "Foods",
   for: "for",
   forbidden: "Forbidden",

@@ -18,6 +18,7 @@ import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
 import { Flowers } from "./pages/Flowers";
 import { hasFeatureAccess } from "lib/flags";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   show: boolean;
@@ -31,7 +32,7 @@ export const categories: CodexCategory[] = [
   },
   {
     name: "Flowers",
-    icon: SUNNYSIDE.icons.expression_confused,
+    icon: ITEM_DETAILS["Red Pansy"].image,
   },
   {
     name: "Farming",

@@ -26,7 +26,6 @@ import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 
 const HITS = 3;
 const tool = "Axe";
@@ -113,14 +112,9 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
   const timeLeft = getTimeLeft(resource.wood.choppedAt, TREE_RECOVERY_TIME);
   const chopped = !canChop(resource);
 
-  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(index, "Tree");
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   useUiRefresher({ active: chopped });
 
   const shake = () => {
-    if (bumpkinTooLow) return;
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
@@ -176,7 +170,6 @@ export const Tree: React.FC<Props> = ({ id, index }) => {
       {!chopped && (
         <div ref={divRef} className="absolute w-full h-full" onClick={shake}>
           <RecoveredTree
-            bumpkinLevelRequired={bumpkinLevelRequired}
             hasTool={hasTool}
             touchCount={touchCount}
             showHelper={treesChopped < 3 && treesChopped + 1 === Number(id)}

@@ -39,12 +39,12 @@ export const ADMIN_IDS = [
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
-  ISLAND_UPGRADE: (_: GameState) => {
+  ISLAND_UPGRADE: (game: GameState) => {
     if (Date.now() > new Date("2024-02-01").getTime()) {
       return true;
     }
 
-    return testnetFeatureFlag();
+    return defaultFeatureFlag(game);
   },
   BEACH_FISHING: () => true,
   PORTALS: testnetFeatureFlag,

@@ -76,6 +76,7 @@ export type GeneralTerms =
   | "fish.caught"
   | "fish"
   | "foods"
+  | "flowers"
   | "for"
   | "forbidden"
   | "free.trade"

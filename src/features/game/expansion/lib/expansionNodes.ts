@@ -18,24 +18,6 @@ export interface Nodes {
   Beehive: number;
 }
 
-export function getBumpkinLevelRequiredForNode(
-  index: number,
-  nodeType: string
-): BumpkinLevel {
-  // Excluded: New Bumpkin Level blocking code - separate PR
-  return 0 as BumpkinLevel;
-
-  const key = nodeType as keyof Nodes;
-
-  for (let expansions = 4; expansions <= 23; ++expansions) {
-    if (TOTAL_EXPANSION_NODES.basic[expansions as Land][key] > index)
-      return EXPANSION_REQUIREMENTS[(expansions - 1) as Land]
-        .bumpkinLevel as BumpkinLevel;
-  }
-
-  return 50 as BumpkinLevel;
-}
-
 export function getEnabledNodeCount(
   bumpkinLevel: BumpkinLevel,
   nodeType: string
@@ -55,7 +37,7 @@ type ExpansionNode = Record<IslandType, Record<number, Nodes>>;
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   basic: {
     3: {
-      "Crop Plot": 13,
+      "Crop Plot": 9,
       Tree: 3,
       "Stone Rock": 2,
       "Iron Rock": 0,
@@ -127,7 +109,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       Beehive: 0,
     },
     9: {
-      "Crop Plot": 29,
+      "Crop Plot": 31,
       Tree: 9,
       "Stone Rock": 7,
       "Iron Rock": 4,
@@ -139,7 +121,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       Beehive: 0,
     },
     10: {
-      "Crop Plot": 29,
+      "Crop Plot": 31,
       Tree: 9,
       "Stone Rock": 7,
       "Iron Rock": 4,
@@ -311,8 +293,8 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     4: {
       "Crop Plot": 31,
       "Fruit Patch": 2,
-      Tree: 11,
-      "Stone Rock": 8,
+      Tree: 9,
+      "Stone Rock": 7,
       "Iron Rock": 4,
       "Gold Rock": 2,
       "Crimstone Rock": 0,
@@ -323,7 +305,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     5: {
       "Crop Plot": 33,
       "Fruit Patch": 3,
-      Tree: 12,
+      Tree: 11,
       "Stone Rock": 9,
       "Iron Rock": 5,
       "Gold Rock": 3,
@@ -480,8 +462,8 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Crop Plot": 46,
       "Fruit Patch": 12,
       Tree: 18,
-      "Stone Rock": 15,
-      "Iron Rock": 9,
+      "Stone Rock": 16,
+      "Iron Rock": 10,
       "Gold Rock": 6,
       "Crimstone Rock": 3,
       "Sunstone Rock": 3,
@@ -492,8 +474,8 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Crop Plot": 48,
       "Fruit Patch": 12,
       Tree: 18,
-      "Stone Rock": 15,
-      "Iron Rock": 9,
+      "Stone Rock": 16,
+      "Iron Rock": 10,
       "Gold Rock": 6,
       "Crimstone Rock": 3,
       "Sunstone Rock": 3,
@@ -504,11 +486,11 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Crop Plot": 50,
       "Fruit Patch": 12,
       Tree: 18,
-      "Stone Rock": 15,
-      "Iron Rock": 9,
+      "Stone Rock": 16,
+      "Iron Rock": 10,
       "Gold Rock": 6,
       "Crimstone Rock": 3,
-      "Sunstone Rock": 3,
+      "Sunstone Rock": 4,
       Beehive: 3,
       "Flower Bed": 3,
     },

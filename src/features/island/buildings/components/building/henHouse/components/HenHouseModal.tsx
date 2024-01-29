@@ -88,6 +88,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     gameService.send("LANDSCAPE", {
       placeable: "Chicken",
       action: "chicken.placed",
+      multiple: true,
       // Not used yet
       requirements: {
         sfl: new Decimal(0),

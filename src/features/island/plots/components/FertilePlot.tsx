@@ -1,12 +1,10 @@
-import React, { useContext, useState } from "react";
-import { useSelector } from "@xstate/react";
+import React, { useState } from "react";
 
 import { CROPS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
-import { InnerPanel } from "components/ui/Panel";
 
 import powerup from "assets/icons/level_up.png";
 
@@ -25,14 +23,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 interface Props {
-  bumpkinLevelRequired: number;
   cropName?: CropName;
   inventory: Inventory;
   game: GameState;
@@ -47,11 +43,9 @@ interface Props {
 }
 
 const FertilePlotComponent: React.FC<Props> = ({
-  bumpkinLevelRequired,
   cropName,
   inventory,
   game,
-  bumpkin,
   buds,
   plot,
   plantedAt,
@@ -61,7 +55,6 @@ const FertilePlotComponent: React.FC<Props> = ({
   showTimers,
 }) => {
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const [_, setRender] = useState<number>(0);
 
@@ -69,13 +62,12 @@ const FertilePlotComponent: React.FC<Props> = ({
   const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
 
   let startAt = plantedAt ?? 0;
-  if (cropName && bumpkin) {
+  if (cropName && game.bumpkin) {
     const fertiliserName = fertiliser?.name ?? undefined;
     harvestSeconds = getCropTime({
       crop: cropName,
       inventory,
       game,
-      bumpkin,
       buds: buds ?? {},
       plot,
       fertiliser: fertiliserName,
@@ -99,15 +91,7 @@ const FertilePlotComponent: React.FC<Props> = ({
     ? "halfway"
     : "seedling";
 
-  const { gameService } = useContext(Context);
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   const handleMouseEnter = () => {
-    if (bumpkinTooLow) {
-      setShowBumpkinLevel(true);
-      return;
-    }
     // show details if field is growing
     if (isGrowing) {
       // set state to show details
@@ -116,7 +100,6 @@ const FertilePlotComponent: React.FC<Props> = ({
   };
 
   const handleMouseLeave = () => {
-    setShowBumpkinLevel(false);
     // set state to hide details
     setShowTimerPopover(false);
   };
@@ -134,11 +117,7 @@ const FertilePlotComponent: React.FC<Props> = ({
       >
         {/* Crop base image */}
         <div
-          className={
-            bumpkinTooLow
-              ? "absolute pointer-events-none opacity-50"
-              : "absolute pointer-events-none"
-          }
+          className={"absolute pointer-events-none"}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
@@ -171,22 +150,6 @@ const FertilePlotComponent: React.FC<Props> = ({
             right: `${PIXEL_SCALE * 0}px`,
           }}
         />
-      )}
-
-      {/* Bumpkin level warning */}
-      {showBumpkinLevel && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -14}px`,
-          }}
-        >
-          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="text-xxs mx-1 p-1">
-              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
-            </div>
-          </InnerPanel>
-        </div>
       )}
 
       {/* Time popover */}

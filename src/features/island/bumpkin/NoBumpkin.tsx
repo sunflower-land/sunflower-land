@@ -10,11 +10,15 @@ import { wallet } from "lib/blockchain/wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { BUMPKIN_EXPANSIONS_LEVEL } from "features/game/types/expansions";
+import { useActor } from "@xstate/react";
+import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NoBumpkin: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();
 
@@ -22,6 +26,11 @@ export const NoBumpkin: React.FC = () => {
   const [farmBumpkins, setFarmBumpkins] = useState<OnChainBumpkin[]>();
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const requiredLevel =
+    BUMPKIN_EXPANSIONS_LEVEL[gameState.context.state.island.type][
+      gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3
+    ];
 
   useEffect(() => {
     const load = async () => {
@@ -98,6 +107,10 @@ export const NoBumpkin: React.FC = () => {
           <img src={SUNNYSIDE.icons.heart} className="w-20 my-2" />
           <p className="text-sm my-2">{t("noBumpkin.bumpkinNFT")}</p>
           <p className="text-sm my-2">{t("noBumpkin.bumpkinHelp")}</p>
+          <Label
+            type="danger"
+            className="mx-auto my-2"
+          >{`Level ${requiredLevel} required`}</Label>
           <p className="text-sm my-2">{t("noBumpkin.mintBumpkin")}</p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
@@ -154,6 +167,13 @@ export const NoBumpkin: React.FC = () => {
             );
           })}
         </div>
+        <p className="text-sm my-2">
+          This is an advanced island. A strong Bumpkin is required:
+        </p>
+        <Label
+          type="danger"
+          className="mx-auto my-2"
+        >{`Level ${requiredLevel} required`}</Label>
       </div>
       <Button disabled={!selectedBumpkinId} onClick={deposit}>
         {t("noBumpkin.deposit")}

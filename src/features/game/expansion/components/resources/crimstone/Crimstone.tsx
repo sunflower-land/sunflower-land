@@ -12,7 +12,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getBumpkinLevelRequiredForNode } from "features/game/expansion/lib/expansionNodes";
 import { RecoveredCrimstone } from "./components/RecoveredCrimstone";
 import { DepletingCrimstone } from "./components/DepletingCrimstone";
 import { DepletedCrimstone } from "./components/DepletedCrimstone";
@@ -98,17 +97,9 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
   const timeLeft = getTimeLeft(resource.stone.minedAt, CRIMSTONE_RECOVERY_TIME);
   const mined = !canMine(resource, CRIMSTONE_RECOVERY_TIME);
 
-  const bumpkinLevelRequired = getBumpkinLevelRequiredForNode(
-    index,
-    "Crimstone Rock"
-  );
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   useUiRefresher({ active: mined });
 
   const strike = () => {
-    if (bumpkinTooLow) return;
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
@@ -144,7 +135,6 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
       {!mined && (
         <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
           <RecoveredCrimstone
-            bumpkinLevelRequired={bumpkinLevelRequired}
             hasTool={hasTool}
             touchCount={touchCount}
             minesLeft={resource.minesLeft}

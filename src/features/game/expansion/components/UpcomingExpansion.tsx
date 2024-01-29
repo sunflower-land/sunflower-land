@@ -34,6 +34,7 @@ import {
   GameState,
   Inventory,
 } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -320,6 +321,11 @@ export const UpcomingExpansion: React.FC = () => {
     // Only pulsate first 5 times
     state.inventory["Basic Land"]?.lte(4);
 
+  const canUpgrade =
+    hasFeatureAccess(state, "ISLAND_UPGRADE") &&
+    state.island.type === "basic" &&
+    state.inventory["Basic Land"]?.gte(9);
+
   return (
     <>
       {state.expansionConstruction && (
@@ -330,17 +336,19 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction && state.expansionRequirements && (
-        <ExpandIcon
-          canExpand={canExpand}
-          inventory={state.inventory}
-          isLocked={isLocked}
-          onOpen={() => setShowBumpkinModal(true)}
-          position={nextPosition}
-          requirements={state.expansionRequirements as ExpansionRequirements}
-          showHelper={showHelper ?? false}
-        />
-      )}
+      {!state.expansionConstruction &&
+        state.expansionRequirements &&
+        !canUpgrade && (
+          <ExpandIcon
+            canExpand={canExpand}
+            inventory={state.inventory}
+            isLocked={isLocked}
+            onOpen={() => setShowBumpkinModal(true)}
+            position={nextPosition}
+            requirements={state.expansionRequirements as ExpansionRequirements}
+            showHelper={showHelper ?? false}
+          />
+        )}
 
       {gameState.matches("revealing") && isRevealing && (
         <Modal show centered>

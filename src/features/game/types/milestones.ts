@@ -164,9 +164,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
 export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
   "Sunpetal Savant": {
     task: "Discover 12 Sunpetal variants",
-    reward: {
-      "Flower 1": 1,
-    },
+    reward: {},
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const sunpetalFlowers = getKeys(FLOWERS).filter(
         (name) => FLOWERS[name].seed === "Sunpetal Seed"
@@ -183,9 +181,7 @@ export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
   },
   "Bloom Big Shot": {
     task: "Discover 12 Bloom variants",
-    reward: {
-      "Flower 1": 1,
-    },
+    reward: {},
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const sunpetalFlowers = getKeys(FLOWERS).filter(
         (name) => FLOWERS[name].seed === "Bloom Seed"
@@ -202,9 +198,7 @@ export const FLOWER_MILESTONES: Record<FlowerMilestoneName, Milestone> = {
   },
   "Lily Luminary": {
     task: "Discover 12 Lily variants",
-    reward: {
-      "Flower 1": 1,
-    },
+    reward: {},
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const sunpetalFlowers = getKeys(FLOWERS).filter(
         (name) => FLOWERS[name].seed === "Lily Seed"

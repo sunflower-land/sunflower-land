@@ -81,6 +81,8 @@ import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
 import { portal } from "features/world/ui/community/actions/portal";
+import { BUMPKIN_EXPANSIONS_LEVEL } from "../types/expansions";
+import { getBumpkinLevel } from "./level";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -408,6 +410,7 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "noBumpkinFound"
+    | "weakBumpkin"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -694,6 +697,21 @@ export function startGame(authContext: AuthContext) {
                 !event.data?.state.bumpkin && !context.state.bumpkin,
             },
             {
+              target: "weakBumpkin",
+              cond: (context: Context) => {
+                const requiredLevel =
+                  BUMPKIN_EXPANSIONS_LEVEL[context.state.island.type][
+                    context.state.inventory["Basic Land"]?.toNumber() ?? 3
+                  ];
+
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0
+                );
+
+                return requiredLevel > level;
+              },
+            },
+            {
               target: "introduction",
               cond: (context) => {
                 return (
@@ -763,6 +781,7 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        weakBumpkin: {},
         specialOffer: {
           on: {
             ACKNOWLEDGE: {

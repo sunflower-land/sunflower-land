@@ -11,10 +11,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { INVENTORY_LIMIT } from "features/game/lib/constants";
+import { INVENTORY_LIMIT, TEST_FARM } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { SeedName, SEEDS } from "features/game/types/seeds";
+import { CROP_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT, FRUIT_SEEDS, FruitSeedName } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
@@ -27,6 +27,8 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { FLOWER_SEEDS } from "features/game/types/flowers";
 
 interface Props {
   onClose: () => void;
@@ -136,6 +138,10 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const yields = SEEDS()[selectedName].yield;
 
   const getPlantSeconds = () => {
+    if (selectedName in FLOWER_SEEDS()) {
+      return SEEDS()[selectedName].plantSeconds;
+    }
+
     if (yields && yields in FRUIT())
       return getFruitTime(
         selectedName as FruitSeedName,
@@ -147,7 +153,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       crop: yields as CropName,
       inventory,
       game: state,
-      bumpkin: state.bumpkin as Bumpkin,
       buds: state.buds ?? {},
     });
   };
@@ -204,7 +209,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           </Label>
           <div className="flex flex-wrap mb-2">
             {seeds
-              .filter((name) => !(name in FRUIT_SEEDS()))
+              .filter((name) => name in CROP_SEEDS())
               .map((name: SeedName) => (
                 <Box
                   isSelected={selectedName === name}
@@ -235,6 +240,32 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 />
               ))}
           </div>
+          {hasFeatureAccess(TEST_FARM, "FLOWERS") && (
+            <>
+              <Label
+                icon={SUNNYSIDE.icons.seedling}
+                type="default"
+                className="ml-2 mb-1"
+              >
+                {t("flowers")}
+              </Label>
+              <div className="flex flex-wrap mb-2">
+                {seeds
+                  .filter((name) => name in FLOWER_SEEDS())
+                  .map((name: SeedName) => (
+                    <Box
+                      isSelected={selectedName === name}
+                      key={name}
+                      onClick={() => onSeedClick(name)}
+                      image={ITEM_DETAILS[name].image}
+                      showOverlay={isSeedLocked(name)}
+                      secondaryImage={isSeedLocked(name) ? lock : undefined}
+                      count={inventory[name]}
+                    />
+                  ))}
+              </div>
+            </>
+          )}
         </div>
       }
     />
