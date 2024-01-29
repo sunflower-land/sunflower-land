@@ -134,11 +134,13 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             }}
           >
             {seed && (
-              <SquareIcon
-                icon={ITEM_DETAILS[seed].image}
-                width={14}
-                className={"h-full absolute inset-0 -top-1 mx-auto"}
-              />
+              <div className="h-full w-full flex justify-center items-center">
+                <SquareIcon
+                  icon={ITEM_DETAILS[seed].image}
+                  width={14}
+                  className="mb-1"
+                />
+              </div>
             )}
             {selecting === "seed" && (
               <img
@@ -149,10 +151,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           </div>
 
           <div
-            className={classNames(
-              "absolute  z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md",
-              {}
-            )}
+            className="absolute z-40 cursor-pointer bg-green-800 border-t-4 border-green-900 rounded-md"
             onClick={() => setSelecting("crossbreed")}
             style={{
               height: `${PIXEL_SCALE * 16}px`,
@@ -162,11 +161,13 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             }}
           >
             {crossbreed && (
-              <SquareIcon
-                icon={ITEM_DETAILS[crossbreed].image}
-                width={14}
-                className={"h-full absolute inset-0 -top-1 mx-auto"}
-              />
+              <div className="h-full w-full flex justify-center items-center">
+                <SquareIcon
+                  icon={ITEM_DETAILS[crossbreed].image}
+                  width={9}
+                  className="mb-1"
+                />
+              </div>
             )}
             {selecting === "crossbreed" && (
               <img
@@ -199,8 +200,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             </div>
           </div>
           {selecting === "seed" && seed && (
-            <div className="p-2">
-              <div className="flex justify-between items-center mb-1">
+            <div className="space-y-1">
+              <div className="flex justify-between items-center">
                 <Label type="default" icon={ITEM_DETAILS[seed].image}>
                   {seed}
                 </Label>
@@ -222,7 +223,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             <Label type="default" className="mb-1">
               Select a crossbreed
             </Label>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap mb-2">
               {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
                 // .filter((name) => !!inventory[name]?.gte(1))
                 .map((name) => (
@@ -237,7 +238,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             </div>
           </div>
           {selecting === "crossbreed" && crossbreed && (
-            <div className="p-2">
+            <div>
               <div className="flex justify-between items-center mb-1">
                 <Label type="default" icon={ITEM_DETAILS[crossbreed].image}>
                   {crossbreed}
@@ -246,7 +247,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   type={!hasRequirements ? "danger" : "default"}
                 >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
               </div>
-              <p className="text-xs">
+              <p className="text-xs mt-1">
                 {FLOWER_CROSS_BREED_DETAILS[crossbreed]}
               </p>
             </div>
