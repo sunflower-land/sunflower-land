@@ -19,6 +19,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
+import lightning from "assets/icons/lightning.png";
+
 interface Props {
   onClose: () => void;
 }
@@ -91,7 +93,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     >
       <div className="relative h-full w-full">
         <div className="flex justify-between px-2 pb-2 bg-brown-300">
-          <Label type="vibrant">{`This month's sales`}</Label>
+          <Label type="vibrant" icon={lightning}>{`This month's sales`}</Label>
           <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
             {secondsToString(timeRemaining, {
               length: "medium",
