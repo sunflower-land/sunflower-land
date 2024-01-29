@@ -296,7 +296,8 @@ export type BumpkinWings =
   | "Traveller's Backpack"
   | "Crow Wings"
   | "Bat Wings"
-  | "Butterfly Wings";
+  | "Butterfly Wings"
+  | "Bee Wings";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -590,6 +591,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beehive Staff": 274,
   "Bee Smoker": 275,
   "Bee Suit": 276,
+  "Bee Wings": 277,
 };
 
 // The reverse of above
@@ -925,4 +927,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Beehive Staff": "tool",
   "Bee Smoker": "tool",
   "Bee Suit": "suit",
+  "Bee Wings": "wings",
 };
