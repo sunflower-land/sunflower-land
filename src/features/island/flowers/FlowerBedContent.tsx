@@ -200,19 +200,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           </div>
           {selecting === "seed" && seed && (
             <div className="p-2">
-              <div className="flex justify-between items-center">
-                <Label
-                  type="default"
-                  className="mb-1"
-                  icon={ITEM_DETAILS[seed].image}
-                >
+              <div className="flex justify-between items-center mb-1">
+                <Label type="default" icon={ITEM_DETAILS[seed].image}>
                   {seed}
                 </Label>
-                <Label
-                  type={"info"}
-                  className="mt-1"
-                  icon={SUNNYSIDE.icons.stopwatch}
-                >
+                <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
                   {secondsToString(FLOWER_SEEDS()[seed].plantSeconds, {
                     length: "medium",
                   })}
@@ -246,17 +238,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           </div>
           {selecting === "crossbreed" && crossbreed && (
             <div className="p-2">
-              <div className="flex justify-between items-center">
-                <Label
-                  type="default"
-                  className="mb-1"
-                  icon={ITEM_DETAILS[crossbreed].image}
-                >
+              <div className="flex justify-between items-center mb-1">
+                <Label type="default" icon={ITEM_DETAILS[crossbreed].image}>
                   {crossbreed}
                 </Label>
                 <Label
                   type={!hasRequirements ? "danger" : "default"}
-                  className="mt-1"
                 >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
               </div>
               <p className="text-xs">
