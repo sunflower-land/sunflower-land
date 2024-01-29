@@ -17,6 +17,7 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   id: string;
@@ -27,12 +28,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: {
-        state: { inventory },
-      },
+      context: { state },
     },
   ] = useActor(gameService);
 
+  const { inventory } = state;
   const [selecting, setSelecting] = useState<"seed" | "crossbreed" | null>(
     "seed"
   );
@@ -59,6 +59,14 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     });
     onClose();
   };
+
+  if (!hasFeatureAccess(state, "FLOWERS")) {
+    return (
+      <div className="p-2">
+        <Label type="danger">Flowers are coming soon!</Label>
+      </div>
+    );
+  }
 
   return (
     <>
