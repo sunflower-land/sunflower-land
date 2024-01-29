@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useSelector } from "@xstate/react";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -17,7 +16,6 @@ import iron from "assets/resources/iron_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 
 const tool = "Stone Pickaxe";
@@ -29,20 +27,14 @@ const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 interface Props {
-  bumpkinLevelRequired: number;
   hasTool: boolean;
   touchCount: number;
 }
 
-const RecoveredIronComponent: React.FC<Props> = ({
-  bumpkinLevelRequired,
-  hasTool,
-  touchCount,
-}) => {
+const RecoveredIronComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
-  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
 
@@ -55,12 +47,7 @@ const RecoveredIronComponent: React.FC<Props> = ({
     };
   }, []);
 
-  const { gameService } = useContext(Context);
-  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
-  const bumpkinTooLow = bumpkinLevel < bumpkinLevelRequired;
-
   useEffect(() => {
-    if (bumpkinTooLow) return;
     if (touchCount > 0) {
       setShowSpritesheet(true);
       miningAudio.play();
@@ -69,17 +56,12 @@ const RecoveredIronComponent: React.FC<Props> = ({
   }, [touchCount]);
 
   const handleHover = () => {
-    if (bumpkinTooLow) {
-      setShowBumpkinLevel(true);
-      return;
-    }
     if (!hasTool) {
       setShowEquipTool(true);
     }
   };
 
   const handleMouseLeave = () => {
-    setShowBumpkinLevel(false);
     setShowEquipTool(false);
   };
 
@@ -100,11 +82,7 @@ const RecoveredIronComponent: React.FC<Props> = ({
         {!showSpritesheet && (
           <img
             src={iron}
-            className={
-              bumpkinTooLow
-                ? "absolute pointer-events-none opacity-50"
-                : "absolute pointer-events-none"
-            }
+            className={"absolute pointer-events-none"}
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               bottom: `${PIXEL_SCALE * 3}px`,
@@ -150,22 +128,6 @@ const RecoveredIronComponent: React.FC<Props> = ({
           />
         )}
       </div>
-
-      {/* Bumpkin level warning */}
-      {showBumpkinLevel && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -14}px`,
-          }}
-        >
-          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="text-xxs mx-1 p-1">
-              <span>Bumpkin level {bumpkinLevelRequired} required.</span>
-            </div>
-          </InnerPanel>
-        </div>
-      )}
 
       {/* No tool warning */}
       {showEquipTool && (

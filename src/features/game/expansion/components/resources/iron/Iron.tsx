@@ -14,6 +14,7 @@ import { DepletedIron } from "./components/DepletedIron";
 import { DepletingIron } from "./components/DepletingIron";
 import { canMine } from "features/game/expansion/lib/utils";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { RecoveredIron } from "./components/RecoveredIron";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -115,6 +116,13 @@ export const Iron: React.FC<Props> = ({ id, index }) => {
 
   return (
     <div className="relative w-full h-full">
+      {/* Resource ready to collect */}
+      {!mined && (
+        <div ref={divRef} className="absolute w-full h-full" onClick={strike}>
+          <RecoveredIron hasTool={hasTool} touchCount={touchCount} />
+        </div>
+      )}
+
       {/* Depleting resource animation */}
       {collecting && <DepletingIron resourceAmount={collectedAmount} />}
 
