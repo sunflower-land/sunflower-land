@@ -34,7 +34,6 @@ import {
   GameState,
   Inventory,
 } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -316,9 +315,7 @@ export const UpcomingExpansion: React.FC = () => {
     state.inventory["Basic Land"]?.lte(4);
 
   const canUpgrade =
-    hasFeatureAccess(state, "ISLAND_UPGRADE") &&
-    state.island.type === "basic" &&
-    state.inventory["Basic Land"]?.gte(9);
+    state.island.type === "basic" && state.inventory["Basic Land"]?.gte(9);
 
   return (
     <>
