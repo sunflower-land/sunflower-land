@@ -734,7 +734,7 @@ export function startGame(authContext: AuthContext) {
               target: "specialOffer",
               cond: (context) =>
                 (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Catch the Kraken Banner"] &&
+                !context.state.collectibles["Spring Blossom Banner"] &&
                 !getSeasonPassRead(),
             },
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
@@ -784,11 +784,11 @@ export function startGame(authContext: AuthContext) {
         weakBumpkin: {},
         specialOffer: {
           on: {
+            "banner.purchased": (GAME_EVENT_HANDLERS as any)[
+              "banner.purchased"
+            ],
             ACKNOWLEDGE: {
               target: "notifying",
-            },
-            PURCHASE_ITEM: {
-              target: "purchasing",
             },
           },
         },

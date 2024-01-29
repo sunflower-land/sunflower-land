@@ -63,6 +63,7 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showPurchased, setShowPurchased] = useState(hasPurchased);
 
   let price = hasDiscount ? "35" : "50";
 
@@ -89,7 +90,8 @@ export const PromotingModal: React.FC<Props> = ({
                 gameService.send("banner.purchased", {
                   name: "Spring Blossom Banner",
                 });
-                onCloseConfirmation();
+                setShowConfirmation(false);
+                setShowPurchased(true);
               }}
             >
               {t("season.buyNow")}
@@ -99,7 +101,7 @@ export const PromotingModal: React.FC<Props> = ({
       );
     }
 
-    if (hasPurchased) {
+    if (showPurchased) {
       return (
         <>
           <div className="flex flex-col p-2">
@@ -122,6 +124,10 @@ export const PromotingModal: React.FC<Props> = ({
               <li className="text-xs ml-4">{t("season.boostXP")}</li>
             </ul>
 
+            <Label className="my-2" type="default" icon={SUNNYSIDE.icons.drag}>
+              You must place it on your land
+            </Label>
+
             <a
               href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
               target="_blank"
@@ -142,7 +148,7 @@ export const PromotingModal: React.FC<Props> = ({
 
     const msLeft = SEASONS["Spring Blossom"].startDate.getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
-    const insuficientBlockBucks = inventory["Block Buck"]?.lessThan(price);
+    const insuficientBlockBucks = !inventory["Block Buck"]?.gte(price);
 
     return (
       <>
