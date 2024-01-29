@@ -1158,4 +1158,6 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Crimstone Pants": () => false,
   "Crimstone Armor": () => false,
   "Gardening Overalls": () => false,
+  "Crimstone Hammer": () => false,
+  "Crimstone Amulet": () => false,
 };
