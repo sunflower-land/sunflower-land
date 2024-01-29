@@ -16,7 +16,7 @@ type Options = {
   createdAt?: number;
 };
 
-export const TICKETS_REWARDED = 7;
+export const TICKETS_REWARDED = 50;
 
 export function tradeFlowerShop({
   state,
