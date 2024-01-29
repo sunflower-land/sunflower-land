@@ -246,7 +246,8 @@ export type BumpkinPant =
   | "Fishing Pants"
   | "Angler Waders"
   | "Tiki Pants"
-  | "Short Shorts";
+  | "Short Shorts"
+  | "Crimstone Pants";
 
 export type BumpkinDress =
   | "Cupid Dress"
@@ -598,6 +599,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Beekeeper Hat": 278,
   "Beekeeper Suit": 279,
   "Crimstone Boots": 280,
+  "Crimstone Pants": 281,
 };
 
 // The reverse of above
@@ -937,4 +939,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Beekeeper Hat": "hat",
   "Beekeeper Suit": "suit",
   "Crimstone Boots": "shoes",
+  "Crimstone Pants": "pants",
 };
