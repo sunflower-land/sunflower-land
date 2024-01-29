@@ -33,7 +33,8 @@ export type GeneralTerms =
   | "exotics"
   | "2x.sale"
   | "cancel"
-  | "for";
+  | "for"
+  | "flowers";
 
 export type ConfirmationTerms = "confirmation.sellCrops";
 

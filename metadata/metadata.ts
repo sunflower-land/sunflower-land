@@ -6405,36 +6405,140 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Flower 1": {
-    name: "Flower 1",
+  "Red Pansy": {
+    name: "Red Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Flower 2": {
-    name: "Flower 2",
+  "Yellow Pansy": {
+    name: "Red Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Flower 3": {
-    name: "Flower 2",
+  "Purple Pansy": {
+    name: "Red Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Flower 4": {
-    name: "Flower 2",
+  "Red Cosmos": {
+    name: "Red Cosmos",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
+
+    attributes: [],
+  },
+  "Yellow Cosmos": {
+    name: "Yellow Cosmos",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Purple Cosmos": {
+    name: "White Cosmos",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Red Daffodil": {
+    name: "Red Daffodil",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Yellow Daffodil": {
+    name: "Yellow Daffodil",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Purple Daffodil": {
+    name: "Purple Daffodil",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Red Balloon Flower": {
+    name: "Red Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Yellow Balloon Flower": {
+    name: "Yellow Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Purple Balloon Flower": {
+    name: "Purple Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+
+    attributes: [],
+  },
+  "Red Lotus": {
+    name: "Red Lotus",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+
+    attributes: [],
+  },
+  "Yellow Lotus": {
+    name: "Yellow Lotus",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+
+    attributes: [],
+  },
+  "Purple Lotus": {
+    name: "Purple Lotus",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+
     attributes: [],
   },
 };

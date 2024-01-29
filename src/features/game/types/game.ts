@@ -777,7 +777,7 @@ export type Home = {
 };
 
 export type PlantedFlower = {
-  name: "Flower 1";
+  name: FlowerName;
   plantedAt: number;
   amount: number;
 };
