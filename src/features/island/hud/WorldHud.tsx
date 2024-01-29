@@ -19,7 +19,6 @@ import { Settings } from "./components/Settings";
 import { Leaderboard } from "features/game/expansion/components/leaderboard/Leaderboard";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
-import { CodexButton } from "./components/codex/CodexButton";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -97,7 +96,6 @@ const HudComponent: React.FC = () => {
               height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
             }}
           >
-            <CodexButton />
             <Leaderboard farmId={farmId} />
             <TravelButton />
           </div>
