@@ -119,10 +119,21 @@ const fruits: Record<FruitName, () => boolean> = {
 };
 
 const flowers: Record<FlowerName, () => boolean> = {
-  "Flower 1": () => false,
-  "Flower 2": () => false,
-  "Flower 3": () => false,
-  "Flower 4": () => false,
+  "Red Pansy": () => false,
+  "Yellow Pansy": () => false,
+  "Purple Pansy": () => false,
+  "Red Cosmos": () => false,
+  "Yellow Cosmos": () => false,
+  "Purple Cosmos": () => false,
+  "Red Daffodil": () => false,
+  "Yellow Daffodil": () => false,
+  "Purple Daffodil": () => false,
+  "Red Balloon Flower": () => false,
+  "Yellow Balloon Flower": () => false,
+  "Purple Balloon Flower": () => false,
+  "Red Lotus": () => false,
+  "Yellow Lotus": () => false,
+  "Purple Lotus": () => false,
 };
 
 const beans: Record<BeanName, () => boolean> = {

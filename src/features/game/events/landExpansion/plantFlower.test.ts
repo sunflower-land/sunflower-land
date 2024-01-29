@@ -18,7 +18,7 @@ const GAME_STATE: GameState = {
         height: 1,
         width: 3,
         flower: {
-          name: "Flower 1",
+          name: "Red Pansy",
           amount: 1,
           plantedAt: 123,
         },
