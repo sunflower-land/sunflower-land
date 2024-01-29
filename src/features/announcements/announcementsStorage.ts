@@ -40,7 +40,7 @@ export function acknowledgeIntroduction() {
 }
 
 export function getSeasonPassRead(): Date | null {
-  const value = localStorage.getItem(`${getSeasonalBanner()}Read`);
+  const value = localStorage.getItem(`${getSeasonalBanner()}IsRead`);
   if (!value) return null;
 
   return new Date(value);
@@ -48,7 +48,7 @@ export function getSeasonPassRead(): Date | null {
 
 export function acknowledgeSeasonPass() {
   return localStorage.setItem(
-    `${getSeasonalBanner()}Read`,
+    `${getSeasonalBanner()}IsRead`,
     new Date().toISOString()
   );
 }
