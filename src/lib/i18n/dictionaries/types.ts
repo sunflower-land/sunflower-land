@@ -43,7 +43,7 @@ export type GeneralTerms =
   | "connecting"
   | "continue"
   | "cook"
-  | "copy.adress"
+  | "copy.address"
   | "coupons"
   | "craft"
   | "craft"
@@ -1294,8 +1294,7 @@ export type GameTerms =
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
-  | "garbageCollector.description"
-  | "garbageCollector.continue";
+  | "garbageCollector.description";
 
 export type GetContent =
   | "getContent.error"
@@ -1337,7 +1336,6 @@ export type GoldPassModal =
   | "goldPass.participateAuction"
   | "goldPass.withdrawTransferNFTs"
   | "goldPass.accessRestrictedAreas"
-  | "goldPass.readMore"
   | "common.noThanks"
   | "goldPass.buyNow"
   | "goldPass.priceInMatic";
@@ -1396,8 +1394,7 @@ export type HalveningCountdown =
   | "halveningCountdown.approaching"
   | "halveningCountdown.description"
   | "halveningCountdown.preparation"
-  | "halveningCountdown.title"
-  | "halveningCountdown.readMore";
+  | "halveningCountdown.title";
 
 export type Harvestflower =
   | "harvestflower.noBumpkin"
@@ -1485,7 +1482,6 @@ export type Islandupgrade =
   | "islandupgrade.newOpportunities"
   | "islandupgrade.confirmation"
   | "islandupgrade.locked"
-  | "islandupgrade.continue"
   | "islandupgrade.exploring"
   | "islandupgrade.welcomePetalParadise"
   | "islandupgrade.itemsReturned"
@@ -1536,7 +1532,6 @@ export type InteractableModals =
   | "interactableModals.potionHouse.message1"
   | "interactableModals.potionHouse.message2"
   | "interactableModals.guildHouse.message"
-  | "interactableModals.guildHouse.readMore"
   | "interactableModals.guildHouse.budsCollection"
   | "interactableModals.bettyHome.message"
   | "interactableModals.bertHome.message"
@@ -1884,7 +1879,6 @@ export type Npc =
   | "npc.Modal.Billy"
   | "npc.Modal.Billy.one"
   | "npc.Modal.Billy.two"
-  | "npc.Modal.Readmore"
   | "npc.Modal.Gabi"
   | "npc.Modal.Gabi.one"
   | "npc.Modal.Craig"
@@ -2505,7 +2499,6 @@ export type TieBreaker =
   | "tieBreaker.tiebreaker"
   | "tieBreaker.closeBid"
   | "tieBreaker.betterLuck"
-  | "tieBreaker.readMore"
   | "tieBreaker.refundResources"
   | "tieBreaker.refund";
 

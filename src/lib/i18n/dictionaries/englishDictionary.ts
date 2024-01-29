@@ -202,7 +202,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   connecting: "Connecting",
   continue: "Continue",
   cook: "Cook",
-  "copy.adress": "Copy Address",
+  "copy.address": "Copy Address",
   coupons: "Coupons",
   craft: "Craft",
   crafting: "Crafting",
@@ -1770,7 +1770,6 @@ const garbageCollector: Record<GarbageCollector, string> = {
   "garbageCollector.welcome": "Welcome to my humble shop.",
   "garbageCollector.description":
     "I'm the Garbage Trader, and I'll buy anything you've got - as long as it's garbage.",
-  "garbageCollector.continue": "Continue",
 };
 
 const gameDescriptions: Record<GameDescriptions, string> = {
@@ -1905,7 +1904,6 @@ const goldpassModal: Record<GoldPassModal, string> = {
   "goldPass.participateAuction": "Participate in Auction Drops",
   "goldPass.withdrawTransferNFTs": "Withdraw & Transfer NFTs",
   "goldPass.accessRestrictedAreas": "Access to restricted areas",
-  "goldPass.readMore": "Read more",
   "common.noThanks": "No, thanks",
   "goldPass.buyNow": "Buy now $",
   "goldPass.priceInMatic": "Price is paid in $MATIC equivalent of $",
@@ -2013,7 +2011,6 @@ const halveningCountdown: Record<HalveningCountdown, string> = {
     "At the Halvening, all prices of crops & certain resources are halved. This makes it more difficult to attain SFL.",
   "halveningCountdown.preparation": "Make sure you are prepared!",
   "halveningCountdown.title": "Halvening",
-  "halveningCountdown.readMore": "Read more",
 };
 
 const harvestflower: Record<Harvestflower, string> = {
@@ -2131,7 +2128,6 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmation":
     "Would you like to upgrade? Your resources will be safely transferred to your new island.",
   "islandupgrade.locked": "Locked",
-  "islandupgrade.continue": "Continue",
   "islandupgrade.exploring": "Exploring",
   "islandupgrade.welcomePetalParadise": "Welcome to Petal Paradise!",
   "islandupgrade.itemsReturned":
@@ -2224,7 +2220,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
   "interactableModals.guildHouse.message":
     "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
-  "interactableModals.guildHouse.readMore": "Read more",
   "interactableModals.guildHouse.budsCollection": "Buds Collection on Opensea",
   "interactableModals.bettyHome.message":
     "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
@@ -2723,7 +2718,6 @@ const npc: Record<Npc, string> = {
     "I found these baby seedlings but for the life of me I cannot figure out what to do with them.",
   "npc.Modal.Billy.two":
     "I bet they have something to do with the worm buds that have been appearing around the plaza.",
-  "npc.Modal.Readmore": "Read more",
   "npc.Modal.Gabi": "Oi Bumpkin!",
   "npc.Modal.Gabi.one":
     "You look creative, have you ever thought about contributing art to the game?",
@@ -3671,7 +3665,6 @@ const tieBreaker: Record<TieBreaker, string> = {
     "So close! You bid the exact same resources as the {{supply}} bid. A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
   "tieBreaker.betterLuck":
     "Time to eat some more cakes! Better luck next time.",
-  "tieBreaker.readMore": "Read more",
   "tieBreaker.refundResources": "Refund resources",
   "tieBreaker.refund": "Refund resource",
 };

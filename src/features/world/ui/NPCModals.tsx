@@ -146,7 +146,7 @@ export const NPCModals: React.FC<Props> = ({ onNavigate, scene }) => {
                 text: translate("npc.Modal.Billy.two"),
                 actions: [
                   {
-                    text: translate("npc.Modal.Readmore"),
+                    text: translate("read.more"),
                     cb: () => {
                       window.open(
                         "https://docs.sunflower-land.com/player-guides/bud-nfts",

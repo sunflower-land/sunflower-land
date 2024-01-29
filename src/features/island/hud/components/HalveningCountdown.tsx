@@ -43,7 +43,7 @@ export const HalveningCountdown: React.FC = () => {
               rel="noopener noreferrer"
               className="underline text-white text-xs"
             >
-              {t("halveningCountdown.readMore")}
+              {t("read.more")}
             </a>
           </div>
         </CloseButtonPanel>

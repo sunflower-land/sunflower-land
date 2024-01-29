@@ -438,7 +438,7 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
               text: t("interactableModals.guildHouse.message"),
               actions: [
                 {
-                  text: t("interactableModals.guildHouse.readMore"),
+                  text: t("read.more"),
                   cb: () => {
                     window.open(
                       "https://docs.sunflower-land.com/player-guides/bud-nfts",
