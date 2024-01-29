@@ -163,7 +163,7 @@ export const ShellyPanelContent: React.FC<ContentProps> = ({
                 ]
               : [
                   {
-                    text: translate("shellyPanelContent.close"),
+                    text: translate("close"),
                     cb: onClose,
                   },
                 ]),

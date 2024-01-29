@@ -49,7 +49,7 @@ export const NotOnDiscordServer: React.FC = () => {
           }}
           className="mr-1"
         >
-          {t("notOnDiscordServer.close")}
+          {t("close")}
         </Button>
         <Button
           onClick={() => {

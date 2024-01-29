@@ -90,7 +90,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <>
           <span className="text-shadow mt-2 block text-center">
-            {t("getContent.congratulations")}
+            {t("congrats")}
           </span>
           <span className="text-shadow my-2 block text-center">
             {t("getContent.accessGranted")}

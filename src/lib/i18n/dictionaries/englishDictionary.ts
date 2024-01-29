@@ -154,6 +154,7 @@ import {
   Winner,
   WornDescription,
   World,
+  MilestoneMessages,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -188,7 +189,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   chest: "Chest",
   chores: "Chores",
   claim: "Claim",
-  "claim.skill": "Claim skill",
+  "claim.gift": "Claim Gift",
+  "claim.skill": "Claim Skill",
   clear: "Clear",
   close: "Close",
   "coming.soon": "Coming soon",
@@ -217,6 +219,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "drafting.select": "Select an item to list",
   "drafting.trade.detail": "Trade Details",
   dragMe: "Drag me",
+  earn: "Earn",
   "easter.eggs": "Easter Eggs",
   egg: "Egg",
   empty: "Empty",
@@ -852,7 +855,6 @@ const chickenWinner: Record<ChickenWinner, string> = {
 
 const choresStart: Record<ChoresStart, string> = {
   "chores.harvestFields": "Harvest the fields",
-  "chores.earnSfl": "Earn",
   "chores.harvestFieldsIntro":
     "These fields ain't gonna plow themselves. Harvest 3 Sunflowers.",
   "chores.earnSflIntro":
@@ -1002,7 +1004,6 @@ const conversations: Record<Conversations, string> = {
   "luna.portals": "Portals",
   "luna.rewards": "Rewards",
   "luna.travel": "Travel to these player built portals and earn rewards.",
-  "luna.coming": "Coming soon...",
   "pete.intro.one":
     "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
   "pete.intro.two":
@@ -1394,7 +1395,6 @@ const discordBonus: Record<DiscordBonus, string> = {
     "Pay attention to special events and giveaways on Discord so you don't miss out.",
   "discord.bonus.enjoyCommunity":
     "We hope you are enjoying being a part of our community!",
-  "discord.bonus.claimGift": "Claim Gift",
   "discord.bonus.communityInfo":
     "Did you know there are over 100,000 players in our vibrant Discord community?",
   "discord.bonus.farmingTips":
@@ -1860,7 +1860,6 @@ const gameTerms: Record<GameTerms, string> = {
 const getContent: Record<GetContent, string> = {
   "getContent.error": "Error!",
   "getContent.joining": "Joining",
-  "getContent.congratulations": "Congratulations!",
   "getContent.accessGranted":
     "You now have access. Go check out the channel in Discord",
   "getContent.connectToDiscord":
@@ -2491,7 +2490,6 @@ const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
     "2. Complete verification & get started",
   "notOnDiscordServer.acceptRules": "3. Accept the rules in #rules",
   "notOnDiscordServer.tryAgain": "4. Try Again",
-  "notOnDiscordServer.close": "Close",
   "notOnDiscordServer.tryAgainButton": "Try Again",
 };
 
@@ -3227,7 +3225,6 @@ const parsnip: Record<Parsnip, string> = {
   "parsnip.miss": "Don't miss out on future events and giveaways!",
   "parsnip.Bonus": "Bonus reward",
   "parsnip.found": "Woohoo....you found me!",
-  "parsnip.gift": "Claim Gift",
 };
 
 const pending: Record<Pending, string> = {
@@ -3487,7 +3484,6 @@ const shellyDialogue: Record<ShellyDialogue, string> = {
   "shellyPanelContent.cannotTrade":
     "Looks like you don't have any Kraken Tentacles at hand! Come back when you do.",
   "shellyPanelContent.swap": "Swap",
-  "shellyPanelContent.close": "Close",
   "krakenIntro.congrats":
     "Well done! The Kraken has stopped terrorising Bumpkins.",
   "krakenIntro.noMoreTentacles":
@@ -3926,6 +3922,29 @@ const wornDescription: Record<WornDescription, string> = {
   "worm.redWiggler": "An exotic worm that entices rare fish.",
 };
 
+const milestoneMessages: Record<MilestoneMessages, string> = {
+  "milestone.noviceAngler":
+    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching each basic fish.",
+  "milestone.advancedAngler":
+    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching each advanced fish. Keep it up!",
+  "milestone.expertAngler":
+    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 300 fish is no small feat.",
+  "milestone.fishEncyclopedia":
+    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering each basic, advanced, and expert fish is a remarkable achievement.",
+  "milestone.masterAngler":
+    "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
+  "milestone.marineMarvelMaster":
+    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
+  "milestone.deepSeaDiver":
+    "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
+  "milestone.sunpetalSavant":
+    "Congratulations, you've just reached the Sunpetal Savant milestone! You've discovered each Sunpetal variant. You're a true Sunpetal expert!",
+  "milestone.bloomBigShot":
+    "Congratulations, you've just reached the Bloom Big Shot milestone! You've discovered each Bloom variant. You're a true Bloom expert!",
+  "milestone.lilyLuminary":
+    "Congratulations, you've just reached the Lily Luminary milestone! You've discovered each Lily variant. You're a true Lily expert!",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -4012,6 +4031,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,
+  ...milestoneMessages,
   ...modalDescription,
   ...mute,
   ...noaccount,

@@ -56,7 +56,7 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
       )}
       {tab === 1 && (
         <div className="p-1">
-          <p className="text-sm">{t("luna.coming")}</p>
+          <p className="text-sm">{t("coming.soon")}</p>
         </div>
       )}
     </CloseButtonPanel>

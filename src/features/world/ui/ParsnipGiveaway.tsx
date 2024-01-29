@@ -75,7 +75,7 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
           {`You've discovered a special event wearable.`}
         </p>
       </div>
-      <Button onClick={acknowledge}>{t("parsnip.gift")}</Button>
+      <Button onClick={acknowledge}>{t("claim.gift")}</Button>
     </>
   );
 };

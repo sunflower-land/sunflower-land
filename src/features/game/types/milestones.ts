@@ -246,24 +246,14 @@ export const getExperienceLevelForMilestones = (
 };
 
 export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
-  "Novice Angler":
-    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching each basic fish.",
-  "Advanced Angler":
-    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching each advanced fish. Keep it up!",
-  "Expert Angler":
-    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 300 fish is no small feat.",
-  "Fish Encyclopedia":
-    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering each basic, advanced, and expert fish is a remarkable achievement.",
-  "Master Angler":
-    "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
-  "Marine Marvel Master":
-    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
-  "Deep Sea Diver":
-    "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
-  "Sunpetal Savant":
-    "Congratulations, you've just reached the Sunpetal Savant milestone! You've discovered each Sunpetal variant. You're a true Sunpetal expert!",
-  "Bloom Big Shot":
-    "Congratulations, you've just reached the Bloom Big Shot milestone! You've discovered each Bloom variant. You're a true Bloom expert!",
-  "Lily Luminary":
-    "Congratulations, you've just reached the Lily Luminary milestone! You've discovered each Lily variant. You're a true Lily expert!",
+  "Novice Angler": translate("milestone.noviceAngler"),
+  "Advanced Angler": translate("milestone.advancedAngler"),
+  "Expert Angler": translate("milestone.expertAngler"),
+  "Fish Encyclopedia": translate("milestone.fishEncyclopedia"),
+  "Master Angler": translate("milestone.masterAngler"),
+  "Marine Marvel Master": translate("milestone.marineMarvelMaster"),
+  "Deep Sea Diver": translate("milestone.deepSeaDiver"),
+  "Sunpetal Savant": translate("milestone.sunpetalSavant"),
+  "Bloom Big Shot": translate("milestone.bloomBigShot"),
+  "Lily Luminary": translate("milestone.lilyLuminary"),
 };

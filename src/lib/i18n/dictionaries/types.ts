@@ -30,6 +30,7 @@ export type GeneralTerms =
   | "chest"
   | "chores"
   | "claim.skill"
+  | "claim.gift"
   | "claim"
   | "clear"
   | "close"
@@ -60,6 +61,7 @@ export type GeneralTerms =
   | "drafting.select"
   | "drafting.trade.detail"
   | "dragMe"
+  | "earn"
   | "easter.eggs"
   | "egg"
   | "empty"
@@ -555,7 +557,6 @@ export type ChickenWinner = "chicken.winner.playagain";
 
 export type ChoresStart =
   | "chores.harvestFields"
-  | "chores.earnSfl"
   | "chores.harvestFieldsIntro"
   | "chores.earnSflIntro"
   | "chores.reachLevel"
@@ -656,7 +657,6 @@ export type Conversations =
   | "luna.portals"
   | "luna.rewards"
   | "luna.travel"
-  | "luna.coming"
   | "pete.intro.one"
   | "pete.intro.two"
   | "pete.intro.three"
@@ -949,7 +949,6 @@ export type DiscordBonus =
   | "discord.bonus.bonusReward"
   | "discord.bonus.payAttention"
   | "discord.bonus.enjoyCommunity"
-  | "discord.bonus.claimGift"
   | "discord.bonus.communityInfo"
   | "discord.bonus.farmingTips"
   | "discord.bonus.freeGift"
@@ -1301,7 +1300,6 @@ export type GarbageCollector =
 export type GetContent =
   | "getContent.error"
   | "getContent.joining"
-  | "getContent.congratulations"
   | "getContent.accessGranted"
   | "getContent.connectToDiscord"
   | "getContent.connect"
@@ -1684,6 +1682,17 @@ export type LostSunflorian =
   | "lostSunflorian.line1"
   | "lostSunflorian.line2"
   | "lostSunflorian.line3";
+export type MilestoneMessages =
+  | "milestone.noviceAngler"
+  | "milestone.advancedAngler"
+  | "milestone.expertAngler"
+  | "milestone.fishEncyclopedia"
+  | "milestone.masterAngler"
+  | "milestone.marineMarvelMaster"
+  | "milestone.deepSeaDiver"
+  | "milestone.sunpetalSavant"
+  | "milestone.bloomBigShot"
+  | "milestone.lilyLuminary";
 
 export type ModalDescription =
   | "modalDescription.friend"
@@ -1749,7 +1758,6 @@ export type NotOnDiscordServer =
   | "notOnDiscordServer.completeVerification"
   | "notOnDiscordServer.acceptRules"
   | "notOnDiscordServer.tryAgain"
-  | "notOnDiscordServer.close"
   | "notOnDiscordServer.tryAgainButton";
 
 export type NPC_MESSAGE =
@@ -2180,8 +2188,7 @@ export type Parsnip =
   | "parsnip.hat"
   | "parsnip.miss"
   | "parsnip.Bonus"
-  | "parsnip.found"
-  | "parsnip.gift";
+  | "parsnip.found";
 
 export type Pending = "pending.calcul" | "pending.comeback";
 
@@ -2371,7 +2378,6 @@ export type ShellyDialogue =
   | "shellyPanelContent.canTrade"
   | "shellyPanelContent.cannotTrade"
   | "shellyPanelContent.swap"
-  | "shellyPanelContent.close"
   | "krakenIntro.congrats"
   | "krakenIntro.noMoreTentacles"
   | "krakenIntro.gotIt"
@@ -2768,6 +2774,7 @@ export type TranslationKeys =
   | LevelUpMessages
   | Loser
   | LostSunflorian
+  | MilestoneMessages
   | ModalDescription
   | Mute
   | Noaccount
