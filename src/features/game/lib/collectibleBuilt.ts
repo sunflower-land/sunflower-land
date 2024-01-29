@@ -10,11 +10,13 @@ export function isCollectibleBuilt({
 }) {
   const placedOnFarm =
     game.collectibles[name] &&
-    game.collectibles[name]?.some((placed) => placed.readyAt < Date.now());
+    game.collectibles[name]?.some((placed) => placed.readyAt <= Date.now());
 
   const placedInHome =
     game.home.collectibles[name] &&
-    game.home.collectibles[name]?.some((placed) => placed.readyAt < Date.now());
+    game.home.collectibles[name]?.some(
+      (placed) => placed.readyAt <= Date.now()
+    );
 
   return !!placedOnFarm || !!placedInHome;
 }

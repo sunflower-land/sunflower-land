@@ -13,6 +13,7 @@ import { Airdrop, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -289,7 +290,7 @@ export const expansionRequirements = ({
   let resources = requirements.resources;
 
   // Half resource costs
-  if (game.collectibles["Grinx's Hammer"]) {
+  if (isCollectibleBuilt({ name: "Grinx's Hammer", game })) {
     resources = getKeys(resources).reduce(
       (acc, key) => ({
         ...acc,
