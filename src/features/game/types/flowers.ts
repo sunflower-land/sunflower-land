@@ -77,8 +77,8 @@ export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
 
 export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
   {
-    Sunflower: "Bumpkin scientists swear they're not flowers",
-    Cauliflower: "I wouldn't even ask the Bumpkin scientists about this one",
+    Sunflower: "Bumpkin Botanists swear they're not flowers",
+    Cauliflower: "Not so sure what the Bumpkin Botanists say about this one",
   };
 
 type Flower = {
