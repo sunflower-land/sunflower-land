@@ -13,7 +13,15 @@ import {
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
-    const requirements = expansionRequirements({ level: 6, game: TEST_FARM });
+    const requirements = expansionRequirements({
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM["inventory"],
+          "Basic Land": new Decimal(5),
+        },
+      },
+    });
 
     expect(requirements?.resources).toEqual({
       Stone: 3,
@@ -24,6 +32,10 @@ describe("expansionRequirements", () => {
     const requirements = expansionRequirements({
       game: {
         ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM["inventory"],
+          "Basic Land": new Decimal(5),
+        },
         collectibles: {
           "Grinx's Hammer": [
             {
@@ -35,7 +47,6 @@ describe("expansionRequirements", () => {
           ],
         },
       },
-      level: 6,
     });
 
     expect(requirements?.resources).toEqual({

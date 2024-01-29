@@ -258,10 +258,7 @@ export function revealLand({
     };
   }, {} as GameState["gold"]);
 
-  game.expansionRequirements = expansionRequirements({
-    level: inventory["Basic Land"].toNumber() + 1,
-    game,
-  });
+  game.expansionRequirements = expansionRequirements({ game });
 
   // Add any rewards
   const rewards = getRewards({ game, createdAt });
@@ -274,13 +271,8 @@ export function revealLand({
   };
 }
 
-export const expansionRequirements = ({
-  level,
-  game,
-}: {
-  level: number;
-  game: GameState;
-}) => {
+export const expansionRequirements = ({ game }: { game: GameState }) => {
+  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
   const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
 
   if (!requirements) {

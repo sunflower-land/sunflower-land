@@ -52,10 +52,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         description:
           "Each piece of land comes with unique resources to help build your farming empire!",
       }}
-      requirements={expansionRequirements({
-        level: (gameState.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
-        game: gameState,
-      })}
+      requirements={expansionRequirements({ game: gameState })}
       actionView={
         <Button onClick={onExpand} disabled={!canExpand}>
           Expand

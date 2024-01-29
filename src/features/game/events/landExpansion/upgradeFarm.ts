@@ -457,10 +457,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
       ...INITIAL_LAND,
     };
 
-  game.expansionRequirements = expansionRequirements({
-    level: (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
-    game,
-  });
+  game.expansionRequirements = expansionRequirements({ game });
 
   return {
     ...game,
