@@ -50,7 +50,7 @@ describe("discoverFlowerPage", () => {
       state: {
         ...TEST_FARM,
         springBlossom: {
-          1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+          1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
         },
       },
       action: { type: "flowerPage.discovered", id: 1 },
@@ -58,7 +58,7 @@ describe("discoverFlowerPage", () => {
     });
 
     expect(state.springBlossom).toEqual({
-      1: { collectedFlowerPages: [1], weeklyFlower: "Flower 1" },
+      1: { collectedFlowerPages: [1], weeklyFlower: "Red Pansy" },
     });
   });
 
@@ -67,7 +67,7 @@ describe("discoverFlowerPage", () => {
       state: {
         ...TEST_FARM,
         springBlossom: {
-          1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+          1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
         },
       },
       action: { type: "flowerPage.discovered", id: 1 },
@@ -81,7 +81,7 @@ describe("discoverFlowerPage", () => {
     });
 
     expect(secondState.springBlossom).toEqual({
-      1: { collectedFlowerPages: [1, 2], weeklyFlower: "Flower 1" },
+      1: { collectedFlowerPages: [1, 2], weeklyFlower: "Red Pansy" },
     });
   });
 });

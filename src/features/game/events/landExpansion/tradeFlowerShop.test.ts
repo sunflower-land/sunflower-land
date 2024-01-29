@@ -11,7 +11,7 @@ describe("tradeFlowerShop", () => {
     expect(() =>
       tradeFlowerShop({
         state: TEST_FARM,
-        action: { type: "flowerShop.traded", flower: "Flower 1" },
+        action: { type: "flowerShop.traded", flower: "Red Pansy" },
         createdAt: SEASONS["Spring Blossom"].startDate.getTime() - 1,
       })
     ).toThrow("Spring Blossom season has not started");
@@ -21,7 +21,7 @@ describe("tradeFlowerShop", () => {
     expect(() =>
       tradeFlowerShop({
         state: TEST_FARM,
-        action: { type: "flowerShop.traded", flower: "Flower 1" },
+        action: { type: "flowerShop.traded", flower: "Red Pansy" },
         createdAt: SEASONS["Spring Blossom"].endDate.getTime() + 1,
       })
     ).toThrow("Spring Blossom season has ended");
@@ -33,10 +33,10 @@ describe("tradeFlowerShop", () => {
         state: {
           ...TEST_FARM,
           springBlossom: {
-            1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+            1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
           },
         },
-        action: { type: "flowerShop.traded", flower: "Flower 4" },
+        action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
         createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
       })
     ).toThrow("Flower is not the current weeks flower");
@@ -48,10 +48,10 @@ describe("tradeFlowerShop", () => {
         state: {
           ...TEST_FARM,
           springBlossom: {
-            1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+            1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
           },
         },
-        action: { type: "flowerShop.traded", flower: "Flower 1" },
+        action: { type: "flowerShop.traded", flower: "Red Pansy" },
         createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
       })
     ).toThrow("Not enough flowers");
@@ -61,19 +61,19 @@ describe("tradeFlowerShop", () => {
     const firstState = tradeFlowerShop({
       state: {
         ...TEST_FARM,
-        inventory: { "Flower 1": new Decimal(2) },
+        inventory: { "Red Pansy": new Decimal(2) },
         springBlossom: {
-          1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+          1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
         },
       },
-      action: { type: "flowerShop.traded", flower: "Flower 1" },
+      action: { type: "flowerShop.traded", flower: "Red Pansy" },
       createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
     });
 
     expect(() =>
       tradeFlowerShop({
         state: firstState,
-        action: { type: "flowerShop.traded", flower: "Flower 1" },
+        action: { type: "flowerShop.traded", flower: "Red Pansy" },
         createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
       })
     ).toThrow("Already claimed reward");
@@ -82,21 +82,21 @@ describe("tradeFlowerShop", () => {
   it("removes the flower from the inventory", () => {
     const initialState: GameState = {
       ...TEST_FARM,
-      inventory: { "Flower 1": new Decimal(1) },
+      inventory: { "Red Pansy": new Decimal(1) },
       springBlossom: {
-        1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+        1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
       },
     };
 
-    const inventoryBefore = initialState.inventory["Flower 1"];
+    const inventoryBefore = initialState.inventory["Red Pansy"];
 
     const state = tradeFlowerShop({
       state: initialState,
-      action: { type: "flowerShop.traded", flower: "Flower 1" },
+      action: { type: "flowerShop.traded", flower: "Red Pansy" },
       createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
     });
 
-    const inventoryAfter = state.inventory["Flower 1"];
+    const inventoryAfter = state.inventory["Red Pansy"];
 
     expect(inventoryAfter).toStrictEqual(inventoryBefore?.minus(1));
   });
@@ -105,12 +105,12 @@ describe("tradeFlowerShop", () => {
     const state = tradeFlowerShop({
       state: {
         ...TEST_FARM,
-        inventory: { "Flower 1": new Decimal(1) },
+        inventory: { "Red Pansy": new Decimal(1) },
         springBlossom: {
-          1: { collectedFlowerPages: [], weeklyFlower: "Flower 1" },
+          1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
         },
       },
-      action: { type: "flowerShop.traded", flower: "Flower 1" },
+      action: { type: "flowerShop.traded", flower: "Red Pansy" },
       createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
     });
 
