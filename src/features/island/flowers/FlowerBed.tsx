@@ -64,7 +64,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 
   const [showPlantModal, setShowPlantModal] = useState(false);
   const [showCongratulationsModal, setShowCongratulationsModal] =
-    useState(true);
+    useState(false);
   const [congratulationsPage, setCongratulationsPage] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
 
