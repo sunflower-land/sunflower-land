@@ -41,6 +41,28 @@ export function buyMegaStoreItem({
     throw new Error("This item is not available");
   }
 
+  // Check current balance of item if there is a limit
+  if (item.limit) {
+    if (item.type === "wearable") {
+      const currentAmount = stateCopy.wardrobe[name as BumpkinItem] ?? 0;
+
+      if (currentAmount >= item.limit) {
+        throw new Error(
+          "You already have reached the max allowed for this item"
+        );
+      }
+    } else {
+      const currentAmount =
+        stateCopy.inventory[name as InventoryItemName] ?? new Decimal(0);
+
+      if (currentAmount.greaterThanOrEqualTo(item.limit)) {
+        throw new Error(
+          "You already have reached the max allowed for this item"
+        );
+      }
+    }
+  }
+
   const currency =
     item.currency === "Seasonal Ticket" ? getSeasonalTicket() : item.currency;
 

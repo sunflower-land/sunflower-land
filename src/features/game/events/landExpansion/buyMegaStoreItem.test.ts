@@ -41,6 +41,79 @@ describe("buyMegaStoreItem", () => {
     ).toThrow("This item is not available");
   });
 
+  it("throws an error if the player has already purchased the max allowed of a collectible", () => {
+    const seasonTicket = getSeasonalTicket();
+
+    expect(() =>
+      buyMegaStoreItem({
+        state: {
+          ...TEST_FARM,
+          balance: new Decimal(100),
+          megastore: {
+            ...TEST_FARM.megastore,
+            collectibles: [
+              {
+                name: "Nana",
+                price: new Decimal(100),
+                currency: "SFL",
+                limit: 1,
+                type: "collectible",
+                shortDescription: "Lorem ipsum",
+              },
+            ],
+            wearables: [],
+          },
+          inventory: {
+            [seasonTicket]: new Decimal(100),
+            Nana: new Decimal(1),
+          },
+        },
+        action: {
+          type: "megastoreItem.bought",
+          name: "Nana",
+        },
+        createdAt: new Date("2024-01-01").getTime(),
+      })
+    ).toThrow("You already have reached the max allowed for this item");
+  });
+
+  it("throws an error if the player has already purchased the max allowed of a wearable", () => {
+    const seasonTicket = getSeasonalTicket();
+
+    expect(() =>
+      buyMegaStoreItem({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            [seasonTicket]: new Decimal(100),
+          },
+          megastore: {
+            ...TEST_FARM.megastore,
+            collectibles: [],
+            wearables: [
+              {
+                name: "Tiki Pants",
+                price: new Decimal(100),
+                currency: "SFL",
+                limit: 1,
+                type: "wearable",
+                shortDescription: "Lorem ipsum",
+              },
+            ],
+          },
+          wardrobe: {
+            "Tiki Pants": 2,
+          },
+        },
+        action: {
+          type: "megastoreItem.bought",
+          name: "Tiki Pants",
+        },
+        createdAt: new Date("2023-10-01").getTime(),
+      })
+    ).toThrow("You already have reached the max allowed for this item");
+  });
+
   it("throws an error if the players doesn't have enough SFL for and SFL item", () => {
     expect(() =>
       buyMegaStoreItem({
@@ -54,6 +127,7 @@ describe("buyMegaStoreItem", () => {
                 name: "Soil Krabby",
                 price: new Decimal(100),
                 currency: "SFL",
+                limit: 1,
                 type: "collectible",
                 shortDescription: "Lorem ipsum",
               },
@@ -89,6 +163,7 @@ describe("buyMegaStoreItem", () => {
                 name: "Tiki Mask",
                 price: new Decimal(100),
                 currency: "Seasonal Ticket",
+                limit: 1,
                 type: "wearable",
                 shortDescription: "Lorem ipsum",
               },
@@ -118,6 +193,7 @@ describe("buyMegaStoreItem", () => {
                 name: "Knowledge Crab",
                 price: new Decimal(100),
                 currency: "Crimstone",
+                limit: 1,
                 type: "collectible",
                 shortDescription: "Lorem ipsum",
               },
@@ -144,6 +220,7 @@ describe("buyMegaStoreItem", () => {
               name: "Fish Pro Vest",
               price: new Decimal(1000),
               currency: "SFL",
+              limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
             },
@@ -172,6 +249,7 @@ describe("buyMegaStoreItem", () => {
               name: "Soil Krabby",
               price: new Decimal(1000),
               currency: "SFL",
+              limit: null,
               type: "collectible",
               shortDescription: "Lorem ipsum",
             },
@@ -204,6 +282,7 @@ describe("buyMegaStoreItem", () => {
               name: "Fish Pro Vest",
               price: new Decimal(1000),
               currency: "Seasonal Ticket",
+              limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
             },
@@ -234,6 +313,7 @@ describe("buyMegaStoreItem", () => {
               name: "Knowledge Crab",
               price: new Decimal(10),
               currency: "Crimstone",
+              limit: null,
               type: "collectible",
               shortDescription: "Lorem ipsum",
             },
@@ -262,6 +342,7 @@ describe("buyMegaStoreItem", () => {
               name: "Knowledge Crab",
               price: new Decimal(1000),
               currency: "SFL",
+              limit: null,
               type: "wearable",
               shortDescription: "Lorem ipsum",
             },
