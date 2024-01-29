@@ -13,6 +13,12 @@ import {
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Page } from "../containers/Page";
+import { BumpkinContainer } from "../containers/BumpkinContainer";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
+import { hasFeatureAccess } from "lib/flags";
+import { TEST_FARM } from "features/game/lib/constants";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -23,7 +29,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 815,
     y: 213,
-    npc: "frankie",
+    npc: hasFeatureAccess(TEST_FARM, "FLOWER_SHOP") ? "poppy" : "frankie",
     direction: "left",
   },
   {
@@ -120,6 +126,22 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
 ];
+
+const PAGE_POSITIONS = [
+  {
+    x: 400,
+    y: 420,
+  },
+  {
+    x: 800,
+    y: 300,
+  },
+  {
+    x: 55,
+    y: 200,
+  },
+];
+
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
@@ -140,6 +162,10 @@ export class PlazaScene extends BaseScene {
   }
 
   preload() {
+    this.load.audio("chime", SOUNDS.notifications.chime);
+
+    this.load.image("page", "world/page.png");
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -242,6 +268,35 @@ export class PlazaScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
+
+    PAGE_POSITIONS.forEach(({ x, y }, index) => {
+      const pageNumber = index + 1;
+
+      const week = getSeasonWeek();
+      const collectedFlowerPages =
+        this.gameState.springBlossom[week].collectedFlowerPages;
+
+      if (collectedFlowerPages && !collectedFlowerPages.includes(pageNumber)) {
+        const page = new Page({ x, y, scene: this });
+        page.setDepth(1000000);
+        this.physics.world.enable(page);
+
+        this.physics.add.collider(
+          this.currentPlayer as BumpkinContainer,
+          page,
+          (obj1, obj2) => {
+            page.sprite?.destroy();
+            page.destroy();
+
+            const chime = this.sound.add("chime");
+            chime.play({ loop: false, volume: 0.1 });
+
+            interactableModalManager.open("page_discovered");
+            this.gameService.send("flowerPage.discovered", { id: pageNumber });
+          }
+        );
+      }
+    });
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
     auctionLabel.setPosition(601, 260);
