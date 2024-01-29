@@ -16,16 +16,10 @@ import stone from "assets/resources/stone_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { MachineState } from "features/game/lib/gameMachine";
-import { getBumpkinLevel } from "features/game/lib/level";
-
 const tool = "Pickaxe";
 
 const STRIKE_SHEET_FRAME_WIDTH = 112;
 const STRIKE_SHEET_FRAME_HEIGHT = 48;
-
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 interface Props {
   hasTool: boolean;
@@ -41,7 +35,6 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
-  const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
 
@@ -69,7 +62,6 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   };
 
   const handleMouseLeave = () => {
-    setShowBumpkinLevel(false);
     setShowEquipTool(false);
   };
 
@@ -102,7 +94,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         {!showSpritesheet && (
           <img
             src={stone}
-            className={"absolute pointer-events-none opacity-50"}
+            className={"absolute pointer-events-none opacity-100"}
             style={{
               width: `${PIXEL_SCALE * 14}px`,
               bottom: `${PIXEL_SCALE * 3}px`,
