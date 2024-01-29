@@ -8,7 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { defaultDialogue, npcDialogues } from "./dialogues";
-import { Bumpkin, Inventory, Order } from "features/game/types/game";
+import { Bumpkin, GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import sfl from "assets/icons/token_2.png";
@@ -174,6 +174,20 @@ const OrderCards: React.FC<OrderCardsProps> = ({
   );
 };
 
+function getTotalExpansions({
+  game,
+}: {
+  game: Pick<GameState, "inventory" | "island">;
+}) {
+  let totalExpansions = game.inventory["Basic Land"] ?? new Decimal(3);
+
+  if (game.island.type === "spring") {
+    totalExpansions = totalExpansions.add(6);
+  }
+
+  return totalExpansions;
+}
+
 interface Props {
   onClose: () => void;
   npc: NPCName;
@@ -183,6 +197,7 @@ interface Props {
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _island = (state: MachineState) => state.context.state.island;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _bumpkin = (state: MachineState) =>
   state.context.state.bumpkin as Bumpkin;
@@ -198,6 +213,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const balance = useSelector(gameService, _balance);
   const bumpkin = useSelector(gameService, _bumpkin);
+  const island = useSelector(gameService, _island);
 
   let orders = delivery.orders.filter(
     (order) =>
@@ -237,6 +253,10 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   };
 
   if (!orders.length) {
+    const totalExpansions = getTotalExpansions({
+      game: gameService.state.context.state,
+    });
+
     return (
       <SpeakingText
         onClose={onClose}
@@ -245,9 +265,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
             text: intro,
           },
           {
-            text: (inventory["Basic Land"] ?? new Decimal(3)).lt(
-              DELIVERY_LEVELS[npc] ?? 0
-            )
+            text: totalExpansions.lt(DELIVERY_LEVELS[npc] ?? 0)
               ? `Hmm, it doesn't look like your farm will have the resources I need. Reach ${
                   DELIVERY_LEVELS[npc] ?? 10
                 } expansions and come back to me.`
