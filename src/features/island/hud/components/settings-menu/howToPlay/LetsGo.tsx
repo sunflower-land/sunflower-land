@@ -28,7 +28,7 @@ export const LetsGo: React.FC<Props> = ({ onClose, onBack }) => {
           {t("letsGo.readMore")}
           <a
             className="text-xs sm:text-sm underline"
-            href={t("letsGo.officialDocsLink")}
+            href="https://docs.sunflower-land.com"
             target="_blank"
             rel="noopener noreferrer"
           >

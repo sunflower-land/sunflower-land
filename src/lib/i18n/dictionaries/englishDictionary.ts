@@ -2394,7 +2394,6 @@ const letsGo: Record<LetsGo, string> = {
     "Thanks for playing beta! We are still working on the game and appreciate your support during the early stages!",
   "letsGo.readMore": "You can read more about the game in the ",
   "letsGo.officialDocs": "official docs",
-  "letsGo.officialDocsLink": "https://docs.sunflower-land.com",
 };
 
 const loser: Record<Loser, string> = {

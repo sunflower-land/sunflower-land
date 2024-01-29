@@ -1610,8 +1610,7 @@ export type LetsGo =
   | "letsGo.title"
   | "letsGo.description"
   | "letsGo.readMore"
-  | "letsGo.officialDocs"
-  | "letsGo.officialDocsLink";
+  | "letsGo.officialDocs";
 
 export type LevelUpMessages =
   | "levelUp.2"
