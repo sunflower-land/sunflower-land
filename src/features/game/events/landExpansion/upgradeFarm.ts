@@ -290,7 +290,7 @@ const INITIAL_LAND: Pick<
       width: 1,
       height: 1,
       stone: {
-        amount: 0,
+        amount: 2,
         minedAt: 0,
       },
     },
@@ -302,7 +302,7 @@ const INITIAL_LAND: Pick<
       width: 1,
       height: 1,
       stone: {
-        amount: 0,
+        amount: 1,
         minedAt: 0,
       },
     },
