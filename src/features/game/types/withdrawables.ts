@@ -1152,4 +1152,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Bee Smoker": () => false,
   "Bee Suit": () => false,
   "Bee Wings": () => false,
+  "Beekeeper Hat": () => false,
 };
