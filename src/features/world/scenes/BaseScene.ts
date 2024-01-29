@@ -31,6 +31,7 @@ import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "../../game/lib/audio";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -491,6 +492,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public get id() {
     return this.registry.get("id") as number;
+  }
+
+  public get gameService() {
+    return this.registry.get("gameService") as MachineInterpreter;
   }
 
   public get username() {

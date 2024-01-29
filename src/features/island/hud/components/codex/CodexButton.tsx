@@ -9,7 +9,7 @@ export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <div>
       <div
         className="relative flex cursor-pointer hover:img-highlight"
         style={{
@@ -39,6 +39,6 @@ export const CodexButton: React.FC = () => {
       </div>
 
       <Codex show={isOpen} onHide={() => setIsOpen(false)} />
-    </>
+    </div>
   );
 };

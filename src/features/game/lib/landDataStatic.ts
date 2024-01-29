@@ -510,4 +510,5 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   airdrops: [],
   username: "Local Hero",
+  springBlossom: {},
 };
