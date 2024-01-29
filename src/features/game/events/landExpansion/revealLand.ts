@@ -110,8 +110,8 @@ export function revealLand({
   // Add Crimstone
   land.crimstones?.forEach((coords) => {
     game.crimstones[randomUUID().slice(0, 8)] = {
-      height: 1,
-      width: 1,
+      height: 2,
+      width: 2,
       x: coords.x + origin.x,
       y: coords.y + origin.y,
       stone: { amount: 1, minedAt: 0 },
@@ -160,8 +160,8 @@ export function revealLand({
   land.sunstones?.forEach((coords) => {
     const id = Object.keys(game.sunstones).length;
     game.sunstones[id] = {
-      height: 1,
-      width: 1,
+      height: 2,
+      width: 2,
       x: coords.x + origin.x,
       y: coords.y + origin.y,
       stone: { amount: 1, minedAt: 0 },
