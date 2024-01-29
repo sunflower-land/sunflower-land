@@ -22,6 +22,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import confetti from "canvas-confetti";
+import { BumpkinItem } from "features/game/types/bumpkin";
 
 interface ItemOverlayProps {
   item: WearablesItem | CollectiblesItem | null;
@@ -34,6 +35,7 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -46,6 +48,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const { shortcutItem, gameService } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
+  const wardrobe = useSelector(gameService, _wardrobe);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
@@ -67,8 +70,24 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     imgElement.src = image;
   }, []);
 
-  const canAfford = () => {
+  const getBalanceOfItem = (
+    item: WearablesItem | CollectiblesItem | null
+  ): number => {
+    if (!item) return 0;
+
+    if (item.type === "wearable") {
+      return wardrobe[item.name as BumpkinItem] ?? 0;
+    }
+
+    return (
+      inventory[item.name as InventoryItemName] ?? new Decimal(0)
+    ).toNumber();
+  };
+
+  const canBuy = () => {
     if (!item) return false;
+
+    if (item.limit && getBalanceOfItem(item) >= item.limit) return false;
 
     if (item.currency === "SFL") {
       return sflBalance.greaterThanOrEqualTo(item.price);
@@ -128,6 +147,23 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return "Nice buy! Your new collectible is safely stored in your inventory.";
   };
 
+  const balanceOfItem = getBalanceOfItem(item);
+
+  const getLimitLabel = () => {
+    if (!item?.limit) return;
+
+    if (balanceOfItem >= item.limit) {
+      return (
+        <Label
+          type="danger"
+          className="absolute bottom-1 right-1 text-xxs"
+        >{`Limit: ${balanceOfItem}/${item.limit}`}</Label>
+      );
+    }
+
+    <span className="absolute bottom-1 right-2 text-xxs">{`Limit: ${balanceOfItem}/${item.limit}`}</span>;
+  };
+
   const currency =
     item?.currency === "Seasonal Ticket"
       ? getSeasonalTicket()
@@ -151,10 +187,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               />
             </div>
             {!showSuccess && (
-              <div className="w-full p-2">
+              <div className="w-full p-2 px-1">
                 <div className="flex">
                   <div
-                    className="w-[40%] min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                    className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
                     style={{
                       backgroundImage: `url(${bg})`,
                       backgroundSize: "cover",
@@ -169,6 +205,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         width: `${imageWidth}px`,
                       }}
                     />
+                    {!!item?.limit && getLimitLabel()}
                   </div>
                   <div className="flex flex-col space-y-2">
                     {!!buff && (
@@ -210,7 +247,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             )}
           </div>
           {!showSuccess && (
-            <Button disabled={!canAfford()} onClick={handleBuy}>{`Buy ${
+            <Button disabled={!canBuy()} onClick={handleBuy}>{`Buy ${
               isWearable ? "wearable" : "collectible"
             }`}</Button>
           )}

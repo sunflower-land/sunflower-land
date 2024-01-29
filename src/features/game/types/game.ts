@@ -787,6 +787,7 @@ type ItemBase = {
   shortDescription: string;
   currency: Currency;
   price: Decimal;
+  limit: number | null;
   type: "wearable" | "collectible";
 };
 
