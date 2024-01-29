@@ -7,6 +7,7 @@ import { getChestBuds, getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import chest from "assets/npcs/synced.gif";
+import lightning from "assets/icons/lightning.png";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -26,6 +27,10 @@ import { BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
+import { RESOURCES } from "features/game/types/resources";
+import { BUILDINGS } from "features/game/types/buildings";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -65,6 +70,7 @@ export const Chest: React.FC<Props> = ({
 }: Props) => {
   const divRef = useRef<HTMLDivElement>(null);
   const buds = getChestBuds(state);
+
   const chestMap = getChestItems(state);
 
   const collectibles = getKeys(chestMap)
@@ -175,6 +181,19 @@ export const Chest: React.FC<Props> = ({
     );
   };
 
+  // Sort collectibles by type
+  const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
+  const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS());
+  const equipment = getKeys(collectibles).filter(
+    (name) => !!ITEM_DETAILS[name].buff
+  );
+  const other = getKeys(collectibles).filter(
+    (name) =>
+      !resources.includes(name) &&
+      !buildings.includes(name) &&
+      !equipment.includes(name)
+  );
+
   return (
     <SplitScreenView
       divRef={divRef}
@@ -186,7 +205,13 @@ export const Chest: React.FC<Props> = ({
         <>
           {!!Object.values(buds).length && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Buds">
-              <p className="mb-2">Buds</p>
+              <Label
+                type="default"
+                className="my-1"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                Buds
+              </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(buds).map((budId) => {
                   const type = buds[budId].type;
@@ -212,7 +237,7 @@ export const Chest: React.FC<Props> = ({
             </div>
           )}
 
-          {Object.values(collectibles) && (
+          {/* {Object.values(collectibles) && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Collectibles">
               <p className="mb-2">Collectibles</p>
               <div className="flex mb-2 flex-wrap -ml-1.5">
@@ -228,7 +253,96 @@ export const Chest: React.FC<Props> = ({
                 ))}
               </div>
             </div>
+          )} */}
+
+          {resources.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Resources">
+              <Label
+                type="default"
+                className="my-1"
+                icon={SUNNYSIDE.resource.tree}
+              >
+                Resources
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {resources.map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
+            </div>
           )}
+
+          {buildings.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Buildings">
+              <Label
+                type="default"
+                className="my-1"
+                icon={SUNNYSIDE.icons.hammer}
+              >
+                Buildings
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {buildings.map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {equipment.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Equipment">
+              <Label type="default" className="my-1" icon={lightning}>
+                Equipment
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {equipment.map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {other.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Other">
+              <Label type="default" className="my-1">
+                Other
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {other.map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {onDepositClick && (
             <div className="flex w-full ml-1 my-1">
               <p

@@ -39,6 +39,7 @@ import {
   FRUIT_COMPOST,
 } from "features/game/types/composters";
 import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
+import { Label } from "components/ui/Label";
 
 interface Prop {
   gameState: GameState;
@@ -131,14 +132,22 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allSeeds = [...seeds, ...fruitSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
 
-  const itemsSection = (title: string, items: InventoryItemName[]) => {
+  const itemsSection = (
+    title: string,
+    items: InventoryItemName[],
+    icon: string
+  ) => {
     if (!items.length) {
       return <></>;
     }
 
     return (
       <div className="flex flex-col pl-2 mb-2 w-full" key={title}>
-        {<p className="mb-2">{title}</p>}
+        {
+          <Label type="default" icon={icon} className="mb-2">
+            {title}
+          </Label>
+        }
         <div className="flex mb-2 flex-wrap -ml-1.5">
           {items.map((item) => (
             <Box
@@ -195,23 +204,43 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       }
       content={
         <>
-          {itemsSection("Seeds", allSeeds)}
-          {itemsSection("Fertilisers", [
-            ...cropCompost,
-            ...fruitCompost,
-            ...fertilisers,
-          ])}
-          {itemsSection("Crops", crops)}
-          {itemsSection("Fruits", fruits)}
-          {itemsSection("Exotic", [...exotic, ...exotics])}
-          {itemsSection("Tools", allTools)}
-          {itemsSection("Resources", resources)}
-          {itemsSection("Bait", [...worm, ...purchaseableBait])}
-          {itemsSection("Fish", fish)}
-          {itemsSection("Foods", [...foods, ...pirateCake])}
-          {itemsSection("Bounty", bounty)}
-          {itemsSection("Coupons", coupons)}
-          {itemsSection("Easter Eggs", easterEggs)}
+          {itemsSection("Seeds", allSeeds, SUNNYSIDE.icons.seeds)}
+          {itemsSection(
+            "Fertilisers",
+            [...cropCompost, ...fruitCompost, ...fertilisers],
+            ITEM_DETAILS["Rapid Root"].image
+          )}
+          {itemsSection("Crops", crops, ITEM_DETAILS.Sunflower.image)}
+          {itemsSection("Fruits", fruits, ITEM_DETAILS["Orange"].image)}
+          {itemsSection(
+            "Exotic",
+            [...exotic, ...exotics],
+            ITEM_DETAILS["White Carrot"].image
+          )}
+          {itemsSection("Tools", allTools, ITEM_DETAILS["Axe"].image)}
+          {itemsSection("Resources", resources, ITEM_DETAILS["Wood"].image)}
+          {itemsSection(
+            "Bait",
+            [...worm, ...purchaseableBait],
+            ITEM_DETAILS["Earthworm"].image
+          )}
+          {itemsSection("Fish", fish, ITEM_DETAILS["Anchovy"].image)}
+          {itemsSection(
+            "Foods",
+            [...foods, ...pirateCake],
+            ITEM_DETAILS["Carrot Cake"].image
+          )}
+          {itemsSection("Bounty", bounty, ITEM_DETAILS["Pirate Bounty"].image)}
+          {itemsSection(
+            "Coupons",
+            coupons,
+            ITEM_DETAILS["Trading Ticket"].image
+          )}
+          {itemsSection(
+            "Easter Eggs",
+            easterEggs,
+            ITEM_DETAILS["Red Egg"].image
+          )}
         </>
       }
     />
