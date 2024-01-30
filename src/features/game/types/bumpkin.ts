@@ -103,7 +103,10 @@ export type BumpkinShirt =
   | "Crimstone Armor"
   | "Full Bloom Shirt"
   | "Blue Blossom Shirt"
-  | "Daisy Tee";
+  | "Daisy Tee"
+  | "Blue Monarch Shirt"
+  | "Green Monarch Shirt"
+  | "Red Monarch Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -229,7 +232,9 @@ export type BumpkinHat =
   | "New Years Tiara"
   | "Beekeeper Hat"
   | "Propeller Hat"
-  | "Hornet Mask";
+  | "Hornet Mask"
+  | "Flower Crown"
+  | "Queen Bee Crown";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -266,7 +271,12 @@ export type BumpkinDress =
   | "Witching Wardrobe"
   | "Gothic Twilight"
   | "Dark Enchantment Gown"
-  | "Antique Dress";
+  | "Antique Dress"
+  | "Rose Dress"
+  | "Blue Rose Dress"
+  | "Blue Monarch Dress"
+  | "Green Monarch Dress"
+  | "Orange Monarch Dress";
 
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
@@ -622,6 +632,16 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Propeller Hat": 290,
   "Honeycomb Shield": 291,
   "Hornet Mask": 292,
+  "Flower Crown": 293,
+  "Blue Monarch Dress": 294,
+  "Green Monarch Dress": 295,
+  "Orange Monarch Dress": 296,
+  "Blue Monarch Shirt": 297,
+  "Green Monarch Shirt": 298,
+  "Red Monarch Shirt": 299,
+  "Queen Bee Crown": 300,
+  "Rose Dress": 301,
+  "Blue Rose Dress": 302,
 };
 
 // The reverse of above
@@ -973,4 +993,14 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Propeller Hat": "hat",
   "Honeycomb Shield": "secondaryTool",
   "Hornet Mask": "hat",
+  "Flower Crown": "hat",
+  "Blue Monarch Dress": "dress",
+  "Green Monarch Dress": "dress",
+  "Orange Monarch Dress": "dress",
+  "Blue Monarch Shirt": "shirt",
+  "Green Monarch Shirt": "shirt",
+  "Red Monarch Shirt": "shirt",
+  "Queen Bee Crown": "hat",
+  "Rose Dress": "dress",
+  "Blue Rose Dress": "dress",
 };
