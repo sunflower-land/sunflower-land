@@ -822,6 +822,7 @@ export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
   amount: number;
+  dirty?: boolean;
 };
 
 export type FlowerBed = {

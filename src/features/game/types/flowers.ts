@@ -204,11 +204,11 @@ export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
   (acc, name) => ({
     ...acc,
     [name]: {
-      seedling: `/flowers/seedling.webp`,
-      sprout: `/flowers/sprout.webp`,
-      halfway: `/flowers/halfway.webp`,
-      almost: `/flowers/${IMAGES[name]}_almost.webp`,
-      ready: `/flowers/${IMAGES[name]}_ready.webp`,
+      seedling: `flowers/seedling.webp`,
+      sprout: `flowers/sprout.webp`,
+      halfway: `flowers/halfway.webp`,
+      almost: `flowers/${IMAGES[name]}_almost.webp`,
+      ready: `flowers/${IMAGES[name]}_ready.webp`,
     },
   }),
   {} as Record<FlowerName, Lifecycle>
