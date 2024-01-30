@@ -93,7 +93,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
-  FLOWERS: testnetFeatureFlag,
+  FLOWERS: defaultFeatureFlag,
   FLOWER_SHOP: testnetFeatureFlag,
   MEGA_STORE: testnetFeatureFlag,
   SPRING: (game: GameState) => {

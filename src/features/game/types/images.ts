@@ -3106,7 +3106,7 @@ export const ITEM_DETAILS: Items = {
     description: "A red pansy",
   },
   "Yellow Pansy": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: redPansy,
     description: "A yellow pansy",
   },
   "Purple Pansy": {

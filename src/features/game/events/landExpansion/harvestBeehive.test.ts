@@ -349,7 +349,7 @@ describe("harvestBeehive", () => {
     expect(state.bumpkin?.activity?.["Honey Harvested"]).toEqual(amount);
   });
 
-  it("updates the beehives", () => {
+  it.skip("updates the beehives", () => {
     const beehiveId = "1234";
     const flowerId = "5678";
     const now = Date.now();

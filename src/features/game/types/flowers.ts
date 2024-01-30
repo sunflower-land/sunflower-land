@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
-import { InventoryItemName } from "./game";
 import { getKeys } from "./craftables";
+import { CropName } from "./crops";
+import { FruitName } from "./fruits";
 
 type PansyName = "Red Pansy" | "Yellow Pansy" | "Purple Pansy";
 type CosmosName = "Red Cosmos" | "Yellow Cosmos" | "Purple Cosmos";
@@ -43,7 +44,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     bumpkinLevel: 0,
     sfl: new Decimal(0),
     description: "A sunpetal seed",
-    plantSeconds: 1 * 24 * 60 * 60,
+    plantSeconds: 40,
     disabled: false,
   },
   "Bloom Seed": {
@@ -51,7 +52,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     bumpkinLevel: 0,
     sfl: new Decimal(0),
     description: "A bloom seed",
-    plantSeconds: 2 * 24 * 60 * 60,
+    plantSeconds: 50,
     disabled: false,
   },
   "Lily Seed": {
@@ -59,26 +60,83 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     bumpkinLevel: 0,
     sfl: new Decimal(0),
     description: "A lily seed",
-    plantSeconds: 5 * 24 * 60 * 60,
+    plantSeconds: 60,
     disabled: false,
   },
 });
 
-export type FlowerCrossBreedName = Extract<
-  InventoryItemName,
-  "Sunflower" | "Cauliflower"
->;
+export type FlowerCrossBreedName = CropName | FruitName | FlowerName;
 
 export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
   {
     Sunflower: 50,
-    Cauliflower: 10,
+    Potato: 20,
+    Pumpkin: 20,
+    Carrot: 10,
+    Cabbage: 10,
+    Beetroot: 10,
+    Cauliflower: 5,
+    Parsnip: 5,
+    Eggplant: 5,
+    Radish: 5,
+    Corn: 5,
+    Wheat: 5,
+    Kale: 5,
+    Blueberry: 3,
+    Orange: 3,
+    Apple: 3,
+    Banana: 3,
+    "Red Pansy": 1,
+    "Yellow Pansy": 1,
+    "Purple Pansy": 1,
+    "Red Cosmos": 1,
+    "Yellow Cosmos": 1,
+    "Purple Cosmos": 1,
+    "Red Daffodil": 1,
+    "Yellow Daffodil": 1,
+    "Purple Daffodil": 1,
+    "Red Balloon Flower": 1,
+    "Yellow Balloon Flower": 1,
+    "Purple Balloon Flower": 1,
+    "Red Lotus": 1,
+    "Yellow Lotus": 1,
+    "Purple Lotus": 1,
   };
 
 export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
   {
     Sunflower: "Bumpkin Botanists swear they're not flowers.",
     Cauliflower: "Not so sure what the Bumpkin Botanists say about this one.",
+    Potato: "",
+    Pumpkin: "",
+    Carrot: "",
+    Cabbage: "",
+    Beetroot: "",
+    Parsnip: "",
+    Eggplant: "",
+    Radish: "",
+    Corn: "",
+    Wheat: "",
+    Kale: "",
+    Blueberry: "",
+    Orange: "",
+    Apple: "",
+    Banana: "",
+    "Red Pansy": "",
+    "Yellow Pansy": "",
+    "Purple Pansy": "",
+    "Red Cosmos": "",
+    "Yellow Cosmos": "",
+    "Purple Cosmos": "",
+    "Red Daffodil": "",
+    "Yellow Daffodil": "",
+    "Purple Daffodil": "",
+    "Red Balloon Flower": "",
+    "Yellow Balloon Flower": "",
+    "Purple Balloon Flower": "",
+    "Red Lotus": "",
+    "Yellow Lotus": "",
+    "Purple Lotus": "",
   };
 
 type Flower = {

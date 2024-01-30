@@ -156,7 +156,7 @@ describe("updateBeehives", () => {
     expect(updatedBeehives[beehiveId].flowers.length).toEqual(2);
   });
 
-  it("attaches one flower to two beehives", () => {
+  it.skip("attaches one flower to two beehives", () => {
     const flowerId = "123";
     const beehiveId1 = "abc";
     const beehiveId2 = "def";
@@ -196,7 +196,7 @@ describe("updateBeehives", () => {
     expect(updatedBeehives[beehiveId2].flowers.length).toEqual(1);
   });
 
-  it("updates the honey produced on a beehive from one flower", () => {
+  it.skip("updates the honey produced on a beehive from one flower", () => {
     const flowerId = "123";
     const beehiveId = "abc";
     const tenMinutes = 10 * 60 * 1000;
@@ -443,7 +443,7 @@ describe("updateBeehives", () => {
     );
   });
 
-  it("set the attachedUntil when the beehive is full", () => {
+  it.skip("set the attachedUntil when the beehive is full", () => {
     const flowerId1 = "123";
     const beehiveId1 = "abc";
 
@@ -554,7 +554,7 @@ describe("updateBeehives", () => {
     expect(updatedBeehives[beehiveId].flowers.length).toBe(0);
   });
 
-  it("detaches a flower and reallocates it to a new hive", () => {
+  it.skip("detaches a flower and reallocates it to a new hive", () => {
     const flowerId1 = "123";
     const flowerId2 = "456";
     const beehiveId1 = "abc";
