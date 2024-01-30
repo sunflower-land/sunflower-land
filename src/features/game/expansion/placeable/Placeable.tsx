@@ -243,6 +243,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 grid={grid}
                 coordinates={coordinates}
                 id={isBudName(placeable) ? placeable.split("-")[1] : undefined}
+                game={gameState.context.state}
               />
             </div>
           </div>

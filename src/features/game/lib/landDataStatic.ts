@@ -333,7 +333,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 1 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
   buds: {
     1: {
       aura: "Basic",
@@ -350,7 +350,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  balance: new Decimal(10000),
+  balance: new Decimal(100),
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
@@ -371,7 +371,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(3),
+    "Basic Land": new Decimal(13),
+    Gold: new Decimal(13),
     "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
@@ -388,7 +389,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Wood: new Decimal(100),
     Stone: new Decimal(100),
     Iron: new Decimal(100),
-    Gold: new Decimal(15),
     "Mermaid Scale": new Decimal(1000),
   },
   wardrobe: {
