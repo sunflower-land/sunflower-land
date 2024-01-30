@@ -147,4 +147,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Banana.image,
     },
+    "Bee Suit": {
+      shortDescription: "+0.1 Honey",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Honey.image,
+    },
   };
