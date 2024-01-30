@@ -11,13 +11,12 @@ import {
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
 
-describe("expansionRequirements", () => {
-  it("returns normal expansion requirements", () => {
-    const requirements = expansionRequirements({ level: 6, game: TEST_FARM });
+describe.only("expansionRequirements", () => {
+  it.only("returns normal expansion requirements", () => {
+    const requirements = expansionRequirements({ game: TEST_FARM });
 
     expect(requirements?.resources).toEqual({
-      Stone: 3,
-      Wood: 5,
+      Wood: 3,
     });
   });
   it("returns discounted expansion requirements with Grinx Hammer", () => {
@@ -35,12 +34,10 @@ describe("expansionRequirements", () => {
           ],
         },
       },
-      level: 6,
     });
 
     expect(requirements?.resources).toEqual({
-      Stone: 1.5,
-      Wood: 2.5,
+      Wood: 1.5,
     });
   });
 

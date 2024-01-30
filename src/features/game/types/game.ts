@@ -870,7 +870,6 @@ export interface GameState {
   milestones: Partial<Record<MilestoneName, number>>;
 
   expansionConstruction?: ExpansionConstruction;
-  expansionRequirements?: ExpansionRequirements;
   expandedAt?: number;
 
   // TODO - make mandatory

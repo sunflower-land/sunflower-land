@@ -5,6 +5,7 @@ import { GameState } from "features/game/types/game";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import cloneDeep from "lodash.clonedeep";
+import { expansionRequirements } from "./revealLand";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -21,7 +22,8 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
   const game = cloneDeep(state) as GameState;
   const bumpkin = game.bumpkin;
 
-  if (!game.expansionRequirements) {
+  const requirements = expansionRequirements({ game });
+  if (!requirements) {
     throw new Error("No more land expansions available");
   }
 
@@ -30,15 +32,15 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
   }
 
   const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-  if (bumpkinLevel < game.expansionRequirements.bumpkinLevel) {
+  if (bumpkinLevel < requirements.bumpkinLevel) {
     throw new Error("Insufficient Bumpkin Level");
   }
 
-  const inventory = getKeys(game.expansionRequirements.resources).reduce(
+  const inventory = getKeys(requirements.resources).reduce(
     (inventory, ingredientName) => {
       const count = game.inventory[ingredientName] || new Decimal(0);
       const totalAmount =
-        game.expansionRequirements?.resources[ingredientName] || new Decimal(0);
+        requirements?.resources[ingredientName] || new Decimal(0);
 
       if (count.lessThan(totalAmount)) {
         throw new Error(`Insufficient ingredient: ${ingredientName}`);
@@ -54,7 +56,7 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
 
   game.expansionConstruction = {
     createdAt,
-    readyAt: createdAt + game.expansionRequirements.seconds * 1000,
+    readyAt: createdAt + requirements.seconds * 1000,
   };
 
   // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#tutorial_complete

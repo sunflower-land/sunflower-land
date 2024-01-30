@@ -18,8 +18,9 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   onClose,
   onExpand,
 }) => {
+  const requirements = expansionRequirements({ game: gameState });
   // cannot expand if there is no next expansion
-  if (gameState.expansionRequirements === undefined) {
+  if (requirements === undefined) {
     return (
       <div>
         <div className="flex items-start">
@@ -39,10 +40,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     );
   }
 
-  const canExpand = craftingRequirementsMet(
-    gameState,
-    gameState.expansionRequirements
-  );
+  const canExpand = craftingRequirementsMet(gameState, requirements);
 
   return (
     <ExpansionRequirements
@@ -52,10 +50,7 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
         description:
           "Each piece of land comes with unique resources to help build your farming empire!",
       }}
-      requirements={expansionRequirements({
-        level: (gameState.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
-        game: gameState,
-      })}
+      requirements={requirements}
       actionView={
         <Button onClick={onExpand} disabled={!canExpand}>
           Expand
