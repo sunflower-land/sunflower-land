@@ -65,7 +65,6 @@ export function makeGame(farm: any): GameState {
       : undefined,
 
     expansionConstruction: farm.expansionConstruction,
-    expansionRequirements: farm.expansionRequirements,
     expandedAt: farm.expandedAt,
 
     islands: farm.islands,

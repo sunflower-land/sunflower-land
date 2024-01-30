@@ -446,13 +446,6 @@ export const TEST_FARM: GameState = {
       },
     ],
   },
-  expansionRequirements: {
-    bumpkinLevel: 20,
-    resources: {
-      Wood: 10,
-    },
-    seconds: 60,
-  },
   dailyRewards: { streaks: 0 },
 
   fruitPatches: {},

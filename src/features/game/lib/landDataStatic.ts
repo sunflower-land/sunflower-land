@@ -393,11 +393,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   stock: INITIAL_STOCK,
   stockExpiry: {},
-  expansionRequirements: {
-    bumpkinLevel: 1,
-    seconds: 3,
-    resources: { Wood: 3 },
-  },
   chickens: {},
   trades: {},
   buildings: {

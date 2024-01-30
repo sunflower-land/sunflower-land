@@ -34,6 +34,7 @@ import {
   GameState,
   Inventory,
 } from "features/game/types/game";
+import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -256,6 +257,8 @@ export const UpcomingExpansion: React.FC = () => {
 
   const playing = gameState.matches("playing");
 
+  const requirements = expansionRequirements({ game: state });
+
   useEffect(() => {
     if (isRevealing && playing) {
       setIsRevealing(false);
@@ -266,9 +269,7 @@ export const UpcomingExpansion: React.FC = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
 
-    const blockBucks =
-      gameState.context.state.expansionRequirements?.resources["Block Buck"] ??
-      0;
+    const blockBucks = requirements?.resources["Block Buck"] ?? 0;
     if (blockBucks) {
       gameAnalytics.trackSink({
         currency: "Block Buck",
@@ -304,9 +305,9 @@ export const UpcomingExpansion: React.FC = () => {
 
   const isLocked =
     getBumpkinLevel(state.bumpkin?.experience ?? 0) <
-    (state.expansionRequirements?.bumpkinLevel ?? 0);
+    (requirements?.bumpkinLevel ?? 0);
 
-  const canExpand = craftingRequirementsMet(state, state.expansionRequirements);
+  const canExpand = craftingRequirementsMet(state, requirements);
 
   const showHelper =
     canExpand &&
@@ -327,19 +328,17 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction &&
-        state.expansionRequirements &&
-        !canUpgrade && (
-          <ExpandIcon
-            canExpand={canExpand}
-            inventory={state.inventory}
-            isLocked={isLocked}
-            onOpen={() => setShowBumpkinModal(true)}
-            position={nextPosition}
-            requirements={state.expansionRequirements as ExpansionRequirements}
-            showHelper={showHelper ?? false}
-          />
-        )}
+      {!state.expansionConstruction && requirements && !canUpgrade && (
+        <ExpandIcon
+          canExpand={canExpand}
+          inventory={state.inventory}
+          isLocked={isLocked}
+          onOpen={() => setShowBumpkinModal(true)}
+          position={nextPosition}
+          requirements={requirements as ExpansionRequirements}
+          showHelper={showHelper ?? false}
+        />
+      )}
 
       {gameState.matches("revealing") && isRevealing && (
         <Modal show centered>
