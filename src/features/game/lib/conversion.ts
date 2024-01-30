@@ -4,6 +4,7 @@ import { CROPS, CROP_SEEDS } from "../types/crops";
 import { COMMODITIES } from "../types/resources";
 import { FRUIT, FRUIT_SEEDS } from "../types/fruits";
 import { TREASURE_TOOLS } from "../types/tools";
+import { FLOWER_SEEDS } from "../types/flowers";
 
 /**
  * Tradeable items use 18 decimals for decimal point storage
@@ -16,6 +17,7 @@ export function getItemUnit(name: InventoryItemName) {
     name in COMMODITIES ||
     name in CROP_SEEDS() ||
     name in FRUIT_SEEDS() ||
+    name in FLOWER_SEEDS() ||
     name in TOOLS ||
     name in TREASURE_TOOLS ||
     name in SHOVELS ||
