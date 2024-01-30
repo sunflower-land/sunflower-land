@@ -198,17 +198,25 @@ const IMAGES: Record<FlowerName, string> = {
   "Purple Lotus": "red_pansy",
 };
 
+const FLOWER_PATH = "../../../assets/flowers/stages/";
+
 export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
   IMAGES
 ).reduce(
   (acc, name) => ({
     ...acc,
     [name]: {
-      seedling: `src/assets/flowers/stages/seedling.webp`,
-      sprout: `src/assets/flowers/stages/sprout.webp`,
-      halfway: `src/assets/flowers/stages/halfway.webp`,
-      almost: `src/assets/flowers/stages/${IMAGES[name]}_almost.webp`,
-      ready: `src/assets/flowers/stages/${IMAGES[name]}_ready.webp`,
+      seedling: new URL(`${FLOWER_PATH}/seedling.webp`, import.meta.url).href,
+      sprout: new URL(`${FLOWER_PATH}/sprout.webp`, import.meta.url).href,
+      halfway: new URL(`${FLOWER_PATH}/halfway.webp`, import.meta.url).href,
+      almost: new URL(
+        `${FLOWER_PATH}/${IMAGES[name]}_almost.webp`,
+        import.meta.url
+      ).href,
+      ready: new URL(
+        `${FLOWER_PATH}/${IMAGES[name]}_ready.webp`,
+        import.meta.url
+      ).href,
     },
   }),
   {} as Record<FlowerName, Lifecycle>
