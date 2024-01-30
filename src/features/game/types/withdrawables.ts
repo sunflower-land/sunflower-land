@@ -1171,4 +1171,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Gardening Overalls": () => false,
   "Crimstone Hammer": () => false,
   "Crimstone Amulet": () => false,
+  "Full Bloom Shirt": () => false,
+  "Blue Blossom Shirt": () => false,
+  "Fairy Sandals": () => false,
+  "Daisy Tee": () => false,
+  "Propeller Hat": () => false,
+  "Honeycomb Shield": () => false,
+  "Hornet Mask": () => false,
 };
