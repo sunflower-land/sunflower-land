@@ -3,6 +3,7 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
+import { makeMegaStoreAvailableDates } from "./constants";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -349,7 +350,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  balance: new Decimal(0),
+  balance: new Decimal(10000),
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
@@ -388,6 +389,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Stone: new Decimal(100),
     Iron: new Decimal(100),
     Gold: new Decimal(15),
+    "Mermaid Scale": new Decimal(1000),
   },
   wardrobe: {
     "Elf Suit": 1,
@@ -533,6 +535,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
   catchTheKraken: {
     hunger: "Iron",
     weeklyCatches: {},
+  },
+  megastore: {
+    available: makeMegaStoreAvailableDates(),
+    collectibles: [],
+    wearables: [],
   },
   airdrops: [],
   username: "Local Hero",

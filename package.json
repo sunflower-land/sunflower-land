@@ -24,6 +24,7 @@
     "0xsequence": "^0.43.2",
     "@alch/alchemy-web3": "^1.4.7",
     "@anima-protocol/personhood-sdk-react": "^0.4.6",
+    "@headlessui/react": "^1.7.18",
     "@metamask/onboarding": "^1.0.1",
     "@react-spring/web": "^9.7.2",
     "@types/canvas-confetti": "^1.6.4",
