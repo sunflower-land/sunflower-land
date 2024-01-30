@@ -1671,7 +1671,7 @@ const SPRING_LAND_7_REQUIREMENTS: Requirements = {
 const SPRING_LAND_8_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 20,
-    Crimstone: 2,
+    Crimstone: 1,
     "Block Buck": 1,
   },
   seconds: 2 * 60 * 60,
