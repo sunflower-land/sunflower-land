@@ -273,7 +273,7 @@ export class SpringPlazaScene extends BaseScene {
 
       const week = getSeasonWeek();
       const collectedFlowerPages =
-        this.gameState.springBlossom[week].collectedFlowerPages;
+        this.gameState?.springBlossom?.[week]?.collectedFlowerPages;
 
       if (collectedFlowerPages && !collectedFlowerPages.includes(pageNumber)) {
         const page = new Page({ x, y, scene: this });
