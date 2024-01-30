@@ -6,6 +6,7 @@ import dragonfly from "assets/decorations/dragonfly.gif";
 
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import cossies from "assets/decorations/cossies.png";
+import mushroomIsland from "assets/land/mushroom_island.png";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -92,6 +93,18 @@ export const WaterComponent: React.FC<Props> = ({
             transform: "scaleX(-1)",
             left: `${16 * PIXEL_SCALE}px`,
             zIndex: 2,
+          }}
+        />
+      </MapPlacement>
+
+      <MapPlacement x={-17} y={19} width={4}>
+        <img
+          src={mushroomIsland}
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 54}px`,
+            left: `${PIXEL_SCALE * -3}px`,
+            top: 0,
           }}
         />
       </MapPlacement>

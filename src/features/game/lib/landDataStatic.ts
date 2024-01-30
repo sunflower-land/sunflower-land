@@ -297,7 +297,38 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   mysteryPrizes: {},
   mushrooms: {
-    mushrooms: {},
+    mushrooms: {
+      1: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -16,
+        y: 16,
+      },
+      2: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -16,
+        y: 17,
+      },
+      3: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -16,
+        y: 18,
+      },
+      4: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -17,
+        y: 17,
+      },
+      5: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -15,
+        y: 17,
+      },
+    },
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
