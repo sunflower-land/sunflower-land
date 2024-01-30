@@ -99,7 +99,8 @@ export type BumpkinShirt =
   | "Tiki Armor"
   | "Ugly Christmas Sweater"
   | "Cozy Hoodie"
-  | "Winter Jacket";
+  | "Winter Jacket"
+  | "Crimstone Armor";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -139,7 +140,10 @@ export type BumpkinTool =
   | "Sunflower Rod"
   | "Infernal Rod"
   | "Pickaxe Shark"
-  | "Candy Cane";
+  | "Candy Cane"
+  | "Beehive Staff"
+  | "Bee Smoker"
+  | "Crimstone Hammer";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -153,7 +157,8 @@ export type BumpkinShoe =
   | "Old Shoes"
   | "Flip Flops"
   | "Wellies"
-  | "Elf Shoes";
+  | "Elf Shoes"
+  | "Crimstone Boots";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -161,7 +166,8 @@ export type BumpkinNecklace =
   | "Beetroot Amulet"
   | "Green Amulet"
   | "Artist Scarf"
-  | "Banana Amulet";
+  | "Banana Amulet"
+  | "Crimstone Amulet";
 
 export type BumpkinHat =
   | "Farmer Hat"
@@ -216,7 +222,8 @@ export type BumpkinHat =
   | "Basic Dumbo"
   | "Stormy Dumbo"
   | "Gloomy Dumbo"
-  | "New Years Tiara";
+  | "New Years Tiara"
+  | "Beekeeper Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -242,7 +249,9 @@ export type BumpkinPant =
   | "Fishing Pants"
   | "Angler Waders"
   | "Tiki Pants"
-  | "Short Shorts";
+  | "Short Shorts"
+  | "Gardening Overalls"
+  | "Crimstone Pants";
 
 export type BumpkinDress =
   | "Cupid Dress"
@@ -284,7 +293,9 @@ export type BumpkinSuit =
   | "Ox Costume"
   | "Potato Suit"
   | "Santa Suit"
-  | "Elf Suit";
+  | "Elf Suit"
+  | "Bee Suit"
+  | "Beekeeper Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -293,7 +304,8 @@ export type BumpkinWings =
   | "Traveller's Backpack"
   | "Crow Wings"
   | "Bat Wings"
-  | "Butterfly Wings";
+  | "Butterfly Wings"
+  | "Bee Wings";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
@@ -584,6 +596,18 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Northern Lights Background": 271,
   "Short Shorts": 272,
   "Winter Jacket": 273,
+  "Beehive Staff": 274,
+  "Bee Smoker": 275,
+  "Bee Suit": 276,
+  "Bee Wings": 277,
+  "Beekeeper Hat": 278,
+  "Beekeeper Suit": 279,
+  "Crimstone Boots": 280,
+  "Crimstone Pants": 281,
+  "Crimstone Armor": 282,
+  "Gardening Overalls": 283,
+  "Crimstone Hammer": 284,
+  "Crimstone Amulet": 285,
 };
 
 // The reverse of above
@@ -916,4 +940,16 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Northern Lights Background": "background",
   "Short Shorts": "pants",
   "Winter Jacket": "shirt",
+  "Beehive Staff": "tool",
+  "Bee Smoker": "tool",
+  "Bee Suit": "suit",
+  "Bee Wings": "wings",
+  "Beekeeper Hat": "hat",
+  "Beekeeper Suit": "suit",
+  "Crimstone Boots": "shoes",
+  "Crimstone Pants": "pants",
+  "Crimstone Armor": "shirt",
+  "Gardening Overalls": "pants",
+  "Crimstone Hammer": "tool",
+  "Crimstone Amulet": "necklace",
 };
