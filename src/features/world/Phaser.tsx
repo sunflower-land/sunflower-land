@@ -47,6 +47,8 @@ import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
+import { hasFeatureAccess } from "lib/flags";
+import { SpringPlazaScene } from "./scenes/SpringPlazaScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -113,7 +115,9 @@ export const PhaserComponent: React.FC<Props> = ({
         ClothesShopScene,
         DecorationShopScene,
         BeachScene,
-        PlazaScene,
+        hasFeatureAccess(gameService.state.context.state, "SPRING")
+          ? SpringPlazaScene
+          : PlazaScene,
       ];
 
   useEffect(() => {

@@ -8,6 +8,9 @@ import { Player } from "../types/Room";
 import { NPCName, acknowedlgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 
+const NAME_ALIASES: Partial<Record<NPCName, string>> = {
+  "pumpkin' pete": "pete",
+};
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,
   hank: true,
@@ -74,7 +77,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
 
     if (name) {
-      const label = new Label(this.scene, name.toUpperCase());
+      const text = NAME_ALIASES[name as NPCName] ?? name;
+      const label = new Label(this.scene, text.toUpperCase());
       this.add(label);
       label.setPosition(label.width / 2, -16);
       if (
