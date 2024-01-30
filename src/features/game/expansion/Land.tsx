@@ -51,6 +51,7 @@ const IMAGE_GRID_WIDTH = 36;
 export const LAND_WIDTH = 6;
 
 const getIslandElements = ({
+  game,
   buildings,
   collectibles,
   chickens,
@@ -72,6 +73,7 @@ const getIslandElements = ({
   airdrops,
   beehives,
 }: {
+  game: GameState;
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
@@ -160,6 +162,7 @@ const getIslandElements = ({
                 x={coordinates.x}
                 y={coordinates.y}
                 grid={grid}
+                game={game}
               />
             </MapPlacement>
           );
@@ -661,6 +664,7 @@ export const Land: React.FC = () => {
             {/* Sort island elements by y axis */}
             {!paused &&
               getIslandElements({
+                game: state,
                 expansionConstruction,
                 buildings,
                 collectibles,
