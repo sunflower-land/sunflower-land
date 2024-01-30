@@ -105,6 +105,7 @@ export const Home: React.FC = () => {
                 x={coordinates.x}
                 y={coordinates.y}
                 grid={gameGrid}
+                game={state}
               />
             </MapPlacement>
           );
