@@ -7,6 +7,7 @@ import {
 } from "features/game/lib/updateBeehives";
 import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export enum HARVEST_BEEHIVE_ERRORS {
   BEEHIVE_NOT_PLACED = "This beehive is not placed.",
@@ -49,6 +50,13 @@ const applySwarmBoostToCrops = (
   }, {} as GameState["crops"]);
 };
 
+const getTotalHoneyProduced = (game: GameState, honeyProduced: number) => {
+  if (isWearableActive({ name: "Bee Suit", game })) {
+    return honeyProduced + 0.1;
+  }
+  return honeyProduced;
+};
+
 export function harvestBeehive({
   state,
   action,
@@ -77,9 +85,11 @@ export function harvestBeehive({
     throw new Error(HARVEST_BEEHIVE_ERRORS.NO_HONEY);
   }
 
-  const totalHoneyProduced =
+  const honeyProduced =
     stateCopy.beehives[action.id].honey.produced / HONEY_PRODUCTION_TIME;
-  const isFull = totalHoneyProduced >= 1;
+  const isFull = honeyProduced >= 1;
+
+  const totalHoneyProduced = getTotalHoneyProduced(stateCopy, honeyProduced);
 
   stateCopy.beehives[action.id].honey.produced = 0;
   stateCopy.beehives[action.id].honey.updatedAt = createdAt;
