@@ -855,6 +855,16 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+  "Grinx's Hammer": {
+    shortDescription: "Halves expansion costs",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
+  "Time Warp Totem": {
+    shortDescription: "50% Reduction to Crop, Mineral, Cooking and Tree Time",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
 
   // Marine Marvels with Boosts
   "Radiant Ray": {
