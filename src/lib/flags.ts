@@ -29,7 +29,8 @@ type FeatureName =
   | "HOME"
   | "ISLAND_UPGRADE"
   | "FLOWERS"
-  | "FLOWER_SHOP";
+  | "FLOWER_SHOP"
+  | "SPRING";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -93,6 +94,13 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   LOCALISATION: testnetFeatureFlag,
   FLOWERS: testnetFeatureFlag,
   FLOWER_SHOP: testnetFeatureFlag,
+  SPRING: (game: GameState) => {
+    if (Date.now() > SEASONS["Spring Blossom"].startDate.getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
