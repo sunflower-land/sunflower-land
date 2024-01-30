@@ -269,7 +269,7 @@ export const TEST_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
-    "Basic Land": new Decimal(1),
+    "Basic Land": new Decimal(3),
   },
   previousInventory: {},
   stock: INITIAL_STOCK(),
