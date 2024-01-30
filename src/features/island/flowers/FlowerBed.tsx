@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { FlowerBedModal } from "./FlowerBedModal";
-import emptyFlowerBed from "assets/flowers/stages/empty.webp";
+import emptyFlowerBed from "assets/flowers/empty.webp";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useActor } from "@xstate/react";
