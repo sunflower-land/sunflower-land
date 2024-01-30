@@ -79,9 +79,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
       (flowers.discovered[seedFlower] ?? []).includes(crossbreed)
     );
 
-  const hasRequirements = !!(
+  const hasSeedRequirements = !!(seed && inventory[seed]?.gte(1));
+
+  const hasCrossbreedRequirements = !!(
     crossbreed &&
-    inventory[crossbreed]?.gt(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
+    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
   );
 
   return (
@@ -205,11 +207,15 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                 <Label type="default" icon={ITEM_DETAILS[seed].image}>
                   {seed}
                 </Label>
-                <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
-                  {secondsToString(FLOWER_SEEDS()[seed].plantSeconds, {
-                    length: "medium",
-                  })}
-                </Label>
+                {hasSeedRequirements ? (
+                  <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
+                    {secondsToString(FLOWER_SEEDS()[seed].plantSeconds, {
+                      length: "medium",
+                    })}
+                  </Label>
+                ) : (
+                  <Label type={"danger"}>{`1 ${seed} required`}</Label>
+                )}
               </div>
               <p className="text-xs">{FLOWER_SEEDS()[seed].description}</p>
             </div>
@@ -244,7 +250,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   {crossbreed}
                 </Label>
                 <Label
-                  type={!hasRequirements ? "danger" : "default"}
+                  type={!hasCrossbreedRequirements ? "danger" : "default"}
                 >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
               </div>
               <p className="text-xs mt-1">
@@ -256,7 +262,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
       </div>
 
       <Button
-        disabled={!seed || !crossbreed || !hasRequirements}
+        disabled={
+          !seed ||
+          !crossbreed ||
+          !hasCrossbreedRequirements ||
+          !hasSeedRequirements
+        }
         onClick={() => plant()}
       >
         Plant {resultFlower ?? "Flower"}
