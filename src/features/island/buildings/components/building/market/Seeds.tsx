@@ -11,7 +11,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropTime } from "features/game/events/landExpansion/plant";
-import { INVENTORY_LIMIT, TEST_FARM } from "features/game/lib/constants";
+import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CROP_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
@@ -240,7 +240,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 />
               ))}
           </div>
-          {hasFeatureAccess(TEST_FARM, "FLOWERS") && (
+          {hasFeatureAccess(state, "FLOWERS") && (
             <>
               <Label
                 icon={SUNNYSIDE.icons.seedling}
