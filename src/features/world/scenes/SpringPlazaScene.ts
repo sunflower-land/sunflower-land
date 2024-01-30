@@ -155,7 +155,7 @@ export class SpringPlazaScene extends BaseScene {
 
     super({
       name: "plaza",
-      map: { json: showNYE ? nyeJSON : mapJson },
+      map: { json: mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
