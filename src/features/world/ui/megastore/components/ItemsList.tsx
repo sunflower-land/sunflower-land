@@ -68,7 +68,7 @@ export const ItemsList: React.FC<Props> = ({
   return (
     <div className="flex flex-col space-y-2">
       <div className="bg-brown-300 sticky -top-1 pb-1 z-10">
-        <Label type="info">{itemsLabel}</Label>
+        <Label type="default">{itemsLabel}</Label>
       </div>
       <div className="flex gap-2 flex-wrap">
         {sortedItems.length === 0 ? (
