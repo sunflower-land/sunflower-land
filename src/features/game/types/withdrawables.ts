@@ -1156,4 +1156,19 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Northern Lights Background": () => false,
   "Short Shorts": () => false,
   "Winter Jacket": () => false,
+
+  // Spring Blossom
+  // TODO Update withdraw dates
+  "Beehive Staff": () => false,
+  "Bee Smoker": () => false,
+  "Bee Suit": () => false,
+  "Bee Wings": () => false,
+  "Beekeeper Hat": () => false,
+  "Beekeeper Suit": () => false,
+  "Crimstone Boots": () => false,
+  "Crimstone Pants": () => false,
+  "Crimstone Armor": () => false,
+  "Gardening Overalls": () => false,
+  "Crimstone Hammer": () => false,
+  "Crimstone Amulet": () => false,
 };
