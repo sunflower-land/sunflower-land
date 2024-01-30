@@ -31,6 +31,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { BUILDINGS } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -184,14 +185,14 @@ export const Chest: React.FC<Props> = ({
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS());
-  const equipment = getKeys(collectibles).filter(
-    (name) => !!ITEM_DETAILS[name].buff
+  const boosts = getKeys(collectibles).filter(
+    (name) => name in COLLECTIBLE_BUFF_LABELS
   );
-  const other = getKeys(collectibles).filter(
+  const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
       !buildings.includes(name) &&
-      !equipment.includes(name)
+      !boosts.includes(name)
   );
 
   return (
@@ -303,13 +304,13 @@ export const Chest: React.FC<Props> = ({
             </div>
           )}
 
-          {equipment.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Equipment">
+          {boosts.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Boosts">
               <Label type="default" className="my-1" icon={lightning}>
-                Equipment
+                Boosts
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
-                {equipment.map((item) => (
+                {boosts.map((item) => (
                   <Box
                     count={chestMap[item]}
                     isSelected={selectedChestItem === item}
@@ -323,13 +324,13 @@ export const Chest: React.FC<Props> = ({
             </div>
           )}
 
-          {other.length > 0 && (
-            <div className="flex flex-col pl-2 mb-2 w-full" key="Other">
+          {decorations.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Decorations">
               <Label type="default" className="my-1">
-                Other
+                Decorations
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
-                {other.map((item) => (
+                {decorations.map((item) => (
                   <Box
                     count={chestMap[item]}
                     isSelected={selectedChestItem === item}
