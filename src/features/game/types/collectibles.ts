@@ -69,7 +69,19 @@ export type SoldOutCollectibleName =
   | "Knowledge Crab"
   | "Anchor"
   | "Rubber Ducky"
-  | "Kraken Head";
+  | "Kraken Head"
+  | "Humming Bird"
+  | "Queen Bee"
+  | "Blossom Royale"
+  | "Hungry Caterpillar";
+
+export type MegaStoreCollectibleName =
+  | "Flower Cart"
+  | "Sunrise Bloom Rug"
+  | "Flower Fox"
+  | "Enchanted Rose"
+  | "Capybara"
+  | "Rainbow";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

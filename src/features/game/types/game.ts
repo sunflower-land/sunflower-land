@@ -20,6 +20,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
@@ -298,7 +299,8 @@ export type InventoryItemName =
   | CompostName
   | FishName
   | MarineMarvelName
-  | FlowerName;
+  | FlowerName
+  | MegaStoreCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

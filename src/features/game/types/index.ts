@@ -186,6 +186,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Nana: 487,
   "Banana Chicken": 488,
   "Grinx's Hammer": 489,
+  "Humming Bird": 490,
+  "Queen Bee": 491,
+  "Flower Fox": 492,
+  "Hungry Caterpillar": 493,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -529,6 +533,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Time Warp Totem": 1297,
   "Bumpkin Nutcracker": 1298,
   "Festive Tree": 1299,
+  "Sunrise Bloom Rug": 1300,
+  "Blossom Royale": 1301,
+  Rainbow: 1302,
+  "Enchanted Rose": 1303,
+  "Flower Cart": 1304,
+  Capybara: 1305,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
