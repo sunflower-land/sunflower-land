@@ -5954,6 +5954,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+  "Crimson Carp": {
+    description: "A rare, vibrant jewel of the Spring waters.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1537.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crimstone Yield",
+        value: 0.05,
+      },
+    ],
+  },
   Chowder: {
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
@@ -6414,7 +6430,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Yellow Pansy": {
-    name: "Red Pansy",
+    name: "Yellow Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -6422,10 +6438,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Purple Pansy": {
-    name: "Red Pansy",
+    name: "Purple Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "White Pansy": {
+    name: "White Pansy",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Blue Pansy": {
+    name: "Blue Pansy",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
@@ -6435,7 +6469,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
   "Yellow Cosmos": {
@@ -6456,8 +6489,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Red Daffodil": {
-    name: "Red Daffodil",
+  "White Cosmos": {
+    name: "White Cosmos",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -6465,17 +6498,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Yellow Daffodil": {
-    name: "Yellow Daffodil",
-    description: "A flower",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-
-    image: "../public/erc1155/images/question_mark.png",
-    attributes: [],
-  },
-  "Purple Daffodil": {
-    name: "Purple Daffodil",
+  "Blue Cosmos": {
+    name: "Blue Cosmos",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -6506,39 +6530,181 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
-  "Red Lotus": {
-    name: "Red Lotus",
+  "White Balloon Flower": {
+    name: "White Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Blue Balloon Flower": {
+    name: "Blue Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Red Carnation": {
+    name: "Red Carnation",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Yellow Carnation": {
+    name: "Yellow Carnation",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Purple Carnation": {
+    name: "Purple Carnation",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
 
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
-  "Yellow Lotus": {
-    name: "Yellow Lotus",
+  "White Carnation": {
+    name: "White Carnation",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
-  "Purple Lotus": {
-    name: "Purple Lotus",
+  "Blue Carnation": {
+    name: "Blue Carnation",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-
     image: "../public/erc1155/images/question_mark.png",
-
+    attributes: [],
+  },
+  "Humming Bird": {
+    name: "Humming Bird",
+    description:
+      "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Queen Bee": {
+    name: "Queen Bee",
+    description:
+      "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower Fox": {
+    name: "Flower Fox",
+    description:
+      "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Hungry Caterpillar": {
+    name: "Hungry Caterpillar",
+    description:
+      "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Sunrise Bloom Rug": {
+    name: "Sunrise Bloom Rug",
+    description:
+      "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Blossom Royale": {
+    name: "Blossom Royale",
+    description:
+      "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Rainbow: {
+    name: "Rainbow",
+    description:
+      "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Enchanted Rose": {
+    name: "Enchanted Rose",
+    description:
+      "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower Cart": {
+    name: "Flower Cart",
+    description:
+      "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Capybara: {
+    name: "Capybara",
+    description:
+      "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Prism Petal": {
+    name: "Prism Petal",
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Celestial Frostbloom": {
+    name: "Celestial Frostbloom",
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Primula Enigma": {
+    name: "Primula Enigma",
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
 };
