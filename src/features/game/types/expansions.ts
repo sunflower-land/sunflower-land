@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName, IslandType } from "../types/game";
+import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 

@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName } from "../types/game";
+import { GameState, InventoryItemName } from "./game";
 import { FlowerName } from "./flowers";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
