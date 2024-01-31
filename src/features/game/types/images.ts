@@ -526,6 +526,7 @@ import startlightTuna from "assets/fish/starlight_tuna.png";
 import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+import crimsonCarp from "assets/fish/crimson_carp.png";
 import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
@@ -2956,6 +2957,13 @@ export const ITEM_DETAILS: Items = {
       boostTypeIcon: powerup,
       boostedItemIcon: gold,
     },
+    itemType: "collectible",
+  },
+
+  "Crimson Carp": {
+    image: crimsonCarp,
+    description: "A rare, vibrant jewel of the Spring waters.",
+    howToGetItem: ["Ocean fishing"],
     itemType: "collectible",
   },
 
