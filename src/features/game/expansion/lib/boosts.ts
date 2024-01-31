@@ -172,6 +172,10 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.05);
   }
 
+  if (isCollectibleBuilt({ name: "Blossombeard", game })) {
+    boostedExp = boostedExp.mul(1.1);
+  }
+
   if (
     (food.name in COOKABLE_CAKES || food.name === "Pirate Cake") &&
     isCollectibleBuilt({ name: "Grain Grinder", game })

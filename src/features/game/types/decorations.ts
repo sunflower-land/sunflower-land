@@ -51,6 +51,7 @@ export type ShopDecorationName =
   | LandscapingDecorationName;
 
 export type SeasonalDecorationName =
+  | "Blossombeard"
   | "Clementine"
   | "Cobalt"
   | "Dawn Umbrella Seat"
@@ -104,6 +105,10 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  Blossombeard: {
+    width: 1,
+    height: 1,
+  },
   Wardrobe: {
     height: 1,
     width: 1,
