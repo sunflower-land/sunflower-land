@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { FlowerBedModal } from "./FlowerBedModal";
-import emptyFlowerBed from "assets/flowers/stages/empty.webp";
+import emptyFlowerBed from "assets/flowers/empty.webp";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useActor } from "@xstate/react";
@@ -145,10 +145,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   return (
     <>
       <div
-        className={classNames("relative w-full h-full  hover:img-highlight", {
-          "cursor-pointer": !isGrowing,
+        className={classNames("relative w-full h-full", {
+          "cursor-pointer hover:img-highlight": !isGrowing,
         })}
-        onClick={handlePlotClick}
+        onClick={!isGrowing ? handlePlotClick : undefined}
         onMouseEnter={() => setShowPopover(true)}
         onMouseLeave={() => setShowPopover(false)}
       >
@@ -160,7 +160,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             bottom: 0,
           }}
         />
-        {flowerBed.flower && isGrowing && (
+        {flower && isGrowing && !flower.dirty && (
           <div
             className="flex justify-center absolute w-full pointer-events-none"
             style={{
@@ -170,7 +170,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             <TimerPopover
               image={
                 hasHarvestedBefore
-                  ? ITEM_DETAILS[flowerBed.flower.name].image
+                  ? ITEM_DETAILS[flower.name].image
                   : SUNNYSIDE.icons.search
               }
               description={
@@ -193,7 +193,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={timeLeftSeconds}
+              seconds={!flower.dirty ? timeLeftSeconds : undefined}
               type="progress"
               formatLength="short"
             />

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "react-bootstrap";
 import { Tab } from "components/ui/Tab";
@@ -19,6 +19,8 @@ import { MilestoneName } from "features/game/types/milestones";
 import { Flowers } from "./pages/Flowers";
 import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
 
 interface Props {
   show: boolean;
@@ -61,6 +63,13 @@ export function getCodexCategoryIndex(category: CodexCategoryName) {
 }
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state, farmId },
+    },
+  ] = useActor(gameService);
+
   const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
@@ -135,9 +144,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 {currentTab === 0 && (
                   <Fish onMilestoneReached={handleMilestoneReached} />
                 )}
-                {currentTab === 1 && hasFeatureAccess(TEST_FARM, "FLOWERS") && (
-                  <Flowers onMilestoneReached={handleMilestoneReached} />
-                )}
+                {currentTab === 1 &&
+                  hasFeatureAccess(state, "FLOWERS", farmId) && (
+                    <Flowers onMilestoneReached={handleMilestoneReached} />
+                  )}
               </InnerPanel>
             </div>
           </OuterPanel>

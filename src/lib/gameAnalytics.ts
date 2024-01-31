@@ -1,6 +1,6 @@
 import { GameAnalytics } from "gameanalytics";
 import { CONFIG } from "./config";
-import { InventoryItemName } from "features/game/types/game";
+import { Currency, InventoryItemName } from "features/game/types/game";
 import { BumpkinItem } from "features/game/types/bumpkin";
 
 // Their type definition has some issues, extract to here
@@ -77,7 +77,7 @@ class GameAnalyticTracker {
    * https://docs.gameanalytics.com/event-types/resource-events
    */
   public trackSource(event: {
-    item: "Block Buck" | "SFL" | "Seasonal Ticket";
+    item: Currency;
     amount: number;
     type: "Exchange" | "Reward" | "IAP" | "Web3" | "Quest";
     from:
@@ -106,7 +106,7 @@ class GameAnalyticTracker {
    * https://docs.gameanalytics.com/event-types/resource-events
    */
   public trackSink(event: {
-    currency: "Block Buck" | "SFL" | "Seasonal Ticket";
+    currency: Currency;
     amount: number;
     type: "Consumable" | "Fee" | "Wearable" | "Collectible" | "Web3";
     item: InventoryItemName | BumpkinItem | "Stock" | "Trade";

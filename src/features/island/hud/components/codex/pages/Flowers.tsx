@@ -6,11 +6,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { MilestonePanel } from "../components/Milestone";
-import { MilestoneTracker } from "../components/MilestoneTracker";
 import {
   FLOWER_MILESTONES,
-  MILESTONES,
   MilestoneName,
   getExperienceLevelForMilestones,
 } from "features/game/types/milestones";
@@ -81,7 +78,10 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
     return (
       <Detail
         name={selectedFlower}
-        caught={(farmActivity[`${selectedFlower} Harvested`] ?? 0) > 0}
+        caught={
+          (farmActivity[`${selectedFlower} Harvested`] ?? 0) > 0 ||
+          (discovered[selectedFlower] ?? []).length > 0
+        }
         onBack={() => setSelectedFlower(undefined)}
         additionalLabels={
           <>
@@ -122,8 +122,9 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
           <Label type="formula" className="ml-1.5">
             {`Flowers found: ${foundFlowersCount}`}
           </Label>
+          {/* Milestones disabled for spring bloom launch */}
           {/* Claimed Milestones */}
-          <div className="flex flex-wrap gap-1 px-1.5">
+          {/* <div className="flex flex-wrap gap-1 px-1.5">
             <MilestoneTracker
               milestones={milestoneNames}
               experienceLabelText={`${experienceLevel} Gardener`}
@@ -142,7 +143,7 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
                 onClaim={() => handleClaimReward(milestone)}
               />
             ))}
-          </div>
+          </div> */}
         </div>
         <div className="flex flex-col">
           {getKeys(FLOWERS_BY_SEED).map((type) => {
@@ -160,7 +161,10 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
                 <div className="flex flex-wrap">
                   {FLOWERS_BY_SEED[type].map((name) => (
                     <SimpleBox
-                      silhouette={!farmActivity[`${name} Harvested`]}
+                      silhouette={
+                        !farmActivity[`${name} Harvested`] &&
+                        (discovered[name] ?? []).length < 1
+                      }
                       onClick={() => setSelectedFlower(name)}
                       key={name}
                       image={ITEM_DETAILS[name].image}

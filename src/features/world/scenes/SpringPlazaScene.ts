@@ -1,5 +1,4 @@
-import mapJson from "assets/map/plaza.json";
-import nyeJSON from "assets/map/nye.json";
+import mapJson from "assets/map/plaza_spring.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -23,7 +22,7 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 371,
-    y: 344,
+    y: 420,
     npc: "pumpkin' pete",
   },
   {
@@ -33,8 +32,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 316,
-    y: 245,
+    x: 321,
+    y: 259,
     npc: "stella",
   },
   {
@@ -104,8 +103,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "tywin",
   },
   {
-    x: 505,
-    y: 352,
+    x: 506,
+    y: 250,
     npc: "birdie",
     direction: "left",
   },
@@ -115,8 +114,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "billy",
   },
   {
-    x: 224,
-    y: 293,
+    x: 214,
+    y: 295,
     npc: "hank",
   },
   {
@@ -142,7 +141,7 @@ const PAGE_POSITIONS = [
   },
 ];
 
-export class PlazaScene extends BaseScene {
+export class SpringPlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
   placeables: {
@@ -156,7 +155,7 @@ export class PlazaScene extends BaseScene {
 
     super({
       name: "plaza",
-      map: { json: showNYE ? nyeJSON : mapJson },
+      map: { json: mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }

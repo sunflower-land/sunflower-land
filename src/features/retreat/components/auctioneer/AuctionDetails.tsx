@@ -15,6 +15,7 @@ import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
@@ -107,7 +108,7 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const buffLabel =
     item.type === "collectible"
-      ? ITEM_DETAILS[item.collectible].buff
+      ? COLLECTIBLE_BUFF_LABELS[item.collectible]
       : BUMPKIN_ITEM_BUFF_LABELS[item.wearable];
   return (
     <div className="w-full flex flex-col items-center">

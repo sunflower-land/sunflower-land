@@ -626,13 +626,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   // Beekeeper
   stevie: {
-    body: "Beige Farmer Potion",
-    hair: "Buzz Cut",
+    body: "Light Brown Farmer Potion",
+    hair: "Parlour Hair",
     shirt: "Red Farmer Shirt",
     pants: "Farmer Overalls",
-    tool: "Farmer Pitchfork",
+    tool: "Bee Smoker",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+    suit: "Beekeeper Suit",
+    hat: "Beekeeper Hat",
   },
 };
 

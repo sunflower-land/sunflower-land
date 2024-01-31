@@ -28,7 +28,10 @@ type FeatureName =
   | "BEACH_FISHING"
   | "HOME"
   | "ISLAND_UPGRADE"
-  | "FLOWERS";
+  | "FLOWERS"
+  | "FLOWER_SHOP"
+  | "SPRING"
+  | "MEGA_STORE";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -91,9 +94,26 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
   LOCALISATION: testnetFeatureFlag,
   FLOWERS: testnetFeatureFlag,
+  FLOWER_SHOP: testnetFeatureFlag,
+  MEGA_STORE: testnetFeatureFlag,
+  SPRING: (game: GameState) => {
+    if (Date.now() > SEASONS["Spring Blossom"].startDate.getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
 };
 
-export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
+export const hasFeatureAccess = (
+  game: GameState,
+  featureName: FeatureName,
+  farmId?: number
+) => {
+  if (featureName === "FLOWERS" && farmId && ADMIN_IDS.includes(farmId)) {
+    return true;
+  }
+
   const isWitchesEve = Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
   if (featureName === "NEW_DELIVERIES" && isWitchesEve) {
     return true;

@@ -14,6 +14,7 @@ import {
   FLOWER_CROSS_BREED_DETAILS,
   FLOWER_SEEDS,
   FlowerCrossBreedName,
+  FlowerName,
   FlowerSeedName,
 } from "features/game/types/flowers";
 import { getKeys } from "features/game/types/craftables";
@@ -22,6 +23,9 @@ import { useActor } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
+
+const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
+  name in FLOWERS;
 
 interface Props {
   id: string;
@@ -32,7 +36,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
   const { inventory, flowers } = state;
@@ -63,7 +67,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     onClose();
   };
 
-  if (!hasFeatureAccess(state, "FLOWERS")) {
+  if (!hasFeatureAccess(state, "FLOWERS", farmId)) {
     return (
       <div className="p-2">
         <Label type="danger">Flowers are coming soon!</Label>
@@ -79,9 +83,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
       (flowers.discovered[seedFlower] ?? []).includes(crossbreed)
     );
 
-  const hasRequirements = !!(
+  const hasSeedRequirements = !!(seed && inventory[seed]?.gte(1));
+
+  const hasCrossbreedRequirements = !!(
     crossbreed &&
-    inventory[crossbreed]?.gt(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
+    inventory[crossbreed]?.gte(FLOWER_CROSS_BREED_AMOUNTS[crossbreed])
   );
 
   return (
@@ -178,12 +184,8 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
           </div>
         </div>
 
-        <div className="grid">
-          <div
-            className={classNames("row-start-1 col-start-1", {
-              invisible: !(selecting === "seed"),
-            })}
-          >
+        {selecting === "seed" && (
+          <>
             <Label type="default" className="mb-1">
               Select a seed
             </Label>
@@ -198,34 +200,39 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                 />
               ))}
             </div>
-          </div>
-          {selecting === "seed" && seed && (
-            <div className="space-y-1">
-              <div className="flex justify-between items-center">
-                <Label type="default" icon={ITEM_DETAILS[seed].image}>
-                  {seed}
-                </Label>
-                <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
-                  {secondsToString(FLOWER_SEEDS()[seed].plantSeconds, {
-                    length: "medium",
-                  })}
-                </Label>
+            {seed && (
+              <div className="space-y-1">
+                <div className="flex justify-between items-center">
+                  <Label type="default" icon={ITEM_DETAILS[seed].image}>
+                    {seed}
+                  </Label>
+                  {hasSeedRequirements ? (
+                    <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
+                      {secondsToString(FLOWER_SEEDS()[seed].plantSeconds, {
+                        length: "medium",
+                      })}
+                    </Label>
+                  ) : (
+                    <Label type={"danger"}>{`1 ${seed} required`}</Label>
+                  )}
+                </div>
+                <p className="text-xs">{FLOWER_SEEDS()[seed].description}</p>
               </div>
-              <p className="text-xs">{FLOWER_SEEDS()[seed].description}</p>
-            </div>
-          )}
+            )}
+          </>
+        )}
 
-          <div
-            className={classNames("row-start-1 col-start-1", {
-              invisible: !(selecting === "crossbreed"),
-            })}
-          >
+        {selecting === "crossbreed" && (
+          <>
             <Label type="default" className="mb-1">
               Select a crossbreed
             </Label>
             <div className="flex flex-wrap mb-2">
               {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
-                // .filter((name) => !!inventory[name]?.gte(1))
+                .filter(
+                  (name) =>
+                    !isFlower(name) || !!state.farmActivity[`${name} Harvested`]
+                )
                 .map((name) => (
                   <Box
                     image={ITEM_DETAILS[name].image}
@@ -236,27 +243,32 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   />
                 ))}
             </div>
-          </div>
-          {selecting === "crossbreed" && crossbreed && (
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <Label type="default" icon={ITEM_DETAILS[crossbreed].image}>
-                  {crossbreed}
-                </Label>
-                <Label
-                  type={!hasRequirements ? "danger" : "default"}
-                >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
+            {crossbreed && (
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <Label type="default" icon={ITEM_DETAILS[crossbreed].image}>
+                    {crossbreed}
+                  </Label>
+                  <Label
+                    type={!hasCrossbreedRequirements ? "danger" : "default"}
+                  >{`${FLOWER_CROSS_BREED_AMOUNTS[crossbreed]} ${crossbreed} required`}</Label>
+                </div>
+                <p className="text-xs mt-1">
+                  {FLOWER_CROSS_BREED_DETAILS[crossbreed]}
+                </p>
               </div>
-              <p className="text-xs mt-1">
-                {FLOWER_CROSS_BREED_DETAILS[crossbreed]}
-              </p>
-            </div>
-          )}
-        </div>
+            )}
+          </>
+        )}
       </div>
 
       <Button
-        disabled={!seed || !crossbreed || !hasRequirements}
+        disabled={
+          !seed ||
+          !crossbreed ||
+          !hasCrossbreedRequirements ||
+          !hasSeedRequirements
+        }
         onClick={() => plant()}
       >
         Plant {resultFlower ?? "Flower"}

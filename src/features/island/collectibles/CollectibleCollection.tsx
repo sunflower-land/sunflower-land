@@ -192,6 +192,7 @@ import { StarlightTuna } from "./components/StartlightTuna";
 import { RadiantRay } from "./components/RadiantRay";
 import { PhantomBarracuda } from "./components/PhantomBarracuda";
 import { GildedSwordfish } from "./components/GildedSwordfish";
+import { CrimsonCarp } from "./components/CrimsonCarp";
 import { SapoDocuras } from "./components/SapoDocuras";
 import { SapoTravessuras } from "./components/SapoTravessuras";
 import { LifeguardRing } from "./components/LifeguardRing";
@@ -219,6 +220,19 @@ import { WhiteFestiveFox } from "./components/WhiteFestiveFox";
 import { Rug } from "./components/Rug";
 import { Wardrobe } from "./components/Wardrobe";
 import { SpringBlossomBanner } from "./components/SpringBlossomBanner";
+import { HummingBird } from "./components/HummingBird";
+import { QueenBee } from "./components/QueenBee";
+import { FlowerFox } from "./components/FlowerFox";
+import { HungryCaterpillar } from "./components/HungryCaterpillar";
+import { SunriseBloomRug } from "./components/SunriseBloomRug";
+import { BlossomRoyale } from "./components/BlossomRoyale";
+import { Rainbow } from "./components/Rainbow";
+import { EnchantedRose } from "./components/EnchantedRose";
+import { FlowerCart } from "./components/FlowerCart";
+import { Capybara } from "./components/Capybara";
+import { PrismPetal } from "./components/PrismPetal";
+import { CelestialFrostbloom } from "./components/CelestialFrostbloom";
+import { PrimulaEnigma } from "./components/PrimulaEnigma";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -459,6 +473,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Phantom Barracuda": PhantomBarracuda,
   "Gilded Swordfish": GildedSwordfish,
   "Kraken Tentacle": KrakenTentacle,
+  "Crimson Carp": CrimsonCarp,
 
   // Catch the Kraken
   "Lifeguard Ring": LifeguardRing,
@@ -480,6 +495,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,
+
+  // Spring Blossom
+  "Humming Bird": HummingBird,
+  "Queen Bee": QueenBee,
+  "Flower Fox": FlowerFox,
+  "Hungry Caterpillar": HungryCaterpillar,
+  "Sunrise Bloom Rug": SunriseBloomRug,
+  "Blossom Royale": BlossomRoyale,
+  Rainbow: Rainbow,
+  "Enchanted Rose": EnchantedRose,
+  "Flower Cart": FlowerCart,
+  Capybara: Capybara,
+  // Flowers
+  "Prism Petal": PrismPetal,
+  "Celestial Frostbloom": CelestialFrostbloom,
+  "Primula Enigma": PrimulaEnigma,
 };
 // Need readonly versions for some troublesome components while in design mode
 
