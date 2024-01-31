@@ -783,8 +783,7 @@ export type Currency =
   | "Block Buck"
   | "Crimstone"
   | "Sunstone"
-  | "Seasonal Ticket"
-  | "Tulip";
+  | "Seasonal Ticket";
 
 type ItemBase = {
   shortDescription: string;
