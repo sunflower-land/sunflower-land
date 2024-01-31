@@ -593,6 +593,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+  "Hungry Caterpillar": {
+    shortDescription: "Free flower seeds",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
 
   // Fruit Boosts
   "Immortal Pear": {
