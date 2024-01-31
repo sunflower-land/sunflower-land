@@ -1153,6 +1153,7 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
   it("prevents a user from removing Banana Chicken when Bananas are growing", () => {
     const [restricted] = hasRemoveRestriction("Banana Chicken", "1", {
       ...TEST_FARM,
@@ -1202,6 +1203,50 @@ describe("canremove", () => {
       },
       collectibles: {
         "Banana Chicken": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+      inventory: {},
+    });
+
+    expect(restricted).toBe(false);
+  });
+
+  it("prevents a user from removing Immortal Pear when fruits are growing", () => {
+    const [restricted] = hasRemoveRestriction("Immortal Pear", "1", {
+      ...TEST_FARM,
+      fruitPatches: {
+        "1": {
+          height: 1,
+          width: 1,
+          x: 1,
+          y: 1,
+          fruit: {
+            amount: 1,
+            name: "Orange",
+            harvestedAt: 0,
+            plantedAt: Date.now() - 10,
+            harvestsLeft: 1,
+          },
+        },
+      },
+      collectibles: {
+        "Immortal Pear": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+      inventory: {},
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("does not prevent a user from removing Immortal Pear when no fruits are growing", () => {
+    const [restricted] = hasRemoveRestriction("Immortal Pear", "1", {
+      ...TEST_FARM,
+      fruitPatches: {},
+      collectibles: {
+        "Immortal Pear": [
           { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
         ],
       },

@@ -291,6 +291,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Black Bearry": (game) => areFruitsGrowing(game, "Blueberry"),
   "Lady Bug": (game) => areFruitsGrowing(game, "Apple"),
   Nana: (game) => areFruitsGrowing(game, "Banana"),
+  "Immortal Pear": (game) => areAnyFruitsGrowing(game),
 
   // Composter boosts
   "Soil Krabby": (game) => areAnyComposting(game),
