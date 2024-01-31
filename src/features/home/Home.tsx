@@ -93,7 +93,7 @@ export const Home: React.FC = () => {
               y={y}
               height={height}
               width={width}
-              z={name === "Rug" ? 0 : 1}
+              z={name.includes("Rug") ? 0 : 1}
             >
               <Collectible
                 location="home"

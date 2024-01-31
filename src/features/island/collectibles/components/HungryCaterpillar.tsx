@@ -1,25 +1,25 @@
 import React from "react";
 
-import flowerFox from "assets/sfts/flower_fox.webp";
+import hungryCaterpillar from "assets/sfts/hungry_caterpillar.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const FlowerFox: React.FC = () => {
+export const HungryCaterpillar: React.FC = () => {
   return (
     <div
       className="absolute flex justify-center"
       style={{
-        width: `${PIXEL_SCALE * 21}px`,
+        width: `${PIXEL_SCALE * 15}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
-        src={flowerFox}
+        src={hungryCaterpillar}
         style={{
-          width: `${PIXEL_SCALE * 21}px`,
+          width: `${PIXEL_SCALE * 15}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Flower Fox"
+        alt="Hungry Caterpillar"
       />
     </div>
   );
