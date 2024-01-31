@@ -231,6 +231,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   farm: "Farm",
   "farm.storage": "Farm Storage",
   featured: "Featured",
+  fee: "fee",
   "feed.bumpkin": "Feed Bumpkin",
   fertilisers: "Fertilisers",
   fish: "Fish",
@@ -265,6 +266,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   maintenance: "Maintenance",
   "make.wish": "Make a Wish",
   "making.wish": "Making a wish",
+  max: "Max",
   minimum: "Minimum",
   mins: "mins",
   mint: "Mint",
@@ -311,6 +313,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "seasonal.treasure": "Seasonal Treasure",
   secs: "secs",
   seeds: "Seeds",
+  selected: "Selected",
   "select.resource": "Select your resource",
   sell: "Sell",
   "sell.all": "Sell All",
@@ -3621,7 +3624,6 @@ const statements: Record<Statements, string> = {
   "statements.crop.water": "These crops need water!",
   "statements.daily.limit": "Daily Limit:",
   "statements.sure.buy": "Are you sure you want to buy ",
-  "statements.max": "Max",
   "statements.perplayer": "per Player",
   "statements.minted.goToChest": "Go to your chest and place it on your island",
   "statements.minted.withdrawAfterMint":
@@ -3820,9 +3822,7 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
 };
 
 const winner: Record<Winner, string> = {
-  "winner.congratulations": "Congratulations!",
   "winner.mintTime": "You have 24 hours to mint your prize.",
-  "winner.mint": "Mint",
   "winner.mintTime.one": "No items available to craft!",
 };
 
@@ -3866,13 +3866,10 @@ const withdraw: Record<Withdraw, string> = {
     "You can only withdraw items that you have synced to the blockchain.",
   "withdraw.available": "Available May 9th",
   "withdraw.sfl.available": "SFL is available on-chain",
-  "withdraw.max": "Max",
-  "withdraw.fee": "fee",
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
   "withdraw.receive": "You will receive:",
   "withdraw.select.item": "Select items to withdraw",
-  "withdraw.select": "Selected",
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",
   "withdraw.restricted":

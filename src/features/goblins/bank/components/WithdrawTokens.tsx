@@ -137,7 +137,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
             />
           </div>
           <Button className="w-24 ml-6" onClick={setMax}>
-            {t("withdraw.max")}
+            {t("max")}
           </Button>
         </div>
         {amount.gt(0) && (
@@ -147,7 +147,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 <img src={lightning} className="h-6" />
               )}
               <span className="text-xs">
-                {tax}% {t("withdraw.fee")}
+                {tax}% {t("fee")}
               </span>
               <a
                 className="underline ml-2"

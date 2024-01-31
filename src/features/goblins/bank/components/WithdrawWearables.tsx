@@ -141,7 +141,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <div className="mt-2">
-          <h2 className="">{t("withdraw.select")}</h2>
+          <h2 className="">{t("selected")}</h2>
           <div className="flex flex-wrap h-fit mt-2 -ml-1.5">
             {selectedItems.map((itemName) => {
               return (

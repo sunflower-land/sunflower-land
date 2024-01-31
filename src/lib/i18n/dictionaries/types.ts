@@ -73,6 +73,7 @@ export type GeneralTerms =
   | "farm.storage"
   | "farm"
   | "featured"
+  | "fee"
   | "feed.bumpkin"
   | "fertilisers"
   | "fish.caught"
@@ -106,6 +107,7 @@ export type GeneralTerms =
   | "maintenance"
   | "make.wish"
   | "making.wish"
+  | "max"
   | "minimum"
   | "mins"
   | "mint"
@@ -152,6 +154,7 @@ export type GeneralTerms =
   | "seasonal.treasure"
   | "secs"
   | "seeds"
+  | "selected"
   | "select.resource"
   | "sell.all"
   | "sell.one"
@@ -2469,7 +2472,6 @@ export type Statements =
   | "statements.crop.water"
   | "statements.daily.limit"
   | "statements.sure.buy"
-  | "statements.max"
   | "statements.perplayer"
   | "statements.minted.goToChest"
   | "statements.minted.withdrawAfterMint"
@@ -2615,11 +2617,7 @@ export type WelcomeTerms =
   | "welcome.takeover.ownership"
   | "welcome.promo";
 
-export type Winner =
-  | "winner.congratulations"
-  | "winner.mintTime"
-  | "winner.mint"
-  | "winner.mintTime.one";
+export type Winner = "winner.mintTime" | "winner.mintTime.one";
 
 export type WishingWell =
   | "wishingWell.makeWish"
@@ -2648,13 +2646,10 @@ export type Withdraw =
   | "withdraw.sync"
   | "withdraw.available"
   | "withdraw.sfl.available"
-  | "withdraw.max"
-  | "withdraw.fee"
   | "withdraw.choose"
   | "withdraw.send.wallet"
   | "withdraw.receive"
   | "withdraw.select.item"
-  | "withdraw.select"
   | "withdraw.opensea"
   | "withdraw.restricted"
   | "withdraw.bumpkin.wearing"
