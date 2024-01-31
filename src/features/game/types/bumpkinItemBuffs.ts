@@ -165,4 +165,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,
     },
+    "Crimstone Armor": {
+      shortDescription: "+0.1 Crimstones",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
   };
