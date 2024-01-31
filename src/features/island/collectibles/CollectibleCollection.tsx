@@ -222,6 +222,7 @@ import { Wardrobe } from "./components/Wardrobe";
 import { SpringBlossomBanner } from "./components/SpringBlossomBanner";
 import { HummingBird } from "./components/HummingBird";
 import { QueenBee } from "./components/QueenBee";
+import { FlowerFox } from "./components/FlowerFox";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -488,6 +489,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Spring Blossom
   "Humming Bird": HummingBird,
   "Queen Bee": QueenBee,
+  "Flower Fox": FlowerFox,
 };
 // Need readonly versions for some troublesome components while in design mode
 
