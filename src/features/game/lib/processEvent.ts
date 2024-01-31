@@ -82,6 +82,9 @@ export const maxItems: Inventory = {
   "Purple Carnation": new Decimal("80"),
   "White Carnation": new Decimal("80"),
   "Blue Carnation": new Decimal("80"),
+  "Prism Petal": new Decimal("80"),
+  "Celestial Frostbloom": new Decimal("80"),
+  "Primula Enigma": new Decimal("80"),
 
   Sunstone: new Decimal("20"),
   Crimstone: new Decimal("40"),
