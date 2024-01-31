@@ -315,9 +315,6 @@ export const UpcomingExpansion: React.FC = () => {
     // Only pulsate first 5 times
     state.inventory["Basic Land"]?.lte(4);
 
-  const canUpgrade =
-    state.island.type === "basic" && state.inventory["Basic Land"]?.gte(9);
-
   return (
     <>
       {state.expansionConstruction && (
@@ -328,7 +325,7 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction && requirements && !canUpgrade && (
+      {!state.expansionConstruction && requirements && (
         <ExpandIcon
           canExpand={canExpand}
           inventory={state.inventory}
