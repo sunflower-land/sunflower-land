@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "./craftables";
 import { CropName } from "./crops";
 import { FruitName } from "./fruits";
+import { marketRate } from "../lib/halvening";
 
 type PansyName =
   | "Red Pansy"
@@ -48,7 +49,6 @@ export type EpicFlowerName =
   | "Primula Enigma";
 
 export type FlowerSeed = {
-  price: Decimal;
   bumpkinLevel: number;
   sfl: Decimal;
   description: string;
@@ -72,27 +72,24 @@ export function isFlowerSeed(seed: FlowerSeedName) {
 
 export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
   "Sunpetal Seed": {
-    price: new Decimal(0),
-    bumpkinLevel: 0,
-    sfl: new Decimal(0),
-    description: "A sunpetal seed",
+    sfl: marketRate(16),
+    bumpkinLevel: 17,
     plantSeconds: 1 * 24 * 60 * 60,
+    description: "A sunpetal seed",
     disabled: false,
   },
   "Bloom Seed": {
-    price: new Decimal(0),
-    bumpkinLevel: 0,
-    sfl: new Decimal(0),
-    description: "A bloom seed",
+    sfl: marketRate(32),
+    bumpkinLevel: 22,
     plantSeconds: 2 * 24 * 60 * 60,
+    description: "A bloom seed",
     disabled: false,
   },
   "Lily Seed": {
-    price: new Decimal(0),
-    bumpkinLevel: 0,
-    sfl: new Decimal(0),
-    description: "A lily seed",
+    sfl: marketRate(48),
+    bumpkinLevel: 27,
     plantSeconds: 5 * 24 * 60 * 60,
+    description: "A lily seed",
     disabled: false,
   },
 });
