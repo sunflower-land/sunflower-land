@@ -372,13 +372,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Clothes shop stylist
   stella: {
     body: "Beige Farmer Potion",
-    hair: "Pink Ponytail",
+    hair: "White Long Hair",
     hat: "Boater Hat",
-    pants: "Crimson Skirt",
-    shirt: "Clown Shirt",
+    pants: "Farmer Overalls",
+    shirt: "Daisy Tee",
     background: "Farm Background",
     shoes: "Brown Boots",
-    tool: "Hammer",
+    tool: "Farmer Pitchfork",
   },
   // Sunflorian Prince
   tywin: {
