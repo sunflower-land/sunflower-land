@@ -32,7 +32,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
   const { inventory, flowers } = state;
@@ -63,7 +63,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     onClose();
   };
 
-  if (!hasFeatureAccess(state, "FLOWERS")) {
+  if (!hasFeatureAccess(state, "FLOWERS", farmId)) {
     return (
       <div className="p-2">
         <Label type="danger">Flowers are coming soon!</Label>

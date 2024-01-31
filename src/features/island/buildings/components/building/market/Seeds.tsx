@@ -41,7 +41,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
   const { t } = useAppTranslation();
@@ -240,7 +240,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 />
               ))}
           </div>
-          {hasFeatureAccess(state, "FLOWERS") && (
+          {hasFeatureAccess(state, "FLOWERS", farmId) && (
             <>
               <Label
                 icon={SUNNYSIDE.icons.seedling}

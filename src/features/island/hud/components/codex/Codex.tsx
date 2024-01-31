@@ -66,7 +66,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { gameService } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
 
@@ -144,9 +144,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 {currentTab === 0 && (
                   <Fish onMilestoneReached={handleMilestoneReached} />
                 )}
-                {currentTab === 1 && hasFeatureAccess(state, "FLOWERS") && (
-                  <Flowers onMilestoneReached={handleMilestoneReached} />
-                )}
+                {currentTab === 1 &&
+                  hasFeatureAccess(state, "FLOWERS", farmId) && (
+                    <Flowers onMilestoneReached={handleMilestoneReached} />
+                  )}
               </InnerPanel>
             </div>
           </OuterPanel>
