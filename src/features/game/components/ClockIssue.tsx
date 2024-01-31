@@ -3,9 +3,9 @@ import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 const SyncClockGuide =
-  "https://sunflowerland.freshdesk.com/en/support/solutions/articles/101000397200-how-to-sync-my-windows-clock-";
+  "https://sunflowerland.freshdesk.com/en/support/solutions/articles/101000512679-how-to-fix-clock-not-in-sync-error";
 
-export const ClockIssue = () => {
+export const ClockIssue: React.FC = () => {
   const { t } = useAppTranslation();
   return (
     <div className="flex flex-col items-center text-center p-2">
@@ -17,7 +17,7 @@ export const ClockIssue = () => {
       <div className="flex w-full">
         <Button
           onClick={() => {
-            window.location.href = SyncClockGuide as string;
+            window.open(SyncClockGuide, "_blank");
           }}
         >
           {t("statements.openGuide")}

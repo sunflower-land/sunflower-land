@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/craftables";
-import { Bumpkin, GameState, Inventory } from "features/game/types/game";
+import {
+  Bumpkin,
+  ExpansionRequirements as IExpansionRequirements,
+  Inventory,
+} from "features/game/types/game";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 
@@ -16,7 +20,7 @@ interface Props {
   inventory: Inventory;
   bumpkin: Bumpkin;
   details?: DetailsProps;
-  requirements?: GameState["expansionRequirements"];
+  requirements?: IExpansionRequirements;
   actionView?: JSX.Element;
 }
 
@@ -83,7 +87,7 @@ export const Requirements = ({
   bumpkin,
 }: {
   inventory: Inventory;
-  requirements?: GameState["expansionRequirements"];
+  requirements?: IExpansionRequirements;
   bumpkin: Bumpkin;
 }) => {
   if (!requirements) return <></>;

@@ -181,7 +181,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     location === "home" &&
     ((!COLLECTIBLES_DIMENSIONS[placeable as CollectibleName] &&
       !isBudName(placeable)) ||
-      placeable in LANDSCAPING_DECORATIONS());
+      placeable in LANDSCAPING_DECORATIONS() ||
+      placeable === "Magic Bean");
 
   return (
     <div className="fixed bottom-2 left-1/2 -translate-x-1/2">

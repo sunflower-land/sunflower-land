@@ -252,6 +252,18 @@ import {
 } from "./landExpansion/placeSunstone";
 import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
 import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
+import {
+  discoverFlowerPage,
+  FlowerPageDiscoveredAction,
+} from "./landExpansion/discoverFlowerPage";
+import {
+  FlowerShopTradedAction,
+  tradeFlowerShop,
+} from "./landExpansion/tradeFlowerShop";
+import {
+  buyMegaStoreItem,
+  BuyMegaStoreItemAction,
+} from "./landExpansion/buyMegaStoreItem";
 
 export type PlayingEvent =
   | TradeAction
@@ -329,7 +341,10 @@ export type PlayingEvent =
   | PlantFlowerAction
   | HarvestFlowerAction
   | UpgradeFarmAction
-  | PurchaseBannerAction;
+  | PurchaseBannerAction
+  | FlowerPageDiscoveredAction
+  | FlowerShopTradedAction
+  | BuyMegaStoreItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -470,6 +485,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flower.harvested": harvestFlower,
   "farm.upgraded": upgrade,
   "banner.purchased": purchaseBanner,
+  "flowerPage.discovered": discoverFlowerPage,
+  "flowerShop.traded": tradeFlowerShop,
+  "megastoreItem.bought": buyMegaStoreItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
