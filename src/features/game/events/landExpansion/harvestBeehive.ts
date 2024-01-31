@@ -51,10 +51,11 @@ const applySwarmBoostToCrops = (
 };
 
 const getTotalHoneyProduced = (game: GameState, honeyProduced: number) => {
+  let amount = honeyProduced;
   if (isWearableActive({ name: "Bee Suit", game })) {
-    return honeyProduced + 0.1;
+    amount *= 1.1;
   }
-  return honeyProduced;
+  return amount;
 };
 
 export function harvestBeehive({
