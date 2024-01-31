@@ -240,7 +240,6 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
       Egg: new Decimal(10),
     },
     marketRate: 550,
-    disabled: true,
   },
 };
 
