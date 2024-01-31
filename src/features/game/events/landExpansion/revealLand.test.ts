@@ -11,8 +11,8 @@ import {
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
 
-describe.only("expansionRequirements", () => {
-  it.only("returns normal expansion requirements", () => {
+describe("expansionRequirements", () => {
+  it("returns normal expansion requirements", () => {
     const requirements = expansionRequirements({ game: TEST_FARM });
 
     expect(requirements?.resources).toEqual({
