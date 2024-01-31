@@ -184,4 +184,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
+    "Flower Crown": {
+      shortDescription: "2x flower speed",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
+    },
   };
