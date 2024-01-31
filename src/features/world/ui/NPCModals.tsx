@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { NPCName, NPC_WEARABLES, isNPCAcknowledged } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
@@ -45,10 +45,6 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
-  if (scene === "beach" && !isNPCAcknowledged("shelly")) {
-    return "shelly";
-  }
-
   return undefined;
 }
 
