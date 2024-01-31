@@ -56,7 +56,13 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
-  HOME: defaultFeatureFlag,
+  HOME: (game: GameState) => {
+    if (Date.now() > new Date("2024-02-01").getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
 
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
