@@ -76,7 +76,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     bumpkinLevel: 0,
     sfl: new Decimal(0),
     description: "A sunpetal seed",
-    plantSeconds: 40,
+    plantSeconds: 1 * 24 * 60 * 60,
     disabled: false,
   },
   "Bloom Seed": {
@@ -84,7 +84,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     bumpkinLevel: 0,
     sfl: new Decimal(0),
     description: "A bloom seed",
-    plantSeconds: 50,
+    plantSeconds: 2 * 24 * 60 * 60,
     disabled: false,
   },
   "Lily Seed": {
@@ -92,7 +92,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     bumpkinLevel: 0,
     sfl: new Decimal(0),
     description: "A lily seed",
-    plantSeconds: 60,
+    plantSeconds: 5 * 24 * 60 * 60,
     disabled: false,
   },
 });
