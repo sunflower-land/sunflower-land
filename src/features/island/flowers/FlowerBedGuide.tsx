@@ -1,11 +1,12 @@
 import React from "react";
-import fishingTutorial from "assets/tutorials/fishing.png";
-import fishingCodex from "assets/tutorials/fishing_codex.png";
+import flowersTutorial from "assets/tutorials/flowers.webp";
+import beeTutorial from "assets/tutorials/bees.webp";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import powerup from "assets/icons/level_up.png";
-import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
+import bee from "assets/icons/bee.webp";
+import honey from "assets/resources/honey.png";
 
 interface Props {
   onClose: () => void;
@@ -35,55 +36,49 @@ const FlowerBedGuideItem: React.FC<{ icon: string; content: string }> = ({
 export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
   const basicGuide: GuideItem[] = [
     {
-      icon: SUNNYSIDE.tools.fishing_rod,
-      content: "Craft a rod and gather bait to catch fish.",
+      icon: ITEM_DETAILS["Sunpetal Seed"].image,
+      content: "Buy seeds from the Seed Shop.",
     },
     {
-      icon: ITEM_DETAILS["Red Wiggler"].image,
-      content: "Bait can be earned through composting or crafting lures.",
-    },
-    {
-      icon: powerup,
+      icon: ITEM_DETAILS["Sunflower"].image,
       content:
-        "Eat fish to level up your Bumpkin or perform fish deliveries for rewards.",
+        "Crossbreed with crops and other flowers to discover new flowers species.",
+    },
+    {
+      icon: SUNNYSIDE.icons.search,
+      content: "Collect all species of flowers in the Codex!",
     },
   ];
 
   const advancedGuide: GuideItem[] = [
     {
-      icon: SUNNYSIDE.icons.search,
-      content:
-        "Explore the waters to discover rare fish, complete missions, and unlock unique rewards within the Codex.",
+      icon: bee,
+      content: "Bees produce honey while flowers are growing.",
     },
     {
-      icon: SUNNYSIDE.icons.stopwatch,
+      icon: honey,
       content:
-        "Keep track of the changing tide patterns; specific fish species are only available during certain conditions.",
+        "Fill up a beehive completely and collect the honey for a chance of a bee swarm to appear.",
     },
     {
-      icon: CROP_LIFECYCLE.Carrot.crop,
-      content:
-        "Experiment with different types of bait and chum combinations to maximize your chances of catching various fish species.",
-    },
-    {
-      icon: SUNNYSIDE.icons.stressed,
-      content:
-        "Beware of legendary fish; they require exceptional skill and strength to catch.",
+      icon: powerup,
+      content: "Bee swarms produce additional honey.",
     },
   ];
+
   return (
     <div
       style={{ maxHeight: "320px" }}
       className="overflow-y-auto scrollable flex flex-wrap pt-1.5 pr-0.5"
     >
       <div className="flex flex-col gap-y-3 p-2">
-        <img src={fishingTutorial} className="w-full rounded-lg" />
+        <img src={flowersTutorial} className="w-full rounded-lg" />
 
         {basicGuide.map((item, i) => (
           <FlowerBedGuideItem key={i} icon={item.icon} content={item.content} />
         ))}
 
-        <img src={fishingCodex} className="w-full rounded-lg" />
+        <img src={beeTutorial} className="w-full rounded-lg" />
 
         {advancedGuide.map((item, i) => (
           <FlowerBedGuideItem key={i} icon={item.icon} content={item.content} />
