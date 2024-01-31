@@ -533,12 +533,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Time Warp Totem": 1297,
   "Bumpkin Nutcracker": 1298,
   "Festive Tree": 1299,
-  "Sunrise Bloom Rug": 1300,
-  "Blossom Royale": 1301,
-  Rainbow: 1302,
-  "Enchanted Rose": 1303,
-  "Flower Cart": 1304,
-  Capybara: 1305,
 
   //Beach Bounty
   "Pirate Bounty": 1301,
@@ -603,6 +597,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "White Festive Fox": 2001,
   Rug: 2002,
   Wardrobe: 2003,
+  "Sunrise Bloom Rug": 2004,
+  "Blossom Royale": 2005,
+  Rainbow: 2006,
+  "Enchanted Rose": 2007,
+  "Flower Cart": 2008,
+  Capybara: 2009,
 };
 
 // The reverse of above
