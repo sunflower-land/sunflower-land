@@ -16,6 +16,7 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
 import { TEST_FARM } from "features/game/lib/constants";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { npcModalManager } from "../ui/NPCModals";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -163,6 +164,8 @@ export class SpringPlazaScene extends BaseScene {
 
     this.load.image("page", "world/page.png");
 
+    this.load.image("shop_icon", "world/shop_disc.png");
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -269,6 +272,11 @@ export class SpringPlazaScene extends BaseScene {
           }
         );
       }
+    });
+
+    const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
+    shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      npcModalManager.open("stella");
     });
 
     const auctionLabel = new Label(this, "AUCTIONS", "brown");
