@@ -5,6 +5,7 @@ import { BumpkinItem } from "./bumpkin";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import bee from "assets/icons/bee.webp";
 import { ITEM_DETAILS } from "./images";
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
@@ -170,5 +171,11 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    "Hornet Mask": {
+      shortDescription: "2x chance Bee Swarm",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: bee,
     },
   };
