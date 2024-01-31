@@ -153,4 +153,16 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
+    "Crimstone Hammer": {
+      shortDescription: "+3 Crimstones on last mine",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    "Crimstone Amulet": {
+      shortDescription: "20% Crimstone speed ",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
   };
