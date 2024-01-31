@@ -4,14 +4,12 @@ import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { AudioController } from "../lib/AudioController";
 import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Page } from "../containers/Page";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
@@ -200,15 +198,6 @@ export class SpringPlazaScene extends BaseScene {
       frameHeight: 15,
     });
 
-    this.load.spritesheet(
-      "goblin_hammer",
-      SUNNYSIDE.npcs.goblin_hammering_sheet,
-      {
-        frameWidth: 70,
-        frameHeight: 30,
-      }
-    );
-
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
@@ -233,21 +222,6 @@ export class SpringPlazaScene extends BaseScene {
       if (!this.sound.get("nature_1")) {
         const nature1 = this.sound.add("nature_1");
         nature1.play({ loop: true, volume: 0.01 });
-      }
-
-      // Boat SFX
-      if (!this.sound.get("boat")) {
-        const boatSound = this.sound.add("boat");
-        boatSound.play({ loop: true, volume: 0, rate: 0.6 });
-
-        this.soundEffects.push(
-          new AudioController({
-            sound: boatSound,
-            distanceThreshold: 130,
-            coordinates: { x: 352, y: 462 },
-            maxVolume: 0.2,
-          })
-        );
       }
     }
 
@@ -322,24 +296,6 @@ export class SpringPlazaScene extends BaseScene {
     fatChicken.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("fat_chicken");
     });
-
-    // Goblin Hammering
-    const hammerinGoblin = this.add.sprite(250, 268, "goblin_hammer");
-    this.anims.create({
-      key: "goblin_hammer_animation",
-      frames: this.anims.generateFrameNumbers("goblin_hammer", {
-        start: 0,
-        end: 22,
-      }),
-      repeat: -1,
-      frameRate: 14,
-    });
-    hammerinGoblin.play("goblin_hammer_animation", true);
-    hammerinGoblin
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        interactableModalManager.open("goblin_hammer");
-      });
 
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
