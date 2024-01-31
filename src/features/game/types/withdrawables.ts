@@ -502,6 +502,7 @@ const decorations: Record<ShopDecorationName, () => boolean> = {
 };
 
 const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
+  Blossombeard: () => false,
   Clementine: () => true,
   Cobalt: () => true,
   "Dawn Umbrella Seat": () => true,

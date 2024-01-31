@@ -465,6 +465,7 @@ import toadstoolSeat from "assets/decorations/toadstool_seat.png";
 import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
 import mahoganyCap from "assets/decorations/mahogony_cap.png";
 import clementine from "assets/decorations/clementine.png";
+import blossombeard from "assets/sfts/blossom_beard.webp";
 import cobalt from "assets/decorations/cobalt.png";
 import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
@@ -2493,6 +2494,11 @@ export const ITEM_DETAILS: Items = {
   Clementine: {
     image: clementine,
     description: translate("description.clementine"),
+  },
+  Blossombeard: {
+    image: blossombeard,
+    description:
+      "The Blossombeard Gnome is a powerful companion for your farming adventures.",
   },
   Cobalt: {
     image: cobalt,

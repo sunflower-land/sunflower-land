@@ -17,6 +17,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -65,32 +66,45 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           )}
 
           {itemNames.length > 0 &&
-            itemNames.map((name) => (
-              <div className="flex items-center" key={name}>
-                <Box image={ITEM_DETAILS[name].image} />
-                <div>
-                  <div className="flex items-center">
-                    <Label type="default" className="mr-2">
-                      {`${setPrecision(
-                        new Decimal(airdrop.items[name] ?? 1)
-                      ).toString()} x ${name}`}
-                    </Label>
-                    {name in CONSUMABLES && (
+            itemNames.map((name) => {
+              const buff = COLLECTIBLE_BUFF_LABELS[name];
+              return (
+                <div className="flex items-start" key={name}>
+                  <Box image={ITEM_DETAILS[name].image} className="-mt-2" />
+                  <div>
+                    <div className="flex items-center">
+                      <Label type="default" className="mr-2">
+                        {`${setPrecision(
+                          new Decimal(airdrop.items[name] ?? 1)
+                        ).toString()} x ${name}`}
+                      </Label>
+                      {name in CONSUMABLES && (
+                        <Label
+                          type="success"
+                          icon={powerup}
+                          className="mr-2"
+                        >{`+${setPrecision(
+                          new Decimal(
+                            CONSUMABLES[name as ConsumableName].experience
+                          )
+                        ).toString()} EXP`}</Label>
+                      )}
+                    </div>
+                    <p className="text-xs">{ITEM_DETAILS[name].description}</p>
+                    {buff && (
                       <Label
-                        type="success"
-                        icon={powerup}
-                        className="mr-2"
-                      >{`+${setPrecision(
-                        new Decimal(
-                          CONSUMABLES[name as ConsumableName].experience
-                        )
-                      ).toString()} EXP`}</Label>
+                        type={buff.labelType}
+                        icon={buff.boostTypeIcon}
+                        secondaryIcon={buff.boostedItemIcon}
+                        className="my-1"
+                      >
+                        {buff.shortDescription}
+                      </Label>
                     )}
                   </div>
-                  <p className="text-xs">{ITEM_DETAILS[name].description}</p>
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
           {getKeys(airdrop.wearables ?? {}).length > 0 &&
             getKeys(airdrop.wearables).map((name) => (

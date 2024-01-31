@@ -8,6 +8,8 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { Label } from "../Label";
 
 /**
  * The props for the details for items.
@@ -86,6 +88,8 @@ export const InventoryItemDetails: React.FC<Props> = ({
       }
     }
 
+    const boost = COLLECTIBLE_BUFF_LABELS[details.item];
+
     return (
       <>
         <div
@@ -109,6 +113,18 @@ export const InventoryItemDetails: React.FC<Props> = ({
         >
           {description}
         </span>
+        {boost && (
+          <div className="flex sm:justify-center">
+            <Label
+              type={boost.labelType}
+              icon={boost.boostTypeIcon}
+              secondaryIcon={boost.boostedItemIcon}
+              className="my-1"
+            >
+              {boost.shortDescription}
+            </Label>
+          </div>
+        )}
       </>
     );
   };
