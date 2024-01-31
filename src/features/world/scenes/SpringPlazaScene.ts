@@ -208,6 +208,10 @@ export class SpringPlazaScene extends BaseScene {
 
     this.load.image("chest", "world/rare_chest.png");
 
+    // Stella Megastore items
+    this.load.image("flower_cart", "world/flower_cart.png");
+    this.load.image("queen_bee", "world/queen_bee.png");
+
     this.load.spritesheet("banner", "world/spring_banner.png", {
       frameWidth: 22,
       frameHeight: 36,
@@ -456,6 +460,10 @@ export class SpringPlazaScene extends BaseScene {
       .on("pointerdown", () => {
         interactableModalManager.open("clubhouse_reward");
       });
+
+    // Stella Collectible of the Month
+    this.add.image(248, 244, "flower_cart");
+    this.add.image(288, 248, "queen_bee");
 
     const door = this.colliders
       ?.getChildren()
