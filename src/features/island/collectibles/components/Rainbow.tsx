@@ -1,26 +1,24 @@
 import React from "react";
 
-import hummingBird from "assets/sfts/hummingbird.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import rainbow from "assets/sfts/rainbow.webp";
 
-export const HummingBird: React.FC = () => {
+export const Rainbow: React.FC = () => {
   return (
     <div
-      className="absolute flex justify-center"
+      className="absolute flex justify-center w-full h-ful"
       style={{
-        width: `${PIXEL_SCALE * 18}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
-        src={hummingBird}
+        src={rainbow}
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 36}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: -6,
         }}
         className="absolute"
-        alt="Humming Bird"
+        alt="Rainbow"
       />
     </div>
   );

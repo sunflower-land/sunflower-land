@@ -226,6 +226,10 @@ import { FlowerFox } from "./components/FlowerFox";
 import { HungryCaterpillar } from "./components/HungryCaterpillar";
 import { SunriseBloomRug } from "./components/SunriseBloomRug";
 import { BlossomRoyale } from "./components/BlossomRoyale";
+import { Rainbow } from "./components/Rainbow";
+import { EnchantedRose } from "./components/EnchantedRose";
+import { FlowerCart } from "./components/FlowerCart";
+import { Capybara } from "./components/Capybara";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -496,6 +500,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Hungry Caterpillar": HungryCaterpillar,
   "Sunrise Bloom Rug": SunriseBloomRug,
   "Blossom Royale": BlossomRoyale,
+  Rainbow: Rainbow,
+  "Enchanted Rose": EnchantedRose,
+  "Flower Cart": FlowerCart,
+  Capybara: Capybara,
 };
 // Need readonly versions for some troublesome components while in design mode
 
