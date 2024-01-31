@@ -123,15 +123,9 @@ export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
     Cauliflower: 5,
     Parsnip: 5,
     Eggplant: 5,
-<<<<<<< HEAD
-    Corn: 5,
-    Radish: 5,
-    Wheat: 5,
-=======
-    Radish: 5,
     // Corn: 5,
+    Radish: 5,
     // Wheat: 5,
->>>>>>> 7316eaea2 ([FEAT] Epic Flowers)
     Kale: 5,
     Blueberry: 3,
     // Orange: 3,
