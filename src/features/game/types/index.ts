@@ -83,6 +83,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Purple Carnation": 235,
   "White Carnation": 236,
   "Blue Carnation": 237,
+  "Prism Petal": 238,
+  "Celestial Frostbloom": 239,
+  "Primula Enigma": 240,
 
   Axe: 301,
   Pickaxe: 302,

@@ -97,25 +97,44 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
   },
 });
 
-export type FlowerCrossBreedName = CropName | FruitName | FlowerName;
+// Some crops have been omitted to reserve cross breeds for future use
+export type FlowerCrossBreedName =
+  | Extract<
+      CropName,
+      | "Sunflower"
+      | "Beetroot"
+      | "Cauliflower"
+      | "Radish"
+      | "Parsnip"
+      | "Kale"
+      | "Eggplant"
+    >
+  | Extract<FruitName, "Blueberry" | "Banana" | "Apple">
+  | FlowerName;
 
 export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
   {
     Sunflower: 50,
-    Potato: 20,
-    Pumpkin: 20,
-    Carrot: 10,
-    Cabbage: 10,
+    // Potato: 20,
+    // Pumpkin: 20,
+    // Carrot: 10,
+    // Cabbage: 10,
     Beetroot: 10,
     Cauliflower: 5,
     Parsnip: 5,
     Eggplant: 5,
+<<<<<<< HEAD
     Corn: 5,
     Radish: 5,
     Wheat: 5,
+=======
+    Radish: 5,
+    // Corn: 5,
+    // Wheat: 5,
+>>>>>>> 7316eaea2 ([FEAT] Epic Flowers)
     Kale: 5,
     Blueberry: 3,
-    Orange: 3,
+    // Orange: 3,
     Apple: 3,
     Banana: 3,
     "Red Pansy": 1,
@@ -138,47 +157,53 @@ export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
     "Purple Carnation": 1,
     "White Carnation": 1,
     "Blue Carnation": 1,
+    "Celestial Frostbloom": 1,
+    "Primula Enigma": 1,
+    "Prism Petal": 1,
   };
 
 export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
   {
     Sunflower: "Bumpkin Botanists swear they're not flowers.",
     Cauliflower: "Not so sure what the Bumpkin Botanists say about this one.",
-    Potato: "Potatoes are not flowers.",
-    Pumpkin: "",
-    Carrot: "",
-    Cabbage: "",
-    Beetroot: "",
-    Parsnip: "",
-    Eggplant: "",
-    Corn: "",
-    Radish: "",
-    Wheat: "",
-    Kale: "",
-    Blueberry: "",
-    Orange: "",
-    Apple: "",
-    Banana: "",
-    "Red Pansy": "",
-    "Yellow Pansy": "",
-    "Purple Pansy": "",
-    "White Pansy": "",
-    "Blue Pansy": "",
-    "Red Cosmos": "",
-    "Yellow Cosmos": "",
-    "Purple Cosmos": "",
-    "White Cosmos": "",
-    "Blue Cosmos": "",
-    "Red Balloon Flower": "",
-    "Yellow Balloon Flower": "",
-    "Purple Balloon Flower": "",
-    "White Balloon Flower": "",
-    "Blue Balloon Flower": "",
-    "Red Carnation": "",
-    "Yellow Carnation": "",
-    "Purple Carnation": "",
-    "White Carnation": "",
-    "Blue Carnation": "",
+    Beetroot: "It has a beautiful purple color.",
+    Parsnip: "A parsnip might be a good choice to cross breed with.",
+    Eggplant: "Another crop that has a beautiful purple hue.",
+    Radish: "Wow, this radish is red!",
+    Kale: "It's green, but not like the other greens.",
+    Blueberry: "These blueberries are very ripe, I hope they don't stain.",
+    Apple: "Crunchy apples!",
+    Banana: "A bunch of bananas.",
+    "Red Pansy": "A red pansy.",
+    "Yellow Pansy": "A yellow pansy.",
+    "Purple Pansy": "A purple pansy.",
+    "White Pansy": "A white pansy. Devoid of color, I wonder if this is rare.",
+    "Blue Pansy": "A blue pansy.",
+    "Red Cosmos": "A red cosmos.",
+    "Yellow Cosmos": "A yellow cosmos.",
+    "Purple Cosmos": "A purple cosmos.",
+    "White Cosmos": "A white cosmos.",
+    "Blue Cosmos": "A blue cosmos. Very descriptive.",
+    "Red Balloon Flower":
+      "Ballon flowers are very pretty. The red ones especially.",
+    "Yellow Balloon Flower": "A yellow balloon flower.",
+    "Purple Balloon Flower": "A purple balloon flower.",
+    "White Balloon Flower": "A white balloon flower. This is rare.",
+    "Blue Balloon Flower":
+      "The most basic of balloon flowers. Nothing to brag about.",
+    "Red Carnation": "Bumpkins value the red carnation for its rarity.",
+    "Yellow Carnation": "Bumpkins don't value the yellow carnation for.",
+    "Purple Carnation": "Bumpkins value the purple carnation for its beauty.",
+    "White Carnation":
+      "Bumpkins value the yellow carnation for its simplicity.",
+    "Blue Carnation":
+      "Bumpkins value the blue carnation for its ability to cross breed with Bloom seeds.",
+    "Prism Petal":
+      "An extremely rare mutation, are you sure you want to cross breed this?",
+    "Celestial Frostbloom":
+      "An extremely rare mutation. Are you sure you want to cross breed this?",
+    "Primula Enigma":
+      "An extremely rare mutation, are you sure you want to cross breed this?",
   };
 
 type Flower = {
@@ -197,6 +222,7 @@ const SUNPETAL_FLOWERS: Record<SunpetalFlowerName, { seed: "Sunpetal Seed" }> =
     "Purple Cosmos": { seed: "Sunpetal Seed" },
     "White Cosmos": { seed: "Sunpetal Seed" },
     "Blue Cosmos": { seed: "Sunpetal Seed" },
+    "Prism Petal": { seed: "Sunpetal Seed" },
   };
 const BLOOM_FLOWERS: Record<BloomFlowerName, { seed: "Bloom Seed" }> = {
   "Red Balloon Flower": { seed: "Bloom Seed" },
@@ -204,6 +230,7 @@ const BLOOM_FLOWERS: Record<BloomFlowerName, { seed: "Bloom Seed" }> = {
   "Purple Balloon Flower": { seed: "Bloom Seed" },
   "White Balloon Flower": { seed: "Bloom Seed" },
   "Blue Balloon Flower": { seed: "Bloom Seed" },
+  "Celestial Frostbloom": { seed: "Bloom Seed" },
 };
 const LILY_FLOWERS: Record<LilyFlowerName, { seed: "Lily Seed" }> = {
   "Red Carnation": { seed: "Lily Seed" },
@@ -211,6 +238,7 @@ const LILY_FLOWERS: Record<LilyFlowerName, { seed: "Lily Seed" }> = {
   "Purple Carnation": { seed: "Lily Seed" },
   "White Carnation": { seed: "Lily Seed" },
   "Blue Carnation": { seed: "Lily Seed" },
+  "Primula Enigma": { seed: "Lily Seed" },
 };
 
 export const FLOWERS: Record<FlowerName, Flower> = {
@@ -248,6 +276,9 @@ const IMAGES: Record<FlowerName, string> = {
   "Purple Carnation": "purple_carnation",
   "White Carnation": "white_carnation",
   "Blue Carnation": "blue_carnation",
+  "Prism Petal": "prism_petal",
+  "Celestial Frostbloom": "celestial_frostbloom",
+  "Primula Enigma": "primula_enigma",
 };
 
 export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(

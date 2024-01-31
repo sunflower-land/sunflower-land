@@ -569,6 +569,9 @@ import yellowCarnation from "assets/flowers/yellow_carnation.png";
 import blueCarnation from "assets/flowers/blue_carnation.png";
 import whiteCarnation from "assets/flowers/white_carnation.png";
 import purpleCarnation from "assets/flowers/purple_carnation.png";
+import prismPetal from "assets/flowers/prism_petal.webp";
+import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
+import primulaEnigma from "assets/flowers/primula_enigma.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3222,5 +3225,20 @@ export const ITEM_DETAILS: Items = {
     description:
       "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
     image: capybara,
+  },
+  "Prism Petal": {
+    image: prismPetal,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
+  },
+  "Celestial Frostbloom": {
+    image: celestialFrostbloom,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
+  },
+  "Primula Enigma": {
+    image: primulaEnigma,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm",
   },
 };
