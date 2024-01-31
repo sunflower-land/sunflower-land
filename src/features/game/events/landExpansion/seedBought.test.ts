@@ -354,6 +354,10 @@ describe("seedBought", () => {
     const state = seedBought({
       state: {
         ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 100000000,
+        },
         balance: new Decimal(1),
         inventory: {
           ...GAME_STATE.inventory,
