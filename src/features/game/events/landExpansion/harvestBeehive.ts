@@ -55,6 +55,11 @@ const getTotalHoneyProduced = (game: GameState, honeyProduced: number) => {
   if (isWearableActive({ name: "Bee Suit", game })) {
     amount *= 1.1;
   }
+
+  if (isWearableActive({ name: "Honeycomb Shield", game })) {
+    amount *= 2;
+  }
+
   return amount;
 };
 
