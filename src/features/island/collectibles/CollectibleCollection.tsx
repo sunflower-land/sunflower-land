@@ -220,6 +220,7 @@ import { WhiteFestiveFox } from "./components/WhiteFestiveFox";
 import { Rug } from "./components/Rug";
 import { Wardrobe } from "./components/Wardrobe";
 import { SpringBlossomBanner } from "./components/SpringBlossomBanner";
+import { HummingBird } from "./components/HummingBird";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -482,6 +483,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,
+
+  // Spring Blossom
+  "Humming Bird": HummingBird,
 };
 // Need readonly versions for some troublesome components while in design mode
 
