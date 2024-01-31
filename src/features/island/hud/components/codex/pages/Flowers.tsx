@@ -78,7 +78,10 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
     return (
       <Detail
         name={selectedFlower}
-        caught={(farmActivity[`${selectedFlower} Harvested`] ?? 0) > 0}
+        caught={
+          (farmActivity[`${selectedFlower} Harvested`] ?? 0) > 0 ||
+          (discovered[selectedFlower] ?? []).length > 0
+        }
         onBack={() => setSelectedFlower(undefined)}
         additionalLabels={
           <>
@@ -158,7 +161,10 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
                 <div className="flex flex-wrap">
                   {FLOWERS_BY_SEED[type].map((name) => (
                     <SimpleBox
-                      silhouette={!farmActivity[`${name} Harvested`]}
+                      silhouette={
+                        !farmActivity[`${name} Harvested`] &&
+                        (discovered[name] ?? []).length < 1
+                      }
                       onClick={() => setSelectedFlower(name)}
                       key={name}
                       image={ITEM_DETAILS[name].image}
