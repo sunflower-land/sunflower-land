@@ -549,7 +549,7 @@ import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
-import flowerBed from "assets/flowers/flower_bed.webp";
+import flowerBed from "assets/flowers/empty.webp";
 import redPansy from "assets/flowers/red_pansy.webp";
 import yellowPansy from "assets/flowers/yellow_pansy.webp";
 import bluePansy from "assets/flowers/blue_pansy.webp";
