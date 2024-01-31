@@ -6414,7 +6414,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Yellow Pansy": {
-    name: "Red Pansy",
+    name: "Yellow Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -6422,10 +6422,28 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [],
   },
   "Purple Pansy": {
-    name: "Red Pansy",
+    name: "Purple Pansy",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "White Pansy": {
+    name: "White Pansy",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Blue Pansy": {
+    name: "Blue Pansy",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
@@ -6435,7 +6453,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
   "Yellow Cosmos": {
@@ -6456,8 +6473,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Red Daffodil": {
-    name: "Red Daffodil",
+  "White Cosmos": {
+    name: "White Cosmos",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -6465,17 +6482,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
-  "Yellow Daffodil": {
-    name: "Yellow Daffodil",
-    description: "A flower",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-
-    image: "../public/erc1155/images/question_mark.png",
-    attributes: [],
-  },
-  "Purple Daffodil": {
-    name: "Purple Daffodil",
+  "Blue Cosmos": {
+    name: "Blue Cosmos",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -6506,39 +6514,64 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
-  "Red Lotus": {
-    name: "Red Lotus",
+  "White Balloon Flower": {
+    name: "White Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Blue Balloon Flower": {
+    name: "Blue Balloon Flower",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Red Carnation": {
+    name: "Red Carnation",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Yellow Carnation": {
+    name: "Yellow Carnation",
+    description: "A flower",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Purple Carnation": {
+    name: "Purple Carnation",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
 
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
-  "Yellow Lotus": {
-    name: "Yellow Lotus",
+  "White Carnation": {
+    name: "White Carnation",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
-  "Purple Lotus": {
-    name: "Purple Lotus",
+  "Blue Carnation": {
+    name: "Blue Carnation",
     description: "A flower",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-
     image: "../public/erc1155/images/question_mark.png",
-
     attributes: [],
   },
 };

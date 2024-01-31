@@ -541,6 +541,25 @@ import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 import beehive from "assets/sfts/beehive.webp";
 import flowerBed from "assets/flowers/flower_bed.webp";
 import redPansy from "assets/flowers/red_pansy.webp";
+import yellowPansy from "assets/flowers/yellow_pansy.webp";
+import bluePansy from "assets/flowers/blue_pansy.webp";
+import whitePansy from "assets/flowers/white_pansy.webp";
+import purplePansy from "assets/flowers/purple_pansy.webp";
+import redCosmos from "assets/flowers/red_cosmos.webp";
+import yellowCosmos from "assets/flowers/yellow_cosmos.webp";
+import blueCosmos from "assets/flowers/blue_cosmos.webp";
+import whiteCosmos from "assets/flowers/white_cosmos.webp";
+import purpleCosmos from "assets/flowers/purple_cosmos.webp";
+import redBalloonFlower from "assets/flowers/red_balloon_flower.webp";
+import yellowBalloonFlower from "assets/flowers/yellow_balloon_flower.webp";
+import blueBalloonFlower from "assets/flowers/blue_balloon_flower.webp";
+import whiteBalloonFlower from "assets/flowers/white_balloon_flower.webp";
+import purpleBalloonFlower from "assets/flowers/purple_balloon_flower.webp";
+import redCarnation from "assets/flowers/red_carnation.png";
+import yellowCarnation from "assets/flowers/yellow_carnation.png";
+import blueCarnation from "assets/flowers/blue_carnation.png";
+import whiteCarnation from "assets/flowers/white_carnation.png";
+import purpleCarnation from "assets/flowers/purple_carnation.png";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3106,59 +3125,79 @@ export const ITEM_DETAILS: Items = {
     description: "A red pansy",
   },
   "Yellow Pansy": {
-    image: redPansy,
+    image: yellowPansy,
     description: "A yellow pansy",
   },
   "Purple Pansy": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: purplePansy,
     description: "A purple pansy",
   },
+  "White Pansy": {
+    image: whitePansy,
+    description: "A white pansy",
+  },
+  "Blue Pansy": {
+    image: bluePansy,
+    description: "A blue pansy",
+  },
   "Red Cosmos": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: redCosmos,
     description: "A red cosmos",
   },
   "Yellow Cosmos": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: yellowCosmos,
     description: "A yellow cosmos",
   },
   "Purple Cosmos": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: purpleCosmos,
     description: "A purple cosmos",
   },
-  "Red Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A red daffodil",
+  "White Cosmos": {
+    image: whiteCosmos,
+    description: "A white cosmos",
   },
-  "Yellow Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow daffodil",
-  },
-  "Purple Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple daffodil",
+  "Blue Cosmos": {
+    image: blueCosmos,
+    description: "A blue cosmos",
   },
   "Red Balloon Flower": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: redBalloonFlower,
     description: "A red balloon flower",
   },
   "Yellow Balloon Flower": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: yellowBalloonFlower,
     description: "A yellow balloon flower",
   },
   "Purple Balloon Flower": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: purpleBalloonFlower,
     description: "A purple balloon flower",
   },
-  "Red Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A red lotus",
+  "White Balloon Flower": {
+    image: whiteBalloonFlower,
+    description: "A white balloon flower",
   },
-  "Yellow Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow lotus",
+  "Blue Balloon Flower": {
+    image: blueBalloonFlower,
+    description: "A blue balloon flower",
   },
-  "Purple Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple lotus",
+  "Red Carnation": {
+    image: redCarnation,
+    description: "A red carnation",
+  },
+  "Yellow Carnation": {
+    image: yellowCarnation,
+    description: "A yellow carnation",
+  },
+  "Purple Carnation": {
+    image: purpleCarnation,
+    description: "A purple carnation",
+  },
+  "White Carnation": {
+    image: whiteCarnation,
+    description: "A white carnation",
+  },
+  "Blue Carnation": {
+    image: blueCarnation,
+    description: "A blue carnation",
   },
 };
