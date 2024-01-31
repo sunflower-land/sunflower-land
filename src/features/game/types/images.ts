@@ -2964,6 +2964,12 @@ export const ITEM_DETAILS: Items = {
     image: crimsonCarp,
     description: "A rare, vibrant jewel of the Spring waters.",
     howToGetItem: ["Ocean fishing"],
+    buff: {
+      labelType: "success",
+      shortDescription: "+0.05 Crimstone",
+      boostTypeIcon: powerup,
+      boostedItemIcon: crimstone,
+    },
     itemType: "collectible",
   },
 
