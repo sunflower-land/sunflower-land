@@ -69,7 +69,7 @@ export function plantFlower({
 
   flowerBed.flower = {
     plantedAt: createdAt,
-    amount: 0,
+    amount: 1,
     name: "Red Pansy",
     dirty: true,
   };
