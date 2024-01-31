@@ -220,6 +220,16 @@ import { WhiteFestiveFox } from "./components/WhiteFestiveFox";
 import { Rug } from "./components/Rug";
 import { Wardrobe } from "./components/Wardrobe";
 import { SpringBlossomBanner } from "./components/SpringBlossomBanner";
+import { HummingBird } from "./components/HummingBird";
+import { QueenBee } from "./components/QueenBee";
+import { FlowerFox } from "./components/FlowerFox";
+import { HungryCaterpillar } from "./components/HungryCaterpillar";
+import { SunriseBloomRug } from "./components/SunriseBloomRug";
+import { BlossomRoyale } from "./components/BlossomRoyale";
+import { Rainbow } from "./components/Rainbow";
+import { EnchantedRose } from "./components/EnchantedRose";
+import { FlowerCart } from "./components/FlowerCart";
+import { Capybara } from "./components/Capybara";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -482,6 +492,18 @@ export const COLLECTIBLE_COMPONENTS: Record<
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,
+
+  // Spring Blossom
+  "Humming Bird": HummingBird,
+  "Queen Bee": QueenBee,
+  "Flower Fox": FlowerFox,
+  "Hungry Caterpillar": HungryCaterpillar,
+  "Sunrise Bloom Rug": SunriseBloomRug,
+  "Blossom Royale": BlossomRoyale,
+  Rainbow: Rainbow,
+  "Enchanted Rose": EnchantedRose,
+  "Flower Cart": FlowerCart,
+  Capybara: Capybara,
 };
 // Need readonly versions for some troublesome components while in design mode
 

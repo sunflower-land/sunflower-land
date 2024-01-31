@@ -186,6 +186,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Nana: 487,
   "Banana Chicken": 488,
   "Grinx's Hammer": 489,
+  "Humming Bird": 490,
+  "Queen Bee": 491,
+  "Flower Fox": 492,
+  "Hungry Caterpillar": 493,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -593,6 +597,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "White Festive Fox": 2001,
   Rug: 2002,
   Wardrobe: 2003,
+  "Sunrise Bloom Rug": 2004,
+  "Blossom Royale": 2005,
+  Rainbow: 2006,
+  "Enchanted Rose": 2007,
+  "Flower Cart": 2008,
+  Capybara: 2009,
 };
 
 // The reverse of above

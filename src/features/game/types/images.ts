@@ -1,5 +1,3 @@
-import powerup from "assets/icons/level_up.png";
-
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
@@ -73,6 +71,16 @@ import krakenHead from "assets/sfts/kraken_head.webp";
 import skillShrimpy from "assets/sfts/skill_shrimpy.png";
 import soilKrabby from "assets/sfts/soil_krabby.webp";
 import nana from "assets/sfts/nana.webp";
+import hummingBird from "assets/sfts/hummingbird.webp";
+import queenBee from "assets/sfts/queen_bee.webp";
+import flowerFox from "assets/sfts/flower_fox.webp";
+import hungryCaterpillar from "assets/sfts/hungry_caterpillar.webp";
+import sunriseBloomRug from "assets/sfts/sunrise_bloom_rug.webp";
+import blossomRoyale from "assets/sfts/blossom_royale.webp";
+import rainbow from "assets/sfts/rainbow.webp";
+import enchantedRose from "assets/sfts/enchanted_rose.webp";
+import flowerCart from "assets/sfts/flower_cart.webp";
+import capybara from "assets/sfts/capybara.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -597,7 +605,6 @@ import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
-import { BuffLabel } from ".";
 import { PURCHASEABLE_BAIT } from "./fishing";
 import { FLOWER_SEEDS } from "./flowers";
 
@@ -607,7 +614,6 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   image: any;
   secondaryImage?: any;
   section?: Section;
-  buff?: BuffLabel;
   howToGetItem?: string[];
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
@@ -2266,11 +2272,6 @@ export const ITEM_DETAILS: Items = {
     image: sirGoldenSnout,
     description:
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
-    buff: {
-      shortDescription: "+0.5 Crops AoE",
-      labelType: "success",
-      boostTypeIcon: powerup,
-    },
   },
   "Scary Mike": {
     description:
@@ -2286,12 +2287,6 @@ export const ITEM_DETAILS: Items = {
     image: freyaFox,
     description:
       "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
-    buff: {
-      shortDescription: "+0.5 Pumpkin",
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
-    },
   },
   "Queen Cornelia": {
     image: queenCornelia,
@@ -2591,12 +2586,6 @@ export const ITEM_DETAILS: Items = {
   Poppy: {
     image: poppy,
     description: "The mystical corn kernel. +0.1 Corn per harvest.",
-    buff: {
-      shortDescription: "+0.1 Corn",
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
-    },
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
@@ -2606,21 +2595,10 @@ export const ITEM_DETAILS: Items = {
     image: grainGrinder,
     description:
       "Grind your grain and experience a delectable surge in Cake XP.",
-    buff: {
-      shortDescription: "+20% Cake XP",
-      boostTypeIcon: powerup,
-      labelType: "success",
-    },
   },
   Kernaldo: {
     image: kernaldo,
     description: "The magical corn whisperer. +25% Corn Growth Speed.",
-    buff: {
-      shortDescription: "+25% Corn Growth Speed",
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
-    },
   },
   Candles: {
     image: candles,
@@ -2931,12 +2909,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "A ray that prefers to glow in the dark, with a shimmering secret to share.",
     howToGetItem: ["Ocean fishing"],
-    buff: {
-      labelType: "success",
-      shortDescription: "+0.1 Iron",
-      boostTypeIcon: powerup,
-      boostedItemIcon: iron,
-    },
     itemType: "collectible",
   },
   "Phantom Barracuda": {
@@ -2951,12 +2923,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "A swordfish with scales that sparkle like gold, the ultimate catch!",
     howToGetItem: ["Ocean fishing"],
-    buff: {
-      labelType: "success",
-      shortDescription: "+0.1 Gold",
-      boostTypeIcon: powerup,
-      boostedItemIcon: gold,
-    },
     itemType: "collectible",
   },
 
@@ -2964,12 +2930,6 @@ export const ITEM_DETAILS: Items = {
     image: crimsonCarp,
     description: "A rare, vibrant jewel of the Spring waters.",
     howToGetItem: ["Ocean fishing"],
-    buff: {
-      labelType: "success",
-      shortDescription: "+0.05 Crimstone",
-      boostTypeIcon: powerup,
-      boostedItemIcon: crimstone,
-    },
     itemType: "collectible",
   },
 
@@ -2978,7 +2938,6 @@ export const ITEM_DETAILS: Items = {
     description:
       "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
   },
-
   "Sapo Docuras": {
     description: "A real treat!",
     image: sapoDocuras,
@@ -3213,5 +3172,55 @@ export const ITEM_DETAILS: Items = {
   "Blue Carnation": {
     image: blueCarnation,
     description: "A blue carnation",
+  },
+  "Humming Bird": {
+    description:
+      "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    image: hummingBird,
+  },
+  "Queen Bee": {
+    description:
+      "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    image: queenBee,
+  },
+  "Flower Fox": {
+    description:
+      "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    image: flowerFox,
+  },
+  "Hungry Caterpillar": {
+    description:
+      "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    image: hungryCaterpillar,
+  },
+  "Sunrise Bloom Rug": {
+    description:
+      "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    image: sunriseBloomRug,
+  },
+  "Blossom Royale": {
+    description:
+      "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    image: blossomRoyale,
+  },
+  Rainbow: {
+    description:
+      "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    image: rainbow,
+  },
+  "Enchanted Rose": {
+    description:
+      "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    image: enchantedRose,
+  },
+  "Flower Cart": {
+    description:
+      "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    image: flowerCart,
+  },
+  Capybara: {
+    description:
+      "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    image: capybara,
   },
 };

@@ -6590,4 +6590,94 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     attributes: [],
   },
+  "Humming Bird": {
+    name: "Humming Bird",
+    description:
+      "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Queen Bee": {
+    name: "Queen Bee",
+    description:
+      "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower Fox": {
+    name: "Flower Fox",
+    description:
+      "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Hungry Caterpillar": {
+    name: "Hungry Caterpillar",
+    description:
+      "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Sunrise Bloom Rug": {
+    name: "Sunrise Bloom Rug",
+    description:
+      "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Blossom Royale": {
+    name: "Blossom Royale",
+    description:
+      "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Rainbow: {
+    name: "Rainbow",
+    description:
+      "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Enchanted Rose": {
+    name: "Enchanted Rose",
+    description:
+      "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  "Flower Cart": {
+    name: "Flower Cart",
+    description:
+      "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
+  Capybara: {
+    name: "Capybara",
+    description:
+      "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [],
+  },
 };

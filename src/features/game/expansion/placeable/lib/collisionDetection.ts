@@ -188,7 +188,7 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
   },
 };
 
-const NON_COLLIDING_OBJECTS: InventoryItemName[] = ["Rug"];
+const NON_COLLIDING_OBJECTS: InventoryItemName[] = ["Rug", "Sunrise Bloom Rug"];
 function detectHomeCollision({
   state,
   position,

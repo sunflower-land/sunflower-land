@@ -1,8 +1,8 @@
 import Decimal from "decimal.js-light";
-import { ConsumableName, CookableName } from "../types/consumables";
-import { Animal, Food, ToolName } from "../types/craftables";
-import { CropName } from "../types/crops";
-import { Bumpkin, LanternName } from "../types/game";
+import { ConsumableName, CookableName } from "./consumables";
+import { Animal, Food, ToolName } from "./craftables";
+import { CropName } from "./crops";
+import { Bumpkin, LanternName } from "./game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";

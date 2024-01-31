@@ -106,7 +106,7 @@ export type BumpkinShirt =
   | "Daisy Tee"
   | "Blue Monarch Shirt"
   | "Green Monarch Shirt"
-  | "Red Monarch Shirt";
+  | "Orange Monarch Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -638,7 +638,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Orange Monarch Dress": 296,
   "Blue Monarch Shirt": 297,
   "Green Monarch Shirt": 298,
-  "Red Monarch Shirt": 299,
+  "Orange Monarch Shirt": 299,
   "Queen Bee Crown": 300,
   "Rose Dress": 301,
   "Blue Rose Dress": 302,
@@ -999,7 +999,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Orange Monarch Dress": "dress",
   "Blue Monarch Shirt": "shirt",
   "Green Monarch Shirt": "shirt",
-  "Red Monarch Shirt": "shirt",
+  "Orange Monarch Shirt": "shirt",
   "Queen Bee Crown": "hat",
   "Rose Dress": "dress",
   "Blue Rose Dress": "dress",
