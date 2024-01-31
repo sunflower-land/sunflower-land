@@ -193,7 +193,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={timeLeftSeconds}
+              seconds={!flower.dirty ? timeLeftSeconds : undefined}
               type="progress"
               formatLength="short"
             />
