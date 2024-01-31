@@ -13,7 +13,7 @@ export const SunriseBloomRug: React.FC = () => {
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Rug"
+        alt="Sunrise Bloom Rug"
       />
     </div>
   );

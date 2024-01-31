@@ -225,6 +225,7 @@ import { QueenBee } from "./components/QueenBee";
 import { FlowerFox } from "./components/FlowerFox";
 import { HungryCaterpillar } from "./components/HungryCaterpillar";
 import { SunriseBloomRug } from "./components/SunriseBloomRug";
+import { BlossomRoyale } from "./components/BlossomRoyale";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -494,6 +495,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Flower Fox": FlowerFox,
   "Hungry Caterpillar": HungryCaterpillar,
   "Sunrise Bloom Rug": SunriseBloomRug,
+  "Blossom Royale": BlossomRoyale,
 };
 // Need readonly versions for some troublesome components while in design mode
 
