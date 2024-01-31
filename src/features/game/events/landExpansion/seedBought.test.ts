@@ -349,4 +349,36 @@ describe("seedBought", () => {
 
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
+
+  it("purchases flower seeds for free when Hungry Caterpillar is placed and ready", () => {
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        balance: new Decimal(1),
+        inventory: {
+          ...GAME_STATE.inventory,
+          "Sunflower Seed": new Decimal(0),
+        },
+        collectibles: {
+          "Hungry Caterpillar": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // Ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        item: "Lily Seed",
+        amount: 1,
+        type: "seed.bought",
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(1));
+    expect(state.inventory["Lily Seed"]).toEqual(new Decimal(1));
+  });
 });
