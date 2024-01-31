@@ -218,4 +218,67 @@ describe("upgradeFarm", () => {
       })
     ).toThrow("Not implemented");
   });
+
+  it("removes items which have expired on the land", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+          "Time Warp Totem": new Decimal(1),
+        },
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "1",
+              readyAt: Date.now() - 48 * 60 * 60 * 1000,
+              createdAt: Date.now() - 48 * 60 * 60 * 1000,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(0));
+  });
+
+  it("it does not remove items that have not yet expired", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
+          "Time Warp Totem": new Decimal(1),
+        },
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "1",
+              // Still active
+              readyAt: Date.now() - 1 * 60 * 60 * 1000,
+              createdAt: Date.now() - 1 * 60 * 60 * 1000,
+              coordinates: { x: 0, y: 0 },
+            },
+          ],
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(1));
+  });
 });

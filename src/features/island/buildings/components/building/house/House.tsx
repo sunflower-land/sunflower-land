@@ -72,7 +72,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       </BuildingImageWrapper>
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -24}px` }}
+        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -16}px` }}
       >
         <DailyReward />
       </div>
@@ -80,7 +80,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       <div
         className="absolute w-full"
         style={{
-          top: `${PIXEL_SCALE * 16}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * 4}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}

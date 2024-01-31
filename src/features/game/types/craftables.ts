@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
-import { CropSeedName } from "../types/crops";
-import { InventoryItemName, LanternName } from "../types/game";
+import { CropSeedName } from "./crops";
+import { InventoryItemName, LanternName } from "./game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { marketRate } from "../lib/halvening";
@@ -11,12 +11,14 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  MegaStoreCollectibleName,
   PotionHouseItemName,
   SoldOutCollectibleName,
 } from "./collectibles";
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName } from "./fishing";
 import { SeasonalBanner } from "./seasons";
+import { EpicFlowerName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 
 export { FLAGS };
@@ -203,7 +205,9 @@ export type CollectibleName =
   | "War Tombstone"
   | "Undead Rooster"
   | PotionHouseItemName
-  | MarineMarvelName;
+  | MarineMarvelName
+  | MegaStoreCollectibleName
+  | EpicFlowerName;
 
 export type ToolName =
   | "Axe"
@@ -1223,6 +1227,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Phantom Barracuda": { width: 2, height: 2 },
   "Gilded Swordfish": { width: 2, height: 2 },
   "Kraken Tentacle": { width: 1, height: 1 },
+  "Crimson Carp": { width: 2, height: 2 },
 
   // Catch the Kraken SFTs
   Walrus: { width: 2, height: 2 },
@@ -1234,6 +1239,22 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Skill Shrimpy": { width: 1, height: 1 },
   Nana: { width: 1, height: 1 },
   "Soil Krabby": { width: 1, height: 1 },
+
+  // Spring Blossom SFTs
+  "Flower Cart": { width: 2, height: 2 },
+  "Blossom Royale": { width: 2, height: 2 },
+  "Sunrise Bloom Rug": { width: 3, height: 2 },
+  "Humming Bird": { width: 1, height: 1 },
+  "Queen Bee": { width: 1, height: 1 },
+  "Hungry Caterpillar": { width: 1, height: 1 },
+  "Flower Fox": { width: 1, height: 1 },
+  "Enchanted Rose": { width: 1, height: 2 },
+  Capybara: { width: 1, height: 1 },
+  Rainbow: { width: 2, height: 1 },
+  // Flowers
+  "Prism Petal": { width: 1, height: 1 },
+  "Celestial Frostbloom": { width: 1, height: 1 },
+  "Primula Enigma": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

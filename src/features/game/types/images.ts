@@ -1,5 +1,3 @@
-import powerup from "assets/icons/level_up.png";
-
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
@@ -73,6 +71,16 @@ import krakenHead from "assets/sfts/kraken_head.webp";
 import skillShrimpy from "assets/sfts/skill_shrimpy.png";
 import soilKrabby from "assets/sfts/soil_krabby.webp";
 import nana from "assets/sfts/nana.webp";
+import hummingBird from "assets/sfts/hummingbird.webp";
+import queenBee from "assets/sfts/queen_bee.webp";
+import flowerFox from "assets/sfts/flower_fox.webp";
+import hungryCaterpillar from "assets/sfts/hungry_caterpillar.webp";
+import sunriseBloomRug from "assets/sfts/sunrise_bloom_rug.webp";
+import blossomRoyale from "assets/sfts/blossom_royale.webp";
+import rainbow from "assets/sfts/rainbow.webp";
+import enchantedRose from "assets/sfts/enchanted_rose.webp";
+import flowerCart from "assets/sfts/flower_cart.webp";
+import capybara from "assets/sfts/capybara.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -526,6 +534,7 @@ import startlightTuna from "assets/fish/starlight_tuna.png";
 import radiantRay from "assets/fish/radiant_ray.png";
 import phantomBarracuda from "assets/fish/phantom_barracuda.png";
 import gildedSwordfish from "assets/fish/gilded_swordfish.png";
+import crimsonCarp from "assets/fish/crimson_carp.png";
 import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
@@ -541,6 +550,28 @@ import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 import beehive from "assets/sfts/beehive.webp";
 import flowerBed from "assets/flowers/flower_bed.webp";
 import redPansy from "assets/flowers/red_pansy.webp";
+import yellowPansy from "assets/flowers/yellow_pansy.webp";
+import bluePansy from "assets/flowers/blue_pansy.webp";
+import whitePansy from "assets/flowers/white_pansy.webp";
+import purplePansy from "assets/flowers/purple_pansy.webp";
+import redCosmos from "assets/flowers/red_cosmos.webp";
+import yellowCosmos from "assets/flowers/yellow_cosmos.webp";
+import blueCosmos from "assets/flowers/blue_cosmos.webp";
+import whiteCosmos from "assets/flowers/white_cosmos.webp";
+import purpleCosmos from "assets/flowers/purple_cosmos.webp";
+import redBalloonFlower from "assets/flowers/red_balloon_flower.webp";
+import yellowBalloonFlower from "assets/flowers/yellow_balloon_flower.webp";
+import blueBalloonFlower from "assets/flowers/blue_balloon_flower.webp";
+import whiteBalloonFlower from "assets/flowers/white_balloon_flower.webp";
+import purpleBalloonFlower from "assets/flowers/purple_balloon_flower.webp";
+import redCarnation from "assets/flowers/red_carnation.png";
+import yellowCarnation from "assets/flowers/yellow_carnation.png";
+import blueCarnation from "assets/flowers/blue_carnation.png";
+import whiteCarnation from "assets/flowers/white_carnation.png";
+import purpleCarnation from "assets/flowers/purple_carnation.png";
+import prismPetal from "assets/flowers/prism_petal.webp";
+import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
+import primulaEnigma from "assets/flowers/primula_enigma.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -577,7 +608,6 @@ import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
-import { BuffLabel } from ".";
 import { PURCHASEABLE_BAIT } from "./fishing";
 import { translate } from "lib/i18n/translate";
 import { FLOWER_SEEDS } from "./flowers";
@@ -588,7 +618,6 @@ export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
   image: any;
   secondaryImage?: any;
   section?: Section;
-  buff?: BuffLabel;
   howToGetItem?: string[];
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
@@ -2218,12 +2247,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Sir Goldensnout": {
     image: sirGoldenSnout,
-    description: translate("description.sir.goldensnout"),
-    buff: {
-      shortDescription: translate("description.sir.goldensnout.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-    },
+    description:
+      "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
   "Scary Mike": {
     description: translate("description.scary.mike"),
@@ -2235,13 +2260,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Freya Fox": {
     image: freyaFox,
-    description: translate("description.freya.fox"),
-    buff: {
-      shortDescription: translate("description.freya.fox.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Pumpkin.crop,
-    },
+    description:
+      "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
   },
   "Queen Cornelia": {
     image: queenCornelia,
@@ -2524,13 +2544,7 @@ export const ITEM_DETAILS: Items = {
   },
   Poppy: {
     image: poppy,
-    description: translate("description.poppy"),
-    buff: {
-      shortDescription: translate("description.poppy.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
-      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
-    },
+    description: "The mystical corn kernel. +0.1 Corn per harvest.",
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
@@ -2538,22 +2552,12 @@ export const ITEM_DETAILS: Items = {
   },
   "Grain Grinder": {
     image: grainGrinder,
-    description: translate("description.grain.grinder"),
-    buff: {
-      shortDescription: translate("description.grain.grinder.boost"),
-      boostTypeIcon: powerup,
-      labelType: "success",
-    },
+    description:
+      "Grind your grain and experience a delectable surge in Cake XP.",
   },
   Kernaldo: {
     image: kernaldo,
-    description: translate("description.kernaldo"),
-    buff: {
-      shortDescription: translate("description.kernaldo.bonus"),
-      labelType: "info",
-      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: CROP_LIFECYCLE.Corn.crop,
-    },
+    description: "The magical corn whisperer. +25% Corn Growth Speed.",
   },
   Candles: {
     image: candles,
@@ -2835,14 +2839,9 @@ export const ITEM_DETAILS: Items = {
   },
   "Radiant Ray": {
     image: radiantRay,
-    description: translate("description.radiant.ray"),
-    howToGetItem: [translate("ocean.fishing")],
-    buff: {
-      labelType: "success",
-      shortDescription: translate("description.iron.idol.boost"),
-      boostTypeIcon: powerup,
-      boostedItemIcon: iron,
-    },
+    description:
+      "A ray that prefers to glow in the dark, with a shimmering secret to share.",
+    howToGetItem: ["Ocean fishing"],
     itemType: "collectible",
   },
   "Phantom Barracuda": {
@@ -2853,14 +2852,16 @@ export const ITEM_DETAILS: Items = {
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
-    description: translate("description.gilded.swordfish"),
-    howToGetItem: [translate("ocean.fishing")],
-    buff: {
-      labelType: "success",
-      shortDescription: translate("description.boost.gilded.swordfish"),
-      boostTypeIcon: powerup,
-      boostedItemIcon: gold,
-    },
+    description:
+      "A swordfish with scales that sparkle like gold, the ultimate catch!",
+    howToGetItem: ["Ocean fishing"],
+    itemType: "collectible",
+  },
+
+  "Crimson Carp": {
+    image: crimsonCarp,
+    description: "A rare, vibrant jewel of the Spring waters.",
+    howToGetItem: ["Ocean fishing"],
     itemType: "collectible",
   },
 
@@ -2868,7 +2869,6 @@ export const ITEM_DETAILS: Items = {
     image: krakenTentacle,
     description: translate("description.kraken.tentacle"),
   },
-
   "Sapo Docuras": {
     description: translate("description.sapo.docuras"),
     image: sapoDocuras,
@@ -3009,62 +3009,147 @@ export const ITEM_DETAILS: Items = {
 
   "Red Pansy": {
     image: redPansy,
-    description: "A red pansy",
+    description: "A red pansy.",
   },
   "Yellow Pansy": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow pansy",
+    image: yellowPansy,
+    description: "A yellow pansy.",
   },
   "Purple Pansy": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple pansy",
+    image: purplePansy,
+    description: "A purple pansy.",
+  },
+  "White Pansy": {
+    image: whitePansy,
+    description: "A white pansy.",
+  },
+  "Blue Pansy": {
+    image: bluePansy,
+    description: "A blue pansy.",
   },
   "Red Cosmos": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A red cosmos",
+    image: redCosmos,
+    description: "A red cosmos.",
   },
   "Yellow Cosmos": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow cosmos",
+    image: yellowCosmos,
+    description: "A yellow cosmos.",
   },
   "Purple Cosmos": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple cosmos",
+    image: purpleCosmos,
+    description: "A purple cosmos.",
   },
-  "Red Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A red daffodil",
+  "White Cosmos": {
+    image: whiteCosmos,
+    description: "A white cosmos.",
   },
-  "Yellow Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow daffodil",
-  },
-  "Purple Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple daffodil",
+  "Blue Cosmos": {
+    image: blueCosmos,
+    description: "A blue cosmos.",
   },
   "Red Balloon Flower": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A red balloon flower",
+    image: redBalloonFlower,
+    description: "A red balloon flower.",
   },
   "Yellow Balloon Flower": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow balloon flower",
+    image: yellowBalloonFlower,
+    description: "A yellow balloon flower.",
   },
   "Purple Balloon Flower": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple balloon flower",
+    image: purpleBalloonFlower,
+    description: "A purple balloon flower.",
   },
-  "Red Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A red lotus",
+  "White Balloon Flower": {
+    image: whiteBalloonFlower,
+    description: "A white balloon flower.",
   },
-  "Yellow Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A yellow lotus",
+  "Blue Balloon Flower": {
+    image: blueBalloonFlower,
+    description: "A blue balloon flower.",
   },
-  "Purple Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
-    description: "A purple lotus",
+  "Red Carnation": {
+    image: redCarnation,
+    description: "A red carnation.",
+  },
+  "Yellow Carnation": {
+    image: yellowCarnation,
+    description: "A yellow carnation.",
+  },
+  "Purple Carnation": {
+    image: purpleCarnation,
+    description: "A purple carnation.",
+  },
+  "White Carnation": {
+    image: whiteCarnation,
+    description: "A white carnation.",
+  },
+  "Blue Carnation": {
+    image: blueCarnation,
+    description: "A blue carnation.",
+  },
+  "Humming Bird": {
+    description:
+      "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    image: hummingBird,
+  },
+  "Queen Bee": {
+    description:
+      "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    image: queenBee,
+  },
+  "Flower Fox": {
+    description:
+      "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    image: flowerFox,
+  },
+  "Hungry Caterpillar": {
+    description:
+      "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    image: hungryCaterpillar,
+  },
+  "Sunrise Bloom Rug": {
+    description:
+      "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    image: sunriseBloomRug,
+  },
+  "Blossom Royale": {
+    description:
+      "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    image: blossomRoyale,
+  },
+  Rainbow: {
+    description:
+      "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    image: rainbow,
+  },
+  "Enchanted Rose": {
+    description:
+      "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    image: enchantedRose,
+  },
+  "Flower Cart": {
+    description:
+      "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    image: flowerCart,
+  },
+  Capybara: {
+    description:
+      "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    image: capybara,
+  },
+  "Prism Petal": {
+    image: prismPetal,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  },
+  "Celestial Frostbloom": {
+    image: celestialFrostbloom,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  },
+  "Primula Enigma": {
+    image: primulaEnigma,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
   },
 };

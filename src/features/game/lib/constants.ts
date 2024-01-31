@@ -24,6 +24,27 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
+export const makeMegaStoreAvailableDates = () => {
+  const now = new Date();
+
+  const currentMonthStart = new Date(now);
+  const nextMonthStart = new Date(now);
+
+  // Set "from" as the first day of the current month
+  currentMonthStart.setUTCDate(1);
+  currentMonthStart.setUTCHours(0, 0, 0, 0);
+
+  // Set "to" as the first day of the next month
+  nextMonthStart.setUTCMonth(nextMonthStart.getMonth() + 1);
+  nextMonthStart.setUTCDate(1);
+  nextMonthStart.setUTCHours(0, 0, 0, 0);
+
+  return {
+    from: currentMonthStart.getTime(),
+    to: nextMonthStart.getTime(),
+  };
+};
+
 export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
@@ -270,7 +291,7 @@ export const TEST_FARM: GameState = {
     "Chef Hat": new Decimal(1),
     "Boiled Eggs": new Decimal(3),
     "Sunflower Cake": new Decimal(1),
-    "Basic Land": new Decimal(1),
+    "Basic Land": new Decimal(3),
   },
   previousInventory: {},
   stock: INITIAL_STOCK(),
@@ -447,13 +468,6 @@ export const TEST_FARM: GameState = {
       },
     ],
   },
-  expansionRequirements: {
-    bumpkinLevel: 20,
-    resources: {
-      Wood: 10,
-    },
-    seconds: 60,
-  },
   dailyRewards: { streaks: 0 },
 
   fruitPatches: {},
@@ -472,6 +486,12 @@ export const TEST_FARM: GameState = {
     mushrooms: {},
   },
   beehives: {},
+  springBlossom: {},
+  megastore: {
+    available: makeMegaStoreAvailableDates(),
+    collectibles: [],
+    wearables: [],
+  },
 };
 
 export const EMPTY: GameState = {
@@ -554,6 +574,12 @@ export const EMPTY: GameState = {
   catchTheKraken: {
     hunger: "Sunflower",
     weeklyCatches: {},
+  },
+  springBlossom: {},
+  megastore: {
+    available: makeMegaStoreAvailableDates(),
+    collectibles: [],
+    wearables: [],
   },
 };
 

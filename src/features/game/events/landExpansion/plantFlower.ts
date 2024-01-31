@@ -72,6 +72,7 @@ export function plantFlower({
     plantedAt: createdAt,
     amount: 1,
     name: "Red Pansy",
+    dirty: true,
   };
 
   bumpkin.activity = trackActivity(

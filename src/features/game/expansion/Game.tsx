@@ -149,6 +149,7 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
+const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
 const accessHome = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "HOME");
 
@@ -261,6 +262,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const promo = useSelector(gameService, isPromoing);
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
+  const specialOffer = useSelector(gameService, hasSpecialOffer);
 
   useInterval(() => {
     gameService.send("SAVE");
@@ -405,6 +407,7 @@ export const GameWrapper: React.FC = ({ children }) => {
           {minting && <Minting />}
           {promo && <Promo />}
           {airdrop && <AirdropPopup />}
+          {specialOffer && <SpecialOffer />}
         </Panel>
       </Modal>
 

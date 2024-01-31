@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { getKeys } from "features/game/types/craftables";
 import {
   GameState,
@@ -9,7 +10,6 @@ import {
 } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
-import { expansionRequirements } from "./revealLand";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -386,6 +386,32 @@ function springUpgrade(state: GameState) {
   return game;
 }
 
+/**
+ * Any stale items that are still on the island or home
+ */
+export function expireItems({
+  game,
+  createdAt,
+}: {
+  game: GameState;
+  createdAt: number;
+}) {
+  const inActiveTimeWarps = [
+    ...(game.collectibles["Time Warp Totem"] ?? []),
+    ...(game.home.collectibles["Time Warp Totem"] ?? []),
+  ].filter(
+    (totem) =>
+      totem.createdAt + (EXPIRY_COOLDOWNS["Time Warp Totem"] ?? 0) < createdAt
+  ).length;
+
+  if (inActiveTimeWarps > 0) {
+    const previous = game.inventory["Time Warp Totem"] ?? new Decimal(0);
+    game.inventory["Time Warp Totem"] = previous.sub(inActiveTimeWarps);
+  }
+
+  return game;
+}
+
 function desertUpgrade(_: GameState) {
   throw new Error("Not implemented");
 
@@ -410,6 +436,9 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
     // Burn the ingredients
     game.inventory[name as InventoryItemName] = amount.minus(required);
   });
+
+  // Remove any time sensitive items that have expired
+  game = expireItems({ game, createdAt });
 
   // Clear all in progress items
   game.collectibles = {};
@@ -456,11 +485,6 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
       ...game,
       ...INITIAL_LAND,
     };
-
-  game.expansionRequirements = expansionRequirements({
-    level: (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1,
-    game,
-  });
 
   return {
     ...game,

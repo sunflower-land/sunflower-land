@@ -20,6 +20,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
@@ -296,7 +297,8 @@ export type InventoryItemName =
   | CompostName
   | FishName
   | MarineMarvelName
-  | FlowerName;
+  | FlowerName
+  | MegaStoreCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -544,6 +546,12 @@ export type CatchTheKraken = {
   hunger: InventoryItemName;
 };
 
+export type SpringBlossom = {
+  weeklyFlower: FlowerName;
+  collectedFlowerPages: number[];
+  tradedFlowerShop?: boolean;
+};
+
 export type FarmHand = {
   equipped: BumpkinParts;
 };
@@ -768,6 +776,42 @@ export type Christmas = {
   >;
 };
 
+export type Currency =
+  | "SFL"
+  | "Block Buck"
+  | "Crimstone"
+  | "Sunstone"
+  | "Seasonal Ticket";
+
+type ItemBase = {
+  shortDescription: string;
+  currency: Currency;
+  price: Decimal;
+  limit: number | null;
+  type: "wearable" | "collectible";
+};
+
+export type WearablesItem = {
+  name: BumpkinItem;
+} & ItemBase;
+
+export type CollectiblesItem = {
+  name: InventoryItemName;
+} & ItemBase;
+
+export type MegaStoreItemName = BumpkinItem | InventoryItemName;
+
+export type MegaStoreItem = WearablesItem | CollectiblesItem;
+
+export type MegaStore = {
+  available: {
+    from: number;
+    to: number;
+  };
+  wearables: WearablesItem[];
+  collectibles: CollectiblesItem[];
+};
+
 export type IslandType = "basic" | "spring" | "desert";
 
 export type Home = {
@@ -778,6 +822,7 @@ export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
   amount: number;
+  dirty?: boolean;
 };
 
 export type FlowerBed = {
@@ -862,7 +907,6 @@ export interface GameState {
   milestones: Partial<Record<MilestoneName, number>>;
 
   expansionConstruction?: ExpansionConstruction;
-  expansionRequirements?: ExpansionRequirements;
   expandedAt?: number;
 
   // TODO - make mandatory
@@ -918,6 +962,8 @@ export interface GameState {
   buds?: Record<number, Bud>;
 
   christmas?: Christmas;
+  springBlossom: Record<number, SpringBlossom>;
+  megastore: MegaStore;
 }
 
 export interface Context {

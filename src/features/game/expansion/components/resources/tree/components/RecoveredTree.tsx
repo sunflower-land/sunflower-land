@@ -5,6 +5,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
+import springShakeSheet from "assets/resources/tree/spring_shake_sheet.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -14,6 +15,7 @@ import classNames from "classnames";
 import { chopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
+import { IslandType } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Axe";
@@ -25,12 +27,26 @@ interface Props {
   hasTool: boolean;
   showHelper: boolean;
   touchCount: number;
+  island: IslandType;
 }
+
+const SHAKE_SHEET: Record<IslandType, string> = {
+  basic: shakeSheet,
+  spring: springShakeSheet,
+  desert: shakeSheet,
+};
+
+const TREE_IMAGE: Record<IslandType, string> = {
+  basic: SUNNYSIDE.resource.tree,
+  spring: SUNNYSIDE.resource.spring_tree,
+  desert: SUNNYSIDE.resource.tree,
+};
 
 const RecoveredTreeComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   showHelper,
+  island,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
@@ -92,7 +108,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         {/* static tree image */}
         {!showSpritesheet && (
           <img
-            src={SUNNYSIDE.resource.tree}
+            src={TREE_IMAGE[island]}
             className={"absolute pointer-events-none"}
             style={{
               width: `${PIXEL_SCALE * 26}px`,
@@ -121,7 +137,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
               shakeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={shakeSheet}
+            image={SHAKE_SHEET[island]}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}

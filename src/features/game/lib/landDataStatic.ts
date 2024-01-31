@@ -3,6 +3,7 @@ import { GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
+import { makeMegaStoreAvailableDates } from "./constants";
 
 export const INITIAL_RESOURCES: Pick<
   GameState,
@@ -293,15 +294,46 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "basic",
+    type: "spring",
   },
   mysteryPrizes: {},
   mushrooms: {
-    mushrooms: {},
+    mushrooms: {
+      1: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -18,
+        y: 5,
+      },
+      2: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -18,
+        y: 4,
+      },
+      3: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -19,
+        y: 4,
+      },
+      4: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -19,
+        y: 5,
+      },
+      5: {
+        amount: 1,
+        name: "Wild Mushroom",
+        x: -19,
+        y: 6,
+      },
+    },
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 1 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
   buds: {
     1: {
       aura: "Basic",
@@ -318,7 +350,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  balance: new Decimal(0),
+  balance: new Decimal(100),
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
@@ -340,6 +372,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(3),
+    Gold: new Decimal(13),
     "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
@@ -353,10 +386,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Egg: new Decimal(12),
     Beehive: new Decimal(0),
     Banana: new Decimal(12),
-    Wood: new Decimal(100),
+    Wood: new Decimal(500),
+    Crimstone: new Decimal(20),
+    "Block Buck": new Decimal(20),
     Stone: new Decimal(100),
     Iron: new Decimal(100),
-    Gold: new Decimal(15),
+    "Mermaid Scale": new Decimal(1000),
+    "Humming Bird": new Decimal(1),
+    "Queen Bee": new Decimal(1),
+    "Flower Fox": new Decimal(1),
+    "Hungry Caterpillar": new Decimal(1),
+    "Sunrise Bloom Rug": new Decimal(1),
+    "Blossom Royale": new Decimal(1),
+    Rainbow: new Decimal(1),
+    "Enchanted Rose": new Decimal(1),
+    "Flower Cart": new Decimal(1),
+    Capybara: new Decimal(1),
   },
   wardrobe: {
     "Elf Suit": 1,
@@ -393,11 +438,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   stock: INITIAL_STOCK,
   stockExpiry: {},
-  expansionRequirements: {
-    bumpkinLevel: 1,
-    seconds: 3,
-    resources: { Wood: 3 },
-  },
   chickens: {},
   trades: {},
   buildings: {
@@ -508,6 +548,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
     hunger: "Iron",
     weeklyCatches: {},
   },
+  megastore: {
+    available: makeMegaStoreAvailableDates(),
+    collectibles: [],
+    wearables: [],
+  },
   airdrops: [],
   username: "Local Hero",
+  springBlossom: {},
 };

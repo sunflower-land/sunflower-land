@@ -1,7 +1,15 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "../../lib/constants";
+import {
+  TEST_FARM,
+  INITIAL_BUMPKIN,
+  CRIMSTONE_RECOVERY_TIME,
+} from "../../lib/constants";
 import { GameState } from "../../types/game";
-import { MineCrimstoneAction, mineCrimstone } from "./mineCrimstone";
+import {
+  MineCrimstoneAction,
+  getMinedAt,
+  mineCrimstone,
+} from "./mineCrimstone";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -216,5 +224,27 @@ describe("mineCrimstone", () => {
     });
 
     expect(game.crimstones[1].minesLeft).toEqual(4);
+  });
+
+  describe("getMinedAt", () => {
+    it("crimstone replenishes faster with Crimstone Amulet", () => {
+      const now = Date.now();
+
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            equipped: {
+              ...INITIAL_BUMPKIN.equipped,
+              necklace: "Crimstone Amulet",
+            },
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - CRIMSTONE_RECOVERY_TIME * 0.2 * 1000);
+    });
   });
 });

@@ -1,4 +1,4 @@
-import { GameState, InventoryItemName, IslandType } from "../types/game";
+import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 
@@ -1090,12 +1090,7 @@ export const SPRING_LAND_11_LAYOUT: Layout = {
       y: 2,
     },
   ],
-  crimstones: [
-    {
-      x: -1,
-      y: 0,
-    },
-  ],
+
   sunstones: [],
   trees: [
     {
@@ -1220,7 +1215,12 @@ export const SPRING_LAND_15_LAYOUT: Layout = {
       y: 0,
     },
   ],
-  crimstones: [],
+  crimstones: [
+    {
+      x: -1,
+      y: 1,
+    },
+  ],
   sunstones: [],
   trees: [
     {
@@ -1248,12 +1248,7 @@ export const SPRING_LAND_16_LAYOUT: Layout = {
   ],
   iron: [],
   stones: [],
-  crimstones: [
-    {
-      x: -3,
-      y: 0,
-    },
-  ],
+
   sunstones: [],
   trees: [
     {
@@ -1340,7 +1335,12 @@ export const SPRING_LAND_19_LAYOUT: Layout = {
   gold: [],
   iron: [],
   stones: [],
-  crimstones: [],
+  crimstones: [
+    {
+      x: -3,
+      y: 0,
+    },
+  ],
   sunstones: [],
   trees: [],
   beehives: [],
@@ -1671,7 +1671,7 @@ const SPRING_LAND_7_REQUIREMENTS: Requirements = {
 const SPRING_LAND_8_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 20,
-    Crimstone: 2,
+    Crimstone: 1,
     "Block Buck": 1,
   },
   seconds: 2 * 60 * 60,

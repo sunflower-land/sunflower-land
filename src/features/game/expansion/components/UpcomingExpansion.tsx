@@ -34,7 +34,7 @@ import {
   GameState,
   Inventory,
 } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
+import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -261,6 +261,9 @@ export const UpcomingExpansion: React.FC = () => {
   const state = gameState.context.state;
 
   const playing = gameState.matches("playing");
+
+  const requirements = expansionRequirements({ game: state });
+
   const { t } = useAppTranslation();
 
   useEffect(() => {
@@ -273,9 +276,7 @@ export const UpcomingExpansion: React.FC = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
 
-    const blockBucks =
-      gameState.context.state.expansionRequirements?.resources["Block Buck"] ??
-      0;
+    const blockBucks = requirements?.resources["Block Buck"] ?? 0;
     if (blockBucks) {
       gameAnalytics.trackSink({
         currency: "Block Buck",
@@ -311,20 +312,15 @@ export const UpcomingExpansion: React.FC = () => {
 
   const isLocked =
     getBumpkinLevel(state.bumpkin?.experience ?? 0) <
-    (state.expansionRequirements?.bumpkinLevel ?? 0);
+    (requirements?.bumpkinLevel ?? 0);
 
-  const canExpand = craftingRequirementsMet(state, state.expansionRequirements);
+  const canExpand = craftingRequirementsMet(state, requirements);
 
   const showHelper =
     canExpand &&
     (state.bumpkin?.activity?.["Tree Chopped"] ?? 0) >= 3 &&
     // Only pulsate first 5 times
     state.inventory["Basic Land"]?.lte(4);
-
-  const canUpgrade =
-    hasFeatureAccess(state, "ISLAND_UPGRADE") &&
-    state.island.type === "basic" &&
-    state.inventory["Basic Land"]?.gte(9);
 
   return (
     <>
@@ -336,19 +332,17 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction &&
-        state.expansionRequirements &&
-        !canUpgrade && (
-          <ExpandIcon
-            canExpand={canExpand}
-            inventory={state.inventory}
-            isLocked={isLocked}
-            onOpen={() => setShowBumpkinModal(true)}
-            position={nextPosition}
-            requirements={state.expansionRequirements as ExpansionRequirements}
-            showHelper={showHelper ?? false}
-          />
-        )}
+      {!state.expansionConstruction && requirements && (
+        <ExpandIcon
+          canExpand={canExpand}
+          inventory={state.inventory}
+          isLocked={isLocked}
+          onOpen={() => setShowBumpkinModal(true)}
+          position={nextPosition}
+          requirements={requirements as ExpansionRequirements}
+          showHelper={showHelper ?? false}
+        />
+      )}
 
       {gameState.matches("revealing") && isRevealing && (
         <Modal show centered>

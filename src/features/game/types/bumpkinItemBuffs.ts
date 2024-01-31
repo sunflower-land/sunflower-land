@@ -5,6 +5,7 @@ import { BumpkinItem } from "./bumpkin";
 
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import bee from "assets/icons/bee.webp";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 
@@ -149,5 +150,41 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Banana.image,
+    },
+    "Bee Suit": {
+      shortDescription: "+0.1 Honey",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Honey.image,
+    },
+    "Crimstone Hammer": {
+      shortDescription: "+3 Crimstones on last mine",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    "Crimstone Amulet": {
+      shortDescription: "20% Crimstone speed ",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    "Crimstone Armor": {
+      shortDescription: "+0.1 Crimstones",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+    },
+    "Hornet Mask": {
+      shortDescription: "2x chance Bee Swarm",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: bee,
+    },
+    "Honeycomb Shield": {
+      shortDescription: "+1 Honey",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
   };
