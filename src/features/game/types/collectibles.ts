@@ -5,6 +5,7 @@ import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
+import crimstone from "assets/resources/crimstone.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -890,8 +891,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
   },
   "Crimson Carp": {
-    shortDescription: "+0.05 Crimstone",
     labelType: "success",
+    shortDescription: "+0.05 Crimstone",
     boostTypeIcon: powerup,
+    boostedItemIcon: crimstone,
   },
 };
