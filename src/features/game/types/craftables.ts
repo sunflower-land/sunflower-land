@@ -18,6 +18,7 @@ import {
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName } from "./fishing";
 import { SeasonalBanner } from "./seasons";
+import { EpicFlowerName } from "./flowers";
 
 export { FLAGS };
 
@@ -204,7 +205,8 @@ export type CollectibleName =
   | "Undead Rooster"
   | PotionHouseItemName
   | MarineMarvelName
-  | MegaStoreCollectibleName;
+  | MegaStoreCollectibleName
+  | EpicFlowerName;
 
 export type ToolName =
   | "Axe"

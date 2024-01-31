@@ -39,9 +39,13 @@ type CarnationName =
   | "Purple Carnation"
   | "White Carnation"
   | "Blue Carnation";
-type SunpetalFlowerName = PansyName | CosmosName;
-type BloomFlowerName = BalloonFlowerName;
-type LilyFlowerName = CarnationName;
+type SunpetalFlowerName = PansyName | CosmosName | "Prism Petal";
+type BloomFlowerName = BalloonFlowerName | "Celestial Frostbloom";
+type LilyFlowerName = CarnationName | "Primula Enigma";
+export type EpicFlowerName =
+  | "Prism Petal"
+  | "Celestial Frostbloom"
+  | "Primula Enigma";
 
 export type FlowerSeed = {
   price: Decimal;
