@@ -178,4 +178,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: bee,
     },
+    "Honeycomb Shield": {
+      shortDescription: "+1 Honey",
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Honey.image,
+    },
   };

@@ -433,4 +433,46 @@ describe("harvestBeehive", () => {
     });
     expect(gameState.inventory.Honey).toEqual(new Decimal(1.1));
   });
+
+  it("harvests a full beehive wearing Honeycomb Shield", () => {
+    const beehiveId = "1234";
+    const now = Date.now();
+    const tenMinutesAgo = now - 10 * 60 * 1000;
+
+    const gameState = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Honeycomb Shield",
+          },
+        },
+        beehives: {
+          [beehiveId]: {
+            ...DEFAULT_BEEHIVE,
+            honey: {
+              updatedAt: tenMinutesAgo,
+              produced: HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+      },
+      action: {
+        type: "beehive.harvested",
+        id: beehiveId,
+      },
+      createdAt: now,
+    });
+
+    expect(gameState.beehives?.[beehiveId]).toEqual({
+      ...DEFAULT_BEEHIVE,
+      honey: {
+        updatedAt: expect.any(Number),
+        produced: 0,
+      },
+    });
+    expect(gameState.inventory.Honey).toEqual(new Decimal(2));
+  });
 });
