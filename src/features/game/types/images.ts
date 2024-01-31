@@ -569,6 +569,9 @@ import yellowCarnation from "assets/flowers/yellow_carnation.png";
 import blueCarnation from "assets/flowers/blue_carnation.png";
 import whiteCarnation from "assets/flowers/white_carnation.png";
 import purpleCarnation from "assets/flowers/purple_carnation.png";
+import prismPetal from "assets/flowers/prism_petal.webp";
+import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
+import primulaEnigma from "assets/flowers/primula_enigma.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3095,83 +3098,83 @@ export const ITEM_DETAILS: Items = {
 
   "Red Pansy": {
     image: redPansy,
-    description: "A red pansy",
+    description: "A red pansy.",
   },
   "Yellow Pansy": {
     image: yellowPansy,
-    description: "A yellow pansy",
+    description: "A yellow pansy.",
   },
   "Purple Pansy": {
     image: purplePansy,
-    description: "A purple pansy",
+    description: "A purple pansy.",
   },
   "White Pansy": {
     image: whitePansy,
-    description: "A white pansy",
+    description: "A white pansy.",
   },
   "Blue Pansy": {
     image: bluePansy,
-    description: "A blue pansy",
+    description: "A blue pansy.",
   },
   "Red Cosmos": {
     image: redCosmos,
-    description: "A red cosmos",
+    description: "A red cosmos.",
   },
   "Yellow Cosmos": {
     image: yellowCosmos,
-    description: "A yellow cosmos",
+    description: "A yellow cosmos.",
   },
   "Purple Cosmos": {
     image: purpleCosmos,
-    description: "A purple cosmos",
+    description: "A purple cosmos.",
   },
   "White Cosmos": {
     image: whiteCosmos,
-    description: "A white cosmos",
+    description: "A white cosmos.",
   },
   "Blue Cosmos": {
     image: blueCosmos,
-    description: "A blue cosmos",
+    description: "A blue cosmos.",
   },
   "Red Balloon Flower": {
     image: redBalloonFlower,
-    description: "A red balloon flower",
+    description: "A red balloon flower.",
   },
   "Yellow Balloon Flower": {
     image: yellowBalloonFlower,
-    description: "A yellow balloon flower",
+    description: "A yellow balloon flower.",
   },
   "Purple Balloon Flower": {
     image: purpleBalloonFlower,
-    description: "A purple balloon flower",
+    description: "A purple balloon flower.",
   },
   "White Balloon Flower": {
     image: whiteBalloonFlower,
-    description: "A white balloon flower",
+    description: "A white balloon flower.",
   },
   "Blue Balloon Flower": {
     image: blueBalloonFlower,
-    description: "A blue balloon flower",
+    description: "A blue balloon flower.",
   },
   "Red Carnation": {
     image: redCarnation,
-    description: "A red carnation",
+    description: "A red carnation.",
   },
   "Yellow Carnation": {
     image: yellowCarnation,
-    description: "A yellow carnation",
+    description: "A yellow carnation.",
   },
   "Purple Carnation": {
     image: purpleCarnation,
-    description: "A purple carnation",
+    description: "A purple carnation.",
   },
   "White Carnation": {
     image: whiteCarnation,
-    description: "A white carnation",
+    description: "A white carnation.",
   },
   "Blue Carnation": {
     image: blueCarnation,
-    description: "A blue carnation",
+    description: "A blue carnation.",
   },
   "Humming Bird": {
     description:
@@ -3222,5 +3225,20 @@ export const ITEM_DETAILS: Items = {
     description:
       "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
     image: capybara,
+  },
+  "Prism Petal": {
+    image: prismPetal,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  },
+  "Celestial Frostbloom": {
+    image: celestialFrostbloom,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  },
+  "Primula Enigma": {
+    image: primulaEnigma,
+    description:
+      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
   },
 };

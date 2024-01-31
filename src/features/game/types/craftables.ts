@@ -18,6 +18,7 @@ import {
 import { BoostTreasure } from "./treasure";
 import { MarineMarvelName } from "./fishing";
 import { SeasonalBanner } from "./seasons";
+import { EpicFlowerName } from "./flowers";
 
 export { FLAGS };
 
@@ -204,7 +205,8 @@ export type CollectibleName =
   | "Undead Rooster"
   | PotionHouseItemName
   | MarineMarvelName
-  | MegaStoreCollectibleName;
+  | MegaStoreCollectibleName
+  | EpicFlowerName;
 
 export type ToolName =
   | "Axe"
@@ -1250,6 +1252,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Enchanted Rose": { width: 1, height: 2 },
   Capybara: { width: 1, height: 1 },
   Rainbow: { width: 2, height: 1 },
+  // Flowers
+  "Prism Petal": { width: 1, height: 1 },
+  "Celestial Frostbloom": { width: 1, height: 1 },
+  "Primula Enigma": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

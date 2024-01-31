@@ -140,6 +140,9 @@ const flowers: Record<FlowerName, () => boolean> = {
   "Purple Carnation": () => false,
   "White Carnation": () => false,
   "Blue Carnation": () => false,
+  "Prism Petal": () => false,
+  "Primula Enigma": () => false,
+  "Celestial Frostbloom": () => false,
 };
 
 const beans: Record<BeanName, () => boolean> = {
