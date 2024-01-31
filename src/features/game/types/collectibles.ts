@@ -6,7 +6,6 @@ import { SFLDiscount } from "../lib/SFLDiscount";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
-import xp from "assets/icons/xp.png";
 import crimstone from "assets/resources/crimstone.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -905,8 +904,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   },
   Blossombeard: {
     labelType: "vibrant",
-    shortDescription: "+10% XP to food",
+    shortDescription: "+10% XP",
     boostTypeIcon: lightning,
-    boostedItemIcon: xp,
   },
 };
