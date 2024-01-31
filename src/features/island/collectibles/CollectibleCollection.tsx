@@ -233,6 +233,7 @@ import { Capybara } from "./components/Capybara";
 import { PrismPetal } from "./components/PrismPetal";
 import { CelestialFrostbloom } from "./components/CelestialFrostbloom";
 import { PrimulaEnigma } from "./components/PrimulaEnigma";
+import { Blossombeard } from "./components/Blossombeard";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -430,6 +431,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Toadstool Seat": ToadstoolSeat,
   Clementine: Clementine,
   Cobalt: Cobalt,
+  Blossombeard: Blossombeard,
 
   // Dawn Breaker items
   "Mushroom House": MushroomHouse,

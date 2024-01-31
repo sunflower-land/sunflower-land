@@ -173,6 +173,7 @@ export const maxItems: Inventory = {
 
   // Seasonal decorations - Dawnbreaker
   Clementine: new Decimal(1),
+  Blossombeard: new Decimal(1),
   Cobalt: new Decimal(1),
   "Eggplant Grill": new Decimal(1),
   "Giant Dawn Mushroom": new Decimal(5),
