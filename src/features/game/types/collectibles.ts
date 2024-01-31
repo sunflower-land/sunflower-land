@@ -877,4 +877,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+  "Crimson Carp": {
+    shortDescription: "+0.05 Crimstone",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
 };
