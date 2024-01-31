@@ -3247,4 +3247,44 @@ export const ITEM_DETAILS: Items = {
     description:
       "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
   },
+  "Red Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A red daffodil.",
+  },
+  "Yellow Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A yellow daffodil.",
+  },
+  "Purple Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A purple daffodil.",
+  },
+  "White Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A white daffodil.",
+  },
+  "Blue Daffodil": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A blue daffodil.",
+  },
+  "Red Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A red lotus.",
+  },
+  "Yellow Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A yellow lotus.",
+  },
+  "Purple Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A purple lotus.",
+  },
+  "White Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A white lotus.",
+  },
+  "Blue Lotus": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "A blue lotus.",
+  },
 };

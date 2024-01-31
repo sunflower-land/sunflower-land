@@ -16,33 +16,37 @@ type CosmosName =
   | "Purple Cosmos"
   | "White Cosmos"
   | "Blue Cosmos";
-// type DaffodilName =
-//   | "Red Daffodil"
-//   | "Yellow Daffodil"
-//   | "Purple Daffodil"
-//   | "White Daffodil"
-//   | "Blue Cosmos";
+type DaffodilName =
+  | "Red Daffodil"
+  | "Yellow Daffodil"
+  | "Purple Daffodil"
+  | "White Daffodil"
+  | "Blue Daffodil";
 type BalloonFlowerName =
   | "Red Balloon Flower"
   | "Yellow Balloon Flower"
   | "Purple Balloon Flower"
   | "White Balloon Flower"
   | "Blue Balloon Flower";
-// type LotusName =
-//   | "Red Lotus"
-//   | "Yellow Lotus"
-//   | "Purple Lotus"
-//   | "White Lotus"
-//   | "Blue Lotus";
+type LotusName =
+  | "Red Lotus"
+  | "Yellow Lotus"
+  | "Purple Lotus"
+  | "White Lotus"
+  | "Blue Lotus";
 type CarnationName =
   | "Red Carnation"
   | "Yellow Carnation"
   | "Purple Carnation"
   | "White Carnation"
   | "Blue Carnation";
+
 type SunpetalFlowerName = PansyName | CosmosName | "Prism Petal";
-type BloomFlowerName = BalloonFlowerName | "Celestial Frostbloom";
-type LilyFlowerName = CarnationName | "Primula Enigma";
+type BloomFlowerName =
+  | BalloonFlowerName
+  | DaffodilName
+  | "Celestial Frostbloom";
+type LilyFlowerName = CarnationName | LotusName | "Primula Enigma";
 export type EpicFlowerName =
   | "Prism Petal"
   | "Celestial Frostbloom"
@@ -151,6 +155,16 @@ export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
     "Celestial Frostbloom": 1,
     "Primula Enigma": 1,
     "Prism Petal": 1,
+    "Red Daffodil": 1,
+    "Yellow Daffodil": 1,
+    "Purple Daffodil": 1,
+    "White Daffodil": 1,
+    "Blue Daffodil": 1,
+    "Red Lotus": 1,
+    "Yellow Lotus": 1,
+    "Purple Lotus": 1,
+    "White Lotus": 1,
+    "Blue Lotus": 1,
   };
 
 export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
@@ -159,7 +173,7 @@ export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
     Cauliflower: "Not so sure what the Bumpkin Botanists say about this one.",
     Beetroot: "It has a beautiful purple color.",
     Parsnip: "A parsnip might be a good choice to cross breed with.",
-    Eggplant: "Another crop that has a beautiful purple hue.",
+    Eggplant: "Eggplant has a vibrant color, perhaps it will cross breed well.",
     Radish: "Wow, this radish is red!",
     Kale: "It's green, but not like the other greens.",
     Blueberry: "These blueberries are very ripe, I hope they don't stain.",
@@ -195,6 +209,16 @@ export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
       "An extremely rare mutation. Are you sure you want to cross breed this?",
     "Primula Enigma":
       "An extremely rare mutation, are you sure you want to cross breed this?",
+    "Red Daffodil": "",
+    "Yellow Daffodil": "",
+    "Purple Daffodil": "",
+    "White Daffodil": "",
+    "Blue Daffodil": "",
+    "Red Lotus": "",
+    "Yellow Lotus": "",
+    "Purple Lotus": "",
+    "White Lotus": "",
+    "Blue Lotus": "",
   };
 
 type Flower = {
@@ -221,6 +245,11 @@ const BLOOM_FLOWERS: Record<BloomFlowerName, { seed: "Bloom Seed" }> = {
   "Purple Balloon Flower": { seed: "Bloom Seed" },
   "White Balloon Flower": { seed: "Bloom Seed" },
   "Blue Balloon Flower": { seed: "Bloom Seed" },
+  "Red Daffodil": { seed: "Bloom Seed" },
+  "Yellow Daffodil": { seed: "Bloom Seed" },
+  "Purple Daffodil": { seed: "Bloom Seed" },
+  "White Daffodil": { seed: "Bloom Seed" },
+  "Blue Daffodil": { seed: "Bloom Seed" },
   "Celestial Frostbloom": { seed: "Bloom Seed" },
 };
 const LILY_FLOWERS: Record<LilyFlowerName, { seed: "Lily Seed" }> = {
@@ -229,6 +258,11 @@ const LILY_FLOWERS: Record<LilyFlowerName, { seed: "Lily Seed" }> = {
   "Purple Carnation": { seed: "Lily Seed" },
   "White Carnation": { seed: "Lily Seed" },
   "Blue Carnation": { seed: "Lily Seed" },
+  "Red Lotus": { seed: "Lily Seed" },
+  "Yellow Lotus": { seed: "Lily Seed" },
+  "Purple Lotus": { seed: "Lily Seed" },
+  "White Lotus": { seed: "Lily Seed" },
+  "Blue Lotus": { seed: "Lily Seed" },
   "Primula Enigma": { seed: "Lily Seed" },
 };
 
@@ -270,6 +304,16 @@ const IMAGES: Record<FlowerName, string> = {
   "Prism Petal": "prism_petal",
   "Celestial Frostbloom": "celestial_frostbloom",
   "Primula Enigma": "primula_enigma",
+  "Red Daffodil": "expression_confused",
+  "Yellow Daffodil": "expression_confused",
+  "Purple Daffodil": "expression_confused",
+  "White Daffodil": "expression_confused",
+  "Blue Daffodil": "expression_confused",
+  "Red Lotus": "expression_confused",
+  "Yellow Lotus": "expression_confused",
+  "Purple Lotus": "expression_confused",
+  "White Lotus": "expression_confused",
+  "Blue Lotus": "expression_confused",
 };
 
 export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
