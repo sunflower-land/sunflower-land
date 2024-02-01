@@ -554,7 +554,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   },
   Hammer: {
     name: "Hammer",
-    description: translate("description.hammer"),
+    description: translate("coming.soon"),
     tokenAmount: new Decimal(5),
     ingredients: [
       {

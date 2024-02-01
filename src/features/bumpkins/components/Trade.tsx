@@ -349,9 +349,7 @@ export const Trade: React.FC = () => {
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>
-        <Button onClick={() => setShowListing(true)}>
-          {t("bumpkinTrade.list")}
-        </Button>
+        <Button onClick={() => setShowListing(true)}>{t("list.trade")}</Button>
       </div>
     );
   }

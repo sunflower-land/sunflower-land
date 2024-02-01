@@ -385,7 +385,7 @@ export const UpcomingExpansion: React.FC = () => {
         {!showIntro && (
           <CloseButtonPanel
             bumpkinParts={NPC_WEARABLES.grimbly}
-            title={t("explorer.description")}
+            title={t("expand.land")}
             onClose={() => setShowBumpkinModal(false)}
           >
             <UpcomingExpansionModal

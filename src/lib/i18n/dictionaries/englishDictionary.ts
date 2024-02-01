@@ -124,7 +124,6 @@ import {
   RulesTerms,
   SceneDialogueKey,
   SeasonTerms,
-  Session,
   SettingsMenu,
   Share,
   SharkBumpkinDialogues,
@@ -229,6 +228,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   equip: "Equip",
   error: "Error",
   exotics: "Exotics",
+  "expand.land": "Expand your Land",
   expand: "Expand",
   explore: "Explore",
   farm: "Farm",
@@ -429,7 +429,6 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "goldFever.description": "Mine 500 gold rocks",
 
   // Explorer
-  "explorer.description": "Expand your land",
   "explorer.one":
     "Let's gather some wood by chopping down these trees and expand the island. Go ahead and figure out the best way to do it.",
   "expansion.description": "Expand your land to new horizons.",
@@ -828,7 +827,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.minLevel": "You must be level 10 to trade",
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
-  "bumpkinTrade.list": "List trade",
+
   "bumpkinTrade.like.list": "What would you like to list",
 };
 
@@ -1997,7 +1996,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "seasons.guide.two":
     "The availability of seasonal items at the Goblin Blacksmith adds another layer of excitement. Players must gather the required resources and seasonal tickets to craft these limited-supply items, creating a sense of competition and urgency. Planning ahead and strategizing become crucial as players aim to secure their desired items before the supply runs out. Moreover, the option to swap seasonal tickets for SFL provides flexibility and allows players to make choices that align with their specific gameplay goals. With each season's unique offerings and the anticipation of surprise events, Sunflower Land keeps players engaged and entertained throughout the year, fostering a vibrant and ever-evolving farming experience.",
   "pete.teaser.one": "Chop the trees",
-  "pete.teaser.two": "Expand your land",
   "pete.teaser.three": "Harvest the Sunflowers",
   "pete.teaser.four": "Sell the Sunflowers",
   "pete.teaser.five": "Buy Seeds",
@@ -3199,7 +3197,6 @@ const onboarding: Record<Onboarding, string> = {
     "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
   "onboarding.buyFarm.two":
     "This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.",
-  "onboarding.wallet.final": "Let's do this!",
   "onboarding.wallet.already": "I already have a wallet ",
 };
 
@@ -3217,7 +3214,6 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Wisely": "Choose wisely!",
   "orderhelp.SkipIn": "Skip in",
   "orderhelp.NoRight": "Not Right Now",
-  "orderhelp.Skip.Order": "Skip Order",
 };
 
 const parsnip: Record<Parsnip, string> = {
@@ -3421,10 +3417,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.catch.the.kraken": "Catch the Kraken",
-};
-
-const session: Record<Session, string> = {
-  "session.expired": "Session expired!",
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {
@@ -3666,7 +3658,6 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.pickaxe": "Used to collect stone",
   "description.stone.pickaxe": "Used to collect iron",
   "description.iron.pickaxe": "Used to collect gold",
-  "description.hammer": "Coming soon",
   "description.rod": "Used to catch fish",
   "description.rusty.shovel": "Used to remove buildings and collectibles",
   "description.shovel": "Plant and harvest crops.",
@@ -4049,7 +4040,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...rulesTerms,
   ...sceneDialogueKey,
   ...seasonTerms,
-  ...session,
   ...settingsMenu,
   ...share,
   ...sharkBumpkinDialogues,

@@ -71,6 +71,7 @@ export type GeneralTerms =
   | "equip"
   | "error"
   | "exotics"
+  | "expand.land"
   | "expand"
   | "explore"
   | "farm.storage"
@@ -254,7 +255,6 @@ export type AchievementsTerms =
   | "somethingShiny.description"
   | "bumpkinChainsawAmateur.description"
   | "goldFever.description"
-  | "explorer.description"
   | "explorer.one"
   | "expansion.description"
   | "wellOfProsperity.description"
@@ -543,7 +543,6 @@ export type BumpkinTrade =
   | "bumpkinTrade.minLevel"
   | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
-  | "bumpkinTrade.list"
   | "bumpkinTrade.like.list";
 
 export type BuyFarmHand =
@@ -1384,7 +1383,6 @@ export type GuideTerms =
   | "seasons.guide.one"
   | "seasons.guide.two"
   | "pete.teaser.one"
-  | "pete.teaser.two"
   | "pete.teaser.three"
   | "pete.teaser.four"
   | "pete.teaser.five"
@@ -2161,7 +2159,6 @@ export type Onboarding =
   | "onboarding.buyFarm.title"
   | "onboarding.buyFarm.one"
   | "onboarding.buyFarm.two"
-  | "onboarding.wallet.final"
   | "onboarding.wallet.already";
 
 export type OnCollectReward =
@@ -2175,8 +2172,7 @@ export type OrderHelp =
   | "orderhelp.New.Season.arrival"
   | "orderhelp.Wisely"
   | "orderhelp.SkipIn"
-  | "orderhelp.NoRight"
-  | "orderhelp.Skip.Order";
+  | "orderhelp.NoRight";
 
 export type Parsnip =
   | "parsnip.hat"
@@ -2325,8 +2321,6 @@ export type SeasonTerms =
   | "season.includes"
   | "season.limitedOffer"
   | "season.wearableAirdrop";
-
-export type Session = "session.expired";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"
@@ -2494,7 +2488,6 @@ export type ToolDescriptions =
   | "description.pickaxe"
   | "description.stone.pickaxe"
   | "description.iron.pickaxe"
-  | "description.hammer"
   | "description.rod"
   | "description.rusty.shovel"
   | "description.shovel"
@@ -2785,7 +2778,6 @@ export type TranslationKeys =
   | RulesTerms
   | SceneDialogueKey
   | SeasonTerms
-  | Session
   | SettingsMenu
   | Share
   | SharkBumpkinDialogues

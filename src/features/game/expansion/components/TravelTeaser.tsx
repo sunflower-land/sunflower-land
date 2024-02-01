@@ -42,7 +42,7 @@ const hint = (state: MachineState) => {
   }
 
   if (inventory["Basic Land"]?.lte(3)) {
-    return translate("pete.teaser.two");
+    return translate("expand.land");
   }
 
   const harvestedCrops = getKeys(CROPS()).reduce(
