@@ -17,7 +17,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 interface ClaimRewardProps {
   reward: IAirdrop;

@@ -8,7 +8,7 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
 
 /**

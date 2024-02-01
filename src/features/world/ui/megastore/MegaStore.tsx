@@ -8,7 +8,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Transition } from "@headlessui/react";
 import { BuffLabel } from "features/game/types";

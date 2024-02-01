@@ -19,7 +19,8 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     "Banana Onesie": {
       shortDescription: translate("bumpkinItemBuff.banana.boost"),
       labelType: "info",
-      boostTypeIcon: ITEM_DETAILS.Banana.image,
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS.Banana.image,
     },
     "Chef Apron": {
       shortDescription: translate("bumpkinItemBuff.chef.apron.boost"),
