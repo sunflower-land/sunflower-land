@@ -20,7 +20,6 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { hasFeatureAccess } from "lib/flags";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 
@@ -67,13 +66,6 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
     onClose();
   };
 
-  if (!hasFeatureAccess(state, "FLOWERS", farmId)) {
-    return (
-      <div className="p-2">
-        <Label type="danger">Flowers are coming soon!</Label>
-      </div>
-    );
-  }
   const seedFlowers = getKeys(FLOWERS).filter(
     (flowerName) => FLOWERS[flowerName].seed === seed
   );

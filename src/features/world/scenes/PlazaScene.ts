@@ -16,8 +16,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Page } from "../containers/Page";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { hasFeatureAccess } from "lib/flags";
-import { TEST_FARM } from "features/game/lib/constants";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
@@ -29,7 +27,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 815,
     y: 213,
-    npc: hasFeatureAccess(TEST_FARM, "FLOWER_SHOP") ? "poppy" : "frankie",
+    npc: "poppy",
     direction: "left",
   },
   {

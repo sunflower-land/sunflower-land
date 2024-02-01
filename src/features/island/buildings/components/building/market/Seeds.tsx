@@ -240,32 +240,30 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 />
               ))}
           </div>
-          {hasFeatureAccess(state, "FLOWERS", farmId) && (
-            <>
-              <Label
-                icon={SUNNYSIDE.icons.seedling}
-                type="default"
-                className="ml-2 mb-1"
-              >
-                {t("flowers")}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                {seeds
-                  .filter((name) => name in FLOWER_SEEDS())
-                  .map((name: SeedName) => (
-                    <Box
-                      isSelected={selectedName === name}
-                      key={name}
-                      onClick={() => onSeedClick(name)}
-                      image={ITEM_DETAILS[name].image}
-                      showOverlay={isSeedLocked(name)}
-                      secondaryImage={isSeedLocked(name) ? lock : undefined}
-                      count={inventory[name]}
-                    />
-                  ))}
-              </div>
-            </>
-          )}
+          <>
+            <Label
+              icon={SUNNYSIDE.icons.seedling}
+              type="default"
+              className="ml-2 mb-1"
+            >
+              {t("flowers")}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {seeds
+                .filter((name) => name in FLOWER_SEEDS())
+                .map((name: SeedName) => (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => onSeedClick(name)}
+                    image={ITEM_DETAILS[name].image}
+                    showOverlay={isSeedLocked(name)}
+                    secondaryImage={isSeedLocked(name) ? lock : undefined}
+                    count={inventory[name]}
+                  />
+                ))}
+            </div>
+          </>
         </div>
       }
     />

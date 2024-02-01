@@ -13,8 +13,6 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { Page } from "../containers/Page";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { hasFeatureAccess } from "lib/flags";
-import { TEST_FARM } from "features/game/lib/constants";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 
@@ -27,7 +25,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 815,
     y: 213,
-    npc: hasFeatureAccess(TEST_FARM, "FLOWER_SHOP") ? "poppy" : "frankie",
+    npc: "poppy",
     direction: "left",
   },
   {
