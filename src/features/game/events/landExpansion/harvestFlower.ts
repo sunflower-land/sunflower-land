@@ -28,7 +28,8 @@ export function harvestFlower({
 
   if (!bumpkin) throw new Error("You do not have a Bumpkin");
 
-  const flowerBed = stateCopy.flowers.flowerBeds[action.id];
+  const flowers = stateCopy.flowers;
+  const flowerBed = flowers.flowerBeds[action.id];
 
   if (!flowerBed) throw new Error("Flower bed does not exist");
 
@@ -46,6 +47,11 @@ export function harvestFlower({
   stateCopy.inventory[flower.name] = (
     stateCopy.inventory[flower.name] ?? new Decimal(0)
   ).add(flower.amount);
+
+  const discovered = flowers.discovered[flower.name] ?? [];
+  if (!!flower.crossbreed && !discovered.includes(flower.crossbreed)) {
+    flowers.discovered[flower.name] = [...discovered, flower.crossbreed];
+  }
 
   delete flowerBed.flower;
 

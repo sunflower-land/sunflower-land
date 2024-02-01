@@ -824,6 +824,7 @@ export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
   amount: number;
+  crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
 };
 
