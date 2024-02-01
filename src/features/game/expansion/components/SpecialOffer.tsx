@@ -234,7 +234,7 @@ export const PromotingModal: React.FC<Props> = ({
             {t("noThanks")}
           </Button>
           <Button
-            disabled={secondsLeft < 0 || insuficientBlockBucks}
+            disabled={insuficientBlockBucks}
             onClick={() => {
               setShowConfirmation(true);
             }}
