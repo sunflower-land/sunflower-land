@@ -24,6 +24,12 @@ export function harvestFlower({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
+  stateCopy.beehives = updateBeehives({
+    beehives: stateCopy.beehives,
+    flowerBeds: stateCopy.flowers.flowerBeds,
+    createdAt,
+  });
+
   const bumpkin = stateCopy.bumpkin;
 
   if (!bumpkin) throw new Error("You do not have a Bumpkin");
@@ -67,13 +73,11 @@ export function harvestFlower({
     1
   );
 
-  const updatedBeehives = updateBeehives({
+  stateCopy.beehives = updateBeehives({
     beehives: stateCopy.beehives,
     flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
-
-  stateCopy.beehives = updatedBeehives;
 
   return stateCopy;
 }
