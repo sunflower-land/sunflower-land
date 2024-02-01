@@ -411,7 +411,7 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Honey: new Decimal(10),
     },
     marketRate: 10,
-    disabled: true,
+    disabled: false,
   },
 
   "Club Sandwich": {
