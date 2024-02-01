@@ -80,7 +80,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 <p className="text-sm">Keybinds</p>
               </div>
               <p className="text-xs">
-                {t("plazaSettings.keybind")}
+                {t"plazaSettings.title.keybinds")}
               </p>
               <Button onClick={() => setStep("KEYBINDS")}>Keybinds</Button>
             </div> */}

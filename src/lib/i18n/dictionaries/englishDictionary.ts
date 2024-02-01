@@ -161,6 +161,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   advanced: "Advanced",
   achievements: "Achievements",
+  accept: "Accept:",
   deposit: "Deposit",
   add: "Add",
   addSFL: "Add SFL",
@@ -2292,7 +2293,6 @@ const kicked: Record<Kicked, string> = {
   "kicked.Reason": "Reason:",
   "kicked.Message":
     "Please note that you can still rejoin, but if you continue to break the rules we will take further actions.",
-  "kicked.accept": "Accept",
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {
@@ -2438,7 +2438,6 @@ const mute: Record<Mute, string> = {
   "mute.until": "You are muted until",
   "mute.discord":
     "If you are against this decision, please contact us on Discord.",
-  "mute.accept": "Accept",
   "mute.unmute.farm": "Unmute Player of Farm",
   "mute.unmute.player": "Player has been unmuted",
   "mute.unmute.failed": "Failed to unmute player",
@@ -3264,10 +3263,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.mutedPlayers.button": "Muted Players",
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
-  "plazaSettings.keybinds.button": "Keybinds",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
-  "plazaSettings.keybind":
-    "Need to know what keybinds are available? Check them out here.",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
@@ -3338,7 +3334,6 @@ const restock: Record<Restock, string> = {
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
-  "retreatTerms.introTravel.zero": "Before travelling, you must level up.",
   "retreatTerms.introTravel.one": "Hey Traveller! Ready to explore?",
   "retreatTerms.introTravel.two":
     "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
@@ -3659,7 +3654,6 @@ const swarming: Record<Swarming, string> = {
 };
 
 const tieBreaker: Record<TieBreaker, string> = {
-  "tieBreaker.label": "Tiebreaker",
   "tieBreaker.tiebreaker": "Tiebreaker",
   "tieBreaker.closeBid":
     "So close! You bid the exact same resources as the {{supply}} bid. A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
@@ -3690,7 +3684,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.t&c.two": "Accept Terms and Conditions",
   "transaction.mintFarm": "Your farm has been minted!",
   "transaction.farm.ready": "Your farm will be ready in",
-  "transaction.doNotRefreshBrowser": "Do not refresh this browser",
   "transaction.networkFeeRequired":
     "To secure your NFTs on the Blockchain, a small network fee is required.",
   "transaction.estimated.fee": "Estimated fee:",

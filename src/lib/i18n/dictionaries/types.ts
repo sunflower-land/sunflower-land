@@ -1,6 +1,7 @@
 export type GeneralTerms =
   | "2x.sale"
   | "achievements"
+  | "accept"
   | "advanced"
   | "deposit"
   | "add.liquidity"
@@ -1591,11 +1592,7 @@ export type Kick =
   | "kick.please"
   | "kick.Message";
 
-export type Kicked =
-  | "kicked.kicked"
-  | "kicked.Reason"
-  | "kicked.Message"
-  | "kicked.accept";
+export type Kicked = "kicked.kicked" | "kicked.Reason" | "kicked.Message";
 
 export type LandscapeTerms =
   | "landscape.intro.one"
@@ -1717,7 +1714,6 @@ export type Mute =
   | "mute.you"
   | "mute.until"
   | "mute.discord"
-  | "mute.accept"
   | "mute.unmute.farm"
   | "mute.unmute.player"
   | "mute.unmute.failed"
@@ -2217,9 +2213,7 @@ export type PlazaSettings =
   | "plazaSettings.mutedPlayers.description"
   | "plazaSettings.mutedPlayers.button"
   | "plazaSettings.keybinds.description"
-  | "plazaSettings.keybinds.button"
-  | "plazaSettings.noMutedPlayers"
-  | "plazaSettings.keybind";
+  | "plazaSettings.noMutedPlayers";
 
 export type PlayerTrade =
   | "playerTrade.no.trade"
@@ -2268,7 +2262,6 @@ export type ResourceTerms =
 export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
 
 export type RetreatTerms =
-  | "retreatTerms.introTravel.zero"
   | "retreatTerms.introTravel.one"
   | "retreatTerms.introTravel.two"
   | "retreatTerms.introTravel.three"
@@ -2495,7 +2488,6 @@ export type SubSettings =
 export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";
 
 export type TieBreaker =
-  | "tieBreaker.label"
   | "tieBreaker.tiebreaker"
   | "tieBreaker.closeBid"
   | "tieBreaker.betterLuck"
@@ -2524,7 +2516,6 @@ export type TransactionTerms =
   | "transaction.creditCard"
   | "transaction.donate"
   | "transaction.donating"
-  | "transaction.doNotRefreshBrowser"
   | "transaction.estimated.fee"
   | "transaction.excludeFees"
   | "transaction.id"
