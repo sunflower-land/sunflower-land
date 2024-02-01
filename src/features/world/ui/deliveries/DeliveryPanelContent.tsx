@@ -182,7 +182,7 @@ function getTotalExpansions({
   let totalExpansions = game.inventory["Basic Land"] ?? new Decimal(3);
 
   if (game.island.type === "spring") {
-    totalExpansions = totalExpansions.add(6);
+    totalExpansions = totalExpansions.add(game.island.previousExpansions ?? 6);
   }
 
   return totalExpansions;
