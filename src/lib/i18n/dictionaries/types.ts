@@ -1,6 +1,7 @@
 export type GeneralTerms =
   | "2x.sale"
   | "achievements"
+  | "advanced"
   | "deposit"
   | "add.liquidity"
   | "add"
@@ -103,6 +104,7 @@ export type GeneralTerms =
   | "list.trade"
   | "list"
   | "loading"
+  | "logout"
   | "lvl"
   | "maintenance"
   | "make.wish"
@@ -161,6 +163,7 @@ export type GeneralTerms =
   | "sell.ten"
   | "sell"
   | "session.expired"
+  | "settings"
   | "share"
   | "shopping"
   | "skillPts"
@@ -192,6 +195,7 @@ export type GeneralTerms =
   | "verify"
   | "version"
   | "viewAll"
+  | "visit"
   | "visit.enter.land"
   | "visit.friend"
   | "visit.land"
@@ -2342,11 +2346,8 @@ export type SettingsMenu =
   | "settingsMenu.community"
   | "settingsMenu.swapMaticForSFL"
   | "settingsMenu.plazaSettings"
-  | "settingsMenu.advanced"
-  | "settingsMenu.settings"
   | "settingsMenu.communityGarden"
   | "settingsMenu.share"
-  | "settingsMenu.logout"
   | "settingsMenu.confirmLogout";
 
 export type Share =
@@ -2355,8 +2356,7 @@ export type Share =
   | "share.ShowOffToFarmers"
   | "share.FarmNFTImageAlt"
   | "share.CopyFarmURL"
-  | "share.Tweet"
-  | "share.Visit";
+  | "share.Tweet";
 
 export type SharkBumpkinDialogues =
   | "sharkBumpkin.dialogue.shhhh"
@@ -2486,12 +2486,10 @@ export type StopGoblin =
   | "stopGoblin.left";
 
 export type SubSettings =
-  | "subSettings.title"
   | "subSettings.disableAnimations"
   | "subSettings.enableAnimations"
   | "subSettings.logout"
   | "subSettings.transferOwnership"
-  | "subSettings.refresh"
   | "subSettings.refreshDescription";
 
 export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";

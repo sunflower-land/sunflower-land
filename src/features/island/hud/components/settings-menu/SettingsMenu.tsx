@@ -241,12 +241,12 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
                 <li className="p-1">
                   <Button onClick={handleSettingsClick}>
-                    <span>{t("settingsMenu.advanced")}</span>
+                    <span>{t("advanced")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={openConfirmLogoutModal}>
-                    {t("settingsMenu.logout")}
+                    {t("logout")}
                   </Button>
                   <Modal
                     centered
@@ -260,9 +260,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                         </span>
                       </div>
                       <div className="flex justify-content-around mt-2 space-x-1">
-                        <Button onClick={onLogout}>
-                          {t("settingsMenu.logout")}
-                        </Button>
+                        <Button onClick={onLogout}>{t("logout")}</Button>
                         <Button onClick={closeConfirmLogoutModal}>
                           {t("cancel")}
                         </Button>

@@ -70,7 +70,7 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
             className="text-s w-1/4 px-1"
             onClick={() => window.open(farmUrl, "_blank")}
           >
-            {t("share.Visit")}
+            {t("visit")}
           </Button>
         </Modal.Footer>
       </Panel>

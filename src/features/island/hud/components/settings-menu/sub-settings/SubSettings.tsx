@@ -57,7 +57,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     }
 
     return (
-      <CloseButtonPanel title={t("subSettings.title")} onClose={onClose}>
+      <CloseButtonPanel title={t("settings")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations ? "Disable Animations" : "Enable Animations"}
         </Button>
@@ -72,7 +72,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
             </Button>
 
             <Button className="col p-1 mt-2" onClick={refreshSession}>
-              {t("subSettings.refresh")}
+              {t("refresh")}
             </Button>
 
             <div className="flex items-start">

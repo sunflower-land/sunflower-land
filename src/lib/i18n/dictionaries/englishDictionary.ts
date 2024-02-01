@@ -159,6 +159,7 @@ import {
 
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
+  advanced: "Advanced",
   achievements: "Achievements",
   deposit: "Deposit",
   add: "Add",
@@ -262,6 +263,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   list: "List",
   "list.trade": "List trade",
   loading: "Loading",
+  logout: "Logout",
   lvl: "Level",
   maintenance: "Maintenance",
   "make.wish": "Make a Wish",
@@ -320,6 +322,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
   "session.expired": "Session expired!",
+  settings: "Settings",
   share: "Share",
   shopping: "Shopping",
   skillPts: "Skill Points",
@@ -351,6 +354,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   verify: "Verify",
   version: "Version",
   viewAll: "View all",
+  visit: "Visit",
   "visit.enter.land": "Enter a Land ID to browse what's on offer.",
   "visit.friend": "Visit Friend",
   "visit.land": "Visit land",
@@ -3436,11 +3440,8 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.community": "Community",
   "settingsMenu.swapMaticForSFL": "Swap MATIC for SFL",
   "settingsMenu.plazaSettings": "Plaza Settings",
-  "settingsMenu.advanced": "Advanced",
-  "settingsMenu.settings": "Settings",
   "settingsMenu.communityGarden": "Community Garden",
   "settingsMenu.share": "Share",
-  "settingsMenu.logout": "Logout",
   "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
 };
 
@@ -3452,7 +3453,6 @@ const share: Record<Share, string> = {
   "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
   "share.CopyFarmURL": "Copy farm URL",
   "share.Tweet": "Tweet",
-  "share.Visit": "Visit",
 };
 
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
@@ -3643,12 +3643,10 @@ const stopGoblin: Record<StopGoblin, string> = {
 };
 
 const subSettings: Record<SubSettings, string> = {
-  "subSettings.title": "Settings",
   "subSettings.disableAnimations": "Disable Animations",
   "subSettings.enableAnimations": "Enable Animations",
   "subSettings.logout": "Logout",
   "subSettings.transferOwnership": "Transfer Ownership",
-  "subSettings.refresh": "Refresh",
   "subSettings.refreshDescription":
     "Refresh your session to grab the latest changes from the Blockchain. This is useful if you deposited items to your farm.",
 };
