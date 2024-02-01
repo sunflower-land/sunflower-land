@@ -64,7 +64,7 @@ export const TieBreaker: React.FC<Props> = ({
         {t("read.more")}
       </a>
       <Button className="mt-2" onClick={refund}>
-        Refund resources
+        {t("loser.refund")}
       </Button>
     </div>
   );

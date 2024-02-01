@@ -162,6 +162,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   advanced: "Advanced",
   achievements: "Achievements",
   accept: "Accept:",
+  "accepting.terms": "Accepting terms...",
   deposit: "Deposit",
   add: "Add",
   addSFL: "Add SFL",
@@ -265,6 +266,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "list.trade": "List trade",
   loading: "Loading",
   logout: "Logout",
+  "loser.refund": "Refund resources",
   lvl: "Level",
   maintenance: "Maintenance",
   "make.wish": "Make a Wish",
@@ -2400,7 +2402,6 @@ const letsGo: Record<LetsGo, string> = {
 
 const loser: Record<Loser, string> = {
   "loser.unsuccess": "You were unsuccessful",
-  "loser.refund": "Refund resources",
   "loser.longer": "Auction no longer exists",
   "loser.refund.one": "Refund",
 };
@@ -3193,7 +3194,6 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.wallet.haveWallet": "I already have a wallet",
   "onboarding.wallet.createButton": "Create wallet",
   "onboarding.wallet.acceptButton": "Accept terms of service",
-  "onboarding.wallet.acceptLoading": "Accepting terms...",
   "onboarding.buyFarm.title": "Buy your farm!",
   "onboarding.buyFarm.one":
     "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
@@ -3260,7 +3260,6 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.title.keybinds": "Keybinds",
   "plazaSettings.mutedPlayers.description":
     "In case you have muted some players using the /mute command, you can see them here and unmute them if you want.",
-  "plazaSettings.mutedPlayers.button": "Muted Players",
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
@@ -3434,7 +3433,6 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.howToPlay": "How to Play?",
   "settingsMenu.community": "Community",
   "settingsMenu.swapMaticForSFL": "Swap MATIC for SFL",
-  "settingsMenu.plazaSettings": "Plaza Settings",
   "settingsMenu.communityGarden": "Community Garden",
   "settingsMenu.share": "Share",
   "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
@@ -3659,7 +3657,6 @@ const tieBreaker: Record<TieBreaker, string> = {
     "So close! You bid the exact same resources as the {{supply}} bid. A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
   "tieBreaker.betterLuck":
     "Time to eat some more cakes! Better luck next time.",
-  "tieBreaker.refundResources": "Refund resources",
   "tieBreaker.refund": "Refund resource",
 };
 
@@ -3735,7 +3732,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
   "transaction.termsOfService.two":
     "This step will take you back to your new sequence wallet to accept the terms of service.",
-  "transaction.termsOfService.accepting": "Accepting terms...",
 };
 
 const transfer: Record<Transfer, string> = {

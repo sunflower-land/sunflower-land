@@ -235,7 +235,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 </>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettingsClick}>
-                    <span>{t("settingsMenu.plazaSettings")}</span>
+                    <span>{t("plazaSettings.title.main")}</span>
                   </Button>
                 </li>
 

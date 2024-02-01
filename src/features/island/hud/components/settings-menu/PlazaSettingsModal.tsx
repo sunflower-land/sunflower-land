@@ -64,14 +64,14 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2 px-1">
                 <img src={SoundOffIcon} className="h-8" />
                 <p className="text-sm">
-                  {t("plazaSettings.mutedPlayers.button")}
+                  {t("plazaSettings.title.mutedPlayers")}
                 </p>
               </div>
               <p className="text-xs px-1">
                 {t("plazaSettings.mutedPlayers.description")}
               </p>
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
-                {t("plazaSettings.mutedPlayers.button")}
+                {t("plazaSettings.title.mutedPlayers")}
               </Button>
             </div>
             {/* <div className="flex flex-col gap-2">

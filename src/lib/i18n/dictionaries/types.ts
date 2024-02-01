@@ -2,6 +2,7 @@ export type GeneralTerms =
   | "2x.sale"
   | "achievements"
   | "accept"
+  | "accepting.terms"
   | "advanced"
   | "deposit"
   | "add.liquidity"
@@ -106,6 +107,7 @@ export type GeneralTerms =
   | "list"
   | "loading"
   | "logout"
+  | "loser.refund"
   | "lvl"
   | "maintenance"
   | "make.wish"
@@ -1671,11 +1673,7 @@ export type LevelUpMessages =
   | "levelUp.59"
   | "levelUp.60";
 
-export type Loser =
-  | "loser.unsuccess"
-  | "loser.refund"
-  | "loser.longer"
-  | "loser.refund.one";
+export type Loser = "loser.unsuccess" | "loser.longer" | "loser.refund.one";
 
 export type LostSunflorian =
   | "lostSunflorian.line1"
@@ -2160,7 +2158,6 @@ export type Onboarding =
   | "onboarding.wallet.haveWallet"
   | "onboarding.wallet.createButton"
   | "onboarding.wallet.acceptButton"
-  | "onboarding.wallet.acceptLoading"
   | "onboarding.buyFarm.title"
   | "onboarding.buyFarm.one"
   | "onboarding.buyFarm.two"
@@ -2211,7 +2208,6 @@ export type PlazaSettings =
   | "plazaSettings.title.mutedPlayers"
   | "plazaSettings.title.keybinds"
   | "plazaSettings.mutedPlayers.description"
-  | "plazaSettings.mutedPlayers.button"
   | "plazaSettings.keybinds.description"
   | "plazaSettings.noMutedPlayers";
 
@@ -2338,7 +2334,6 @@ export type SettingsMenu =
   | "settingsMenu.howToPlay"
   | "settingsMenu.community"
   | "settingsMenu.swapMaticForSFL"
-  | "settingsMenu.plazaSettings"
   | "settingsMenu.communityGarden"
   | "settingsMenu.share"
   | "settingsMenu.confirmLogout";
@@ -2491,7 +2486,6 @@ export type TieBreaker =
   | "tieBreaker.tiebreaker"
   | "tieBreaker.closeBid"
   | "tieBreaker.betterLuck"
-  | "tieBreaker.refundResources"
   | "tieBreaker.refund";
 
 export type ToolDescriptions =
@@ -2550,8 +2544,7 @@ export type TransactionTerms =
   | "transaction.displayItems"
   | "transaction.withdraw.polygon"
   | "transaction.termsOfService.one"
-  | "transaction.termsOfService.two"
-  | "transaction.termsOfService.accepting";
+  | "transaction.termsOfService.two";
 
 export type Transfer =
   | "transfer.sure.adress"
