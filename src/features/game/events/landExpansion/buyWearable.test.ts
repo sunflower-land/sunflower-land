@@ -49,7 +49,7 @@ describe("buyWearable", () => {
         },
         createdAt: new Date("2023-07-31").getTime(),
       })
-    ).toThrow("Too early");
+    ).toThrow("This item is not available");
   });
 
   it("does not craft wearable too late", () => {
@@ -65,7 +65,7 @@ describe("buyWearable", () => {
         },
         createdAt: new Date("2024-09-02").getTime(),
       })
-    ).toThrow("Too late");
+    ).toThrow("This item is not available");
   });
 
   it("does not craft a party hat", () => {
