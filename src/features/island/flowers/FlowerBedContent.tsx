@@ -22,6 +22,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
+import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 
 const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
   name in FLOWERS;
@@ -200,9 +201,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   </Label>
                   {hasSeedRequirements ? (
                     <Label type={"info"} icon={SUNNYSIDE.icons.stopwatch}>
-                      {secondsToString(FLOWER_SEEDS()[seed].plantSeconds, {
-                        length: "medium",
-                      })}
+                      {secondsToString(
+                        getFlowerTime(seed, gameService.state.context.state),
+                        {
+                          length: "medium",
+                        }
+                      )}
                     </Label>
                   ) : (
                     <Label type={"danger"}>{`1 ${seed} required`}</Label>

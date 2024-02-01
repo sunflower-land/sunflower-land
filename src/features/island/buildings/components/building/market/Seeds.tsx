@@ -28,7 +28,8 @@ import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FLOWER_SEEDS } from "features/game/types/flowers";
+import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
+import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 
 interface Props {
   onClose: () => void;
@@ -139,7 +140,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const getPlantSeconds = () => {
     if (selectedName in FLOWER_SEEDS()) {
-      return SEEDS()[selectedName].plantSeconds;
+      return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
     if (yields && yields in FRUIT())
