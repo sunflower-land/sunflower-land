@@ -15,16 +15,22 @@ export const CrimPeckster: React.FC = () => {
         }}
         className="absolute pointer-events-none"
       />
-      <img
-        src={crimPeckster}
+      <div
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
-          bottom: `${PIXEL_SCALE * 4}px`,
-          left: `${PIXEL_SCALE * 2}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+          left: `${PIXEL_SCALE * -2}px`,
         }}
-        className="absolute"
-        alt="Crim Peckster"
-      />
+      >
+        <img
+          src={crimPeckster}
+          style={{
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+          alt="Crim Peckster"
+        />
+      </div>
     </>
   );
 };
