@@ -22,6 +22,7 @@ import { Mayor } from "./npcs/Mayor";
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { Stylist } from "./stylist/Stylist";
+import { AuctionHouseModal } from "./AuctionHouseModal";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -42,13 +43,14 @@ export const npcModalManager = new NpcModalManager();
 interface Props {
   onNavigate: (sceneId: SceneId) => void;
   scene: SceneId;
+  id: number;
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
   return undefined;
 }
 
-export const NPCModals: React.FC<Props> = ({ scene }) => {
+export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
   useEffect(() => {
@@ -91,13 +93,7 @@ export const NPCModals: React.FC<Props> = ({ scene }) => {
 
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
         {npc === "hammerin harry" && (
-          <SpeakingModal
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["hammerin harry"]}
-            message={[
-              { text: "Gather round Bumpkins, an auction is about to begin." },
-            ]}
-          />
+          <AuctionHouseModal closeModal={closeModal} id={id} isOpen />
         )}
         {npc === "marcus" && (
           <SpeakingModal

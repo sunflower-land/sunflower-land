@@ -10,6 +10,7 @@ import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
+  "hammerin harry": "auctioneer",
 };
 const NPCS_WITH_ALERTS: Partial<Record<NPCName, boolean>> = {
   "pumpkin' pete": true,

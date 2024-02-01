@@ -18,6 +18,11 @@ import { npcModalManager } from "../ui/NPCModals";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 600,
+    y: 197,
+    npc: "hammerin harry",
+  },
+  {
     x: 371,
     y: 420,
     npc: "pumpkin' pete",
@@ -163,6 +168,7 @@ export class SpringPlazaScene extends BaseScene {
     this.load.image("page", "world/page.png");
 
     this.load.image("shop_icon", "world/shop_disc.png");
+    this.load.image("timer_icon", "world/timer_icon.png");
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -182,11 +188,6 @@ export class SpringPlazaScene extends BaseScene {
     this.load.spritesheet("turtle_bud", "world/turtle.png", {
       frameWidth: 15,
       frameHeight: 17,
-    });
-
-    this.load.spritesheet("orange_bud", "world/orange_bud.png", {
-      frameWidth: 15,
-      frameHeight: 16,
     });
 
     this.load.spritesheet("snow_horn_bud", "world/snow_horn_bud.png", {
@@ -282,10 +283,10 @@ export class SpringPlazaScene extends BaseScene {
       npcModalManager.open("stella");
     });
 
-    const auctionLabel = new Label(this, "AUCTIONS", "brown");
-    auctionLabel.setPosition(601, 260);
-    auctionLabel.setDepth(10000000);
-    this.add.existing(auctionLabel);
+    const auctionIcon = this.add.sprite(601, 169, "timer_icon");
+    auctionIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      npcModalManager.open("hammerin harry");
+    });
 
     const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
     clubHouseLabel.setPosition(152, 262);
@@ -325,25 +326,6 @@ export class SpringPlazaScene extends BaseScene {
       .on("pointerdown", () => {
         interactableModalManager.open("bud");
       });
-
-    // Plaza Bud
-    const bud2 = this.add.sprite(601, 200, "plaza_bud_2");
-    this.anims.create({
-      key: "plaza_bud_animation_2",
-      frames: this.anims.generateFrameNumbers("plaza_bud_2", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    bud2
-      .play("plaza_bud_animation_2", true)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        interactableModalManager.open("bud");
-      });
-    bud2.setDepth(100000000000);
 
     // Banner
     const banner = this.add.sprite(400, 220, "banner");
@@ -439,19 +421,6 @@ export class SpringPlazaScene extends BaseScene {
     });
     snowHornBud.setVisible(false).play("snow_horn_bud_anim", true);
 
-    const orangeBud = this.add.sprite(176, 235, "orange_bud");
-    orangeBud.setScale(-1, 1);
-    this.anims.create({
-      key: "orange_bud_anim",
-      frames: this.anims.generateFrameNumbers("orange_bud", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    orangeBud.setVisible(false).play("orange_bud_anim", true);
-
     const chest = this.add
       .sprite(152, 230, "chest")
       .setVisible(false)
@@ -491,7 +460,6 @@ export class SpringPlazaScene extends BaseScene {
       clubHouseLabel.setVisible(isOpen);
 
       snowHornBud.setVisible(!isOpen);
-      orangeBud.setVisible(!isOpen);
       chest.setVisible(!isOpen);
 
       if (wasOpen === isOpen) {
