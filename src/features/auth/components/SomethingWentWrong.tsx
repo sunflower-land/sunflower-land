@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
+import { Maintenance } from "./Maintenance";
 
 interface BoundaryErrorProps {
   farmId?: number;
@@ -51,6 +52,10 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         {onAcknowledge && <Button onClick={onAcknowledge}>Refresh</Button>}
       </>
     );
+  }
+
+  if (Date.now() < new Date("2024-02-01T00:30:00.000Z").getTime()) {
+    return <Maintenance />;
   }
 
   return (
