@@ -226,6 +226,7 @@ import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import mermaidScale from "assets/icons/mermaid_scale.webp";
+import tulipBulb from "assets/icons/tulip_bulb.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
@@ -2330,7 +2331,7 @@ export const ITEM_DETAILS: Items = {
     description: "A ticket used during the Catch the Kraken Season",
   },
   "Tulip Bulb": {
-    image: mermaidScale,
+    image: tulipBulb,
     description: "A ticket used during the Spring Blossom",
   },
 
