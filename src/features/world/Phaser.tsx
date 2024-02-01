@@ -432,6 +432,7 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
       <NPCModals
+        id={gameService.state.context.farmId as number}
         scene={scene}
         onNavigate={(sceneId: SceneId) => {
           navigate(`/world/${sceneId}`);
