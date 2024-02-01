@@ -98,6 +98,7 @@ import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
+import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -3014,6 +3015,10 @@ export const ITEM_DETAILS: Items = {
   "Banana Chicken": {
     image: bananaChicken,
     description: "A chicken that boosts bananas. What a world we live in.",
+  },
+  "Crim Peckster": {
+    image: crimPeckster,
+    description: "A gem detective with a knack for unearthing Crimstones.",
   },
   "Skill Shrimpy": {
     image: skillShrimpy,

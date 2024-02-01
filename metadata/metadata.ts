@@ -6186,6 +6186,23 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+
+  "Crim Peckster": {
+    description: "A gem detective with a knack for unearthing Crimstones.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/494.png",
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Crimstone yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+
   "Skill Shrimpy": {
     description:
       "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",

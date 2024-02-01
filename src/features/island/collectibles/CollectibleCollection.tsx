@@ -234,6 +234,7 @@ import { PrismPetal } from "./components/PrismPetal";
 import { CelestialFrostbloom } from "./components/CelestialFrostbloom";
 import { PrimulaEnigma } from "./components/PrimulaEnigma";
 import { Blossombeard } from "./components/Blossombeard";
+import { CrimPeckster } from "./components/CrimPeckster";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -494,6 +495,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Skill Shrimpy": SkillShrimpy,
   "Soil Krabby": SoilKrabby,
   Nana: Nana,
+  "Crim Peckster": CrimPeckster,
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,
