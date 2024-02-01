@@ -26,12 +26,10 @@ describe("boosts", () => {
     });
 
     it("does not apply chef apron boost if not equipped on the bumpkin", () => {
-      const bumpkin = INITIAL_BUMPKIN;
       const amount = getSellPrice({
         item: CAKES()["Beetroot Cake"] as SellableItem,
         game: {
           ...TEST_FARM,
-          bumpkin,
         },
       });
       expect(amount).toEqual(new Decimal(marketRate(560)));

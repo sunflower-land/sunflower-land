@@ -56,7 +56,7 @@ export function fulfillGrubOrder({
   if (unfulFilledOrders.findIndex((order) => order.id === action.id) >= 4) {
     throw new Error("Order is locked");
   }
-  const sfl = getOrderSellPrice(bumpkin, order);
+  const sfl = getOrderSellPrice(game, order);
 
   bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
 
