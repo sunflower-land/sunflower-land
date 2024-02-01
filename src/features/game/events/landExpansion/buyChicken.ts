@@ -25,7 +25,7 @@ export function buyChicken({ state, action }: Options): GameState {
   const { bumpkin, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("error.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const price = ANIMALS().Chicken.tokenAmount || new Decimal(0);

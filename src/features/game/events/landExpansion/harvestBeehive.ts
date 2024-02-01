@@ -8,6 +8,7 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
@@ -71,7 +72,7 @@ export function harvestBeehive({
   const stateCopy = cloneDeep(state) as GameState;
 
   if (!stateCopy.bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   // Update beehives before harvesting to set honey produced

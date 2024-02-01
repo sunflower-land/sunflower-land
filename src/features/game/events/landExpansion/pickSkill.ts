@@ -39,7 +39,7 @@ export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
   if (bumpkin == undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);

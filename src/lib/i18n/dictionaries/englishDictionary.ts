@@ -280,6 +280,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   next: "Next",
   nextSkillPtLvl: "Next skill point: level",
   no: "No",
+  "no.have.bumpkin": "You do not have a Bumpkin!",
   "no.limits.exceeded": "No limits exceeded",
   "no.mail": "No mail",
   "no.thanks": "No thanks",
@@ -846,7 +847,6 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
-  "claimAchievement.noBumpkin": "You do not have a Bumpkin",
   "claimAchievement.alreadyHave": "You already have this achievement",
   "claimAchievement.requirementsNotMet": "You do not meet the requirements",
 };
@@ -1463,7 +1463,6 @@ const errorTerms: Record<ErrorTerms, string> = {
     "Looks like you have been busy! Please try again later.",
   "error.Web3NotFound": "Web3 Not Found",
   "error.wentWrong": "Something went wrong!",
-  "error.noBumpkin": "You do not have a Bumpkin",
   "error.clock.not.synced": "Clock not in sync",
   "error.polygon.cant.connect": "Can't connect to Polygon",
   "error.composterNotExist": "Composter does not exist",
@@ -1471,10 +1470,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.composterAlreadyDone": "Composter already done",
   "error.composterAlreadyBoosted": "Already boosted",
   "error.missingEggs": "Missing Eggs",
-  "error.noBumpkin1": "You do not have a Bumpkin",
   "error.insufficientSFL": "Insufficient SFL",
   "error.insufficientSpaceForChickens": "Insufficient space for more chickens",
-  "error.noBumpkin2": "You do not have a Bumpkin",
   "error.dailyAttemptsExhausted": "Daily attempts exhausted",
   "error.missingRod": "Missing rod",
   "error.missingBait": "Missing ",
@@ -2012,6 +2009,7 @@ const grubshop: Record<GrubShop, string> = {
   "message.bonusOffer": "Bonus Offer",
   "message.earnSeasonalTickets": "Earn 10 Seasonal Tickets for each meal.",
 };
+("no.have.bumpkin");
 
 const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.approaching": "The Halvening is Approaching!",
@@ -2022,7 +2020,6 @@ const halveningCountdown: Record<HalveningCountdown, string> = {
 };
 
 const harvestflower: Record<Harvestflower, string> = {
-  "harvestflower.noBumpkin": "You do not have a Bumpkin",
   "harvestflower.noFlowerBed": "Flower bed does not exist",
   "harvestflower.noFlower": "Flower bed does not have a flower",
   "harvestflower.notReady": "Flower is not ready to harvest",

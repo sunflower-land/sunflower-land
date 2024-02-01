@@ -37,7 +37,7 @@ export function castRod({
   const location = action.location;
 
   if (!game.bumpkin) {
-    throw new Error(translate("error.noBumpkin2"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (getDailyFishingCount(game) >= getDailyFishingLimit(game)) {

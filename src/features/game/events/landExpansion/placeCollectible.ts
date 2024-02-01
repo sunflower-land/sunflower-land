@@ -46,7 +46,7 @@ export function placeCollectible({
   const inventoryItemBalance = stateCopy.inventory[collectible];
 
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!inventoryItemBalance) {

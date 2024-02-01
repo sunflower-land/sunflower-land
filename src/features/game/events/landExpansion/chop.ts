@@ -102,7 +102,7 @@ export function chop({
   const { trees, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const requiredAxes = getRequiredAxeAmount(state.inventory, state);

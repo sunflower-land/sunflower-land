@@ -35,7 +35,7 @@ export function collectCompost({
   }
 
   if (!bumpkin) {
-    throw new Error(translate("error.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const compost = building.producing;

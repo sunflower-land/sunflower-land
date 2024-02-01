@@ -31,7 +31,7 @@ export function sellGarbage({ state, action }: Options) {
   const { bumpkin, inventory, balance } = statecopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
   if (!(item in GARBAGE)) {
     throw new Error("Not for sale");

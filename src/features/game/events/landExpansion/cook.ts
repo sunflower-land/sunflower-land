@@ -56,7 +56,7 @@ export function cook({
   );
 
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!building) {

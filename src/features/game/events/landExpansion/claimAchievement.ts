@@ -29,7 +29,7 @@ export function claimAchievement({ state, action }: Options): GameState {
   const achievement = ACHIEVEMENTS()[action.achievement];
 
   if (!bumpkin) {
-    throw new Error(translate("claimAchievement.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (bumpkin.achievements?.[action.achievement]) {

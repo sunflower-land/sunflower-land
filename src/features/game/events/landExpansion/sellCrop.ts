@@ -35,7 +35,7 @@ export function sellCrop({ state, action }: Options): GameState {
   const { bumpkin } = game;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!(action.crop in SELLABLE)) {

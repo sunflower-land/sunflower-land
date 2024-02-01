@@ -46,7 +46,7 @@ export function sellTreasure({ state, action }: Options) {
   const { bumpkin, collectibles, inventory, balance } = statecopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const SELLABLES = { ...SELLABLE_TREASURE, ...EXOTIC_CROPS };

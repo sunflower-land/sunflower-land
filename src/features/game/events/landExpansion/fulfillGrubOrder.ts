@@ -28,7 +28,7 @@ export function fulfillGrubOrder({
   const game = cloneDeep(state);
   const { bumpkin } = game;
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!game.grubShop || game.grubShop.closesAt < createdAt) {

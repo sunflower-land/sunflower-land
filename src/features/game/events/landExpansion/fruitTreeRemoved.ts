@@ -54,7 +54,7 @@ export function removeFruitTree({
   const { fruitPatches, bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const patch = fruitPatches[action.index];

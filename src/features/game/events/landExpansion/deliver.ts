@@ -179,7 +179,7 @@ export function deliverOrder({
   const bumpkin = game.bumpkin;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const order = game.delivery.orders.find((order) => order.id === action.id);

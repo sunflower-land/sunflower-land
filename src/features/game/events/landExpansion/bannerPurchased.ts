@@ -8,6 +8,7 @@ import {
   getSeasonByBanner,
   getSeasonalBanner,
 } from "features/game/types/seasons";
+import { translate } from "lib/i18n/translate";
 
 export type PurchaseBannerAction = {
   type: "banner.purchased";
@@ -29,7 +30,7 @@ export function purchaseBanner({
   const { bumpkin, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!(action.name in BANNERS)) {

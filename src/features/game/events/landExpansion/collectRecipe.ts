@@ -34,7 +34,7 @@ export function collectRecipe({
   }
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const recipe = building.crafting;

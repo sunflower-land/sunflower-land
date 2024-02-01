@@ -55,7 +55,7 @@ export function craftTool({ state, action }: Options) {
   }
 
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
   const price = tool.sfl.mul(amount);
 

@@ -64,7 +64,7 @@ export function harvest({
   const { bumpkin, crops: plots } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const plot = plots[action.index];

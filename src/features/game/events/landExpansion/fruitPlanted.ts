@@ -94,7 +94,7 @@ export function plantFruit({
   const { fruitPatches, bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const patch = fruitPatches[action.index];

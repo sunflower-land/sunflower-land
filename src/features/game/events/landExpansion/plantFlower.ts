@@ -33,7 +33,7 @@ export function plantFlower({
   const { flowers, bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const flowerBed = flowers.flowerBeds[action.id];

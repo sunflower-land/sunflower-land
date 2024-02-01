@@ -125,6 +125,7 @@ export type GeneralTerms =
   | "no.mail"
   | "no.thanks"
   | "no"
+  | "no.have.bumpkin"
   | "ocean.fishing"
   | "off"
   | "ok"
@@ -556,7 +557,6 @@ export type BuyFarmHand =
   | "buyFarmHand.newFarmhandGreeting";
 
 export type ClaimAchievement =
-  | "claimAchievement.noBumpkin"
   | "claimAchievement.alreadyHave"
   | "claimAchievement.requirementsNotMet";
 
@@ -1000,7 +1000,6 @@ export type ErrorTerms =
   | "error.connection.four"
   | "error.diagnostic.info"
   | "error.Web3NotFound"
-  | "error.noBumpkin"
   | "error.clock.not.synced"
   | "error.polygon.cant.connect"
   | "error.composterNotExist"
@@ -1008,10 +1007,8 @@ export type ErrorTerms =
   | "error.composterAlreadyDone"
   | "error.composterAlreadyBoosted"
   | "error.missingEggs"
-  | "error.noBumpkin1"
   | "error.insufficientSFL"
   | "error.insufficientSpaceForChickens"
-  | "error.noBumpkin2"
   | "error.dailyAttemptsExhausted"
   | "error.missingRod"
   | "error.missingBait"
@@ -1405,7 +1402,6 @@ export type HalveningCountdown =
   | "halveningCountdown.title";
 
 export type Harvestflower =
-  | "harvestflower.noBumpkin"
   | "harvestflower.noFlowerBed"
   | "harvestflower.noFlower"
   | "harvestflower.notReady"

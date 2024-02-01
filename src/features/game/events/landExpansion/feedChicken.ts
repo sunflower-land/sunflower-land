@@ -73,7 +73,7 @@ export function feedChicken({
   const { bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const chickens = stateCopy.chickens || {};

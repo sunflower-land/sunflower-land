@@ -30,7 +30,7 @@ export function collectEggs({
   const chicken = chickens[action.id];
 
   if (stateCopy.bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!chicken) {

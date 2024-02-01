@@ -29,7 +29,7 @@ export function harvestFlower({
 
   const bumpkin = stateCopy.bumpkin;
 
-  if (!bumpkin) throw new Error(translate("harvestflower.noBumpkin"));
+  if (!bumpkin) throw new Error(translate("no.have.bumpkin"));
 
   const flowerBed = stateCopy.flowers.flowerBeds[action.id];
 

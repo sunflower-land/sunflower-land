@@ -24,7 +24,7 @@ export function removeChicken({ state, action }: Options) {
   const { chickens, inventory, bumpkin } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("harvestflower.noBumpkin"));
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!chickens[action.id]) {
