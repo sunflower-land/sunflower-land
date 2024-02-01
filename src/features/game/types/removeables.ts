@@ -154,6 +154,13 @@ function areAnyGoldsMined(game: GameState): Restriction {
   return [goldMined, "Gold is mined"];
 }
 
+function areAnyCrimstonessMined(game: GameState): Restriction {
+  const crimstoneMined = Object.values(game.crimstones ?? {}).some(
+    (crimstone) => !canMine(crimstone)
+  );
+  return [crimstoneMined, "Crimstone is mined"];
+}
+
 function areAnyMineralsMined(game: GameState): Restriction {
   const areStonesMined = areAnyStonesMined(game);
   const areIronsMined = areAnyIronsMined(game);
@@ -258,6 +265,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Rooster: (game) => areAnyChickensFed(game),
   Bale: (game) => areAnyChickensFed(game),
   "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
+  "Crim Peckster": (game) => areAnyCrimstonessMined(game),
 
   // Crop Boosts
   Nancy: (game) => areAnyCropsGrowing(game),

@@ -907,4 +907,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: "+10% XP",
     boostTypeIcon: lightning,
   },
+  "Crim Peckster": {
+    shortDescription: "+0.1 Crimstone",
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: crimstone,
+  },
 };
