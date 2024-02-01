@@ -271,6 +271,7 @@ export class SpringPlazaScene extends BaseScene {
 
             interactableModalManager.open("page_discovered");
             this.gameService.send("flowerPage.discovered", { id: pageNumber });
+            this.gameService.send("SAVE");
           }
         );
       }
