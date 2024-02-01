@@ -6,7 +6,6 @@ import {
   SEASONS,
   SeasonalBanner,
   getSeasonByBanner,
-  getSeasonalBanner,
 } from "features/game/types/seasons";
 
 export type PurchaseBannerAction = {
@@ -46,7 +45,7 @@ export function purchaseBanner({
   const isPreSeason = createdAt < seasonStartDate.getTime();
 
   let price = new Decimal(65);
-  const hasPreviousBanner = !!inventory[getSeasonalBanner()];
+  const hasPreviousBanner = !!inventory["Catch the Kraken Banner"];
 
   if (isPreSeason) {
     if (hasPreviousBanner) {
