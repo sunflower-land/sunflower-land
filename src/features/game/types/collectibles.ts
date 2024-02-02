@@ -913,4 +913,9 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: crimstone,
   },
+  "Humming Bird": {
+    shortDescription: "20% chance of a bonus flower",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
 };
