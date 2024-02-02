@@ -575,6 +575,16 @@ import purpleCarnation from "assets/flowers/purple_carnation.png";
 import prismPetal from "assets/flowers/prism_petal.webp";
 import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
 import primulaEnigma from "assets/flowers/primula_enigma.webp";
+import redDaffodil from "assets/flowers/red_daffodil.webp";
+import yellowDaffodil from "assets/flowers/yellow_daffodil.webp";
+import blueDaffodil from "assets/flowers/blue_daffodil.webp";
+import whiteDaffodil from "assets/flowers/white_daffodil.webp";
+import purpleDaffodil from "assets/flowers/purple_daffodil.webp";
+import redLotus from "assets/flowers/red_lotus.webp";
+import yellowLotus from "assets/flowers/yellow_lotus.webp";
+import blueLotus from "assets/flowers/blue_lotus.webp";
+import whiteLotus from "assets/flowers/white_lotus.webp";
+import purpleLotus from "assets/flowers/purple_lotus.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3254,43 +3264,43 @@ export const ITEM_DETAILS: Items = {
       "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
   },
   "Red Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: redDaffodil,
     description: "A red daffodil.",
   },
   "Yellow Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: yellowDaffodil,
     description: "A yellow daffodil.",
   },
   "Purple Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: purpleDaffodil,
     description: "A purple daffodil.",
   },
   "White Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: whiteDaffodil,
     description: "A white daffodil.",
   },
   "Blue Daffodil": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: blueDaffodil,
     description: "A blue daffodil.",
   },
   "Red Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: redLotus,
     description: "A red lotus.",
   },
   "Yellow Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: yellowLotus,
     description: "A yellow lotus.",
   },
   "Purple Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: purpleLotus,
     description: "A purple lotus.",
   },
   "White Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: whiteLotus,
     description: "A white lotus.",
   },
   "Blue Lotus": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: blueLotus,
     description: "A blue lotus.",
   },
 };
