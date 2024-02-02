@@ -827,7 +827,6 @@ export type DecorationDescriptions =
   | "description.warrior.helmet"
   | "description.sunflower.shield"
   | "description.skull.hat"
-  | "description.war.skull"
   | "description.war.tombstone"
   | "description.sunflower.statue"
   | "description.potato.statue"
