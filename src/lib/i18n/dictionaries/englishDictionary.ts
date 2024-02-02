@@ -1629,7 +1629,7 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Hurry, you will get a bonus fish for each catch!",
   "fishermanModal.dailyLimitReached":
-    "You have reached your daily fishing limit of {dailyFishingMax}.",
+    "You have reached your daily fishing limit of ",
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
