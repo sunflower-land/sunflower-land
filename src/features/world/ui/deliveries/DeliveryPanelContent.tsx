@@ -38,7 +38,7 @@ interface OrderCardsProps {
   hasRequirementsCheck: (order: Order) => boolean;
 }
 
-const OrderCards: React.FC<OrderCardsProps> = ({
+export const OrderCards: React.FC<OrderCardsProps> = ({
   orders,
   inventory,
   balance,

@@ -47,6 +47,7 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
 import { Modal } from "react-bootstrap";
 import { SpecialEventBumpkin } from "features/world/ui/SpecialEventBumpkin";
+import { BumpkinDelivery } from "features/world/ui/deliveries/BumpkinDelivery";
 
 const IMAGE_GRID_WIDTH = 36;
 

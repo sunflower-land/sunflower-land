@@ -360,6 +360,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "White Festive Fox": new Decimal(3),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
+    Carrot: new Decimal(5),
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     "Abandoned Bear": new Decimal(10),
