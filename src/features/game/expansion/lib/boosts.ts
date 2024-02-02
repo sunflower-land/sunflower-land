@@ -54,7 +54,6 @@ export const getSellPrice = ({
   let price = item.sellPrice;
 
   const inventory = game.inventory;
-  const bumpkin = game.bumpkin as Bumpkin;
 
   if (!price) {
     return new Decimal(0);
@@ -66,11 +65,7 @@ export const getSellPrice = ({
   }
 
   // apply Chef Apron 20% boost when selling cakes
-  if (
-    item.name in cakes &&
-    bumpkin.equipped.coat &&
-    bumpkin.equipped.coat === "Chef Apron"
-  ) {
+  if (item.name in cakes && isWearableActive({ name: "Chef Apron", game })) {
     price = price.mul(1.2);
   }
 
@@ -199,15 +194,14 @@ export const getFoodExpBoost = (
   return boostedExp.toDecimalPlaces(4).toNumber();
 };
 
-export const getOrderSellPrice = (bumpkin: Bumpkin, order: GrubShopOrder) => {
-  const { skills, equipped } = bumpkin;
+export const getOrderSellPrice = (game: GameState, order: GrubShopOrder) => {
   let mul = 1;
 
-  if (skills["Michelin Stars"]) {
+  if (game.bumpkin?.skills["Michelin Stars"]) {
     mul += 0.05;
   }
 
-  if (order.name in CAKES() && equipped.coat === "Chef Apron") {
+  if (order.name in CAKES() && isWearableActive({ name: "Chef Apron", game })) {
     mul += 0.2;
   }
 

@@ -8,7 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { defaultDialogue, npcDialogues } from "./dialogues";
-import { Bumpkin, GameState, Inventory, Order } from "features/game/types/game";
+import { GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import sfl from "assets/icons/token_2.png";
@@ -30,7 +30,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 interface OrderCardsProps {
   orders: Order[];
   balance: Decimal;
-  bumpkin: Bumpkin;
+  game: GameState;
   inventory: Inventory;
   selectedOrderId?: string;
   onSelectOrder: (id: string) => void;
@@ -41,7 +41,7 @@ const OrderCards: React.FC<OrderCardsProps> = ({
   orders,
   inventory,
   balance,
-  bumpkin,
+  game,
   selectedOrderId,
   onSelectOrder,
   hasRequirementsCheck,
@@ -109,7 +109,7 @@ const OrderCards: React.FC<OrderCardsProps> = ({
                   <div className="flex items-center mt-1">
                     <img src={sfl} className="h-5 mr-1" />
                     <span className="text-xs">
-                      {getOrderSellPrice(bumpkin, order).toFixed(2)}
+                      {getOrderSellPrice(game, order).toFixed(2)}
                     </span>
                   </div>
                 )}
@@ -197,10 +197,8 @@ interface Props {
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _island = (state: MachineState) => state.context.state.island;
 const _balance = (state: MachineState) => state.context.state.balance;
-const _bumpkin = (state: MachineState) =>
-  state.context.state.bumpkin as Bumpkin;
+const _game = (state: MachineState) => state.context.state as GameState;
 
 export const DeliveryPanelContent: React.FC<Props> = ({
   npc,
@@ -212,8 +210,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
   const balance = useSelector(gameService, _balance);
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const island = useSelector(gameService, _island);
+  const game = useSelector(gameService, _game);
 
   let orders = delivery.orders.filter(
     (order) =>
@@ -356,7 +353,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
               orders={orders}
               inventory={inventory}
               balance={balance}
-              bumpkin={bumpkin}
+              game={game}
               selectedOrderId={selectedOrderId}
               onSelectOrder={(id: string) => setSelectedOrderId(id)}
               hasRequirementsCheck={hasRequirements}
