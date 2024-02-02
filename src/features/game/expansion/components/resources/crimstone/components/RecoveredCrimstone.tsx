@@ -102,7 +102,7 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
         {!showSpritesheet && (
           <img
             src={crimstoneImage}
-            className={"absolute pointer-events-none opacity-50"}
+            className={"absolute pointer-events-none"}
             style={{
               width: `${PIXEL_SCALE * 24}px`,
               bottom: `${PIXEL_SCALE * 1}px`,
