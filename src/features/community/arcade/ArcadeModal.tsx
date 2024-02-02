@@ -53,7 +53,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 className="underline cursor-pointer"
                 onClick={() => setActiveWindow("Donation")}
               >
-                {t("transaction.donate")}
+                {t("donate")}
               </span>
             </li>
           </ul>

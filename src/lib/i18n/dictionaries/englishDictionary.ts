@@ -162,6 +162,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   achievements: "Achievements",
   accept: "Accept:",
   "accepting.terms": "Accepting terms...",
+  "amount.matic": "Amount in MATIC",
   deposit: "Deposit",
   add: "Add",
   addSFL: "Add SFL",
@@ -1417,8 +1418,7 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "This was a community art initiative and donations are greatly appreciated!",
-  "donation.amount": "Amount in MATIC",
-  "donation.donate": "Donate",
+
   "donation.donating": "Donating",
   "donation.Ty": "Thank you!",
 };
@@ -3667,8 +3667,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "You need to accept the transaction in the metamask popup to continue.",
   "transaction.noFee":
     "This request will not trigger a blockchain transaction or cost any gas fees.",
-  "transaction.maticAmount": "Amount in MATIC",
-  "transaction.donate": "Donate",
   "transaction.donating": "Donating",
   "transaction.chooseDonationGame":
     "Thank you for your support! Kindly choose the game that you like donate to.",

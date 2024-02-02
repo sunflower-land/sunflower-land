@@ -4,6 +4,7 @@ export type GeneralTerms =
   | "accept"
   | "accepting.terms"
   | "advanced"
+  | "amount.matic"
   | "deposit"
   | "add.liquidity"
   | "add"
@@ -964,12 +965,7 @@ export type DiscordBonus =
   | "discord.bonus.freeGift"
   | "discord.bonus.connect";
 
-export type Donation =
-  | "donation.one"
-  | "donation.amount"
-  | "donation.donate"
-  | "donation.donating"
-  | "donation.Ty";
+export type Donation = "donation.one" | "donation.donating" | "donation.Ty";
 
 export type ErrorAndAccess =
   | "errorAndAccess.warning"
@@ -2489,14 +2485,12 @@ export type TransactionTerms =
   | "transaction.storeProgress.blockchain.two"
   | "transaction.trade.congrats"
   | "transaction.creditCard"
-  | "transaction.donate"
   | "transaction.donating"
   | "transaction.estimated.fee"
   | "transaction.excludeFees"
   | "transaction.id"
   | "transaction.termsOfService"
   | "transaction.matic"
-  | "transaction.maticAmount"
   | "transaction.message0"
   | "transaction.noFee"
   | "transaction.minblockbucks"

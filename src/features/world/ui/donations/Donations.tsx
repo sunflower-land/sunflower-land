@@ -108,7 +108,7 @@ export const Donations: React.FC = () => {
               </div>
             </div>
             <span className="text-xs text-shadow my-2">
-              {t("donation.amount")}
+              {t("amount.matic")}
             </span>
           </div>
 
@@ -117,9 +117,7 @@ export const Donations: React.FC = () => {
             onClick={donate}
             disabled={donation < 0.1}
           >
-            <span className="text-xs whitespace-nowrap">
-              {t("donation.donate")}
-            </span>
+            <span className="text-xs whitespace-nowrap">{t("donate")}</span>
           </Button>
         </div>
       )}
