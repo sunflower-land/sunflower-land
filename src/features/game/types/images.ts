@@ -1601,31 +1601,31 @@ export const ITEM_DETAILS: Items = {
   },
   "Sunflower Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.sunflowerAmulet"),
+    description: translate("description.sunflower.amulet"),
   },
   "Carrot Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.carrotAmulet"),
+    description: translate("description.carrot.amulet"),
   },
   "Beetroot Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.beetrootAmulet"),
+    description: translate("description.beetroot.amulet"),
   },
   "Green Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.greenAmulet"),
+    description: translate("description.green.amulet"),
   },
   "Warrior Shirt": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.warriorShirt"),
+    description: translate("description.warrior.shirt"),
   },
   "Warrior Pants": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.warriorPants"),
+    description: translate("description.warrior.pants"),
   },
   "Warrior Helmet": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.warriorHelmet"),
+    description: translate("description.warrior.helmet"),
   },
   "Sunflower Shield": {
     image: SUNNYSIDE.icons.expression_confused,
@@ -1633,15 +1633,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Skull Hat": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.skullHat"),
+    description: translate("description.skull.hat"),
   },
   "War Skull": {
     image: skull,
-    description: translate("description.warSkull"),
+    description: translate("description.war.skull"),
   },
   "War Tombstone": {
     image: warTombstone,
-    description: translate("description.warTombstone"),
+    description: translate("description.war.tombstone"),
   },
   "Undead Rooster": {
     image: undeadChicken,

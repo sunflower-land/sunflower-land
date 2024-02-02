@@ -674,7 +674,7 @@ export const WAR_TENT_ITEMS: Record<WarTentItem, LimitedItem> = {
   },
   "Beetroot Amulet": {
     name: "Beetroot Amulet",
-    description: translate("description.betroot.amulet"),
+    description: translate("description.beetroot.amulet"),
     type: LimitedItemType.WarTentItem,
   },
   "Green Amulet": {

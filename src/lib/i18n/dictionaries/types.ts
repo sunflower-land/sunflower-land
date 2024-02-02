@@ -820,7 +820,7 @@ export type DecorationDescriptions =
   | "description.palm.tree"
   | "description.sunflower.amulet"
   | "description.carrot.amulet"
-  | "description.betroot.amulet"
+  | "description.beetroot.amulet"
   | "description.green.amulet"
   | "description.warrior.shirt"
   | "description.warrior.pants"
@@ -829,7 +829,6 @@ export type DecorationDescriptions =
   | "description.skull.hat"
   | "description.war.skull"
   | "description.war.tombstone"
-  | "description.undead.rooster"
   | "description.sunflower.statue"
   | "description.potato.statue"
   | "description.christmas.tree"
@@ -1253,17 +1252,6 @@ export type GameDescriptions =
   | "description.red.egg"
   | "description.pink.egg"
   | "description.purple.egg"
-  //class
-  | "description.sunflowerAmulet"
-  | "description.carrotAmulet"
-  | "description.beetrootAmulet"
-  | "description.greenAmulet"
-  | "description.warriorShirt"
-  | "description.warriorPants"
-  | "description.warriorHelmet"
-  | "description.skullHat"
-  | "description.warSkull"
-  | "description.warTombstone"
   //Home
   | "description.homeOwnerPainting";
 

@@ -1218,17 +1218,16 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Tall, beachy, shady and chic, palm trees make waves sashay.",
 
   //other
-  "description.sunflower.amulet": "10% increased Sunflower yield",
-  "description.carrot.amulet": "Carrots grow 20% faster",
-  "description.betroot.amulet": "20% increased Beetroot yield",
-  "description.green.amulet": "Chance for 10x crop yield",
-  "description.warrior.shirt": "A mark of a true warrior",
-  "description.warrior.pants": "Protect your thighs",
-  "description.warrior.helmet": "Immune to arrows",
+  "description.sunflower.amulet": "10% increased Sunflower yield.",
+  "description.carrot.amulet": "Carrots grow 20% faster.",
+  "description.beetroot.amulet": "20% increased Beetroot yield.",
+  "description.green.amulet": "Chance for 10x crop yield.",
+  "description.warrior.shirt": "A mark of a true warrior.",
+  "description.warrior.pants": "Protect your thighs.",
+  "description.warrior.helmet": "Immune to arrows.",
   "description.sunflower.shield":
     "A hero of Sunflower Land. Free Sunflower Seeds!",
   "description.skull.hat": "A rare hat for your Bumpkin.",
-  "description.undead.rooster": "",
   "description.sunflower.statue": "A symbol of the holy token",
   "description.potato.statue": "The OG potato hustler flex",
   "description.christmas.tree": "Receive a Santa Airdrop on Christmas day",
@@ -1805,18 +1804,6 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.red.egg": "A red easter egg",
   "description.pink.egg": "A pink easter egg",
   "description.purple.egg": "A purple easter egg",
-
-  //class
-  "description.sunflowerAmulet": "10% increased Sunflower yield.",
-  "description.carrotAmulet": "Carrots grow 20% faster.",
-  "description.beetrootAmulet": "20% increased Beetroot yield.",
-  "description.greenAmulet": "Chance for 10x crop yield.",
-  "description.warriorShirt": "A mark of a true warrior",
-  "description.warriorPants": "Protect your thighs!",
-  "description.warriorHelmet": "Immune to arrows.",
-  "description.skullHat": "A reward for your war efforts.",
-  "description.warSkull": "3 enemies gone.",
-  "description.warTombstone": "A reward for your war efforts.",
 
   //Home
   "description.homeOwnerPainting": "A painting of the owner of this home.",
