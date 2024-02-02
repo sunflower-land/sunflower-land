@@ -64,7 +64,7 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("rules.chaosPotionWarning")}</span>
+            <span>{t("introPage.chaosPotion")}</span>
           </div>
         </InnerPanel>
       </div>

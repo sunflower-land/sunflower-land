@@ -3312,7 +3312,6 @@ const rulesGameStart: Record<RulesGameStart, string> = {
     "At the beginning of the game, the plant will randomly pick a combination of 4 potions and 1 'chaos' potion. The combination can be all different or all the same.",
   "rules.chaosPotionRule":
     "If you add the 'chaos' potion your score for that attempt will be 0.",
-  "rules.chaosPotionWarning": "Beware the 'chaos' potion, it shakes things up!",
   "rules.potion.feedback":
     "Select your potions and unveil the secrets of the plants!",
   "BloomBoost.description": "Ignite your plants with vibrant blooms!",

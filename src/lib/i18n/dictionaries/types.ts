@@ -2238,7 +2238,6 @@ export type RewardTerms =
 export type RulesGameStart =
   | "rules.gameStart"
   | "rules.chaosPotionRule"
-  | "rules.chaosPotionWarning"
   | "rules.potion.feedback"
   | "BloomBoost.description"
   | "DreamDrip.description"
