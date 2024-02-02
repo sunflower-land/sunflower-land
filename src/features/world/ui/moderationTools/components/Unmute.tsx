@@ -46,9 +46,7 @@ export const UnMuteModal: React.FC<Props> = ({ player, status, onClose }) => {
           <span className="text-lg text-center">
             {t("mute.unmuting.player")}{" "}
           </span>
-          <span className="text-xs text-center mt-2">
-            {t("mute.unmute.wait")}{" "}
-          </span>
+          <span className="text-xs text-center mt-2">{t("please.wait")} </span>
         </div>
       )}
     </>

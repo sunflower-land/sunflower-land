@@ -125,7 +125,7 @@ export const TravelModal: React.FC<Props> = ({
             <SpeakingText
               message={[
                 {
-                  text: translate("sunflowerLand.explorationPrompt"),
+                  text: translate("traveller.ready"),
                 },
                 {
                   text: translate("sunflowerLand.islandDescription"),

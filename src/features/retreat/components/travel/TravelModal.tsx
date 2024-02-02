@@ -58,16 +58,16 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <SpeakingText
               message={[
                 {
-                  text: t("retreatTerms.introTravel.one"),
+                  text: t("traveller.ready"),
                 },
                 {
-                  text: t("retreatTerms.introTravel.two"),
+                  text: t("sunflowerLand.islandDescription"),
                 },
                 {
-                  text: t("retreatTerms.introTravel.three"),
+                  text: t("sunflowerLand.opportunitiesDescription"),
                 },
                 {
-                  text: t("retreatTerms.introTravel.four"),
+                  text: t("sunflowerLand.returnHomeInstruction"),
                 },
               ]}
               onClose={() => {

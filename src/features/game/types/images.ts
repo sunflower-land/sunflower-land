@@ -1617,7 +1617,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sunflower Shield": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: translate("description.sunflowerShield"),
+    description: translate("description.sunflower.shield"),
   },
   "Skull Hat": {
     image: SUNNYSIDE.icons.expression_confused,

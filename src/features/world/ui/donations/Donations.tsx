@@ -135,7 +135,7 @@ export const Donations: React.FC = () => {
       )}
       {state.matches("error") && (
         <div className="flex flex-col items-center">
-          <p className="my-4">{t("donation.wrong")}</p>
+          <p className="my-4">{t("statements.ohNo")}</p>
         </div>
       )}
       {state.matches("confirming") && (

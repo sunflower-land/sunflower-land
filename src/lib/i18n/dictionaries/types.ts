@@ -135,6 +135,7 @@ export type GeneralTerms =
   | "place.map"
   | "placing.bid"
   | "plant"
+  | "please.wait"
   | "print"
   | "promo.code"
   | "providing.liquidity"
@@ -190,6 +191,7 @@ export type GeneralTerms =
   | "transfer"
   | "trash.collection"
   | "travel"
+  | "traveller.ready"
   | "try.again"
   | "uhOh"
   | "uncommon"
@@ -656,7 +658,6 @@ export type Conversations =
   | "pete.help.zero"
   | "pete.pumpkinPlaza.one"
   | "pete.pumpkinPlaza.two"
-  | "sunflowerLand.explorationPrompt"
   | "sunflowerLand.islandDescription"
   | "sunflowerLand.opportunitiesDescription"
   | "sunflowerLand.returnHomeInstruction"
@@ -968,8 +969,7 @@ export type Donation =
   | "donation.amount"
   | "donation.donate"
   | "donation.donating"
-  | "donation.Ty"
-  | "donation.wrong";
+  | "donation.Ty";
 
 export type ErrorAndAccess =
   | "errorAndAccess.warning"
@@ -1274,7 +1274,6 @@ export type GameDescriptions =
   | "description.warriorShirt"
   | "description.warriorPants"
   | "description.warriorHelmet"
-  | "description.sunflowerShield"
   | "description.skullHat"
   | "description.warSkull"
   | "description.warTombstone"
@@ -1585,7 +1584,6 @@ export type Kick =
   | "kick.player.kick"
   | "kick.player.failed"
   | "kick.player.kicking"
-  | "kick.please"
   | "kick.Message";
 
 export type Kicked = "kicked.kicked" | "kicked.Reason" | "kicked.Message";
@@ -1702,7 +1700,6 @@ export type Mute =
   | "mute.Reason"
   | "mute.fail"
   | "mute.player.muting"
-  | "mute.player.wait"
   | "mute.you"
   | "mute.until"
   | "mute.discord"
@@ -1710,7 +1707,6 @@ export type Mute =
   | "mute.unmute.player"
   | "mute.unmute.failed"
   | "mute.unmuting.player"
-  | "mute.unmute.wait"
   | "mute.online";
 
 export type Noaccount =
@@ -2250,10 +2246,6 @@ export type ResourceTerms =
 export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
 
 export type RetreatTerms =
-  | "retreatTerms.introTravel.one"
-  | "retreatTerms.introTravel.two"
-  | "retreatTerms.introTravel.three"
-  | "retreatTerms.introTravel.four"
   | "retreatTerms.lookingForRareItems"
   | "retreatTerms.resale.one"
   | "retreatTerms.resale.two"

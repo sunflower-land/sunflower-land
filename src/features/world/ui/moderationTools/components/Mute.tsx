@@ -152,9 +152,7 @@ export const MuteModal: React.FC<Props> = ({
       {muteStatus === "loading" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-lg text-center">{t("mute.player.muting")}</span>
-          <span className="text-xs text-center mt-2">
-            {t("mute.player.wait")}
-          </span>
+          <span className="text-xs text-center mt-2">{t("please.wait")}</span>
         </div>
       )}
     </>

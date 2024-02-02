@@ -293,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "place.map": "Place on map",
   "placing.bid": "Placing bid",
   plant: "Plant",
+  "please.wait": "Please wait",
   print: "Print",
   "promo.code": "Promo Code",
   "providing.liquidity": "Providing Liquidity",
@@ -348,6 +349,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   transfer: "Transfer",
   "trash.collection": "Trash Collection",
   travel: "Travel",
+  "traveller.ready": "Hey Traveller! Ready to explore?",
   "try.again": "Try again",
   uhOh: "Uh oh!",
   uncommon: "Uncommon",
@@ -997,7 +999,6 @@ const conversations: Record<Conversations, string> = {
     "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
   "pete.pumpkinPlaza.two":
     "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
-  "sunflowerLand.explorationPrompt": "Hey Traveller! Ready to explore?",
   "sunflowerLand.islandDescription":
     "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
   "sunflowerLand.opportunitiesDescription":
@@ -1420,7 +1421,6 @@ const donation: Record<Donation, string> = {
   "donation.donate": "Donate",
   "donation.donating": "Donating",
   "donation.Ty": "Thank you!",
-  "donation.wrong": "Oh no! Something went wrong!",
 };
 
 const errorAndAccess: Record<ErrorAndAccess, string> = {
@@ -1831,11 +1831,9 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.carrotAmulet": "Carrots grow 20% faster.",
   "description.beetrootAmulet": "20% increased Beetroot yield.",
   "description.greenAmulet": "Chance for 10x crop yield.",
-  "description.warriorShirt": "A mark of a true warrior.",
+  "description.warriorShirt": "A mark of a true warrior",
   "description.warriorPants": "Protect your thighs!",
   "description.warriorHelmet": "Immune to arrows.",
-  "description.sunflowerShield":
-    "A hero of Sunflower Land. Free Sunflower Seeds!",
   "description.skullHat": "A reward for your war efforts.",
   "description.warSkull": "3 enemies gone.",
   "description.warTombstone": "A reward for your war efforts.",
@@ -2282,7 +2280,6 @@ const kick: Record<Kick, string> = {
   "kick.player.kick": "Player has been kicked.",
   "kick.player.failed": "Failed to kick player",
   "kick.player.kicking": "Kicking Player...",
-  "kick.please": "Please wait",
 };
 
 const kicked: Record<Kicked, string> = {
@@ -2429,7 +2426,6 @@ const mute: Record<Mute, string> = {
   "mute.player.mute": "Player has been muted ",
   "mute.fail": "Failed to mute player",
   "mute.player.muting": "Muting Player...",
-  "mute.player.wait": "Please wait",
   "mute.you": "You have been muted!",
   "mute.until": "You are muted until",
   "mute.discord":
@@ -2438,7 +2434,6 @@ const mute: Record<Mute, string> = {
   "mute.unmute.player": "Player has been unmuted",
   "mute.unmute.failed": "Failed to unmute player",
   "mute.unmuting.player": "Unmuting Player...",
-  "mute.unmute.wait": "Please wait",
   "mute.online":
     "In case you need to mute a player that is not online, you can do so here. On their next login, they will be muted.",
 };
@@ -3326,13 +3321,6 @@ const restock: Record<Restock, string> = {
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
-  "retreatTerms.introTravel.one": "Hey Traveller! Ready to explore?",
-  "retreatTerms.introTravel.two":
-    "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
-  "retreatTerms.introTravel.three":
-    "Different locations bring different opportunities to spend your hard earned resources.",
-  "retreatTerms.introTravel.four":
-    "At any time click the travel button to return home.",
   "retreatTerms.lookingForRareItems": "Looking for rare items?",
   "retreatTerms.resale.one":
     "Players can trade special items they crafted in-game.",

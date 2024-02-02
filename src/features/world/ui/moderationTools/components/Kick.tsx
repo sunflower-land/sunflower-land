@@ -119,7 +119,7 @@ export const KickModal: React.FC<Props> = ({
           <span className="text-lg text-center">
             {t("kick.player.kicking")}
           </span>
-          <span className="text-xs text-center mt-2">{t("kick.please")}</span>
+          <span className="text-xs text-center mt-2">{t("please.wait")}</span>
         </div>
       )}
     </>
