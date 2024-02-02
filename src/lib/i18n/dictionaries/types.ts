@@ -1531,7 +1531,6 @@ export type IntroPage =
   | "introPage.description"
   | "introPage.mission"
   | "introPage.tip"
-  | "introPage.feedbackIcons"
   | "introPage.chaosPotion"
   | "introPage.playButton";
 

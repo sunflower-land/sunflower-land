@@ -2215,7 +2215,6 @@ const introPage: Record<IntroPage, string> = {
     "Your mission: decipher the right combination of potions within the enchanted grid.",
   "introPage.tip":
     "Remember, the more correct potions you select, the happier the plant will be, increasing your chances of rare drops!",
-  "introPage.feedbackIcons": "Pay attention to the feedback icons:",
   "introPage.chaosPotion": "Beware the 'chaos' potion, it shakes things up!",
   "introPage.playButton": "Let's play",
 };
