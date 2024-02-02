@@ -1,27 +1,30 @@
 import mapJson from "assets/map/plaza.json";
-import nyeJSON from "assets/map/nye.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { AudioController } from "../lib/AudioController";
 import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { Page } from "../containers/Page";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { npcModalManager } from "../ui/NPCModals";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 600,
+    y: 197,
+    npc: "hammerin harry",
+  },
+  {
     x: 371,
-    y: 344,
+    y: 420,
     npc: "pumpkin' pete",
   },
   {
@@ -31,8 +34,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 316,
-    y: 245,
+    x: 321,
+    y: 259,
     npc: "stella",
   },
   {
@@ -102,8 +105,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "tywin",
   },
   {
-    x: 505,
-    y: 352,
+    x: 506,
+    y: 250,
     npc: "birdie",
     direction: "left",
   },
@@ -113,8 +116,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "billy",
   },
   {
-    x: 224,
-    y: 293,
+    x: 214,
+    y: 295,
     npc: "hank",
   },
   {
@@ -154,7 +157,7 @@ export class PlazaScene extends BaseScene {
 
     super({
       name: "plaza",
-      map: { json: showNYE ? nyeJSON : mapJson },
+      map: { json: mapJson },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
@@ -163,6 +166,9 @@ export class PlazaScene extends BaseScene {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("page", "world/page.png");
+
+    this.load.image("shop_icon", "world/shop_disc.png");
+    this.load.image("timer_icon", "world/timer_icon.png");
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -184,11 +190,6 @@ export class PlazaScene extends BaseScene {
       frameHeight: 17,
     });
 
-    this.load.spritesheet("orange_bud", "world/orange_bud.png", {
-      frameWidth: 15,
-      frameHeight: 16,
-    });
-
     this.load.spritesheet("snow_horn_bud", "world/snow_horn_bud.png", {
       frameWidth: 15,
       frameHeight: 14,
@@ -199,21 +200,16 @@ export class PlazaScene extends BaseScene {
       frameHeight: 15,
     });
 
-    this.load.spritesheet(
-      "goblin_hammer",
-      SUNNYSIDE.npcs.goblin_hammering_sheet,
-      {
-        frameWidth: 70,
-        frameHeight: 30,
-      }
-    );
-
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
     });
 
     this.load.image("chest", "world/rare_chest.png");
+
+    // Stella Megastore items
+    this.load.image("flower_cart", "world/flower_cart.png");
+    this.load.image("queen_bee", "world/queen_bee.png");
 
     this.load.spritesheet("banner", "world/spring_banner.png", {
       frameWidth: 22,
@@ -232,21 +228,6 @@ export class PlazaScene extends BaseScene {
       if (!this.sound.get("nature_1")) {
         const nature1 = this.sound.add("nature_1");
         nature1.play({ loop: true, volume: 0.01 });
-      }
-
-      // Boat SFX
-      if (!this.sound.get("boat")) {
-        const boatSound = this.sound.add("boat");
-        boatSound.play({ loop: true, volume: 0, rate: 0.6 });
-
-        this.soundEffects.push(
-          new AudioController({
-            sound: boatSound,
-            distanceThreshold: 130,
-            coordinates: { x: 352, y: 462 },
-            maxVolume: 0.2,
-          })
-        );
       }
     }
 
@@ -297,10 +278,16 @@ export class PlazaScene extends BaseScene {
       }
     });
 
-    const auctionLabel = new Label(this, "AUCTIONS", "brown");
-    auctionLabel.setPosition(601, 260);
-    auctionLabel.setDepth(10000000);
-    this.add.existing(auctionLabel);
+    const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
+    shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      npcModalManager.open("stella");
+    });
+
+    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
+    auctionIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      npcModalManager.open("hammerin harry");
+    });
+    auctionIcon.setDepth(1000000);
 
     const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
     clubHouseLabel.setPosition(152, 262);
@@ -323,24 +310,6 @@ export class PlazaScene extends BaseScene {
       interactableModalManager.open("fat_chicken");
     });
 
-    // Goblin Hammering
-    const hammerinGoblin = this.add.sprite(250, 268, "goblin_hammer");
-    this.anims.create({
-      key: "goblin_hammer_animation",
-      frames: this.anims.generateFrameNumbers("goblin_hammer", {
-        start: 0,
-        end: 22,
-      }),
-      repeat: -1,
-      frameRate: 14,
-    });
-    hammerinGoblin.play("goblin_hammer_animation", true);
-    hammerinGoblin
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        interactableModalManager.open("goblin_hammer");
-      });
-
     // Plaza Bud
     const bud = this.add.sprite(500, 420, "plaza_bud");
     this.anims.create({
@@ -358,25 +327,6 @@ export class PlazaScene extends BaseScene {
       .on("pointerdown", () => {
         interactableModalManager.open("bud");
       });
-
-    // Plaza Bud
-    const bud2 = this.add.sprite(601, 200, "plaza_bud_2");
-    this.anims.create({
-      key: "plaza_bud_animation_2",
-      frames: this.anims.generateFrameNumbers("plaza_bud_2", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    bud2
-      .play("plaza_bud_animation_2", true)
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        interactableModalManager.open("bud");
-      });
-    bud2.setDepth(100000000000);
 
     // Banner
     const banner = this.add.sprite(400, 220, "banner");
@@ -472,19 +422,6 @@ export class PlazaScene extends BaseScene {
     });
     snowHornBud.setVisible(false).play("snow_horn_bud_anim", true);
 
-    const orangeBud = this.add.sprite(176, 235, "orange_bud");
-    orangeBud.setScale(-1, 1);
-    this.anims.create({
-      key: "orange_bud_anim",
-      frames: this.anims.generateFrameNumbers("orange_bud", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    orangeBud.setVisible(false).play("orange_bud_anim", true);
-
     const chest = this.add
       .sprite(152, 230, "chest")
       .setVisible(false)
@@ -492,6 +429,10 @@ export class PlazaScene extends BaseScene {
       .on("pointerdown", () => {
         interactableModalManager.open("clubhouse_reward");
       });
+
+    // Stella Collectible of the Month
+    this.add.image(248, 244, "flower_cart");
+    this.add.image(288, 248, "queen_bee");
 
     const door = this.colliders
       ?.getChildren()
@@ -520,7 +461,6 @@ export class PlazaScene extends BaseScene {
       clubHouseLabel.setVisible(isOpen);
 
       snowHornBud.setVisible(!isOpen);
-      orangeBud.setVisible(!isOpen);
       chest.setVisible(!isOpen);
 
       if (wasOpen === isOpen) {

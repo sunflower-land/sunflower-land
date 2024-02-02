@@ -15,7 +15,6 @@ import {
 } from "./ui/moderationTools/components/Muted";
 
 import { PlazaScene } from "./scenes/PlazaScene";
-import { AuctionScene } from "./scenes/AuctionHouseScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
@@ -23,9 +22,6 @@ import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { ClothesShopScene } from "./scenes/ClothesShopScene";
-import { DecorationShopScene } from "./scenes/DecorationShop";
-import { WindmillFloorScene } from "./scenes/WindmillFloorScene";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
@@ -47,8 +43,6 @@ import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
-import { hasFeatureAccess } from "lib/flags";
-import { SpringPlazaScene } from "./scenes/SpringPlazaScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -107,18 +101,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = isCommunity
     ? [CommunityScene]
-    : [
-        Preloader,
-        AuctionScene,
-        WoodlandsScene,
-        WindmillFloorScene,
-        ClothesShopScene,
-        DecorationShopScene,
-        BeachScene,
-        hasFeatureAccess(gameService.state.context.state, "SPRING")
-          ? SpringPlazaScene
-          : PlazaScene,
-      ];
+    : [Preloader, WoodlandsScene, BeachScene, PlazaScene];
 
   useEffect(() => {
     // Set up community APIs
