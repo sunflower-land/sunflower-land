@@ -9,6 +9,7 @@ import speedChicken from "assets/animals/chickens/speed_chicken.png";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
+import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 
 import { Button } from "components/ui/Button";
 import { translate } from "lib/i18n/translate";
@@ -38,6 +39,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
   "Banana Chicken": {
     description: translate("description.banana.chicken"),
     image: bananaChicken,
+  },
+  "Crim Peckster": {
+    description: "A gem detective with a knack for unearthing Crimstones.",
+    image: crimPeckster,
   },
 };
 

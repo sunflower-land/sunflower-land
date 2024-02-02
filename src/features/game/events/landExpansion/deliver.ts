@@ -2,18 +2,13 @@ import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
-import {
-  Bumpkin,
-  GameState,
-  Inventory,
-  NPCData,
-  Order,
-} from "features/game/types/game";
+import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
+import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 
 export type DeliverOrderAction = {
@@ -149,19 +144,17 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function getOrderSellPrice(bumpkin: Bumpkin, order: Order) {
-  const { skills } = bumpkin;
-
+export function getOrderSellPrice(game: GameState, order: Order) {
   let mul = 1;
 
-  if (skills["Michelin Stars"]) {
+  if (game.bumpkin?.skills["Michelin Stars"]) {
     mul += 0.05;
   }
 
   const items = getKeys(order.items);
   if (
     items.some((name) => name in COOKABLE_CAKES) &&
-    bumpkin.equipped.coat == "Chef Apron"
+    isWearableActive({ name: "Chef Apron", game })
   ) {
     mul += 0.2;
   }
@@ -223,7 +216,7 @@ export function deliverOrder({
   });
 
   if (order.reward.sfl) {
-    const sfl = getOrderSellPrice(bumpkin, order);
+    const sfl = getOrderSellPrice(game, order);
     game.balance = game.balance.add(sfl);
 
     bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);

@@ -27,11 +27,18 @@ export function harvestFlower({
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
 
+  stateCopy.beehives = updateBeehives({
+    beehives: stateCopy.beehives,
+    flowerBeds: stateCopy.flowers.flowerBeds,
+    createdAt,
+  });
+
   const bumpkin = stateCopy.bumpkin;
 
   if (!bumpkin) throw new Error(translate("no.have.bumpkin"));
 
-  const flowerBed = stateCopy.flowers.flowerBeds[action.id];
+  const flowers = stateCopy.flowers;
+  const flowerBed = flowers.flowerBeds[action.id];
 
   if (!flowerBed) throw new Error(translate("harvestflower.noFlowerBed"));
 
@@ -50,6 +57,11 @@ export function harvestFlower({
     stateCopy.inventory[flower.name] ?? new Decimal(0)
   ).add(flower.amount);
 
+  const discovered = flowers.discovered[flower.name] ?? [];
+  if (!!flower.crossbreed && !discovered.includes(flower.crossbreed)) {
+    flowers.discovered[flower.name] = [...discovered, flower.crossbreed];
+  }
+
   delete flowerBed.flower;
 
   bumpkin.activity = trackActivity(
@@ -64,13 +76,11 @@ export function harvestFlower({
     1
   );
 
-  const updatedBeehives = updateBeehives({
+  stateCopy.beehives = updateBeehives({
     beehives: stateCopy.beehives,
     flowerBeds: stateCopy.flowers.flowerBeds,
     createdAt,
   });
-
-  stateCopy.beehives = updatedBeehives;
 
   return stateCopy;
 }

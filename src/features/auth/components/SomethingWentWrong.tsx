@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
+import { Maintenance } from "./Maintenance";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface BoundaryErrorProps {
@@ -55,6 +56,10 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         )}
       </>
     );
+  }
+
+  if (Date.now() < new Date("2024-02-01T00:30:00.000Z").getTime()) {
+    return <Maintenance />;
   }
 
   return (

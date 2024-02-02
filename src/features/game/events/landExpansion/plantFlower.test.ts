@@ -3,7 +3,10 @@ import { plantFlower } from "./plantFlower";
 import { GameState } from "features/game/types/game";
 import { TEST_FARM } from "features/game/lib/constants";
 import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
-import { FLOWER_CROSS_BREED_AMOUNTS } from "features/game/types/flowers";
+import {
+  FLOWER_CROSS_BREED_AMOUNTS,
+  FLOWER_SEEDS,
+} from "features/game/types/flowers";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -243,6 +246,37 @@ describe("plantFlower", () => {
     const inventoryAfter = state.inventory["Sunflower"];
     expect(inventoryAfter).toEqual(
       inventoryBefore?.sub(FLOWER_CROSS_BREED_AMOUNTS["Sunflower"])
+    );
+  });
+  it("reduces flower harvest time in half if wearing Flower Crown ", () => {
+    const seedAmount = new Decimal(5);
+
+    const bedIndex = "1";
+
+    const state = plantFlower({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Flower Crown" },
+        },
+        inventory: {
+          "Sunpetal Seed": seedAmount,
+          Sunflower: new Decimal(100),
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: bedIndex,
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+
+    expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
+    expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
+      dateNow - (FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000) / 2
     );
   });
 });
