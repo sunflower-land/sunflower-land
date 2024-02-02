@@ -138,7 +138,8 @@ export type MutantChicken =
   | "Fat Chicken"
   | "Ayam Cemani"
   | "El Pollo Veloz"
-  | "Banana Chicken";
+  | "Banana Chicken"
+  | "Crim Peckster";
 
 export type Coupons =
   | "Gold Pass"
@@ -822,6 +823,7 @@ export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
   amount: number;
+  crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
 };
 

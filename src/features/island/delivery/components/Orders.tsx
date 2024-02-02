@@ -23,7 +23,7 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { Bumpkin, Order } from "features/game/types/game";
+import { Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC } from "features/island/bumpkin/components/NPC";
 
@@ -70,7 +70,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
   const balance = useSelector(gameService, _balance);
-  const bumpkin = useSelector(gameService, _bumpkin);
 
   const [showSkipDialog, setShowSkipDialog] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
@@ -97,8 +96,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
         ).includes(o.from)
     );
   }
-
-  const skippedAt = delivery.skippedAt ?? 0;
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -140,12 +137,8 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
   const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
-
-  const canFulfill = hasRequirements(previewOrder as Order);
   const { t } = useAppTranslation();
   const slots = getDeliverySlots(inventory);
-  let emptySlots = slots - orders.length - (nextOrder ? 1 : 0);
-  emptySlots = Math.max(0, emptySlots);
 
   const progress = Math.min(
     delivery.milestone.goal,
@@ -293,10 +286,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         <div className="flex items-center mt-1">
                           <img src={sfl} className="h-5 mr-1" />
                           <span className="text-xs">
-                            {getOrderSellPrice(
-                              bumpkin as Bumpkin,
-                              order
-                            ).toFixed(2)}
+                            {getOrderSellPrice(gameState, order).toFixed(2)}
                           </span>
                         </div>
                       )}

@@ -98,6 +98,7 @@ import richChicken from "assets/animals/chickens/rich_chicken.gif";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
+import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -226,6 +227,7 @@ import dawnBreakerTicket from "assets/icons/dawn_breaker_ticket.png";
 import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import mermaidScale from "assets/icons/mermaid_scale.webp";
+import tulipBulb from "assets/icons/tulip_bulb.png";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
@@ -549,7 +551,7 @@ import sapoTravessura from "assets/sfts/sapo_travessura.gif";
 
 // Flowers
 import beehive from "assets/sfts/beehive.webp";
-import flowerBed from "assets/flowers/flower_bed.webp";
+import flowerBed from "assets/flowers/empty.webp";
 import redPansy from "assets/flowers/red_pansy.webp";
 import yellowPansy from "assets/flowers/yellow_pansy.webp";
 import bluePansy from "assets/flowers/blue_pansy.webp";
@@ -573,6 +575,16 @@ import purpleCarnation from "assets/flowers/purple_carnation.png";
 import prismPetal from "assets/flowers/prism_petal.webp";
 import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
 import primulaEnigma from "assets/flowers/primula_enigma.webp";
+import redDaffodil from "assets/flowers/red_daffodil.webp";
+import yellowDaffodil from "assets/flowers/yellow_daffodil.webp";
+import blueDaffodil from "assets/flowers/blue_daffodil.webp";
+import whiteDaffodil from "assets/flowers/white_daffodil.webp";
+import purpleDaffodil from "assets/flowers/purple_daffodil.webp";
+import redLotus from "assets/flowers/red_lotus.webp";
+import yellowLotus from "assets/flowers/yellow_lotus.webp";
+import blueLotus from "assets/flowers/blue_lotus.webp";
+import whiteLotus from "assets/flowers/white_lotus.webp";
+import purpleLotus from "assets/flowers/purple_lotus.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -2301,7 +2313,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.mermaid.scale"),
   },
   "Tulip Bulb": {
-    image: mermaidScale,
+    image: tulipBulb,
     description: "A ticket used during the Spring Blossom",
   },
 
@@ -2936,6 +2948,10 @@ export const ITEM_DETAILS: Items = {
     image: bananaChicken,
     description: translate("description.banana.chicken"),
   },
+  "Crim Peckster": {
+    image: crimPeckster,
+    description: "A gem detective with a knack for unearthing Crimstones.",
+  },
   "Skill Shrimpy": {
     image: skillShrimpy,
     description: translate("description.skill.shrimpy"),
@@ -3157,5 +3173,45 @@ export const ITEM_DETAILS: Items = {
     image: primulaEnigma,
     description:
       "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  },
+  "Red Daffodil": {
+    image: redDaffodil,
+    description: "A red daffodil.",
+  },
+  "Yellow Daffodil": {
+    image: yellowDaffodil,
+    description: "A yellow daffodil.",
+  },
+  "Purple Daffodil": {
+    image: purpleDaffodil,
+    description: "A purple daffodil.",
+  },
+  "White Daffodil": {
+    image: whiteDaffodil,
+    description: "A white daffodil.",
+  },
+  "Blue Daffodil": {
+    image: blueDaffodil,
+    description: "A blue daffodil.",
+  },
+  "Red Lotus": {
+    image: redLotus,
+    description: "A red lotus.",
+  },
+  "Yellow Lotus": {
+    image: yellowLotus,
+    description: "A yellow lotus.",
+  },
+  "Purple Lotus": {
+    image: purpleLotus,
+    description: "A purple lotus.",
+  },
+  "White Lotus": {
+    image: whiteLotus,
+    description: "A white lotus.",
+  },
+  "Blue Lotus": {
+    image: blueLotus,
+    description: "A blue lotus.",
   },
 };

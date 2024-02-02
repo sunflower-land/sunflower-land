@@ -10,7 +10,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Bumpkin, GrubShop } from "features/game/types/game";
+import { GrubShop } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Label } from "components/ui/Label";
 import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
@@ -230,10 +230,7 @@ export const GrubShopModal: React.FC<Props> = ({ onClose }) => {
                     <div className="flex justify-center space-x-1 items-center sm:justify-center">
                       <img src={token} className="h-4 sm:h-5" />
                       <span className="text-xs text-center">
-                        {`${getOrderSellPrice(
-                          state.bumpkin as Bumpkin,
-                          selected
-                        )}`}
+                        {`${getOrderSellPrice(state, selected)}`}
                       </span>
                     </div>
                   </div>

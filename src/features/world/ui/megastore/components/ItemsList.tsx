@@ -72,7 +72,7 @@ export const ItemsList: React.FC<Props> = ({
       </div>
       <div className="flex gap-2 flex-wrap">
         {sortedItems.length === 0 ? (
-          <span className="text-xxs">{`No ${itemsLabel.toLowerCase()} available.`}</span>
+          <span className="text-xxs">{`${itemsLabel} coming soon.`}</span>
         ) : (
           sortedItems.map((item) => {
             const buff = getItemBuffLabel(item);

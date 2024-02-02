@@ -5,7 +5,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { FlowerName } from "features/game/types/flowers";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
@@ -56,22 +56,17 @@ export const FlowerTrade: React.FC<Props> = ({
 }) => {
   const desiredFlowerImage = ITEM_DETAILS[desiredFlower].image;
 
-  // Get the current date and time in UTC
-  const currentDate = new Date();
-  const currentUTCDate = new Date(currentDate.toUTCString());
+  const currentWeek = 0;
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const sevenDaysSeconds = sevenDays / 1000;
 
-  // Calculate the number of seconds passed in the current week
-  const secondsInCurrentWeek =
-    currentUTCDate.getDay() * 24 * 60 * 60 +
-    currentUTCDate.getUTCHours() * 60 * 60 +
-    currentUTCDate.getUTCMinutes() * 60 +
-    currentUTCDate.getUTCSeconds();
+  const weekStartTime =
+    SEASONS["Spring Blossom"].startDate.getTime() + currentWeek * sevenDays;
+  const currentTime = Date.now();
 
-  // Calculate the total number of seconds in a week
-  const totalSecondsInWeek = 7 * 24 * 60 * 60;
-
-  // Calculate the remaining seconds in the week
-  const remainingSecondsInWeek = totalSecondsInWeek - secondsInCurrentWeek;
+  const percentageOfWeek = (currentTime - weekStartTime) / sevenDays;
+  const remainingSecondsInWeek =
+    sevenDaysSeconds - Math.floor(percentageOfWeek * sevenDaysSeconds);
 
   return (
     <div className="w-full flex flex-col items-center">

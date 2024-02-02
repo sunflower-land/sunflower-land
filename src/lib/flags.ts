@@ -28,8 +28,6 @@ type FeatureName =
   | "BEACH_FISHING"
   | "HOME"
   | "ISLAND_UPGRADE"
-  | "FLOWERS"
-  | "FLOWER_SHOP"
   | "SPRING"
   | "MEGA_STORE";
 
@@ -56,7 +54,13 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   NEW_DELIVERIES: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
-  HOME: defaultFeatureFlag,
+  HOME: (game: GameState) => {
+    if (Date.now() > new Date("2024-02-01").getTime()) {
+      return true;
+    }
+
+    return defaultFeatureFlag(game);
+  },
 
   HALLOWEEN: (game: GameState) => {
     if (Date.now() > new Date("2023-11-01").getTime()) {
@@ -93,8 +97,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return defaultFeatureFlag(game);
   },
   LOCALISATION: testnetFeatureFlag,
-  FLOWERS: testnetFeatureFlag,
-  FLOWER_SHOP: testnetFeatureFlag,
   MEGA_STORE: testnetFeatureFlag,
   SPRING: (game: GameState) => {
     if (Date.now() > SEASONS["Spring Blossom"].startDate.getTime()) {
@@ -105,15 +107,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
 };
 
-export const hasFeatureAccess = (
-  game: GameState,
-  featureName: FeatureName,
-  farmId?: number
-) => {
-  if (featureName === "FLOWERS" && farmId && ADMIN_IDS.includes(farmId)) {
-    return true;
-  }
-
+export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
   const isWitchesEve = Date.now() > SEASONS["Witches' Eve"].startDate.getTime();
   if (featureName === "NEW_DELIVERIES" && isWitchesEve) {
     return true;

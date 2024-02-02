@@ -20,6 +20,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
 import lightning from "assets/icons/lightning.png";
+import shopIcon from "assets/icons/shop.png";
 
 interface Props {
   onClose: () => void;
@@ -88,7 +89,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
-      tabs={[{ icon: SUNNYSIDE.icons.wardrobe, name: "Mega Store" }]}
+      tabs={[{ icon: shopIcon, name: "Mega Store" }]}
       onClose={onClose}
     >
       <div className="relative h-full w-full">

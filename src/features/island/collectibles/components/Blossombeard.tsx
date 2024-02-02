@@ -9,7 +9,7 @@ export const Blossombeard: React.FC = () => {
       <img
         src={image}
         style={{
-          width: `${PIXEL_SCALE * 9}px`,
+          width: `${PIXEL_SCALE * 13}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
           left: `${PIXEL_SCALE * 3.5}px`,
         }}

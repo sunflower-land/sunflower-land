@@ -1,8 +1,10 @@
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
+import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   FLOWER_CROSS_BREED_AMOUNTS,
+  FLOWER_SEEDS,
   FlowerCrossBreedName,
   FlowerSeedName,
   isFlowerSeed,
@@ -23,6 +25,38 @@ type Options = {
   action: PlantFlowerAction;
   createdAt?: number;
 };
+
+export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
+  let seconds = FLOWER_SEEDS()[seed].plantSeconds;
+
+  // If wearing Flower Crown 2x speed
+  if (isWearableActive({ name: "Flower Crown", game })) {
+    seconds *= 0.5;
+  }
+
+  return seconds;
+};
+
+type GetPlantedAtArgs = {
+  seed: FlowerSeedName;
+  createdAt: number;
+  boostedTime: number;
+};
+
+/**
+ * Set a plantedAt in the past to make a flower grow faster
+ */
+export function getPlantedAt({
+  seed,
+  createdAt,
+  boostedTime,
+}: GetPlantedAtArgs): number {
+  const flowerTime = FLOWER_SEEDS()[seed].plantSeconds;
+
+  const offset = flowerTime - boostedTime;
+
+  return createdAt - offset * 1000;
+}
 
 export function plantFlower({
   state,
@@ -69,7 +103,11 @@ export function plantFlower({
     crossBreedCount.minus(crossBreedAmount);
 
   flowerBed.flower = {
-    plantedAt: createdAt,
+    plantedAt: getPlantedAt({
+      seed: action.seed,
+      createdAt,
+      boostedTime: getFlowerTime(action.seed, stateCopy),
+    }),
     amount: 1,
     name: "Red Pansy",
     dirty: true,

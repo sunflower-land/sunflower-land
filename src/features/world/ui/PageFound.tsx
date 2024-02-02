@@ -28,10 +28,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel onClose={onClose} title={"Page Found"}>
         <div className="flex flex-col items-center w-full">
           <span>Looks like a page from a gardening book...</span>
-          <img
-            src="public/world/page.png"
-            style={{ width: PIXEL_SCALE * 16 * 2 }}
-          />
+          <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
         </div>
       </CloseButtonPanel>
     );
@@ -86,10 +83,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
             </span>
           </div>
 
-          <img
-            src="public/world/page.png"
-            style={{ width: PIXEL_SCALE * 16 * 2 }}
-          />
+          <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
           <Label type="success">All Pages Found!</Label>
         </div>
@@ -104,10 +98,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
           Great! This page contains some information about how to grow a{" "}
           {springBlossom.weeklyFlower}!
         </span>
-        <img
-          src="public/world/page.png"
-          style={{ width: PIXEL_SCALE * 16 * 2 }}
-        />
+        <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
         <Label type="info" className="mt-2">
           {springBlossom.collectedFlowerPages.length}/3 Pages Found

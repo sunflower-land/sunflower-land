@@ -312,12 +312,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     background: "Farm Background",
     hair: "Brown Long Hair",
-    shirt: "Trial Tee",
-    coat: "Fish Pro Vest",
-    pants: "Angler Waders",
-    hat: "Normal Fish Hat",
-    tool: "Sunflower Rod",
+    dress: "Rose Dress",
+    hat: "Flower Crown",
+    tool: "Beehive Staff",
     shoes: "Black Farmer Boots",
+    wings: "Bee Wings",
   },
   // Old loving grandma of the game
   buttons: {
@@ -373,13 +372,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Clothes shop stylist
   stella: {
     body: "Beige Farmer Potion",
-    hair: "Pink Ponytail",
+    hair: "White Long Hair",
     hat: "Boater Hat",
-    pants: "Crimson Skirt",
-    shirt: "Clown Shirt",
+    pants: "Farmer Overalls",
+    shirt: "Daisy Tee",
     background: "Farm Background",
     shoes: "Brown Boots",
-    tool: "Hammer",
+    tool: "Farmer Pitchfork",
   },
   // Sunflorian Prince
   tywin: {

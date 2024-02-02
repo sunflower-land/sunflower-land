@@ -64,6 +64,7 @@ const IslandUpgraderModal: React.FC<{
       <Panel>
         <div className="p-2">
           <p className="text-sm mb-2">{t("islandupgrade.confirmUpgrade")}</p>
+
           <p className="text-xs">{t("islandupgrade.warning")}</p>
           <div className="flex my-2">
             {getKeys(upgrade.items).map((name) => (

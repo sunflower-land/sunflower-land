@@ -1779,8 +1779,8 @@ const SPRING_LAND_17_REQUIREMENTS: Requirements = {
     Stone: 20,
     Iron: 10,
     Gold: 5,
-    Crimstone: 5,
-    "Block Buck": 22,
+    Crimstone: 12,
+    "Block Buck": 2,
   },
   seconds: 36 * 60 * 60,
 
