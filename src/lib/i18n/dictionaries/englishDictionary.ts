@@ -295,6 +295,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   plant: "Plant",
   "player.farm.iD": "Player Farm ID",
   "please.wait": "Please wait",
+  "pay.attention.feedback": "Pay attention to the feedback icons:",
   print: "Print",
   "promo.code": "Promo Code",
   "providing.liquidity": "Providing Liquidity",
@@ -1732,7 +1733,7 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.blueberry.jam": "Goblins will do anything for this jam",
   "description.fermented.carrots": "Got a surplus of carrots?",
   "description.sauerkraut": "No more boring Cabbage!",
-  "description.fancy.fries": "Cabbages and Mashed Potatoes",
+  "description.fancy.fries": "Fantastic Fries",
   "description.fermented.fish":
     "Daring delicacy! Unleash the Viking within with every bite!",
 
@@ -2204,7 +2205,6 @@ const interactableModals: Record<InteractableModals, string> = {
     "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
   "interactableModals.port.message":
     "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
-  "interactableModals.like.home": "Would you like to return home?",
 };
 
 const introPage: Record<IntroPage, string> = {
@@ -2216,8 +2216,6 @@ const introPage: Record<IntroPage, string> = {
   "introPage.tip":
     "Remember, the more correct potions you select, the happier the plant will be, increasing your chances of rare drops!",
   "introPage.feedbackIcons": "Pay attention to the feedback icons:",
-  "introPage.correctPosition": "A perfect potion in the perfect position",
-  "introPage.correctPotionWrongPosition": "Correct potion but wrong position",
   "introPage.chaosPotion": "Beware the 'chaos' potion, it shakes things up!",
   "introPage.playButton": "Let's play",
 };
@@ -3314,7 +3312,6 @@ const rulesGameStart: Record<RulesGameStart, string> = {
     "At the beginning of the game, the plant will randomly pick a combination of 4 potions and 1 'chaos' potion. The combination can be all different or all the same.",
   "rules.chaosPotionRule":
     "If you add the 'chaos' potion your score for that attempt will be 0.",
-  "rules.feedbackIconsIntro": "Pay attention to the feedback icons:",
   "rules.chaosPotionWarning": "Beware the 'chaos' potion, it shakes things up!",
   "rules.potion.feedback":
     "Select your potions and unveil the secrets of the plants!",

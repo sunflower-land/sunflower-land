@@ -27,7 +27,7 @@ export const BoatModal: React.FC<Props> = ({ isOpen, closeModal, id }) => {
   return (
     <CloseButtonPanel onClose={closeModal}>
       <div className="p-2">
-        <p className="mb-3">{t("interactableModals.like.home")}</p>
+        <p className="mb-3">{t("interactableModals.returnhome.message")}</p>
       </div>
       <Button
         onClick={() => navigate(`/`)}

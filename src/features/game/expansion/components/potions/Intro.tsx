@@ -59,7 +59,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("introPage.correctPosition")}</span>
+            <span>{t("statements.potionRule.five")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -69,7 +69,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("introPage.correctPotionWrongPosition")}</span>
+            <span>{t("statements.potionRule.six")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img

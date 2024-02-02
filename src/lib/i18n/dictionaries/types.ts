@@ -133,6 +133,7 @@ export type GeneralTerms =
   | "on"
   | "open.gift"
   | "pass.required"
+  | "pay.attention.feedback"
   | "place.map"
   | "placing.bid"
   | "plant"
@@ -1516,8 +1517,7 @@ export type InteractableModals =
   | "interactableModals.beach.message2"
   | "interactableModals.castle.message"
   | "interactableModals.woodlands.message"
-  | "interactableModals.port.message"
-  | "interactableModals.like.home";
+  | "interactableModals.port.message";
 
 export type Intro =
   | "intro.one"
@@ -1532,8 +1532,6 @@ export type IntroPage =
   | "introPage.mission"
   | "introPage.tip"
   | "introPage.feedbackIcons"
-  | "introPage.correctPosition"
-  | "introPage.correctPotionWrongPosition"
   | "introPage.chaosPotion"
   | "introPage.playButton";
 
@@ -2240,7 +2238,6 @@ export type RewardTerms =
 export type RulesGameStart =
   | "rules.gameStart"
   | "rules.chaosPotionRule"
-  | "rules.feedbackIconsIntro"
   | "rules.chaosPotionWarning"
   | "rules.potion.feedback"
   | "BloomBoost.description"
