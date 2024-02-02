@@ -48,7 +48,6 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
-  Flowerbedguide,
   FoodDescriptions,
   GameDescriptions,
   GameTerms,
@@ -294,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "place.map": "Place on map",
   "placing.bid": "Placing bid",
   plant: "Plant",
+  "player.farm.iD": "Player Farm ID",
   "please.wait": "Please wait",
   print: "Print",
   "promo.code": "Promo Code",
@@ -1678,22 +1678,6 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.5.fish": "Catch 5 of every fish",
 };
 
-const flowerbedguide: Record<Flowerbedguide, string> = {
-  "flowerbedguide.craftRod": "Craft a rod and gather bait to catch fish.",
-  "flowerbedguide.earnBait":
-    "Bait can be earned through composting or crafting lures.",
-  "flowerbedguide.eatFish":
-    "Eat fish to level up your Bumpkin or perform fish deliveries for rewards.",
-  "flowerbedguide.exploreWaters":
-    "Explore the waters to discover rare fish, complete missions, and unlock unique rewards within the Codex.",
-  "flowerbedguide.tidePatterns":
-    "Keep track of the changing tide patterns; specific fish species are only available during certain conditions.",
-  "flowerbedguide.experimentBait":
-    "Experiment with different types of bait and chum combinations to maximize your chances of catching various fish species.",
-  "flowerbedguide.legendaryFish":
-    "Beware of legendary fish; they require exceptional skill and strength to catch.",
-};
-
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
   "description.pumpkin.soup": "A creamy soup that goblins love",
@@ -2247,7 +2231,6 @@ const introPage: Record<IntroPage, string> = {
   "introPage.feedbackIcons": "Pay attention to the feedback icons:",
   "introPage.correctPosition": "A perfect potion in the perfect position",
   "introPage.correctPotionWrongPosition": "Correct potion but wrong position",
-  "introPage.wrongPotion": "Oops, wrong potion",
   "introPage.chaosPotion": "Beware the 'chaos' potion, it shakes things up!",
   "introPage.playButton": "Let's play",
 };
@@ -2268,7 +2251,6 @@ const islandNotFound: Record<IslandNotFound, string> = {
 
 const kick: Record<Kick, string> = {
   "kick.player": "Kick a Player",
-  "kick.player.id": "Player Farm ID",
   "kick.Message":
     "Please note that you can still rejoin, but if you continue to break the rules we will take further actions.",
   "kick.Reason": "Kick Reason (Please note that the player will see this)",
@@ -2281,8 +2263,6 @@ const kick: Record<Kick, string> = {
 const kicked: Record<Kicked, string> = {
   "kicked.kicked": "You have been kicked!",
   "kicked.Reason": "Reason:",
-  "kicked.Message":
-    "Please note that you can still rejoin, but if you continue to break the rules we will take further actions.",
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {
@@ -2415,7 +2395,6 @@ const modalDescription: Record<ModalDescription, string> = {
 
 const mute: Record<Mute, string> = {
   "mute.playe": "Mute a Player",
-  "mute.playe.id": "Player Farm ID",
   "mute.duration": "Mute Duration (Please note that the player will see this)",
   "mute.Reason": "Mute Reason (Please note that the player will see this)",
   "mute.player.farm": "Mute Player of Farm ",
@@ -3112,8 +3091,6 @@ const pirateQuest: Record<PirateQuest, string> = {
     "Welcome to the high seas of adventure, where ye be tested as a true pirate. Set sail on a journey to find the richest pillage and become the greatest pirate to ever grace the ocean waves.",
   "piratequest.finestPirate":
     "Ahoy, ye be the finest pirate on the seven seas with yer loot!!",
-  "piratequest.noMoreGifts":
-    "I have no more gifts for you. Don't forget to wear your new items!",
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
@@ -3324,7 +3301,6 @@ const retreatTerms: Record<RetreatTerms, string> = {
 
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "Recovers in:",
-  "resources.bumpkinLevel": "Bumpkin level",
   "resources.required": "required.",
 };
 
@@ -3520,8 +3496,6 @@ const statements: Record<Statements, string> = {
     "Your proof of humanity is still being processed by Jigger. This can take up to 2 hours.",
   "statements.jigger.six":
     "The multi-account detection system has picked up strange behaviour.",
-  "statements.jigger.seven":
-    "You can continue playing, but some actions will be restricted while you are being verified.",
   "statements.lvlUp": "Feed your Bumpkin to level up",
   "statements.maintenance":
     "New things are coming! Thanks for your patience, the game will be live again shortly.",
@@ -3938,7 +3912,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
-  ...flowerbedguide,
   ...foodDescriptions,
   ...garbageCollector,
   ...gameDescriptions,

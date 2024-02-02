@@ -26,7 +26,7 @@ export const Kicked: React.FC<{
             <p className="text-sm">{event.reason}</p>
           </div>
           <div className="flex justify-center text-center">
-            <p className="text-xxs">{t("kicked.Message")}</p>
+            <p className="text-xxs">{t("kick.Message")}</p>
           </div>
           <div className="flex justify-center">
             <Button className="mt-1" onClick={onClose}>

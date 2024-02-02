@@ -136,6 +136,7 @@ export type GeneralTerms =
   | "place.map"
   | "placing.bid"
   | "plant"
+  | "player.farm.iD"
   | "please.wait"
   | "print"
   | "promo.code"
@@ -1149,15 +1150,6 @@ export type FishingQuests =
   | "quest.marine.marvel"
   | "quest.5.fish";
 
-export type Flowerbedguide =
-  | "flowerbedguide.craftRod"
-  | "flowerbedguide.earnBait"
-  | "flowerbedguide.eatFish"
-  | "flowerbedguide.exploreWaters"
-  | "flowerbedguide.tidePatterns"
-  | "flowerbedguide.experimentBait"
-  | "flowerbedguide.legendaryFish";
-
 export type FoodDescriptions =
   //Fire Pit
   | "description.pumpkin.soup"
@@ -1555,7 +1547,6 @@ export type IntroPage =
   | "introPage.feedbackIcons"
   | "introPage.correctPosition"
   | "introPage.correctPotionWrongPosition"
-  | "introPage.wrongPotion"
   | "introPage.chaosPotion"
   | "introPage.playButton";
 
@@ -1573,7 +1564,6 @@ export type IslandNotFound =
 
 export type Kick =
   | "kick.player"
-  | "kick.player.id"
   | "kick.Reason"
   | "kick.player.farm"
   | "kick.player.kick"
@@ -1581,7 +1571,7 @@ export type Kick =
   | "kick.player.kicking"
   | "kick.Message";
 
-export type Kicked = "kicked.kicked" | "kicked.Reason" | "kicked.Message";
+export type Kicked = "kicked.kicked" | "kicked.Reason";
 
 export type LandscapeTerms =
   | "landscape.intro.one"
@@ -1687,7 +1677,6 @@ export type ModalDescription =
 
 export type Mute =
   | "mute.playe"
-  | "mute.playe.id"
   | "mute.duration"
   | "mute.Reason"
   | "mute.player.farm"
@@ -2092,8 +2081,7 @@ export type PirateQuest =
   | "questDescription.pirateQuest3"
   | "questDescription.pirateQuest4"
   | "piratequest.welcome"
-  | "piratequest.finestPirate"
-  | "piratequest.noMoreGifts";
+  | "piratequest.finestPirate";
 
 export type ObsessionDialogue =
   | "obsessionDialogue.line1.part1"
@@ -2243,10 +2231,7 @@ export type RetreatTerms =
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
 
-export type Resources =
-  | "resources.recoversIn"
-  | "resources.bumpkinLevel"
-  | "resources.required";
+export type Resources = "resources.recoversIn" | "resources.required";
 
 export type RewardTerms =
   | "reward.daily.reward"
@@ -2389,7 +2374,6 @@ export type Statements =
   | "statements.jigger.four"
   | "statements.jigger.five"
   | "statements.jigger.six"
-  | "statements.jigger.seven"
   | "statements.lvlUp"
   | "statements.maintenance"
   | "statements.minted"
@@ -2677,7 +2661,6 @@ export type TranslationKeys =
   | FishingChallengeIntro
   | FishingGuide
   | FishingQuests
-  | Flowerbedguide
   | FoodDescriptions
   | GameDescriptions
   | GameTerms

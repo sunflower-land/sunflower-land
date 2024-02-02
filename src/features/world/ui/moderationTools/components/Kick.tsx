@@ -64,7 +64,7 @@ export const KickModal: React.FC<Props> = ({
         <div className="flex flex-col w-full p-1">
           <span className="text-lg text-center">{t("kick.player")}</span>
           <span className="text-xxs text-left mt-2 mb-1">
-            {t("kick.player.id")}
+            {t("player.farm.iD")}
           </span>
           <input
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"

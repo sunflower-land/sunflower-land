@@ -82,7 +82,7 @@ export const MuteModal: React.FC<Props> = ({
         <div className="flex flex-col w-full p-1">
           <span className="text-lg text-center">{t("mute.playe")}</span>
           <span className="text-xxs text-left mt-2 mb-1">
-            {t("mute.playe.id")}
+            {t("player.farm.iD")}
           </span>
           <input
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"

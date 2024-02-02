@@ -82,7 +82,7 @@ export const Jigger: React.FC<Props> = ({
       <span className="text-center">{t("uhOh")}</span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
       <span className="text-sm mt-2 mb-2">{t("statements.jigger.six")}</span>
-      <span className="text-sm mt-2 mb-2">{t("statements.jigger.seven")}</span>
+      <span className="text-sm mt-2 mb-2">{t("statements.jigger.three")}</span>
       <div className="flex w-full">
         <Button className="mr-2" onClick={onClose}>
           {t("close")}

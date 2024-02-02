@@ -79,7 +79,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{t("introPage.wrongPotion")}</span>
+            <span>{t("statements.potionRule.seven")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img

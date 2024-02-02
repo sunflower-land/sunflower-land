@@ -34,7 +34,7 @@ const QuestCompletion = () => {
   return (
     <div className="p-2">
       <p className="mb-2">{t("piratequest.finestPirate")}</p>
-      <p>{`${t("piratequest.noMoreGifts")}`}</p>
+      <p>{`${t("modalDescription.gift")}`}</p>
     </div>
   );
 };
