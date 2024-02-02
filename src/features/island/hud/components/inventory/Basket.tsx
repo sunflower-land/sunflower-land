@@ -40,6 +40,7 @@ import {
 } from "features/game/types/composters";
 import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
+import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Prop {
@@ -78,10 +79,16 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     selected: InventoryItemName
   ): selected is FruitSeedName => selected in FRUIT_SEEDS();
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
-    isFruitSeed(selected) || selected in CROP_SEEDS();
+    isFruitSeed(selected) ||
+    selected in CROP_SEEDS() ||
+    selected in FLOWER_SEEDS();
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
+    if (seedName in FLOWER_SEEDS()) {
+      return SEEDS()[seedName].plantSeconds;
+    }
+
     if (isFruitSeed(seedName)) {
       return getFruitTime(
         seedName,
@@ -113,8 +120,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const seeds = getItems(CROP_SEEDS());
   const fruitSeeds = getItems(FRUIT_SEEDS());
+  const flowerSeeds = getItems(FLOWER_SEEDS());
   const crops = getItems(CROPS());
   const fruits = getItems(FRUIT());
+  const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS());
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
@@ -132,7 +141,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
   const fish = getItems(FISH);
 
-  const allSeeds = [...seeds, ...fruitSeeds];
+  const allSeeds = [...seeds, ...fruitSeeds, ...flowerSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
 
   const itemsSection = (
@@ -215,6 +224,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
           )}
           {itemsSection(t("crops"), crops, ITEM_DETAILS.Sunflower.image)}
           {itemsSection(t("fruits"), fruits, ITEM_DETAILS["Orange"].image)}
+          {itemsSection(t("flowers"), flowers, SUNNYSIDE.icons.seedling)}
           {itemsSection(
             t("exotics"),
             [...exotic, ...exotics],
