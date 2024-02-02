@@ -22,11 +22,7 @@ export const Blocked: React.FC = () => {
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center ml-8">
-        <img
-          src={humanDeath}
-          alt={t("errorAndAccess.warning")}
-          className="w-full"
-        />
+        <img src={humanDeath} alt={t("warning")} className="w-full" />
       </div>
       <p className="text-center mb-3">
         {t("errorAndAccess.blocked.betaTestersOnly")}
@@ -48,7 +44,7 @@ export const Blocked: React.FC = () => {
         {t("errorAndAccess.instructions.part2")}
       </p>
       <Button onClick={tryAgain} className="overflow-hidden mb-2">
-        <span>{t("errorAndAccess.try.again")}</span>
+        <span>{t("try.again")}</span>
       </Button>
     </div>
   );

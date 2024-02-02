@@ -185,6 +185,7 @@ export type GeneralTerms =
   | "swapping"
   | "syncing"
   | "task"
+  | "thank.you"
   | "tools"
   | "total"
   | "trades"
@@ -965,16 +966,14 @@ export type DiscordBonus =
   | "discord.bonus.freeGift"
   | "discord.bonus.connect";
 
-export type Donation = "donation.one" | "donation.donating" | "donation.Ty";
+export type Donation = "donation.one";
 
 export type ErrorAndAccess =
-  | "errorAndAccess.warning"
   | "errorAndAccess.blocked.betaTestersOnly"
   | "errorAndAccess.denied.message"
   | "errorAndAccess.instructions.part1"
   | "errorAndAccess.sflDiscord"
   | "errorAndAccess.instructions.part2"
-  | "errorAndAccess.try.again"
   | "error.cannotPlaceInside";
 
 export type ErrorTerms =
@@ -1733,14 +1732,11 @@ export type NoTownCenter =
   | "noTownCenter.townCenterPlacement";
 
 export type NotOnDiscordServer =
-  | "notOnDiscordServer.warning"
   | "notOnDiscordServer.intro"
   | "notOnDiscordServer.joinDiscord"
   | "notOnDiscordServer.discordServer"
   | "notOnDiscordServer.completeVerification"
-  | "notOnDiscordServer.acceptRules"
-  | "notOnDiscordServer.tryAgain"
-  | "notOnDiscordServer.tryAgainButton";
+  | "notOnDiscordServer.acceptRules";
 
 export type NPC_MESSAGE =
   //Betty
@@ -2416,7 +2412,6 @@ export type Statements =
   | "statements.switchNetwork"
   | "statements.sync"
   | "statements.tapCont"
-  | "statements.thankYou"
   | "statements.tutorial.one"
   | "statements.tutorial.two"
   | "statements.tutorial.three"
@@ -2485,7 +2480,6 @@ export type TransactionTerms =
   | "transaction.storeProgress.blockchain.two"
   | "transaction.trade.congrats"
   | "transaction.creditCard"
-  | "transaction.donating"
   | "transaction.estimated.fee"
   | "transaction.excludeFees"
   | "transaction.id"

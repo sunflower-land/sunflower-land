@@ -13,11 +13,7 @@ export const NotOnDiscordServer: React.FC = () => {
   return (
     <div className="flex flex-col text-center text-shadow items-center p-1">
       <div className="flex mb-3 items-center ml-8">
-        <img
-          src={humanDeath}
-          alt={t("notOnDiscordServer.warning")}
-          className="w-full"
-        />
+        <img src={humanDeath} alt={t("warning")} className="w-full" />
       </div>
       <p className="text-sm text-center mb-3">
         {t("notOnDiscordServer.intro")}
@@ -38,7 +34,7 @@ export const NotOnDiscordServer: React.FC = () => {
         {t("notOnDiscordServer.completeVerification")}
       </p>
       <p className="mb-1 text-sm">{t("notOnDiscordServer.acceptRules")}</p>
-      <p className="mb-3 text-sm">{t("notOnDiscordServer.tryAgain")}</p>
+      <p className="mb-3 text-sm">{t("try.again")}</p>
 
       <div className="flex w-full">
         <Button
@@ -56,7 +52,7 @@ export const NotOnDiscordServer: React.FC = () => {
             redirectOAuth();
           }}
         >
-          {t("notOnDiscordServer.tryAgainButton")}
+          {t("try.again")}
         </Button>
       </div>
     </div>

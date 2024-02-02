@@ -123,12 +123,12 @@ export const Donations: React.FC = () => {
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">{t("donation.donating")}</p>
+          <p className="loading mb-4">{t("donating")}</p>
         </div>
       )}
       {state.matches("donated") && (
         <div className="flex flex-col items-center">
-          <p className="mb-4">{t("donation.Ty")}</p>
+          <p className="mb-4">{t("thank.you")}</p>
         </div>
       )}
       {state.matches("error") && (

@@ -127,12 +127,12 @@ export const ArcadeDonation: React.FC = () => {
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">{t("transaction.donating")}</p>
+          <p className="loading mb-4">{t("donating")}</p>
         </div>
       )}
       {state.matches("donated") && (
         <div className="flex flex-col items-center">
-          <p className="mb-4">{t("statements.thankYou")}</p>
+          <p className="mb-4">{t("thank.you")}</p>
         </div>
       )}
       {state.matches("error") && (

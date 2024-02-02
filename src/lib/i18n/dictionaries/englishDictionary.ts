@@ -343,6 +343,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "Swapping",
   syncing: "Syncing",
   task: "Task",
+  "thank.you": "Thank you!",
   tools: "Tools",
   total: "Total",
   trades: "Trades",
@@ -1418,13 +1419,9 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "This was a community art initiative and donations are greatly appreciated!",
-
-  "donation.donating": "Donating",
-  "donation.Ty": "Thank you!",
 };
 
 const errorAndAccess: Record<ErrorAndAccess, string> = {
-  "errorAndAccess.warning": "Warning",
   "errorAndAccess.blocked.betaTestersOnly":
     "Access limited to beta testers only",
   "errorAndAccess.denied.message": "You don't have access to the game yet.",
@@ -1432,7 +1429,6 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
   "errorAndAccess.sflDiscord": "Sunflower Land Discord",
   "errorAndAccess.instructions.part2":
     ", go to the #verify channel and have the 'farmer' role.",
-  "errorAndAccess.try.again": "Try Again",
   "error.cannotPlaceInside": "Cannot place inside",
 };
 
@@ -2473,7 +2469,6 @@ const noTownCenter: Record<NoTownCenter, string> = {
 };
 
 const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
-  "notOnDiscordServer.warning": "Warning",
   "notOnDiscordServer.intro":
     "Looks like you haven't joined the Sunflower Land Discord Server yet.",
   "notOnDiscordServer.joinDiscord": "Join our ",
@@ -2481,8 +2476,6 @@ const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
   "notOnDiscordServer.completeVerification":
     "2. Complete verification & get started",
   "notOnDiscordServer.acceptRules": "3. Accept the rules in #rules",
-  "notOnDiscordServer.tryAgain": "4. Try Again",
-  "notOnDiscordServer.tryAgainButton": "Try Again",
 };
 
 const npc_message: Record<NPC_MESSAGE, string> = {
@@ -3561,7 +3554,7 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Please bear with us while we sync all of your data on chain.",
   "statements.tapCont": "Tap to continue",
-  "statements.thankYou": "Thank you!",
+
   "statements.tutorial.one":
     "The boat will take you between islands where you can discover new lands and exciting adventures.",
   "statements.tutorial.two":
@@ -3667,7 +3660,6 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "You need to accept the transaction in the metamask popup to continue.",
   "transaction.noFee":
     "This request will not trigger a blockchain transaction or cost any gas fees.",
-  "transaction.donating": "Donating",
   "transaction.chooseDonationGame":
     "Thank you for your support! Kindly choose the game that you like donate to.",
   "transaction.minblockbucks": "Minimum 5 Block Bucks",
