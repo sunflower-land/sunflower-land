@@ -62,7 +62,7 @@ export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
     },
     {
       icon: powerup,
-      content: "Bee swarms produce additional honey.",
+      content: "Bee swarms give +0.2 boost to any planted crops.",
     },
   ];
 
