@@ -143,9 +143,10 @@ const IslandUpgraderModal: React.FC<{
 
         {!hasAccess && (
           <Label icon={lockIcon} type="danger" className="mr-3 my-2">
-            {gameState.context.state.island.type === "basic"
-              ? "Coming Soon - February 1st"
-              : "Coming Soon - May 1st"}
+            {t("coming.soon") +
+              (gameState.context.state.island.type === "basic"
+                ? " - February 1st"
+                : " - May 1st")}
           </Label>
         )}
       </div>
