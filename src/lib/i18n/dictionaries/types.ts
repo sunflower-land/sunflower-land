@@ -1270,7 +1270,8 @@ export type FlowerShopTerms =
   | "flowerShop.missingPages.sadly"
   | "flowerShop.noFlowers.noTrade"
   | "flowerShop.do.have"
-  | "flowerShop.do.have.trade";
+  | "flowerShop.do.have.trade"
+  | "flowerShop.do.have.trade.one";
 
 export type FoodDescriptions =
   //Fire Pit

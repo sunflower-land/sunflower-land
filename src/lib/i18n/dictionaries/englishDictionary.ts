@@ -1852,7 +1852,8 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
   "flowerShop.noFlowers.noTrade":
     "I'm sorry, I don't have any flowers to trade right now.",
   "flowerShop.do.have": "Do you have a ",
-  "flowerShop.do.have.trade": "you would be willing to trade?",
+  "flowerShop.do.have.trade": "you would trade me?",
+  "flowerShop.do.have.trade.one": "you would be willing to trade?",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
