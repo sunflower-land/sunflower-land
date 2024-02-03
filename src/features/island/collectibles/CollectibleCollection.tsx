@@ -549,8 +549,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * 16 * 2 - 2}px`,
+          left: `${PIXEL_SCALE * -13}px`,
+          top: `${PIXEL_SCALE * 31}px`,
         }}
       >
         <img
@@ -577,8 +577,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * 16 * 2 - 7.5}px`,
+          left: `${PIXEL_SCALE * -13}px`,
+          top: `${PIXEL_SCALE * 29}px`,
         }}
       >
         <img
@@ -609,7 +609,7 @@ export const READONLY_COLLECTIBLES: Record<
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
           left: `${PIXEL_SCALE * -12}px`,
-          top: `${PIXEL_SCALE * 16 * 2 - 13}px`,
+          top: `${PIXEL_SCALE * 27}px`,
         }}
       >
         <img
@@ -636,8 +636,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -15.5}px`,
-          top: `${PIXEL_SCALE * -15.3}px`,
+          left: `${PIXEL_SCALE * -16}px`,
+          top: `${PIXEL_SCALE * -16}px`,
         }}
       >
         <img
@@ -674,8 +674,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * -10 - 2}px`,
+          left: `${PIXEL_SCALE * -13}px`,
+          top: `${PIXEL_SCALE * -11}px`,
         }}
       >
         <img
@@ -713,8 +713,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 4}px`,
           height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * -10 - 2}px`,
+          left: `${PIXEL_SCALE * -13}px`,
+          top: `${PIXEL_SCALE * -11}px`,
         }}
       >
         <img
@@ -751,8 +751,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 3}px`,
           height: `${PIXEL_SCALE * 16 * 3}px`,
-          left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * -10 - 2}px`,
+          left: `${PIXEL_SCALE * -13}px`,
+          top: `${PIXEL_SCALE * -12}px`,
         }}
       >
         <img
@@ -790,8 +790,8 @@ export const READONLY_COLLECTIBLES: Record<
         style={{
           width: `${PIXEL_SCALE * 16 * 4}px`,
           height: `${PIXEL_SCALE * 16 * 4}px`,
-          left: `${PIXEL_SCALE * -12.8}px`,
-          top: `${PIXEL_SCALE * -10 - 2}px`,
+          left: `${PIXEL_SCALE * -13}px`,
+          top: `${PIXEL_SCALE * -11}px`,
         }}
       >
         <img
