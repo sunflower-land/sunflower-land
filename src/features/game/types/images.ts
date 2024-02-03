@@ -2509,8 +2509,7 @@ export const ITEM_DETAILS: Items = {
   },
   Blossombeard: {
     image: blossombeard,
-    description:
-      "The Blossombeard Gnome is a powerful companion for your farming adventures.",
+    description: translate("description.blossombeard"),
   },
   Cobalt: {
     image: cobalt,
@@ -2562,7 +2561,7 @@ export const ITEM_DETAILS: Items = {
   },
   Poppy: {
     image: poppy,
-    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    description: translate("description.poppy.1"),
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
@@ -2570,12 +2569,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Grain Grinder": {
     image: grainGrinder,
-    description:
-      "Grind your grain and experience a delectable surge in Cake XP.",
+    description: translate("description.grain.grinder"),
   },
   Kernaldo: {
     image: kernaldo,
-    description: "The magical corn whisperer. +25% Corn Growth Speed.",
+    description: translate("description.kernaldo.1"),
   },
   Candles: {
     image: candles,
@@ -2857,9 +2855,8 @@ export const ITEM_DETAILS: Items = {
   },
   "Radiant Ray": {
     image: radiantRay,
-    description:
-      "A ray that prefers to glow in the dark, with a shimmering secret to share.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.radiant.ray"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
   "Phantom Barracuda": {
@@ -2870,16 +2867,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
-    description:
-      "A swordfish with scales that sparkle like gold, the ultimate catch!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.gilded.swordfish"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
 
   "Crimson Carp": {
     image: crimsonCarp,
-    description: "A rare, vibrant jewel of the Spring waters.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.crimson.carp"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
 

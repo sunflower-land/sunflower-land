@@ -378,7 +378,9 @@ export type BoostDescriptions =
   | "description.nana"
   | "description.grain.grinder"
   | "description.kernaldo"
+  | "description.kernaldo.1"
   | "description.poppy"
+  | "description.poppy.1"
   | "description.victoria.sisters"
   | "description.undead.rooster"
   | "description.observatory"
@@ -896,6 +898,7 @@ export type DecorationDescriptions =
   | "description.giant.dawn.mushroom"
   | "description.shroom.glow"
   | "description.clementine"
+  | "description.blossombeard"
   | "description.cobalt"
   | "description.hoot"
   | "description.genie.bear"
@@ -1160,7 +1163,8 @@ export type FishDescriptions =
   | "description.starlight.tuna"
   | "description.radiant.ray"
   | "description.phantom.barracuda"
-  | "description.gilded.swordfish";
+  | "description.gilded.swordfish"
+  | "description.crimson.carp";
 
 export type FishermanModal =
   | "fishermanModal.attractFish"

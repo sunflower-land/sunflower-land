@@ -618,7 +618,10 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.grain.grinder":
     "Grind your grain and experience a delectable surge in Cake XP.",
   "description.kernaldo": "The magical corn whisperer.",
+  "description.kernaldo.1":
+    "The magical corn whisperer. +25% Corn Growth Speed.",
   "description.poppy": "The mystical corn kernel.",
+  "description.poppy.1": "The mystical corn kernel. +0.1 Corn per harvest,",
   "description.victoria.sisters": "The pumpkin loving sisters",
   "description.undead.rooster":
     "An unfortunate casualty of the war. 10% increased egg yield.",
@@ -1314,6 +1317,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Illuminate your farm with the enchanting glow of Shroom Glow.",
   "description.clementine":
     "The Clementine Gnome is a cheerful companion for your farming adventures.",
+  "description.blossombeard":
+    "The Blossombeard Gnome is a powerful companion for your farming adventures.",
   "description.cobalt":
     "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
   "description.hoot": "Hoot hoot! Have you solved my riddle yet?",
@@ -1691,6 +1696,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "An elusive and ghostly fish of the deep, hiding in the shadows.",
   "description.gilded.swordfish":
     "A swordfish with scales that sparkle like gold, the ultimate catch!",
+  "description.crimson.carp": "A rare, vibrant jewel of the Spring waters.",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
