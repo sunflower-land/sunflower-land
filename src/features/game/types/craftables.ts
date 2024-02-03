@@ -773,7 +773,7 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
   },
   "Crim Peckster": {
     name: "Crim Peckster",
-    description: "A gem detective with a knack for unearthing Crimstones.",
+    description: translate("description.crim.peckster"),
     type: LimitedItemType.MutantChicken,
   },
 };

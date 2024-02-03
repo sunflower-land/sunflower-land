@@ -48,6 +48,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
+  Flowerbreed,
   FlowerShopTerms,
   FoodDescriptions,
   GameDescriptions,
@@ -604,6 +605,8 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.emerald.turtle":
     "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
   "description.iron.idol": "The Idol adds 1 iron every time you mine iron.",
+  "description.crim.peckster":
+    "A gem detective with a knack for unearthing Crimstones.",
   "description.skill.shrimpy":
     "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
   "description.soil.krabby":
@@ -1353,6 +1356,69 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.Farmhand": "A helpful farmhand",
   "description.Beehive":
     "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+  // Flowers
+  "description.red.pansy": "A red pansy.",
+  "description.yellow.pansy": "A yellow pansy.",
+  "description.purple.pansy": "A purple pansy.",
+  "description.white.pansy": "A white pansy.",
+  "description.blue.pansy": "A blue pansy.",
+
+  "description.red.cosmos": "A red cosmos.",
+  "description.yellow.cosmos": "A yellow cosmos.",
+  "description.purple.cosmos": "A purple cosmos.",
+  "description.white.cosmos": "A white cosmos.",
+  "description.blue.cosmos": "A blue cosmos.",
+
+  "description.red.balloon.flower": "A red balloon flower.",
+  "description.yellow.balloon.flower": "A yellow balloon flower.",
+  "description.purple.balloon.flower": "A purple balloon flower.",
+  "description.white.balloon.flower": "A white balloon flower.",
+  "description.blue.balloon.flower": "A blue balloon flower.",
+
+  "description.red.carnation": "A red carnation.",
+  "description.yellow.carnation": "A yellow carnation.",
+  "description.purple.carnation": "A purple carnation.",
+  "description.white.carnation": "A white carnation.",
+  "description.blue.carnation": "A blue carnation.",
+
+  "description.humming.bird":
+    "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+  "description.queen.bee":
+    "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+  "description.flower.fox":
+    "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+  "description.hungry.caterpillar":
+    "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+  "description.sunrise.bloom.rug":
+    "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+  "description.blossom.royale":
+    "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+  "description.rainbow":
+    "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+  "description.enchanted.rose":
+    "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+  "description.flower.cart":
+    "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+  "description.capybara":
+    "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+  "description.prism.petal":
+    "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  "description.celestial.frostbloom":
+    "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+  "description.primula.enigma":
+    "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+
+  "description.red.daffodil": "A red daffodil.",
+  "description.yellow.daffodil": "A yellow daffodil.",
+  "description.purple.daffodil": "A purple daffodil.",
+  "description.white.daffodil": "A white daffodil.",
+  "description.blue.daffodil": "A blue daffodil.",
+
+  "description.red.lotus": "A red lotus.",
+  "description.yellow.lotus": "A yellow lotus.",
+  "description.purple.lotus": "A purple lotus.",
+  "description.white.lotus": "A white lotus.",
+  "description.blue.lotu": "A blue lotus.",
 
   // Banners
   "description.goblin.war.banner":
@@ -1687,6 +1753,67 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.5.fish": "Catch 5 of every fish",
 };
 
+const flowerbreed: Record<Flowerbreed, string> = {
+  "flower.breed.sunflower": "Bumpkin Botanists swear they're not flowers.",
+  "flower.breed.cauliflower":
+    "Not so sure what the Bumpkin Botanists say about this one.",
+  "flower.breed.beetroot": "It has a beautiful purple color.",
+  "flower.breed.parsnip":
+    "A parsnip might be a good choice to cross breed with.",
+  "flower.breed.eggplant":
+    "Eggplant has a vibrant color, perhaps it will cross breed well.",
+  "flower.breed.radish": "Wow, this radish is red!",
+  "flower.breed.kale": "It's green, but not like the other greens.",
+  "flower.breed.blueberry":
+    "These blueberries are very ripe, I hope they don't stain.",
+  "flower.breed.apple": "Crunchy apples!",
+  "flower.breed.banana": "A bunch of bananas.",
+  "flower.breed.redPansy": "A red pansy.",
+  "flower.breed.yellowPansy": "A yellow pansy.",
+  "flower.breed.purplePansy": "A purple pansy.",
+  "flower.breed.whitePansy":
+    "A white pansy. Devoid of color, I wonder if this is rare.",
+  "flower.breed.bluePansy": "A blue pansy.",
+  "flower.breed.redCosmos": "A red cosmos.",
+  "flower.breed.yellowCosmos": "A yellow cosmos.",
+  "flower.breed.purpleCosmos": "A purple cosmos.",
+  "flower.breed.whiteCosmos": "A white cosmos.",
+  "flower.breed.blueCosmos": "A blue cosmos. Very descriptive.",
+  "flower.breed.prismPetal":
+    "An extremely rare mutation, are you sure you want to cross breed this?",
+  "flower.breed.redBalloonFlower":
+    "Balloon flowers are very pretty. The red ones especially.",
+  "flower.breed.yellowBalloonFlower": "A yellow balloon flower.",
+  "flower.breed.purpleBalloonFlower": "A purple balloon flower.",
+  "flower.breed.whiteBalloonFlower": "A white balloon flower. This is rare.",
+  "flower.breed.blueBalloonFlower":
+    "The most basic of balloon flowers. Nothing to brag about.",
+  "flower.breed.redDaffodil": "",
+  "flower.breed.yellowDaffodil": "",
+  "flower.breed.purpleDaffodil": "",
+  "flower.breed.whiteDaffodil": "",
+  "flower.breed.blueDaffodil": "",
+  "flower.breed.celestialFrostbloom":
+    "An extremely rare mutation. Are you sure you want to cross breed this?",
+  "flower.breed.redCarnation":
+    "Bumpkins value the red carnation for its rarity.",
+  "flower.breed.yellowCarnation":
+    "Bumpkins don't value the yellow carnation for.",
+  "flower.breed.purpleCarnation":
+    "Bumpkins value the purple carnation for its beauty.",
+  "flower.breed.whiteCarnation":
+    "Bumpkins value the yellow carnation for its simplicity.",
+  "flower.breed.blueCarnation":
+    "Bumpkins value the blue carnation for its ability to cross breed with Bloom seeds.",
+  "flower.breed.redLotus": "",
+  "flower.breed.yellowLotus": "",
+  "flower.breed.purpleLotus": "",
+  "flower.breed.whiteLotus": "",
+  "flower.breed.blueLotus": "",
+  "flower.breed.primulaEnigma":
+    "An extremely rare mutation, are you sure you want to cross breed this?",
+};
+
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
   "flowerShop.desired.dreaming": "Oh, I've been dreaming of cultivating a ",
   "flowerShop.desired.delightful": "How delightful it would be to have a ",
@@ -1957,7 +2084,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Nurturing your chickens and collecting their eggs adds a dynamic and rewarding element to your farm in Sunflower Land. Experiment with recipes, make use of the eggs in your crafting endeavors, and enjoy the surprises that come with rare mutant chickens. Build a thriving poultry operation and reap the benefits of your hard work as you embrace the charming world of chickens in Sunflower Land.",
 
   "crafting.guide.one":
-    "In Sunflower Land, crafting NFTs is a crucial aspect of boosting your farming output and accelerating your progress. These special items provide various bonuses, such as crop growth boosts, cooking enhancements, and resource boosts, which can greatly expedite your journey. By maximizing your SFL (Sunflower Token), you can craft tools, gather resources, and expand your land to further establish your farming empire.",
+    "In Sunflower Land, crafting NFTs is a crucial aspect of boosting your farming output and accelerating your progress. These special items provide various bonuses, such as crop growth boosts, cooking enhancements, and resource boosts, which can greatly expedite your journey. By maximizing your SFL (Sunflower Token:  you can craft tools, gather resources, and expand your land to further establish your farming empire.",
   "crafting.guide.two":
     "To begin crafting items, we'll visit Igor, a skilled craftsman in Sunfloria. After hopping on the boat and arriving at Sunfloria, head to the top of the island to have a conversation with Igor. He is currently offering a Basic Scarecrow, which boosts the speed of Sunflowers, Potatoes, and Pumpkins. This is an excellent deal that requires exchanging your resources for the scarecrow. Once obtained, return to your main island and enter design mode by clicking on the white hand icon in the top right corner of the game.",
   "crafting.guide.three":
@@ -3928,6 +4055,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
+  ...flowerbreed,
   ...flowerShopTerms,
   ...foodDescriptions,
   ...garbageCollector,

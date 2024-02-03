@@ -3,6 +3,7 @@ import { getKeys } from "./craftables";
 import { CropName } from "./crops";
 import { FruitName } from "./fruits";
 import { marketRate } from "../lib/halvening";
+import { translate } from "lib/i18n/translate";
 
 type PansyName =
   | "Red Pansy"
@@ -169,56 +170,49 @@ export const FLOWER_CROSS_BREED_AMOUNTS: Record<FlowerCrossBreedName, number> =
 
 export const FLOWER_CROSS_BREED_DETAILS: Record<FlowerCrossBreedName, string> =
   {
-    Sunflower: "Bumpkin Botanists swear they're not flowers.",
-    Cauliflower: "Not so sure what the Bumpkin Botanists say about this one.",
-    Beetroot: "It has a beautiful purple color.",
-    Parsnip: "A parsnip might be a good choice to cross breed with.",
-    Eggplant: "Eggplant has a vibrant color, perhaps it will cross breed well.",
-    Radish: "Wow, this radish is red!",
-    Kale: "It's green, but not like the other greens.",
-    Blueberry: "These blueberries are very ripe, I hope they don't stain.",
-    Apple: "Crunchy apples!",
-    Banana: "A bunch of bananas.",
-    "Red Pansy": "A red pansy.",
-    "Yellow Pansy": "A yellow pansy.",
-    "Purple Pansy": "A purple pansy.",
-    "White Pansy": "A white pansy. Devoid of color, I wonder if this is rare.",
-    "Blue Pansy": "A blue pansy.",
-    "Red Cosmos": "A red cosmos.",
-    "Yellow Cosmos": "A yellow cosmos.",
-    "Purple Cosmos": "A purple cosmos.",
-    "White Cosmos": "A white cosmos.",
-    "Blue Cosmos": "A blue cosmos. Very descriptive.",
-    "Prism Petal":
-      "An extremely rare mutation, are you sure you want to cross breed this?",
-    "Red Balloon Flower":
-      "Ballon flowers are very pretty. The red ones especially.",
-    "Yellow Balloon Flower": "A yellow balloon flower.",
-    "Purple Balloon Flower": "A purple balloon flower.",
-    "White Balloon Flower": "A white balloon flower. This is rare.",
-    "Blue Balloon Flower":
-      "The most basic of balloon flowers. Nothing to brag about.",
-    "Red Daffodil": "",
-    "Yellow Daffodil": "",
-    "Purple Daffodil": "",
-    "White Daffodil": "",
-    "Blue Daffodil": "",
-    "Celestial Frostbloom":
-      "An extremely rare mutation. Are you sure you want to cross breed this?",
-    "Red Carnation": "Bumpkins value the red carnation for its rarity.",
-    "Yellow Carnation": "Bumpkins don't value the yellow carnation for.",
-    "Purple Carnation": "Bumpkins value the purple carnation for its beauty.",
-    "White Carnation":
-      "Bumpkins value the yellow carnation for its simplicity.",
-    "Blue Carnation":
-      "Bumpkins value the blue carnation for its ability to cross breed with Bloom seeds.",
-    "Red Lotus": "",
-    "Yellow Lotus": "",
-    "Purple Lotus": "",
-    "White Lotus": "",
-    "Blue Lotus": "",
-    "Primula Enigma":
-      "An extremely rare mutation, are you sure you want to cross breed this?",
+    Sunflower: translate("flower.breed.sunflower"),
+    Cauliflower: translate("flower.breed.cauliflower"),
+    Beetroot: translate("flower.breed.beetroot"),
+    Parsnip: translate("flower.breed.parsnip"),
+    Eggplant: translate("flower.breed.eggplant"),
+    Radish: translate("flower.breed.radish"),
+    Kale: translate("flower.breed.kale"),
+    Blueberry: translate("flower.breed.blueberry"),
+    Apple: translate("flower.breed.apple"),
+    Banana: translate("flower.breed.banana"),
+    "Red Pansy": translate("flower.breed.redPansy"),
+    "Yellow Pansy": translate("flower.breed.yellowPansy"),
+    "Purple Pansy": translate("flower.breed.purplePansy"),
+    "White Pansy": translate("flower.breed.whitePansy"),
+    "Blue Pansy": translate("flower.breed.bluePansy"),
+    "Red Cosmos": translate("flower.breed.redCosmos"),
+    "Yellow Cosmos": translate("flower.breed.yellowCosmos"),
+    "Purple Cosmos": translate("flower.breed.purpleCosmos"),
+    "White Cosmos": translate("flower.breed.whiteCosmos"),
+    "Blue Cosmos": translate("flower.breed.blueCosmos"),
+    "Prism Petal": translate("flower.breed.prismPetal"),
+    "Red Balloon Flower": translate("flower.breed.redBalloonFlower"),
+    "Yellow Balloon Flower": translate("flower.breed.yellowBalloonFlower"),
+    "Purple Balloon Flower": translate("flower.breed.purpleBalloonFlower"),
+    "White Balloon Flower": translate("flower.breed.whiteBalloonFlower"),
+    "Blue Balloon Flower": translate("flower.breed.blueBalloonFlower"),
+    "Red Daffodil": translate("flower.breed.redDaffodil"),
+    "Yellow Daffodil": translate("flower.breed.yellowDaffodil"),
+    "Purple Daffodil": translate("flower.breed.purpleDaffodil"),
+    "White Daffodil": translate("flower.breed.whiteDaffodil"),
+    "Blue Daffodil": translate("flower.breed.blueDaffodil"),
+    "Celestial Frostbloom": translate("flower.breed.celestialFrostbloom"),
+    "Red Carnation": translate("flower.breed.redCarnation"),
+    "Yellow Carnation": translate("flower.breed.yellowCarnation"),
+    "Purple Carnation": translate("flower.breed.purpleCarnation"),
+    "White Carnation": translate("flower.breed.whiteCarnation"),
+    "Blue Carnation": translate("flower.breed.blueCarnation"),
+    "Red Lotus": translate("flower.breed.redLotus"),
+    "Yellow Lotus": translate("flower.breed.yellowLotus"),
+    "Purple Lotus": translate("flower.breed.purpleLotus"),
+    "White Lotus": translate("flower.breed.whiteLotus"),
+    "Blue Lotus": translate("flower.breed.blueLotus"),
+    "Primula Enigma": translate("flower.breed.primulaEnigma"),
   };
 
 type Flower = {

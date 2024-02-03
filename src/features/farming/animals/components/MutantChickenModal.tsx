@@ -41,7 +41,7 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
     image: bananaChicken,
   },
   "Crim Peckster": {
-    description: "A gem detective with a knack for unearthing Crimstones.",
+    description: translate("description.crim.peckster"),
     image: crimPeckster,
   },
 };

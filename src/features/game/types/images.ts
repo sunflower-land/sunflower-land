@@ -2950,7 +2950,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Crim Peckster": {
     image: crimPeckster,
-    description: "A gem detective with a knack for unearthing Crimstones.",
+    description: translate("description.crim.peckster"),
   },
   "Skill Shrimpy": {
     image: skillShrimpy,
@@ -3031,187 +3031,174 @@ export const ITEM_DETAILS: Items = {
 
   "Red Pansy": {
     image: redPansy,
-    description: "A red pansy.",
+    description: translate("description.red.pansy"),
   },
   "Yellow Pansy": {
     image: yellowPansy,
-    description: "A yellow pansy.",
+    description: translate("description.yellow.pansy"),
   },
   "Purple Pansy": {
     image: purplePansy,
-    description: "A purple pansy.",
+    description: translate("description.purple.pansy"),
   },
   "White Pansy": {
     image: whitePansy,
-    description: "A white pansy.",
+    description: translate("description.white.pansy"),
   },
   "Blue Pansy": {
     image: bluePansy,
-    description: "A blue pansy.",
+    description: translate("description.blue.pansy"),
   },
   "Red Cosmos": {
     image: redCosmos,
-    description: "A red cosmos.",
+    description: translate("description.red.cosmos"),
   },
   "Yellow Cosmos": {
     image: yellowCosmos,
-    description: "A yellow cosmos.",
+    description: translate("description.yellow.cosmos"),
   },
   "Purple Cosmos": {
     image: purpleCosmos,
-    description: "A purple cosmos.",
+    description: translate("description.purple.cosmos"),
   },
   "White Cosmos": {
     image: whiteCosmos,
-    description: "A white cosmos.",
+    description: translate("description.white.cosmos"),
   },
   "Blue Cosmos": {
     image: blueCosmos,
-    description: "A blue cosmos.",
+    description: translate("description.blue.cosmos"),
   },
   "Red Balloon Flower": {
     image: redBalloonFlower,
-    description: "A red balloon flower.",
+    description: translate("description.red.balloon.flower"),
   },
   "Yellow Balloon Flower": {
     image: yellowBalloonFlower,
-    description: "A yellow balloon flower.",
+    description: translate("description.yellow.balloon.flower"),
   },
   "Purple Balloon Flower": {
     image: purpleBalloonFlower,
-    description: "A purple balloon flower.",
+    description: translate("description.purple.balloon.flower"),
   },
   "White Balloon Flower": {
     image: whiteBalloonFlower,
-    description: "A white balloon flower.",
+    description: translate("description.white.balloon.flower"),
   },
   "Blue Balloon Flower": {
     image: blueBalloonFlower,
-    description: "A blue balloon flower.",
+    description: translate("description.blue.balloon.flower"),
   },
   "Red Carnation": {
     image: redCarnation,
-    description: "A red carnation.",
+    description: translate("description.red.carnation"),
   },
   "Yellow Carnation": {
     image: yellowCarnation,
-    description: "A yellow carnation.",
+    description: translate("description.yellow.carnation"),
   },
   "Purple Carnation": {
     image: purpleCarnation,
-    description: "A purple carnation.",
+    description: translate("description.purple.carnation"),
   },
   "White Carnation": {
     image: whiteCarnation,
-    description: "A white carnation.",
+    description: translate("description.white.carnation"),
   },
   "Blue Carnation": {
     image: blueCarnation,
-    description: "A blue carnation.",
+    description: translate("description.blue.carnation"),
   },
   "Humming Bird": {
-    description:
-      "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    description: translate("description.humming.bird"),
     image: hummingBird,
   },
   "Queen Bee": {
-    description:
-      "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    description: translate("description.queen.bee"),
     image: queenBee,
   },
   "Flower Fox": {
-    description:
-      "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    description: translate("description.flower.fox"),
     image: flowerFox,
   },
   "Hungry Caterpillar": {
-    description:
-      "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    description: translate("description.hungry.caterpillar"),
     image: hungryCaterpillar,
   },
   "Sunrise Bloom Rug": {
-    description:
-      "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    description: translate("description.sunrise.bloom.rug"),
     image: sunriseBloomRug,
   },
   "Blossom Royale": {
-    description:
-      "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    description: translate("description.blossom.royale"),
     image: blossomRoyale,
   },
   Rainbow: {
-    description:
-      "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    description: translate("description.rainbow"),
     image: rainbow,
   },
   "Enchanted Rose": {
-    description:
-      "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    description: translate("description.enchanted.rose"),
     image: enchantedRose,
   },
   "Flower Cart": {
-    description:
-      "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    description: translate("description.flower.cart"),
     image: flowerCart,
   },
   Capybara: {
-    description:
-      "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    description: translate("description.capybara"),
     image: capybara,
   },
   "Prism Petal": {
     image: prismPetal,
-    description:
-      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    description: translate("description.prism.petal"),
   },
   "Celestial Frostbloom": {
     image: celestialFrostbloom,
-    description:
-      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    description: translate("description.celestial.frostbloom"),
   },
   "Primula Enigma": {
     image: primulaEnigma,
-    description:
-      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    description: translate("description.primula.enigma"),
   },
   "Red Daffodil": {
     image: redDaffodil,
-    description: "A red daffodil.",
+    description: translate("description.red.daffodil"),
   },
   "Yellow Daffodil": {
     image: yellowDaffodil,
-    description: "A yellow daffodil.",
+    description: translate("description.yellow.daffodil"),
   },
   "Purple Daffodil": {
     image: purpleDaffodil,
-    description: "A purple daffodil.",
+    description: translate("description.purple.daffodil"),
   },
   "White Daffodil": {
     image: whiteDaffodil,
-    description: "A white daffodil.",
+    description: translate("description.white.daffodil"),
   },
   "Blue Daffodil": {
     image: blueDaffodil,
-    description: "A blue daffodil.",
+    description: translate("description.blue.daffodil"),
   },
   "Red Lotus": {
     image: redLotus,
-    description: "A red lotus.",
+    description: translate("description.red.lotus"),
   },
   "Yellow Lotus": {
     image: yellowLotus,
-    description: "A yellow lotus.",
+    description: translate("description.yellow.lotus"),
   },
   "Purple Lotus": {
     image: purpleLotus,
-    description: "A purple lotus.",
+    description: translate("description.purple.lotus"),
   },
   "White Lotus": {
     image: whiteLotus,
-    description: "A white lotus.",
+    description: translate("description.white.lotus"),
   },
   "Blue Lotus": {
     image: blueLotus,
-    description: "A blue lotus.",
+    description: translate("description.blue.lotu"),
   },
 };
