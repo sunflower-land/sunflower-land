@@ -501,7 +501,14 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.ancient.rod.boost"
   | "bumpkinItemBuff.banana.amulet.boost"
   | "bumpkinItemBuff.banana.boost"
-  | "bumpkinItemBuff.deep.sea.helm";
+  | "bumpkinItemBuff.deep.sea.helm"
+  | "bumpkinItemBuff.bee.suit"
+  | "bumpkinItemBuff.crimstone.hammer"
+  | "bumpkinItemBuff.crimstone.amulet"
+  | "bumpkinItemBuff.crimstone.armor"
+  | "bumpkinItemBuff.hornet.mask"
+  | "bumpkinItemBuff.honeycomb.shield"
+  | "bumpkinItemBuff.flower.crown";
 
 export type BumpkinPartRequirements =
   | "equip.missingHair"
@@ -1640,6 +1647,9 @@ export type LostSunflorian =
   | "lostSunflorian.line1"
   | "lostSunflorian.line2"
   | "lostSunflorian.line3";
+
+export type MegaStore = "megaStore.message" | "megaStore.month.sale";
+
 export type MilestoneMessages =
   | "milestone.noviceAngler"
   | "milestone.advancedAngler"
@@ -2678,6 +2688,7 @@ export type TranslationKeys =
   | LevelUpMessages
   | Loser
   | LostSunflorian
+  | MegaStore
   | MilestoneMessages
   | ModalDescription
   | Mute

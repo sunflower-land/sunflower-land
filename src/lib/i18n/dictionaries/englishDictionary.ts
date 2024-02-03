@@ -83,6 +83,7 @@ import {
   LevelUpMessages,
   Loser,
   LostSunflorian,
+  MegaStore,
   ModalDescription,
   Mute,
   Noaccount,
@@ -784,6 +785,13 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananas",
   "bumpkinItemBuff.banana.boost": "+20% Banana Speed",
   "bumpkinItemBuff.deep.sea.helm": "3x chance Marine Marvels",
+  "bumpkinItemBuff.bee.suit": "+0.1 Honey",
+  "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones on 5th mine",
+  "bumpkinItemBuff.crimstone.amulet": "20% Crimstone speed ",
+  "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
+  "bumpkinItemBuff.hornet.mask": "2x chance Bee Swarm",
+  "bumpkinItemBuff.honeycomb.shield": "+1 Honey",
+  "bumpkinItemBuff.flower.crown": "2x flower speed",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
@@ -2365,6 +2373,12 @@ const lostSunflorian: Record<LostSunflorian, string> = {
   "lostSunflorian.line3": "I can't wait to return to Sunfloria.",
 };
 
+const megaStore: Record<MegaStore, string> = {
+  "megaStore.message":
+    "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
+  "megaStore.month.sale": "This month's sales",
+};
+
 const modalDescription: Record<ModalDescription, string> = {
   "modalDescription.friend": "Hey there friend!",
   "modalDescription.love.fruit":
@@ -3370,7 +3384,7 @@ const share: Record<Share, string> = {
   "share.TweetText": "Visit My Sunflower Land Farm",
   "share.ShareYourFarmLink": "Share Your Farm Link",
   "share.ShowOffToFarmers":
-    "Show off to fellow farmers by sharing your farm link (URL), to directly visit your farm!",
+    "Show off to fellow farmers by sharing your farm link (URL: to directly visit your farm!",
   "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
   "share.CopyFarmURL": "Copy farm URL",
   "share.Tweet": "Tweet",
@@ -3929,6 +3943,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...levelUpMessages,
   ...loser,
   ...lostSunflorian,
+  ...megaStore,
   ...milestoneMessages,
   ...modalDescription,
   ...mute,
