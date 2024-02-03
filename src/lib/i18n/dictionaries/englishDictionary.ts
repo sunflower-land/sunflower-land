@@ -1702,6 +1702,8 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
     "Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.",
   "flowerShop.noFlowers.noTrade":
     "I'm sorry, I don't have any flowers to trade right now.",
+  "flowerShop.do.have": "Do you have a ",
+  "flowerShop.do.have.trade": "you would be willing to trade?",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {

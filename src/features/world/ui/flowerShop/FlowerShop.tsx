@@ -81,7 +81,9 @@ export const FlowerShop: React.FC<Props> = ({ onClose }) => {
             text: lostPagesDialogue,
           },
           {
-            text: `Do you have a ${springBlossom.weeklyFlower} you would trade me?`,
+            text: `${translate("flowerShop.do.have")} ${
+              springBlossom.weeklyFlower
+            } ${translate("flowerShop.do.have.trade")}`,
 
             actions: [
               {
