@@ -97,7 +97,7 @@ export const WaterComponent: React.FC<Props> = ({
         />
       </MapPlacement>
 
-      <MapPlacement x={-17} y={19} width={4}>
+      <MapPlacement x={-20} y={6} width={4}>
         <img
           src={mushroomIsland}
           className="absolute"

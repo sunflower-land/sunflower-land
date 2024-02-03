@@ -257,6 +257,36 @@ describe("feedBumpkin", () => {
     );
   });
 
+  it("gives 10% more xp with Blossombeard", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Gumbo: new Decimal(2),
+        },
+        collectibles: {
+          Blossombeard: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Gumbo",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Gumbo"].experience * 1.1
+    );
+  });
+
   it("gives 50% more xp for a fish product if Luminous Anglerfish Topper is equipped", () => {
     const result = feedBumpkin({
       state: {

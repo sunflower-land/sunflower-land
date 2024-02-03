@@ -5,6 +5,8 @@ import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
+import lightning from "assets/icons/lightning.png";
+import crimstone from "assets/resources/crimstone.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 
@@ -69,7 +71,19 @@ export type SoldOutCollectibleName =
   | "Knowledge Crab"
   | "Anchor"
   | "Rubber Ducky"
-  | "Kraken Head";
+  | "Kraken Head"
+  | "Humming Bird"
+  | "Queen Bee"
+  | "Blossom Royale"
+  | "Hungry Caterpillar";
+
+export type MegaStoreCollectibleName =
+  | "Flower Cart"
+  | "Sunrise Bloom Rug"
+  | "Flower Fox"
+  | "Enchanted Rose"
+  | "Capybara"
+  | "Rainbow";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"
@@ -580,6 +594,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+  "Hungry Caterpillar": {
+    shortDescription: "Free flower seeds",
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
 
   // Fruit Boosts
   "Immortal Pear": {
@@ -876,5 +895,22 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: "+0.1 Gold",
     labelType: "success",
     boostTypeIcon: powerup,
+  },
+  "Crimson Carp": {
+    labelType: "success",
+    shortDescription: "+0.05 Crimstone",
+    boostTypeIcon: powerup,
+    boostedItemIcon: crimstone,
+  },
+  Blossombeard: {
+    labelType: "vibrant",
+    shortDescription: "+10% XP",
+    boostTypeIcon: lightning,
+  },
+  "Crim Peckster": {
+    shortDescription: "+0.1 Crimstone",
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: crimstone,
   },
 };

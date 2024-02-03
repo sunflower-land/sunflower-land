@@ -28,7 +28,8 @@ import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FLOWER_SEEDS } from "features/game/types/flowers";
+import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
+import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 
 interface Props {
   onClose: () => void;
@@ -41,7 +42,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
   const { t } = useAppTranslation();
@@ -139,7 +140,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const getPlantSeconds = () => {
     if (selectedName in FLOWER_SEEDS()) {
-      return SEEDS()[selectedName].plantSeconds;
+      return getFlowerTime(selectedName as FlowerSeedName, state);
     }
 
     if (yields && yields in FRUIT())
@@ -240,32 +241,30 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 />
               ))}
           </div>
-          {hasFeatureAccess(state, "FLOWERS") && (
-            <>
-              <Label
-                icon={SUNNYSIDE.icons.seedling}
-                type="default"
-                className="ml-2 mb-1"
-              >
-                {t("flowers")}
-              </Label>
-              <div className="flex flex-wrap mb-2">
-                {seeds
-                  .filter((name) => name in FLOWER_SEEDS())
-                  .map((name: SeedName) => (
-                    <Box
-                      isSelected={selectedName === name}
-                      key={name}
-                      onClick={() => onSeedClick(name)}
-                      image={ITEM_DETAILS[name].image}
-                      showOverlay={isSeedLocked(name)}
-                      secondaryImage={isSeedLocked(name) ? lock : undefined}
-                      count={inventory[name]}
-                    />
-                  ))}
-              </div>
-            </>
-          )}
+          <>
+            <Label
+              icon={SUNNYSIDE.icons.seedling}
+              type="default"
+              className="ml-2 mb-1"
+            >
+              {t("flowers")}
+            </Label>
+            <div className="flex flex-wrap mb-2">
+              {seeds
+                .filter((name) => name in FLOWER_SEEDS())
+                .map((name: SeedName) => (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => onSeedClick(name)}
+                    image={ITEM_DETAILS[name].image}
+                    showOverlay={isSeedLocked(name)}
+                    secondaryImage={isSeedLocked(name) ? lock : undefined}
+                    count={inventory[name]}
+                  />
+                ))}
+            </div>
+          </>
         </div>
       }
     />

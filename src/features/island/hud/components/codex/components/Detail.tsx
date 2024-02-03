@@ -9,6 +9,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -36,7 +37,6 @@ export const Detail: React.FC<Props> = ({
     image,
     description,
     howToGetItem = [],
-    buff,
     itemType,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
@@ -53,6 +53,8 @@ export const Detail: React.FC<Props> = ({
 
     image.src = ITEM_DETAILS[name].image;
   }, []);
+
+  const buff = COLLECTIBLE_BUFF_LABELS[name];
 
   return (
     <div className="p-2 relative">

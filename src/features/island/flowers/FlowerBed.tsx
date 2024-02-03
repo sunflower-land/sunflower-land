@@ -10,7 +10,6 @@ import { useActor } from "@xstate/react";
 import {
   FLOWERS,
   FLOWER_LIFECYCLE,
-  FLOWER_SEEDS,
   FlowerName,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
@@ -23,6 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
+import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 
 interface Props {
   id: string;
@@ -100,7 +100,8 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const flower = flowerBed.flower;
 
   const growTime =
-    FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000;
+    getFlowerTime(FLOWERS[flower.name].seed, gameService.state.context.state) *
+    1000;
   const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
   const timeLeftSeconds = Math.round(timeLeft / 1000);
 
@@ -193,7 +194,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           >
             <ProgressBar
               percentage={growPercentage}
-              seconds={timeLeftSeconds}
+              seconds={!flower.dirty ? timeLeftSeconds : undefined}
               type="progress"
               formatLength="short"
             />

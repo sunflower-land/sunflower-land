@@ -195,4 +195,35 @@ describe("harvestFlower", () => {
 
     expect(state.farmActivity["Red Pansy Harvested"]).toEqual(amount);
   });
+
+  it("updates the discovered flowers", () => {
+    const amount = 1;
+    const flowerBedId = "123";
+    const state = harvestFlower({
+      state: {
+        ...GAME_STATE,
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            [flowerBedId]: {
+              createdAt: 0,
+              height: 0,
+              width: 0,
+              x: 0,
+              y: 0,
+              flower: {
+                amount,
+                name: "Yellow Pansy",
+                crossbreed: "Sunflower",
+                plantedAt: 0,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "flower.harvested", id: flowerBedId },
+    });
+
+    expect(state.flowers.discovered["Yellow Pansy"]).toEqual(["Sunflower"]);
+  });
 });

@@ -39,6 +39,7 @@ export const maxItems: Inventory = {
   "Rich Chicken": new Decimal("5"),
   "Fat Chicken": new Decimal("5"),
   "Banana Chicken": new Decimal("5"),
+  "Crim Peckster": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),
@@ -82,6 +83,9 @@ export const maxItems: Inventory = {
   "Purple Carnation": new Decimal("80"),
   "White Carnation": new Decimal("80"),
   "Blue Carnation": new Decimal("80"),
+  "Prism Petal": new Decimal("80"),
+  "Celestial Frostbloom": new Decimal("80"),
+  "Primula Enigma": new Decimal("80"),
 
   Sunstone: new Decimal("20"),
   Crimstone: new Decimal("40"),
@@ -170,6 +174,7 @@ export const maxItems: Inventory = {
 
   // Seasonal decorations - Dawnbreaker
   Clementine: new Decimal(1),
+  Blossombeard: new Decimal(1),
   Cobalt: new Decimal(1),
   "Eggplant Grill": new Decimal(1),
   "Giant Dawn Mushroom": new Decimal(5),

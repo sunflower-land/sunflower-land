@@ -9,11 +9,15 @@ import { FishermanContainer } from "../containers/FishermanContainer";
 import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
-  {
-    npc: "shelly",
-    x: 402,
-    y: 680,
-  },
+  ...(Date.now() < new Date("2024-02-01").getTime()
+    ? [
+        {
+          npc: "shelly",
+          x: 402,
+          y: 680,
+        } as NPCBumpkin,
+      ]
+    : []),
   {
     npc: "finn",
     x: 94,
@@ -106,7 +110,8 @@ export class BeachScene extends BaseScene {
 
     super.create();
 
-    if (this.gameState.catchTheKraken?.hunger) {
+    const showKraken = Date.now() < new Date("2024-02-01").getTime();
+    if (showKraken && this.gameState.catchTheKraken?.hunger) {
       this.loadKrakenHunger(this.gameState.catchTheKraken?.hunger);
 
       PubSub.subscribe("KRAKEN_HUNGRY", (msg, data) => {
@@ -133,17 +138,19 @@ export class BeachScene extends BaseScene {
         .setCollideWorldBounds(true);
     }
 
-    const kraken = this.add.sprite(308, 755, "kraken");
-    this.anims.create({
-      key: "kraken_anim",
-      frames: this.anims.generateFrameNumbers("kraken", {
-        start: 0,
-        end: 4,
-      }),
-      repeat: -1,
-      frameRate: 5,
-    });
-    kraken.play("kraken_anim", true);
+    if (showKraken) {
+      const kraken = this.add.sprite(308, 755, "kraken");
+      this.anims.create({
+        key: "kraken_anim",
+        frames: this.anims.generateFrameNumbers("kraken", {
+          start: 0,
+          end: 4,
+        }),
+        repeat: -1,
+        frameRate: 5,
+      });
+      kraken.play("kraken_anim", true);
+    }
 
     const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);

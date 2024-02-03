@@ -8,6 +8,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
+import { FLOWER_SEEDS } from "features/game/types/flowers";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -22,6 +23,13 @@ export function getBuyPrice(
   game: GameState,
   bumpkin: Bumpkin
 ) {
+  if (
+    name in FLOWER_SEEDS() &&
+    isCollectibleBuilt({ name: "Hungry Caterpillar", game })
+  ) {
+    return new Decimal(0);
+  }
+
   if (isCollectibleBuilt({ name: "Kuebiko", game })) {
     return new Decimal(0);
   }

@@ -64,6 +64,7 @@ const IslandUpgraderModal: React.FC<{
           <p className="text-sm mb-2">
             Are you sure you want to upgrade to a new island.
           </p>
+
           <p className="text-xs">
             Make sure you do not have any crops, fruit, buildings or chickens in
             progress. These will be returned to your inventory.
@@ -111,8 +112,8 @@ const IslandUpgraderModal: React.FC<{
           grow your farm.
         </p>
         <p className="text-xs mb-2">
-          Would you like to upgrade? Your resources will be safely transferred
-          to your new island.
+          Would you like to upgrade? You will start on a small island with all
+          of your items.
         </p>
         <img
           src={UPGRADE_PREVIEW[gameState.context.state.island.type] as string}

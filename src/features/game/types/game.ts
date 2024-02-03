@@ -20,6 +20,7 @@ import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
   HeliosBlacksmithItem,
+  MegaStoreCollectibleName,
   PotionHouseItemName,
   PurchasableItems,
   SoldOutCollectibleName,
@@ -136,7 +137,8 @@ export type MutantChicken =
   | "Fat Chicken"
   | "Ayam Cemani"
   | "El Pollo Veloz"
-  | "Banana Chicken";
+  | "Banana Chicken"
+  | "Crim Peckster";
 
 export type Coupons =
   | "Gold Pass"
@@ -298,7 +300,8 @@ export type InventoryItemName =
   | CompostName
   | FishName
   | MarineMarvelName
-  | FlowerName;
+  | FlowerName
+  | MegaStoreCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -822,6 +825,7 @@ export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
   amount: number;
+  crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
 };
 

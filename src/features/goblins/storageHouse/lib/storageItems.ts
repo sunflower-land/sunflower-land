@@ -13,7 +13,10 @@ export function getDeliverableItems(inventory: Inventory) {
       const isDeliverable =
         itemName in CROPS() ||
         itemName in FRUIT() ||
-        (itemName in COMMODITIES && itemName !== "Chicken");
+        (itemName in COMMODITIES &&
+          itemName !== "Chicken" &&
+          itemName !== "Crimstone" &&
+          itemName !== "Sunstone");
 
       if (isDeliverable && WITHDRAWABLES[itemName]()) {
         return {

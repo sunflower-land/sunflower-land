@@ -5,6 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import React, { useContext } from "react";
 
@@ -27,10 +28,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel onClose={onClose} title={"Page Found"}>
         <div className="flex flex-col items-center w-full">
           <span>Looks like a page from a gardening book...</span>
-          <img
-            src="public/world/page.png"
-            style={{ width: PIXEL_SCALE * 16 * 2 }}
-          />
+          <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
         </div>
       </CloseButtonPanel>
     );
@@ -39,30 +37,55 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
   if (springBlossom.collectedFlowerPages.length >= 3) {
     return (
       <CloseButtonPanel onClose={onClose} title={"Page Found!"}>
-        <div className="flex flex-col w-full items-center justify-center">
-          <span className="text-sm">
-            Fantastic! Well done finding the last page, you can now grow a{" "}
-            {springBlossom.weeklyFlower}
+        <div className="flex flex-col w-full items-center justify-center gap-2">
+          <span className="text-sm w-full">
+            Fantastic! Well done finding the last page! The pages reveal how to
+            cross breed a new flower!
           </span>
-          <div className="flex w-full mt-2">
-            <img
-              src={SUNNYSIDE.icons.search}
+
+          <div className="flex w-full">
+            <div
+              className="flex items-center"
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
               }}
-            />
-            <span className="pl-2 text-sm">
+            >
+              <img
+                src={ITEM_DETAILS[springBlossom.weeklyFlower].image}
+                style={{
+                  width: `${PIXEL_SCALE * 9}px`,
+                }}
+                className="mr-2"
+              />
+            </div>
+            <span className="text-sm">
+              You now know how to grow a {springBlossom.weeklyFlower}!
+            </span>
+          </div>
+
+          <div className="flex w-full">
+            <div
+              className="flex justify-center"
+              style={{
+                width: `${PIXEL_SCALE * 12}px`,
+              }}
+            >
+              <img
+                src={SUNNYSIDE.icons.search}
+                style={{
+                  width: `${PIXEL_SCALE * 12}px`,
+                }}
+                className="mr-2"
+              />
+            </div>
+            <span className="text-sm">
               Check the Codex to learn more about it!
             </span>
           </div>
-          <img
-            src="public/world/page.png"
-            style={{ width: PIXEL_SCALE * 16 * 2 }}
-          />
 
-          <Label type="success" className="mt-2">
-            All Pages Found!
-          </Label>
+          <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
+
+          <Label type="success">All Pages Found!</Label>
         </div>
       </CloseButtonPanel>
     );
@@ -75,10 +98,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
           Great! This page contains some information about how to grow a{" "}
           {springBlossom.weeklyFlower}!
         </span>
-        <img
-          src="public/world/page.png"
-          style={{ width: PIXEL_SCALE * 16 * 2 }}
-        />
+        <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
         <Label type="info" className="mt-2">
           {springBlossom.collectedFlowerPages.length}/3 Pages Found

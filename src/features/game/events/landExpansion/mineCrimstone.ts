@@ -3,6 +3,7 @@ import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type MineCrimstoneAction = {
   type: "crimstoneRock.mined";
@@ -18,6 +19,21 @@ type Options = {
 export function canMine(rock: Rock, now: number = Date.now()) {
   const recoveryTime = CRIMSTONE_RECOVERY_TIME;
   return now - rock.stone.minedAt > recoveryTime * 1000;
+}
+
+type GetMinedAtArgs = {
+  createdAt: number;
+  game: GameState;
+};
+
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
+  let time = createdAt;
+
+  if (isWearableActive({ name: "Crimstone Amulet", game })) {
+    time -= CRIMSTONE_RECOVERY_TIME * 0.2 * 1000;
+  }
+
+  return time;
 }
 
 export function mineCrimstone({
@@ -61,7 +77,7 @@ export function mineCrimstone({
   const amountInInventory = stateCopy.inventory.Crimstone || new Decimal(0);
 
   rock.stone = {
-    minedAt: createdAt,
+    minedAt: getMinedAt({ createdAt, game: stateCopy }),
     amount: 1,
   };
 

@@ -383,6 +383,24 @@ function springUpgrade(state: GameState) {
     }
   });
 
+  game.airdrops = [
+    ...(game.airdrops ?? []),
+    {
+      id: "spring-upgrade-reward",
+      coordinates: {
+        x: -1,
+        y: 7,
+      },
+      createdAt: 0,
+      items: {
+        Blossombeard: 1,
+      },
+      sfl: 0,
+      wearables: {},
+      message: "Welcome to Petal Paradise!",
+    },
+  ];
+
   return game;
 }
 

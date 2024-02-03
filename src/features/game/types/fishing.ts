@@ -49,7 +49,8 @@ export type MarineMarvelName =
   | "Radiant Ray"
   | "Phantom Barracuda"
   | "Gilded Swordfish"
-  | "Kraken Tentacle";
+  | "Kraken Tentacle"
+  | "Crimson Carp";
 
 export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
   "Fishing Lure": {
@@ -92,6 +93,7 @@ export type Chum = Extract<
   | "Tuna"
   | "Squid"
   | "Wood"
+  | "Red Pansy"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -123,6 +125,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   Tuna: 1,
   Squid: 1,
   Wood: 5,
+  "Red Pansy": 1,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -154,6 +157,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Tuna: "What is big enough to eat a tuna?",
   Squid: "Awaken a ray with its favorite treat!",
   Wood: "Wood. An interesting choice....",
+  "Red Pansy": "Fiery allure for elusive fish.",
 };
 
 export type FishingLocation = "beach" | "wharf";
@@ -345,6 +349,11 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
   "Kraken Tentacle": {
     baits: ["Earthworm", "Grub", "Red Wiggler", "Fishing Lure"],
     type: "expert",
+    locations: ["wharf"],
+  },
+  "Crimson Carp": {
+    baits: ["Grub", "Fishing Lure"],
+    type: "marine marvel",
     locations: ["wharf"],
   },
 };
