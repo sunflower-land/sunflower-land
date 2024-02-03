@@ -90,7 +90,9 @@ const ChumSelection: React.FC<{
             <Label
               type={!hasRequirements ? "danger" : "default"}
               className="mb-1"
-            >{`${CHUM_AMOUNTS[selected]} ${selected} required`}</Label>
+            >{`${CHUM_AMOUNTS[selected]} ${selected} ${t(
+              "select.resource"
+            )}`}</Label>
           </div>
           <p className="text-xs">{CHUM_DETAILS[selected]}</p>
         </div>
@@ -192,7 +194,7 @@ const BaitSelection: React.FC<{
           </div>
 
           <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-            {t("statements.daily.limit")} {dailyFishingCount}/{dailyFishingMax}.
+            {t("statements.daily.limit")} {dailyFishingCount}/{dailyFishingMax}
           </Label>
         </div>
       </div>

@@ -850,7 +850,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.minLevel": "You must be level 10 to trade",
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
-
   "bumpkinTrade.like.list": "What would you like to list",
 };
 
@@ -2153,7 +2152,6 @@ const grubshop: Record<GrubShop, string> = {
   "message.bonusOffer": "Bonus Offer",
   "message.earnSeasonalTickets": "Earn 10 Seasonal Tickets for each meal.",
 };
-("no.have.bumpkin");
 
 const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.approaching": "The Halvening is Approaching!",
