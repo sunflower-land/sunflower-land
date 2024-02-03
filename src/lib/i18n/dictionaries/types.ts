@@ -2177,18 +2177,6 @@ export type NpcDialogues =
 
 export type NyeButton = "plaza.magicButton.query";
 
-export type PirateQuest =
-  | "questDescription.farmerQuest1"
-  | "questDescription.fruitQuest1"
-  | "questDescription.fruitQuest2"
-  | "questDescription.fruitQuest3"
-  | "questDescription.pirateQuest1"
-  | "questDescription.pirateQuest2"
-  | "questDescription.pirateQuest3"
-  | "questDescription.pirateQuest4"
-  | "piratequest.welcome"
-  | "piratequest.finestPirate";
-
 export type ObsessionDialogue =
   | "obsessionDialogue.line1.part1"
   | "obsessionDialogue.line1.part2"
@@ -2252,6 +2240,15 @@ export type OrderHelp =
   | "orderhelp.SkipIn"
   | "orderhelp.NoRight";
 
+export type PageFounds =
+  | "pageFounds.gardeningBookPage"
+  | "pageFounds.lastPageFound"
+  | "pageFounds.knowHowToGrow"
+  | "pageFounds.checkCodex"
+  | "pageFounds.all"
+  | "pageFounds.pageContainsInfo"
+  | "pageFounds";
+
 export type Parsnip =
   | "parsnip.hat"
   | "parsnip.miss"
@@ -2269,6 +2266,18 @@ export type PirateChest =
   | "piratechest.greeting"
   | "piratechest.refreshesIn"
   | "piratechest.warning";
+
+export type PirateQuest =
+  | "questDescription.farmerQuest1"
+  | "questDescription.fruitQuest1"
+  | "questDescription.fruitQuest2"
+  | "questDescription.fruitQuest3"
+  | "questDescription.pirateQuest1"
+  | "questDescription.pirateQuest2"
+  | "questDescription.pirateQuest3"
+  | "questDescription.pirateQuest4"
+  | "piratequest.welcome"
+  | "piratequest.finestPirate";
 
 export type Pickserver =
   | "pickserver.server"
@@ -2815,16 +2824,17 @@ export type TranslationKeys =
   | Npc
   | NpcDialogues
   | NyeButton
-  | PirateQuest
   | ObsessionDialogue
   | Offer
   | Onboarding
   | OnCollectReward
   | OrderHelp
+  | PageFounds
   | Parsnip
   | Pending
   | PersonHood
   | PirateChest
+  | PirateQuest
   | Pickserver
   | PlazaSettings
   | PlayerTrade

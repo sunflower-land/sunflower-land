@@ -97,16 +97,17 @@ import {
   Npc,
   NpcDialogues,
   NyeButton,
-  PirateQuest,
   ObsessionDialogue,
   Offer,
   Onboarding,
   OnCollectReward,
   OrderHelp,
+  PageFounds,
   Parsnip,
   Pending,
   PersonHood,
   PirateChest,
+  PirateQuest,
   Pickserver,
   PlazaSettings,
   PlayerTrade,
@@ -3238,21 +3239,6 @@ const nyeButton: Record<NyeButton, string> = {
     "A magical button has appeared in the plaza. Do you want to press it?",
 };
 
-const pirateQuest: Record<PirateQuest, string> = {
-  "questDescription.farmerQuest1": "Harvest 1000 Sunflowers",
-  "questDescription.fruitQuest1": "Harvest 10 Blueberries",
-  "questDescription.fruitQuest2": "Harvest 100 Oranges",
-  "questDescription.fruitQuest3": "Harvest 750 Apples",
-  "questDescription.pirateQuest1": "Dig 30 holes",
-  "questDescription.pirateQuest2": "Collect 10 Seaweeds",
-  "questDescription.pirateQuest3": "Collect 10 Pipis",
-  "questDescription.pirateQuest4": "Collect 5 Corals",
-  "piratequest.welcome":
-    "Welcome to the high seas of adventure, where ye be tested as a true pirate. Set sail on a journey to find the richest pillage and become the greatest pirate to ever grace the ocean waves.",
-  "piratequest.finestPirate":
-    "Ahoy, ye be the finest pirate on the seven seas with yer loot!!",
-};
-
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
   "obsessionDialogue.line1.part1": "Ah, the",
   "obsessionDialogue.line1.part2":
@@ -3338,6 +3324,18 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.NoRight": "Not Right Now",
 };
 
+const pageFounds: Record<PageFounds, string> = {
+  "pageFounds.gardeningBookPage": "Looks like a page from a gardening book...",
+  "pageFounds.lastPageFound":
+    "Fantastic! Well done finding the last page! The pages reveal how to cross breed a new flower!",
+  "pageFounds.knowHowToGrow": "You now know how to grow a",
+  "pageFounds.checkCodex": "Check the Codex to learn more about it!",
+  "pageFounds.all": "All Pages Found!",
+  "pageFounds.pageContainsInfo":
+    "Great! This page contains some information about how to grow a",
+  pageFounds: "Pages Found",
+};
+
 const parsnip: Record<Parsnip, string> = {
   "parsnip.hat": "Wow, nice horns!",
   "parsnip.miss": "Don't miss out on future events and giveaways!",
@@ -3362,6 +3360,21 @@ const piratechest: Record<PirateChest, string> = {
   "piratechest.refreshesIn": "Chest Refreshes in:",
   "piratechest.warning":
     "Ahoy there! This chest be filled with treasures fit for a pirate king, but beware, only those with a pirate skin can open it and claim the booty within!",
+};
+
+const pirateQuest: Record<PirateQuest, string> = {
+  "questDescription.farmerQuest1": "Harvest 1000 Sunflowers",
+  "questDescription.fruitQuest1": "Harvest 10 Blueberries",
+  "questDescription.fruitQuest2": "Harvest 100 Oranges",
+  "questDescription.fruitQuest3": "Harvest 750 Apples",
+  "questDescription.pirateQuest1": "Dig 30 holes",
+  "questDescription.pirateQuest2": "Collect 10 Seaweeds",
+  "questDescription.pirateQuest3": "Collect 10 Pipis",
+  "questDescription.pirateQuest4": "Collect 5 Corals",
+  "piratequest.welcome":
+    "Welcome to the high seas of adventure, where ye be tested as a true pirate. Set sail on a journey to find the richest pillage and become the greatest pirate to ever grace the ocean waves.",
+  "piratequest.finestPirate":
+    "Ahoy, ye be the finest pirate on the seven seas with yer loot!!",
 };
 
 const pickserver: Record<Pickserver, string> = {
@@ -4125,14 +4138,15 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...onCollectReward,
   ...onboarding,
   ...orderhelp,
+  ...pageFounds,
   ...parsnip,
   ...pending,
   ...personHood,
   ...piratechest,
+  ...pirateQuest,
   ...pickserver,
   ...plazaSettings,
   ...playerTrade,
-  ...pirateQuest,
   ...portal,
   ...purchaseableBaitTranslation,
   ...quest,
