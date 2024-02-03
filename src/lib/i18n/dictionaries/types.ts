@@ -1202,6 +1202,14 @@ export type FishingQuests =
   | "quest.marine.marvel"
   | "quest.5.fish";
 
+export type FlowerBedGuide =
+  | "flowerBedGuide.buySeeds"
+  | "flowerBedGuide.crossbreedWithCrops"
+  | "flowerBedGuide.collectAllSpecies"
+  | "flowerBedGuide.beesProduceHoney"
+  | "flowerBedGuide.fillUpBeehive"
+  | "flowerBedGuide.beeSwarmsBoost";
+
 export type Flowerbreed =
   | "flower.breed.sunflower"
   | "flower.breed.cauliflower"
@@ -2757,6 +2765,7 @@ export type TranslationKeys =
   | FishingChallengeIntro
   | FishingGuide
   | FishingQuests
+  | FlowerBedGuide
   | Flowerbreed
   | FlowerShopTerms
   | FoodDescriptions

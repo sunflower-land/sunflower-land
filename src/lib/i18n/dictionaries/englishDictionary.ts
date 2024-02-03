@@ -48,6 +48,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
+  FlowerBedGuide,
   Flowerbreed,
   FlowerShopTerms,
   FoodDescriptions,
@@ -1751,6 +1752,20 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.1500.fish": "Catch 1500 fish",
   "quest.marine.marvel": "Catch each Marine Marvel",
   "quest.5.fish": "Catch 5 of every fish",
+};
+
+const flowerBedGuide: Record<FlowerBedGuide, string> = {
+  "flowerBedGuide.buySeeds": "Buy seeds from the Seed Shop.",
+  "flowerBedGuide.crossbreedWithCrops":
+    "Crossbreed with crops and other flowers to discover new flowers species.",
+  "flowerBedGuide.collectAllSpecies":
+    "Collect all species of flowers in the Codex!",
+  "flowerBedGuide.beesProduceHoney":
+    "Bees produce honey while flowers are growing.",
+  "flowerBedGuide.fillUpBeehive":
+    "Fill up a beehive completely and collect the honey for a chance of a bee swarm to appear.",
+  "flowerBedGuide.beeSwarmsBoost":
+    "Bee swarms give +0.2 boost to any planted crops.",
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
@@ -4055,6 +4070,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
+  ...flowerBedGuide,
   ...flowerbreed,
   ...flowerShopTerms,
   ...foodDescriptions,

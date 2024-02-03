@@ -7,6 +7,7 @@ import powerup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import bee from "assets/icons/bee.webp";
 import honey from "assets/resources/honey.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -34,35 +35,34 @@ const FlowerBedGuideItem: React.FC<{ icon: string; content: string }> = ({
 };
 
 export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const basicGuide: GuideItem[] = [
     {
       icon: ITEM_DETAILS["Sunpetal Seed"].image,
-      content: "Buy seeds from the Seed Shop.",
+      content: t("flowerBedGuide.buySeeds"),
     },
     {
       icon: ITEM_DETAILS["Sunflower"].image,
-      content:
-        "Crossbreed with crops and other flowers to discover new flowers species.",
+      content: t("flowerBedGuide.crossbreedWithCrops"),
     },
     {
       icon: SUNNYSIDE.icons.search,
-      content: "Collect all species of flowers in the Codex!",
+      content: t("flowerBedGuide.collectAllSpecies"),
     },
   ];
 
   const advancedGuide: GuideItem[] = [
     {
       icon: bee,
-      content: "Bees produce honey while flowers are growing.",
+      content: t("flowerBedGuide.beesProduceHoney"),
     },
     {
       icon: honey,
-      content:
-        "Fill up a beehive completely and collect the honey for a chance of a bee swarm to appear.",
+      content: t("flowerBedGuide.fillUpBeehive"),
     },
     {
       icon: powerup,
-      content: "Bee swarms give +0.2 boost to any planted crops.",
+      content: t("flowerBedGuide.beeSwarmsBoost"),
     },
   ];
 
