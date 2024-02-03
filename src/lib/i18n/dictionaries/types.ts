@@ -1156,6 +1156,17 @@ export type FishingQuests =
   | "quest.marine.marvel"
   | "quest.5.fish";
 
+export type FlowerShopTerms =
+  | "flowerShop.desired.dreaming"
+  | "flowerShop.desired.delightful"
+  | "flowerShop.desired.wonderful"
+  | "flowerShop.desired.setMyHeart"
+  | "flowerShop.missingPages.alas"
+  | "flowerShop.missingPages.cantBelieve"
+  | "flowerShop.missingPages.inABind"
+  | "flowerShop.missingPages.sadly"
+  | "flowerShop.noFlowers.noTrade";
+
 export type FoodDescriptions =
   //Fire Pit
   | "description.pumpkin.soup"
@@ -2653,6 +2664,7 @@ export type TranslationKeys =
   | FishingChallengeIntro
   | FishingGuide
   | FishingQuests
+  | FlowerShopTerms
   | FoodDescriptions
   | GameDescriptions
   | GameTerms

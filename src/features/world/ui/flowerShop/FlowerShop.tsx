@@ -10,19 +10,20 @@ import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
+import { translate } from "lib/i18n/translate";
 
 const desiredFlowerDialogues = (desiredFlowerName: string) => [
-  `Oh, I've been dreaming of cultivating a ${desiredFlowerName}!`,
-  `How delightful it would be to have a ${desiredFlowerName}.`,
-  `How wonderful it would be to have a ${desiredFlowerName}!`,
-  `I've set my heart on growing a ${desiredFlowerName}.`,
+  `${translate("flowerShop.desired.dreaming")} ${desiredFlowerName}!`,
+  `${translate("flowerShop.desired.delightful")} ${desiredFlowerName}.`,
+  `${translate("flowerShop.desired.wonderful")} ${desiredFlowerName}!`,
+  `${translate("flowerShop.desired.setMyHeart")} ${desiredFlowerName}.`,
 ];
 
 const lostPagesDialogues = [
-  `But alas! I've misplaced the pages of my cross-breeding book! They must be in the plaza somewhere.`,
-  `But I can't believe it, the pages with my best hybrid flower recipes are missing. They must be in the plaza somewhere.`,
-  `However, I'm in a bit of a bind – the pages containing my cross-breeding techniques seem to have disappeared. They must be in the plaza somewhere.`,
-  `Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.`,
+  `${translate("flowerShop.missingPages.alas")}.`,
+  `${translate("flowerShop.missingPages.cantBelieve")}`,
+  `${translate("flowerShop.missingPages.inABind")}`,
+  `${translate("flowerShop.missingPages.sadly")}`,
 ];
 
 const _springBlossom = (week: number) => (state: MachineState) =>
@@ -54,7 +55,7 @@ export const FlowerShop: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.poppy}
         message={[
           {
-            text: `I'm sorry, I don't have any flowers to trade right now.`,
+            text: `${translate("flowerShop.noFlowers.noTrade")}.`,
             actions: [
               {
                 text: "Close",

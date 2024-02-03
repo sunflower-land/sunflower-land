@@ -48,6 +48,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
+  FlowerShopTerms,
   FoodDescriptions,
   GameDescriptions,
   GameTerms,
@@ -1684,6 +1685,23 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.1500.fish": "Catch 1500 fish",
   "quest.marine.marvel": "Catch each Marine Marvel",
   "quest.5.fish": "Catch 5 of every fish",
+};
+
+const flowerShopTerms: Record<FlowerShopTerms, string> = {
+  "flowerShop.desired.dreaming": "Oh, I've been dreaming of cultivating a ",
+  "flowerShop.desired.delightful": "How delightful it would be to have a ",
+  "flowerShop.desired.wonderful": "How wonderful it would be to have a ",
+  "flowerShop.desired.setMyHeart": "I've set my heart on growing a ",
+  "flowerShop.missingPages.alas":
+    "But alas! I've misplaced the pages of my cross-breeding book! They must be in the plaza somewhere.",
+  "flowerShop.missingPages.cantBelieve":
+    "But I can't believe it, the pages with my best hybrid flower recipes are missing. They must be in the plaza somewhere.",
+  "flowerShop.missingPages.inABind":
+    "However, I'm in a bit of a bind – the pages containing my cross-breeding techniques seem to have disappeared. They must be in the plaza somewhere.",
+  "flowerShop.missingPages.sadly":
+    "Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.",
+  "flowerShop.noFlowers.noTrade":
+    "I'm sorry, I don't have any flowers to trade right now.",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
@@ -3908,6 +3926,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
+  ...flowerShopTerms,
   ...foodDescriptions,
   ...garbageCollector,
   ...gameDescriptions,
