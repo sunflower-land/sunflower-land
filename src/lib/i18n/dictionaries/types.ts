@@ -129,6 +129,7 @@ export type GeneralTerms =
   | "no.have.bumpkin"
   | "ocean.fishing"
   | "off"
+  | "offer.end"
   | "ok"
   | "on"
   | "open.gift"

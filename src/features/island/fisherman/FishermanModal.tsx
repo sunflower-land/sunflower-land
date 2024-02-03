@@ -270,7 +270,7 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached")} {dailyFishingMax}.
+          {t("fishermanModal.dailyLimitReached")} {dailyFishingMax}
         </Label>
       )}
 

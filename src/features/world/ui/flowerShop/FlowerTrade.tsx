@@ -90,11 +90,10 @@ export const FlowerTrade: React.FC<Props> = ({
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
             <span>
-              {"Offer ends in "}
-              {secondsToString(remainingSecondsInWeek, {
+              {`${t("offer.end")} ${secondsToString(remainingSecondsInWeek, {
                 length: "medium",
                 removeTrailingZeros: true,
-              })}
+              })}`}
             </span>
           </div>
         </Label>

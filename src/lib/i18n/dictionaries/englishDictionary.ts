@@ -291,6 +291,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "no.thanks": "No thanks",
   "ocean.fishing": "Ocean fishing",
   off: "Off",
+  "offer.end": "Offer ends in",
   ok: "OK",
   on: "On",
   "open.gift": "Open Gift",
