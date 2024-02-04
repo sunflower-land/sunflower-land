@@ -105,6 +105,7 @@ export type GeneralTerms =
   | "left"
   | "let'sDoThis"
   | "lets.go"
+  | "limit"
   | "list.trade"
   | "list"
   | "loading"
@@ -1766,7 +1767,11 @@ export type LostSunflorian =
   | "lostSunflorian.line2"
   | "lostSunflorian.line3";
 
-export type MegaStore = "megaStore.message" | "megaStore.month.sale";
+export type MegaStore =
+  | "megaStore.message"
+  | "megaStore.month.sale"
+  | "megaStore.wearable"
+  | "megaStore.collectible";
 
 export type MilestoneMessages =
   | "milestone.noviceAngler"

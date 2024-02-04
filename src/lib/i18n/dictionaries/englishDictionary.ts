@@ -267,6 +267,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   left: "Left",
   "let'sDoThis": "Let's do this!",
   "lets.go": "Let's Go!",
+  limit: "Limit",
   list: "List",
   "list.trade": "List trade",
   loading: "Loading",
@@ -2546,6 +2547,10 @@ const megaStore: Record<MegaStore, string> = {
   "megaStore.message":
     "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
   "megaStore.month.sale": "This month's sales",
+  "megaStore.wearable":
+    "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.",
+  "megaStore.collectible":
+    "Nice buy! Your new collectible is safely stored in your inventory.",
 };
 
 const modalDescription: Record<ModalDescription, string> = {
