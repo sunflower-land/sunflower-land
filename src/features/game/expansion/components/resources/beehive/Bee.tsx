@@ -54,7 +54,7 @@ export const Bee: React.FC<Props> = ({
 
     let flowerDistanceX = 0;
 
-    if (flowerX < hiveX) {
+    if (flowerX <= hiveX) {
       flowerDistanceX =
         -(hiveX - flowerX) * GRID_WIDTH_PX + xOffsetToFlowerPosition;
     }
@@ -66,7 +66,7 @@ export const Bee: React.FC<Props> = ({
 
     let flowerDistanceY = 0;
 
-    if (flowerY < hiveY) {
+    if (flowerY <= hiveY) {
       flowerDistanceY = (hiveY - flowerY) * GRID_WIDTH_PX;
     }
 
