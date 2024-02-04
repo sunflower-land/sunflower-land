@@ -2497,7 +2497,8 @@ export type Offer =
   | "offer.newHere"
   | "offer.getStarted"
   | "offer.NFT.include"
-  | "offer.free";
+  | "offer.free"
+  | "offer.not.enough.BlockBucks";
 
 export type Onboarding =
   | "onboarding.welcome"
@@ -2942,7 +2943,8 @@ export type TransactionTerms =
   | "transaction.displayItems"
   | "transaction.withdraw.polygon"
   | "transaction.termsOfService.one"
-  | "transaction.termsOfService.two";
+  | "transaction.termsOfService.two"
+  | "transaction.buy.BlockBucks";
 
 export type Transfer =
   | "transfer.sure.adress"

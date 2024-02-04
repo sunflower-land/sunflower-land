@@ -3688,6 +3688,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarted": "Get Started Now",
   "offer.NFT.include": "Farm NFT. This will include",
   "offer.free": "free",
+  "offer.not.enough.BlockBucks": "You do not have enough Block Bucks!",
 };
 
 const onboarding: Record<Onboarding, string> = {
@@ -4296,6 +4297,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
   "transaction.termsOfService.two":
     "This step will take you back to your new sequence wallet to accept the terms of service.",
+  "transaction.buy.BlockBucks": "Buy Block Bucks",
 };
 
 const transfer: Record<Transfer, string> = {

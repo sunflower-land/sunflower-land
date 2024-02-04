@@ -18,6 +18,7 @@ import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   show: boolean;
@@ -398,7 +399,7 @@ export const BlockBucksModal: React.FC<Props> = ({
         <CloseButtonPanel
           onBack={closeable && price ? () => setPrice(undefined) : undefined}
           onClose={closeable ? onClose : undefined}
-          title="Buy Block Bucks"
+          title={translate("transaction.buy.BlockBucks")}
           bumpkinParts={{
             body: "Light Brown Farmer Potion",
             hair: "White Long Hair",
