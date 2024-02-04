@@ -132,6 +132,7 @@ const HoarderCheck: React.FC<Props> = ({ network }) => {
 
   return (
     <Panel className="flex flex-col p-1">
+      {network}
       <input
         style={{
           boxShadow: "#b96e50 0px 1px 1px 1px inset",
