@@ -1986,6 +1986,12 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "A ticket used during the Catch the Kraken Season",
   "description.sunflower.supporter":
     "The mark of a true supporter of the game!",
+  "description.arcade.coin":
+    "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+  "description.farmhand.coupon":
+    "A coupon to exchange for a farm hand of your choice.",
+  "description.farmhand": "An adopted Bumpkin on your farm",
+  "description.tulip.bulb": "A ticket used during the Spring Blossom",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

@@ -217,17 +217,16 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: translate("description.community.coin"),
   },
   "Arcade Token": {
-    description:
-      "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+    description: translate("description.arcade.coin"),
   },
   "Farmhand Coupon": {
-    description: "A coupon to exchange for a farm hand of your choice.",
+    description: translate("description.farmhand.coupon"),
   },
   Farmhand: {
-    description: "An adopted Bumpkin on your farm",
+    description: translate("description.farmhand"),
   },
   "Tulip Bulb": {
-    description: "A ticket used during the Spring Blossom",
+    description: translate("description.tulip.bulb"),
   },
 };
 

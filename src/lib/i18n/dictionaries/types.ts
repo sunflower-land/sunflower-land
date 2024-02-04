@@ -1381,6 +1381,10 @@ export type GameDescriptions =
   | "description.crow.feather"
   | "description.mermaid.scale"
   | "description.sunflower.supporter"
+  | "description.arcade.coin"
+  | "description.farmhand.coupon"
+  | "description.farmhand"
+  | "description.tulip.bulb"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
