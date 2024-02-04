@@ -728,7 +728,12 @@ export type CropFruitDescriptions =
   | "description.purple.cauliflower"
   | "description.chiogga"
   | "description.golden.helios"
-  | "description.black.magic";
+  | "description.black.magic"
+
+  //Flower Seed
+  | "description.sunpetal.seed"
+  | "description.bloom.seed"
+  | "description.lily.seed";
 
 export type Deliveryitem =
   | "deliveryitem.inventory"

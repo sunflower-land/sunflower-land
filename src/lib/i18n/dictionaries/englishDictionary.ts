@@ -1096,6 +1096,11 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.chiogga": "A rainbow beet!",
   "description.golden.helios": "Sun-kissed grandeur!",
   "description.black.magic": "A dark and mysterious flower!",
+
+  //Flower Seed
+  "description.sunpetal.seed": "A sunpetal seed",
+  "description.bloom.seed": "A bloom seed",
+  "description.lily.seed": "A lily seed",
 };
 
 const deliveryitem: Record<Deliveryitem, string> = {
