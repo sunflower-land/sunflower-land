@@ -119,7 +119,7 @@ export const beehiveMachine = createMachine<
         id: "honeyReady",
         on: {
           UPDATE_HIVE: {
-            target: "hiveBuzzing",
+            target: "prepareHive",
             actions: "updateHive",
           },
         },
