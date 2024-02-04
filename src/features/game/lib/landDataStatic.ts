@@ -358,6 +358,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Farmhand Coupon": new Decimal(1),
     "Sunpetal Seed": new Decimal(100),
     "White Festive Fox": new Decimal(3),
+    "Red Pansy": new Decimal(3),
+    "White Pansy": new Decimal(3),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
     Carrot: new Decimal(5),
@@ -504,7 +506,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: "betty",
+        from: "pumpkin' pete",
         reward: {
           items: {},
           sfl: 0.12,
@@ -512,6 +514,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         items: {
           Sunflower: 20,
+          "Mushroom Jacket Potatoes": 1,
         },
       },
       {
