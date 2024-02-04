@@ -2314,7 +2314,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Tulip Bulb": {
     image: tulipBulb,
-    description: "A ticket used during the Spring Blossom",
+    description: translate("description.tulip.bulb"),
   },
 
   "Sunflower Supporter": {
