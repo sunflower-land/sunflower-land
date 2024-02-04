@@ -412,10 +412,6 @@ export const GameWrapper: React.FC = ({ children }) => {
         </Panel>
       </Modal>
 
-      <Modal show centered>
-        <BumpkinDelivery />
-      </Modal>
-
       {claimingAuction && <ClaimAuction />}
       {refundAuction && <RefundAuction />}
 

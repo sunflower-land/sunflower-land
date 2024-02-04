@@ -20,6 +20,7 @@ import { Flowers } from "./pages/Flowers";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { Bumpkins } from "./pages/Bumpkins";
 
 interface Props {
   show: boolean;
@@ -36,15 +37,15 @@ export const categories: CodexCategory[] = [
     icon: ITEM_DETAILS["Red Pansy"].image,
   },
   {
+    name: "Bumpkins",
+    icon: SUNNYSIDE.icons.player,
+  },
+  {
     name: "Farming",
     icon: SUNNYSIDE.icons.basket,
     disabled: true,
   },
-  {
-    name: "Bumpkins",
-    icon: SUNNYSIDE.icons.player,
-    disabled: true,
-  },
+
   {
     name: "Treasures",
     icon: SUNNYSIDE.decorations.treasure_chest,
@@ -69,7 +70,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
-  const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
+  const [currentTab, setCurrentTab] = useState<CodexTabIndex>(2);
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
@@ -146,6 +147,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 {currentTab === 1 && (
                   <Flowers onMilestoneReached={handleMilestoneReached} />
                 )}
+                {currentTab === 2 && <Bumpkins />}
               </InnerPanel>
             </div>
           </OuterPanel>
