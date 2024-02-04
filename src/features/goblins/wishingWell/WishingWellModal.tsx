@@ -88,11 +88,13 @@ const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => {
           <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
         </div>
         <p className="mb-4 text-sm">
-          {`There is currently ${Number(
+          {`${t("there.currently")} ${Number(
             fromWei(totalTokensInWell.toString())
-          ).toFixed(2)} SFL worth of rewards in the well!`}
+          ).toFixed(2)} SFL ${t("statements.wishing.well.worthwell")}`}
         </p>
-        <p className="mb-2 text-sm">{`Let's see how lucky you are!`}</p>
+        <p className="mb-2 text-sm">{`${t(
+          "statements.wishing.well.lucky"
+        )}`}</p>
       </div>
       <div className="flex">
         <Button onClick={onClick}>{t("grant.wish")}</Button>
@@ -110,8 +112,8 @@ const ZeroTokens = ({ onClick }: ZeroTokensArgs) => {
           <h1 className="text-lg mb-4 text-center">{t("uhOh")}</h1>
           <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
         </div>
-        <p className="mb-4 text-sm">{t("wishingWell.noReward")}</p>
-        <p className="mb-2 text-sm">{`Grant a new wish and see how lucky you are!`}</p>
+        <p className="mb-4 text-sm">{`${t("wishingWell.noReward")}`}</p>
+        <p className="mb-2 text-sm">{`${t("wishingWell.wish.lucky")}`}</p>
       </div>
       <div className="flex">
         <Button className="whitespace-nowrap" onClick={onClick}>
@@ -135,7 +137,9 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => {
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.comeBackAfter")}</p>
         <p className="mb-4 text-sm">
-          {`Come back in ${lockedTime} to see just how lucky you have been.`}
+          {`${t("come.back")} ${lockedTime} ${t(
+            "statements.wishing.just.lucky"
+          )}`}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.wish.warning.one")}</p>
         <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
@@ -169,14 +173,14 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t("statements.wishing-well.info.four")}
+            {t("statements.wishing.well.info.four")}
           </a>
-          {t("statements.wishing-well.info.five")}
+          {t("statements.wishing.well.info.five")}
         </p>
         <p className="mb-4 text-sm">
-          {`There is currently ${Number(
+          {`${t("there.currently")} ${Number(
             fromWei(totalTokensInWell.toString())
-          ).toFixed(2)} SFL worth of rewards in the well!`}
+          ).toFixed(2)} SFL ${t("statements.wishing.well.worthwell")}`}
         </p>
         <div className="flex justify-center items-center mb-4">
           <img
@@ -192,14 +196,14 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           <p className="mb-2 text-sm">{t("wishingWell.info.three")}</p>
         ) : (
           <p className="mb-2 text-sm">
-            {`It doesn't look like you are `}
+            {`${t("statements.wishing.well.look.like")}`}
             <a
               className="underline"
               href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
               target="_blank"
               rel="noopener noreferrer"
             >
-              {t("statements.wishing-well.info.six")}
+              {t("statements.wishing.well.info.six")}
             </a>
             {` yet.`}
           </p>
