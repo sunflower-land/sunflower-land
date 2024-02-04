@@ -3553,6 +3553,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.catch.the.kraken": "Catch the Kraken",
+  "season.place.land": "You must place it on your land",
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {

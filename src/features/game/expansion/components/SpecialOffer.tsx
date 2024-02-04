@@ -125,7 +125,7 @@ export const PromotingModal: React.FC<Props> = ({
             </ul>
 
             <Label className="my-2" type="default" icon={SUNNYSIDE.icons.drag}>
-              You must place it on your land
+              {t("season.place.land")}
             </Label>
 
             <a

@@ -2409,7 +2409,8 @@ export type SeasonTerms =
   | "season.goodLuck"
   | "season.includes"
   | "season.limitedOffer"
-  | "season.wearableAirdrop";
+  | "season.wearableAirdrop"
+  | "season.place.land";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"
