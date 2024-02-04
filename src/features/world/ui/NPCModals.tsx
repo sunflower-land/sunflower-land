@@ -75,6 +75,8 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         <div
           onMouseDown={(e) => e.stopPropagation()}
           onMouseUp={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
         >
           {npc === "elf" && (
             <CloseButtonPanel

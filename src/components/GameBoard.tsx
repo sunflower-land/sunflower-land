@@ -2,12 +2,8 @@ import React from "react";
 
 import { animated } from "@react-spring/web";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import { useContext } from "react";
-import { ZoomContext } from "./ZoomProvider";
 
 export const GameBoard: React.FC = ({ children }) => {
-  const { scale } = useContext(ZoomContext);
-
   return (
     <>
       <div
@@ -27,7 +23,6 @@ export const GameBoard: React.FC = ({ children }) => {
             left: `-${84 * GRID_WIDTH_PX * 1.5}px`,
             top: `-${56 * GRID_WIDTH_PX * 1.5}px`,
             imageRendering: "pixelated",
-            transform: scale.to((s) => `scale(${s})`),
           }}
         />
       </div>
@@ -37,7 +32,6 @@ export const GameBoard: React.FC = ({ children }) => {
           // TODO - keep same as World width
           width: `${84 * GRID_WIDTH_PX}px`,
           height: `${56 * GRID_WIDTH_PX}px`,
-          transform: scale.to((s) => `scale(${s})`),
         }}
         // TODO dynamic game board size based on tile dimensions
       >
