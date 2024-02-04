@@ -23,7 +23,7 @@ export const CopyAddress: React.FC<{ address: string; showCopy?: boolean }> = ({
       clipboard.copy(address);
 
       setShowLabel(true);
-      setTooltipMessage("Copied!");
+      setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
       setShowLabel(true);
       setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");

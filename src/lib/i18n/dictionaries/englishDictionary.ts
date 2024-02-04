@@ -210,6 +210,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   connecting: "Connecting",
   continue: "Continue",
   cook: "Cook",
+  copied: "copied",
   "copy.address": "Copy Address",
   coupons: "Coupons",
   craft: "Craft",

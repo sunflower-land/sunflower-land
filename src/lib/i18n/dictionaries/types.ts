@@ -48,6 +48,7 @@ export type GeneralTerms =
   | "connecting"
   | "continue"
   | "cook"
+  | "copied"
   | "copy.address"
   | "coupons"
   | "craft"
