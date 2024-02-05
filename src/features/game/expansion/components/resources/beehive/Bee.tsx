@@ -6,6 +6,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { FlowerBed } from "features/game/types/game";
 
 export type Position = {
   x: number;
@@ -18,8 +19,15 @@ interface Props {
   onAnimationEnd: () => void;
 }
 
-const getFlowerById = (id: string) => (state: MachineState) =>
+const getFlowerBedById = (id: string) => (state: MachineState) =>
   state.context.state.flowers.flowerBeds[id];
+
+const compareFlowerBed = (
+  prevFlowerBed: FlowerBed,
+  nextFlowerBed: FlowerBed
+) => {
+  return JSON.stringify(prevFlowerBed) === JSON.stringify(nextFlowerBed);
+};
 
 export const Bee: React.FC<Props> = ({
   hivePosition,
@@ -27,7 +35,11 @@ export const Bee: React.FC<Props> = ({
   onAnimationEnd,
 }) => {
   const { gameService } = useContext(Context);
-  const flower = useSelector(gameService, getFlowerById(flowerId));
+  const flower = useSelector(
+    gameService,
+    getFlowerBedById(flowerId),
+    compareFlowerBed
+  );
   const { x: hiveX, y: hiveY } = hivePosition;
   const { x: flowerX, y: flowerY } = flower;
 
@@ -42,7 +54,7 @@ export const Bee: React.FC<Props> = ({
 
     let flowerDistanceX = 0;
 
-    if (flowerX < hiveX) {
+    if (flowerX <= hiveX) {
       flowerDistanceX =
         -(hiveX - flowerX) * GRID_WIDTH_PX + xOffsetToFlowerPosition;
     }
@@ -54,7 +66,7 @@ export const Bee: React.FC<Props> = ({
 
     let flowerDistanceY = 0;
 
-    if (flowerY < hiveY) {
+    if (flowerY <= hiveY) {
       flowerDistanceY = (hiveY - flowerY) * GRID_WIDTH_PX;
     }
 

@@ -113,11 +113,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     if (showBeeAnimation) return;
     if (!honeyProduced) return;
 
-    if (honeyReady) {
-      handleHarvestHoney();
-      return;
-    }
-
     setShowHoneyLevelModal(true);
   };
 
