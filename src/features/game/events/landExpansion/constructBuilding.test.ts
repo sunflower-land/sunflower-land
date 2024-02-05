@@ -257,6 +257,10 @@ describe("Construct building", () => {
           Radish: new Decimal(50),
           "Basic Land": new Decimal(10),
         },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 1000000,
+        },
         balance: new Decimal(100),
       },
       action: {
@@ -284,6 +288,10 @@ describe("Construct building", () => {
           Wood: new Decimal(20),
           Stone: new Decimal(100),
           "Basic Land": new Decimal(10),
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 1000000,
         },
       },
       action: {

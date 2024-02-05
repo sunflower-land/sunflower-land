@@ -3,6 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -42,10 +43,9 @@ export function constructBuilding({
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
   }
 
-  const landCount = inventory["Basic Land"] ?? new Decimal(0);
-
-  const allowedBuildings = building.filter(({ unlocksAtLevel }) =>
-    landCount.gte(unlocksAtLevel)
+  const allowedBuildings = building.filter(
+    ({ unlocksAtLevel }) =>
+      getBumpkinLevel(bumpkin.experience) >= unlocksAtLevel
   ).length;
 
   const buildingToConstruct = building[buildingNumber];
