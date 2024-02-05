@@ -1912,8 +1912,8 @@ export const BUMPKIN_EXPANSIONS_LEVEL: Record<
   },
   spring: {
     4: 10,
-    5: 12,
-    6: 13,
+    5: 10,
+    6: 10,
     7: 15,
     8: 17,
     9: 20,
