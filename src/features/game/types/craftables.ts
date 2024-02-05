@@ -1259,6 +1259,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Enchanted Rose": { width: 1, height: 2 },
   Capybara: { width: 1, height: 1 },
   Rainbow: { width: 2, height: 1 },
+  "Flower Rug": { width: 3, height: 3 },
   // Flowers
   "Prism Petal": { width: 1, height: 1 },
   "Celestial Frostbloom": { width: 1, height: 1 },
