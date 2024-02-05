@@ -201,7 +201,7 @@ export const Home: React.FC = () => {
                     <InteriorBumpkins game={state} />
                   </div>
                   <Button
-                    className="absolute -bottom-24"
+                    className="absolute -bottom-16"
                     onClick={() => navigate("/")}
                   >
                     Exit

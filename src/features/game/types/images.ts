@@ -81,6 +81,7 @@ import rainbow from "assets/sfts/rainbow.webp";
 import enchantedRose from "assets/sfts/enchanted_rose.webp";
 import flowerCart from "assets/sfts/flower_cart.webp";
 import capybara from "assets/sfts/capybara.webp";
+import flowerRug from "assets/sfts/flower_rug.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3222,6 +3223,10 @@ export const ITEM_DETAILS: Items = {
     description:
       "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
     image: sunriseBloomRug,
+  },
+  "Flower Rug": {
+    description: "Add a touch of nature's elegance to your home.",
+    image: flowerRug,
   },
   "Blossom Royale": {
     description:
