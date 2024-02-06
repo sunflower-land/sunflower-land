@@ -32,9 +32,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { InfoPopover } from "features/island/common/InfoPopover";
+
 import { BeeSwarm } from "./BeeSwarm";
 import { Label } from "components/ui/Label";
 import { SpeakingText } from "features/game/components/SpeakingModal";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: string;
@@ -59,6 +61,7 @@ const _showBeeAnimation = (state: BeehiveMachineState) =>
   state.matches("showBeeAnimation");
 
 export const Beehive: React.FC<Props> = ({ id }) => {
+  const { t } = useAppTranslation();
   const { showTimers, gameService } = useContext(Context);
   const isInitialMount = useRef(true);
   const [showProducingBee, setShowProducingBee] = useState<boolean>();
@@ -266,7 +269,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
               <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
               <span>
-                Honey: {Number(honeyAmount) < 1 ? honeyAmount : "Full"}
+                {t("honey")}: {Number(honeyAmount) < 1 ? honeyAmount : "Full"}
               </span>
             </div>
           </InfoPopover>
@@ -330,7 +333,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </div>
-            <Button onClick={handleHarvestHoney}>Harvest honey</Button>
+            <Button onClick={handleHarvestHoney}>
+              {t("beehive.harvestHoney")}
+            </Button>
           </>
         </Panel>
       </Modal>

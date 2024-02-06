@@ -6,8 +6,10 @@ import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const HeliosSunflower: React.FC = () => {
+  const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
   return (
     <MapPlacement x={0} y={12} height={1} width={1}>
@@ -37,10 +39,8 @@ export const HeliosSunflower: React.FC = () => {
             }}
           />
           <div className="p-2">
-            <p>Clytie the Sunflower</p>
-            <p className="mt-2">
-              Only the true saviour can return and harvest this Sunflower.
-            </p>
+            <p>{t("heliosSunflower.title")}</p>
+            <p className="mt-2">{t("heliosSunflower.description")}</p>
           </div>
         </Panel>
       </Modal>

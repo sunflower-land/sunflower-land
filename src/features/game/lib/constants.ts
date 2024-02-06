@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
+import { translate } from "lib/i18n/translate";
 import {
   Bumpkin,
   GameState,
@@ -417,7 +418,7 @@ export const TEST_FARM: GameState = {
       reward: {
         items: { "Solar Flare Ticket": 1 },
       },
-      description: "Harvest 10 Sunflowers",
+      description: translate("task.harvestSunflowers"),
     },
   },
 
@@ -541,7 +542,7 @@ export const EMPTY: GameState = {
       reward: {
         items: { "Solar Flare Ticket": 1 },
       },
-      description: "Harvest 10 Sunflowers",
+      description: translate("task.harvestSunflowers"),
     },
   },
   trades: {},

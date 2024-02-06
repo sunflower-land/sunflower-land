@@ -7,8 +7,10 @@ import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LostSunflorian: React.FC = () => {
+  const { t } = useAppTranslation();
   const [showModal, setShowModal] = useState(false);
   return (
     <MapPlacement x={-4} y={9} height={1} width={1}>
@@ -58,11 +60,9 @@ export const LostSunflorian: React.FC = () => {
             }}
           />
           <div className="p-2">
-            <p className="mb-4">My father sent me here to rule over Helios.</p>
-            <p className="mb-4">
-              {`Unfortunately, these Bumpkins don't like me watching them.`}
-            </p>
-            <p>{`I can't wait to return to Sunfloria.`}</p>
+            <p className="mb-4">{t("lostSunflorian.line1")}</p>
+            <p className="mb-4">{t("lostSunflorian.line2")}</p>
+            <p>{t("lostSunflorian.line3")}</p>
           </div>
         </Panel>
       </Modal>

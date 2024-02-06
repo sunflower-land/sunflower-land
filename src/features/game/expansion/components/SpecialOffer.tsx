@@ -83,7 +83,7 @@ export const PromotingModal: React.FC<Props> = ({
           <p className="text-sm my-2">{`Are you sure you want to purchase the banner for ${price} Block Bucks?`}</p>
           <div className="flex">
             <Button className="mr-1" onClick={onCloseConfirmation}>
-              {t("noThanks")}
+              {t("no.thanks")}
             </Button>
             <Button
               onClick={() => {
@@ -115,7 +115,7 @@ export const PromotingModal: React.FC<Props> = ({
               />
               <p className="text-sm">{t("season.goodLuck")}</p>
             </div>
-            <p className="text-sm">{t("season.accessTo")}</p>
+            <p className="text-sm">{t("season.access")}</p>
             <ul className="list-disc">
               <li className="text-xs ml-4">{t("season.discount")}</li>
               <li className="text-xs ml-4">{t("season.banner")}</li>
@@ -125,7 +125,7 @@ export const PromotingModal: React.FC<Props> = ({
             </ul>
 
             <Label className="my-2" type="default" icon={SUNNYSIDE.icons.drag}>
-              You must place it on your land
+              {t("season.place.land")}
             </Label>
 
             <a
@@ -134,7 +134,7 @@ export const PromotingModal: React.FC<Props> = ({
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
             >
-              {t("readMore")}
+              {t("read.more")}
             </a>
           </div>
           <div className="flex">
@@ -226,12 +226,12 @@ export const PromotingModal: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
           >
-            {t("readMore")}
+            {t("read.more")}
           </a>
         </div>
         <div className="flex">
           <Button className="mr-1" onClick={onCloseConfirmation}>
-            {t("noThanks")}
+            {t("no.thanks")}
           </Button>
           <Button
             disabled={insuficientBlockBucks}

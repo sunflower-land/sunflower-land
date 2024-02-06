@@ -7,6 +7,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Cake } from "features/game/types/craftables";
 import { FRUIT, FruitName } from "features/game/types/fruits";
+import { translate } from "lib/i18n/translate";
 
 export type SellCropAction = {
   type: "crop.sold";
@@ -34,7 +35,7 @@ export function sellCrop({ state, action }: Options): GameState {
   const { bumpkin } = game;
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!(action.crop in SELLABLE)) {

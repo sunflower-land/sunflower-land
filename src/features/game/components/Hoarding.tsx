@@ -10,8 +10,10 @@ import { InventoryItemName } from "../types/game";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "./modal/ModalProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Hoarding: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
@@ -55,11 +57,9 @@ export const Hoarding: React.FC = () => {
       <div className="flex flex-col items-center p-1">
         <span className="text-center text-sm sm:text-base">{makeTitle()}</span>
         <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
-        <p className="text-xs sm:text-sm mb-3">
-          {`Word is that Goblins are known to raid farms that have an abundance of resources.`}
-        </p>
+        <p className="text-xs sm:text-sm mb-3">{t("warning.hoarding.one")}</p>
         <p className="text-xs sm:text-sm mb-1">
-          {`To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more ${itemName}.`}
+          {t("warning.hoarding.two")} {itemName}
         </p>
         <div className="text-xs underline my-2 w-full">
           <a
@@ -67,11 +67,11 @@ export const Hoarding: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read more
+            {t("read.more")}
           </a>
         </div>
       </div>
-      <Button onClick={sync}>Store progress on chain</Button>
+      <Button onClick={sync}>{t("transaction.storeProgress.chain")}</Button>
     </>
   );
 };

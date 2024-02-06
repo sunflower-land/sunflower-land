@@ -22,6 +22,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   itemsLabel: string;
@@ -64,6 +65,7 @@ export const ItemsList: React.FC<Props> = ({
   };
 
   const sortedItems = items.sort((a, b) => Number(a.price.sub(b.price)));
+  const { t } = useAppTranslation();
 
   return (
     <div className="flex flex-col space-y-2">
@@ -72,7 +74,9 @@ export const ItemsList: React.FC<Props> = ({
       </div>
       <div className="flex gap-2 flex-wrap">
         {sortedItems.length === 0 ? (
-          <span className="text-xxs">{`${itemsLabel} coming soon.`}</span>
+          <span className="text-xxs">{`${itemsLabel} ${t(
+            "coming.soon"
+          )}.`}</span>
         ) : (
           sortedItems.map((item) => {
             const buff = getItemBuffLabel(item);

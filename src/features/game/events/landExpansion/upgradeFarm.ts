@@ -10,6 +10,7 @@ import {
 } from "features/game/types/game";
 
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -397,7 +398,7 @@ function springUpgrade(state: GameState) {
       },
       sfl: 0,
       wearables: {},
-      message: "Welcome to Petal Paradise!",
+      message: translate("islandupgrade.welcomePetalParadise"),
     },
   ];
 

@@ -41,6 +41,7 @@ import {
 import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Prop {
   gameState: GameState;
@@ -51,7 +52,9 @@ interface Prop {
 export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const divRef = useRef<HTMLDivElement>(null);
 
-  const { inventory, buds } = gameState;
+  const { t } = useAppTranslation();
+
+  const { inventory, bumpkin, collectibles, buildings, buds } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
@@ -213,41 +216,45 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
       }
       content={
         <>
-          {itemsSection("Seeds", allSeeds, SUNNYSIDE.icons.seeds)}
+          {itemsSection(t("seeds"), allSeeds, SUNNYSIDE.icons.seeds)}
           {itemsSection(
-            "Fertilisers",
+            t("fertilisers"),
             [...cropCompost, ...fruitCompost, ...fertilisers],
             ITEM_DETAILS["Rapid Root"].image
           )}
-          {itemsSection("Crops", crops, ITEM_DETAILS.Sunflower.image)}
-          {itemsSection("Fruits", fruits, ITEM_DETAILS["Orange"].image)}
-          {itemsSection("Flowers", flowers, SUNNYSIDE.icons.seedling)}
+          {itemsSection(t("crops"), crops, ITEM_DETAILS.Sunflower.image)}
+          {itemsSection(t("fruits"), fruits, ITEM_DETAILS["Orange"].image)}
+          {itemsSection(t("flowers"), flowers, SUNNYSIDE.icons.seedling)}
           {itemsSection(
-            "Exotic",
+            t("exotics"),
             [...exotic, ...exotics],
             ITEM_DETAILS["White Carrot"].image
           )}
-          {itemsSection("Tools", allTools, ITEM_DETAILS["Axe"].image)}
-          {itemsSection("Resources", resources, ITEM_DETAILS["Wood"].image)}
+          {itemsSection(t("tools"), allTools, ITEM_DETAILS["Axe"].image)}
+          {itemsSection(t("resources"), resources, ITEM_DETAILS["Wood"].image)}
           {itemsSection(
-            "Bait",
+            t("bait"),
             [...worm, ...purchaseableBait],
             ITEM_DETAILS["Earthworm"].image
           )}
-          {itemsSection("Fish", fish, ITEM_DETAILS["Anchovy"].image)}
+          {itemsSection(t("fish"), fish, ITEM_DETAILS["Anchovy"].image)}
           {itemsSection(
-            "Foods",
+            t("foods"),
             [...foods, ...pirateCake],
             ITEM_DETAILS["Carrot Cake"].image
           )}
-          {itemsSection("Bounty", bounty, ITEM_DETAILS["Pirate Bounty"].image)}
           {itemsSection(
-            "Coupons",
+            t("bounty"),
+            bounty,
+            ITEM_DETAILS["Pirate Bounty"].image
+          )}
+          {itemsSection(
+            t("coupons"),
             coupons,
             ITEM_DETAILS["Trading Ticket"].image
           )}
           {itemsSection(
-            "Easter Eggs",
+            t("easter.eggs"),
             easterEggs,
             ITEM_DETAILS["Red Egg"].image
           )}

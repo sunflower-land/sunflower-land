@@ -7,6 +7,8 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // UTC
 export function secondsTillReset() {
@@ -26,6 +28,7 @@ interface Props {
   onClose: () => void;
 }
 export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [introDone, setIntroDone] = useState(!!acknowedlgedNPCs()["hank"]);
 
   const close = () => {
@@ -38,13 +41,13 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES["hank"]}
         message={[
           {
-            text: "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tendin' to the land like it's still the good ol' days.",
+            text: translate("hayseedHankv2.greeting"),
           },
           {
-            text: `However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ${getSeasonalTicket()}s.`,
+            text: `${t("hayseedHankv2.dialog2")} ${getSeasonalTicket()}.`,
             actions: [
               {
-                text: "Let's do it",
+                text: translate("hayseedHankv2.action"),
                 cb: () => {
                   setIntroDone(true);
                   acknowledgeNPC("hank");
@@ -60,7 +63,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
 
   return (
     <CloseButtonPanel
-      title="Daily Chores"
+      title={t("hayseedHankv2.title")}
       bumpkinParts={NPC_WEARABLES.hank}
       onClose={close}
     >
@@ -73,16 +76,17 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             <div className="w-6">
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">{`New chores available in ${secondsToString(
-              secondsTillReset(),
-              { length: "full" }
-            )}.`}</span>
+            <span className="text-xs">{`${t(
+              "hayseedHankv2.newChoresAvailable"
+            )} ${secondsToString(secondsTillReset(), {
+              length: "full",
+            })}.`}</span>
           </div>
           <div className="flex items-center ">
             <div className="w-6">
               <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
             </div>
-            <span className="text-xs">You can skip chores each new day.</span>
+            <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
           </div>
         </div>
 

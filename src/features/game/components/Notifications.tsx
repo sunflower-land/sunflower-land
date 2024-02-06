@@ -6,12 +6,14 @@ import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "../lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "../GoblinProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTENT_HEIGHT = 400;
 
 export const Notifications: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
+  const { t } = useAppTranslation();
 
   function onAcknowledge() {
     goblinService.send("REFRESH");
@@ -46,7 +48,7 @@ export const Notifications: React.FC = () => {
           </div>
         ))}
       </div>
-      <Button onClick={onAcknowledge}>Continue</Button>
+      <Button onClick={onAcknowledge}>{t("continue")}</Button>
     </>
   );
 };

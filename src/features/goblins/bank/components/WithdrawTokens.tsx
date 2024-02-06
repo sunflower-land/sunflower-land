@@ -18,6 +18,7 @@ import lightning from "assets/icons/lightning.png";
 
 import { getTax } from "lib/utils/tax";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -25,7 +26,7 @@ interface Props {
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-
+  const { t } = useAppTranslation();
   const { goblinService } = useContext(Context);
   const [
     {
@@ -95,16 +96,16 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     safeAmount(amount).gte(balance) || safeAmount(amount).lt(0);
 
   if (!enabled) {
-    return <span>Available May 9th</span>;
+    return <span>{t("withdraw.available")}</span>;
   }
 
   return (
     <>
       <div className="flex flex-wrap mt-3">
-        <span className="mb-3 text-sm">Choose amount to withdraw</span>
+        <span className="mb-3 text-sm">{t("withdraw.choose")}</span>
       </div>
       <span className="text-sm">
-        {balance.toFixed(2)}SFL is available on-chain
+        {balance.toFixed(2)} {t("withdraw.sfl.available")}
       </span>
 
       <div className="h-16">
@@ -136,7 +137,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
             />
           </div>
           <Button className="w-24 ml-6" onClick={setMax}>
-            Max
+            {t("max")}
           </Button>
         </div>
         {amount.gt(0) && (
@@ -145,14 +146,16 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
               {state.inventory["Liquidity Provider"] && (
                 <img src={lightning} className="h-6" />
               )}
-              <span className="text-xs">{tax}% fee</span>
+              <span className="text-xs">
+                {tax}% {t("fee")}
+              </span>
               <a
                 className="underline ml-2"
                 href="https://docs.sunflower-land.com/fundamentals/withdrawing"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                (Read more)
+                ({t("read.more")})
               </a>
             </span>
           </>
@@ -161,9 +164,10 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
       <div className="flex items-center mt-4">
         <span className="">
-          {`You will receive: ${safeAmount(amount)
+          {t("withdraw.receive")}{" "}
+          {safeAmount(amount)
             .mul((100 - tax) / 100)
-            .toFixed(3)}`}
+            .toFixed(3)}
         </span>
         <img src={token} className="w-4 ml-2 img-highlight" />
       </div>
@@ -171,7 +175,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
       <div className="flex items-center mt-2 mb-2">
         <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
         <div>
-          <p className="text-sm">Sent to your wallet</p>
+          <p className="text-sm">{t("withdraw.send.wallet")}</p>
           <p className="text-sm">{shortAddress(wallet.myAccount || "XXXX")}</p>
         </div>
       </div>

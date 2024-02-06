@@ -24,6 +24,7 @@ import { CollectibleLocation } from "features/game/types/collectibles";
 import { Label } from "components/ui/Label";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   location: CollectibleLocation;
@@ -31,7 +32,7 @@ interface Props {
 export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
   const child = gameService.state.children.landscaping as MachineInterpreter;
-
+  const { t } = useAppTranslation();
   const [
     {
       value,
@@ -147,7 +148,9 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       return (
         <div className="flex justify-center items-center mb-1">
           <img src={image} className="h-6 mr-2 img-highlight" />
-          <p className="text-sm">{`${available.toNumber()} available`}</p>
+          <p className="text-sm">{`${available.toNumber()} ${t(
+            "available"
+          )}`}</p>
         </div>
       );
     }
@@ -190,7 +193,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
             className="mx-auto my-1"
             type="danger"
           >
-            Cannot place inside
+            {t("error.cannotPlaceInside")}
           </Label>
         )}
         <Hint />

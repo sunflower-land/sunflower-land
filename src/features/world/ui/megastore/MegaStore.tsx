@@ -21,6 +21,7 @@ import { useSelector } from "@xstate/react";
 
 import lightning from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -88,7 +89,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     megastore.available.from,
     getTotalSecondsAvailable()
   );
-
+  const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
@@ -97,17 +98,19 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     >
       <div className="relative h-full w-full">
         <div className="flex justify-between px-2 pb-2 bg-brown-300">
-          <Label type="vibrant" icon={lightning}>{`This month's sales`}</Label>
+          <Label type="vibrant" icon={lightning}>{`${t(
+            "megaStore.month.sale"
+          )}`}</Label>
           <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
             {secondsToString(timeRemaining, {
               length: "medium",
               removeTrailingZeros: true,
             })}{" "}
-            left!
+            {t("left")}!
           </Label>
         </div>
         <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">
-          <span className="text-xs pb-2">{`Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.`}</span>
+          <span className="text-xs pb-2">{`${t("megaStore.message")}`}</span>
           {/* Wearables */}
           <ItemsList
             itemsLabel="Wearables"

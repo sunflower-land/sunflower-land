@@ -32,6 +32,7 @@ import { BUILDINGS } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -73,7 +74,7 @@ export const Chest: React.FC<Props> = ({
   const buds = getChestBuds(state);
 
   const chestMap = getChestItems(state);
-
+  const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
     .sort((a, b) => a.localeCompare(b))
     .reduce((acc, item) => {
@@ -125,7 +126,7 @@ export const Chest: React.FC<Props> = ({
           }}
         />
         <span className="text-xs text-center mt-2">
-          Your chest is empty, discover rare items today!
+          {t("statements.empty.chest")}
         </span>
         {onDepositClick && (
           <p
@@ -135,7 +136,7 @@ export const Chest: React.FC<Props> = ({
               closeModal();
             }}
           >
-            Deposit items from your wallet
+            {t("statements.wallet.to.inventory.transfer")}
           </p>
         )}
       </div>
@@ -143,6 +144,7 @@ export const Chest: React.FC<Props> = ({
   }
 
   const PanelContent: React.FC = () => {
+    const { t } = useAppTranslation();
     if (isBudName(selectedChestItem)) {
       const budId = Number(selectedChestItem.split("-")[1]);
       const bud = buds[budId];
@@ -154,7 +156,7 @@ export const Chest: React.FC<Props> = ({
           actionView={
             onPlace && (
               <Button onClick={handlePlace} disabled={isSaving}>
-                {isSaving ? "Saving..." : "Place on map"}
+                {isSaving ? t("saving") : "Place on map"}
               </Button>
             )
           }
@@ -174,7 +176,7 @@ export const Chest: React.FC<Props> = ({
         actionView={
           onPlace && (
             <Button onClick={handlePlace} disabled={isSaving}>
-              {isSaving ? "Saving..." : "Place on map"}
+              {isSaving ? t("saving") : t("place.map")}
             </Button>
           )
         }
@@ -353,7 +355,7 @@ export const Chest: React.FC<Props> = ({
                   closeModal();
                 }}
               >
-                Deposit items from your wallet
+                {t("statements.wallet.to.inventory.transfer")}
               </p>
             </div>
           )}

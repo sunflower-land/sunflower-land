@@ -8,6 +8,7 @@ import { getKeys } from "./craftables";
 import { FishType, FishName, FISH, MarineMarvelName } from "./fishing";
 import { InventoryItemName, GameState } from "./game";
 import { FLOWERS } from "./flowers";
+import { translate } from "lib/i18n/translate";
 
 type FishMilestoneName =
   | "Novice Angler"
@@ -44,7 +45,7 @@ const FISH_BY_TYPE: Record<FishType, (FishName | MarineMarvelName)[]> =
 
 export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
   "Novice Angler": {
-    task: "Catch each basic fish",
+    task: translate("quest.basic.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.basic.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
@@ -60,7 +61,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Advanced Angler": {
-    task: "Catch each advanced fish",
+    task: translate("quest.advanced.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const caughtFish = FISH_BY_TYPE.advanced.filter(
         (name) => (farmActivity[`${name} Caught`] ?? 0) >= 1
@@ -76,7 +77,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Expert Angler": {
-    task: "Catch 300 fish",
+    task: translate("quest.300.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = 300;
 
@@ -92,7 +93,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Fish Encyclopedia": {
-    task: "Discover each basic, advanced, and expert fish",
+    task: translate("quest.all.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
       const totalFishRequired = encyclopediaFish.length;
@@ -110,7 +111,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Master Angler": {
-    task: "Catch 1500 fish",
+    task: translate("quest.1500.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = 1500;
 
@@ -126,7 +127,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Marine Marvel Master": {
-    task: "Catch each Marine Marvel",
+    task: translate("quest.marine.marvel"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const totalFishRequired = FISH_BY_TYPE["marine marvel"].length;
 
@@ -143,7 +144,7 @@ export const FISH_MILESTONES: Record<FishMilestoneName, Milestone> = {
     },
   },
   "Deep Sea Diver": {
-    task: "Catch 5 of every fish",
+    task: translate("quest.5.fish"),
     percentageComplete: (farmActivity: GameState["farmActivity"]) => {
       const encyclopediaFish = getEncyclopediaFish();
 
@@ -245,24 +246,14 @@ export const getExperienceLevelForMilestones = (
 };
 
 export const MILESTONE_MESSAGES: Record<MilestoneName, string> = {
-  "Novice Angler":
-    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching each basic fish.",
-  "Advanced Angler":
-    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching each advanced fish. Keep it up!",
-  "Expert Angler":
-    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 300 fish is no small feat.",
-  "Fish Encyclopedia":
-    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering each basic, advanced, and expert fish is a remarkable achievement.",
-  "Master Angler":
-    "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
-  "Marine Marvel Master":
-    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
-  "Deep Sea Diver":
-    "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
-  "Sunpetal Savant":
-    "Congratulations, you've just reached the Sunpetal Savant milestone! You've discovered each Sunpetal variant. You're a true Sunpetal expert!",
-  "Bloom Big Shot":
-    "Congratulations, you've just reached the Bloom Big Shot milestone! You've discovered each Bloom variant. You're a true Bloom expert!",
-  "Lily Luminary":
-    "Congratulations, you've just reached the Lily Luminary milestone! You've discovered each Lily variant. You're a true Lily expert!",
+  "Novice Angler": translate("milestone.noviceAngler"),
+  "Advanced Angler": translate("milestone.advancedAngler"),
+  "Expert Angler": translate("milestone.expertAngler"),
+  "Fish Encyclopedia": translate("milestone.fishEncyclopedia"),
+  "Master Angler": translate("milestone.masterAngler"),
+  "Marine Marvel Master": translate("milestone.marineMarvelMaster"),
+  "Deep Sea Diver": translate("milestone.deepSeaDiver"),
+  "Sunpetal Savant": translate("milestone.sunpetalSavant"),
+  "Bloom Big Shot": translate("milestone.bloomBigShot"),
+  "Lily Luminary": translate("milestone.lilyLuminary"),
 };

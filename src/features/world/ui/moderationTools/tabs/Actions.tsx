@@ -4,6 +4,7 @@ import { Button } from "components/ui/Button";
 import { MuteModal } from "../components/Mute";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   scene?: any;
@@ -16,6 +17,8 @@ export const Actions: React.FC<Props> = ({
   authState,
   moderatorFarmId,
 }) => {
+  const { t } = useAppTranslation();
+
   const [step, setStep] = useState<"MAIN" | "MUTE" | "LOADING">("MAIN");
 
   return (
@@ -25,18 +28,15 @@ export const Actions: React.FC<Props> = ({
           <div className="flex flex-col gap-2 h-96">
             <div className="flex items-center gap-2">
               <img src={SoundOffIcon} className="w-8 h-8" />
-              <p className="text-sm">Mute a Player</p>
+              <p className="text-sm">{t("mute.playe")}</p>
             </div>
-            <p className="text-xs">
-              In case you need to mute a player that is not online, you can do
-              so here. On their next login, they will be muted.
-            </p>
+            <p className="text-xs">{t("mute.online")}</p>
             <Button
               onClick={() => {
                 setStep("MUTE");
               }}
             >
-              Mute a Player
+              {t("mute.playe")}
             </Button>
           </div>
         )}

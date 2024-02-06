@@ -12,34 +12,36 @@ import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
 
 import { Button } from "components/ui/Button";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const mutants: Record<MutantChicken, Record<string, string>> = {
   "Speed Chicken": {
-    description: "Your chickens will now produce eggs 10% faster.",
+    description: translate("description.speed.chicken.one"),
     image: speedChicken,
   },
   "Fat Chicken": {
-    description: "Your chickens will now require 10% less wheat per feed.",
+    description: translate("description.fat.chicken.one"),
     image: fatChicken,
   },
   "Rich Chicken": {
-    description: "Your chickens will now yield 10% more eggs.",
+    description: translate("description.rich.chicken.one"),
     image: richChicken,
   },
   "Ayam Cemani": {
-    description: "The rarest chicken in existence!",
+    description: translate("description.ayam.cemani"),
     image: ayamCemani,
   },
   "El Pollo Veloz": {
-    description: "Your chickens will lay eggs 4 hours faster!",
+    description: translate("description.el.pollo.veloz.one"),
     image: elPolloVeloz,
   },
   "Banana Chicken": {
-    description: "A chicken that boosts bananas. What a world we live in.",
+    description: translate("description.banana.chicken"),
     image: bananaChicken,
   },
   "Crim Peckster": {
-    description: "A gem detective with a knack for unearthing Crimstones.",
+    description: translate("description.crim.peckster"),
     image: crimPeckster,
   },
 };
@@ -51,6 +53,7 @@ interface Props {
 }
 
 export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
+  const { t } = useAppTranslation();
   return (
     <Modal show={show} centered>
       <Panel>
@@ -59,12 +62,12 @@ export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
           <div className="flex my-4 justify-center">
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>
-          <p className="text-sm mb-2">{`Congratulations, your chicken has laid a very rare mutant chicken!`}</p>
+          <p className="text-sm mb-2">{t("statements.mutant.chicken")}</p>
           <p className="text-sm mb-2">{mutants[type].description}</p>
         </div>
 
         <div className="flex">
-          <Button onClick={onContinue}>Continue</Button>
+          <Button onClick={onContinue}>{t("continue")}</Button>
         </div>
       </Panel>
     </Modal>

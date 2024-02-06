@@ -5,11 +5,15 @@ import {
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 export const Birdie: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+
   const [showFeatherHelp, setShowFeatherHelp] = useState(false);
   const [showSeasonHelp, setShowSeasonHelp] = useState(false);
 
@@ -27,16 +31,26 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         bumpkinParts={NPC_WEARABLES.birdie}
         message={[
           {
-            text: `You can earn ${getSeasonalTicket()}s in a variety of ways.`,
+            text: `${t(
+              "birdieplaza.earnTicketsVariety"
+            )} ${getSeasonalTicket()} ${t(
+              "birdieplaza.earnTicketsVariety.two"
+            )}`, //Translate
           },
           {
-            text: `The most common method to earn ${getSeasonalTicket()}s is by gathering resources and delivering them to Bumpkins in the Plaza.`,
+            text: `${t("birdieplaza.commonMethod")} ${getSeasonalTicket()} ${t(
+              "birdieplaza.commonMethod.two"
+            )}`, //Translate
           },
           {
-            text: `You can also earn ${getSeasonalTicket()}s by completing chores for Hank & claiming daily rewards!`,
+            text: `${t(
+              "birdieplaza.choresAndRewards"
+            )} ${getSeasonalTicket()} ${t("birdieplaza.choresAndRewards.two")}`, //Translate
           },
           {
-            text: `Gather enough ${getSeasonalTicket()}s and you will be able to craft some rare items like me.`,
+            text: `${t(
+              "birdieplaza.gatherAndCraft"
+            )} ${getSeasonalTicket()} ${t("birdieplaza.gatherAndCraft.two")}`, //Translate
           },
         ]}
       />
@@ -53,16 +67,18 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
         key="season"
         message={[
           {
-            text: "Every 3 months a new season is introduced at Sunflower Land.",
+            text: translate("birdieplaza.newSeasonIntro"),
           },
           {
-            text: "This season has exciting quests & rare collectibles you can earn.",
+            text: translate("birdieplaza.seasonQuests"),
           },
           {
-            text: `To craft these items, you must collect ${getSeasonalTicket()}s and exchange them at the shops or the Auction house.`,
+            text: translate("birdieplaza.craftItems"),
             actions: [
               {
-                text: `How do I earn ${getSeasonalTicket()}s?`,
+                text: `${t(
+                  "birdieplaza.howToEarnTickets"
+                )} ${getSeasonalTicket()}?`,
                 cb: () => setShowFeatherHelp(true),
               },
             ],
@@ -81,23 +97,29 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.birdie}
       message={[
         {
-          text: "Hey there, I'm Birdie, the most beautiful Bumpkin around!",
+          text: translate("birdieplaza.birdieIntro"),
         },
         {
-          text: "I noticed you admiring my outfit. Isn't it fantastic?!?",
+          text: translate("birdieplaza.admiringOutfit"),
         },
         {
-          text: `We are currently in ${getCurrentSeason()} Season and Bumpkins are going crazy for ${getSeasonalTicket()}s.`,
+          text: `${t("birdieplaza.currentSeason")} ${getCurrentSeason()} ${t(
+            "birdieplaza.currentSeason.two"
+          )} ${getSeasonalTicket()}`,
         },
         {
-          text: `Collect enough ${getSeasonalTicket()}s and you can craft rare NFTs. That's how I got this rare otuput!`,
+          text: `${t("birdieplaza.collectTickets")} ${getSeasonalTicket()} ${t(
+            "birdieplaza.collectTickets.two"
+          )}`,
           actions: [
             {
-              text: "What is a season?",
+              text: translate("birdieplaza.whatIsSeason"),
               cb: () => setShowSeasonHelp(true),
             },
             {
-              text: `How do I earn ${getSeasonalTicket()}s?`,
+              text: `${t(
+                "birdieplaza.howToEarnTickets"
+              )} ${getSeasonalTicket()}?`,
               cb: () => setShowFeatherHelp(true),
             },
           ],

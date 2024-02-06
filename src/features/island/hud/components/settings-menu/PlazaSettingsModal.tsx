@@ -10,8 +10,12 @@ interface Props {
 }
 
 import SoundOffIcon from "assets/icons/sound_off.png";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useAppTranslation();
+
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
     "MAIN"
   );
@@ -43,11 +47,11 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const getTitle = () => {
     switch (step) {
       case "MAIN":
-        return "Plaza Settings";
+        return translate("plazaSettings.title.main");
       case "MUTED_PLAYERS":
-        return "Muted Players";
+        return translate("plazaSettings.title.mutedPlayers");
       case "KEYBINDS":
-        return "Keybinds";
+        return translate("plazaSettings.title.keybinds");
     }
   };
 
@@ -59,14 +63,15 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 px-1">
                 <img src={SoundOffIcon} className="h-8" />
-                <p className="text-sm">Muted Players</p>
+                <p className="text-sm">
+                  {t("plazaSettings.title.mutedPlayers")}
+                </p>
               </div>
               <p className="text-xs px-1">
-                In case you have muted some players using the /mute command, you
-                can see them here and unmute them if you want.
+                {t("plazaSettings.mutedPlayers.description")}
               </p>
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
-                Muted Players
+                {t("plazaSettings.title.mutedPlayers")}
               </Button>
             </div>
             {/* <div className="flex flex-col gap-2">
@@ -75,7 +80,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 <p className="text-sm">Keybinds</p>
               </div>
               <p className="text-xs">
-                Need to know what keybinds are available? Check them out here.
+                {t"plazaSettings.title.keybinds")}
               </p>
               <Button onClick={() => setStep("KEYBINDS")}>Keybinds</Button>
             </div> */}
@@ -97,19 +102,19 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                         onClick={() => removeMutedPlayer(farmId)}
                         className="w-1/3 text-xs"
                       >
-                        Unmute
+                        {t("unmute")}
                       </Button>
                     </div>
                   ))}
                 </>
               ) : (
                 <p className="text-sm text-center">
-                  You have no muted players.
+                  {t("plazaSettings.noMutedPlayers")}
                 </p>
               )}
             </div>
 
-            <Button onClick={() => setStep("MAIN")}>Back</Button>
+            <Button onClick={() => setStep("MAIN")}>{t("back")}</Button>
           </div>
         )}
       </CloseButtonPanel>

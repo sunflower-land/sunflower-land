@@ -12,6 +12,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onOpenGuide: (guide: GuidePath) => void;
@@ -28,6 +29,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
   task,
   onNeedHelp,
 }) => {
+  const { t } = useAppTranslation();
   const achievement = ACHIEVEMENTS()[task];
   const progress = achievement.progress(state);
 
@@ -80,7 +82,7 @@ export const GuideTask: React.FC<GuideTaskProps> = ({
               onClick={console.log}
             >
               <div className="flex items-center">
-                <span className="text-xs">Claim</span>
+                <span className="text-xs">{t("claim")}</span>
                 <img src={chest} className="h-4 ml-1 relative top-0.5" />
               </div>
             </Button>

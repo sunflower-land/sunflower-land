@@ -18,8 +18,11 @@ import {
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const BeachBaitShop: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const [selectedName, setSelectedName] =
     useState<PurchaseableBait>("Fishing Lure");
   const { gameService, shortcutItem } = useContext(Context);
@@ -66,7 +69,7 @@ export const BeachBaitShop: React.FC = () => {
           }}
           actionView={
             <Button disabled={lessIngredients()} onClick={craft}>
-              Craft
+              {t("craft")}
             </Button>
           }
         />

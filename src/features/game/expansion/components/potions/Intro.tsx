@@ -6,12 +6,14 @@ import { Button } from "components/ui/Button";
 import potionMasterIdleSheet from "assets/npcs/potion_master_sheet_idle.png";
 import { SpringValue } from "react-spring";
 import Spritesheet from "components/animation/SpriteAnimator";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface IntroProps {
   onClose: () => void;
 }
 
 export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [loaded, setLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -42,19 +44,13 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
               />
             )}
           </div>
-          <p>{`Welcome to the Potion Room, my curious apprentice!`}</p>
-          <p>
-            {`I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land! Each attempt will cost 1 SFL.`}
-          </p>
-          <p>
-            {`Your mission: decipher the right combination of potions within the enchanted grid.`}
-          </p>
-          <p>
-            {`Remember, the more correct potions you select, the happier the plant will be, increasing your chances of rare drops!`}
-          </p>
+          <p>{t("introPage.welcome")}</p>
+          <p>{t("introPage.description")}</p>
+          <p>{t("introPage.mission")}</p>
+          <p>{t("introPage.tip")}</p>
         </div>
         <InnerPanel className="text-xxs space-y-1 p-1 mt-1">
-          <p className="mb-2">{`Pay attention to the feedback icons:`}</p>
+          <p className="mb-2">{t("pay.attention.feedback")}</p>
           <div className="flex items-center space-x-1">
             <img
               src={FeedbackIcons["correct"]}
@@ -63,7 +59,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>A perfect potion in the perfect position</span>
+            <span>{t("statements.potionRule.five")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -73,7 +69,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>Correct potion but wrong position</span>
+            <span>{t("statements.potionRule.six")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -83,7 +79,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>Oops, wrong potion</span>
+            <span>{t("statements.potionRule.seven")}</span>
           </div>
           <div className="flex items-center space-x-1">
             <img
@@ -93,11 +89,11 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
                 height: `${PIXEL_SCALE * 8}px`,
               }}
             />
-            <span>{`Beware the "chaos" potion, it shakes things up!`}</span>
+            <span>{t("introPage.chaosPotion")}</span>
           </div>
         </InnerPanel>
       </div>
-      <Button onClick={onClose}>{`Let's play`}</Button>
+      <Button onClick={onClose}>{t("introPage.playButton")}</Button>
     </>
   );
 };

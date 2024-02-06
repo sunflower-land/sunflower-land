@@ -15,11 +15,13 @@ import {
 import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * A test component for collision detection and resource sizing/dimensions
  */
 export const Builder: React.FC = () => {
+  const { t } = useAppTranslation();
   const container = useRef(null);
 
   const [selected, setSelected] = useState<keyof Layout>();
@@ -138,14 +140,14 @@ export const Builder: React.FC = () => {
               })
             }
           >
-            clear
+            {t("clear")}
           </Button>
         </div>
         <div className="absolute bottom-12 right-2 flex z-30">
-          <Button onClick={handlePrint}>Print</Button>
+          <Button onClick={handlePrint}>{t("print")}</Button>
         </div>
         <div className="absolute bottom-2 right-2 flex z-30">
-          <Button onClick={save}>Save</Button>
+          <Button onClick={save}>{t("save")}</Button>
         </div>
         <div className="pointer-events-none">
           <ScrollContainer

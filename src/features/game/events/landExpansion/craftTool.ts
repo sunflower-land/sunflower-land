@@ -15,6 +15,7 @@ import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
+import { translate } from "lib/i18n/translate";
 
 type CraftableToolName =
   | WorkbenchToolName
@@ -54,7 +55,7 @@ export function craftTool({ state, action }: Options) {
   }
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
   const price = tool.sfl.mul(amount);
 

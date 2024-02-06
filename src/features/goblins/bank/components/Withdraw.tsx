@@ -16,11 +16,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import token from "assets/icons/token_2.png";
 import { WithdrawBuds } from "./WithdrawBuds";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
@@ -128,12 +130,9 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   if (!goblinState.context.verified) {
     return (
       <>
-        <p className="text-sm p-1 m-1">
-          Proof of humanity is needed for this feature. Please take a quick
-          selfie.
-        </p>
+        <p className="text-sm p-1 m-1">{t("withdraw.proof")}</p>
         <Button className="mr-1" onClick={proovePersonhood}>
-          Start Verification
+          {t("withdraw.verification")}
         </Button>
       </>
     );
@@ -148,9 +147,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           onExpired={() => setShowCaptcha(false)}
           className="w-full m-4 flex items-center justify-center"
         />
-        <p className="text-xs p-1 m-1 text-center">
-          Any unsaved progress will be lost.
-        </p>
+        <p className="text-xs p-1 m-1 text-center">{t("withdraw.unsave")}</p>
       </>
     );
   }
@@ -158,9 +155,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="p-2 flex flex-col justify-center space-y-1">
-        <span className="text-shadow text-sm mb-1">
-          You can only withdraw items that you have synced to the blockchain.
-        </span>
+        <span className="text-shadow text-sm mb-1">{t("withdraw.sync")}</span>
         <div className="flex space-x-1">
           <Button onClick={() => setPage("tokens")}>
             <div className="flex">

@@ -8,6 +8,7 @@ import { getChestBuds, getChestItems } from "./inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BudName } from "features/game/types/buds";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   show: boolean;
@@ -36,7 +37,7 @@ export const LandscapingChest: React.FC<Props> = ({
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: chest, name: "Chest" }]}
+        tabs={[{ icon: chest, name: translate("chest") }]}
         currentTab={0}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}

@@ -2,6 +2,7 @@ import React from "react";
 
 import { Modal } from "react-bootstrap";
 import { HowToModalHeader } from "features/island/hud/components/settings-menu/howToPlay/HowToModalHeader";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -9,28 +10,29 @@ interface Props {
 }
 
 export const LetsGo: React.FC<Props> = ({ onClose, onBack }) => {
+  const { t } = useAppTranslation();
+
   return (
     <>
       <HowToModalHeader
-        title="Time to play!"
+        title={t("letsGo.title")}
         onClose={onClose}
         onBack={onBack}
       />
       <Modal.Body>
         <p className="text-xs p-2 sm:text-sm text-center">
-          Thanks for playing beta! We are still working on the game and
-          appreciate your support during the early stages!
+          {t("letsGo.description")}
         </p>
 
         <p className="text-xs p-2 sm:text-sm text-center">
-          You can read more about the game in the{" "}
+          {t("letsGo.readMore")}
           <a
             className="text-xs sm:text-sm underline"
             href="https://docs.sunflower-land.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            official docs
+            {t("letsGo.officialDocs")}
           </a>
           .
         </p>

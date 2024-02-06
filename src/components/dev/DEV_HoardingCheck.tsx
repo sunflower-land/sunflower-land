@@ -7,12 +7,14 @@ import GameABI from "lib/blockchain/abis/SunflowerLandGame.json";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   network: "mainnet" | "mumbai";
 }
 
 const HoarderCheck: React.FC<Props> = ({ network }) => {
+  const { t } = useAppTranslation();
   const [loading, setLoading] = useState(false);
   const [farmId, setFarmId] = useState("");
   const [inventoryLimits, setInventoryLimits] = useState<string[]>([]);
@@ -127,7 +129,7 @@ const HoarderCheck: React.FC<Props> = ({ network }) => {
   }
 
   if (loading) {
-    return <Panel>Loading...</Panel>;
+    return <Panel>{t("loading")}</Panel>;
   }
 
   return (
@@ -149,7 +151,7 @@ const HoarderCheck: React.FC<Props> = ({ network }) => {
         }
       />
       {inventoryLimits.length === 0 && wardrobeLimits.length === 0 && (
-        <div>No Limits Exceeded</div>
+        <div>{t("no.limits.exceeded")}</div>
       )}
       {inventoryLimits.map((limit) => (
         <div key={limit}>{limit}</div>
@@ -159,7 +161,7 @@ const HoarderCheck: React.FC<Props> = ({ network }) => {
       ))}
 
       <Button onClick={search} className="pt-2">
-        Check
+        {t("check")}
       </Button>
     </Panel>
   );

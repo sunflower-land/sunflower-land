@@ -4,6 +4,7 @@ import { Button } from "components/ui/Button";
 
 import { DeliverItems } from "./DeliverItems";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: () => void;
@@ -11,6 +12,7 @@ interface Props {
 
 export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
   const [isTalking, setIsTalking] = useState(true);
+  const { t } = useAppTranslation();
 
   if (isTalking) {
     return (
@@ -21,12 +23,10 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
             className="h-16 my-2 running relative left-1/4"
           />
           <div className="flex flex-col space-y-3">
-            <span className="text-sm">Want me to deliver resources?</span>
+            <span className="text-sm">{t("delivery.ressource")}</span>
+            <span className="text-sm">{t("delivery.feed")}</span>
             <span className="text-sm">
-              {"It ain't free, I've got a tribe to feed!"}
-            </span>
-            <span className="text-sm">
-              {"I'll take 30% of the resources for the "}
+              {t("delivery.fee")}
               <a
                 className="underline"
                 href="https://docs.sunflower-land.com/economy/goblin-community-treasury"
@@ -39,7 +39,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
             </span>
           </div>
         </div>
-        <Button onClick={() => setIsTalking(false)}>Continue</Button>
+        <Button onClick={() => setIsTalking(false)}>{t("continue")}</Button>
       </>
     );
   }

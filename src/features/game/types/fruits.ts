@@ -5,6 +5,7 @@
 import Decimal from "decimal.js-light";
 import { marketRate } from "../lib/halvening";
 import { getKeys } from "./craftables";
+import { translate } from "lib/i18n/translate";
 
 export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
 
@@ -30,28 +31,28 @@ export function isFruitSeed(seed: FruitSeedName) {
 export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   "Blueberry Seed": {
     sfl: marketRate(30),
-    description: "A Goblin's weakness",
+    description: translate("description.blueberry"),
     plantSeconds: 6 * 60 * 60,
     bumpkinLevel: 13,
     yield: "Blueberry",
   },
   "Orange Seed": {
     sfl: marketRate(50),
-    description: "Vitamin C to keep your Bumpkin Healthy",
+    description: translate("description.orange"),
     plantSeconds: 8 * 60 * 60,
     bumpkinLevel: 14,
     yield: "Orange",
   },
   "Apple Seed": {
     sfl: marketRate(70),
-    description: "Perfect for homemade Apple Pie",
+    description: translate("description.apple"),
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 15,
     yield: "Apple",
   },
   "Banana Plant": {
     sfl: marketRate(70),
-    description: "Oh banana!",
+    description: translate("description.banana"),
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 16,
     yield: "Banana",
@@ -70,7 +71,7 @@ export type Fruit = {
 
 export const FRUIT: () => Record<FruitName, Fruit> = () => ({
   Blueberry: {
-    description: "A Goblin's weakness",
+    description: translate("description.blueberry"),
     name: "Blueberry",
     sellPrice: marketRate(12),
     isBush: true,
@@ -78,21 +79,21 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     bumpkinLevel: 13,
   },
   Orange: {
-    description: "Vitamin C to keep your Bumpkin Healthy",
+    description: translate("description.orange"),
     name: "Orange",
     sellPrice: marketRate(18),
     seed: "Orange Seed",
     bumpkinLevel: 14,
   },
   Apple: {
-    description: "Perfect for homemade Apple Pie",
+    description: translate("description.apple"),
     name: "Apple",
     sellPrice: marketRate(25),
     seed: "Apple Seed",
     bumpkinLevel: 15,
   },
   Banana: {
-    description: "Oh banana!",
+    description: translate("description.banana"),
     name: "Banana",
     sellPrice: marketRate(25),
     isBush: true,

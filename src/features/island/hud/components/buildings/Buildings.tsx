@@ -16,6 +16,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -46,7 +47,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
   const { inventory } = state;
-
+  const { t } = useAppTranslation();
   const buildingBlueprints = BUILDINGS()[selectedName];
   const buildingUnlockLevels = buildingBlueprints.map(
     ({ unlocksAtLevel }) => unlocksAtLevel
@@ -115,7 +116,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     if (nextLockedLevel && hasMaxNumberOfBuildings) return landLocked();
 
     if (isAlreadyCrafted) {
-      return <p className="text-xxs text-center mb-1">Already crafted!</p>;
+      return <p className="text-xxs text-center mb-1">{t("alr.crafted")}</p>;
     }
 
     return (
@@ -123,7 +124,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         disabled={lessIngredients() || state.balance.lt(sfl)}
         onClick={craft}
       >
-        Build
+        {t("build")}
       </Button>
     );
   };

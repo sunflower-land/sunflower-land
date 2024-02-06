@@ -10,8 +10,11 @@ import { MachineInterpreter as BuyingMachineInterpreter } from "./lib/buyingMach
 import { Idle } from "./components/Idle";
 import { Confirming } from "./components/Confirming";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Buying: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -57,7 +60,7 @@ export const Buying: React.FC = () => {
   }
 
   if (machine.matches("loadingFarm")) {
-    return <span className="loading m-2">Loading</span>;
+    return <span className="loading m-2">{t("loading")}</span>;
   }
 
   // This should never show, call the parent machine to exit.
@@ -69,9 +72,11 @@ export const Buying: React.FC = () => {
           alt="alert"
           className="mr-2 w-6"
         />
-        <span className="text-xs">{"Something went wrong!"}</span>
+        <span className="text-xs">{t("error.wentWrong")}</span>
       </div>
-      <Button onClick={() => tradingPostService.send("CLOSE")}>Close</Button>
+      <Button onClick={() => tradingPostService.send("CLOSE")}>
+        {t("close")}
+      </Button>
     </>
   );
 };

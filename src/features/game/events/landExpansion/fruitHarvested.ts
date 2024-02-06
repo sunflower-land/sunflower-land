@@ -19,6 +19,7 @@ import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
 import { getPlantedAt } from "./fruitPlanted";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -133,7 +134,7 @@ export function harvestFruit({
   const { fruitPatches, bumpkin, collectibles } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const patch = fruitPatches[action.index];

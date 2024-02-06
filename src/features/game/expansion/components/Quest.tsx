@@ -17,6 +17,7 @@ import { Loading } from "features/auth/components";
 import { Panel } from "components/ui/Panel";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import { Minting } from "features/game/components/Minting";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -35,6 +36,8 @@ export const Quest: React.FC<Props> = ({
   bumpkinParts,
   questCompletionScreen,
 }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -92,7 +95,7 @@ export const Quest: React.FC<Props> = ({
           <div className="p-2 flex flex-col justify-center">
             {questDescription}
           </div>
-          <Button onClick={() => send("CONTINUE")}>Continue</Button>
+          <Button onClick={() => send("CONTINUE")}>{t("continue")}</Button>
         </>
       );
     }
@@ -144,7 +147,7 @@ export const Quest: React.FC<Props> = ({
               to equip this item
             </p>
           </div>
-          <Button onClick={() => send("CONTINUE")}>Continue</Button>
+          <Button onClick={() => send("CONTINUE")}>{t("continue")}</Button>
         </>
       );
     }

@@ -16,6 +16,7 @@ import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
 
 interface ClaimRewardProps {
@@ -29,6 +30,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   onClaim,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const itemNames = getKeys(airdrop.items);
 
   const { showAnimations } = useContext(Context);
@@ -45,7 +47,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Reward Discovered
+          {t("reward.discovered")}
         </Label>
         {airdrop.message && (
           <p className="text-xs mb-2 ml-1">{airdrop.message}</p>
@@ -58,7 +60,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <Label type="warning">
                   {setPrecision(new Decimal(airdrop.sfl)).toString()} SFL
                 </Label>
-                <p className="text-xs">Spend it wisely.</p>
+                <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>
             </div>
           )}
@@ -112,7 +114,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   <Label type="default">{`${setPrecision(
                     new Decimal(airdrop.wearables[name] ?? 1)
                   ).toString()} x ${name}`}</Label>
-                  <p className="text-xs">A wearable for your Bumpkin</p>
+                  <p className="text-xs">{t("reward.wearable")}</p>
                 </div>
               </div>
             ))}
@@ -120,10 +122,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
       </div>
 
       <div className="flex items-center mt-1">
-        {onClose && <Button onClick={onClose}>Close</Button>}
+        {onClose && <Button onClick={onClose}>{t("close")}</Button>}
         {onClaim && (
           <Button onClick={onClaim} className="ml-1">
-            Claim
+            {t("claim")}
           </Button>
         )}
       </div>

@@ -4,10 +4,11 @@ import { Button } from "components/ui/Button";
 import { Context } from "../lib/Provider";
 import { OfferItems } from "./Offer";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const CreateWallet = () => {
   const { authService } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const handleBack = () => {
     authService.send("BACK");
   };
@@ -23,15 +24,13 @@ export const CreateWallet = () => {
           />
           <div className="flex items-center mb-2">
             <img src={SUNNYSIDE.ui.green_bar_2} className="h-5 mr-2" />
-            <span className="text-xs">Step 1/3</span>
+            <span className="text-xs">{t("onboarding.step.one")}</span>
           </div>
         </div>
-        <p className="mb-3">Welcome to decentralized gaming!</p>
-        <p className="text-sm text-white mb-2">
-          {`In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.`}
-        </p>
+        <p className="mb-3">{t("onboarding.welcome")}</p>
+        <p className="text-sm text-white mb-2">{t("onboarding.intro.one")}</p>
         <p className="text-sm text-white mt-2 mb-2">
-          {`To begin your journey, your wallet will receive:`}
+          {t("onboarding.intro.two")}
         </p>
         <OfferItems />
       </div>
@@ -39,7 +38,9 @@ export const CreateWallet = () => {
         onClick={() => {
           authService.send("CONTINUE");
         }}
-      >{`Let's go`}</Button>
+      >
+        {t("lets.go")}
+      </Button>
     </>
   );
 };

@@ -8,41 +8,42 @@ import greenBottle from "assets/decorations/green_bottle.webp";
 import mustardBottle from "assets/decorations/mustard_bottle.webp";
 import whiteBottle from "assets/decorations/white_bottle.webp";
 import { PotionName } from "features/game/types/game";
+import { translate } from "lib/i18n/translate";
 
 export const POTIONS: Record<PotionName, Potion> = {
   "Bloom Boost": {
     name: "Bloom Boost",
     image: orangeBottle,
-    description: "Ignite your plants with vibrant blooms!",
+    description: translate("BloomBoost.description"),
   },
   "Dream Drip": {
     name: "Dream Drip",
     image: mustardBottle,
-    description: "Drizzle your plants with magical dreams and fantasies.",
+    description: translate("DreamDrip.description"),
   },
   "Earth Essence": {
     name: "Earth Essence",
     image: pinkBottle,
-    description: "Harness the power of the earth to nurture your plants.",
+    description: translate("EarthEssence.description"),
   },
   "Flower Power": {
     name: "Flower Power",
     image: blackBottle,
-    description: "Unleash a burst of floral energy upon your plants.",
+    description: translate("FlowerPower.description"),
   },
   "Silver Syrup": {
     name: "Silver Syrup",
     image: whiteBottle,
-    description: "A sweet syrup to bring out the best in your plants.",
+    description: translate("SilverSyrup.description"),
   },
   "Happy Hooch": {
     name: "Happy Hooch",
     image: blueBottle,
-    description: "A potion to bring joy and laughter to your plants.",
+    description: translate("HappyHooch.description"),
   },
   "Organic Oasis": {
     name: "Organic Oasis",
     image: greenBottle,
-    description: "Create a lush, organic paradise for your plants.",
+    description: translate("OrganicOasis.description"),
   },
 };

@@ -23,6 +23,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ItemOverlayProps {
   item: WearablesItem | CollectiblesItem | null;
@@ -122,7 +123,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       });
     }
   };
-
+  const { t } = useAppTranslation();
   const handleBuy = () => {
     if (!item) return;
 
@@ -141,10 +142,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const getSuccessCopy = () => {
     if (isWearable) {
-      return "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.";
+      return t("megaStore.wearable");
     }
 
-    return "Nice buy! Your new collectible is safely stored in your inventory.";
+    return t("megaStore.collectible");
   };
 
   const balanceOfItem = getBalanceOfItem(item);
@@ -157,11 +158,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         <Label
           type="danger"
           className="absolute bottom-1 right-1 text-xxs"
-        >{`Limit: ${balanceOfItem}/${item.limit}`}</Label>
+        >{`${t("limit")}: ${balanceOfItem}/${item.limit}`}</Label> //t
       );
     }
 
-    <span className="absolute bottom-1 right-2 text-xxs">{`Limit: ${balanceOfItem}/${item.limit}`}</span>;
+    <span className="absolute bottom-1 right-2 text-xxs">{`${t(
+      "limit"
+    )}: ${balanceOfItem}/${item.limit}`}</span>; //t
   };
 
   const currency =
@@ -247,14 +250,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             )}
           </div>
           {!showSuccess && (
-            <Button disabled={!canBuy()} onClick={handleBuy}>{`Buy ${
+            <Button disabled={!canBuy()} onClick={handleBuy}>{`${t("buy")} ${
               isWearable ? "wearable" : "collectible"
             }`}</Button>
           )}
           {showSuccess && (
             <div className="flex flex-col space-y-1">
               <span className="p-2 text-xs">{getSuccessCopy()}</span>
-              <Button onClick={onClose}>Ok</Button>
+              <Button onClick={onClose}>{t("ok")}</Button>
             </div>
           )}
         </>

@@ -9,6 +9,7 @@ import farmImg from "assets/brand/nft.png";
 import { CopyField } from "components/ui/CopyField";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
+  const { t } = useAppTranslation();
   const farmUrl = window.location.href.replace("/land", "/visit");
 
   const handleTweetClick = () => {
@@ -31,7 +33,7 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal show={isOpen} onHide={onClose} centered>
       <Panel>
         <Modal.Header className="justify-content-space-between">
-          <h1 className="ml-2">Share Your Farm Link</h1>
+          <h1 className="ml-2">{t("share.ShareYourFarmLink")}</h1>
           <img
             src={SUNNYSIDE.icons.close}
             className="absolute cursor-pointer z-20"
@@ -47,19 +49,18 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
           <div className="row justify-content-center align-items-center">
             <div className="flex d-none d-sm-block col-sm col justify-content-center align-items-center">
               <p className="text-sm whitespace-normal">
-                Show off to fellow farmers by sharing your farm link (URL), to
-                directly visit your farm !
+                {t("share.ShowOffToFarmers")}
               </p>
             </div>
             <div className="flex col-sm-12 col justify-content-center md-px-4 lg-px-4 align-items-center">
               <img
                 src={farmImg}
                 className="w-64 md-mt-2"
-                alt="Sunflower-Land Farm NFT Image"
+                alt={t("share.FarmNFTImageAlt")}
               />
             </div>
           </div>
-          <CopyField text={farmUrl} copyFieldMessage={"Copy farm URL"} />
+          <CopyField text={farmUrl} copyFieldMessage={t("share.CopyFarmURL")} />
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <Button className="text-s w-1/4 px-1" onClick={handleTweetClick}>
@@ -69,7 +70,7 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
             className="text-s w-1/4 px-1"
             onClick={() => window.open(farmUrl, "_blank")}
           >
-            Visit
+            {t("visit")}
           </Button>
         </Modal.Footer>
       </Panel>

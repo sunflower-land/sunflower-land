@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export enum REMOVE_CHICKEN_ERRORS {
   INVALID_CHICKEN = "This chicken does not exist",
@@ -23,7 +24,7 @@ export function removeChicken({ state, action }: Options) {
   const { chickens, inventory, bumpkin } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!chickens[action.id]) {

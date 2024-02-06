@@ -14,6 +14,7 @@ import chest1 from "assets/npcs/synced.gif";
 import { addNoise } from "lib/images";
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onOpen: () => void;
@@ -47,7 +48,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
   const scale = useRef(randomDouble(0.8, 1));
   const background = useRef(backgrounds[randomInt(0, backgrounds.length)]);
   const chest = useRef(chests[randomInt(0, chests.length)]);
-
+  const { t } = useAppTranslation();
   const miss = () => {
     setFailedCount((prev) => prev + 1);
 
@@ -100,7 +101,7 @@ export const ChestCaptcha: React.FC<Props> = ({ onOpen, onFail }) => {
           ))}
       </div>
 
-      <span className="text-sm mb-2">Tap the chest to open it</span>
+      <span className="text-sm mb-2">{t("statements.chest.captcha")}</span>
     </div>
   );
 };

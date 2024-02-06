@@ -82,15 +82,15 @@ export const GUIDE_PATHS: Record<
     description: [
       {
         image: workbench,
-        text: translate("gathering.description.one"),
+        text: translate("gathering.guide.one"),
       },
 
       {
-        text: translate("gathering.description.two"),
+        text: translate("gathering.guide.two"),
       },
 
       {
-        text: translate("gathering.description.three"),
+        text: translate("gathering.guide.two"),
       },
     ],
     docs: "https://docs.sunflower-land.com/player-guides/gather-resources",
@@ -111,11 +111,11 @@ export const GUIDE_PATHS: Record<
     description: [
       {
         image: harvesting,
-        text: `${translate("crops.description.one")}
+        text: `${translate("crops.guide.one")}
 
-${translate("crops.description.two")}
+${translate("crops.guide.two")}
 
-${translate("crops.description.three")}`,
+${translate("crops.guide.three")}`,
       },
     ],
   },
@@ -125,9 +125,9 @@ ${translate("crops.description.three")}`,
     docs: "https://docs.sunflower-land.com/player-guides/buildings",
     description: [
       {
-        text: `${translate("building.description.one")}
+        text: `${translate("building.guide.one")}
       
-              ${translate("building.description.two")}`,
+              ${translate("building.guide.two")}`,
       },
     ],
   },
@@ -144,15 +144,15 @@ ${translate("crops.description.three")}`,
     description: [
       {
         image: cooking,
-        text: `${translate("cooking.description.one")}
+        text: `${translate("cooking.guide.one")}
 
-              ${translate("cooking.description.two")}
+              ${translate("cooking.guide.two")}
 
-              ${translate("cooking.description.three")}
+              ${translate("cooking.guide.three")}
 
-              ${translate("cooking.description.four")}
+              ${translate("cooking.guide.four")}
 
-              ${translate("cooking.description.five")}`,
+              ${translate("cooking.guide.five")}`,
       },
     ],
   },
@@ -162,11 +162,11 @@ ${translate("crops.description.three")}`,
     docs: "https://docs.sunflower-land.com/player-guides/animals",
     description: [
       {
-        text: `${translate("animals.description.one")}
+        text: `${translate("animals.guide.one")}
 
-              ${translate("animals.description.two")}
+              ${translate("animals.guide.two")}
 
-              ${translate("animals.description.three")}`,
+              ${translate("animals.guide.three")}`,
       },
     ],
   },
@@ -175,13 +175,13 @@ ${translate("crops.description.three")}`,
     icon: ITEM_DETAILS["Basic Scarecrow"].image,
     description: [
       {
-        text: `${translate("crafting.description.one")}
+        text: `${translate("crafting.guide.one")}
 
-              ${translate("crafting.description.two")}
+              ${translate("crafting.guide.two")}
 
-              ${translate("crafting.description.three")}
+              ${translate("crafting.guide.three")}
 
-              ${translate("crafting.description.four")}`,
+              ${translate("crafting.guide.four")}`,
       },
     ],
   },
@@ -191,9 +191,9 @@ ${translate("crops.description.three")}`,
     docs: "https://docs.sunflower-land.com/player-guides/deliveries",
     description: [
       {
-        text: `${translate("deliveries.description.one")}
+        text: `${translate("deliveries.guide.one")}
 
-              ${translate("deliveries.description.two")}`,
+              ${translate("deliveries.guide.two")}`,
       },
     ],
   },
@@ -202,9 +202,9 @@ ${translate("crops.description.three")}`,
     icon: SUNNYSIDE.resource.crab,
     description: [
       {
-        text: `${translate("scavenger.description.one")}
+        text: `${translate("scavenger.guide.one")}
 
-              ${translate("scavenger.description.two")}`,
+              ${translate("scavenger.guide.two")}`,
       },
     ],
   },
@@ -221,11 +221,11 @@ ${translate("crops.description.three")}`,
     description: [
       {
         text: `
-    ${translate("fruit.description.one")}
+    ${translate("fruit.guide.one")}
     
-    ${translate("fruit.description.two")}
+    ${translate("fruit.guide.two")}
     
-    ${translate("fruit.description.three")}`,
+    ${translate("fruit.guide.three")}`,
       },
     ],
     docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting#fruit",
@@ -236,9 +236,9 @@ ${translate("crops.description.three")}`,
     icon: SUNNYSIDE.icons.stopwatch,
     description: [
       {
-        text: `${translate("seasons.description.one")}
+        text: `${translate("seasons.guide.one")}
 
-              ${translate("seasons.description.two")}`,
+              ${translate("seasons.guide.two")}`,
       },
     ],
     docs: "https://docs.sunflower-land.com/player-guides/seasons",

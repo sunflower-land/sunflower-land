@@ -18,6 +18,7 @@ import { Button } from "components/ui/Button";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const RequiredSkillPoints = ({
   missingPointRequirement,
@@ -28,6 +29,7 @@ const RequiredSkillPoints = ({
   availableSkillPoints: number;
   pointsRequired: number;
 }) => {
+  const { t } = useAppTranslation();
   return (
     <div
       className={classNames("flex justify-center flex-wrap items-end mt-2", {
@@ -35,7 +37,7 @@ const RequiredSkillPoints = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        Required Skill Points:&nbsp;
+        {t("reqSkillPts")}:&nbsp;
       </span>
       <span className="text-xxs sm:text-xs text-center">
         {`${availableSkillPoints}/${pointsRequired}`}
@@ -51,13 +53,16 @@ const RequiredSkill = ({
   missingSkillRequirement: boolean;
   requiredSkillImage?: string;
 }) => {
+  const { t } = useAppTranslation();
   return (
     <div
       className={classNames("flex justify-center flex-wrap items-center mt-2", {
         "text-error": missingSkillRequirement,
       })}
     >
-      <span className="text-center text-xxs sm:text-xs">Required Skills:</span>
+      <span className="text-center text-xxs sm:text-xs">
+        {t("reqSkills")}:{" "}
+      </span>
       <img
         src={requiredSkillImage}
         style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
@@ -78,6 +83,7 @@ export const SkillPathDetails: React.FC<Props> = ({
   skillsInPath,
   readonly,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -141,19 +147,21 @@ export const SkillPathDetails: React.FC<Props> = ({
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
-              <p className="mx-4 text-center text-sm">{`Are you sure you want to claim the ${selectedSkill} skill?`}</p>
+              <p className="mx-4 text-center text-sm">
+                {t("confirm.skillClaim")} {selectedSkill}
+              </p>
               <div className="flex space-x-1">
                 <Button
                   onClick={() => setShowConfirmButton(false)}
                   className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
                 >
-                  Cancel
+                  {t("cancel")}
                 </Button>
                 <Button
                   onClick={handleClaim}
                   className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
                 >
-                  Claim
+                  {t("claim")}
                 </Button>
               </div>
             </div>
@@ -174,7 +182,7 @@ export const SkillPathDetails: React.FC<Props> = ({
               <span className="text-center mt-1 text-xxs sm:text-xs mb-1">
                 {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
               </span>
-              {comingSoon && <p className="text-xs mt-1">Coming soon</p>}
+              {comingSoon && <p className="text-xs mt-1">{t("coming.soon")}</p>}
 
               {!hasSelectedSkill && !readonly && !comingSoon && (
                 <>
@@ -198,7 +206,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                     }
                     className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
                   >
-                    Claim skill
+                    {t("claim.skill")}
                   </Button>
                 </>
               )}
