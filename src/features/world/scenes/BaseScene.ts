@@ -163,8 +163,6 @@ export abstract class BaseScene extends Phaser.Scene {
           defaultTilesetConfig.tilesets,
       };
       this.load.tilemapTiledJSON(this.options.name, json);
-
-      console.log({ loaded: this.options.name });
     }
 
     if (this.options.map?.tilesetUrl)
@@ -237,7 +235,6 @@ export abstract class BaseScene extends Phaser.Scene {
       key: this.options.name,
     });
 
-    console.log({ imageKey: this.options.map.imageKey ?? "tileset" });
     const tileset = this.options.map?.tilesetUrl
       ? // Community tileset
         (this.map.addTilesetImage(
