@@ -115,7 +115,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHover = () => {
-    if (hive.flowers.length === 0) {
+    if (hive.flowers.length === 0 && !honeyProduced) {
       setShowNoFlowerGrowingPopover(true);
       return;
     }
