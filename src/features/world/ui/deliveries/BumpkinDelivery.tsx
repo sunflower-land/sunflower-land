@@ -60,20 +60,10 @@ export const Dialogue: React.FC<{
 export const OrderCard: React.FC<{
   order: Order;
   balance: Decimal;
-  bumpkin: Bumpkin;
   inventory: Inventory;
-  selectedOrderId?: string;
-  onSelectOrder: (id: string) => void;
+  onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({
-  order,
-  inventory,
-  balance,
-  bumpkin,
-  selectedOrderId,
-  onSelectOrder,
-  hasRequirementsCheck,
-}) => {
+}> = ({ order, inventory, balance, onDeliver, hasRequirementsCheck }) => {
   const canDeliver = hasRequirementsCheck(order);
   return (
     <>
@@ -82,16 +72,7 @@ export const OrderCard: React.FC<{
           key={order.id}
           className={classNames("flex flex-1 flex-col space-y-1 relative", {
             "opacity-50 cursor-default": !canDeliver,
-            "cursor-pointer": canDeliver,
           })}
-          onClick={
-            canDeliver
-              ? (e) => {
-                  e.stopPropagation();
-                  onSelectOrder(order.id);
-                }
-              : undefined
-          }
         >
           <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
             {getKeys(order.items).map((itemName) => {
@@ -117,42 +98,29 @@ export const OrderCard: React.FC<{
                 />
               );
             })}
+            <div className="flex items-center justify-between mt-2 mb-0.5">
+              {/* <div className="flex items-center">
+                <img src={chest} className="w-5 h-auto mr-1" />
+                <span className="text-xs">Reward</span>
+
+              </div> */}
+
+              <Label icon={chest} type="warning" className="ml-1.5">
+                Reward
+              </Label>
+              <div className="flex items-center">
+                <img src={sfl} className="w-5 h-auto mr-1" />
+                <span className="text-xs">5 SFL</span>
+              </div>
+              {/* <div>
+                <Button className="h-7" onClick={onDeliver}>
+                  <div className="flex items-center">
+                    <span className="text-xs">Deliver</span>
+                  </div>
+                </Button>
+              </div> */}
+            </div>
           </OuterPanel>
-          {/* <div
-            style={{
-              borderColor: "#b96f50",
-              marginTop: "8px",
-              borderWidth: "1px",
-            }}
-          /> */}
-          {/* <div className="flex justify-between">
-            <div className="flex items-center">
-              <img src={chest} className="h-5 mr-1" />
-              <p className="text-xs">Reward</p>
-            </div>
-            <div className="flex flex-col justify-center">
-              {order.reward.sfl && (
-                <div className="flex items-center mt-1">
-                  <img src={sfl} className="h-5 mr-1" />
-                  <span className="text-xs">
-                    {getOrderSellPrice(bumpkin, order).toFixed(2)}
-                  </span>
-                </div>
-              )}
-              {order.reward.tickets && (
-                <div
-                  className="flex items-center mt-1"
-                  key={getSeasonalTicket()}
-                >
-                  <img
-                    src={ITEM_DETAILS[getSeasonalTicket()].image}
-                    className="h-5 mr-1"
-                  />
-                  <span className="text-xs">{`${order.reward.tickets}`}</span>
-                </div>
-              )}
-            </div>
-          </div> */}
         </div>
       </div>
     </>
@@ -180,51 +148,6 @@ export const Gifts: React.FC<{ game: GameState; onClose: () => void }> = ({
     // Fire event
   };
 
-  // if (showGifting) {
-  //   return (
-  //     <>
-  //       <div className="p-2">
-  //         <div className="flex justify-between items-center mb-2">
-  //           <Label type="default" icon={SUNNYSIDE.icons.player}>
-  //             {name}
-  //           </Label>
-  //         </div>
-  //         <div className="h-12">
-  //           <Dialogue
-  //             trail={25}
-  //             key="gift-result"
-  //             message="Hmmm, that is exactly what I wanted!!!"
-  //           />
-  //         </div>
-  //         <div className="flex items-center mb-2">
-  //           <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
-  //             Friendship bonus
-  //           </Label>
-  //         </div>
-  //         <div
-  //           className="flex relative items-center"
-  //           style={{ width: "fit-content" }}
-  //         >
-  //           <ResizableBar
-  //             percentage={20 + (showFriendshipBonus ? 50 : 0)}
-  //             type="progress"
-  //             outerDimensions={{
-  //               width: 30,
-  //               height: 7,
-  //             }}
-  //           />
-
-  //           <img
-  //             src={giftIcon}
-  //             className={classNames("h-6 ml-1 mb-0.5")}
-  //             style={{}}
-  //           />
-  //         </div>
-  //       </div>
-  //       <Button onClick={() => onClose()}>Back</Button>
-  //     </>
-  //   );
-  // }
   return (
     <>
       <div className="p-2">
@@ -264,12 +187,12 @@ export const Gifts: React.FC<{ game: GameState; onClose: () => void }> = ({
               <span className="text-xs">+2</span>
             </div>
           </div>
-
+          {/* 
           <img
             src={chatDisc}
             className="h-10 absolute top-3 right-3 cursor-pointer"
             onClick={onClose}
-          />
+          /> */}
         </div>
         <div className="h-12">
           <Dialogue
@@ -311,6 +234,9 @@ export const Gifts: React.FC<{ game: GameState; onClose: () => void }> = ({
       </div>
 
       <div className="flex">
+        <Button className="mr-1" onClick={onClose}>
+          Back
+        </Button>
         <Button disabled={!selected} onClick={onGift}>
           Gift
         </Button>
@@ -342,7 +268,10 @@ export const BumpkinDelivery: React.FC = () => {
   };
 
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
+    <CloseButtonPanel
+      onClose={console.log}
+      bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+    >
       {showGifts && (
         <Gifts
           onClose={() => setShowGifts(false)}
@@ -356,7 +285,7 @@ export const BumpkinDelivery: React.FC = () => {
               <Label type="default" icon={SUNNYSIDE.icons.player}>
                 {name}
               </Label>
-              <div
+              {/* <div
                 className="flex relative items-center mr-10"
                 style={{ width: "fit-content" }}
               >
@@ -386,12 +315,12 @@ export const BumpkinDelivery: React.FC = () => {
                   <img src={SUNNYSIDE.icons.happy} className="h-5" />
                   <span className="text-xs">+2</span>
                 </div>
-              </div>
-              <img
+              </div> */}
+              {/* <img
                 src={flowerGift}
                 className="h-10 absolute top-3 right-3 cursor-pointer"
                 onClick={() => setShowGifts(true)}
-              />
+              /> */}
             </div>
             <div className="h-16">
               <Dialogue
@@ -403,13 +332,66 @@ export const BumpkinDelivery: React.FC = () => {
                 }
               />
             </div>
+
+            <div className="flex justify-between">
+              <Label
+                type="default"
+                className="mb-2"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                Friendship
+              </Label>
+              <div
+                className="flex relative items-center"
+                style={{ width: "fit-content" }}
+              >
+                <ResizableBar
+                  percentage={20 + (showFriendshipBonus ? 50 : 0)}
+                  type="progress"
+                  outerDimensions={{
+                    width: 30,
+                    height: 7,
+                  }}
+                />
+
+                <img
+                  src={giftIcon}
+                  className={classNames("h-6 ml-1 mb-0.5")}
+                  style={{}}
+                />
+
+                <div
+                  className={classNames(
+                    "flex ml-2 transition-opacity opacity-0 absolute left-10 -top-4",
+                    {
+                      "opacity-100": showFriendshipBonus,
+                    }
+                  )}
+                >
+                  <img src={SUNNYSIDE.icons.happy} className="h-5" />
+                  <span className="text-xs">+2</span>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-xs mb-2">
+              Complete deliveries and provide gifts to earn bonus rewards
+            </p>
+
             <div className="flex justify-between items-center mb-2">
               <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
                 Delivery
               </Label>
-              <Label type="warning" icon={sfl} className="">
+              {/* <div>
+                <Button className="h-7" onClick={deliver}>
+                  <div className="flex items-center">
+                    <span className="text-xs">Complete</span>
+                  </div>
+                </Button>
+              </div> */}
+              {/* <Label type="warning" icon={sfl} className="">
                 0.15 SFL
-              </Label>
+              </Label> */}
               {/* <div className="flex items-center">
               <img src={SUNNYSIDE.icons.happy} className="h-4 mr-1" />
               <p className="text-xs">112</p>
@@ -435,19 +417,21 @@ export const BumpkinDelivery: React.FC = () => {
             {delivery && (
               <OrderCard
                 balance={gameState.context.state.balance}
-                bumpkin={gameState.context.state.bumpkin as Bumpkin}
                 inventory={gameState.context.state.inventory}
                 order={delivery as Order}
-                onSelectOrder={console.log}
                 hasRequirementsCheck={() => true}
+                onDeliver={deliver}
               />
             )}
           </div>
+
           <div className="flex mt-1">
             {/* <Button className="mr-1" onClick={() => setShowGifts(true)}>
               <div className="flex items-center">Offer gift</div>
             </Button> */}
-            <Button className="mr-1">Close</Button>
+            <Button className="mr-1" onClick={() => setShowGifts(true)}>
+              Gift
+            </Button>
             <Button onClick={deliver}>Deliver</Button>
           </div>
         </>
