@@ -36,6 +36,7 @@ type RESTRICTION_REASON =
   | "Magic Bean is planted"
   | "Bananas are growing"
   | "In use"
+  | "Recently fished"
   | "Recently used"
   | "Locked during festive season";
 
@@ -207,7 +208,7 @@ function areAnyComposting(game: GameState): Restriction {
 }
 
 function hasFishedToday(game: GameState): Restriction {
-  return [getDailyFishingCount(game) !== 0, "In use"];
+  return [getDailyFishingCount(game) !== 0, "Recently fished"];
 }
 
 function isFertiliserApplied(
