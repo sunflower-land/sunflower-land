@@ -84,7 +84,10 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     return (to - from) / 1000;
   };
 
-  const timeRemaining = getTimeLeft(Date.now(), getTotalSecondsAvailable());
+  const timeRemaining = getTimeLeft(
+    megastore.available.from,
+    getTotalSecondsAvailable()
+  );
 
   return (
     <CloseButtonPanel
