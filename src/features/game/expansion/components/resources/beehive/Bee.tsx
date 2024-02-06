@@ -8,20 +8,16 @@ import { useSelector } from "@xstate/react";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { FlowerBed } from "features/game/types/game";
 
-export type Position = {
-  x: number;
-  y: number;
-};
-
 interface Props {
-  hivePosition: Position;
+  hiveX: number;
+  hiveY: number;
   flowerId: string;
   onAnimationEnd: () => void;
 }
 
-const getFlowerBedById = (id: string) => (state: MachineState) =>
-  state.context.state.flowers.flowerBeds[id];
-
+const getFlowerBedById = (id: string) => (state: MachineState) => {
+  return state.context.state.flowers.flowerBeds[id];
+};
 const compareFlowerBed = (
   prevFlowerBed: FlowerBed,
   nextFlowerBed: FlowerBed
@@ -29,8 +25,9 @@ const compareFlowerBed = (
   return JSON.stringify(prevFlowerBed) === JSON.stringify(nextFlowerBed);
 };
 
-export const Bee: React.FC<Props> = ({
-  hivePosition,
+const BeeComponent: React.FC<Props> = ({
+  hiveX,
+  hiveY,
   flowerId,
   onAnimationEnd,
 }) => {
@@ -40,10 +37,11 @@ export const Bee: React.FC<Props> = ({
     getFlowerBedById(flowerId),
     compareFlowerBed
   );
-  const { x: hiveX, y: hiveY } = hivePosition;
   const { x: flowerX, y: flowerY } = flower;
 
-  const getFlowerPositionRelativeToHive = (): Position & {
+  const getFlowerPositionRelativeToHive = (): {
+    x: number;
+    y: number;
     distance: number;
   } => {
     const beeWidth = PIXEL_SCALE * 7;
@@ -180,3 +178,5 @@ export const Bee: React.FC<Props> = ({
     </animated.div>
   );
 };
+
+export const Bee = React.memo(BeeComponent);

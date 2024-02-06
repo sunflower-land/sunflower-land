@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import beehive from "assets/sfts/beehive.webp";
 import honeyDrop from "assets/sfts/honey_drop.webp";
 import bee from "assets/icons/bee.webp";
@@ -17,7 +23,6 @@ import {
   MachineInterpreter,
   beehiveMachine,
   getCurrentHoneyProduced,
-  getFirstAttachedFlower,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
 import { Modal } from "react-bootstrap";
@@ -56,7 +61,7 @@ const _showBeeAnimation = (state: BeehiveMachineState) =>
 export const Beehive: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
   const isInitialMount = useRef(true);
-  const [showProducingBee, setShowProducingBee] = useState(false);
+  const [showProducingBee, setShowProducingBee] = useState<boolean>();
   const [showHoneyLevelModal, setShowHoneyLevelModal] = useState(false);
   const [showSwarmModal, setShowSwarmModal] = useState(false);
   const [showHoneyLevelPopover, setShowHoneyLevelPopover] = useState(false);
@@ -68,13 +73,11 @@ export const Beehive: React.FC<Props> = ({ id }) => {
 
   const beehiveContext: BeehiveContext = {
     hive,
-    attachedFlower: getFirstAttachedFlower(hive),
     honeyProduced: getCurrentHoneyProduced(hive),
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
     context: beehiveContext,
-    devTools: true,
   }) as unknown as MachineInterpreter;
 
   const honeyReady = useSelector(beehiveService, _honeyReady);
@@ -83,18 +86,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
-  const hasNewFlower = (hive: IBeehive) => {
-    if (hive.flowers.length === 0) return false;
-
-    const updatedFlowerId = getFirstAttachedFlower(hive)?.id;
-
-    return currentFlowerId !== updatedFlowerId;
-  };
-
-  const handleBeeAnimationEnd = () => {
+  const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
     if (!honeyReady) setShowProducingBee(true);
-  };
+  }, [honeyReady, beehiveService]);
 
   const handleHarvestHoney = () => {
     if (showHoneyLevelModal && honeyReady) {
@@ -106,7 +101,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       setShowSwarmModal(true);
     }
 
-    gameService.send("beehive.harvested", { id });
+    const state = gameService.send("beehive.harvested", { id });
+    beehiveService.send("HARVEST_HONEY", {
+      updatedHive: state.context.state.beehives[id],
+    });
   };
 
   const handleHiveClick = () => {
@@ -117,7 +115,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHover = () => {
-    if (hive.flowers.length === 0) {
+    if (hive.flowers.length === 0 && !honeyProduced) {
       setShowNoFlowerGrowingPopover(true);
       return;
     }
@@ -145,17 +143,18 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (hasNewFlower(hive)) {
-      beehiveService.send("NEW_ACTIVE_FLOWER", { updatedHive: hive });
-    } else {
-      beehiveService.send("UPDATE_HIVE", { updatedHive: hive });
-    }
+    beehiveService.send("UPDATE_HIVE", { updatedHive: hive });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hive, beehiveService]);
 
   useEffect(() => {
     if (isProducing === undefined) return;
+
+    if (!showProducingBee && isProducing) {
+      setShowProducingBee(true);
+      return;
+    }
 
     if (showProducingBee && !isProducing) {
       setShowProducingBee(false);
@@ -207,7 +206,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           }}
         />
         {/* Bee to indicate honey is currently being produced */}
-        {!showBeeAnimation && !landscaping && !!currentFlowerId && (
+        {!showBeeAnimation && !landscaping && showProducingBee !== undefined && (
           <img
             src={bee}
             alt="Bee"
@@ -235,7 +234,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         {/* Bee that flies between hive and flower */}
         {!landscaping && showBeeAnimation && (
           <Bee
-            hivePosition={{ x: hive.x, y: hive.y }}
+            hiveX={hive.x}
+            hiveY={hive.y}
             flowerId={currentFlowerId as string}
             onAnimationEnd={handleBeeAnimationEnd}
           />
