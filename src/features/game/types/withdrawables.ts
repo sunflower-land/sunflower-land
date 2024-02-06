@@ -233,7 +233,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Stone: () => true,
   Iron: () => true,
   Gold: () => true,
-  Crimstone: () => true,
+  Crimstone: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   Diamond: () => false,
 
   Sunstone: () => false,
