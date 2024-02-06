@@ -17,15 +17,23 @@ export interface BeehiveContext {
 
 type UpdateHoneyProduced = { type: "UPDATE_HONEY_PRODUCED" };
 type HiveBuzz = { type: "BUZZ" };
-type UpdateHive = { type: "UPDATE_HIVE"; updatedHive: Beehive };
+type UpdateHive = {
+  type: "UPDATE_HIVE";
+  updatedHive: Beehive;
+};
 type NewActiveFlower = { type: "NEW_ACTIVE_FLOWER" };
 type BeeAnimationDone = { type: "BEE_ANIMATION_DONE" };
+type HarvestHoney = {
+  type: "HARVEST_HONEY";
+  updatedHive: Beehive;
+};
 
 type BeehiveEvent =
   | UpdateHoneyProduced
   | HiveBuzz
   | UpdateHive
   | NewActiveFlower
+  | HarvestHoney
   | BeeAnimationDone;
 
 type BeehiveState = {
@@ -46,22 +54,28 @@ export type MachineInterpreter = Interpreter<
   BeehiveState
 >;
 
-export const getFirstAttachedFlower = (hive: Beehive) => {
-  const sortedFlowers = hive.flowers.sort(
+export const getActiveFlower = (hive: Beehive) => {
+  const now = Date.now();
+  const activeFlower = hive.flowers.find((flower) => {
+    return flower.attachedAt <= now && flower.attachedUntil > now;
+  });
+
+  return activeFlower;
+};
+export const getCurrentHoneyProduced = (hive: Beehive) => {
+  const attachedFlowers = hive.flowers.sort(
     (a, b) => a.attachedAt - b.attachedAt
   );
 
-  return sortedFlowers[0];
-};
-export const getCurrentHoneyProduced = (hive: Beehive) => {
-  const attachedFlower = getFirstAttachedFlower(hive);
+  return attachedFlowers.reduce((produced, attachedFlower) => {
+    const start = Math.max(hive.honey.updatedAt, attachedFlower.attachedAt);
+    const end = Math.min(Date.now(), attachedFlower.attachedUntil);
 
-  if (!attachedFlower) return hive.honey.produced;
+    // Prevent future dates
+    const honey = Math.max(end - start, 0);
 
-  const start = Math.max(hive.honey.updatedAt, attachedFlower.attachedAt);
-  const end = Math.min(Date.now(), attachedFlower.attachedUntil);
-
-  return hive.honey.produced + Math.max(end - start, 0);
+    return (produced += honey);
+  }, hive.honey.produced);
 };
 
 export const beehiveMachine = createMachine<
@@ -78,7 +92,11 @@ export const beehiveMachine = createMachine<
         id: "prepareHive",
         always: [
           { target: "honeyReady", cond: "isFull" },
-          { target: "showBeeAnimation", cond: "hasActiveFlower" },
+          {
+            target: "showBeeAnimation",
+            cond: "hasNewActiveFlower",
+            actions: "updateActiveFlower",
+          },
           {
             target: "hiveBuzzing",
           },
@@ -94,16 +112,22 @@ export const beehiveMachine = createMachine<
             {
               target: "honeyReady",
               cond: "isFull",
+              actions: "checkAndUpdateHoney",
+            },
+            {
+              cond: "isFlowerReady",
+              actions: ["checkAndUpdateHoney", "removeActiveFlower"],
+            },
+            {
+              target: "showBeeAnimation",
+              cond: "hasNewActiveFlower",
+              actions: "updateActiveFlower",
             },
             {
               actions: "checkAndUpdateHoney",
             },
           ],
           UPDATE_HIVE: {
-            actions: "updateHive",
-          },
-          NEW_ACTIVE_FLOWER: {
-            target: "showBeeAnimation",
             actions: "updateHive",
           },
         },
@@ -113,14 +137,16 @@ export const beehiveMachine = createMachine<
           BEE_ANIMATION_DONE: {
             target: "hiveBuzzing",
           },
+          UPDATE_HIVE: {
+            actions: "updateHive",
+          },
         },
       },
       honeyReady: {
-        id: "honeyReady",
         on: {
-          UPDATE_HIVE: {
+          HARVEST_HONEY: {
             target: "prepareHive",
-            actions: "updateHive",
+            actions: "harvestHoney",
           },
         },
       },
@@ -150,23 +176,39 @@ export const beehiveMachine = createMachine<
           return true;
         },
       }),
-      updateHive: assign({
-        attachedFlower: (_, event) =>
-          getFirstAttachedFlower((event as UpdateHive).updatedHive),
-        hive: (_, event) => (event as UpdateHive).updatedHive,
-        honeyProduced: (_, event) =>
-          getCurrentHoneyProduced((event as UpdateHive).updatedHive),
+      updateActiveFlower: assign({
+        attachedFlower: ({ hive }) => getActiveFlower(hive),
       }),
+      updateHive: assign({
+        hive: (_, event) => {
+          return (event as UpdateHive).updatedHive;
+        },
+      }),
+      harvestHoney: assign({
+        hive: (_, event) => {
+          return (event as UpdateHive).updatedHive;
+        },
+        honeyProduced: ({ hive }) => hive.honey.produced,
+      }),
+      removeActiveFlower: assign((_) => ({
+        attachedFlower: undefined,
+      })),
     },
     guards: {
-      hasActiveFlower: ({ attachedFlower }) => {
-        if (!attachedFlower) return false;
-        if (attachedFlower.attachedAt > Date.now()) return false;
-        if (attachedFlower.attachedUntil < Date.now()) return false;
+      hasNewActiveFlower: ({ attachedFlower, hive }) => {
+        if (attachedFlower) return false;
+        const activeFlower = getActiveFlower(hive);
 
-        return true;
+        return !!activeFlower;
       },
-      isFull: ({ honeyProduced }) => honeyProduced >= HONEY_PRODUCTION_TIME,
+      isFull: ({ honeyProduced }) => {
+        return honeyProduced >= HONEY_PRODUCTION_TIME;
+      },
+      isFlowerReady: ({ attachedFlower }) => {
+        if (!attachedFlower) return false;
+
+        return attachedFlower.attachedUntil < Date.now();
+      },
     },
   }
 );
