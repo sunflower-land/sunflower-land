@@ -57,6 +57,8 @@ type BaseSceneOptions = {
     tilesetUrl?: string;
     json: any;
     padding?: [number, number];
+    imageKey?: string;
+    defaultTilesetConfig?: any;
   };
   mmo?: {
     enabled: boolean;
@@ -156,9 +158,13 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.options.map?.json) {
       const json = {
         ...this.options.map.json,
-        tilesets: defaultTilesetConfig.tilesets,
+        tilesets:
+          this.options.map.defaultTilesetConfig ??
+          defaultTilesetConfig.tilesets,
       };
       this.load.tilemapTiledJSON(this.options.name, json);
+
+      console.log({ loaded: this.options.name });
     }
 
     if (this.options.map?.tilesetUrl)
@@ -231,6 +237,7 @@ export abstract class BaseScene extends Phaser.Scene {
       key: this.options.name,
     });
 
+    console.log({ imageKey: this.options.map.imageKey ?? "tileset" });
     const tileset = this.options.map?.tilesetUrl
       ? // Community tileset
         (this.map.addTilesetImage(
@@ -243,7 +250,7 @@ export abstract class BaseScene extends Phaser.Scene {
       : // Standard tileset
         (this.map.addTilesetImage(
           "Sunnyside V3",
-          "tileset",
+          this.options.map.imageKey ?? "tileset",
           16,
           16,
           1,

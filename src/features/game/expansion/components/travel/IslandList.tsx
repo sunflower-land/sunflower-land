@@ -215,6 +215,18 @@ export const IslandList: React.FC<IslandListProps> = ({
       ],
     },
     {
+      name: "Lunar Island",
+      levelRequired: 1 as BumpkinLevel,
+      image: ITEM_DETAILS["Red Envelope"].image,
+      path: `/world/lunar_island`,
+      beta: true,
+      labels: [
+        <Label type="vibrant" key="lunar" icon={SUNNYSIDE.icons.timer}>
+          Special Event
+        </Label>,
+      ],
+    },
+    {
       name: "Beach",
       levelRequired: 1 as BumpkinLevel,
       image: SUNNYSIDE.resource.crab,
