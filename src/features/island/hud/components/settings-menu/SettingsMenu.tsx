@@ -194,7 +194,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </li>
 
                     <li className="p-1">
-                      <DEV_HoardingCheck />
+                      <DEV_HoardingCheck network="mainnet" />
+                    </li>
+
+                    <li className="p-1">
+                      <DEV_HoardingCheck network="mumbai" />
                     </li>
                   </>
                 )}

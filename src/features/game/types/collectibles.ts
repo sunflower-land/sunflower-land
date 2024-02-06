@@ -84,7 +84,8 @@ export type MegaStoreCollectibleName =
   | "Flower Fox"
   | "Enchanted Rose"
   | "Capybara"
-  | "Rainbow";
+  | "Rainbow"
+  | "Flower Rug";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

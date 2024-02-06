@@ -87,7 +87,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
             </div>
           ))}
         </div>
-        <div>
+        <div className="space-y-1">
           <Label type="chill" icon={SUNNYSIDE.icons.player}>
             {`${getKeys(farmHands).length + 1}/${
               ISLAND_BUMPKIN_CAPACITY[game.island.type]

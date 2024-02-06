@@ -845,6 +845,7 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Enchanted Rose": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
   "Flower Fox": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
   "Sunrise Bloom Rug": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
+  "Flower Rug": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Flower Cart": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
 };
 

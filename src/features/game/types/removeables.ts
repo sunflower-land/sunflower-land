@@ -229,7 +229,10 @@ export const canShake = (shakenAt?: number) => {
 };
 
 function hasShakenManeki(game: GameState): Restriction {
-  const manekiNekos = game.collectibles["Maneki Neko"] ?? [];
+  const manekiNekos = [
+    ...(game.collectibles["Maneki Neko"] ?? []),
+    ...(game.home.collectibles["Maneki Neko"] ?? []),
+  ];
   const hasShakenRecently = manekiNekos.some((maneki) => {
     const shakenAt = maneki.shakenAt || 0;
 

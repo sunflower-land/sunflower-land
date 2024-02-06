@@ -15,6 +15,7 @@ import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
+import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -38,7 +39,7 @@ const VALID_BUILDINGS: BuildingName[] = [
 );
 
 export const Buildings: React.FC<Props> = ({ onClose }) => {
-  const [selectedName, setSelectedName] = useState<BuildingName>("Market");
+  const [selectedName, setSelectedName] = useState<BuildingName>("Water Well");
   const { gameService } = useContext(Context);
   const [
     {
@@ -51,17 +52,16 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const buildingUnlockLevels = buildingBlueprints.map(
     ({ unlocksAtLevel }) => unlocksAtLevel
   );
-  const landCount = inventory["Basic Land"] ?? new Decimal(0);
   const buildingsInInventory = inventory[selectedName] || new Decimal(0);
   // Some buildings have multiple blueprints, so we need to check if the next blueprint is available else fallback to the first one
   const nextBlueprintIndex = buildingBlueprints[buildingsInInventory.toNumber()]
     ? buildingsInInventory.toNumber()
     : 0;
-  const numOfBuildingAllowed = buildingUnlockLevels.filter((level) =>
-    landCount.gte(level)
+  const numOfBuildingAllowed = buildingUnlockLevels.filter(
+    (level) => getBumpkinLevel(state.bumpkin?.experience ?? 0) >= level
   ).length;
-  const nextLockedLevel = buildingUnlockLevels.find((level) =>
-    landCount.lt(level)
+  const nextLockedLevel = buildingUnlockLevels.find(
+    (level) => getBumpkinLevel(state.bumpkin?.experience ?? 0) < level
   );
 
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(
@@ -99,13 +99,11 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   const landLocked = () => {
     return (
       <div className="flex flex-col w-full justify-center">
-        <div className="flex items-center justify-center border-t border-white w-full pt-2">
-          <img src={lock} className="h-4 mr-1" />
-          <p className="text-xxs mb-1">{t("unlock.land")}</p>
-        </div>
         <div className="flex items-center justify-center ">
-          <img src={ITEM_DETAILS["Basic Land"].image} className="h-4 mr-1" />
-          <Label type="danger">{`${landCount.toNumber()}/${nextLockedLevel}`}</Label>
+          <Label
+            type="danger"
+            icon={SUNNYSIDE.icons.player}
+          >{`Level ${nextLockedLevel} required`}</Label>
         </div>
       </div>
     );
@@ -166,9 +164,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
             const nextIndex = blueprints[inventoryCount.toNumber()]
               ? inventoryCount.toNumber()
               : 0;
-            const isLocked = landCount.lt(
-              BUILDINGS()[name][nextIndex].unlocksAtLevel
-            );
+            const isLocked =
+              getBumpkinLevel(state.bumpkin?.experience ?? 0) <
+              BUILDINGS()[name][nextIndex].unlocksAtLevel;
 
             let secondaryIcon = undefined;
             if (isLocked) {
