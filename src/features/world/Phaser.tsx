@@ -43,6 +43,7 @@ import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
+import { LunarIslandScene } from "./scenes/LunarIslandScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -101,7 +102,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = isCommunity
     ? [CommunityScene]
-    : [Preloader, WoodlandsScene, BeachScene, PlazaScene];
+    : [Preloader, WoodlandsScene, BeachScene, PlazaScene, LunarIslandScene];
 
   useEffect(() => {
     // Set up community APIs
