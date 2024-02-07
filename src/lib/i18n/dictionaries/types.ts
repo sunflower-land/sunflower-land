@@ -2565,7 +2565,7 @@ export type Statements =
   | "statements.perplayer"
   | "statements.minted.goToChest"
   | "statements.minted.withdrawAfterMint"
-  | "statements.stargame"
+  | "statements.startgame"
   | "statements.session.expired";
 
 export type StopGoblin =

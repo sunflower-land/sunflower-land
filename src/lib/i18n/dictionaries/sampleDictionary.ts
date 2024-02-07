@@ -2660,7 +2660,7 @@ const statements: Record<Statements, string> = {
   "statements.perplayer": "",
   "statements.minted.goToChest": "",
   "statements.minted.withdrawAfterMint": "",
-  "statements.stargame": "",
+  "statements.startgame": "",
   "statements.session.expired": "",
 };
 const stopGoblin: Record<StopGoblin, string> = {
