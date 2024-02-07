@@ -84,7 +84,7 @@ const HudComponent: React.FC = () => {
           left: `${PIXEL_SCALE * 3}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
           width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          height: `${PIXEL_SCALE * 23 * 3 + 16}px`,
         }}
       >
         <Leaderboard farmId={farmId} />

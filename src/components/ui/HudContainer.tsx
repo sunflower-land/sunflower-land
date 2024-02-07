@@ -12,6 +12,9 @@ export const HudContainer: React.FC = ({ children }) => {
           data-html2canvas-ignore="true"
           aria-label="Hud"
           className="fixed inset-safe-area pointer-events-none"
+          style={{
+            zIndex: 10000,
+          }}
         >
           <div className="pointer-events-auto">{children}</div>
         </div>,
