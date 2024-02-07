@@ -457,6 +457,7 @@ describe("deliver", () => {
     expect(state.npcs?.betty?.friendship).toEqual({
       points: 3,
       updatedAt: now,
+      giftClaimedAtPoints: 0,
     });
   });
 });

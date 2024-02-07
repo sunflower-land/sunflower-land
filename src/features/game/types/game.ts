@@ -680,7 +680,7 @@ export type NPCData = {
   friendship?: {
     updatedAt: number;
     points: number;
-    giftClaimedAt?: number;
+    giftClaimedAtPoints?: number;
   };
 };
 

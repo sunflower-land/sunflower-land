@@ -360,6 +360,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "White Festive Fox": new Decimal(3),
     "Red Pansy": new Decimal(3),
     "White Pansy": new Decimal(3),
+    Sunflower: new Decimal(1000),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
     Carrot: new Decimal(5),
@@ -514,7 +515,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         items: {
           Sunflower: 20,
-          "Mushroom Jacket Potatoes": 1,
         },
       },
       {

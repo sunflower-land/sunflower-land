@@ -27,6 +27,10 @@
   .separate-lines {
     word-break: break-word;
   }
+
+  .img-shadow {
+    filter: drop-shadow(0px 3px 0px rgba(0, 0, 0, 0.2));
+  }
 }
 
 @font-face {

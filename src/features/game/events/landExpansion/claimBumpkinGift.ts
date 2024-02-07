@@ -25,8 +25,9 @@ export function getNextGift({
 }): BumpkinGift | null {
   const bumpkin = BUMPKIN_GIFTS[npc];
 
-  const lastClaimedAt = game.npcs?.[npc]?.friendship?.giftClaimedAt ?? 0;
+  const lastClaimedAt = game.npcs?.[npc]?.friendship?.giftClaimedAtPoints ?? 0;
 
+  console.log({ lastClaimedAt });
   if (!bumpkin) {
     return null;
   }
@@ -78,7 +79,7 @@ export function claimGift({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Friendship is not strong enough");
   }
 
-  friendship.giftClaimedAt = nextGift.friendshipPoints;
+  friendship.giftClaimedAtPoints = nextGift.friendshipPoints;
 
   // Provide items
   getKeys(nextGift.items).forEach((name) => {

@@ -6,7 +6,13 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Bumpkin, GameState, Inventory, Order } from "features/game/types/game";
+import {
+  Airdrop,
+  Bumpkin,
+  GameState,
+  Inventory,
+  Order,
+} from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
@@ -20,7 +26,7 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { TypingMessage } from "../TypingMessage";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -30,6 +36,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
+import { getNextGift } from "features/game/events/landExpansion/claimBumpkinGift";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -245,46 +253,142 @@ export const Gifts: React.FC<{ game: GameState; onClose: () => void }> = ({
   );
 };
 
-export const BumpkinDelivery: React.FC = () => {
+interface Props {
+  onClose: () => void;
+  npc: NPCName;
+}
+
+export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [showGifts, setShowGifts] = useState(false);
+  const game = gameState.context.state;
+  const [showFlowers, setShowFlowers] = useState(false);
 
-  const [showFriendshipBonus, setShowFriendshipBonus] = useState(false);
+  const [gift, setGift] = useState<Airdrop>();
 
-  const name: NPCName = "pumpkin' pete";
+  const [friendshipBonus, setFriendshipBonus] = useState(0);
 
-  const delivery = gameState.context.state.delivery.orders.find(
-    (order) => order.from === name
-  );
+  const delivery = game.delivery.orders.find((order) => order.from === npc);
+  const friendship = game.npcs?.[npc]?.friendship ?? {
+    points: 0,
+    giftClaimedAtPoints: 0,
+  };
 
   const deliver = async () => {
-    await setShowFriendshipBonus(true);
+    const previous = friendship.points;
 
-    await new Promise((res) => setTimeout(res, 1000));
+    const state = gameService.send("order.delivered", {
+      id: delivery?.id,
+    });
 
-    await setShowFriendshipBonus(false);
+    const difference =
+      (state.context.state.npcs?.[npc]?.friendship?.points ?? 0) - previous;
+
+    await setFriendshipBonus(difference);
+
+    await new Promise((res) => setTimeout(res, 500));
+
+    await setFriendshipBonus(0);
   };
+
+  const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
+    if (name === "sfl") {
+      return game.balance.gte(delivery?.items.sfl ?? 0);
+    }
+    return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
+  });
+
+  const nextGift = getNextGift({ game, npc });
+  console.log({ nextGift });
+  let percentage = 0;
+
+  const progress = friendship.points - (friendship.giftClaimedAtPoints ?? 0);
+  if (nextGift) {
+    percentage = (progress / nextGift.friendshipPoints) * 100;
+  }
+
+  const giftIsReady = progress >= (nextGift?.friendshipPoints ?? 0);
+
+  const openReward = () => {
+    if (!giftIsReady) return;
+
+    setGift({
+      id: "delivery-gift",
+      createdAt: Date.now(),
+      items: nextGift?.items ?? {},
+      sfl: nextGift?.sfl ?? 0,
+      wearables: nextGift?.wearables ?? {},
+      message: "Gee Wizz thanks Bumpkin!!!",
+    });
+  };
+
+  if (gift) {
+    return (
+      <Panel bumpkinParts={NPC_WEARABLES[npc]}>
+        <ClaimReward
+          reward={gift}
+          onClose={() => setGift(undefined)}
+          onClaim={() => {
+            gameService.send("gift.claimed", { bumpkin: npc });
+            onClose();
+          }}
+        />
+      </Panel>
+    );
+  }
 
   return (
     <CloseButtonPanel
-      onClose={console.log}
+      onClose={onClose}
       bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
     >
-      {showGifts && (
+      {showFlowers && (
         <Gifts
-          onClose={() => setShowGifts(false)}
+          onClose={() => setShowFlowers(false)}
           game={gameState.context.state}
         />
       )}
-      {!showGifts && (
+      {!showFlowers && (
         <>
           <div className="p-2">
-            <div className="flex justify-between items-center mb-3">
+            <div className="flex justify-between items-center mb-3 mr-10">
               <Label type="default" icon={SUNNYSIDE.icons.player}>
-                {name}
+                {npc}
               </Label>
+              <div
+                className="flex relative items-center"
+                style={{ width: "fit-content" }}
+              >
+                <ResizableBar
+                  percentage={percentage}
+                  type="progress"
+                  outerDimensions={{
+                    width: 30,
+                    height: 7,
+                  }}
+                />
+
+                <img
+                  src={giftIcon}
+                  onClick={openReward}
+                  className={classNames("h-6 ml-1 mb-0.5", {
+                    "animate-pulsate img-shadow cursor-pointer": giftIsReady,
+                  })}
+                />
+
+                <div
+                  className={classNames(
+                    "flex ml-2 transition-opacity opacity-0 absolute left-10 -top-4",
+                    {
+                      "opacity-100": !!friendshipBonus,
+                    }
+                  )}
+                >
+                  <img src={SUNNYSIDE.icons.happy} className="h-5" />
+                  <span className="text-xs">{`+${friendshipBonus}`}</span>
+                </div>
+              </div>
               {/* <div
                 className="flex relative items-center mr-10"
                 style={{ width: "fit-content" }}
@@ -319,69 +423,30 @@ export const BumpkinDelivery: React.FC = () => {
               {/* <img
                 src={flowerGift}
                 className="h-10 absolute top-3 right-3 cursor-pointer"
-                onClick={() => setShowGifts(true)}
+                onClick={() => setShowFlowers(true)}
               /> */}
             </div>
             <div className="h-16">
               <Dialogue
                 trail={25}
+                key={!!delivery?.completedAt ? "1" : "2"}
                 message={
-                  showFriendshipBonus
+                  !!delivery?.completedAt
                     ? "Thanks!"
                     : "Howdy Bumpkin, how about dem taters and pumpkins today? Great day for it."
                 }
               />
             </div>
 
-            <div className="flex justify-between">
-              <Label
-                type="default"
-                className="mb-2"
-                icon={SUNNYSIDE.icons.heart}
-              >
-                Friendship
-              </Label>
-              <div
-                className="flex relative items-center"
-                style={{ width: "fit-content" }}
-              >
-                <ResizableBar
-                  percentage={20 + (showFriendshipBonus ? 50 : 0)}
-                  type="progress"
-                  outerDimensions={{
-                    width: 30,
-                    height: 7,
-                  }}
-                />
-
-                <img
-                  src={giftIcon}
-                  className={classNames("h-6 ml-1 mb-0.5")}
-                  style={{}}
-                />
-
-                <div
-                  className={classNames(
-                    "flex ml-2 transition-opacity opacity-0 absolute left-10 -top-4",
-                    {
-                      "opacity-100": showFriendshipBonus,
-                    }
-                  )}
-                >
-                  <img src={SUNNYSIDE.icons.happy} className="h-5" />
-                  <span className="text-xs">+2</span>
-                </div>
-              </div>
-            </div>
-
-            <p className="text-xs mb-2">
-              Complete deliveries and provide gifts to earn bonus rewards
-            </p>
-
             <div className="flex justify-between items-center mb-2">
               <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
                 Delivery
               </Label>
+              {delivery?.completedAt && (
+                <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
+                  Completed
+                </Label>
+              )}
               {/* <div>
                 <Button className="h-7" onClick={deliver}>
                   <div className="flex items-center">
@@ -426,13 +491,15 @@ export const BumpkinDelivery: React.FC = () => {
           </div>
 
           <div className="flex mt-1">
-            {/* <Button className="mr-1" onClick={() => setShowGifts(true)}>
+            {/* <Button className="mr-1" onClick={() => setShowFlowers(true)}>
               <div className="flex items-center">Offer gift</div>
             </Button> */}
-            <Button className="mr-1" onClick={() => setShowGifts(true)}>
+            <Button className="mr-1" onClick={() => setShowFlowers(true)}>
               Gift
             </Button>
-            <Button onClick={deliver}>Deliver</Button>
+            <Button disabled={!hasDelivery} onClick={deliver}>
+              Deliver
+            </Button>
           </div>
         </>
       )}

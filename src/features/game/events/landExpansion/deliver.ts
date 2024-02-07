@@ -187,6 +187,11 @@ export function deliverOrder({
     throw new Error("Order has not started");
   }
 
+  // If order is complete throw error - TODO: Enable
+  // if (order.completedAt) {
+  //   throw new Error("Order is already completed");
+  // }
+
   const { tasksAreFrozen } = getSeasonChangeover({
     id: farmId,
     now: createdAt,
@@ -237,12 +242,14 @@ export function deliverOrder({
 
   const npcs = game.npcs ?? ({} as Partial<Record<NPCName, NPCData>>);
   const npc = npcs[order.from] ?? ({} as NPCData);
+  console.log({ npc });
   const completedDeliveries = npcs[order.from]?.deliveryCount ?? 0;
 
   npc.deliveryCount = completedDeliveries + 1;
   npc.friendship = {
     updatedAt: createdAt,
     points: (npc.friendship?.points ?? 0) + DELIVERY_FRIENDSHIP_POINTS,
+    giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
   };
 
   game.npcs = {
@@ -264,6 +271,8 @@ export function deliverOrder({
     // Mark as complete
     order.completedAt = Date.now();
   }
+
+  console.log({ completed: order.completedAt });
 
   return game;
 }

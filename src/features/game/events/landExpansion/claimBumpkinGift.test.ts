@@ -58,9 +58,9 @@ describe("claimBumpkinGift", () => {
       },
     });
 
-    expect(state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAt).toEqual(
-      10
-    );
+    expect(
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+    ).toEqual(10);
 
     expect(() =>
       claimGift({
@@ -87,16 +87,16 @@ describe("claimBumpkinGift", () => {
             friendship: {
               points: 12,
               updatedAt: 100002000,
-              giftClaimedAt: 0,
+              giftClaimedAtPoints: 0,
             },
           },
         },
       },
     });
 
-    expect(state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAt).toEqual(
-      10
-    );
+    expect(
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+    ).toEqual(10);
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
   });
 
@@ -114,16 +114,16 @@ describe("claimBumpkinGift", () => {
             friendship: {
               points: 32,
               updatedAt: 100002000,
-              giftClaimedAt: 10,
+              giftClaimedAtPoints: 10,
             },
           },
         },
       },
     });
 
-    expect(state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAt).toEqual(
-      20
-    );
+    expect(
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+    ).toEqual(20);
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
   });
 
@@ -141,16 +141,16 @@ describe("claimBumpkinGift", () => {
             friendship: {
               points: 32,
               updatedAt: 100002000,
-              giftClaimedAt: 20,
+              giftClaimedAtPoints: 20,
             },
           },
         },
       },
     });
 
-    expect(state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAt).toEqual(
-      30
-    );
+    expect(
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+    ).toEqual(30);
     expect(state.balance).toEqual(new Decimal(5));
   });
 
@@ -169,7 +169,7 @@ describe("claimBumpkinGift", () => {
             friendship: {
               points: 1000, // Multiple stacked up
               updatedAt: 100002000,
-              giftClaimedAt: 0,
+              giftClaimedAtPoints: 0,
             },
           },
         },
@@ -212,9 +212,9 @@ describe("claimBumpkinGift", () => {
       state,
     });
 
-    expect(state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAt).toEqual(
-      130
-    );
+    expect(
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+    ).toEqual(130);
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(3));
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
@@ -236,7 +236,7 @@ describe("claimBumpkinGift", () => {
               friendship: {
                 points: 79,
                 updatedAt: 100002000,
-                giftClaimedAt: 30,
+                giftClaimedAtPoints: 30,
               },
             },
           },
@@ -259,16 +259,16 @@ describe("claimBumpkinGift", () => {
             friendship: {
               points: 80,
               updatedAt: 100002000,
-              giftClaimedAt: 30,
+              giftClaimedAtPoints: 30,
             },
           },
         },
       },
     });
 
-    expect(state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAt).toEqual(
-      80
-    );
+    expect(
+      state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
+    ).toEqual(80);
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
   });
