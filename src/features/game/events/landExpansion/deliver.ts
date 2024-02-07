@@ -105,6 +105,8 @@ export type QuestNPCName =
 
 const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
 
+const DELIVERY_FRIENDSHIP_POINTS = 3;
+
 export function isOfQuestNPCType(value: string): value is QuestNPCName {
   return (QUEST_NPC_NAMES as string[]).includes(value);
 }
@@ -238,6 +240,10 @@ export function deliverOrder({
   const completedDeliveries = npcs[order.from]?.deliveryCount ?? 0;
 
   npc.deliveryCount = completedDeliveries + 1;
+  npc.friendship = {
+    updatedAt: createdAt,
+    points: (npc.friendship?.points ?? 0) + DELIVERY_FRIENDSHIP_POINTS,
+  };
 
   game.npcs = {
     ...npcs,
