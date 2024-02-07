@@ -9,6 +9,11 @@ export const BUMPKIN_DESIRES: Partial<Record<NPCName, GiftPoints>> = {
     "White Cosmos": 3,
     "Blue Daffodil": 15,
   },
+  "pumpkin' pete": {
+    "Red Pansy": 10,
+    "White Cosmos": 3,
+    "Blue Daffodil": 15,
+  },
 };
 
 export type BumpkinGift = {
