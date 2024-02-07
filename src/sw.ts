@@ -18,6 +18,8 @@ declare let self: ServiceWorkerGlobalScope;
 
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
 
+console.log(`[SW] Sunflower Land Service Worker v${OFFLINE_VERSION}`);
+
 // Disable workbox logs => do not delete this static import: import "workbox-core";
 self.__WB_DISABLE_DEV_LOGS = true;
 
