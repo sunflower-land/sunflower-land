@@ -12,6 +12,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { PlacedItem } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { OnChainBumpkin } from "lib/blockchain/BumpkinDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   defaultSelectedIndex?: number;
@@ -40,6 +41,7 @@ export const TentModal: React.FC<Props> = ({
   onClose,
   bumpkins,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
 
@@ -57,7 +59,7 @@ export const TentModal: React.FC<Props> = ({
   const MainContent = () => (
     <div className="flex flex-col space-y-4">
       <div>
-        <p className="text-sm mb-1">Showing on Farm</p>
+        <p className="text-sm mb-1">{t("showing.farm")}</p>
         <div className="flex flex-wrap">
           {farmingBumpkins
             .map((bumpkin) => interpretTokenUri(bumpkin.tokenURI))
@@ -77,7 +79,7 @@ export const TentModal: React.FC<Props> = ({
       </div>
       {nonFarmingBumpkins.length > 0 && (
         <div>
-          <p className="text-sm mb-1">In Wallet</p>
+          <p className="text-sm mb-1">{t("showing.wallet")}</p>
           <div className="flex flex-wrap">
             {nonFarmingBumpkins
               .map((bumpkin) => interpretTokenUri(bumpkin.tokenURI))

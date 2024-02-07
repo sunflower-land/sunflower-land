@@ -6,11 +6,12 @@ import { Button } from "components/ui/Button";
 import { Context } from "../GoblinProvider";
 import { MintedEvent } from "../lib/goblinMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Minted: React.FC = () => {
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-
+  const { t } = useAppTranslation();
   // Grab the last event triggered + item.
   const mintedItemName = ((goblinState.event as any)?.data as MintedEvent)
     ?.item;
@@ -19,17 +20,17 @@ export const Minted: React.FC = () => {
     <div className="flex flex-col">
       <div className="p-2 flex flex-col items-center">
         <h1 className="text-center mb-3 text-lg">
-          The goblins have crafted your {mintedItemName}!
+          {t("statements.minted")} {mintedItemName}!
         </h1>
         <img src={SUNNYSIDE.npcs.goblin_doing} className="w-20 mb-3" />
         <p className="mb-4 text-sm text-justify">
-          {`Go to your chest and place it on your island`}
+          {`${t("statements.minted.goToChest")}`}
         </p>
         <p className="mb-4 text-sm text-justify">
-          {`You will be able to withdraw your item once the mint has finished`}
+          {`${t("statements.minted.withdrawAfterMint")}`}
         </p>
       </div>
-      <Button onClick={() => goblinService.send("REFRESH")}>Ok</Button>
+      <Button onClick={() => goblinService.send("REFRESH")}>{t("ok")}</Button>
     </div>
   );
 };

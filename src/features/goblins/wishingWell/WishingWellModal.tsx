@@ -24,6 +24,8 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { mintTestnetTokens } from "lib/blockchain/Pair";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -45,185 +47,194 @@ type NoWishArgs = Pick<WishingWellTokens, "totalTokensInWell"> & {
   hasLPTokens: boolean;
 };
 
-const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => (
-  <>
-    <div className="p-2">
-      <div className="flex flex-col items-center mb-3">
-        <h1 className="text-lg mb-4 text-center">Congratulations!</h1>
-        <img src={token} alt="sunflower token" className="w-16 mb-2" />
-      </div>
-      <p className="mb-4 text-sm">Your wish has been granted.</p>
-      <p className="mb-4 text-sm">{`You have received ${reward} SFL!`}</p>
-      <p className="mb-4 text-sm">
-        A new wish has been made for you based on your current balance of LP
-        tokens!
-      </p>
-      {lockedTime && (
-        <p className="mb-2 text-sm">
-          {`Your new wish will be ready in ${lockedTime}.`}
+const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
+  const { t } = useAppTranslation();
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex flex-col items-center mb-3">
+          <h1 className="text-lg mb-4 text-center">{t("congrats")}</h1>
+          <img src={token} alt="sunflower token" className="w-16 mb-2" />
+        </div>
+        <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
+        <p className="mb-4 text-sm">
+          {t("wishingWell.sflRewardsReceived")}
+          {`${reward}`}
         </p>
-      )}
-    </div>
-    <Button className="mr-1" onClick={onClose}>
-      Close
-    </Button>
-  </>
-);
-
-const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => (
-  <>
-    <div className="p-2">
-      <div className="flex flex-col items-center mb-3">
-        <h1 className="text-lg mb-4 text-center">
-          {`It's time to grant your wish!`}
-        </h1>
-        <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
+        <p className="mb-4 text-sm">{t("wishingWell.newWish")}</p>
+        {lockedTime && (
+          <p className="mb-2 text-sm">
+            {t("wishingWell.wish.timeTillNextWish")}
+            {`${lockedTime}.`}
+          </p>
+        )}
       </div>
-      <p className="mb-4 text-sm">
-        {`There is currently ${Number(
-          fromWei(totalTokensInWell.toString())
-        ).toFixed(2)} SFL worth of rewards in the well!`}
-      </p>
-      <p className="mb-2 text-sm">{`Let's see how lucky you are!`}</p>
-    </div>
-    <div className="flex">
-      <Button onClick={onClick}>Grant Wish</Button>
-    </div>
-  </>
-);
-
-const ZeroTokens = ({ onClick }: ZeroTokensArgs) => (
-  <>
-    <div className="p-2">
-      <div className="flex flex-col items-center mb-3">
-        <h1 className="text-lg mb-4 text-center">{`Uh oh!`}</h1>
-        <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
-      </div>
-      <p className="mb-4 text-sm">
-        You have no reward available! Liquidity needs to be held for 3 days to
-        get a reward!
-      </p>
-      <p className="mb-2 text-sm">{`Grant a new wish and see how lucky you are!`}</p>
-    </div>
-    <div className="flex">
-      <Button className="whitespace-nowrap" onClick={onClick}>
-        Grant New Wish
+      <Button className="mr-1" onClick={onClose}>
+        {t("close")}
       </Button>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
-const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => (
-  <>
-    <div className="p-2">
-      <div className="flex flex-col items-center mb-3">
-        <h1 className="text-lg mb-4 text-center">You have made a wish!</h1>
-        <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
-      </div>
-      <p className="mb-4 text-sm">
-        Thanks for supporting the project and making a wish.
-      </p>
-      <p className="mb-4 text-sm">
-        {`Come back in ${lockedTime} to see just how lucky you have been.`}
-      </p>
-      <p className="mb-4 text-sm">
-        Be aware that only the LP tokens you held at the time the wish was made
-        will be considered when the wish is granted.
-      </p>
-      <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
-        <img
-          src={SUNNYSIDE.icons.expression_alerted}
-          alt="alert"
-          className="mr-2 w-6"
-        />
-        <span className="text-xs">
-          {`If you remove your liquidity during this time you won't receive any
-            rewards.`}
-        </span>
-      </div>
-    </div>
-  </>
-);
-
-const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => (
-  <>
-    <div className="p-2">
-      <div className="flex flex-col items-center mb-3">
-        <h1 className="text-lg mb-2 text-center">Wishing Well</h1>
-        <img src={wisingWell} alt="wishing well" className="w-16" />
-      </div>
-      <p className="mb-4 text-sm">
-        The wishing well is a magical place where SFL rewards can be made just
-        by making a wish!
-      </p>
-      <p className="mb-4 text-sm">
-        Wishes are granted to farmers who{" "}
-        <a
-          className="underline"
-          href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          provide liquidity
-        </a>
-        {` in the game.`}
-      </p>
-      <p className="mb-4 text-sm">
-        {`There is currently ${Number(
-          fromWei(totalTokensInWell.toString())
-        ).toFixed(2)} SFL worth of rewards in the well!`}
-      </p>
-      <div className="flex justify-center items-center mb-4">
-        <img
-          src={SUNNYSIDE.icons.player}
-          alt="player address"
-          className="w-6"
-        />
-        <span className="ml-2">{shortAddress(wallet.myAccount as string)}</span>
-      </div>
-      {hasLPTokens ? (
-        <p className="mb-2 text-sm">
-          Looks like you have those magic LP tokens in your wallet!
+const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => {
+  const { t } = useAppTranslation();
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex flex-col items-center mb-3">
+          <h1 className="text-lg mb-4 text-center">
+            {t("wishingWell.wish.grantTime")}
+          </h1>
+          <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
+        </div>
+        <p className="mb-4 text-sm">
+          {`${t("there.currently")} ${Number(
+            fromWei(totalTokensInWell.toString())
+          ).toFixed(2)} SFL ${t("statements.wishing.well.worthwell")}`}
         </p>
-      ) : (
-        <p className="mb-2 text-sm">
-          {`It doesn't look like you are `}
+        <p className="mb-2 text-sm">{`${t(
+          "statements.wishing.well.lucky"
+        )}`}</p>
+      </div>
+      <div className="flex">
+        <Button onClick={onClick}>{t("grant.wish")}</Button>
+      </div>
+    </>
+  );
+};
+
+const ZeroTokens = ({ onClick }: ZeroTokensArgs) => {
+  const { t } = useAppTranslation();
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex flex-col items-center mb-3">
+          <h1 className="text-lg mb-4 text-center">{t("uhOh")}</h1>
+          <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
+        </div>
+        <p className="mb-4 text-sm">{`${t("wishingWell.noReward")}`}</p>
+        <p className="mb-2 text-sm">{`${t("wishingWell.wish.lucky")}`}</p>
+      </div>
+      <div className="flex">
+        <Button className="whitespace-nowrap" onClick={onClick}>
+          {t("grant.wish")}
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => {
+  const { t } = useAppTranslation();
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex flex-col items-center mb-3">
+          <h1 className="text-lg mb-4 text-center">
+            {t("wishingWell.wish.made")}
+          </h1>
+          <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
+        </div>
+        <p className="mb-4 text-sm">{t("wishingWell.wish.comeBackAfter")}</p>
+        <p className="mb-4 text-sm">
+          {`${t("come.back")} ${lockedTime} ${t(
+            "statements.wishing.just.lucky"
+          )}`}
+        </p>
+        <p className="mb-4 text-sm">{t("wishingWell.wish.warning.one")}</p>
+        <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            alt="alert"
+            className="mr-2 w-6"
+          />
+          <span className="text-xs">{t("wishingWell.wish.warning.two")}</span>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
+  const { t } = useAppTranslation();
+  return (
+    <>
+      <div className="p-2">
+        <div className="flex flex-col items-center mb-3">
+          <h1 className="text-lg mb-2 text-center">{t("wishing.well")}</h1>
+          <img src={wisingWell} alt="wishing well" className="w-16" />
+        </div>
+        <p className="mb-4 text-sm">{t("wishingWell.info.one")}</p>
+        <p className="mb-4 text-sm">
+          {t("wishingWell.info.two")}{" "}
           <a
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
             target="_blank"
             rel="noopener noreferrer"
           >
-            providing liquidity
+            {t("statements.wishing.well.info.four")}
           </a>
-          {` yet.`}
+          {t("statements.wishing.well.info.five")}
         </p>
-      )}
-    </div>
-    <div className="flex">
-      <Button
-        className={classNames(!hasLPTokens && "text-xs")}
-        onClick={onClick}
-      >
-        {hasLPTokens ? `Make Wish` : `Add Liquidity`}
-      </Button>
-    </div>
-    {CONFIG.NETWORK === "mumbai" && (
-      <div>
+        <p className="mb-4 text-sm">
+          {`${t("there.currently")} ${Number(
+            fromWei(totalTokensInWell.toString())
+          ).toFixed(2)} SFL ${t("statements.wishing.well.worthwell")}`}
+        </p>
+        <div className="flex justify-center items-center mb-4">
+          <img
+            src={SUNNYSIDE.icons.player}
+            alt="player address"
+            className="w-6"
+          />
+          <span className="ml-2">
+            {shortAddress(wallet.myAccount as string)}
+          </span>
+        </div>
+        {hasLPTokens ? (
+          <p className="mb-2 text-sm">{t("wishingWell.info.three")}</p>
+        ) : (
+          <p className="mb-2 text-sm">
+            {`${t("statements.wishing.well.look.like")}`}
+            <a
+              className="underline"
+              href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("statements.wishing.well.info.six")}
+            </a>
+            {` yet.`}
+          </p>
+        )}
+      </div>
+      <div className="flex">
         <Button
-          className="text-xs mt-2"
-          onClick={() =>
-            mintTestnetTokens(wallet.web3Provider, wallet.myAccount as string)
-          }
+          className={classNames(!hasLPTokens && "text-xs")}
+          onClick={onClick}
         >
-          Mint testnet LP tokens
+          {hasLPTokens ? translate("make.wish") : translate("add.liquidity")}
         </Button>
       </div>
-    )}
-  </>
-);
+      {CONFIG.NETWORK === "mumbai" && (
+        <div>
+          <Button
+            className="text-xs mt-2"
+            onClick={() =>
+              mintTestnetTokens(wallet.web3Provider, wallet.myAccount as string)
+            }
+          >
+            Mint testnet LP tokens
+          </Button>
+        </div>
+      )}
+    </>
+  );
+};
 
 export const WishingWellModal: React.FC = () => {
+  const { t } = useAppTranslation();
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
 
@@ -255,18 +266,18 @@ export const WishingWellModal: React.FC = () => {
     <Modal centered show={true} onHide={handleClose}>
       <Panel className="relative">
         {machine.matches("loading") && (
-          <span className="loading mt-1">Loading</span>
+          <span className="loading mt-1">{t("loading")}</span>
         )}
         {(machine.matches("granting") || machine.matches("signing")) && (
-          <span className="loading mt-1">Granting your wish</span>
+          <span className="loading mt-1">{t("granting.wish")}</span>
         )}
         {machine.matches("wishing") && (
-          <span className="loading mt-1">Making a wish</span>
+          <span className="loading mt-1">{t("making.wish")}</span>
         )}
         {machine.matches("error") && (
           <div>
             {errorCode === "NO_TOKENS" ? (
-              <span className="mt-2">No SFL tokens found</span>
+              <span className="mt-2">{t("no.sfl")}</span>
             ) : (
               <SomethingWentWrong />
             )}

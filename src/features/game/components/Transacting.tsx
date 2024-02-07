@@ -1,14 +1,16 @@
 import React from "react";
 
 import syncing from "assets/npcs/syncing.gif";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Transacting: React.FC = () => {
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col items-center justify-center p-2">
-      <span className="mb-2 text-center">Processing your transaction.</span>
+      <span className="mb-2 text-center">{t("transaction.processing")}</span>
       <img src={syncing} className="w-1/4 mb-2 mr-10" />
       <span className="text-sm text-center mt-2 mb-2">
-        Please wait for your transaction to be confirmed by the Blockchain.
+        {t("transaction.pleaseWait")}
       </span>
       <a
         className="underline text-xxs text-center hover:text-white"
@@ -16,7 +18,7 @@ export const Transacting: React.FC = () => {
         target="_blank"
         rel="noreferrer"
       >
-        After 5 minutes, any unconfirmed transactions will be reset.
+        {t("transaction.unconfirmed.reset")}
       </a>
     </div>
   );

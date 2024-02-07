@@ -5,6 +5,7 @@ import { BumpkinSkillName } from "features/game/types/bumpkinSkills";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { translate } from "lib/i18n/translate";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -63,7 +64,7 @@ export function mineStone({
   }
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!canMine(rock, createdAt)) {

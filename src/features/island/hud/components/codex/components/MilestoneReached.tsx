@@ -18,6 +18,7 @@ import {
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   milestoneName: MilestoneName;
@@ -28,6 +29,8 @@ export const MilestoneReached: React.FC<Props> = ({
   onClose,
 }) => {
   const shareMessage = `Just reached the milestone ${milestoneName} in Sunflower Land! So proud of my progress in this game. 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #LevelUp`;
+
+  const { t } = useAppTranslation();
 
   const clicked = (method: "Reddit" | "Twitter" | "Telegram" | "Facebook") => {
     // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?sjid=18434190870996612736-AP&client_type=gtag#share
@@ -57,7 +60,7 @@ export const MilestoneReached: React.FC<Props> = ({
           {MILESTONE_MESSAGES[milestoneName] ?? "Wow, I am lost for words!"}
         </p>
         <div className="flex mt-2 mb-1 underline">
-          <p className="text-xxs">Share</p>
+          <p className="text-xxs">{t("share")}</p>
         </div>
         <div className="flex">
           <TwitterShareButton
@@ -94,7 +97,7 @@ export const MilestoneReached: React.FC<Props> = ({
         </div>
       </div>
       <Button className="mt-2" onClick={onClose}>
-        Ok
+        {t("ok")}
       </Button>
     </Panel>
   );

@@ -4,6 +4,7 @@
 
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
+import { translate } from "lib/i18n/translate";
 
 export type WorkbenchToolName =
   | "Axe"
@@ -27,13 +28,13 @@ export const WORKBENCH_TOOLS: (
 ) => Record<WorkbenchToolName, Tool> = () => ({
   Axe: {
     name: "Axe",
-    description: "Used to collect wood",
+    description: translate("description.axe"),
     sfl: new Decimal(0.0625),
     ingredients: {},
   },
   Pickaxe: {
     name: "Pickaxe",
-    description: "Used to collect stone",
+    description: translate("description.pickaxe"),
     sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(3),
@@ -41,7 +42,7 @@ export const WORKBENCH_TOOLS: (
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
-    description: "Used to collect iron",
+    description: translate("description.stone.pickaxe"),
     sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(3),
@@ -50,7 +51,8 @@ export const WORKBENCH_TOOLS: (
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
-    description: "Used to collect gold",
+    description: translate("description.iron.pickaxe"),
+
     sfl: new Decimal(0.25),
     ingredients: {
       Wood: new Decimal(3),
@@ -59,7 +61,7 @@ export const WORKBENCH_TOOLS: (
   },
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
-    description: "Used to collect crimstones",
+    description: translate("description.gold.pickaxe"),
     sfl: new Decimal(0.3125),
     ingredients: {
       Wood: new Decimal(3),
@@ -68,7 +70,7 @@ export const WORKBENCH_TOOLS: (
   },
   Rod: {
     name: "Rod",
-    description: "Used to collect fish",
+    description: translate("description.rod"),
     sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(3),
@@ -80,7 +82,7 @@ export const WORKBENCH_TOOLS: (
 export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   "Sand Shovel": {
     name: "Sand Shovel",
-    description: "Used for digging treasure",
+    description: translate("description.sand.shovel"),
     sfl: new Decimal(0.0625),
     ingredients: {
       Wood: new Decimal(2),
@@ -89,7 +91,7 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   },
   "Sand Drill": {
     name: "Sand Drill",
-    description: "Drill deep for uncommon or rare treasure",
+    description: translate("description.sand.drill"),
     sfl: new Decimal(0.125),
     ingredients: {
       Gold: new Decimal(1),

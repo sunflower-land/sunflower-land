@@ -11,6 +11,7 @@ import {
 } from "features/game/types/flowers";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -66,17 +67,17 @@ export function plantFlower({
   const { flowers, bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const flowerBed = flowers.flowerBeds[action.id];
 
   if (!flowerBed) {
-    throw new Error("Flower bed does not exist");
+    throw new Error(translate("harvestflower.noFlowerBed"));
   }
 
   if (flowerBed.flower?.plantedAt) {
-    throw new Error("Flower is already planted");
+    throw new Error(translate("harvestflower.alr.plant"));
   }
 
   if (!isFlowerSeed(action.seed)) {

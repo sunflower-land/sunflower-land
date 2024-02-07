@@ -5,6 +5,7 @@ import clickToHarvest from "assets/tutorials/click_to_harvest.png";
 import betty from "assets/tutorials/betty.png";
 import bruce from "assets/tutorials/bruce_intro.png";
 import workbench from "assets/tutorials/workbench_chat.png";
+import { translate } from "lib/i18n/translate";
 
 import { CROPS } from "./crops";
 export type Chore = {
@@ -29,32 +30,31 @@ export type Chore = {
 export const CHORES: Chore[] = [
   {
     activity: "Sunflower Harvested",
-    description: "Harvest the fields",
+    description: translate("chores.harvestFields"),
     image: clickToHarvest,
-    introduction:
-      "These fields ain't gonna plow themselves. Harvest 3 Sunflowers.",
+    introduction: translate("chores.harvestFieldsIntro"),
     requirement: 3,
     reward: {
       items: {},
     },
   },
   {
-    description: `Earn ${CROPS().Sunflower.sellPrice.mul(5)} SFL`,
+    description: `${translate("earn")} ${CROPS().Sunflower.sellPrice.mul(
+      5
+    )} SFL`,
     sfl: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     image: betty,
-    introduction:
-      "If you want to make it big in the farming business, you better start by sellin' sunflowers, buyin' seeds, and reaping the profit.",
+    introduction: translate("chores.earnSflIntro"),
     requirement: CROPS().Sunflower.sellPrice.mul(5).toNumber(),
     reward: {
       items: {},
     },
   },
   {
-    description: "Reach Level 2",
+    description: translate("chores.reachLevel"),
     bumpkinLevel: 2,
     image: bruce,
-    introduction:
-      "If you want to level up & unlock new abilities, you better start cookin' up food & chowin' it down.",
+    introduction: translate("chores.reachLevelIntro"),
     requirement: 2,
     reward: {
       items: {},
@@ -62,11 +62,10 @@ export const CHORES: Chore[] = [
   },
   {
     activity: "Tree Chopped",
-    description: "Chop 3 Trees",
+    description: translate("chores.chopTrees"),
     requirement: 3,
     image: workbench,
-    introduction:
-      "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
+    introduction: translate("chores.helpWithTrees"),
     reward: {
       items: {},
     },
@@ -74,7 +73,7 @@ export const CHORES: Chore[] = [
   // Craft Scarecrow
   // {
   //   activity: "Bush Bought",
-  //   description:"Craft a scarecrow",
+  //   description: translate("hank.crafting.scarecrow"),
   //   requirement: 1,
   //   reward: {
   //     items: {

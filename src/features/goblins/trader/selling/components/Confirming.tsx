@@ -7,6 +7,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { Draft } from "../lib/sellingMachine";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ConfirmProps {
   tax: number;
@@ -21,6 +22,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
   onBack,
   onConfirm,
 }) => {
+  const { t } = useAppTranslation();
   const resource = ITEM_DETAILS[draft.resourceName];
 
   // Round to 2 decimal places
@@ -78,8 +80,8 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>Back</Button>
-        <Button onClick={onConfirm}>Confirm</Button>
+        <Button onClick={onBack}>{t("back")}</Button>
+        <Button onClick={onConfirm}>{t("confirm")}</Button>
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { FRUIT, FruitName } from "features/game/types/fruits";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   fruitName: FruitName;
@@ -25,6 +26,7 @@ export const DeadTree = ({ fruitName, hasAxes }: Props) => {
     setShowNoToolWarning(false);
   };
 
+  const { t } = useAppTranslation();
   return (
     <>
       <div
@@ -57,7 +59,7 @@ export const DeadTree = ({ fruitName, hasAxes }: Props) => {
         <InfoPopover showPopover={showNoToolWarning}>
           <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
             <img src={SUNNYSIDE.tools.axe} className="w-4 mr-1" />
-            <span>No Axe Selected!</span>
+            <span>{t("warning.noAxe")}</span>
           </div>
         </InfoPopover>
       </div>

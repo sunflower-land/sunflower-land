@@ -12,6 +12,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GoblinProvider";
 import { DepositArgs } from "lib/blockchain/Deposit";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   farmAddress: string;
@@ -21,6 +22,7 @@ interface Props {
 export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
   const { goblinService } = useContext(Context);
   const [tab, setTab] = useState<"deposit" | "withdraw">("deposit");
+  const { t } = useAppTranslation();
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
@@ -40,11 +42,11 @@ export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
       >
         <Tab isActive={tab === "deposit"} onClick={() => setTab("deposit")}>
           <img src={chest} className="h-5 mr-2" />
-          <span className="text-sm">Deposit</span>
+          <span className="text-sm">{t("deposit")}</span>
         </Tab>
         <Tab isActive={tab === "withdraw"} onClick={() => setTab("withdraw")}>
           <img src={wallet} className="h-5 mr-2" />
-          <span className="text-sm">Withdraw</span>
+          <span className="text-sm">{t("withdraw")}</span>
         </Tab>
         <img
           src={SUNNYSIDE.icons.close}

@@ -28,19 +28,19 @@ export const Introduction: React.FC = () => {
           }}
           message={[
             {
-              text: t("intro.one"),
+              text: t("pete.intro.one"),
             },
             {
-              text: t("intro.two"),
+              text: t("pete.intro.two"),
             },
             {
-              text: t("intro.three"),
+              text: t("pete.intro.three"),
             },
             {
-              text: t("intro.four"),
+              text: t("pete.intro.four"),
             },
             {
-              text: t("intro.five"),
+              text: t("pete.intro.five"),
             },
           ]}
         />

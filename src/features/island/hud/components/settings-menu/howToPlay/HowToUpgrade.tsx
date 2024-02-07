@@ -8,6 +8,7 @@ import { HowToModalHeader } from "./HowToModalHeader";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -15,18 +16,18 @@ interface Props {
 }
 
 export const HowToUpgrade: React.FC<Props> = ({ onClose, onBack }) => {
+  const { t } = useAppTranslation();
+
   return (
     <>
       <HowToModalHeader
-        title="How to upgrade?"
+        title={t("howToUpgrade.title")}
         onClose={onClose}
         onBack={onBack}
       />
       <Modal.Body>
         <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">
-            1. Talk to a Goblin blocking the fields
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToUpgrade.stepOne")}</p>
           <div className="relative w-12 h-12">
             <img
               src={SUNNYSIDE.npcs.goblin}
@@ -44,9 +45,7 @@ export const HowToUpgrade: React.FC<Props> = ({ onClose, onBack }) => {
           </div>
         </div>
         <div className="flex  items-center mt-2 ">
-          <p className="text-xs sm:text-sm p-2">
-            2.Visit the town & click on the kitchen
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToUpgrade.stepTwo")}</p>
           <div className="relative">
             <img src={kitchen} className="w-14" />
             <img
@@ -57,16 +56,14 @@ export const HowToUpgrade: React.FC<Props> = ({ onClose, onBack }) => {
         </div>
         <div className="flex  items-center mt-2 ">
           <p className="text-xs sm:text-sm p-2">
-            3. Craft the food that the goblin wants
+            {t("howToUpgrade.stepThree")}
           </p>
           <div className="relative">
             <img src={pumpkinSoup} className="w-14 relative left-1" />
           </div>
         </div>
         <div className="flex  items-center mt-2 ">
-          <p className="text-xs sm:text-sm p-2">
-            4. Voila! Enjoy your new fields and crops
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToUpgrade.stepFour")}</p>
           <div className="relative">
             <img src={CROP_LIFECYCLE.Carrot.crop} className="w-14 relative" />
           </div>

@@ -34,6 +34,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import lockIcon from "assets/skills/lock.png";
 import { getKeys } from "features/game/types/craftables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -73,6 +74,8 @@ interface Props {
   index: number;
 }
 export const Plot: React.FC<Props> = ({ id, index }) => {
+  const { t } = useAppTranslation();
+
   const { scale } = useContext(ZoomContext);
   const {
     gameService,
@@ -294,14 +297,14 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         <CloseButtonPanel onClose={() => setShowMissingSeeds(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={SUNNYSIDE.icons.seeds} type="danger">
-              Missing Seeds
+              {t("onCollectReward.Missing.Seed")}
             </Label>
             <img
               src={ITEM_DETAILS.Market.image}
               className="w-10 mx-auto my-2"
             />
             <p className="text-center text-sm mb-2">
-              Go to the Market to purchase seeds.
+              {t("onCollectReward.Market")}
             </p>
           </div>
         </CloseButtonPanel>
@@ -331,7 +334,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         <CloseButtonPanel onClose={() => setShowMissingShovel(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
-              Missing Shovel
+              {t("onCollectReward.Missing.Shovel")}
             </Label>
             <img
               src={ITEM_DETAILS.Shovel.image}

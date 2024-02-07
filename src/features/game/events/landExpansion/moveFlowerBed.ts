@@ -3,6 +3,7 @@ import { detectCollision } from "features/game/expansion/placeable/lib/collision
 import { GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type MoveFlowerBedAction = {
   type: "flowerBed.moved";
@@ -26,7 +27,7 @@ export function moveFlowerBed({
   const flowerBed = stateCopy.flowers.flowerBeds[action.id];
 
   if (!flowerBed) {
-    throw new Error("Flower bed does not exist");
+    throw new Error(translate("harvestflower.noFlowerBed"));
   }
 
   const dimensions = RESOURCE_DIMENSIONS["Flower Bed"];

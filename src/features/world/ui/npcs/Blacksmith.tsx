@@ -7,12 +7,14 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { HeliosBlacksmithItems } from "features/helios/components/blacksmith/component/HeliosBlacksmithItems";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { defaultDialogue, npcDialogues } from "../deliveries/dialogues";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Blacksmith: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
   const [confirmAction, setConfirmAction] = useState(false);
   const dialogue = npcDialogues.blacksmith || defaultDialogue;
@@ -33,11 +35,11 @@ export const Blacksmith: React.FC<Props> = ({ onClose }) => {
             text: intro,
             actions: [
               {
-                text: "Craft",
+                text: t("craft"),
                 cb: () => handleConfirm(0),
               },
               {
-                text: "Delivery",
+                text: t("delivery"),
                 cb: () => handleConfirm(1),
               },
             ],

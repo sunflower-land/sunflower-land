@@ -12,6 +12,8 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   isOpen: boolean;
@@ -24,7 +26,7 @@ export const INPUT_MAX_CHAR = 10;
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
     <Modal show={isOpen} centered onHide={onClose}>
-      <CloseButtonPanel title="Add SFL" onClose={onClose}>
+      <CloseButtonPanel title={translate("addSFL")} onClose={onClose}>
         <GameWallet action="purchase">
           <AddSFLOptions isOpen={isOpen} onClose={onClose} />
         </GameWallet>
@@ -40,6 +42,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
   const [maticAmount, setMaticAmount] = useState(0);
   const [SFLAmount, setSFLAmount] = useState(0);
   const [maticInputError, setMaticInputError] = useState<string | null>(null);
+  const { t } = useAppTranslation();
 
   const amountOutMin = SFLAmount * 0.99;
 
@@ -111,14 +114,14 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const Content = () => {
     if (isLoading) {
-      return <span className="loading">Loading</span>;
+      return <span className="loading">{t("loading")}</span>;
     }
 
     return (
       <>
         <div className="p-2 pt-1 mb-2">
           <p className="mb-2 text-xs sm:text-sm">
-            Sunflower Land provides a quick way to swap Matic for SFL via{" "}
+            {t("addSFL.swapDetails")}
             <a
               className="underline hover:text-white"
               href="https://quickswap.exchange/#/swap?swapIndex=0&currency0=ETH&currency1=0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
@@ -129,11 +132,9 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             </a>
             .
           </p>
-          <p className="mb-2 text-xs sm:text-sm">
-            Sunflower Land takes a 5% referral fee to complete this transaction.
-          </p>
+          <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>
           <div className="flex flex-col mt-3">
-            <h1 className="mb-2">Swap Details</h1>
+            <h1 className="mb-2">{t("addSFL.swapTitle")}</h1>
             <div className="flex items-start justify-between mb-2">
               <div className="relative w-full mr-4">
                 <input
@@ -149,7 +150,9 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                     }
                   )}
                 />
-                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">{`Balance: ${formattedMaticBalance}`}</span>
+                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
+                  {t("balance")}:{formattedMaticBalance}
+                </span>
               </div>
               <div className="w-[10%] flex self-center justify-center">
                 <img src={matic} alt="selected item" className="w-6" />
@@ -158,10 +161,10 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="relative">
               {maticInputError && (
                 <p className="absolute -top-1 text-error text-[11px] font-error">
-                  Something went wrong
+                  {t("error.wentWrong")}
                 </p>
               )}
-              <div className="text-left w-full mt-3 mb-4">for</div>
+              <div className="text-left w-full mt-3 mb-4">{t("for")}</div>
             </div>
             <div className="flex items-center justify-between mb-2">
               <div className="relative w-full mr-4">
@@ -180,7 +183,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="relative h-3">
               {!!amountOutMin && (
                 <p className="text-xxs">
-                  Minimum Received:{" "}
+                  {t("addSFL.minimumReceived")}:{" "}
                   {setPrecision(new Decimal(amountOutMin)).toNumber()}
                 </p>
               )}
@@ -193,7 +196,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             disabled={amountGreaterThanBalance || !!maticInputError}
             className="whitespace-nowrap"
           >
-            Add SFL
+            {t("addSFL")}
           </Button>
         </div>
       </>

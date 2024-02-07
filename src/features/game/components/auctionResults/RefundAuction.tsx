@@ -9,10 +9,12 @@ import { Loser } from "features/retreat/components/auctioneer/Loser";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const RefundAuction: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
+  const { t } = useAppTranslation();
 
   const bid = gameService.state.context.state.auctioneer.bid!;
   const image =
@@ -26,7 +28,7 @@ export const RefundAuction: React.FC = () => {
 
   return (
     <Modal centered show={true} onHide={onClose}>
-      <CloseButtonPanel onClose={onClose} title={"Better luck next time!"}>
+      <CloseButtonPanel onClose={onClose} title={t("statements.better.luck")}>
         <div className="flex items-center w-full justify-center pb-2">
           <img src={image} className="w-20 h-20" />
         </div>

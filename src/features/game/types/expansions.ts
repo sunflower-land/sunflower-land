@@ -1644,7 +1644,7 @@ const SPRING_LAND_5_REQUIREMENTS: Requirements = {
     Wood: 20,
   },
   seconds: 60,
-  bumpkinLevel: 15,
+  bumpkinLevel: 11,
 };
 
 const SPRING_LAND_6_REQUIREMENTS: Requirements = {
@@ -1654,7 +1654,7 @@ const SPRING_LAND_6_REQUIREMENTS: Requirements = {
     Gold: 2,
   },
   seconds: 5 * 60,
-  bumpkinLevel: 17,
+  bumpkinLevel: 13,
 };
 
 const SPRING_LAND_7_REQUIREMENTS: Requirements = {
@@ -1665,7 +1665,7 @@ const SPRING_LAND_7_REQUIREMENTS: Requirements = {
     "Block Buck": 1,
   },
   seconds: 30 * 60,
-  bumpkinLevel: 19,
+  bumpkinLevel: 16,
 };
 
 const SPRING_LAND_8_REQUIREMENTS: Requirements = {
@@ -1675,7 +1675,7 @@ const SPRING_LAND_8_REQUIREMENTS: Requirements = {
     "Block Buck": 1,
   },
   seconds: 2 * 60 * 60,
-  bumpkinLevel: 21,
+  bumpkinLevel: 20,
 };
 
 const SPRING_LAND_9_REQUIREMENTS: Requirements = {
@@ -1840,6 +1840,7 @@ export const EXPANSION_REQUIREMENTS: Record<
     7: LAND_7_REQUIREMENTS,
     8: LAND_8_REQUIREMENTS,
     9: LAND_9_REQUIREMENTS,
+    // LEGACY - used for refunding expansions - do not remove
     10: LAND_10_REQUIREMENTS,
     11: LAND_11_REQUIREMENTS,
     12: LAND_12_REQUIREMENTS,
@@ -1911,8 +1912,8 @@ export const BUMPKIN_EXPANSIONS_LEVEL: Record<
   },
   spring: {
     4: 10,
-    5: 12,
-    6: 13,
+    5: 10,
+    6: 10,
     7: 15,
     8: 17,
     9: 20,

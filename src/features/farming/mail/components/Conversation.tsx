@@ -7,6 +7,7 @@ import {
 } from "features/game/types/conversations";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 
 interface Props {
@@ -22,6 +23,7 @@ export const Conversation: React.FC<Props> = ({
   read,
   onAcknowledge,
 }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -53,7 +55,7 @@ export const Conversation: React.FC<Props> = ({
     if (showReward && conversation.reward) {
       return (
         <>
-          <p className="text-center">{`I've got something for you!`}</p>
+          <p className="text-center">{t("statements.conversation.one")}</p>
 
           <div className="flex flex-col items-center">
             {getKeys(conversation.reward?.items).map((name) => (
@@ -75,7 +77,7 @@ export const Conversation: React.FC<Props> = ({
             ))}
           </div>
 
-          <Button onClick={acknowledge}>Claim</Button>
+          <Button onClick={acknowledge}>{t("claim")}</Button>
         </>
       );
     }
@@ -97,7 +99,7 @@ export const Conversation: React.FC<Props> = ({
 
         {!read && (
           <Button onClick={next}>
-            {!!conversation.reward && !read ? "Open Gift" : `Got it`}
+            {!!conversation.reward && !read ? t("open.gift") : t("gotIt")}
           </Button>
         )}
 
@@ -109,7 +111,7 @@ export const Conversation: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
           >
-            Read more
+            {t("read.more")}
           </a>
         )}
       </>

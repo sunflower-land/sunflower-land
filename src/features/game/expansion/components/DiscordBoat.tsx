@@ -18,10 +18,12 @@ import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
@@ -65,11 +67,8 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
     return (
       <>
         <div className="p-2">
-          <p className="text-sm mb-2">Wow, nice hat!</p>
-          <p className="text-sm mb-2">
-            {`Don't forget to pay attention to special events and giveaways on
-            Discord so you don't miss out.`}
-          </p>
+          <p className="text-sm mb-2">{t("discord.bonus.niceHat")}</p>
+          <p className="text-sm mb-2">{t("discord.bonus.attentionEvents")}</p>
         </div>
       </>
     );
@@ -99,17 +98,12 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
             type="warning"
             icon={SUNNYSIDE.decorations.treasure_chest}
           >
-            Bonus reward
+            {t("discord.bonus.bonusReward")}
           </Label>
-          <p className="text-xs mb-2">
-            We hope you are enjoying being a part of our community!
-          </p>
-          <p className="text-xs mb-2">
-            {`Pay attention to special events and giveaways on Discord so you
-            don't miss out.`}
-          </p>
+          <p className="text-xs mb-2">{t("discord.bonus.enjoyCommunity")}</p>
+          <p className="text-xs mb-2">{t("discord.bonus.payAttention")}</p>
         </div>
-        <Button onClick={acknowledge}>Claim Gift</Button>
+        <Button onClick={acknowledge}>{t("claim.gift")}</Button>
       </>
     );
   }
@@ -122,20 +116,13 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Bonus reward
+          {t("discord.bonus.bonusReward")}
         </Label>
-        <p className="text-xs mb-2">
-          Did you know there are over 100,000 players in our vibrant Discord
-          community?
-        </p>
-        <p className="text-xs mb-2">
-          If you are looking for farming tips & tricks, it is the place to be.
-        </p>
-        <p className="text-xs mb-2">
-          The best part...everyone who joins gets a free gift!
-        </p>
+        <p className="text-xs mb-2">{t("discord.bonus.communityInfo")}</p>
+        <p className="text-xs mb-2">{t("discord.bonus.farmingTips")}</p>
+        <p className="text-xs mb-2">{t("discord.bonus.freeGift")}</p>
       </div>
-      <Button onClick={oauth}>Connect to Discord</Button>
+      <Button onClick={oauth}>{t("discord.bonus.connect")}</Button>
     </>
   );
 };

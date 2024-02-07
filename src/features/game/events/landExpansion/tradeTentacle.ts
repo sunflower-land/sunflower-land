@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { translate } from "lib/i18n/translate";
 
 export type TradeTentacleAction = {
   type: "shelly.tradeTentacle";
@@ -22,7 +23,7 @@ export function tradeTentacle({
   const { bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!stateCopy.npcs) {

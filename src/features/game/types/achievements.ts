@@ -449,11 +449,11 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     },
   },
   Explorer: {
-    description: translate("explorer.description"),
+    description: translate("expand.land"),
     progress: (gameState: GameState) =>
       gameState.inventory["Basic Land"]?.toNumber() ?? 0,
     requirement: 4,
-    introduction: [translate("intro.four"), translate("explorer.one")],
+    introduction: [translate("pete.intro.four"), translate("explorer.one")],
     sfl: new Decimal(0),
   },
   "Land Expansion Enthusiast": {

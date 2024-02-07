@@ -15,6 +15,7 @@ import { loadAudio, miningAudio } from "lib/utils/sfx";
 import stone from "assets/resources/stone_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Pickaxe";
 
@@ -37,6 +38,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   const [showEquipTool, setShowEquipTool] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     loadAudio([miningAudio]);
@@ -151,7 +153,9 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

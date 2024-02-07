@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import dignity from "assets/icons/dignity.png";
 import unicorn from "assets/icons/unicorn.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type CommunityIsland = {
   url: string;
@@ -34,6 +35,8 @@ export const COMMUNITY_ISLANDS: CommunityIsland[] = [
 ];
 
 export const CommunityIslands: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const navigate = useNavigate();
   const travel = async (island: CommunityIsland) => {
     navigate(`/community/${island.id}`);
@@ -42,7 +45,7 @@ export const CommunityIslands: React.FC = () => {
   return (
     <>
       <div className="p-2">
-        <p className="mb-2">Travel to community built islands</p>
+        <p className="mb-2">{t("comunity.Travel")}</p>
       </div>
 
       {COMMUNITY_ISLANDS.map((island) => (
@@ -67,7 +70,7 @@ export const CommunityIslands: React.FC = () => {
         rel="noopener noreferrer"
         className="underline text-white text-xs"
       >
-        Read more
+        {t("read.more")}
       </a>
     </>
   );

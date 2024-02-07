@@ -26,6 +26,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -206,6 +207,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   onClose,
 }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
@@ -263,9 +265,9 @@ export const DeliveryPanelContent: React.FC<Props> = ({
           },
           {
             text: totalExpansions.lt(DELIVERY_LEVELS[npc] ?? 0)
-              ? `Hmm, it doesn't look like your farm will have the resources I need. Reach ${
-                  DELIVERY_LEVELS[npc] ?? 10
-                } expansions and come back to me.`
+              ? `${t("delivery.panel.one")} ${DELIVERY_LEVELS[npc] ?? 10}${t(
+                  "delivery.panel.two"
+                )}`
               : noOrder,
           },
         ]}
@@ -332,7 +334,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
             text: intro,
           },
           {
-            text: `I am waiting for the new season to start. Come back to me then!`,
+            text: t("delivery.panel.four"),
           },
         ]}
       />
@@ -360,7 +362,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
             />
           ),
           actions: [
-            { text: canFulfillAnOrder ? "Not now" : "Close", cb: onClose },
+            { text: canFulfillAnOrder ? "Not now" : t("close"), cb: onClose },
             ...(canFulfillAnOrder
               ? [{ text: "Deliver", cb: handleDeliver }]
               : []),

@@ -10,6 +10,7 @@ import {
 } from "features/game/types/treasure";
 import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type SellTreasureAction = {
   type: "treasure.sold";
@@ -45,7 +46,7 @@ export function sellTreasure({ state, action }: Options) {
   const { bumpkin, collectibles, inventory, balance } = statecopy;
 
   if (!bumpkin) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   const SELLABLES = { ...SELLABLE_TREASURE, ...EXOTIC_CROPS };

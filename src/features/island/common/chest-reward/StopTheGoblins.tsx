@@ -22,6 +22,8 @@ import { FRUIT } from "features/game/types/fruits";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const ITEM_COUNT = 16;
 const MAX_ATTEMPTS = 3;
@@ -125,6 +127,7 @@ export const StopTheGoblins: React.FC<Props> = ({
   onFail,
   collectedItem,
 }) => {
+  const { t } = useAppTranslation();
   const [wrongAttempts, setWrongAttempts] = useState(new Set<number>());
   const [correctAttempts, setCorrectAttempts] = useState(new Set<number>());
   const [isMoonSeekerMode] = useState(randomBoolean());
@@ -155,7 +158,9 @@ export const StopTheGoblins: React.FC<Props> = ({
   return (
     <div className="flex flex-col justify-center">
       <span className="text-center mb-2">
-        {isMoonSeekerMode ? "Stop the Moon Seekers!" : "Stop the Goblins!"}
+        {isMoonSeekerMode
+          ? translate("stopGoblin.stop.moon")
+          : translate("stopGoblin.stop.goblin")}
       </span>
       <div className="flex flex-wrap justify-center items-center">
         {items.map((item, index) => {
@@ -195,15 +200,12 @@ export const StopTheGoblins: React.FC<Props> = ({
           );
         })}
         <span className="text-sm mt-2 text-center">
-          {isMoonSeekerMode
-            ? "Tap the Moon Seekers before they steal your resources"
-            : "Tap the Goblins before they eat your food"}
+          {isMoonSeekerMode ? t("stopGoblin.tap.one") : t("stopGoblin.tap.two")}
         </span>
 
-        <Label
-          className="my-1"
-          type={attemptsLeft <= 2 ? "danger" : "info"}
-        >{`Attempts left: ${attemptsLeft}`}</Label>
+        <Label className="my-1" type={attemptsLeft <= 2 ? "danger" : "info"}>
+          {t("stopGoblin.left")}: ({attemptsLeft})
+        </Label>
       </div>
     </div>
   );

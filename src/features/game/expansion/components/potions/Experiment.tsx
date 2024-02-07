@@ -14,6 +14,7 @@ import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { calculateScore } from "features/game/events/landExpansion/mixPotion";
 import { MixingPotion } from "./MixingPotion";
 import { PotionName } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -31,6 +32,7 @@ export const Experiment: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const [potionState] = useActor(potionHouseService);
+  const { t } = useAppTranslation();
 
   const {
     context: { guessSpot, currentGuess, isNewGame, feedbackText },
@@ -210,9 +212,9 @@ export const Experiment: React.FC<Props> = ({
         {/* Potions */}
         {!isFinished && !showStartButton && (
           <div className="flex flex-col justify-end grow">
-            <h2 className="mb-1">Potions</h2>
+            <h2 className="mb-1">{t("potions")}</h2>
             <span className="text-xxs italic">
-              (Click on a bottle to add to your guess)
+              ({t("statements.clickBottle")})
             </span>
             <div className="flex flex-wrap gap-2 mt-3 mb-2">
               {Object.values(POTIONS).map((potion) => (
@@ -231,11 +233,11 @@ export const Experiment: React.FC<Props> = ({
       </div>
       {showStartButton && (
         <div className="flex flex-col-reverse space-y-reverse space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1 ">
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={onClose}>{t("close")}</Button>
           <Button
             onClick={handleStart}
             disabled={gameService.state.context.state.balance.lessThan(1)}
-          >{`Start new game (1 SFL)`}</Button>
+          >{`${t("statements.stargame")} (1 SFL)`}</Button>
         </div>
       )}
     </>

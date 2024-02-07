@@ -235,6 +235,7 @@ import { CelestialFrostbloom } from "./components/CelestialFrostbloom";
 import { PrimulaEnigma } from "./components/PrimulaEnigma";
 import { Blossombeard } from "./components/Blossombeard";
 import { CrimPeckster } from "./components/CrimPeckster";
+import { FlowerRug } from "./components/FlowerRug";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -511,6 +512,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Enchanted Rose": EnchantedRose,
   "Flower Cart": FlowerCart,
   Capybara: Capybara,
+  "Flower Rug": FlowerRug,
   // Flowers
   "Prism Petal": PrismPetal,
   "Celestial Frostbloom": CelestialFrostbloom,

@@ -3,6 +3,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { TreasureShopSell } from "features/treasureIsland/components/TreasureShopSell";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useState } from "react";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -18,10 +19,10 @@ export const GoldTooth: React.FC<Props> = ({ onClose }) => {
         onClose={() => setShowIntro(false)}
         message={[
           {
-            text: "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
+            text: translate("goldTooth.intro.part1"),
           },
           {
-            text: "Be ready to join me crew, for the hunt for riches begins shortly!",
+            text: translate("goldTooth.intro.part2"),
           },
         ]}
       />

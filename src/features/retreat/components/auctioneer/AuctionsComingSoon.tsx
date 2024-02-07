@@ -1,7 +1,9 @@
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 export const AuctionsComingSoon: React.FC = () => {
+  const { t } = useAppTranslation();
   return (
     <div className="p-2 flex flex-col items-center">
       <p>Under construction!</p>
@@ -13,7 +15,7 @@ export const AuctionsComingSoon: React.FC = () => {
         rel="noopener noreferrer"
         className="text-xs underline"
       >
-        Read more
+        {t("read.more")}
       </a>
     </div>
   );

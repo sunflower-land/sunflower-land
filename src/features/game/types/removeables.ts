@@ -36,6 +36,7 @@ type RESTRICTION_REASON =
   | "Magic Bean is planted"
   | "Bananas are growing"
   | "In use"
+  | "Recently fished"
   | "Recently used"
   | "Locked during festive season";
 
@@ -207,7 +208,7 @@ function areAnyComposting(game: GameState): Restriction {
 }
 
 function hasFishedToday(game: GameState): Restriction {
-  return [getDailyFishingCount(game) !== 0, "In use"];
+  return [getDailyFishingCount(game) !== 0, "Recently fished"];
 }
 
 function isFertiliserApplied(
@@ -229,7 +230,10 @@ export const canShake = (shakenAt?: number) => {
 };
 
 function hasShakenManeki(game: GameState): Restriction {
-  const manekiNekos = game.collectibles["Maneki Neko"] ?? [];
+  const manekiNekos = [
+    ...(game.collectibles["Maneki Neko"] ?? []),
+    ...(game.home.collectibles["Maneki Neko"] ?? []),
+  ];
   const hasShakenRecently = manekiNekos.some((maneki) => {
     const shakenAt = maneki.shakenAt || 0;
 

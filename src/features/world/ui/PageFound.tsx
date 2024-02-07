@@ -8,6 +8,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import React, { useContext } from "react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -21,13 +22,14 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
   const seasonWeek = getSeasonWeek();
 
   const springBlossom = useSelector(gameService, _springBlossom(seasonWeek));
+  const { t } = useAppTranslation();
 
   // This shouldn't happen
   if (!springBlossom) {
     return (
       <CloseButtonPanel onClose={onClose} title={"Page Found"}>
         <div className="flex flex-col items-center w-full">
-          <span>Looks like a page from a gardening book...</span>
+          <span>{t("pageFounds.gardeningBookPage")},</span>
           <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
         </div>
       </CloseButtonPanel>
@@ -39,8 +41,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel onClose={onClose} title={"Page Found!"}>
         <div className="flex flex-col w-full items-center justify-center gap-2">
           <span className="text-sm w-full">
-            Fantastic! Well done finding the last page! The pages reveal how to
-            cross breed a new flower!
+            {t("pageFounds.lastPageFound")}
           </span>
 
           <div className="flex w-full">
@@ -59,7 +60,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
               />
             </div>
             <span className="text-sm">
-              You now know how to grow a {springBlossom.weeklyFlower}!
+              {t("pageFounds.knowHowToGrow")} {springBlossom.weeklyFlower}!
             </span>
           </div>
 
@@ -78,14 +79,12 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
                 className="mr-2"
               />
             </div>
-            <span className="text-sm">
-              Check the Codex to learn more about it!
-            </span>
+            <span className="text-sm">{t("pageFounds.checkCodex")}</span>
           </div>
 
           <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
-          <Label type="success">All Pages Found!</Label>
+          <Label type="success">{t("pageFounds.all")}</Label>
         </div>
       </CloseButtonPanel>
     );
@@ -95,13 +94,12 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel onClose={onClose} title={"Page Found!"}>
       <div className="flex flex-col w-full items-center">
         <span className="text-sm">
-          Great! This page contains some information about how to grow a{" "}
-          {springBlossom.weeklyFlower}!
+          {t("pageFounds.pageContainsInfo")} {springBlossom.weeklyFlower}!
         </span>
         <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
         <Label type="info" className="mt-2">
-          {springBlossom.collectedFlowerPages.length}/3 Pages Found
+          {springBlossom.collectedFlowerPages.length}/3 {t("pageFounds")}
         </Label>
       </div>
     </CloseButtonPanel>

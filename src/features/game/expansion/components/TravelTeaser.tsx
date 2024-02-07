@@ -14,10 +14,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import speechBubble from "assets/ui/speech_border.png";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
+import { translate } from "lib/i18n/translate";
 
 const isNoob = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
@@ -36,11 +38,11 @@ const hint = (state: MachineState) => {
 
   const choppedTrees = activity?.["Tree Chopped"] ?? 0;
   if (choppedTrees < 3) {
-    return "Chop the trees";
+    return translate("pete.teaser.one");
   }
 
   if (inventory["Basic Land"]?.lte(3)) {
-    return "Expand your land";
+    return translate("expand.land");
   }
 
   const harvestedCrops = getKeys(CROPS()).reduce(
@@ -49,7 +51,7 @@ const hint = (state: MachineState) => {
   );
 
   if (inventory.Shovel && harvestedCrops < 3) {
-    return "Harvest the Sunflowers";
+    return translate("pete.teaser.three");
   }
 
   const soldCrops = getKeys(CROPS()).reduce(
@@ -58,7 +60,7 @@ const hint = (state: MachineState) => {
   );
 
   if (inventory.Sunflower && soldCrops < 3) {
-    return "Sell the Sunflowers";
+    return translate("pete.teaser.four");
   }
 
   const boughtCrops = getKeys(CROPS()).reduce(
@@ -67,7 +69,7 @@ const hint = (state: MachineState) => {
   );
 
   if (soldCrops > 0 && boughtCrops === 0) {
-    return "Buy Seeds";
+    return translate("pete.teaser.five");
   }
 
   const plantedCrops = getKeys(CROPS()).reduce(
@@ -76,7 +78,7 @@ const hint = (state: MachineState) => {
   );
 
   if (inventory["Sunflower Seed"] && plantedCrops === 0) {
-    return "Plant Seeds";
+    return translate("pete.teaser.six");
   }
 
   if (
@@ -84,11 +86,11 @@ const hint = (state: MachineState) => {
     !inventory["Sunflower Seed"]?.gt(0) &&
     !inventory["Basic Scarecrow"]
   ) {
-    return "Craft a Scarecrow";
+    return translate("pete.teaser.seven");
   }
 
   if (inventory["Basic Scarecrow"] && level === 1) {
-    return "Cook food and level up";
+    return translate("pete.teaser.eight");
   }
 
   return null;
@@ -99,6 +101,7 @@ export const TravelTeaser: React.FC = () => {
   const showSpeech = useSelector(gameService, isNoob);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
+  const { t } = useAppTranslation();
 
   const [peteState, setPeteState] = useState<"idle" | "typing">("idle");
 
@@ -138,11 +141,11 @@ export const TravelTeaser: React.FC = () => {
           tabs={[
             {
               icon: SUNNYSIDE.icons.expression_chat,
-              name: "Explore",
+              name: t("explore"),
             },
             {
               icon: SUNNYSIDE.icons.expression_confused,
-              name: "Guide",
+              name: t("guide"),
             },
           ]}
           currentTab={tab}

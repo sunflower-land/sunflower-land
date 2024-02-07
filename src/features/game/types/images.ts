@@ -81,6 +81,7 @@ import rainbow from "assets/sfts/rainbow.webp";
 import enchantedRose from "assets/sfts/enchanted_rose.webp";
 import flowerCart from "assets/sfts/flower_cart.webp";
 import capybara from "assets/sfts/capybara.webp";
+import flowerRug from "assets/sfts/flower_rug.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -622,6 +623,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { WORM, CROP_COMPOST, FRUIT_COMPOST } from "./composters";
 import { PURCHASEABLE_BAIT } from "./fishing";
+import { translate } from "lib/i18n/translate";
 import { FLOWER_SEEDS } from "./flowers";
 
 export interface ItemDetails extends Omit<LimitedItem, "name" | "description"> {
@@ -996,16 +998,16 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.tools.shovel,
   },
   "Sand Shovel": {
-    description: "Used for digging treasure",
+    description: translate("description.sand.shovel"),
     image: SUNNYSIDE.tools.sand_shovel,
   },
   "Sand Drill": {
-    description: "Drill deep for uncommon or rare treasure",
+    description: translate("description.sand.drill"),
     image: drill,
   },
 
   "Block Buck": {
-    description: "A valuable token in Sunflower Land!",
+    description: translate("description.block.buck"),
     image: blockBuck,
   },
 
@@ -1252,33 +1254,33 @@ export const ITEM_DETAILS: Items = {
     image: warrior,
   },
   "Trading Ticket": {
-    description: "Free trades! Woohoo!",
+    description: translate("description.trading.ticket"),
     image: ticket,
   },
 
   "Beta Pass": {
-    description: "Gain early access to features for testing.",
+    description: translate("description.beta.pass"),
     image: betaPass,
   },
   "War Bond": {
-    description: "A mark of a true warrior",
+    description: translate("description.war.bond"),
     image: warBond,
   },
   "Goblin War Point": {
-    description: "A display of allegiance",
+    description: translate("description.allegiance"),
     image: SUNNYSIDE.icons.expression_confused,
   },
   "Human War Point": {
-    description: "A display of allegiance",
+    description: translate("description.allegiance"),
     image: SUNNYSIDE.icons.expression_confused,
   },
 
   "Human War Banner": {
-    description: "A display of allegiance to the Human cause",
+    description: translate("description.human.war.banner"),
     image: humanBanner,
   },
   "Goblin War Banner": {
-    description: "A display of allegiance to the Goblin cause",
+    description: translate("description.goblin.war.banner"),
     image: goblinBanner,
   },
 
@@ -1455,43 +1457,43 @@ export const ITEM_DETAILS: Items = {
   },
 
   "Egg Basket": {
-    description: "Easter Event",
+    description: translate("description.egg.basket"),
     image: easterBasket,
   },
   "Easter Bunny": {
-    description: "A rare Easter item",
+    description: translate("description.easter.bunny"),
     image: easterBunny,
   },
   "Pablo The Bunny": {
-    description: "A magical Easter bunny",
+    description: translate("description.pablo.bunny"),
     image: pabloBunny,
   },
   "Blue Egg": {
-    description: "A blue easter egg",
+    description: translate("description.blue.egg"),
     image: blueEgg,
   },
   "Orange Egg": {
-    description: "An orange easter egg",
+    description: translate("description.orange.egg"),
     image: orangeEgg,
   },
   "Green Egg": {
-    description: "A green easter egg",
+    description: translate("description.green.egg"),
     image: greenEgg,
   },
   "Yellow Egg": {
-    description: "A yellow easter egg",
+    description: translate("description.yellow.egg"),
     image: yellowEgg,
   },
   "Red Egg": {
-    description: "A red easter egg",
+    description: translate("description.red.egg"),
     image: redEgg,
   },
   "Pink Egg": {
-    description: "A pink easter egg",
+    description: translate("description.pink.egg"),
     image: pinkEgg,
   },
   "Purple Egg": {
-    description: "A purple easter egg",
+    description: translate("description.purple.egg"),
     image: purpleEgg,
   },
   "Engine Core": {
@@ -1503,19 +1505,19 @@ export const ITEM_DETAILS: Items = {
     image: observatory,
   },
   "Goblin Key": {
-    description: "The Goblin Key",
+    description: translate("description.goblin.key"),
     image: goblinKey,
   },
   "Sunflower Key": {
-    description: "The Sunflower Key",
+    description: translate("description.sunflower.key"),
     image: sunflowerKey,
   },
   "Ancient Goblin Sword": {
-    description: "An Ancient Goblin Sword",
+    description: translate("description.ancient.goblin.sword"),
     image: ancientGoblinSword,
   },
   "Ancient Human Warhammer": {
-    description: "An Ancient Human Warhammer",
+    description: translate("description.ancient.human.warhammer"),
     image: ancientHumanWarhammer,
   },
   "Speed Chicken": {
@@ -1530,11 +1532,11 @@ export const ITEM_DETAILS: Items = {
 
   "Chef Apron": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "Cakes yield an additional 20% SFL",
+    description: translate("description.chef.apron"),
   },
   "Chef Hat": {
     image: chefHat,
-    description: "The crown of a legendary baker!",
+    description: translate("description.chef.hat"),
   },
 
   "Rapid Growth": {
@@ -1544,195 +1546,185 @@ export const ITEM_DETAILS: Items = {
 
   "Fire Pit": {
     image: firePit,
-    description: "Roast your Sunflowers, feed and level up your Bumpkin",
+    description: translate("description.fire.pit"),
   },
   Market: {
     image: market,
-    description: "Buy and sell at the Farmer's Market",
+    description: translate("description.market"),
   },
   "Town Center": {
     image: townCenter,
-    description: "Gather around the town center for the latest news",
+    description: translate("description.town.center"),
   },
   House: {
     image: house,
-    description: "A place to rest your head",
+    description: translate("description.house"),
   },
   Kitchen: {
     image: kitchen,
-    description: "Step up your cooking game",
+    description: translate("description.kitchen"),
   },
   Bakery: {
     image: bakery,
-    description: "Bake your favourite cakes",
+    description: translate("description.bakery"),
   },
   Workbench: {
     image: workbench,
-    description: "Craft tools to collect resources",
+    description: translate("description.workbench"),
   },
   "Water Well": {
     image: well,
-    description: "Crops need water!",
+    description: translate("description.water.well"),
   },
   Tent: {
     image: tent,
-    description:
-      "Every Bumpkin needs a home! Add extra Bumpkins to your island (coming soon)",
+    description: translate("description.tent"),
   },
   "Hen House": {
     image: chickenHouse,
-    description: "Grow your chicken empire",
+    description: translate("description.hen.house"),
   },
   Deli: {
     image: deli,
-    description: "Satisfy your appetite with these delicatessen foods!",
+    description: translate("description.deli"),
   },
   "Smoothie Shack": {
     image: smoothieShack,
-    description: "Freshly squeezed!",
+    description: translate("description.smoothie.shack"),
   },
   Toolshed: {
     image: toolshed,
-    description: "Increase your workbench tool stock by 50%",
+    description: translate("description.toolshed"),
   },
   Warehouse: {
     image: warehouse,
-    description: "Increase your seed stocks by 20%",
+    description: translate("description.warehouse"),
   },
-
   "Sunflower Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "10% increased Sunflower yield",
+    description: translate("description.sunflower.amulet"),
   },
   "Carrot Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "Carrots grow 20% faster",
+    description: translate("description.carrot.amulet"),
   },
   "Beetroot Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "20% increased Beetroot yield",
+    description: translate("description.beetroot.amulet"),
   },
   "Green Amulet": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "Chance for 10x crop yield",
+    description: translate("description.green.amulet"),
   },
   "Warrior Shirt": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "A mark of a true warrior",
+    description: translate("description.warrior.shirt"),
   },
   "Warrior Pants": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "Protect your thighs!",
+    description: translate("description.warrior.pants"),
   },
   "Warrior Helmet": {
     image: SUNNYSIDE.icons.expression_confused,
-    description: "Immune to arrows",
+    description: translate("description.warrior.helmet"),
   },
   "Sunflower Shield": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "A hero of Sunflower Land. Free Sunflower Seeds!",
+    description: translate("description.sunflower.shield"),
   },
   "Skull Hat": {
     image: SUNNYSIDE.icons.expression_confused,
-
-    description: "A reward for your war efforts",
+    description: translate("description.skull.hat"),
   },
   "War Skull": {
     image: skull,
-    description: "3 enemies gone",
+    description: translate("description.war.skull"),
   },
   "War Tombstone": {
     image: warTombstone,
-    description: "A reward for your war efforts",
+    description: translate("description.war.tombstone"),
   },
   "Undead Rooster": {
     image: undeadChicken,
-    description: "A fallen soldier during the war",
+    description: translate("description.undead.rooster"),
   },
 
   "Boiled Eggs": {
     image: boiledEgg,
-    description: "Don't let the Chickens see!",
+    description: translate("description.boiled.eggs"),
   },
   "Bumpkin Broth": {
     image: bumpkinBroth,
-    description: "A nutritious broth to replenish your Bumpkin",
+    description: translate("description.bumpkin.broth"),
   },
   "Mashed Potato": {
     image: mashedPotato,
-    description: "My life is potato.",
+    description: translate("description.mashed.potato"),
   },
   "Bumpkin Salad": {
     image: bumpkinSalad,
-    description: "Gotta keep your Bumpkin healthy!",
+    description: translate("description.bumpkin.salad"),
   },
   "Goblin's Treat": {
     image: goblinsTreat,
-    description: "Goblins go crazy for this stuff!",
+    description: translate("description.goblins.treat"),
   },
   "Cauliflower Burger": {
     image: cauliflowerBurger,
-    description: "Calling all cauliflower lovers!",
+    description: translate("description.cauliflower.burger"),
   },
   "Club Sandwich": {
     image: clubSandwich,
-    description: "Filled with Carrots and Roasted Sunflower Seeds",
+    description: translate("description.club.sandwich"),
   },
   "Roast Veggies": {
     image: roastVeggies,
-    description: "Even Goblins need to eat their veggies!",
+    description: translate("description.roast.veggies"),
   },
   Pancakes: {
     image: pancakes,
-    description: "A great start to a Bumpkins day",
+    description: translate("description.pancakes"),
   },
   "Fermented Carrots": {
     image: fermentedCarrots,
-    description: "Got a surplus of carrots?",
+    description: translate("description.fermented.carrots"),
   },
   Sauerkraut: {
     ...FOODS()["Sauerkraut"],
     image: sauerkraut,
+    description: translate("description.sauerkraut"),
   },
   "Reindeer Carrot": {
     image: reindeerCarrot,
-    description: "Rudolph can't stop eating them!",
+    description: translate("description.reindeer.carrot"),
   },
   "Bumpkin ganoush": {
     image: bumpkinGanoush,
-    description: "Zesty roasted eggplant spread.",
+    description: translate("description.bumpkin.ganoush"),
   },
   "Eggplant Cake": {
     image: eggplantCake,
-    description: "Sweet farm-fresh dessert surprise.",
+    description: translate("description.eggplant.cake"),
   },
   Cornbread: {
     image: cornBread,
-    description: "Hearty golden farm-fresh bread.",
+    description: translate("description.cornbread"),
   },
   Popcorn: {
     image: popcorn,
-    description: "Classic homegrown crunchy snack.",
+    description: translate("description.popcorn"),
   },
   Chowder: {
     image: chowder,
-    description:
-      "Sailor's delight in a bowl! Dive in, there's treasure inside!",
+    description: translate("description.chowder"),
   },
   Gumbo: {
     image: gumbo,
-    description: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    description: translate("description.gumbo"),
   },
   "Fermented Fish": {
     image: fermentedFish,
-    description: "Daring delicacy! Unleash the Viking within with every bite!",
+    description: translate("description.fermented.fish"),
   },
 
   Explorer: {
@@ -1891,24 +1883,23 @@ export const ITEM_DETAILS: Items = {
 
   "White Tulips": {
     image: whiteTulips,
-    description: "Keep the smell of goblins away.",
+    description: translate("description.white.tulips"),
   },
   "Potted Sunflower": {
     image: pottedSunflower,
-    description: "Brighten up your land.",
+    description: translate("description.potted.sunflower"),
   },
   Cactus: {
     image: cactus,
-    description: "Saves water and makes your farm look stunning!",
+    description: translate("description.cactus"),
   },
   "Jack-o-lantern": {
     image: jackOLanternItem,
-    description: "A Halloween special event item",
+    description: translate("description.jack.o.lantern"),
   },
   "Victoria Sisters": {
     image: victoriaSisters,
-    description:
-      "A Halloween collectible. Increase Pumpkin yield by 20% and summon the necromancer.",
+    description: translate("description.victoria.sisters"),
   },
   "Basic Bear": {
     image: basicBear,
@@ -1916,43 +1907,43 @@ export const ITEM_DETAILS: Items = {
   },
   "Chef Bear": {
     image: chefBear,
-    description: "Every chef needs a helping hand",
+    description: translate("description.chef.bear"),
   },
   "Construction Bear": {
     image: constructionBear,
-    description: "Always build in a bear market",
+    description: translate("description.construction.bear"),
   },
   "Angel Bear": {
     image: angelBear,
-    description: "Time to transcend peasant farming",
+    description: translate("description.angel.bear"),
   },
   "Badass Bear": {
     image: badassBear,
-    description: "Nothing stands in your way.",
+    description: translate("description.badass.bear"),
   },
   "Bear Trap": {
     image: bearTrap,
-    description: "It's a trap!",
+    description: translate("description.bear.trap"),
   },
   "Brilliant Bear": {
     image: brilliantBear,
-    description: "Pure brilliance!",
+    description: translate("description.brilliant.bear"),
   },
   "Classy Bear": {
     image: classyBear,
-    description: "More SFL than you know what to do with it!",
+    description: translate("description.classy.bear"),
   },
   "Farmer Bear": {
     image: farmerBear,
-    description: "Nothing quite like a hard day's work!",
+    description: translate("description.farmer.bear"),
   },
   "Rich Bear": {
     image: richBear,
-    description: "A prized possession",
+    description: translate("description.rich.bear"),
   },
   "Sunflower Bear": {
     image: sunflowerBear,
-    description: "A Bear's cherished crop",
+    description: translate("description.sunflower.bear"),
   },
   "Christmas Bear": {
     ...SALESMAN_ITEMS["Christmas Bear"],
@@ -1960,49 +1951,48 @@ export const ITEM_DETAILS: Items = {
   },
   "Beta Bear": {
     image: betaBear,
-    description: "A bear found through special testing events",
+    description: translate("description.beta.bear"),
   },
   "Rainbow Artist Bear": {
     image: rainbowArtistBear,
-    description: "The owner is a beautiful bear artist!",
+    description: translate("description.rainbow.artist.bear"),
   },
 
   "Cabbage Boy": {
     image: cabbageBoy,
-    description: "Don't wake the baby!",
+    description: translate("description.cabbage.boy"),
   },
 
   "Cabbage Girl": {
     image: cabbageGirl,
-    description: "Shhh it's sleeping",
+    description: translate("description.cabbage.girl"),
   },
 
   "Wood Nymph Wendy": {
     image: wendy,
-    description: "Cast an enchantment to entice the wood fairies.",
+    description: translate("description.wood.nymph.wendy"),
   },
 
   "Peeled Potato": {
     image: prizedPotato,
-    description: "A precious potato, encourages bonus potatoes on harvest.",
+    description: translate("description.peeled.potato"),
   },
 
   "Potent Potato": {
     image: potatoMutant,
-    description: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
+    description: translate("description.potent.potato"),
   },
   "Radical Radish": {
     image: radishMutant,
-    description: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
+    description: translate("description.radical.radish"),
   },
   "Stellar Sunflower": {
     image: sunflowerMutant,
-    description:
-      "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
+    description: translate("description.stellar.sunflower"),
   },
   "Potted Potato": {
     image: pottedPotato,
-    description: "Potato blood runs through your Bumpkin.",
+    description: translate("description.potted.potato"),
   },
   "Potted Pumpkin": {
     image: pottedPumpkin,
@@ -2010,35 +2000,32 @@ export const ITEM_DETAILS: Items = {
   },
   "Golden Crop": {
     image: goldenCrop,
-    description: "A shiny golden crop",
+    description: translate("description.golden.crop"),
   },
   "Christmas Snow Globe": {
     image: snowglobe,
-    description: "Swirl the snow and watch it come to life",
+    description: translate("description.christmas.snow.globe"),
   },
 
   "Immortal Pear": {
     image: immortalPear,
-    description: "A long-lived pear that makes fruit trees last longer.",
+    description: translate("description.immortal.pear"),
   },
   "Lady Bug": {
     image: ladybug,
-    description:
-      "An incredible bug that feeds on aphids. Improves Apple quality.",
+    description: translate("description.lady.bug"),
   },
   "Squirrel Monkey": {
     image: squirrelMonkey,
-    description:
-      "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
+    description: translate("description.squirrel.monkey"),
   },
   "Black Bearry": {
     image: blackBear,
-    description:
-      "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
+    description: translate("description.black.bearry"),
   },
   "Devil Bear": {
     image: devilBear,
-    description: "Better the Devil you know than the Devil you don't",
+    description: translate("description.devil.bear"),
   },
   "Orange Squeeze": {
     image: orangeSqueeze,
@@ -2058,52 +2045,52 @@ export const ITEM_DETAILS: Items = {
   },
   "Ayam Cemani": {
     image: ayamCemani,
-    description: "The rarest chicken alive!",
+    description: translate("description.ayam.cemani"),
   },
   "Collectible Bear": {
     image: collectibleBear,
-    description: "A prized bear, still in mint condition!",
+    description: translate("description.collectible.bear"),
   },
   "Cyborg Bear": {
     image: cyborgBear,
-    description: "Hasta la vista, bear",
+    description: translate("description.cyborg.bear"),
   },
   "Maneki Neko": {
     image: manekiNeko,
-    description: "The beckoning cat. Pull its arm and good luck will come",
+    description: translate("description.maneki.neko"),
   },
   "Red Envelope": {
     image: redEnvelope,
-    description: "Wow, you are lucky!",
+    description: translate("description.red.envelope"),
   },
   "Love Letter": {
     image: loveLetter,
-    description: "Convey feelings of love",
+    description: translate("description.love.letter"),
   },
 
   // Treasure Island
   "Clam Shell": {
     image: clamShell,
-    description: "A clam shell.",
+    description: translate("description.clam.shell"),
   },
   "Sea Cucumber": {
     image: SUNNYSIDE.resource.sea_cucumber,
-    description: "A sea cucumber.",
+    description: translate("description.sea.cucumber"),
   },
   Coral: {
     image: SUNNYSIDE.resource.coral,
-    description: "A piece of coral, it's pretty",
+    description: translate("description.coral"),
   },
   Crab: {
     image: SUNNYSIDE.resource.crab,
-    description: "A crab, watch out for its claws!",
+    description: translate("description.crab"),
   },
   Starfish: {
     image: SUNNYSIDE.resource.starfish,
-    description: "The star of the sea.",
+    description: translate("description.starfish"),
   },
   "Pirate Bounty": {
-    description: "A bounty for a pirate. It's worth a lot of money.",
+    description: translate("description.pirate.bounty"),
     image: SUNNYSIDE.resource.pirate_bounty,
   },
   "Pirate Cake": {
@@ -2111,149 +2098,139 @@ export const ITEM_DETAILS: Items = {
     image: pirateCake,
   },
   "Abandoned Bear": {
-    description: "A bear that was left behind on the island.",
+    description: translate("description.abandoned.bear"),
     image: abandonedBear,
   },
   "Turtle Bear": {
-    description: "Turtley enough for the turtle club.",
+    description: translate("description.turtle.bear"),
     image: turtleBear,
   },
   "T-Rex Skull": {
-    description: "A skull from a T-Rex! Amazing!",
+    description: translate("description.trex.skull"),
     image: tRexSkull,
   },
   "Sunflower Coin": {
-    description: "A coin made of sunflowers.",
+    description: translate("description.sunflower.coin"),
     image: sunflowerCoin,
   },
   Foliant: {
-    description: "A book of spells.",
+    description: translate("description.foliant"),
     image: foliant,
   },
   "Skeleton King Staff": {
-    description: "All hail the Skeleton King!",
+    description: translate("description.skeleton.king.staff"),
     image: skeletonKingStaff,
   },
   "Lifeguard Bear": {
-    description: "Lifeguard Bear is here to save the day!",
+    description: translate("description.lifeguard.bear"),
     image: lifeguardBear,
   },
   "Snorkel Bear": {
-    description: "Snorkel Bear loves to swim.",
+    description: translate("description.snorkel.bear"),
     image: snorkelBear,
   },
   "Parasaur Skull": {
-    description: "A skull from a parasaur!",
+    description: translate("description.parasaur.skull"),
     image: parasaurSkull,
   },
   "Goblin Bear": {
-    description: "A goblin bear. It's a bit scary.",
+    description: translate("description.goblin.bear"),
     image: goblinBear,
   },
   "Golden Bear Head": {
-    description: "Spooky, but cool.",
+    description: translate("description.golden.bear.head"),
     image: goldenBearHead,
   },
   "Pirate Bear": {
-    description: "Argh, matey! Hug me!",
+    description: translate("description.pirate.bear"),
     image: pirateBear,
   },
   Galleon: {
-    description: "A toy ship, still in pretty good nick.",
+    description: translate("description.galleon"),
     image: galleon,
   },
   "Dinosaur Bone": {
-    description: "A Dinosaur Bone! What kind of creature was this?",
+    description: translate("description.dinosaur.bone"),
     image: dinosaurBone,
   },
   "Human Bear": {
-    description: "A human bear. Even scarier than a goblin bear.",
+    description: translate("description.human.bear"),
     image: humanBear,
   },
   "Wooden Compass": {
-    description:
-      "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
+    description: translate("description.wooden.compass"),
     image: woodenCompass,
   },
   "Iron Compass": {
-    description:
-      "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+    description: translate("description.iron.compass"),
     image: ironCompass,
   },
   "Emerald Compass": {
-    description:
-      "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
+    description: translate("description.emerald.compass"),
     image: emeraldCompass,
   },
   "Old Bottle": {
-    description: "Antique pirate bottle, echoing tales of high seas adventure.",
+    description: translate("description.old.bottle"),
     image: oldBottle,
   },
   "Tiki Totem": {
-    description: "The Tiki Totem adds 0.1 wood to every tree you chop.",
+    description: translate("description.tiki.totem"),
     image: tikiTotem,
   },
   "Lunar Calendar": {
-    description:
-      "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+    description: translate("description.lunar.calendar"),
     image: lunarCalendar,
   },
   "Heart of Davy Jones": {
-    description:
-      "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
+    description: translate("description.heart.davy.jones"),
     image: heartOfDavyJones,
   },
   "Treasure Map": {
-    description:
-      "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
+    description: translate("description.treasure.map"),
     image: treasureMap,
   },
   "Heart Balloons": {
-    description: "Use them as decorations for romantic occasions.",
+    description: translate("description.heart.balloons"),
     image: heartBalloons,
   },
   Flamingo: {
-    description:
-      "Represents a symbol of love's beauty standing tall and confident.",
+    description: translate("description.flamingo"),
     image: flamingo,
   },
   "Blossom Tree": {
-    description:
-      "Its delicate petals symbolizes the beauty and fragility of love.",
+    description: translate("description.blossom.tree"),
     image: blossomTree,
   },
   Pearl: {
-    description: "Shimmers in the sun.",
+    description: translate("description.pearl"),
     image: pearl,
   },
   Pipi: {
-    description: "Plebidonax deltoides, found in the Pacific Ocean.",
+    description: translate("description.pipi"),
     image: pipi,
   },
   Seaweed: {
-    description: "Seaweed.",
+    description: translate("description.seaweed"),
     image: seaweed,
   },
   "Whale Bear": {
-    description:
-      "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
+    description: translate("description.whale.bear"),
     image: whaleBear,
   },
   "Valentine Bear": {
-    description: "For those who love.",
+    description: translate("description.valentine.bear"),
     image: valentineBear,
   },
   "Easter Bear": {
-    description: "How can a Bunny lay eggs?",
+    description: translate("description.easter.bear"),
     image: easterBear,
   },
   "Easter Bush": {
-    description: "What is inside?",
+    description: translate("description.easter.bush"),
     image: easterBush,
   },
   "Giant Carrot": {
-    description:
-      "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    description: translate("description.giant.carrot"),
     image: giantCarrot,
   },
   "Iron Idol": {
@@ -2262,8 +2239,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Genie Lamp": {
     image: genieLamp,
-    description:
-      "A magical lamp that contains a genie who will grant you three wishes.",
+    description: translate("description.genie.lamp"),
   },
 
   // AoE items
@@ -2276,12 +2252,11 @@ export const ITEM_DETAILS: Items = {
     description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
   },
   "Basic Scarecrow": {
-    description: "Choosy defender of your farm's VIP (Very Important Plants)",
+    description: translate("description.basic.scarecrow"),
     image: basicScarecrow,
   },
   Bale: {
-    description:
-      "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    description: translate("description.bale"),
     image: bale,
   },
   "Sir Goldensnout": {
@@ -2290,13 +2265,11 @@ export const ITEM_DETAILS: Items = {
       "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
   },
   "Scary Mike": {
-    description:
-      "The veggie whisperer and champion of frightfully good harvests!",
+    description: translate("description.scary.mike"),
     image: scaryMike,
   },
   "Laurie the Chuckle Crow": {
-    description:
-      "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    description: translate("description.laurie.chuckle.crow"),
     image: laurie,
   },
   "Freya Fox": {
@@ -2306,59 +2279,58 @@ export const ITEM_DETAILS: Items = {
   },
   "Queen Cornelia": {
     image: queenCornelia,
-    description:
-      "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+    description: translate("description.queen.cornelia"),
   },
 
   // Composters
   "Compost Bin": {
     image: basicComposter,
-    description: "Produces bait & fertiliser on a regular basis.",
+    description: translate("description.compost.bin"),
   },
   "Turbo Composter": {
     image: advancedComposter,
-    description: "Produces advanced bait & fertiliser on a regular basis.",
+    description: translate("description.turbo.composter"),
   },
   "Premium Composter": {
     image: expertComposter,
-    description: "Produces expert bait & fertiliser on a regular basis.",
+    description: translate("description.premium.composter"),
   },
 
   // Season tickets
   "Solar Flare Ticket": {
     image: solarFlareTicket,
-    description: "A ticket used during the Solar Flare Season",
+    description: translate("description.solar.flare.ticket"),
   },
   "Dawn Breaker Ticket": {
     image: dawnBreakerTicket,
-    description: "A ticket used during the Dawn Breaker Season",
+    description: translate("description.dawn.breaker.ticket"),
   },
   "Crow Feather": {
     image: crowFeather,
-    description: "A ticket used during the Witches' Eve Ticket Season",
+    description: translate("description.crow.feather"),
   },
   "Mermaid Scale": {
     image: mermaidScale,
-    description: "A ticket used during the Catch the Kraken Season",
+    description: translate("description.mermaid.scale"),
   },
   "Tulip Bulb": {
     image: tulipBulb,
-    description: "A ticket used during the Spring Blossom",
+    description: translate("description.tulip.bulb"),
   },
 
   "Sunflower Supporter": {
     image: supporterTicket,
-    description: "The mark of a true supporter of the game!",
+    description: translate("description.sunflower.supporter"),
   },
 
   // Solar Flare Season
   "Beach Ball": {
     image: beachBall,
-    description: "Bouncy ball brings beachy vibes, blows boredom away.",
+    description: translate("description.beach.ball"),
   },
   "Palm Tree": {
     image: palmTree,
-    description: "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    description: translate("description.palm.tree"),
   },
   Karkinos: {
     image: karkinos,
@@ -2368,18 +2340,17 @@ export const ITEM_DETAILS: Items = {
   // Dawn Breaker Season
   "Mushroom House": {
     image: mushroomHouse,
-    description:
-      "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+    description: translate("description.mushroom.house"),
   },
 
   "Basic Land": {
     image: SUNNYSIDE.resource.land,
-    description: "A basic piece of land",
+    description: translate("description.basic.land"),
   },
 
   "Crop Plot": {
     image: SUNNYSIDE.resource.plot,
-    description: "An empty plot to plant crops on",
+    description: translate("description.crop.plot"),
   },
   "Sunstone Rock": {
     image: sunstoneRock,
@@ -2387,72 +2358,71 @@ export const ITEM_DETAILS: Items = {
   },
   "Gold Rock": {
     image: goldRock,
-    description: "A mineable rock to collect gold",
+    description: translate("description.gold.rock"),
   },
   "Iron Rock": {
     image: ironRock,
-    description: "A mineable rock to collect iron",
+    description: translate("description.iron.rock"),
   },
   "Stone Rock": {
     image: stoneRock,
-    description: "A mineable rock to collect stone",
+    description: translate("description.stone.rock"),
   },
   "Crimstone Rock": {
     image: crimstoneRock,
-    description: "A mineable rock to collect crimstone",
+    description: translate("description.crimstone.rock"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
-    description: "A choppable tree to collect wood",
+    description: translate("description.tree"),
   },
   "Fruit Patch": {
     image: SUNNYSIDE.resource.fruitPatch,
-    description: "An empty plot to plant fruit on",
+    description: translate("description.fruit.patch"),
   },
   "Flower Bed": {
     image: flowerBed,
-    description: "An empty plot to plant flowers on",
+    description: translate("description.flower.bed"),
   },
   Boulder: {
     image: SUNNYSIDE.resource.boulder,
-    description: "A mythical rock that can drop rare minerals",
+    description: translate("description.boulder"),
   },
   "Dirt Path": {
     image: dirt,
-    description: "Keep your farmer boots clean with a well trodden path.",
+    description: translate("description.dirt.path"),
   },
   Bush: {
     image: bush,
-    description: "What's lurking in the bushes?",
+    description: translate("description.bush"),
   },
   Fence: {
     image: fence,
-    description: "Add a touch of rustic charm to your farm.",
+    description: translate("description.fence"),
   },
   "Stone Fence": {
     image: stoneFence,
-    description: "Embrace the timeless elegance of a stone fence.",
+    description: translate("description.stone.fence"),
   },
   Shrub: {
     image: shrub,
-    description: "Enhance your in-game landscaping with a beautiful shrub",
+    description: translate("description.shrub"),
   },
   "Pine Tree": {
     image: pineTree,
-    description: "Standing tall and mighty, a needle-clad dream.",
+    description: translate("description.pine.tree"),
   },
   "Field Maple": {
     image: fieldMaple,
-    description:
-      "A petite charmer that spreads its leaves like a delicate green canopy.",
+    description: translate("description.field.maple"),
   },
   "Red Maple": {
     image: redMaple,
-    description: "Fiery foliage and a heart full of autumnal warmth.",
+    description: translate("description.red.maple"),
   },
   "Golden Maple": {
     image: goldenMaple,
-    description: "Radiating brilliance with its shimmering golden leaves.",
+    description: translate("description.golden.maple"),
   },
   "Solar Flare Banner": {
     image: solarFlareBanner,
@@ -2468,8 +2438,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Catch the Kraken Banner": {
     image: catchTheKrakenBanner,
-    description:
-      "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
+    description: translate("description.catch.the.kraken.banner"),
   },
   "Spring Blossom Banner": {
     image: springBlossomBanner,
@@ -2477,26 +2446,23 @@ export const ITEM_DETAILS: Items = {
   },
   "Luminous Lantern": {
     image: luminousLantern,
-    description: "A bright paper lantern that illuminates the way.",
+    description: translate("description.luminous.lantern"),
   },
   "Radiance Lantern": {
     image: radianceLantern,
-    description: "A radiant paper lantern that shines with a powerful light.",
+    description: translate("description.radiance.lantern"),
   },
   "Ocean Lantern": {
     image: oceanLantern,
-    description:
-      "A wavy paper lantern that sways with the bobbing of the tide.",
+    description: translate("description.ocean.lantern"),
   },
   "Solar Lantern": {
     image: solarLantern,
-    description:
-      "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
+    description: translate("description.solar.lantern"),
   },
   "Aurora Lantern": {
     image: auroraLantern,
-    description:
-      "A paper lantern that transforms any space into a magical wonderland.",
+    description: translate("description.aurora.lantern"),
   },
   "Bonnie's Tombstone": {
     image: bonniesTombstone,
@@ -2512,18 +2478,15 @@ export const ITEM_DETAILS: Items = {
   },
   "Dawn Umbrella Seat": {
     image: dawnUmbrellaSeat,
-    description:
-      "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
+    description: translate("description.dawn.umbrella"),
   },
   "Eggplant Grill": {
     image: eggplantGrill,
-    description:
-      "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
+    description: translate("description.eggplant.grill"),
   },
   "Giant Dawn Mushroom": {
     image: giantDawnMushroom,
-    description:
-      "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
+    description: translate("description.giant.dawn.mushroom"),
   },
   "Grubnash's Tombstone": {
     image: grubnashTombstone,
@@ -2535,8 +2498,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Shroom Glow": {
     image: shroomGlow,
-    description:
-      "Illuminate your farm with the enchanting glow of Shroom Glow.",
+    description: translate("description.shroom.glow"),
   },
   "Toadstool Seat": {
     image: toadstoolSeat,
@@ -2544,109 +2506,99 @@ export const ITEM_DETAILS: Items = {
   },
   Clementine: {
     image: clementine,
-    description:
-      "The Clementine Gnome is a cheerful companion for your farming adventures.",
+    description: translate("description.clementine"),
   },
   Blossombeard: {
     image: blossombeard,
-    description:
-      "The Blossombeard Gnome is a powerful companion for your farming adventures.",
+    description: translate("description.blossombeard"),
   },
   Cobalt: {
     image: cobalt,
-    description:
-      "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
+    description: translate("description.cobalt"),
   },
   "Purple Trail": {
     image: purpleTrail,
-    description:
-      "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
+    description: translate("description.purple.trail"),
   },
   Maximus: {
     image: maximus,
-    description: "Squash the competition with plump Maximus",
+    description: translate("description.maximus"),
   },
   Obie: {
     image: obie,
-    description: "A fierce eggplant soldier",
+    description: translate("description.obie"),
   },
   Hoot: {
     image: hoot,
-    description: "Hoot hoot! Have you solved my riddle yet?",
+    description: translate("description.hoot"),
   },
   "Genie Bear": {
     image: genieBear,
-    description: "Exactly what I wished for!",
+    description: translate("description.genie.bear"),
   },
   "Betty Lantern": {
     image: bettyLantern,
-    description: "It looks so real! I wonder how they crafted this.",
+    description: translate("description.betty.lantern"),
   },
   "Bumpkin Lantern": {
     image: bumpkinLantern,
-    description: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
+    description: translate("description.bumpkin.lantern"),
   },
   "Eggplant Bear": {
     image: eggplantBear,
-    description: "The mark of a generous eggplant whale.",
+    description: translate("description.eggplant.bear"),
   },
   "Goblin Lantern": {
     image: goblinLantern,
-    description: "A scary looking lantern",
+    description: translate("description.goblin.lantern"),
   },
   "Dawn Flower": {
     image: dawnFlower,
-    description:
-      "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
+    description: translate("description.dawn.flower"),
   },
   "Gold Pass": {
     image: goldPass,
-    description:
-      "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content",
+    description: translate("description.gold.pass"),
   },
   Poppy: {
     image: poppy,
-    description: "The mystical corn kernel. +0.1 Corn per harvest.",
+    description: translate("description.poppy.1"),
   },
   "El Pollo Veloz": {
     image: elPolloVeloz,
-    description: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
+    description: translate("description.el.pollo.veloz.two"),
   },
   "Grain Grinder": {
     image: grainGrinder,
-    description:
-      "Grind your grain and experience a delectable surge in Cake XP.",
+    description: translate("description.grain.grinder"),
   },
   Kernaldo: {
     image: kernaldo,
-    description: "The magical corn whisperer. +25% Corn Growth Speed.",
+    description: translate("description.kernaldo.1"),
   },
   Candles: {
     image: candles,
-    description:
-      "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    description: translate("description.candles"),
   },
   "Haunted Stump": {
     image: hauntedStump,
-    description: "Summon spirits and add eerie charm to your farm.",
+    description: translate("description.haunted.stump"),
   },
   "Spooky Tree": {
     image: spookyTree,
-    description: "A hauntingly fun addition to your farm's decor!",
+    description: translate("description.spooky.tree"),
   },
   Observer: {
     image: observer,
-    description:
-      "A perpetually roving eyeball, always vigilant and ever-watchful!",
+    description: translate("description.observer"),
   },
   "Crow Rock": {
     image: crowRock,
-    description: "A crow perched atop a mysterious rock.",
+    description: translate("description.crow.rock"),
   },
   "Mini Corn Maze": {
     image: miniCornMaze,
-    description:
-      "A memento of the beloved maze from the 2023 Witches' Eve season.",
+    description: translate("description.mini.corn.maze"),
   },
 
   "Giant Cabbage": {
@@ -2708,20 +2660,19 @@ export const ITEM_DETAILS: Items = {
   },
   "Bud Ticket": {
     image: budTicket,
-    description:
-      "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+    description: translate("description.bud.ticket"),
   },
   "Bud Seedling": {
     image: budSeedling,
-    description: "A seedling to be exchanged for a free Bud NFT",
+    description: translate("description.bud.seedling"),
   },
   "Town Sign": {
     image: sign,
-    description: "Show your farm ID with pride!",
+    description: translate("description.town.sign"),
   },
   "White Crow": {
     image: whiteCrow,
-    description: "A mysterious and ethereal white crow",
+    description: translate("description.white.crow"),
   },
 
   // Bait
@@ -2758,342 +2709,300 @@ export const ITEM_DETAILS: Items = {
 
   Anchovy: {
     image: anchovy,
-    description: "The ocean's pocket-sized darting acrobat, always in a hurry!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.anchovy.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Butterflyfish: {
     image: butterflyfish,
-    description:
-      "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.butterflyfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Blowfish: {
     image: blowfish,
-    description:
-      "The round, inflated comedian of the sea, guaranteed to bring a smile.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.blowfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Clownfish: {
     image: clownfish,
-    description:
-      "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.clownfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Sea Bass": {
     image: seaBass,
-    description:
-      "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.seabass.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Sea Horse": {
     image: seahorse,
-    description:
-      "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.seahorse.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Horse Mackerel": {
     image: horseMackerel,
-    description:
-      "A speedster with a shiny coat, always racing through the waves.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.horsemackerel.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Squid: {
     image: squid,
-    description: "The deep-sea enigma with tentacles to tickle your curiosity.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.squid.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Red Snapper": {
     image: redSnapper,
-    description: "A catch worth its weight in gold, dressed in fiery crimson.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.redsnapper.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Moray Eel": {
     image: morayEel,
-    description: "A slinky, sinister lurker in the ocean's shadowy corners.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.morayeel.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Olive Flounder": {
     image: oliveFlounder,
-    description:
-      "The seabed's master of disguise, always blending in with the crowd.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.oliveflounder.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Napoleanfish: {
     image: napoleonfish,
-    description: "Meet the fish with the Napoleon complex – short, but regal!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.napoleanfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Surgeonfish: {
     image: surgeonfish,
-    description: "The ocean's neon warrior, armed with a spine-sharp attitude.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.surgeonfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Zebra Turkeyfish": {
     image: zebraTurkeyfish,
-    description:
-      "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.zebraturkeyfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Ray: {
     image: ray,
-    description:
-      "The underwater glider, a serene winged beauty through the waves.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.ray.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Hammerhead shark": {
     image: hammerheadShark,
-    description:
-      "Meet the shark with a head for business, and a body for adventure!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.hammerheadshark.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Tuna: {
     image: tuna,
-    description:
-      "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.tuna.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Mahi Mahi": {
     image: mahiMahi,
-    description:
-      "A fish that believes in living life colorfully with fins of gold.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.mahimahi.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Blue Marlin": {
     image: blueMarlin,
-    description:
-      "An oceanic legend, the marlin with an attitude as deep as the sea.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.bluemarlin.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Oarfish: {
     image: oarfish,
-    description: "The long and the long of it – an enigmatic ocean wanderer.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.oarfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Football fish": {
     image: footballFish,
-    description:
-      "The MVP of the deep, a bioluminescent star that's ready to play!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.footballfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Sunfish: {
     image: sunfish,
-    description:
-      "The ocean's sunbather, basking in the spotlight with fins held high.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.sunfish.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   Coelacanth: {
     image: coelacanth,
-    description:
-      "A prehistoric relic, with a taste for the past and the present.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.coelacanth.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Whale Shark": {
     image: whaleShark,
-    description:
-      "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.whaleshark.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Barred Knifejaw": {
     image: barredKnifejaw,
-    description:
-      "An oceanic outlaw with black-and-white stripes and a heart of gold.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.barredknifejaw.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Saw Shark": {
     image: sawShark,
-    description:
-      "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.sawshark.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "White Shark": {
     image: whiteShark,
-    description:
-      "The shark with a killer smile, ruling the seas with fin-tensity!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.whiteshark.one"),
+    howToGetItem: [translate("ocean.fishing")],
   },
   "Twilight Anglerfish": {
     image: twilightAnglerfish,
-    description:
-      "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.twilight.anglerfish"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
   "Starlight Tuna": {
     image: startlightTuna,
-    description:
-      "A tuna that outshines the stars, ready to light up your collection.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.starlight.tuna"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
   "Radiant Ray": {
     image: radiantRay,
-    description:
-      "A ray that prefers to glow in the dark, with a shimmering secret to share.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.radiant.ray"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
-    description:
-      "An elusive and ghostly fish of the deep, hiding in the shadows.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.phantom.barracuda"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
-    description:
-      "A swordfish with scales that sparkle like gold, the ultimate catch!",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.gilded.swordfish"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
 
   "Crimson Carp": {
     image: crimsonCarp,
-    description: "A rare, vibrant jewel of the Spring waters.",
-    howToGetItem: ["Ocean fishing"],
+    description: translate("description.crimson.carp"),
+    howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
 
   "Kraken Tentacle": {
     image: krakenTentacle,
-    description:
-      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+    description: translate("description.kraken.tentacle"),
   },
   "Sapo Docuras": {
-    description: "A real treat!",
+    description: translate("description.sapo.docuras"),
     image: sapoDocuras,
   },
   "Sapo Travessuras": {
-    description: "Oh oh...someone was naughty",
+    description: translate("description.sapo.travessuras"),
     image: sapoTravessura,
   },
   // Catch the Kraken Season
   "Lifeguard Ring": {
     image: lifeguardRing,
-    description: "Stay afloat with style, your seaside savior!",
+    description: translate("description.lifeguard.ring"),
   },
   "Beach Umbrella": {
     image: beachUmbrella,
-    description: "Shade, shelter, and seaside chic in one sunny setup!",
+    description: translate("description.beach.umbrella"),
   },
   "Hideaway Herman": {
     image: hideawayHerman,
-    description: "Herman's here to hide, but always peeks for a party!",
+    description: translate("description.hideaway.herman"),
   },
   "Shifty Sheldon": {
     image: shiftySheldon,
-    description: "Sheldon's sly, always scuttling to the next sandy surprise!",
+    description: translate("description.shifty.sheldon"),
   },
   "Tiki Torch": {
     image: tikiTorch,
-    description: "Light the night, tropical vibes burning bright!",
+    description: translate("description.tiki.torch"),
   },
   Surfboard: {
     image: surfboard,
-    description: "Ride the waves of wonder, beach bliss on board!",
+    description: translate("description.surfboard"),
   },
   Walrus: {
     image: walrus,
-    description:
-      "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+    description: translate("description.walrus"),
   },
   Alba: {
     image: alba,
-    description:
-      "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
+    description: translate("description.alba"),
   },
   "Knowledge Crab": {
     image: knowledgeCrab,
-    description:
-      "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+    description: translate("description.knowledge.crab"),
   },
   Anchor: {
     image: anchor,
-    description:
-      "Drop anchor' with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+    description: translate("description.anchor"),
   },
   "Rubber Ducky": {
     image: rubberDucky,
-    description:
-      "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+    description: translate("description.rubber.ducky"),
   },
   "Kraken Head": {
     image: krakenHead,
-    description:
-      "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
+    description: translate("description.kraken.head"),
   },
   "Banana Chicken": {
     image: bananaChicken,
-    description: "A chicken that boosts bananas. What a world we live in.",
+    description: translate("description.banana.chicken"),
   },
   "Crim Peckster": {
     image: crimPeckster,
-    description: "A gem detective with a knack for unearthing Crimstones.",
+    description: translate("description.crim.peckster"),
   },
   "Skill Shrimpy": {
     image: skillShrimpy,
-    description:
-      "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    description: translate("description.skill.shrimpy"),
   },
   "Soil Krabby": {
     image: soilKrabby,
-    description:
-      "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+    description: translate("description.soil.krabby"),
   },
   Nana: {
     image: nana,
-    description:
-      "This rare beauty is a surefire way to boost your banana harvests.",
+    description: translate("description.nana"),
   },
   "Time Warp Totem": {
     image: timeWarpTotem,
-    description:
-      "2x speed for crops, trees, cooking & minerals. Only lasts for 2 hours",
+    description: translate("description.time.warp.totem"),
   },
   "Community Coin": {
     image: communityCoin,
-    description: "A valued coin that can be exchanged for rewards",
+    description: translate("description.community.coin"),
   },
   "Arcade Token": {
     image: communityCoin,
-    description:
-      "A token earned from mini-games and adventures. Can be exchanged for rewards.",
+    description: translate("description.arcade.token"),
   },
   "Bumpkin Nutcracker": {
     image: nutcracker,
-    description: "A festive decoration from 2023.",
+    description: translate("description.bumpkin.nutcracker"),
   },
   "Festive Tree": {
     image: festiveTree,
-    description:
-      "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
+    description: translate("description.festive.tree"),
   },
   "White Festive Fox": {
     image: whiteFestiveFox,
-    description: "The blessing of the White Fox inhabits the generous farms",
+    description: translate("description.white.festive.fox"),
   },
   "Grinx's Hammer": {
     image: grinxsHammer,
-    description:
-      "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
+    description: translate("description.grinxs.hammer"),
   },
 
   Angelfish: {
     image: angelFish,
-    description:
-      "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
+    description: translate("description.angelfish"),
     howToGetItem: ["Beach fishing"],
   },
   Halibut: {
     image: halibut,
-    description:
-      "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
+    description: translate("description.halibut"),
     howToGetItem: ["Beach fishing"],
   },
   Parrotfish: {
     image: parrotFish,
-    description:
-      "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
+    description: translate("description.parrotFish"),
     howToGetItem: ["Beach fishing"],
   },
   Rug: {
@@ -3110,197 +3019,187 @@ export const ITEM_DETAILS: Items = {
   },
   Farmhand: {
     image: SUNNYSIDE.icons.player,
-    description: "A helpful farmhand",
+    description: translate("description.Farmhand"),
   },
   Beehive: {
     image: beehive,
-    description:
-      "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+    description: translate("description.Beehive"),
   },
 
   "Red Pansy": {
     image: redPansy,
-    description: "A red pansy.",
+    description: translate("description.red.pansy"),
   },
   "Yellow Pansy": {
     image: yellowPansy,
-    description: "A yellow pansy.",
+    description: translate("description.yellow.pansy"),
   },
   "Purple Pansy": {
     image: purplePansy,
-    description: "A purple pansy.",
+    description: translate("description.purple.pansy"),
   },
   "White Pansy": {
     image: whitePansy,
-    description: "A white pansy.",
+    description: translate("description.white.pansy"),
   },
   "Blue Pansy": {
     image: bluePansy,
-    description: "A blue pansy.",
+    description: translate("description.blue.pansy"),
   },
   "Red Cosmos": {
     image: redCosmos,
-    description: "A red cosmos.",
+    description: translate("description.red.cosmos"),
   },
   "Yellow Cosmos": {
     image: yellowCosmos,
-    description: "A yellow cosmos.",
+    description: translate("description.yellow.cosmos"),
   },
   "Purple Cosmos": {
     image: purpleCosmos,
-    description: "A purple cosmos.",
+    description: translate("description.purple.cosmos"),
   },
   "White Cosmos": {
     image: whiteCosmos,
-    description: "A white cosmos.",
+    description: translate("description.white.cosmos"),
   },
   "Blue Cosmos": {
     image: blueCosmos,
-    description: "A blue cosmos.",
+    description: translate("description.blue.cosmos"),
   },
   "Red Balloon Flower": {
     image: redBalloonFlower,
-    description: "A red balloon flower.",
+    description: translate("description.red.balloon.flower"),
   },
   "Yellow Balloon Flower": {
     image: yellowBalloonFlower,
-    description: "A yellow balloon flower.",
+    description: translate("description.yellow.balloon.flower"),
   },
   "Purple Balloon Flower": {
     image: purpleBalloonFlower,
-    description: "A purple balloon flower.",
+    description: translate("description.purple.balloon.flower"),
   },
   "White Balloon Flower": {
     image: whiteBalloonFlower,
-    description: "A white balloon flower.",
+    description: translate("description.white.balloon.flower"),
   },
   "Blue Balloon Flower": {
     image: blueBalloonFlower,
-    description: "A blue balloon flower.",
+    description: translate("description.blue.balloon.flower"),
   },
   "Red Carnation": {
     image: redCarnation,
-    description: "A red carnation.",
+    description: translate("description.red.carnation"),
   },
   "Yellow Carnation": {
     image: yellowCarnation,
-    description: "A yellow carnation.",
+    description: translate("description.yellow.carnation"),
   },
   "Purple Carnation": {
     image: purpleCarnation,
-    description: "A purple carnation.",
+    description: translate("description.purple.carnation"),
   },
   "White Carnation": {
     image: whiteCarnation,
-    description: "A white carnation.",
+    description: translate("description.white.carnation"),
   },
   "Blue Carnation": {
     image: blueCarnation,
-    description: "A blue carnation.",
+    description: translate("description.blue.carnation"),
   },
   "Humming Bird": {
-    description:
-      "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    description: translate("description.humming.bird"),
     image: hummingBird,
   },
   "Queen Bee": {
-    description:
-      "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    description: translate("description.queen.bee"),
     image: queenBee,
   },
   "Flower Fox": {
-    description:
-      "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    description: translate("description.flower.fox"),
     image: flowerFox,
   },
   "Hungry Caterpillar": {
-    description:
-      "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    description: translate("description.hungry.caterpillar"),
     image: hungryCaterpillar,
   },
   "Sunrise Bloom Rug": {
-    description:
-      "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    description: translate("description.sunrise.bloom.rug"),
     image: sunriseBloomRug,
   },
+  "Flower Rug": {
+    description: "Add a touch of nature's elegance to your home.",
+    image: flowerRug,
+  },
   "Blossom Royale": {
-    description:
-      "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    description: translate("description.blossom.royale"),
     image: blossomRoyale,
   },
   Rainbow: {
-    description:
-      "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    description: translate("description.rainbow"),
     image: rainbow,
   },
   "Enchanted Rose": {
-    description:
-      "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    description: translate("description.enchanted.rose"),
     image: enchantedRose,
   },
   "Flower Cart": {
-    description:
-      "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    description: translate("description.flower.cart"),
     image: flowerCart,
   },
   Capybara: {
-    description:
-      "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    description: translate("description.capybara"),
     image: capybara,
   },
   "Prism Petal": {
     image: prismPetal,
-    description:
-      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    description: translate("description.prism.petal"),
   },
   "Celestial Frostbloom": {
     image: celestialFrostbloom,
-    description:
-      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    description: translate("description.celestial.frostbloom"),
   },
   "Primula Enigma": {
     image: primulaEnigma,
-    description:
-      "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    description: translate("description.primula.enigma"),
   },
   "Red Daffodil": {
     image: redDaffodil,
-    description: "A red daffodil.",
+    description: translate("description.red.daffodil"),
   },
   "Yellow Daffodil": {
     image: yellowDaffodil,
-    description: "A yellow daffodil.",
+    description: translate("description.yellow.daffodil"),
   },
   "Purple Daffodil": {
     image: purpleDaffodil,
-    description: "A purple daffodil.",
+    description: translate("description.purple.daffodil"),
   },
   "White Daffodil": {
     image: whiteDaffodil,
-    description: "A white daffodil.",
+    description: translate("description.white.daffodil"),
   },
   "Blue Daffodil": {
     image: blueDaffodil,
-    description: "A blue daffodil.",
+    description: translate("description.blue.daffodil"),
   },
   "Red Lotus": {
     image: redLotus,
-    description: "A red lotus.",
+    description: translate("description.red.lotus"),
   },
   "Yellow Lotus": {
     image: yellowLotus,
-    description: "A yellow lotus.",
+    description: translate("description.yellow.lotus"),
   },
   "Purple Lotus": {
     image: purpleLotus,
-    description: "A purple lotus.",
+    description: translate("description.purple.lotus"),
   },
   "White Lotus": {
     image: whiteLotus,
-    description: "A white lotus.",
+    description: translate("description.white.lotus"),
   },
   "Blue Lotus": {
     image: blueLotus,
-    description: "A blue lotus.",
+    description: translate("description.blue.lotu"),
   },
 };

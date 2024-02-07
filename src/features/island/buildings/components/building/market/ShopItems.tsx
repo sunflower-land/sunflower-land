@@ -59,7 +59,7 @@ export const ShopItems: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: t("betty.intro"),
+              text: t("betty.welcome"),
               actions: [
                 {
                   text: t("betty.buySeeds"),
@@ -95,13 +95,13 @@ export const ShopItems: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: t("shopItems.one"),
+              text: t("betty.post.sale.one"),
             },
             {
-              text: t("shopItems.two"),
+              text: t("betty.post.sale.two"),
             },
             {
-              text: t("shopItems.three"),
+              text: t("betty.post.sale.three"),
             },
           ]}
           onClose={() => {

@@ -98,7 +98,36 @@ export const BUILDINGS: () => Record<
       ingredients: [],
     },
   ],
+  Tent: [
+    {
+      unlocksAtLevel: 99,
+      sfl: marketRate(0.06255),
+      constructionSeconds: 60 * 60,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(50),
+        },
+      ],
+    },
+  ],
+
   "Water Well": [
+    {
+      unlocksAtLevel: 2,
+      sfl: new Decimal(1),
+      constructionSeconds: 60 * 5,
+      ingredients: [
+        {
+          item: "Wood",
+          amount: new Decimal(5),
+        },
+        {
+          item: "Stone",
+          amount: new Decimal(5),
+        },
+      ],
+    },
     {
       unlocksAtLevel: 4,
       sfl: new Decimal(1),
@@ -115,7 +144,7 @@ export const BUILDINGS: () => Record<
       ],
     },
     {
-      unlocksAtLevel: 6,
+      unlocksAtLevel: 11,
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
       ingredients: [
@@ -130,22 +159,7 @@ export const BUILDINGS: () => Record<
       ],
     },
     {
-      unlocksAtLevel: 10,
-      sfl: new Decimal(1),
-      constructionSeconds: 60 * 5,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(5),
-        },
-        {
-          item: "Stone",
-          amount: new Decimal(5),
-        },
-      ],
-    },
-    {
-      unlocksAtLevel: 12,
+      unlocksAtLevel: 15,
       sfl: new Decimal(1),
       constructionSeconds: 60 * 5,
       ingredients: [
@@ -177,22 +191,10 @@ export const BUILDINGS: () => Record<
       ],
     },
   ],
-  Tent: [
-    {
-      unlocksAtLevel: 9,
-      sfl: marketRate(0.06255),
-      constructionSeconds: 60 * 60,
-      ingredients: [
-        {
-          item: "Wood",
-          amount: new Decimal(50),
-        },
-      ],
-    },
-  ],
+
   "Hen House": [
     {
-      unlocksAtLevel: 7,
+      unlocksAtLevel: 6,
       sfl: marketRate(100),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
@@ -211,7 +213,7 @@ export const BUILDINGS: () => Record<
       ],
     },
     {
-      unlocksAtLevel: 13,
+      unlocksAtLevel: 20,
       sfl: marketRate(800),
       constructionSeconds: 60 * 60 * 3,
       ingredients: [
@@ -257,7 +259,7 @@ export const BUILDINGS: () => Record<
   ],
   Deli: [
     {
-      unlocksAtLevel: 12,
+      unlocksAtLevel: 16,
       sfl: marketRate(300),
       constructionSeconds: 60 * 60 * 12,
       ingredients: [
@@ -278,7 +280,7 @@ export const BUILDINGS: () => Record<
   ],
   "Smoothie Shack": [
     {
-      unlocksAtLevel: 14,
+      unlocksAtLevel: 23,
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 12,
       ingredients: [
@@ -300,7 +302,7 @@ export const BUILDINGS: () => Record<
 
   Toolshed: [
     {
-      unlocksAtLevel: 15,
+      unlocksAtLevel: 25,
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
@@ -329,7 +331,7 @@ export const BUILDINGS: () => Record<
   ],
   Warehouse: [
     {
-      unlocksAtLevel: 14,
+      unlocksAtLevel: 20,
       sfl: new Decimal(0),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
@@ -362,7 +364,7 @@ export const BUILDINGS: () => Record<
   ],
   "Compost Bin": [
     {
-      unlocksAtLevel: 6,
+      unlocksAtLevel: 7,
       sfl: marketRate(0),
       constructionSeconds: 60 * 60,
       ingredients: [
@@ -379,7 +381,7 @@ export const BUILDINGS: () => Record<
   ],
   "Turbo Composter": [
     {
-      unlocksAtLevel: 10,
+      unlocksAtLevel: 12,
       sfl: marketRate(0),
       constructionSeconds: 60 * 60 * 2,
       ingredients: [

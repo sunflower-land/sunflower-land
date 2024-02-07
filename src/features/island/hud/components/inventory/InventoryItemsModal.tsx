@@ -8,6 +8,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "react-bootstrap";
 import { BudName } from "features/game/types/buds";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -45,13 +46,13 @@ export const InventoryItemsModal: React.FC<Props> = ({
   isFullUser,
 }) => {
   const [currentTab, setCurrentTab] = useState<number>(0);
-
+  const { t } = useAppTranslation();
   return (
     <Modal size="lg" centered show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
-          { icon: SUNNYSIDE.icons.basket, name: "Basket" },
-          { icon: chest, name: "Chest" },
+          { icon: SUNNYSIDE.icons.basket, name: t("basket") },
+          { icon: chest, name: t("chest") },
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}

@@ -10,12 +10,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ticket from "assets/icons/block_buck_detailed.png";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const Restock: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -58,7 +60,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
     <>
       <div className="my-1 flex flex-col mb-1 flex-1 items-center justify-end">
         <div className="flex items-center">
-          <p className="text-xs mr-1.5 mb-0.5">Restock = 1 x</p>
+          <p className="text-xs mr-1.5 mb-0.5">{t("restock")} = 1 x</p>
           <SquareIcon icon={ITEM_DETAILS["Block Buck"].image} width={7} />
         </div>
       </div>
@@ -68,13 +70,13 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
         onClick={() => setShowConfirm(true)}
       >
         <div className="flex items-center h-4">
-          <p>Restock</p>
+          <p>{t("restock")}</p>
         </div>
       </Button>
       {!canRestock && (
         <Button className="mt-1" onClick={handleBuy} disabled={disableBuy}>
           <div className="flex items-center h-4">
-            <p className="mr-1.5">Buy</p>
+            <p className="mr-1.5">{t("buy")}</p>
 
             <img src={ITEM_DETAILS["Block Buck"].image} className="h-5 -mb-1" />
           </div>
@@ -98,8 +100,8 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={() => setShowConfirm(false)}>Cancel</Button>
-            <Button onClick={handleRestock}>Restock</Button>
+            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
+            <Button onClick={handleRestock}>{t("restock")}</Button>
           </div>
         </CloseButtonPanel>
       </Modal>

@@ -42,6 +42,7 @@ import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -136,7 +137,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
   const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
-
+  const { t } = useAppTranslation();
   const slots = getDeliverySlots(inventory);
 
   const progress = Math.min(
@@ -218,9 +219,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           // Give 24 hours heads up before tasks close
           tasksAreClosing && (
             <div className="flex flex-col items-center">
-              <p className="text-xs text-center">
-                A new season approaches, deliveries will temporarily close.
-              </p>
+              <p className="text-xs text-center">{t("orderhelp.New.Season")}</p>
               <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
                 {secondsToString((tasksCloseAt - Date.now()) / 1000, {
                   length: "full",
@@ -232,7 +231,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
         {tasksAreFrozen && (
           <div className="flex flex-col items-center">
             <p className="text-xs text-center">
-              New Seasonal Deliveries opening soon.
+              {t("orderhelp.New.Season.arrival")}
             </p>
             <Label
               type="info"
@@ -402,10 +401,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               <div className="w-6">
                 <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
               </div>
-              <span className="text-xs">{`New deliveries available in ${secondsToString(
-                secondsTillReset(),
-                { length: "medium" }
-              )}.`}</span>
+              <span className="text-xs">
+                {t("new.delivery.in")}
+                {`${secondsToString(secondsTillReset(), {
+                  length: "medium",
+                })}.`}
+              </span>
             </div>
           )}
         </div>
@@ -472,7 +473,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {canSkip && <p className="text-xs">Choose wisely!</p>}
                 {!canSkip && (
                   <>
-                    <p className="text-xs">Skip in:</p>
+                    <p className="text-xs">{t("orderhelp.SkipIn")}</p>
                     <div className="flex-1">
                       <RequirementLabel
                         type="time"
@@ -485,7 +486,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               {canSkip && (
                 <>
                   <Button onClick={() => setShowSkipDialog(false)}>
-                    Not Right Now
+                    {t("orderhelp.NoRight")}
                   </Button>
                   <Button onClick={skip} className="mt-1">
                     Skip Order
@@ -493,7 +494,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 </>
               )}
               {!canSkip && (
-                <Button onClick={() => setShowSkipDialog(false)}>Back</Button>
+                <Button onClick={() => setShowSkipDialog(false)}>
+                  {t("back")}
+                </Button>
               )}
             </>
           )}
@@ -509,11 +512,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
                 {BEACH_BUMPKINS.includes(previewOrder.from) ? (
                   <Label type="default" icon={worldIcon} className="ml-1">
-                    Beach
+                    {t("island.beach")}
                   </Label>
                 ) : (
                   <Label type="default" icon={worldIcon} className="ml-1">
-                    Pumpkin Plaza
+                    {t("island.pumpkin.plaza")}
                   </Label>
                 )}
               </div>
@@ -549,14 +552,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
-                  <p className="text-xxs">Completed</p>
+                  <p className="text-xxs">{t("completed")}</p>
                 </div>
               ) : (
                 <p
                   className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
                   onClick={() => setShowSkipDialog(true)}
                 >
-                  Skip order?
+                  {t("skip.order")}?
                 </p>
               )}
             </div>

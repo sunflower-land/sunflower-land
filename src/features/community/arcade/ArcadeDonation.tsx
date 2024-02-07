@@ -10,6 +10,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ARCADE_GAMES } from "../lib/constants";
 import { useMachine } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const GAMES = Object.values(ARCADE_GAMES);
 
@@ -17,7 +18,7 @@ export const ArcadeDonation: React.FC = () => {
   const [state, send] = useMachine(donationMachine);
   const [activeIndex, setActiveIndex] = useState(0);
   const [donation, setDonation] = useState(1);
-
+  const { t } = useAppTranslation();
   const updateActiveIndex = (newIdx: number) => {
     setActiveIndex(newIdx % GAMES.length);
   };
@@ -51,10 +52,7 @@ export const ArcadeDonation: React.FC = () => {
     <>
       {state.matches("idle") && (
         <div className="flex flex-col mb-1 p-2 text-sm">
-          <p className="my-2">
-            Thank you for your support! Kindly choose the game that you like
-            donate to.
-          </p>
+          <p className="my-2">{t("transaction.chooseDonationGame")}</p>
           <Carousel
             activeIndex={activeIndex}
             interval={null}
@@ -114,30 +112,32 @@ export const ArcadeDonation: React.FC = () => {
                 />
               </div>
             </div>
-            <span className="text-xs text-shadow my-2">Amount in MATIC</span>
+            <span className="text-xs text-shadow my-2">
+              {t("amount.matic")}
+            </span>
           </div>
           <Button
             className="w-full ml-1"
             onClick={donate}
             disabled={donation < 0.1}
           >
-            <span className="text-xs whitespace-nowrap">Donate</span>
+            <span className="text-xs whitespace-nowrap">{t("donate")}</span>
           </Button>
         </div>
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">Donating</p>
+          <p className="loading mb-4">{t("donating")}</p>
         </div>
       )}
       {state.matches("donated") && (
         <div className="flex flex-col items-center">
-          <p className="mb-4">Thank you!</p>
+          <p className="mb-4">{t("thank.you")}</p>
         </div>
       )}
       {state.matches("error") && (
         <div className="flex flex-col items-center">
-          <p className="my-4">Oh no! Something went wrong!</p>
+          <p className="my-4">{t("statements.ohNo")}</p>
         </div>
       )}
     </>

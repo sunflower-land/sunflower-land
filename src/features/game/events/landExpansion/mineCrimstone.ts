@@ -4,6 +4,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { GameState, Rock } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
+import { translate } from "lib/i18n/translate";
 
 export type MineCrimstoneAction = {
   type: "crimstoneRock.mined";
@@ -50,7 +51,7 @@ export function mineCrimstone({
   }
 
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!canMine(rock, createdAt)) {

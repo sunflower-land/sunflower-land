@@ -9,6 +9,7 @@ import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface CompleteProps {
   desiredFlower: FlowerName;
@@ -22,9 +23,10 @@ const Complete: React.FC<CompleteProps> = ({
   alreadyComplete,
 }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   if (alreadyComplete) {
-    return <Label type="info">Already completed</Label>;
+    return <Label type="info">{t("alr.completed")}</Label>;
   }
 
   return (
@@ -55,7 +57,7 @@ export const FlowerTrade: React.FC<Props> = ({
   alreadyComplete,
 }) => {
   const desiredFlowerImage = ITEM_DETAILS[desiredFlower].image;
-
+  const { t } = useAppTranslation();
   const currentWeek = 0;
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
   const sevenDaysSeconds = sevenDays / 1000;
@@ -72,7 +74,8 @@ export const FlowerTrade: React.FC<Props> = ({
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex flex-col items-center mx-auto">
         <p className="text-center text-sm mb-3">
-          Do you have a {desiredFlower} you would be willing to trade?
+          {t("flowerShop.do.have")} {desiredFlower}
+          {t("flowerShop.do.have.trade.one")}
         </p>
         <div className="relative mb-2">
           <img src={bg} className="w-48 object-contain rounded-md" />
@@ -87,11 +90,10 @@ export const FlowerTrade: React.FC<Props> = ({
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
             <span>
-              {"Offer ends in "}
-              {secondsToString(remainingSecondsInWeek, {
+              {`${t("offer.end")} ${secondsToString(remainingSecondsInWeek, {
                 length: "medium",
                 removeTrailingZeros: true,
-              })}
+              })}`}
             </span>
           </div>
         </Label>

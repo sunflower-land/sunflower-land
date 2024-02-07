@@ -16,6 +16,7 @@ import { chopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
 import { IslandType } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Axe";
 
@@ -52,6 +53,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const [showEquipTool, setShowEquipTool] = useState(false);
 
   const shakeGif = useRef<SpriteSheetInstance>();
+  const { t } = useAppTranslation();
 
   // prevent performing react state update on an unmounted component
   useEffect(() => {
@@ -164,7 +166,9 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

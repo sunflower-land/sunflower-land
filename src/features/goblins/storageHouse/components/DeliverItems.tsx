@@ -31,6 +31,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { getKeys } from "features/game/types/craftables";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onWithdraw: () => void;
@@ -43,6 +44,8 @@ const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
 
 export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
+  const { t } = useAppTranslation();
+
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const { authService } = useContext(AuthProvider.Context);
@@ -161,7 +164,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   if (isLoading) {
-    return <span className="loading">Loading</span>;
+    return <span className="loading">{t("loading")}</span>;
   }
 
   if (jiggerState) {
@@ -177,7 +180,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="p-2 mb-2">
-        <h2 className="mb-1 text-sm">Inventory:</h2>
+        <h2 className="mb-1 text-sm">{t("deliveryitem.inventory")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
           {getKeys(inventory).map((itemName) => (
             <Box
@@ -189,7 +192,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
           ))}
         </div>
 
-        <h2 className="mb-1 text-sm">Items to deliver:</h2>
+        <h2 className="mb-1 text-sm">{t("deliveryitem.itemsToDeliver")}</h2>
         <div
           className="flex flex-col gap-2 min-h-[48px] scrollable overflow-y-auto"
           style={{ maxHeight: 158 }}
@@ -258,17 +261,15 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
         <div className="flex items-center mb-2 text-xs">
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
-            <p>Deliver to your wallet</p>
+            <p>{t("deliveryitem.deliverToWallet")}</p>
             <p>{shortAddress(wallet.myAccount || "XXXX")}</p>
           </div>
         </div>
 
-        <p className="text-xs">
-          Once delivered, you will be able to view your items on OpenSea.
-        </p>
+        <p className="text-xs">{t("deliveryitem.viewOnOpenSea")}</p>
       </div>
       <Button onClick={withdraw} disabled={hasWrongInputs()}>
-        Deliver
+        {t("deliveryitem.deliver")}
       </Button>
     </>
   );

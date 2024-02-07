@@ -11,6 +11,7 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import chest from "assets/icons/chest.png";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   setSelected: (name?: string) => void;
@@ -18,6 +19,7 @@ interface Props {
 export const Mail: React.FC<Props> = ({ setSelected }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   let ids = gameState.context.state.mailbox.read.map((item) => item.id);
   const announcements = gameState.context.announcements;
@@ -27,7 +29,7 @@ export const Mail: React.FC<Props> = ({ setSelected }) => {
 
   ids = [...announcementIds, ...ids];
   if (ids.length === 0) {
-    return <p>No mail</p>;
+    return <p>{t("no.mail")}</p>;
   }
 
   const open = (id: string) => {

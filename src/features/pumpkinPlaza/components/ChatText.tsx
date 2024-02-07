@@ -4,6 +4,7 @@ import Filter from "bad-words";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   messages: {
@@ -66,7 +67,7 @@ export const ChatText: React.FC<Props> = ({
       window.removeEventListener("keydown", keyDownListener);
     };
   });
-
+  const { t } = useAppTranslation();
   const Validation = () => {
     if (text.length > MAX_CHARACTERS) {
       return (
@@ -81,7 +82,7 @@ export const ChatText: React.FC<Props> = ({
     if (!isValidText) {
       return (
         <Label className="mt-1 mb-1 float-right" type="danger">
-          No special characters
+          {t("warning.chat.noSpecialCharacters")}
         </Label>
       );
     }

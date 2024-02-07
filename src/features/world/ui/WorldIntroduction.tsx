@@ -9,6 +9,8 @@ import deliveries from "assets/tutorials/plaza_screenshot1.png";
 import crafting from "assets/tutorials/craft_rare.png";
 import auctions from "assets/tutorials/auctions.png";
 import trading from "assets/tutorials/trading.png";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -28,6 +30,8 @@ const ProgressDots: React.FC<{ progress: number; total: number }> = ({
   </div>
 );
 export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+
   const [page, setPage] = useState(0);
 
   const Content = () => {
@@ -36,13 +40,13 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <SpeakingText
           message={[
             {
-              text: "Howdy Traveller! Welcome to the Pumpkin Plaza.",
+              text: translate("world.intro.one"),
             },
             {
-              text: "The plaza is home to a diverse group of hungry Bumpkins and Goblins that need your help!",
+              text: translate("world.intro.two"),
             },
             {
-              text: "A few quick hints before you begin your adventure:",
+              text: translate("world.intro.three"),
             },
           ]}
           onClose={() => setPage((p) => p + 1)}
@@ -56,12 +60,10 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={1} total={5} />
-            <p className="text-sm my-2">
-              Visit NPCs and complete deliveries to earn SFL and rare rewards.
-            </p>
+            <p className="text-sm my-2">{t("world.intro.visit")}</p>
             <img src={deliveries} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>Next</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>{t("next")}</Button>
         </>
       );
     }
@@ -72,16 +74,11 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={2} total={5} />
-            <p className="text-sm my-2">
-              Craft rare collectibles, wearables and decorations at the
-              different shops.
-            </p>
-            <p className="text-sm mb-2">
-              Hurry, items are only available for a limited time!
-            </p>
+            <p className="text-sm my-2">{t("world.intro.craft")}</p>
+            <p className="text-sm mb-2">{t("world.intro.carf.limited")}</p>
             <img src={crafting} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>Next</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>{t("next")}</Button>
         </>
       );
     }
@@ -92,13 +89,10 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={3} total={5} />
-            <p className="text-sm my-2">
-              Trade resources with other players. To interact with a player,
-              walk nearby and click on them.
-            </p>
+            <p className="text-sm my-2">{t("world.intro.trade")}</p>
             <img src={trading} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>Next</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>{t("next")}</Button>
         </>
       );
     }
@@ -109,13 +103,10 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
         <>
           <div className="p-2">
             <ProgressDots progress={3} total={5} />
-            <p className="text-sm my-2">
-              Prepare your resources & visit the Auction House to compete with
-              other players for rare collectibles!
-            </p>
+            <p className="text-sm my-2">{t("world.intro.auction")}</p>
             <img src={auctions} className="w-full rounded-md" />
           </div>
-          <Button onClick={() => setPage((p) => p + 1)}>Next</Button>
+          <Button onClick={() => setPage((p) => p + 1)}>{t("next")}</Button>
         </>
       );
     }
@@ -129,33 +120,24 @@ export const WorldIntroduction: React.FC<Props> = ({ onClose }) => {
               <img src={SUNNYSIDE.icons.player} className="h-6" />
             </div>
             <div className="flex-1">
-              <p className="text-sm">
-                To move your Bumpkin, use the keyboard arrow keys
-              </p>
-              <p className="text-xs italic">
-                (On touch screen, use the joystick.)
-              </p>
+              <p className="text-sm">{t("world.intro.four")}</p>
+              <p className="text-xs italic">{t("world.intro.five")}</p>
             </div>
           </div>
           <div className="flex mb-2">
             <div className="w-8">
               <img src={SUNNYSIDE.ui.cursor} className="h-6" />
             </div>
-            <p className="text-sm flex-1">
-              To interact with a Bumpkin or an object, walk near it and click it
-            </p>
+            <p className="text-sm flex-1">{t("world.intro.six")}</p>
           </div>
           <div className="flex mb-1">
             <div className="w-8">
               <img src={SUNNYSIDE.icons.heart} className="h-6" />
             </div>
-            <p className="text-sm flex-1">
-              No harrasment, swearing or bullying. Thank you for respecting
-              others.
-            </p>
+            <p className="text-sm flex-1">{t("world.intro.seven")}</p>
           </div>
         </div>
-        <Button onClick={onClose}>{`Lets go!`}</Button>
+        <Button onClick={onClose}>{t("lets.go")}</Button>
       </>
     );
   };
