@@ -810,7 +810,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: SUNNYSIDE.icons.fish,
   },
   Alba: {
-    shortDescription: "10% Chance of +1 Fish",
+    shortDescription: "50% Chance of +1 Fish",
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: SUNNYSIDE.icons.fish,
