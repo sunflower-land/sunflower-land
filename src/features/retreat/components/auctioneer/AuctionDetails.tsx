@@ -16,6 +16,7 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   item: Auction;
@@ -71,6 +72,8 @@ export const AuctionDetails: React.FC<Props> = ({
 
   const isMintComplete = Date.now() > releaseEndDate;
 
+  const { t } = useAppTranslation();
+
   const hasIngredients =
     getKeys(item.ingredients).every((name) =>
       (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0)
@@ -82,7 +85,7 @@ export const AuctionDetails: React.FC<Props> = ({
         ? !!game.inventory[item.collectible]
         : !!game.wardrobe[item.wearable]
     ) {
-      return <Label type="info">Already minted</Label>;
+      return <Label type="info">{t("alr.minted")}</Label>;
     }
     if (isUpcomingItem) {
       return null;
@@ -159,7 +162,7 @@ export const AuctionDetails: React.FC<Props> = ({
       </div>
 
       <div className="mb-2 flex flex-col items-center">
-        <span className="text-xs mb-1">Requirements</span>
+        <span className="text-xs mb-1">{t("auction.requirement")}</span>
         <div className="flex items-center justify-center">
           {item.sfl > 0 && (
             <div className="flex items-center">
@@ -182,11 +185,11 @@ export const AuctionDetails: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="text-xs  underline mb-0.5"
           >
-            Starting Time
+            {t("auction.start")}
           </a>
           {isMintStarted ? (
             <Label type="warning" className="mt-1">
-              Auction is live
+              {t("auction.live")}
             </Label>
           ) : (
             TimerDisplay({ time: start })
@@ -199,11 +202,11 @@ export const AuctionDetails: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="text-xs  underline mb-0.5"
           >
-            Auction Period
+            {t("auction.period")}
           </a>
           {isMintComplete ? (
             <Label type="danger" className="mt-1">
-              Auction closed
+              {t("auction.closed")}
             </Label>
           ) : isMintStarted ? (
             TimerDisplay({ time: end })

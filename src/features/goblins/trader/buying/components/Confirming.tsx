@@ -9,6 +9,7 @@ import { Listing } from "lib/blockchain/Trader";
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ConfirmProps {
   balance: Decimal;
@@ -23,6 +24,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
   onBack,
   onConfirm,
 }) => {
+  const { t } = useAppTranslation();
   const resourceName = KNOWN_ITEMS[listing.resourceId];
   const resource = ITEM_DETAILS[resourceName];
 
@@ -90,9 +92,9 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
       </div>
       <div className="flex space-x-2 w-full">
-        <Button onClick={onBack}>Back</Button>
+        <Button onClick={onBack}>{t("back")}</Button>
         <Button onClick={onConfirm} disabled={insufficientFunds}>
-          Confirm
+          {t("confirm")}
         </Button>
       </div>
     </div>

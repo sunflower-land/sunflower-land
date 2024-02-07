@@ -8,6 +8,7 @@ import { Modal } from "react-bootstrap";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 import { NPC_WEARABLES } from "lib/npcs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function acknowledge() {
   localStorage.setItem("landscaping.introduction", "complete");
@@ -19,7 +20,7 @@ function hasSeenIntro() {
 
 export const LandscapingIntroduction: React.FC = () => {
   const [showModal, setShowModal] = useState(!hasSeenIntro());
-
+  const { t } = useAppTranslation();
   const onClose = () => {
     setShowModal(false);
     acknowledge();
@@ -30,7 +31,7 @@ export const LandscapingIntroduction: React.FC = () => {
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.grimtooth}
-        title="Design your dream island!"
+        title={t("landscape.intro.one")}
       >
         <div className="p-2">
           <div className="flex mb-1 items-center">
@@ -51,9 +52,7 @@ export const LandscapingIntroduction: React.FC = () => {
                 }}
               />
             </div>
-            <p className="text-sm flex-1">
-              In design mode you can hold, drag & move items around.
-            </p>
+            <p className="text-sm flex-1">{t("landscape.intro.two")}</p>
           </div>
 
           <div className="flex mb-1 items-center">
@@ -74,7 +73,7 @@ export const LandscapingIntroduction: React.FC = () => {
                 }}
               />
             </div>
-            <p className="text-sm flex-1">Craft rare decorations</p>
+            <p className="text-sm flex-1">{t("landscape.intro.three")}</p>
           </div>
           <div className="flex mb-1 items-center">
             <div className="relative mr-2">
@@ -94,10 +93,10 @@ export const LandscapingIntroduction: React.FC = () => {
                 }}
               />
             </div>
-            <p className="text-sm flex-1">Place collectibles from your chest</p>
+            <p className="text-sm flex-1">{t("landscape.intro.four")}</p>
           </div>
         </div>
-        <Button onClick={onClose}>Got it</Button>
+        <Button onClick={onClose}>{t("gotIt")}</Button>
       </CloseButtonPanel>
     </Modal>
   );

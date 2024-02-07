@@ -17,6 +17,7 @@ import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onBack: () => void;
@@ -55,7 +56,7 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
     onBack();
   };
-
+  const { t } = useAppTranslation();
   const { bumpkin } = state;
   const experience = bumpkin?.experience || 0;
 
@@ -68,11 +69,13 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
     return (
       <div className="flex flex-wrap gap-1">
         {availableSkillPoints > 0 && (
-          <Label type="default">Skill Points: {availableSkillPoints}</Label>
+          <Label type="default">
+            {t("skillPts")}: {availableSkillPoints}
+          </Label>
         )}
         {nextLevelWithSkillPoint && (
           <Label type="default" className="text-xxs px-1 whitespace-nowrap">
-            Next skill point: level {nextLevelWithSkillPoint}
+            {t("nextSkillPtLvl")} {nextLevelWithSkillPoint}
           </Label>
         )}
       </div>
@@ -121,12 +124,12 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
 
 export const SkillsModal: React.FC<Props> = ({ onBack, onClose, readonly }) => {
   const [tab, setTab] = useState(0);
-
+  const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
       currentTab={tab}
       setCurrentTab={setTab}
-      tabs={[{ icon: seedSpecialist, name: "Skills" }]}
+      tabs={[{ icon: seedSpecialist, name: t("skills") }]}
       onClose={onClose}
     >
       {/* @note: There is only one tab, no extra judgment is needed. */}

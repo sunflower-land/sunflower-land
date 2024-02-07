@@ -7,6 +7,7 @@ import {
   getSeasonalTicket,
   SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER,
 } from "features/game/types/seasons";
+import { translate } from "lib/i18n/translate";
 
 export type FulFillGrubOrderAction = {
   type: "grubOrder.fulfilled";
@@ -27,7 +28,7 @@ export function fulfillGrubOrder({
   const game = cloneDeep(state);
   const { bumpkin } = game;
   if (bumpkin === undefined) {
-    throw new Error("You do not have a Bumpkin");
+    throw new Error(translate("no.have.bumpkin"));
   }
 
   if (!game.grubShop || game.grubShop.closesAt < createdAt) {

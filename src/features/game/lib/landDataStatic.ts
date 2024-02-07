@@ -333,7 +333,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 100 },
   buds: {
     1: {
       aura: "Basic",
@@ -399,6 +399,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Flower Fox": new Decimal(1),
     "Hungry Caterpillar": new Decimal(1),
     "Sunrise Bloom Rug": new Decimal(1),
+    "Flower Rug": new Decimal(1),
     "Blossom Royale": new Decimal(1),
     Rainbow: new Decimal(1),
     "Enchanted Rose": new Decimal(1),

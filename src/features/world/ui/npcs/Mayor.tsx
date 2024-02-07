@@ -17,7 +17,7 @@ import { formatDateTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import debounce from "lodash.debounce";
 import { CONFIG } from "lib/config";
-
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 const network = CONFIG.NETWORK as "mainnet" | "mumbai";
 
 const NAME_START_DATE =
@@ -67,7 +67,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   >("idle");
 
   const alreadyHaveUsername = Boolean(gameState.context.state.username);
-
+  const { t } = useAppTranslation();
   const now = new Date();
   const availableAt = farmAvailableAt(gameState.context.farmId);
   const isAvailable =
@@ -127,10 +127,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               onClose={onClose}
               message={[
                 {
-                  text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`,
+                  text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`, //Translate
                 },
                 {
-                  text: "Do you want to change your name? Unfortunately, I can't do that for you right now, the paperwork is too much for me to handle.",
+                  text: t("mayor.plaza.changeNamePrompt"),
                 },
               ]}
             />
@@ -139,22 +139,22 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               onClose={onClose}
               message={[
                 {
-                  text: "Howdy fellow Bumpkin, it seems we haven't been introduced yet.",
+                  text: t("mayor.plaza.intro"),
                 },
                 {
-                  text: "I'm the Mayor of this town! I'm in charge of making sure everyone is happy. I also make sure that everyone has a name!",
+                  text: t("mayor.plaza.role"),
                 },
                 {
-                  text: "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
+                  text: t("mayor.plaza.fixNamePrompt"),
                   actions: [
                     {
-                      text: "No thanks.",
+                      text: t("no.thanks"),
                       cb: () => {
                         onClose();
                       },
                     },
                     {
-                      text: "Yes please!",
+                      text: t("yes.please"),
                       cb: () => {
                         setTab(1);
                       },
@@ -175,7 +175,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           {isAvailable ? (
             <>
               <div className="flex flex-col items-center p-1">
-                <span>Enter your username:</span>
+                <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
                 <div className="w-full py-3 relative">
                   <input
                     type="string"
@@ -220,16 +220,16 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 }
               >
                 {state === "idle"
-                  ? "Submit"
+                  ? t("submit")
                   : state === "loading"
-                  ? "Submitting..."
+                  ? t("submitting")
                   : state === "success"
-                  ? "Success!"
+                  ? t("success")
                   : state === "error"
-                  ? "Error!"
+                  ? t("error")
                   : state === "checking"
                   ? "Checking availability..."
-                  : "Submit"}
+                  : t("submit")}
               </Button>
             </>
           ) : (
@@ -247,7 +247,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   {formatDateTime(availableAt.toISOString())}
                 </Label>
               </div>
-              <Button onClick={onClose}>Close</Button>
+              <Button onClick={onClose}>{t("close")}</Button>
             </>
           )}
         </CloseButtonPanel>
@@ -266,7 +266,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           <>
             <div className="flex flex-col space-y-2 px-1 pb-2 pt-0">
               <span>
-                Please be aware that usernames must adhere to our{" "}
+                {t("mayor.plaza.usernameValidation")}{" "}
                 <a
                   className="cursor-pointer underline hover:text-gray-400"
                   href="https://docs.sunflower-land.com/support/terms-of-service/code-of-conduct"
@@ -286,7 +286,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 setTab(1);
               }}
             >
-              Confirm
+              {t("confirm")}
             </Button>
           </>
         </CloseButtonPanel>
@@ -298,10 +298,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             {
-              text: `Nice to meet you ${username}!`,
+              text: t("mayor.plaza.niceToMeetYou"), //`Nice to meet you ${username}!`,
             },
             {
-              text: "I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
+              text: t("mayor.plaza.enjoyYourStay"), //"I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
             },
           ]}
         />
@@ -315,7 +315,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               you around!
             </span>
           </div>
-          <Button onClick={onClose}>Close</Button>
+          <Button onClick={onClose}>{t("close")}</Button>
         </CloseButtonPanel>
       )}
     </>

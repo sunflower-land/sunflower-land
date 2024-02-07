@@ -3,6 +3,7 @@ import { Button } from "components/ui/Button";
 import { Player } from "../ModerationTools";
 
 import { mutePlayer } from "features/world/lib/moderationAction";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   player?: Player;
@@ -30,6 +31,8 @@ export const MuteModal: React.FC<Props> = ({
   scene,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
+
   const [muteStatus, setMuteStatus] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -77,15 +80,17 @@ export const MuteModal: React.FC<Props> = ({
     <>
       {muteStatus === "idle" && (
         <div className="flex flex-col w-full p-1">
-          <span className="text-lg text-center">Mute a Player</span>
-          <span className="text-xxs text-left mt-2 mb-1">Player Farm ID</span>
+          <span className="text-lg text-center">{t("mute.playe")}</span>
+          <span className="text-xxs text-left mt-2 mb-1">
+            {t("player.farm.iD")}
+          </span>
           <input
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
             value={farmId}
             onChange={(e) => setFarmId(Number(e.target.value))}
           />
           <span className="text-xxs text-left mt-2 mb-1">
-            Mute Duration (Please note that the player will see this)
+            {t("mute.duration")}
           </span>
           <select
             className="w-full text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
@@ -101,7 +106,7 @@ export const MuteModal: React.FC<Props> = ({
             ))}
           </select>
           <span className="text-xxs text-left mt-2 mb-1">
-            Mute Reason (Please note that the player will see this)
+            {t("mute.Reason")}
           </span>
           <textarea
             className="w-full h-20 text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
@@ -110,12 +115,12 @@ export const MuteModal: React.FC<Props> = ({
             onChange={(e) => setReason(e.target.value)}
           />
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Cancel</Button>
+            <Button onClick={handleClose}>{t("cancel")}</Button>
             <Button
               onClick={handleMuteAction}
               disabled={reason.length === 0 || !farmId}
             >
-              Confirm
+              {t("confirm")}
             </Button>
           </div>
         </div>
@@ -124,29 +129,30 @@ export const MuteModal: React.FC<Props> = ({
       {muteStatus === "success" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            Mute Player of Farm {farmId}
+            {t("mute.player.farm")} {farmId}
           </span>
-          <span className="text-xs text-center">Player has been muted</span>
+          <span className="text-xs text-center">{t("mute.player.mute")}</span>
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={handleClose}>{t("close")}</Button>
           </div>
         </div>
       )}
       {muteStatus === "error" && (
         <div className="flex flex-col items-center w-full px-1">
           <span className="text-sm text-center">
-            Mute Player of Farm {farmId}
+            {t("mute.player.farm")}
+            {farmId}
           </span>
-          <span className="text-xs text-center">Failed to mute player</span>
+          <span className="text-xs text-center">{t("mute.fail")}</span>
           <div className="flex gap-2 w-full mt-2">
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={handleClose}>{t("close")}</Button>
           </div>
         </div>
       )}
       {muteStatus === "loading" && (
         <div className="flex flex-col items-center w-full px-1">
-          <span className="text-lg text-center">Muting Player...</span>
-          <span className="text-xs text-center mt-2">Please wait</span>
+          <span className="text-lg text-center">{t("mute.player.muting")}</span>
+          <span className="text-xs text-center mt-2">{t("please.wait")}</span>
         </div>
       )}
     </>

@@ -14,8 +14,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { SEASONS } from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const HayseedHank: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [isSkipping, setIsSkipping] = useState(false);
@@ -75,19 +77,19 @@ export const HayseedHank: React.FC = () => {
           className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
           onClick={() => setIsDialogOpen(!isDialogOpen)}
         >
-          Cannot complete this chore?
+          {t("hayseedHankPlaza.cannotCompleteChore")}
         </p>
         {isDialogOpen && canSkip && (
           <p
             className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
             onClick={skip}
           >
-            Skip chore
+            {t("hayseedHankPlaza.skipChore")}
           </p>
         )}
         {isDialogOpen && !canSkip && (
           <p className="text-xxs pb-1 pt-0.5">
-            You can skip this chore in {getTimeToChore()}
+            {t("hayseedHankPlaza.canSkipIn")} {getTimeToChore()}
           </p>
         )}
       </div>
@@ -133,11 +135,11 @@ export const HayseedHank: React.FC = () => {
           title={
             isTaskComplete(gameState.context.state) ? (
               <div className="flex justify-center">
-                <p>Well done</p>
+                <p>{t("hayseedHankPlaza.wellDone")}</p>
               </div>
             ) : (
               <div className="flex justify-center">
-                <p>Lend a hand?</p>
+                <p>{t("hayseedHankPlaza.lendAHand")}</p>
               </div>
             )
           }

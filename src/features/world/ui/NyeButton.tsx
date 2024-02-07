@@ -7,6 +7,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useActor } from "@xstate/react";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   onClose: () => void;
@@ -50,14 +51,14 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
       message={[
         {
-          text: "A magical button has appeared in the plaza. Do you want to press it?",
+          text: translate("plaza.magicButton.query"),
           actions: [
             {
-              text: "No",
+              text: translate("no"),
               cb: onClose,
             },
             {
-              text: "Yes",
+              text: translate("yes"),
               cb: () => {
                 confetti();
 

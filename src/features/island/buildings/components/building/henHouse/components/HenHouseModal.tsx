@@ -156,7 +156,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
             onClick={handlePlace}
             disabled={!canPlaceLazyChicken || autosaving}
           >
-            {autosaving ? "Saving..." : "Place"}
+            {autosaving ? t("saving") : "Place"}
           </Button>
         </div>
       );

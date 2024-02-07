@@ -8,10 +8,13 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { BONUSES } from "features/game/types/bonuses";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useContext, useState } from "react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
+  const { t } = useAppTranslation();
+
   const { gameService } = useContext(Context);
 
   const [state, setState] = useState<"connected" | "claim" | "claimed">(
@@ -35,10 +38,8 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
     return (
       <>
         <div className="p-2">
-          <p className="text-sm mb-2">Wow, nice horns!</p>
-          <p className="text-sm mb-2">
-            {`Don't miss out on future events and giveaways!`}
-          </p>
+          <p className="text-sm mb-2">{t("parsnip.hat")}</p>
+          <p className="text-sm mb-2">{t("parsnip.miss")}</p>
         </div>
       </>
     );
@@ -67,14 +68,14 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          Bonus reward
+          {t("parsnip.Bonus")}
         </Label>
-        <p className="text-xs mb-2">Woohoo....you found me!</p>
+        <p className="text-xs mb-2">{t("parsnip.found")}</p>
         <p className="text-xs mb-2">
           {`You've discovered a special event wearable.`}
         </p>
       </div>
-      <Button onClick={acknowledge}>Claim Gift</Button>
+      <Button onClick={acknowledge}>{t("claim.gift")}</Button>
     </>
   );
 };

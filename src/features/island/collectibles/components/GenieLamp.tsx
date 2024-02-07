@@ -15,6 +15,7 @@ import genieImg from "assets/npcs/genie.png";
 import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: string;
@@ -32,6 +33,8 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
 
   const [isConfirming, setIsConfirming] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
+
+  const { t } = useAppTranslation();
 
   const rub = () => {
     setIsConfirming(false);
@@ -101,7 +104,7 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Read more
+                  {t("read.more")}
                 </a>
               </span>
             )}

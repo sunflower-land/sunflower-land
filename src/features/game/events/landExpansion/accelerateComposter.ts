@@ -4,6 +4,7 @@ import {
 } from "features/game/types/composters";
 import { CompostBuilding, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
+import { translate } from "lib/i18n/translate";
 
 export type AccelerateComposterAction = {
   type: "compost.accelerated";
@@ -25,27 +26,27 @@ export function accelerateComposter({
 
   const buildings = stateCopy.buildings[action.building] as CompostBuilding[];
   if (!buildings) {
-    throw new Error("Composter does not exist");
+    throw new Error(translate("error.composterNotExist"));
   }
 
   const composter = buildings[0];
   const producing = composter.producing;
 
   if (!producing) {
-    throw new Error("Composter is not producing");
+    throw new Error(translate("error.composterNotProducing"));
   }
 
   if (createdAt > producing.readyAt) {
-    throw new Error("Composter already done");
+    throw new Error(translate("error.composterAlreadyDone"));
   }
 
   if (composter.boost) {
-    throw new Error("Already boosted");
+    throw new Error(translate("error.composterAlreadyBoosted"));
   }
 
   const details = composterDetails[action.building];
   if (!stateCopy.inventory.Egg?.gte(details.eggBoostRequirements)) {
-    throw new Error("Missing Eggs");
+    throw new Error(translate("error.missingEggs"));
   }
 
   // Subtract eggs

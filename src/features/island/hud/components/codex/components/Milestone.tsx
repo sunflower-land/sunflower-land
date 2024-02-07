@@ -15,6 +15,7 @@ import { Button } from "components/ui/Button";
 import { Milestone as MilestoneDetail } from "features/game/types/milestones";
 import { getKeys } from "features/game/types/craftables";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const MilestonePanel: React.FC<{
   milestone: MilestoneDetail;
@@ -23,6 +24,8 @@ export const MilestonePanel: React.FC<{
   onClick: () => void;
   onClaim: () => void;
 }> = ({ milestone, farmActivity, isExpanded, onClick, onClaim }) => {
+  const { t } = useAppTranslation();
+
   const percentageComplete = milestone.percentageComplete(farmActivity);
 
   // Currently only supporting one reward per milestone
@@ -103,7 +106,7 @@ export const MilestonePanel: React.FC<{
         <Button onClick={onClaim} disabled={percentageComplete < 100}>
           <div className="flex items-center">
             <img src={chest} className="mr-1" />
-            <span>Claim reward</span>
+            <span>{t("detail.Claim.Reward")}</span>
           </div>
         </Button>
       </Collapse>

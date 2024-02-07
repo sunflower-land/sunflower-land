@@ -8,6 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "features/island/common/TimerPopover";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   expansion: ExpansionConstruction;
@@ -24,6 +25,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
   const [secondsLeft, setSecondsLeft] = useState(
     (expansion.readyAt - Date.now()) / 1000
   );
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -70,7 +72,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
       >
         <TimerPopover
           image={island}
-          description="Next Expansion"
+          description={t("landscape.timerPopover")}
           showPopover={showPopover}
           timeLeft={secondsLeft}
         />

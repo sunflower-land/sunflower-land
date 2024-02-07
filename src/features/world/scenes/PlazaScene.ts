@@ -15,6 +15,7 @@ import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -128,20 +129,50 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   },
 ];
 
-const PAGE_POSITIONS = [
-  {
-    x: 400,
-    y: 420,
-  },
-  {
-    x: 800,
-    y: 300,
-  },
-  {
-    x: 55,
-    y: 200,
-  },
-];
+const PAGE_POSITIONS: Record<number, Coordinates[]> = {
+  1: [
+    {
+      x: 400,
+      y: 420,
+    },
+    {
+      x: 800,
+      y: 300,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
+  2: [
+    {
+      x: 775,
+      y: 350,
+    },
+    {
+      x: 750,
+      y: 140,
+    },
+    {
+      x: 150,
+      y: 445,
+    },
+  ],
+  3: [
+    {
+      x: 400,
+      y: 420,
+    },
+    {
+      x: 800,
+      y: 300,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
+};
 
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
@@ -248,35 +279,49 @@ export class PlazaScene extends BaseScene {
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
-    PAGE_POSITIONS.forEach(({ x, y }, index) => {
-      const pageNumber = index + 1;
+    let week: number | undefined = undefined;
+    try {
+      week = getSeasonWeek();
+    } catch {
+      // eslint-disable-next-line no-console
+      console.error("Error getting week");
+    }
 
-      const week = getSeasonWeek();
-      const collectedFlowerPages =
-        this.gameState?.springBlossom?.[week]?.collectedFlowerPages;
+    if (week) {
+      (PAGE_POSITIONS[week] ?? []).forEach(({ x, y }, index) => {
+        const pageNumber = index + 1;
 
-      if (collectedFlowerPages && !collectedFlowerPages.includes(pageNumber)) {
-        const page = new Page({ x, y, scene: this });
-        page.setDepth(1000000);
-        this.physics.world.enable(page);
+        const collectedFlowerPages =
+          this.gameState?.springBlossom?.[week!]?.collectedFlowerPages;
 
-        this.physics.add.collider(
-          this.currentPlayer as BumpkinContainer,
-          page,
-          (obj1, obj2) => {
-            page.sprite?.destroy();
-            page.destroy();
+        if (
+          collectedFlowerPages &&
+          !collectedFlowerPages.includes(pageNumber)
+        ) {
+          const page = new Page({ x, y, scene: this });
+          page.setDepth(1000000);
+          this.physics.world.enable(page);
 
-            const chime = this.sound.add("chime");
-            chime.play({ loop: false, volume: 0.1 });
+          this.physics.add.collider(
+            this.currentPlayer as BumpkinContainer,
+            page,
+            (obj1, obj2) => {
+              page.sprite?.destroy();
+              page.destroy();
 
-            interactableModalManager.open("page_discovered");
-            this.gameService.send("flowerPage.discovered", { id: pageNumber });
-            this.gameService.send("SAVE");
-          }
-        );
-      }
-    });
+              const chime = this.sound.add("chime");
+              chime.play({ loop: false, volume: 0.1 });
+
+              interactableModalManager.open("page_discovered");
+              this.gameService.send("flowerPage.discovered", {
+                id: pageNumber,
+              });
+              this.gameService.send("SAVE");
+            }
+          );
+        }
+      });
+    }
 
     const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
     shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {

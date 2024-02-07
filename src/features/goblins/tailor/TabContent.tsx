@@ -17,6 +17,7 @@ import classNames from "classnames";
 
 import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const TAB_CONTENT_HEIGHT = 364;
 
@@ -50,6 +51,7 @@ export function getImageUrl(wearableId: number) {
 //   });
 // }
 export const TabContent: React.FC<Props> = ({ tab }) => {
+  const { t } = useAppTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const [upcoming, setUpcoming] = useState<BumpkinShopItem[]>([]);
   const [collection, setCollection] = useState<BumpkinShopItem[]>([]);
@@ -104,7 +106,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
   if (isLoading) {
     return (
       <div className="h-60">
-        <span className="loading">Loading</span>
+        <span className="loading">{t("loading")}</span>
       </div>
     );
   }
@@ -112,8 +114,8 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
   if (selected === undefined) {
     return (
       <div className="flex flex-col">
-        <span>Currently Unavailable!</span>
-        <span>Please try again later.</span>
+        <span>{t("currently.Unavailable")}</span>
+        <span>{t("please.try.again")}.</span>
       </div>
     );
   }
@@ -127,11 +129,11 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
           </span>
           <div className="border-t border-white w-full mt-2 py-2 text-center">
             <span className="text-xxs text-center mt-2">
-              Visit Bumpkins.io for more info about this wearable
+              {t("visit")} Bumpkins.io {t("for.info.wearable")}
             </span>
           </div>
           <Button className="text-xs mt-1" onClick={goToCollectionItem}>
-            Go to Bumpkins.io
+            {t("goto")} Bumpkins.io
           </Button>
         </>
       );
@@ -164,7 +166,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
           </div>
         </div>
         <Button className="text-xs mt-1" onClick={goToUpcomingDrops}>
-          Go to Bumpkins.io
+          {t("goto")} Bumpkins.io
         </Button>
       </>
     );

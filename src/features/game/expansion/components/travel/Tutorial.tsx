@@ -4,6 +4,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import land from "assets/land/islands/island.webp";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -14,17 +15,15 @@ type Pages = 1 | 2;
 
 export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
   const [pageNumber, setPageNumber] = useState<Pages>(1);
+  const { t } = useAppTranslation();
 
   const PageOne = () => {
     return (
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
-          <p className="mb-2">
-            The boat will take you between islands where you can discover new
-            lands and exciting adventures.
-          </p>
+          <p className="mb-2">{t("statements.tutorial.one")}</p>
         </div>
-        <Button onClick={() => setPageNumber(2)}>Next</Button>
+        <Button onClick={() => setPageNumber(2)}>{t("next")}</Button>
       </>
     );
   };
@@ -33,17 +32,12 @@ export const Tutorial: React.FC<Props> = ({ onClose, bumpkinParts }) => {
     return (
       <>
         <div className="space-y-3 text-sm px-1 mb-3">
-          <p>
-            Many lands are far away and will require an experienced Bumpkin
-            before you can visit them.
-          </p>
-          <p className="mb-2">
-            Your adventure begins now, how far you explore ... that is on you.
-          </p>
+          <p>{t("statements.tutorial.two")}</p>
+          <p className="mb-2">{t("statements.tutorial.three")}</p>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={() => setPageNumber(1)}>Back</Button>
-          <Button onClick={onClose}>Got it</Button>
+          <Button onClick={() => setPageNumber(1)}>{t("back")}</Button>
+          <Button onClick={onClose}>{t("gotIt")}</Button>
         </div>
       </>
     );

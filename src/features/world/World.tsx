@@ -25,6 +25,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { Snow } from "./ui/Snow";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isCommunity?: boolean;
@@ -122,6 +123,8 @@ interface TravelProps {
   mmoService: MMOMachineInterpreter;
 }
 export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
+  const { t } = useAppTranslation();
+
   const isConnecting = useSelector(mmoService, _isConnecting);
   const isConnected = useSelector(mmoService, _isConnected);
   const isJoining = useSelector(mmoService, _isJoining);
@@ -134,7 +137,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
         <Modal show centered>
           <Panel>
             {/* Kicked reasons */}
-            <p className="">Kicked</p>
+            <p className="">{t("chat.Kicked")}</p>
           </Panel>
         </Modal>
       </Ocean>
@@ -155,7 +158,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
     <Ocean>
       <Modal show centered backdrop={false}>
         <Panel>
-          <p className="loading">Loading</p>
+          <p className="loading">{t("loading")}</p>
         </Panel>
       </Modal>
     </Ocean>

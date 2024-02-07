@@ -18,6 +18,7 @@ import { COMMUNITY_ISLANDS } from "./community/CommunityIslands";
 import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   mmoService: MachineInterpreter;
@@ -34,7 +35,7 @@ const ICONS = [
 
 export const PickServer: React.FC<Props> = ({ mmoService }) => {
   const [tab, setTab] = useState(0);
-
+  const { t } = useAppTranslation();
   const navigate = useNavigate();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -83,7 +84,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
         },
         {
           icon: SUNNYSIDE.icons.heart,
-          name: "Explore",
+          name: t("explore"),
         },
       ]}
     >

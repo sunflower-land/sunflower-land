@@ -8,20 +8,20 @@ import shop from "assets/buildings/shop_building.png";
 import { HowToModalHeader } from "./HowToModalHeader";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
 }
 
 export const HowToFarm: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   return (
     <>
-      <HowToModalHeader title="How to Farm?" onClose={onClose} />
+      <HowToModalHeader title={t("howToFarm.title")} onClose={onClose} />
       <Modal.Body>
         <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">
-            1.Harvest crops when they are ready
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepOne")}</p>
           <div className="relative">
             <img src={CROP_LIFECYCLE.Sunflower.crop} className="w-12" />
             <img
@@ -31,9 +31,7 @@ export const HowToFarm: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
         <div className="flex  items-center mt-2 ">
-          <p className="text-xs sm:text-sm p-2">
-            2.Visit the town & click on the shop
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepTwo")}</p>
           <div className="relative">
             <img src={shop} className="w-14" />
             <img
@@ -43,22 +41,20 @@ export const HowToFarm: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
         <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">
-            3.Sell crops at the shop for SFL
-          </p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepThree")}</p>
 
           <div className="relative">
             <img src={token} className="w-12" />
           </div>
         </div>
         <div className="flex justify-between items-center mt-2">
-          <p className="text-xs sm:text-sm p-2">4.Buy seeds using your SFL</p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepFour")}</p>
           <div className="relative">
             <img src={SUNNYSIDE.icons.seeds} className="w-8" />
           </div>
         </div>
         <div className="flex justify-between items-center">
-          <p className="text-xs sm:text-sm p-2">5. Plant seeds and wait</p>
+          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepFive")}</p>
           <div className="relative">
             <img src={SUNNYSIDE.icons.seedling} className="w-12" />
             <img

@@ -4,8 +4,11 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { COMMUNITY_TEST_ISLAND } from "../scenes/CommunityScene";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const CommunityTools: React.FC = () => {
+  const { t } = useAppTranslation();
+
   const [url, setURL] = useState<string>("");
 
   const navigate = useNavigate();
@@ -19,7 +22,7 @@ export const CommunityTools: React.FC = () => {
     <Modal show centered>
       <Panel>
         <div className="p-2">
-          <p className="text-sm">Enter your repo URL:</p>
+          <p className="text-sm">{t("community.url")}</p>
           <input
             type="text"
             name="url"

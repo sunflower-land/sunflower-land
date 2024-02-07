@@ -35,6 +35,8 @@ import {
   Inventory,
 } from "features/game/types/game";
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
+import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -69,6 +71,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
 
   const showRequirements = inventory["Basic Land"]?.lte(5);
 
+  const { t } = useAppTranslation();
   return (
     <>
       <Modal
@@ -79,14 +82,14 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
-              {`Level ${requirements.bumpkinLevel} required`}
+              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
             </Label>
             <img
               src={ITEM_DETAILS.Hammer.image}
               className="w-10 mx-auto my-2"
             />
             <p className="text-sm text-center mb-2">
-              Visit the Fire Pit to cook food and feed your Bumpkin.
+              {t("statements.visit.firePit")}
             </p>
           </div>
         </CloseButtonPanel>
@@ -143,11 +146,9 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   ))}
               </div>
               {isLocked && (
-                <Label
-                  type="default"
-                  icon={lockIcon}
-                  className="mt-2"
-                >{`Level ${requirements.bumpkinLevel}`}</Label>
+                <Label type="default" icon={lockIcon} className="mt-2">
+                  {t("lvl")} {requirements.bumpkinLevel}
+                </Label>
               )}
             </>
           )}
@@ -158,13 +159,17 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                   type="default"
                   icon={SUNNYSIDE.icons.confirm}
                   className="mt-2"
-                >{`Expand`}</Label>
+                >
+                  {t("expand")}
+                </Label>
               ) : (
                 <Label
                   type="default"
                   icon={SUNNYSIDE.icons.cancel}
                   className="mt-2"
-                >{`Expand`}</Label>
+                >
+                  {t("expand")}
+                </Label>
               )}
             </>
           )}
@@ -258,6 +263,8 @@ export const UpcomingExpansion: React.FC = () => {
   const playing = gameState.matches("playing");
 
   const requirements = expansionRequirements({ game: state });
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (isRevealing && playing) {
@@ -361,10 +368,10 @@ export const UpcomingExpansion: React.FC = () => {
           <SpeakingModal
             message={[
               {
-                text: "Greetings, budding farmer! I am Grimbly, a seasoned Goblin Builder.",
+                text: translate("grimbly.expansion.one"),
               },
               {
-                text: "With the right materials and my ancient crafting skills, we can turn your island into a masterpiece.",
+                text: translate("grimbly.expansion.two"),
               },
             ]}
             onClose={() => {
@@ -378,7 +385,7 @@ export const UpcomingExpansion: React.FC = () => {
         {!showIntro && (
           <CloseButtonPanel
             bumpkinParts={NPC_WEARABLES.grimbly}
-            title="Expand your land"
+            title={t("expand.land")}
             onClose={() => setShowBumpkinModal(false)}
           >
             <UpcomingExpansionModal

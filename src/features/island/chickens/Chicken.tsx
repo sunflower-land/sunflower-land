@@ -42,6 +42,7 @@ import { isLocked } from "features/game/events/landExpansion/moveChicken";
 import lockIcon from "assets/skills/lock.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -65,6 +66,7 @@ interface TimeToEggProps {
 const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
   const timeToEgg = useSelector(service, selectTimeToEgg);
   const timeElapsed = useSelector(service, selectTimeElapsed);
+  const { t } = useAppTranslation();
 
   return (
     <InnerPanel
@@ -79,7 +81,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
       <div className="flex flex-col text-xxs ml-2 mr-2">
         <div className="flex flex-1 items-center justify-center">
           <img src={SUNNYSIDE.resource.egg} className="w-4 mr-1" />
-          <span>Egg</span>
+          <span>{t("egg")}</span>
         </div>
         <span className="flex-1">
           {secondsToString(timeToEgg - timeElapsed, {
