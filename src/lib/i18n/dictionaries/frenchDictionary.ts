@@ -3942,7 +3942,7 @@ const statements: Record<Statements, string> = {
     "Rendez-vous à votre coffre et placez-le sur votre île",
   "statements.minted.withdrawAfterMint":
     "Vous pourrez retirer votre objet une fois la minting terminée",
-  "statements.stargame": "Commencer une nouvelle partie",
+  "statements.startgame": "Commencer une nouvelle partie",
 
   "statements.session.expired":
     "Il semble que votre session ait expiré. Veuillez actualiser la page pour continuer à jouer.",
