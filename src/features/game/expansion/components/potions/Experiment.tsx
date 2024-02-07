@@ -237,7 +237,7 @@ export const Experiment: React.FC<Props> = ({
           <Button
             onClick={handleStart}
             disabled={gameService.state.context.state.balance.lessThan(1)}
-          >{`${t("statements.stargame")} (1 SFL)`}</Button>
+          >{`${t("statements.startgame")} (1 SFL)`}</Button>
         </div>
       )}
     </>

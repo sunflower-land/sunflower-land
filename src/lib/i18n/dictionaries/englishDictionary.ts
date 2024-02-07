@@ -3770,7 +3770,7 @@ const statements: Record<Statements, string> = {
   "statements.minted.goToChest": "Go to your chest and place it on your island",
   "statements.minted.withdrawAfterMint":
     "You will be able to withdraw your item once the mint has finished",
-  "statements.stargame": "Star New Game",
+  "statements.startgame": "Start New Game",
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
