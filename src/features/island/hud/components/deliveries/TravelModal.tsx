@@ -96,13 +96,18 @@ export const TravelModal: React.FC<Props> = ({
     getBumpkinLevel(gameState.context.state.bumpkin?.experience ?? 0) < 3;
 
   return (
-    <>
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        onShow={() => gameService.send("SAVE")}
-        dialogClassName="md:max-w-3xl"
+    <Modal
+      centered
+      show={isOpen}
+      onHide={onClose}
+      onShow={() => gameService.send("SAVE")}
+      dialogClassName="md:max-w-3xl"
+    >
+      <div
+        onMouseDown={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         {isLocked && (
           <CloseButtonPanel onClose={onClose}>
@@ -194,7 +199,7 @@ export const TravelModal: React.FC<Props> = ({
             </div>
           </CloseButtonPanel>
         )}
-      </Modal>
-    </>
+      </div>
+    </Modal>
   );
 };
