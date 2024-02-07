@@ -31,7 +31,7 @@ import { RESOURCES } from "features/game/types/resources";
 import { BUILDINGS } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibles";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
