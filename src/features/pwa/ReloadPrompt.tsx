@@ -7,7 +7,7 @@ import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 10;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
 
 export function ReloadPrompt() {
   const [isInstalling, setIsInstalling] = useState(false);
