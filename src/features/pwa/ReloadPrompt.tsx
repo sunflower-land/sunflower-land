@@ -86,7 +86,10 @@ export function ReloadPrompt() {
 
   return (
     <ReactPortal>
-      <div className="fixed top-20 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
+      <div
+        className="fixed top-32 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col"
+        style={{ zIndex: 1000 }}
+      >
         <span>{`Checking for update: ${checking}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
         <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span>
