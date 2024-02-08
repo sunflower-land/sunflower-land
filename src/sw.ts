@@ -12,7 +12,7 @@ import {
 } from "workbox-precaching";
 import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
-import { CONFIG } from "lib/config";
+import { CONFIG } from "./lib/config";
 
 declare let self: ServiceWorkerGlobalScope;
 
