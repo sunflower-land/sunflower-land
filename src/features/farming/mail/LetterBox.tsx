@@ -21,7 +21,7 @@ import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LetterBox: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [tab, setTab] = useState(0);
@@ -98,7 +98,10 @@ export const LetterBox: React.FC = () => {
         {hasAnnouncement && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute animate-float pointer-events-none z-20"
+            className={
+              "absolute pointer-events-none z-20" +
+              (showAnimations ? " animate-float" : "")
+            }
             style={{
               width: `${PIXEL_SCALE * 4}px`,
               top: `${PIXEL_SCALE * -12}px`,

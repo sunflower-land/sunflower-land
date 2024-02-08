@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import auctioneer from "assets/npcs/trivia.gif";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
-//import { Context } from "features/game/GoblinProvider";
+import { Context } from "features/game/GameProvider";
 //import { useActor } from "@xstate/react";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 export const Auctioneer: React.FC = () => {
+  const { showAnimations } = useContext(Context);
   //const { goblinService } = useContext(Context);
   //const [goblinState] = useActor(goblinService);
 
@@ -85,7 +86,7 @@ export const Auctioneer: React.FC = () => {
       />
       <img
         src={SUNNYSIDE.icons.heart}
-        className="absolute animate-float z-20"
+        className={"absolute z-20" + (showAnimations ? " animate-float" : "")}
         style={{
           width: `${PIXEL_SCALE * 10}px`,
           left: `${PIXEL_SCALE * 0}px`,

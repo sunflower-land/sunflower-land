@@ -537,7 +537,7 @@ const isVisiting = (state: MachineState) => state.matches("visiting");
 const isPaused = (state: MachineState) => !!state.context.paused;
 
 export const Land: React.FC = () => {
-  const { gameService, showTimers } = useContext(Context);
+  const { gameService, showAnimations, showTimers } = useContext(Context);
 
   const paused = useSelector(gameService, isPaused);
 
@@ -618,7 +618,10 @@ export const Land: React.FC = () => {
         <img
           src={movingClouds}
           alt="land"
-          className="z-20 absolute pointer-events-none w-full h-full animate-float"
+          className={
+            "z-20 absolute pointer-events-none w-full h-full" +
+            (showAnimations ? " animate-float" : "")
+          }
         />
 
         <img

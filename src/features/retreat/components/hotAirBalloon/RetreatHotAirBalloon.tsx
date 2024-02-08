@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { Context } from "features/game/GoblinProvider";
+import { Context as GameContext } from "features/game/GameProvider";
+import { Context as GoblinContext } from "features/game/GoblinProvider";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
@@ -13,7 +14,8 @@ import { TraderModal } from "features/goblins/trader/tradingPost/TraderModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
 export const RetreatHotAirBalloon: React.FC = () => {
-  const { goblinService } = useContext(Context);
+  const { showAnimations } = useContext(GameContext);
+  const { goblinService } = useContext(GoblinContext);
   const [goblinState] = useActor(goblinService);
 
   const [showModal, setShowModal] = useState(false);
@@ -48,7 +50,7 @@ export const RetreatHotAirBalloon: React.FC = () => {
         <img
           src={goblinBalloon}
           alt="goblin trader"
-          className="absolute animate-float"
+          className={"absolute" + (showAnimations ? " animate-float" : "")}
           style={{
             width: `${PIXEL_SCALE * 51}px`,
             left: `${PIXEL_SCALE * 6}px`,

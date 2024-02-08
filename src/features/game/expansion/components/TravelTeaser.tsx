@@ -97,7 +97,7 @@ const hint = (state: MachineState) => {
 };
 
 export const TravelTeaser: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const showSpeech = useSelector(gameService, isNoob);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
@@ -185,7 +185,10 @@ export const TravelTeaser: React.FC = () => {
           >
             {peteHint && peteHint !== "Explore" && (
               <div
-                className="absolute uppercase animate-float"
+                className={
+                  "absolute uppercase" +
+                  (showAnimations ? " animate-float" : "")
+                }
                 style={{
                   fontFamily: "Teeny",
                   color: "black",
