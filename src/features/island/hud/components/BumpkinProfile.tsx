@@ -187,7 +187,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
               marginTop: `${DIMENSIONS.username.marginTop}px`,
             }}
           >
-            {`PWA Spencer`}
+            {`PWA Update Guy`}
           </div>
         )}
         {showSkillPointAlert && (
