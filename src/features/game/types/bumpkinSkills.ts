@@ -163,7 +163,7 @@ export const BUMPKIN_SKILL_TREE: Record<BumpkinSkillName, BumpkinSkill> = {
       points: 2,
       skill: "Tree Hugger",
     },
-    boosts: translate("description.tree.hugger"),
+    boosts: translate("description.money.tree"),
     image: money_tree,
   },
   Digger: {

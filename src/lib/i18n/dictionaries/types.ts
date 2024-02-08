@@ -762,7 +762,6 @@ export type Conversations =
   | "mayor.plaza.role"
   | "mayor.plaza.fixNamePrompt"
   | "mayor.plaza.enterUsernamePrompt"
-  | "mayor.plaza.processingUsernames"
   | "mayor.plaza.usernameValidation"
   | "mayor.plaza.niceToMeetYou"
   | "mayor.plaza.congratulations"
@@ -1078,7 +1077,7 @@ export type DepositWallet =
   | "deposit.toDepositLevelUp"
   | "deposit.level"
   | "deposit.noSflOrCollectibles"
-  | "deposit.farmAdresse"
+  | "deposit.farmAddress"
   | "question.depositSFLItems";
 
 export type Detail =

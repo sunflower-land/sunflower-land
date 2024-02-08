@@ -30,7 +30,7 @@ export const Kicked: React.FC<{
           </div>
           <div className="flex justify-center">
             <Button className="mt-1" onClick={onClose}>
-              {t("accept")}
+              {t("accept")}:
             </Button>
           </div>
         </div>

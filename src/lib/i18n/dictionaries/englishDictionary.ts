@@ -164,7 +164,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   advanced: "Advanced",
   achievements: "Achievements",
-  accept: "Accept:",
+  accept: "Accept",
   "accepting.terms": "Accepting terms...",
   "amount.matic": "Amount in MATIC",
   deposit: "Deposit",
@@ -267,7 +267,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   info: "Info",
   item: "Item",
   land: "Land",
-  "land.id": "Land ID: ",
+  "land.id": "Land ID",
   "last.updated": "Last updated",
   left: "Left",
   "let'sDoThis": "Let's do this!",
@@ -308,7 +308,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "player.farm.iD": "Player Farm ID",
   "please.try.again": "Please try again later.",
   "please.wait": "Please wait",
-  "pay.attention.feedback": "Pay attention to the feedback icons:",
+  "pay.attention.feedback": "Pay attention to the feedback icons",
   print: "Print",
   "promo.code": "Promo Code",
   "providing.liquidity": "Providing Liquidity",
@@ -1127,9 +1127,7 @@ const conversations: Record<Conversations, string> = {
     "I'm the Mayor of this town! I'm in charge of making sure everyone is happy. I also make sure that everyone has a name!",
   "mayor.plaza.fixNamePrompt":
     "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
-  "mayor.plaza.enterUsernamePrompt": "Enter your username:",
-  "mayor.plaza.processingUsernames":
-    "I'm processing usernames in order of Farm ID. You will be able to choose your username from:",
+  "mayor.plaza.enterUsernamePrompt": "Enter your username",
   "mayor.plaza.usernameValidation":
     "Please be aware that usernames must adhere to our",
   "mayor.plaza.niceToMeetYou": "Nice to meet you, !",
@@ -1178,8 +1176,8 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
 };
 
 const deliveryitem: Record<Deliveryitem, string> = {
-  "deliveryitem.inventory": "Inventory:",
-  "deliveryitem.itemsToDeliver": "Items to deliver:",
+  "deliveryitem.inventory": "Inventory",
+  "deliveryitem.itemsToDeliver": "Items to deliver",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
   "deliveryitem.viewOnOpenSea":
     "Once delivered, you will be able to view your items on OpenSea.",
@@ -1539,7 +1537,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 const depositWallet: Record<DepositWallet, string> = {
   "deposit.errorLoadingBalances": "There was an error loading your balances.",
   "deposit.yourPersonalWallet": "Your Personal Wallet",
-  "deposit.farmWillReceive": "Your farm will receive:",
+  "deposit.farmWillReceive": "Your farm will receive",
   "deposit.depositDidNotArrive": "Deposit didn't arrive?",
   "deposit.goblinTaxInfo":
     "When players withdraw any SFL, a Goblin Tax is applied.",
@@ -1548,7 +1546,7 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.toDepositLevelUp": "To deposit items you must first level up",
   "deposit.level": "Level 3",
   "deposit.noSflOrCollectibles": "No SFL or Collectibles Found!",
-  "deposit.farmAdresse": "Farm address:",
+  "deposit.farmAddress": "Farm address",
   "question.depositSFLItems":
     "Would you like to deposit Sunflower Land collectibles, wearables or SFL?",
 };
@@ -1931,7 +1929,7 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
     "Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.",
   "flowerShop.noFlowers.noTrade":
     "I'm sorry, I don't have any flowers to trade right now.",
-  "flowerShop.do.have": "Do you have a ",
+  "flowerShop.do.have": "Do you have a",
   "flowerShop.do.have.trade": "you would trade me?",
   "flowerShop.do.have.trade.one": "you would be willing to trade?",
 };
