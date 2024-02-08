@@ -370,7 +370,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "try.again": "Essayer à nouveau",
   uhOh: "Oh là là !",
   uncommon: "Peu commun",
-  "unlock.land": "Débloquer plus de terres",
+  "unlock.land": "Débloquer plus d'îles'",
   unlocking: "Déverrouillage",
   unmute: "Réactiver le son",
   "use.craft": "Utilisé pour fabriquer des objets",
@@ -378,10 +378,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   version: "Version",
   viewAll: "Voir tout",
   visit: "Visiter",
-  "visit.enter.land":
-    "Entrez un ID de terre pour parcourir ce qui est proposé.",
+  "visit.enter.land": "Entrez un ID d'île pour parcourir ce qui est proposé.",
   "visit.friend": "Visiter un ami",
-  "visit.land": "Visiter la terre",
+  "visit.land": "Visiter l'île",
   wallet: "Portefeuille",
   warning: "Avertissement",
   welcome: "Bienvenue !",
@@ -437,7 +436,7 @@ const achievementTerms: Record<AchievementsTerms, string> = {
 
   "bigSpender.description": "Dépenser 10 SFL",
   "museum.description":
-    "Avoir 10 types différents d'objets rares placés sur votre terre",
+    "Avoir 10 types différents d'objets rares placés sur votre île",
   "highRoller.description": "Dépenser 7 500 SFL",
   "timbeerrr.description": "Couper 150 arbres",
   "craftmanship.description": "Fabriquer 100 outils",
@@ -453,7 +452,7 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   // Explorer
   "explorer.one":
     "Rassemblons du bois en coupant ces arbres et étendons l'île. Allez-y et trouvez la meilleure façon de le faire.",
-  "expansion.description": "Étendez votre terre vers de nouveaux horizons.",
+  "expansion.description": "Étendez votre île vers de nouveaux horizons.",
 
   // Well of Prosperity
   "wellOfProsperity.description": "Construire un puits",
@@ -461,7 +460,7 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "wellOfProsperity.two":
     "Il semble que vos cultures aient soif. Pour soutenir plus de cultures, vous devez d'abord construire un puits.",
 
-  "contractor.description": "Avoir 10 bâtiments construits sur votre terre",
+  "contractor.description": "Avoir 10 bâtiments construits sur votre île",
   "fruitAficionado.description": "Récolter 50 fruits",
   "fruitAficionado.one":
     "Salut là, cueilleur de fruits ! Les fruits sont les cadeaux les plus doux de la nature, et ils apportent une explosion de saveur à votre ferme.",
@@ -1078,7 +1077,7 @@ const conversations: Record<Conversations, string> = {
   "hank-intro.one":
     "Salut Bumpkin ! Bienvenue dans notre petit coin de paradis.",
   "hank-intro.two":
-    "Je travaille cette terre depuis cinquante ans, mais j'aurais bien besoin d'aide.",
+    "Je travaille cette île depuis cinquante ans, mais j'aurais bien besoin d'aide.",
   "hank-intro.three":
     "Je peux t'apprendre les bases de l'agriculture, tant que tu m'aides dans mes tâches quotidiennes.",
   "hank.crafting.scarecrow": "Fabrique un épouvantail",
@@ -1246,10 +1245,10 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Unissez-vous et formez une chaîne, l'ombre de l'Homme en osier se lèvera à nouveau",
   "description.golden bonsai": "Les Gobelins aiment aussi les bonsaïs",
   "description.christmas.bear": "Le favori du Père Noël",
-  "description.war.skull": "Décorez la terre avec les os de vos ennemis.",
+  "description.war.skull": "Décorez l'île avec les os de vos ennemis.",
   "description.war.tombstone": "R.I.P",
   "description.white.tulips": "Éloignez l'odeur des Gobelins.",
-  "description.potted.sunflower": "Illuminez votre terre.",
+  "description.potted.sunflower": "Illuminez votre île.",
   "description.potted.potato":
     "Le sang de la pomme de terre coule dans votre Bumpkin.",
   "description.potted.pumpkin": "Des citrouilles pour les Bumpkins",
@@ -1438,7 +1437,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.pig": "Produit du fumier. Nécessite du blé pour la nourriture.",
   "description.sheep":
     "Produit de la laine. Nécessite du blé pour la nourriture.",
-  "description.basic.land": "Un morceau de terre basique.",
+  "description.basic.land": "Un morceau d'île basique.",
   "description.crop.plot": "Une parcelle vide pour planter des cultures.",
   "description.gold.rock": "Une roche exploitable pour collecter de l'or.",
   "description.iron.rock": "Une roche exploitable pour collecter du fer.",
@@ -2276,16 +2275,16 @@ const guideTerms: Record<GuideTerms, string> = {
   "gathering.guide.one":
     "Pour prospérer dans Sunflower Land, il est essentiel de maîtriser l'art de la collecte de ressources. Commencez par équiper les outils appropriés pour collecter différentes ressources. Utilisez la fidèle hache pour abattre des arbres et obtenir du bois. Pour fabriquer des outils, rendez-vous à l'établi local et échangez vos SFL/ressources contre l'outil désiré.",
   "gathering.guide.two":
-    "À mesure que vous progressez et collectez suffisamment de ressources, vous débloquerez la possibilité d'étendre votre territoire. L'expansion de votre terre ouvre de nouvelles perspectives dans Sunflower Land. Les expansions de terre révèlent un trésor de ressources, y compris un sol fertile pour planter des cultures, des arbres majestueux, des dépôts de pierres précieuses, des veines de fer précieux, des dépôts d'or scintillants, des champs de fruits délicieux et bien plus encore.",
+    "À mesure que vous progressez et collectez suffisamment de ressources, vous débloquerez la possibilité d'étendre votre territoire. L'expansion de votre île ouvre de nouvelles perspectives dans Sunflower Land. Les expansions de île révèlent un trésor de ressources, y compris un sol fertile pour planter des cultures, des arbres majestueux, des dépôts de pierres précieuses, des veines de fer précieux, des dépôts d'or scintillants, des champs de fruits délicieux et bien plus encore.",
   "gathering.guide.three":
-    "N'oubliez pas que la collecte de ressources et l'expansion de la terre sont la base de votre voyage agricole. Acceptez les défis et les récompenses qui accompagnent chaque étape et regardez votre Sunflower Land s'épanouir avec des ressources abondantes et des possibilités infinies.",
+    "N'oubliez pas que la collecte de ressources et l'expansion de l'île sont la base de votre voyage agricole. Acceptez les défis et les récompenses qui accompagnent chaque étape et regardez votre Sunflower Land s'épanouir avec des ressources abondantes et des possibilités infinies.",
 
   "crops.guide.one":
     "Dans Sunflower Land, les cultures jouent un rôle crucial dans votre voyage vers la prospérité. En plantant et en récoltant des cultures, vous pouvez gagner des SFL (Sunflower Token) ou les utiliser pour fabriquer des recettes et des objets précieux dans le jeu.",
   "crops.guide.two":
     "Pour cultiver des cultures, vous devez acheter les graines respectives dans la boutique du jeu. Chaque culture a un temps de croissance différent, allant d'une minute pour les tournesols à 36 heures pour le chou frisé. Une fois les cultures entièrement développées, vous pouvez les récolter et récolter les récompenses.",
   "crops.guide.three":
-    "N'oubliez pas que lorsque vous étendez votre terre et progressez dans le jeu, de nouvelles cultures deviendront disponibles, offrant de plus grandes opportunités de gagner des SFL et d'explorer le potentiel immense de l'économie agricole de Sunflower Land. Alors mettez-vous au travail, plantez ces graines et regardez vos cultures prospérer en récoltant votre chemin vers le succès !",
+    "N'oubliez pas que lorsque vous étendez votre île et progressez dans le jeu, de nouvelles cultures deviendront disponibles, offrant de plus grandes opportunités de gagner des SFL et d'explorer le potentiel immense de l'économie agricole de Sunflower Land. Alors mettez-vous au travail, plantez ces graines et regardez vos cultures prospérer en récoltant votre chemin vers le succès !",
 
   "building.guide.one":
     "Explorez la gamme diversifiée de bâtiments disponibles à mesure que vous progressez dans Sunflower Land. Des poulaillers aux ateliers et au-delà, chaque structure apporte des avantages uniques à votre ferme. Profitez de ces bâtiments pour rationaliser vos opérations agricoles, augmenter la productivité et débloquer de nouvelles possibilités. Planifiez soigneusement votre disposition et profitez des récompenses qui viennent avec la construction d'une ferme prospère à Sunflower Land.",
@@ -2311,7 +2310,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Nourrir vos poules et collecter leurs œufs ajoute un élément dynamique et gratifiant à votre ferme à Sunflower Land. Expérimentez avec des recettes, utilisez les œufs dans vos projets de création et profitez des surprises qui accompagnent les poules mutantes rares. Construisez une exploitation avicole prospère et récoltez les avantages de votre travail acharné en embrassant le monde charmant des poules à Sunflower Land.",
 
   "crafting.guide.one":
-    "Dans Sunflower Land, la création de NFT (Jetons NFT) est un aspect essentiel pour augmenter votre production agricole et accélérer votre progression. Ces objets spéciaux offrent divers bonus, tels que des augmentations de la croissance des cultures, des améliorations de la cuisine et des renforcements des ressources, qui peuvent considérablement accélérer votre voyage. En maximisant vos SFL (Sunflower Token), vous pouvez fabriquer des outils, collecter des ressources, et étendre votre terre pour établir davantage votre empire agricole.",
+    "Dans Sunflower Land, la création de NFT (Jetons NFT) est un aspect essentiel pour augmenter votre production agricole et accélérer votre progression. Ces objets spéciaux offrent divers bonus, tels que des augmentations de la croissance des cultures, des améliorations de la cuisine et des renforcements des ressources, qui peuvent considérablement accélérer votre voyage. En maximisant vos SFL (Sunflower Token), vous pouvez fabriquer des outils, collecter des ressources, et étendre votre île pour établir davantage votre empire agricole.",
   "crafting.guide.two":
     "Pour commencer à fabriquer des objets, nous allons rendre visite à Igor, un artisan expérimenté de Sunfloria. Après avoir embarqué sur le bateau et être arrivé à Sunfloria, dirigez-vous vers le sommet de l'île pour entamer une conversation avec Igor. Il propose actuellement un Épouvantail de base, qui accélère la croissance des Tournesols, des Pommes de terre et des Citrouilles. C'est une excellente affaire qui nécessite l'échange de vos ressources contre l'épouvantail. Une fois obtenu, retournez sur votre île principale et entrez en mode de conception en cliquant sur l'icône de la main blanche en haut à droite du jeu.",
   "crafting.guide.three":
@@ -2498,7 +2497,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
     "Vous n'êtes pas prêt. Étendez-vous encore",
   "islandupgrade.notReadyExpandMore.two": "fois",
   "islandupgrade.exoticResourcesDescription":
-    "Cette partie de Sunflower Land est connue pour ses ressources exotiques. Étendez votre terre pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares !",
+    "Cette partie de Sunflower Land est connue pour ses ressources exotiques. Étendez votre île pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares !",
 };
 
 const interactableModals: Record<InteractableModals, string> = {
@@ -2652,7 +2651,7 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.intro.three": "Fabriquez des décorations rares",
   "landscape.intro.four": "Placez des objets de collection de votre coffre",
   "landscape.expansion.one":
-    "Chaque morceau de terre est livré avec des ressources uniques pour vous aider à construire votre empire agricole !",
+    "Chaque morceau d'île est livré avec des ressources uniques pour vous aider à construire votre empire agricole !",
   "landscape.expansion.two": "Plus d'expansions seront bientôt disponibles...",
   "landscape.timerPopover": "Prochaine expansion",
   "landscape.dragMe": "Glisser moi",
@@ -3969,7 +3968,7 @@ const statements: Record<Statements, string> = {
   "statements.tutorial.one":
     "Le bateau vous emmènera entre les îles où vous pourrez découvrir de nouveaux territoires et des aventures passionnantes.",
   "statements.tutorial.two":
-    "Beaucoup de terres sont éloignées et nécessiteront un Bumpkin expérimenté avant de pouvoir les visiter.",
+    "Beaucoup d'îles sont éloignées et nécessiteront un Bumpkin expérimenté avant de pouvoir les visiter.",
   "statements.tutorial.three":
     "Votre aventure commence maintenant, jusqu'où vous explorez... c'est à vous de décider.",
   "statements.visit.firePit":
