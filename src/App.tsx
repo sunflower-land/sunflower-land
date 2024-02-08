@@ -29,6 +29,7 @@ export const App: React.FC = () => {
     onRegisteredSW(swUrl, registration) {
       if (registration) {
         setInterval(async () => {
+          console.log("REGISTRATION", registration);
           if (!(!registration.installing && navigator)) return;
 
           if ("connection" in navigator && !navigator.onLine) return;
