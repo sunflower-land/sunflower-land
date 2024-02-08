@@ -492,6 +492,10 @@ export const TEST_FARM: GameState = {
     collectibles: [],
     wearables: [],
   },
+  specialEvents: {
+    current: {},
+    history: {},
+  },
 };
 
 export const EMPTY: GameState = {
@@ -580,6 +584,10 @@ export const EMPTY: GameState = {
     available: makeMegaStoreAvailableDates(),
     collectibles: [],
     wearables: [],
+  },
+  specialEvents: {
+    current: {},
+    history: {},
   },
 };
 

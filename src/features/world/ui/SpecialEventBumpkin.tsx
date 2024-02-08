@@ -63,88 +63,6 @@ export const Dialogue: React.FC<{
   return <div className="leading-[1] text-[16px]">{displayedMessage}</div>;
 };
 
-interface SpecialEvent {
-  npc: NPCName;
-  challenges: {
-    items: Partial<Record<InventoryItemName, number>>;
-    reward: {
-      items: Partial<Record<InventoryItemName, number>>;
-      sfl: number;
-      text?: string;
-    };
-  }[];
-}
-
-// **Day 1 -** 100 Sunflowers - Sunflower Cake
-
-// **Day 2 -** 30 Cauliflowers - 5 SFL
-
-// **Day 3 -** 30 Wood - Time Warp Totem
-
-// **Day 4 -** 3 Gold - Lunar New Year Decoration
-
-// **Day 5 -** 1 Sun stone - Mystery Box Key
-
-const EVENT: SpecialEvent = {
-  npc: "pumpkin' pete",
-  challenges: [
-    {
-      items: {
-        Sunflower: 100,
-      },
-      reward: {
-        items: {
-          "Sunflower Cake": 1,
-        },
-        sfl: 0,
-        text: "Earn Alliance Airdrop",
-      },
-    },
-    {
-      items: {
-        Corn: 30,
-      },
-      reward: {
-        items: {},
-        sfl: 5,
-      },
-    },
-    {
-      items: {
-        Wood: 30,
-      },
-      reward: {
-        items: {
-          "Time Warp Totem": 1,
-        },
-        sfl: 0,
-      },
-    },
-    {
-      items: {
-        Gold: 3,
-      },
-      reward: {
-        items: {
-          "Basic Bear": 1,
-        },
-        sfl: 0,
-      },
-    },
-    {
-      items: {
-        Sunstone: 1,
-      },
-      reward: {
-        items: {
-          "Basic Bear": 1,
-        },
-        sfl: 0,
-      },
-    },
-  ],
-};
-
 const CONTENT_HEIGHT = 350;
 
 export const SpecialEventBumpkin: React.FC = () => {
@@ -157,7 +75,16 @@ export const SpecialEventBumpkin: React.FC = () => {
 
   const name: NPCName = "pumpkin' pete";
 
-  const inventory = gameState.context.state.inventory;
+  const { inventory, specialEvents } = gameState.context.state;
+
+  const event = specialEvents.current[getKeys(specialEvents.current)[0]];
+
+  const claimReward = (day: number) => {
+    gameService.send("specialEvent.taskCompleted", {
+      event: "Lunar New Year",
+      task: day,
+    });
+  };
 
   if (showLink) {
     return (
@@ -236,35 +163,34 @@ export const SpecialEventBumpkin: React.FC = () => {
                 }
               />
             </div>
-            {EVENT.challenges.map((challenge, index) => (
+            {event?.tasks.map((task, index) => (
               <>
                 <div className="flex justify-between items-center mb-2">
                   <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
                     {`Day ${index + 1}`}
                   </Label>
-                  <Label
+                  {/* <Label
                     type="warning"
                     icon={challenge.reward.text ? giftIcon : sfl}
                     className=""
                   >
                     {challenge.reward.text ?? "0.15 SFL"}
-                  </Label>
+                  </Label> */}
                 </div>
 
                 <OuterPanel
                   className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3"
-                  onClick={() =>
-                    setReward({
-                      // Placeholder/prototype
-                      items: challenge.reward.items,
-                      sfl: challenge.reward.sfl,
-                      createdAt: Date.now(),
-                      id: "1",
-                      wearables: {},
-                    })
-                  }
+                  // onClick={() =>
+                  //   setReward({
+                  //     items: task.reward.items,
+                  //     sfl: task.reward.sfl,
+                  //     createdAt: Date.now(),
+                  //     id: "1",
+                  //     wearables: {},
+                  //   })
+                  // }
                 >
-                  {getKeys(challenge.items).map((itemName) => {
+                  {getKeys(task.requirements.items).map((itemName) => {
                     return (
                       <RequirementLabel
                         key={itemName}
@@ -273,11 +199,12 @@ export const SpecialEventBumpkin: React.FC = () => {
                         balance={inventory[itemName] ?? new Decimal(0)}
                         showLabel
                         requirement={
-                          new Decimal(challenge.items[itemName] ?? 0)
+                          new Decimal(task.requirements.items[itemName] ?? 0)
                         }
                       />
                     );
                   })}
+                  <Button onClick={() => claimReward(1)}>Complete</Button>
                 </OuterPanel>
               </>
             ))}

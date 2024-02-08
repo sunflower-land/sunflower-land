@@ -44,6 +44,7 @@ import { Coordinates } from "../expansion/components/MapPlacement";
 import { PortalName } from "./portals";
 import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
+import { SpecialEvents } from "./specialEvents";
 
 export type Reward = {
   sfl?: Decimal;
@@ -969,6 +970,7 @@ export interface GameState {
   christmas?: Christmas;
   springBlossom: Record<number, SpringBlossom>;
   megastore: MegaStore;
+  specialEvents: SpecialEvents;
 }
 
 export interface Context {

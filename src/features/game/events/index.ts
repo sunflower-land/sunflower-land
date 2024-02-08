@@ -264,6 +264,10 @@ import {
   buyMegaStoreItem,
   BuyMegaStoreItemAction,
 } from "./landExpansion/buyMegaStoreItem";
+import {
+  completeSpecialEventTask,
+  CompleteSpecialEventTaskAction,
+} from "./landExpansion/completeSpecialEventTask";
 
 export type PlayingEvent =
   | TradeAction
@@ -344,7 +348,8 @@ export type PlayingEvent =
   | PurchaseBannerAction
   | FlowerPageDiscoveredAction
   | FlowerShopTradedAction
-  | BuyMegaStoreItemAction;
+  | BuyMegaStoreItemAction
+  | CompleteSpecialEventTaskAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -488,6 +493,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flowerPage.discovered": discoverFlowerPage,
   "flowerShop.traded": tradeFlowerShop,
   "megastoreItem.bought": buyMegaStoreItem,
+  "specialEvent.taskCompleted": completeSpecialEventTask,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
