@@ -806,6 +806,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
   "description.radiant.ray.boost": "+0.1 Fer",
+  "description.earnAlliance.boost": "2x XP Feb 2024",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1169,8 +1170,6 @@ const conversations: Record<Conversations, string> = {
   "mayor.plaza.fixNamePrompt":
     "Tu n'as pas encore de nom ? Eh bien, nous pouvons arranger ça ! Veux-tu que je prépare les papiers ?",
   "mayor.plaza.enterUsernamePrompt": "Entrez votre nom d'utilisateur :",
-  "mayor.plaza.processingUsernames":
-    "Je traite les noms d'utilisateur dans l'ordre de l'ID de la ferme. Tu pourras choisir ton nom d'utilisateur parmi :",
   "mayor.plaza.usernameValidation":
     "Veuillez noter que les noms d'utilisateur doivent respecter nos",
   "mayor.plaza.niceToMeetYou": "Enchanté, !",
@@ -1590,6 +1589,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Un affichage d'allégeance à la cause des Gobelins.",
   "description.human.war.banner":
     "Un affichage d'allégeance à la cause des Humains.",
+  "description.earnAllianceBanner": "A special event banner",
 };
 
 const delivery: Record<Delivery, string> = {
@@ -1629,7 +1629,7 @@ const depositWallet: Record<DepositWallet, string> = {
     "Pour déposer des objets, vous devez d'abord monter de niveau",
   "deposit.level": "Niveau 3",
   "deposit.noSflOrCollectibles": "Aucun SFL ou objets de collection trouvés !",
-  "deposit.farmAdresse": "Adresse de la ferme :",
+  "deposit.farmAddress": "Adresse de la ferme :",
   "question.depositSFLItems":
     "Souhaitez-vous déposer des objets de Sunflower Land, des accessoires ou des SFL ?",
 };
