@@ -18,7 +18,7 @@ declare let self: ServiceWorkerGlobalScope;
 
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
 
-console.log("service worker version:", OFFLINE_VERSION);
+console.log("[SW] Service Worker Version:", OFFLINE_VERSION);
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
 self.__WB_DISABLE_DEV_LOGS = true;
