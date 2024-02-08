@@ -27,6 +27,7 @@ import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BumpkinDelivery } from "./BumpkinDelivery";
 
 interface OrderCardsProps {
   orders: Order[];
@@ -200,6 +201,8 @@ const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _game = (state: MachineState) => state.context.state as GameState;
+const _beta = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "BUMPKIN_GIFTS");
 
 export const DeliveryPanelContent: React.FC<Props> = ({
   npc,
@@ -213,6 +216,7 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
   const balance = useSelector(gameService, _balance);
   const game = useSelector(gameService, _game);
+  const beta = useSelector(gameService, _beta);
 
   let orders = delivery.orders.filter(
     (order) =>
@@ -236,6 +240,10 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const noOrder = useRandomItem(dialogue.noOrder);
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | undefined>();
+
+  if (beta) {
+    return <BumpkinDelivery npc={npc} onClose={onClose} />;
+  }
 
   const hasRequirements = (order?: Order) => {
     if (!order) return false;

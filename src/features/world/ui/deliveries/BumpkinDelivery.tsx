@@ -1,5 +1,4 @@
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName } from "lib/npcs";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -15,7 +14,7 @@ import lockIcon from "assets/skills/lock.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -143,12 +142,19 @@ export const Gifts: React.FC<{
   return (
     <>
       <div className="p-2">
-        <div className="flex justify-between items-center mb-2 mr-10">
+        <div className="flex justify-between items-center mb-2">
           <Label type="default" icon={SUNNYSIDE.icons.player}>
             {name}
           </Label>
 
-          <BumpkinGiftBar game={game} npc={name} onOpen={onOpen} />
+          <div className="flex">
+            <BumpkinGiftBar onOpen={onOpen} game={game} npc={name} />
+            <img
+              src={SUNNYSIDE.icons.close}
+              className="h-7 ml-2 cursor-pointer"
+              onClick={onClose}
+            />
+          </div>
         </div>
         <div
           style={{
@@ -361,7 +367,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = positive;
   }
 
-  if (!!delivery?.completedAt) {
+  if (delivery?.completedAt) {
     message =
       "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.";
   }
@@ -370,27 +376,27 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = noOrder;
   }
 
-  const isLocked = getTotalExpansions({ game }).lt(DELIVERY_LEVELS[npc] ?? 0);
+  const missingExpansions =
+    (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
+  const isLocked = missingExpansions >= 1;
 
   const acceptGifts = !!getNextGift({ game, npc });
 
   if (gift) {
     return (
-      <Panel bumpkinParts={NPC_WEARABLES[npc]}>
-        <ClaimReward
-          reward={gift}
-          onClose={() => setGift(undefined)}
-          onClaim={() => {
-            gameService.send("gift.claimed", { bumpkin: npc });
-            onClose();
-          }}
-        />
-      </Panel>
+      <ClaimReward
+        reward={gift}
+        onClose={() => setGift(undefined)}
+        onClaim={() => {
+          gameService.send("gift.claimed", { bumpkin: npc });
+          onClose();
+        }}
+      />
     );
   }
 
   return (
-    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
+    <>
       {showFlowers && (
         <Gifts
           onClose={() => setShowFlowers(false)}
@@ -402,11 +408,18 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       {!showFlowers && (
         <>
           <div className="p-2">
-            <div className="flex justify-between items-center mb-3 mr-10">
+            <div className="flex justify-between items-center mb-3">
               <Label type="default" icon={SUNNYSIDE.icons.player}>
                 {npc}
               </Label>
-              <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
+              <div className="flex">
+                <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
+                <img
+                  src={SUNNYSIDE.icons.close}
+                  className="h-7 ml-2 cursor-pointer"
+                  onClick={onClose}
+                />
+              </div>
             </div>
             <div
               style={{
@@ -444,8 +457,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             {isLocked && (
               <>
                 <p className="text-xs">
-                  Reach {DELIVERY_LEVELS[npc] ?? 10} expansions and come back to
-                  me.
+                  Prove yourself worthy. Expand your island {missingExpansions}{" "}
+                  more times.
                 </p>
               </>
             )}
@@ -477,6 +490,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           </div>
         </>
       )}
-    </CloseButtonPanel>
+    </>
   );
 };
