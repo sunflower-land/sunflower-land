@@ -42,9 +42,7 @@ if (import.meta.env.PROD) {
   const isTestnet = CONFIG.NETWORK === "mumbai";
   const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
 
-  const gameAssetsCacheName = `${
-    isTestnet ? "testnet" : "game"
-  }-assets-${OFFLINE_VERSION}`;
+  const gameAssetsCacheName = `${isTestnet ? "testnet" : "game"}-assets`;
 
   // Game assets
   registerRoute(
