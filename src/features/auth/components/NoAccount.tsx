@@ -28,7 +28,7 @@ export const NoAccount: React.FC = () => {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">{t("reward.promo.code")}</p>
+          <p className="text-xs mb-1">{t("reward.promo.code")}:</p>
           <input
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
@@ -87,7 +87,7 @@ export const NoAccount: React.FC = () => {
           </Label>
           {promoCode && (
             <Label type="formula" icon={SUNNYSIDE.icons.search}>
-              {`${t("noaccount.promoCodeLabel")} ${getPromoCode()}`}
+              {`${t("noaccount.promoCodeLabel")}: ${getPromoCode()}`}
             </Label>
           )}
           {!promoCode && (
@@ -174,7 +174,7 @@ export const ClaimAccount: React.FC<{
   return (
     <>
       <div className="p-1">
-        <p className="m-1 text-sm">{t("noaccount.selectNFTID")}</p>
+        <p className="m-1 text-sm">{t("noaccount.selectNFTID")}:</p>
         {tokenIds.map((id) => (
           <OuterPanel
             className={

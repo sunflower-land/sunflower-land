@@ -78,7 +78,7 @@ export const Offer: React.FC = () => {
           <p className="mb-2">
             {t("offer.beginWithNFT")}{" "}
             <span className="underline">{t("offer.free")}</span>
-            {t("offer.NFT.inclu")}
+            {t("offer.NFT.include")}:
           </p>
 
           <OfferItems />
@@ -97,7 +97,7 @@ export const Offer: React.FC = () => {
         <p className="mb-3">
           {t("offer.beginWithNFT")}
           <span className="underline">{t("offer.free")}</span>
-          {t("offer.NFT.inclu")}
+          {t("offer.NFT.include")}:
         </p>
 
         <OfferItems />

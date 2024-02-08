@@ -193,7 +193,7 @@ const BaitSelection: React.FC<{
           </div>
 
           <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-            {t("statements.daily.limit")} {dailyFishingCount}/{dailyFishingMax}
+            {t("statements.daily.limit")}: {dailyFishingCount}/{dailyFishingMax}
           </Label>
         </div>
       </div>

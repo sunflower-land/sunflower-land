@@ -2292,7 +2292,7 @@ export type Offer =
   | "offer.getStarterPack"
   | "offer.newHere"
   | "offer.getStarted"
-  | "offer.NFT.inclu"
+  | "offer.NFT.include"
   | "offer.free";
 
 export type Onboarding =

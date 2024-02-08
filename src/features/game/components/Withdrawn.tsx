@@ -21,7 +21,7 @@ export const Withdrawn: React.FC = () => {
         <h1 className="text-center mb-4 mt-1 text-lg">{t("success")}</h1>
         <img src={secure} className="w-14 mb-4" />
         <p className="mb-4">
-          {t("transaction.withdraw.sent")}
+          {t("transaction.withdraw.sent")}:
           <span className="text-center mb-2 ml-2 text-sm">
             {shortAddress(wallet.myAccount as string)}
           </span>

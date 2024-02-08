@@ -72,7 +72,7 @@ export function castRod({
     const inventoryChum = game.inventory[action.chum] ?? new Decimal(0);
 
     if (inventoryChum.lt(chumAmount)) {
-      throw new Error(`Insufficient Chum: ${action.chum}`);
+      throw new Error(`${translate("error.insufficientChum")}: ${action.chum}`);
     }
 
     game.inventory[action.chum] = inventoryChum.sub(chumAmount);
