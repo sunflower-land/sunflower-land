@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useRef } from "react";
 
 import { initialise } from "lib/utils/init";
@@ -40,7 +41,10 @@ export const App: React.FC = () => {
             },
           });
 
-          if (resp?.status === 200) await registration.update();
+          if (resp?.status === 200) {
+            console.log("CHECKING FOR UPDATE");
+            await registration.update();
+          }
         }, CHECK_FOR_UPDATE_INTERVAL);
       }
     },
@@ -55,6 +59,7 @@ export const App: React.FC = () => {
 
   const handleStateChange = (evt: any) => {
     if (evt.newState === "hidden" && needRefreshRef.current) {
+      console.log("UPDATE NEEDED: Refreshing Service Worker");
       updateServiceWorker();
     }
   };
