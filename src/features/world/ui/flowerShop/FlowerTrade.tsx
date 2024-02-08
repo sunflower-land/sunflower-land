@@ -59,7 +59,7 @@ export const FlowerTrade: React.FC<Props> = ({
 }) => {
   const desiredFlowerImage = ITEM_DETAILS[desiredFlower].image;
   const { t } = useAppTranslation();
-  const currentWeek = getSeasonWeek();
+  const currentWeek = getSeasonWeek() - 1;
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
   const sevenDaysSeconds = sevenDays / 1000;
 
