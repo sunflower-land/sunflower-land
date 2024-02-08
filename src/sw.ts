@@ -12,7 +12,7 @@ import {
 } from "workbox-precaching";
 import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
-import { CONFIG } from "lib/config";
+import { CONFIG } from "./lib/config";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -57,8 +57,27 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-// Precaching strategy
 cleanupOutdatedCaches();
+// Cleanup outdated runtime caches during activate event
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    // Clean up outdated runtime caches
+    Promise.all([
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter(
+              (cacheName) =>
+                cacheName.startsWith(gameAssetsCacheName) &&
+                cacheName !== `${gameAssetsCacheName}-${OFFLINE_VERSION}`
+            )
+            .map((outdatedCacheName) => caches.delete(outdatedCacheName))
+        );
+      }),
+    ])
+  );
+});
+
 precacheAndRoute(self.__WB_MANIFEST);
 
 if (import.meta.env.PROD) {
