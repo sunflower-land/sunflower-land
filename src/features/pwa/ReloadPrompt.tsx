@@ -111,6 +111,7 @@ export function ReloadPrompt() {
         style={{ zIndex: 1000 }}
       >
         <span>{`Checking for update: ${checking}`}</span>
+        <span>{`Installing: ${isInstalling}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
         <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span>
       </div>
