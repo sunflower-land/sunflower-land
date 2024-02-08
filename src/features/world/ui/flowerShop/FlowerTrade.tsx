@@ -74,7 +74,7 @@ export const FlowerTrade: React.FC<Props> = ({
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex flex-col items-center mx-auto">
         <p className="text-center text-sm mb-3">
-          {t("flowerShop.do.have")} {desiredFlower}
+          {t("flowerShop.do.have")} {desiredFlower}{" "}
           {t("flowerShop.do.have.trade.one")}
         </p>
         <div className="relative mb-2">

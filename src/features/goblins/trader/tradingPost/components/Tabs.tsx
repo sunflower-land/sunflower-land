@@ -40,7 +40,7 @@ export const Tabs: React.FC<TabsProps> = ({
         onClick={!disabled ? () => setIsSelling(true) : undefined}
       >
         <img src={token} className="h-4 sm:h-5 mr-2" />
-        <span className="text-sm text-ellipsis">Sell</span>
+        <span className="text-sm text-ellipsis">{t("sell")}</span>
       </Tab>
       <Tab
         className={classNames("flex items-center", {
