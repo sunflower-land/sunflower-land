@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 60 * 1;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 3;
 
 export function ReloadPrompt() {
   const [isInstalling, setIsInstalling] = useState(false);
@@ -69,11 +69,19 @@ export function ReloadPrompt() {
             },
           });
 
-          if (resp?.status === 200) await registration.update();
+          if (resp?.status === 200) {
+            console.log("[RELOAD PROMPT] Checking for update");
+            await registration.update();
+          }
         }, CHECK_FOR_UPDATE_INTERVAL);
       }
     },
   });
+
+  useEffect(() => {
+    console.log("[RELOAD PROMPT] needRefresh", needRefresh);
+    console.log("[RELOAD PROMPT] isInstalling", isInstalling);
+  }, [needRefresh, isInstalling]);
 
   return (
     <ReactPortal>
