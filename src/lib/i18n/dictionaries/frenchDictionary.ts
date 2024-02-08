@@ -274,7 +274,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "lets.go": "C'est parti !",
   limit: "Limite",
   list: "Liste",
-  "list.trade": "Lister un échange",
+  "list.trade": "Lister un article",
   loading: "Chargement",
   logout: "Déconnexion",
   "loser.refund": "Rembourser les ressources",
