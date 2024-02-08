@@ -5,7 +5,6 @@
 import "workbox-core";
 import { googleFontsCache } from "workbox-recipes";
 import { NavigationRoute, registerRoute } from "workbox-routing";
-import { CONFIG } from "./lib/config";
 import {
   cleanupOutdatedCaches,
   createHandlerBoundToURL,
@@ -13,18 +12,22 @@ import {
 } from "workbox-precaching";
 import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
+import { CONFIG } from "lib/config";
 
 declare let self: ServiceWorkerGlobalScope;
 
 const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
-
-console.log(`[SW] Sunflower Land Service Worker v-${OFFLINE_VERSION}`);
+const isTestnet = CONFIG.NETWORK === "mumbai";
+const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
+const gameAssetsCacheName = `${
+  isTestnet ? "testnet" : "game"
+}-assets-v${OFFLINE_VERSION}`;
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
 self.__WB_DISABLE_DEV_LOGS = true;
 
 self.addEventListener("message", (event) => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
+  if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
     self.clients.claim();
   }
@@ -36,22 +39,34 @@ if (import.meta.env.DEV) {
   allowlist = [/^offline.html$/];
 }
 
-// clean old assets
-cleanupOutdatedCaches();
+// Cleanup outdated runtime caches during activate event
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    // Clean up outdated runtime caches
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter(
+            (cacheName) =>
+              cacheName.startsWith(gameAssetsCacheName) &&
+              cacheName !== `${gameAssetsCacheName}-${OFFLINE_VERSION}`
+          )
+          .map((outdatedCacheName) => caches.delete(outdatedCacheName))
+      );
+    })
+  );
+});
 
+// Precaching strategy
+cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
 
 if (import.meta.env.PROD) {
-  const isTestnet = CONFIG.NETWORK === "mumbai";
-  const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
-
-  const gameAssetsCacheName = `${isTestnet ? "testnet" : "game"}-assets`;
-
   // Game assets
   registerRoute(
     ({ url }) => url.pathname.startsWith(GAME_ASSETS_PATH),
     new StaleWhileRevalidate({
-      cacheName: gameAssetsCacheName,
+      cacheName: `${gameAssetsCacheName}-${OFFLINE_VERSION}`,
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
