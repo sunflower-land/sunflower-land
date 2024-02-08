@@ -91,7 +91,9 @@ export function ReloadPrompt() {
 
   const handleStateChange = (evt: any) => {
     if (evt.newState === "hidden" && needRefreshRef.current) {
-      console.log("UPDATE NEEDED: Auto Refreshing Service Worker");
+      console.log(
+        "UPDATE NEEDED AND PAGE LIFECYCLE STATE HIDDEN: Auto Refreshing Service Worker"
+      );
       updateServiceWorker();
     }
   };
