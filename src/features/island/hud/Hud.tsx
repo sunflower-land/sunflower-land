@@ -162,7 +162,7 @@ const HudComponent: React.FC<{
             right: `${PIXEL_SCALE * 3}px`,
             bottom: `${PIXEL_SCALE * 3}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 23 * 3 + 12}px`,
+            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
           }}
         >
           <Save />
