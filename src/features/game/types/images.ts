@@ -237,6 +237,7 @@ import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_ba
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import budTicket from "assets/icons/bud_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
+import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
 
 // Banners
 import goblinBanner from "assets/decorations/banners/goblin_banner.png";
@@ -3201,5 +3202,9 @@ export const ITEM_DETAILS: Items = {
   "Blue Lotus": {
     image: blueLotus,
     description: translate("description.blue.lotu"),
+  },
+  "Earn Alliance Banner": {
+    image: earnAllianceBanner,
+    description: translate("description.earnAllianceBanner"),
   },
 };

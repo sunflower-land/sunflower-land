@@ -86,7 +86,8 @@ export type EventDecorationName =
   | "Festive Tree"
   | "Bumpkin Nutcracker"
   | "White Festive Fox"
-  | "Grinx's Hammer";
+  | "Grinx's Hammer"
+  | "Earn Alliance Banner";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -106,6 +107,10 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Earn Alliance Banner": {
+    width: 1,
+    height: 2,
+  },
   Blossombeard: {
     width: 1,
     height: 1,

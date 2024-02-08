@@ -521,4 +521,10 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Gold.image,
   },
+
+  "Earn Alliance Banner": {
+    shortDescription: translate("description.earnAlliance.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
 };

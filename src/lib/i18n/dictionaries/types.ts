@@ -452,6 +452,7 @@ export type BoostEffectDescriptions =
   | "description.Karkinos.boost"
   | "description.mushroom.house.boost"
   | "description.boost.gilded.swordfish"
+  | "description.earnAlliance.boost"
   | "description.nancy.boost"
   | "description.scarecrow.boost"
   | "description.kuebiko.boost"
@@ -1049,7 +1050,8 @@ export type DecorationDescriptions =
 
   //Banners
   | "description.goblin.war.banner"
-  | "description.human.war.banner";
+  | "description.human.war.banner"
+  | "description.earnAllianceBanner";
 
 export type Delivery =
   | "delivery.panel.one"

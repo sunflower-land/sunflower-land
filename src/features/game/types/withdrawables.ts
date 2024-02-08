@@ -737,6 +737,7 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Festive Tree": () => false,
   "Grinx's Hammer": () => true,
   "White Festive Fox": () => true,
+  "Earn Alliance Banner": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
