@@ -24,7 +24,7 @@ const gameAssetsCacheName = `${
 }-assets-v${OFFLINE_VERSION}`;
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
-self.__WB_DISABLE_DEV_LOGS = true;
+// self.__WB_DISABLE_DEV_LOGS = true;
 
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
@@ -63,8 +63,6 @@ self.addEventListener("activate", (event) => {
 // Precaching strategy
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
-
-console.log("Precache list", self.__WB_MANIFEST);
 
 if (import.meta.env.PROD) {
   // Game assets
