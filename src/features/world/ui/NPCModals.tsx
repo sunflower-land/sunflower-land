@@ -48,8 +48,7 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
-  return "pumpkin' pete";
-
+  return "tywin";
   return undefined;
 }
 

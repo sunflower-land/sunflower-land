@@ -3,7 +3,10 @@ import { GameState } from "features/game/types/game";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import Decimal from "decimal.js-light";
 import { NPCName } from "lib/npcs";
-import { BUMPKIN_DESIRES } from "features/game/types/gifts";
+import {
+  BUMPKIN_DESIRES,
+  DEFAULT_FLOWER_POINTS,
+} from "features/game/types/gifts";
 
 export type GiftFlowersAction = {
   type: "flowers.gifted";
@@ -16,8 +19,6 @@ type Options = {
   action: GiftFlowersAction;
   createdAt?: number;
 };
-
-const DEFAULT_FRIENDSHIP_POINTS = 1;
 
 export function giftFlowers({
   state,
@@ -43,7 +44,7 @@ export function giftFlowers({
 
   const points =
     BUMPKIN_DESIRES[action.bumpkin]?.[action.flower] ??
-    DEFAULT_FRIENDSHIP_POINTS;
+    DEFAULT_FLOWER_POINTS[action.flower];
 
   const npc = game.npcs?.[action.bumpkin] ?? {
     deliveryCount: 0,

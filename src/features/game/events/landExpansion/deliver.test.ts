@@ -449,6 +449,7 @@ describe("deliver", () => {
       action: {
         id: "123",
         type: "order.delivered",
+        friendship: true,
       },
       createdAt: now,
     });

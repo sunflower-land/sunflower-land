@@ -11,6 +11,7 @@ import { Button } from "components/ui/Button";
 import giftIcon from "assets/icons/gift.png";
 import sfl from "assets/icons/token_2.png";
 import chest from "assets/icons/chest.png";
+import lockIcon from "assets/skills/lock.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -24,6 +25,10 @@ import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
 import { getNextGift } from "features/game/events/landExpansion/claimBumpkinGift";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { defaultDialogue, npcDialogues } from "./dialogues";
+import { useRandomItem } from "lib/utils/hooks/useRandomItem";
+import { getTotalExpansions } from "./DeliveryPanelContent";
+import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -99,31 +104,40 @@ export const Gifts: React.FC<{
   game: GameState;
   onClose: () => void;
   onOpen: () => void;
-}> = ({ game, onClose, onOpen }) => {
+  name: NPCName;
+}> = ({ game, onClose, onOpen, name }) => {
   const { gameService } = useContext(Context);
 
   const [selected, setSelected] = useState<FlowerName>();
+
+  const [message, setMessage] = useState(
+    "Have you got a flower for me? Make sure it is something I like."
+  );
+
   const flowers = getKeys(game.inventory).filter(
     (item) => item in FLOWERS && game.inventory[item]?.gte(1)
   );
 
-  const [showGifting, setShowGifting] = useState(false);
-  const [showFriendshipBonus, setShowFriendshipBonus] = useState(false);
-
-  const name: NPCName = "pumpkin' pete";
-
   const onGift = async () => {
-    setShowGifting(true);
-
-    gameService.send("flowers.gifted", {
+    const previous = game.npcs?.[name]?.friendship?.points ?? 0;
+    const state = gameService.send("flowers.gifted", {
       bumpkin: name,
       flower: selected,
     });
 
-    setShowFriendshipBonus(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setShowFriendshipBonus(false);
-    // Fire event
+    const difference =
+      (state.context.state.npcs?.[name]?.friendship?.points ?? 0) - previous;
+
+    // TODO - custom Bumpkin messages
+    if (difference < 3) {
+      setMessage(
+        "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts."
+      );
+    } else if (difference < 6) {
+      setMessage("Wow, thanks! I love this flower!");
+    } else {
+      setMessage("This is my favorite flower! Thanks a bunch!");
+    }
   };
 
   return (
@@ -136,15 +150,16 @@ export const Gifts: React.FC<{
 
           <BumpkinGiftBar game={game} npc={name} onOpen={onOpen} />
         </div>
-        <div className="h-12">
+        <div
+          style={{
+            minHeight: "65px",
+          }}
+          className="mb-2"
+        >
           <InlineDialogue
             trail={25}
-            key={showGifting ? "gift-result" : "gift"}
-            message={
-              showGifting
-                ? "Hmmm, that is exactly what I wanted!!!"
-                : "Have you got a flower for me? Make sure it is something I like."
-            }
+            key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
+            message={message}
           />
         </div>
 
@@ -219,7 +234,7 @@ const BumpkinGiftBar: React.FC<{
   const showFriendshipIncrease = async (amount: number) => {
     setBonus(amount);
     setShowBonus(true);
-    await new Promise((res) => setTimeout(res, 1000));
+    await new Promise((res) => setTimeout(res, 3000));
     setShowBonus(false);
   };
 
@@ -248,6 +263,10 @@ const BumpkinGiftBar: React.FC<{
 
     onOpen();
   };
+
+  if (!nextGift) {
+    return null;
+  }
 
   return (
     <>
@@ -303,22 +322,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const [gift, setGift] = useState<Airdrop>();
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
-  const friendship = game.npcs?.[npc]?.friendship ?? {
-    points: 0,
-    giftClaimedAtPoints: 0,
-  };
 
-  const deliver = async () => {
-    const previous = friendship.points;
-
-    const state = gameService.send("order.delivered", {
+  const deliver = () => {
+    gameService.send("order.delivered", {
       id: delivery?.id,
+      friendship: true,
     });
-
-    const difference =
-      (state.context.state.npcs?.[npc]?.friendship?.points ?? 0) - previous;
-
-    await new Promise((res) => setTimeout(res, 500));
   };
 
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
@@ -341,6 +350,30 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
 
+  const dialogue = npcDialogues[npc] || defaultDialogue;
+  const intro = useRandomItem(dialogue.intro);
+  const positive = useRandomItem(dialogue.positiveDelivery);
+  const noOrder = useRandomItem(dialogue.noOrder);
+
+  let message = intro;
+
+  if (delivery && !delivery.completedAt && hasDelivery) {
+    message = positive;
+  }
+
+  if (!!delivery?.completedAt) {
+    message =
+      "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.";
+  }
+
+  if (!delivery) {
+    message = noOrder;
+  }
+
+  const isLocked = getTotalExpansions({ game }).lt(DELIVERY_LEVELS[npc] ?? 0);
+
+  const acceptGifts = !!getNextGift({ game, npc });
+
   if (gift) {
     return (
       <Panel bumpkinParts={NPC_WEARABLES[npc]}>
@@ -357,15 +390,13 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   }
 
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
-    >
+    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
       {showFlowers && (
         <Gifts
           onClose={() => setShowFlowers(false)}
           game={gameState.context.state}
           onOpen={openReward}
+          name={npc}
         />
       )}
       {!showFlowers && (
@@ -377,15 +408,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               </Label>
               <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
             </div>
-            <div className="h-16">
+            <div
+              style={{
+                minHeight: "65px",
+              }}
+              className="mb-2"
+            >
               <InlineDialogue
                 trail={25}
                 key={delivery?.completedAt ? "1" : "2"}
-                message={
-                  delivery?.completedAt
-                    ? "Thanks!"
-                    : "Howdy Bumpkin, how about dem taters and pumpkins today? Great day for it."
-                }
+                message={message}
               />
             </div>
 
@@ -398,9 +430,25 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   Completed
                 </Label>
               )}
+              {isLocked && (
+                <Label className="my-2" type="danger" icon={lockIcon}>
+                  Locked
+                </Label>
+              )}
             </div>
 
-            {!delivery && <p className="text-xs">No deliveries available</p>}
+            {!delivery && !isLocked && (
+              <p className="text-xs">No deliveries available</p>
+            )}
+
+            {isLocked && (
+              <>
+                <p className="text-xs">
+                  Reach {DELIVERY_LEVELS[npc] ?? 10} expansions and come back to
+                  me.
+                </p>
+              </>
+            )}
 
             {delivery && (
               <OrderCard
@@ -414,10 +462,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           </div>
 
           <div className="flex mt-1">
-            <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-              Gift
-            </Button>
-            <Button disabled={!hasDelivery} onClick={deliver}>
+            {acceptGifts && (
+              <Button className="mr-1" onClick={() => setShowFlowers(true)}>
+                Gift
+              </Button>
+            )}
+
+            <Button
+              disabled={!delivery || !hasDelivery || !!delivery?.completedAt}
+              onClick={deliver}
+            >
               Deliver
             </Button>
           </div>

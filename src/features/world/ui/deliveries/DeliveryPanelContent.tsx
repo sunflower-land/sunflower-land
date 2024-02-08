@@ -175,7 +175,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
   );
 };
 
-function getTotalExpansions({
+export function getTotalExpansions({
   game,
 }: {
   game: Pick<GameState, "inventory" | "island">;
