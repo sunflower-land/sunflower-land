@@ -54,6 +54,7 @@ export function ReloadPrompt() {
   } = useRegisterSW({
     onRegisteredSW(swUrl, registration) {
       if (registration) {
+        console.log("[RELOAD PROMPT] Registered SW", registration);
         activeServiceWorkerInstallationHandler(registration);
 
         setInterval(async () => {
