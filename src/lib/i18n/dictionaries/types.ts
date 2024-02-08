@@ -452,6 +452,7 @@ export type BoostEffectDescriptions =
   | "description.Karkinos.boost"
   | "description.mushroom.house.boost"
   | "description.boost.gilded.swordfish"
+  | "description.earnAlliance.boost"
   | "description.nancy.boost"
   | "description.scarecrow.boost"
   | "description.kuebiko.boost"
@@ -762,7 +763,6 @@ export type Conversations =
   | "mayor.plaza.role"
   | "mayor.plaza.fixNamePrompt"
   | "mayor.plaza.enterUsernamePrompt"
-  | "mayor.plaza.processingUsernames"
   | "mayor.plaza.usernameValidation"
   | "mayor.plaza.niceToMeetYou"
   | "mayor.plaza.congratulations"
@@ -1050,7 +1050,8 @@ export type DecorationDescriptions =
 
   //Banners
   | "description.goblin.war.banner"
-  | "description.human.war.banner";
+  | "description.human.war.banner"
+  | "description.earnAllianceBanner";
 
 export type Delivery =
   | "delivery.panel.one"
@@ -1078,7 +1079,7 @@ export type DepositWallet =
   | "deposit.toDepositLevelUp"
   | "deposit.level"
   | "deposit.noSflOrCollectibles"
-  | "deposit.farmAdresse"
+  | "deposit.farmAddress"
   | "question.depositSFLItems";
 
 export type Detail =

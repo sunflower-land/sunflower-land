@@ -406,4 +406,38 @@ describe("feedBumpkin", () => {
       CONSUMABLES["Gumbo"].experience * 1.2
     );
   });
+
+  it("provides 2x experience with Earn Alliance Banner in February", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          Gumbo: new Decimal(1),
+        },
+        collectibles: {
+          "Earn Alliance Banner": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Gumbo",
+        amount: 1,
+      },
+      createdAt: new Date("2024-02-04").getTime(),
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      CONSUMABLES["Gumbo"].experience * 2
+    );
+  });
 });

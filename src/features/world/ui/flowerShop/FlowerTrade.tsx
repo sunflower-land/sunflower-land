@@ -10,6 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 interface CompleteProps {
   desiredFlower: FlowerName;
@@ -58,7 +59,7 @@ export const FlowerTrade: React.FC<Props> = ({
 }) => {
   const desiredFlowerImage = ITEM_DETAILS[desiredFlower].image;
   const { t } = useAppTranslation();
-  const currentWeek = 0;
+  const currentWeek = getSeasonWeek() - 1;
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
   const sevenDaysSeconds = sevenDays / 1000;
 
@@ -74,7 +75,7 @@ export const FlowerTrade: React.FC<Props> = ({
     <div className="w-full flex flex-col items-center">
       <div className="w-full flex flex-col items-center mx-auto">
         <p className="text-center text-sm mb-3">
-          {t("flowerShop.do.have")} {desiredFlower}
+          {t("flowerShop.do.have")} {desiredFlower}{" "}
           {t("flowerShop.do.have.trade.one")}
         </p>
         <div className="relative mb-2">

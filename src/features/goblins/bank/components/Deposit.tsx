@@ -323,7 +323,7 @@ const DepositOptions: React.FC<Props> = ({
           <p>{t("deposit.noSflOrCollectibles")}</p>
           <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
             <span className="whitespace-nowrap">
-              {t("deposit.farmAdresse")}
+              {t("deposit.farmAddress")}:
             </span>
             <CopyAddress address={farmAddress} />
           </div>
@@ -423,7 +423,7 @@ const DepositOptions: React.FC<Props> = ({
                   </>
                 )}
                 <div className="pt-3">
-                  <p className="mb-1">{t("deposit.farmWillReceive")}</p>
+                  <p className="mb-1">{t("deposit.farmWillReceive")}:</p>
                   <div className="text-[11px] sm:text-xs mb-3">
                     <CopyAddress address={farmAddress} />
                   </div>

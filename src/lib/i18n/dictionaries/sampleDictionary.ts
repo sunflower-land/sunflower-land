@@ -369,6 +369,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
+  "description.earnAlliance.boost": "",
   "description.obie.boost": "",
   "description.purple.trail.boost": "",
   "description.freya.fox.boost": "",
@@ -707,7 +708,6 @@ const conversations: Record<Conversations, string> = {
   "mayor.plaza.role": "",
   "mayor.plaza.fixNamePrompt": "",
   "mayor.plaza.enterUsernamePrompt": "",
-  "mayor.plaza.processingUsernames": "",
   "mayor.plaza.usernameValidation": "",
   "mayor.plaza.niceToMeetYou": "",
   "mayor.plaza.congratulations": "",
@@ -756,6 +756,7 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
   "defaultDialogue.noOrder": "",
 };
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
+  "description.earnAllianceBanner": "",
   "description.easter.bunny": "",
   "description.wicker.man": "",
   "description.golden bonsai": "",
@@ -1009,7 +1010,7 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.toDepositLevelUp": "",
   "deposit.level": "",
   "deposit.noSflOrCollectibles": "",
-  "deposit.farmAdresse": "",
+  "deposit.farmAddress": "",
   "question.depositSFLItems": "",
 };
 const detail: Record<Detail, string> = {
