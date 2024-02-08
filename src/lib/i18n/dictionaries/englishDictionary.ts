@@ -1605,7 +1605,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.connection.two": "It may be a simple connection issue.",
   "error.connection.three": "You can click refresh to try again.",
   "error.connection.four":
-    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community.",
+    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
   "error.diagnostic.info": "Diagnostic Information",
   "error.forbidden.goblinVillage":
     "You are not allowed to visit Goblin Village!",
