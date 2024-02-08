@@ -369,6 +369,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
+  "description.earnAlliance.boost": "",
   "description.obie.boost": "",
   "description.purple.trail.boost": "",
   "description.freya.fox.boost": "",
@@ -755,6 +756,7 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
   "defaultDialogue.noOrder": "",
 };
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
+  "description.earnAllianceBanner": "",
   "description.easter.bunny": "",
   "description.wicker.man": "",
   "description.golden bonsai": "",

@@ -20,9 +20,14 @@ export type FeedBumpkinAction = {
 type Options = {
   state: Readonly<GameState>;
   action: FeedBumpkinAction;
+  createdAt?: number;
 };
 
-export function feedBumpkin({ state, action }: Options): GameState {
+export function feedBumpkin({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   const stateCopy = cloneDeep(state);
 
   const bumpkin = stateCopy.bumpkin;
@@ -52,7 +57,13 @@ export function feedBumpkin({ state, action }: Options): GameState {
 
   // increaes bumpkin experience
   const foodExperience = new Decimal(
-    getFoodExpBoost(CONSUMABLES[action.food], bumpkin, stateCopy, buds ?? {})
+    getFoodExpBoost(
+      CONSUMABLES[action.food],
+      bumpkin,
+      stateCopy,
+      buds ?? {},
+      createdAt
+    )
   );
 
   bumpkin.experience += Number(foodExperience.mul(feedAmount));

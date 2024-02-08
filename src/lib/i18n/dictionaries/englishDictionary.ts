@@ -796,6 +796,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "50% Reduction to Crop, Mineral, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
+  "description.earnAlliance.boost": "2x XP Feb 2024",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1509,6 +1510,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner":
     "A display of allegiance to the Goblin cause",
   "description.human.war.banner": "A display of allegiance to the Human cause",
+  "description.earnAllianceBanner": "A special event banner",
 };
 
 const delivery: Record<Delivery, string> = {

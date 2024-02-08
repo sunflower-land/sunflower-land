@@ -7012,4 +7012,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Earn Alliance Banner": {
+    name: "Earn Alliance Banner",
+    description:
+      "A special event banner. Gives a starter bonus of 2x XP in February 2024.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/930.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
 };
