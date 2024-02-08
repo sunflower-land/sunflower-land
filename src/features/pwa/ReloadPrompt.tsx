@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
+import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
 const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 10;
 
@@ -81,10 +82,27 @@ export function ReloadPrompt() {
     },
   });
 
+  const needRefreshRef = useRef(needRefresh);
+
+  // Update the ref whenever needRefresh changes
   useEffect(() => {
-    console.log("[RELOAD PROMPT] needRefresh", needRefresh);
-    // console.log("[RELOAD PROMPT] isInstalling", isInstalling);
+    needRefreshRef.current = needRefresh;
   }, [needRefresh]);
+
+  const handleStateChange = (evt: any) => {
+    if (evt.newState === "hidden" && needRefreshRef.current) {
+      console.log("UPDATE NEEDED: Auto Refreshing Service Worker");
+      updateServiceWorker();
+    }
+  };
+
+  useEffect(() => {
+    lifecycle.addEventListener("statechange", handleStateChange);
+
+    return () => {
+      lifecycle.removeEventListener("statechange", handleStateChange);
+    };
+  }, []);
 
   return (
     <ReactPortal>
@@ -100,8 +118,8 @@ export function ReloadPrompt() {
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",
           {
-            "translate-y-20": !needRefresh,
-            "-translate-y-0": needRefresh,
+            "translate-y-20": !needRefresh || isInstalling,
+            "-translate-y-0": needRefresh && !isInstalling,
           }
         )}
         style={{ zIndex: 10000 }}

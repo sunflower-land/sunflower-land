@@ -104,6 +104,7 @@
     "husky": ">=6",
     "jest": "^27.4.7",
     "lint-staged": ">=10",
+    "page-lifecycle": "^0.1.2",
     "pixel-scale": "^1.0.0",
     "postcss": "^8.4.17",
     "prettier": "^2.5.1",
