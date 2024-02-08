@@ -6,7 +6,7 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 10;
 
 export function ReloadPrompt() {
   // const [isInstalling, setIsInstalling] = useState(false);
@@ -58,6 +58,7 @@ export function ReloadPrompt() {
       if (registration) {
         setInterval(async () => {
           setChecking(true);
+          console.log("CHECKING TIME: ", new Date());
           console.log("[RELOAD PROMPT] Registered SW", registration);
           if (!(!registration.installing && navigator)) return;
 
