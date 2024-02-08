@@ -6,7 +6,6 @@ import { Modal } from "react-bootstrap";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
 
-import { Pete } from "./npcs/Pete";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { Grubnuk } from "./npcs/Grubnuk";
@@ -49,6 +48,8 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
+  return "pumpkin' pete";
+
   return undefined;
 }
 

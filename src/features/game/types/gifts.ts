@@ -40,7 +40,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         wearables: {},
       },
       {
-        friendshipPoints: 20,
+        friendshipPoints: 25,
         items: {},
         sfl: 0,
         wearables: {
@@ -48,7 +48,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         },
       },
       {
-        friendshipPoints: 30,
+        friendshipPoints: 50,
         items: {},
         sfl: 5,
         wearables: {},

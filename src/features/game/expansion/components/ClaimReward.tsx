@@ -18,6 +18,7 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { InlineDialogue } from "features/world/ui/TypingMessage";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -50,7 +51,9 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           {t("reward.discovered")}
         </Label>
         {airdrop.message && (
-          <p className="text-xs mb-2 ml-1">{airdrop.message}</p>
+          <div className="mb-2 ml-1">
+            <InlineDialogue message={airdrop.message} />
+          </div>
         )}
         <div className="flex flex-col">
           {!!airdrop.sfl && (
