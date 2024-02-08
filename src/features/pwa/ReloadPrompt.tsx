@@ -4,11 +4,13 @@ import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
+import { CONFIG } from "lib/config";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 3;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60;
 
 export function ReloadPrompt() {
   const [isInstalling, setIsInstalling] = useState(false);
+  const [checking, setChecking] = useState(false);
 
   // Check if a SW is actively installing. We need this so we can remove the
   // prompt for update if there was a new update ready but its now stale as a new update has been released.
@@ -54,10 +56,11 @@ export function ReloadPrompt() {
   } = useRegisterSW({
     onRegisteredSW(swUrl, registration) {
       if (registration) {
-        console.log("[RELOAD PROMPT] Registered SW", registration);
         activeServiceWorkerInstallationHandler(registration);
 
         setInterval(async () => {
+          setChecking(true);
+          console.log("[RELOAD PROMPT] Registered SW", registration);
           if (!(!registration.installing && navigator)) return;
 
           if ("connection" in navigator && !navigator.onLine) return;
@@ -70,10 +73,8 @@ export function ReloadPrompt() {
             },
           });
 
-          if (resp?.status === 200) {
-            console.log("[RELOAD PROMPT] Checking for update");
-            await registration.update();
-          }
+          if (resp?.status === 200) await registration.update();
+          setChecking(false);
         }, CHECK_FOR_UPDATE_INTERVAL);
       }
     },
@@ -86,6 +87,12 @@ export function ReloadPrompt() {
 
   return (
     <ReactPortal>
+      <div className="fixed top-20 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col">
+        <span>{`Checking for update: ${checking}`}</span>
+        <span>{`Is Installing: ${isInstalling}`}</span>
+        <span>{`Needs update: ${needRefresh}`}</span>
+        <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span>
+      </div>
       <div
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",
