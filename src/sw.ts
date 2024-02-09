@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /// <reference lib="webworker" />
 /// <reference no-default-lib="true"/>
 
@@ -18,6 +17,7 @@ declare let self: ServiceWorkerGlobalScope;
 
 const RELEASE_VERSION = CONFIG.RELEASE_VERSION;
 
+// eslint-disable-next-line no-console
 console.log(`[Service Worker] Release version: ${RELEASE_VERSION}`);
 
 const isTestnet = CONFIG.NETWORK === "mumbai";
