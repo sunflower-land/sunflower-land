@@ -437,7 +437,7 @@ describe("deliver", () => {
               id: "123",
               createdAt: 0,
               readyAt: Date.now(),
-              from: "betty",
+              from: "pumpkin' pete",
               items: {
                 Sunflower: 50,
               },
@@ -454,8 +454,8 @@ describe("deliver", () => {
       createdAt: now,
     });
 
-    expect(state.npcs?.betty).toBeDefined();
-    expect(state.npcs?.betty?.friendship).toEqual({
+    expect(state.npcs?.["pumpkin' pete"]).toBeDefined();
+    expect(state.npcs?.["pumpkin' pete"]?.friendship).toEqual({
       points: 3,
       updatedAt: now,
       giftClaimedAtPoints: 0,

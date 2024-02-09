@@ -65,11 +65,11 @@ describe("giftBumpkin", () => {
       state: {
         ...TEST_FARM,
         inventory: {
-          "Celestial Frostbloom": new Decimal(2),
+          "Blue Cosmos": new Decimal(2),
         },
       },
       action: {
-        flower: "Celestial Frostbloom",
+        flower: "Blue Cosmos",
         type: "flowers.gifted",
         bumpkin: "betty",
       },
