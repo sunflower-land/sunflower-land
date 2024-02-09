@@ -17,6 +17,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
 const drummerCoords = { x: 290, y: 520 };
 const xiangCoords = { x: 570, y: 270 };
 const mrChuCoords = { x: 150, y: 270 };
+const dragonCoords = { x: 350, y: 80 };
+const fireOne = { x: 481.5, y: 114.5 };
+const fireTwo = { x: 481.5, y: 199.5 };
+const fireThree = { x: 212.5, y: 114.5 };
+const fireFour = { x: 212.5, y: 199.5 };
 
 export class LunarIslandScene extends BaseScene {
   sceneId: SceneId = "lunar_island";
@@ -41,6 +46,19 @@ export class LunarIslandScene extends BaseScene {
     );
 
     this.load.image("red_chest", `world/red_chest.png`);
+    this.load.spritesheet(
+      "dragon",
+      "src/assets/events/lunar-new-year/dragon.png",
+      {
+        frameWidth: 121,
+        frameHeight: 170,
+      }
+    );
+
+    this.load.spritesheet("fire", "src/assets/events/lunar-new-year/fire.png", {
+      frameWidth: 23,
+      frameHeight: 45,
+    });
 
     this.load.spritesheet("drummer", "world/drummer_lunar_new_year.png", {
       frameWidth: 30,
@@ -63,9 +81,9 @@ export class LunarIslandScene extends BaseScene {
       this.soundEffects.push(
         new AudioController({
           sound: music,
-          distanceThreshold: 150,
+          distanceThreshold: 500,
           coordinates: drummerCoords,
-          maxVolume: 1,
+          maxVolume: 0.1,
         })
       );
     }
@@ -130,5 +148,41 @@ export class LunarIslandScene extends BaseScene {
       frameRate: 13.8,
     });
     drummer.play("drummer_animation", true);
+
+    const dragon = this.add.sprite(dragonCoords.x, dragonCoords.y, "dragon");
+
+    this.anims.create({
+      key: "dragon_animation",
+      frames: this.anims.generateFrameNumbers("dragon", {
+        start: 0,
+        end: 10,
+      }),
+      repeat: -1,
+      frameRate: 8.3,
+    });
+    dragon.play("dragon_animation", true);
+
+    const fire1 = this.add.sprite(fireOne.x, fireOne.y, "fire");
+
+    this.anims.create({
+      key: "fire_animation",
+      frames: this.anims.generateFrameNumbers("fire", {
+        start: 0,
+        end: 11,
+      }),
+      repeat: -1,
+      frameRate: 7,
+    });
+
+    fire1.play("fire_animation", true);
+
+    const fire2 = this.add.sprite(fireTwo.x, fireTwo.y, "fire");
+    fire2.play("fire_animation", true);
+
+    const fire3 = this.add.sprite(fireThree.x, fireThree.y, "fire");
+    fire3.play("fire_animation", true);
+
+    const fire4 = this.add.sprite(fireFour.x, fireFour.y, "fire");
+    fire4.play("fire_animation", true);
   }
 }
