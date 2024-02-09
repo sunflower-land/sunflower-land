@@ -71,7 +71,6 @@ export function ReloadPrompt() {
         style={{ zIndex: 10000 }}
       >
         <span>{`Checking for update: ${checking}`}</span>
-        <span>{`Is Installing: ${isInstalling}`}</span>
         <span>{`Needs update: ${needRefresh}`}</span>
         <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span>
       </div>
@@ -79,8 +78,8 @@ export function ReloadPrompt() {
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",
           {
-            "translate-y-20": !needRefresh || isInstalling,
-            "-translate-y-0": needRefresh && !isInstalling,
+            "translate-y-20": !needRefresh,
+            "-translate-y-0": needRefresh,
           }
         )}
         style={{ zIndex: 10000 }}
