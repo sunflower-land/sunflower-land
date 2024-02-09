@@ -59,7 +59,7 @@ export type NPCName =
   | "misty"
   | "poppy"
   | "stevie"
-  | "Chun Long 春龙";
+  | "Chun Long";
 
 // Ol Salty
 
@@ -637,10 +637,10 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     suit: "Beekeeper Suit",
     hat: "Beekeeper Hat",
   },
-  "Chun Long 春龙": {
+  "Chun Long": {
     body: "Light Brown Farmer Potion",
     hair: "Fire Hair",
-    hat: "Lion Dance Mask",
+    hat: "Lucky Red Hat",
     shirt: "Red Farmer Shirt",
     background: "China Town Background",
     shoes: "Black Farmer Boots",

@@ -58,7 +58,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
   const [showWallet, setShowWallet] = useState(false);
   const [showLink, setShowLink] = useState(false);
 
-  const name: NPCName = "Chun Long 春龙";
+  const name: NPCName = "Chun Long";
 
   const { inventory, specialEvents, balance } = gameState.context.state;
 
@@ -178,7 +178,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
   return (
     <CloseButtonPanel
       onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["Chun Long 春龙"]}
+      bumpkinParts={NPC_WEARABLES["Chun Long"]}
     >
       <>
         <div>
