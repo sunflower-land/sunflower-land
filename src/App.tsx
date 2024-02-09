@@ -58,15 +58,15 @@ export const App: React.FC = () => {
     needRefreshRef.current = needRefresh;
   }, [needRefresh]);
 
-  const handleStateChange = (evt: any) => {
-    console.log("PAGE LIFECYCLE STATE CHANGE", evt.newState);
-    if (evt.newState === "hidden" && needRefreshRef.current) {
-      console.log("UPDATE NEEDED: Refreshing Service Worker");
-      updateServiceWorker();
-    }
-  };
-
   useEffect(() => {
+    const handleStateChange = (evt: any) => {
+      console.log("PAGE LIFECYCLE STATE CHANGE", evt.newState);
+      if (evt.newState === "hidden" && needRefreshRef.current) {
+        console.log("UPDATE NEEDED: Refreshing Service Worker");
+        updateServiceWorker();
+      }
+    };
+
     lifecycle.addEventListener("statechange", handleStateChange);
 
     return () => {
