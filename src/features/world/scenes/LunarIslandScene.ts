@@ -15,6 +15,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
 ];
 
 const drummerCoords = { x: 290, y: 520 };
+const xiangCoords = { x: 570, y: 270 };
 
 export class LunarIslandScene extends BaseScene {
   sceneId: SceneId = "lunar_island";
@@ -45,9 +46,9 @@ export class LunarIslandScene extends BaseScene {
       frameHeight: 30,
     });
 
-    this.load.spritesheet("dancing_girl", "world/dancing_girl.png", {
-      frameWidth: 19,
-      frameHeight: 21,
+    this.load.spritesheet("xiang", "world/xiang.png", {
+      frameWidth: 20,
+      frameHeight: 19,
     });
 
     if (!this.sound.get("cherry_blossoms")) {
@@ -72,6 +73,19 @@ export class LunarIslandScene extends BaseScene {
     super.create();
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
+
+    const xiang = this.add.sprite(xiangCoords.x, xiangCoords.y, "xiang");
+    xiang.flipX = true;
+    this.anims.create({
+      key: "xiang_animation",
+      frames: this.anims.generateFrameNumbers("xiang", {
+        start: 0,
+        end: 9,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    xiang.play("xiang_animation", true);
 
     const drummer = this.add.sprite(
       drummerCoords.x,
