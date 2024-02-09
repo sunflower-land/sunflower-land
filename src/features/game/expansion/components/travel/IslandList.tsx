@@ -219,7 +219,6 @@ export const IslandList: React.FC<IslandListProps> = ({
       levelRequired: 1 as BumpkinLevel,
       image: ITEM_DETAILS["Red Envelope"].image,
       path: `/world/lunar_island`,
-      beta: true,
       labels: [
         <Label type="vibrant" key="lunar" icon={SUNNYSIDE.icons.timer}>
           Special Event

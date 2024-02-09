@@ -345,9 +345,22 @@ export const GameWrapper: React.FC = ({ children }) => {
                 ) : (
                   <>
                     <img id="logo" src={logo} className="w-full" />
-                    <Label type="default" className="mx-auto">
-                      {CONFIG.RELEASE_VERSION?.split("-")[0]}
-                    </Label>
+                    <div className="flex justify-center">
+                      <Label type="default">
+                        {CONFIG.RELEASE_VERSION?.split("-")[0]}
+                      </Label>
+
+                      {Date.now() > new Date("2024-02-09").getTime() &&
+                        Date.now() < new Date("2024-02-16").getTime() && (
+                          <Label
+                            secondaryIcon={SUNNYSIDE.icons.heart}
+                            type="vibrant"
+                            className="ml-2"
+                          >
+                            Lunar New Year Event
+                          </Label>
+                        )}
+                    </div>
                   </>
                 )}
               </div>
