@@ -47,8 +47,8 @@ export class LunarIslandScene extends BaseScene {
       frameHeight: 21,
     });
 
-    if (!this.sound.get("royal_farms")) {
-      const music = this.sound.add("royal_farms") as Sound;
+    if (!this.sound.get("cherry_blossoms")) {
+      const music = this.sound.add("cherry_blossoms") as Sound;
       music.play({ loop: true, volume: 0 });
       this.soundEffects.push(
         new AudioController({
@@ -75,6 +75,7 @@ export class LunarIslandScene extends BaseScene {
       drummerCoords.y,
       "drummer"
     );
+
     this.anims.create({
       key: "drummer_animation",
       frames: this.anims.generateFrameNumbers("drummer", {
