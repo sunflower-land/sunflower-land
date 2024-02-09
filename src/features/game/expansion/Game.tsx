@@ -353,7 +353,7 @@ export const GameWrapper: React.FC = ({ children }) => {
                       {Date.now() > new Date("2024-02-09").getTime() &&
                         Date.now() < new Date("2024-02-16").getTime() && (
                           <Label
-                            secondaryIcon={SUNNYSIDE.icons.heart}
+                            secondaryIcon={SUNNYSIDE.icons.stopwatch}
                             type="vibrant"
                             className="ml-2"
                           >
