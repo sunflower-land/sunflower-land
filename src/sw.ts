@@ -16,15 +16,16 @@ import { CONFIG } from "./lib/config";
 
 declare let self: ServiceWorkerGlobalScope;
 
-const OFFLINE_VERSION = CONFIG.RELEASE_VERSION;
+const RELEASE_VERSION = CONFIG.RELEASE_VERSION;
+
+console.log(`[Service Worker] Release version: ${RELEASE_VERSION}`);
+
 const isTestnet = CONFIG.NETWORK === "mumbai";
 const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
-const gameAssetsCacheName = `${
-  isTestnet ? "testnet" : "game"
-}-assets-v${OFFLINE_VERSION}`;
+const gameAssetsCacheName = `${isTestnet ? "testnet" : "game"}-assets`;
 
 // Disable workbox logs => do not delete this static import: import "workbox-core";
-// self.__WB_DISABLE_DEV_LOGS = true;
+self.__WB_DISABLE_DEV_LOGS = true;
 
 self.addEventListener("message", (event) => {
   if (event.data?.type === "SKIP_WAITING") {
@@ -48,7 +49,7 @@ if (import.meta.env.PROD) {
   registerRoute(
     ({ url }) => url.pathname.startsWith(GAME_ASSETS_PATH),
     new StaleWhileRevalidate({
-      cacheName: `${gameAssetsCacheName}-${OFFLINE_VERSION}`,
+      cacheName: `${gameAssetsCacheName}`,
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
@@ -56,27 +57,6 @@ if (import.meta.env.PROD) {
       ],
     })
   );
-
-  // Cleanup outdated runtime caches during activate event
-  self.addEventListener("activate", (event) => {
-    event.waitUntil(
-      // Clean up outdated runtime caches
-      caches.keys().then((cacheNames) => {
-        return Promise.all(
-          cacheNames
-            .filter(
-              (cacheName) =>
-                cacheName.startsWith(gameAssetsCacheName) &&
-                cacheName !== `${gameAssetsCacheName}-${OFFLINE_VERSION}`
-            )
-            .map((outdatedCacheName) => {
-              console.log("Deleting outdated cache:", outdatedCacheName);
-              caches.delete(outdatedCacheName);
-            })
-        );
-      })
-    );
-  });
 
   // Bootstrap
   registerRoute(
