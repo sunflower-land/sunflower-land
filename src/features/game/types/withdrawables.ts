@@ -1221,7 +1221,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Rose Dress": () => false,
   "Blue Rose Dress": () => false,
 
-  "Lunar Hat": () => canWithdrawTimebasedItem(new Date("2024-02-14")),
-  "Lunar Suit": () => canWithdrawTimebasedItem(new Date("2024-02-14")),
+  "Lucky Red Hat": () => canWithdrawTimebasedItem(new Date("2024-02-14")),
+  "Lucky Red Suit": () => canWithdrawTimebasedItem(new Date("2024-02-14")),
   "Chicken Hat": () => false,
 };
