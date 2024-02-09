@@ -185,7 +185,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
               marginTop: `${DIMENSIONS.username.marginTop}px`,
             }}
           >
-            {`Craig Boss`}
+            {`Spencer Boss`}
           </div>
         )}
         {showSkillPointAlert && (
