@@ -2167,6 +2167,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand": "Un Bumpkin adopté dans votre ferme.",
   "description.tulip.bulb":
     "Un billet utilisé pendant la Floraison du Printemps.",
+  "description.treasure.key":
+    "Visitez la place pour débloquer votre récompense",
 
   // Objets de Pâques
   "description.egg.basket": "Événement de Pâques",
