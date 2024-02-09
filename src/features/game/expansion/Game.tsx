@@ -58,7 +58,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { Wallet } from "features/wallet/Wallet";
 import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BumpkinDelivery } from "features/world/ui/deliveries/BumpkinDelivery";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
