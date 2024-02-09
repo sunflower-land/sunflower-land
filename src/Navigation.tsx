@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -25,19 +25,22 @@ import { useOrientation } from "lib/utils/hooks/useOrientation";
 import { Modal } from "react-bootstrap";
 import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
+import { World } from "features/world/World";
+import { CommunityTools } from "features/world/ui/CommunityTools";
+import { Retreat } from "features/retreat/Retreat";
 
 // Lazy load routes
-const World = lazy(() =>
-  import("features/world/World").then((m) => ({ default: m.World }))
-);
-const CommunityTools = lazy(() =>
-  import("features/world/ui/CommunityTools").then((m) => ({
-    default: m.CommunityTools,
-  }))
-);
-const Retreat = lazy(() =>
-  import("features/retreat/Retreat").then((m) => ({ default: m.Retreat }))
-);
+// const World = lazy(() =>
+//   import("features/world/World").then((m) => ({ default: m.World }))
+// );
+// const CommunityTools = lazy(() =>
+//   import("features/world/ui/CommunityTools").then((m) => ({
+//     default: m.CommunityTools,
+//   }))
+// );
+// const Retreat = lazy(() =>
+//   import("features/retreat/Retreat").then((m) => ({ default: m.Retreat }))
+// );
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
