@@ -359,6 +359,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Farmhand Coupon": () => false,
   Farmhand: () => false,
   "Tulip Bulb": () => false,
+  "Treasure Key": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -1220,4 +1221,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Queen Bee Crown": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Rose Dress": () => false,
   "Blue Rose Dress": () => false,
+
+  "Lucky Red Hat": () => canWithdrawTimebasedItem(new Date("2024-02-14")),
+  "Lucky Red Suit": () => canWithdrawTimebasedItem(new Date("2024-02-14")),
+  "Chicken Hat": () => false,
 };

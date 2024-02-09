@@ -234,7 +234,9 @@ export type BumpkinHat =
   | "Propeller Hat"
   | "Hornet Mask"
   | "Flower Crown"
-  | "Queen Bee Crown";
+  | "Queen Bee Crown"
+  | "Lucky Red Hat"
+  | "Chicken Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -312,7 +314,8 @@ export type BumpkinSuit =
   | "Santa Suit"
   | "Elf Suit"
   | "Bee Suit"
-  | "Beekeeper Suit";
+  | "Beekeeper Suit"
+  | "Lucky Red Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -642,6 +645,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Queen Bee Crown": 300,
   "Rose Dress": 301,
   "Blue Rose Dress": 302,
+  "Chicken Hat": 303,
+  "Lucky Red Hat": 304,
+  "Lucky Red Suit": 305,
 };
 
 // The reverse of above
@@ -1003,4 +1009,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Queen Bee Crown": "hat",
   "Rose Dress": "dress",
   "Blue Rose Dress": "dress",
+  "Chicken Hat": "hat",
+  "Lucky Red Hat": "hat",
+  "Lucky Red Suit": "suit",
 };

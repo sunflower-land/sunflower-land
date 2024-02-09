@@ -52,6 +52,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const wardrobe = useSelector(gameService, _wardrobe);
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     if (isWearable) {
@@ -138,6 +139,16 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     confetti();
     trackAnalytics();
     setShowSuccess(true);
+    setConfirmBuy(false);
+  };
+
+  const buttonHandler = () => {
+    if (!confirmBuy) {
+      setConfirmBuy(true);
+      return;
+    }
+
+    handleBuy();
   };
 
   const getSuccessCopy = () => {
@@ -165,6 +176,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     <span className="absolute bottom-1 right-2 text-xxs">{`${t(
       "limit"
     )}: ${balanceOfItem}/${item.limit}`}</span>; //t
+  };
+
+  const getButtonLabel = () => {
+    if (confirmBuy) return `${t("confirm")} ${t("buy")}`; //t
+
+    return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
   const currency =
@@ -250,9 +267,20 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             )}
           </div>
           {!showSuccess && (
-            <Button disabled={!canBuy()} onClick={handleBuy}>{`${t("buy")} ${
-              isWearable ? "wearable" : "collectible"
-            }`}</Button>
+            <div
+              className={classNames("flex", {
+                "space-x-1": confirmBuy,
+              })}
+            >
+              {confirmBuy && (
+                <Button onClick={() => setConfirmBuy(false)}>
+                  {t("cancel")}
+                </Button>
+              )}
+              <Button disabled={!canBuy()} onClick={buttonHandler}>
+                {getButtonLabel()}
+              </Button>
+            </div>
           )}
           {showSuccess && (
             <div className="flex flex-col space-y-1">

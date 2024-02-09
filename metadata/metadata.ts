@@ -7021,4 +7021,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/930.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
+  "Treasure Key": {
+    name: "Treasure Key",
+    description: "A magic key that can unlock rewards in the plaza",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/931.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
 };

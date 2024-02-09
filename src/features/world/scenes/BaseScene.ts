@@ -57,6 +57,8 @@ type BaseSceneOptions = {
     tilesetUrl?: string;
     json: any;
     padding?: [number, number];
+    imageKey?: string;
+    defaultTilesetConfig?: any;
   };
   mmo?: {
     enabled: boolean;
@@ -156,7 +158,9 @@ export abstract class BaseScene extends Phaser.Scene {
     if (this.options.map?.json) {
       const json = {
         ...this.options.map.json,
-        tilesets: defaultTilesetConfig.tilesets,
+        tilesets:
+          this.options.map.defaultTilesetConfig ??
+          defaultTilesetConfig.tilesets,
       };
       this.load.tilemapTiledJSON(this.options.name, json);
     }
@@ -243,7 +247,7 @@ export abstract class BaseScene extends Phaser.Scene {
       : // Standard tileset
         (this.map.addTilesetImage(
           "Sunnyside V3",
-          "tileset",
+          this.options.map.imageKey ?? "tileset",
           16,
           16,
           1,

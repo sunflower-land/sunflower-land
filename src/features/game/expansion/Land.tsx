@@ -45,6 +45,8 @@ import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
+import { Modal } from "react-bootstrap";
+import { SpecialEventBumpkin } from "features/world/ui/SpecialEventBumpkin";
 
 const IMAGE_GRID_WIDTH = 36;
 
@@ -713,6 +715,10 @@ export const Land: React.FC = () => {
           <VisitingHud />
         </div>
       )}
+
+      <Modal show={false} centered>
+        <SpecialEventBumpkin onClose={() => void 0} />
+      </Modal>
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
     </>
