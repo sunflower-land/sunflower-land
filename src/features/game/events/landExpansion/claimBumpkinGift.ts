@@ -27,7 +27,6 @@ export function getNextGift({
 
   const lastClaimedAt = game.npcs?.[npc]?.friendship?.giftClaimedAtPoints ?? 0;
 
-  console.log({ lastClaimedAt });
   if (!bumpkin) {
     return null;
   }

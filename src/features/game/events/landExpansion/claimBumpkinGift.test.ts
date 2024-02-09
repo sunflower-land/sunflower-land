@@ -123,7 +123,7 @@ describe("claimBumpkinGift", () => {
 
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
-    ).toEqual(20);
+    ).toEqual(25);
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
   });
 
@@ -139,9 +139,9 @@ describe("claimBumpkinGift", () => {
           "pumpkin' pete": {
             deliveryCount: 0,
             friendship: {
-              points: 32,
+              points: 50,
               updatedAt: 100002000,
-              giftClaimedAtPoints: 20,
+              giftClaimedAtPoints: 25,
             },
           },
         },
@@ -150,7 +150,7 @@ describe("claimBumpkinGift", () => {
 
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
-    ).toEqual(30);
+    ).toEqual(50);
     expect(state.balance).toEqual(new Decimal(5));
   });
 
@@ -214,7 +214,7 @@ describe("claimBumpkinGift", () => {
 
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
-    ).toEqual(130);
+    ).toEqual(150);
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(3));
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
@@ -234,9 +234,9 @@ describe("claimBumpkinGift", () => {
             "pumpkin' pete": {
               deliveryCount: 0,
               friendship: {
-                points: 79,
+                points: 30,
                 updatedAt: 100002000,
-                giftClaimedAtPoints: 30,
+                giftClaimedAtPoints: 25,
               },
             },
           },
@@ -257,9 +257,9 @@ describe("claimBumpkinGift", () => {
           "pumpkin' pete": {
             deliveryCount: 0,
             friendship: {
-              points: 80,
+              points: 100,
               updatedAt: 100002000,
-              giftClaimedAtPoints: 30,
+              giftClaimedAtPoints: 50,
             },
           },
         },
@@ -268,7 +268,7 @@ describe("claimBumpkinGift", () => {
 
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
-    ).toEqual(80);
+    ).toEqual(100);
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
   });

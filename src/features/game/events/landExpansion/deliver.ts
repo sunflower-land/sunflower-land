@@ -2,13 +2,7 @@ import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
-import {
-  Bumpkin,
-  GameState,
-  Inventory,
-  NPCData,
-  Order,
-} from "features/game/types/game";
+import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
@@ -280,8 +274,6 @@ export function deliverOrder({
     // Mark as complete
     order.completedAt = Date.now();
   }
-
-  console.log({ completed: order.completedAt });
 
   return game;
 }
