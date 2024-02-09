@@ -27,17 +27,6 @@ export default defineConfig({
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
         globPatterns: ["**/*.{js,css,html}", "assets/*.{jpg,mp3,svg,gif,png}"],
-        manifestTransforms: [
-          (manifestEntries) => ({
-            manifest: manifestEntries.map((entry) => {
-              if (entry.url.startsWith("dist/")) {
-                // eslint-disable-next-line no-console
-                console.log("MANIFEST: ", entry);
-              }
-              return entry;
-            }),
-          }),
-        ],
       },
       filename: "sw.ts",
       manifest: {

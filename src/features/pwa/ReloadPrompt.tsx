@@ -1,118 +1,118 @@
 /* eslint-disable no-console */
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 import { ReactPortal } from "components/ui/ReactPortal";
+import classNames from "classnames";
+import { Button } from "components/ui/Button";
+import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
+import { CONFIG } from "lib/config";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2;
 
 export function ReloadPrompt() {
-  // const [isInstalling, setIsInstalling] = useState(false);
-  // const [checking, setChecking] = useState(false);
+  const [isInstalling, setIsInstalling] = useState(false);
+  const [checking, setChecking] = useState(false);
 
-  // // Check if a SW is actively installing. We need this so we can remove the
-  // // prompt for update if there was a new update ready but its now stale as a new update has been released.
-  // // If this is the case hide the update prompt and wait for the most recent update to finish installing before
-  // // prompting reload again.
-  // const activeServiceWorkerInstallationHandler = (
-  //   registration: ServiceWorkerRegistration
-  // ) => {
-  //   const updatefoundHandler = () => {
-  //     setIsInstalling(true);
+  // Check if a SW is actively installing. We need this so we can remove the
+  // prompt for update if there was a new update ready but its now stale as a new update has been released.
+  // If this is the case hide the update prompt and wait for the most recent update to finish installing before
+  // prompting reload again.
+  const activeServiceWorkerInstallationHandler = (
+    registration: ServiceWorkerRegistration
+  ) => {
+    const updatefoundHandler = () => {
+      setIsInstalling(true);
 
-  //     const newWorker = registration.installing;
+      const newWorker = registration.installing;
 
-  //     if (newWorker) {
-  //       const statechangeHandler = () => {
-  //         if (newWorker.state === "installed") {
-  //           setIsInstalling(false);
-  //         }
-  //       };
+      if (newWorker) {
+        const statechangeHandler = () => {
+          if (newWorker.state === "installed") {
+            setIsInstalling(false);
+          }
+        };
 
-  //       newWorker.addEventListener("statechange", statechangeHandler);
+        newWorker.addEventListener("statechange", statechangeHandler);
 
-  //       return () => {
-  //         // Cleanup statechange event listener when the component is unmounted
-  //         newWorker.removeEventListener("statechange", statechangeHandler);
-  //       };
-  //     }
-  //   };
+        return () => {
+          // Cleanup statechange event listener when the component is unmounted
+          newWorker.removeEventListener("statechange", statechangeHandler);
+        };
+      }
+    };
 
-  //   registration.addEventListener("updatefound", updatefoundHandler);
+    registration.addEventListener("updatefound", updatefoundHandler);
 
-  //   return () => {
-  //     // Cleanup updatefound event listener when the component is unmounted
-  //     registration.removeEventListener("updatefound", updatefoundHandler);
-  //   };
-  // };
+    return () => {
+      // Cleanup updatefound event listener when the component is unmounted
+      registration.removeEventListener("updatefound", updatefoundHandler);
+    };
+  };
 
-  // // Periodic Service Worker Updates
-  // // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
-  // const {
-  //   needRefresh: [needRefresh],
-  //   updateServiceWorker,
-  // } = useRegisterSW({
-  //   onRegisteredSW(swUrl, registration) {
-  //     if (registration) {
-  //       activeServiceWorkerInstallationHandler(registration);
+  // Periodic Service Worker Updates
+  // https://vite-pwa-org.netlify.app/guide/periodic-sw-updates.html#handling-edge-cases
+  const {
+    needRefresh: [needRefresh],
+    updateServiceWorker,
+  } = useRegisterSW({
+    onRegisteredSW(swUrl, registration) {
+      if (registration) {
+        activeServiceWorkerInstallationHandler(registration);
 
-  //       setInterval(async () => {
-  //         setChecking(true);
-  //         console.log("CHECKING TIME: ", new Date());
-  //         console.log("[RELOAD PROMPT] Registered SW", registration);
-  //         if (!(!registration.installing && navigator)) return;
+        setInterval(async () => {
+          setChecking(true);
+          if (!(!registration.installing && navigator)) return;
 
-  //         if ("connection" in navigator && !navigator.onLine) return;
+          if ("connection" in navigator && !navigator.onLine) return;
 
-  //         const resp = await fetch(swUrl, {
-  //           cache: "no-store",
-  //           headers: {
-  //             cache: "no-store",
-  //             "cache-control": "no-cache",
-  //           },
-  //         });
+          const resp = await fetch(swUrl, {
+            cache: "no-store",
+            headers: {
+              cache: "no-store",
+              "cache-control": "no-cache",
+            },
+          });
 
-  //         if (resp?.status === 200) await registration.update();
-  //         setChecking(false);
-  //       }, CHECK_FOR_UPDATE_INTERVAL);
-  //     }
-  //   },
-  // });
+          if (resp?.status === 200) await registration.update();
+          setChecking(false);
+        }, CHECK_FOR_UPDATE_INTERVAL);
+      }
+    },
+  });
 
-  // const needRefreshRef = useRef(needRefresh);
+  const needRefreshRef = useRef(needRefresh);
 
-  // // Update the ref whenever needRefresh changes
-  // useEffect(() => {
-  //   needRefreshRef.current = needRefresh;
-  // }, [needRefresh]);
+  // Update the ref whenever needRefresh changes
+  useEffect(() => {
+    needRefreshRef.current = needRefresh;
+  }, [needRefresh]);
 
-  // const handleStateChange = (evt: any) => {
-  //   if (evt.newState === "hidden" && needRefreshRef.current) {
-  //     console.log(
-  //       "UPDATE NEEDED AND PAGE LIFECYCLE STATE HIDDEN: Auto Refreshing Service Worker"
-  //     );
-  //     updateServiceWorker();
-  //   }
-  // };
+  const handleStateChange = (evt: any) => {
+    if (evt.newState === "hidden" && needRefreshRef.current) {
+      updateServiceWorker();
+    }
+  };
 
-  // useEffect(() => {
-  //   lifecycle.addEventListener("statechange", handleStateChange);
+  useEffect(() => {
+    lifecycle.addEventListener("statechange", handleStateChange);
 
-  //   return () => {
-  //     lifecycle.removeEventListener("statechange", handleStateChange);
-  //   };
-  // }, []);
+    return () => {
+      lifecycle.removeEventListener("statechange", handleStateChange);
+    };
+  }, []);
 
   return (
     <ReactPortal>
       <div
-        className="fixed top-32 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col"
-        style={{ zIndex: 1000 }}
+        className="fixed p-2 bg-black rounded-sm top-20 safe-pt left-1/2 -translate-x-1/2 text-xs flex flex-col"
+        style={{ zIndex: 10000 }}
       >
-        {/* <span>{`Checking for update: ${checking}`}</span>
-        <span>{`Installing: ${isInstalling}`}</span>
-        <span>{`Needs update: ${needRefreshRef.current}`}</span>
-        <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span> */}
+        <span>{`Checking for update: ${checking}`}</span>
+        <span>{`Is Installing: ${isInstalling}`}</span>
+        <span>{`Needs update: ${needRefresh}`}</span>
+        <span>{`Release version: ${CONFIG.RELEASE_VERSION.slice(-5)}`}</span>
       </div>
-      {/* <div
+      <div
         className={classNames(
           "fixed inset-x-0 bottom-0 transition-all duration-500 delay-1000 bg-brown-300 safe-pb safe-px",
           {
@@ -141,7 +141,7 @@ export function ReloadPrompt() {
             </Button>
           </div>
         )}
-      </div> */}
+      </div>
     </ReactPortal>
   );
 }
