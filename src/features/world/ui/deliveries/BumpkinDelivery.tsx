@@ -28,6 +28,7 @@ import { defaultDialogue, npcDialogues } from "./dialogues";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { getTotalExpansions } from "./DeliveryPanelContent";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -51,6 +52,7 @@ export const OrderCard: React.FC<{
               if (itemName === "sfl") {
                 return (
                   <RequirementLabel
+                    key={itemName}
                     type="sfl"
                     balance={balance}
                     requirement={new Decimal(order?.items[itemName] ?? 0)}
@@ -71,19 +73,34 @@ export const OrderCard: React.FC<{
               );
             })}
             <div className="flex items-center justify-between mt-2 mb-0.5">
-              {/* <div className="flex items-center">
-                <img src={chest} className="w-5 h-auto mr-1" />
-                <span className="text-xs">Reward</span>
-
-              </div> */}
-
               <Label icon={chest} type="warning" className="ml-1.5">
                 Reward
               </Label>
-              <div className="flex items-center">
-                <img src={sfl} className="w-5 h-auto mr-1" />
-                <span className="text-xs">5 SFL</span>
-              </div>
+              {order.reward.sfl && (
+                <div className="flex items-center">
+                  <img src={sfl} className="w-5 h-auto mr-1" />
+                  <span className="text-xs">5 SFL</span>
+                </div>
+              )}
+              {order.reward.tickets && (
+                <div className="flex items-center">
+                  <img
+                    src={ITEM_DETAILS[getSeasonalTicket()].image}
+                    className="w-5 h-auto mr-1"
+                  />
+                  <span className="text-xs">{order.reward.tickets}</span>
+                </div>
+              )}
+              {getKeys(order.reward.items ?? {}).map((item) => (
+                <div className="flex items-center" key={item}>
+                  <img
+                    src={ITEM_DETAILS[item].image}
+                    className="w-5 h-auto mr-1"
+                  />
+                  <span className="text-xs">{item}</span>
+                </div>
+              ))}
+
               {/* <div>
                 <Button className="h-7" onClick={onDeliver}>
                   <div className="flex items-center">
