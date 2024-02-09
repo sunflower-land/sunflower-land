@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import { initialise } from "lib/utils/init";
 
@@ -9,10 +8,7 @@ import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
-import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
-import { useRegisterSW } from "virtual:pwa-register/react";
-
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 3;
+import { ReloadPrompt } from "features/pwa/ReloadPrompt";
 
 // Initialise Global Settings
 initialise();
@@ -20,65 +16,6 @@ initialise();
  * Top level wrapper for providers
  */
 export const App: React.FC = () => {
-  // useServiceWorkerUpdate();
-
-  const {
-    needRefresh: [needRefresh],
-    updateServiceWorker,
-  } = useRegisterSW({
-    onRegisteredSW(swUrl, registration) {
-      if (registration) {
-        setInterval(async () => {
-          console.log("REGISTRATION STATE:: ", registration);
-          if (!(!registration.installing && navigator)) return;
-
-          if ("connection" in navigator && !navigator.onLine) return;
-
-          const resp = await fetch(swUrl, {
-            cache: "no-store",
-            headers: {
-              cache: "no-store",
-              "cache-control": "no-cache",
-            },
-          });
-
-          if (resp?.status === 200) {
-            console.log("CHECKING FOR UPDATE");
-            await registration.update();
-          }
-        }, CHECK_FOR_UPDATE_INTERVAL);
-      }
-    },
-  });
-
-  const needRefreshRef = useRef(needRefresh);
-
-  // Update the ref whenever needRefresh changes
-  useEffect(() => {
-    if (needRefresh) {
-      console.log("UPDATE NEEDED: New Service Worker Available");
-    }
-    needRefreshRef.current = needRefresh;
-  }, [needRefresh]);
-
-  useEffect(() => {
-    const handleStateChange = (evt: any) => {
-      console.log("PAGE LIFECYCLE STATE CHANGE", evt.newState);
-      if (evt.newState === "hidden" && needRefreshRef.current) {
-        console.log(
-          "PAGE LIFECYCLE STATE HIDDEN: Auto Refreshing Service Worker"
-        );
-        updateServiceWorker();
-      }
-    };
-
-    lifecycle.addEventListener("statechange", handleStateChange);
-
-    return () => {
-      lifecycle.removeEventListener("statechange", handleStateChange);
-    };
-  }, []);
-
   return (
     <>
       <Auth.Provider>
@@ -88,6 +25,7 @@ export const App: React.FC = () => {
           </ErrorBoundary>
         </WalletProvider>
       </Auth.Provider>
+      <ReloadPrompt />
     </>
   );
 };
