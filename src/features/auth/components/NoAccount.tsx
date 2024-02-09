@@ -12,7 +12,6 @@ import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { removeJWT } from "../actions/social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NoAccount: React.FC = () => {
@@ -102,28 +101,11 @@ export const NoAccount: React.FC = () => {
           )}
         </div>
         <p className="text-sm mb-2">{`${t("noaccount.welcomeMessage")}`}</p>
-        {isAddress(authState.context.user.token?.address ?? "") && (
-          <div className="mb-2">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-white text-xs cursor-pointer"
-              onClick={() => setShowClaimAccount(true)}
-            >
-              {t("noaccount.alreadyHaveNFTFarm")}
-            </a>
-          </div>
-        )}
+        {isAddress(authState.context.user.token?.address ?? "")}
       </div>
       <div className="flex">
-        <Button
-          className="mr-1"
-          onClick={() => {
-            removeJWT();
-            authService.send("BACK");
-          }}
-        >
-          {t("back")}
+        <Button className="mr-1" onClick={() => setShowClaimAccount(true)}>
+          {t("noaccount.alreadyHaveNFTFarm")}
         </Button>
         <Button onClick={() => authService.send("CREATE_FARM")}>
           {t("noaccount.createFarm")}
