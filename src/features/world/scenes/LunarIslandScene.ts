@@ -7,8 +7,8 @@ import { AudioController, Sound } from "../lib/AudioController";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 270,
-    y: 310,
+    x: 347,
+    y: 207,
     npc: "Chun Long",
   },
 ];
