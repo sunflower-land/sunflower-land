@@ -3369,7 +3369,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarterPack": "Get Starter Pack Now",
   "offer.newHere": "Howdy Farmer, you look new here!",
   "offer.getStarted": "Get Started Now",
-  "offer.NFT.inclu": "Farm NFT. This will include:",
+  "offer.NFT.include": "Farm NFT. This will include:",
   "offer.free": "free",
 };
 
