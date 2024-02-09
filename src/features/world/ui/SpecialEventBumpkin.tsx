@@ -11,6 +11,7 @@ import { Button } from "components/ui/Button";
 import giftIcon from "assets/icons/gift.png";
 import walletIcon from "assets/icons/wallet.png";
 import sfl from "assets/icons/token_2.png";
+import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -253,13 +254,13 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
                       >
                         Complete
                       </Button>
-                    ) : (
-                      <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                    ) : index >= 1 && !!event?.tasks[index - 1].completedAt ? (
+                      <Label type="info" icon={lock}>
                         {formatDateTime(
                           getTaskStartDate(index + 1).toISOString()
                         )}
                       </Label>
-                    )}
+                    ) : null}
                   </div>
                 </OuterPanel>
               </>
