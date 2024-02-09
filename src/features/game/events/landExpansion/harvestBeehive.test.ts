@@ -1,4 +1,4 @@
-import { Beehive, FlowerBed } from "features/game/types/game";
+import { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
 import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
@@ -259,6 +259,48 @@ describe("harvestBeehive", () => {
     });
 
     expect(state.crops?.["987"].crop?.amount).toEqual(1.2);
+  });
+
+  it("[BEE SWARM] Does not affect crop plots that are not planted", () => {
+    const crops: Record<string, CropPlot> = {
+      "1": {
+        height: 1,
+        width: 1,
+        x: 0,
+        y: -2,
+        createdAt: 0,
+      },
+      "2": {
+        height: 1,
+        width: 1,
+        x: 1,
+        y: -2,
+        createdAt: 0,
+      },
+    };
+
+    const state = harvestBeehive({
+      state: {
+        ...TEST_FARM,
+        beehives: {
+          "1234": {
+            ...DEFAULT_BEEHIVE,
+            swarm: true,
+            honey: {
+              updatedAt: 0,
+              produced: HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+        crops,
+      },
+      action: {
+        type: "beehive.harvested",
+        id: "1234",
+      },
+    });
+
+    expect(state.crops).toEqual(crops);
   });
 
   it("sets the swarm to false after activating the swarm", () => {

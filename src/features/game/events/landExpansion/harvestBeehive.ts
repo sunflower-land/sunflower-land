@@ -47,7 +47,7 @@ const applySwarmBoostToCrops = (
       };
     }
 
-    return acc;
+    return { ...acc, [cropId]: cropPlot };
   }, {} as GameState["crops"]);
 };
 
