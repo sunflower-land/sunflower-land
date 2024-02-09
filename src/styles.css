@@ -34,6 +34,18 @@
     bottom: env(safe-area-inset-bottom);
     left: env(safe-area-inset-left);
   }
+  .inset-b-safe-area {
+    bottom: env(safe-area-inset-bottom);
+  }
+  .inset-t-safe-area {
+    top: env(safe-area-inset-top);
+  }
+  .inset-l-safe-area {
+    left: env(safe-area-inset-left);
+  }
+  .inset-r-safe-area {
+    right: env(safe-area-inset-right);
+  }
   .safe-pt {
     padding-top: env(safe-area-inset-top);
   }

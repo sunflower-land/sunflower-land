@@ -182,7 +182,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       placeable === "Magic Bean");
 
   return (
-    <div className="fixed bottom-2 left-1/2 -translate-x-1/2">
+    <div className="absolute bottom-2 left-1/2 -translate-x-1/2">
       <OuterPanel>
         {isWrongLocation && (
           <Label
