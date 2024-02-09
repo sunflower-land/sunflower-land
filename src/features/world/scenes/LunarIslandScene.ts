@@ -5,6 +5,7 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
 import { AudioController, Sound } from "../lib/AudioController";
 import { interactableModalManager } from "../ui/InteractableModals";
+import { Label } from "../containers/Label";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -122,6 +123,15 @@ export class LunarIslandScene extends BaseScene {
       frameRate: 12.5,
     });
     mrChu.play("mrchu_animation", true);
+    mrChu
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        interactableModalManager.open("donations");
+      });
+    const label = new Label(this, "DONATE");
+    this.add.existing(label);
+    label.setPosition(mrChuCoords.x, mrChuCoords.y - 12);
+    label.setDepth(10000);
 
     const drummer = this.add.sprite(
       drummerCoords.x,

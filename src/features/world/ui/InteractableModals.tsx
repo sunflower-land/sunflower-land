@@ -15,8 +15,10 @@ import { NyeButton } from "./NyeButton";
 import { PageFound } from "./PageFound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
+import { Donations } from "./donations/Donations";
 
 type InteractableName =
+  | "donations"
   | "basic_chest"
   | "kraken"
   | "nye_button"
@@ -103,6 +105,11 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
           isOpen={interactable === "auction_item"}
         />
       )}
+      <Modal centered show={interactable === "donations"} onHide={closeModal}>
+        <CloseButtonPanel title="Enjoying this event?" onClose={closeModal}>
+          <Donations />
+        </CloseButtonPanel>
+      </Modal>
       {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
       <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
         <BoatModal

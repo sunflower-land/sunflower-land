@@ -60,6 +60,9 @@ export const Donations: React.FC = () => {
     });
   };
 
+  // Waiting confirmation for address
+  const isComingSoon = true;
+
   return (
     <>
       {state.matches("idle") && (
@@ -112,10 +115,14 @@ export const Donations: React.FC = () => {
             </span>
           </div>
 
+          <Label type="default" className="mb-2">
+            Coming Soon
+          </Label>
+
           <Button
             className="w-full ml-1"
             onClick={donate}
-            disabled={donation < 0.1}
+            disabled={isComingSoon || donation < 0.1}
           >
             <span className="text-xs whitespace-nowrap">{t("donate")}</span>
           </Button>
