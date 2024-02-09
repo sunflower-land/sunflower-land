@@ -3,8 +3,13 @@ import { useEffect, useRef } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 4;
-
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
+/**
+ * This hook runs periodic checks for service worker updates.
+ * When a new service worker has been installed and is waiting to activate,
+ * the needRefresh flag will be set to true.
+ * When the page life cycle state changes to hidden, the waiting service worker will be activated.
+ */
 export function useServiceWorkerUpdate() {
   const {
     needRefresh: [needRefresh],
@@ -39,8 +44,6 @@ export function useServiceWorkerUpdate() {
 
   useEffect(() => {
     const handleStateChange = (evt: any) => {
-      console.log("State change: ", evt.newState);
-      console.log("Need refresh: ", needRefreshRef.current);
       if (evt.newState === "hidden" && needRefreshRef.current) {
         updateServiceWorker();
       }
