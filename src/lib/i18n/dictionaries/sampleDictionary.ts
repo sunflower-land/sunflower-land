@@ -1366,6 +1366,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand.coupon": "",
   "description.farmhand": "",
   "description.tulip.bulb": "",
+  "description.treasure.key": "",
   "description.blue.egg": "",
   "description.orange.egg": "",
   "description.green.egg": "",

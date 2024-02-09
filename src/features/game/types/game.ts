@@ -159,6 +159,7 @@ export type Coupons =
   | "Arcade Token"
   | "Farmhand Coupon"
   | "Farmhand"
+  | "Treasure Key"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
@@ -227,6 +228,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Tulip Bulb": {
     description: translate("description.tulip.bulb"),
+  },
+  "Treasure Key": {
+    description: translate("description.treasure.key"),
   },
 };
 

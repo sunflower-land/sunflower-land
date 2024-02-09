@@ -359,6 +359,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Farmhand Coupon": () => false,
   Farmhand: () => false,
   "Tulip Bulb": () => false,
+  "Treasure Key": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

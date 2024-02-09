@@ -2324,6 +2324,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.sunflower.supporter"),
   },
 
+  "Treasure Key": {
+    image: sunflowerKey,
+    description: translate("description.treasure.key"),
+  },
+
   // Solar Flare Season
   "Beach Ball": {
     image: beachBall,
