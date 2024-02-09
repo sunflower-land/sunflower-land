@@ -14,8 +14,10 @@ import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
 import { PageFound } from "./PageFound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 
 type InteractableName =
+  | "basic_chest"
   | "kraken"
   | "nye_button"
   | "portal"
@@ -190,6 +192,9 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
             },
           ]}
         />
+      </Modal>
+      <Modal centered show={interactable === "basic_chest"} onHide={closeModal}>
+        <BasicTreasureChest onClose={closeModal} />
       </Modal>
       <Modal
         centered

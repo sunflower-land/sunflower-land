@@ -4,6 +4,7 @@ import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { CONFIG } from "lib/config";
 import { AudioController, Sound } from "../lib/AudioController";
+import { interactableModalManager } from "../ui/InteractableModals";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -36,6 +37,8 @@ export class LunarIslandScene extends BaseScene {
       "lunar-tileset",
       `${CONFIG.PROTECTED_IMAGE_URL}/world/lunar-map-extruded.png`
     );
+
+    this.load.image("red_chest", `world/red_chest.png`);
 
     this.load.spritesheet("drummer", "world/drummer_lunar_new_year.png", {
       frameWidth: 30,
@@ -75,6 +78,15 @@ export class LunarIslandScene extends BaseScene {
       drummerCoords.y,
       "drummer"
     );
+
+    const chest = this.add.sprite(280, 280, "red_chest");
+    chest
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        interactableModalManager.open("basic_chest");
+      });
+
+    this.add.sprite(280, 270, "alert").setSize(4, 10);
 
     this.anims.create({
       key: "drummer_animation",
