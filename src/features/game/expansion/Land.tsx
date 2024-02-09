@@ -716,8 +716,8 @@ export const Land: React.FC = () => {
         </div>
       )}
 
-      <Modal show centered>
-        <SpecialEventBumpkin />
+      <Modal show={false} centered>
+        <SpecialEventBumpkin onClose={() => void 0} />
       </Modal>
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}

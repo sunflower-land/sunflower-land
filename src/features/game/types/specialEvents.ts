@@ -1,6 +1,6 @@
 import { InventoryItemName, Wardrobe } from "./game";
 
-type Task = {
+export type Task = {
   requirements: {
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;

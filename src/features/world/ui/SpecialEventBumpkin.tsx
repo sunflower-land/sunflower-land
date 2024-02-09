@@ -5,30 +5,17 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import {
-  Airdrop,
-  Bumpkin,
-  GameState,
-  Inventory,
-  InventoryItemName,
-  Order,
-  Reward,
-} from "features/game/types/game";
+import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
 import walletIcon from "assets/icons/wallet.png";
-import chatDisc from "assets/icons/chat_disc.png";
-import box from "assets/icons/box.png";
-import flowerGift from "assets/icons/flower_gift.png";
 import sfl from "assets/icons/token_2.png";
-import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 
@@ -61,11 +48,13 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-export const SpecialEventBumpkin: React.FC = () => {
+export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [reward, setReward] = useState<Airdrop>();
+  const [reward, setReward] = useState<Airdrop & { day: number }>();
   const [showWallet, setShowWallet] = useState(false);
   const [showLink, setShowLink] = useState(false);
 
@@ -75,16 +64,26 @@ export const SpecialEventBumpkin: React.FC = () => {
 
   const event = specialEvents.current[getKeys(specialEvents.current)[0]];
 
+  if (!event) {
+    return <>No Event</>;
+  }
+
   const claimReward = (day: number) => {
+    const task = event.tasks[day - 1];
+
     gameService.send("specialEvent.taskCompleted", {
       event: "Lunar New Year",
       task: day,
     });
+    setReward({
+      items: task.reward.items,
+      sfl: task.reward.sfl,
+      createdAt: Date.now(),
+      id: `lunar-new-year-${day}`,
+      wearables: task.reward.wearables,
+      day,
+    });
   };
-
-  if (!event) {
-    return <>No Event</>;
-  }
 
   const hasRequirements = (day: number): boolean => {
     const task = event.tasks[day - 1];
@@ -171,18 +170,14 @@ export const SpecialEventBumpkin: React.FC = () => {
   if (reward) {
     return (
       <Panel>
-        <ClaimReward
-          reward={reward}
-          onClaim={console.log}
-          onClose={console.log}
-        />
+        <ClaimReward reward={reward} onClose={() => setReward(undefined)} />
       </Panel>
     );
   }
 
   return (
     <CloseButtonPanel
-      onClose={console.log}
+      onClose={onClose}
       bumpkinParts={NPC_WEARABLES["Chun Long 春龙"]}
     >
       <>
@@ -213,14 +208,20 @@ export const SpecialEventBumpkin: React.FC = () => {
                     {`Day ${index + 1}`}
                   </Label>
                   {getKeys(task.reward.items).map((itemName) => (
-                    <Label
-                      type="warning"
-                      icon={ITEM_DETAILS[itemName].image}
-                      className=""
-                    >
+                    <Label type="warning" icon={giftIcon} key={itemName}>
                       {`${task.reward.items[itemName]} ${itemName}`}
                     </Label>
                   ))}
+                  {getKeys(task.reward.wearables).map((wearableName) => (
+                    <Label type="warning" icon={giftIcon} key={wearableName}>
+                      {`${task.reward.wearables[wearableName]} ${wearableName}`}
+                    </Label>
+                  ))}
+                  {!!task.reward.sfl && (
+                    <Label type="warning" icon={sfl} className="">
+                      {`${task.reward.sfl} SFL`}
+                    </Label>
+                  )}
                 </div>
 
                 <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3">
