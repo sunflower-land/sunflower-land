@@ -12,7 +12,7 @@ import { WalletProvider } from "features/wallet/WalletProvider";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 3;
 
 // Initialise Global Settings
 initialise();
@@ -55,6 +55,9 @@ export const App: React.FC = () => {
 
   // Update the ref whenever needRefresh changes
   useEffect(() => {
+    if (needRefresh) {
+      console.log("UPDATE NEEDED: New Service Worker Available");
+    }
     needRefreshRef.current = needRefresh;
   }, [needRefresh]);
 
@@ -62,7 +65,9 @@ export const App: React.FC = () => {
     const handleStateChange = (evt: any) => {
       console.log("PAGE LIFECYCLE STATE CHANGE", evt.newState);
       if (evt.newState === "hidden" && needRefreshRef.current) {
-        console.log("UPDATE NEEDED: Refreshing Service Worker");
+        console.log(
+          "PAGE LIFECYCLE STATE HIDDEN: Auto Refreshing Service Worker"
+        );
         updateServiceWorker();
       }
     };
