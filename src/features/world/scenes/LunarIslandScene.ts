@@ -37,7 +37,7 @@ export class LunarIslandScene extends BaseScene {
       `${CONFIG.PROTECTED_IMAGE_URL}/world/lunar-map-extruded.png`
     );
 
-    this.load.spritesheet("drummer", "world/drummer.png", {
+    this.load.spritesheet("drummer", "world/drummer_lunar_new_year.png", {
       frameWidth: 30,
       frameHeight: 30,
     });
