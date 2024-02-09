@@ -46,16 +46,12 @@ export class LunarIslandScene extends BaseScene {
     );
 
     this.load.image("red_chest", `world/red_chest.png`);
-    this.load.spritesheet(
-      "dragon",
-      "src/assets/events/lunar-new-year/dragon.png",
-      {
-        frameWidth: 121,
-        frameHeight: 170,
-      }
-    );
+    this.load.spritesheet("dragon", "world/dragon.png", {
+      frameWidth: 121,
+      frameHeight: 170,
+    });
 
-    this.load.spritesheet("fire", "src/assets/events/lunar-new-year/fire.png", {
+    this.load.spritesheet("fire", "world/fire.png", {
       frameWidth: 23,
       frameHeight: 45,
     });
