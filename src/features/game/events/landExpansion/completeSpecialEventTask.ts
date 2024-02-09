@@ -83,6 +83,10 @@ export function completeSpecialEventTask({
       stateCopy.inventory[item] ?? new Decimal(0)
     ).plus(rewardAmount);
   });
+  getKeys(task.reward.wearables).forEach((item) => {
+    const rewardAmount = task.reward.wearables[item] ?? 0;
+    stateCopy.wardrobe[item] = (stateCopy.wardrobe[item] ?? 0) + rewardAmount;
+  });
   stateCopy.balance = (stateCopy.balance ?? new Decimal(0)).plus(
     task.reward.sfl
   );

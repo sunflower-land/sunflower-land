@@ -1,4 +1,4 @@
-import { InventoryItemName } from "./game";
+import { InventoryItemName, Wardrobe } from "./game";
 
 type Task = {
   requirements: {
@@ -6,6 +6,7 @@ type Task = {
     sfl: number;
   };
   reward: {
+    wearables: Wardrobe;
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
   };
@@ -13,6 +14,7 @@ type Task = {
 };
 
 type SpecialEvent = {
+  text: string;
   startAt: number;
   endAt: number;
   tasks: Task[];

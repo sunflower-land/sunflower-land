@@ -33,7 +33,12 @@ describe("completeEventTask", () => {
           specialEvents: {
             history: {},
             current: {
-              "Lunar New Year": { startAt: 0, endAt: now + 1, tasks: [] },
+              "Lunar New Year": {
+                text: "",
+                startAt: 0,
+                endAt: now + 1,
+                tasks: [],
+              },
             },
           },
         },
@@ -56,11 +61,12 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: now + 1,
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],
@@ -87,11 +93,12 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: 0,
                 endAt: now - 1,
                 tasks: [
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],
@@ -118,13 +125,14 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: 0,
                 endAt: now + 1,
                 tasks: [
                   {
                     completedAt: now,
                     requirements: { items: {}, sfl: 0 },
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                   },
                 ],
               },
@@ -150,16 +158,17 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: now,
                 endAt: now + 1,
                 tasks: [
                   {
                     completedAt: now,
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],
@@ -189,15 +198,16 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: 0,
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: { Anchovy: 1 }, sfl: 0 },
                   },
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: { "Sea Bass": 1 }, sfl: 0 },
                   },
                 ],
@@ -224,11 +234,12 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: 0,
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: { Anchovy: 1 }, sfl: 0 },
                   },
                 ],
@@ -255,11 +266,12 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                text: "",
                 startAt: 0,
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0 },
                     requirements: { items: {}, sfl: 999 },
                   },
                 ],
@@ -288,11 +300,12 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: 0,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: { Anchovy: 1 }, sfl: 0 },
                 },
               ],
@@ -320,11 +333,12 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: 0,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 1 },
                 },
               ],
@@ -352,11 +366,12 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: 0,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 1 },
                 },
               ],
@@ -387,16 +402,17 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: startAt,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 0 },
                   completedAt: startAt,
                 },
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -425,11 +441,12 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: now,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -456,15 +473,16 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: now,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
                 {
-                  reward: { items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -493,11 +511,12 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: 0,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: { Blueberry: 1 }, sfl: 0 },
+                  reward: { wearables: {}, items: { Blueberry: 1 }, sfl: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -508,6 +527,44 @@ describe("completeEventTask", () => {
     });
 
     expect(state["inventory"]["Blueberry"]).toEqual(new Decimal(1));
+  });
+
+  it("gives the wearable reward", () => {
+    const state = completeSpecialEventTask({
+      createdAt: now,
+      action: {
+        type: "specialEvent.taskCompleted",
+        event: "Lunar New Year",
+        task: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        balance: new Decimal(0),
+        inventory: {},
+        specialEvents: {
+          history: {},
+          current: {
+            "Lunar New Year": {
+              text: "",
+              startAt: 0,
+              endAt: now + 1,
+              tasks: [
+                {
+                  reward: {
+                    wearables: { "Abyssal Angler Hat": 1 },
+                    items: {},
+                    sfl: 0,
+                  },
+                  requirements: { items: {}, sfl: 0 },
+                },
+              ],
+            },
+          },
+        },
+      },
+    });
+
+    expect(state["wardrobe"]["Abyssal Angler Hat"]).toEqual(1);
   });
 
   it("gives the sfl reward", () => {
@@ -526,11 +583,12 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              text: "",
               startAt: 0,
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { items: {}, sfl: 1 },
+                  reward: { wearables: {}, items: {}, sfl: 1 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],

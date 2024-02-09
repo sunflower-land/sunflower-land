@@ -26,16 +26,11 @@ import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel, Panel } from "components/ui/Panel";
-import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
-import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ResizableBar } from "components/ui/ProgressBar";
-import { FLOWERS, FlowerName } from "features/game/types/flowers";
-import { Box } from "components/ui/Box";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { formatDateTime, secondsToString } from "lib/utils/time";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -64,6 +59,7 @@ export const Dialogue: React.FC<{
 };
 
 const CONTENT_HEIGHT = 350;
+const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
 export const SpecialEventBumpkin: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -73,9 +69,9 @@ export const SpecialEventBumpkin: React.FC = () => {
   const [showWallet, setShowWallet] = useState(false);
   const [showLink, setShowLink] = useState(false);
 
-  const name: NPCName = "pumpkin' pete";
+  const name: NPCName = "Chun Long 春龙";
 
-  const { inventory, specialEvents } = gameState.context.state;
+  const { inventory, specialEvents, balance } = gameState.context.state;
 
   const event = specialEvents.current[getKeys(specialEvents.current)[0]];
 
@@ -84,6 +80,54 @@ export const SpecialEventBumpkin: React.FC = () => {
       event: "Lunar New Year",
       task: day,
     });
+  };
+
+  if (!event) {
+    return <>No Event</>;
+  }
+
+  const hasRequirements = (day: number): boolean => {
+    const task = event.tasks[day - 1];
+
+    const hasItemRequirement = getKeys(task.requirements.items).every(
+      (itemName) => {
+        if (
+          (inventory[itemName] ?? new Decimal(0)).lt(
+            task.requirements.items[itemName] ?? 0
+          )
+        ) {
+          return false;
+        }
+        return true;
+      }
+    );
+
+    if (!hasItemRequirement) return false;
+    if ((balance ?? new Decimal(0)).lt(task.requirements.sfl)) return false;
+
+    return true;
+  };
+
+  const getTaskStartDate = (day: number): Date => {
+    const taskIndex = day - 1;
+    const previousTaskIndex = taskIndex - 1;
+
+    const currentDay = Math.floor(
+      (Date.now() - event.startAt) / TWENTY_FOUR_HOURS
+    );
+
+    const previousTask = event.tasks[previousTaskIndex];
+
+    if (previousTask?.completedAt) {
+      const previousDay = Math.floor(
+        (previousTask.completedAt - event.startAt) / TWENTY_FOUR_HOURS
+      );
+      return new Date(event.startAt + (previousDay + 1) * 24 * 60 * 60 * 1000);
+    }
+
+    return new Date(
+      event.startAt + (currentDay + taskIndex) * 24 * 60 * 60 * 1000
+    );
   };
 
   if (showLink) {
@@ -139,7 +183,7 @@ export const SpecialEventBumpkin: React.FC = () => {
   return (
     <CloseButtonPanel
       onClose={console.log}
-      bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+      bumpkinParts={NPC_WEARABLES["Chun Long 春龙"]}
     >
       <>
         <div>
@@ -148,7 +192,11 @@ export const SpecialEventBumpkin: React.FC = () => {
               {name}
             </Label>
             <Label type="info" className="mr-8" icon={SUNNYSIDE.icons.timer}>
-              3 Days Left
+              {secondsToString(Math.floor((event.endAt - Date.now()) / 1000), {
+                length: "medium",
+                removeTrailingZeros: true,
+              })}
+              {" remaining"}
             </Label>
           </div>
           <div
@@ -156,12 +204,7 @@ export const SpecialEventBumpkin: React.FC = () => {
             className="overflow-y-auto scrollable pr-3 pl-2 "
           >
             <div className="h-16">
-              <Dialogue
-                trail={25}
-                message={
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum mi nec..."
-                }
-              />
+              <Dialogue trail={25} message={event.text} />
             </div>
             {event?.tasks.map((task, index) => (
               <>
@@ -169,27 +212,18 @@ export const SpecialEventBumpkin: React.FC = () => {
                   <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
                     {`Day ${index + 1}`}
                   </Label>
-                  {/* <Label
-                    type="warning"
-                    icon={challenge.reward.text ? giftIcon : sfl}
-                    className=""
-                  >
-                    {challenge.reward.text ?? "0.15 SFL"}
-                  </Label> */}
+                  {getKeys(task.reward.items).map((itemName) => (
+                    <Label
+                      type="warning"
+                      icon={ITEM_DETAILS[itemName].image}
+                      className=""
+                    >
+                      {`${task.reward.items[itemName]} ${itemName}`}
+                    </Label>
+                  ))}
                 </div>
 
-                <OuterPanel
-                  className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3"
-                  // onClick={() =>
-                  //   setReward({
-                  //     items: task.reward.items,
-                  //     sfl: task.reward.sfl,
-                  //     createdAt: Date.now(),
-                  //     id: "1",
-                  //     wearables: {},
-                  //   })
-                  // }
-                >
+                <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3">
                   {getKeys(task.requirements.items).map((itemName) => {
                     return (
                       <RequirementLabel
@@ -204,7 +238,28 @@ export const SpecialEventBumpkin: React.FC = () => {
                       />
                     );
                   })}
-                  <Button onClick={() => claimReward(1)}>Complete</Button>
+                  <div className="flex justify-end">
+                    {task.completedAt ? (
+                      <div className="flex">
+                        <span className="text-xs mr-1">Completed</span>
+                        <img src={SUNNYSIDE.icons.confirm} className="h-4" />
+                      </div>
+                    ) : getTaskStartDate(index + 1).getTime() < Date.now() ? (
+                      <Button
+                        onClick={() => claimReward(index + 1)}
+                        disabled={!hasRequirements(index + 1)}
+                        className="text-xs w-24 h-8"
+                      >
+                        Complete
+                      </Button>
+                    ) : (
+                      <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                        {formatDateTime(
+                          getTaskStartDate(index + 1).toISOString()
+                        )}
+                      </Label>
+                    )}
+                  </div>
                 </OuterPanel>
               </>
             ))}
