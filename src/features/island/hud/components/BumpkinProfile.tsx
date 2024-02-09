@@ -175,7 +175,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         >
           {level}
         </div>
-        {username && (
+        {true && (
           <div
             className={`col-start-1 row-start-1 flex justify-center text-white text-xxs z-20`}
             style={{
@@ -185,7 +185,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
               marginTop: `${DIMENSIONS.username.marginTop}px`,
             }}
           >
-            {`Cache Boss`}
+            {`Cache Boss Friday`}
           </div>
         )}
         {showSkillPointAlert && (

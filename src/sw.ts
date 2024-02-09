@@ -39,27 +39,6 @@ if (import.meta.env.DEV) {
   allowlist = [/^offline.html$/];
 }
 
-// Cleanup outdated runtime caches during activate event
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    // Clean up outdated runtime caches
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter(
-            (cacheName) =>
-              cacheName.startsWith(gameAssetsCacheName) &&
-              cacheName !== `${gameAssetsCacheName}-${OFFLINE_VERSION}`
-          )
-          .map((outdatedCacheName) => {
-            console.log("Deleting outdated cache:", outdatedCacheName);
-            caches.delete(outdatedCacheName);
-          })
-      );
-    })
-  );
-});
-
 // Precaching strategy
 cleanupOutdatedCaches();
 precacheAndRoute(self.__WB_MANIFEST);
@@ -77,6 +56,27 @@ if (import.meta.env.PROD) {
       ],
     })
   );
+
+  // Cleanup outdated runtime caches during activate event
+  self.addEventListener("activate", (event) => {
+    event.waitUntil(
+      // Clean up outdated runtime caches
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames
+            .filter(
+              (cacheName) =>
+                cacheName.startsWith(gameAssetsCacheName) &&
+                cacheName !== `${gameAssetsCacheName}-${OFFLINE_VERSION}`
+            )
+            .map((outdatedCacheName) => {
+              console.log("Deleting outdated cache:", outdatedCacheName);
+              caches.delete(outdatedCacheName);
+            })
+        );
+      })
+    );
+  });
 
   // Bootstrap
   registerRoute(
