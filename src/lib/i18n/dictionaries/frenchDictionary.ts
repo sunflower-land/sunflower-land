@@ -118,6 +118,7 @@ import {
   Quest,
   Questions,
   Reaction,
+  ReactionBud,
   Refunded,
   RemoveKuebiko,
   Resale,
@@ -3733,6 +3734,12 @@ const reaction: Record<Reaction, string> = {
   "reaction.crown": "Posséder une Couronne de Gobelin",
 };
 
+const reactionBud: Record<ReactionBud, string> = {
+  "reaction.bud.show": "Montrez vos boutons",
+  "reaction.bud.select": "Sélectionnez un bouton à placer sur la place",
+  "reaction.bud.noFound": "Aucun bouton trouvé dans votre inventaire",
+};
+
 const refunded: Record<Refunded, string> = {
   "refunded.itemsReturned":
     "Vos objets ont été retournés dans votre inventaire",
@@ -4505,6 +4512,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...quest,
   ...questions,
   ...reaction,
+  ...reactionBud,
   ...refunded,
   ...removeKuebiko,
   ...resale,
