@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -19,6 +19,7 @@ import { TravelTeaser } from "./TravelTeaser";
 import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -31,6 +32,8 @@ export const WaterComponent: React.FC<Props> = ({
   expansionCount,
   gameState,
 }) => {
+  const { showAnimations } = useContext(Context);
+
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
 
@@ -52,7 +55,7 @@ export const WaterComponent: React.FC<Props> = ({
             bottom: `${PIXEL_SCALE * 4}px`,
           }}
           src={dragonfly}
-          className="animate-float"
+          className={showAnimations ? " animate-float" : ""}
         />
       </MapPlacement>
 

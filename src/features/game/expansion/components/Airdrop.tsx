@@ -45,6 +45,7 @@ interface Props {
   airdrop: IAirdrop;
 }
 export const Airdrop: React.FC<Props> = ({ airdrop }) => {
+  const { showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -75,7 +76,10 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
         />
         <img
           src={SUNNYSIDE.icons.expression_alerted}
-          className="absolute animate-float pointer-events-none"
+          className={
+            "absolute pointer-events-none" +
+            (showAnimations ? " animate-float" : "")
+          }
           style={{
             left: `${PIXEL_SCALE * 6}px`,
             top: `${PIXEL_SCALE * -12}px`,

@@ -37,7 +37,7 @@ export const Bean: React.FC<CollectibleProps> = ({
   id,
   name = "Magic Bean",
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showModal, setShowModal] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
@@ -67,7 +67,9 @@ export const Bean: React.FC<CollectibleProps> = ({
         >
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="animate-float z-10 absolute"
+            className={
+              "z-10 absolute" + (showAnimations ? " animate-float" : "")
+            }
             style={{
               width: `${PIXEL_SCALE * 4}px`,
               left: `${PIXEL_SCALE * 14}px`,

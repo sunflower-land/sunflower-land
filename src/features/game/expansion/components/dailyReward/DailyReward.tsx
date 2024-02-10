@@ -25,7 +25,7 @@ const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
 const _isRevealed = (state: MachineState) => state.matches("revealed");
 
 export const DailyReward: React.FC = () => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [showIntro, setShowIntro] = useState(true);
   const dailyRewards = useSelector(gameService, _dailyRewards);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -265,7 +265,7 @@ export const DailyReward: React.FC = () => {
         {!chestState.matches("opened") && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute animate-float"
+            className={"absolute" + (showAnimations ? " animate-float" : "")}
             style={{
               width: `${PIXEL_SCALE * 4}px`,
               top: `${PIXEL_SCALE * -14}px`,

@@ -17,7 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PirateChest: React.FC = () => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showCollectedModal, setShowCollectedModal] = useState(false);
@@ -79,7 +79,7 @@ export const PirateChest: React.FC = () => {
         {canOpen && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute animate-float"
+            className={"absolute" + (showAnimations ? " animate-float" : "")}
             style={{
               top: `${PIXEL_SCALE * -13}px`,
               left: `${PIXEL_SCALE * 6}px`,

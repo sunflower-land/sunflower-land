@@ -2,7 +2,8 @@ import React, { useState, useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GoblinProvider";
+import { Context as GameContext } from "features/game/GameProvider";
+import { Context as GoblinContext } from "features/game/GoblinProvider";
 import world from "assets/icons/world.png";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -13,7 +14,8 @@ const _delivery = (state: MachineState) => state.context.state.delivery;
 const _chores = (state: MachineState) => state.context.state.chores;
 
 export const Travel: React.FC = () => {
-  const { goblinService } = useContext(Context);
+  const { showAnimations } = useContext(GameContext);
+  const { goblinService } = useContext(GoblinContext);
   const [showModal, setShowModal] = useState(false);
   const delivery = useSelector(goblinService, _delivery);
   const chores = useSelector(goblinService, _chores);
@@ -57,7 +59,10 @@ export const Travel: React.FC = () => {
         {showExpression && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute z-50 pointer-events-none animate-float"
+            className={
+              "absolute z-50 pointer-events-none" +
+              (showAnimations ? " animate-float" : "")
+            }
             style={{
               width: `${PIXEL_SCALE * 4}px`,
               top: `${PIXEL_SCALE * 0}px`,
