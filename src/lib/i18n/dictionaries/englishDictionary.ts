@@ -117,6 +117,7 @@ import {
   Quest,
   Questions,
   Reaction,
+  ReactionBud,
   Refunded,
   RemoveKuebiko,
   Resale,
@@ -3693,6 +3694,12 @@ const reaction: Record<Reaction, string> = {
   "reaction.crown": "Own a Goblin Crown",
 };
 
+const reactionBud: Record<ReactionBud, string> = {
+  "reaction.bud.show": "Show your buds",
+  "reaction.bud.select": "Select a bud to place in the plaza",
+  "reaction.bud.noFound": "No buds found in your inventory",
+};
+
 const refunded: Record<Refunded, string> = {
   "refunded.itemsReturned": "Your items have been returned to your inventory",
   "refunded.goodLuck": "Good luck next time!",
@@ -4433,6 +4440,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...quest,
   ...questions,
   ...reaction,
+  ...reactionBud,
   ...refunded,
   ...removeKuebiko,
   ...resale,

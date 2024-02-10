@@ -2494,6 +2494,11 @@ export type Reaction =
   | "reaction.goblin"
   | "reaction.crown";
 
+export type ReactionBud =
+  | "reaction.bud.show"
+  | "reaction.bud.select"
+  | "reaction.bud.noFound";
+
 export type Refunded = "refunded.itemsReturned" | "refunded.goodLuck";
 
 export type RemoveKuebiko =
@@ -3037,6 +3042,7 @@ export type TranslationKeys =
   | Quest
   | Questions
   | Reaction
+  | ReactionBud
   | Refunded
   | RemoveKuebiko
   | Resale

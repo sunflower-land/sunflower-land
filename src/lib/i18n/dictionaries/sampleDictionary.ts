@@ -117,6 +117,7 @@ import {
   Quest,
   Questions,
   Reaction,
+  ReactionBud,
   Refunded,
   RemoveKuebiko,
   Resale,
@@ -2577,6 +2578,11 @@ const reaction: Record<Reaction, string> = {
   "reaction.goblin": "",
   "reaction.crown": "",
 };
+const reactionBud: Record<ReactionBud, string> = {
+  "reaction.bud.show": "",
+  "reaction.bud.select": "",
+  "reaction.bud.noFound": "",
+};
 const refunded: Record<Refunded, string> = {
   "refunded.itemsReturned": "",
   "refunded.goodLuck": "",
@@ -3151,6 +3157,7 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...quest,
   ...questions,
   ...reaction,
+  ...reactionBud,
   ...refunded,
   ...removeKuebiko,
   ...resale,
