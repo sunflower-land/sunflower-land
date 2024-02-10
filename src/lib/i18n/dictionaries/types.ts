@@ -2805,6 +2805,23 @@ export type VisitislandEnter =
 
 export type VisitislandNotFound = "visitislandNotFound.title";
 
+export type Wallet =
+  | "wallet.connect"
+  | "wallet.linkWeb3"
+  | "wallet.setupWeb3"
+  | "wallet.wrongWallet"
+  | "wallet.connectedWrongWallet"
+  | "wallet.missingNFT"
+  | "wallet.requireFarmNFT"
+  | "wallet.uniqueFarmNFT"
+  | "wallet.mintFreeNFT"
+  | "wallet.wrongChain"
+  | "wallet.walletAlreadyLinked"
+  | "wallet.linkAnotherWallet"
+  | "wallet.transferFarm"
+  | "wallet.signRequest"
+  | "wallet.signRequestInWallet";
+
 export type WarningTerms =
   | "warning.noAxe"
   | "warning.chat.maxCharacters"
@@ -3039,6 +3056,7 @@ export type TranslationKeys =
   | TutorialPage
   | VisitislandEnter
   | VisitislandNotFound
+  | Wallet
   | WarningTerms
   | WelcomeTerms
   | WishingWell

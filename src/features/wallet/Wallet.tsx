@@ -16,6 +16,7 @@ import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
 import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
 import { WalletContext } from "./WalletProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   action: WalletAction;
@@ -57,6 +58,7 @@ export const Wallet: React.FC<Props> = ({
   }, []);
 
   const [walletState] = useActor(walletService);
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (walletState.matches("ready") && !!onReady) {
@@ -88,7 +90,7 @@ export const Wallet: React.FC<Props> = ({
                   icon={walletIcon}
                   type="default"
                 >
-                  Connect your wallet - {shortAddress(linkedAddress)}
+                  {t("wallet.connect")} - {shortAddress(linkedAddress)}
                 </Label>
               </div>
             )
@@ -102,12 +104,10 @@ export const Wallet: React.FC<Props> = ({
                   icon={walletIcon}
                   type="default"
                 >
-                  Link a Web3 Wallet
+                  {t("wallet.linkWeb3")}
                 </Label>
               </div>
-              <p className="text-xs mx-1 mb-2">
-                To access this feature, you must first setup a Web3 wallet.
-              </p>
+              <p className="text-xs mx-1 mb-2">{t("wallet.setupWeb3")}.</p>
             </>
           )}
 
@@ -138,13 +138,13 @@ export const Wallet: React.FC<Props> = ({
         <div className="p-2">
           <div className="flex justify-between items-center">
             <Label type="danger" icon={walletIcon}>
-              Wrong Wallet
+              {t("wallet.wrongWallet")}
             </Label>
             {linkedAddress && (
               <Label type="formula">{shortAddress(linkedAddress)}</Label>
             )}
           </div>
-          <p className="text-sm my-2">You are connected to the wrong wallet.</p>
+          <p className="text-sm my-2">{t("wallet.connectedWrongWallet")}.</p>
         </div>
       );
     }
@@ -158,18 +158,13 @@ export const Wallet: React.FC<Props> = ({
               type="default"
               className="mb-2"
             >
-              Missing NFT
+              {t("wallet.missingNFT")}
             </Label>
-            <p className="text-sm mb-2">
-              Some actions require a Farm NFT. This helps keep all of your items
-              secure on the Blockchain.
-            </p>
-            <p className="text-xs mb-2">
-              A unique farm NFT will be minted to store your progress.
-            </p>
+            <p className="text-sm mb-2">{t("wallet.requireFarmNFT")}.</p>
+            <p className="text-xs mb-2">{t("wallet.uniqueFarmNFT")}.</p>
           </div>
           <Button onClick={() => walletService.send("MINT")}>
-            Mint your free NFT
+            {t("wallet.mintFreeNFT")}
           </Button>
         </>
       );
@@ -178,7 +173,7 @@ export const Wallet: React.FC<Props> = ({
     if (walletState.matches("wrongNetwork")) {
       return (
         <div className="p-2">
-          <p>Wrong Chain</p>
+          <p>{t("wallet.wrongChain")}</p>
         </div>
       );
     }
@@ -187,12 +182,12 @@ export const Wallet: React.FC<Props> = ({
       return (
         <div className="p-2">
           <Label type="danger" icon={walletIcon}>
-            Wallet already linked
+            {t("wallet.walletAlreadyLinked")}
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
             walletState.context.address as string
           )} has already been linked to an account.`}</p>
-          <p className="text-xs my-2">Please link another wallet.</p>
+          <p className="text-xs my-2">{t("wallet.linkAnotherWallet")}.</p>
         </div>
       );
     }
@@ -201,15 +196,12 @@ export const Wallet: React.FC<Props> = ({
       return (
         <div className="p-2">
           <Label type="danger" icon={walletIcon}>
-            Wallet already linked
+            {t("wallet.walletAlreadyLinked")}
           </Label>
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
             walletState.context.address as string
           )} has already been linked to an account.`}</p>
-          <p className="text-xs my-2">
-            Please transfer the farm to another wallet in order to mint the new
-            account.
-          </p>
+          <p className="text-xs my-2">{t("wallet.transferFarm")}.</p>
         </div>
       );
     }
@@ -218,11 +210,9 @@ export const Wallet: React.FC<Props> = ({
       return (
         <div className="p-2">
           <Label icon={walletIcon} type="default" className="mb-1">
-            Sign
+            {t("wallet.signRequest")}
           </Label>
-          <p className="text-sm">
-            Sign the request in your wallet to continue.
-          </p>
+          <p className="text-sm">{t("wallet.signRequestInWallet")}.</p>
         </div>
       );
     }
@@ -244,7 +234,7 @@ export const Wallet: React.FC<Props> = ({
       return <NFTMigrating />;
     }
 
-    return <p className="loading">Connecting</p>;
+    return <p className="loading">{t("connecting")}</p>;
   };
 
   const Wrapper = wrapper;

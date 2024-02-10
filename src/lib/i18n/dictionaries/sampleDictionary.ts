@@ -150,6 +150,7 @@ import {
   TutorialPage,
   VisitislandEnter,
   VisitislandNotFound,
+  Wallet,
   WarningTerms,
   WelcomeTerms,
   WishingWell,
@@ -2901,6 +2902,23 @@ const visitislandEnter: Record<VisitislandEnter, string> = {
 const visitislandNotFound: Record<VisitislandNotFound, string> = {
   "visitislandNotFound.title": "",
 };
+const wallet: Record<Wallet, string> = {
+  "wallet.connect": "",
+  "wallet.linkWeb3": "",
+  "wallet.setupWeb3": "",
+  "wallet.wrongWallet": "",
+  "wallet.connectedWrongWallet": "",
+  "wallet.missingNFT": "",
+  "wallet.requireFarmNFT": "",
+  "wallet.uniqueFarmNFT": "",
+  "wallet.mintFreeNFT": "",
+  "wallet.wrongChain": "",
+  "wallet.walletAlreadyLinked": "",
+  "wallet.linkAnotherWallet": "",
+  "wallet.transferFarm": "",
+  "wallet.signRequest": "",
+  "wallet.signRequestInWallet": "",
+};
 const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "",
   "warning.chat.maxCharacters": "",
@@ -3151,6 +3169,7 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...tutorialPage,
   ...visitislandEnter,
   ...visitislandNotFound,
+  ...wallet,
   ...warningTerms,
   ...welcomeTerms,
   ...wishingWell,

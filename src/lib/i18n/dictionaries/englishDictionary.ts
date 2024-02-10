@@ -150,6 +150,7 @@ import {
   TutorialPage,
   VisitislandEnter,
   VisitislandNotFound,
+  Wallet,
   WarningTerms,
   WelcomeTerms,
   WishingWell,
@@ -4128,6 +4129,28 @@ const visitislandNotFound: Record<VisitislandNotFound, string> = {
   "visitislandNotFound.title": "Island Not Found!",
 };
 
+const wallet: Record<Wallet, string> = {
+  "wallet.connect": "Connect your wallet",
+  "wallet.linkWeb3": "Link a Web3 Wallet",
+  "wallet.setupWeb3":
+    "To access this feature, you must first setup a Web3 wallet",
+  "wallet.wrongWallet": "Wrong Wallet",
+  "wallet.connectedWrongWallet": "You are connected to the wrong wallet",
+  "wallet.missingNFT": "Missing NFT",
+  "wallet.requireFarmNFT":
+    "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
+  "wallet.uniqueFarmNFT":
+    "A unique farm NFT will be minted to store your progress",
+  "wallet.mintFreeNFT": "Mint your free NFT",
+  "wallet.wrongChain": "Wrong Chain",
+  "wallet.walletAlreadyLinked": "Wallet already linked",
+  "wallet.linkAnotherWallet": "Please link another wallet",
+  "wallet.transferFarm":
+    "Please transfer the farm to another wallet in order to mint the new account",
+  "wallet.signRequest": "Sign",
+  "wallet.signRequestInWallet": "Sign the request in your wallet to continue",
+};
+
 const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
@@ -4424,6 +4447,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...tutorialPage,
   ...visitislandEnter,
   ...visitislandNotFound,
+  ...wallet,
   ...warningTerms,
   ...welcomeTerms,
   ...wishingWellTerms,
