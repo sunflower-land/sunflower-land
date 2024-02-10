@@ -4,6 +4,7 @@ import {
   AddSFL,
   AvailableSeeds,
   Base,
+  BasicTreasure,
   Beach,
   Beehive,
   BeachLuck,
@@ -61,6 +62,7 @@ import {
   GOBLIN_MESSAGES,
   GoldPassModal,
   GoldTooth,
+  GuideCompost,
   GuideTerms,
   GrubShop,
   HalveningCountdown,
@@ -150,6 +152,7 @@ import {
   TutorialPage,
   VisitislandEnter,
   VisitislandNotFound,
+  Wallet,
   WarningTerms,
   WelcomeTerms,
   WishingWell,
@@ -200,10 +203,12 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Réclamer une compétence",
   clear: "Effacer",
   close: "Fermer",
+  collect: "Collecter",
   "come.back": "Reviens dans",
   "coming.soon": "Bientôt disponible",
   common: "Commun",
   completed: "Terminé",
+  complete: "complet",
   confirm: "Confirmer",
   congrats: "Félicitations !",
   connected: "Connecté",
@@ -233,6 +238,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "easter.eggs": "Œufs de Pâques",
   egg: "Œuf",
   empty: "Vide",
+  "enjoying.event": "Appréciez-vous cet événement?",
   equip: "Équiper",
   error: "Erreur",
   exotics: "Exotiques",
@@ -248,6 +254,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   fish: "Poisson",
   "fish.caught": "Poissons Capturés",
   flowers: "Fleurs",
+  "flowers.found": "Fleurs trouvées",
   foods: "Nourritures",
   for: "pour",
   "for.info.wearable": "pour plus d'informations sur cet accessoire portable",
@@ -349,6 +356,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   skills: "Compétences",
   "skip.order": "Ignorer la commande",
   "sound.effects": "Effets sonores",
+  "special.event": "Événement spécial",
   start: "Commencer",
   submit: "Soumettre",
   submitting: "Soumission",
@@ -529,6 +537,14 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 const base: Record<Base, string> = {
   "base.missing": "Nom manquant dans la configuration",
   "base.far.away": "Vous êtes trop éloigné",
+};
+
+const basicTreasure: Record<BasicTreasure, string> = {
+  "basic.treasure.missingKey": "Clé manquante",
+  "basic.treasure.needKey":
+    "Vous avez besoin d'une clé de trésor pour ouvrir ce coffre",
+  "basic.treasure.getKey":
+    "Vous pouvez obtenir des clés de trésor en accomplissant des tâches pour les Bumpkins",
 };
 
 const beach: Record<Beach, string> = {
@@ -2271,6 +2287,23 @@ const goldTooth: Record<GoldTooth, string> = {
     "Soyez prêts à rejoindre mon équipage, car la chasse aux richesses commence sous peu !",
 };
 
+const guideCompost: Record<GuideCompost, string> = {
+  "guide.compost.add.eggs.speed":
+    "Ajoutez des œufs pour accélérer la production",
+  "guide.compost.add.eggs": "Ajouter des œufs",
+  "guide.compost.eggs": "Œufs",
+  "guide.compost.cropGrowthTime": "-50% Temps de croissance des cultures",
+  "guide.compost.fishingBait": "Appât de pêche",
+  "guide.compost.placeCrops":
+    "Placez des cultures dans le composteur pour nourrir les vers",
+  "guide.compost.compostCycle":
+    "Un cycle de compostage produit plusieurs engrais qui peuvent être utilisés pour booster vos cultures et fruits",
+  "guide.compost.yieldsWorms":
+    "Chaque compost produit des vers qui peuvent être utilisés comme appât pour la pêche",
+  "guide.compost.useEggs":
+    "Fatigué d'attendre ? Utilisez des œufs pour accélérer la production de compost",
+};
+
 const guideTerms: Record<GuideTerms, string> = {
   "guide.intro":
     "De vos modestes débuts à la maîtrise de la ferme, ce guide vous couvre !",
@@ -3524,7 +3557,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarterPack": "Obtiens le Pack de Démarrage Maintenant",
   "offer.newHere": "Salut fermier, tu sembles nouveau ici !",
   "offer.getStarted": "Commence Maintenant",
-  "offer.NFT.include": "NFT de la Ferme. Ceci inclura",
+  "offer.NFT.inclu": "NFT de la Ferme. Ceci inclura",
   "offer.free": "gratuit",
 };
 
@@ -3595,9 +3628,11 @@ const pageFounds: Record<PageFounds, string> = {
 };
 
 const parsnip: Record<Parsnip, string> = {
-  "parsnip.hat": "Wow, de jolis cornes !",
+  "parsnip.hat": "Wow, jolis cornes !",
   "parsnip.miss": "Ne manquez pas les futurs événements et cadeaux !",
   "parsnip.Bonus": "Récompense bonus",
+  "parsnip.wearable":
+    "Vous avez découvert un accessoire spécial pour événement",
   "parsnip.found": "Youpi... tu m'as trouvé !",
 };
 
@@ -3639,7 +3674,6 @@ const pickserver: Record<Pickserver, string> = {
   "pickserver.server": "Choisissez un serveur à rejoindre",
   "pickserver.full": "COMPLET",
   "pickserver.explore": "Explorez les îles de projets personnalisés.",
-  "pickserver.event": "Événement spécial",
   "pickserver.built": "Voulez-vous construire votre propre île ?",
 };
 
@@ -4176,6 +4210,29 @@ const visitislandNotFound: Record<VisitislandNotFound, string> = {
   "visitislandNotFound.title": "Île non trouvée !",
 };
 
+const wallet: Record<Wallet, string> = {
+  "wallet.connect": "Connectez votre portefeuille",
+  "wallet.linkWeb3": "Lier un portefeuille Web3",
+  "wallet.setupWeb3":
+    "Pour accéder à cette fonctionnalité, vous devez d'abord configurer un portefeuille Web3",
+  "wallet.wrongWallet": "Mauvais portefeuille",
+  "wallet.connectedWrongWallet": "Vous êtes connecté au mauvais portefeuille",
+  "wallet.missingNFT": "NFT manquant",
+  "wallet.requireFarmNFT":
+    "Certaines actions nécessitent un NFT de ferme. Cela permet de garder tous vos objets sécurisés sur la blockchain",
+  "wallet.uniqueFarmNFT":
+    "Un NFT de ferme unique sera créé pour stocker vos progrès",
+  "wallet.mintFreeNFT": "Mintez votre NFT gratuit",
+  "wallet.wrongChain": "Mauvaise chaîne",
+  "wallet.walletAlreadyLinked": "Portefeuille déjà lié",
+  "wallet.linkAnotherWallet": "Veuillez lier un autre portefeuille",
+  "wallet.transferFarm":
+    "Veuillez transférer la ferme vers un autre portefeuille pour créer le nouveau compte",
+  "wallet.signRequest": "Signer",
+  "wallet.signRequestInWallet":
+    "Signez la demande dans votre portefeuille pour continuer",
+};
+
 const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Aucune hache sélectionnée !",
   "warning.chat.maxCharacters": "Max de caractères",
@@ -4333,6 +4390,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...addSFL,
   ...availableSeeds,
   ...base,
+  ...basicTreasure,
   ...beach,
   ...beehive,
   ...beachLuck,
@@ -4391,6 +4449,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...goldpassModal,
   ...guideTerms,
+  ...guideCompost,
   ...grubshop,
   ...halveningCountdown,
   ...harvestflower,
@@ -4479,6 +4538,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...tutorialPage,
   ...visitislandEnter,
   ...visitislandNotFound,
+  ...wallet,
   ...warningTerms,
   ...welcomeTerms,
   ...wishingWellTerms,
