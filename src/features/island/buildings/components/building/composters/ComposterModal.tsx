@@ -190,7 +190,7 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
               <div className="flex items-center">
                 <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-                <span className="text-xs">Compost {t("completed")} </span>
+                <span className="text-xs">Compost {t("complete")} </span>
               </div>
             </div>
           </div>
