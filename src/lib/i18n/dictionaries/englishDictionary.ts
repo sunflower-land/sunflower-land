@@ -62,6 +62,7 @@ import {
   GOBLIN_MESSAGES,
   GoldPassModal,
   GoldTooth,
+  GuideCompost,
   GuideTerms,
   HalveningCountdown,
   Harvestflower,
@@ -201,10 +202,12 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Claim Skill",
   clear: "Clear",
   close: "Close",
+  collect: "Collect",
   "come.back": "Come back in",
   "coming.soon": "Coming soon",
   common: "Common",
   completed: "Completed",
+  complete: "complete",
   confirm: "Confirm",
   congrats: "Congratulations!",
   connected: "Connected",
@@ -2165,6 +2168,22 @@ const goldTooth: Record<GoldTooth, string> = {
     "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
   "goldTooth.intro.part2":
     "Be ready to join me crew, for the hunt for riches begins shortly!",
+};
+
+const guideCompost: Record<GuideCompost, string> = {
+  "guide.compost.complete": "Compost Complete",
+  "guide.compost.add.eggs.speed": "Add eggs to speed up production",
+  "guide.compost.add.eggs": "Add Eggs",
+  "guide.compost.eggs": "Eggs",
+  "guide.compost.cropGrowthTime": "Crop Growth Time",
+  "guide.compost.fishingBait": "Fishing bait",
+  "guide.compost.placeCrops": "Place crops in the composter to feed the worms",
+  "guide.compost.compostCycle":
+    "A compost cycle produces multiple fertilisers which can be used to boost your crops & fruit",
+  "guide.compost.yieldsWorms":
+    "Each compost yields worms that can be used as bait for fishing",
+  "guide.compost.useEggs":
+    "Tired of waiting? Use Eggs to speed up the compost production",
 };
 
 const guideTerms: Record<GuideTerms, string> = {
@@ -4360,6 +4379,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...goldpassModal,
   ...guideTerms,
+  ...guideCompost,
   ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,

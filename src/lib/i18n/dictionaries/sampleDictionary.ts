@@ -62,6 +62,7 @@ import {
   GOBLIN_MESSAGES,
   GoldPassModal,
   GoldTooth,
+  GuideCompost,
   GuideTerms,
   HalveningCountdown,
   Harvestflower,
@@ -1447,10 +1448,12 @@ const generalTerms: Record<GeneralTerms, string> = {
   claim: "",
   clear: "",
   close: "",
+  collect: "",
   "come.back": "",
   "coming.soon": "",
   common: "",
   completed: "",
+  complete: "",
   confirm: "",
   congrats: "",
   connected: "",
@@ -1686,6 +1689,18 @@ const goldPassModal: Record<GoldPassModal, string> = {
 const goldTooth: Record<GoldTooth, string> = {
   "goldTooth.intro.part1": "",
   "goldTooth.intro.part2": "",
+};
+const guideCompost: Record<GuideCompost, string> = {
+  "guide.compost.complete": "",
+  "guide.compost.add.eggs.speed": "",
+  "guide.compost.add.eggs": "",
+  "guide.compost.eggs": "",
+  "guide.compost.cropGrowthTime": "",
+  "guide.compost.fishingBait": "",
+  "guide.compost.placeCrops": "",
+  "guide.compost.compostCycle": "",
+  "guide.compost.yieldsWorms": "",
+  "guide.compost.useEggs": "",
 };
 const guideTerms: Record<GuideTerms, string> = {
   "guide.intro": "",
@@ -3081,6 +3096,7 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...goblin_messages,
   ...goldTooth,
   ...goldPassModal,
+  ...guideCompost,
   ...guideTerms,
   ...halveningCountdown,
   ...harvestflower,
