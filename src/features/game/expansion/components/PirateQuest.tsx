@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "react-bootstrap";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -10,6 +10,7 @@ import { acknowledgeTutorial, hasShownTutorial } from "lib/tutorial";
 import { MapPlacement } from "./MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Context } from "features/game/GameProvider";
 
 const ModalDescription = () => {
   const { t } = useAppTranslation();
@@ -40,6 +41,7 @@ const QuestCompletion = () => {
 };
 
 export const PirateQuest: React.FC = () => {
+  const { showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
   const openQuest = () => {
@@ -63,7 +65,9 @@ export const PirateQuest: React.FC = () => {
         {!hasShownTutorial("Pirate Quest") && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="w-2 absolute animate-float"
+            className={
+              "w-2 absolute" + (showAnimations ? " animate-float" : "")
+            }
             style={{
               top: `${PIXEL_SCALE * -8}px`,
               left: `${PIXEL_SCALE * 6}px`,

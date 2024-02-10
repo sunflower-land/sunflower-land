@@ -16,7 +16,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showHeart, setShowHeart] = useState(false);
@@ -100,7 +100,10 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
 
       <img
         src={SUNNYSIDE.icons.heart}
-        className="absolute animate-float transition-opacity pointer-events-none"
+        className={
+          "absolute transition-opacity pointer-events-none" +
+          (showAnimations ? " animate-float" : "")
+        }
         style={{
           width: `${PIXEL_SCALE * 10}px`,
           top: `${PIXEL_SCALE * 10}px`,

@@ -61,7 +61,7 @@ export const Otis: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [guide, setGuide] = useState<GuidePath>();
 
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const { activeTaskIndex } = getActiveTask(gameState.context.state);
@@ -114,7 +114,10 @@ export const Otis: React.FC = () => {
         {lastAcknowledgedTask() !== activeTask && (
           <img
             src={SUNNYSIDE.icons.expression_confused}
-            className="absolute animate-float pointer-events-none img-highlight-heavy"
+            className={
+              "absolute pointer-events-none img-highlight-heavy" +
+              (showAnimations ? " animate-float" : "")
+            }
             style={{
               width: `${PIXEL_SCALE * 6}px`,
               top: `${PIXEL_SCALE * -4}px`,

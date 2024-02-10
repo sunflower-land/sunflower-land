@@ -15,7 +15,7 @@ const _chores = (state: MachineState) => state.context.state.chores;
 export const Travel: React.FC<{ isVisiting?: boolean }> = ({
   isVisiting = false,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const delivery = useSelector(gameService, _delivery);
   const chores = useSelector(gameService, _chores);
@@ -59,7 +59,10 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
         {showExpression && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="absolute z-50 pointer-events-none animate-float"
+            className={
+              "absolute z-50 pointer-events-none" +
+              (showAnimations ? " animate-float" : "")
+            }
             style={{
               width: `${PIXEL_SCALE * 4}px`,
               top: `${PIXEL_SCALE * 0}px`,

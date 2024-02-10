@@ -76,6 +76,8 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   showSkillPointAlert,
   onClick,
 }) => {
+  const { showAnimations } = useContext(Context);
+
   const progressBarEl = useRef<SpriteSheetInstance>();
 
   const experience = bumpkin?.experience ?? 0;
@@ -191,7 +193,10 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         {showSkillPointAlert && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
-            className="col-start-1 row-start-1 animate-float z-30"
+            className={
+              "col-start-1 row-start-1 z-30" +
+              (showAnimations ? " animate-float" : "")
+            }
             style={{
               width: `${DIMENSIONS.skillsMark.width}px`,
               marginLeft: `${DIMENSIONS.skillsMark.marginLeft}px`,
