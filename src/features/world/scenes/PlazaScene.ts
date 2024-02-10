@@ -183,10 +183,6 @@ export class PlazaScene extends BaseScene {
   } = {};
 
   constructor() {
-    const showNYE =
-      Date.now() > new Date("2023-12-31").getTime() &&
-      Date.now() < new Date("2024-01-02").getTime();
-
     super({
       name: "plaza",
       map: { json: mapJson },

@@ -5,7 +5,6 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
@@ -25,40 +24,11 @@ type Options = {
   farmId?: number;
 };
 
-export const BETA_DELIVERY_END_DATE = new Date("2023-08-15");
-export const DELIVERY_END_DATE = new Date("2023-08-16");
-export function canGenerateDeliveries({
-  game,
-  now,
-}: {
-  game: GameState;
-  now: number;
-}) {
-  // Monday 14th August (Beta Testers)
-  if (
-    !!game.inventory["Beta Pass"] &&
-    now >= BETA_DELIVERY_END_DATE.getTime()
-  ) {
-    return false;
-  }
-
-  // Wednesday 16th August
-  if (now >= DELIVERY_END_DATE.getTime()) {
-    return false;
-  }
-
-  return true;
-}
-
 export function getTotalSlots(game: GameState) {
   // If feature access then return the total number of slots from both delivery and quest
   // else just delivery
 
-  if (hasFeatureAccess(game, "NEW_DELIVERIES")) {
-    return getDeliverySlots(game.inventory) + getQuestSlots(game.inventory);
-  }
-
-  return getDeliverySlots(game.inventory);
+  return getDeliverySlots(game.inventory) + getQuestSlots(game.inventory);
 }
 
 export function getDeliverySlots(inventory: Inventory) {
@@ -263,18 +233,8 @@ export function deliverOrder({
 
   // bumpkin.activity = trackActivity(`${order.from} Delivered`, 1);
 
-  const generateMore = canGenerateDeliveries({ game, now: Date.now() });
-
-  if (generateMore) {
-    game.delivery.orders = game.delivery.orders.filter(
-      (order) => order.id !== action.id
-    );
-
-    game.delivery.orders = populateOrders(game, Date.now());
-  } else {
-    // Mark as complete
-    order.completedAt = Date.now();
-  }
+  // Mark as complete
+  order.completedAt = Date.now();
 
   return game;
 }

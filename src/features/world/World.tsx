@@ -6,7 +6,6 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
-import { WorldHud } from "features/island/hud/WorldHud";
 import { useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import ocean from "assets/decorations/ocean.webp";
@@ -19,12 +18,9 @@ import {
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
-import { GameWrapper } from "features/game/expansion/Game";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
-import { hasFeatureAccess } from "lib/flags";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
-import { Snow } from "./ui/Snow";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -81,7 +77,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const isConnecting = useSelector(mmoService, _isConnecting);
   const isConnected = useSelector(mmoService, _isConnected);
   const isJoining = useSelector(mmoService, _isJoining);
-  const isJoined = useSelector(mmoService, _isJoined);
   const isKicked = useSelector(mmoService, _isKicked);
   const isIntroducting = useSelector(mmoService, _isIntroducing);
 
@@ -125,9 +120,7 @@ interface TravelProps {
 export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   const { t } = useAppTranslation();
 
-  const isConnecting = useSelector(mmoService, _isConnecting);
   const isConnected = useSelector(mmoService, _isConnected);
-  const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
 
   // Return kicked
@@ -166,14 +159,6 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 };
 
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
-  const { gameService, showAnimations } = useContext(Context);
-  const isLoading = useSelector(gameService, _isLoading);
-  const name = useParams().name as SceneId;
-
-  const hasAccess =
-    name !== "beach" ||
-    hasFeatureAccess(gameService?.state?.context?.state ?? TEST_FARM, "BEACH");
-
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
@@ -183,17 +168,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         imageRendering: "pixelated",
       }}
     >
-      {showAnimations &&
-        Date.now() > new Date("2023-12-10").getTime() &&
-        Date.now() < new Date("2023-12-27").getTime() && <Snow />}
-      {hasAccess ? (
-        <GameWrapper>
-          {!isLoading && <MMO isCommunity={isCommunity} />}
-          <WorldHud />
-        </GameWrapper>
-      ) : (
-        <IslandNotFound />
-      )}
+      <IslandNotFound />
     </div>
   );
 };

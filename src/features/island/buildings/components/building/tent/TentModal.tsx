@@ -20,8 +20,6 @@ interface Props {
   bumpkins: OnChainBumpkin[];
 }
 
-const DEFAULT_BUMPKIN_ALLOWANCE = 1;
-
 const baseUrl =
   CONFIG.NETWORK === "mainnet"
     ? `https://bumpkins.io/#/bumpkins`

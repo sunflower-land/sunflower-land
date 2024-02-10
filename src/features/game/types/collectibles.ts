@@ -208,38 +208,6 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       to: new Date("2023-11-01"),
     },
   }),
-  ...(getCurrentSeason(date) === "Catch the Kraken" && {
-    Nana: {
-      description: translate("description.nana"),
-      boost: translate("description.nana.boost"),
-      sfl: SFLDiscount(state, new Decimal(50)),
-      ingredients: {
-        "Mermaid Scale": new Decimal(350),
-      },
-      from: new Date("2023-11-01"),
-      to: new Date("2023-12-01"),
-    },
-    "Soil Krabby": {
-      description: translate("description.soil.krabby"),
-      boost: translate("description.soil.krabby.boost"),
-      sfl: SFLDiscount(state, new Decimal(65)),
-      ingredients: {
-        "Mermaid Scale": new Decimal(650),
-      },
-      from: new Date("2023-12-01"),
-      to: new Date("2024-01-01"),
-    },
-    "Skill Shrimpy": {
-      description: translate("description.skill.shrimpy"),
-      boost: translate("description.skill.shrimpy.boost"),
-      sfl: SFLDiscount(state, new Decimal(115)),
-      ingredients: {
-        "Mermaid Scale": new Decimal(865),
-      },
-      from: new Date("2024-01-01"),
-      to: new Date("2024-02-01"),
-    },
-  }),
 });
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {

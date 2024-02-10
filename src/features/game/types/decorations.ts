@@ -735,66 +735,6 @@ export const SEASONAL_DECORATIONS: (
       },
     },
   }),
-  ...(getCurrentSeason(date) === "Catch the Kraken" && {
-    "Lifeguard Ring": {
-      name: "Lifeguard Ring",
-      sfl: SFLDiscount(state, new Decimal(10)),
-      from: new Date("2024-01-01"),
-      to: new Date("2024-02-01"),
-      description: translate("description.lifeguard.ring"),
-      ingredients: {
-        "Mermaid Scale": new Decimal(50),
-      },
-    },
-    Surfboard: {
-      name: "Surfboard",
-      from: new Date("2023-12-01"),
-      to: new Date("2024-01-01"),
-      description: translate("description.surfboard"),
-      ingredients: {
-        "Mermaid Scale": new Decimal(100),
-      },
-    },
-    "Hideaway Herman": {
-      name: "Hideaway Herman",
-      sfl: SFLDiscount(state, new Decimal(15)),
-      from: new Date("2024-01-01"),
-      to: new Date("2024-02-01"),
-      description: translate("description.hideaway.herman"),
-      ingredients: {
-        "Mermaid Scale": new Decimal(350),
-      },
-    },
-    "Shifty Sheldon": {
-      name: "Shifty Sheldon",
-      sfl: SFLDiscount(state, new Decimal(50)),
-      from: new Date("2023-12-01"),
-      to: new Date("2024-01-01"),
-      description: translate("description.shifty.sheldon"),
-      ingredients: {
-        "Mermaid Scale": new Decimal(500),
-      },
-    },
-    "Tiki Torch": {
-      name: "Tiki Torch",
-      from: new Date("2023-11-01"),
-      to: new Date("2023-12-01"),
-      description: translate("description.tiki.torch"),
-      ingredients: {
-        "Mermaid Scale": new Decimal(5),
-      },
-    },
-    "Beach Umbrella": {
-      name: "Beach Umbrella",
-      sfl: SFLDiscount(state, new Decimal(20)),
-      from: new Date("2023-11-01"),
-      to: new Date("2023-12-01"),
-      description: translate("description.beach.umbrella"),
-      ingredients: {
-        "Mermaid Scale": new Decimal(250),
-      },
-    },
-  }),
 });
 
 export const POTION_HOUSE_DECORATIONS: () => Record<

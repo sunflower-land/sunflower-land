@@ -219,20 +219,10 @@ export const DeliveryPanelContent: React.FC<Props> = ({
   const game = useSelector(gameService, _game);
   const beta = useSelector(gameService, _beta);
 
-  let orders = delivery.orders.filter(
+  const orders = delivery.orders.filter(
     (order) =>
       order.from === npc && Date.now() >= order.readyAt && !order.completedAt
   );
-
-  if (!hasFeatureAccess(gameService.state.context.state, "BEACH")) {
-    orders = orders.filter(
-      (o) =>
-        // Filter out beach NPCs
-        !(
-          ["corale", "tango", "finley", "finn", "miranda"] as NPCName[]
-        ).includes(o.from)
-    );
-  }
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);

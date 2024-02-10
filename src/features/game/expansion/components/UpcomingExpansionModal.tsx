@@ -25,7 +25,6 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
   const requirements = expansionRequirements({ game: gameState });
 
   if (
-    Date.now() < new Date("2024-02-07T00:00:00.000Z").getTime() &&
     gameState.island.type === "spring" &&
     gameState.inventory["Basic Land"]?.gte(12)
   ) {

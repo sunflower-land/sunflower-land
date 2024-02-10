@@ -6,8 +6,6 @@ import BudDepositAbi from "./abis/BudDeposit.json";
 import { Deposit as IDeposit } from "./types/Deposit";
 import { Deposit as IBudDeposit } from "./types/BudDeposit";
 import { estimateGasPrice, parseMetamaskError } from "./utils";
-import { hasFeatureAccess } from "lib/flags";
-import { TEST_FARM } from "features/game/lib/constants";
 
 const address = CONFIG.DEPOSIT_CONTRACT;
 const budsDepositAddress = CONFIG.BUD_DEPOSIT_CONTRACT;
@@ -37,34 +35,20 @@ export async function depositToFarm({
 }: DepositArgs) {
   const gasPrice = await estimateGasPrice(web3);
 
-  const depositFn = hasFeatureAccess(TEST_FARM, "BUDS_DEPOSIT_FLOW")
-    ? (
-        new web3.eth.Contract(
-          BudDepositAbi as AbiItem[],
-          budsDepositAddress as string
-        ) as unknown as IBudDeposit
-      ).methods.depositToFarm(
-        farmId,
-        sfl,
-        itemIds,
-        itemAmounts,
-        wearableIds,
-        wearableAmounts,
-        budIds
-      )
-    : (
-        new web3.eth.Contract(
-          DepositAbi as AbiItem[],
-          address as string
-        ) as unknown as IDeposit
-      ).methods.depositToFarm(
-        farmId,
-        sfl,
-        itemIds,
-        itemAmounts,
-        wearableIds,
-        wearableAmounts
-      );
+  const depositFn = (
+    new web3.eth.Contract(
+      BudDepositAbi as AbiItem[],
+      budsDepositAddress as string
+    ) as unknown as IBudDeposit
+  ).methods.depositToFarm(
+    farmId,
+    sfl,
+    itemIds,
+    itemAmounts,
+    wearableIds,
+    wearableAmounts,
+    budIds
+  );
 
   await new Promise((resolve, reject) => {
     depositFn

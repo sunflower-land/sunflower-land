@@ -25,7 +25,6 @@ import { getKeys } from "features/game/types/craftables";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
-import { ADMIN_IDS, hasFeatureAccess } from "lib/flags";
 import { GameState, IslandType } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -50,7 +49,6 @@ const IslandUpgraderModal: React.FC<{
   const [gameState] = useActor(gameService);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
 
   const { island, inventory } = gameState.context.state;
   const upgrade = ISLAND_UPGRADE[island.type];
@@ -88,10 +86,7 @@ const IslandUpgraderModal: React.FC<{
     );
   }
 
-  const hasAccess =
-    gameState.context.state.island.type === "basic" &&
-    (hasFeatureAccess(gameState.context.state, "ISLAND_UPGRADE") ||
-      ADMIN_IDS.includes(gameState.context.farmId));
+  const hasAccess = gameState.context.state.island.type === "basic";
 
   const hasResources = getKeys(upgrade.items).every(
     (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false

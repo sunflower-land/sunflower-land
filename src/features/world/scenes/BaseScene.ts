@@ -21,7 +21,6 @@ import {
 } from "../mmoMachine";
 import { Player, PlazaRoomState } from "../types/Room";
 import { playerModalManager } from "../ui/PlayerModals";
-import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
@@ -167,14 +166,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
     if (this.options.map?.tilesetUrl)
       this.load.image("community-tileset", this.options.map.tilesetUrl);
-
-    // Shut down the sound when the scene changes
-    const event = this.events.once("shutdown", () => {
-      this.sound.getAllPlaying().forEach((sound) => {
-        sound.destroy();
-      });
-      this.soundEffects = [];
-    });
   }
 
   init(data: SceneTransitionData) {
@@ -604,10 +595,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
           // Change scenes
           const warpTo = (obj2 as any).data?.list?.warp;
-          if (
-            warpTo &&
-            (warpTo !== "beach" || hasFeatureAccess(this.gameState, "BEACH"))
-          ) {
+          if (warpTo) {
             this.currentPlayer?.stopSpeaking();
             this.cameras.main.fadeOut(1000);
 

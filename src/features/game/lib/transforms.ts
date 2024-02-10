@@ -53,16 +53,6 @@ export function makeGame(farm: any): GameState {
       : undefined,
 
     bertObsession: farm.bertObsession,
-    grubOrdersFulfilled: farm.grubOrdersFulfilled,
-    grubShop: farm.grubShop
-      ? {
-          ...farm.grubShop,
-          orders: farm.grubShop.orders.map((order: any) => ({
-            ...order,
-            sfl: new Decimal(order.sfl),
-          })),
-        }
-      : undefined,
 
     expansionConstruction: farm.expansionConstruction,
     expandedAt: farm.expandedAt,

@@ -63,10 +63,6 @@ import {
 } from "./landExpansion/claimAchievement";
 import { buyChicken, BuyChickenAction } from "./landExpansion/buyChicken";
 import { placeChicken, PlaceChickenAction } from "./landExpansion/placeChicken";
-import {
-  fulfillGrubOrder,
-  FulFillGrubOrderAction,
-} from "./landExpansion/fulfillGrubOrder";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import {
   buyDecoration,
@@ -291,7 +287,6 @@ export type PlayingEvent =
   | PickSkillAction
   | SeedBoughtAction
   | ClaimAchievementAction
-  | FulFillGrubOrderAction
   | LandExpansionFeedChickenAction
   | CraftToolAction
   | buyDecorationAction
@@ -438,7 +433,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "skill.picked": pickSkill,
   "seed.bought": seedBought,
   "achievement.claimed": claimAchievement,
-  "grubOrder.fulfilled": fulfillGrubOrder,
   "chicken.fed": LandExpansionFeedChicken,
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,

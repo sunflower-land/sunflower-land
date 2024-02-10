@@ -15,7 +15,6 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import lockIcon from "assets/skills/lock.png";
 import levelUpIcon from "assets/icons/level_up.png";
 import goblin from "assets/buildings/goblin_sign.png";
-import lightning from "assets/icons/lightning.png";
 
 import land from "assets/land/islands/island.webp";
 import blueBottle from "assets/decorations/blue_bottle.webp";
@@ -237,9 +236,6 @@ export const IslandList: React.FC<IslandListProps> = ({
           icon={SUNNYSIDE.icons.heart}
         >
           {t("deliveries")}
-        </Label>,
-        <Label type="vibrant" key="tentacle" icon={lightning}>
-          {t("season.catch.the.kraken")}
         </Label>,
       ],
     },

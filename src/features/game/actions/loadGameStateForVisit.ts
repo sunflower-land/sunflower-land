@@ -12,8 +12,6 @@ type VisitGameState = Omit<
   | "stock"
   | "stockExpiry"
   | "expansionRequirements"
-  | "grubShop"
-  | "grubOrdersFulfilled"
 >;
 
 export async function loadGameStateForVisit(

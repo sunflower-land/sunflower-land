@@ -62,7 +62,6 @@ import {
   GoldPassModal,
   GoldTooth,
   GuideTerms,
-  GrubShop,
   HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
@@ -1716,14 +1715,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.seven": "",
   "pete.teaser.eight": "",
 };
-const grubShop: Record<GrubShop, string> = {
-  "message.grublinOrders": "",
-  "message.orderFulfilled": "",
-  "message.grubShopClosed": "",
-  "message.moreOrdersIn": "",
-  "message.bonusOffer": "",
-  "message.earnSeasonalTickets": "",
-};
 const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.approaching": "",
   "halveningCountdown.description": "",
@@ -2639,7 +2630,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.bonusTickets": "",
   "season.boostXP": "",
   "season.buyNow": "",
-  "season.catch.the.kraken": "",
   "season.discount": "",
   "season.exclusiveOffer": "",
   "season.goodLuck": "",
@@ -3063,7 +3053,6 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...goldPassModal,
   ...guideTerms,
-  ...grubShop,
   ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,

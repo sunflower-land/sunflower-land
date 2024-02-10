@@ -1,11 +1,9 @@
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 
 import background from "assets/land/helios.webp";
-import frozenBackground from "assets/land/frozen_helios.png";
 import ocean from "assets/decorations/ocean.webp";
-import { GrubShop } from "./components/grubShop/GrubShop";
 import { Decorations } from "./components/decorations/Decorations";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";
@@ -36,11 +34,6 @@ const getRandomSpawn = () => {
 export const Helios: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { state } = gameState.context;
-  const { bumpkin } = state;
-  const [sealSpawn] = useState(getRandomSpawn());
-
-  const autosaving = gameState.matches("autosaving");
 
   const [scrollIntoView] = useScrollIntoView();
 
@@ -63,23 +56,13 @@ export const Helios: React.FC = () => {
           imageRendering: "pixelated",
         }}
       >
-        {Date.now() > new Date("2023-12-10").getTime() &&
-        Date.now() < new Date("2023-12-27").getTime() ? (
-          <img
-            src={frozenBackground}
-            className="absolute inset-0 w-full h-full"
-            id={Section.HeliosBackGround}
-          />
-        ) : (
-          <img
-            src={background}
-            className="absolute inset-0 w-full h-full"
-            id={Section.HeliosBackGround}
-          />
-        )}
+        <img
+          src={background}
+          className="absolute inset-0 w-full h-full"
+          id={Section.HeliosBackGround}
+        />
 
         <Decorations />
-        <GrubShop />
         <HeliosBlacksmith />
         <GarbageCollector />
         <ExoticShop />
