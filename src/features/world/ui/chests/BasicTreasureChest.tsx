@@ -12,6 +12,7 @@ import React, { useContext, useState } from "react";
 import wheelHolder from "assets/ui/lunar_wheel_holder.png";
 import wheel from "assets/ui/lunar_wheel.png";
 import { Revealing } from "features/game/components/Revealing";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -21,6 +22,7 @@ interface Props {
 export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   const [isRevealing, setIsRevealing] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
@@ -144,14 +146,10 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
             className="mb-2"
             icon={ITEM_DETAILS["Treasure Key"].image}
           >
-            Missing Key
+            {t("basic.treasure.missingKey")}
           </Label>
-          <p className="text-xs mb-2">
-            You need a Treasure Key to open this chest.
-          </p>
-          <p className="text-xs">
-            You can get Treasure Keys by completing tasks for Bumpkins.
-          </p>
+          <p className="text-xs mb-2">{t("basic.treasure.needKey")}.</p>
+          <p className="text-xs">{t("basic.treasure.getKey")}.</p>
         </div>
       </CloseButtonPanel>
     );

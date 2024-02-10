@@ -220,7 +220,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/world/lunar_island`,
       labels: [
         <Label type="vibrant" key="lunar" icon={SUNNYSIDE.icons.timer}>
-          Special Event
+          {t("special.event")}
         </Label>,
       ],
     },

@@ -16,6 +16,7 @@ import { GameState } from "features/game/types/game";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { getFlowerBySeed } from "../lib/utils";
 import { Detail } from "../components/Detail";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _milestones = (state: MachineState) => state.context.state.milestones;
@@ -38,6 +39,7 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
   const { gameService } = useContext(Context);
   const [expandedIndex, setExpandedIndex] = useState<number>();
   const [selectedFlower, setSelectedFlower] = useState<FlowerName>();
+  const { t } = useAppTranslation();
 
   const farmActivity = useSelector(gameService, _farmActivity);
   const milestones = useSelector(gameService, _milestones);
@@ -120,7 +122,7 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
       <div className="space-y-2 mt-1">
         <div className="flex flex-col space-y-2">
           <Label type="formula" className="ml-1.5">
-            {`Flowers found: ${foundFlowersCount}`}
+            {`${t("flowers.found")}: ${foundFlowersCount}`}
           </Label>
           {/* Milestones disabled for spring bloom launch */}
           {/* Claimed Milestones */}

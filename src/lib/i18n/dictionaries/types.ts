@@ -72,6 +72,7 @@ export type GeneralTerms =
   | "easter.eggs"
   | "egg"
   | "empty"
+  | "enjoying.event"
   | "equip"
   | "error"
   | "exotics"
@@ -88,6 +89,7 @@ export type GeneralTerms =
   | "fish"
   | "foods"
   | "flowers"
+  | "flowers.found"
   | "for"
   | "for.info.wearable"
   | "forbidden"
@@ -187,6 +189,7 @@ export type GeneralTerms =
   | "skills"
   | "skip.order"
   | "sound.effects"
+  | "special.event"
   | "start"
   | "submit"
   | "submitting"
@@ -322,6 +325,11 @@ export type AvailableSeeds =
   | "availableSeeds.select.plant";
 
 export type Base = "base.missing" | "base.far.away";
+
+export type BasicTreasure =
+  | "basic.treasure.missingKey"
+  | "basic.treasure.needKey"
+  | "basic.treasure.getKey";
 
 export type Beach = "beach.party" | "beach.ready";
 
@@ -2403,6 +2411,7 @@ export type Parsnip =
   | "parsnip.hat"
   | "parsnip.miss"
   | "parsnip.Bonus"
+  | "parsnip.wearable"
   | "parsnip.found";
 
 export type Pending = "pending.calcul" | "pending.comeback";
@@ -2433,7 +2442,6 @@ export type Pickserver =
   | "pickserver.server"
   | "pickserver.full"
   | "pickserver.explore"
-  | "pickserver.event"
   | "pickserver.built";
 
 export type PlazaSettings =
@@ -2885,6 +2893,7 @@ export type TranslationKeys =
   | AddSFL
   | AvailableSeeds
   | Base
+  | BasicTreasure
   | Beach
   | Beehive
   | BeachLuck

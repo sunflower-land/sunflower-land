@@ -71,9 +71,7 @@ export const ParsnipGiveaway: React.FC<{ onClose: () => void }> = ({
           {t("parsnip.Bonus")}
         </Label>
         <p className="text-xs mb-2">{t("parsnip.found")}</p>
-        <p className="text-xs mb-2">
-          {`You've discovered a special event wearable.`}
-        </p>
+        <p className="text-xs mb-2">{`${t("parsnip.wearable")}.`}</p>
       </div>
       <Button onClick={acknowledge}>{t("claim.gift")}</Button>
     </>

@@ -169,7 +169,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                       </p>
                       {!!island.special && (
                         <Label type="info" className="-mt-2">
-                          Special Event
+                          {t("special.event")}
                         </Label>
                       )}
                     </div>
