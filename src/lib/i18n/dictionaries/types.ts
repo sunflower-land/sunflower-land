@@ -1543,7 +1543,6 @@ export type GoldPassModal =
 export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
 
 export type GuideCompost =
-  | "guide.compost.complete"
   | "guide.compost.add.eggs.speed"
   | "guide.compost.add.eggs"
   | "guide.compost.eggs"
