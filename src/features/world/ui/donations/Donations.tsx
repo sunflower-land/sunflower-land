@@ -11,23 +11,21 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTRIBUTORS = [
-  "Netherzapdos",
   "Poro",
-  "whaitte",
-  "default",
-  "shinon",
   "Telk",
-  "Vergelsxtn",
-  "LittleEins",
-  "Neonlight",
-  "Andando",
-  "forgchard",
-  "KOTOB",
-  "JC",
-  "kohi",
+  "whaitte",
+  "Andand0",
   "PurpleDrvnk",
+  "Kotob",
+  "Neonlight",
   "SFWhat",
+  "LittleEins",
+  "Oniel",
   "Ventin",
+  "shinon",
+  "JC",
+  "Netherzapdos",
+  "Vergel",
 ];
 
 export const Donations: React.FC = () => {
@@ -61,7 +59,7 @@ export const Donations: React.FC = () => {
   };
 
   // Waiting confirmation for address
-  const isComingSoon = true;
+  const isComingSoon = false;
 
   return (
     <>
@@ -115,9 +113,11 @@ export const Donations: React.FC = () => {
             </span>
           </div>
 
-          <Label type="default" className="mb-2">
-            Coming Soon
-          </Label>
+          {isComingSoon && (
+            <Label type="default" className="mb-2">
+              Coming Soon
+            </Label>
+          )}
 
           <Button
             className="w-full ml-1"

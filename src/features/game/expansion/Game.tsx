@@ -17,8 +17,8 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
-import logo from "assets/brand/logo_v2.png";
 import winterLogo from "assets/brand/winter_logo.png";
+import dragonLogo from "assets/brand/dragon_logo.gif";
 import sparkle from "assets/fx/sparkle2.gif";
 import ocean from "assets/decorations/ocean.webp";
 
@@ -344,7 +344,7 @@ export const GameWrapper: React.FC = ({ children }) => {
                   </>
                 ) : (
                   <>
-                    <img id="logo" src={logo} className="w-full" />
+                    <img id="logo" src={dragonLogo} className="w-full" />
                     <div className="flex justify-center">
                       <Label type="default">
                         {CONFIG.RELEASE_VERSION?.split("-")[0]}
