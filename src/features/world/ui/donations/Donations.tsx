@@ -113,9 +113,11 @@ export const Donations: React.FC = () => {
             </span>
           </div>
 
-          <Label type="default" className="mb-2">
-            Coming Soon
-          </Label>
+          {isComingSoon && (
+            <Label type="default" className="mb-2">
+              Coming Soon
+            </Label>
+          )}
 
           <Button
             className="w-full ml-1"
