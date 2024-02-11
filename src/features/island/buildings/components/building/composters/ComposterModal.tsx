@@ -353,7 +353,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="info"
             className="text-xs whitespace-pre-line"
           >
-            -50% {t("guide.compost.cropGrowthTime")}
+            {t("guide.compost.cropGrowthTime")}
           </Label>
         );
       }

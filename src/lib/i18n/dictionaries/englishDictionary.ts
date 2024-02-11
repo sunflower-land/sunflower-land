@@ -2186,7 +2186,7 @@ const guideCompost: Record<GuideCompost, string> = {
   "guide.compost.add.eggs.speed": "Add eggs to speed up production",
   "guide.compost.add.eggs": "Add Eggs",
   "guide.compost.eggs": "Eggs",
-  "guide.compost.cropGrowthTime": "Crop Growth Time",
+  "guide.compost.cropGrowthTime": "-50% Crop Growth Time",
   "guide.compost.fishingBait": "Fishing bait",
   "guide.compost.placeCrops": "Place crops in the composter to feed the worms",
   "guide.compost.compostCycle":
