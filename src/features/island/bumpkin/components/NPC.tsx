@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Spritesheet from "components/animation/SpriteAnimator";
 import classNames from "classnames";
 import {
@@ -9,7 +9,10 @@ import {
   BumpkinTool,
 } from "features/game/types/bumpkin";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
+import {
+  NPCActionType,
+  buildNPCSheets,
+} from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import shadow from "assets/npcs/shadow.png";
@@ -37,6 +40,7 @@ export interface NPCProps {
   flip?: boolean;
   hideShadow?: boolean;
   preventZoom?: boolean;
+  type?: NPCActionType;
 }
 
 export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
@@ -45,22 +49,31 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   hideShadow,
   onClick,
   preventZoom,
+  type = "idle",
 }) => {
   const { scale } = useContext(ZoomContext);
-  const [sheetSrc, setSheetSrc] = useState<string>();
+  const sheets = useRef<Record<NPCActionType, string>>();
+  const [activeSheet, setActiveSheet] = useState<string>();
 
   // make sure all body parts are synchronized
   useEffect(() => {
     const load = async () => {
-      const { sheets } = await buildNPCSheets({
-        parts,
-      });
+      console.log({ load: type });
+      if (!sheets.current) {
+        const { sheets: npcSheets } = await buildNPCSheets({
+          parts,
+        });
 
-      setSheetSrc(sheets.idle);
+        sheets.current = npcSheets;
+      }
+
+      setActiveSheet(sheets.current[type]);
     };
 
     load();
-  }, []);
+  }, [type]);
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -75,7 +88,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
-        {!sheetSrc && (
+        {!activeSheet && (
           <img
             src={silhouette}
             style={{
@@ -87,7 +100,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
           />
         )}
 
-        {sheetSrc && (
+        {activeSheet && (
           <>
             {!hideShadow && (
               <img
@@ -109,7 +122,7 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
                 left: `${PIXEL_SCALE * -2}px`,
                 imageRendering: "pixelated" as const,
               }}
-              image={sheetSrc}
+              image={activeSheet}
               widthFrame={FRAME_WIDTH}
               heightFrame={FRAME_HEIGHT}
               zoomScale={preventZoom ? new SpringValue(1) : scale}
@@ -129,7 +142,7 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   parts,
   width,
 }) => {
-  const [sheetSrc, setSheetSrc] = useState<string>();
+  const [sheetSrc, setActiveSheet] = useState<string>();
 
   useEffect(() => {
     const load = async () => {
@@ -137,7 +150,7 @@ export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
         parts,
       });
 
-      setSheetSrc(sheets.idle);
+      setActiveSheet(sheets.idle);
     };
 
     load();

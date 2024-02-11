@@ -77,9 +77,18 @@ export const WalkingNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
     },
   });
 
+  const isMoving = JSON.stringify(from) !== JSON.stringify(to);
+
+  const direction = from.x > to.x ? "left" : "right";
+  console.log({ from, to, isMoving });
   return (
     <animated.div className="absolute" style={walkingProps}>
-      <NPC key={JSON.stringify(bumpkinParts)} parts={bumpkinParts} />
+      <NPC
+        type={isMoving ? "walking" : "idle"}
+        key={JSON.stringify(bumpkinParts)}
+        parts={bumpkinParts}
+        flip={direction === "left"}
+      />
     </animated.div>
   );
 };
