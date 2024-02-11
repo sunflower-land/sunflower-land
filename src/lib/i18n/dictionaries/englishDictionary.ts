@@ -57,6 +57,7 @@ import {
   GameTerms,
   GarbageCollector,
   GeneralTerms,
+  GenieLamp,
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
@@ -327,6 +328,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "ready.trade": "Ready to trade?",
   refresh: "Refresh",
   refreshing: "Refreshing",
+  remaining: "remaining",
   "remaining.trades": "Remaining Trades",
   remove: "Remove",
   reqSkillPts: "Required Skill Points",
@@ -395,6 +397,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "wishing.well": "Wishing Well",
   withdraw: "Withdraw",
   withdrawing: "Withdrawing",
+  wish: "wish",
   yes: "Yes",
   "yes.please": "Yes Please",
   "you.are.here": "You are here",
@@ -945,6 +948,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
   "bumpkinTrade.like.list": "What would you like to list",
+  "bumpkinTrade.goldpass.required": "Gold Pass is required",
+  "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -2109,6 +2114,12 @@ const gameTerms: Record<GameTerms, string> = {
   potions: "Potions",
   "proof.of.humanity": "Proof of Humanity",
   sflDiscord: "Sunflower Land Discord Server",
+};
+
+const genieLamp: Record<GenieLamp, string> = {
+  "genieLamp.ready.wish": "Ready to make a wish?",
+  "genieLamp.cannotWithdraw":
+    "You cannot withdraw the lamp once it has been rubbed",
 };
 
 const getContent: Record<GetContent, string> = {
@@ -4379,6 +4390,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...gameDescriptions,
   ...gameTerms,
   ...generalTerms,
+  ...genieLamp,
   ...getContent,
   ...getInputErrorMessage,
   ...goblin_messages,

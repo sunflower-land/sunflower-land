@@ -54,7 +54,7 @@ export function startComposter({
   }
 
   if (!composter.requires) {
-    throw new Error(translate("error.no.alr.composter"));
+    throw new Error(translate("error.alr.composter"));
   }
 
   // remove the requirements from the player's inventory

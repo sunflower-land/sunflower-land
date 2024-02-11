@@ -162,6 +162,7 @@ export type GeneralTerms =
   | "ready.trade"
   | "refresh"
   | "refreshing"
+  | "remaining"
   | "remaining.trades"
   | "remove"
   | "reqSkillPts"
@@ -227,6 +228,7 @@ export type GeneralTerms =
   | "wallet"
   | "warning"
   | "welcome"
+  | "wish"
   | "wishing.well"
   | "withdraw"
   | "withdrawing"
@@ -645,7 +647,9 @@ export type BumpkinTrade =
   | "bumpkinTrade.minLevel"
   | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
-  | "bumpkinTrade.like.list";
+  | "bumpkinTrade.like.list"
+  | "bumpkinTrade.goldpass.required"
+  | "bumpkinTrade.purchase";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
@@ -1495,6 +1499,8 @@ export type GameTerms =
 export type GarbageCollector =
   | "garbageCollector.welcome"
   | "garbageCollector.description";
+
+export type GenieLamp = "genieLamp.ready.wish" | "genieLamp.cannotWithdraw";
 
 export type GetContent =
   | "getContent.error"
@@ -2981,6 +2987,7 @@ export type TranslationKeys =
   | GameTerms
   | GarbageCollector
   | GeneralTerms
+  | GenieLamp
   | GetContent
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
