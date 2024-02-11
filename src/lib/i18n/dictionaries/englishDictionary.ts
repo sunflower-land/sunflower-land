@@ -3889,7 +3889,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.shovel": "Plant and harvest crops.",
   "description.sand.shovel": "Used for digging treasure",
   "description.sand.drill": "Drill deep for uncommon or rare treasure",
-  "description.gold.pickaxe": "Used to collect crimstones",
+  "description.gold.pickaxe": "Used to collect crimstone and sunstone",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
