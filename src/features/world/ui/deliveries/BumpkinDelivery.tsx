@@ -43,6 +43,7 @@ export const OrderCard: React.FC<{
   const { balance, inventory } = game;
 
   const canDeliver = hasRequirementsCheck(order);
+  const { t } = useAppTranslation();
   return (
     <>
       <div className="">
@@ -79,7 +80,7 @@ export const OrderCard: React.FC<{
             })}
             <div className="flex items-center justify-between mt-2 mb-0.5">
               <Label icon={chest} type="warning" className="ml-1.5">
-                Reward
+                {t("reward")}
               </Label>
               {order.reward.sfl && (
                 <div className="flex items-center mr-1">
@@ -231,6 +232,7 @@ export const Gifts: React.FC<{
   onOpen: () => void;
   name: NPCName;
 }> = ({ game, onClose, onOpen, name }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const [selected, setSelected] = useState<FlowerName>();
@@ -270,8 +272,6 @@ export const Gifts: React.FC<{
       );
     }
   };
-
-  const { t } = useAppTranslation();
 
   let translated: string = t(message);
 
@@ -325,7 +325,7 @@ export const Gifts: React.FC<{
             className="mb-2"
             icon={ITEM_DETAILS["White Pansy"].image}
           >
-            Select a flower
+            {t("bumpkin.delivery.selectFlower")}
           </Label>
           {selected && (
             <Label
@@ -339,9 +339,7 @@ export const Gifts: React.FC<{
         </div>
 
         {flowers.length === 0 && (
-          <p className="text-xs mb-2">
-            {`Oh no, you don't have any flowers to gift!`}
-          </p>
+          <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
           <div className="flex w-full flex-wrap">
@@ -360,7 +358,7 @@ export const Gifts: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
-          Back
+          {t("back")}
         </Button>
         <Button
           disabled={isLocked || !selected || !game.inventory[selected]?.gte(1)}
@@ -376,7 +374,7 @@ export const Gifts: React.FC<{
                 />
               </>
             )}
-            Gift
+            {t("gift")}
           </div>
         </Button>
       </div>
@@ -496,7 +494,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       friendship: true,
     });
   };
-
+  
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "sfl") {
       return game.balance.gte(delivery?.items.sfl ?? 0);
@@ -531,8 +529,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   }
 
   if (delivery?.completedAt) {
-    message =
-      "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.";
+    message = t("bumpkin.delivery.waiting");
   }
 
   if (!delivery) {
@@ -603,29 +600,29 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
             <div className="flex justify-between items-center mb-2">
               <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                Delivery
+                {t("delivery")}
               </Label>
               {delivery?.completedAt && (
                 <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
-                  Completed
+                  {t("completed")}
                 </Label>
               )}
               {isLocked && (
                 <Label className="my-2" type="danger" icon={lockIcon}>
-                  Locked
+                  {t("locked")}
                 </Label>
               )}
             </div>
 
             {!delivery && !isLocked && (
-              <p className="text-xs">No deliveries available</p>
+              <p className="text-xs">{t("no.delivery.avl")}</p>
             )}
 
             {isLocked && (
               <>
                 <p className="text-xs">
-                  Prove yourself worthy. Expand your island {missingExpansions}{" "}
-                  more times.
+                  {t("bumpkin.delivery.proveYourself")} {missingExpansions}{" "}
+                  {t("bumpkin.delivery.more.time")}
                 </p>
               </>
             )}
@@ -643,7 +640,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           <div className="flex mt-1">
             {acceptGifts && (
               <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-                Gift
+                {t("gift")}
               </Button>
             )}
 
@@ -651,7 +648,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               disabled={!delivery || !hasDelivery || !!delivery?.completedAt}
               onClick={deliver}
             >
-              Deliver
+              {t("deliver")}
             </Button>
           </div>
         </>

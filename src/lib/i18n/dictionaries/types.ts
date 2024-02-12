@@ -34,6 +34,7 @@ export type GeneralTerms =
   | "check"
   | "chest"
   | "chores"
+  | "choose.wisely"
   | "claim.skill"
   | "claim.gift"
   | "claim"
@@ -63,8 +64,10 @@ export type GeneralTerms =
   | "date"
   | "day"
   | "decoration"
+  | "deliver"
   | "deliveries"
   | "delivery"
+  | "deliveries.closed"
   | "details"
   | "donate"
   | "donating"
@@ -100,6 +103,7 @@ export type GeneralTerms =
   | "free.trade"
   | "fruit"
   | "fruits"
+  | "gift"
   | "go.home"
   | "goblin.delivery"
   | "gotIt"
@@ -121,6 +125,7 @@ export type GeneralTerms =
   | "list.trade"
   | "list"
   | "loading"
+  | "locked"
   | "logout"
   | "loser.refund"
   | "lvl"
@@ -135,6 +140,7 @@ export type GeneralTerms =
   | "music"
   | "next"
   | "nextSkillPtLvl"
+  | "no.delivery.avl"
   | "no.limits.exceeded"
   | "no.mail"
   | "no.thanks"
@@ -577,6 +583,18 @@ export type BuildingDescriptions =
   | "description.workbench"
   | "description.tent"
   | "description.house";
+
+export type BumpkinDelivery =
+  | "bumpkin.delivery.haveFlower"
+  | "bumpkin.delivery.notFavorite"
+  | "bumpkin.delivery.loveFlower"
+  | "bumpkin.delivery.favoriteFlower"
+  | "bumpkin.delivery.selectFlower"
+  | "bumpkin.delivery.noFlowers"
+  | "bumpkin.delivery.thanks"
+  | "bumpkin.delivery.waiting"
+  | "bumpkin.delivery.proveYourself"
+  | "bumpkin.delivery.more.time";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"
@@ -2964,6 +2982,7 @@ export type TranslationKeys =
   | BoostEffectDescriptions
   | BountyDescription
   | BuildingDescriptions
+  | BumpkinDelivery
   | BumpkinItemBuff
   | BumpkinPartRequirements
   | BumpkinSkillsDescription

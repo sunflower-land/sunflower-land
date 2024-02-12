@@ -104,7 +104,9 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           disabled={!canCompleteObsession()}
           onClick={() => gameService.send("bertObsession.completed")}
         >
-          {`Claim ${reward} ${getSeasonalTicket()}${reward > 0 ? "s" : ""}`}
+          {`${t("claim")} ${reward} ${getSeasonalTicket()}${
+            reward > 0 ? "s" : ""
+          }`}
         </Button>
         <span className="text-xs">
           {t("bert.day")} {getSeasonalTicket()}.

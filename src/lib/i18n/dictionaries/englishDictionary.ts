@@ -13,6 +13,7 @@ import {
   BoostEffectDescriptions,
   BountyDescription,
   BuildingDescriptions,
+  BumpkinDelivery,
   BumpkinItemBuff,
   BumpkinPartRequirements,
   BumpkinSkillsDescription,
@@ -201,6 +202,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   check: "Check",
   chest: "Chest",
   chores: "Chores",
+  "choose.wisely": "Choose wisely!",
   claim: "Claim",
   "claim.gift": "Claim Gift",
   "claim.skill": "Claim Skill",
@@ -229,7 +231,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   date: "Date",
   day: "day",
   decoration: "Decoration",
+  deliver: "Deliver",
   deliveries: "Deliveries",
+  "deliveries.closed": "Deliveries closed",
   delivery: "Delivery",
   details: "Details",
   donate: "Donate",
@@ -266,6 +270,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "free.trade": "Free Trade",
   fruit: "Fruit",
   fruits: "Fruits",
+  gift: "Gift",
   "go.home": "Go Home",
   "goblin.delivery":
     "Goblins keep their delivery cut in the treasury. View them also on",
@@ -288,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   list: "List",
   "list.trade": "List trade",
   loading: "Loading",
+  locked: "Locked",
   logout: "Logout",
   "loser.refund": "Refund resources",
   lvl: "Level",
@@ -303,6 +309,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   next: "Next",
   nextSkillPtLvl: "Next skill point: level",
   no: "No",
+  "no.delivery.avl": "No deliveries available",
   "no.event": "No Event",
   "no.have.bumpkin": "You do not have a Bumpkin!",
   "no.limits.exceeded": "No limits exceeded",
@@ -877,6 +884,23 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.workbench": "Craft tools to collect resources",
   "description.tent": "(Discontinued)",
   "description.house": "A place to rest your head",
+};
+
+const bumpkinDelivery: Record<BumpkinDelivery, string> = {
+  "bumpkin.delivery.haveFlower":
+    "Have you got a flower for me? Make sure it is something I like.",
+  "bumpkin.delivery.notFavorite":
+    "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts.",
+  "bumpkin.delivery.loveFlower": "Wow, thanks! I love this flower!",
+  "bumpkin.delivery.favoriteFlower":
+    "This is my favorite flower! Thanks a bunch!",
+  "bumpkin.delivery.selectFlower": "Select a flower",
+  "bumpkin.delivery.noFlowers": "Oh no, you don't have any flowers to gift!",
+  "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!",
+  "bumpkin.delivery.waiting":
+    "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
+  "bumpkin.delivery.proveYourself": "Prove yourself worthy. Expand your island",
+  "bumpkin.delivery.more.time": "more times.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -4373,6 +4397,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...boostEffectDescriptions,
   ...bountyDescription,
   ...buildingDescriptions,
+  ...bumpkinDelivery,
   ...bumpkinItemBuff,
   ...bumpkinPartRequirements,
   ...bumpkinSkillsDescription,
