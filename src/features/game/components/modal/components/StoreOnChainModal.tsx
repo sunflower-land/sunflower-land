@@ -39,7 +39,7 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
               {t("transaction.storeProgress.blockchain.one")}
             </p>
             <p className="text-xxs italic mb-2">
-              {t("transaction.storeProgress.blockchain.one")}
+              {t("transaction.storeProgress.blockchain.two")}
             </p>
           </div>
           <Button onClick={storeData}>{t("transaction.storeProgress")}</Button>
