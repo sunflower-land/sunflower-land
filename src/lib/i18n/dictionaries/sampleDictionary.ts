@@ -197,6 +197,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   buy: "",
   cancel: "",
   "card.cash": "",
+  caught: "",
   check: "",
   chest: "",
   chores: "",
@@ -271,6 +272,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "",
   "grant.wish": "",
   guide: "",
+  harvested: "",
   honey: "",
   "hungry?": "",
   info: "",
@@ -310,6 +312,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "offer.end": "",
   ok: "",
   on: "",
+  open: "",
   "open.gift": "",
   "pass.required": "",
   "pay.attention.feedback": "",
@@ -340,6 +343,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   resources: "",
   restock: "",
   retry: "",
+  reward: "",
   "reward.discovered": "",
   save: "",
   saving: "",
@@ -361,7 +365,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "skip.order": "",
   "sound.effects": "",
   "special.event": "",
+  spin: "",
   start: "",
+  "start.new.chore": "",
   submit: "",
   submitting: "",
   success: "",
@@ -510,6 +516,10 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.missingKey": "",
   "basic.treasure.needKey": "",
   "basic.treasure.getKey": "",
+  "basic.treasure.goodLuck": "",
+  "basic.treasure.key": "",
+  "basic.treasure.congratsKey": "",
+  "basic.treasure.openChest": "",
 };
 
 const beach: Record<Beach, string> = {
@@ -1467,6 +1477,9 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.1500.fish": "",
   "quest.marine.marvel": "",
   "quest.5.fish": "",
+  "quest.sunpetal.savant": "",
+  "quest.bloom.bigshot": "",
+  "quest.lily.luminary": "",
 };
 const flowerBedGuide: Record<FlowerBedGuide, string> = {
   "flowerBedGuide.buySeeds": "",

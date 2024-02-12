@@ -197,6 +197,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   buy: "Buy",
   cancel: "Cancel",
   "card.cash": "Card / Cash",
+  caught: "Caught",
   check: "Check",
   chest: "Chest",
   chores: "Chores",
@@ -272,6 +273,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Go to",
   "grant.wish": "Grant New Wish",
   guide: "Guide",
+  harvested: "Harvested",
   honey: "Honey",
   "hungry?": "Hungry?",
   info: "Info",
@@ -311,6 +313,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "offer.end": "Offer ends in",
   ok: "OK",
   on: "On",
+  open: "open",
   "open.gift": "Open Gift",
   "pass.required": "Pass Required",
   "place.map": "Place on map",
@@ -341,6 +344,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   resources: "Resources",
   restock: "Restock",
   retry: "Retry",
+  reward: "Reward",
   "reward.discovered": "Reward Discovered",
   save: "Save",
   saving: "Saving",
@@ -362,7 +366,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "skip.order": "Skip Order",
   "sound.effects": "Sound Effects",
   "special.event": "Special Event",
+  spin: "Spin",
   start: "Start",
+  "start.new.chore": "Start New Chore",
   submit: "Submit",
   submitting: "Submitting",
   success: "Success!",
@@ -549,6 +555,11 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.needKey": "You need a Treasure Key to open this chest",
   "basic.treasure.getKey":
     "You can get Treasure Keys by completing tasks for Bumpkins",
+  "basic.treasure.goodLuck": "Good Luck!",
+  "basic.treasure.key": "Treasure Key",
+  "basic.treasure.congratsKey": "Congratulations, you have a Treasure Key!",
+  "basic.treasure.openChest":
+    "Would you like to open the chest and claim a reward?",
 };
 
 const beach: Record<Beach, string> = {
@@ -1864,6 +1875,9 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.1500.fish": "Catch 1500 fish",
   "quest.marine.marvel": "Catch each Marine Marvel",
   "quest.5.fish": "Catch 5 of every fish",
+  "quest.sunpetal.savant": "Discover 12 Sunpetal variants",
+  "quest.bloom.bigshot": "Discover 12 Bloom variants",
+  "quest.lily.luminary": "Discover 12 Lily variants",
 };
 
 const flowerBedGuide: Record<FlowerBedGuide, string> = {

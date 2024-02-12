@@ -30,6 +30,7 @@ export type GeneralTerms =
   | "buy"
   | "cancel"
   | "card.cash"
+  | "caught"
   | "check"
   | "chest"
   | "chores"
@@ -105,6 +106,7 @@ export type GeneralTerms =
   | "goto"
   | "grant.wish"
   | "guide"
+  | "harvested"
   | "honey"
   | "hungry?"
   | "info"
@@ -144,6 +146,7 @@ export type GeneralTerms =
   | "offer.end"
   | "ok"
   | "on"
+  | "open"
   | "open.gift"
   | "pass.required"
   | "pay.attention.feedback"
@@ -174,6 +177,7 @@ export type GeneralTerms =
   | "resources"
   | "restock"
   | "retry"
+  | "reward"
   | "reward.discovered"
   | "save"
   | "saving"
@@ -195,7 +199,9 @@ export type GeneralTerms =
   | "skip.order"
   | "sound.effects"
   | "special.event"
+  | "spin"
   | "start"
+  | "start.new.chore"
   | "submit"
   | "submitting"
   | "success"
@@ -335,7 +341,11 @@ export type Base = "base.missing" | "base.far.away";
 export type BasicTreasure =
   | "basic.treasure.missingKey"
   | "basic.treasure.needKey"
-  | "basic.treasure.getKey";
+  | "basic.treasure.getKey"
+  | "basic.treasure.goodLuck"
+  | "basic.treasure.key"
+  | "basic.treasure.congratsKey"
+  | "basic.treasure.openChest";
 
 export type Beach = "beach.party" | "beach.ready";
 
@@ -1300,7 +1310,10 @@ export type FishingQuests =
   | "quest.300.fish"
   | "quest.1500.fish"
   | "quest.marine.marvel"
-  | "quest.5.fish";
+  | "quest.5.fish"
+  | "quest.sunpetal.savant"
+  | "quest.bloom.bigshot"
+  | "quest.lily.luminary";
 
 export type FlowerBedGuide =
   | "flowerBedGuide.buySeeds"
