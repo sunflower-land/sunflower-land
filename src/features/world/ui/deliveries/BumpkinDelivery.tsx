@@ -79,7 +79,7 @@ export const OrderCard: React.FC<{
               {order.reward.sfl && (
                 <div className="flex items-center">
                   <img src={sfl} className="w-5 h-auto mr-1" />
-                  <span className="text-xs">5 SFL</span>
+                  <span className="text-xs">{order.reward.sfl}</span>
                 </div>
               )}
               {order.reward.tickets && (
