@@ -1100,9 +1100,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Immortal Pear": { width: 2, height: 2 },
 
   // Market Items
-  Scarecrow: { width: 2, height: 2 },
-  Nancy: { width: 1, height: 2 },
-  Kuebiko: { width: 2, height: 2 },
+  Scarecrow: { width: 2, height: 1 },
+  Nancy: { width: 1, height: 1 },
+  Kuebiko: { width: 2, height: 1 },
   "Golden Cauliflower": { width: 2, height: 2 },
   "Mysterious Parsnip": { width: 1, height: 1 },
   "Carrot Sword": { width: 1, height: 1 },

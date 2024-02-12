@@ -168,7 +168,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Chef Bear": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Construction Bear": {
@@ -177,14 +177,14 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Angel Bear": {
     height: 1,
-    width: 2,
+    width: 1,
   },
   "Badass Bear": {
     height: 1,
     width: 1,
   },
   "Bear Trap": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Brilliant Bear": {
@@ -205,7 +205,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Rich Bear": {
     height: 1,
-    width: 2,
+    width: 1,
   },
   "Rainbow Artist Bear": {
     width: 1,
