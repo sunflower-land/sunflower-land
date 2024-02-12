@@ -168,7 +168,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Chef Bear": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Construction Bear": {
@@ -184,7 +184,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "Bear Trap": {
-    height: 2,
+    height: 1,
     width: 1,
   },
   "Brilliant Bear": {
@@ -205,7 +205,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Rich Bear": {
     height: 1,
-    width: 2,
+    width: 1,
   },
   "Rainbow Artist Bear": {
     width: 1,
@@ -224,19 +224,19 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "T-Rex Skull": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Sunflower Coin": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   Foliant: {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Skeleton King Staff": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Lifeguard Bear": {
@@ -260,11 +260,11 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   Galleon: {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Dinosaur Bone": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Human Bear": {
