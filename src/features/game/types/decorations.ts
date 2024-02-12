@@ -224,19 +224,19 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   "T-Rex Skull": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Sunflower Coin": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   Foliant: {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Skeleton King Staff": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Lifeguard Bear": {
@@ -260,11 +260,11 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
   },
   Galleon: {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Dinosaur Bone": {
-    height: 2,
+    height: 1,
     width: 2,
   },
   "Human Bear": {

@@ -1213,11 +1213,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // AoE items
   "Emerald Turtle": { height: 1, width: 1 },
   "Tin Turtle": { height: 1, width: 1 },
-  "Basic Scarecrow": { width: 1, height: 2 },
+  "Basic Scarecrow": { width: 1, height: 1 },
   Bale: { width: 2, height: 2 },
   "Sir Goldensnout": { width: 2, height: 2 },
-  "Scary Mike": { width: 1, height: 2 },
-  "Laurie the Chuckle Crow": { width: 1, height: 2 },
+  "Scary Mike": { width: 1, height: 1 },
+  "Laurie the Chuckle Crow": { width: 1, height: 1 },
   "Queen Cornelia": { width: 1, height: 2 },
 
   // Potion House Items
@@ -1228,13 +1228,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "White Crow": { width: 1, height: 1 },
 
   // Marine Marvel Trophies
-  "Twilight Anglerfish": { width: 2, height: 2 },
-  "Starlight Tuna": { width: 2, height: 2 },
-  "Radiant Ray": { width: 2, height: 2 },
-  "Phantom Barracuda": { width: 2, height: 2 },
-  "Gilded Swordfish": { width: 2, height: 2 },
+  "Twilight Anglerfish": { width: 2, height: 1 },
+  "Starlight Tuna": { width: 2, height: 1 },
+  "Radiant Ray": { width: 2, height: 1 },
+  "Phantom Barracuda": { width: 2, height: 1 },
+  "Gilded Swordfish": { width: 2, height: 1 },
   "Kraken Tentacle": { width: 1, height: 1 },
-  "Crimson Carp": { width: 2, height: 2 },
+  "Crimson Carp": { width: 2, height: 1 },
 
   // Catch the Kraken SFTs
   Walrus: { width: 2, height: 2 },

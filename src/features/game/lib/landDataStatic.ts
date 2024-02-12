@@ -496,7 +496,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     ],
   },
   collectibles: {
-    "Chef Bear": [
+    "Dinosaur Bone": [
       {
         coordinates: {
           x: 4,
