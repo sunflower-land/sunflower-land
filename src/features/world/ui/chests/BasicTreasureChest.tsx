@@ -23,6 +23,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
 
   const [isRevealing, setIsRevealing] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
 
   const hasKey = !!gameState.context.state.inventory["Treasure Key"];
 
@@ -30,8 +31,13 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
     setIsOpening(true);
   };
 
-  const spin = () => {
+  const spin = async () => {
+    setIsSpinning(true);
+
+    await new Promise((res) => setTimeout(res, 3000));
+
     setIsOpening(false);
+    setIsSpinning(false);
     setIsRevealing(true);
 
     gameService.send("REVEAL", {
@@ -83,6 +89,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
             className="w-full"
             style={{
               transformOrigin: "calc(50%) calc(50% + 9px)",
+              animation: isSpinning ? "spin 6s linear infinite" : "none",
             }}
           />
         </div>
