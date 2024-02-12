@@ -221,7 +221,7 @@ export const PromotingModal: React.FC<Props> = ({
             Sold out
           </Label> */}
           <a
-            href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
+            href="https://docs.sunflower-land.com/player-guides/seasons/spring-blossom#spring-blossom-banner"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
