@@ -97,9 +97,7 @@ describe("claimBumpkinGift", () => {
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
     ).toEqual(5);
-    expect(state.inventory["Block Buck"]).toEqual(
-      TEST_FARM.inventory["Block Buck"]?.add(1)
-    );
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
   });
 
   it("claims a gift of wearables", () => {
@@ -218,9 +216,7 @@ describe("claimBumpkinGift", () => {
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
     ).toEqual(200);
 
-    expect(state.inventory["Block Buck"]).toEqual(
-      TEST_FARM.inventory["Block Buck"]?.add(new Decimal(1))
-    );
+    expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
     expect(state.balance).toEqual(new Decimal(4));
   });
