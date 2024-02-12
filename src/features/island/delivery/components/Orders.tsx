@@ -350,7 +350,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 className="w-full py-2 relative"
                 style={{ height: "80px" }}
               >
-                <p className="text-center mb-0.5 mt-1 text-sm">Next order:</p>
+                <p className="text-center mb-0.5 mt-1 text-sm">
+                  {t("next.order")}:
+                </p>
                 <div className="flex justify-center items-center">
                   <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
                   <p className="text-xs">
@@ -369,7 +371,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 style={{ height: "80px" }}
               >
                 <p className="text-center mb-0.5 mt-1 text-sm loading">
-                  Skipping
+                  {t("skipping")}
                 </p>
               </OuterPanel>
             </div>
@@ -438,12 +440,8 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           {showSkipDialog && (
             <>
               <div className="flex-1 space-y-2 p-1">
-                <p className="text-xs">
-                  {"You're only able to skip an order after 24 hours!"}
-                </p>
-                {canSkip && (
-                  <p className="text-xs">{t("choose.wisely")}Choose wisely!</p>
-                )}
+                <p className="text-xs">{t("orderhelp.Skip.hour")}</p>
+                {canSkip && <p className="text-xs">{t("choose.wisely")}</p>}
                 {!canSkip && (
                   <>
                     <p className="text-xs">{t("orderhelp.SkipIn")}</p>
