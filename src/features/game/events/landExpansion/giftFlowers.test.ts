@@ -60,7 +60,7 @@ describe("giftBumpkin", () => {
     expect(state.inventory["Celestial Frostbloom"]).toEqual(new Decimal(1));
   });
 
-  it("gives a small friendship bonus for a flower not on their list", () => {
+  it("gives a noraml friendship points for a flower not on their list", () => {
     const state = giftFlowers({
       state: {
         ...TEST_FARM,
@@ -78,38 +78,21 @@ describe("giftBumpkin", () => {
     expect(state.npcs?.betty?.friendship?.points).toEqual(1);
   });
 
-  it("gives a medium friendship bonus for average flower", () => {
+  it("gives a bonus for a flower they desire", () => {
     const state = giftFlowers({
       state: {
         ...TEST_FARM,
         inventory: {
-          "White Cosmos": new Decimal(1),
+          "Red Pansy": new Decimal(1),
         },
       },
       action: {
-        flower: "White Cosmos",
+        flower: "Red Pansy",
         type: "flowers.gifted",
         bumpkin: "betty",
       },
     });
 
-    expect(state.npcs?.betty?.friendship?.points).toEqual(3);
-  });
-  it("gives a large friendship bonus for good flower", () => {
-    const state = giftFlowers({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Blue Daffodil": new Decimal(1),
-        },
-      },
-      action: {
-        flower: "Blue Daffodil",
-        type: "flowers.gifted",
-        bumpkin: "betty",
-      },
-    });
-
-    expect(state.npcs?.betty?.friendship?.points).toEqual(15);
+    expect(state.npcs?.betty?.friendship?.points).toEqual(4);
   });
 });

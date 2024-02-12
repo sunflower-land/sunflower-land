@@ -6,27 +6,83 @@ type GiftPoints = Partial<Record<FlowerName, number>>;
 
 /**
  * Flowers that Bumpkins particularly desire
- * Otherwise, they will get default flower points
+ * Gives bonus points
  */
-export const BUMPKIN_DESIRES: Partial<Record<NPCName, GiftPoints>> = {
+export const BUMPKIN_FLOWER_BONUSES: Partial<Record<NPCName, GiftPoints>> = {
+  // All Pansies
   betty: {
-    "White Cosmos": 3,
-    "Blue Daffodil": 15,
+    "Red Pansy": 3,
+    "Yellow Pansy": 3,
+    "Purple Pansy": 3,
+    "White Pansy": 3,
+    "Blue Pansy": 3,
   },
+
   "pumpkin' pete": {
-    "Red Pansy": 10,
-    "White Cosmos": 3,
-    "Blue Daffodil": 15,
+    "Yellow Cosmos": 4,
   },
-  blacksmith: {},
-  bert: {},
-  finley: {},
-  raven: {},
-  miranda: {},
-  finn: {},
-  corale: {},
-  cornwell: {},
-  tywin: {},
+
+  blacksmith: {
+    "Red Carnation": 3,
+  },
+
+  // All Lotus
+  bert: {
+    "Red Lotus": 4,
+    "Yellow Lotus": 4,
+    "Purple Lotus": 4,
+    "White Lotus": 4,
+    "Blue Lotus": 4,
+  },
+
+  // All Daffodils
+  finley: {
+    "Red Daffodil": 3,
+    "Yellow Daffodil": 3,
+    "Purple Daffodil": 3,
+    "White Daffodil": 3,
+    "Blue Daffodil": 3,
+  },
+
+  // All Purple
+  raven: {
+    "Purple Carnation": 4,
+    "Purple Lotus": 3,
+    "Purple Daffodil": 2,
+    "Purple Pansy": 2,
+  },
+
+  // All yellow
+  miranda: {
+    "Yellow Carnation": 4,
+    "Yellow Lotus": 3,
+    "Yellow Daffodil": 2,
+    "Yellow Pansy": 2,
+  },
+
+  // White and Blue Cosmos
+  finn: {
+    "White Cosmos": 3,
+    "Blue Cosmos": 3,
+  },
+
+  corale: {
+    "Prism Petal": 4,
+  },
+
+  // All Balloon
+  cornwell: {
+    "Red Balloon Flower": 3,
+    "Yellow Balloon Flower": 3,
+    "Purple Balloon Flower": 3,
+    "White Balloon Flower": 3,
+    "Blue Balloon Flower": 3,
+  },
+
+  tywin: {
+    "Primula Enigma": 5,
+    "Celestial Frostbloom": 4,
+  },
 };
 
 export const DEFAULT_FLOWER_POINTS: Record<FlowerName, number> = {
