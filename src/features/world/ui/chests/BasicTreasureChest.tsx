@@ -50,7 +50,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
     });
   };
 
-  if (gameState.matches("revealing") && isRevealing) {
+  if (isSpinning || (gameState.matches("revealing") && isRevealing)) {
     return (
       <Panel>
         <div className="w-48 mx-auto my-2 relative">
