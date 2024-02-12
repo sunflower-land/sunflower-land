@@ -59,7 +59,9 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     return (
       <CloseButtonPanel title={t("advanced")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
-          {showAnimations ? "Disable Animations" : "Enable Animations"}
+          {showAnimations
+            ? t("subSettings.disableAnimations")
+            : t("subSettings.enableAnimations")}
         </Button>
 
         {isFullUser && (
