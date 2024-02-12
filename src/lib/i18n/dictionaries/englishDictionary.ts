@@ -2361,7 +2361,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.newOpportunities":
     "An exotic island awaits you with new resources and opportunities to grow your farm.",
   "islandupgrade.confirmation":
-    "Would you like to upgrade? Your resources will be safely transferred to your new island.",
+    "Would you like to upgrade? You will start on a small island with all of your items.",
   "islandupgrade.locked": "Locked",
   "islandupgrade.exploring": "Exploring",
   "islandupgrade.welcomePetalParadise": "Welcome to Petal Paradise!",
