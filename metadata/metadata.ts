@@ -7029,4 +7029,30 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/931.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
+  "Luxury Key": {
+    name: "Luxury Key",
+    description: "A magic key that can unlock rewards in the plaza",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+
+  "Rare Key": {
+    name: "Rare Key",
+    description: "A magic key that can unlock rewards in the plaza",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+
+  "Prize Ticket": {
+    name: "Prize Ticket",
+    description: "A free entry into the end of season giveaway",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
 };

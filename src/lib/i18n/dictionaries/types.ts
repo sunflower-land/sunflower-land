@@ -1449,6 +1449,7 @@ export type GameDescriptions =
   | "description.farmhand"
   | "description.tulip.bulb"
   | "description.treasure.key"
+  | "description.prizeTicket"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"

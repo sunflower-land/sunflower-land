@@ -4,7 +4,7 @@ import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import Decimal from "decimal.js-light";
 import { NPCName } from "lib/npcs";
 import {
-  BUMPKIN_DESIRES,
+  BUMPKIN_FLOWER_BONUSES,
   DEFAULT_FLOWER_POINTS,
 } from "features/game/types/gifts";
 
@@ -31,7 +31,7 @@ export function giftFlowers({
     throw new Error("Item is not a flower");
   }
 
-  if (!(action.bumpkin in BUMPKIN_DESIRES)) {
+  if (!(action.bumpkin in BUMPKIN_FLOWER_BONUSES)) {
     throw new Error("Bumpkin does not accept gifts");
   }
 
@@ -42,9 +42,11 @@ export function giftFlowers({
 
   game.inventory[action.flower] = flowerAmount.sub(1);
 
-  const points =
-    BUMPKIN_DESIRES[action.bumpkin]?.[action.flower] ??
-    DEFAULT_FLOWER_POINTS[action.flower];
+  let points = DEFAULT_FLOWER_POINTS[action.flower];
+  const bonus = BUMPKIN_FLOWER_BONUSES[action.bumpkin]?.[action.flower] ?? 0;
+  if (bonus > 0) {
+    points += bonus;
+  }
 
   const npc = game.npcs?.[action.bumpkin] ?? {
     deliveryCount: 0,
