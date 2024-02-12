@@ -322,7 +322,7 @@ export const Gifts: React.FC<{
           </p>
         )}
         {flowers.length > 0 && (
-          <div className="flex">
+          <div className="flex w-full flex-wrap">
             {flowers.map((flower) => (
               <Box
                 key={flower}
