@@ -18,6 +18,15 @@ export const BUMPKIN_DESIRES: Partial<Record<NPCName, GiftPoints>> = {
     "White Cosmos": 3,
     "Blue Daffodil": 15,
   },
+  blacksmith: {},
+  bert: {},
+  finley: {},
+  raven: {},
+  miranda: {},
+  finn: {},
+  corale: {},
+  cornwell: {},
+  tywin: {},
 };
 
 export const DEFAULT_FLOWER_POINTS: Record<FlowerName, number> = {
