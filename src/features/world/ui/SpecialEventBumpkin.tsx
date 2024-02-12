@@ -138,7 +138,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
             Congratulations!
           </Label>
           <p className="text-sm mb-2">
-            Please fill in the form bellow to claim your airdrop.
+            Please fill in the form below to claim your airdrop.
           </p>
           <p className="text-xs mb-2">
             Airdrops are handled externally and may take a few days to arrive.
