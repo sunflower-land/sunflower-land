@@ -3330,6 +3330,138 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Ah, my friend, it seems I don't have an active order for you at the moment. But fear not! I'm always here to offer guidance and a friendly pumpkin smile.",
   "npcDialogues.pumpkinPete.noOrder2":
     "Oh, no active order for you today, my friend. But don't worry! Feel free to explore the plaza, and if you need any assistance, I'm your trusty Bumpkin.",
+
+  // NPC gift dialogues
+  "npcDialogues.pumpkinPete.reward":
+    "Thank you kindly for your deliveries. Here's a token of appreciation for you.",
+  "npcDialogues.pumpkinPete.flowerInto":
+    "Have you ever seen the elegance of a Yellow Cosmos? I'm craving one...",
+  "npcDialogues.pumpkinPete.averageFlower":
+    "Not exactly what I had in mind, but it's quite charming. Thanks.",
+  "npcDialogues.pumpkinPete.badFlower":
+    "This isn't what I was hoping for. Perhaps you can find a more suitable one?",
+  "npcDialogues.pumpkinPete.goodFlower":
+    "This Yellow Cosmos is splendid! Thank you for bringing it to me.",
+
+  "npcDialogues.betty.reward":
+    "I appreciate your thoughtful gifts. Here's a little something to show my gratitude.",
+  "npcDialogues.betty.flowerInto":
+    "Can you imagine the beauty of a Red, Yellow, Purple, White, or Blue Pansy? I long for one...",
+  "npcDialogues.betty.averageFlower":
+    "Not exactly what I was expecting, but it's quite lovely. Thank you.",
+  "npcDialogues.betty.badFlower":
+    "This isn't what I had in mind. Could you try to find a more suitable flower?",
+  "npcDialogues.betty.goodFlower":
+    "This Pansy is beautiful! Thank you for bringing it to me.",
+
+  "npcDialogues.blacksmith.reward":
+    "Your deliveries are much appreciated. Here's something for your efforts.",
+  "npcDialogues.blacksmith.flowerInto":
+    "I'm in need of a vibrant Red Carnation. Have you come across one?",
+  "npcDialogues.blacksmith.averageFlower":
+    "Not exactly what I was hoping for, but it's quite nice. Thank you.",
+  "npcDialogues.blacksmith.badFlower":
+    "This flower isn't quite right. Could you search for a more suitable one?",
+  "npcDialogues.blacksmith.goodFlower":
+    "Ah, this Red Carnation is perfect! Thank you for bringing it to me.",
+
+  "npcDialogues.bert.reward":
+    "Thank you for your continuous help. Here's a small token of appreciation.",
+  "npcDialogues.bert.flowerInto":
+    "The Lotus flowers in Red, Yellow, Purple, White, or Blue are truly enchanting. Do you have one?",
+  "npcDialogues.bert.averageFlower":
+    "This wasn't what I had in mind, but it's quite delightful. Thank you.",
+  "npcDialogues.bert.badFlower":
+    "This isn't the flower I needed. Perhaps another search is in order?",
+  "npcDialogues.bert.goodFlower":
+    "This Lotus is exquisite! Thank you for bringing it to me.",
+
+  "npcDialogues.finn.reward":
+    "Your contributions are invaluable. Here's a little something to express my gratitude.",
+  "npcDialogues.finn.flowerInto":
+    "I'm yearning for a beautiful Daffodil in Red, Yellow, Purple, White, or Blue. Can you find one?",
+  "npcDialogues.finn.averageFlower":
+    "Not exactly what I was hoping for, but it's quite pleasing. Thank you.",
+  "npcDialogues.finn.badFlower":
+    "This flower doesn't quite meet my expectations. Perhaps another try?",
+  "npcDialogues.finn.goodFlower":
+    "This Daffodil is stunning! Thank you for bringing it to me.",
+
+  "npcDialogues.finley.reward":
+    "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
+  "npcDialogues.finley.flowerInto":
+    "A lovely Yellow Carnation, like the one I'm thinking of, would brighten up my day. Have you seen one?",
+  "npcDialogues.finley.averageFlower":
+    "It's not exactly what I had in mind, but it's quite charming. Thank you.",
+  "npcDialogues.finley.badFlower":
+    "This flower isn't quite right. Perhaps another one would be more suitable?",
+  "npcDialogues.finley.goodFlower":
+    "This Yellow Carnation is beautiful! Thank you for bringing it to me.",
+
+  "npcDialogues.corale.reward":
+    "Your deliveries are much appreciated. Here's a little something to show my gratitude.",
+  "npcDialogues.corale.flowerInto":
+    "Have you ever encountered the radiant Prism Petal? It's simply enchanting...",
+  "npcDialogues.corale.averageFlower":
+    "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
+  "npcDialogues.corale.badFlower":
+    "This isn't quite what I had in mind. Could you find a more suitable flower?",
+  "npcDialogues.corale.goodFlower":
+    "This Prism Petal is exquisite! Thank you for bringing it to me.",
+
+  "npcDialogues.raven.reward":
+    "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
+  "npcDialogues.raven.flowerInto":
+    "Deep dark purple is the color of my soul - have you come across anything like this?",
+  "npcDialogues.raven.averageFlower":
+    "Not quite what I was expecting, but it's quite pleasing. Thank you.",
+  "npcDialogues.raven.badFlower":
+    "This flower isn't quite right. Perhaps another search is in order?",
+  "npcDialogues.raven.goodFlower":
+    "This Purple Carnation is perfect! Thank you for bringing it to me.",
+
+  "npcDialogues.miranda.reward":
+    "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
+  "npcDialogues.miranda.flowerInto":
+    "The vibrancy of a Yellow flower would surely lift my spirits. Have you seen one around?",
+  "npcDialogues.miranda.averageFlower":
+    "It's not exactly what I was hoping for, but it's quite charming. Thank you.",
+  "npcDialogues.miranda.badFlower":
+    "This flower isn't quite right. Perhaps another one would be more suitable?",
+  "npcDialogues.miranda.goodFlower":
+    "This Yellow flower is lovely! Thank you for bringing it to me.",
+
+  "npcDialogues.cornwell.reward":
+    "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
+  "npcDialogues.cornwell.flowerInto":
+    "The sight of a Balloon Flower in Red, Yellow, Purple, White, or Blue is truly delightful...",
+  "npcDialogues.cornwell.averageFlower":
+    "Not quite what I was expecting, but it's quite charming. Thank you.",
+  "npcDialogues.cornwell.badFlower":
+    "This flower isn't quite right. Perhaps another search is in order?",
+  "npcDialogues.cornwell.goodFlower":
+    "This Balloon Flower is delightful! Thank you for bringing it to me.",
+
+  "npcDialogues.tywin.reward":
+    "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
+  "npcDialogues.tywin.flowerInto":
+    "Have you heard of the exquisite Primula Enigma or the mesmerizing Celestial Frostbloom? I'm in need of one.",
+  "npcDialogues.tywin.averageFlower":
+    "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
+  "npcDialogues.tywin.badFlower":
+    "This flower isn't quite right. Perhaps another one would be more suitable?",
+  "npcDialogues.tywin.goodFlower":
+    "This flower is simply breathtaking! Thank you for bringing it to me.",
+
+  "npcDialogues.default.flowerInto":
+    "Have you got a flower for me? Make sure it is something I like.",
+  "npcDialogues.default.averageFlower": "Wow, thanks! I love this flower!",
+  "npcDialogues.default.badFlower":
+    "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts.",
+  "npcDialogues.default.goodFlower":
+    "This is my favorite flower! Thanks a bunch!",
+  "npcDialogues.default.reward":
+    "Wow, thanks Bumpkin. Here is a small gift for your help!",
 };
 
 const nyeButton: Record<NyeButton, string> = {

@@ -29,6 +29,9 @@ import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { getTotalExpansions } from "./DeliveryPanelContent";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { NpcDialogues } from "lib/i18n/dictionaries/types";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -116,6 +119,102 @@ export const OrderCard: React.FC<{
   );
 };
 
+type GiftResponse = {
+  flowerIntro: NpcDialogues;
+  flowerPositive: NpcDialogues;
+  flowerNegative: NpcDialogues;
+  flowerAverage: NpcDialogues;
+  reward: NpcDialogues;
+};
+
+const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
+  "pumpkin' pete": {
+    flowerIntro: "npcDialogues.pumpkinPete.flowerInto",
+    flowerAverage: "npcDialogues.pumpkinPete.averageFlower",
+    flowerNegative: "npcDialogues.pumpkinPete.badFlower",
+    flowerPositive: "npcDialogues.pumpkinPete.goodFlower",
+    reward: "npcDialogues.pumpkinPete.reward",
+  },
+  betty: {
+    flowerIntro: "npcDialogues.betty.flowerInto",
+    flowerAverage: "npcDialogues.betty.averageFlower",
+    flowerNegative: "npcDialogues.betty.badFlower",
+    flowerPositive: "npcDialogues.betty.goodFlower",
+    reward: "npcDialogues.betty.reward",
+  },
+  blacksmith: {
+    flowerIntro: "npcDialogues.blacksmith.flowerInto",
+    flowerAverage: "npcDialogues.blacksmith.averageFlower",
+    flowerNegative: "npcDialogues.blacksmith.badFlower",
+    flowerPositive: "npcDialogues.blacksmith.goodFlower",
+    reward: "npcDialogues.blacksmith.reward",
+  },
+  bert: {
+    flowerIntro: "npcDialogues.bert.flowerInto",
+    flowerAverage: "npcDialogues.bert.averageFlower",
+    flowerNegative: "npcDialogues.bert.badFlower",
+    flowerPositive: "npcDialogues.bert.goodFlower",
+    reward: "npcDialogues.bert.reward",
+  },
+  finn: {
+    flowerIntro: "npcDialogues.finn.flowerInto",
+    flowerAverage: "npcDialogues.finn.averageFlower",
+    flowerNegative: "npcDialogues.finn.badFlower",
+    flowerPositive: "npcDialogues.finn.goodFlower",
+    reward: "npcDialogues.finn.reward",
+  },
+  finley: {
+    flowerIntro: "npcDialogues.finley.flowerInto",
+    flowerAverage: "npcDialogues.finley.averageFlower",
+    flowerNegative: "npcDialogues.finley.badFlower",
+    flowerPositive: "npcDialogues.finley.goodFlower",
+    reward: "npcDialogues.finley.reward",
+  },
+  corale: {
+    flowerIntro: "npcDialogues.corale.flowerInto",
+    flowerAverage: "npcDialogues.corale.averageFlower",
+    flowerNegative: "npcDialogues.corale.badFlower",
+    flowerPositive: "npcDialogues.corale.goodFlower",
+    reward: "npcDialogues.corale.reward",
+  },
+  raven: {
+    flowerIntro: "npcDialogues.raven.flowerInto",
+    flowerAverage: "npcDialogues.raven.averageFlower",
+    flowerNegative: "npcDialogues.raven.badFlower",
+    flowerPositive: "npcDialogues.raven.goodFlower",
+    reward: "npcDialogues.raven.reward",
+  },
+  miranda: {
+    flowerIntro: "npcDialogues.miranda.flowerInto",
+    flowerAverage: "npcDialogues.miranda.averageFlower",
+    flowerNegative: "npcDialogues.miranda.badFlower",
+    flowerPositive: "npcDialogues.miranda.goodFlower",
+    reward: "npcDialogues.miranda.reward",
+  },
+  cornwell: {
+    flowerIntro: "npcDialogues.cornwell.flowerInto",
+    flowerAverage: "npcDialogues.cornwell.averageFlower",
+    flowerNegative: "npcDialogues.cornwell.badFlower",
+    flowerPositive: "npcDialogues.cornwell.goodFlower",
+    reward: "npcDialogues.cornwell.reward",
+  },
+  tywin: {
+    flowerIntro: "npcDialogues.tywin.flowerInto",
+    flowerAverage: "npcDialogues.tywin.averageFlower",
+    flowerNegative: "npcDialogues.tywin.badFlower",
+    flowerPositive: "npcDialogues.tywin.goodFlower",
+    reward: "npcDialogues.tywin.reward",
+  },
+};
+
+const DEFAULT_DIALOGUE: GiftResponse = {
+  flowerIntro: "npcDialogues.default.flowerInto",
+  flowerAverage: "npcDialogues.default.averageFlower",
+  flowerNegative: "npcDialogues.default.badFlower",
+  flowerPositive: "npcDialogues.default.goodFlower",
+  reward: "npcDialogues.default.reward",
+};
+
 export const Gifts: React.FC<{
   game: GameState;
   onClose: () => void;
@@ -126,8 +225,8 @@ export const Gifts: React.FC<{
 
   const [selected, setSelected] = useState<FlowerName>();
 
-  const [message, setMessage] = useState(
-    "Have you got a flower for me? Make sure it is something I like."
+  const [message, setMessage] = useState<NpcDialogues>(
+    GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro
   );
 
   const flowers = getKeys(game.inventory).filter(
@@ -144,23 +243,35 @@ export const Gifts: React.FC<{
     const difference =
       (state.context.state.npcs?.[name]?.friendship?.points ?? 0) - previous;
 
-    // TODO - custom Bumpkin messages
-    if (difference < 3) {
+    if (
+      difference >= 6 ||
+      !!BUMPKIN_FLOWER_BONUSES[name]?.[selected as FlowerName]
+    ) {
       setMessage(
-        "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts."
+        GIFT_RESPONSES[name]?.flowerPositive ?? DEFAULT_DIALOGUE.flowerPositive
       );
-    } else if (difference < 6) {
-      setMessage("Wow, thanks! I love this flower!");
+    } else if (difference >= 3) {
+      setMessage(
+        GIFT_RESPONSES[name]?.flowerAverage ?? DEFAULT_DIALOGUE.flowerAverage
+      );
     } else {
-      setMessage("This is my favorite flower! Thanks a bunch!");
+      setMessage(
+        GIFT_RESPONSES[name]?.flowerNegative ?? DEFAULT_DIALOGUE.flowerNegative
+      );
     }
   };
+
+  const { t } = useAppTranslation();
 
   return (
     <>
       <div className="p-2">
         <div className="flex justify-between items-center mb-2">
-          <Label type="default" icon={SUNNYSIDE.icons.player}>
+          <Label
+            type="default"
+            icon={SUNNYSIDE.icons.player}
+            className="capitalize"
+          >
             {name}
           </Label>
 
@@ -182,7 +293,7 @@ export const Gifts: React.FC<{
           <InlineDialogue
             trail={25}
             key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
-            message={message}
+            message={t(message)}
           />
         </div>
 
@@ -257,7 +368,7 @@ const BumpkinGiftBar: React.FC<{
   const showFriendshipIncrease = async (amount: number) => {
     setBonus(amount);
     setShowBonus(true);
-    await new Promise((res) => setTimeout(res, 3000));
+    await new Promise((res) => setTimeout(res, 5000));
     setShowBonus(false);
   };
 
@@ -360,6 +471,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
   });
 
+  const { t } = useAppTranslation();
+
   const openReward = () => {
     const nextGift = getNextGift({ game, npc });
 
@@ -369,7 +482,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       items: nextGift?.items ?? {},
       sfl: nextGift?.sfl ?? 0,
       wearables: nextGift?.wearables ?? {},
-      message: "Gee Wizz thanks Bumpkin!!!",
+      message: t(GIFT_RESPONSES[npc]?.reward ?? DEFAULT_DIALOGUE.reward),
     });
   };
 
@@ -426,7 +539,11 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
         <>
           <div className="p-2">
             <div className="flex justify-between items-center mb-3">
-              <Label type="default" icon={SUNNYSIDE.icons.player}>
+              <Label
+                type="default"
+                icon={SUNNYSIDE.icons.player}
+                className="capitalize"
+              >
                 {npc}
               </Label>
               <div className="flex">
