@@ -101,7 +101,12 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   if (gameState.matches("revealed") && isRevealing) {
     return (
       <Panel>
-        <Revealed onAcknowledged={() => setIsRevealing(false)} />
+        <Revealed
+          onAcknowledged={() => {
+            setIsRevealing(false);
+            onClose();
+          }}
+        />
       </Panel>
     );
   }
