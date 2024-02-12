@@ -19,6 +19,7 @@ import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -64,9 +65,10 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
   const { inventory, specialEvents, balance } = gameState.context.state;
 
   const event = specialEvents.current[getKeys(specialEvents.current)[0]];
+  const { t } = useAppTranslation();
 
   if (!event) {
-    return <>No Event</>;
+    return <>{t("no.event")}</>;
   }
 
   const claimReward = (day: number) => {
@@ -135,16 +137,12 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
       <Panel>
         <div className="p-2">
           <Label icon={giftIcon} type="warning" className="mb-2">
-            Congratulations!
+            {t("congrats")}
           </Label>
-          <p className="text-sm mb-2">
-            Please fill in the form below to claim your airdrop.
-          </p>
-          <p className="text-xs mb-2">
-            Airdrops are handled externally and may take a few days to arrive.
-          </p>
+          <p className="text-sm mb-2">{t("special.event.claimForm")}</p>
+          <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
         </div>
-        <Button>Continue</Button>
+        <Button>{t("continue")}</Button>
       </Panel>
     );
   }
@@ -154,16 +152,12 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
       <Panel>
         <div className="p-2">
           <Label icon={walletIcon} type="default" className="mb-2">
-            Wallet Required
+            {t("special.event.walletRequired")}
           </Label>
-          <p className="text-sm mb-2">
-            A Web3 wallet is required to claim this airdrop
-          </p>
-          <p className="text-xs mb-2">
-            Airdrops are handled externally and may take a few days to arrive.
-          </p>
+          <p className="text-sm mb-2">{t("special.event.web3Wallet")}</p>
+          <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
         </div>
-        <Button>Continue</Button>
+        <Button>{t("continue")}</Button>
       </Panel>
     );
   }
@@ -192,7 +186,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
                 length: "medium",
                 removeTrailingZeros: true,
               })}
-              {" remaining"}
+              {t("remaining")}
             </Label>
           </div>
           <div
@@ -206,7 +200,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
               <>
                 <div className="flex justify-between items-center mb-2">
                   <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
-                    {`Day ${index + 1}`}
+                    {`${t("day")} ${index + 1}`}
                   </Label>
                   {getKeys(task.reward.items).map((itemName) => (
                     <Label type="warning" icon={giftIcon} key={itemName}>
@@ -243,7 +237,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
                   <div className="flex justify-end">
                     {task.completedAt ? (
                       <div className="flex">
-                        <span className="text-xs mr-1">Completed</span>
+                        <span className="text-xs mr-1">{t("completed")}</span>
                         <img src={SUNNYSIDE.icons.confirm} className="h-4" />
                       </div>
                     ) : getTaskStartDate(index + 1).getTime() < Date.now() ? (
@@ -252,7 +246,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
                         disabled={!hasRequirements(index + 1)}
                         className="text-xs w-24 h-8"
                       >
-                        Complete
+                        {t("complete")}
                       </Button>
                     ) : index >= 1 && !!event?.tasks[index - 1].completedAt ? (
                       <Label type="info" icon={lock}>

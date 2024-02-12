@@ -60,6 +60,7 @@ export type GeneralTerms =
   | "currently.Unavailable"
   | "danger"
   | "date"
+  | "day"
   | "decoration"
   | "deliveries"
   | "delivery"
@@ -136,6 +137,7 @@ export type GeneralTerms =
   | "no.mail"
   | "no.thanks"
   | "no"
+  | "no.event"
   | "no.have.bumpkin"
   | "ocean.fishing"
   | "off"
@@ -2641,6 +2643,12 @@ export type SomethingWentWrong =
   | "somethingWentWrong.jumpingOver"
   | "somethingWentWrong.askingCommunity";
 
+export type SpecialEvent =
+  | "special.event.claimForm"
+  | "special.event.airdropHandling"
+  | "special.event.walletRequired"
+  | "special.event.web3Wallet";
+
 export type Statements =
   | "statements.adventure"
   | "statements.auctioneer.one"
@@ -3071,6 +3079,7 @@ export type TranslationKeys =
   | ShowingFarm
   | SnorklerDialogues
   | SomethingWentWrong
+  | SpecialEvent
   | Statements
   | StopGoblin
   | SubSettings

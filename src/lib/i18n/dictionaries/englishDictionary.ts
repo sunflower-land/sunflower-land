@@ -140,6 +140,7 @@ import {
   ShowingFarm,
   SnorklerDialogues,
   SomethingWentWrong,
+  SpecialEvent,
   Statements,
   StopGoblin,
   SubSettings,
@@ -225,6 +226,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "currently.Unavailable": "Currently Unavailable!",
   danger: "Danger",
   date: "Date",
+  day: "day",
   decoration: "Decoration",
   deliveries: "Deliveries",
   delivery: "Delivery",
@@ -299,6 +301,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   next: "Next",
   nextSkillPtLvl: "Next skill point: level",
   no: "No",
+  "no.event": "No Event",
   "no.have.bumpkin": "You do not have a Bumpkin!",
   "no.limits.exceeded": "No limits exceeded",
   "no.mail": "No mail",
@@ -3902,6 +3905,16 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
   "somethingWentWrong.askingCommunity": "and asking our community.",
 };
 
+const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.claimForm":
+    "Please fill in the form below to claim your airdrop.",
+  "special.event.airdropHandling":
+    "Airdrops are handled externally and may take a few days to arrive.",
+  "special.event.walletRequired": "Wallet Required",
+  "special.event.web3Wallet":
+    "A Web3 wallet is required to claim this airdrop.",
+};
+
 const statements: Record<Statements, string> = {
   "statements.adventure": "Start your Adventure!",
   "statements.auctioneer.one":
@@ -4474,6 +4487,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...showingFarm,
   ...snorklerDialogues,
   ...somethingWentWrong,
+  ...specialEvent,
   ...statements,
   ...stopGoblin,
   ...subSettings,
