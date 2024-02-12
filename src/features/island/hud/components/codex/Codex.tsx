@@ -36,15 +36,16 @@ export const categories: CodexCategory[] = [
     icon: ITEM_DETAILS["Red Pansy"].image,
   },
   {
-    name: "Farming",
-    icon: SUNNYSIDE.icons.basket,
-    disabled: true,
-  },
-  {
     name: "Bumpkins",
     icon: SUNNYSIDE.icons.player,
     disabled: true,
   },
+  {
+    name: "Farming",
+    icon: SUNNYSIDE.icons.basket,
+    disabled: true,
+  },
+
   {
     name: "Treasures",
     icon: SUNNYSIDE.decorations.treasure_chest,

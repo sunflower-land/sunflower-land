@@ -3,6 +3,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
+import { BUMPKIN_GIFTS } from "features/game/types/gifts";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
@@ -14,6 +15,7 @@ import { translate } from "lib/i18n/translate";
 export type DeliverOrderAction = {
   type: "order.delivered";
   id: string;
+  friendship?: boolean; // TEMP
 };
 
 type Options = {
@@ -105,6 +107,8 @@ export type QuestNPCName =
 
 const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
 
+const DELIVERY_FRIENDSHIP_POINTS = 3;
+
 export function isOfQuestNPCType(value: string): value is QuestNPCName {
   return (QUEST_NPC_NAMES as string[]).includes(value);
 }
@@ -185,6 +189,10 @@ export function deliverOrder({
     throw new Error("Order has not started");
   }
 
+  if (order.completedAt) {
+    throw new Error("Order is already completed");
+  }
+
   const { tasksAreFrozen } = getSeasonChangeover({
     id: farmId,
     now: createdAt,
@@ -238,6 +246,14 @@ export function deliverOrder({
   const completedDeliveries = npcs[order.from]?.deliveryCount ?? 0;
 
   npc.deliveryCount = completedDeliveries + 1;
+
+  if (action.friendship && BUMPKIN_GIFTS[order.from]) {
+    npc.friendship = {
+      updatedAt: createdAt,
+      points: (npc.friendship?.points ?? 0) + DELIVERY_FRIENDSHIP_POINTS,
+      giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
+    };
+  }
 
   game.npcs = {
     ...npcs,

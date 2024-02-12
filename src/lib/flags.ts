@@ -29,7 +29,8 @@ type FeatureName =
   | "HOME"
   | "ISLAND_UPGRADE"
   | "SPRING"
-  | "MEGA_STORE";
+  | "MEGA_STORE"
+  | "BUMPKIN_GIFTS";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -52,6 +53,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
+  BUMPKIN_GIFTS: testnetFeatureFlag,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
   HOME: (game: GameState) => {

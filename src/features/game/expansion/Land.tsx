@@ -724,6 +724,10 @@ export const Land: React.FC = () => {
       </Modal>
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
+
+      {/* <Modal show centered>
+        <BumpkinDelivery />
+      </Modal> */}
     </>
   );
 };

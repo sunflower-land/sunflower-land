@@ -677,6 +677,11 @@ export type NPCS = Partial<Record<NPCName, NPCData>>;
 export type NPCData = {
   deliveryCount: number;
   questCompletedAt?: number;
+  friendship?: {
+    updatedAt: number;
+    points: number;
+    giftClaimedAtPoints?: number;
+  };
 };
 
 export type ChoreV2 = {

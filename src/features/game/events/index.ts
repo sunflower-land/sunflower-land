@@ -268,6 +268,8 @@ import {
   completeSpecialEventTask,
   CompleteSpecialEventTaskAction,
 } from "./landExpansion/completeSpecialEventTask";
+import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
+import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
 
 export type PlayingEvent =
   | TradeAction
@@ -349,7 +351,9 @@ export type PlayingEvent =
   | FlowerPageDiscoveredAction
   | FlowerShopTradedAction
   | BuyMegaStoreItemAction
-  | CompleteSpecialEventTaskAction;
+  | CompleteSpecialEventTaskAction
+  | GiftFlowersAction
+  | ClaimGiftAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -494,6 +498,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flowerShop.traded": tradeFlowerShop,
   "megastoreItem.bought": buyMegaStoreItem,
   "specialEvent.taskCompleted": completeSpecialEventTask,
+  "flowers.gifted": giftFlowers,
+  "gift.claimed": claimGift,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

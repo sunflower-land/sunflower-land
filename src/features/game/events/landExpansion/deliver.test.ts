@@ -419,4 +419,46 @@ describe("deliver", () => {
     expect(state.npcs?.betty).toBeDefined();
     expect(state.npcs?.betty?.deliveryCount).toEqual(1);
   });
+
+  it("increments npc friendship", () => {
+    const now = Date.now();
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+          "Beta Pass": new Decimal(1),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "pumpkin' pete",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { sfl: 0, items: { "Dawn Breaker Ticket": 1 } },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+        friendship: true,
+      },
+      createdAt: now,
+    });
+
+    expect(state.npcs?.["pumpkin' pete"]).toBeDefined();
+    expect(state.npcs?.["pumpkin' pete"]?.friendship).toEqual({
+      points: 3,
+      updatedAt: now,
+      giftClaimedAtPoints: 0,
+    });
+  });
 });

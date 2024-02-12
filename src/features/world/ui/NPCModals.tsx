@@ -6,15 +6,11 @@ import { Modal } from "react-bootstrap";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
 
-import { Pete } from "./npcs/Pete";
 import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { Grubnuk } from "./npcs/Grubnuk";
-import { Blacksmith } from "./npcs/Blacksmith";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Bert } from "./npcs/Bert";
 import { Donations } from "./donations/Donations";
-import { Shelly } from "./npcs/Shelly";
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
 import { Luna } from "./npcs/Luna";
@@ -93,11 +89,13 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             </CloseButtonPanel>
           )}
 
-          {npc === "shelly" && <Shelly onClose={closeModal} />}
+          {npc === "shelly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
           {npc === "poppy" && <FlowerShop onClose={closeModal} />}
           {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
           {npc === "stella" && <Stylist onClose={closeModal} />}
-          {npc === "grubnuk" && <Grubnuk onClose={closeModal} />}
+          {npc === "grubnuk" && (
+            <DeliveryPanel npc={npc} onClose={closeModal} />
+          )}
 
           {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
 
@@ -166,8 +164,12 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           )}
           {npc === "birdie" && <Birdie onClose={closeModal} />}
           {/* Delivery NPC's */}
-          {npc === "pumpkin' pete" && <Pete onClose={closeModal} />}
-          {npc === "blacksmith" && <Blacksmith onClose={closeModal} />}
+          {npc === "pumpkin' pete" && (
+            <DeliveryPanel npc={npc} onClose={closeModal} />
+          )}
+          {npc === "blacksmith" && (
+            <DeliveryPanel npc={npc} onClose={closeModal} />
+          )}
           {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
           {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}
           {npc === "grimbly" && (

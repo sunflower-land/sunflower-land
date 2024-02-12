@@ -81,12 +81,22 @@ export const ResizableBar: React.FC<{
       className="relative"
       style={{
         ...progressBarBorderStyle,
-        transition: "width 0.5s",
         width: `${PIXEL_SCALE * outerDimensions.width}px`,
         height: `${PIXEL_SCALE * outerDimensions.height}px`,
-        backgroundImage: `linear-gradient(to right, ${color} 0%, ${color} ${progressFillPercentage}%, ${backgroundColor} ${progressFillPercentage}%, ${backgroundColor} 100%)`,
+        backgroundColor,
+        // backgroundImage: `linear-gradient(to right, ${color} 0%, ${color} ${progressFillPercentage}%, ${backgroundColor} ${progressFillPercentage}%, ${backgroundColor} 100%)`,
       }}
-    />
+    >
+      <div
+        className="relative h-full"
+        style={{
+          transition: "width 0.5s",
+
+          backgroundColor: color,
+          width: `${progressFillPercentage}%`,
+        }}
+      />
+    </div>
   );
 };
 
