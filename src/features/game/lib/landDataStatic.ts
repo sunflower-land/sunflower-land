@@ -4,7 +4,6 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { makeMegaStoreAvailableDates } from "./constants";
-import { COLLECTIBLES_DIMENSIONS, getKeys } from "../types/craftables";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -406,10 +405,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Enchanted Rose": new Decimal(1),
     "Flower Cart": new Decimal(1),
     Capybara: new Decimal(1),
-    ...getKeys(COLLECTIBLES_DIMENSIONS).reduce((acc, collectible) => {
-      acc[collectible] = new Decimal(1);
-      return acc;
-    }, {} as Record<string, Decimal>),
   },
   wardrobe: {
     "Elf Suit": 1,
@@ -495,19 +490,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {
-    "Dinosaur Bone": [
-      {
-        coordinates: {
-          x: 4,
-          y: 5,
-        },
-        createdAt: 0,
-        readyAt: 0,
-        id: "123",
-      },
-    ],
-  },
+  collectibles: {},
   pumpkinPlaza: {},
   treasureIsland: {
     holes: {},
