@@ -12,6 +12,7 @@ import {
 import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type CastRodAction = {
   type: "rod.casted";
@@ -32,11 +33,12 @@ export function castRod({
   createdAt = Date.now(),
 }: Options): GameState {
   const game = cloneDeep(state) as GameState;
+  const { bumpkin } = game;
   const now = new Date(createdAt);
   const today = new Date(now).toISOString().split("T")[0];
   const location = action.location;
 
-  if (!game.bumpkin) {
+  if (!bumpkin) {
     throw new Error(translate("no.have.bumpkin"));
   }
 
@@ -102,6 +104,8 @@ export function castRod({
       [today]: 1,
     };
   }
+
+  bumpkin.activity = trackActivity("Rod Casted", bumpkin.activity);
 
   return {
     ...game,
