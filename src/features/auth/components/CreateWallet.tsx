@@ -30,7 +30,7 @@ export const CreateWallet = () => {
         <p className="mb-3">{t("onboarding.welcome")}</p>
         <p className="text-sm text-white mb-2">{t("onboarding.intro.one")}</p>
         <p className="text-sm text-white mt-2 mb-2">
-          {t("onboarding.intro.two")}
+          {t("onboarding.intro.two")}:
         </p>
         <OfferItems />
       </div>

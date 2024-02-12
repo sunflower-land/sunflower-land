@@ -2427,7 +2427,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarterPack": "",
   "offer.newHere": "",
   "offer.getStarted": "",
-  "offer.NFT.inclu": "",
+  "offer.NFT.include": "",
   "offer.free": "",
 };
 const onboarding: Record<Onboarding, string> = {
