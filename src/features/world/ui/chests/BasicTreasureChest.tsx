@@ -103,7 +103,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
           Treasure Key
         </Label>
         <p className="text-xs mb-2">
-          Congrautlations, you have a Treasure Key!
+          Congratulations, you have a Treasure Key!
         </p>
         <p className="text-xs mb-2">
           Would you like to open the chest and claim a reward?
