@@ -413,7 +413,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Earn Alliance Banner": 930,
   "Treasure Key": 931,
   "Rare Key": 932,
-  "Luxury Key": 932,
+  "Luxury Key": 933,
   "Prize Ticket": 934,
 
   // Buildings
