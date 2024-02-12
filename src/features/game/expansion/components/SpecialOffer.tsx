@@ -115,7 +115,7 @@ export const PromotingModal: React.FC<Props> = ({
               />
               <p className="text-sm">{t("season.goodLuck")}</p>
             </div>
-            <p className="text-sm">{t("season.access")}</p>
+            <p className="text-sm">{t("season.access")}:</p>
             <ul className="list-disc">
               <li className="text-xs ml-4">{t("season.discount")}</li>
               <li className="text-xs ml-4">{t("season.banner")}</li>
@@ -191,7 +191,7 @@ export const PromotingModal: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <p className="text-sm">{t("season.includes")}</p>
+          <p className="text-sm">{t("season.includes")}:</p>
           <ul className="list-disc">
             <li className="text-sm ml-4">{t("season.banner")}</li>
             <li className="text-sm ml-4">{t("season.wearableAirdrop")}</li>
@@ -221,7 +221,7 @@ export const PromotingModal: React.FC<Props> = ({
             Sold out
           </Label> */}
           <a
-            href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
+            href="https://docs.sunflower-land.com/player-guides/seasons/spring-blossom#spring-blossom-banner"
             target="_blank"
             rel="noopener noreferrer"
             className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"

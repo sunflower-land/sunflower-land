@@ -224,7 +224,7 @@ const LockedResource: React.FC<ResourceProps> = (props) => {
           </InnerPanel>
         </div>
       )}
-      <div className="relative">
+      <div className="relative w-full h-full pointer-events-none">
         <Component {...props} />
       </div>
     </div>

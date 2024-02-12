@@ -553,10 +553,10 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.admiringOutfit":
     "I noticed you admiring my outfit. Isn't it fantastic?!?",
   "birdieplaza.currentSeason": "We are currently in",
-  "birdieplaza.currentSeason.two": "Season and Bumpkins are going crazy for.",
+  "birdieplaza.currentSeason.two": "Season and Bumpkins are going crazy for",
   "birdieplaza.collectTickets": "Collect enough",
   "birdieplaza.collectTickets.two":
-    "and you can craft rare NFTs. That's how I got this rare otuput!",
+    "and you can craft rare NFTs. That's how I got this rare outfit!",
   "birdieplaza.whatIsSeason": "What is a season?",
   "birdieplaza.howToEarnTickets": "How do I earn",
   "birdieplaza.earnTicketsVariety": "You can earn",
@@ -714,7 +714,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Max Fruit Harvest per seed",
+  "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
   "description.treasure.map.boost": "+20% SFL on Treasure Bounty Sales",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
@@ -1605,7 +1605,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.connection.two": "It may be a simple connection issue.",
   "error.connection.three": "You can click refresh to try again.",
   "error.connection.four":
-    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community.",
+    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
   "error.diagnostic.info": "Diagnostic Information",
   "error.forbidden.goblinVillage":
     "You are not allowed to visit Goblin Village!",
@@ -1635,7 +1635,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingBait": "Missing ",
   "error.alreadyCasted": "Already casted",
   "error.unsupportedChum": " is not a supported chum",
-  "error.insufficientChum": "Insufficient Chum:",
+  "error.insufficientChum": "Insufficient Chum",
   "error.alr.composter": "Composter is already composting",
   "error.no.alr.composter": "Composter is not ready for produce",
   "error.missing": "Missing requirements",
@@ -1651,7 +1651,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.wearableNotInWardrobe": "You do not have the wearable required",
   "error.requiredBuildingNotExist": "Required building does not exist",
   "error.cookingInProgress": "Cooking already in progress",
-  "error.insufficientIngredient": "Insufficient ingredient: ",
+  "error.insufficientIngredient": "Insufficient ingredient",
   "error.itemNotExist": "Item does not exist",
   "error.notEnoughStock": "Not enough stock",
   "error.tooEarly": "Too early",
@@ -2085,7 +2085,7 @@ const gameTerms: Record<GameTerms, string> = {
   "farm.banned": "This farm is banned",
   gobSwarm: "Goblin Swarm!",
   "granting.wish": "Granting your wish",
-  "new.delivery.in": "New deliveries available in: ",
+  "new.delivery.in": "New deliveries available in",
   "no.sfl": "No SFL tokens found",
   opensea: "OpenSea",
   polygonscan: "PolygonScan",
@@ -2136,7 +2136,7 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
 };
 
 const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Unlock the power of the Gold Pass:",
+  "goldPass.unlockPower": "Unlock the power of the Gold Pass",
   "goldPass.craftNFTs": "Craft rare NFTs",
   "goldPass.trade": "Trade with other players",
   "goldPass.participateAuction": "Participate in Auction Drops",
@@ -2511,7 +2511,7 @@ const kick: Record<Kick, string> = {
 
 const kicked: Record<Kicked, string> = {
   "kicked.kicked": "You have been kicked!",
-  "kicked.Reason": "Reason:",
+  "kicked.Reason": "Reason",
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {
@@ -2679,10 +2679,10 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.createFarm": "Create Farm",
   "noaccount.noFarmNFTs": "You do not own any farm NFTs.",
   "noaccount.createNewFarm": "Create new farm",
-  "noaccount.selectNFTID": "Select your NFT ID:",
+  "noaccount.selectNFTID": "Select your NFT ID",
   "noaccount.welcomeMessage":
     "Welcome to Sunflower Land. It looks like you don't have a farm yet.",
-  "noaccount.promoCodeLabel": "Promo Code:",
+  "noaccount.promoCodeLabel": "Promo Code",
 };
 
 const noBumpkin: Record<NoBumpkin, string> = {
@@ -2693,7 +2693,7 @@ const noBumpkin: Record<NoBumpkin, string> = {
     "A Bumpkin is an NFT that is minted on the Blockchain.",
   "noBumpkin.bumpkinHelp":
     "You need a Bumpkin to help you plant, harvest, chop, mine and expand your land.",
-  "noBumpkin.mintBumpkin": "You can get a Bumpkin from OpenSea:",
+  "noBumpkin.mintBumpkin": "You can get a Bumpkin from OpenSea",
   "noBumpkin.allBumpkins": "Wow, look at all those Bumpkins!",
   "noBumpkin.chooseBumpkin": "Which Bumpkin would you like to play with?",
   "noBumpkin.deposit": "Deposit",
@@ -3502,7 +3502,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarterPack": "Get Starter Pack Now",
   "offer.newHere": "Howdy Farmer, you look new here!",
   "offer.getStarted": "Get Started Now",
-  "offer.NFT.inclu": "Farm NFT. This will include:",
+  "offer.NFT.include": "Farm NFT. This will include",
   "offer.free": "free",
 };
 
@@ -3513,7 +3513,7 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.step.three": "Step 3/3 (Create your NFT)",
   "onboarding.intro.one":
     "In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.",
-  "onboarding.intro.two": "To begin your journey, your wallet will receive:",
+  "onboarding.intro.two": "To begin your journey, your wallet will receive",
   "onboarding.cheer": "You're almost there!",
   "onboarding.form.one": "Fill in your details",
   "onboarding.form.two":
@@ -3587,7 +3587,7 @@ const personHood: Record<PersonHood, string> = {
 const piratechest: Record<PirateChest, string> = {
   "piratechest.greeting":
     "Ahoy matey! Set sail and come back later for a chest full of swashbuckling rewards!",
-  "piratechest.refreshesIn": "Chest Refreshes in:",
+  "piratechest.refreshesIn": "Chest Refreshes in",
   "piratechest.warning":
     "Ahoy there! This chest be filled with treasures fit for a pirate king, but beware, only those with a pirate skin can open it and claim the booty within!",
 };
@@ -3635,7 +3635,7 @@ const playerTrade: Record<PlayerTrade, string> = {
     "Oh oh! It looks like you have a transaction in progress.",
   "playerTrade.Please": "Please allow 5 minutes before continuing.",
   "playerTrade.sold": "Sold",
-  "playerTrade.sale": "For sale:",
+  "playerTrade.sale": "For sale",
   "playerTrade.title.congrat": "Congratulations, your listing was purchased",
 };
 
@@ -3711,7 +3711,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.daily.reward": "Daily Reward",
   "reward.streak": " day streak",
   "reward.comeBackLater": "Come back later for more rewards",
-  "reward.nextBonus": " Next bonus: ",
+  "reward.nextBonus": " Next bonus",
   "reward.unlock": "Unlock Reward",
   "reward.open": "Open reward",
   "reward.lvlRequirement": "You must be level 3 to claim daily rewards.",
@@ -3720,7 +3720,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.found": "You found",
   "reward.spendWisely": "Spend it wisely.",
   "reward.wearable": "A wearable for your Bumpkin",
-  "reward.promo.code": "Enter your promo code:",
+  "reward.promo.code": "Enter your promo code",
   "reward.woohoo": "Woohoo! Here is your reward",
   "reward.connectWeb3Wallet": "Connect a Web3 Wallet for a daily reward.",
 };
@@ -3760,7 +3760,7 @@ const sceneDialogueKey: Record<SceneDialogueKey, string> = {
 };
 
 const seasonTerms: Record<SeasonTerms, string> = {
-  "season.access": "You have access to:",
+  "season.access": "You have access to",
   "season.banner": "Seasonal Banner",
   "season.bonusTickets": "Bonus Seasonal Tickets",
   "season.boostXP": "+10% EXP from food",
@@ -3768,7 +3768,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.discount": "25% SFL discount on seasonal items",
   "season.exclusiveOffer": "Exclusive offer!",
   "season.goodLuck": "Good luck in the season!",
-  "season.includes": "Includes:",
+  "season.includes": "Includes",
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.catch.the.kraken": "Catch the Kraken",
@@ -3965,7 +3965,7 @@ const statements: Record<Statements, string> = {
   "statements.craft.composter": "Craft at Composter",
   "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
   "statements.crop.water": "These crops need water!",
-  "statements.daily.limit": "Daily Limit:",
+  "statements.daily.limit": "Daily Limit",
   "statements.sure.buy": "Are you sure you want to buy ",
   "statements.perplayer": "per Player",
   "statements.minted.goToChest": "Go to your chest and place it on your island",
@@ -4021,7 +4021,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.shovel": "Plant and harvest crops.",
   "description.sand.shovel": "Used for digging treasure",
   "description.sand.drill": "Drill deep for uncommon or rare treasure",
-  "description.gold.pickaxe": "Used to collect crimstones",
+  "description.gold.pickaxe": "Used to collect crimstone and sunstone",
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
@@ -4032,7 +4032,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.farm.ready": "Your farm will be ready in",
   "transaction.networkFeeRequired":
     "To secure your NFTs on the Blockchain, a small network fee is required.",
-  "transaction.estimated.fee": "Estimated fee:",
+  "transaction.estimated.fee": "Estimated fee",
   "transaction.payCardCash": "Pay with Card/Cash",
   "transaction.creditCard": "*Credit card fees apply",
   "transaction.rejected": "Transaction Rejected!",
@@ -4063,7 +4063,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.unconfirmed.reset":
     "After 5 minutes, any unconfirmed transactions will be reset.",
   "transaction.withdraw.one": "Withdrawing",
-  "transaction.withdraw.sent": "Your items/tokens have been sent to:",
+  "transaction.withdraw.sent": "Your items/tokens have been sent to",
   "transaction.withdraw.view": "You can view your items on",
   "transaction.openSea": "OpenSea",
   "transaction.withdraw.four":
@@ -4084,11 +4084,11 @@ const transfer: Record<Transfer, string> = {
   "transfer.sure.adress":
     "Please ensure that the address you provided is on the Polygon Blockchain, is correct and is owned by you. There is no recovery from incorrect addresses.",
   "transfer.Account": "Your Account #",
-  "transfer.Account.Trans": "has been transferred to:",
+  "transfer.Account.Trans": "has been transferred to",
   "transfer.Farm": "Transferring your farm!",
   "transfer.Refresh": "Do not refresh this browser",
   "transfer.Taccount": "Transfer your account",
-  "transfer.address": "Wallet address:",
+  "transfer.address": "Wallet address",
 };
 
 const treasureModal: Record<TreasureModal, string> = {
@@ -4117,7 +4117,7 @@ const tutorialPage: Record<TutorialPage, string> = {
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
-  "visitIsland.enterIslandId": "Enter Island ID: ",
+  "visitIsland.enterIslandId": "Enter Island ID",
   "visitIsland.visit": "Visit",
 };
 
@@ -4127,15 +4127,15 @@ const visitislandNotFound: Record<VisitislandNotFound, string> = {
 
 const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
-  "warning.chat.maxCharacters": "Max characters:",
+  "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",
-  "warning.level.required": "Level Required: ",
+  "warning.level.required": "Level Required",
   "warning.hoarding.message":
     "You have reached the Hoarding Limit for the following item",
   "warning.hoarding.one":
     "Word is that Goblins are known to raid farms that have an abundance of resources.",
   "warning.hoarding.two":
-    "To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more of:",
+    "To protect yourself and keep those precious resources safe, please sync them on chain before gathering any more of",
   "travelRequirement.notice": "Before travelling, you must level up.",
 };
 
@@ -4166,15 +4166,15 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.noReward":
     "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
   "wishingWell.wish.lucky": "Grant a new wish and see how lucky you are!",
-  "wishingWell.sflRewardsReceived": "SFL rewards received:",
+  "wishingWell.sflRewardsReceived": "SFL rewards received",
   "wishingWell.wish.grantTime": "It's time to grant your wish!",
   "wishingWell.wish.granted": "Your wish has been granted.",
   "wishingWell.wish.made": "You have made a wish!",
-  "wishingWell.wish.timeTillNextWish": "Time till next wish:",
+  "wishingWell.wish.timeTillNextWish": "Time till next wish",
   "wishingWell.wish.thanksForSupport":
     "Thanks for supporting the project and making a wish.",
   "wishingWell.wish.comeBackAfter":
-    "Come back in the following amount of time to see just how lucky you have been:",
+    "Come back in the following amount of time to see just how lucky you have been",
   "wishingWell.wish.warning.one":
     "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
   "wishingWell.wish.warning.two":
@@ -4182,12 +4182,12 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.info.one":
     "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
   "wishingWell.info.two":
-    "Wishes are granted to farmers who provided liquidity in the game. More info:",
+    "Wishes are granted to farmers who provided liquidity in the game. More info",
   "wishingWell.info.three":
     "Looks like you have those magic LP tokens in your wallet!",
   "wishingWell.noLiquidity":
     "It doesn't look like you're providing liquidity yet. More info,",
-  "wishingWell.rewardsInWell": "Amount of rewards in the well: ",
+  "wishingWell.rewardsInWell": "Amount of rewards in the well",
   "wishingWell.luck": "Let's see how lucky you are!",
 };
 
@@ -4202,7 +4202,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL is available on-chain",
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
-  "withdraw.receive": "You will receive:",
+  "withdraw.receive": "You will receive",
   "withdraw.select.item": "Select items to withdraw",
   "withdraw.opensea":
     "Once withdrawn, you will be able to view your items on OpenSea.",

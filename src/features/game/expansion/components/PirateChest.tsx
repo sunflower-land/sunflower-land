@@ -116,7 +116,7 @@ export const PirateChest: React.FC = () => {
             />
             <span className="text-center">{t("piratechest.greeting")}</span>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">{t("piratechest.refreshesIn")}</p>
+              <p className="text-xxs mr-2">{t("piratechest.refreshesIn")}:</p>
               <CountdownLabel timeLeft={nextRefreshInSeconds} />
             </div>
           </div>
