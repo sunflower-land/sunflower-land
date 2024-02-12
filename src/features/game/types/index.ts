@@ -411,7 +411,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Old Bottle": 928,
   "Emerald Compass": 929,
   "Earn Alliance Banner": 930,
-  "Treasure Key": 931,
+  "Rare Key": 932,
+  "Luxury Key": 932,
+  "Spring Blossom Prize Pass": 934,
 
   // Buildings
   Market: 1001,

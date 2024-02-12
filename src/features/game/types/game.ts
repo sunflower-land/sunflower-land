@@ -163,6 +163,7 @@ export type Coupons =
   | "Treasure Key"
   | "Rare Key"
   | "Luxury Key"
+  | "Spring Blossom Prize Pass"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
