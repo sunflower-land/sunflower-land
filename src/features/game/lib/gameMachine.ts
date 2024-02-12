@@ -634,16 +634,15 @@ export function startGame(authContext: AuthContext) {
               const { state } = await loadGameStateForVisit(Number(landId));
 
               return {
-                state: {
-                  ...makeGame(state),
-                  id: landId,
-                },
+                state: makeGame(state),
+                farmId: landId,
               };
             },
             onDone: {
               target: "visiting",
               actions: assign({
                 state: (_context, event) => event.data.state,
+                farmId: (_context, event) => event.data.farmId,
               }),
             },
             onError: {
