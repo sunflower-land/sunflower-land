@@ -177,7 +177,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Angel Bear": {
     height: 1,
-    width: 1,
+    width: 2,
   },
   "Badass Bear": {
     height: 1,
