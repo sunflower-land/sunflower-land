@@ -22,10 +22,16 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   const [gameState] = useActor(gameService);
 
   const [isRevealing, setIsRevealing] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
 
   const hasKey = !!gameState.context.state.inventory["Treasure Key"];
 
   const open = () => {
+    setIsOpening(true);
+  };
+
+  const spin = () => {
+    setIsOpening(false);
     setIsRevealing(true);
 
     gameService.send("REVEAL", {
@@ -57,6 +63,30 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
             }}
           />
         </div>
+        <Button disabled={true}>Good Luck!</Button>
+      </Panel>
+    );
+  }
+
+  if (isOpening) {
+    return (
+      <Panel>
+        <div className="w-48 mx-auto my-2 relative">
+          <img
+            src={wheelHolder}
+            alt="Wheel Holder"
+            className="w-full z-10  absolute top-0 left-0"
+          />
+          <img
+            src={wheel}
+            alt="Wheel"
+            className="w-full"
+            style={{
+              transformOrigin: "calc(50%) calc(50% + 9px)",
+            }}
+          />
+        </div>
+        <Button onClick={() => spin()}>Spin</Button>
       </Panel>
     );
   }
