@@ -360,6 +360,9 @@ const coupons: Record<Coupons, () => boolean> = {
   Farmhand: () => false,
   "Tulip Bulb": () => false,
   "Treasure Key": () => false,
+  "Luxury Key": () => false,
+  "Rare Key": () => false,
+  "Prize Ticket": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

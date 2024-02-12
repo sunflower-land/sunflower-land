@@ -22,7 +22,7 @@ import classNames from "classnames";
 import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
+import { ADMIN_IDS, hasFeatureAccess } from "lib/flags";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -202,7 +202,8 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _game = (state: MachineState) => state.context.state as GameState;
 const _beta = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "BUMPKIN_GIFTS");
+  hasFeatureAccess(state.context.state, "BUMPKIN_GIFTS") ||
+  ADMIN_IDS.includes(state.context.farmId);
 
 export const DeliveryPanelContent: React.FC<Props> = ({
   npc,

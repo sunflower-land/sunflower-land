@@ -3212,4 +3212,16 @@ export const ITEM_DETAILS: Items = {
     image: earnAllianceBanner,
     description: translate("description.earnAllianceBanner"),
   },
+  "Luxury Key": {
+    image: sunflowerKey,
+    description: translate("description.treasure.key"),
+  },
+  "Rare Key": {
+    image: sunflowerKey,
+    description: translate("description.treasure.key"),
+  },
+  "Prize Ticket": {
+    image: sunflowerKey,
+    description: translate("description.prizeTicket"),
+  },
 };
