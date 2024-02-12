@@ -161,6 +161,8 @@ export type Coupons =
   | "Farmhand Coupon"
   | "Farmhand"
   | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key"
   | SeasonalTicket;
 
 export const COUPONS: Record<Coupons, { description: string }> = {

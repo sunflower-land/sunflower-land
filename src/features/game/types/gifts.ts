@@ -67,38 +67,374 @@ export type BumpkinGift = {
 
 type BumpkinGifts = {
   planned: BumpkinGift[];
-  bonus: BumpkinGift;
+  repeats: BumpkinGift;
 };
 
 export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
   "pumpkin' pete": {
     planned: [
       {
-        friendshipPoints: 10,
-        items: {
-          "Block Buck": 1,
-        },
+        friendshipPoints: 5,
+        items: { "Block Buck": 1 },
         sfl: 0,
         wearables: {},
       },
       {
-        friendshipPoints: 25,
+        friendshipPoints: 12,
         items: {},
         sfl: 0,
-        wearables: {
-          "Pumpkin Hat": 1,
-        },
+        wearables: {},
       },
       {
         friendshipPoints: 50,
         items: {},
-        sfl: 5,
+        wearables: { "Pumpkin Hat": 1 },
+        sfl: 0,
+      },
+      {
+        friendshipPoints: 100,
+        items: {},
+        sfl: 2,
         wearables: {},
       },
     ],
-    bonus: {
-      friendshipPoints: 50, // Every 50 points
-      items: { "Block Buck": 1 },
+    repeats: {
+      friendshipPoints: 100,
+      items: { "Treasure Key": 1 },
+      sfl: 2,
+      wearables: {},
+    },
+  },
+  betty: {
+    planned: [
+      {
+        friendshipPoints: 10,
+        items: { "Treasure Key": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 20,
+        items: {},
+        sfl: 3,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 40,
+        items: { "Block Buck": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 110,
+        items: { "Radish Cake": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+    ],
+    repeats: {
+      friendshipPoints: 100,
+      items: { "Treasure Key": 1 },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+  blacksmith: {
+    planned: [
+      {
+        friendshipPoints: 50,
+        items: { "Treasure Key": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 110,
+        items: { "Block Buck": 2 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 200,
+        items: {},
+        sfl: 5,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 320,
+        items: { Pickaxe: 10 },
+        sfl: 0,
+        wearables: {},
+      },
+    ],
+    repeats: {
+      friendshipPoints: 150,
+      items: { "Treasure Key": 1 },
+      sfl: 50,
+      wearables: {},
+    },
+  },
+  bert: {
+    planned: [
+      {
+        friendshipPoints: 60,
+        items: {},
+        sfl: 0,
+        wearables: {
+          "Tattered Jacket": 1,
+        },
+      },
+      {
+        friendshipPoints: 100,
+        items: { "Block Buck": 2 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 210,
+        items: { "Pirate Cake": 3 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 330,
+        items: {},
+        sfl: 0,
+        wearables: {
+          "Greyed Glory": 1,
+        },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 150,
+      items: { "Rare Key": 1 },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+  finley: {
+    planned: [
+      {
+        friendshipPoints: 70,
+        items: { "Fishing Lure": 5 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 140,
+        items: {},
+        sfl: 3,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 220,
+        items: { Tuna: 5 },
+        sfl: 0,
+        wearables: {},
+      },
+    ],
+    repeats: {
+      friendshipPoints: 100,
+      items: { "Rare Key": 1 },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+  raven: {
+    planned: [
+      {
+        friendshipPoints: 80,
+        items: { "Time Warp Totem": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 140,
+        items: {},
+        sfl: 3,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 220,
+        items: {},
+        sfl: 0,
+        wearables: { "Victorian Hat": 1 },
+      },
+      {
+        friendshipPoints: 330,
+        items: { "Eggplant Seed": 50 },
+        sfl: 5,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 700,
+        items: {},
+        sfl: 0,
+        wearables: {
+          "Bat Wings": 1,
+        },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 160,
+      items: { "Rare Key": 1 },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+  miranda: {
+    planned: [
+      {
+        friendshipPoints: 120,
+        items: { "Time Warp Totem": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 240,
+        items: {},
+        sfl: 3,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 400,
+        items: {},
+        sfl: 5,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 700,
+        items: {},
+        sfl: 0,
+        wearables: { "Fruit Picker Apron": 1 },
+      },
+      {
+        friendshipPoints: 1000,
+        items: {},
+        sfl: 100,
+        wearables: { "Fruit Bowl": 1 },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 100,
+      items: {
+        "Blueberry Seed": 5,
+        "Apple Seed": 5,
+        "Banana Plant": 5,
+        "Orange Seed": 5,
+      },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+  finn: {
+    planned: [
+      {
+        friendshipPoints: 90,
+        items: { Rod: 10 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 200,
+        items: {},
+        sfl: 3,
+        wearables: {},
+      },
+    ],
+    repeats: {
+      friendshipPoints: 110,
+      items: { "Fishing Lure": 5 },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+  corale: {
+    planned: [
+      {
+        friendshipPoints: 85,
+        items: {},
+        sfl: 3,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 190,
+        items: { "Block Buck": 2 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 370,
+        items: {},
+        sfl: 0,
+        wearables: { "Pink Ponytail": 1 },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 260,
+      items: {},
+      sfl: 10,
+      wearables: {},
+    },
+  },
+  cornwell: {
+    planned: [
+      {
+        friendshipPoints: 65,
+        items: { "Rare Key": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 175,
+        items: { "Block Buck": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 340,
+        items: {},
+        sfl: 0,
+        wearables: { "Wise Robes": 1 },
+      },
+      {
+        friendshipPoints: 600,
+        items: {},
+        sfl: 0,
+        wearables: { "Wise Beard": 1 },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 200,
+      items: { "Rare Key": 1 },
+      sfl: 0,
+      wearables: {},
+    },
+  },
+
+  tywin: {
+    planned: [
+      {
+        friendshipPoints: 35,
+        items: { "Rare Key": 1 },
+        sfl: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 175,
+        items: {},
+        sfl: 10,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 330,
+        items: { "Pirate Cake": 5 },
+        sfl: 0,
+        wearables: {},
+      },
+    ],
+    repeats: {
+      friendshipPoints: 160,
+      items: { "Rare Key": 1 },
       sfl: 0,
       wearables: {},
     },

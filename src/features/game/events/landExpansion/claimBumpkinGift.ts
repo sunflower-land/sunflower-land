@@ -40,8 +40,8 @@ export function getNextGift({
 
   if (!nextGift) {
     nextGift = {
-      ...bumpkin.bonus,
-      friendshipPoints: lastClaimedAt + bumpkin.bonus.friendshipPoints,
+      ...bumpkin.repeats,
+      friendshipPoints: lastClaimedAt + bumpkin.repeats.friendshipPoints,
     };
   }
 
