@@ -433,7 +433,10 @@ export const PhaserComponent: React.FC<Props> = ({
       />
       <CommunityModals />
       <CommunityToasts />
-      <InteractableModals id={gameService.state.context.farmId as number} />
+      <InteractableModals
+        id={gameService.state.context.farmId as number}
+        scene={scene}
+      />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         centered
