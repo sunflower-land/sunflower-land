@@ -23,10 +23,7 @@ module.exports = {
   plugins: ["react", "@typescript-eslint", "unused-imports"],
   ignorePatterns: ["*.typegen.ts"],
   rules: {
-    "react/jsx-no-literals": [
-      "error",
-      { noStrings: true, ignoreProps: true, noAttributeStrings: false },
-    ],
+    "react/jsx-no-literals": "error",
     "no-console": "error",
     "no-unused-vars": "off",
     "unused-imports/no-unused-imports": "error",
