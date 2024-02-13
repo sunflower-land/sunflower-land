@@ -10,6 +10,7 @@ import { SquareIcon } from "../SquareIcon";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * The props for the details for items.
@@ -69,6 +70,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
   properties,
   actionView,
 }: Props) => {
+  const { t } = useAppTranslation();
   const getItemDetail = () => {
     const item = ITEM_DETAILS[details.item];
     const icon = item.image;
@@ -166,7 +168,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            OpenSea
+            {t("opensea")}
           </a>
         )}
       </div>

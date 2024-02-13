@@ -164,7 +164,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {t("item")}: {price.amount} x
+              {t("item")}{":"} {price.amount} {"x"}
             </p>
             <img
               src={ticket}
@@ -199,7 +199,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {t("item")}: {price.amount} x
+              {t("item")}{":"} {price.amount} {"x"}
             </p>
             <img
               src={ticket}
@@ -223,7 +223,7 @@ const Content: React.FC<{
             </div>
             {price.amount === 1 && (
               <Label type="info" className="mb-1">
-                {t("minimum")} 5 Block Bucks
+                {t("minimum")} {"5 Block Bucks"}
               </Label>
             )}
             <Button
@@ -237,7 +237,7 @@ const Content: React.FC<{
             className={classNames("w-full flex flex-col items-center relative")}
           >
             <div className="flex w-full h-full items-center justify-center py-4 px-2">
-              <p className="mr-2 mb-1 text-xs">Matic</p>
+              <p className="mr-2 mb-1 text-xs">{"MATIC"}</p>
               <img
                 src={matic}
                 style={{

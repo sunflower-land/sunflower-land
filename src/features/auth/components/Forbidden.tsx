@@ -15,7 +15,10 @@ export const Forbidden: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center text-center p-2">
-      <span>{t("forbidden")}!</span>
+      <span>
+        {t("forbidden")}
+        {"!"}
+      </span>
       <img src={suspiciousGoblin} alt="Warning" className="w-16 m-2" />
       <span className="text-xs mt-2 mb-2">
         {t("error.forbidden.goblinVillage")}

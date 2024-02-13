@@ -4,6 +4,7 @@ import { SquareIcon } from "../SquareIcon";
 import { Bud } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { Label } from "../Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * The props for the component.
@@ -32,6 +33,7 @@ export const BudDetails: React.FC<Props> = ({
 }: Props) => {
   const icon = `https://${imageDomain}.sunflower-land.com/images/${budId}.webp`;
   const title = `${bud.type} Bud`;
+  const { t } = useAppTranslation();
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -80,7 +82,7 @@ export const BudDetails: React.FC<Props> = ({
             target="_blank"
             rel="noopener noreferrer"
           >
-            OpenSea
+            {t("opensea")}
           </a>
         </div>
       </div>

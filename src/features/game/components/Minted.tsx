@@ -20,7 +20,8 @@ export const Minted: React.FC = () => {
     <div className="flex flex-col">
       <div className="p-2 flex flex-col items-center">
         <h1 className="text-center mb-3 text-lg">
-          {t("statements.minted")} {mintedItemName}!
+          {t("statements.minted")} {mintedItemName}
+          {"!"}
         </h1>
         <img src={SUNNYSIDE.npcs.goblin_doing} className="w-20 mb-3" />
         <p className="mb-4 text-sm text-justify">

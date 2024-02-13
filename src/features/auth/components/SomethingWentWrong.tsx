@@ -42,7 +42,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
     return (
       <>
         <div className="p-2">
-          <h1 className="mb-1 text-lg text-center">Client RPC Error</h1>
+          <h1 className="mb-1 text-lg text-center">{t("error.ClientRPC")}</h1>
           <div className="w-full mb-1 flex justify-center">
             <img src={lightningAnimation} className="h-20" />
           </div>
@@ -85,7 +85,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
               href="https://discord.gg/sunflowerland"
               rel="noreferrer"
             >
-              discord
+              {"discord"}
             </a>{" "}
             {t("somethingWentWrong.askingCommunity")}
           </p>
@@ -93,12 +93,16 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
         <div className="flex flex-col w-full text-left mb-2 text-[12px] overflow-hidden">
           {farmId && (
             <p className="leading-3">
-              {t("farm")}: {farmId}
+              {t("farm")}
+              {": "}
+              {farmId}
             </p>
           )}
           {error && (
             <p className="leading-3 whitespace-nowrap">
-              {t("error")}: {error}
+              {t("error")}
+              {": "}
+              {error}
             </p>
           )}
           {transactionId && (
@@ -107,14 +111,21 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             </p>
           )}
           <p className="leading-3">
-            {t("date")}: {date}
+            {t("date")}
+            {": "}
+            {date}
           </p>
           <p className="leading-3">
-            {t("version")}: {CONFIG.RELEASE_VERSION}
+            {t("version")}
+            {": "}
+            {CONFIG.RELEASE_VERSION}
           </p>
           {stack && showStackTrace && (
             <>
-              <p className="leading-3">{t("details")}:</p>
+              <p className="leading-3">
+                {t("details")}
+                {":"}
+              </p>
               <pre className="leading-3 whitespace-pre-wrap text-[10px]">{`${stack}`}</pre>
             </>
           )}

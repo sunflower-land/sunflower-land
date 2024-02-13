@@ -63,7 +63,7 @@ export const Auth: React.FC = () => {
                       type="vibrant"
                       className="ml-2"
                     >
-                      Lunar New Year Event
+                      {t("event.LunarNewYear")}
                     </Label>
                   )}
               </div>

@@ -25,6 +25,7 @@ import { greedyGoblinAudio, loadAudio } from "src/lib/utils/sfx";
 import { randomInt } from "lib/utils/random";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type MoveDirection = "left" | "right";
 type ActionKeys =
@@ -97,6 +98,8 @@ export const GreedyGoblin: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const goblinMoveTimeout = useRef<NodeJS.Timeout>();
   const activeKeys = useRef<ActionKeys[]>([]);
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     loadAudio(Object.values(greedyGoblinAudio));
@@ -588,7 +591,7 @@ export const GreedyGoblin: React.FC = () => {
         </div>
       </div>
       <Button className="text-sm" disabled={isPlaying} onClick={startGame}>
-        Start
+        {t("start")}
       </Button>
     </div>
   );

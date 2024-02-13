@@ -187,7 +187,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         <SquareIcon icon={getIcon()} width={7} />
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1">SFL</span>
+          <span className="text-xs ml-1">{"SFL"}</span>
         )}
         {props.type === "item" && props.showLabel && (
           <span className="text-xs ml-1">{props.item}</span>
