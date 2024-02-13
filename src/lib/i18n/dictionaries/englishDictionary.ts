@@ -3462,6 +3462,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "This is my favorite flower! Thanks a bunch!",
   "npcDialogues.default.reward":
     "Wow, thanks Bumpkin. Here is a small gift for your help!",
+  "npcDialogues.default.locked": "Please come back tomorrow.",
 };
 
 const nyeButton: Record<NyeButton, string> = {

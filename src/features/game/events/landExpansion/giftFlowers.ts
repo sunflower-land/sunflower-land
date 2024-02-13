@@ -60,6 +60,7 @@ export function giftFlowers({
     updatedAt: createdAt,
     points: (npc.friendship?.points ?? 0) + points,
     giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
+    giftedAt: createdAt,
   };
 
   game.npcs = {

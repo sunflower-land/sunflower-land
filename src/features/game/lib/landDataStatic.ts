@@ -352,6 +352,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   balance: new Decimal(100),
   previousBalance: new Decimal(0),
   previousInventory: {},
+  npcs: {
+    "pumpkin' pete": {
+      deliveryCount: 0,
+      friendship: {
+        points: 0,
+        updatedAt: 0,
+        giftClaimedAtPoints: 0,
+        giftedAt: new Date("2024-02-14T01:00:00").getTime(),
+      },
+    },
+  },
   inventory: {
     "Treasure Key": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),

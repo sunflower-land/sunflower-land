@@ -2399,6 +2399,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.goodFlower": "",
   "npcDialogues.default.flowerInto": "",
   "npcDialogues.default.reward": "",
+  "npcDialogues.default.locked": "",
 };
 
 const nyeButton: Record<NyeButton, string> = {

@@ -693,6 +693,7 @@ export type NPCData = {
     updatedAt: number;
     points: number;
     giftClaimedAtPoints?: number;
+    giftedAt?: number;
   };
 };
 

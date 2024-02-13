@@ -252,6 +252,7 @@ export function deliverOrder({
       updatedAt: createdAt,
       points: (npc.friendship?.points ?? 0) + DELIVERY_FRIENDSHIP_POINTS,
       giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
+      giftedAt: npc.friendship?.giftedAt,
     };
   }
 
