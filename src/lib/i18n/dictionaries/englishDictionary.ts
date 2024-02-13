@@ -165,6 +165,7 @@ import {
   World,
   MilestoneMessages,
   Event,
+  Promo,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -423,6 +424,14 @@ const generalTerms: Record<GeneralTerms, string> = {
   "hoarding.check": "Hoarder Check",
   opensea: "Opensea",
   layouts: "Layouts",
+  labels: "Labels",
+  buff: "Buff",
+  speed: "Speed",
+  treasure: "Treasure",
+  special: "Special",
+  default: "Default",
+  formula: "Formula",
+  chill: "Chill",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -3735,6 +3744,8 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
 
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint Free Wearable",
+  "quest.equipWearable": "Equip this wearable on your Bumpkin",
+  "quest.congrats": "Congratulations, you have minted a",
 };
 
 const questions: Record<Questions, string> = {
@@ -4394,6 +4405,11 @@ const event: Record<Event, string> = {
   "event.LunarNewYear": "Lunar New Year Event",
 };
 
+const promo: Record<Promo, string> = {
+  "promo.cdcBonus": "Crypto.com Bonus!",
+  "promo.expandLand": "Expand your land twice to claim 100 SFL.",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -4560,4 +4576,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...world,
   ...wornDescription,
   ...event,
+  ...promo,
 };

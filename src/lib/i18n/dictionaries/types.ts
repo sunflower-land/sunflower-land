@@ -253,7 +253,15 @@ export type GeneralTerms =
   | "you.are.here"
   | "hoarding.check"
   | "opensea"
-  | "layouts";
+  | "layouts"
+  | "labels"
+  | "buff"
+  | "speed"
+  | "treasure"
+  | "special"
+  | "default"
+  | "formula"
+  | "chill";
 
 export type AchievementsTerms =
   | "breadWinner.description"
@@ -2525,7 +2533,10 @@ export type Portal = "portal.wrong" | "portal.unauthorised";
 export type PurchaseableBaitTranslation =
   | "purchaseableBait.fishingLure.description";
 
-export type Quest = "quest.mint.free";
+export type Quest =
+  | "quest.mint.free"
+  | "quest.equipWearable"
+  | "quest.congrats";
 
 export type Questions = "questions.obtain.MATIC" | "questions.lowCash";
 
@@ -2975,6 +2986,8 @@ export type World =
 
 export type Event = "event.christmas" | "event.LunarNewYear";
 
+export type Promo = "promo.cdcBonus" | "promo.expandLand";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3140,4 +3153,5 @@ export type TranslationKeys =
   | Winner
   | WornDescription
   | World
-  | Event;
+  | Event
+  | Promo;

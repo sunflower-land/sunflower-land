@@ -243,7 +243,7 @@ export const TravelTeaser: React.FC = () => {
                         color: "#262b45",
                       }}
                     >
-                      ...
+                      {"..."}
                     </span>
                   )}
                 </div>

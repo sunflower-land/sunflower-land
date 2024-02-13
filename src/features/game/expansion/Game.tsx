@@ -259,6 +259,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const airdrop = useSelector(gameService, hasAirdrop);
   const specialOffer = useSelector(gameService, hasSpecialOffer);
 
+  const { t } = useAppTranslation();
   useInterval(() => {
     gameService.send("SAVE");
   }, AUTO_SAVE_INTERVAL);
@@ -338,7 +339,7 @@ export const GameWrapper: React.FC = ({ children }) => {
                           type="vibrant"
                           className="ml-2"
                         >
-                          Lunar New Year Event
+                          {t("event.LunarNewYear")}
                         </Label>
                       )}
                   </div>

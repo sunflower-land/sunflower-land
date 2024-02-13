@@ -10,6 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Conversation } from "features/farming/mail/components/Conversation";
 import { ConversationName } from "features/game/types/conversations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NewMail: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -17,7 +18,7 @@ export const NewMail: React.FC = () => {
 
   const mailbox = gameState.context.state.mailbox;
   const announcements = gameState.context.announcements;
-
+  const { t } = useAppTranslation();
   const newestMailId = getKeys(announcements ?? {})
     // Ensure they haven't read it already
     .sort(
@@ -55,7 +56,7 @@ export const NewMail: React.FC = () => {
         </Panel>
       ) : (
         <CloseButtonPanel onClose={() => send("ACKNOWLEDGE")}>
-          <div>No Mail</div>
+          <div>{t("no.mail")}</div>
         </CloseButtonPanel>
       )}
     </Modal>

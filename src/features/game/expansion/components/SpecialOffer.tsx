@@ -115,7 +115,10 @@ export const PromotingModal: React.FC<Props> = ({
               />
               <p className="text-sm">{t("season.goodLuck")}</p>
             </div>
-            <p className="text-sm">{t("season.access")}:</p>
+            <p className="text-sm">
+              {t("season.access")}
+              {":"}
+            </p>
             <ul className="list-disc">
               <li className="text-xs ml-4">{t("season.discount")}</li>
               <li className="text-xs ml-4">{t("season.banner")}</li>
@@ -175,7 +178,7 @@ export const PromotingModal: React.FC<Props> = ({
                         height: `${PIXEL_SCALE * 8}px`,
                       }}
                     />
-                    <p className="line-through ml-2">65</p>
+                    <p className="line-through ml-2">{"65"}</p>
                     <p className="ml-2">{price}</p>
                   </div>
                   <Label type="danger">
@@ -186,12 +189,15 @@ export const PromotingModal: React.FC<Props> = ({
                 </>
               ) : (
                 <div className="flex my-1">
-                  <p>65</p>
+                  <p>{"65"}</p>
                 </div>
               )}
             </div>
           </div>
-          <p className="text-sm">{t("season.includes")}:</p>
+          <p className="text-sm">
+            {t("season.includes")}
+            {":"}
+          </p>
           <ul className="list-disc">
             <li className="text-sm ml-4">{t("season.banner")}</li>
             <li className="text-sm ml-4">{t("season.wearableAirdrop")}</li>

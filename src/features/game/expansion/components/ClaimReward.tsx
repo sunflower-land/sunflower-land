@@ -61,7 +61,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <Box image={token} />
               <div>
                 <Label type="warning">
-                  {setPrecision(new Decimal(airdrop.sfl)).toString()} SFL
+                  {setPrecision(new Decimal(airdrop.sfl)).toString()} {"SFL"}
                 </Label>
                 <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>

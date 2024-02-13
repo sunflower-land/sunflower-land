@@ -107,7 +107,8 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           )}
           {transactionId && (
             <p className="leading-3">
-              {t("transaction.id")}: {transactionId}
+              {t("transaction.id")}
+              {":"} {transactionId}
             </p>
           )}
           <p className="leading-3">
