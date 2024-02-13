@@ -13,7 +13,7 @@ import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
-import { app } from "lib/firebase";
+import { app } from "./lib/firebase";
 
 declare let self: ServiceWorkerGlobalScope;
 
