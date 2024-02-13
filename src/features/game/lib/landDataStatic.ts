@@ -353,6 +353,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   previousBalance: new Decimal(0),
   previousInventory: {},
   inventory: {
+    "Treasure Key": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),
     "Farmhand Coupon": new Decimal(1),
     "Sunpetal Seed": new Decimal(100),

@@ -11,6 +11,7 @@ import React, { useContext, useState } from "react";
 
 import wheelHolder from "assets/ui/lunar_wheel_holder.png";
 import wheel from "assets/ui/lunar_wheel.png";
+import { Revealing } from "features/game/components/Revealing";
 
 interface Props {
   onClose: () => void;
@@ -28,7 +29,21 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   const hasKey = !!gameState.context.state.inventory["Treasure Key"];
 
   const open = () => {
-    setIsOpening(true);
+    // TEMP - spin the wheel animation
+    if (location === "lunar_island") {
+      setIsOpening(true);
+      return;
+    }
+
+    gameService.send("REVEAL", {
+      event: {
+        key: "Treasure Key",
+        location,
+        type: "treasureChest.opened",
+        createdAt: new Date(),
+      },
+    });
+    setIsRevealing(true);
   };
 
   const spin = async () => {
@@ -51,25 +66,34 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   };
 
   if (isSpinning || (gameState.matches("revealing") && isRevealing)) {
+    // TEMP Lunar island
+    if (location === "lunar_island") {
+      return (
+        <Panel>
+          <div className="w-48 mx-auto my-2 relative">
+            <img
+              src={wheelHolder}
+              alt="Wheel Holder"
+              className="w-full z-10  absolute top-0 left-0"
+            />
+            <img
+              src={wheel}
+              alt="Wheel"
+              className="w-full animate-spin"
+              style={{
+                transformOrigin: "calc(50%) calc(50% + 9px)",
+                animation: "spin 6s linear infinite",
+              }}
+            />
+          </div>
+          <Button disabled={true}>Good Luck!</Button>
+        </Panel>
+      );
+    }
+
     return (
       <Panel>
-        <div className="w-48 mx-auto my-2 relative">
-          <img
-            src={wheelHolder}
-            alt="Wheel Holder"
-            className="w-full z-10  absolute top-0 left-0"
-          />
-          <img
-            src={wheel}
-            alt="Wheel"
-            className="w-full animate-spin"
-            style={{
-              transformOrigin: "calc(50%) calc(50% + 9px)",
-              animation: "spin 6s linear infinite",
-            }}
-          />
-        </div>
-        <Button disabled={true}>Good Luck!</Button>
+        <Revealing icon={SUNNYSIDE.icons.treasure} />
       </Panel>
     );
   }

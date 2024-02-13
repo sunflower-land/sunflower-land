@@ -16,6 +16,7 @@ import { PageFound } from "./PageFound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { Donations } from "./donations/Donations";
+import { SceneId } from "../mmoMachine";
 
 type InteractableName =
   | "donations"
@@ -79,8 +80,10 @@ export const interactableModalManager = new InteractableModalManager();
 
 interface Props {
   id: number;
+  scene: SceneId;
 }
-export const InteractableModals: React.FC<Props> = ({ id }) => {
+
+export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   const [interactable, setInteractable] = useState<InteractableName>();
 
   useEffect(() => {
@@ -201,7 +204,10 @@ export const InteractableModals: React.FC<Props> = ({ id }) => {
         />
       </Modal>
       <Modal centered show={interactable === "basic_chest"}>
-        <BasicTreasureChest onClose={closeModal} location="lunar_island" />
+        <BasicTreasureChest
+          onClose={closeModal}
+          location={scene === "lunar_island" ? "lunar_island" : "plaza"}
+        />
       </Modal>
       <Modal
         centered
