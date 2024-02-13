@@ -158,7 +158,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   }
 
   const isValentinesDayUTC =
-    new Date().getUTCMonth() === 1 && new Date().getUTCDate() === 14;
+    new Date().getUTCMonth() === 1 && new Date().getUTCDate() <= 17;
 
   return (
     <CloseButtonPanel onClose={onClose}>
