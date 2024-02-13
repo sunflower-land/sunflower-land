@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import React from "react";
+import React, { useEffect } from "react";
 
 import { initialise } from "lib/utils/init";
 
@@ -10,8 +9,8 @@ import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
 import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
-
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 4;
+import { generateToken, messaging } from "lib/messaging";
+import { onMessage } from "firebase/messaging";
 
 // Initialise Global Settings
 initialise();
@@ -19,7 +18,18 @@ initialise();
  * Top level wrapper for providers
  */
 export const App: React.FC = () => {
-  useServiceWorkerUpdate();
+  const { registration } = useServiceWorkerUpdate();
+
+  useEffect(() => {
+    if (registration?.active) {
+      generateToken(registration);
+
+      onMessage(messaging, (payload) => {
+        /* eslint-disable no-console */
+        console.log("[App.js] Received foreground message ", payload);
+      });
+    }
+  }, [registration]);
 
   return (
     <>

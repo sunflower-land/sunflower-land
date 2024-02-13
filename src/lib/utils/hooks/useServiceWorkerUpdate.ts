@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
@@ -11,12 +11,17 @@ const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 5;
  * When the page life cycle state changes to hidden, the waiting service worker will be activated.
  */
 export function useServiceWorkerUpdate() {
+  const [registration, setRegistration] =
+    useState<ServiceWorkerRegistration | null>(null);
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(swUrl, registration) {
       if (registration) {
+        console.log("Service worker registered inside sw hook: ", registration);
+        setRegistration(registration);
+
         setInterval(async () => {
           if (!(!registration.installing && navigator)) return;
 
@@ -56,4 +61,6 @@ export function useServiceWorkerUpdate() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  return { registration };
 }

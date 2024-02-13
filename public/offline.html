@@ -126,12 +126,8 @@
               <span style="margin-bottom: 6px"
                 >Oh no, it looks like your device is currently offline.</span
               >
-              <span>
-                We will keep trying to reconnect or you can check your
-                connection and click the button to reload.
-              </span>
+              <span> Please check your internet connection.</span>
             </div>
-            <button><span style="margin-bottom: 4px">Reload App</span></button>
           </div>
         </div>
       </div>
@@ -139,14 +135,10 @@
 
     <!-- Inline the page's JavaScript file. -->
     <script>
-      // Manual reload feature.
-      document.querySelector("button").addEventListener("click", () => {
-        window.location.reload();
-      });
-
       // Listen to changes in the network state, reload when online.
       // This handles the case when the device is completely offline.
       window.addEventListener("online", () => {
+        console.log("online firing");
         window.location.reload();
       });
 
@@ -164,7 +156,7 @@
         } catch {
           // Unable to connect to the server, ignore.
         }
-        window.setTimeout(checkNetworkAndReload, 2500);
+        window.setTimeout(checkNetworkAndReload, 3000);
       }
 
       checkNetworkAndReload();

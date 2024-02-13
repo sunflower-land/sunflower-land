@@ -76,6 +76,8 @@ const GAME_ANALYTICS_PUB_KEY = import.meta.env
 const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
 const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
+const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY as string;
+
 export const CONFIG = {
   NETWORK,
   POLYGON_CHAIN_ID,
@@ -83,6 +85,7 @@ export const CONFIG = {
   TREASURY_ADDRESS,
   API_URL,
   DISCORD_REDIRECT,
+  FIREBASE_VAPID_KEY,
 
   WISHING_WELL_CONTRACT,
   ACCOUNT_MINTER_CONTRACT,

@@ -12,6 +12,8 @@ import {
 import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
+import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
+import { app } from "lib/firebase";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -75,6 +77,23 @@ if (import.meta.env.PROD) {
   // Google Fonts
   googleFontsCache();
 }
+
+// Firebase Messaging (Push Notifications)
+const messaging = getMessaging(app);
+
+onBackgroundMessage(messaging, (payload) => {
+  if (!payload.notification) return;
+  // eslint-disable-next-line no-console
+  console.log("[sw.js] Received background message ", payload);
+  // Customize notification here
+  const notificationTitle = payload.notification.title ?? "";
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: payload.notification.image,
+  };
+
+  self.registration.showNotification(notificationTitle, notificationOptions);
+});
 
 // to allow work offline
 registerRoute(
