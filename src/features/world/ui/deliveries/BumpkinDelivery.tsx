@@ -32,14 +32,16 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import { NpcDialogues } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
+import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 
 export const OrderCard: React.FC<{
   order: Order;
-  balance: Decimal;
-  inventory: Inventory;
+  game: GameState;
   onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({ order, inventory, balance, onDeliver, hasRequirementsCheck }) => {
+}> = ({ order, game, onDeliver, hasRequirementsCheck }) => {
+  const { balance, inventory } = game;
+
   const canDeliver = hasRequirementsCheck(order);
   return (
     <>
@@ -89,7 +91,7 @@ export const OrderCard: React.FC<{
                       fontSize: "13px",
                     }}
                   >
-                    {order.reward.sfl}
+                    {getOrderSellPrice(game, order).toFixed(2)}
                   </span>
                 </div>
               )}
@@ -607,8 +609,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
             {delivery && (
               <OrderCard
-                balance={gameState.context.state.balance}
-                inventory={gameState.context.state.inventory}
+                game={gameState.context.state}
                 order={delivery as Order}
                 hasRequirementsCheck={() => true}
                 onDeliver={deliver}
