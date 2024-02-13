@@ -1,5 +1,5 @@
-import { HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
-import { Beehive } from "features/game/types/game";
+import { getHoneyProductionTime } from "features/game/lib/updateBeehives";
+import { Beehive, GameState } from "features/game/types/game";
 import { Interpreter, State, createMachine, assign } from "xstate";
 
 export type AttachedFlower = {
@@ -13,6 +13,7 @@ export interface BeehiveContext {
   hive: Beehive;
   isProducing?: boolean;
   attachedFlower?: AttachedFlower;
+  gameState: GameState;
 }
 
 type UpdateHoneyProduced = { type: "UPDATE_HONEY_PRODUCED" };
@@ -201,8 +202,10 @@ export const beehiveMachine = createMachine<
 
         return !!activeFlower;
       },
-      isFull: ({ honeyProduced }) => {
-        return honeyProduced >= HONEY_PRODUCTION_TIME;
+      isFull: (context) => {
+        return (
+          context.honeyProduced >= getHoneyProductionTime(context.gameState)
+        );
       },
       isFlowerReady: ({ attachedFlower }) => {
         if (!attachedFlower) return false;

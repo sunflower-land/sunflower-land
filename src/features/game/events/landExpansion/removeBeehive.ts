@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import {
-  HONEY_PRODUCTION_TIME,
+  getHoneyProductionTime,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { GameState } from "features/game/types/game";
@@ -33,7 +33,7 @@ export function removeBeehive({
   }
 
   const totalHoneyProduced =
-    copy.beehives[action.id].honey.produced / HONEY_PRODUCTION_TIME;
+    copy.beehives[action.id].honey.produced / getHoneyProductionTime(copy);
 
   copy.inventory.Honey = (copy.inventory.Honey ?? new Decimal(0)).add(
     totalHoneyProduced
@@ -42,8 +42,7 @@ export function removeBeehive({
   delete copy.beehives[action.id];
 
   const updatedBeehives = updateBeehives({
-    beehives: copy.beehives,
-    flowerBeds: copy.flowers.flowerBeds,
+    game: copy,
     createdAt,
   });
 

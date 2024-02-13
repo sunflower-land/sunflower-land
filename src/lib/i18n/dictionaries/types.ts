@@ -325,7 +325,10 @@ export type Base = "base.missing" | "base.far.away";
 
 export type Beach = "beach.party" | "beach.ready";
 
-export type Beehive = "beehive.harvestHoney";
+export type Beehive =
+  | "beehive.noFlowers"
+  | "beehive.beeSwarm"
+  | "beehive.harvestHoney";
 
 export type BeachLuck =
   | "beachLuck.tryLuck"

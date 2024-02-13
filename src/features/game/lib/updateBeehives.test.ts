@@ -1,6 +1,7 @@
 import { FLOWER_SEEDS } from "../types/flowers";
 import { Beehive, Beehives, FlowerBed, FlowerBeds } from "../types/game";
-import { HONEY_PRODUCTION_TIME, updateBeehives } from "./updateBeehives";
+import { TEST_FARM } from "./constants";
+import { getHoneyProductionTime, updateBeehives } from "./updateBeehives";
 
 describe("updateBeehives", () => {
   const now = Date.now();
@@ -33,11 +34,9 @@ describe("updateBeehives", () => {
   it("does not update beehives if none are placed", () => {
     const beehives = {};
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds: {},
+      game: { ...TEST_FARM, beehives },
       createdAt: now,
     });
-
     expect(updatedBeehives).toEqual({});
   });
 
@@ -50,8 +49,7 @@ describe("updateBeehives", () => {
       },
     };
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds: {},
+      game: { ...TEST_FARM, beehives },
       createdAt: now,
     });
 
@@ -69,8 +67,7 @@ describe("updateBeehives", () => {
     const flowerBeds: FlowerBeds = { "1": DEFAULT_FLOWER_BED };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -104,8 +101,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -148,8 +144,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -161,7 +156,7 @@ describe("updateBeehives", () => {
     const beehiveId1 = "abc";
     const beehiveId2 = "def";
 
-    const halfTime = HONEY_PRODUCTION_TIME / 2;
+    const halfTime = getHoneyProductionTime(TEST_FARM) / 2;
 
     const beehives: Beehives = {
       [beehiveId1]: {
@@ -187,8 +182,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -223,8 +217,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -284,8 +277,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -296,15 +288,14 @@ describe("updateBeehives", () => {
     const beehives: Beehives = {
       "2": {
         ...DEFAULT_BEEHIVE,
-        honey: { produced: HONEY_PRODUCTION_TIME, updatedAt: 0 },
+        honey: { produced: getHoneyProductionTime(TEST_FARM), updatedAt: 0 },
         flowers: [],
       },
     };
     const flowerBeds: FlowerBeds = { "1": DEFAULT_FLOWER_BED };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -324,11 +315,14 @@ describe("updateBeehives", () => {
     const beehives: Beehives = {
       [beehiveId]: {
         ...DEFAULT_BEEHIVE,
-        honey: { updatedAt: now - HONEY_PRODUCTION_TIME, produced: 0 },
+        honey: {
+          updatedAt: now - getHoneyProductionTime(TEST_FARM),
+          produced: 0,
+        },
         flowers: [
           {
             id: flowerId,
-            attachedAt: now - HONEY_PRODUCTION_TIME,
+            attachedAt: now - getHoneyProductionTime(TEST_FARM),
             attachedUntil: now - tenMinutes,
           },
         ],
@@ -346,13 +340,12 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
     expect(updatedBeehives[beehiveId].honey.produced).toEqual(
-      HONEY_PRODUCTION_TIME - tenMinutes
+      getHoneyProductionTime(TEST_FARM) - tenMinutes
     );
   });
 
@@ -364,11 +357,14 @@ describe("updateBeehives", () => {
     const beehives: Beehives = {
       [beehiveId]: {
         ...DEFAULT_BEEHIVE,
-        honey: { updatedAt: now - HONEY_PRODUCTION_TIME, produced: tenMinutes },
+        honey: {
+          updatedAt: now - getHoneyProductionTime(TEST_FARM),
+          produced: tenMinutes,
+        },
         flowers: [
           {
             id: flowerId,
-            attachedAt: now - HONEY_PRODUCTION_TIME,
+            attachedAt: now - getHoneyProductionTime(TEST_FARM),
             attachedUntil: now - tenMinutes,
           },
         ],
@@ -386,13 +382,12 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
     expect(updatedBeehives[beehiveId].honey.produced).toEqual(
-      HONEY_PRODUCTION_TIME
+      getHoneyProductionTime(TEST_FARM)
     );
   });
 
@@ -401,7 +396,7 @@ describe("updateBeehives", () => {
     const flowerId2 = "456";
     const beehiveId1 = "abc";
 
-    const halfTime = HONEY_PRODUCTION_TIME / 2;
+    const halfTime = getHoneyProductionTime(TEST_FARM) / 2;
 
     const beehives: Beehives = {
       [beehiveId1]: {
@@ -432,8 +427,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -447,7 +441,7 @@ describe("updateBeehives", () => {
     const flowerId1 = "123";
     const beehiveId1 = "abc";
 
-    const halfTime = HONEY_PRODUCTION_TIME / 2;
+    const halfTime = getHoneyProductionTime(TEST_FARM) / 2;
 
     const beehives: Beehives = {
       [beehiveId1]: {
@@ -468,8 +462,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -504,8 +497,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -546,8 +538,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -560,7 +551,7 @@ describe("updateBeehives", () => {
     const beehiveId1 = "abc";
     const beehiveId2 = "def";
 
-    const quarterTime = HONEY_PRODUCTION_TIME / 4;
+    const quarterTime = getHoneyProductionTime(TEST_FARM) / 4;
     const threeQuarterTime = quarterTime * 3;
 
     const beehives: Beehives = {
@@ -576,7 +567,7 @@ describe("updateBeehives", () => {
           {
             id: flowerId2,
             attachedAt: now + threeQuarterTime,
-            attachedUntil: now + HONEY_PRODUCTION_TIME,
+            attachedUntil: now + getHoneyProductionTime(TEST_FARM),
           },
         ],
       },
@@ -606,15 +597,14 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
     expect(updatedBeehives[beehiveId2].flowers.length).toEqual(1);
     expect(updatedBeehives[beehiveId2].flowers[0].attachedAt).toEqual(now);
     expect(updatedBeehives[beehiveId2].flowers[0].attachedUntil).toEqual(
-      now + HONEY_PRODUCTION_TIME
+      now + getHoneyProductionTime(TEST_FARM)
     );
   });
 
@@ -649,8 +639,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 
@@ -697,8 +686,7 @@ describe("updateBeehives", () => {
     };
 
     const updatedBeehives = updateBeehives({
-      beehives,
-      flowerBeds,
+      game: { ...TEST_FARM, beehives, flowers: { flowerBeds, discovered: {} } },
       createdAt: now,
     });
 

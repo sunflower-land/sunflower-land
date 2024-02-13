@@ -1,8 +1,8 @@
 import { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
 import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
-import { HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import Decimal from "decimal.js-light";
+import { getHoneyProductionTime } from "features/game/lib/updateBeehives";
 
 describe("harvestBeehive", () => {
   const now = Date.now();
@@ -91,7 +91,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -126,7 +126,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME / 2,
+              produced: getHoneyProductionTime(TEST_FARM) / 2,
             },
           },
         },
@@ -233,7 +233,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -288,7 +288,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -313,7 +313,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -352,7 +352,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -377,7 +377,7 @@ describe("harvestBeehive", () => {
             swarm: false,
             honey: {
               updatedAt: 0,
-              produced: HONEY_PRODUCTION_TIME / 2,
+              produced: getHoneyProductionTime(TEST_FARM) / 2,
             },
           },
         },
@@ -418,7 +418,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: fiveMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -454,7 +454,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -496,7 +496,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -539,7 +539,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME,
+              produced: getHoneyProductionTime(TEST_FARM),
             },
           },
         },
@@ -582,7 +582,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: HONEY_PRODUCTION_TIME / 2,
+              produced: getHoneyProductionTime(TEST_FARM) / 2,
             },
           },
         },

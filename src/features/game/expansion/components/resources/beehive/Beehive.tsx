@@ -16,7 +16,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useInterpret, useSelector } from "@xstate/react";
 import { Bar } from "components/ui/ProgressBar";
 import { Beehive as IBeehive } from "features/game/types/game";
-import { HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import {
   BeehiveContext,
   BeehiveMachineState,
@@ -37,6 +36,7 @@ import { BeeSwarm } from "./BeeSwarm";
 import { Label } from "components/ui/Label";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getHoneyProductionTime } from "features/game/lib/updateBeehives";
 
 interface Props {
   id: string;
@@ -75,6 +75,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const hive = useSelector(gameService, getBeehiveById(id), compareHive);
 
   const beehiveContext: BeehiveContext = {
+    gameState: gameService.state.context.state,
     hive,
     honeyProduced: getCurrentHoneyProduced(hive),
   };
@@ -170,8 +171,12 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     }
   }, [honeyProduced, showHoneyLevelPopover]);
 
-  const honeyAmount = (honeyProduced / HONEY_PRODUCTION_TIME).toFixed(4);
-  const percentage = (honeyProduced / HONEY_PRODUCTION_TIME) * 100;
+  const honeyAmount = (
+    honeyProduced / getHoneyProductionTime(gameService.state.context.state)
+  ).toFixed(4);
+  const percentage =
+    (honeyProduced / getHoneyProductionTime(gameService.state.context.state)) *
+    100;
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
@@ -253,7 +258,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         >
           <InfoPopover showPopover={showNoFlowerGrowingPopover}>
             <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
-              <span>No flowers growing</span>
+              <span>{t("beehive.noFlowers")}</span>
             </div>
           </InfoPopover>
         </div>
@@ -269,7 +274,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
             <div className="flex flex-1 items-center text-xxs justify-center px-2 py-1 whitespace-nowrap">
               <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
               <span>
-                {t("honey")}: {Number(honeyAmount) < 1 ? honeyAmount : "Full"}
+                {t("honey")} {Number(honeyAmount) < 1 ? honeyAmount : "Full"}
               </span>
             </div>
           </InfoPopover>
@@ -350,7 +355,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           bumpkinParts={NPC_WEARABLES.stevie}
         >
           <Label type="vibrant" icon={lightning}>
-            Bee swarm
+            {t("beehive.beeSwarm")}
           </Label>
           <SpeakingText
             message={[

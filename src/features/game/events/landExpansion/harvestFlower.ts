@@ -28,8 +28,7 @@ export function harvestFlower({
   const stateCopy = cloneDeep(state);
 
   stateCopy.beehives = updateBeehives({
-    beehives: stateCopy.beehives,
-    flowerBeds: stateCopy.flowers.flowerBeds,
+    game: state,
     createdAt,
   });
 
@@ -77,8 +76,7 @@ export function harvestFlower({
   );
 
   stateCopy.beehives = updateBeehives({
-    beehives: stateCopy.beehives,
-    flowerBeds: stateCopy.flowers.flowerBeds,
+    game: stateCopy,
     createdAt,
   });
 
