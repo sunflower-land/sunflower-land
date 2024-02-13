@@ -261,7 +261,8 @@ export type GeneralTerms =
   | "special"
   | "default"
   | "formula"
-  | "chill";
+  | "chill"
+  | "full";
 
 export type AchievementsTerms =
   | "breadWinner.description"
@@ -369,9 +370,10 @@ export type BasicTreasure =
 export type Beach = "beach.party" | "beach.ready";
 
 export type Beehive =
-  | "beehive.noFlowers"
+  | "beehive.harvestHoney"
+  | "beehive.noFlowersGrowing"
   | "beehive.beeSwarm"
-  | "beehive.harvestHoney";
+  | "beehive.pollinationCelebration";
 
 export type BeachLuck =
   | "beachLuck.tryLuck"

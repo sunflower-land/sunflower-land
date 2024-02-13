@@ -22,6 +22,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getCrimstoneStage } from "../Crimstone";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Gold Pickaxe";
 
@@ -49,6 +50,8 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
   const [showEquipTool, setShowEquipTool] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     loadAudio([miningAudio]);
@@ -170,7 +173,9 @@ const RecoveredCrimstoneComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

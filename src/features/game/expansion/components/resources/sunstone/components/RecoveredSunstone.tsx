@@ -26,6 +26,7 @@ import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { getSunstoneStage } from "../Sunstone";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const tool = "Gold Pickaxe";
 
@@ -49,6 +50,8 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
   const [showBumpkinLevel, setShowBumpkinLevel] = useState(false);
 
   const strikeGif = useRef<SpriteSheetInstance>();
+
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     loadAudio([miningAudio]);
@@ -176,7 +179,9 @@ const RecoveredSunstoneComponent: React.FC<Props> = ({
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xxs mx-1 p-1">
-              <span>Equip {tool.toLowerCase()}</span>
+              <span>
+                {t("equip")} {tool.toLowerCase()}
+              </span>
             </div>
           </InnerPanel>
         </div>

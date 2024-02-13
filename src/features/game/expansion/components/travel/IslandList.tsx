@@ -246,7 +246,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       path: `/world/woodlands`,
       labels: [
         <Label type="vibrant" key="potion_house" icon={blueBottle}>
-          Potion House
+          {"Potion House"}
         </Label>,
       ],
     },
@@ -272,17 +272,17 @@ export const IslandList: React.FC<IslandListProps> = ({
       passRequired: true,
       labels: [
         <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
-          Trading
+          {t("trading")}
         </Label>,
         <Label
           type="default"
           key="withdraw"
           icon={SUNNYSIDE.decorations.treasure_chest_opened}
         >
-          Withdraw
+          {t("withdraw")}
         </Label>,
         <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
-          Crafting
+          {t("crafting")}
         </Label>,
       ],
     },
