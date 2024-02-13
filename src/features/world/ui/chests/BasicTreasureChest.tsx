@@ -26,7 +26,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   const [isOpening, setIsOpening] = useState(false);
   const [isSpinning, setIsSpinning] = useState(false);
 
-  const hasKey = !!gameState.context.state.inventory["Treasure Key"];
+  const hasKey = !!gameState.context.state.inventory["Treasure Key"]?.gte(1);
 
   const open = () => {
     // TEMP - spin the wheel animation
@@ -158,7 +158,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   }
 
   const isValentinesDayUTC =
-    new Date().getUTCMonth() === 1 && new Date().getUTCDate() === 13;
+    new Date().getUTCMonth() === 1 && new Date().getUTCDate() === 14;
 
   return (
     <CloseButtonPanel onClose={onClose}>
