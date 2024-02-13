@@ -22,9 +22,10 @@ const getFlowerProductionRate = (game: GameState) => {
   return 1;
 };
 
+export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
+
 export const getHoneyProductionTime = (game: GameState) => {
-  const defaultHoneyProductionTime = 24 * 60 * 60 * 1000;
-  return defaultHoneyProductionTime / getFlowerProductionRate(game);
+  return DEFAULT_HONEY_PRODUCTION_TIME / getFlowerProductionRate(game);
 };
 
 interface GetFlowerDetail {

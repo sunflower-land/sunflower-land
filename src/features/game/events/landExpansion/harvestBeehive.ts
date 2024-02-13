@@ -2,7 +2,7 @@ import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
-  getHoneyProductionTime,
+  DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { getKeys } from "features/game/types/craftables";
@@ -90,7 +90,7 @@ export function harvestBeehive({
 
   const honeyProduced =
     stateCopy.beehives[action.id].honey.produced /
-    getHoneyProductionTime(stateCopy);
+    DEFAULT_HONEY_PRODUCTION_TIME;
   const isFull = honeyProduced >= 1;
 
   const totalHoneyProduced = getTotalHoneyProduced(stateCopy, honeyProduced);

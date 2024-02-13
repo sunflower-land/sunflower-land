@@ -2,7 +2,7 @@ import { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
 import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
 import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
-import { getHoneyProductionTime } from "features/game/lib/updateBeehives";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 
 describe("harvestBeehive", () => {
   const now = Date.now();
@@ -91,7 +91,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -126,7 +126,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM) / 2,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME / 2,
             },
           },
         },
@@ -233,7 +233,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -288,7 +288,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -313,7 +313,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -352,7 +352,7 @@ describe("harvestBeehive", () => {
             swarm: true,
             honey: {
               updatedAt: 0,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -377,7 +377,7 @@ describe("harvestBeehive", () => {
             swarm: false,
             honey: {
               updatedAt: 0,
-              produced: getHoneyProductionTime(TEST_FARM) / 2,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME / 2,
             },
           },
         },
@@ -418,7 +418,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: fiveMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -454,7 +454,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -496,7 +496,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -539,7 +539,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM),
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
             },
           },
         },
@@ -582,7 +582,7 @@ describe("harvestBeehive", () => {
             ...DEFAULT_BEEHIVE,
             honey: {
               updatedAt: tenMinutesAgo,
-              produced: getHoneyProductionTime(TEST_FARM) / 2,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME / 2,
             },
           },
         },

@@ -1,7 +1,10 @@
 import { FLOWER_SEEDS } from "../types/flowers";
 import { Beehive, Beehives, FlowerBed, FlowerBeds } from "../types/game";
 import { TEST_FARM } from "./constants";
-import { getHoneyProductionTime, updateBeehives } from "./updateBeehives";
+import {
+  DEFAULT_HONEY_PRODUCTION_TIME,
+  updateBeehives,
+} from "./updateBeehives";
 
 describe("updateBeehives", () => {
   const now = Date.now();
@@ -156,7 +159,7 @@ describe("updateBeehives", () => {
     const beehiveId1 = "abc";
     const beehiveId2 = "def";
 
-    const halfTime = getHoneyProductionTime(TEST_FARM) / 2;
+    const halfTime = DEFAULT_HONEY_PRODUCTION_TIME / 2;
 
     const beehives: Beehives = {
       [beehiveId1]: {
@@ -288,7 +291,7 @@ describe("updateBeehives", () => {
     const beehives: Beehives = {
       "2": {
         ...DEFAULT_BEEHIVE,
-        honey: { produced: getHoneyProductionTime(TEST_FARM), updatedAt: 0 },
+        honey: { produced: DEFAULT_HONEY_PRODUCTION_TIME, updatedAt: 0 },
         flowers: [],
       },
     };
@@ -316,13 +319,13 @@ describe("updateBeehives", () => {
       [beehiveId]: {
         ...DEFAULT_BEEHIVE,
         honey: {
-          updatedAt: now - getHoneyProductionTime(TEST_FARM),
+          updatedAt: now - DEFAULT_HONEY_PRODUCTION_TIME,
           produced: 0,
         },
         flowers: [
           {
             id: flowerId,
-            attachedAt: now - getHoneyProductionTime(TEST_FARM),
+            attachedAt: now - DEFAULT_HONEY_PRODUCTION_TIME,
             attachedUntil: now - tenMinutes,
           },
         ],
@@ -345,7 +348,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives[beehiveId].honey.produced).toEqual(
-      getHoneyProductionTime(TEST_FARM) - tenMinutes
+      DEFAULT_HONEY_PRODUCTION_TIME - tenMinutes
     );
   });
 
@@ -358,13 +361,13 @@ describe("updateBeehives", () => {
       [beehiveId]: {
         ...DEFAULT_BEEHIVE,
         honey: {
-          updatedAt: now - getHoneyProductionTime(TEST_FARM),
+          updatedAt: now - DEFAULT_HONEY_PRODUCTION_TIME,
           produced: tenMinutes,
         },
         flowers: [
           {
             id: flowerId,
-            attachedAt: now - getHoneyProductionTime(TEST_FARM),
+            attachedAt: now - DEFAULT_HONEY_PRODUCTION_TIME,
             attachedUntil: now - tenMinutes,
           },
         ],
@@ -387,7 +390,7 @@ describe("updateBeehives", () => {
     });
 
     expect(updatedBeehives[beehiveId].honey.produced).toEqual(
-      getHoneyProductionTime(TEST_FARM)
+      DEFAULT_HONEY_PRODUCTION_TIME
     );
   });
 
@@ -396,7 +399,7 @@ describe("updateBeehives", () => {
     const flowerId2 = "456";
     const beehiveId1 = "abc";
 
-    const halfTime = getHoneyProductionTime(TEST_FARM) / 2;
+    const halfTime = DEFAULT_HONEY_PRODUCTION_TIME / 2;
 
     const beehives: Beehives = {
       [beehiveId1]: {
@@ -441,7 +444,7 @@ describe("updateBeehives", () => {
     const flowerId1 = "123";
     const beehiveId1 = "abc";
 
-    const halfTime = getHoneyProductionTime(TEST_FARM) / 2;
+    const halfTime = DEFAULT_HONEY_PRODUCTION_TIME / 2;
 
     const beehives: Beehives = {
       [beehiveId1]: {
@@ -551,7 +554,7 @@ describe("updateBeehives", () => {
     const beehiveId1 = "abc";
     const beehiveId2 = "def";
 
-    const quarterTime = getHoneyProductionTime(TEST_FARM) / 4;
+    const quarterTime = DEFAULT_HONEY_PRODUCTION_TIME / 4;
     const threeQuarterTime = quarterTime * 3;
 
     const beehives: Beehives = {
@@ -567,7 +570,7 @@ describe("updateBeehives", () => {
           {
             id: flowerId2,
             attachedAt: now + threeQuarterTime,
-            attachedUntil: now + getHoneyProductionTime(TEST_FARM),
+            attachedUntil: now + DEFAULT_HONEY_PRODUCTION_TIME,
           },
         ],
       },
@@ -604,7 +607,7 @@ describe("updateBeehives", () => {
     expect(updatedBeehives[beehiveId2].flowers.length).toEqual(1);
     expect(updatedBeehives[beehiveId2].flowers[0].attachedAt).toEqual(now);
     expect(updatedBeehives[beehiveId2].flowers[0].attachedUntil).toEqual(
-      now + getHoneyProductionTime(TEST_FARM)
+      now + DEFAULT_HONEY_PRODUCTION_TIME
     );
   });
 
