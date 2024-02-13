@@ -80,9 +80,17 @@ export const OrderCard: React.FC<{
                 Reward
               </Label>
               {order.reward.sfl && (
-                <div className="flex items-center">
-                  <img src={sfl} className="w-5 h-auto mr-1" />
-                  <span className="text-xs">{order.reward.sfl}</span>
+                <div className="flex items-center mr-1">
+                  <img src={sfl} className="w-4 h-auto mr-1" />
+                  <span
+                    style={{
+                      // Match labels
+                      lineHeight: "15px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    {order.reward.sfl}
+                  </span>
                 </div>
               )}
               {order.reward.tickets && (
