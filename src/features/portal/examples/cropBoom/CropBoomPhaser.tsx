@@ -85,7 +85,7 @@ export const CropBoomPhaser: React.FC = () => {
   return (
     <div>
       <div id="game-content" ref={ref} />
-      <InteractableModals id={portalState.context.id} />
+      <InteractableModals scene="plaza" id={portalState.context.id} />
     </div>
   );
 };

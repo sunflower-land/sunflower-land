@@ -27,10 +27,8 @@ export const SPAWNS: SpawnLocation = {
   },
   plaza: {
     default: {
-      // x: 440,
-      // y: 400,
-      x: 210,
-      y: 165,
+      x: 440,
+      y: 400,
     },
     windmill_floor: {
       x: 420,
