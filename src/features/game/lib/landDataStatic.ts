@@ -508,7 +508,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   auctioneer: {},
   delivery: {
-    fulfilledCount: 0,
+    fulfilledCount: 10,
     orders: [
       {
         createdAt: Date.now(),
@@ -553,6 +553,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     milestone: {
       goal: 10,
       total: 10,
+      claimedAt: new Date("2024-02-15").getTime(),
     },
   },
 

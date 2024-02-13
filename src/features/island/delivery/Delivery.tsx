@@ -87,36 +87,6 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
     console.log("Top render");
   }, []);
 
-  const reachMilestone = () => {
-    gameService.send("REVEAL", {
-      event: {
-        type: "delivery.milestoneReached",
-        createdAt: new Date(),
-      },
-    });
-    setIsRevealing(true);
-  };
-
-  if (gameState.matches("revealing") && isRevealing) {
-    return (
-      <Modal show centered>
-        <Panel className="z-10">
-          <Revealing icon={chest} />
-        </Panel>
-      </Modal>
-    );
-  }
-
-  if (gameState.matches("revealed") && isRevealing) {
-    return (
-      <Modal show centered>
-        <Panel className="z-10">
-          <Revealed onAcknowledged={() => setIsRevealing(false)} />
-        </Panel>
-      </Modal>
-    );
-  }
-
   return (
     <>
       <Modal
@@ -163,47 +133,6 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 )}
                 onClick={() => setSelectedOrderId(undefined)}
               />
-              <div
-                className="flex relative mx-auto mt-1"
-                style={{ width: "fit-content" }}
-              >
-                <ResizableBar
-                  percentage={(progress / delivery.milestone.goal) * 100}
-                  type="progress"
-                  outerDimensions={{
-                    width: 80,
-                    height: 10,
-                  }}
-                />
-                <span
-                  className="absolute text-xs"
-                  style={{
-                    left: "93px",
-                    top: "3px",
-                    fontSize: "16px",
-                  }}
-                >
-                  {`${progress}/${delivery.milestone.goal}`}
-                </span>
-                <img
-                  src={chest}
-                  className={classNames("absolute h-8 shadow-lg", {
-                    "ready cursor-pointer img-highlight-heavy":
-                      progress >= delivery.milestone.goal && !isRevealing,
-                  })}
-                  onClick={() => {
-                    if (progress < delivery.milestone.goal) {
-                      return;
-                    }
-
-                    reachMilestone();
-                  }}
-                  style={{
-                    right: 0,
-                    top: "-4px",
-                  }}
-                />
-              </div>
             </>
           }
         >
