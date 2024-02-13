@@ -157,17 +157,31 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
     );
   }
 
+  const isValentinesDayUTC =
+    new Date().getUTCMonth() === 1 && new Date().getUTCDate() === 13;
+
   return (
     <CloseButtonPanel onClose={onClose}>
       <div className="p-2">
-        <Label
-          type="default"
-          className="mb-2"
-          icon={ITEM_DETAILS["Treasure Key"].image}
-          secondaryIcon={SUNNYSIDE.icons.confirm}
-        >
-          Treasure Key
-        </Label>
+        <div className="flex flex-wrap mr-12">
+          <Label
+            type="default"
+            icon={ITEM_DETAILS["Treasure Key"].image}
+            className="mb-2 mr-3"
+            secondaryIcon={SUNNYSIDE.icons.confirm}
+          >
+            Treasure Key
+          </Label>
+          {isValentinesDayUTC && (
+            <Label
+              className="mb-2"
+              type="vibrant"
+              icon={SUNNYSIDE.icons.stopwatch}
+            >
+              Valentine Rewards
+            </Label>
+          )}
+        </div>
         <p className="text-xs mb-2">
           Congratulations, you have a Treasure Key!
         </p>

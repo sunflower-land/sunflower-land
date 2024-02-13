@@ -11,7 +11,8 @@ export type BumpkinBackground =
   | "SFL Office Background"
   | "Dawn Breaker Background"
   | "Mushroom Lights Background"
-  | "Northern Lights Background";
+  | "Northern Lights Background"
+  | "Valentine's Field Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -236,7 +237,8 @@ export type BumpkinHat =
   | "Flower Crown"
   | "Queen Bee Crown"
   | "Lucky Red Hat"
-  | "Chicken Hat";
+  | "Chicken Hat"
+  | "Love's Topper";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -648,6 +650,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Chicken Hat": 303,
   "Lucky Red Hat": 304,
   "Lucky Red Suit": 305,
+  "Valentine's Field Background": 306,
+  "Love's Topper": 307,
 };
 
 // The reverse of above
@@ -1012,4 +1016,6 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Chicken Hat": "hat",
   "Lucky Red Hat": "hat",
   "Lucky Red Suit": "suit",
+  "Love's Topper": "hat",
+  "Valentine's Field Background": "background",
 };
