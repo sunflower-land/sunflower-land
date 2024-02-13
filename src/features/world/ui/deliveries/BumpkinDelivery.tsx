@@ -502,8 +502,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
   });
 
-  const { t } = useAppTranslation();
-
   const openReward = () => {
     const nextGift = getNextGift({ game, npc });
 
