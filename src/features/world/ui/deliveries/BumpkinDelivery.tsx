@@ -478,6 +478,7 @@ interface Props {
 }
 
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -494,7 +495,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       friendship: true,
     });
   };
-  
+
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "sfl") {
       return game.balance.gte(delivery?.items.sfl ?? 0);
