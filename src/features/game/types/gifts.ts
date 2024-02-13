@@ -6,121 +6,90 @@ type GiftPoints = Partial<Record<FlowerName, number>>;
 
 /**
  * Flowers that Bumpkins particularly desire
- * Gives bonus points
+ * Otherwise, they will get default flower points
  */
 export const BUMPKIN_FLOWER_BONUSES: Partial<Record<NPCName, GiftPoints>> = {
-  // All Pansies
   betty: {
-    "Red Pansy": 3,
-    "Yellow Pansy": 3,
-    "Purple Pansy": 3,
-    "White Pansy": 3,
-    "Blue Pansy": 3,
+    "Red Pansy": 5,
+    "Yellow Pansy": 5,
+    "Purple Pansy": 5,
+    "White Pansy": 5,
+    "Blue Pansy": 5,
   },
-
-  "pumpkin' pete": {
-    "Yellow Cosmos": 4,
-  },
-
-  blacksmith: {
-    "Red Carnation": 3,
-  },
-
-  // All Lotus
+  "pumpkin' pete": { "Yellow Cosmos": 6 },
+  blacksmith: { "Red Carnation": 5 },
   bert: {
-    "Red Lotus": 4,
-    "Yellow Lotus": 4,
-    "Purple Lotus": 4,
-    "White Lotus": 4,
-    "Blue Lotus": 4,
+    "Red Lotus": 6,
+    "Yellow Lotus": 6,
+    "Purple Lotus": 6,
+    "White Lotus": 6,
+    "Blue Lotus": 6,
   },
-
-  // All Daffodils
   finley: {
-    "Red Daffodil": 3,
-    "Yellow Daffodil": 3,
-    "Purple Daffodil": 3,
-    "White Daffodil": 3,
-    "Blue Daffodil": 3,
+    "Red Daffodil": 5,
+    "Yellow Daffodil": 5,
+    "Purple Daffodil": 5,
+    "White Daffodil": 5,
+    "Blue Daffodil": 5,
   },
-
-  // All Purple
   raven: {
-    "Purple Carnation": 4,
-    "Purple Lotus": 3,
-    "Purple Daffodil": 2,
-    "Purple Pansy": 2,
+    "Purple Carnation": 6,
+    "Purple Lotus": 5,
+    "Purple Daffodil": 4,
+    "Purple Pansy": 4,
   },
-
-  // All yellow
   miranda: {
-    "Yellow Carnation": 4,
-    "Yellow Lotus": 3,
-    "Yellow Daffodil": 2,
-    "Yellow Pansy": 2,
+    "Yellow Carnation": 6,
+    "Yellow Lotus": 5,
+    "Yellow Daffodil": 4,
+    "Yellow Pansy": 4,
   },
-
-  // White and Blue Cosmos
-  finn: {
-    "White Cosmos": 3,
-    "Blue Cosmos": 3,
-  },
-
-  corale: {
-    "Prism Petal": 4,
-  },
-
-  // All Balloon
+  finn: { "White Cosmos": 5, "Blue Cosmos": 5 },
+  corale: { "Prism Petal": 6 },
   cornwell: {
-    "Red Balloon Flower": 3,
-    "Yellow Balloon Flower": 3,
-    "Purple Balloon Flower": 3,
-    "White Balloon Flower": 3,
-    "Blue Balloon Flower": 3,
+    "Red Balloon Flower": 5,
+    "Yellow Balloon Flower": 5,
+    "Purple Balloon Flower": 5,
+    "White Balloon Flower": 5,
+    "Blue Balloon Flower": 5,
   },
-
-  tywin: {
-    "Primula Enigma": 5,
-    "Celestial Frostbloom": 4,
-  },
+  tywin: { "Primula Enigma": 7, "Celestial Frostbloom": 6 },
 };
 
 export const DEFAULT_FLOWER_POINTS: Record<FlowerName, number> = {
-  "Red Pansy": 1,
-  "Yellow Pansy": 1,
-  "Purple Pansy": 1,
-  "White Pansy": 1,
-  "Blue Pansy": 1,
-  "Red Cosmos": 1,
-  "Yellow Cosmos": 1,
-  "Purple Cosmos": 1,
-  "White Cosmos": 1,
-  "Blue Cosmos": 1,
-  "Red Balloon Flower": 3,
-  "Yellow Balloon Flower": 3,
-  "Purple Balloon Flower": 3,
-  "White Balloon Flower": 3,
-  "Blue Balloon Flower": 3,
-  "Red Carnation": 3,
-  "Yellow Carnation": 3,
-  "Purple Carnation": 3,
-  "White Carnation": 3,
-  "Blue Carnation": 3,
-
-  "Red Daffodil": 5,
-  "Yellow Daffodil": 5,
-  "Purple Daffodil": 5,
-  "White Daffodil": 5,
-  "Blue Daffodil": 5,
-  "Red Lotus": 5,
-  "Yellow Lotus": 5,
-  "Purple Lotus": 5,
-  "White Lotus": 5,
-  "Blue Lotus": 5,
-
-  "Prism Petal": 10,
-  "Celestial Frostbloom": 10,
-  "Primula Enigma": 10,
+  "Red Pansy": 3,
+  "Yellow Pansy": 3,
+  "Purple Pansy": 3,
+  "White Pansy": 3,
+  "Blue Pansy": 3,
+  "Red Cosmos": 3,
+  "Yellow Cosmos": 3,
+  "Purple Cosmos": 3,
+  "White Cosmos": 3,
+  "Blue Cosmos": 3,
+  "Red Balloon Flower": 5,
+  "Yellow Balloon Flower": 5,
+  "Purple Balloon Flower": 5,
+  "White Balloon Flower": 5,
+  "Blue Balloon Flower": 5,
+  "Red Carnation": 5,
+  "Yellow Carnation": 5,
+  "Purple Carnation": 5,
+  "White Carnation": 5,
+  "Blue Carnation": 5,
+  "Red Daffodil": 7,
+  "Yellow Daffodil": 7,
+  "Purple Daffodil": 7,
+  "White Daffodil": 7,
+  "Blue Daffodil": 7,
+  "Red Lotus": 7,
+  "Yellow Lotus": 7,
+  "Purple Lotus": 7,
+  "White Lotus": 7,
+  "Blue Lotus": 7,
+  "Prism Petal": 12,
+  "Celestial Frostbloom": 12,
+  "Primula Enigma": 12,
 };
 
 export type BumpkinGift = {
@@ -281,19 +250,19 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
   finley: {
     planned: [
       {
-        friendshipPoints: 70,
-        items: { "Fishing Lure": 5 },
+        friendshipPoints: 25,
+        items: { "Fishing Lure": 3 },
         sfl: 0,
         wearables: {},
       },
       {
-        friendshipPoints: 140,
+        friendshipPoints: 95,
         items: {},
-        sfl: 3,
+        sfl: 10,
         wearables: {},
       },
       {
-        friendshipPoints: 220,
+        friendshipPoints: 150,
         items: { Tuna: 5 },
         sfl: 0,
         wearables: {},
@@ -301,7 +270,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     ],
     repeats: {
       friendshipPoints: 100,
-      items: { "Rare Key": 1 },
+      items: { "Fishing Lure": 5 },
       sfl: 0,
       wearables: {},
     },
@@ -309,7 +278,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
   raven: {
     planned: [
       {
-        friendshipPoints: 80,
+        friendshipPoints: 50,
         items: { "Time Warp Totem": 1 },
         sfl: 0,
         wearables: {},
@@ -317,7 +286,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 140,
         items: {},
-        sfl: 3,
+        sfl: 8,
         wearables: {},
       },
       {
@@ -351,33 +320,29 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
   miranda: {
     planned: [
       {
-        friendshipPoints: 120,
+        friendshipPoints: 30,
         items: { "Time Warp Totem": 1 },
         sfl: 0,
         wearables: {},
       },
       {
-        friendshipPoints: 240,
+        friendshipPoints: 90,
         items: {},
         sfl: 3,
-        wearables: {},
+        wearables: {
+          "Fruit Picker Shirt": 1,
+        },
       },
       {
-        friendshipPoints: 400,
-        items: {},
-        sfl: 5,
-        wearables: {},
-      },
-      {
-        friendshipPoints: 700,
+        friendshipPoints: 260,
         items: {},
         sfl: 0,
         wearables: { "Fruit Picker Apron": 1 },
       },
       {
-        friendshipPoints: 1000,
+        friendshipPoints: 500,
         items: {},
-        sfl: 100,
+        sfl: 20,
         wearables: { "Fruit Bowl": 1 },
       },
     ],
@@ -396,21 +361,21 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
   finn: {
     planned: [
       {
-        friendshipPoints: 90,
+        friendshipPoints: 40,
         items: { Rod: 10 },
         sfl: 0,
         wearables: {},
       },
       {
-        friendshipPoints: 200,
+        friendshipPoints: 150,
         items: {},
         sfl: 3,
         wearables: {},
       },
     ],
     repeats: {
-      friendshipPoints: 110,
-      items: { "Fishing Lure": 5 },
+      friendshipPoints: 130,
+      items: { "Rare Key": 1 },
       sfl: 0,
       wearables: {},
     },
@@ -418,26 +383,26 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
   corale: {
     planned: [
       {
-        friendshipPoints: 85,
+        friendshipPoints: 45,
         items: {},
         sfl: 3,
         wearables: {},
       },
       {
-        friendshipPoints: 190,
+        friendshipPoints: 150,
         items: { "Block Buck": 2 },
         sfl: 0,
         wearables: {},
       },
       {
-        friendshipPoints: 370,
+        friendshipPoints: 320,
         items: {},
         sfl: 0,
         wearables: { "Pink Ponytail": 1 },
       },
     ],
     repeats: {
-      friendshipPoints: 260,
+      friendshipPoints: 200,
       items: {},
       sfl: 10,
       wearables: {},

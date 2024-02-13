@@ -75,7 +75,7 @@ describe("giftBumpkin", () => {
       },
     });
 
-    expect(state.npcs?.betty?.friendship?.points).toEqual(1);
+    expect(state.npcs?.betty?.friendship?.points).toEqual(3);
   });
 
   it("gives a bonus for a flower they desire", () => {
@@ -93,6 +93,6 @@ describe("giftBumpkin", () => {
       },
     });
 
-    expect(state.npcs?.betty?.friendship?.points).toEqual(4);
+    expect(state.npcs?.betty?.friendship?.points).toEqual(8);
   });
 });
