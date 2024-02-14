@@ -6,7 +6,7 @@ import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { FishermanModal } from "./FishermanModal";
 import { FishermanNPC } from "./FishermanNPC";
 import { InventoryItemName } from "features/game/types/game";

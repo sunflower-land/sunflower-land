@@ -8,7 +8,7 @@ import bumpkin from "assets/npcs/shark.png";
 import Spritesheet from "components/animation/SpriteAnimator";
 
 import { MapPlacement } from "../MapPlacement";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";

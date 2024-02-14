@@ -5,7 +5,7 @@ import tent from "assets/buildings/tent.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { TentModal } from "./TentModal";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";

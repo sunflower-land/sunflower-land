@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ticket from "assets/icons/block_buck_detailed.png";

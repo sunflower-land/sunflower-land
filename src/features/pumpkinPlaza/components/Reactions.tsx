@@ -8,8 +8,8 @@ import { GameState } from "features/game/types/game";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SceneId } from "features/world/mmoMachine";
 import React from "react";
-import { Modal } from "react-bootstrap";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
 
 export type ReactionName = "heart" | "happy" | "sad";
 interface Props {

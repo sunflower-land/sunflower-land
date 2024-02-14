@@ -5,7 +5,7 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SceneId } from "features/world/mmoMachine";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";

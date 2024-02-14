@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";

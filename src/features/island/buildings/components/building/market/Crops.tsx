@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Crop, CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";

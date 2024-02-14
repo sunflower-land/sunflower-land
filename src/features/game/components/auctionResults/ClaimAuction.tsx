@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "../CloseablePanel";
 import { Winner } from "features/retreat/components/auctioneer/Winner";
 import { Context as GameContext } from "features/game/GameProvider";

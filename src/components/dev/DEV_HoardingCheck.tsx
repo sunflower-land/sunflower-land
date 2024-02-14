@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import { KNOWN_IDS } from "features/game/types";
 import React, { ChangeEvent, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import GameABI from "lib/blockchain/abis/SunflowerLandGame.json";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";

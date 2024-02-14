@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const BeachConstruction: React.FC = () => {

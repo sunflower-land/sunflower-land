@@ -6,7 +6,7 @@ import building from "assets/buildings/decorations.png";
 import retroGirl from "assets/npcs/retro_girl.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { DecorationShopItems } from "./component/DecorationShopItems";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 

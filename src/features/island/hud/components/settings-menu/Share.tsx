@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import farmImg from "assets/brand/nft.png";
 import { CopyField } from "components/ui/CopyField";

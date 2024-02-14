@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";

@@ -22,7 +22,7 @@ import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { useNavigate } from "react-router-dom";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { BumpkinPainting } from "./components/BumpkinPainting";
 import { Bumpkin, IslandType } from "features/game/types/game";
 import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";

@@ -4,7 +4,7 @@ import resale from "assets/buildings/resale.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";

@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useNavigate } from "react-router-dom";
 import { COMMUNITY_TEST_ISLAND } from "../scenes/CommunityScene";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

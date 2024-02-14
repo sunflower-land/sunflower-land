@@ -6,7 +6,7 @@ import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
 import bumpkin from "assets/npcs/snorkel_bumpkin.png";
 
 import { MapPlacement } from "../MapPlacement";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

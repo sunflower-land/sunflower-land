@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

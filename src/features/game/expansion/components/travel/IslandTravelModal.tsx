@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import boatIcon from "assets/npcs/island_boat_pirate.png";
 import lockIcon from "assets/skills/lock.png";

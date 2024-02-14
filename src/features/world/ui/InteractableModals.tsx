@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";

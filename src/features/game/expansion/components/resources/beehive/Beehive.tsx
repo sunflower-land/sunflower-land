@@ -24,7 +24,7 @@ import {
   getCurrentHoneyProduced,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { progressBarBorderStyle } from "features/game/lib/style";
 import { ITEM_DETAILS } from "features/game/types/images";

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { Context } from "features/game/GoblinProvider";
 import { Panel } from "components/ui/Panel";

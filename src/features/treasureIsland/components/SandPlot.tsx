@@ -22,7 +22,7 @@ import {
 import { setImageWidth } from "lib/images";
 import classNames from "classnames";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Revealed } from "features/game/components/Revealed";
 import {
   MachineState,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 

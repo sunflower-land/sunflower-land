@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import PubSub from "pubsub-js";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { NPC_WEARABLES } from "lib/npcs";
 

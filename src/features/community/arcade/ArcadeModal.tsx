@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { GreedyGoblin } from "features/community/arcade/games/GreedyGoblin";
 import { ChickenFight } from "features/community/arcade/games/ChickenFight";

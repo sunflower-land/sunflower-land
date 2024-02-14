@@ -6,7 +6,7 @@ import { CONSUMABLES } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import foodIcon from "src/assets/food/chicken_drumstick.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";

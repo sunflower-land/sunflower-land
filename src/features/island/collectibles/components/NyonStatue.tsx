@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import { Modal } from "components/ui/Modal";
 
 import { Panel } from "components/ui/Panel";
 

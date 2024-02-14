@@ -8,7 +8,7 @@ import { BumpkinProfile } from "./components/BumpkinProfile";
 import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";

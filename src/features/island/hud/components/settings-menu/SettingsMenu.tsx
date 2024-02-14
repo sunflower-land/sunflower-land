@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
 

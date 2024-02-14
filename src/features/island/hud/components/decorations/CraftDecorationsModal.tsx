@@ -3,7 +3,7 @@ import { InventoryItemName } from "features/game/types/game";
 import sunflower from "assets/decorations/bush.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { NPC_WEARABLES } from "lib/npcs";
 

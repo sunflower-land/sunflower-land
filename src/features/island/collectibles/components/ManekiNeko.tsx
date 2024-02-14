@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";

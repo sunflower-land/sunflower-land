@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";

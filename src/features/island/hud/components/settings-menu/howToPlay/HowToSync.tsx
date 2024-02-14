@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { HowToModalHeader } from "features/island/hud/components/settings-menu/howToPlay/HowToModalHeader";
 import { SUNNYSIDE } from "assets/sunnyside";

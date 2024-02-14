@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { MutantChicken } from "features/game/types/game";
 

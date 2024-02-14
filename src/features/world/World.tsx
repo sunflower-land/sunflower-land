@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { PhaserComponent } from "./Phaser";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";

@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import levelIcon from "assets/icons/level_up.png";
 
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";

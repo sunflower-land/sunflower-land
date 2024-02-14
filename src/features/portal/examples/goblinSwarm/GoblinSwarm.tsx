@@ -4,7 +4,7 @@ import { ChestCaptcha } from "features/island/common/chest-reward/ChestCaptcha";
 import { Ocean } from "features/world/ui/Ocean";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const GoblinSwarm: React.FC = () => {

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useActor } from "@xstate/react";
 
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";

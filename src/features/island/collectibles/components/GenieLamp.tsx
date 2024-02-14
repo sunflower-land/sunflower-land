@@ -8,7 +8,7 @@ import { Panel } from "components/ui/Panel";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 
 import genieImg from "assets/npcs/genie.png";

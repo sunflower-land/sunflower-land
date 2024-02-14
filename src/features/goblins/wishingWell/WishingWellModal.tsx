@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import wisingWell from "assets/buildings/wishing_well.png";

@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";

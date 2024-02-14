@@ -4,7 +4,7 @@ import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Revealing } from "features/game/components/Revealing";

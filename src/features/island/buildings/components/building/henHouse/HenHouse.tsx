@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import building from "assets/buildings/hen_house.png";
 

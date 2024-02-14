@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import token from "assets/icons/token_2.png";
 

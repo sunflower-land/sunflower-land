@@ -1,6 +1,6 @@
 import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { InventoryItemName, Reward } from "features/game/types/game";
 

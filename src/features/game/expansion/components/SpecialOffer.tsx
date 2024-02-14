@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";

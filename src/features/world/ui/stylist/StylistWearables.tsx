@@ -23,7 +23,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { GameState } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

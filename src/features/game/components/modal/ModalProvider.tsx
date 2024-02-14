@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 
 import { createContext } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { BlockBucksModal } from "./components/BlockBucksModal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";

@@ -6,7 +6,7 @@ import { GoblinProvider } from "features/game/GoblinProvider";
 import { Game } from "./Game";
 import { Context, GameProvider } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { Wallet } from "features/wallet/Wallet";

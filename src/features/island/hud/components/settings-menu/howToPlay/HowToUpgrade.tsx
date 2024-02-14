@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import kitchen from "assets/buildings/bakery_building.png";
 import pumpkinSoup from "assets/sfts/pumpkin_soup.png";

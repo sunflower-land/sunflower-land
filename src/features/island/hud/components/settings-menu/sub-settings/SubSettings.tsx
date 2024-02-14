@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 

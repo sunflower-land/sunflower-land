@@ -2,7 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import lock from "assets/skills/lock.png";
 import chest from "assets/icons/chest.png";
 import powerup from "assets/icons/level_up.png";

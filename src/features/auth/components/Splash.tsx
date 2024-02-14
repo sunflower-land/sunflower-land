@@ -13,7 +13,7 @@ import shadow from "assets/npcs/shadow.png";
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "lib/i18n";
 import { Button } from "components/ui/Button";

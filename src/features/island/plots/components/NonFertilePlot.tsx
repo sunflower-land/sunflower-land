@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import well from "assets/buildings/well1.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel } from "components/ui/Panel";

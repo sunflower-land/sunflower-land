@@ -9,7 +9,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { BeanName, BEANS } from "features/game/types/beans";
 import { Context } from "features/game/GameProvider";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

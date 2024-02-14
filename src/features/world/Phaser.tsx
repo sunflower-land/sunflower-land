@@ -20,7 +20,7 @@ import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
 import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { isAddress } from "web3-utils";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";

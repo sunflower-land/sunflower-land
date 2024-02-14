@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";

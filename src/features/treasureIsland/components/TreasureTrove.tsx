@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getEntries } from "features/game/types/craftables";

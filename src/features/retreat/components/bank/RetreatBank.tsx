@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import bank from "assets/buildings/goblin_bank.gif";
 import icon from "assets/icons/token_2.png";

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 

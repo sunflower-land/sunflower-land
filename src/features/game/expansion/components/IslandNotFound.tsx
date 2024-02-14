@@ -1,6 +1,6 @@
 import { Panel } from "components/ui/Panel";
 import React from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { useNavigate, useParams } from "react-router-dom";

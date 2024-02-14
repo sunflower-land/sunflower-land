@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import { Modal } from "components/ui/Modal";
 
 import observatory from "assets/sfts/mom/observatory.gif";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.webp";

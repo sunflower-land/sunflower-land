@@ -15,7 +15,7 @@ import { RetreatWishingWell } from "./components/wishingWell/RetreatWishingWell"
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Loading, Splash } from "features/auth/components";
 import { Forbidden } from "features/auth/components/Forbidden";

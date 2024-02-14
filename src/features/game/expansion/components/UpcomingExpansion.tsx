@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
 import { UpcomingExpansionModal } from "./UpcomingExpansionModal";

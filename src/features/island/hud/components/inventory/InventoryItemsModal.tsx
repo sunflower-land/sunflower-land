@@ -6,7 +6,7 @@ import { Basket } from "./Basket";
 import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { BudName } from "features/game/types/buds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

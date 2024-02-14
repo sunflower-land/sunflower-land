@@ -10,7 +10,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
