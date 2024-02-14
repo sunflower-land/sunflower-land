@@ -288,7 +288,10 @@ export type GeneralTerms =
   | "recipes"
   | "unlocked"
   | "reel"
-  | "new.species";
+  | "new.species"
+  | "buildings"
+  | "boosts"
+  | "decorations";
 
 export type AchievementsTerms =
   | "breadWinner.description"
@@ -1395,7 +1398,10 @@ export type FlowerBed =
   | "flowerBedGuide.beesProduceHoney"
   | "flowerBedGuide.fillUpBeehive"
   | "flowerBedGuide.beeSwarmsBoost"
-  | "flowerBed.newSpecies.discovered";
+  | "flowerBed.newSpecies.discovered"
+  | "flowerBedContent.select.combination"
+  | "flowerBedContent.select.seed"
+  | "flowerBedContent.select.crossbreed";
 
 export type Flowerbreed =
   | "flower.breed.sunflower"
@@ -1585,7 +1591,8 @@ export type GameTerms =
   | "sflDiscord"
   | "in.progress"
   | "compost.complete"
-  | "aoe.locked";
+  | "aoe.locked"
+  | "sunflowerLandCodex";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -3046,7 +3053,10 @@ export type World =
   | "world.intro.six"
   | "world.intro.seven";
 
-export type Event = "event.christmas" | "event.LunarNewYear";
+export type Event =
+  | "event.christmas"
+  | "event.LunarNewYear"
+  | "event.valentines.rewards";
 
 export type Promo = "promo.cdcBonus" | "promo.expandLand";
 
@@ -3132,6 +3142,7 @@ export type TranslationKeys =
   | GoldPassModal
   | GoldTooth
   | GuideTerms
+  | GuideCompost
   | GuideCompost
   | HalveningCountdown
   | Harvestflower

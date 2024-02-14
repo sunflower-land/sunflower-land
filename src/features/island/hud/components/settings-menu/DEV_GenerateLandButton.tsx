@@ -10,7 +10,7 @@ export const DEV_GenerateLandButton: React.FC = () => {
   };
   return (
     <div>
-      <Button onClick={randomise}>Randomise Land</Button>
+      <Button onClick={randomise}>{"Randomise Land"}</Button>
     </div>
   );
 };

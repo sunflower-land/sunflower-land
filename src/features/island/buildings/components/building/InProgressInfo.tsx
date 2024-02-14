@@ -18,6 +18,8 @@ export const InProgressInfo: React.FC<Props> = ({
   craftingService,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
+
   const [
     {
       context: { secondsTillReady, name },
@@ -32,7 +34,6 @@ export const InProgressInfo: React.FC<Props> = ({
 
   const { cookingSeconds } = COOKABLES[name];
 
-  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col mb-2">
       <p className="text-sm">{t("in.progress")}</p>

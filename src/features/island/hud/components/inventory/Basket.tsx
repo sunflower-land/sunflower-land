@@ -68,7 +68,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             width: `${PIXEL_SCALE * 12}px`,
           }}
         />
-        <span className="text-xs text-center mt-2">Your basket is empty!</span>
+        <span className="text-xs text-center mt-2">
+          {t("detail.basket.empty")}
+        </span>
       </div>
     );
   }

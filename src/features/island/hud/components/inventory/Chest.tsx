@@ -213,7 +213,7 @@ export const Chest: React.FC<Props> = ({
                 className="my-1"
                 icon={SUNNYSIDE.icons.heart}
               >
-                Buds
+                {t("buds")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {getKeys(buds).map((budId) => {
@@ -265,7 +265,7 @@ export const Chest: React.FC<Props> = ({
                 className="my-1"
                 icon={SUNNYSIDE.resource.tree}
               >
-                Resources
+                {t("resources")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {resources.map((item) => (
@@ -289,7 +289,7 @@ export const Chest: React.FC<Props> = ({
                 className="my-1"
                 icon={SUNNYSIDE.icons.hammer}
               >
-                Buildings
+                {t("buildings")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {buildings.map((item) => (
@@ -309,7 +309,7 @@ export const Chest: React.FC<Props> = ({
           {boosts.length > 0 && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Boosts">
               <Label type="default" className="my-1" icon={lightning}>
-                Boosts
+                {t("boosts")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {boosts.map((item) => (
@@ -329,7 +329,7 @@ export const Chest: React.FC<Props> = ({
           {decorations.length > 0 && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Decorations">
               <Label type="default" className="my-1">
-                Decorations
+                {t("decorations")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
                 {decorations.map((item) => (

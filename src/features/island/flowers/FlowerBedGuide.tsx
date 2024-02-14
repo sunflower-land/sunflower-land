@@ -85,7 +85,7 @@ export const FlowerBedGuide: React.FC<Props> = ({ onClose }) => {
         ))}
 
         <Button onClick={onClose} className="mt-2">
-          Got it
+          {t("gotIt")}
         </Button>
       </div>
     </div>

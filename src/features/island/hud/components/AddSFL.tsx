@@ -128,7 +128,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
               target="_blank"
               rel="noreferrer"
             >
-              Quickswap
+              {"Quickswap"}
             </a>
             {"."}
           </p>
@@ -185,8 +185,8 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="relative h-3">
               {!!amountOutMin && (
                 <p className="text-xxs">
-                  {t("addSFL.minimumReceived")}{":"}{" "}
-                  {setPrecision(new Decimal(amountOutMin)).toNumber()}
+                  {t("addSFL.minimumReceived")}
+                  {":"} {setPrecision(new Decimal(amountOutMin)).toNumber()}
                 </p>
               )}
             </div>

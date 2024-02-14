@@ -141,7 +141,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
         ))}
         <div key="buds" className="flex justify-between w-full mt-4">
           <div>
-            <span className="flex-1">#bud-clubhouse</span>
+            <span className="flex-1">{"#bud-clubhouse"}</span>
             <div className="flex items-center flex-wrap">
               <span className="text-xs mr-2">{t("getContent.requires")}</span>
               <img src={budIcon} className="h-6 mr-2" />

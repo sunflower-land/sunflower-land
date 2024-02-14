@@ -462,6 +462,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   unlocked: "",
   reel: "",
   "new.species": "",
+  buildings: "",
+  boosts: "",
+  decorations: "",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -1562,7 +1565,7 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.bloom.bigshot": "",
   "quest.lily.luminary": "",
 };
-const flowerBedGuide: Record<FlowerBed, string> = {
+const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.buySeeds": "",
   "flowerBedGuide.crossbreedWithCrops": "",
   "flowerBedGuide.collectAllSpecies": "",
@@ -1570,6 +1573,9 @@ const flowerBedGuide: Record<FlowerBed, string> = {
   "flowerBedGuide.fillUpBeehive": "",
   "flowerBedGuide.beeSwarmsBoost": "",
   "flowerBed.newSpecies.discovered": "",
+  "flowerBedContent.select.combination": "",
+  "flowerBedContent.select.seed": "",
+  "flowerBedContent.select.crossbreed": "",
 };
 const flowerbreed: Record<Flowerbreed, string> = {
   "flower.breed.sunflower": "",
@@ -1745,6 +1751,7 @@ const gameTerms: Record<GameTerms, string> = {
   "in.progress": "",
   "compost.complete": "",
   "aoe.locked": "",
+  sunflowerLandCodex: "",
 };
 const garbageCollector: Record<GarbageCollector, string> = {
   "garbageCollector.welcome": "",
@@ -3173,6 +3180,7 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "",
   "event.LunarNewYear": "",
+  "event.valentines.rewards": "",
 };
 
 const promo: Record<Promo, string> = {
@@ -3252,7 +3260,7 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
-  ...flowerBedGuide,
+  ...flowerBed,
   ...flowerbreed,
   ...flowerShopTerms,
   ...foodDescriptions,

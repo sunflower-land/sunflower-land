@@ -236,7 +236,6 @@ export const Gifts: React.FC<{
   const { gameService } = useContext(Context);
 
   const [selected, setSelected] = useState<FlowerName>();
-
   const [message, setMessage] = useState<NpcDialogues>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro
   );
@@ -495,7 +494,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       friendship: true,
     });
   };
-
+  
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "sfl") {
       return game.balance.gte(delivery?.items.sfl ?? 0);

@@ -463,6 +463,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   unlocked: "Unlocked",
   reel: "Reel",
   "new.species": "New Species",
+  buildings: "Buildings",
+  boosts: "Boosts",
+  decorations: "Decorations",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -1985,6 +1988,9 @@ const flowerBed: Record<FlowerBed, string> = {
     "Bee swarms give +0.2 boost to any planted crops.",
   "flowerBed.newSpecies.discovered":
     "By golly, you've discovered a new species of flower!",
+  "flowerBedContent.select.combination": "Select your combination",
+  "flowerBedContent.select.seed": "Select a seed",
+  "flowerBedContent.select.crossbreed": "Select a crossbreed",
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
@@ -2226,6 +2232,7 @@ const gameTerms: Record<GameTerms, string> = {
   "in.progress": "In Progress",
   "compost.complete": "Compost complete",
   "aoe.locked": "AOE Locked",
+  sunflowerLandCodex: "Sunflower Land Codex",
 };
 
 const genieLamp: Record<GenieLamp, string> = {
@@ -4478,6 +4485,7 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "Christmas event!",
   "event.LunarNewYear": "Lunar New Year Event",
+  "event.valentines.rewards": "Valentine Rewards",
 };
 
 const promo: Record<Promo, string> = {
@@ -4573,6 +4581,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...goldpassModal,
   ...guideTerms,
+  ...guideCompost,
   ...guideCompost,
   ...halveningCountdown,
   ...harvestflower,

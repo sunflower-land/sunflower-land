@@ -153,7 +153,7 @@ export const Detail: React.FC<Props> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              OpenSea
+              {t("opensea")}
             </a>
           </span>
         </div>

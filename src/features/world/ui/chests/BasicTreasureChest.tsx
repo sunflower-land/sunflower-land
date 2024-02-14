@@ -7,6 +7,7 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Revealed } from "features/game/components/Revealed";
 import { ITEM_DETAILS } from "features/game/types/images";
+
 import React, { useContext, useState } from "react";
 
 import wheelHolder from "assets/ui/lunar_wheel_holder.png";
@@ -185,7 +186,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
               type="vibrant"
               icon={SUNNYSIDE.icons.stopwatch}
             >
-              Valentine Rewards
+              {t("event.valentines.rewards")}
             </Label>
           )}
         </div>

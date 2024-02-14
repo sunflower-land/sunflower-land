@@ -23,6 +23,7 @@ import { useActor } from "@xstate/react";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { secondsToString } from "lib/utils/time";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const isFlower = (name: FlowerCrossBreedName): name is FlowerName =>
   name in FLOWERS;
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
     {
@@ -107,7 +109,9 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               src={SUNNYSIDE.icons.expression_confused}
               className="h-4 mr-1"
             />
-            <span className="text-xs">Select your combination</span>
+            <span className="text-xs">
+              {t("flowerBedContent.select.combination")}
+            </span>
           </div>
         )}
 
@@ -180,7 +184,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
         {selecting === "seed" && (
           <>
             <Label type="default" className="mb-1">
-              Select a seed
+              {t("flowerBedContent.select.seed")}
             </Label>
             <div className="flex flex-wrap">
               {getKeys(FLOWER_SEEDS()).map((name) => (
@@ -221,7 +225,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
         {selecting === "crossbreed" && (
           <>
             <Label type="default" className="mb-1">
-              Select a crossbreed
+              {t("flowerBedContent.select.crossbreed")}
             </Label>
             <div className="flex flex-wrap mb-2">
               {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
@@ -267,7 +271,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
         }
         onClick={() => plant()}
       >
-        Plant {resultFlower ?? "Flower"}
+        {t("plant")} {resultFlower ?? "Flower"}
       </Button>
     </>
   );
