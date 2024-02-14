@@ -15,7 +15,7 @@ import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
  * autonomously switch beehives and continue producing while the player is offline.
  */
 
-const getFlowerProductionRate = (game: GameState) => {
+const getHoneyProductionRate = (game: GameState) => {
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
     return 2;
   }
@@ -23,10 +23,6 @@ const getFlowerProductionRate = (game: GameState) => {
 };
 
 export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
-
-export const getHoneyProductionTime = (game: GameState) => {
-  return DEFAULT_HONEY_PRODUCTION_TIME / getFlowerProductionRate(game);
-};
 
 interface GetFlowerDetail {
   flowerId: string;
@@ -207,7 +203,8 @@ const getBeehiveDetail = ({
   createdAt,
 }: GetBeehiveDetail): BeehiveDetail => {
   const produced = beehive.flowers.reduce(
-    (honey, flower) => honey + flower.attachedUntil - flower.attachedAt,
+    (honey, flower) =>
+      honey + (flower.attachedUntil - flower.attachedAt) * (flower.rate ?? 1),
     beehive.honey.produced
   );
   const lastAttachment = beehive.flowers.sort(
@@ -218,7 +215,8 @@ const getBeehiveDetail = ({
     beehiveAvailableAt: lastAttachment
       ? lastAttachment.attachedUntil
       : createdAt,
-    availableTime: getHoneyProductionTime(game) - produced,
+    availableTime:
+      (DEFAULT_HONEY_PRODUCTION_TIME - produced) / getHoneyProductionRate(game),
   };
 };
 
@@ -293,7 +291,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       attachedAt,
       attachedUntil,
       id: flowerId,
-      rate: getFlowerProductionRate(stateCopy),
+      rate: getHoneyProductionRate(stateCopy),
     });
 
     // Update flowerDetails

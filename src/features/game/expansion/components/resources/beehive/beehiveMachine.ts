@@ -1,4 +1,4 @@
-import { getHoneyProductionTime } from "features/game/lib/updateBeehives";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { Beehive, GameState } from "features/game/types/game";
 import { Interpreter, State, createMachine, assign } from "xstate";
 
@@ -73,7 +73,7 @@ export const getCurrentHoneyProduced = (hive: Beehive) => {
     const end = Math.min(Date.now(), attachedFlower.attachedUntil);
 
     // Prevent future dates
-    const honey = Math.max(end - start, 0);
+    const honey = Math.max(end - start, 0) * (attachedFlower.rate ?? 1);
 
     return (produced += honey);
   }, hive.honey.produced);
@@ -203,9 +203,7 @@ export const beehiveMachine = createMachine<
         return !!activeFlower;
       },
       isFull: (context) => {
-        return (
-          context.honeyProduced >= getHoneyProductionTime(context.gameState)
-        );
+        return context.honeyProduced >= DEFAULT_HONEY_PRODUCTION_TIME;
       },
       isFlowerReady: ({ attachedFlower }) => {
         if (!attachedFlower) return false;

@@ -36,7 +36,7 @@ import { BeeSwarm } from "./BeeSwarm";
 import { Label } from "components/ui/Label";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getHoneyProductionTime } from "features/game/lib/updateBeehives";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 
 interface Props {
   id: string;
@@ -171,12 +171,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     }
   }, [honeyProduced, showHoneyLevelPopover]);
 
-  const honeyAmount = (
-    honeyProduced / getHoneyProductionTime(gameService.state.context.state)
-  ).toFixed(4);
-  const percentage =
-    (honeyProduced / getHoneyProductionTime(gameService.state.context.state)) *
-    100;
+  const honeyAmount = (honeyProduced / DEFAULT_HONEY_PRODUCTION_TIME).toFixed(
+    4
+  );
+  const percentage = (honeyProduced / DEFAULT_HONEY_PRODUCTION_TIME) * 100;
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
