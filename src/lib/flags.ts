@@ -53,7 +53,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   PUMPKIN_PLAZA: defaultFeatureFlag,
   NEW_DELIVERIES: testnetFeatureFlag,
-  BUMPKIN_GIFTS: defaultFeatureFlag,
+  BUMPKIN_GIFTS: () => true,
   NEW_FARM_FLOW: () => true,
   BUDS_DEPOSIT_FLOW: () => true,
   HOME: (game: GameState) => {
