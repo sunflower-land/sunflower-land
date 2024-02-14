@@ -17,6 +17,9 @@ import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarveste
 import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
 import { GoblinState } from "features/game/lib/goblinMachine";
+import { FLOWERS, FLOWER_SEEDS } from "./flowers";
+import { getCurrentHoneyProduced } from "../expansion/components/resources/beehive/beehiveMachine";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 
 type RESTRICTION_REASON =
   | "No restriction"
@@ -38,7 +41,8 @@ type RESTRICTION_REASON =
   | "In use"
   | "Recently fished"
   | "Recently used"
-  | "Locked during festive season";
+  | "Locked during festive season"
+  | "Bees are busy";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -211,6 +215,32 @@ function hasFishedToday(game: GameState): Restriction {
   return [getDailyFishingCount(game) !== 0, "Recently fished"];
 }
 
+function isFlowersGrowing(game: GameState): boolean {
+  return Object.values(game.flowers.flowerBeds).some((flowerBed) => {
+    const flower = flowerBed.flower;
+
+    if (!flower) return false;
+
+    return (
+      flower.plantedAt +
+        FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000 >=
+      Date.now()
+    );
+  });
+}
+
+function isBeehivesFull(game: GameState): boolean {
+  // 0.9 Small buffer in case of any rounding errors
+  return Object.values(game.beehives).every(
+    (hive) =>
+      getCurrentHoneyProduced(hive) >= DEFAULT_HONEY_PRODUCTION_TIME * 0.9
+  );
+}
+
+function isProducingHoney(game: GameState): Restriction {
+  return [isFlowersGrowing(game) && !isBeehivesFull(game), "Bees are busy"];
+}
+
 function isFertiliserApplied(
   game: GameState,
   fertiliser: CompostName
@@ -348,6 +378,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Fishing Boosts
   Alba: (game) => hasFishedToday(game),
   Walrus: (game) => hasFishedToday(game),
+
+  // Honey
+  "Queen Bee": (game) => isProducingHoney(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
