@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import cloneDeep from "lodash.clonedeep";
-import { Beehive, Beehives, FlowerBeds } from "../types/game";
+import { Beehive, Beehives, FlowerBeds, GameState } from "../types/game";
+import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getKeys } from "../types/craftables";
 import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 
@@ -14,7 +15,14 @@ import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
  * autonomously switch beehives and continue producing while the player is offline.
  */
 
-export const HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
+const getHoneyProductionRate = (game: GameState) => {
+  if (isCollectibleBuilt({ name: "Queen Bee", game })) {
+    return 2;
+  }
+  return 1;
+};
+
+export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
 
 interface GetFlowerDetail {
   flowerId: string;
@@ -24,6 +32,7 @@ interface GetFlowerDetail {
 }
 
 interface GetBeehiveDetail {
+  game: GameState;
   beehive: Beehive;
   createdAt: number;
 }
@@ -35,7 +44,7 @@ interface CalculateFlowerDetails {
 }
 
 interface CalculateHiveDetails {
-  beehives: Beehives;
+  game: GameState;
   createdAt: number;
 }
 
@@ -45,14 +54,12 @@ interface RemoveInactiveFlowers {
 }
 
 interface AttachFlowers {
-  beehives: Beehives;
-  flowerBeds: FlowerBeds;
+  game: GameState;
   createdAt: number;
 }
 
 interface UpdateBeehives {
-  beehives: Beehives;
-  flowerBeds: FlowerBeds;
+  game: GameState;
   createdAt: number;
 }
 
@@ -82,21 +89,18 @@ const getFlowerReadyAt = (flowerId: string, flowerBeds: FlowerBeds) => {
   return plantedFlower.plantedAt + plantMilliseconds;
 };
 
-const updateProducedHoney = ({
-  beehives,
-  flowerBeds,
-  createdAt,
-}: UpdateBeehives) => {
-  const beehivesCopy = cloneDeep(beehives);
+const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
+  const stateCopy = cloneDeep(game);
+  const { beehives, flowers } = stateCopy;
 
-  getKeys(beehivesCopy).forEach((hiveId) => {
-    const hive = beehivesCopy[hiveId];
+  getKeys(beehives).forEach((hiveId) => {
+    const hive = beehives[hiveId];
     const attachedFlowers = hive.flowers.sort(
       (a, b) => a.attachedAt - b.attachedAt
     );
 
-    attachedFlowers.forEach((attachedFlower, i) => {
-      const plantedFlower = flowerBeds[attachedFlower.id].flower;
+    attachedFlowers.forEach((attachedFlower) => {
+      const plantedFlower = flowers.flowerBeds[attachedFlower.id].flower;
 
       if (!plantedFlower) {
         console.error(
@@ -111,17 +115,16 @@ const updateProducedHoney = ({
       // Prevent future dates
       const honey = Math.max(end - start, 0);
 
-      hive.honey.produced += honey;
+      const rate = attachedFlower.rate ?? 1;
 
-      if (hive.honey.produced >= HONEY_PRODUCTION_TIME) {
-        hive.flowers.splice(i, 1);
-      }
+      const totalHoney = honey * rate;
+      hive.honey.produced += totalHoney;
     });
 
     hive.honey.updatedAt = createdAt;
   });
 
-  return beehivesCopy;
+  return beehives;
 };
 
 const removeInactiveFlowers = ({
@@ -195,11 +198,13 @@ const calculateFlowerDetails = ({
 };
 
 const getBeehiveDetail = ({
+  game,
   beehive,
   createdAt,
 }: GetBeehiveDetail): BeehiveDetail => {
   const produced = beehive.flowers.reduce(
-    (honey, flower) => honey + flower.attachedUntil - flower.attachedAt,
+    (honey, flower) =>
+      honey + (flower.attachedUntil - flower.attachedAt) * (flower.rate ?? 1),
     beehive.honey.produced
   );
   const lastAttachment = beehive.flowers.sort(
@@ -210,19 +215,21 @@ const getBeehiveDetail = ({
     beehiveAvailableAt: lastAttachment
       ? lastAttachment.attachedUntil
       : createdAt,
-    availableTime: HONEY_PRODUCTION_TIME - produced,
+    availableTime:
+      (DEFAULT_HONEY_PRODUCTION_TIME - produced) / getHoneyProductionRate(game),
   };
 };
 
 const calculateHiveDetails = ({
-  beehives,
+  game,
   createdAt,
 }: CalculateHiveDetails): Record<string, BeehiveDetail> => {
-  return getKeys(beehives).reduce(
+  return getKeys(game.beehives).reduce(
     (hiveDetails, beeHiveId) => ({
       ...hiveDetails,
       [beeHiveId]: getBeehiveDetail({
-        beehive: beehives[beeHiveId],
+        game,
+        beehive: game.beehives[beeHiveId],
         createdAt,
       }),
     }),
@@ -230,15 +237,19 @@ const calculateHiveDetails = ({
   );
 };
 
-const attachFlowers = ({ beehives, flowerBeds, createdAt }: AttachFlowers) => {
-  const beehivesCopy = cloneDeep(beehives);
+const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
+  const stateCopy = cloneDeep(game);
+  const { flowers, beehives } = stateCopy;
 
   let flowerDetails = calculateFlowerDetails({
     beehives,
-    flowerBeds,
+    flowerBeds: flowers.flowerBeds,
     createdAt,
   });
-  let hiveDetails = calculateHiveDetails({ beehives, createdAt });
+  let hiveDetails = calculateHiveDetails({
+    game: stateCopy,
+    createdAt,
+  });
 
   // eslint-disable-next-line no-constant-condition
   while (true) {
@@ -276,10 +287,11 @@ const attachFlowers = ({ beehives, flowerBeds, createdAt }: AttachFlowers) => {
       Math.min(hiveDetail.availableTime, flowerDetail.availableTime);
 
     // Attach to hive
-    beehivesCopy[hiveId].flowers.push({
+    beehives[hiveId].flowers.push({
       attachedAt,
       attachedUntil,
       id: flowerId,
+      rate: getHoneyProductionRate(stateCopy),
     });
 
     // Update flowerDetails
@@ -289,22 +301,19 @@ const attachFlowers = ({ beehives, flowerBeds, createdAt }: AttachFlowers) => {
     hiveDetails[hiveId].beehiveAvailableAt = attachedUntil;
   }
 
-  return beehivesCopy;
+  return beehives;
 };
 
-export function updateBeehives({
-  beehives,
-  flowerBeds,
-  createdAt,
-}: UpdateBeehives) {
-  let beehivesCopy = updateProducedHoney({ beehives, flowerBeds, createdAt });
+export function updateBeehives({ game, createdAt }: UpdateBeehives) {
+  let beehivesCopy = updateProducedHoney({ game, createdAt });
+
   beehivesCopy = removeInactiveFlowers({
     beehives: beehivesCopy,
     createdAt,
   });
+
   beehivesCopy = attachFlowers({
-    beehives: beehivesCopy,
-    flowerBeds,
+    game: { ...game, beehives: beehivesCopy },
     createdAt,
   });
 

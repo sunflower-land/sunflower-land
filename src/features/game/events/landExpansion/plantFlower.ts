@@ -120,8 +120,7 @@ export function plantFlower({
   );
 
   const updatedBeehives = updateBeehives({
-    beehives: stateCopy.beehives,
-    flowerBeds: stateCopy.flowers.flowerBeds,
+    game: stateCopy,
     createdAt,
   });
 

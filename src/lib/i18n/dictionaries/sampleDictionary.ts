@@ -268,6 +268,8 @@ const beach: Record<Beach, string> = {
 
 const beehive: Record<Beehive, string> = {
   "beehive.harvestHoney": "",
+  "beehive.beeSwarm": "",
+  "beehive.noFlowers": "",
 };
 
 const beachLuck: Record<BeachLuck, string> = {

@@ -2,7 +2,7 @@ import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import {
-  HONEY_PRODUCTION_TIME,
+  DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
 } from "features/game/lib/updateBeehives";
 import { getKeys } from "features/game/types/craftables";
@@ -76,11 +76,7 @@ export function harvestBeehive({
   }
 
   // Update beehives before harvesting to set honey produced
-  const freshBeehives = updateBeehives({
-    beehives: stateCopy.beehives,
-    flowerBeds: stateCopy.flowers.flowerBeds,
-    createdAt,
-  });
+  const freshBeehives = updateBeehives({ game: stateCopy, createdAt });
 
   stateCopy.beehives = freshBeehives;
 
@@ -93,7 +89,8 @@ export function harvestBeehive({
   }
 
   const honeyProduced =
-    stateCopy.beehives[action.id].honey.produced / HONEY_PRODUCTION_TIME;
+    stateCopy.beehives[action.id].honey.produced /
+    DEFAULT_HONEY_PRODUCTION_TIME;
   const isFull = honeyProduced >= 1;
 
   const totalHoneyProduced = getTotalHoneyProduced(stateCopy, honeyProduced);
@@ -120,11 +117,7 @@ export function harvestBeehive({
     new Decimal(totalHoneyProduced)
   );
 
-  const updatedBeehives = updateBeehives({
-    beehives: stateCopy.beehives,
-    flowerBeds: stateCopy.flowers.flowerBeds,
-    createdAt,
-  });
+  const updatedBeehives = updateBeehives({ game: stateCopy, createdAt });
 
   stateCopy.beehives = updatedBeehives;
 
