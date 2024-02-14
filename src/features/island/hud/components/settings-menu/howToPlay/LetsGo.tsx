@@ -34,7 +34,7 @@ export const LetsGo: React.FC<Props> = ({ onClose, onBack }) => {
           >
             {t("letsGo.officialDocs")}
           </a>
-          .
+          {"."}
         </p>
       </Modal.Body>
     </>

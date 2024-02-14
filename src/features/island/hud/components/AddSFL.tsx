@@ -130,7 +130,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             >
               Quickswap
             </a>
-            .
+            {"."}
           </p>
           <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>
           <div className="flex flex-col mt-3">
@@ -151,7 +151,9 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                   )}
                 />
                 <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
-                  {t("balance")}:{formattedMaticBalance}
+                  {t("balance")}
+                  {":"}
+                  {formattedMaticBalance}
                 </span>
               </div>
               <div className="w-[10%] flex self-center justify-center">
@@ -183,7 +185,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
             <div className="relative h-3">
               {!!amountOutMin && (
                 <p className="text-xxs">
-                  {t("addSFL.minimumReceived")}:{" "}
+                  {t("addSFL.minimumReceived")}{":"}{" "}
                   {setPrecision(new Decimal(amountOutMin)).toNumber()}
                 </p>
               )}

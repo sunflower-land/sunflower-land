@@ -143,7 +143,8 @@ export const ChatText: React.FC<Props> = ({
               if (message.username)
                 return (
                   <p key={`${i}-${message.farmId}`}>
-                    {message.username}: {message.text}
+                    {message.username}
+                    {":"} {message.text}
                   </p>
                 );
 
@@ -152,7 +153,8 @@ export const ChatText: React.FC<Props> = ({
                   key={`${i}-${message.farmId}`}
                   className="pt-0.5 -indent-6 pl-6"
                 >
-                  {`[${message.farmId}]`}: {message.text}
+                  {`[${message.farmId}]`}
+                  {":"} {message.text}
                 </p>
               );
             })}

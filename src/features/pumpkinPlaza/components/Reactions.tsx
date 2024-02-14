@@ -35,11 +35,17 @@ export const BudReaction: React.FC<{
         <Label type="default" className="mx-1" icon={SUNNYSIDE.icons.heart}>
           {t("reaction.bud.show")}
         </Label>
-        <p className="text-xs my-2">{t("reaction.bud.select")}.</p>
+        <p className="text-xs my-2">
+          {t("reaction.bud.select")}
+          {"."}
+        </p>
 
         <div className="flex flex-wrap">
           {buds.length === 0 && (
-            <Label type={"danger"}>{t("reaction.bud.noFound")}.</Label>
+            <Label type={"danger"}>
+              {t("reaction.bud.noFound")}
+              {"."}
+            </Label>
           )}
           {buds.map((budId) => {
             return (
@@ -60,7 +66,7 @@ export const BudReaction: React.FC<{
           onClose();
         }}
       >
-        Place
+        {t("place")}
       </Button>
     </CloseButtonPanel>
   );

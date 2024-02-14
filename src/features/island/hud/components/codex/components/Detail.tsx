@@ -134,7 +134,7 @@ export const Detail: React.FC<Props> = ({
             <ul className="text-xxs space-y-1">
               {howToGetItem.map((text, index) => (
                 <li className="flex" key={`how-to-obtain-${index}`}>
-                  <div className="mr-1">-</div>
+                  <div className="mr-1">{"-"}</div>
                   <span>{text}</span>
                 </li>
               ))}

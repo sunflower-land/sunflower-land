@@ -111,7 +111,10 @@ export const NoBumpkin: React.FC = () => {
             type="danger"
             className="mx-auto my-2"
           >{`Level ${requiredLevel} required`}</Label>
-          <p className="text-sm my-2">{t("noBumpkin.mintBumpkin")}:</p>
+          <p className="text-sm my-2">
+            {t("noBumpkin.mintBumpkin")}
+            {":"}
+            </p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
               className="underline"

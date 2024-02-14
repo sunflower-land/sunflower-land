@@ -10,6 +10,7 @@ import HaloIcon from "assets/sfts/halo.png";
 import { calculateMuteTime } from "../components/Muted";
 
 import { mutePlayer } from "features/world/lib/moderationAction";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   scene?: any;
@@ -53,7 +54,7 @@ export const PlayerList: React.FC<Props> = ({
       );
     }
   });
-
+  const { t } = useAppTranslation();
   const unMutePlayer = async (player: Player) => {
     setStep("UNMUTE");
     await mutePlayer({
@@ -82,11 +83,11 @@ export const PlayerList: React.FC<Props> = ({
             <table className="w-full text-xs table-fixed">
               <thead className="text-sm">
                 <tr>
-                  <th className="w-1/4">Player ID</th>
-                  <th className="w-1/4">Farm ID</th>
-                  <th className="w-1/4">Username</th>
-                  <th className="w-1/4">Status</th>
-                  <th className="w-1/2">Action</th>
+                  <th className="w-1/4">{t("player.list.playerID")}</th>
+                  <th className="w-1/4">{t("player.list.farmID")}</th>
+                  <th className="w-1/4">{t("player.list.username")}</th>
+                  <th className="w-1/4">{t("player.list.status")}</th>
+                  <th className="w-1/2">{t("player.list.playersConnected")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,12 +113,12 @@ export const PlayerList: React.FC<Props> = ({
                       <td className="w-1/4">{player.username}</td>
                       <td className="w-1/4">
                         {!isMuted ? (
-                          <span>OK</span>
+                          <span>{t("ok")}</span>
                         ) : (
                           <span
                             title={`Reason: ${latestMute.reason} - By: ${latestMute.mutedBy}`}
                           >
-                            Muted for{" "}
+                            {t("player.list.mutedFor")}{" "}
                             {calculateMuteTime(
                               latestMute.mutedUntil,
                               "remaining"
@@ -133,7 +134,7 @@ export const PlayerList: React.FC<Props> = ({
                               scene.teleportModerator(player.x, player.y);
                             }}
                           >
-                            TP
+                            {"TP"}
                           </Button>
                           <Button
                             disabled={isModerator(player)}
@@ -142,7 +143,7 @@ export const PlayerList: React.FC<Props> = ({
                               setSelectedPlayer(player);
                             }}
                           >
-                            Kick
+                            {t("kick")}
                           </Button>
                           <Button
                             disabled={isModerator(player)}
@@ -167,7 +168,7 @@ export const PlayerList: React.FC<Props> = ({
           </div>
           <div className="flex items-center justify-between m-1">
             <div className="flex items-center gap-1">
-              <span className="text-xs">Search</span>
+              <span className="text-xs">{t("player.list.search")}</span>
               <input
                 className="w-1/2 text-xs text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
                 value={search}
@@ -175,7 +176,9 @@ export const PlayerList: React.FC<Props> = ({
               />
             </div>
             <span className="text-xs">
-              {players.length}/150 Players Connected
+              {players.length}
+              {"/"}
+              {t("player.list.playersConnected")}
             </span>
           </div>
         </>

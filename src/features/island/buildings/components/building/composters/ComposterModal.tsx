@@ -327,7 +327,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            +0.2 {t("crops")}
+            {"+0.2"} {t("crops")}
           </Label>
         );
       }
@@ -340,7 +340,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            +0.1 {t("fruit")}
+            {"+0.1"} {t("fruit")}
           </Label>
         );
       }

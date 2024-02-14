@@ -94,11 +94,11 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
               }}
             >
               {wishesRemaining} {t("wish")}
-              {wishesRemaining > 1 && "es"} {t("remaining")}!
+              {wishesRemaining > 1 && "es"} {t("remaining")}{"!"}
             </span>
             {!hasBeenRubbed && (
               <span className="text-center text-xs mb-1">
-                {t("genieLamp.cannotWithdraw")}.
+                {t("genieLamp.cannotWithdraw")}{"."}
                 <a
                   className="underline"
                   href="https://docs.sunflower-land.com/player-guides/islands/treasure-island#genie-lamp"

@@ -88,7 +88,10 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
               }}
             />
           </div>
-          <Button disabled={true}>{t("basic.treasure.goodLuck")}?</Button>
+          <Button disabled={true}>
+            {t("basic.treasure.goodLuck")}
+            {"?"}
+          </Button>
         </Panel>
       );
     }
@@ -148,8 +151,14 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
           >
             {t("basic.treasure.missingKey")}
           </Label>
-          <p className="text-xs mb-2">{t("basic.treasure.needKey")}.</p>
-          <p className="text-xs">{t("basic.treasure.getKey")}.</p>
+          <p className="text-xs mb-2">
+            {t("basic.treasure.needKey")}
+            {"."}
+          </p>
+          <p className="text-xs">
+            {t("basic.treasure.getKey")}
+            {"."}
+          </p>
         </div>
       </CloseButtonPanel>
     );

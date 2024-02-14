@@ -115,12 +115,14 @@ export type GeneralTerms =
   | "hungry?"
   | "info"
   | "item"
+  | "kick"
   | "land.id"
   | "land"
   | "last.updated"
   | "left"
   | "let'sDoThis"
   | "lets.go"
+  | "linked.wallet"
   | "limit"
   | "list.trade"
   | "list"
@@ -132,6 +134,7 @@ export type GeneralTerms =
   | "maintenance"
   | "make.wish"
   | "making.wish"
+  | "message"
   | "max"
   | "minimum"
   | "mins"
@@ -144,6 +147,7 @@ export type GeneralTerms =
   | "no.delivery.avl"
   | "no.limits.exceeded"
   | "no.mail"
+  | "no.obsessions"
   | "no.thanks"
   | "no"
   | "no.event"
@@ -157,6 +161,7 @@ export type GeneralTerms =
   | "open.gift"
   | "pass.required"
   | "pay.attention.feedback"
+  | "place"
   | "place.map"
   | "placing.bid"
   | "plant"
@@ -180,6 +185,7 @@ export type GeneralTerms =
   | "reqSkillPts"
   | "reqSkills"
   | "required"
+  | "requires"
   | "resale"
   | "resources"
   | "restock"
@@ -219,6 +225,7 @@ export type GeneralTerms =
   | "task"
   | "thank.you"
   | "there.currently"
+  | "time"
   | "tools"
   | "total"
   | "trades"
@@ -828,7 +835,16 @@ export type Conversations =
   | "mayor.plaza.usernameValidation"
   | "mayor.plaza.niceToMeetYou"
   | "mayor.plaza.congratulations"
-  | "mayor.plaza.enjoyYourStay";
+  | "mayor.plaza.enjoyYourStay"
+  | "mayor.codeOfConduct"
+  | "mayor.failureToComply"
+  | "mayor.paperworkComplete";
+
+export type CropBoomMessages =
+  | "crop.boom.welcome"
+  | "crop.boom.reachOtherSide"
+  | "crop.boom.bewareExplodingCrops"
+  | "crop.boom.newPuzzleDaily";
 
 export type CropFruitDescriptions =
   //Crops
@@ -2520,6 +2536,16 @@ export type PlazaSettings =
   | "plazaSettings.keybinds.description"
   | "plazaSettings.noMutedPlayers";
 
+export type PlayerListMessages =
+  | "player.list.playerID"
+  | "player.list.farmID"
+  | "player.list.username"
+  | "player.list.status"
+  | "player.list.action"
+  | "player.list.mutedFor"
+  | "player.list.search"
+  | "player.list.playersConnected";
+
 export type PlayerTrade =
   | "playerTrade.no.trade"
   | "playerTrade.max.item"
@@ -3022,6 +3048,7 @@ export type TranslationKeys =
   | ConfirmSkill
   | ConfirmationTerms
   | Conversations
+  | CropBoomMessages
   | CropFruitDescriptions
   | Deliveryitem
   | DefaultDialogue
@@ -3106,6 +3133,7 @@ export type TranslationKeys =
   | PirateQuest
   | Pickserver
   | PlazaSettings
+  | PlayerListMessages
   | PlayerTrade
   | Portal
   | PurchaseableBaitTranslation

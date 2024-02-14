@@ -90,7 +90,9 @@ export const Wallet: React.FC<Props> = ({
                   icon={walletIcon}
                   type="default"
                 >
-                  {t("wallet.connect")} - {shortAddress(linkedAddress)}
+                  {t("wallet.connect")}
+                  {"-"}
+                  {shortAddress(linkedAddress)}
                 </Label>
               </div>
             )
@@ -107,7 +109,10 @@ export const Wallet: React.FC<Props> = ({
                   {t("wallet.linkWeb3")}
                 </Label>
               </div>
-              <p className="text-xs mx-1 mb-2">{t("wallet.setupWeb3")}.</p>
+              <p className="text-xs mx-1 mb-2">
+                {t("wallet.setupWeb3")}
+                {"."}
+              </p>
             </>
           )}
 
@@ -144,7 +149,10 @@ export const Wallet: React.FC<Props> = ({
               <Label type="formula">{shortAddress(linkedAddress)}</Label>
             )}
           </div>
-          <p className="text-sm my-2">{t("wallet.connectedWrongWallet")}.</p>
+          <p className="text-sm my-2">
+            {t("wallet.connectedWrongWallet")}
+            {"."}
+          </p>
         </div>
       );
     }
@@ -160,8 +168,14 @@ export const Wallet: React.FC<Props> = ({
             >
               {t("wallet.missingNFT")}
             </Label>
-            <p className="text-sm mb-2">{t("wallet.requireFarmNFT")}.</p>
-            <p className="text-xs mb-2">{t("wallet.uniqueFarmNFT")}.</p>
+            <p className="text-sm mb-2">
+              {t("wallet.requireFarmNFT")}
+              {"."}
+            </p>
+            <p className="text-xs mb-2">
+              {t("wallet.uniqueFarmNFT")}
+              {"."}
+            </p>
           </div>
           <Button onClick={() => walletService.send("MINT")}>
             {t("wallet.mintFreeNFT")}
@@ -187,7 +201,10 @@ export const Wallet: React.FC<Props> = ({
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
             walletState.context.address as string
           )} has already been linked to an account.`}</p>
-          <p className="text-xs my-2">{t("wallet.linkAnotherWallet")}.</p>
+          <p className="text-xs my-2">
+            {t("wallet.linkAnotherWallet")}
+            {"."}
+          </p>
         </div>
       );
     }
@@ -201,7 +218,10 @@ export const Wallet: React.FC<Props> = ({
           <p className="my-2 text-sm">{`Wallet ${shortAddress(
             walletState.context.address as string
           )} has already been linked to an account.`}</p>
-          <p className="text-xs my-2">{t("wallet.transferFarm")}.</p>
+          <p className="text-xs my-2">
+            {t("wallet.transferFarm")}
+            {"."}
+          </p>
         </div>
       );
     }
@@ -212,7 +232,10 @@ export const Wallet: React.FC<Props> = ({
           <Label icon={walletIcon} type="default" className="mb-1">
             {t("wallet.signRequest")}
           </Label>
-          <p className="text-sm">{t("wallet.signRequestInWallet")}.</p>
+          <p className="text-sm">
+            {t("wallet.signRequestInWallet")}
+            {"."}
+          </p>
         </div>
       );
     }

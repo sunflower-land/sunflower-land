@@ -178,7 +178,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                         );
                       }}
                     >
-                      Linked wallet -{" "}
+                      {t("linked.wallet")} {"-"} {" "}
                       {shortAddress(gameService.state.context.linkedWallet)}
                     </Label>
                   )}

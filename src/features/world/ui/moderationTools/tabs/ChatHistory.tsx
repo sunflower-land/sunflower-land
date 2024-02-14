@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Message } from "../ModerationTools";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
   messages: Message[];
@@ -7,7 +8,7 @@ type Props = {
 
 export const ChatHistory: React.FC<Props> = ({ messages }) => {
   const [search, setSearch] = useState("");
-
+  const { t } = useAppTranslation();
   const Messages = messages.filter((message) => {
     if (search.length === 0) {
       return true;
@@ -31,10 +32,10 @@ export const ChatHistory: React.FC<Props> = ({ messages }) => {
         <table className="w-full text-xs table-fixed">
           <thead className="text-sm">
             <tr>
-              <th className="w-1/2">Time</th>
-              <th className="w-1/4">Farm ID</th>
-              <th className="w-1/4">Player ID</th>
-              <th className="w-1/2">Message</th>
+              <th className="w-1/2">{t("time")}</th>
+              <th className="w-1/4">{t("player.list.farmID")}</th>
+              <th className="w-1/4">{t("player.list.playerID")}</th>
+              <th className="w-1/2">{t("message")}</th>
             </tr>
           </thead>
           <tbody>
