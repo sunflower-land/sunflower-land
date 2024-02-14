@@ -3,9 +3,10 @@ import { TURKISH_TERMS } from "./turkishDictionary";
 import { CHINESE_SIMPLIFIED_TERMS } from "./chinese_simplifiedDictionary";
 import { PORTUGUESE_TERMS } from "./portugueseDictionary";
 import { FRENCH_TERMS } from "./frenchDictionary";
+import { RUSSIAN_TERMS } from "./russianDictionary";
 import { TranslationKeys } from "./types";
 
-export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN";
+export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN" | "ru";
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -27,5 +28,8 @@ export const resources: Record<
   },
   "zh-CN": {
     translation: CHINESE_SIMPLIFIED_TERMS,
+  },
+  ru: {
+    translation: RUSSIAN_TERMS,
   },
 };
