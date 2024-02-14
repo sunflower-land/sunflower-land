@@ -269,7 +269,11 @@ export type GeneralTerms =
   | "default"
   | "formula"
   | "chill"
-  | "full";
+  | "full"
+  | "collectibles"
+  | "buds"
+  | "wearables"
+  | "bumpkin";
 
 export type AchievementsTerms =
   | "breadWinner.description"

@@ -442,6 +442,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   formula: "Formula",
   chill: "Chill",
   full: "Full",
+  collectibles: "Collectibles",
+  buds: "Buds",
+  wearables: "Wearables",
+  bumpkin: "Bumpkin",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

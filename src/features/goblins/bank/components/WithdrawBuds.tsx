@@ -104,7 +104,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           >
             {t("read.more")}
           </a>
-          .
+          {"."}
         </span>
       </div>
 

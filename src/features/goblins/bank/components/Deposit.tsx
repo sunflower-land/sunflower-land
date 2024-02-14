@@ -180,7 +180,10 @@ const DepositOptions: React.FC<Props> = ({
 
   if (status === "error") {
     <div className="p-2">
-      <p>{t("deposit.errorLoadingBalances")},</p>
+      <p>
+        {t("deposit.errorLoadingBalances")}
+        {","}
+      </p>
     </div>;
   }
 
@@ -323,7 +326,8 @@ const DepositOptions: React.FC<Props> = ({
           <p>{t("deposit.noSflOrCollectibles")}</p>
           <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
             <span className="whitespace-nowrap">
-              {t("deposit.farmAddress")}:
+              {t("deposit.farmAddress")}
+              {":"}
             </span>
             <CopyAddress address={farmAddress} />
           </div>
@@ -337,7 +341,7 @@ const DepositOptions: React.FC<Props> = ({
               <div className="space-y-3 mb-3">
                 {sflBalance.gt(0) && (
                   <>
-                    <p className="text-sm">SFL</p>
+                    <p className="text-sm">{"SFL"}</p>
                     <div className="flex items-start justify-between mb-4">
                       <div className="relative w-full mr-4">
                         <input
@@ -366,7 +370,7 @@ const DepositOptions: React.FC<Props> = ({
 
                 {hasItemsInInventory && (
                   <>
-                    <p className="text-sm">Collectibles</p>
+                    <p className="text-sm">{t("collectibles")}</p>
                     <div className="flex flex-wrap h-fit -ml-1.5">
                       {depositableItems.map((item) => {
                         return (
@@ -384,7 +388,7 @@ const DepositOptions: React.FC<Props> = ({
                 )}
                 {hasBuds && (
                   <>
-                    <p className="text-sm">Buds</p>
+                    <p className="text-sm">{t("buds")}</p>
                     <div
                       className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
                       style={{ maxHeight: "200px" }}
@@ -404,7 +408,7 @@ const DepositOptions: React.FC<Props> = ({
                 )}
                 {hasItemsInWardrobe && (
                   <>
-                    <p className="text-sm">Wearables</p>
+                    <p className="text-sm">{t("wearables")}</p>
                     <div
                       className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
                       style={{ maxHeight: "200px" }}
@@ -423,12 +427,19 @@ const DepositOptions: React.FC<Props> = ({
                   </>
                 )}
                 <div className="pt-3">
-                  <p className="mb-1">{t("deposit.farmWillReceive")}:</p>
+                  <p className="mb-1">
+                    {t("deposit.farmWillReceive")}
+                    {":"}
+                  </p>
                   <div className="text-[11px] sm:text-xs mb-3">
                     <CopyAddress address={farmAddress} />
                   </div>
                   <div className="space-y-3">
-                    {validDepositAmount && <p>{sflDepositAmount} SFL</p>}
+                    {validDepositAmount && (
+                      <p>
+                        {sflDepositAmount} {"SFL"}
+                      </p>
+                    )}
                     {hasItemsToDeposit && (
                       <div className="flex flex-wrap h-fit -ml-1.5">
                         {selectedItems.map((item) => {

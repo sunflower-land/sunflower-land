@@ -222,7 +222,7 @@ export const WithdrawItems: React.FC<Props> = ({
           >
             {t("read.more")}
           </a>
-          .
+          {"."}
         </span>
       </div>
 

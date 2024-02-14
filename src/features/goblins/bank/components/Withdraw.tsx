@@ -160,13 +160,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           <Button onClick={() => setPage("tokens")}>
             <div className="flex">
               <img src={token} className="h-4 mr-1" />
-              SFL
+              {"SFL"}
             </div>
           </Button>
           <Button onClick={() => setPage("items")}>
             <div className="flex">
               <img src={chest} className="h-4 mr-1" />
-              Collectibles
+              {t("collectibles")}
             </div>
           </Button>
         </div>
@@ -174,19 +174,19 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           <Button onClick={() => setPage("wearables")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
-              Wearables
+              {t("wearables")}
             </div>
           </Button>
           <Button onClick={() => setPage("bumpkin")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
-              Bumpkin
+              {t("bumpkin")}
             </div>
           </Button>
           <Button onClick={() => setPage("buds")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.plant} className="h-4 mr-1" />
-              Buds
+              {t("buds")}
             </div>
           </Button>
         </div>
