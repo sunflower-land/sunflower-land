@@ -1571,14 +1571,6 @@ export type GuideTerms =
   | "pete.teaser.seven"
   | "pete.teaser.eight";
 
-export type GrubShop =
-  | "message.grublinOrders"
-  | "message.orderFulfilled"
-  | "message.grubShopClosed"
-  | "message.moreOrdersIn"
-  | "message.bonusOffer"
-  | "message.earnSeasonalTickets";
-
 export type HalveningCountdown =
   | "halveningCountdown.approaching"
   | "halveningCountdown.description"
@@ -2550,7 +2542,6 @@ export type SeasonTerms =
   | "season.bonusTickets"
   | "season.boostXP"
   | "season.buyNow"
-  | "season.catch.the.kraken"
   | "season.discount"
   | "season.exclusiveOffer"
   | "season.goodLuck"
@@ -2952,7 +2943,6 @@ export type TranslationKeys =
   | GoldPassModal
   | GoldTooth
   | GuideTerms
-  | GrubShop
   | HalveningCountdown
   | Harvestflower
   | HarvestBeeHive

@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import ScrollContainer from "react-indiana-drag-scroll";
 import background from "assets/land/retreat.webp";
-import frozenBackground from "assets/land/frozen_retreat.png";
 import ocean from "assets/decorations/ocean.webp";
 import { RetreatBank } from "./components/bank/RetreatBank";
 import { RetreatStorageHouse } from "./components/storageHouse/RetreatStorageHouse";
@@ -77,7 +76,6 @@ export const Game = () => {
   const [goblinState] = useActor(goblinService);
   const [scrollIntoView] = useScrollIntoView();
   const [retreatLoaded, setRetreatLoaded] = useState(false);
-  const [sealSpawn] = useState(getRandomSpawn());
   const [showGoldPassModal, setShowGoldPassModal] = useState<boolean>(false);
 
   const { bumpkin, inventory } = goblinState.context.state;
@@ -157,22 +155,12 @@ export const Game = () => {
                 imageRendering: "pixelated",
               }}
             >
-              {Date.now() > new Date("2023-12-10").getTime() &&
-              Date.now() < new Date("2023-12-27").getTime() ? (
-                <img
-                  src={frozenBackground}
-                  className="absolute inset-0 w-full h-full"
-                  id={Section.RetreatBackground}
-                  onLoad={() => setRetreatLoaded(true)}
-                />
-              ) : (
-                <img
-                  src={background}
-                  className="absolute inset-0 w-full h-full"
-                  id={Section.RetreatBackground}
-                  onLoad={() => setRetreatLoaded(true)}
-                />
-              )}
+              <img
+                src={background}
+                className="absolute inset-0 w-full h-full"
+                id={Section.RetreatBackground}
+                onLoad={() => setRetreatLoaded(true)}
+              />
 
               {/* No Gold Pass Modal */}
               <Modal

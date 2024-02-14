@@ -6,18 +6,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
-import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
-  ...(Date.now() < new Date("2024-02-01").getTime()
-    ? [
-        {
-          npc: "shelly",
-          x: 402,
-          y: 680,
-        } as NPCBumpkin,
-      ]
-    : []),
   {
     npc: "finn",
     x: 94,
@@ -110,47 +100,22 @@ export class BeachScene extends BaseScene {
 
     super.create();
 
-    const showKraken = Date.now() < new Date("2024-02-01").getTime();
-    if (showKraken && this.gameState.catchTheKraken?.hunger) {
-      this.loadKrakenHunger(this.gameState.catchTheKraken?.hunger);
-
-      PubSub.subscribe("KRAKEN_HUNGRY", (msg, data) => {
-        this.loadKrakenHunger(data?.hunger);
-      });
-    }
-
     this.initialiseNPCs(BUMPKINS);
 
-    if (hasFeatureAccess(this.gameState, "BEACH_FISHING")) {
-      const fisher = new FishermanContainer({
-        x: 322,
-        y: 711,
-        scene: this,
-      });
-      fisher.setDepth(100000000);
-      this.physics.world.enable(fisher);
-      this.colliders?.add(fisher);
-      this.triggerColliders?.add(fisher);
-      (fisher.body as Phaser.Physics.Arcade.Body)
-        .setSize(16, 20)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-    }
-
-    if (showKraken) {
-      const kraken = this.add.sprite(308, 755, "kraken");
-      this.anims.create({
-        key: "kraken_anim",
-        frames: this.anims.generateFrameNumbers("kraken", {
-          start: 0,
-          end: 4,
-        }),
-        repeat: -1,
-        frameRate: 5,
-      });
-      kraken.play("kraken_anim", true);
-    }
+    const fisher = new FishermanContainer({
+      x: 322,
+      y: 711,
+      scene: this,
+    });
+    fisher.setDepth(100000000);
+    this.physics.world.enable(fisher);
+    this.colliders?.add(fisher);
+    this.triggerColliders?.add(fisher);
+    (fisher.body as Phaser.Physics.Arcade.Body)
+      .setSize(16, 20)
+      .setOffset(0, 0)
+      .setImmovable(true)
+      .setCollideWorldBounds(true);
 
     const turtle = this.add.sprite(328, 515, "beach_bud");
     turtle.setScale(-1, 1);

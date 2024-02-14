@@ -15,12 +15,7 @@ import chest from "assets/icons/chest.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import {
-  BETA_DELIVERY_END_DATE,
-  DELIVERY_END_DATE,
-  getDeliverySlots,
-  getOrderSellPrice,
-} from "features/game/events/landExpansion/deliver";
+import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import { Order } from "features/game/types/game";
@@ -33,7 +28,6 @@ import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
-import { hasFeatureAccess } from "lib/flags";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -62,7 +56,6 @@ interface Props {
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _balance = (state: MachineState) => state.context.state.balance;
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
@@ -76,26 +69,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const gameState = gameService.state.context.state;
 
-  let orders = delivery.orders
+  const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
     .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
-
-  if (!hasFeatureAccess(gameState, "BEACH")) {
-    orders = orders.filter(
-      (o) =>
-        // Filter out beach NPCs
-        !(
-          [
-            "corale",
-            "tango",
-            "finley",
-            "finn",
-            "miranda",
-            "shelly",
-          ] as NPCName[]
-        ).includes(o.from)
-    );
-  }
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -138,7 +114,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const nextOrder = delivery.orders.find((order) => order.readyAt > Date.now());
   const skippedOrder = delivery.orders.find((order) => order.id === "skipping");
   const { t } = useAppTranslation();
-  const slots = getDeliverySlots(inventory);
 
   const progress = Math.min(
     delivery.milestone.goal,
@@ -399,22 +374,17 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </OuterPanel>
             </div>
           )}
-          {((!!inventory["Beta Pass"] &&
-            Date.now() >
-              BETA_DELIVERY_END_DATE.getTime() - 24 * 60 * 60 * 1000) ||
-            Date.now() > DELIVERY_END_DATE.getTime() - 24 * 60 * 60 * 1000) && (
-            <div className="flex items-center mb-1 mt-2">
-              <div className="w-6">
-                <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
-              </div>
-              <span className="text-xs">
-                {t("new.delivery.in")}:{" "}
-                {`${secondsToString(secondsTillReset(), {
-                  length: "medium",
-                })}.`}
-              </span>
+          <div className="flex items-center mb-1 mt-2">
+            <div className="w-6">
+              <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
-          )}
+            <span className="text-xs">
+              {t("new.delivery.in")}:{" "}
+              {`${secondsToString(secondsTillReset(), {
+                length: "medium",
+              })}.`}
+            </span>
+          </div>
         </div>
       </div>
       {previewOrder && (
@@ -423,26 +393,21 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             "ml-1 md:flex md:flex-col items-center flex-1 relative",
             {
               hidden: !selectedId,
-              "mt-[24px] md:mt-0": hasFeatureAccess(
-                gameState,
-                "NEW_DELIVERIES"
-              ),
+              "mt-[24px] md:mt-0": true,
             }
           )}
         >
-          {hasFeatureAccess(gameState, "NEW_DELIVERIES") && (
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className={classNames(
-                "absolute -top-9 left-0 h-6 w-6 cursor-pointer md:hidden z-10",
-                {
-                  hidden: !selectedId,
-                  block: !!selectedId,
-                }
-              )}
-              onClick={() => onSelect(undefined)}
-            />
-          )}
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className={classNames(
+              "absolute -top-9 left-0 h-6 w-6 cursor-pointer md:hidden z-10",
+              {
+                hidden: !selectedId,
+                block: !!selectedId,
+              }
+            )}
+            onClick={() => onSelect(undefined)}
+          />
           <div
             className="mb-1 mx-auto w-full col-start-1 row-start-1 overflow-hidden z-0 rounded-lg relative"
             style={{

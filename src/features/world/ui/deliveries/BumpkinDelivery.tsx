@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { Airdrop, GameState, Inventory, Order } from "features/game/types/game";
+import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";

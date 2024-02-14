@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 
-import { Bumpkin, GameState, GrubShopOrder, Inventory } from "../../types/game";
+import { Bumpkin, GameState, Inventory } from "../../types/game";
 import { SellableItem } from "features/game/events/landExpansion/sellCrop";
 import { CROPS } from "../../types/crops";
 import { CAKES } from "../../types/craftables";
@@ -205,18 +205,4 @@ export const getFoodExpBoost = (
   boostedExp = boostedExp.mul(getBudExperienceBoosts(buds, food));
 
   return boostedExp.toDecimalPlaces(4).toNumber();
-};
-
-export const getOrderSellPrice = (game: GameState, order: GrubShopOrder) => {
-  let mul = 1;
-
-  if (game.bumpkin?.skills["Michelin Stars"]) {
-    mul += 0.05;
-  }
-
-  if (order.name in CAKES() && isWearableActive({ name: "Chef Apron", game })) {
-    mul += 0.2;
-  }
-
-  return order.sfl.mul(mul);
 };

@@ -12,7 +12,6 @@ import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
-import { hasFeatureAccess } from "lib/flags";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
@@ -29,7 +28,7 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
       return;
     }
 
-    if (isBuilt && hasFeatureAccess(gameState.context.state, "HOME")) {
+    if (isBuilt) {
       navigate("/home");
       // Add future on click actions here
       return;

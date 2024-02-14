@@ -183,10 +183,6 @@ export class PlazaScene extends BaseScene {
   } = {};
 
   constructor() {
-    const showNYE =
-      Date.now() > new Date("2023-12-31").getTime() &&
-      Date.now() < new Date("2024-01-02").getTime();
-
     super({
       name: "plaza",
       map: { json: mapJson },
@@ -329,7 +325,7 @@ export class PlazaScene extends BaseScene {
     }
 
     if (hasFeatureAccess(this.gameState, "BUMPKIN_GIFTS")) {
-      if (!!this.gameState.inventory["Treasure Key"]) {
+      if (this.gameState.inventory["Treasure Key"]) {
         this.add.sprite(210, 130, "key_disc").setDepth(1000000000);
       } else {
         this.add.sprite(210, 130, "locked_disc").setDepth(1000000000);

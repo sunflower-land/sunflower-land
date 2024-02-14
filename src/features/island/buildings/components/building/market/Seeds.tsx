@@ -22,7 +22,6 @@ import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
-import { hasFeatureAccess } from "lib/flags";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -42,12 +41,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const { gameService, shortcutItem } = useContext(Context);
   const [
     {
-      context: { state, farmId },
+      context: { state },
     },
   ] = useActor(gameService);
   const { t } = useAppTranslation();
 
-  const { inventory, collectibles } = state;
+  const { inventory } = state;
 
   const price = getBuyPrice(
     selectedName,
@@ -167,11 +166,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const harvestCount = getHarvestCount();
-  const seeds = getKeys(SEEDS())
-    .filter((seed) => !SEEDS()[seed].disabled)
-    .filter(
-      (seed) => hasFeatureAccess(state, "BANANA") || seed !== "Banana Plant"
-    );
+  const seeds = getKeys(SEEDS()).filter((seed) => !SEEDS()[seed].disabled);
 
   return (
     <SplitScreenView
