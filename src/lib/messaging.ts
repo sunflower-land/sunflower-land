@@ -9,18 +9,15 @@ export const messaging = getMessaging(app);
 export const generateToken = async (
   registration: ServiceWorkerRegistration
 ) => {
-  const permission = await Notification.requestPermission();
+  try {
+    const token = await getToken(messaging, {
+      vapidKey: CONFIG.FIREBASE_VAPID_KEY,
+      serviceWorkerRegistration: registration,
+    });
 
-  if (permission === "granted") {
-    try {
-      const token = await getToken(messaging, {
-        vapidKey: CONFIG.FIREBASE_VAPID_KEY,
-        serviceWorkerRegistration: registration,
-      });
-
-      console.log("getToken: ", token);
-    } catch (error) {
-      console.error("Error while getting token: ", error);
-    }
+    console.log("getToken: ", token);
+    return token;
+  } catch (error) {
+    console.error("Error while getting token: ", error);
   }
 };

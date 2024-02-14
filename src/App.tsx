@@ -9,8 +9,9 @@ import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
 import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
-import { generateToken, messaging } from "lib/messaging";
+import { messaging } from "lib/messaging";
 import { onMessage } from "firebase/messaging";
+import { RequestPermission } from "components/RequestPermission";
 
 // Initialise Global Settings
 initialise();
@@ -22,8 +23,6 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (registration?.active) {
-      generateToken(registration);
-
       onMessage(messaging, (payload) => {
         /* eslint-disable no-console */
         console.log("[App.js] Received foreground message ", payload);
@@ -40,6 +39,7 @@ export const App: React.FC = () => {
           </ErrorBoundary>
         </WalletProvider>
       </Auth.Provider>
+      <RequestPermission registration={registration} />
     </>
   );
 };
