@@ -3462,7 +3462,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
     "Thank you kindly for your deliveries. Here's a token of appreciation for you.",
-  "npcDialogues.pumpkinPete.flowerInto":
+  "npcDialogues.pumpkinPete.flowerIntro":
     "Have you ever seen the elegance of a Yellow Cosmos? I'm craving one...",
   "npcDialogues.pumpkinPete.averageFlower":
     "Not exactly what I had in mind, but it's quite charming. Thanks.",
@@ -3473,7 +3473,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.betty.reward":
     "I appreciate your thoughtful gifts. Here's a little something to show my gratitude.",
-  "npcDialogues.betty.flowerInto":
+  "npcDialogues.betty.flowerIntro":
     "Can you imagine the beauty of a Red, Yellow, Purple, White, or Blue Pansy? I long for one...",
   "npcDialogues.betty.averageFlower":
     "Not exactly what I was expecting, but it's quite lovely. Thank you.",
@@ -3484,7 +3484,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.blacksmith.reward":
     "Your deliveries are much appreciated. Here's something for your efforts.",
-  "npcDialogues.blacksmith.flowerInto":
+  "npcDialogues.blacksmith.flowerIntro":
     "I'm in need of a vibrant Red Carnation. Have you come across one?",
   "npcDialogues.blacksmith.averageFlower":
     "Not exactly what I was hoping for, but it's quite nice. Thank you.",
@@ -3495,7 +3495,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.bert.reward":
     "Thank you for your continuous help. Here's a small token of appreciation.",
-  "npcDialogues.bert.flowerInto":
+  "npcDialogues.bert.flowerIntro":
     "The Lotus flowers in Red, Yellow, Purple, White, or Blue are truly enchanting. Do you have one?",
   "npcDialogues.bert.averageFlower":
     "This wasn't what I had in mind, but it's quite delightful. Thank you.",
@@ -3506,7 +3506,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.finn.reward":
     "Your contributions are invaluable. Here's a little something to express my gratitude.",
-  "npcDialogues.finn.flowerInto":
+  "npcDialogues.finn.flowerIntro":
     "I'm yearning for a beautiful Daffodil in Red, Yellow, Purple, White, or Blue. Can you find one?",
   "npcDialogues.finn.averageFlower":
     "Not exactly what I was hoping for, but it's quite pleasing. Thank you.",
@@ -3517,7 +3517,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.finley.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
-  "npcDialogues.finley.flowerInto":
+  "npcDialogues.finley.flowerIntro":
     "A lovely Daffodil, like the one I'm thinking of, would brighten up my day. Have you seen one?",
   "npcDialogues.finley.averageFlower":
     "It's not exactly what I had in mind, but it's quite charming. Thank you.",
@@ -3528,7 +3528,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.corale.reward":
     "Your deliveries are much appreciated. Here's a little something to show my gratitude.",
-  "npcDialogues.corale.flowerInto":
+  "npcDialogues.corale.flowerIntro":
     "Have you ever encountered the radiant Prism Petal? It's simply enchanting...",
   "npcDialogues.corale.averageFlower":
     "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
@@ -3539,7 +3539,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.raven.reward":
     "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
-  "npcDialogues.raven.flowerInto":
+  "npcDialogues.raven.flowerIntro":
     "Deep dark purple is the color of my soul - have you come across anything like this?",
   "npcDialogues.raven.averageFlower":
     "Not quite what I was expecting, but it's quite pleasing. Thank you.",
@@ -3550,7 +3550,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
-  "npcDialogues.miranda.flowerInto":
+  "npcDialogues.miranda.flowerIntro":
     "The vibrancy of a Yellow flower would surely lift my spirits. Have you seen one around?",
   "npcDialogues.miranda.averageFlower":
     "It's not exactly what I was hoping for, but it's quite charming. Thank you.",
@@ -3561,7 +3561,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.cornwell.reward":
     "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
-  "npcDialogues.cornwell.flowerInto":
+  "npcDialogues.cornwell.flowerIntro":
     "The sight of a Balloon Flower in Red, Yellow, Purple, White, or Blue is truly delightful...",
   "npcDialogues.cornwell.averageFlower":
     "Not quite what I was expecting, but it's quite charming. Thank you.",
@@ -3572,7 +3572,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.tywin.reward":
     "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
-  "npcDialogues.tywin.flowerInto":
+  "npcDialogues.tywin.flowerIntro":
     "Have you heard of the exquisite Primula Enigma or the mesmerizing Celestial Frostbloom? I'm in need of one.",
   "npcDialogues.tywin.averageFlower":
     "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
@@ -3581,7 +3581,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.tywin.goodFlower":
     "This flower is simply breathtaking! Thank you for bringing it to me.",
 
-  "npcDialogues.default.flowerInto":
+  "npcDialogues.default.flowerIntro":
     "Have you got a flower for me? Make sure it is something I like.",
   "npcDialogues.default.averageFlower": "Wow, thanks! I love this flower!",
   "npcDialogues.default.badFlower":
