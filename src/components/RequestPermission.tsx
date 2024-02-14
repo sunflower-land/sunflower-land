@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import { ReactPortal } from "components/ui/ReactPortal";
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
-import { generateToken } from "lib/messaging";
 import {
   cacheNotificationPermissions,
   getNotificationPermissions,
 } from "features/farming/hud/lib/notifications";
+import { generateToken } from "lib/messaging";
 
 interface Props {
   registration: ServiceWorkerRegistration | null;
@@ -24,18 +24,18 @@ export const RequestPermission: React.FC<Props> = ({ registration }) => {
 
     setPermission(newPermission);
     cacheNotificationPermissions(newPermission);
-
-    if (newPermission === "granted" && registration?.active) {
-      const newToken = await generateToken(registration);
-
-      setToken(newToken);
-    }
   };
 
   useEffect(() => {
-    console.log("Permission: ", permission);
-    console.log("Token: ", token);
-  }, [token, permission]);
+    const handleToken = async () => {
+      if (registration?.active && permission === "granted" && !token) {
+        const token = await generateToken(registration);
+        setToken(token);
+      }
+    };
+
+    handleToken();
+  }, [registration, permission, token]);
 
   const shouldRequestPermission = permission === "default";
 
