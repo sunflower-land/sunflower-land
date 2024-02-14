@@ -27,6 +27,7 @@ import {
   EXPANSION_REQUIREMENTS,
   Land,
 } from "features/game/expansion/lib/expansionRequirements";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
   2: [
@@ -166,6 +167,7 @@ interface Props {
   wearables: Equipped;
 }
 export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
+  const { t } = useAppTranslation();
   const shareMessage = `Just reached level ${level} in Sunflower Land! So proud of my progress in this game. 🌻🚀 \n\n https://www.sunflower-land.com \n\n #SunflowerLand #LevelUp`;
 
   const clicked = (method: "Reddit" | "Twitter" | "Telegram" | "Facebook") => {
@@ -186,7 +188,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
       </p>
       {unlocks.length > 0 && (
         <div className="mt-2 underline">
-          <p className="text-xxs text-center">Unlocked</p>
+          <p className="text-xxs text-center">{t("unlocked")}</p>
           <div className="flex flex-wrap justify-center items-center mt-2 space-x-3">
             {unlocks.map((unlock) => (
               <Label
@@ -204,7 +206,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
       {level >= 6 && (
         <>
           <div className="flex mb-1 underline">
-            <p className="text-xxs">Share</p>
+            <p className="text-xxs">{t("share")}</p>
           </div>
           <div className="flex">
             <TwitterShareButton
@@ -242,7 +244,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
         </>
       )}
       <Button className="mt-2" onClick={onClose}>
-        Ok
+        {t("ok")}
       </Button>
     </div>
   );

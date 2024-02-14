@@ -31,12 +31,10 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
     return (
       <div className="p-2">
         <Label className="my-2" type="info" icon={SUNNYSIDE.icons.timer}>
-          Coming soon
+          {t("coming.soon")}
         </Label>
-        <p className="text-sm">Great work Bumpkin!</p>
-        <p className="text-xs my-2">
-          More expansions will be available on the 7th February.
-        </p>
+        <p className="text-sm">{t("landscape.great.work")}</p>
+        <p className="text-xs my-2">{t("landscape.expansion.date")}</p>
       </div>
     );
   }

@@ -492,6 +492,7 @@ const _chickens = (state: GameMachineState) => state.context.state.chickens;
 
 const LockedChicken: React.FC<Props> = (props) => {
   const [showPopover, setShowPopover] = useState(false);
+  const { t } = useAppTranslation();
 
   return (
     <div
@@ -509,7 +510,7 @@ const LockedChicken: React.FC<Props> = (props) => {
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="flex items-center space-x-2 mx-1 p-1">
               <SquareIcon icon={lockIcon} width={5} />
-              <span className="text-xxs mb-0.5">AoE Locked</span>
+              <span className="text-xxs mb-0.5">{t("aoe.locked")}</span>
             </div>
           </InnerPanel>
         </div>

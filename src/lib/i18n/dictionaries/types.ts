@@ -279,7 +279,16 @@ export type GeneralTerms =
   | "collection"
   | "purchase"
   | "listing"
-  | "cancelling";
+  | "cancelling"
+  | "skip"
+  | "docs"
+  | "exit"
+  | "compost"
+  | "chicken"
+  | "recipes"
+  | "unlocked"
+  | "reel"
+  | "new.species";
 
 export type AchievementsTerms =
   | "breadWinner.description"
@@ -738,7 +747,10 @@ export type ChoresStart =
   | "chores.reachLevel"
   | "chores.reachLevelIntro"
   | "chores.chopTrees"
-  | "chores.helpWithTrees";
+  | "chores.helpWithTrees"
+  | "chores.noChore"
+  | "chores.newSeason"
+  | "chores.choresFrozen";
 
 export type ChumDetails =
   | "chumDetails.gold"
@@ -1376,13 +1388,14 @@ export type FishingQuests =
   | "quest.bloom.bigshot"
   | "quest.lily.luminary";
 
-export type FlowerBedGuide =
+export type FlowerBed =
   | "flowerBedGuide.buySeeds"
   | "flowerBedGuide.crossbreedWithCrops"
   | "flowerBedGuide.collectAllSpecies"
   | "flowerBedGuide.beesProduceHoney"
   | "flowerBedGuide.fillUpBeehive"
-  | "flowerBedGuide.beeSwarmsBoost";
+  | "flowerBedGuide.beeSwarmsBoost"
+  | "flowerBed.newSpecies.discovered";
 
 export type Flowerbreed =
   | "flower.breed.sunflower"
@@ -1559,7 +1572,6 @@ export type GameTerms =
   | "auction.winner"
   | "bumpkin.level"
   | "bumpkinBuzz"
-  | "bumpkinLvl"
   | "dailyLim"
   | "farm.banned"
   | "gobSwarm"
@@ -1570,7 +1582,10 @@ export type GameTerms =
   | "polygonscan"
   | "potions"
   | "proof.of.humanity"
-  | "sflDiscord";
+  | "sflDiscord"
+  | "in.progress"
+  | "compost.complete"
+  | "aoe.locked";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -1870,7 +1885,9 @@ export type LandscapeTerms =
   | "landscape.expansion.one"
   | "landscape.expansion.two"
   | "landscape.timerPopover"
-  | "landscape.dragMe";
+  | "landscape.dragMe"
+  | "landscape.expansion.date"
+  | "landscape.great.work";
 
 export type LetsGo =
   | "letsGo.title"
@@ -2009,7 +2026,9 @@ export type NoBumpkin =
   | "noBumpkin.mintBumpkin"
   | "noBumpkin.allBumpkins"
   | "noBumpkin.chooseBumpkin"
-  | "noBumpkin.deposit";
+  | "noBumpkin.deposit"
+  | "noBumpkin.advancedIsland"
+  | "weakBumpkin.notStrong";
 
 export type NoTownCenter =
   | "noTownCenter.reward"
@@ -2617,7 +2636,11 @@ export type RetreatTerms =
   | "retreatTerms.resale.two"
   | "retreatTerms.resale.three";
 
-export type Resources = "resources.recoversIn" | "resources.required";
+export type Resources =
+  | "resources.recoversIn"
+  | "resources.required"
+  | "resources.boulder.rareMineFound"
+  | "resources.boulder.advancedMining";
 
 export type RewardTerms =
   | "reward.daily.reward"
@@ -3039,6 +3062,8 @@ export type Trader =
   | "trader.PoH"
   | "trader.start.verification";
 
+export type NyonStatue = "nyonStatue.memory" | "nyonStatue.description";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3092,7 +3117,7 @@ export type TranslationKeys =
   | FishingChallengeIntro
   | FishingGuide
   | FishingQuests
-  | FlowerBedGuide
+  | FlowerBed
   | Flowerbreed
   | FlowerShopTerms
   | FoodDescriptions
@@ -3208,4 +3233,5 @@ export type TranslationKeys =
   | World
   | Event
   | Promo
-  | Trader;
+  | Trader
+  | NyonStatue;

@@ -51,7 +51,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
-  FlowerBedGuide,
+  FlowerBed,
   Flowerbreed,
   FlowerShopTerms,
   FoodDescriptions,
@@ -169,6 +169,7 @@ import {
   Event,
   Promo,
   Trader,
+  NyonStatue,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -452,6 +453,15 @@ const generalTerms: Record<GeneralTerms, string> = {
   purchase: "",
   listing: "",
   cancelling: "",
+  skip: "",
+  docs: "",
+  exit: "",
+  compost: "",
+  chicken: "",
+  recipes: "",
+  unlocked: "",
+  reel: "",
+  "new.species": "",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -922,6 +932,9 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.reachLevelIntro": "",
   "chores.chopTrees": "",
   "chores.helpWithTrees": "",
+  "chores.noChore": "",
+  "chores.newSeason": "",
+  "chores.choresFrozen": "",
 };
 const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.gold": "",
@@ -1549,13 +1562,14 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.bloom.bigshot": "",
   "quest.lily.luminary": "",
 };
-const flowerBedGuide: Record<FlowerBedGuide, string> = {
+const flowerBedGuide: Record<FlowerBed, string> = {
   "flowerBedGuide.buySeeds": "",
   "flowerBedGuide.crossbreedWithCrops": "",
   "flowerBedGuide.collectAllSpecies": "",
   "flowerBedGuide.beesProduceHoney": "",
   "flowerBedGuide.fillUpBeehive": "",
   "flowerBedGuide.beeSwarmsBoost": "",
+  "flowerBed.newSpecies.discovered": "",
 };
 const flowerbreed: Record<Flowerbreed, string> = {
   "flower.breed.sunflower": "",
@@ -1717,7 +1731,6 @@ const gameTerms: Record<GameTerms, string> = {
   "auction.winner": "",
   "bumpkin.level": "",
   bumpkinBuzz: "",
-  bumpkinLvl: "",
   dailyLim: "",
   "farm.banned": "",
   gobSwarm: "",
@@ -1729,6 +1742,9 @@ const gameTerms: Record<GameTerms, string> = {
   potions: "",
   "proof.of.humanity": "",
   sflDiscord: "",
+  "in.progress": "",
+  "compost.complete": "",
+  "aoe.locked": "",
 };
 const garbageCollector: Record<GarbageCollector, string> = {
   "garbageCollector.welcome": "",
@@ -2027,6 +2043,8 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.two": "",
   "landscape.timerPopover": "",
   "landscape.dragMe": "",
+  "landscape.expansion.date": "",
+  "landscape.great.work": "",
 };
 const letsGo: Record<LetsGo, string> = {
   "letsGo.title": "",
@@ -2156,6 +2174,8 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.allBumpkins": "",
   "noBumpkin.chooseBumpkin": "",
   "noBumpkin.deposit": "",
+  "noBumpkin.advancedIsland": "",
+  "weakBumpkin.notStrong": "",
 };
 const noTownCenter: Record<NoTownCenter, string> = {
   "noTownCenter.reward": "",
@@ -2721,6 +2741,8 @@ const retreatTerms: Record<RetreatTerms, string> = {
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "",
   "resources.required": "",
+  "resources.boulder.rareMineFound": "",
+  "resources.boulder.advancedMining": "",
 };
 const rewardTerms: Record<RewardTerms, string> = {
   "reward.daily.reward": "",
@@ -3171,6 +3193,11 @@ const trader: Record<Trader, string> = {
   "trader.start.verification": "",
 };
 
+export const NYON_STATUE: Record<NyonStatue, string> = {
+  "nyonStatue.memory": "",
+  "nyonStatue.description": "",
+};
+
 export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   // Change SAMPLE to your language
   ...achievementTerms,
@@ -3342,4 +3369,5 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...event,
   ...promo,
   ...trader,
+  ...NYON_STATUE,
 };

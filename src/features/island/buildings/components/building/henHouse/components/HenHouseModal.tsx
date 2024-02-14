@@ -102,7 +102,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     if (selectedChicken === "buy") {
       return (
         <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">Chicken</span>
+          <span className="text-center">{t("chicken")}</span>
           <img
             src={SUNNYSIDE.resource.chicken}
             className="h-16 img-highlight mt-1"

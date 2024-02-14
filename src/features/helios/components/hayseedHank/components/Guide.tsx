@@ -41,7 +41,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                 href={GUIDE_PATHS[selected].docs}
                 className="text-xs underline pr-2"
               >
-                Docs
+                {t("docs")}
               </a>
             )}
           </div>

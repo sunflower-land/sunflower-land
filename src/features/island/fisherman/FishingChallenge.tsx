@@ -104,6 +104,7 @@ export const FishingChallengeComponent: React.FC<Props> = ({
   difficulty = 1,
   fishName,
 }) => {
+  const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = useState(true);
   const [state, setState] = useState<"idle" | "playing">("idle");
 
@@ -345,11 +346,11 @@ export const FishingChallengeComponent: React.FC<Props> = ({
         </div>
       </div>
       {state === "idle" && (
-        <Button onClick={() => setState("playing")}>Start</Button>
+        <Button onClick={() => setState("playing")}>{t("start")}</Button>
       )}
 
       {state === "playing" && (
-        <SensitiveButton onClick={reel}>Reel</SensitiveButton>
+        <SensitiveButton onClick={reel}>{t("reel")}</SensitiveButton>
       )}
     </div>
   );

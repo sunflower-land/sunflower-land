@@ -14,6 +14,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -69,7 +70,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
   const stock = state.stock[selectedName] || new Decimal(0);
 
   const bulkToolCraftAmount = makeBulkBuyAmount(stock);
-
+  const { t } = useAppTranslation();
   const Action = () => {
     if (stock.equals(0)) {
       return <Restock onClose={onClose}></Restock>;
@@ -81,7 +82,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
           disabled={lessFunds() || lessIngredients() || stock.lessThan(1)}
           onClick={(e) => craft(e, 1)}
         >
-          Craft 1
+          {t("craft")} {"1"}
         </Button>
         {bulkToolCraftAmount > 1 && (
           <Button
@@ -91,7 +92,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
             }
             onClick={(e) => craft(e, bulkToolCraftAmount)}
           >
-            Craft {bulkToolCraftAmount}
+            {t("craft")} {bulkToolCraftAmount}
           </Button>
         )}
       </div>

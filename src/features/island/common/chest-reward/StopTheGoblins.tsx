@@ -204,7 +204,10 @@ export const StopTheGoblins: React.FC<Props> = ({
         </span>
 
         <Label className="my-1" type={attemptsLeft <= 2 ? "danger" : "info"}>
-          {t("stopGoblin.left")}{":"} ({attemptsLeft})
+          {t("stopGoblin.left")}
+          {":"} {"("}
+          {attemptsLeft}
+          {")"}
         </Label>
       </div>
     </div>

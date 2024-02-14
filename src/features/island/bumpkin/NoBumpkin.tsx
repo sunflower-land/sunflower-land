@@ -114,7 +114,7 @@ export const NoBumpkin: React.FC = () => {
           <p className="text-sm my-2">
             {t("noBumpkin.mintBumpkin")}
             {":"}
-            </p>
+          </p>
           <p className="text-xs sm:text-sm text-shadow text-white p-1">
             <a
               className="underline"
@@ -126,7 +126,7 @@ export const NoBumpkin: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              OpenSea
+              {t("opensea")}
             </a>
           </p>
         </div>
@@ -171,7 +171,8 @@ export const NoBumpkin: React.FC = () => {
           })}
         </div>
         <p className="text-sm my-2">
-          This is an advanced island. A strong Bumpkin is required:
+          {t("noBumpkin.advancedIsland")}
+          {":"}
         </p>
         <Label
           type="danger"

@@ -51,7 +51,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
-  FlowerBedGuide,
+  FlowerBed,
   Flowerbreed,
   FlowerShopTerms,
   FoodDescriptions,
@@ -169,6 +169,7 @@ import {
   Event,
   Promo,
   Trader,
+  NyonStatue,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -453,6 +454,15 @@ const generalTerms: Record<GeneralTerms, string> = {
   purchase: "Purchase",
   listing: "Listing",
   cancelling: "Cancelling",
+  skip: "Skip",
+  docs: "Docs",
+  exit: "Exit",
+  compost: "Compost",
+  chicken: "Chicken",
+  recipes: "Recipes",
+  unlocked: "Unlocked",
+  reel: "Reel",
+  "new.species": "New Species",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -1070,6 +1080,10 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.chopTrees": "Chop 3 Trees",
   "chores.helpWithTrees":
     "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
+  "chores.noChore": "Sorry, I don't have any chores that need doing right now.",
+  "chores.newSeason": "A new season approaches, chores will temporarily close.",
+  "chores.choresFrozen":
+    "New Seasonal Chores opening soon. Previous season chores & progress will be reset.",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1957,7 +1971,7 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.lily.luminary": "Discover 12 Lily variants",
 };
 
-const flowerBedGuide: Record<FlowerBedGuide, string> = {
+const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.buySeeds": "Buy seeds from the Seed Shop.",
   "flowerBedGuide.crossbreedWithCrops":
     "Crossbreed with crops and other flowers to discover new flowers species.",
@@ -1969,6 +1983,8 @@ const flowerBedGuide: Record<FlowerBedGuide, string> = {
     "Fill up a beehive completely and collect the honey for a chance of a bee swarm to appear.",
   "flowerBedGuide.beeSwarmsBoost":
     "Bee swarms give +0.2 boost to any planted crops.",
+  "flowerBed.newSpecies.discovered":
+    "By golly, you've discovered a new species of flower!",
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
@@ -2196,7 +2212,6 @@ const gameTerms: Record<GameTerms, string> = {
   "auction.winner": "Auction Winner!",
   "bumpkin.level": "Bumpkin level",
   bumpkinBuzz: "Bumpkin Buzz",
-  bumpkinLvl: "Bumpkin level",
   dailyLim: "Daily SFL Limit",
   "farm.banned": "This farm is banned",
   gobSwarm: "Goblin Swarm!",
@@ -2208,6 +2223,9 @@ const gameTerms: Record<GameTerms, string> = {
   potions: "Potions",
   "proof.of.humanity": "Proof of Humanity",
   sflDiscord: "Sunflower Land Discord Server",
+  "in.progress": "In Progress",
+  "compost.complete": "Compost complete",
+  "aoe.locked": "AOE Locked",
 };
 
 const genieLamp: Record<GenieLamp, string> = {
@@ -2653,6 +2671,9 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.two": "More expansions will be available soon...",
   "landscape.timerPopover": "Next Expansion",
   "landscape.dragMe": "Drag me",
+  "landscape.expansion.date":
+    "More expansions will be available on the 7th February.",
+  "landscape.great.work": "Great work Bumpkin!",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -2825,6 +2846,10 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.allBumpkins": "Wow, look at all those Bumpkins!",
   "noBumpkin.chooseBumpkin": "Which Bumpkin would you like to play with?",
   "noBumpkin.deposit": "Deposit",
+  "noBumpkin.advancedIsland":
+    "This is an advanced island. A strong Bumpkin is required",
+  "weakBumpkin.notStrong":
+    "Oh no! Your Bumpkin is not strong enough for this island.",
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {
@@ -3836,7 +3861,7 @@ const resale: Record<Resale, string> = {
 
 const restock: Record<Restock, string> = {
   "restock.one.buck":
-    "You are going to use 1 Block Buck to restock all shop items in the game",
+    "You are going to use 1 Block Buck to restock all shop items in the game.",
   "restock.sure": "Are you sure you want to Restock?",
   "restock.seed.buy": "You have too many seeds in your basket!",
 };
@@ -3853,6 +3878,8 @@ const retreatTerms: Record<RetreatTerms, string> = {
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "Recovers in:",
   "resources.required": "required.",
+  "resources.boulder.rareMineFound": "You found a rare mine!",
+  "resources.boulder.advancedMining": "Advanced mining on its way.",
 };
 
 const rewardTerms: Record<RewardTerms, string> = {
@@ -4472,6 +4499,12 @@ const trader: Record<Trader, string> = {
   "trader.start.verification": "Start Verification",
 };
 
+export const NYON_STATUE: Record<NyonStatue, string> = {
+  "nyonStatue.memory": "In memory of",
+  "nyonStatue.description":
+    "The legendary knight responsible for clearing the goblins from the mines. Shortly after his victory he died by poisoning from a Goblin conspirator. The Sunflower Citizens erected this statue with his armor to commemorate his conquests.",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -4525,7 +4558,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
-  ...flowerBedGuide,
+  ...flowerBed,
   ...flowerbreed,
   ...flowerShopTerms,
   ...foodDescriptions,
@@ -4642,4 +4675,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...event,
   ...promo,
   ...trader,
+  ...NYON_STATUE,
 };

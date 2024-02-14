@@ -190,7 +190,7 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
               <div className="flex items-center">
                 <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-                <span className="text-xs">Compost {t("complete")} </span>
+                <span className="text-xs">{t("compost.complete")}</span>
               </div>
             </div>
           </div>
@@ -261,7 +261,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs mb-2">
-                  {t("guide.compost.add.eggs.speed")}.
+                  {t("guide.compost.add.eggs.speed")}
+                  {"."}
                 </p>
                 <Button
                   disabled={
@@ -429,7 +430,7 @@ export const ComposterModal: React.FC<Props> = ({
           className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
           onClick={() => startComposter()}
         >
-          Compost
+          {t("compost")}
         </Button>
       </>
     );
@@ -464,7 +465,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs  flex-1">
-                  {t("guide.compost.placeCrops")}.
+                  {t("guide.compost.placeCrops")}
+                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -472,7 +474,8 @@ export const ComposterModal: React.FC<Props> = ({
                   <img src={compost} className="h-6 mr-2 object-contain" />
                 </div>
                 <p className="text-xs  flex-1">
-                  {t("guide.compost.compostCycle")}.
+                  {t("guide.compost.compostCycle")}
+                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -483,7 +486,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs flex-1">
-                  {t("guide.compost.yieldsWorms")}.
+                  {t("guide.compost.yieldsWorms")}
+                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -493,7 +497,10 @@ export const ComposterModal: React.FC<Props> = ({
                     className="h-6 mr-2 object-contain"
                   />
                 </div>
-                <p className="text-xs flex-1">{t("guide.compost.useEggs")}.</p>
+                <p className="text-xs flex-1">
+                  {t("guide.compost.useEggs")}
+                  {"."}
+                </p>
               </div>
             </div>
             <Button

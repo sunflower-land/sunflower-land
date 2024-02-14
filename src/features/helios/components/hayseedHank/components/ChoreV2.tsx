@@ -10,6 +10,7 @@ import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isReadOnly?: boolean;
@@ -19,6 +20,7 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
   const [gameState] = useActor(gameService);
 
   const chores = gameState.context.state.chores;
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     chores && acknowledgeChores(chores);
@@ -27,7 +29,7 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
   if (!chores) {
     return (
       <div className="p-2 text-sm">
-        <p>{`Sorry, I don't have any chores that need doing right now.`}</p>
+        <p>{t("chores.noChore")}</p>
       </div>
     );
   }
@@ -40,9 +42,7 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
         // Give 24 hours heads up before tasks close
         tasksAreClosing && (
           <div className="flex flex-col items-center mb-2">
-            <p className="text-xs text-center">
-              A new season approaches, chores will temporarily close.
-            </p>
+            <p className="text-xs text-center">{t("chores.newSeason")}</p>
             <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
               {secondsToString((tasksCloseAt - Date.now()) / 1000, {
                 length: "full",
@@ -53,10 +53,7 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
       }
       {tasksAreFrozen && (
         <div className="flex flex-col items-center mb-2">
-          <p className="text-xs text-center">
-            New Seasonal Chores opening soon. Previous season chores & progress
-            will be reset.
-          </p>
+          <p className="text-xs text-center">{t("chores.choresFrozen")}</p>
           <Label
             type="danger"
             icon={SUNNYSIDE.icons.stopwatch}
