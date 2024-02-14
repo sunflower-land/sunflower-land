@@ -325,7 +325,7 @@ export class PlazaScene extends BaseScene {
     }
 
     if (hasFeatureAccess(this.gameState, "BUMPKIN_GIFTS")) {
-      if (!!this.gameState.inventory["Treasure Key"]) {
+      if (this.gameState.inventory["Treasure Key"]) {
         this.add.sprite(210, 130, "key_disc").setDepth(1000000000);
       } else {
         this.add.sprite(210, 130, "locked_disc").setDepth(1000000000);

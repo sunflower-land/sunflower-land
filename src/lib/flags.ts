@@ -13,11 +13,11 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
  * Do not delete JEST_TEST.
  */
 type FeatureName =
-| "JEST_TEST"
-| "LOCALISATION"
-| "PORTALS"
-| "MEGA_STORE"
-| "BUMPKIN_GIFTS";
+  | "JEST_TEST"
+  | "LOCALISATION"
+  | "PORTALS"
+  | "MEGA_STORE"
+  | "BUMPKIN_GIFTS";
 
 // Used for testing production features
 export const ADMIN_IDS = [

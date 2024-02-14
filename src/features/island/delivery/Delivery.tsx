@@ -3,17 +3,12 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
-import { ResizableBar } from "components/ui/ProgressBar";
-import chest from "assets/icons/chest.png";
 import deliveryBoard from "assets/ui/delivery_board.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import classNames from "classnames";
 import { DeliveryOrders } from "./components/Orders";
-import { Revealing } from "features/game/components/Revealing";
-import { Revealed } from "features/game/components/Revealed";
-import { Panel } from "components/ui/Panel";
 import { DeliveryHelp } from "./components/DeliveryHelp";
 import { hasNewOrders } from "./lib/delivery";
 
