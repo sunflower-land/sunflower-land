@@ -161,6 +161,20 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
   3: [
     {
+      x: 750,
+      y: 140,
+    },
+    {
+      x: 300,
+      y: 320,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
+  4: [
+    {
       x: 400,
       y: 420,
     },
