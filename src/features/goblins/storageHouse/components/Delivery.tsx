@@ -33,9 +33,9 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                Goblin community treasury
+                {t("delivery.goblin.comm.treasury")}
               </a>
-              .
+              {"."}
             </span>
           </div>
         </div>

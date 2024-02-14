@@ -9,6 +9,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface ListingProps {
   listingId: number;
@@ -39,6 +40,8 @@ export const Listing: React.FC<ListingProps> = ({
 
   const insufficientFunds = balance.lt(price);
 
+  const { t } = useAppTranslation();
+
   return (
     <OuterPanel className="p-2 mb-3">
       <div className="flex">
@@ -59,13 +62,15 @@ export const Listing: React.FC<ListingProps> = ({
                 onClick={onPurchase}
                 disabled={insufficientFunds}
               >
-                Purchase
+                {t("purchase")}
               </Button>
             )}
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-xxs sm:text-xs flex-1">Buyer pays</span>
+            <span className="text-xxs sm:text-xs flex-1">
+              {t("trader.buyer.pays")}
+            </span>
             <div className="flex items-center">
               <img src={token} className="w-5" />
               <span
@@ -77,21 +82,27 @@ export const Listing: React.FC<ListingProps> = ({
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-xxs sm:text-xs flex-1">Price per unit</span>
+            <span className="text-xxs sm:text-xs flex-1">
+              {t("trader.price.per.unit")}
+            </span>
             <div className="flex items-center">
               <img src={token} className="w-5" />
               <span className="text-xxs sm:text-xs whitespace-nowrap pl-2">{`${priceperunit} SFL`}</span>
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-xxs sm:text-xs flex-1">Goblin fee</span>
+            <span className="text-xxs sm:text-xs flex-1">
+              {t("trader.goblin.fee")}
+            </span>
             <div className="flex items-center">
               <img src={goblin} className="w-5" />
               <span className="text-xxs sm:text-xs whitespace-nowrap pl-2">{`${goblinFee} SFL`}</span>
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-xxs sm:text-xs flex-1">Seller receives</span>
+            <span className="text-xxs sm:text-xs flex-1">
+              {t("trader.seller.receives")}
+            </span>
             <div className="flex items-center">
               <img src={token} className="w-5" />
               <span className="text-xxs sm:text-xs whitespace-nowrap pl-2">{`${sellerReceives} SFL`}</span>

@@ -12,6 +12,7 @@ import { Selling } from "../selling/Selling";
 import { Buying } from "../buying/Buying";
 import { Tabs } from "./components/Tabs";
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface TraderModalProps {
   isOpen: boolean;
@@ -24,6 +25,8 @@ export const TraderModal: React.FC<TraderModalProps> = ({
   initialTab = "selling",
   onClose,
 }) => {
+  const { t } = useAppTranslation();
+
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
   const { authService } = useContext(AuthProvider.Context);
@@ -74,20 +77,20 @@ export const TraderModal: React.FC<TraderModalProps> = ({
         {isTrading && !isSelling && <Buying />}
 
         {machine.matches("loading") && (
-          <span className="loading m-2">Loading</span>
+          <span className="loading m-2">{t("loading")}</span>
         )}
         {machine.matches("updatingSession") && (
-          <span className="loading m-2">Refreshing</span>
+          <span className="loading m-2">{t("refreshing")}</span>
         )}
 
         {machine.matches("listing") && (
-          <span className="loading m-2">Listing</span>
+          <span className="loading m-2">{t("listing")}</span>
         )}
         {machine.matches("cancelling") && (
-          <span className="loading m-2">Cancelling</span>
+          <span className="loading m-2">{t("cancelling")}</span>
         )}
         {machine.matches("purchasing") && (
-          <span className="loading m-2">Purchasing</span>
+          <span className="loading m-2">{t("purchasing")}</span>
         )}
       </>
     );

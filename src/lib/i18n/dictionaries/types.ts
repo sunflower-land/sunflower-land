@@ -273,7 +273,13 @@ export type GeneralTerms =
   | "collectibles"
   | "buds"
   | "wearables"
-  | "bumpkin";
+  | "bumpkin"
+  | "storage"
+  | "upcoming"
+  | "collection"
+  | "purchase"
+  | "listing"
+  | "cancelling";
 
 export type AchievementsTerms =
   | "breadWinner.description"
@@ -1142,7 +1148,8 @@ export type Delivery =
   | "delivery.panel.four"
   | "delivery.ressource"
   | "delivery.feed"
-  | "delivery.fee";
+  | "delivery.fee"
+  | "delivery.goblin.comm.treasury";
 
 export type DeliveryHelp =
   | "deliveryHelp.pumpkinSoup"
@@ -3020,6 +3027,16 @@ export type Event = "event.christmas" | "event.LunarNewYear";
 
 export type Promo = "promo.cdcBonus" | "promo.expandLand";
 
+export type Trader =
+  | "trader.you.pay"
+  | "trader.price.per.unit"
+  | "trader.goblin.fee"
+  | "trader.they.receive"
+  | "trader.seller.receives"
+  | "trader.buyer.pays"
+  | "trader.cancel.trade"
+  | "trader.you.receive";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3188,4 +3205,5 @@ export type TranslationKeys =
   | WornDescription
   | World
   | Event
-  | Promo;
+  | Promo
+  | Trader;

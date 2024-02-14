@@ -52,7 +52,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
       <div className="p-2 w-full">
         <div className="flex items-center">
           <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
-            You pay
+            {t("trader.you.pay")}
           </span>
           <div className="flex items-center w-1/2">
             <img src={token} className="w-6" />
@@ -65,7 +65,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
         <div className="flex items-center">
           <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
-            Price per unit
+            {t("trader.price.per.unit")}
           </span>
           <div className="flex items-center w-1/2">
             <img src={token} className="w-6" />
@@ -74,7 +74,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
         <div className="flex items-center">
           <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
-            Goblin fee
+            {t("trader.goblin.fee")}
           </span>
           <div className="flex items-center w-1/2">
             <img src={goblin} className="w-6" />
@@ -83,7 +83,7 @@ export const Confirming: React.FC<ConfirmProps> = ({
         </div>
         <div className="flex items-center">
           <span className="text-xs sm:text-sm whitespace-nowrap w-1/2">
-            They receive
+            {t("trader.they.receive")}
           </span>
           <div className="flex items-center w-1/2">
             <img src={token} className="w-6" />
