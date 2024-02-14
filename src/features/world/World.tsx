@@ -19,9 +19,10 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
 import { PickServer } from "./ui/PickServer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { IslandNotFound } from "features/game/expansion/components/IslandNotFound";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameWrapper } from "features/game/expansion/Game";
+import { WorldHud } from "features/island/hud/WorldHud";
 
 interface Props {
   isCommunity?: boolean;
@@ -159,6 +160,9 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 };
 
 export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
+  const { gameService } = useContext(Context);
+  const isLoading = useSelector(gameService, _isLoading);
+
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
@@ -168,7 +172,10 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         imageRendering: "pixelated",
       }}
     >
-      <IslandNotFound />
+      <GameWrapper>
+        {!isLoading && <MMO isCommunity={isCommunity} />}
+        <WorldHud />
+      </GameWrapper>
     </div>
   );
 };
