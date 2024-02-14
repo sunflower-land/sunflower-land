@@ -3,6 +3,7 @@ import { TURKISH_TERMS } from "./turkishDictionary";
 import { CHINESE_SIMPLIFIED_TERMS } from "./chinese_simplifiedDictionary";
 import { PORTUGUESE_TERMS } from "./portugueseDictionary";
 import { FRENCH_TERMS } from "./frenchDictionary";
+import { RUSSIAN_TERMS } from "./russianDictionary";
 import { TranslationKeys } from "./types";
 
 // import british_flag from "assets/sfts/flags/british_flag.gif";
@@ -13,7 +14,7 @@ import { TranslationKeys } from "./types";
 // import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 // import chinaFlag from "assets/sfts/flags/china_flag.gif";
 
-export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN";
+export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN" | "ru";
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -49,6 +50,11 @@ export const languageDetails: Record<LanguageCode, LanguageDetails> = {
     languageImage: ["chinaFlag"],
     imageAlt: ["China Flag"],
   },
+  ru: {
+    languageName: "Русский",
+    languageImage: ["russiaFlag"],
+    imageAlt: ["Russia Flag"],
+  },
 };
 
 export const resources: Record<
@@ -69,5 +75,8 @@ export const resources: Record<
   },
   "zh-CN": {
     translation: CHINESE_SIMPLIFIED_TERMS,
+  },
+  ru: {
+    translation: RUSSIAN_TERMS,
   },
 };
