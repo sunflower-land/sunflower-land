@@ -205,7 +205,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     repeats: {
       friendshipPoints: 150,
       items: { "Treasure Key": 1 },
-      sfl: 50,
+      sfl: 3,
       wearables: {},
     },
   },

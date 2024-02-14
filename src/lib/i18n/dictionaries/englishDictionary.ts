@@ -3390,7 +3390,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finley.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
   "npcDialogues.finley.flowerInto":
-    "A lovely Yellow Carnation, like the one I'm thinking of, would brighten up my day. Have you seen one?",
+    "A lovely Daffodil, like the one I'm thinking of, would brighten up my day. Have you seen one?",
   "npcDialogues.finley.averageFlower":
     "It's not exactly what I had in mind, but it's quite charming. Thank you.",
   "npcDialogues.finley.badFlower":
