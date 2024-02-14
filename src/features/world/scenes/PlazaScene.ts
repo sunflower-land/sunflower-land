@@ -161,12 +161,12 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
   3: [
     {
-      x: 400,
-      y: 420,
+      x: 750,
+      y: 140,
     },
     {
-      x: 800,
-      y: 300,
+      x: 300,
+      y: 320,
     },
     {
       x: 55,
@@ -297,7 +297,6 @@ export class PlazaScene extends BaseScene {
     let week: number | undefined = undefined;
     try {
       week = getSeasonWeek();
-      week = 3;
     } catch {
       // eslint-disable-next-line no-console
       console.error("Error getting week");
