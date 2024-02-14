@@ -4123,7 +4123,7 @@ const statements: Record<Statements, string> = {
   "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
   "statements.crop.water": "These crops need water!",
   "statements.daily.limit": "Daily Limit",
-  "statements.sure.buy": "Are you sure you want to buy? ",
+  "statements.sure.buy": "Are you sure you want to buy",
   "statements.perplayer": "per Player",
   "statements.minted.goToChest": "Go to your chest and place it on your island",
   "statements.minted.withdrawAfterMint":
@@ -4467,6 +4467,9 @@ const trader: Record<Trader, string> = {
   "trader.buyer.pays": "Buyer pays",
   "trader.cancel.trade": "Cancel trade",
   "trader.you.receive": "You receive",
+  "trader.PoH":
+    "Proof of humanity is needed for this feature. Please take a quick selfie.",
+  "trader.start.verification": "Start Verification",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

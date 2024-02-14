@@ -60,12 +60,9 @@ export const TraderModal: React.FC<TraderModalProps> = ({
     if (!goblinState.context.verified) {
       return (
         <>
-          <p className="text-sm p-1 m-1">
-            Proof of humanity is needed for this feature. Please take a quick
-            selfie.
-          </p>
+          <p className="text-sm p-1 m-1">{t("trader.PoH")}</p>
           <Button className="mr-1" onClick={proovePersonhood}>
-            Start Verification
+            {t("trader.start.verification")}
           </Button>
         </>
       );
