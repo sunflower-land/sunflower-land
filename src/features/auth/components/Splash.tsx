@@ -176,7 +176,7 @@ export const Splash: React.FC = ({ children }) => {
         </Modal>
       )}
       <div
-        className="absolute bottom-0 right-auto m-1 pointer-events-auto"
+        className="absolute bottom-0 right-auto m-1 pointer-events-auto safe-mb"
         style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
       >
         {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
@@ -185,7 +185,7 @@ export const Splash: React.FC = ({ children }) => {
         className="absolute bottom-0 right-0 m-1 pointer-events-auto"
         style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
       >
-        <InnerPanel>
+        <InnerPanel className="mb-2 safe-mb">
           <div className="flex items-center justify-center">
             <a
               className="underline text-xxs text-white hover:text-blue-500 p-1"
