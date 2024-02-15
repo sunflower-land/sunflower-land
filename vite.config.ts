@@ -28,7 +28,7 @@ export default defineConfig({
         "pwa/**/*",
         "farms/*",
         "offline/*",
-        "offline.html",
+        "*.{html,gif,png}",
       ],
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
