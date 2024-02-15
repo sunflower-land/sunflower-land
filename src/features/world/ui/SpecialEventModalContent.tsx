@@ -24,6 +24,7 @@ import {
   SpecialEvent,
   SpecialEventName,
 } from "features/game/types/specialEvents";
+import { GameWallet } from "features/wallet/Wallet";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -54,6 +55,16 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
+const RequiresWallet: React.FC<{ requiresWallet: boolean }> = ({
+  requiresWallet,
+  children,
+}) =>
+  requiresWallet ? (
+    <GameWallet action="specialEvent">{children}</GameWallet>
+  ) : (
+    <>{children}</>
+  );
+
 export const SpecialEventModalContent: React.FC<{
   onClose: () => void;
   npcName: NPCName;
@@ -64,7 +75,6 @@ export const SpecialEventModalContent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const [reward, setReward] = useState<Airdrop & { day: number }>();
-  const [showWallet, setShowWallet] = useState(false);
   const [showLink, setShowLink] = useState(false);
 
   const { inventory, balance } = gameState.context.state;
@@ -146,6 +156,7 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
+<<<<<<< HEAD
   if (showWallet) {
     return (
       <Panel>
@@ -161,6 +172,8 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
+=======
+>>>>>>> 1964aa33b ([FEAT] Check eligibility)
   if (reward) {
     return (
       <Panel>
@@ -169,9 +182,37 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
+  // isEligible should already be checked by the parent component but just in
+  // case it was missed, let's check it here as well
+  if (event.isEligible) {
+    return (
+      <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
+        <div>
+          <div className="flex justify-between items-center p-2">
+            <Label
+              type="default"
+              className="capitalize"
+              icon={SUNNYSIDE.icons.player}
+            >
+              {npcName}
+            </Label>
+          </div>
+          <p className="text-sm mb-3 p-2">
+            <Dialogue
+              trail={25}
+              message={
+                "There is no work needing to be done right now, thanks for stopping by though!"
+              }
+            />
+          </p>
+        </div>
+      </CloseButtonPanel>
+    );
+  }
+
   return (
     <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
-      <>
+      <RequiresWallet requiresWallet={event.requiresWallet}>
         <div>
           <div className="flex justify-between items-center mb-3 p-2">
             <Label
@@ -261,7 +302,7 @@ export const SpecialEventModalContent: React.FC<{
             ))}
           </div>
         </div>
-      </>
+      </RequiresWallet>
     </CloseButtonPanel>
   );
 };
