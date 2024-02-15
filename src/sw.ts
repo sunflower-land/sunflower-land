@@ -32,7 +32,6 @@ self.addEventListener("message", (event) => {
     // eslint-disable-next-line no-console
     console.log("[Service Worker] Skip waiting");
     self.skipWaiting();
-    self.clients.claim();
   }
 });
 
