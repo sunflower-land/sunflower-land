@@ -46,6 +46,7 @@ export function useServiceWorkerUpdate() {
     const handleStateChange = (evt: any) => {
       console.log("Page lifecycle state changed to", evt.newState);
       if (evt.newState === "hidden" && needRefreshRef.current) {
+        console.log("UPDATING SERVICE WORKER");
         updateServiceWorker();
       }
     };
