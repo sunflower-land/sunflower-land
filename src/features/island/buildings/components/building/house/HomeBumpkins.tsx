@@ -31,7 +31,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
         {getKeys(farmHands).map((id) => (
           <div
             key={id}
-            className="mr-2 cursor-pointer relative"
+            className="mr-2 cursor-pointer relative hover:img-highlight"
             onClick={() => setSelectedFarmHandId(id)}
             style={{ width: `${GRID_WIDTH_PX}px` }}
           >
