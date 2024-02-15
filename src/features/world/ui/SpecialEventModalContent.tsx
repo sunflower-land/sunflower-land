@@ -184,7 +184,7 @@ export const SpecialEventModalContent: React.FC<{
 
   // isEligible should already be checked by the parent component but just in
   // case it was missed, let's check it here as well
-  if (event.isEligible) {
+  if (!event.isEligible) {
     return (
       <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
         <div>
