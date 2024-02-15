@@ -133,19 +133,10 @@ export const Quest: React.FC<Props> = ({
               src={getImageUrl(ITEM_IDS[quest.wearable])}
               className="w-1/3 my-2 rounded-lg"
             />
-            <p className="text-sm mb-3">{`Congratulations, you have minted a ${quest.wearable}`}</p>
             <p className="text-sm mb-3">
-              Go to{" "}
-              <a
-                href={bumpkinUrl}
-                target="_blank"
-                className="underline"
-                rel="noreferrer"
-              >
-                Bumpkins.io
-              </a>{" "}
-              to equip this item
+              {t("quest.congrats")} {`${quest.wearable}`}
             </p>
+            <p className="text-sm mb-3">{t("quest.equipWearable")}</p>
           </div>
           <Button onClick={() => send("CONTINUE")}>{t("continue")}</Button>
         </>

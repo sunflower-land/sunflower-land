@@ -4,9 +4,11 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "react-bootstrap";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Boulder: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -37,12 +39,15 @@ export const Boulder: React.FC = () => {
             }}
           />
           <div className="flex flex-col justify-center items-center">
-            <p className="text-lg">You found a rare mine!</p>
+            <p className="text-lg">{t("resources.boulder.rareMineFound")}</p>
             <img src={SUNNYSIDE.tools.iron_pickaxe} className="w-1/4 mt-2" />
             <p className="text-sm text-center mt-2">
-              {`Advanced mining on its way.`}
+              {t("resources.boulder.advancedMining")}
             </p>
-            <p className="mt-2">Coming soon...</p>
+            <p className="mt-2">
+              {t("coming.soon")}
+              {"..."}
+            </p>
           </div>
         </Panel>
       </Modal>

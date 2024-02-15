@@ -7,6 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
 import { MachineInterpreter } from "../../lib/craftingMachine";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   craftingService: MachineInterpreter;
@@ -17,6 +18,8 @@ export const InProgressInfo: React.FC<Props> = ({
   craftingService,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
+
   const [
     {
       context: { secondsTillReady, name },
@@ -33,7 +36,7 @@ export const InProgressInfo: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col mb-2">
-      <p className="text-sm">In Progress</p>
+      <p className="text-sm">{t("in.progress")}</p>
       <div className="flex">
         <Box image={ITEM_DETAILS[name].image} />
         <div

@@ -65,7 +65,7 @@ export const FishCaught: React.FC<Props> = ({
           );
         })}
       </div>
-      <Button onClick={onClaim}>Ok</Button>
+      <Button onClick={onClaim}>{t("ok")}</Button>
     </>
   );
 };

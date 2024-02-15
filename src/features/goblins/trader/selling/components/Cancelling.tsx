@@ -31,7 +31,7 @@ export const Cancelling: React.FC<ConfirmingCancelProps> = ({
       <div className="flex space-x-2 w-full">
         <Button onClick={onBack}>{t("back")}</Button>
         <Button onClick={onConfirm} className="whitespace-nowrap">
-          Cancel trade
+          {t("trader.cancel.trade")}
         </Button>
       </div>
     </div>

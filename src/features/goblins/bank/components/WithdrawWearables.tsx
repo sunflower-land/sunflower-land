@@ -173,7 +173,8 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
         </div>
 
         <span className="text-sm mb-4">
-          {t("withdraw.opensea")}.{" "}
+          {t("withdraw.opensea")}
+          {"."}{" "}
           <a
             className="underline hover:text-blue-500"
             href="https://docs.sunflower-land.com/fundamentals/withdrawing"
@@ -182,7 +183,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           >
             {t("read.more")}
           </a>
-          .
+          {"."}
         </span>
       </div>
 

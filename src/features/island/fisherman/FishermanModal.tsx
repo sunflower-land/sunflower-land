@@ -61,7 +61,10 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">{t("select.resource")}: </p>
+      <p className="mb-1 p-1 text-xs">
+        {t("select.resource")}
+        {":"}{" "}
+      </p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -90,7 +93,9 @@ const ChumSelection: React.FC<{
             <Label
               type={!hasRequirements ? "danger" : "default"}
               className="mb-1"
-            >{`${CHUM_AMOUNTS[selected]} ${selected}`}</Label>
+            >
+              {`${CHUM_AMOUNTS[selected]} ${selected}`}
+            </Label>
           </div>
           <p className="text-xs">{CHUM_DETAILS[selected]}</p>
         </div>
@@ -172,7 +177,7 @@ const BaitSelection: React.FC<{
                 type="formula"
                 className="mr-2"
               >
-                Dusktide
+                {"Dusktide"}
               </Label>
             ) : (
               <Label
@@ -180,7 +185,7 @@ const BaitSelection: React.FC<{
                 type="default"
                 className="mr-2"
               >
-                Dawnlight
+                {"Dawnlight"}
               </Label>
             )}
 
@@ -192,7 +197,10 @@ const BaitSelection: React.FC<{
           </div>
 
           <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-            {t("statements.daily.limit")}: {dailyFishingCount}/{dailyFishingMax}
+            {t("statements.daily.limit")}
+            {":"} {dailyFishingCount}
+            {"/"}
+            {dailyFishingMax}
           </Label>
         </div>
       </div>
@@ -287,7 +295,7 @@ const BaitSelection: React.FC<{
         }
       >
         <div className="flex items-center">
-          <span className="text-sm mr-1">Cast</span>
+          <span className="text-sm mr-1">{"Cast"}</span>
           <img src={SUNNYSIDE.tools.fishing_rod} className="h-5" />
         </div>
       </Button>

@@ -19,6 +19,7 @@ import {
   goHome,
 } from "features/portal/examples/cropBoom/lib/portalUtil";
 import { CropBoomRules } from "./components/CropBoomRules";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const CropBoomApp: React.FC = () => {
   return (
@@ -33,6 +34,7 @@ export const CropBoomApp: React.FC = () => {
 export const CropBoom: React.FC = () => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
+  const { t } = useAppTranslation();
 
   return (
     <div>
@@ -40,10 +42,12 @@ export const CropBoom: React.FC = () => {
         <Modal centered show>
           <Panel>
             <div className="p-2">
-              <Label type="danger">Error</Label>
-              <span className="text-sm my-2">Something went wrong</span>
+              <Label type="danger">{t("error")}</Label>
+              <span className="text-sm my-2">{t("error.wentWrong")}</span>
             </div>
-            <Button onClick={() => portalService.send("RETRY")}>Retry</Button>
+            <Button onClick={() => portalService.send("RETRY")}>
+              {t("retry")}
+            </Button>
           </Panel>
         </Modal>
       )}
@@ -51,7 +55,7 @@ export const CropBoom: React.FC = () => {
       {portalState.matches("loading") && (
         <Modal centered show>
           <Panel>
-            <span className="loading">Loading</span>
+            <span className="loading">{t("loading")}</span>
           </Panel>
         </Modal>
       )}
@@ -60,10 +64,10 @@ export const CropBoom: React.FC = () => {
         <Modal centered show>
           <Panel>
             <div className="p-2">
-              <Label type="danger">Error</Label>
-              <span className="text-sm my-2">Your session has expired</span>
+              <Label type="danger">{t("error")}</Label>
+              <span className="text-sm my-2">{t("session.expired")}</span>
             </div>
-            <Button onClick={authorisePortal}>Login</Button>
+            <Button onClick={authorisePortal}>{t("welcome.login")}</Button>
           </Panel>
         </Modal>
       )}
@@ -71,7 +75,9 @@ export const CropBoom: React.FC = () => {
       {portalState.matches("idle") && (
         <Modal centered show>
           <Panel>
-            <Button onClick={() => portalService.send("START")}>Start</Button>
+            <Button onClick={() => portalService.send("START")}>
+              {t("start")}
+            </Button>
           </Panel>
         </Modal>
       )}
@@ -89,7 +95,7 @@ export const CropBoom: React.FC = () => {
       {portalState.matches("claiming") && (
         <Modal centered show>
           <Panel>
-            <p className="loading">Loading</p>
+            <p className="loading">{t("loading")}</p>
           </Panel>
         </Modal>
       )}
@@ -101,19 +107,17 @@ export const CropBoom: React.FC = () => {
               <p className="mb-2">
                 {`Congratulations, you have completed today's challenge.`}
               </p>
-              <p className="text-sm mb-1">
-                Come back later for a brand new puzzle!
-              </p>
+              <p className="text-sm mb-1">{t("crop.boom.back.puzzle")}</p>
               <Label type="info" icon={SUNNYSIDE.icons.timer}>
                 {secondsToString(secondsTillReset(), { length: "medium" })}
               </Label>
             </div>
             <div className="flex">
               <Button onClick={goHome} className="mr-1">
-                Go home
+                {t("go.home")}
               </Button>
               <Button onClick={() => portalService.send("CONTINUE")}>
-                Play again
+                {t("play.again")}
               </Button>
             </div>
           </Panel>

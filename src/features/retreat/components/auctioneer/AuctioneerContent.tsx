@@ -77,7 +77,7 @@ export const AuctioneerContent: React.FC<Props> = ({
       <GameWallet action="purchase">
         <div className="p-2">
           <Button onClick={() => auctionService.send("REFRESH")}>
-            Continue
+            {t("continue")}
           </Button>
         </div>
       </GameWallet>

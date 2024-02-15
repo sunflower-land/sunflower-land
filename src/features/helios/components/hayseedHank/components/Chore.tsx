@@ -16,6 +16,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { OuterPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   skipping: boolean;
@@ -27,6 +28,7 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
   const hayseedHank = gameState.context.state.hayseedHank;
   const chore = hayseedHank?.chore;
   const bumpkin = gameState.context.state.bumpkin as Bumpkin;
+  const { t } = useAppTranslation();
 
   const start = () => {
     gameService.send("chore.started");
@@ -48,7 +50,7 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
         <div className="p-2 text-sm">
           <p>{`You aren't the same Bumpkin I last spoke with!`}</p>
         </div>
-        <Button onClick={start}>Start New Chore</Button>
+        <Button onClick={start}>{t("start.new.chore")}</Button>
       </>
     );
   }
@@ -63,7 +65,7 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
 
         {getKeys(chore.reward.items ?? {}).length > 0 ? (
           <div className="flex flex-col items-center mb-3 mt-2">
-            <Label type="info">Reward</Label>
+            <Label type="info">{t("reward")}</Label>
 
             {getKeys(chore.reward.items ?? {}).map((name) => (
               <div className="flex mt-1" key={name}>
@@ -78,7 +80,7 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
         ) : (
           <p className="text-sm my-2">{`You've got a knack for this!`}</p>
         )}
-        <Button onClick={() => complete()}>Complete</Button>
+        <Button onClick={() => complete()}>{t("complete")}</Button>
       </div>
     );
   }
@@ -96,7 +98,9 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
         )}
         <OuterPanel className="w-full mt-1">
           <div className="pt-1">
-            <p className="text-sm text-center">{`Task: ${chore.description}`}</p>
+            <p className="text-sm text-center">{`${t("task")}: ${
+              chore.description
+            }`}</p>
           </div>
 
           <div className="flex items-center justify-center my-2">
@@ -116,7 +120,7 @@ export const Chore: React.FC<Props> = ({ skipping }) => {
       </div>
       {getKeys(chore.reward.items ?? {}).length > 0 && (
         <div className="flex flex-col items-center mb-3">
-          <Label type="info">Reward</Label>
+          <Label type="info">{t("reward")}</Label>
 
           {getKeys(chore.reward.items ?? {}).map((name) => (
             <div className="flex mt-1" key={name}>

@@ -4,6 +4,7 @@ import {
   AddSFL,
   AvailableSeeds,
   Base,
+  BasicTreasure,
   Beach,
   Beehive,
   BeachLuck,
@@ -12,6 +13,7 @@ import {
   BoostEffectDescriptions,
   BountyDescription,
   BuildingDescriptions,
+  BumpkinDelivery,
   BumpkinItemBuff,
   BumpkinPartRequirements,
   BumpkinSkillsDescription,
@@ -28,6 +30,7 @@ import {
   ConfirmSkill,
   ConfirmationTerms,
   Conversations,
+  CropBoomMessages,
   CropFruitDescriptions,
   Deliveryitem,
   DefaultDialogue,
@@ -38,6 +41,7 @@ import {
   Detail,
   DiscordBonus,
   Donation,
+  DraftBid,
   ErrorAndAccess,
   ErrorTerms,
   ExoticShopItems,
@@ -48,7 +52,7 @@ import {
   FishingChallengeIntro,
   FishingGuide,
   FishingQuests,
-  FlowerBedGuide,
+  FlowerBed,
   Flowerbreed,
   FlowerShopTerms,
   FoodDescriptions,
@@ -56,11 +60,13 @@ import {
   GameTerms,
   GarbageCollector,
   GeneralTerms,
+  GenieLamp,
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
   GoldPassModal,
   GoldTooth,
+  GuideCompost,
   GuideTerms,
   HalveningCountdown,
   Harvestflower,
@@ -92,6 +98,7 @@ import {
   NoBumpkin,
   NoTownCenter,
   NotOnDiscordServer,
+  NFTMinting,
   NPC_MESSAGE,
   Npc,
   NpcDialogues,
@@ -109,12 +116,14 @@ import {
   PirateQuest,
   Pickserver,
   PlazaSettings,
+  PlayerListMessages,
   PlayerTrade,
   Portal,
   PurchaseableBaitTranslation,
   Quest,
   Questions,
   Reaction,
+  ReactionBud,
   Refunded,
   RemoveKuebiko,
   Resale,
@@ -136,6 +145,7 @@ import {
   ShowingFarm,
   SnorklerDialogues,
   SomethingWentWrong,
+  SpecialEvent,
   Statements,
   StopGoblin,
   SubSettings,
@@ -149,6 +159,7 @@ import {
   TutorialPage,
   VisitislandEnter,
   VisitislandNotFound,
+  Wallet,
   WarningTerms,
   WelcomeTerms,
   WishingWell,
@@ -157,20 +168,24 @@ import {
   WornDescription,
   World,
   MilestoneMessages,
+  Event,
+  Promo,
+  Trader,
+  NyonStatue,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2x Sale",
   advanced: "Advanced",
   achievements: "Achievements",
-  accept: "Accept",
+  accept: "Accept:",
   "accepting.terms": "Accepting terms...",
   "amount.matic": "Amount in MATIC",
   deposit: "Deposit",
   add: "Add",
   addSFL: "Add SFL",
   "add.liquidity": "Add Liquidity",
-  "alr.bought": "Already Bought",
+  "alr.bought": "Already Bought!",
   "alr.claim": "Already Claimed!",
   "alr.completed": "Already Completed",
   "alr.crafted": "Already Crafted!",
@@ -191,20 +206,24 @@ const generalTerms: Record<GeneralTerms, string> = {
   buy: "Buy",
   cancel: "Cancel",
   "card.cash": "Card / Cash",
+  caught: "Caught",
   check: "Check",
   chest: "Chest",
   chores: "Chores",
+  "choose.wisely": "Choose wisely!",
   claim: "Claim",
   "claim.gift": "Claim Gift",
   "claim.skill": "Claim Skill",
   clear: "Clear",
   close: "Close",
+  collect: "Collect",
   "come.back": "Come back in",
   "coming.soon": "Coming soon",
   common: "Common",
   completed: "Completed",
+  complete: "complete",
   confirm: "Confirm",
-  congrats: "Congratulations!",
+  congrats: "Congratulations",
   connected: "Connected",
   connecting: "Connecting",
   continue: "Continue",
@@ -218,8 +237,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   "currently.Unavailable": "Currently Unavailable!",
   danger: "Danger",
   date: "Date",
+  day: "day",
   decoration: "Decoration",
+  deliver: "Deliver",
   deliveries: "Deliveries",
+  "deliveries.closed": "Deliveries closed",
   delivery: "Delivery",
   details: "Details",
   donate: "Donate",
@@ -232,6 +254,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "easter.eggs": "Easter Eggs",
   egg: "Egg",
   empty: "Empty",
+  "enjoying.event": "Enjoying this event?",
   equip: "Equip",
   error: "Error",
   exotics: "Exotics",
@@ -247,6 +270,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   fish: "Fish",
   "fish.caught": "Fish Caught",
   flowers: "Flowers",
+  "flowers.found": "Flowers Found",
   foods: "Foods",
   for: "for",
   "for.info.wearable": "for more info about this wearable",
@@ -254,6 +278,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "free.trade": "Free Trade",
   fruit: "Fruit",
   fruits: "Fruits",
+  gift: "Gift",
   "go.home": "Go Home",
   "goblin.delivery":
     "Goblins keep their delivery cut in the treasury. View them also on",
@@ -261,9 +286,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Go to",
   "grant.wish": "Grant New Wish",
   guide: "Guide",
+  harvested: "Harvested",
   honey: "Honey",
   "hungry?": "Hungry?",
   info: "Info",
+  kick: "Kick",
   item: "Item",
   land: "Land",
   "land.id": "Land ID",
@@ -272,9 +299,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   "let'sDoThis": "Let's do this!",
   "lets.go": "Let's Go!",
   limit: "Limit",
+  "linked.wallet": "Linked wallet",
   list: "List",
   "list.trade": "List trade",
   loading: "Loading",
+  locked: "Locked",
   logout: "Logout",
   "loser.refund": "Refund resources",
   lvl: "Level",
@@ -282,28 +311,38 @@ const generalTerms: Record<GeneralTerms, string> = {
   "make.wish": "Make a Wish",
   "making.wish": "Making a wish",
   max: "Max",
+  message: "Message",
+  messages: "Messages",
   minimum: "Minimum",
   mins: "mins",
   mint: "Mint",
   minting: "minting",
   music: "Music",
   next: "Next",
+  "next.order": "Next order",
   nextSkillPtLvl: "Next skill point: level",
   no: "No",
+  "no.delivery.avl": "No deliveries available",
+  "no.event": "No Event",
   "no.have.bumpkin": "You do not have a Bumpkin!",
   "no.limits.exceeded": "No limits exceeded",
   "no.mail": "No mail",
+  "no.obsessions": "No Obsessions",
   "no.thanks": "No thanks",
   "ocean.fishing": "Ocean fishing",
   off: "Off",
   "offer.end": "Offer ends in",
   ok: "OK",
   on: "On",
+  open: "open",
   "open.gift": "Open Gift",
   "pass.required": "Pass Required",
+  place: "Place",
   "place.map": "Place on map",
+  "place.bid": "Place your bid",
   "placing.bid": "Placing bid",
   plant: "Plant",
+  "play.again": "Play again",
   "player.farm.iD": "Player Farm ID",
   "please.try.again": "Please try again later.",
   "please.wait": "Please wait",
@@ -319,15 +358,18 @@ const generalTerms: Record<GeneralTerms, string> = {
   "ready.trade": "Ready to trade?",
   refresh: "Refresh",
   refreshing: "Refreshing",
+  remaining: "remaining",
   "remaining.trades": "Remaining Trades",
   remove: "Remove",
   reqSkillPts: "Required Skill Points",
   reqSkills: "Required Skills",
   required: "required",
+  requires: "Requires",
   resale: "Resale",
   resources: "Resources",
   restock: "Restock",
   retry: "Retry",
+  reward: "Reward",
   "reward.discovered": "Reward Discovered",
   save: "Save",
   saving: "Saving",
@@ -340,15 +382,20 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Sell All",
   "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
+  "session.expire": "Your session has expired",
   "session.expired": "Session expired!",
   settings: "Settings",
   share: "Share",
   shopping: "Shopping",
   skillPts: "Skill Points",
   skills: "Skills",
+  skipping: "Skipping",
   "skip.order": "Skip Order",
   "sound.effects": "Sound Effects",
+  "special.event": "Special Event",
+  spin: "Spin",
   start: "Start",
+  "start.new.chore": "Start New Chore",
   submit: "Submit",
   submitting: "Submitting",
   success: "Success!",
@@ -356,8 +403,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "Swapping",
   syncing: "Syncing",
   task: "Task",
+  "terms.condition": "Terms and conditions",
+  test: "Test",
   "thank.you": "Thank you!",
   "there.currently": "There is currently",
+  time: "Time",
   tools: "Tools",
   total: "Total",
   trades: "Trades",
@@ -386,9 +436,44 @@ const generalTerms: Record<GeneralTerms, string> = {
   "wishing.well": "Wishing Well",
   withdraw: "Withdraw",
   withdrawing: "Withdrawing",
+  wish: "wish",
   yes: "Yes",
   "yes.please": "Yes Please",
   "you.are.here": "You are here",
+  "hoarding.check": "Hoarder Check",
+  opensea: "Opensea",
+  layouts: "Layouts",
+  labels: "Labels",
+  buff: "Buff",
+  speed: "Speed",
+  treasure: "Treasure",
+  special: "Special",
+  default: "Default",
+  formula: "Formula",
+  chill: "Chill",
+  full: "Full",
+  collectibles: "Collectibles",
+  buds: "Buds",
+  wearables: "Wearables",
+  bumpkin: "Bumpkin",
+  storage: "Storage",
+  upcoming: "Upcoming",
+  collection: "Collection",
+  purchase: "Purchase",
+  listing: "Listing",
+  cancelling: "Cancelling",
+  skip: "Skip",
+  docs: "Docs",
+  exit: "Exit",
+  compost: "Compost",
+  chicken: "Chicken",
+  recipes: "Recipes",
+  unlocked: "Unlocked",
+  reel: "Reel",
+  "new.species": "New Species",
+  buildings: "Buildings",
+  boosts: "Boosts",
+  decorations: "Decorations",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -529,6 +614,18 @@ const base: Record<Base, string> = {
   "base.far.away": "You are too far away",
 };
 
+const basicTreasure: Record<BasicTreasure, string> = {
+  "basic.treasure.missingKey": "Missing Key",
+  "basic.treasure.needKey": "You need a Treasure Key to open this chest",
+  "basic.treasure.getKey":
+    "You can get Treasure Keys by completing tasks for Bumpkins",
+  "basic.treasure.goodLuck": "Good Luck",
+  "basic.treasure.key": "Treasure Key",
+  "basic.treasure.congratsKey": "Congratulations, you have a Treasure Key!",
+  "basic.treasure.openChest":
+    "Would you like to open the chest and claim a reward?",
+};
+
 const beach: Record<Beach, string> = {
   "beach.party": "We are working hard to prepare for a beach party.",
   "beach.ready": "Get your sunscreen and umbrellas ready, Summer is coming!",
@@ -536,8 +633,10 @@ const beach: Record<Beach, string> = {
 
 const beehive: Record<Beehive, string> = {
   "beehive.harvestHoney": "Harvest honey",
-  "beehive.beeSwarm": "Bee Swarm",
-  "beehive.noFlowers": "No flowers growing",
+  "beehive.noFlowersGrowing": "No flowers growing",
+  "beehive.beeSwarm": "Bee swarm",
+  "beehive.pollinationCelebration":
+    "Pollination celebration! Your crops are in for a treat with a 0.2 boost from a friendly bee swarm!",
 };
 
 const beachLuck: Record<BeachLuck, string> = {
@@ -846,6 +945,23 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.house": "A place to rest your head",
 };
 
+const bumpkinDelivery: Record<BumpkinDelivery, string> = {
+  "bumpkin.delivery.haveFlower":
+    "Have you got a flower for me? Make sure it is something I like.",
+  "bumpkin.delivery.notFavorite":
+    "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts.",
+  "bumpkin.delivery.loveFlower": "Wow, thanks! I love this flower!",
+  "bumpkin.delivery.favoriteFlower":
+    "This is my favorite flower! Thanks a bunch!",
+  "bumpkin.delivery.selectFlower": "Select a flower",
+  "bumpkin.delivery.noFlowers": "Oh no, you don't have any flowers to gift!",
+  "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!",
+  "bumpkin.delivery.waiting":
+    "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
+  "bumpkin.delivery.proveYourself": "Prove yourself worthy. Expand your island",
+  "bumpkin.delivery.more.time": "more times.",
+};
+
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.chef.apron.boost": "+20% Cake Profit",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruit",
@@ -929,6 +1045,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
   "bumpkinTrade.like.list": "What would you like to list",
+  "bumpkinTrade.goldpass.required": "Gold Pass is required",
+  "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -973,6 +1091,10 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.chopTrees": "Chop 3 Trees",
   "chores.helpWithTrees":
     "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
+  "chores.noChore": "Sorry, I don't have any chores that need doing right now.",
+  "chores.newSeason": "A new season approaches, chores will temporarily close.",
+  "chores.choresFrozen":
+    "New Seasonal Chores opening soon. Previous season chores & progress will be reset.",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1014,6 +1136,16 @@ const community: Record<Community, string> = {
   "community.toast": "Toast text is empty",
   "community.url": "Enter your repo URL",
   "comunity.Travel": "Travel to community built islands",
+};
+
+const cropBoomMessages: Record<CropBoomMessages, string> = {
+  "crop.boom.welcome": "Welcome to Crop Boom",
+  "crop.boom.reachOtherSide":
+    "Reach the other side of the dangerous crop field to claim an Arcade Token",
+  "crop.boom.bewareExplodingCrops":
+    "Beware of exploding crops. If you step on these, you will start from the beginning",
+  "crop.boom.newPuzzleDaily": "Each day a new puzzle will appear",
+  "crop.boom.back.puzzle": "Come back later for a brand new puzzle!",
 };
 
 const compostDescription: Record<CompostDescription, string> = {
@@ -1129,7 +1261,7 @@ const conversations: Record<Conversations, string> = {
     "I'm the Mayor of this town! I'm in charge of making sure everyone is happy. I also make sure that everyone has a name!",
   "mayor.plaza.fixNamePrompt":
     "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
-  "mayor.plaza.enterUsernamePrompt": "Enter your username",
+  "mayor.plaza.enterUsernamePrompt": "Enter your username:",
   "mayor.plaza.usernameValidation":
     "Please be aware that usernames must adhere to our",
   "mayor.plaza.niceToMeetYou": "Nice to meet you, !",
@@ -1137,6 +1269,10 @@ const conversations: Record<Conversations, string> = {
     "Congratulations , your paperwork is now complete. See you around!",
   "mayor.plaza.enjoyYourStay":
     "I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
+  "mayor.codeOfConduct": "Code of Conduct",
+  "mayor.failureToComply":
+    "Failure to comply may result in penalties, including possible account suspension",
+  "mayor.paperworkComplete": "Your paperwork is now complete. See you around",
 };
 
 const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
@@ -1524,6 +1660,7 @@ const delivery: Record<Delivery, string> = {
   "delivery.ressource": "Want me to deliver resources?",
   "delivery.feed": "It ain't free, I've got a tribe to feed!",
   "delivery.fee": "I'll take 30% of the resources for the ",
+  "delivery.goblin.comm.treasury": "Goblin Community Treasury",
 };
 
 const deliveryHelp: Record<DeliveryHelp, string> = {
@@ -1582,6 +1719,13 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "This was a community art initiative and donations are greatly appreciated!",
+};
+
+const draftBid: Record<DraftBid, string> = {
+  "draftBid.howAuctionWorks": "How does the auction work?",
+  "draftBid.unsuccessfulParticipants":
+    "Participants who are unsuccessful will be refunded their resources.",
+  "draftBid.termsAndConditions": "Terms and conditions",
 };
 
 const errorAndAccess: Record<ErrorAndAccess, string> = {
@@ -1659,6 +1803,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.tooLate": "Too late",
   "error.decorationCollides": "Decoration collides",
   "error.idAlreadyExists": "ID already exists",
+  "error.ClientRPC": "Client RPC Error",
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {
@@ -1840,9 +1985,12 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.1500.fish": "Catch 1500 fish",
   "quest.marine.marvel": "Catch each Marine Marvel",
   "quest.5.fish": "Catch 5 of every fish",
+  "quest.sunpetal.savant": "Discover 12 Sunpetal variants",
+  "quest.bloom.bigshot": "Discover 12 Bloom variants",
+  "quest.lily.luminary": "Discover 12 Lily variants",
 };
 
-const flowerBedGuide: Record<FlowerBedGuide, string> = {
+const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.buySeeds": "Buy seeds from the Seed Shop.",
   "flowerBedGuide.crossbreedWithCrops":
     "Crossbreed with crops and other flowers to discover new flowers species.",
@@ -1854,6 +2002,11 @@ const flowerBedGuide: Record<FlowerBedGuide, string> = {
     "Fill up a beehive completely and collect the honey for a chance of a bee swarm to appear.",
   "flowerBedGuide.beeSwarmsBoost":
     "Bee swarms give +0.2 boost to any planted crops.",
+  "flowerBed.newSpecies.discovered":
+    "By golly, you've discovered a new species of flower!",
+  "flowerBedContent.select.combination": "Select your combination",
+  "flowerBedContent.select.seed": "Select a seed",
+  "flowerBedContent.select.crossbreed": "Select a crossbreed",
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
@@ -2081,7 +2234,6 @@ const gameTerms: Record<GameTerms, string> = {
   "auction.winner": "Auction Winner!",
   "bumpkin.level": "Bumpkin level",
   bumpkinBuzz: "Bumpkin Buzz",
-  bumpkinLvl: "Bumpkin level",
   dailyLim: "Daily SFL Limit",
   "farm.banned": "This farm is banned",
   gobSwarm: "Goblin Swarm!",
@@ -2093,6 +2245,16 @@ const gameTerms: Record<GameTerms, string> = {
   potions: "Potions",
   "proof.of.humanity": "Proof of Humanity",
   sflDiscord: "Sunflower Land Discord Server",
+  "in.progress": "In Progress",
+  "compost.complete": "Compost complete",
+  "aoe.locked": "AOE Locked",
+  sunflowerLandCodex: "Sunflower Land Codex",
+};
+
+const genieLamp: Record<GenieLamp, string> = {
+  "genieLamp.ready.wish": "Ready to make a wish?",
+  "genieLamp.cannotWithdraw":
+    "You cannot withdraw the lamp once it has been rubbed",
 };
 
 const getContent: Record<GetContent, string> = {
@@ -2153,6 +2315,21 @@ const goldTooth: Record<GoldTooth, string> = {
     "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
   "goldTooth.intro.part2":
     "Be ready to join me crew, for the hunt for riches begins shortly!",
+};
+
+const guideCompost: Record<GuideCompost, string> = {
+  "guide.compost.add.eggs.speed": "Add eggs to speed up production",
+  "guide.compost.add.eggs": "Add Eggs",
+  "guide.compost.eggs": "Eggs",
+  "guide.compost.cropGrowthTime": "-50% Crop Growth Time",
+  "guide.compost.fishingBait": "Fishing bait",
+  "guide.compost.placeCrops": "Place crops in the composter to feed the worms",
+  "guide.compost.compostCycle":
+    "A compost cycle produces multiple fertilisers which can be used to boost your crops & fruit",
+  "guide.compost.yieldsWorms":
+    "Each compost yields worms that can be used as bait for fishing",
+  "guide.compost.useEggs":
+    "Tired of waiting? Use Eggs to speed up the compost production",
 };
 
 const guideTerms: Record<GuideTerms, string> = {
@@ -2503,7 +2680,7 @@ const kick: Record<Kick, string> = {
 
 const kicked: Record<Kicked, string> = {
   "kicked.kicked": "You have been kicked!",
-  "kicked.Reason": "Reason",
+  "kicked.Reason": "Reason:",
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {
@@ -2517,6 +2694,9 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.expansion.two": "More expansions will be available soon...",
   "landscape.timerPopover": "Next Expansion",
   "landscape.dragMe": "Drag me",
+  "landscape.expansion.date":
+    "More expansions will be available on the 7th February.",
+  "landscape.great.work": "Great work Bumpkin!",
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -2689,6 +2869,10 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.allBumpkins": "Wow, look at all those Bumpkins!",
   "noBumpkin.chooseBumpkin": "Which Bumpkin would you like to play with?",
   "noBumpkin.deposit": "Deposit",
+  "noBumpkin.advancedIsland":
+    "This is an advanced island. A strong Bumpkin is required",
+  "weakBumpkin.notStrong":
+    "Oh no! Your Bumpkin is not strong enough for this island.",
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {
@@ -2927,6 +3111,13 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Kraken's causing panic, Bumpkins missing. Help me gather its tentacles for their safety.",
   "npcMessages.shelly.msg8":
     "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
+};
+
+const nftminting: Record<NFTMinting, string> = {
+  "nftminting.mintAccountNFT": "Minting Account NFT",
+  "nftminting.mintingYourNFT":
+    "Minting your NFT and storing progress on the Blockchain",
+  "nftminting.almostThere": "Almost there",
 };
 
 const npc: Record<Npc, string> = {
@@ -3326,7 +3517,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   // NPC gift dialogues
   "npcDialogues.pumpkinPete.reward":
     "Thank you kindly for your deliveries. Here's a token of appreciation for you.",
-  "npcDialogues.pumpkinPete.flowerInto":
+  "npcDialogues.pumpkinPete.flowerIntro":
     "Have you ever seen the elegance of a Yellow Cosmos? I'm craving one...",
   "npcDialogues.pumpkinPete.averageFlower":
     "Not exactly what I had in mind, but it's quite charming. Thanks.",
@@ -3337,7 +3528,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.betty.reward":
     "I appreciate your thoughtful gifts. Here's a little something to show my gratitude.",
-  "npcDialogues.betty.flowerInto":
+  "npcDialogues.betty.flowerIntro":
     "Can you imagine the beauty of a Red, Yellow, Purple, White, or Blue Pansy? I long for one...",
   "npcDialogues.betty.averageFlower":
     "Not exactly what I was expecting, but it's quite lovely. Thank you.",
@@ -3348,7 +3539,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.blacksmith.reward":
     "Your deliveries are much appreciated. Here's something for your efforts.",
-  "npcDialogues.blacksmith.flowerInto":
+  "npcDialogues.blacksmith.flowerIntro":
     "I'm in need of a vibrant Red Carnation. Have you come across one?",
   "npcDialogues.blacksmith.averageFlower":
     "Not exactly what I was hoping for, but it's quite nice. Thank you.",
@@ -3359,7 +3550,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.bert.reward":
     "Thank you for your continuous help. Here's a small token of appreciation.",
-  "npcDialogues.bert.flowerInto":
+  "npcDialogues.bert.flowerIntro":
     "The Lotus flowers in Red, Yellow, Purple, White, or Blue are truly enchanting. Do you have one?",
   "npcDialogues.bert.averageFlower":
     "This wasn't what I had in mind, but it's quite delightful. Thank you.",
@@ -3370,7 +3561,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.finn.reward":
     "Your contributions are invaluable. Here's a little something to express my gratitude.",
-  "npcDialogues.finn.flowerInto":
+  "npcDialogues.finn.flowerIntro":
     "I'm yearning for a beautiful Daffodil in Red, Yellow, Purple, White, or Blue. Can you find one?",
   "npcDialogues.finn.averageFlower":
     "Not exactly what I was hoping for, but it's quite pleasing. Thank you.",
@@ -3381,7 +3572,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.finley.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
-  "npcDialogues.finley.flowerInto":
+  "npcDialogues.finley.flowerIntro":
     "A lovely Daffodil, like the one I'm thinking of, would brighten up my day. Have you seen one?",
   "npcDialogues.finley.averageFlower":
     "It's not exactly what I had in mind, but it's quite charming. Thank you.",
@@ -3392,7 +3583,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.corale.reward":
     "Your deliveries are much appreciated. Here's a little something to show my gratitude.",
-  "npcDialogues.corale.flowerInto":
+  "npcDialogues.corale.flowerIntro":
     "Have you ever encountered the radiant Prism Petal? It's simply enchanting...",
   "npcDialogues.corale.averageFlower":
     "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
@@ -3403,7 +3594,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.raven.reward":
     "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
-  "npcDialogues.raven.flowerInto":
+  "npcDialogues.raven.flowerIntro":
     "Deep dark purple is the color of my soul - have you come across anything like this?",
   "npcDialogues.raven.averageFlower":
     "Not quite what I was expecting, but it's quite pleasing. Thank you.",
@@ -3414,7 +3605,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
-  "npcDialogues.miranda.flowerInto":
+  "npcDialogues.miranda.flowerIntro":
     "The vibrancy of a Yellow flower would surely lift my spirits. Have you seen one around?",
   "npcDialogues.miranda.averageFlower":
     "It's not exactly what I was hoping for, but it's quite charming. Thank you.",
@@ -3425,7 +3616,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.cornwell.reward":
     "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
-  "npcDialogues.cornwell.flowerInto":
+  "npcDialogues.cornwell.flowerIntro":
     "The sight of a Balloon Flower in Red, Yellow, Purple, White, or Blue is truly delightful...",
   "npcDialogues.cornwell.averageFlower":
     "Not quite what I was expecting, but it's quite charming. Thank you.",
@@ -3436,7 +3627,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
 
   "npcDialogues.tywin.reward":
     "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
-  "npcDialogues.tywin.flowerInto":
+  "npcDialogues.tywin.flowerIntro":
     "Have you heard of the exquisite Primula Enigma or the mesmerizing Celestial Frostbloom? I'm in need of one.",
   "npcDialogues.tywin.averageFlower":
     "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
@@ -3445,7 +3636,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.tywin.goodFlower":
     "This flower is simply breathtaking! Thank you for bringing it to me.",
 
-  "npcDialogues.default.flowerInto":
+  "npcDialogues.default.flowerIntro":
     "Have you got a flower for me? Make sure it is something I like.",
   "npcDialogues.default.averageFlower": "Wow, thanks! I love this flower!",
   "npcDialogues.default.badFlower":
@@ -3563,6 +3754,7 @@ const parsnip: Record<Parsnip, string> = {
   "parsnip.hat": "Wow, nice horns!",
   "parsnip.miss": "Don't miss out on future events and giveaways!",
   "parsnip.Bonus": "Bonus reward",
+  "parsnip.wearable": "You've discovered a special event wearable",
   "parsnip.found": "Woohoo....you found me!",
 };
 
@@ -3572,7 +3764,7 @@ const pending: Record<Pending, string> = {
 };
 
 const personHood: Record<PersonHood, string> = {
-  "personHood.Details.": "Failed Loading Personhood Details",
+  "personHood.Details": "Failed Loading Personhood Details",
   "personHood.Identify": "Your identity could not be verified",
   "personHood.Congrat": "Congratulations, your identity has been verified!",
 };
@@ -3604,7 +3796,6 @@ const pickserver: Record<Pickserver, string> = {
   "pickserver.server": "Choose a server to join",
   "pickserver.full": "FULL",
   "pickserver.explore": "Explore custom project islands.",
-  "pickserver.event": "Special Event",
   "pickserver.built": "Do you want to build your own island?",
 };
 
@@ -3617,6 +3808,17 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
+};
+
+const playerListMessages: Record<PlayerListMessages, string> = {
+  "player.list.playerID": "Player ID",
+  "player.list.farmID": "Farm ID",
+  "player.list.username": "Username",
+  "player.list.status": "Status",
+  "player.list.action": "Action",
+  "player.list.mutedFor": "Muted for",
+  "player.list.search": "Search",
+  "player.list.playersConnected": "150 Players Connected",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
@@ -3645,6 +3847,8 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
 
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint Free Wearable",
+  "quest.equipWearable": "Equip this wearable on your Bumpkin",
+  "quest.congrats": "Congratulations, you have minted a",
 };
 
 const questions: Record<Questions, string> = {
@@ -3661,6 +3865,12 @@ const reaction: Record<Reaction, string> = {
   "reaction.crops": "Harvest 10,000 crops",
   "reaction.goblin": "Turn into a Goblin",
   "reaction.crown": "Own a Goblin Crown",
+};
+
+const reactionBud: Record<ReactionBud, string> = {
+  "reaction.bud.show": "Show your buds",
+  "reaction.bud.select": "Select a bud to place in the plaza",
+  "reaction.bud.noFound": "No buds found in your inventory",
 };
 
 const refunded: Record<Refunded, string> = {
@@ -3681,7 +3891,7 @@ const resale: Record<Resale, string> = {
 
 const restock: Record<Restock, string> = {
   "restock.one.buck":
-    "You are going to use 1 Block Buck to restock all shop items in the game",
+    "You are going to use 1 Block Buck to restock all shop items in the game.",
   "restock.sure": "Are you sure you want to Restock?",
   "restock.seed.buy": "You have too many seeds in your basket!",
 };
@@ -3698,6 +3908,8 @@ const retreatTerms: Record<RetreatTerms, string> = {
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "Recovers in:",
   "resources.required": "required.",
+  "resources.boulder.rareMineFound": "You found a rare mine!",
+  "resources.boulder.advancedMining": "Advanced mining on its way.",
 };
 
 const rewardTerms: Record<RewardTerms, string> = {
@@ -3786,6 +3998,10 @@ const share: Record<Share, string> = {
   "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
   "share.CopyFarmURL": "Copy farm URL",
   "share.Tweet": "Tweet",
+  "share.chooseServer": "Choose a server to join",
+  "share.FULL": "FULL",
+  "share.exploreCustomIslands": "Explore custom project islands.",
+  "share.buildYourOwnIsland": "Do you want to build your own island?",
 };
 
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
@@ -3852,6 +4068,16 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
   "somethingWentWrong.supportTeam": "support team",
   "somethingWentWrong.jumpingOver": "or jumping over to our",
   "somethingWentWrong.askingCommunity": "and asking our community.",
+};
+
+const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.claimForm":
+    "Please fill in the form below to claim your airdrop.",
+  "special.event.airdropHandling":
+    "Airdrops are handled externally and may take a few days to arrive.",
+  "special.event.walletRequired": "Wallet Required",
+  "special.event.web3Wallet":
+    "A Web3 wallet is required to claim this airdrop.",
 };
 
 const statements: Record<Statements, string> = {
@@ -3958,7 +4184,7 @@ const statements: Record<Statements, string> = {
   "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
   "statements.crop.water": "These crops need water!",
   "statements.daily.limit": "Daily Limit",
-  "statements.sure.buy": "Are you sure you want to buy ",
+  "statements.sure.buy": "Are you sure you want to buy",
   "statements.perplayer": "per Player",
   "statements.minted.goToChest": "Go to your chest and place it on your island",
   "statements.minted.withdrawAfterMint":
@@ -3996,7 +4222,7 @@ const swarming: Record<Swarming, string> = {
 const tieBreaker: Record<TieBreaker, string> = {
   "tieBreaker.tiebreaker": "Tiebreaker",
   "tieBreaker.closeBid":
-    "So close! You bid the exact same resources as the {{supply}} bid. A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
+    " A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
   "tieBreaker.betterLuck":
     "Time to eat some more cakes! Better luck next time.",
   "tieBreaker.refund": "Refund resource",
@@ -4115,6 +4341,28 @@ const visitislandEnter: Record<VisitislandEnter, string> = {
 
 const visitislandNotFound: Record<VisitislandNotFound, string> = {
   "visitislandNotFound.title": "Island Not Found!",
+};
+
+const wallet: Record<Wallet, string> = {
+  "wallet.connect": "Connect your wallet",
+  "wallet.linkWeb3": "Link a Web3 Wallet",
+  "wallet.setupWeb3":
+    "To access this feature, you must first setup a Web3 wallet",
+  "wallet.wrongWallet": "Wrong Wallet",
+  "wallet.connectedWrongWallet": "You are connected to the wrong wallet",
+  "wallet.missingNFT": "Missing NFT",
+  "wallet.requireFarmNFT":
+    "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
+  "wallet.uniqueFarmNFT":
+    "A unique farm NFT will be minted to store your progress",
+  "wallet.mintFreeNFT": "Mint your free NFT",
+  "wallet.wrongChain": "Wrong Chain",
+  "wallet.walletAlreadyLinked": "Wallet already linked",
+  "wallet.linkAnotherWallet": "Please link another wallet",
+  "wallet.transferFarm":
+    "Please transfer the farm to another wallet in order to mint the new account",
+  "wallet.signRequest": "Sign",
+  "wallet.signRequestInWallet": "Sign the request in your wallet to continue",
 };
 
 const warningTerms: Record<WarningTerms, string> = {
@@ -4261,12 +4509,44 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
     "Congratulations, you've just reached the Lily Luminary milestone! You've discovered each Lily variant. You're a true Lily expert!",
 };
 
+const event: Record<Event, string> = {
+  "event.christmas": "Christmas event!",
+  "event.LunarNewYear": "Lunar New Year Event",
+  "event.valentines.rewards": "Valentine Rewards",
+};
+
+const promo: Record<Promo, string> = {
+  "promo.cdcBonus": "Crypto.com Bonus!",
+  "promo.expandLand": "Expand your land twice to claim 100 SFL.",
+};
+
+const trader: Record<Trader, string> = {
+  "trader.you.pay": "You pay",
+  "trader.price.per.unit": "Price per unit",
+  "trader.goblin.fee": "Goblin fee",
+  "trader.they.receive": "They receive",
+  "trader.seller.receives": "Seller receives",
+  "trader.buyer.pays": "Buyer pays",
+  "trader.cancel.trade": "Cancel trade",
+  "trader.you.receive": "You receive",
+  "trader.PoH":
+    "Proof of humanity is needed for this feature. Please take a quick selfie.",
+  "trader.start.verification": "Start Verification",
+};
+
+export const NYON_STATUE: Record<NyonStatue, string> = {
+  "nyonStatue.memory": "In memory of",
+  "nyonStatue.description":
+    "The legendary knight responsible for clearing the goblins from the mines. Shortly after his victory he died by poisoning from a Goblin conspirator. The Sunflower Citizens erected this statue with his armor to commemorate his conquests.",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
   ...addSFL,
   ...availableSeeds,
   ...base,
+  ...basicTreasure,
   ...beach,
   ...beehive,
   ...beachLuck,
@@ -4275,6 +4555,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...boostEffectDescriptions,
   ...bountyDescription,
   ...buildingDescriptions,
+  ...bumpkinDelivery,
   ...bumpkinItemBuff,
   ...bumpkinPartRequirements,
   ...bumpkinSkillsDescription,
@@ -4291,6 +4572,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...confirmSkill,
   ...confirmationTerms,
   ...conversations,
+  ...cropBoomMessages,
   ...cropFruitDescriptions,
   ...deliveryitem,
   ...defaultDialogue,
@@ -4301,6 +4583,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...detail,
   ...discordBonus,
   ...donation,
+  ...draftBid,
   ...errorAndAccess,
   ...errorTerms,
   ...exoticShopItems,
@@ -4311,7 +4594,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...fishingChallengeIntro,
   ...fishingGuide,
   ...fishingQuests,
-  ...flowerBedGuide,
+  ...flowerBed,
   ...flowerbreed,
   ...flowerShopTerms,
   ...foodDescriptions,
@@ -4319,12 +4602,15 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...gameDescriptions,
   ...gameTerms,
   ...generalTerms,
+  ...genieLamp,
   ...getContent,
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goldTooth,
   ...goldpassModal,
   ...guideTerms,
+  ...guideCompost,
+  ...guideCompost,
   ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,
@@ -4356,6 +4642,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...noBumpkin,
   ...noTownCenter,
   ...notOnDiscordServer,
+  ...nftminting,
   ...npc,
   ...npcDialogues,
   ...npc_message,
@@ -4373,12 +4660,14 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...pirateQuest,
   ...pickserver,
   ...plazaSettings,
+  ...playerListMessages,
   ...playerTrade,
   ...portal,
   ...purchaseableBaitTranslation,
   ...quest,
   ...questions,
   ...reaction,
+  ...reactionBud,
   ...refunded,
   ...removeKuebiko,
   ...resale,
@@ -4400,6 +4689,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...showingFarm,
   ...snorklerDialogues,
   ...somethingWentWrong,
+  ...specialEvent,
   ...statements,
   ...stopGoblin,
   ...subSettings,
@@ -4412,6 +4702,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...tutorialPage,
   ...visitislandEnter,
   ...visitislandNotFound,
+  ...wallet,
   ...warningTerms,
   ...welcomeTerms,
   ...wishingWellTerms,
@@ -4419,4 +4710,8 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...winner,
   ...world,
   ...wornDescription,
+  ...event,
+  ...promo,
+  ...trader,
+  ...NYON_STATUE,
 };

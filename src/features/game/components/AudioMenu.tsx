@@ -92,7 +92,7 @@ export const AudioMenu: React.FC<Props> = ({
                 animationPlayState: musicPaused ? "paused" : "running",
               }}
             >
-              {song.name} - {song.artist}
+              {song.name} {"-"} {song.artist}
             </p>
           </div>
 
@@ -129,7 +129,8 @@ export const AudioMenu: React.FC<Props> = ({
 
           {/* Sound effects controls */}
           <p className="mb-2">
-            {t("sound.effects")}: {audioMuted ? t("off") : t("on")}
+            {t("sound.effects")}
+            {":"} {audioMuted ? t("off") : t("on")}
           </p>
           <img
             src={audioMuted ? sound_off : sound_on}

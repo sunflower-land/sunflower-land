@@ -6,9 +6,11 @@ import { Panel } from "components/ui/Panel";
 import nyonStatue from "assets/sfts/nyon_statue.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NyonStatue: React.FC = () => {
   const [showNyonLore, setShowNyonLore] = useState(false);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -45,16 +47,13 @@ export const NyonStatue: React.FC = () => {
                 alt="Nyon Statue"
               />
               <div className="ml-2 mt-3">
-                <span className="text-xs block">In memory of</span>
-                <span className="block">Nyon Lann</span>
+                <span className="text-xs block">{t("nyonStatue.memory")}</span>
+                <span className="block">{"Nyon Lann"}</span>
               </div>
             </div>
             <div className="flex-1 ml-2 mr-2">
               <span className="block mb-2 text-xs">
-                The legendary knight responsible for clearing the goblins from
-                the mines. Shortly after his victory he died by poisoning from a
-                Goblin conspirator. The Sunflower Citizens erected this statue
-                with his armor to commemorate his conquests.
+                {t("nyonStatue.description")}
               </span>
             </div>
           </div>

@@ -115,7 +115,7 @@ export const Donations: React.FC = () => {
 
           {isComingSoon && (
             <Label type="default" className="mb-2">
-              Coming Soon
+              {t("coming.soon")}
             </Label>
           )}
 

@@ -175,7 +175,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           {isAvailable ? (
             <>
               <div className="flex flex-col items-center p-1">
-                <span>{t("mayor.plaza.enterUsernamePrompt")}:</span>
+                <span>
+                  {t("mayor.plaza.enterUsernamePrompt")}
+                  {":"}
+                </span>
                 <div className="w-full py-3 relative">
                   <input
                     type="string"
@@ -273,10 +276,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Code of Conduct
+                  {t("mayor.codeOfConduct")}
                 </a>
-                . Failure to comply may result in penalties, including possible
-                account suspension.
+                {"."} {t("mayor.failureToComply")}
+                {""}
               </span>
             </div>
 
@@ -311,8 +314,11 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
           <div className="flex flex-col gap-2 p-1 pb-2">
             <span>
-              Congratulations {username}, your paperwork is now complete. See
-              you around!
+              {t("congrats")}
+              {username}
+              {","}
+              {t("mayor.paperworkComplete")}
+              {"!"}
             </span>
           </div>
           <Button onClick={onClose}>{t("close")}</Button>

@@ -105,7 +105,7 @@ export const Builder: React.FC = () => {
           </div>
         </div>
         <InnerPanel className="fixed top-0 right-0 w-48 p-2 z-30 flex flex-col items-center">
-          <span className="text-white">Layouts</span>
+          <span className="text-white">{t("layouts")}</span>
           {layouts.map((_, index) => (
             <Button key={index} onClick={() => loadLayout(index)}>
               {`Layout ${index + 1}`}

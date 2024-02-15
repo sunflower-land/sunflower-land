@@ -12,6 +12,7 @@ import { getKeys } from "features/game/types/craftables";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -23,7 +24,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<TreasureToolName>("Sand Shovel");
   const { gameService, shortcutItem } = useContext(Context);
-
+  const { t } = useAppTranslation();
   const [
     {
       context: { state },
@@ -74,7 +75,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
           }
           onClick={(e) => craft(e)}
         >
-          Craft
+          {t("craft")}
         </Button>
       </>
     );

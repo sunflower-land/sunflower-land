@@ -106,7 +106,8 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
               length: "medium",
               removeTrailingZeros: true,
             })}{" "}
-            {t("left")}!
+            {t("left")}
+            {"!"}
           </Label>
         </div>
         <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">

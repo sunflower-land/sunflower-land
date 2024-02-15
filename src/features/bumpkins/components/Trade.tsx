@@ -133,10 +133,15 @@ const ListTrade: React.FC<{
               />
             </div>
           ))}
-          <p className="text-sm ml-2">{t("bumpkinTrade.askPrice")}: </p>
+          <p className="text-sm ml-2">
+            {t("bumpkinTrade.askPrice")}
+            {":"}{" "}
+          </p>
 
           <div className="flex items-center relative">
-            <span className="text-xxs absolute right-[10px] top-[-5px]">{`Max: ${MAX_SFL}`}</span>
+            <span className="text-xxs absolute right-[10px] top-[-5px]">{`${t(
+              "max"
+            )} : ${MAX_SFL}`}</span>
             <Box image={token} />
             <input
               style={{
@@ -310,15 +315,15 @@ export const Trade: React.FC = () => {
     return (
       <div className="relative">
         <Label type="info" className="absolute top-2 right-2">
-          Beta
+          {t("beta")}
         </Label>
         <div className="p-1 flex flex-col items-center">
           <img
             src={ITEM_DETAILS["Gold Pass"].image}
             className="w-1/5 mx-auto my-2 img-highlight-heavy"
           />
-          <p className="text-sm">Gold Pass is required</p>
-          <p className="text-xs mb-2">Purchase at Goblin Retreat</p>
+          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
+          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
         </div>
       </div>
     );

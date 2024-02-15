@@ -61,7 +61,7 @@ export const StorageItems: React.FC = () => {
           })}
         </div>
 
-        <p className="mb-3">Goblin Community Treasury</p>
+        <p className="mb-3">{t("delivery.goblin.comm.treasury")}</p>
         {loading ? (
           <div className="my-2 loading">{t("loading")}</div>
         ) : (
@@ -90,7 +90,7 @@ export const StorageItems: React.FC = () => {
             rel="noopener noreferrer"
             className="underline"
           >
-            OpenSea
+            {t("opensea")}
           </a>
         </div>
       </div>

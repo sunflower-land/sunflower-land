@@ -116,7 +116,7 @@ export const IslandBlacksmithItems: React.FC = () => {
               <p className="text-xxs text-center mb-1">{t("alr.crafted")}</p>
             ) : (
               <Button disabled={lessIngredients()} onClick={craft}>
-                Craft
+                {t("craft")}
               </Button>
             )
           }

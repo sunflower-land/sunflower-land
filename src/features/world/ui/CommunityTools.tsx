@@ -31,7 +31,7 @@ export const CommunityTools: React.FC = () => {
             onChange={(e) => setURL(e.target.value)}
           />
           <Button className="mt-1" disabled={!url} onClick={testIt}>
-            Test
+            {t("test")}
           </Button>
         </div>
       </Panel>

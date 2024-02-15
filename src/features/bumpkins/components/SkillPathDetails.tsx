@@ -37,7 +37,8 @@ const RequiredSkillPoints = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        {t("reqSkillPts")}:&nbsp;
+        {t("reqSkillPts")}
+        {":"}{" "}
       </span>
       <span className="text-xxs sm:text-xs text-center">
         {`${availableSkillPoints}/${pointsRequired}`}
@@ -61,7 +62,8 @@ const RequiredSkill = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        {t("reqSkills")}:{" "}
+        {t("reqSkills")}
+        {":"}{" "}
       </span>
       <img
         src={requiredSkillImage}

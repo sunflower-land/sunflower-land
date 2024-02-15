@@ -43,6 +43,7 @@ export const OrderCard: React.FC<{
   const { balance, inventory } = game;
 
   const canDeliver = hasRequirementsCheck(order);
+  const { t } = useAppTranslation();
   return (
     <>
       <div className="">
@@ -79,7 +80,7 @@ export const OrderCard: React.FC<{
             })}
             <div className="flex items-center justify-between mt-2 mb-0.5">
               <Label icon={chest} type="warning" className="ml-1.5">
-                Reward
+                {t("reward")}
               </Label>
               {order.reward.sfl && (
                 <div className="flex items-center mr-1">
@@ -139,77 +140,77 @@ type GiftResponse = {
 
 const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
   "pumpkin' pete": {
-    flowerIntro: "npcDialogues.pumpkinPete.flowerInto",
+    flowerIntro: "npcDialogues.pumpkinPete.flowerIntro",
     flowerAverage: "npcDialogues.pumpkinPete.averageFlower",
     flowerNegative: "npcDialogues.pumpkinPete.badFlower",
     flowerPositive: "npcDialogues.pumpkinPete.goodFlower",
     reward: "npcDialogues.pumpkinPete.reward",
   },
   betty: {
-    flowerIntro: "npcDialogues.betty.flowerInto",
+    flowerIntro: "npcDialogues.betty.flowerIntro",
     flowerAverage: "npcDialogues.betty.averageFlower",
     flowerNegative: "npcDialogues.betty.badFlower",
     flowerPositive: "npcDialogues.betty.goodFlower",
     reward: "npcDialogues.betty.reward",
   },
   blacksmith: {
-    flowerIntro: "npcDialogues.blacksmith.flowerInto",
+    flowerIntro: "npcDialogues.blacksmith.flowerIntro",
     flowerAverage: "npcDialogues.blacksmith.averageFlower",
     flowerNegative: "npcDialogues.blacksmith.badFlower",
     flowerPositive: "npcDialogues.blacksmith.goodFlower",
     reward: "npcDialogues.blacksmith.reward",
   },
   bert: {
-    flowerIntro: "npcDialogues.bert.flowerInto",
+    flowerIntro: "npcDialogues.bert.flowerIntro",
     flowerAverage: "npcDialogues.bert.averageFlower",
     flowerNegative: "npcDialogues.bert.badFlower",
     flowerPositive: "npcDialogues.bert.goodFlower",
     reward: "npcDialogues.bert.reward",
   },
   finn: {
-    flowerIntro: "npcDialogues.finn.flowerInto",
+    flowerIntro: "npcDialogues.finn.flowerIntro",
     flowerAverage: "npcDialogues.finn.averageFlower",
     flowerNegative: "npcDialogues.finn.badFlower",
     flowerPositive: "npcDialogues.finn.goodFlower",
     reward: "npcDialogues.finn.reward",
   },
   finley: {
-    flowerIntro: "npcDialogues.finley.flowerInto",
+    flowerIntro: "npcDialogues.finley.flowerIntro",
     flowerAverage: "npcDialogues.finley.averageFlower",
     flowerNegative: "npcDialogues.finley.badFlower",
     flowerPositive: "npcDialogues.finley.goodFlower",
     reward: "npcDialogues.finley.reward",
   },
   corale: {
-    flowerIntro: "npcDialogues.corale.flowerInto",
+    flowerIntro: "npcDialogues.corale.flowerIntro",
     flowerAverage: "npcDialogues.corale.averageFlower",
     flowerNegative: "npcDialogues.corale.badFlower",
     flowerPositive: "npcDialogues.corale.goodFlower",
     reward: "npcDialogues.corale.reward",
   },
   raven: {
-    flowerIntro: "npcDialogues.raven.flowerInto",
+    flowerIntro: "npcDialogues.raven.flowerIntro",
     flowerAverage: "npcDialogues.raven.averageFlower",
     flowerNegative: "npcDialogues.raven.badFlower",
     flowerPositive: "npcDialogues.raven.goodFlower",
     reward: "npcDialogues.raven.reward",
   },
   miranda: {
-    flowerIntro: "npcDialogues.miranda.flowerInto",
+    flowerIntro: "npcDialogues.miranda.flowerIntro",
     flowerAverage: "npcDialogues.miranda.averageFlower",
     flowerNegative: "npcDialogues.miranda.badFlower",
     flowerPositive: "npcDialogues.miranda.goodFlower",
     reward: "npcDialogues.miranda.reward",
   },
   cornwell: {
-    flowerIntro: "npcDialogues.cornwell.flowerInto",
+    flowerIntro: "npcDialogues.cornwell.flowerIntro",
     flowerAverage: "npcDialogues.cornwell.averageFlower",
     flowerNegative: "npcDialogues.cornwell.badFlower",
     flowerPositive: "npcDialogues.cornwell.goodFlower",
     reward: "npcDialogues.cornwell.reward",
   },
   tywin: {
-    flowerIntro: "npcDialogues.tywin.flowerInto",
+    flowerIntro: "npcDialogues.tywin.flowerIntro",
     flowerAverage: "npcDialogues.tywin.averageFlower",
     flowerNegative: "npcDialogues.tywin.badFlower",
     flowerPositive: "npcDialogues.tywin.goodFlower",
@@ -218,7 +219,7 @@ const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
 };
 
 const DEFAULT_DIALOGUE: GiftResponse = {
-  flowerIntro: "npcDialogues.default.flowerInto",
+  flowerIntro: "npcDialogues.default.flowerIntro",
   flowerAverage: "npcDialogues.default.averageFlower",
   flowerNegative: "npcDialogues.default.badFlower",
   flowerPositive: "npcDialogues.default.goodFlower",
@@ -231,10 +232,10 @@ export const Gifts: React.FC<{
   onOpen: () => void;
   name: NPCName;
 }> = ({ game, onClose, onOpen, name }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const [selected, setSelected] = useState<FlowerName>();
-
   const [message, setMessage] = useState<NpcDialogues>(
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro
   );
@@ -270,8 +271,6 @@ export const Gifts: React.FC<{
       );
     }
   };
-
-  const { t } = useAppTranslation();
 
   let translated: string = t(message);
 
@@ -325,7 +324,7 @@ export const Gifts: React.FC<{
             className="mb-2"
             icon={ITEM_DETAILS["White Pansy"].image}
           >
-            Select a flower
+            {t("bumpkin.delivery.selectFlower")}
           </Label>
           {selected && (
             <Label
@@ -339,9 +338,7 @@ export const Gifts: React.FC<{
         </div>
 
         {flowers.length === 0 && (
-          <p className="text-xs mb-2">
-            {`Oh no, you don't have any flowers to gift!`}
-          </p>
+          <p className="text-xs mb-2">{`${t("bumpkin.delivery.noFlowers")}`}</p>
         )}
         {flowers.length > 0 && (
           <div className="flex w-full flex-wrap">
@@ -360,7 +357,7 @@ export const Gifts: React.FC<{
 
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
-          Back
+          {t("back")}
         </Button>
         <Button
           disabled={isLocked || !selected || !game.inventory[selected]?.gte(1)}
@@ -376,7 +373,7 @@ export const Gifts: React.FC<{
                 />
               </>
             )}
-            Gift
+            {t("gift")}
           </div>
         </Button>
       </div>
@@ -480,6 +477,7 @@ interface Props {
 }
 
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -496,15 +494,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       friendship: true,
     });
   };
-
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "sfl") {
       return game.balance.gte(delivery?.items.sfl ?? 0);
     }
     return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
   });
-
-  const { t } = useAppTranslation();
 
   const openReward = () => {
     const nextGift = getNextGift({ game, npc });
@@ -531,8 +526,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   }
 
   if (delivery?.completedAt) {
-    message =
-      "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.";
+    message = t("bumpkin.delivery.waiting");
   }
 
   if (!delivery) {
@@ -603,29 +597,29 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
             <div className="flex justify-between items-center mb-2">
               <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                Delivery
+                {t("delivery")}
               </Label>
               {delivery?.completedAt && (
                 <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
-                  Completed
+                  {t("completed")}
                 </Label>
               )}
               {isLocked && (
                 <Label className="my-2" type="danger" icon={lockIcon}>
-                  Locked
+                  {t("locked")}
                 </Label>
               )}
             </div>
 
             {!delivery && !isLocked && (
-              <p className="text-xs">No deliveries available</p>
+              <p className="text-xs">{t("no.delivery.avl")}</p>
             )}
 
             {isLocked && (
               <>
                 <p className="text-xs">
-                  Prove yourself worthy. Expand your island {missingExpansions}{" "}
-                  more times.
+                  {t("bumpkin.delivery.proveYourself")} {missingExpansions}{" "}
+                  {t("bumpkin.delivery.more.time")}
                 </p>
               </>
             )}
@@ -643,7 +637,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
           <div className="flex mt-1">
             {acceptGifts && (
               <Button className="mr-1" onClick={() => setShowFlowers(true)}>
-                Gift
+                {t("gift")}
               </Button>
             )}
 
@@ -651,7 +645,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               disabled={!delivery || !hasDelivery || !!delivery?.completedAt}
               onClick={deliver}
             >
-              Deliver
+              {t("deliver")}
             </Button>
           </div>
         </>

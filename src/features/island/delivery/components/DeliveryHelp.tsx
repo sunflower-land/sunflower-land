@@ -34,7 +34,7 @@ export const DeliveryHelp: React.FC = () => {
         </div>
         <p className="text-sm flex-1">
           {t("deliveryHelp.chest")}
-          <span className="italic text-xs ml-1">(Coming soon)</span>
+          <span className="italic text-xs ml-1">{t("coming.soon")}</span>
         </p>
       </div>
 

@@ -23,6 +23,8 @@ import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   id: string;
@@ -51,6 +53,7 @@ const FlowerCongratulations: React.FC<{ flowerName: FlowerName }> = ({
 );
 
 export const FlowerBed: React.FC<Props> = ({ id }) => {
+  const { t } = useAppTranslation();
   const { showTimers, gameService } = useContext(Context);
   const [
     {
@@ -211,7 +214,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             <SpeakingText
               message={[
                 {
-                  text: "By golly, you've discovered a new species of flower!",
+                  text: translate("flowerBed.newSpecies.discovered"),
                 },
               ]}
               onClose={() => setCongratulationsPage(1)}
@@ -220,7 +223,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           {congratulationsPage === 1 && (
             <div className="flex flex-col justify-center items-center">
               <Label type="warning" icon={SUNNYSIDE.icons.search}>
-                New species
+                {t("new.species")}
               </Label>
               <span className="text-sm mb-2">{flower.name}</span>
               <img
@@ -230,7 +233,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
               <span className="text-xs text-center mb-2">
                 {ITEM_DETAILS[flower.name].description}
               </span>
-              <Button onClick={handleCongratulationsClose}>Ok</Button>
+              <Button onClick={handleCongratulationsClose}>{t("ok")}</Button>
             </div>
           )}
           <FlowerCongratulations flowerName={flower.name} />

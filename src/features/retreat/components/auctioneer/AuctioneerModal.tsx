@@ -72,7 +72,7 @@ export const AuctioneerModal: React.FC<Props> = ({
     return (
       <Modal centered show={isOpen} onHide={onClose}>
         <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
-          <span className="loading">Loading</span>
+          <span className="loading">{t("loading")}</span>
         </Panel>
       </Modal>
     );

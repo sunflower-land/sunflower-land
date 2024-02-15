@@ -99,7 +99,7 @@ export const MilestonePanel: React.FC<{
                   {buffLabel.shortDescription}
                 </Label>
               )}
-              <Label type="default">Wearable</Label>
+              <Label type="default">{t("wearables")}</Label>
             </div>
           </div>
         </div>

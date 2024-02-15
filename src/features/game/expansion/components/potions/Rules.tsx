@@ -25,7 +25,10 @@ export const Rules: React.FC<Props> = ({ onDone }) => {
           </ol>
         </div>
         <InnerPanel className="text-xxs space-y-1 p-1 mt-1">
-          <p className="mb-2">{t("pay.attention.feedback")}:</p>
+          <p className="mb-2">
+            {t("pay.attention.feedback")}
+            {":"}
+          </p>
           <div className="flex items-center space-x-1">
             <img
               src={FeedbackIcons["correct"]}

@@ -8,21 +8,23 @@ import chest from "assets/icons/chest.png";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const LabelTest: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const { t } = useAppTranslation();
   return (
     <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
       <CloseButtonPanel onClose={() => setIsOpen(false)}>
         <div className="p-2">
-          <p className="mb-2">Labels</p>
+          <p className="mb-2">{t("labels")}</p>
           <div className="flex flex-col space-y-2">
             <div className="flex flex-wrap justify-between w-full">
               <Label type="danger" className="block">
-                Danger
+                {t("danger")}
               </Label>
               <Label type="danger" className="block" icon={lock}>
-                Danger
+                {t("danger")}
               </Label>
               <Label
                 type="danger"
@@ -30,99 +32,99 @@ export const LabelTest: React.FC = () => {
                 icon={lock}
                 secondaryIcon={SUNNYSIDE.icons.stressed}
               >
-                Danger
+                {t("danger")}
               </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="success">Buff</Label>
+              <Label type="success">{t("buff")}</Label>
               <Label type="success" icon={powerup}>
-                Buff
+                {t("buff")}
               </Label>
               <Label
                 type="success"
                 icon={powerup}
                 secondaryIcon={CROP_LIFECYCLE.Pumpkin.crop}
               >
-                Buff
+                {t("buff")}
               </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="info">Speed</Label>
+              <Label type="info">{t("speed")}</Label>
               <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                Speed
+                {t("speed")}
               </Label>
               <Label
                 type="info"
                 icon={SUNNYSIDE.icons.stopwatch}
                 secondaryIcon={SUNNYSIDE.resource.stone}
               >
-                Speed
+                {t("speed")}
               </Label>
             </div>
 
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="warning">Treasure</Label>
+              <Label type="warning">{t("treasure")}</Label>
               <Label type="warning" icon={chest}>
-                Treasure
+                {t("treasure")}
               </Label>
               <Label
                 type="warning"
                 icon={chest}
                 secondaryIcon={SUNNYSIDE.icons.heart}
               >
-                Treasure
+                {t("treasure")}
               </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="vibrant">Special</Label>
+              <Label type="vibrant">{t("special")}</Label>
               <Label type="vibrant" icon={lightning}>
-                Special
+                {t("special")}
               </Label>
               <Label
                 type="vibrant"
                 icon={lightning}
                 secondaryIcon={SUNNYSIDE.icons.basket}
               >
-                Special
+                {t("special")}
               </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="default">Default</Label>
+              <Label type="default">{t("default")}</Label>
               <Label type="default" icon={SUNNYSIDE.tools.fishing_rod}>
-                Default
+                {t("default")}
               </Label>
               <Label
                 type="default"
                 icon={SUNNYSIDE.tools.fishing_rod}
                 secondaryIcon={SUNNYSIDE.resource.clam_shell}
               >
-                Default
+                {t("default")}
               </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="formula">Formula</Label>
+              <Label type="formula">{t("formula")}</Label>
               <Label type="formula" icon={SUNNYSIDE.icons.player}>
-                Formula
+                {t("formula")}
               </Label>
               <Label
                 type="formula"
                 icon={SUNNYSIDE.icons.player}
                 secondaryIcon={SUNNYSIDE.tools.axe}
               >
-                Formula
+                {t("formula")}
               </Label>
             </div>
             <div className="flex flex-wrap justify-between w-full">
-              <Label type="chill">Chill</Label>
+              <Label type="chill">{t("chill")}</Label>
               <Label type="chill" icon={SUNNYSIDE.icons.heart}>
-                Chill
+                {t("chill")}
               </Label>
               <Label
                 type="chill"
                 icon={SUNNYSIDE.icons.heart}
                 secondaryIcon={CROP_LIFECYCLE.Sunflower.crop}
               >
-                Formula
+                {t("formula")}
               </Label>
             </div>
           </div>

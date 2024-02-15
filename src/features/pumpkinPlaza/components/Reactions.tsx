@@ -9,6 +9,7 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SceneId } from "features/world/mmoMachine";
 import React from "react";
 import { Modal } from "react-bootstrap";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export type ReactionName = "heart" | "happy" | "sad";
 interface Props {
@@ -26,18 +27,25 @@ export const BudReaction: React.FC<{
   const [selected, setSelected] = React.useState<number>();
 
   const buds = getKeys(gameState.buds ?? {});
+  const { t } = useAppTranslation();
 
   return (
     <CloseButtonPanel onClose={onClose}>
       <div className="p-1">
         <Label type="default" className="mx-1" icon={SUNNYSIDE.icons.heart}>
-          Show your buds
+          {t("reaction.bud.show")}
         </Label>
-        <p className="text-xs my-2">Select a bud to place in the plaza.</p>
+        <p className="text-xs my-2">
+          {t("reaction.bud.select")}
+          {"."}
+        </p>
 
         <div className="flex flex-wrap">
           {buds.length === 0 && (
-            <Label type={"danger"}>No buds found in your inventory.</Label>
+            <Label type={"danger"}>
+              {t("reaction.bud.noFound")}
+              {"."}
+            </Label>
           )}
           {buds.map((budId) => {
             return (
@@ -58,7 +66,7 @@ export const BudReaction: React.FC<{
           onClose();
         }}
       >
-        Place
+        {t("place")}
       </Button>
     </CloseButtonPanel>
   );

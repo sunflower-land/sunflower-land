@@ -96,7 +96,7 @@ export const AuctionDetails: React.FC<Props> = ({
         disabled={!isMintStarted || isMintComplete || !hasIngredients}
         onClick={onDraftBid}
       >
-        Bid
+        {t("bid")}
       </Button>
     );
   };

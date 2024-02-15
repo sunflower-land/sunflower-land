@@ -80,7 +80,7 @@ export const PersonhoodContent: React.FC = () => {
   if (personHoodDetails === undefined) {
     return (
       <>
-        <p className="text-sm p-1 m-1">Failed Loading Personhood Details</p>
+        <p className="text-sm p-1 m-1">{t("personHood.Details")}</p>
         <Button className="mr-1" onClick={onBack}>
           {t("back")}
         </Button>
@@ -91,7 +91,7 @@ export const PersonhoodContent: React.FC = () => {
   if (personHoodDetails.status === "REJECTED") {
     return (
       <>
-        <p className="text-sm p-1 m-1">Your identity could not be verified</p>
+        <p className="text-sm p-1 m-1">{t("personHood.Identify")}</p>
         <Button className="mr-1" onClick={onBack}>
           {t("back")}
         </Button>
@@ -102,9 +102,7 @@ export const PersonhoodContent: React.FC = () => {
   if (personHoodDetails.status === "APPROVED") {
     return (
       <>
-        <p className="text-sm p-1 m-1">
-          Congratulations, your identity has been verified!
-        </p>
+        <p className="text-sm p-1 m-1">{t("personHood.Congrat")}</p>
         <Button className="mr-1" onClick={onFinish}>
           {t("continue")}
         </Button>

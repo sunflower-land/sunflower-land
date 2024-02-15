@@ -20,6 +20,7 @@ import { Flowers } from "./pages/Flowers";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -63,6 +64,7 @@ export function getCodexCategoryIndex(category: CodexCategoryName) {
 }
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
     {
@@ -104,7 +106,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             <div className="flex items-center pl-1 mb-2">
               <div className="flex items-center grow">
                 <img src={SUNNYSIDE.icons.search} className="h-6 mr-3 ml-1" />
-                <p>Sunflower Land Codex</p>
+                <p>{t("sunflowerLandCodex")}</p>
               </div>
               <img
                 src={SUNNYSIDE.icons.close}

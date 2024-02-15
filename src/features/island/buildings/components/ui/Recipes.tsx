@@ -122,7 +122,7 @@ export const Recipes: React.FC<Props> = ({
               onClose={onClose}
             />
           )}
-          {crafting && <p className="mb-2 w-full">Recipes</p>}
+          {crafting && <p className="mb-2 w-full">{t("recipes")}</p>}
           <div className="flex flex-wrap h-fit">
             {recipes.map((item) => (
               <Box

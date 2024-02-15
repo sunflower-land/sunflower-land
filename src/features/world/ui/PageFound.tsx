@@ -29,7 +29,10 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
     return (
       <CloseButtonPanel onClose={onClose} title={"Page Found"}>
         <div className="flex flex-col items-center w-full">
-          <span>{t("pageFounds.gardeningBookPage")},</span>
+          <span>
+            {t("pageFounds.gardeningBookPage")}
+            {","}
+          </span>
           <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
         </div>
       </CloseButtonPanel>
@@ -60,7 +63,9 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
               />
             </div>
             <span className="text-sm">
-              {t("pageFounds.knowHowToGrow")} {springBlossom.weeklyFlower}!
+              {t("pageFounds.knowHowToGrow")}
+              {springBlossom.weeklyFlower}
+              {"!"}
             </span>
           </div>
 
@@ -94,12 +99,15 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel onClose={onClose} title={"Page Found!"}>
       <div className="flex flex-col w-full items-center">
         <span className="text-sm">
-          {t("pageFounds.pageContainsInfo")} {springBlossom.weeklyFlower}!
+          {t("pageFounds.pageContainsInfo")} {springBlossom.weeklyFlower}
+          {"!"}
         </span>
         <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
         <Label type="info" className="mt-2">
-          {springBlossom.collectedFlowerPages.length}/3 {t("pageFounds")}
+          {springBlossom.collectedFlowerPages.length}
+          {"/3"}
+          {t("pageFounds")}
         </Label>
       </div>
     </CloseButtonPanel>

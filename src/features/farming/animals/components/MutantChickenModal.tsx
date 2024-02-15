@@ -58,7 +58,10 @@ export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
     <Modal show={show} centered>
       <Panel>
         <div className="p-2">
-          <h1 className="text-lg text-center">{type}!</h1>
+          <h1 className="text-lg text-center">
+            {type}
+            {"!"}
+          </h1>
           <div className="flex my-4 justify-center">
             <img src={mutants[type].image} style={{ width: "50px" }} />
           </div>

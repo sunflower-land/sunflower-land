@@ -214,7 +214,7 @@ export const Experiment: React.FC<Props> = ({
           <div className="flex flex-col justify-end grow">
             <h2 className="mb-1">{t("potions")}</h2>
             <span className="text-xxs italic">
-              ({t("statements.clickBottle")})
+              {t("statements.clickBottle")}
             </span>
             <div className="flex flex-wrap gap-2 mt-3 mb-2">
               {Object.values(POTIONS).map((potion) => (

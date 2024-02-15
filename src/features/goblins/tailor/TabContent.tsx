@@ -115,7 +115,10 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
     return (
       <div className="flex flex-col">
         <span>{t("currently.Unavailable")}</span>
-        <span>{t("please.try.again")}.</span>
+        <span>
+          {t("please.try.again")}
+          {"."}
+        </span>
       </div>
     );
   }
@@ -129,11 +132,11 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
           </span>
           <div className="border-t border-white w-full mt-2 py-2 text-center">
             <span className="text-xxs text-center mt-2">
-              {t("visit")} Bumpkins.io {t("for.info.wearable")}
+              {t("visit")} {"Bumpkins.io"} {t("for.info.wearable")}
             </span>
           </div>
           <Button className="text-xs mt-1" onClick={goToCollectionItem}>
-            {t("goto")} Bumpkins.io
+            {t("goto")} {"Bumpkins.io"}
           </Button>
         </>
       );
@@ -166,7 +169,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
           </div>
         </div>
         <Button className="text-xs mt-1" onClick={goToUpcomingDrops}>
-          {t("goto")} Bumpkins.io
+          {t("goto")} {"Bumpkins.io"}
         </Button>
       </>
     );

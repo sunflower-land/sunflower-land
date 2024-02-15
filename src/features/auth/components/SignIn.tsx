@@ -80,7 +80,7 @@ const OtherWallets: React.FC<{
                 src={SEQUENCE_ICON}
                 className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
               />
-              Sequence
+              {"Sequence"}
             </div>
           </Button>
         )}
@@ -101,7 +101,7 @@ const OtherWallets: React.FC<{
                 fill="currentColor"
               ></path>
             </svg>
-            Wallet Connect
+            {"Wallet Connect"}
           </div>
         </Button>
 
@@ -121,7 +121,7 @@ const OtherWallets: React.FC<{
             >
               {t("featured")}
             </Label>
-            Bitget Wallet
+            {"Bitget Wallet"}
           </div>
         </Button>
         <Button
@@ -134,7 +134,7 @@ const OtherWallets: React.FC<{
               alt="Crypto.com"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            Crypto.com {t("wallet")}
+            {"Crypto.com Wallet"}
           </div>
         </Button>
         <Button
@@ -147,7 +147,7 @@ const OtherWallets: React.FC<{
               alt="OKX"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
             />
-            OKX {t("wallet")}
+            {"OKX Wallet"}
           </div>
         </Button>
         <Button
@@ -160,7 +160,7 @@ const OtherWallets: React.FC<{
               alt="Phantom"
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Phantom {t("wallet")}
+            {"Phantom Wallet"}
           </div>
         </Button>
       </>
@@ -193,7 +193,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               src={metamaskIcon}
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Metamask
+            {"Metamask"}
           </div>
         </Button>
         {showAll && (
@@ -208,7 +208,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
                 src={SEQUENCE_ICON}
                 className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
               />
-              Sequence
+              {"Sequence"}
             </div>
           </Button>
         )}
@@ -254,7 +254,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
             >
               {t("featured")}
             </Label>
-            Bitget {t("wallet")}
+            {"Bitget Wallet"}
           </div>
         </Button>
       )}
@@ -276,7 +276,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               src={metamaskIcon}
               className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
             />
-            Metamask
+            {"Metamask"}
           </div>
         </Button>
       )}

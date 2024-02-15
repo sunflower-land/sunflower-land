@@ -8,6 +8,7 @@ import { Delivery } from "./Delivery";
 import { StorageItems } from "./StorageItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   onClose: () => void;
 }
@@ -15,6 +16,7 @@ export const StorageModal: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState<"storage" | "delivery" | "treasury">(
     "storage"
   );
+  const { t } = useAppTranslation();
 
   return (
     <Panel className="relative" hasTabs>
@@ -28,11 +30,11 @@ export const StorageModal: React.FC<Props> = ({ onClose }) => {
       >
         <Tab isActive={tab === "storage"} onClick={() => setTab("storage")}>
           <img src={SUNNYSIDE.resource.wood} className="h-5 mr-2" />
-          <span className="text-sm">Storage</span>
+          <span className="text-sm">{t("storage")}</span>
         </Tab>
         <Tab isActive={tab === "delivery"} onClick={() => setTab("delivery")}>
           <img src={player} className="h-5 mr-2" />
-          <span className="text-sm">Delivery</span>
+          <span className="text-sm">{t("delivery")}</span>
         </Tab>
         <img
           src={SUNNYSIDE.icons.close}

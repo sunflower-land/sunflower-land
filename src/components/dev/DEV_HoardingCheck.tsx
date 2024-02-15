@@ -168,13 +168,19 @@ const HoarderCheck: React.FC<Props> = ({ network }) => {
 };
 
 export const DEV_HoardingCheck: React.FC<Props> = ({ network }) => {
+  const { t } = useAppTranslation();
   const [show, setShow] = useState(false);
   return (
     <>
       <Modal show={show} centered onHide={() => setShow(false)}>
         <HoarderCheck network={network} />
       </Modal>
-      <Button onClick={() => setShow(!show)}>Hoarder Check ({network})</Button>
+      <Button onClick={() => setShow(!show)}>
+        {t("hoarding.check")}
+        {" ("}
+        {network}
+        {")"}
+      </Button>
     </>
   );
 };

@@ -190,7 +190,7 @@ export const ComposterModal: React.FC<Props> = ({
               </div>
               <div className="flex items-center">
                 <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
-                <span className="text-xs">Compost Complete</span>
+                <span className="text-xs">{t("compost.complete")}</span>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ export const ComposterModal: React.FC<Props> = ({
             className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
             onClick={onCollect}
           >
-            Collect
+            {t("collect")}
           </Button>
         </>
       );
@@ -239,7 +239,7 @@ export const ComposterModal: React.FC<Props> = ({
                 onClick={onCollect}
                 disabled={true}
               >
-                Collect
+                {t("collect")}
               </Button>
               <OuterPanel className="p-1">
                 <div className="flex justify-between mb-1">
@@ -260,7 +260,10 @@ export const ComposterModal: React.FC<Props> = ({
                     balance={state.inventory.Egg ?? new Decimal(0)}
                   />
                 </div>
-                <p className="text-xs mb-2">Add eggs to speed up production.</p>
+                <p className="text-xs mb-2">
+                  {t("guide.compost.add.eggs.speed")}
+                  {"."}
+                </p>
                 <Button
                   disabled={
                     !boost &&
@@ -270,7 +273,7 @@ export const ComposterModal: React.FC<Props> = ({
                   }
                   onClick={accelerate}
                 >
-                  Add Eggs
+                  {t("guide.compost.add.eggs")}
                 </Button>
               </OuterPanel>
             </>
@@ -291,7 +294,7 @@ export const ComposterModal: React.FC<Props> = ({
                   )} Boosted`}
                 </Label>
                 <Label type="default" icon={ITEM_DETAILS.Egg.image}>
-                  {composterInfo.eggBoostRequirements} Eggs
+                  {composterInfo.eggBoostRequirements} {t("guide.compost.eggs")}
                 </Label>
               </div>
             </OuterPanel>
@@ -308,7 +311,7 @@ export const ComposterModal: React.FC<Props> = ({
               src={COMPOSTER_IMAGES[composterName].ready}
               className="w-14 object-contain mr-2"
             />
-            <span className="mt-2 text-sm loading">Loading</span>
+            <span className="mt-2 text-sm loading">{t("loading")}</span>
           </div>
         </>
       );
@@ -325,7 +328,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            +0.2 {t("crops")}
+            {"+0.2"} {t("crops")}
           </Label>
         );
       }
@@ -338,7 +341,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="success"
             className="text-xs whitespace-pre-line"
           >
-            +0.1 {t("fruit")}
+            {"+0.1"} {t("fruit")}
           </Label>
         );
       }
@@ -351,7 +354,7 @@ export const ComposterModal: React.FC<Props> = ({
             type="info"
             className="text-xs whitespace-pre-line"
           >
-            -50% Crop Growth Time
+            {t("guide.compost.cropGrowthTime")}
           </Label>
         );
       }
@@ -394,7 +397,7 @@ export const ComposterModal: React.FC<Props> = ({
                     type="default"
                     className="text-xs whitespace-pre-line"
                   >
-                    Fishing bait
+                    {t("guide.compost.fishingBait")}
                   </Label>
                 </div>
               </div>
@@ -427,7 +430,7 @@ export const ComposterModal: React.FC<Props> = ({
           className="text-xxs sm:text-sm mt-1 whitespace-nowrap"
           onClick={() => startComposter()}
         >
-          Compost
+          {t("compost")}
         </Button>
       </>
     );
@@ -462,7 +465,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs  flex-1">
-                  Place crops in the composter to feed the worms.
+                  {t("guide.compost.placeCrops")}
+                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -470,8 +474,8 @@ export const ComposterModal: React.FC<Props> = ({
                   <img src={compost} className="h-6 mr-2 object-contain" />
                 </div>
                 <p className="text-xs  flex-1">
-                  A compost cycle produces multiple fertilisers which can be
-                  used to boost your crops & fruit.
+                  {t("guide.compost.compostCycle")}
+                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -482,8 +486,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs flex-1">
-                  Each compost yields worms that can be used as bait for
-                  fishing.
+                  {t("guide.compost.yieldsWorms")}
+                  {"."}
                 </p>
               </div>
               <div className="flex mb-2">
@@ -494,7 +498,8 @@ export const ComposterModal: React.FC<Props> = ({
                   />
                 </div>
                 <p className="text-xs flex-1">
-                  Tired of waiting? Use Eggs to speed up the compost production.
+                  {t("guide.compost.useEggs")}
+                  {"."}
                 </p>
               </div>
             </div>
@@ -505,7 +510,7 @@ export const ComposterModal: React.FC<Props> = ({
                 acknowledgeRead();
               }}
             >
-              Ok
+              {t("ok")}
             </Button>
           </>
         )}
@@ -590,13 +595,15 @@ export const CraftingRequirements: React.FC<CraftingProps> = ({
       </div>
     );
   };
-
+  const { t } = useAppTranslation();
   return (
     <div className="flex flex-col h-full justify-between">
       <div className="flex flex-col h-full px-1 py-0">
         {getItemDetail({ hideDescription })}
         {limit && (
-          <p className="my-1 text-xs text-left sm:text-center">{`Max ${limit} per player`}</p>
+          <p className="my-1 text-xs text-left sm:text-center">{`${t(
+            "max"
+          )} ${limit} ${t("statements.perplayer")}`}</p>
         )}
         {getRequirements()}
       </div>

@@ -31,7 +31,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
           >
             {t("rules.termsOfService")}
           </a>
-          .
+          {"."}
         </p>
         <p className="mb-4 text-xs">{t("transaction.noFee")}</p>
       </div>

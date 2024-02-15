@@ -64,7 +64,7 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
         </Modal.Body>
         <Modal.Footer className="justify-content-center">
           <Button className="text-s w-1/4 px-1" onClick={handleTweetClick}>
-            Tweet
+            {"TweeT"}
           </Button>
           <Button
             className="text-s w-1/4 px-1"

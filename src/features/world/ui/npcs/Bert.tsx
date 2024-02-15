@@ -104,10 +104,13 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           disabled={!canCompleteObsession()}
           onClick={() => gameService.send("bertObsession.completed")}
         >
-          {`Claim ${reward} ${getSeasonalTicket()}${reward > 0 ? "s" : ""}`}
+          {`${t("claim")} ${reward} ${getSeasonalTicket()}${
+            reward > 0 ? "s" : ""
+          }`}
         </Button>
         <span className="text-xs">
-          {t("bert.day")} {getSeasonalTicket()}.
+          {t("bert.day")} {getSeasonalTicket()}
+          {"."}
         </span>
       </>
     );
@@ -162,7 +165,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
       {tab === 1 && (
         <div className="w-full flex flex-col items-center">
           {!currentObsession && (
-            <p className="text-center text-sm mb-3">No Obsessions</p>
+            <p className="text-center text-sm mb-3">{t("no.obsessions")}</p>
           )}
           {currentObsession && (
             <div className="w-full flex flex-col items-center mx-auto">

@@ -41,7 +41,10 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
             src={goldPass}
             className="w-full rounded-md my-2 img-highlight mr-2"
           />
-          <p className="text-sm mb-1">{t("goldPass.unlockPower")}:</p>
+          <p className="text-sm mb-1">
+            {t("goldPass.unlockPower")}
+            {":"}
+          </p>
           <ul className="list-disc">
             <li className="text-xs ml-4">{t("goldPass.craftNFTs")}</li>
             <li className="text-xs ml-4">{t("goldPass.trade")}</li>
@@ -79,7 +82,8 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
         <div className="flex justify-center my-0.5">
           <span className="text-xxs italic">
             {t("goldPass.priceInMatic")}
-            {price}USD
+            {price}
+            {"USD"}
           </span>
         </div>
       </>

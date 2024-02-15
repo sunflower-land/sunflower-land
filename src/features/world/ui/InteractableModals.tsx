@@ -109,7 +109,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       )}
       <Modal centered show={interactable === "donations"} onHide={closeModal}>
-        <CloseButtonPanel title="Enjoying this event?" onClose={closeModal}>
+        <CloseButtonPanel title={t("enjoying.event")} onClose={closeModal}>
           <Donations />
         </CloseButtonPanel>
       </Modal>

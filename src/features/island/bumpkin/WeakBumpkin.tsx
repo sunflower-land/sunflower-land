@@ -7,12 +7,14 @@ import lock from "assets/skills/lock.png";
 import { BUMPKIN_EXPANSIONS_LEVEL } from "features/game/types/expansions";
 import { Button } from "components/ui/Button";
 import { IslandList } from "features/game/expansion/components/travel/IslandList";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const WeakBumpkin: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [showList, setShowList] = useState(false);
+  const { t } = useAppTranslation();
 
   const requiredLevel =
     BUMPKIN_EXPANSIONS_LEVEL[gameState.context.state.island.type][
@@ -36,16 +38,14 @@ export const WeakBumpkin: React.FC = () => {
     <>
       <div className="p-2">
         <img src={SUNNYSIDE.icons.sad} className="w-16 mx-auto my-2" />
-        <p className="text-sm mb-2 text-center">
-          Oh no! Your Bumpkin is not strong enough for this island.
-        </p>
+        <p className="text-sm mb-2 text-center">{t("weakBumpkin.notStrong")}</p>
         <Label
           type="danger"
           className="mx-auto my-2"
           icon={lock}
         >{`Level ${requiredLevel} required`}</Label>
       </div>
-      <Button onClick={() => setShowList(true)}>Travel</Button>
+      <Button onClick={() => setShowList(true)}>{t("travel")}</Button>
     </>
   );
 };

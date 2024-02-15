@@ -131,7 +131,8 @@ export const DailyReward: React.FC = () => {
                   {streaks} {t("reward.streak")}
                 </Label>
                 <p className="text-xxs mt-2">
-                  {t("reward.nextBonus")}: {getNextBonus}
+                  {t("reward.nextBonus")}
+                  {":"} {getNextBonus}
                   {t("reward.streak")}
                 </p>
               </>

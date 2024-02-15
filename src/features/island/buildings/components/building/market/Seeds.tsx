@@ -108,9 +108,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
       )
     ) {
       return (
-        <p className="text-xxs text-center mb-1">
-          You have too many seeds in your basket!
-        </p>
+        <p className="text-xxs text-center mb-1">{t("restock.seed.buy")}</p>
       );
     }
 
@@ -121,7 +119,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           disabled={lessFunds() || stock.lessThan(1)}
           onClick={() => buy(1)}
         >
-          {t("buy")} 1
+          {t("buy")} {"1"}
         </Button>
         {bulkSeedBuyAmount > 1 && (
           <Button

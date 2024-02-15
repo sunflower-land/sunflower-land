@@ -58,12 +58,14 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">
-          {t("wishingWell.sflRewardsReceived")}: {`${reward}`}
+          {t("wishingWell.sflRewardsReceived")}
+          {":"} {`${reward}`}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.newWish")}</p>
         {lockedTime && (
           <p className="mb-2 text-sm">
-            {t("wishingWell.wish.timeTillNextWish")}: {`${lockedTime}.`}
+            {t("wishingWell.wish.timeTillNextWish")}
+            {":"} {`${lockedTime}.`}
           </p>
         )}
       </div>
@@ -133,7 +135,10 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => {
           </h1>
           <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
         </div>
-        <p className="mb-4 text-sm">{t("wishingWell.wish.comeBackAfter")}:</p>
+        <p className="mb-4 text-sm">
+          {t("wishingWell.wish.comeBackAfter")}
+          {":"}
+        </p>
         <p className="mb-4 text-sm">
           {`${t("come.back")} ${lockedTime} ${t(
             "statements.wishing.just.lucky"
@@ -164,7 +169,8 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.info.one")}</p>
         <p className="mb-4 text-sm">
-          {t("wishingWell.info.two")}:{" "}
+          {t("wishingWell.info.two")}
+          {":"}{" "}
           <a
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
@@ -223,7 +229,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
               mintTestnetTokens(wallet.web3Provider, wallet.myAccount as string)
             }
           >
-            Mint testnet LP tokens
+            {"Mint testnet LP tokens"}
           </Button>
         </div>
       )}

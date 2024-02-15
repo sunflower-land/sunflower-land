@@ -70,7 +70,8 @@ export const Skills: React.FC<Props> = ({ onBack, readonly }) => {
       <div className="flex flex-wrap gap-1">
         {availableSkillPoints > 0 && (
           <Label type="default">
-            {t("skillPts")}: {availableSkillPoints}
+            {t("skillPts")}
+            {":"} {availableSkillPoints}
           </Label>
         )}
         {nextLevelWithSkillPoint && (

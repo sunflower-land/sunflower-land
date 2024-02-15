@@ -147,7 +147,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 <img src={lightning} className="h-6" />
               )}
               <span className="text-xs">
-                {tax}% {t("fee")}
+                {tax}
+                {"%"} {t("fee")}
               </span>
               <a
                 className="underline ml-2"
@@ -155,7 +156,9 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ({t("read.more")})
+                {"("}
+                {t("read.more")}
+                {")"}
               </a>
             </span>
           </>
@@ -164,7 +167,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
       <div className="flex items-center mt-4">
         <span className="">
-          {t("withdraw.receive")}:{" "}
+          {t("withdraw.receive")}
+          {":"}{" "}
           {safeAmount(amount)
             .mul((100 - tax) / 100)
             .toFixed(3)}
@@ -180,7 +184,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         </div>
       </div>
       <Button onClick={withdraw} disabled={disableWithdraw}>
-        Withdraw
+        {t("withdraw")}
       </Button>
     </>
   );

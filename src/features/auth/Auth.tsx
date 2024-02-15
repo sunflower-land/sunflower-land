@@ -21,10 +21,12 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -63,7 +65,7 @@ export const Auth: React.FC = () => {
                       type="vibrant"
                       className="ml-2"
                     >
-                      Lunar New Year Event
+                      {t("event.LunarNewYear")}
                     </Label>
                   )}
               </div>

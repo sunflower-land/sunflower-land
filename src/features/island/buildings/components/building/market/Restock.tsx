@@ -60,7 +60,9 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
     <>
       <div className="my-1 flex flex-col mb-1 flex-1 items-center justify-end">
         <div className="flex items-center">
-          <p className="text-xs mr-1.5 mb-0.5">{t("restock")} = 1 x</p>
+          <p className="text-xs mr-1.5 mb-0.5">
+            {t("restock")} {"= 1 x"}
+          </p>
           <SquareIcon icon={ITEM_DETAILS["Block Buck"].image} width={7} />
         </div>
       </div>
@@ -92,11 +94,10 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
               }}
             />
             <span className="text-sm text-start w-full mt-2">
-              You are going to use 1 Block Buck to restock all shop items in the
-              game.
+              {t("restock.one.buck")}
             </span>
             <span className="text-sm text-start w-full mt-3">
-              Are you sure you want to Restock?
+              {t("restock.sure")}
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">

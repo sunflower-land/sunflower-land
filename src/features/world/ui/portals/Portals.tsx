@@ -7,6 +7,7 @@ import { Context } from "features/game/GameProvider";
 import { wallet } from "lib/blockchain/wallet";
 import { SUPPORTED_PORTALS } from "features/game/types/portals";
 import { Modal } from "react-bootstrap";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Portals: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -16,6 +17,7 @@ export const Portals: React.FC = () => {
   const [authState] = useActor(authService);
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState<string>();
+  const { t } = useAppTranslation();
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {
@@ -66,7 +68,7 @@ export const Portals: React.FC = () => {
   }
 
   if (loading) {
-    return <span className="loading">Loading</span>;
+    return <span className="loading">{t("loading")}</span>;
   }
 
   return (

@@ -178,7 +178,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                         );
                       }}
                     >
-                      Linked wallet -{" "}
+                      {t("linked.wallet")} {"-"}{" "}
                       {shortAddress(gameService.state.context.linkedWallet)}
                     </Label>
                   )}
@@ -228,7 +228,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
                   <li className="p-1">
                     <Button onClick={handleDiscordClick}>
-                      <span>Discord</span>
+                      <span>{"Discord"}</span>
                     </Button>
                   </li>
                   <li className="p-1">

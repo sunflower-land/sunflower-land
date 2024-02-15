@@ -7,11 +7,13 @@ import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Revealed } from "features/game/components/Revealed";
 import { ITEM_DETAILS } from "features/game/types/images";
+
 import React, { useContext, useState } from "react";
 
 import wheelHolder from "assets/ui/lunar_wheel_holder.png";
 import wheel from "assets/ui/lunar_wheel.png";
 import { Revealing } from "features/game/components/Revealing";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -21,6 +23,7 @@ interface Props {
 export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   const [isRevealing, setIsRevealing] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
@@ -86,7 +89,10 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
               }}
             />
           </div>
-          <Button disabled={true}>Good Luck!</Button>
+          <Button disabled={true}>
+            {t("basic.treasure.goodLuck")}
+            {"?"}
+          </Button>
         </Panel>
       );
     }
@@ -117,7 +123,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
             }}
           />
         </div>
-        <Button onClick={() => spin()}>Spin</Button>
+        <Button onClick={() => spin()}>{t("spin")}</Button>
       </Panel>
     );
   }
@@ -144,13 +150,15 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
             className="mb-2"
             icon={ITEM_DETAILS["Treasure Key"].image}
           >
-            Missing Key
+            {t("basic.treasure.missingKey")}
           </Label>
           <p className="text-xs mb-2">
-            You need a Treasure Key to open this chest.
+            {t("basic.treasure.needKey")}
+            {"."}
           </p>
           <p className="text-xs">
-            You can get Treasure Keys by completing tasks for Bumpkins.
+            {t("basic.treasure.getKey")}
+            {"."}
           </p>
         </div>
       </CloseButtonPanel>
@@ -170,7 +178,7 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
             className="mb-2 mr-3"
             secondaryIcon={SUNNYSIDE.icons.confirm}
           >
-            Treasure Key
+            {t("basic.treasure.key")}
           </Label>
           {isValentinesDayUTC && (
             <Label
@@ -178,18 +186,14 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
               type="vibrant"
               icon={SUNNYSIDE.icons.stopwatch}
             >
-              Valentine Rewards
+              {t("event.valentines.rewards")}
             </Label>
           )}
         </div>
-        <p className="text-xs mb-2">
-          Congratulations, you have a Treasure Key!
-        </p>
-        <p className="text-xs mb-2">
-          Would you like to open the chest and claim a reward?
-        </p>
+        <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
+        <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>
       </div>
-      <Button onClick={open}>Open</Button>
+      <Button onClick={open}>{t("open")}</Button>
     </CloseButtonPanel>
   );
 };

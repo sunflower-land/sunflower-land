@@ -6,6 +6,7 @@ import { Tab } from "components/ui/Tab";
 import { TabContent } from "./TabContent";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   isOpen: boolean;
@@ -16,6 +17,7 @@ export type Tab = "upcoming-drops" | "collection";
 
 export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [tab, setTab] = useState<Tab>("upcoming-drops");
+  const { t } = useAppTranslation();
 
   return (
     <Modal centered show={isOpen} onHide={onClose}>
@@ -32,13 +34,13 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
             isActive={tab === "upcoming-drops"}
             onClick={() => setTab("upcoming-drops")}
           >
-            <span className="text-sm ml-1">Upcoming</span>
+            <span className="text-sm ml-1">{t("upcoming")}</span>
           </Tab>
           <Tab
             isActive={tab === "collection"}
             onClick={() => setTab("collection")}
           >
-            <span className="text-sm ml-1">Collection</span>
+            <span className="text-sm ml-1">{t("collection")}</span>
           </Tab>
           <img
             src={SUNNYSIDE.icons.close}
