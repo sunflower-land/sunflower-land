@@ -6,7 +6,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
-import { Label } from "components/ui/Label";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -23,21 +22,6 @@ export const UpcomingExpansionModal: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const requirements = expansionRequirements({ game: gameState });
-
-  if (
-    gameState.island.type === "spring" &&
-    gameState.inventory["Basic Land"]?.gte(12)
-  ) {
-    return (
-      <div className="p-2">
-        <Label className="my-2" type="info" icon={SUNNYSIDE.icons.timer}>
-          {t("coming.soon")}
-        </Label>
-        <p className="text-sm">{t("landscape.great.work")}</p>
-        <p className="text-xs my-2">{t("landscape.expansion.date")}</p>
-      </div>
-    );
-  }
 
   // cannot expand if there is no next expansion
   if (requirements === undefined) {
