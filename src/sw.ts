@@ -4,11 +4,7 @@
 import "workbox-core";
 import { googleFontsCache } from "workbox-recipes";
 import { NavigationRoute, registerRoute } from "workbox-routing";
-import {
-  cleanupOutdatedCaches,
-  createHandlerBoundToURL,
-  precacheAndRoute,
-} from "workbox-precaching";
+import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
@@ -77,5 +73,13 @@ if (import.meta.env.PROD) {
 
 // to allow work offline
 registerRoute(
-  new NavigationRoute(createHandlerBoundToURL("offline.html"), { allowlist })
+  new NavigationRoute(
+    ({ event, url, request }) => {
+      // eslint-disable-next-line no-console
+      console.log("NavigationRoute", { event, url, request });
+
+      return Promise.resolve(new Response("offline.html", { status: 200 }));
+    },
+    { allowlist }
+  )
 );
