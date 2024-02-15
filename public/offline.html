@@ -55,27 +55,6 @@
         text-shadow: 1px 1px #1f1f1f;
       }
 
-      button {
-        display: flex;
-        background-color: rgb(231 168 115);
-        width: 100%;
-        padding: 4px;
-        font-size: 16px;
-        object-fit: contain;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAgMAAADwXCcuAAAACVBMVEUAAAAYFCXq1KoZSBjjAAAAAXRSTlMAQObYZgAAABpJREFUCNdjYA1lYJBa5cCQwDABGwbJgdQAAKX2CF37xkC2AAAAAElFTkSuQmCC")
-          20% / 1 / 0 stretch;
-        color: white;
-        font-family: "Paytone One", sans-serif;
-        border-style: solid;
-        border-width: 5.25px;
-        image-rendering: pixelated;
-        border-radius: 13.125px;
-        text-shadow: 1px 1px #1f1f1f;
-      }
-
       .outer-panel {
         display: flex;
         background-color: rgb(185 111 80);
@@ -127,11 +106,9 @@
                 >Oh no, it looks like your device is currently offline.</span
               >
               <span>
-                We will keep trying to reconnect or you can check your
-                connection and click the button to reload.
+                We will return to your farm once network connection is restored.
               </span>
             </div>
-            <button><span style="margin-bottom: 4px">Reload App</span></button>
           </div>
         </div>
       </div>
@@ -139,35 +116,11 @@
 
     <!-- Inline the page's JavaScript file. -->
     <script>
-      // Manual reload feature.
-      document.querySelector("button").addEventListener("click", () => {
-        window.location.reload();
-      });
-
       // Listen to changes in the network state, reload when online.
       // This handles the case when the device is completely offline.
       window.addEventListener("online", () => {
         window.location.reload();
       });
-
-      // Check if the server is responding and reload the page if it is.
-      // This handles the case when the device is online, but the server
-      // is offline or misbehaving.
-      async function checkNetworkAndReload() {
-        try {
-          const response = await fetch(".");
-          // Verify we get a valid response from the server
-          if (response.status >= 200 && response.status < 500) {
-            window.location.reload();
-            return;
-          }
-        } catch {
-          // Unable to connect to the server, ignore.
-        }
-        window.setTimeout(checkNetworkAndReload, 2500);
-      }
-
-      checkNetworkAndReload();
     </script>
   </body>
 </html>
