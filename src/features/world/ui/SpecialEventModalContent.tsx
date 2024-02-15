@@ -20,6 +20,10 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  SpecialEvent,
+  SpecialEventName,
+} from "features/game/types/specialEvents";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -50,9 +54,12 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
-  onClose,
-}) => {
+export const SpecialEventModalContent: React.FC<{
+  onClose: () => void;
+  npcName: NPCName;
+  event: SpecialEvent;
+  eventName: SpecialEventName;
+}> = ({ onClose, npcName, event, eventName }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -60,29 +67,21 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
   const [showWallet, setShowWallet] = useState(false);
   const [showLink, setShowLink] = useState(false);
 
-  const name: NPCName = "Chun Long";
-
-  const { inventory, specialEvents, balance } = gameState.context.state;
-
-  const event = specialEvents.current[getKeys(specialEvents.current)[0]];
+  const { inventory, balance } = gameState.context.state;
   const { t } = useAppTranslation();
-
-  if (!event) {
-    return <>{t("no.event")}</>;
-  }
 
   const claimReward = (day: number) => {
     const task = event.tasks[day - 1];
 
     gameService.send("specialEvent.taskCompleted", {
-      event: "Lunar New Year",
+      event: eventName,
       task: day,
     });
     setReward({
       items: task.reward.items,
       sfl: task.reward.sfl,
       createdAt: Date.now(),
-      id: `lunar-new-year-${day}`,
+      id: `${eventName}-${day}`,
       wearables: task.reward.wearables,
       day,
     });
@@ -171,15 +170,16 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
   }
 
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["Chun Long"]}
-    >
+    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
       <>
         <div>
           <div className="flex justify-between items-center mb-3 p-2">
-            <Label type="default" icon={SUNNYSIDE.icons.player}>
-              {name}
+            <Label
+              type="default"
+              className="capitalize"
+              icon={SUNNYSIDE.icons.player}
+            >
+              {npcName}
             </Label>
             <Label type="info" className="mr-8" icon={SUNNYSIDE.icons.timer}>
               {secondsToString(Math.floor((event.endAt - Date.now()) / 1000), {

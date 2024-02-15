@@ -34,6 +34,8 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
                 text: "",
                 startAt: 0,
                 endAt: now + 1,
@@ -61,6 +63,8 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
                 text: "",
                 startAt: now + 1,
                 endAt: now + 1,
@@ -93,6 +97,8 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
                 text: "",
                 startAt: 0,
                 endAt: now - 1,
@@ -125,6 +131,9 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
+
                 text: "",
                 startAt: 0,
                 endAt: now + 1,
@@ -158,6 +167,9 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
+
                 text: "",
                 startAt: now,
                 endAt: now + 1,
@@ -198,6 +210,8 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
                 text: "",
                 startAt: 0,
                 endAt: now + 1,
@@ -234,6 +248,8 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
                 text: "",
                 startAt: 0,
                 endAt: now + 1,
@@ -266,6 +282,8 @@ describe("completeEventTask", () => {
             history: {},
             current: {
               "Lunar New Year": {
+                isEligible: true,
+                requiresWallet: false,
                 text: "",
                 startAt: 0,
                 endAt: now + 1,
@@ -300,6 +318,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: 0,
               endAt: now + 1,
@@ -333,6 +353,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: 0,
               endAt: now + 1,
@@ -366,6 +388,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: 0,
               endAt: now + 1,
@@ -402,6 +426,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: startAt,
               endAt: now + 1,
@@ -441,6 +467,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: now,
               endAt: now + 1,
@@ -473,6 +501,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: now,
               endAt: now + 1,
@@ -511,6 +541,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: 0,
               endAt: now + 1,
@@ -545,6 +577,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: 0,
               endAt: now + 1,
@@ -583,6 +617,8 @@ describe("completeEventTask", () => {
           history: {},
           current: {
             "Lunar New Year": {
+              isEligible: true,
+              requiresWallet: false,
               text: "",
               startAt: 0,
               endAt: now + 1,

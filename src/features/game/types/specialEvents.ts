@@ -1,5 +1,7 @@
 import { InventoryItemName, Wardrobe } from "./game";
 
+export type SpecialEventName = "Lunar New Year" | "Earn Alliance Banner";
+
 export type Task = {
   requirements: {
     items: Partial<Record<InventoryItemName, number>>;
@@ -13,11 +15,13 @@ export type Task = {
   completedAt?: number;
 };
 
-type SpecialEvent = {
+export type SpecialEvent = {
   text: string;
   startAt: number;
   endAt: number;
   tasks: Task[];
+  isEligible: boolean;
+  requiresWallet: boolean;
 };
 
 export type CurrentSpecialEvents = Partial<Record<string, SpecialEvent>>;

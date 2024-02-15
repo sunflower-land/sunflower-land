@@ -20,6 +20,7 @@ import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
+import { EarnAlliance } from "./EarnAlliance";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -118,6 +119,13 @@ export const WaterComponent: React.FC<Props> = ({
       <TravelTeaser />
 
       <IslandUpgrader gameState={gameState} offset={offset} />
+
+      {/* Earn Alliance NPC */}
+      <MapPlacement x={-4 - offset} y={3} width={1}>
+        <EarnAlliance
+          event={gameState.specialEvents.current["Earn Alliance Banner"]}
+        />
+      </MapPlacement>
     </div>
   );
 };
