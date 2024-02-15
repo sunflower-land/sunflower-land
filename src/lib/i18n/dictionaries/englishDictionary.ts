@@ -4077,7 +4077,8 @@ const specialEvent: Record<SpecialEvent, string> = {
     "Airdrops are handled externally and may take a few days to arrive.",
   "special.event.walletRequired": "Wallet Required",
   "special.event.web3Wallet":
-    "A Web3 wallet is required to claim this airdrop.",
+    "A Web3 wallet is required for this event as it contains an Airdrop.",
+  "special.event.airdrop": "Airdrop",
 };
 
 const statements: Record<Statements, string> = {

@@ -55,15 +55,34 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-const RequiresWallet: React.FC<{ requiresWallet: boolean }> = ({
-  requiresWallet,
-  children,
-}) =>
-  requiresWallet ? (
+const RequiresWallet: React.FC<{
+  requiresWallet: boolean;
+  hasWallet: boolean;
+}> = ({ requiresWallet, hasWallet, children }) => {
+  const [acknowledged, setAcknowledged] = useState(false);
+  const { t } = useAppTranslation();
+
+  if (!hasWallet && !acknowledged) {
+    return (
+      <>
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-2">
+            {t("special.event.walletRequired")}
+          </Label>
+          <p className="text-sm mb-2">{t("special.event.web3Wallet")}</p>
+          <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
+        </div>
+        <Button onClick={() => setAcknowledged(true)}>{t("continue")}</Button>
+      </>
+    );
+  }
+
+  return requiresWallet ? (
     <GameWallet action="specialEvent">{children}</GameWallet>
   ) : (
     <>{children}</>
   );
+};
 
 export const SpecialEventModalContent: React.FC<{
   onClose: () => void;
@@ -77,8 +96,11 @@ export const SpecialEventModalContent: React.FC<{
   const [reward, setReward] = useState<Airdrop & { day: number }>();
   const [showLink, setShowLink] = useState(false);
 
-  const { inventory, balance } = gameState.context.state;
   const { t } = useAppTranslation();
+  const {
+    state: { inventory, balance },
+    linkedWallet,
+  } = gameState.context;
 
   const claimReward = (day: number) => {
     const task = event.tasks[day - 1];
@@ -156,24 +178,6 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
-<<<<<<< HEAD
-  if (showWallet) {
-    return (
-      <Panel>
-        <div className="p-2">
-          <Label icon={walletIcon} type="default" className="mb-2">
-            {t("special.event.walletRequired")}
-          </Label>
-          <p className="text-sm mb-2">{t("special.event.web3Wallet")}</p>
-          <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
-        </div>
-        <Button>{t("continue")}</Button>
-      </Panel>
-    );
-  }
-
-=======
->>>>>>> 1964aa33b ([FEAT] Check eligibility)
   if (reward) {
     return (
       <Panel>
@@ -212,7 +216,10 @@ export const SpecialEventModalContent: React.FC<{
 
   return (
     <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
-      <RequiresWallet requiresWallet={event.requiresWallet}>
+      <RequiresWallet
+        requiresWallet={event.requiresWallet}
+        hasWallet={!!linkedWallet}
+      >
         <div>
           <div className="flex justify-between items-center mb-3 p-2">
             <Label
