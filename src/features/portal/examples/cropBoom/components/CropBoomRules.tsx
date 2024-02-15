@@ -19,7 +19,7 @@ export const CropBoomRules: React.FC<Props> = ({ onAcknowledged }) => {
         <p className="text-sm mb-2">
           {t("crop.boom.welcome")}
           {"!"}
-          </p>
+        </p>
         <img src={tutorial} className="w-full mx-auto rounded-lg mb-2" />
         <div className="flex mb-2">
           <div className="w-12 flex justify-center">

@@ -59,14 +59,17 @@ export const ChatHistory: React.FC<Props> = ({ messages }) => {
       </div>
       <div className="flex items-center justify-between m-1">
         <div className="flex items-center gap-1">
-          <span className="text-xs">Search</span>
+          <span className="text-xs">{t("player.list.search")}</span>
           <input
             className="w-1/2 text-xs text-shadow rounded-sm shadow-inner shadow-black bg-brown-200"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <span className="text-xs">{messages.length} Messages</span>
+        <span className="text-xs">
+          {messages.length}
+          {t("messages")}
+        </span>
       </div>
     </>
   );

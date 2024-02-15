@@ -494,7 +494,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       friendship: true,
     });
   };
-  
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "sfl") {
       return game.balance.gte(delivery?.items.sfl ?? 0);

@@ -10,8 +10,8 @@ interface Props {
 export const CropBoomFinish: React.FC<Props> = ({ onClose }) => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
-  const { t } = useAppTranslation(); 
-  
+  const { t } = useAppTranslation();
+
   const claim = async () => {
     portalService.send("CLAIM");
     onClose();

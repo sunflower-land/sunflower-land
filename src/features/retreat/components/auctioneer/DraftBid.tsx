@@ -114,7 +114,7 @@ export const DraftBid: React.FC<Props> = ({
         </div>
         <div className="p-2 flex-1 flex flex-col items-center justify-center">
           <p className="text-sm text-center mb-2">
-            Are you sure you want to place this bid?
+            {t("getInputErrorMessage.place.bid")}
           </p>
           <div className="flex items-center flex-wrap justify-center mb-4">
             {auction.sfl > 0 && (
@@ -139,9 +139,7 @@ export const DraftBid: React.FC<Props> = ({
             ))}
           </div>
 
-          <p className="text-xs mb-2">
-            Bids cannot be changed once they have been placed.
-          </p>
+          <p className="text-xs mb-2">{t("getInputErrorMessage.cannot.bid")}</p>
         </div>
         <div className="flex w-full">
           <Button className="mr-1" onClick={() => setShowConfirm(false)}>
@@ -168,7 +166,7 @@ export const DraftBid: React.FC<Props> = ({
             src={SUNNYSIDE.icons.arrow_left}
             className="h-8 cursor-pointer"
           />
-          <p className="-ml-5">Place your bid</p>
+          <p className="-ml-5">{t("place.bid")}</p>
           <div />
         </div>
 
@@ -305,7 +303,7 @@ export const DraftBid: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="text-xxs text-center underline mb-3  hover:text-blue-500"
           >
-            How does the auction work?
+            {t("draftBid.howAuctionWorks")}
           </a>
         </div>
 
@@ -326,8 +324,7 @@ export const DraftBid: React.FC<Props> = ({
           <img src={SUNNYSIDE.icons.neutral} className="h-6 mr-2" />
           <div>
             <p className="text-sm mb-1">
-              Participants who are unsuccessful will be refunded their
-              resources.
+              {t("draftBid.unsuccessfulParticipants")}
             </p>
           </div>
         </div>
@@ -338,7 +335,7 @@ export const DraftBid: React.FC<Props> = ({
             rel="noopener noreferrer"
             className="text-xxs text-center underline mb-3  hover:text-blue-500"
           >
-            Terms and conditions
+            {t("draftBid.termsAndConditions")}
           </a>
         </div>
       </div>
@@ -350,7 +347,7 @@ export const DraftBid: React.FC<Props> = ({
             : !!getInputErrorMessage()
         }
       >
-        Bid
+        {t("bid")}
       </Button>
     </>
   );

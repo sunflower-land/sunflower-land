@@ -135,6 +135,7 @@ export type GeneralTerms =
   | "make.wish"
   | "making.wish"
   | "message"
+  | "messages"
   | "max"
   | "minimum"
   | "mins"
@@ -164,7 +165,9 @@ export type GeneralTerms =
   | "place"
   | "place.map"
   | "placing.bid"
+  | "place.bid"
   | "plant"
+  | "play.again"
   | "player.farm.iD"
   | "please.wait"
   | "please.try.again"
@@ -203,6 +206,7 @@ export type GeneralTerms =
   | "sell.one"
   | "sell.ten"
   | "sell"
+  | "session.expire"
   | "session.expired"
   | "settings"
   | "share"
@@ -223,6 +227,8 @@ export type GeneralTerms =
   | "swapping"
   | "syncing"
   | "task"
+  | "terms.condition"
+  | "test"
   | "thank.you"
   | "there.currently"
   | "time"
@@ -869,7 +875,8 @@ export type CropBoomMessages =
   | "crop.boom.welcome"
   | "crop.boom.reachOtherSide"
   | "crop.boom.bewareExplodingCrops"
-  | "crop.boom.newPuzzleDaily";
+  | "crop.boom.newPuzzleDaily"
+  | "crop.boom.back.puzzle";
 
 export type CropFruitDescriptions =
   //Crops
@@ -1202,6 +1209,11 @@ export type DiscordBonus =
   | "discord.bonus.farmingTips"
   | "discord.bonus.freeGift"
   | "discord.bonus.connect";
+
+export type DraftBid =
+  | "draftBid.howAuctionWorks"
+  | "draftBid.unsuccessfulParticipants"
+  | "draftBid.termsAndConditions";
 
 export type Donation = "donation.one";
 
@@ -2049,6 +2061,11 @@ export type NotOnDiscordServer =
   | "notOnDiscordServer.completeVerification"
   | "notOnDiscordServer.acceptRules";
 
+export type NFTMinting =
+  | "nftminting.mintAccountNFT"
+  | "nftminting.mintingYourNFT"
+  | "nftminting.almostThere";
+
 export type NPC_MESSAGE =
   //Betty
   | "npcMessages.betty.msg1"
@@ -2538,7 +2555,7 @@ export type Parsnip =
 export type Pending = "pending.calcul" | "pending.comeback";
 
 export type PersonHood =
-  | "personHood.Details."
+  | "personHood.Details"
   | "personHood.Identify"
   | "personHood.Congrat";
 
@@ -2717,7 +2734,11 @@ export type Share =
   | "share.ShowOffToFarmers"
   | "share.FarmNFTImageAlt"
   | "share.CopyFarmURL"
-  | "share.Tweet";
+  | "share.Tweet"
+  | "share.chooseServer"
+  | "share.FULL"
+  | "share.exploreCustomIslands"
+  | "share.buildYourOwnIsland";
 
 export type SharkBumpkinDialogues =
   | "sharkBumpkin.dialogue.shhhh"
@@ -3117,6 +3138,7 @@ export type TranslationKeys =
   | Detail
   | DiscordBonus
   | Donation
+  | DraftBid
   | ErrorAndAccess
   | ErrorTerms
   | ExoticShopItems
@@ -3175,6 +3197,7 @@ export type TranslationKeys =
   | NoBumpkin
   | NoTownCenter
   | NotOnDiscordServer
+  | NFTMinting
   | NPC_MESSAGE
   | Npc
   | NpcDialogues

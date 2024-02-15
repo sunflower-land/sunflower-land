@@ -41,6 +41,7 @@ import {
   Detail,
   DiscordBonus,
   Donation,
+  DraftBid,
   ErrorAndAccess,
   ErrorTerms,
   ExoticShopItems,
@@ -97,6 +98,7 @@ import {
   NoBumpkin,
   NoTownCenter,
   NotOnDiscordServer,
+  NFTMinting,
   NPC_MESSAGE,
   Npc,
   NpcDialogues,
@@ -310,6 +312,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "making.wish": "Making a wish",
   max: "Max",
   message: "Message",
+  messages: "Messages",
   minimum: "Minimum",
   mins: "mins",
   mint: "Mint",
@@ -336,8 +339,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   "pass.required": "Pass Required",
   place: "Place",
   "place.map": "Place on map",
+  "place.bid": "Place your bid",
   "placing.bid": "Placing bid",
   plant: "Plant",
+  "play.again": "Play again",
   "player.farm.iD": "Player Farm ID",
   "please.try.again": "Please try again later.",
   "please.wait": "Please wait",
@@ -377,6 +382,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Sell All",
   "sell.one": "Sell 1",
   "sell.ten": "Sell 10",
+  "session.expire": "Your session has expired",
   "session.expired": "Session expired!",
   settings: "Settings",
   share: "Share",
@@ -397,6 +403,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "Swapping",
   syncing: "Syncing",
   task: "Task",
+  "terms.condition": "Terms and conditions",
+  test: "Test",
   "thank.you": "Thank you!",
   "there.currently": "There is currently",
   time: "Time",
@@ -1137,6 +1145,7 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
   "crop.boom.bewareExplodingCrops":
     "Beware of exploding crops. If you step on these, you will start from the beginning",
   "crop.boom.newPuzzleDaily": "Each day a new puzzle will appear",
+  "crop.boom.back.puzzle": "Come back later for a brand new puzzle!",
 };
 
 const compostDescription: Record<CompostDescription, string> = {
@@ -1710,6 +1719,13 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "This was a community art initiative and donations are greatly appreciated!",
+};
+
+const draftBid: Record<DraftBid, string> = {
+  "draftBid.howAuctionWorks": "How does the auction work?",
+  "draftBid.unsuccessfulParticipants":
+    "Participants who are unsuccessful will be refunded their resources.",
+  "draftBid.termsAndConditions": "Terms and conditions",
 };
 
 const errorAndAccess: Record<ErrorAndAccess, string> = {
@@ -3097,6 +3113,13 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
 };
 
+const nftminting: Record<NFTMinting, string> = {
+  "nftminting.mintAccountNFT": "Minting Account NFT",
+  "nftminting.mintingYourNFT":
+    "Minting your NFT and storing progress on the Blockchain",
+  "nftminting.almostThere": "Almost there",
+};
+
 const npc: Record<Npc, string> = {
   "npc.Modal.Hammer": "Gather round Bumpkins, an auction is about to begin.",
   "npc.Modal.Marcus":
@@ -3741,7 +3764,7 @@ const pending: Record<Pending, string> = {
 };
 
 const personHood: Record<PersonHood, string> = {
-  "personHood.Details.": "Failed Loading Personhood Details",
+  "personHood.Details": "Failed Loading Personhood Details",
   "personHood.Identify": "Your identity could not be verified",
   "personHood.Congrat": "Congratulations, your identity has been verified!",
 };
@@ -3975,6 +3998,10 @@ const share: Record<Share, string> = {
   "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
   "share.CopyFarmURL": "Copy farm URL",
   "share.Tweet": "Tweet",
+  "share.chooseServer": "Choose a server to join",
+  "share.FULL": "FULL",
+  "share.exploreCustomIslands": "Explore custom project islands.",
+  "share.buildYourOwnIsland": "Do you want to build your own island?",
 };
 
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
@@ -4195,7 +4222,7 @@ const swarming: Record<Swarming, string> = {
 const tieBreaker: Record<TieBreaker, string> = {
   "tieBreaker.tiebreaker": "Tiebreaker",
   "tieBreaker.closeBid":
-    "So close! You bid the exact same resources as the {{supply}} bid. A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
+    " A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
   "tieBreaker.betterLuck":
     "Time to eat some more cakes! Better luck next time.",
   "tieBreaker.refund": "Refund resource",
@@ -4556,6 +4583,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...detail,
   ...discordBonus,
   ...donation,
+  ...draftBid,
   ...errorAndAccess,
   ...errorTerms,
   ...exoticShopItems,
@@ -4614,6 +4642,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...noBumpkin,
   ...noTownCenter,
   ...notOnDiscordServer,
+  ...nftminting,
   ...npc,
   ...npcDialogues,
   ...npc_message,

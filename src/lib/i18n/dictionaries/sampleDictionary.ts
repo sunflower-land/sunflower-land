@@ -41,6 +41,7 @@ import {
   Detail,
   DiscordBonus,
   Donation,
+  DraftBid,
   ErrorAndAccess,
   ErrorTerms,
   ExoticShopItems,
@@ -97,6 +98,7 @@ import {
   NoBumpkin,
   NoTownCenter,
   NotOnDiscordServer,
+  NFTMinting,
   NPC_MESSAGE,
   Npc,
   NpcDialogues,
@@ -309,6 +311,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "making.wish": "",
   max: "",
   message: "",
+  messages: "",
   minimum: "",
   mins: "",
   mint: "",
@@ -337,7 +340,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   place: "",
   "place.map": "",
   "placing.bid": "",
+  "place.bid": "",
   plant: "",
+  "play.again": "",
   "player.farm.iD": "",
   "please.wait": "",
   "please.try.again": "",
@@ -376,6 +381,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.one": "",
   "sell.ten": "",
   sell: "",
+  "session.expire": "",
   "session.expired": "",
   settings: "",
   share: "",
@@ -396,6 +402,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "",
   syncing: "",
   task: "",
+  "terms.condition": "",
+  test: "",
   "thank.you": "",
   "there.currently": "",
   time: "",
@@ -1059,6 +1067,7 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
   "crop.boom.reachOtherSide": "",
   "crop.boom.bewareExplodingCrops": "",
   "crop.boom.newPuzzleDaily": "",
+  "crop.boom.back.puzzle": "",
 };
 const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.sunflower": "",
@@ -1377,6 +1386,11 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.farmingTips": "",
   "discord.bonus.freeGift": "",
   "discord.bonus.connect": "",
+};
+const draftBid: Record<DraftBid, string> = {
+  "draftBid.howAuctionWorks": "",
+  "draftBid.unsuccessfulParticipants": "",
+  "draftBid.termsAndConditions": "",
 };
 const donation: Record<Donation, string> = {
   "donation.one": "",
@@ -2196,6 +2210,11 @@ const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
   "notOnDiscordServer.completeVerification": "",
   "notOnDiscordServer.acceptRules": "",
 };
+const nftminting: Record<NFTMinting, string> = {
+  "nftminting.mintAccountNFT": "",
+  "nftminting.mintingYourNFT": "",
+  "nftminting.almostThere": "",
+};
 const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.betty.msg1": "",
   "npcMessages.betty.msg2": "",
@@ -2629,7 +2648,7 @@ const pending: Record<Pending, string> = {
   "pending.comeback": "",
 };
 const personHood: Record<PersonHood, string> = {
-  "personHood.Details.": "",
+  "personHood.Details": "",
   "personHood.Identify": "",
   "personHood.Congrat": "",
 };
@@ -2821,6 +2840,10 @@ const share: Record<Share, string> = {
   "share.FarmNFTImageAlt": "",
   "share.CopyFarmURL": "",
   "share.Tweet": "",
+  "share.chooseServer": "",
+  "share.FULL": "",
+  "share.exploreCustomIslands": "",
+  "share.buildYourOwnIsland": "",
 };
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
   "sharkBumpkin.dialogue.shhhh": "",
@@ -3250,6 +3273,7 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...detail,
   ...discordBonus,
   ...donation,
+  ...draftBid,
   ...errorAndAccess,
   ...errorTerms,
   ...exoticShopItems,
@@ -3307,6 +3331,7 @@ export const SAMPLE_TERMS: Record<TranslationKeys, string> = {
   ...noBumpkin,
   ...noTownCenter,
   ...notOnDiscordServer,
+  ...nftminting,
   ...npc,
   ...npcDialogues,
   ...npc_message,

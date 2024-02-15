@@ -90,7 +90,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
     >
       {tab === 0 && (
         <div className="p-2">
-          <p className="text-xs mb-2">Choose a server to join</p>
+          <p className="text-xs mb-2">{t("share.chooseServer")}</p>
           <>
             {servers.map((server, index) => {
               return (
@@ -116,7 +116,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                             type="danger"
                             className="flex gap-2 items-center"
                           >
-                            FULL
+                            {t("share.FULL")}
                           </Label>
                         )}
                         <p className="text-xs break-words">{server.purpose}</p>
@@ -143,7 +143,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
       )}
       {tab === 1 && (
         <div className="p-2">
-          <p className="text-xs mb-2">Explore custom project islands.</p>
+          <p className="text-xs mb-2">{t("share.exploreCustomIslands")}</p>
           <>
             {COMMUNITY_ISLANDS.map((island) => {
               return (
@@ -191,7 +191,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
             rel="noopener noreferrer"
             className="underline text-white text-xs"
           >
-            Do you want to build your own island?
+            {t("share.buildYourOwnIsland")}
           </a>
         </div>
       )}

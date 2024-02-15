@@ -43,17 +43,16 @@ export const TieBreaker: React.FC<Props> = ({
         status="tiebreaker"
       />
       <div className="my-2">
-        <Label type="warning">Tiebreaker</Label>
+        <Label type="warning">{"Tiebreaker"}</Label>
       </div>
       <p className="text-xs mb-2 text-center px-2">
         {`So close! You bid the exact same resources as the ${toOrdinalSuffix(
           results.supply
         )} bid.`}{" "}
-        A tie breaker is chosen by whichever Bumpkin has more experience.
-        Unfortunately you lost.
+        {t("tieBreaker.closeBid")}
       </p>
       <p className="text-xs  mb-1 text-center px-2">
-        Time to eat some more cakes! Better luck next time.
+        {t("tieBreaker.betterLuck")}
       </p>
       <a
         className="underline hover:text-blue-500 text-xxs text-center"

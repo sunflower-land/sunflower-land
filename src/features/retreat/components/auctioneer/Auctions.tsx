@@ -13,6 +13,7 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -20,6 +21,7 @@ interface Props {
 }
 export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
   const [auctioneerState] = useActor(auctionService);
+  const { t } = useAppTranslation();
 
   const { auctions } = auctioneerState.context;
 
@@ -80,7 +82,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
               </div>
               {Date.now() > auction.startAt ? (
                 <div>
-                  <Label type="warning">Auction is live!</Label>
+                  <Label type="warning">{t("auction.live")}</Label>
                 </div>
               ) : (
                 <div className="flex-1 flex items-center  mt-1">
