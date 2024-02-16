@@ -851,4 +851,73 @@ describe("updateBeehives", () => {
         DEFAULT_HONEY_PRODUCTION_TIME / 2
     );
   });
+
+  it("correctly forecasts a hive when the hive already has an attachment", () => {
+    const flower1 = {
+      attachedAt: now - DEFAULT_HONEY_PRODUCTION_TIME / 2,
+      attachedUntil: now + DEFAULT_HONEY_PRODUCTION_TIME / 2,
+      rate: 1,
+      id: "123",
+    };
+    const flower2 = {
+      attachedAt: now + DEFAULT_HONEY_PRODUCTION_TIME / 2,
+      attachedUntil: now + DEFAULT_HONEY_PRODUCTION_TIME,
+      rate: 1,
+      id: "456",
+    };
+
+    const gameState: GameState = {
+      ...TEST_FARM,
+      collectibles: {},
+      beehives: {
+        abc: {
+          height: 1,
+          width: 1,
+          x: 0,
+          y: 0,
+          honey: { updatedAt: now, produced: 0 },
+          swarm: false,
+          flowers: [flower1],
+        },
+      },
+      flowers: {
+        discovered: {},
+        flowerBeds: {
+          "123": {
+            createdAt: 0,
+            height: 1,
+            width: 2,
+            x: 0,
+            y: 0,
+            flower: {
+              name: "Red Pansy",
+              amount: 1,
+              plantedAt: now - DEFAULT_HONEY_PRODUCTION_TIME / 2,
+            },
+          },
+          "456": {
+            createdAt: 0,
+            height: 1,
+            width: 2,
+            x: 0,
+            y: 0,
+            flower: {
+              name: "Red Pansy",
+              amount: 1,
+              plantedAt: now,
+            },
+          },
+        },
+      },
+    };
+
+    const updatedBeehives = updateBeehives({
+      game: gameState,
+      createdAt: now,
+    });
+
+    expect(updatedBeehives["abc"].flowers.length).toEqual(2);
+    expect(updatedBeehives["abc"].flowers[0]).toEqual(flower1);
+    expect(updatedBeehives["abc"].flowers[1]).toEqual(flower2);
+  });
 });

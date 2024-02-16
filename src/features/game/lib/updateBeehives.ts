@@ -202,11 +202,13 @@ const getBeehiveDetail = ({
   beehive,
   createdAt,
 }: GetBeehiveDetail): BeehiveDetail => {
-  const produced = beehive.flowers.reduce(
-    (honey, flower) =>
-      honey + (flower.attachedUntil - flower.attachedAt) * (flower.rate ?? 1),
-    beehive.honey.produced
-  );
+  const produced = beehive.flowers.reduce((honey, flower) => {
+    const start = Math.max(beehive.honey.updatedAt, flower.attachedAt);
+    const end = flower.attachedUntil;
+
+    return honey + Math.max(end - start, 0) * (flower.rate ?? 1);
+  }, beehive.honey.produced);
+
   const lastAttachment = beehive.flowers.sort(
     (a, b) => b.attachedUntil - a.attachedUntil
   )[0];
