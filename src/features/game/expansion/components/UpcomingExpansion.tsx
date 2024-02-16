@@ -272,6 +272,9 @@ export const UpcomingExpansion: React.FC = () => {
     }
   }, [gameState.value]);
 
+  const expansions =
+    (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+
   const onExpand = () => {
     gameService.send("land.expanded");
     gameService.send("SAVE");
@@ -286,8 +289,6 @@ export const UpcomingExpansion: React.FC = () => {
       });
     }
 
-    const expansions =
-      (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
     gameAnalytics.trackMilestone({
       event: `Farm:Expanding:Expansion${expansions}`,
     });
@@ -322,6 +323,11 @@ export const UpcomingExpansion: React.FC = () => {
     // Only pulsate first 5 times
     state.inventory["Basic Land"]?.lte(4);
 
+  const maxExpanded = expansions > 9;
+  const islandType = state.island.type;
+
+  const hasFullBasicIsland = maxExpanded && islandType === "basic";
+
   return (
     <>
       {state.expansionConstruction && (
@@ -332,7 +338,7 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {!state.expansionConstruction && requirements && (
+      {!state.expansionConstruction && requirements && !hasFullBasicIsland && (
         <ExpandIcon
           canExpand={canExpand}
           inventory={state.inventory}

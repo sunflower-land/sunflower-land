@@ -320,6 +320,7 @@ export function getRewards({
         id: "expansion-four-airdrop",
         items: {
           Shovel: 1,
+          "Block Buck": 1,
         },
         sfl: 0,
         wearables: {},
@@ -341,6 +342,7 @@ export function getRewards({
         items: {
           "Time Warp Totem": 1,
           "Pumpkin Soup": 1,
+          "Block Buck": 1,
         },
         sfl: 0,
         wearables: {},
@@ -348,6 +350,58 @@ export function getRewards({
           x: -7,
           y: 7,
         },
+      },
+    ];
+  }
+
+  const blockBuckAirdrop = {
+    createdAt,
+    items: {
+      "Block Buck": 1,
+    },
+    sfl: 0,
+    wearables: {},
+  };
+
+  if (expansions.eq(6) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        ...blockBuckAirdrop,
+        coordinates: { x: -7, y: 0 },
+        id: "expansion-six-airdrop",
+      },
+    ];
+  }
+
+  if (expansions.eq(7) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        ...blockBuckAirdrop,
+        coordinates: { x: -7, y: -3 },
+        id: "expansion-seven-airdrop",
+      },
+    ];
+  }
+
+  if (expansions.eq(8) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        ...blockBuckAirdrop,
+        coordinates: { x: -1, y: -3 },
+        id: "expansion-eight-airdrop",
+      },
+    ];
+  }
+  if (expansions.eq(9) && game.island.type === "basic") {
+    airdrops = [
+      ...airdrops,
+      {
+        ...blockBuckAirdrop,
+        coordinates: { x: 6, y: -5 },
+        id: "expansion-nine-airdrop",
       },
     ];
   }
