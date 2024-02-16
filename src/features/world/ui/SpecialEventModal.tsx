@@ -6,7 +6,6 @@ import { Modal } from "react-bootstrap";
 import { SpecialEventModalContent } from "./SpecialEventModalContent";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { GameWallet } from "features/wallet/Wallet";
 
 interface SpecialEventModalProps {
   npc: NPCName;
