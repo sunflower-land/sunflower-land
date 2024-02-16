@@ -261,7 +261,7 @@ export const SpecialEventModalContent: React.FC<{
                     ))}
                     {!!task.isAirdrop && (
                       <Label type="warning" icon={giftIcon} key={"label"}>
-                        {"Airdrop"}
+                        {t("special.event.airdrop")}
                       </Label>
                     )}
                     {getKeys(task.reward.wearables).map((wearableName) => (
