@@ -85,10 +85,4 @@ export const SPAWNS: SpawnLocation = {
       y: 290,
     },
   },
-  lunar_island: {
-    default: {
-      x: 350,
-      y: 534,
-    },
-  },
 };

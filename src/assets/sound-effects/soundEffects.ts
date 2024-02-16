@@ -20,7 +20,6 @@ export const SOUNDS = {
   },
   songs: {
     royal_farms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/royal_farms.mp3`,
-    cherry_blossoms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/cherry_blossoms.mp3`,
   },
   doors: {
     open: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Farming/Door/Farm_Game_Farming_Door_Open_Chest_2_Wood_Creak_Storage_Hinge.mp3`,

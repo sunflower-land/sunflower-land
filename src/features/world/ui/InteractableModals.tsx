@@ -204,10 +204,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal centered show={interactable === "basic_chest"}>
-        <BasicTreasureChest
-          onClose={closeModal}
-          location={scene === "lunar_island" ? "lunar_island" : "plaza"}
-        />
+        <BasicTreasureChest onClose={closeModal} location={"plaza"} />
       </Modal>
       <Modal
         centered
