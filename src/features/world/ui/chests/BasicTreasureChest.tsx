@@ -10,14 +10,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import React, { useContext, useState } from "react";
 
-import wheelHolder from "assets/ui/lunar_wheel_holder.png";
-import wheel from "assets/ui/lunar_wheel.png";
 import { Revealing } from "features/game/components/Revealing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
-  location: "plaza" | "lunar_island";
+  location: "plaza";
 }
 
 export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
@@ -26,18 +24,10 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
   const { t } = useAppTranslation();
 
   const [isRevealing, setIsRevealing] = useState(false);
-  const [isOpening, setIsOpening] = useState(false);
-  const [isSpinning, setIsSpinning] = useState(false);
 
   const hasKey = !!gameState.context.state.inventory["Treasure Key"]?.gte(1);
 
   const open = () => {
-    // TEMP - spin the wheel animation
-    if (location === "lunar_island") {
-      setIsOpening(true);
-      return;
-    }
-
     gameService.send("REVEAL", {
       event: {
         key: "Treasure Key",
@@ -49,81 +39,10 @@ export const BasicTreasureChest: React.FC<Props> = ({ onClose, location }) => {
     setIsRevealing(true);
   };
 
-  const spin = async () => {
-    setIsSpinning(true);
-
-    await new Promise((res) => setTimeout(res, 3000));
-
-    setIsOpening(false);
-    setIsSpinning(false);
-    setIsRevealing(true);
-
-    gameService.send("REVEAL", {
-      event: {
-        key: "Treasure Key",
-        location: "lunar_island",
-        type: "treasureChest.opened",
-        createdAt: new Date(),
-      },
-    });
-  };
-
-  if (isSpinning || (gameState.matches("revealing") && isRevealing)) {
-    // TEMP Lunar island
-    if (location === "lunar_island") {
-      return (
-        <Panel>
-          <div className="w-48 mx-auto my-2 relative">
-            <img
-              src={wheelHolder}
-              alt="Wheel Holder"
-              className="w-full z-10  absolute top-0 left-0"
-            />
-            <img
-              src={wheel}
-              alt="Wheel"
-              className="w-full animate-spin"
-              style={{
-                transformOrigin: "calc(50%) calc(50% + 9px)",
-                animation: "spin 6s linear infinite",
-              }}
-            />
-          </div>
-          <Button disabled={true}>
-            {t("basic.treasure.goodLuck")}
-            {"?"}
-          </Button>
-        </Panel>
-      );
-    }
-
+  if (gameState.matches("revealing") && isRevealing) {
     return (
       <Panel>
         <Revealing icon={SUNNYSIDE.icons.treasure} />
-      </Panel>
-    );
-  }
-
-  if (isOpening) {
-    return (
-      <Panel>
-        <div className="w-48 mx-auto my-2 relative">
-          <img
-            src={wheelHolder}
-            alt="Wheel Holder"
-            className="w-full z-10  absolute top-0 left-0"
-          />
-          <img
-            src={wheel}
-            alt="Wheel"
-            className="w-full"
-            style={{
-              transformOrigin: "calc(50%) calc(50% + 9px)",
-              animation: isSpinning ? "spin 6s linear infinite" : "none",
-            }}
-          />
-        </div>
-        <Button onClick={() => spin()}>{t("spin")}</Button>
       </Panel>
     );
   }
