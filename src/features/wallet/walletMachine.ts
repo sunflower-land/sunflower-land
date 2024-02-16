@@ -29,6 +29,7 @@ export interface Context {
 }
 
 export type WalletAction =
+  | "specialEvent"
   | "login"
   | "deposit"
   | "withdraw"
@@ -38,7 +39,12 @@ export type WalletAction =
   | "sync";
 
 // Certain actions do not require an NFT to perform
-const NON_NFT_ACTIONS: WalletAction[] = ["login", "donate", "dailyReward"];
+const NON_NFT_ACTIONS: WalletAction[] = [
+  "login",
+  "donate",
+  "dailyReward",
+  "specialEvent",
+];
 
 type InitialiseEvent = {
   type: "INITIALISE";

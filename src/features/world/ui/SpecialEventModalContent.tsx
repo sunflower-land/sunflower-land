@@ -20,6 +20,11 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { formatDateTime, secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  SpecialEvent,
+  SpecialEventName,
+} from "features/game/types/specialEvents";
+import { GameWallet } from "features/wallet/Wallet";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -50,41 +55,70 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
-  onClose,
-}) => {
+const RequiresWallet: React.FC<{
+  requiresWallet: boolean;
+  hasWallet: boolean;
+}> = ({ requiresWallet, hasWallet, children }) => {
+  const [acknowledged, setAcknowledged] = useState(false);
+  const { t } = useAppTranslation();
+
+  if (!hasWallet && !acknowledged) {
+    return (
+      <>
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-2">
+            {t("special.event.walletRequired")}
+          </Label>
+          <p className="text-sm mb-2">{t("special.event.web3Wallet")}</p>
+          <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
+        </div>
+        <Button onClick={() => setAcknowledged(true)}>{t("continue")}</Button>
+      </>
+    );
+  }
+
+  return requiresWallet ? (
+    <GameWallet action="specialEvent">{children}</GameWallet>
+  ) : (
+    <>{children}</>
+  );
+};
+
+export const SpecialEventModalContent: React.FC<{
+  onClose: () => void;
+  npcName: NPCName;
+  event: SpecialEvent;
+  eventName: SpecialEventName;
+}> = ({ onClose, npcName, event, eventName }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [reward, setReward] = useState<Airdrop & { day: number }>();
-  const [showWallet, setShowWallet] = useState(false);
   const [showLink, setShowLink] = useState(false);
 
-  const name: NPCName = "Chun Long";
-
-  const { inventory, specialEvents, balance } = gameState.context.state;
-
-  const event = specialEvents.current[getKeys(specialEvents.current)[0]];
   const { t } = useAppTranslation();
-
-  if (!event) {
-    return <>{t("no.event")}</>;
-  }
+  const {
+    state: { inventory, balance },
+    linkedWallet,
+  } = gameState.context;
 
   const claimReward = (day: number) => {
     const task = event.tasks[day - 1];
 
     gameService.send("specialEvent.taskCompleted", {
-      event: "Lunar New Year",
+      event: eventName,
       task: day,
     });
     setReward({
       items: task.reward.items,
       sfl: task.reward.sfl,
       createdAt: Date.now(),
-      id: `lunar-new-year-${day}`,
+      id: `${eventName}-${day}`,
       wearables: task.reward.wearables,
       day,
+      message: task.isAirdrop
+        ? "Airdrops are handled externally and may take a few days to arrive."
+        : undefined,
     });
   };
 
@@ -147,21 +181,6 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
     );
   }
 
-  if (showWallet) {
-    return (
-      <Panel>
-        <div className="p-2">
-          <Label icon={walletIcon} type="default" className="mb-2">
-            {t("special.event.walletRequired")}
-          </Label>
-          <p className="text-sm mb-2">{t("special.event.web3Wallet")}</p>
-          <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
-        </div>
-        <Button>{t("continue")}</Button>
-      </Panel>
-    );
-  }
-
   if (reward) {
     return (
       <Panel>
@@ -170,16 +189,48 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
     );
   }
 
+  // isEligible should already be checked by the parent component but just in
+  // case it was missed, let's check it here as well
+  if (!event.isEligible) {
+    return (
+      <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
+        <div>
+          <div className="flex justify-between items-center p-2">
+            <Label
+              type="default"
+              className="capitalize"
+              icon={SUNNYSIDE.icons.player}
+            >
+              {npcName}
+            </Label>
+          </div>
+          <p className="text-sm mb-3 p-2">
+            <Dialogue
+              trail={25}
+              message={
+                "There is no work needing to be done right now, thanks for stopping by though!"
+              }
+            />
+          </p>
+        </div>
+      </CloseButtonPanel>
+    );
+  }
+
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES["Chun Long"]}
-    >
-      <>
+    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npcName]}>
+      <RequiresWallet
+        requiresWallet={event.requiresWallet}
+        hasWallet={!!linkedWallet}
+      >
         <div>
           <div className="flex justify-between items-center mb-3 p-2">
-            <Label type="default" icon={SUNNYSIDE.icons.player}>
-              {name}
+            <Label
+              type="default"
+              className="capitalize"
+              icon={SUNNYSIDE.icons.player}
+            >
+              {npcName}
             </Label>
             <Label type="info" className="mr-8" icon={SUNNYSIDE.icons.timer}>
               {secondsToString(Math.floor((event.endAt - Date.now()) / 1000), {
@@ -202,21 +253,28 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
                   <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
                     {`${t("day")} ${index + 1}`}
                   </Label>
-                  {getKeys(task.reward.items).map((itemName) => (
-                    <Label type="warning" icon={giftIcon} key={itemName}>
-                      {`${task.reward.items[itemName]} ${itemName}`}
-                    </Label>
-                  ))}
-                  {getKeys(task.reward.wearables).map((wearableName) => (
-                    <Label type="warning" icon={giftIcon} key={wearableName}>
-                      {`${task.reward.wearables[wearableName]} ${wearableName}`}
-                    </Label>
-                  ))}
-                  {!!task.reward.sfl && (
-                    <Label type="warning" icon={sfl} className="">
-                      {`${task.reward.sfl} SFL`}
-                    </Label>
-                  )}
+                  <div className="flex justify-end space-x-3">
+                    {getKeys(task.reward.items).map((itemName) => (
+                      <Label type="warning" icon={giftIcon} key={itemName}>
+                        {`${task.reward.items[itemName]} ${itemName}`}
+                      </Label>
+                    ))}
+                    {!!task.isAirdrop && (
+                      <Label type="warning" icon={giftIcon} key={"label"}>
+                        {t("special.event.airdrop")}
+                      </Label>
+                    )}
+                    {getKeys(task.reward.wearables).map((wearableName) => (
+                      <Label type="warning" icon={giftIcon} key={wearableName}>
+                        {`${task.reward.wearables[wearableName]} ${wearableName}`}
+                      </Label>
+                    ))}
+                    {!!task.reward.sfl && (
+                      <Label type="warning" icon={sfl} className="">
+                        {`${task.reward.sfl} SFL`}
+                      </Label>
+                    )}
+                  </div>
                 </div>
 
                 <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3">
@@ -261,7 +319,7 @@ export const SpecialEventBumpkin: React.FC<{ onClose: () => void }> = ({
             ))}
           </div>
         </div>
-      </>
+      </RequiresWallet>
     </CloseButtonPanel>
   );
 };

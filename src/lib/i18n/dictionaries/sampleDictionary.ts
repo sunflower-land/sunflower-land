@@ -2895,6 +2895,7 @@ const specialEvent: Record<SpecialEvent, string> = {
   "special.event.airdropHandling": "",
   "special.event.walletRequired": "",
   "special.event.web3Wallet": "",
+  "special.event.airdrop": "",
 };
 
 const statements: Record<Statements, string> = {

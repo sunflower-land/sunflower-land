@@ -2785,7 +2785,8 @@ export type SpecialEvent =
   | "special.event.claimForm"
   | "special.event.airdropHandling"
   | "special.event.walletRequired"
-  | "special.event.web3Wallet";
+  | "special.event.web3Wallet"
+  | "special.event.airdrop";
 
 export type Statements =
   | "statements.adventure"

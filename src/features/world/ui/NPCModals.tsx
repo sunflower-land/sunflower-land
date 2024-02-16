@@ -21,7 +21,7 @@ import { Stylist } from "./stylist/Stylist";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SpecialEventBumpkin } from "./SpecialEventBumpkin";
+import { SpecialEventModal } from "./SpecialEventModal";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -197,9 +197,17 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
           {npc === "luna" && <Luna onClose={closeModal} />}
           {npc === "mayor" && <Mayor onClose={closeModal} />}
-          {npc === "Chun Long" && <SpecialEventBumpkin onClose={closeModal} />}
         </div>
       </Modal>
+      {npc === "Chun Long" && (
+        <SpecialEventModal
+          onClose={closeModal}
+          show={npc === "Chun Long"}
+          npc={npc}
+          eventName="Lunar New Year"
+        />
+      )}
+
       {npc === "hammerin harry" && (
         <AuctionHouseModal
           closeModal={closeModal}
