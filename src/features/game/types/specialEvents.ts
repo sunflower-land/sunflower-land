@@ -12,6 +12,7 @@ export type Task = {
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
   };
+  isAirdrop?: boolean;
   completedAt?: number;
 };
 

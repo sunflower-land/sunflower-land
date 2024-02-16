@@ -116,6 +116,9 @@ export const SpecialEventModalContent: React.FC<{
       id: `${eventName}-${day}`,
       wearables: task.reward.wearables,
       day,
+      message: task.isAirdrop
+        ? "Airdrops are handled externally and may take a few days to arrive."
+        : undefined,
     });
   };
 
@@ -250,21 +253,28 @@ export const SpecialEventModalContent: React.FC<{
                   <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
                     {`${t("day")} ${index + 1}`}
                   </Label>
-                  {getKeys(task.reward.items).map((itemName) => (
-                    <Label type="warning" icon={giftIcon} key={itemName}>
-                      {`${task.reward.items[itemName]} ${itemName}`}
-                    </Label>
-                  ))}
-                  {getKeys(task.reward.wearables).map((wearableName) => (
-                    <Label type="warning" icon={giftIcon} key={wearableName}>
-                      {`${task.reward.wearables[wearableName]} ${wearableName}`}
-                    </Label>
-                  ))}
-                  {!!task.reward.sfl && (
-                    <Label type="warning" icon={sfl} className="">
-                      {`${task.reward.sfl} SFL`}
-                    </Label>
-                  )}
+                  <div className="flex justify-end space-x-3">
+                    {getKeys(task.reward.items).map((itemName) => (
+                      <Label type="warning" icon={giftIcon} key={itemName}>
+                        {`${task.reward.items[itemName]} ${itemName}`}
+                      </Label>
+                    ))}
+                    {!!task.isAirdrop && (
+                      <Label type="warning" icon={giftIcon} key={"label"}>
+                        {"Airdrop"}
+                      </Label>
+                    )}
+                    {getKeys(task.reward.wearables).map((wearableName) => (
+                      <Label type="warning" icon={giftIcon} key={wearableName}>
+                        {`${task.reward.wearables[wearableName]} ${wearableName}`}
+                      </Label>
+                    ))}
+                    {!!task.reward.sfl && (
+                      <Label type="warning" icon={sfl} className="">
+                        {`${task.reward.sfl} SFL`}
+                      </Label>
+                    )}
+                  </div>
                 </div>
 
                 <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3">
