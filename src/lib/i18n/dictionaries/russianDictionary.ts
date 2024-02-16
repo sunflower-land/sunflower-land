@@ -62,7 +62,6 @@ import {
   GoldPassModal,
   GoldTooth,
   GuideTerms,
-  GrubShop,
   HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
@@ -2236,15 +2235,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": "Cook food and level up",
 };
 
-const grubshop: Record<GrubShop, string> = {
-  "message.grublinOrders": "Come back tomorrow to view the Grublin Orders.",
-  "message.orderFulfilled": "Order fulfilled",
-  "message.grubShopClosed": "The Grub Shop is closed on Tuesdays.",
-  "message.moreOrdersIn": "More orders in",
-  "message.bonusOffer": "Bonus Offer",
-  "message.earnSeasonalTickets": "Earn 10 Seasonal Tickets for each meal.",
-};
-
 const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.approaching": "The Halvening is Approaching!",
   "halveningCountdown.description":
@@ -3776,7 +3766,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.includes": "Содержит:",
   "season.limitedOffer": "Ограниченное время!",
   "season.wearableAirdrop": "Аирдроп Сезонной Одежды",
-  "season.catch.the.kraken": "Catch the Kraken",
   "season.place.land": "You must place it on your land",
 };
 
@@ -4337,7 +4326,6 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...goldpassModal,
   ...guideTerms,
-  ...grubshop,
   ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,
