@@ -62,7 +62,6 @@ export type GeneralTerms =
   | "currently.Unavailable"
   | "danger"
   | "date"
-  | "day"
   | "decoration"
   | "deliver"
   | "deliveries"
@@ -138,7 +137,6 @@ export type GeneralTerms =
   | "messages"
   | "max"
   | "minimum"
-  | "mins"
   | "mint"
   | "minting"
   | "music"
@@ -198,7 +196,6 @@ export type GeneralTerms =
   | "save"
   | "saving"
   | "seasonal.treasure"
-  | "secs"
   | "seeds"
   | "selected"
   | "select.resource"
@@ -297,7 +294,20 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations";
+  | "decorations"
+
+  // time units
+  // Singular
+  | "sec"
+  | "min"
+  | "hr"
+  | "day"
+
+  //Plural
+  | "secs"
+  | "mins"
+  | "hrs"
+  | "days";
 
 export type AchievementsTerms =
   | "breadWinner.description"
