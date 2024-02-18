@@ -17,12 +17,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import classNames from "classnames";
 import { createPortal } from "react-dom";
-import { HalveningCountdown } from "./components/HalveningCountdown";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
+import { HalveningCountdown } from "./HalveningCountdown";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -158,9 +158,9 @@ const HudComponent: React.FC<{
             }}
           >
             <AuctionCountdown />
+            <HalveningCountdown />
           </div>
 
-          <HalveningCountdown />
           <div
             className="fixed z-50 flex flex-col justify-between"
             style={{

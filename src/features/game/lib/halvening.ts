@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
 
+export const ESTIMATED_HALVENING = new Date("2024-02-18T16:00:00+11:00");
+// export const ESTIMATED_HALVENING = new Date("2024-02-20T16:00:00+11:00");
+
 function getHalveningRate() {
   const now = new Date().getTime();
 
@@ -32,7 +35,11 @@ function getHalveningRate() {
     return 0.0125;
   }
 
-  return 0.00625;
+  if (now < ESTIMATED_HALVENING.getTime()) {
+    return 0.00625;
+  }
+
+  return 0.003125;
 }
 
 /**
