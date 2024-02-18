@@ -45,7 +45,7 @@ export function useServiceWorkerUpdate() {
   useEffect(() => {
     const handleStateChange = (evt: any) => {
       console.log(
-        "[Sunflower Land Test] Page lifecycle state changed to",
+        "[Sunflower Land] Page lifecycle state changed to",
         evt.newState
       );
       if (evt.newState === "hidden" && needRefreshRef.current) {
