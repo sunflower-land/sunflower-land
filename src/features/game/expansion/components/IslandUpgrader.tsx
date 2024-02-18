@@ -198,6 +198,17 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     confetti();
   };
 
+  const nextExpansioon =
+    (gameState.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+
+  const getPosition = () => {
+    if (island === "basic" && nextExpansioon == 10) {
+      return { x: 1, y: -5 };
+    }
+
+    return { x: 7, y: 0 };
+  };
+
   const onClose = () => {
     if (showTravelAnimation) {
       return;
@@ -249,7 +260,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <MapPlacement x={7 + offset} y={0} width={4}>
+      <MapPlacement x={getPosition().x + offset} y={getPosition().y} width={4}>
         <div
           className="absolute cursor-pointer hover:img-highlight"
           onClick={() => setShowModal(true)}
