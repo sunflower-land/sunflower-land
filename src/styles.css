@@ -138,12 +138,6 @@ img {
   all: initial;
 }
 
-/* Target Hud */
-/* [aria-label="Hud"] {
-  padding: env(safe-area-inset-top) env(safe-area-inset-right)
-    env(safe-area-inset-bottom) env(safe-area-inset-left);
-} */
-
 @media screen and (min-width: 480px) {
   body {
     font-size: 24px;
