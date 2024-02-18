@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import Modal from "react-bootstrap/esm/Modal";
 
+import logo from "assets/brand/logo_v2.png";
 import sparkle from "assets/fx/sparkle2.gif";
-import dragonLogo from "assets/brand/dragon_logo.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -51,7 +51,7 @@ export const Auth: React.FC = () => {
               }}
             />
             <>
-              <img id="logo" src={dragonLogo} className="w-full" />
+              <img id="logo" src={logo} className="w-full" />
 
               <div className="flex justify-center">
                 <Label type="default">
