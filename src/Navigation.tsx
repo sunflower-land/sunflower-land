@@ -29,19 +29,6 @@ import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
 import { Retreat } from "features/retreat/Retreat";
 
-// Lazy load routes
-// const World = lazy(() =>
-//   import("features/world/World").then((m) => ({ default: m.World }))
-// );
-// const CommunityTools = lazy(() =>
-//   import("features/world/ui/CommunityTools").then((m) => ({
-//     default: m.CommunityTools,
-//   }))
-// );
-// const Retreat = lazy(() =>
-//   import("features/retreat/Retreat").then((m) => ({ default: m.Retreat }))
-// );
-
 /**
  * FarmID must always be passed to the /retreat/:id route.
  * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
