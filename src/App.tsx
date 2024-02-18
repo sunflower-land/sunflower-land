@@ -11,8 +11,6 @@ import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
 import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 4;
-
 // Initialise Global Settings
 initialise();
 /**
