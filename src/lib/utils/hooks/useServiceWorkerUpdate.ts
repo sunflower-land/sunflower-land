@@ -3,12 +3,14 @@ import { useEffect, useRef } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2;
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 60 * 2; // 2 hours
 /**
  * This hook runs periodic checks for service worker updates.
  * When a new service worker has been installed and is waiting to activate,
  * the needRefresh flag will be set to true.
  * When the page life cycle state changes to hidden, the waiting service worker will be activated.
+ * NOTE: This is not the only way that service worker updates can be handled. If a player closes down the app or hard refreshes the page,
+ * the service worker will be updated.
  */
 export function useServiceWorkerUpdate() {
   const {
@@ -44,12 +46,7 @@ export function useServiceWorkerUpdate() {
 
   useEffect(() => {
     const handleStateChange = (evt: any) => {
-      console.log(
-        "[Sunflower Land] Page lifecycle state changed to",
-        evt.newState
-      );
       if (evt.newState === "hidden" && needRefreshRef.current) {
-        console.log("UPDATING SERVICE WORKER");
         updateServiceWorker();
       }
     };
