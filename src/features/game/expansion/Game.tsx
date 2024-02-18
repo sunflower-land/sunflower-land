@@ -17,7 +17,7 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
-import dragonLogo from "assets/brand/dragon_logo.gif";
+import logo from "assets/brand/logo_v2.png";
 import sparkle from "assets/fx/sparkle2.gif";
 import ocean from "assets/decorations/ocean.webp";
 
@@ -50,7 +50,6 @@ import { AirdropPopup } from "./components/Airdrop";
 import { PIXEL_SCALE } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
 import { Wallet } from "features/wallet/Wallet";
@@ -326,22 +325,11 @@ export const GameWrapper: React.FC = ({ children }) => {
                   }}
                 />
                 <>
-                  <img id="logo" src={dragonLogo} className="w-full" />
+                  <img id="logo" src={logo} className="w-full" />
                   <div className="flex justify-center">
                     <Label type="default">
                       {CONFIG.RELEASE_VERSION?.split("-")[0]}
                     </Label>
-
-                    {Date.now() > new Date("2024-02-09").getTime() &&
-                      Date.now() < new Date("2024-02-16").getTime() && (
-                        <Label
-                          secondaryIcon={SUNNYSIDE.icons.stopwatch}
-                          type="vibrant"
-                          className="ml-2"
-                        >
-                          {t("event.LunarNewYear")}
-                        </Label>
-                      )}
                   </div>
                 </>
               </div>
