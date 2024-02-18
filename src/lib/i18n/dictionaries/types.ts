@@ -381,6 +381,7 @@ export type AchievementsTerms =
   | "task.harvestSunflowers";
 
 export type Auction =
+  | "auction.title"
   | "auction.bid.message"
   | "auction.reveal"
   | "auction.live"
@@ -2548,6 +2549,7 @@ export type OrderHelp =
   | "orderhelp.NoRight";
 
 export type PageFounds =
+  | "pageFounds.title"
   | "pageFounds.gardeningBookPage"
   | "pageFounds.lastPageFound"
   | "pageFounds.knowHowToGrow"

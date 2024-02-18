@@ -75,7 +75,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   useEffect(() => {
     acknowledgeOrders(delivery);
-  }, [delivery.orders]);
+  }, [delivery, delivery.orders]);
 
   let previewOrder = delivery.orders.find((order) => order.id === selectedId);
 
@@ -351,8 +351,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 style={{ height: "80px" }}
               >
                 <p className="text-center mb-0.5 mt-1 text-sm">
-                  {t("next.order")}
-                  {":"}
+                  {t("next.order")}{" "}
                 </p>
                 <div className="flex justify-center items-center">
                   <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
@@ -382,8 +381,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
             <span className="text-xs">
-              {t("new.delivery.in")}
-              {":"}{" "}
+              {t("new.delivery.in")}{" "}
               {`${secondsToString(secondsTillReset(), {
                 length: "medium",
               })}.`}

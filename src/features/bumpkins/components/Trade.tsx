@@ -133,10 +133,7 @@ const ListTrade: React.FC<{
               />
             </div>
           ))}
-          <p className="text-sm ml-2">
-            {t("bumpkinTrade.askPrice")}
-            {":"}{" "}
-          </p>
+          <p className="text-sm ml-2">{t("bumpkinTrade.askPrice")} </p>
 
           <div className="flex items-center relative">
             <span className="text-xxs absolute right-[10px] top-[-5px]">{`${t(

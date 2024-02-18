@@ -90,7 +90,7 @@ export const GUIDE_PATHS: Record<
       },
 
       {
-        text: translate("gathering.guide.two"),
+        text: translate("gathering.guide.three"),
       },
     ],
     docs: "https://docs.sunflower-land.com/player-guides/gather-resources",

@@ -37,8 +37,7 @@ const RequiredSkillPoints = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        {t("reqSkillPts")}
-        {":"}{" "}
+        {t("reqSkillPts")}{" "}
       </span>
       <span className="text-xxs sm:text-xs text-center">
         {`${availableSkillPoints}/${pointsRequired}`}
@@ -61,10 +60,7 @@ const RequiredSkill = ({
         "text-error": missingSkillRequirement,
       })}
     >
-      <span className="text-center text-xxs sm:text-xs">
-        {t("reqSkills")}
-        {":"}{" "}
-      </span>
+      <span className="text-center text-xxs sm:text-xs">{t("reqSkills")} </span>
       <img
         src={requiredSkillImage}
         style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
@@ -105,7 +101,7 @@ export const SkillPathDetails: React.FC<Props> = ({
     const defaultSkill = nextAvailableSkillInTree ?? skillsInPath[0];
 
     setSelectedSkill(defaultSkill.name);
-  }, []);
+  }, [skillsInPath, state.bumpkin?.skills]);
 
   const { bumpkin } = state;
 

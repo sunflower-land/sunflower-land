@@ -39,6 +39,7 @@ const Retreat = lazy(() =>
  * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
  * This reacter-router helper component will compute correct route and navigate to retreat.
  */
+// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
 const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
   const [params] = useSearchParams();
 
