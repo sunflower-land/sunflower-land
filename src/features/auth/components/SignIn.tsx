@@ -218,7 +218,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
               src={SEQUENCE_ICON}
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
-            Sequence
+            {`Sequence`}
           </div>
         </Button>
         <Button
@@ -238,7 +238,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
                 fill="currentColor"
               ></path>
             </svg>
-            Wallet Connect
+            {`Wallet Connect`}
           </div>
         </Button>
       </>
