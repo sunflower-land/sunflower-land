@@ -33,7 +33,7 @@ self.addEventListener("message", (event) => {
   }
 });
 
-// allow only fallback in dev: we don't want to cache anything in development
+// Allow only fallback in dev: we don't want to cache anything in development.
 let allowlist: undefined | RegExp[];
 if (import.meta.env.DEV) {
   allowlist = [/^offline.html$/];
@@ -75,7 +75,7 @@ if (import.meta.env.PROD) {
   googleFontsCache();
 }
 
-// to allow work offline
+// Fallback for offline navigation. offline.html will be displayed if our index.html is not available.
 registerRoute(
   new NavigationRoute(createHandlerBoundToURL("offline.html"), { allowlist })
 );
