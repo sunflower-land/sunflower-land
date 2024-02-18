@@ -50,7 +50,7 @@ export const Observatory: React.FC = () => {
           alt="Observatory"
         />
       </div>
-      <Modal centered show={!!playRand} onHide={handleCloseTelescope}>
+      <Modal show={!!playRand} onHide={handleCloseTelescope}>
         <CloseButtonPanel onClose={handleCloseTelescope}>
           {loading && <Loading />}
           <div

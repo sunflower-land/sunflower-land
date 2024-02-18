@@ -59,12 +59,7 @@ export const TravelModal: React.FC<Props> = ({
 
   if (isVisiting) {
     return (
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        dialogClassName="md:max-w-3xl"
-      >
+      <Modal show={isOpen} onHide={onClose} dialogClassName="md:max-w-3xl">
         <CloseButtonPanel
           onClose={onClose}
           tabs={[{ icon: world, name: "Travel" }]}
@@ -97,7 +92,6 @@ export const TravelModal: React.FC<Props> = ({
 
   return (
     <Modal
-      centered
       show={isOpen}
       onHide={onClose}
       onShow={() => gameService.send("SAVE")}

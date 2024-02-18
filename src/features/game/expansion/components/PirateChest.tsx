@@ -103,7 +103,6 @@ export const PirateChest: React.FC = () => {
       <Modal
         show={showCollectedModal}
         onHide={() => setShowCollectedModal(false)}
-        centered
       >
         <CloseButtonPanel onClose={() => setShowCollectedModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
@@ -129,7 +128,6 @@ export const PirateChest: React.FC = () => {
       <Modal
         show={showNotPirateModal}
         onHide={() => setShowNotPirateModal(false)}
-        centered
       >
         <CloseButtonPanel onClose={() => setShowNotPirateModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
@@ -146,14 +144,14 @@ export const PirateChest: React.FC = () => {
       </Modal>
 
       {gameState.matches("revealing") && isCollecting && (
-        <Modal show centered>
+        <Modal show>
           <CloseButtonPanel>
             <Revealing icon={SUNNYSIDE.decorations.treasure_chest} />
           </CloseButtonPanel>
         </Modal>
       )}
       {gameState.matches("revealed") && isCollecting && (
-        <Modal show centered>
+        <Modal show>
           <CloseButtonPanel>
             <Revealed onAcknowledged={() => setIsCollecting(false)} />
           </CloseButtonPanel>

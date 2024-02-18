@@ -26,7 +26,7 @@ export const Boulder: React.FC = () => {
           }}
         />
       </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
           <img
             src={SUNNYSIDE.icons.close}

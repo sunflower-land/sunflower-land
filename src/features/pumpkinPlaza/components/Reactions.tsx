@@ -102,11 +102,7 @@ export const Reactions: React.FC<Props> = ({
         )}
       </div>
 
-      <Modal
-        centered
-        show={showBudReactions}
-        onHide={() => setShowBudReactions(false)}
-      >
+      <Modal show={showBudReactions} onHide={() => setShowBudReactions(false)}>
         <BudReaction
           gameState={gameState}
           onBudPlace={onBudPlace}

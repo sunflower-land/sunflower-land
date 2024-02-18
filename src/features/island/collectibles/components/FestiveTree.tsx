@@ -58,11 +58,7 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <Modal
-        centered
-        show={showGiftedModal}
-        onHide={() => setShowGiftedModal(false)}
-      >
+      <Modal show={showGiftedModal} onHide={() => setShowGiftedModal(false)}>
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.santa}
           onClose={() => setShowGiftedModal(false)}
@@ -75,7 +71,6 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
       </Modal>
 
       <Modal
-        centered
         show={showWrongTimeModal}
         onHide={() => setShowWrongTimeModal(false)}
       >
@@ -109,14 +104,14 @@ export const FestiveTree: React.FC<Props> = ({ id }) => {
       </div>
 
       {gameState.matches("revealing") && isRevealing && (
-        <Modal show centered>
+        <Modal show>
           <Panel bumpkinParts={NPC_WEARABLES.santa}>
             <Revealing icon={festiveTreeImage} />
           </Panel>
         </Modal>
       )}
       {gameState.matches("revealed") && isRevealing && (
-        <Modal show centered>
+        <Modal show>
           <Panel bumpkinParts={NPC_WEARABLES.santa}>
             <Revealed onAcknowledged={() => setIsRevealing(false)} />
           </Panel>

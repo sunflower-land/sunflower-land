@@ -130,7 +130,7 @@ export const HayseedHank: React.FC = () => {
           />
         )}
       </div>
-      <Modal centered show={isOpen} onHide={close}>
+      <Modal show={isOpen} onHide={close}>
         <CloseButtonPanel
           title={
             isTaskComplete(gameState.context.state) ? (

@@ -86,12 +86,7 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        dialogClassName="md:max-w-3xl"
-      >
+      <Modal show={isOpen} onHide={onClose} dialogClassName="md:max-w-3xl">
         <CloseButtonPanel
           onClose={onClose}
           title={

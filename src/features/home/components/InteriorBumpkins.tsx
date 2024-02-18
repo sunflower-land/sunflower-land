@@ -100,7 +100,6 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
       </div>
 
       <Modal
-        centered
         show={showBuyFarmHand}
         onHide={() => setShowBuyFarmHandModal(false)}
       >
@@ -110,11 +109,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         />
       </Modal>
 
-      <Modal
-        centered
-        show={showBumpkinModal}
-        onHide={() => setShowBumpkinModal(false)}
-      >
+      <Modal show={showBumpkinModal} onHide={() => setShowBumpkinModal(false)}>
         <CloseButtonPanel bumpkinParts={game.bumpkin?.equipped}>
           <BumpkinEquip
             game={game}
@@ -129,7 +124,6 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
       </Modal>
 
       <Modal
-        centered
         show={!!selectedFarmHandId}
         onHide={() => setSelectedFarmHandId(undefined)}
       >

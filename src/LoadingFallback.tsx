@@ -8,7 +8,7 @@ import { Ocean } from "features/world/ui/Ocean";
 export const LoadingFallback: React.FC = () => {
   return (
     <Ocean>
-      <Modal show={true} centered backdrop={false}>
+      <Modal show={true} backdrop={false}>
         <Panel>
           <Loading />
         </Panel>

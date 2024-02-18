@@ -155,11 +155,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         >
           {t("buy")}
         </Button>
-        <Modal
-          centered
-          show={isConfirmBuyModalOpen}
-          onHide={closeConfirmationModal}
-        >
+        <Modal show={isConfirmBuyModalOpen} onHide={closeConfirmationModal}>
           <CloseButtonPanel className="sm:w-4/5 m-auto">
             <div className="flex flex-col p-2">
               <span className="text-sm text-center">

@@ -53,7 +53,7 @@ export const Decorations: React.FC = () => {
           />
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <DecorationShopItems onClose={() => setIsOpen(false)} />
       </Modal>
     </>

@@ -24,7 +24,7 @@ export const NyonStatue: React.FC = () => {
         alt="Nyon Statue"
         onClick={() => setShowNyonLore(true)}
       />
-      <Modal centered show={showNyonLore} onHide={() => setShowNyonLore(false)}>
+      <Modal show={showNyonLore} onHide={() => setShowNyonLore(false)}>
         <Panel>
           <img
             src={SUNNYSIDE.icons.close}

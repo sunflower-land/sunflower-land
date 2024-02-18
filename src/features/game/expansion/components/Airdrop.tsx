@@ -50,7 +50,7 @@ export const Airdrop: React.FC<Props> = ({ airdrop }) => {
 
   return (
     <>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <AirdropModal
             airdrop={airdrop}

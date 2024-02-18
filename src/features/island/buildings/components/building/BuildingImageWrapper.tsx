@@ -86,9 +86,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
 
   return (
     <>
-      <Modal centered show={!!warning}>
-        {warning}
-      </Modal>
+      <Modal show={!!warning}>{warning}</Modal>
       {/* building */}
       <div
         className={classNames(

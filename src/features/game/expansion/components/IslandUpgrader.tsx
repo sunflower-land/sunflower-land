@@ -235,11 +235,11 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         </div>,
         document.body
       )}
-      <Modal show={showModal} centered onHide={onClose}>
+      <Modal show={showModal} onHide={onClose}>
         <IslandUpgraderModal onUpgrade={onUpgrade} onClose={onClose} />
       </Modal>
 
-      <Modal show={showUpgraded} centered>
+      <Modal show={showUpgraded}>
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
             <p className="text-sm mb-2">

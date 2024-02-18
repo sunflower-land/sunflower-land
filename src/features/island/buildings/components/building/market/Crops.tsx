@@ -257,7 +257,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
           </div>
         }
       />
-      <Modal centered show={isSellAllModalOpen} onHide={closeConfirmationModal}>
+      <Modal show={isSellAllModalOpen} onHide={closeConfirmationModal}>
         <CloseButtonPanel className="sm:w-4/5 m-auto">
           <div className="flex flex-col p-2">
             <span className="text-sm text-center">

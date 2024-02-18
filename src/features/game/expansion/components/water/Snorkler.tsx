@@ -26,7 +26,7 @@ export const Snorkler: React.FC<Props> = ({ x, y }) => {
         width: `${24 * PIXEL_SCALE}px`,
       }}
     >
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <img className="absolute w-48 left-4 -top-32 -z-10" src={bumpkin} />
 
         <Panel>

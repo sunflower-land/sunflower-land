@@ -16,7 +16,7 @@ export const Introduction: React.FC = () => {
   const [gameState, send] = useActor(gameService);
 
   return (
-    <Modal centered show={gameState.matches("introduction")}>
+    <Modal show={gameState.matches("introduction")}>
       <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
         {/* <Content /> */}
         <SpeakingText

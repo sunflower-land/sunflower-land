@@ -70,7 +70,7 @@ export const RetreatStorageHouse: React.FC = () => {
           />
         </div>
       </div>
-      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <StorageModal onClose={() => setIsOpen(false)} />
       </Modal>
     </MapPlacement>

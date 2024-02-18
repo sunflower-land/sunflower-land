@@ -252,7 +252,7 @@ export const PromotingModal: React.FC<Props> = ({
     );
   };
   return (
-    <Modal centered show={isOpen} onHide={onCloseConfirmation}>
+    <Modal show={isOpen} onHide={onCloseConfirmation}>
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES.grubnuk}
         onClose={onCloseConfirmation}

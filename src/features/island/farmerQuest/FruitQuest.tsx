@@ -98,7 +98,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
           />
         </div>
       </MapPlacement>
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Quest
           quests={["Fruit Quest 1", "Fruit Quest 2", "Fruit Quest 3"]}
           questTitle={t("modalDescription.friend")}

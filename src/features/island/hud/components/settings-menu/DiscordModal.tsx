@@ -160,7 +160,7 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel title="Discord" onClose={onClose}>
         {getContent()}
       </CloseButtonPanel>

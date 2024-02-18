@@ -70,7 +70,7 @@ export const AuctioneerModal: React.FC<Props> = ({
 
   if (auctioneerState.matches("loading")) {
     return (
-      <Modal centered show={isOpen} onHide={onClose}>
+      <Modal show={isOpen} onHide={onClose}>
         <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
           <span className="loading">{t("loading")}</span>
         </Panel>
@@ -83,7 +83,7 @@ export const AuctioneerModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal centered show={isOpen} onHide={closeModal} scrollable>
+    <Modal show={isOpen} onHide={closeModal} scrollable>
       <CloseButtonPanel
         onClose={onClose}
         tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}

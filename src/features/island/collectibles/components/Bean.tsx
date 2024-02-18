@@ -89,7 +89,7 @@ export const Bean: React.FC<CollectibleProps> = ({
         </div>
 
         {gameState.matches("revealing") && isRevealing && (
-          <Modal show centered backdrop="static">
+          <Modal show backdrop="static">
             <Panel className="z-10">
               <Revealing icon={magicBean} />
             </Panel>
@@ -97,7 +97,7 @@ export const Bean: React.FC<CollectibleProps> = ({
         )}
 
         {gameState.matches("beanRevealed") && isRevealing && (
-          <Modal show centered backdrop="static">
+          <Modal show backdrop="static">
             <Panel className="z-10">
               <Revealed id={id} onAcknowledged={() => setIsRevealing(false)} />
             </Panel>
@@ -126,7 +126,7 @@ export const Bean: React.FC<CollectibleProps> = ({
           alt="Bean"
         />
       </div>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)} title={name}>
           <div className="flex flex-col justify-center items-center">
             <span className="text-center mb-2">

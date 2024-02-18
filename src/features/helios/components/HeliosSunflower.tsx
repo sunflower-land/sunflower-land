@@ -26,7 +26,7 @@ export const HeliosSunflower: React.FC = () => {
           }}
         />
       </div>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Panel>
           <img
             src={SUNNYSIDE.icons.close}

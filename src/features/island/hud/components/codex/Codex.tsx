@@ -92,7 +92,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   return (
     <div className="flex justify-center">
-      <Modal centered show={show} onHide={onHide}>
+      <Modal show={show} onHide={onHide}>
         <div
           className="h-[600px] transition-opacity"
           style={
@@ -171,7 +171,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
       {/* <Modal
         show={showMilestoneReached}
-        centered
+        
         className="flex justify-center"
       ></Modal> */}
     </div>

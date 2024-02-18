@@ -171,7 +171,7 @@ export const Splash: React.FC = ({ children }) => {
         className="absolute"
       />
       {children && (
-        <Modal show={!!children} centered>
+        <Modal show={!!children}>
           <Panel>{children}</Panel>
         </Modal>
       )}

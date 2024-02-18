@@ -67,7 +67,7 @@ export const ChestReward: React.FC<Props> = ({
   const { items, sfl } = reward;
 
   return (
-    <Modal centered show={true}>
+    <Modal show={true}>
       <Panel>
         {loading && <Loading />}
         {opened ? (

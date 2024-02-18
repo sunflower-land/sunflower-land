@@ -76,7 +76,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
 
   if (showTutorial) {
     return (
-      <Modal centered show={isOpen} onHide={acknowledge} onShow={onShow}>
+      <Modal show={isOpen} onHide={acknowledge} onShow={onShow}>
         <Tutorial onClose={acknowledge} bumpkinParts={bumpkinParts} />
       </Modal>
     );
@@ -85,7 +85,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
   const hasBetaAccess = !!gameState.inventory["Beta Pass"];
 
   return (
-    <Modal centered show={isOpen} onHide={onClose} onShow={onShow}>
+    <Modal show={isOpen} onHide={onClose} onShow={onShow}>
       <CloseButtonPanel
         tabs={[{ icon: boatIcon, name: "Travel To" }]}
         bumpkinParts={bumpkinParts}

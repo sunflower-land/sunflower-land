@@ -95,7 +95,6 @@ export const TraderModal: React.FC<TraderModalProps> = ({
 
   return (
     <Modal
-      centered
       show={isOpen}
       // Prevent modal from closing during asynchronous state (listing, purchasing, cancelling, etc)
       onHide={!isDisabled ? handleClose : undefined}

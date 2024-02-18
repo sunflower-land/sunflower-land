@@ -120,7 +120,7 @@ export const LetterBox: React.FC = () => {
           }}
         />
       </div>
-      <Modal centered show={isOpen} onHide={close}>
+      <Modal show={isOpen} onHide={close}>
         <Content />
       </Modal>
     </>

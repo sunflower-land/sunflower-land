@@ -79,12 +79,7 @@ export const ModerationTools: React.FC<Props> = ({
         />
       </div>
 
-      <Modal
-        show={showModerationTool}
-        centered
-        onHide={toggleModerationTool}
-        size="lg"
-      >
+      <Modal show={showModerationTool} onHide={toggleModerationTool} size="lg">
         <CloseButtonPanel
           onClose={toggleModerationTool}
           currentTab={tab}

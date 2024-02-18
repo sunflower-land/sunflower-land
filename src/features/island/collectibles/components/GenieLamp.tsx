@@ -65,7 +65,7 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
         )}
         alt="Genie Lamp"
       />
-      <Modal show={isConfirming} centered onHide={() => setIsConfirming(false)}>
+      <Modal show={isConfirming} onHide={() => setIsConfirming(false)}>
         <img
           src={genieImg}
           className="absolute z-0"
@@ -117,14 +117,14 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
       </Modal>
 
       {gameState.matches("revealing") && isRevealing && (
-        <Modal show centered backdrop="static">
+        <Modal show backdrop="static">
           <Panel className="z-10">
             <Revealing icon={genieLamp} />
           </Panel>
         </Modal>
       )}
       {gameState.matches("genieRevealed") && isRevealing && (
-        <Modal show centered backdrop="static">
+        <Modal show backdrop="static">
           <img
             src={genieImg}
             className="absolute z-0"

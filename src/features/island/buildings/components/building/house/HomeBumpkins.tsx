@@ -44,7 +44,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
       </div>
 
       <Modal
-        centered
         show={!!selectedFarmHandId}
         onHide={() => setSelectedFarmHandId(undefined)}
       >

@@ -79,7 +79,7 @@ export const PirateQuest: React.FC = () => {
         </div>
       </MapPlacement>
 
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Quest
           quests={[
             "Pirate Quest 1",

@@ -42,7 +42,7 @@ export const DeliModal: React.FC<Props> = ({
   );
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         bumpkinParts={{
           body: "Beige Farmer Potion",

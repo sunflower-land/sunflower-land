@@ -66,7 +66,7 @@ export const CommunityModals: React.FC = () => {
 
   return (
     <>
-      <Modal show={!!modal} centered onHide={closeModal}>
+      <Modal show={!!modal} onHide={closeModal}>
         {modal?.type === "speaking" && (
           <SpeakingModal
             onClose={closeModal}

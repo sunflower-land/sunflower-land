@@ -39,7 +39,7 @@ export const CropBoom: React.FC = () => {
   return (
     <div>
       {portalState.matches("error") && (
-        <Modal centered show>
+        <Modal show>
           <Panel>
             <div className="p-2">
               <Label type="danger">{t("error")}</Label>
@@ -53,7 +53,7 @@ export const CropBoom: React.FC = () => {
       )}
 
       {portalState.matches("loading") && (
-        <Modal centered show>
+        <Modal show>
           <Panel>
             <span className="loading">{t("loading")}</span>
           </Panel>
@@ -61,7 +61,7 @@ export const CropBoom: React.FC = () => {
       )}
 
       {portalState.matches("unauthorised") && (
-        <Modal centered show>
+        <Modal show>
           <Panel>
             <div className="p-2">
               <Label type="danger">{t("error")}</Label>
@@ -73,7 +73,7 @@ export const CropBoom: React.FC = () => {
       )}
 
       {portalState.matches("idle") && (
-        <Modal centered show>
+        <Modal show>
           <Panel>
             <Button onClick={() => portalService.send("START")}>
               {t("start")}
@@ -83,7 +83,7 @@ export const CropBoom: React.FC = () => {
       )}
 
       {portalState.matches("rules") && (
-        <Modal centered show>
+        <Modal show>
           <Panel bumpkinParts={NPC_WEARABLES.wizard}>
             <CropBoomRules
               onAcknowledged={() => portalService.send("CONTINUE")}
@@ -93,7 +93,7 @@ export const CropBoom: React.FC = () => {
       )}
 
       {portalState.matches("claiming") && (
-        <Modal centered show>
+        <Modal show>
           <Panel>
             <p className="loading">{t("loading")}</p>
           </Panel>
@@ -101,7 +101,7 @@ export const CropBoom: React.FC = () => {
       )}
 
       {portalState.matches("completed") && (
-        <Modal centered show>
+        <Modal show>
           <Panel bumpkinParts={NPC_WEARABLES.wizard}>
             <div className="p-2">
               <p className="mb-2">

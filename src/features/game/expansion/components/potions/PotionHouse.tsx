@@ -31,7 +31,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const [state, send] = useActor(potionHouseService);
 
   return (
-    <Modal show centered onHide={onClose}>
+    <Modal show onHide={onClose}>
       <div
         className="bg-brown-600 text-white relative"
         style={{

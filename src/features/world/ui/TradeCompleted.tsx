@@ -40,7 +40,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
     : undefined;
 
   return (
-    <Modal centered show={!!sold} onHide={() => setTrade(undefined)}>
+    <Modal show={!!sold} onHide={() => setTrade(undefined)}>
       <CloseButtonPanel
         onClose={() => setTrade(undefined)}
         title={t("playerTrade.title.congrat")}

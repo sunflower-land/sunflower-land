@@ -148,7 +148,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
   return (
     <>
-      <Modal show={show} centered onHide={onHide}>
+      <Modal show={show} onHide={onHide}>
         <Panel>
           <ul className="list-none">
             {/* Root menu */}
@@ -253,7 +253,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     {t("logout")}
                   </Button>
                   <Modal
-                    centered
                     show={isConfirmLogoutModalOpen}
                     onHide={closeConfirmLogoutModal}
                   >
@@ -343,7 +342,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       />
 
       {showCaptcha && (
-        <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)} centered>
+        <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)}>
           <Panel>
             <img
               src={SUNNYSIDE.icons.close}

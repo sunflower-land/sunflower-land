@@ -102,7 +102,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         inventory={gameState.context.state.inventory}
         route={name as SceneId}
       />
-      <Modal show={isIntroducting} centered>
+      <Modal show={isIntroducting}>
         <WorldIntroduction
           onClose={() => {
             mmoService.send("CONTINUE");
@@ -128,7 +128,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   if (isKicked) {
     return (
       <Ocean>
-        <Modal show centered>
+        <Modal show>
           <Panel>
             {/* Kicked reasons */}
             <p className="">{t("chat.Kicked")}</p>
@@ -141,7 +141,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   if (isConnected) {
     return (
       <Ocean>
-        <Modal show centered>
+        <Modal show>
           <PickServer mmoService={mmoService} />
         </Modal>
       </Ocean>
@@ -150,7 +150,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
 
   return (
     <Ocean>
-      <Modal show centered backdrop={false}>
+      <Modal show backdrop={false}>
         <Panel>
           <p className="loading">{t("loading")}</p>
         </Panel>

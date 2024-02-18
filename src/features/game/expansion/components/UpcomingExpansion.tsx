@@ -74,11 +74,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
   const { t } = useAppTranslation();
   return (
     <>
-      <Modal
-        centered
-        show={showLockedModal}
-        onHide={() => setShowLockedModal(false)}
-      >
+      <Modal show={showLockedModal} onHide={() => setShowLockedModal(false)}>
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
@@ -351,7 +347,7 @@ export const UpcomingExpansion: React.FC = () => {
       )}
 
       {gameState.matches("revealing") && isRevealing && (
-        <Modal show centered>
+        <Modal show>
           <CloseButtonPanel>
             <Revealing icon={SUNNYSIDE.npcs.goblin_hammering} />
           </CloseButtonPanel>
@@ -359,17 +355,13 @@ export const UpcomingExpansion: React.FC = () => {
       )}
 
       {gameState.matches("revealed") && isRevealing && (
-        <Modal show centered>
+        <Modal show>
           <Panel>
             <Revealed />
           </Panel>
         </Modal>
       )}
-      <Modal
-        show={showBumpkinModal}
-        onHide={() => setShowBumpkinModal(false)}
-        centered
-      >
+      <Modal show={showBumpkinModal} onHide={() => setShowBumpkinModal(false)}>
         {showIntro && (
           <SpeakingModal
             message={[

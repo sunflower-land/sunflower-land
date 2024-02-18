@@ -52,7 +52,7 @@ export const RetreatBank: React.FC = () => {
           <Action className="pointer-events-none" text="Bank" icon={icon} />
         </div>
       </div>
-      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <BankModal
           farmAddress={goblinService.state?.context.farmAddress as string}
           onClose={() => setIsOpen(false)}

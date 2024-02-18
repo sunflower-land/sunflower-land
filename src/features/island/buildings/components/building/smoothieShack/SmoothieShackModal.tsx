@@ -42,7 +42,7 @@ export const SmoothieShackModal: React.FC<Props> = ({
   );
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         bumpkinParts={{
           body: "Light Brown Farmer Potion",

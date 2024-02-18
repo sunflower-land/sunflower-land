@@ -283,7 +283,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       {/* Harvest honey + honey level modal */}
       <Modal
         size="sm"
-        centered
         show={showHoneyLevelModal}
         onHide={() => setShowHoneyLevelModal(false)}
       >
@@ -345,11 +344,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         </Panel>
       </Modal>
       {/* Bee swarm modal */}
-      <Modal
-        centered
-        show={showSwarmModal}
-        onHide={() => setShowSwarmModal(false)}
-      >
+      <Modal show={showSwarmModal} onHide={() => setShowSwarmModal(false)}>
         <Panel
           className="relative space-y-1"
           bumpkinParts={NPC_WEARABLES.stevie}

@@ -113,7 +113,7 @@ export const FishingModal: React.FC = () => {
 
   return (
     <>
-      <Modal centered show={showCaughtModal} onHide={claim} onExited={claim}>
+      <Modal show={showCaughtModal} onHide={claim} onExited={claim}>
         <CloseButtonPanel onClose={claim} bumpkinParts={NPC_WEARABLES["misty"]}>
           <FishCaught
             caught={fishing.beach.caught ?? {}}
@@ -123,7 +123,7 @@ export const FishingModal: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal centered show={showChallenge}>
+      <Modal show={showChallenge}>
         <Panel>
           <FishingChallenge
             difficulty={challengeDifficulty}
@@ -134,7 +134,7 @@ export const FishingModal: React.FC = () => {
         </Panel>
       </Modal>
 
-      <Modal show={showModal} centered onHide={closeModal}>
+      <Modal show={showModal} onHide={closeModal}>
         <FishermanModal
           npc="misty"
           onCast={(bait, chum) => {

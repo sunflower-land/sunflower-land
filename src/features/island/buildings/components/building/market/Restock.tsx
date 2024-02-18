@@ -84,7 +84,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
           </div>
         </Button>
       )}
-      <Modal centered show={showConfirm} onHide={() => setShowConfirm(false)}>
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
         <CloseButtonPanel className="md:w-4/5 m-auto">
           <div className="flex flex-col p-2 items-center">
             <img

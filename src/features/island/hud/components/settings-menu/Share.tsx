@@ -30,7 +30,7 @@ export const Share: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <Panel>
         <Modal.Header className="justify-content-space-between">
           <h1 className="ml-2">{t("share.ShareYourFarmLink")}</h1>

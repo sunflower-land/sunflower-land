@@ -55,7 +55,7 @@ interface Props {
 export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
   const { t } = useAppTranslation();
   return (
-    <Modal show={show} centered>
+    <Modal show={show}>
       <Panel>
         <div className="p-2">
           <h1 className="text-lg text-center">

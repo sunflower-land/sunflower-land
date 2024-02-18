@@ -274,7 +274,7 @@ export const DailyReward: React.FC = () => {
           />
         )}
       </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         {showIntro && (
           <CloseButtonPanel onClose={() => setShowModal(false)}>
             <div className="p-2">

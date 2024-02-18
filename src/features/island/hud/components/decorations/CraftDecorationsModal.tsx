@@ -19,7 +19,7 @@ export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const [tab, setTab] = useState(0);
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[{ icon: sunflower, name: "Landscaping" }]}
         setCurrentTab={setTab}

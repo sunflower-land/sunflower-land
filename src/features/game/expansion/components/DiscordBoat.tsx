@@ -153,7 +153,7 @@ export const DiscordBoat: React.FC = () => {
 
   return (
     <>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.wobble}
           onClose={() => setShowModal(false)}

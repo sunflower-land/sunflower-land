@@ -101,7 +101,7 @@ export const Tent: React.FC<BuildingProps> = ({
           </div>
         )}
       </BuildingImageWrapper>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <TentModal
           defaultSelectedIndex={buildingIndex}
           onClose={() => setShowModal(false)}

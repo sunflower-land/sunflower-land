@@ -65,7 +65,7 @@ export const GarbageCollector: React.FC = () => {
           </div>
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
           bumpkinParts={{

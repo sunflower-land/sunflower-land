@@ -69,135 +69,118 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
       <Modal
         // dialogClassName="npc-dialog"
         show={!!npc}
-        centered
         onHide={closeModal}
-        onClick={(e: any) => e.stopPropagation()}
       >
-        <div
-          onMouseDown={(e) => e.stopPropagation()}
-          onMouseUp={(e) => e.stopPropagation()}
-          onTouchStart={(e) => e.stopPropagation()}
-          onTouchEnd={(e) => e.stopPropagation()}
-        >
-          {npc === "elf" && (
-            <CloseButtonPanel
-              title="Enjoying Christmas?"
-              onClose={closeModal}
-              bumpkinParts={NPC_WEARABLES["elf"]}
-            >
-              <Donations />
-            </CloseButtonPanel>
-          )}
+        {npc === "elf" && (
+          <CloseButtonPanel
+            title="Enjoying Christmas?"
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["elf"]}
+          >
+            <Donations />
+          </CloseButtonPanel>
+        )}
 
-          {npc === "shelly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "poppy" && <FlowerShop onClose={closeModal} />}
-          {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
-          {npc === "stella" && <Stylist onClose={closeModal} />}
-          {npc === "grubnuk" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
+        {npc === "shelly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "poppy" && <FlowerShop onClose={closeModal} />}
+        {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
+        {npc === "stella" && <Stylist onClose={closeModal} />}
+        {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
 
-          {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
 
-          {npc === "marcus" && (
-            <SpeakingModal
-              onClose={closeModal}
-              bumpkinParts={NPC_WEARABLES["marcus"]}
-              message={[
-                {
-                  text: translate("npc.Modal.Marcus"),
-                },
-              ]}
-            />
-          )}
-          {npc === "craig" && (
-            <CloseButtonPanel
-              onClose={closeModal}
-              bumpkinParts={NPC_WEARABLES.craig}
-            >
-              <div className="p-2">
-                <p className="mb-2">{t("npc.Modal.Craig")}</p>
-                <p className="mb-2">{t("npc.Modal.Craig.one")}</p>
-              </div>
-            </CloseButtonPanel>
-          )}
-          {npc === "billy" && (
-            <SpeakingModal
-              bumpkinParts={NPC_WEARABLES.billy}
-              onClose={closeModal}
-              message={[
-                {
-                  text: translate("npc.Modal.Billy"),
-                },
-                {
-                  text: translate("npc.Modal.Billy.one"),
-                },
-                {
-                  text: translate("npc.Modal.Billy.two"),
-                  actions: [
-                    {
-                      text: "Read more",
-                      cb: () => {
-                        window.open(
-                          "https://docs.sunflower-land.com/player-guides/bud-nfts",
-                          "_blank"
-                        );
-                      },
+        {npc === "marcus" && (
+          <SpeakingModal
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["marcus"]}
+            message={[
+              {
+                text: translate("npc.Modal.Marcus"),
+              },
+            ]}
+          />
+        )}
+        {npc === "craig" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.craig}
+          >
+            <div className="p-2">
+              <p className="mb-2">{t("npc.Modal.Craig")}</p>
+              <p className="mb-2">{t("npc.Modal.Craig.one")}</p>
+            </div>
+          </CloseButtonPanel>
+        )}
+        {npc === "billy" && (
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES.billy}
+            onClose={closeModal}
+            message={[
+              {
+                text: translate("npc.Modal.Billy"),
+              },
+              {
+                text: translate("npc.Modal.Billy.one"),
+              },
+              {
+                text: translate("npc.Modal.Billy.two"),
+                actions: [
+                  {
+                    text: "Read more",
+                    cb: () => {
+                      window.open(
+                        "https://docs.sunflower-land.com/player-guides/bud-nfts",
+                        "_blank"
+                      );
                     },
-                  ],
-                },
-              ]}
-            />
-          )}
-          {npc === "goldtooth" && <GoldTooth onClose={closeModal} />}
-          {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
-          {npc === "gabi" && (
-            <CloseButtonPanel
-              onClose={closeModal}
-              bumpkinParts={NPC_WEARABLES.gabi}
-            >
-              <div className="p-2">
-                <p className="mb-2">{t("npc.Modal.Gabi")}</p>
-                <p className="mb-2">{t("npc.Modal.Gabi.one")}</p>
-              </div>
-            </CloseButtonPanel>
-          )}
-          {npc === "birdie" && <Birdie onClose={closeModal} />}
-          {/* Delivery NPC's */}
-          {npc === "pumpkin' pete" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
-          {npc === "blacksmith" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
-          {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "grimbly" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
-          {npc === "grimtooth" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
-          {npc === "bert" && <Bert onClose={closeModal} />}
-          {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "old salty" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
-          {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "cornwell" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
+                  },
+                ],
+              },
+            ]}
+          />
+        )}
+        {npc === "goldtooth" && <GoldTooth onClose={closeModal} />}
+        {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
+        {npc === "gabi" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.gabi}
+          >
+            <div className="p-2">
+              <p className="mb-2">{t("npc.Modal.Gabi")}</p>
+              <p className="mb-2">{t("npc.Modal.Gabi.one")}</p>
+            </div>
+          </CloseButtonPanel>
+        )}
+        {npc === "birdie" && <Birdie onClose={closeModal} />}
+        {/* Delivery NPC's */}
+        {npc === "pumpkin' pete" && (
+          <DeliveryPanel npc={npc} onClose={closeModal} />
+        )}
+        {npc === "blacksmith" && (
+          <DeliveryPanel npc={npc} onClose={closeModal} />
+        )}
+        {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "grimbly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "grimtooth" && (
+          <DeliveryPanel npc={npc} onClose={closeModal} />
+        )}
+        {npc === "bert" && <Bert onClose={closeModal} />}
+        {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "old salty" && (
+          <DeliveryPanel npc={npc} onClose={closeModal} />
+        )}
+        {npc === "betty" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "cornwell" && <DeliveryPanel npc={npc} onClose={closeModal} />}
 
-          {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "miranda" && (
-            <DeliveryPanel npc={npc} onClose={closeModal} />
-          )}
-          {npc === "finn" && <Finn onClose={closeModal} />}
-          {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-          {npc === "luna" && <Luna onClose={closeModal} />}
-          {npc === "mayor" && <Mayor onClose={closeModal} />}
-        </div>
+        {npc === "corale" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "miranda" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finn" && <Finn onClose={closeModal} />}
+        {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "luna" && <Luna onClose={closeModal} />}
+        {npc === "mayor" && <Mayor onClose={closeModal} />}
       </Modal>
       {npc === "Chun Long" && (
         <SpecialEventModal

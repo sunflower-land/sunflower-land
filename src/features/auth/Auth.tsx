@@ -31,7 +31,6 @@ export const Auth: React.FC = () => {
   return (
     <>
       <Modal
-        centered
         show={!authState.matches("connected") && !authState.matches("visiting")}
         backdrop={false}
       >

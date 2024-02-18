@@ -21,7 +21,7 @@ export const Resale: React.FC = () => {
 
   return (
     <>
-      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
           title={t("retreatTerms.lookingForRareItems")}

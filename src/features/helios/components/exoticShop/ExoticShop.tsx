@@ -53,7 +53,7 @@ export const ExoticShop: React.FC = () => {
           />
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <ExoticShopItems onClose={() => setIsOpen(false)} />
       </Modal>
     </>

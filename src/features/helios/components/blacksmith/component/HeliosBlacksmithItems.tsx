@@ -131,7 +131,6 @@ export const HeliosBlacksmithItems: React.FC = () => {
                   {t("craft")}
                 </Button>
                 <Modal
-                  centered
                   show={isConfirmBuyModalOpen}
                   onHide={closeConfirmationModal}
                 >

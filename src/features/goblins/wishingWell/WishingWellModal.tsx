@@ -267,7 +267,7 @@ export const WishingWellModal: React.FC = () => {
   };
 
   return (
-    <Modal centered show={true} onHide={handleClose}>
+    <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
         {machine.matches("loading") && (
           <span className="loading mt-1">{t("loading")}</span>

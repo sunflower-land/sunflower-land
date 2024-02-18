@@ -59,7 +59,7 @@ export const TreasureShop: React.FC = () => {
         </div>
       </div>
 
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           onClose={() => setShowModal(false)}
           bumpkinParts={{

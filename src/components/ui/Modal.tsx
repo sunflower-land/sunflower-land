@@ -12,7 +12,6 @@ interface ModalProps {
   className?: string;
 
   show?: boolean;
-  centered?: boolean;
   fullscreen?: boolean;
   backdrop?: boolean | "static";
   scrollable?: boolean;
@@ -21,36 +20,24 @@ interface ModalProps {
   onHide?: () => void;
   onExited?: () => void;
   onShow?: () => void;
-  onClick?: () => void;
 }
 
 export const Modal: React.FC<ModalProps> & {
   Body: React.FC<Props>;
   Footer: React.FC<Props>;
   Header: React.FC<Props>;
-} = ({ children, show, onHide, size = "md" }) => {
-  // const ref = React.createRef<HTMLDialogElement>();
-
-  // useEffect(() => {
-  //   if (show) {
-  //     ref.current?.showModal();
-  //   } else {
-  //     ref.current?.close();
-  //   }
-  // }, [show]);
-
-  // const closeModal = (e: React.MouseEvent<HTMLDialogElement>) => {
-  //   if (e.target === ref.current) {
-  //     onHide?.();
-  //   }
-  // };
-
+} = ({ children, show, onHide, onExited, onShow, size = "md" }) => {
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog
         as="div"
         className="fixed inset-0 flex min-h-full items-center justify-center z-10"
         onClose={() => onHide?.()}
+        // Prevent click through to Phaser
+        onMouseDown={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         <Transition.Child
           as={Fragment}
@@ -61,31 +48,31 @@ export const Modal: React.FC<ModalProps> & {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/25" />
+          <div className="fixed inset-0 bg-black/50" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto" onClick={onHide}>
-          <div className="flex min-h-full items-center justify-center text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+        <div className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center">
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 scale-95"
+            enterTo="opacity-100 scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 scale-100"
+            leaveTo="opacity-0 scale-95"
+            beforeEnter={() => onShow?.()}
+            afterLeave={() => onExited?.()}
+          >
+            <Dialog.Panel
+              className={classNames("relative w-full", {
+                "max-w-[300px]": size === "sm",
+                "max-w-[500px]": size === "md",
+                "max-w-[800px]": size === "lg",
+              })}
             >
-              <div
-                className={classNames("relative", {
-                  "max-w-[300px]": size === "sm",
-                  "max-w-[500px]": size === "md",
-                  "max-w-[800px]": size === "lg",
-                })}
-              >
-                {children}
-              </div>
-            </Transition.Child>
-          </div>
+              {children}
+            </Dialog.Panel>
+          </Transition.Child>
         </div>
       </Dialog>
     </Transition>

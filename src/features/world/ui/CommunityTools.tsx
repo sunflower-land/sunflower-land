@@ -19,7 +19,7 @@ export const CommunityTools: React.FC = () => {
   };
 
   return (
-    <Modal show centered>
+    <Modal show>
       <Panel>
         <div className="p-2">
           <p className="text-sm">{t("community.url")}</p>

@@ -376,7 +376,6 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   return (
     <Modal
-      centered
       show={show}
       onHide={onClose}
       fullscreen={!!showXsolla && isMobile ? true : undefined}

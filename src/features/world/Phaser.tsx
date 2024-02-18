@@ -438,7 +438,6 @@ export const PhaserComponent: React.FC<Props> = ({
       />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
-        centered
         backdrop={false}
       >
         <Panel>
@@ -446,7 +445,7 @@ export const PhaserComponent: React.FC<Props> = ({
         </Panel>
       </Modal>
 
-      <Modal show={mmoState === "joinRoom"} centered backdrop={false}>
+      <Modal show={mmoState === "joinRoom"} backdrop={false}>
         <Panel>
           <p className="loading">{t("loading")}</p>
         </Panel>

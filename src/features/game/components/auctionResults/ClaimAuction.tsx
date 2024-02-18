@@ -25,7 +25,7 @@ export const ClaimAuction: React.FC = () => {
   };
 
   return (
-    <Modal centered show={true} onHide={onClose}>
+    <Modal show={true} onHide={onClose}>
       <CloseButtonPanel onClose={onClose} title={t("auction.winner")}>
         <div className="flex items-center w-full justify-center">
           <img src={image} className="w-20 h-20" />

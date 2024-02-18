@@ -147,7 +147,6 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                 {t("buy")}
               </Button>
               <Modal
-                centered
                 show={isConfirmBuyModalOpen}
                 onHide={closeConfirmationModal}
               >

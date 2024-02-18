@@ -126,7 +126,7 @@ export const Otis: React.FC = () => {
           />
         )}
       </div>
-      <Modal centered show={isOpen} onHide={close}>
+      <Modal show={isOpen} onHide={close}>
         {showIntro && task?.introduction && (
           <Panel bumpkinParts={NPC_WEARABLES["otis"]}>
             <SpeakingText

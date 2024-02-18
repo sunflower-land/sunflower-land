@@ -34,7 +34,7 @@ export const BeachConstruction: React.FC = () => {
           }}
         />
       </MapPlacement>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           bumpkinParts={{
             body: "Goblin Potion",

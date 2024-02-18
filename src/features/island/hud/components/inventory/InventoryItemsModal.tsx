@@ -48,7 +48,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   const [currentTab, setCurrentTab] = useState<number>(0);
   const { t } = useAppTranslation();
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
           { icon: SUNNYSIDE.icons.basket, name: t("basket") },

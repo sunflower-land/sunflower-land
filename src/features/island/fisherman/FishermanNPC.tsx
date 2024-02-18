@@ -231,11 +231,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   return (
     <>
-      <Modal
-        centered
-        show={showLockedModal}
-        onHide={() => setShowLockedModal(false)}
-      >
+      <Modal show={showLockedModal} onHide={() => setShowLockedModal(false)}>
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
@@ -274,7 +270,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         </>
       )}
 
-      <Modal centered show={showCaughtModal} onHide={close} onExited={claim}>
+      <Modal show={showCaughtModal} onHide={close} onExited={claim}>
         <CloseButtonPanel
           onClose={close}
           bumpkinParts={NPC_WEARABLES["reelin roy"]}
@@ -287,7 +283,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <Modal centered show={showChallenge}>
+      <Modal show={showChallenge}>
         <Panel>
           <FishingChallenge
             difficulty={challengeDifficulty}

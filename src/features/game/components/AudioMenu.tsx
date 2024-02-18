@@ -78,7 +78,7 @@ export const AudioMenu: React.FC<Props> = ({
   }, []);
 
   return (
-    <Modal show={show} centered onHide={onClose}>
+    <Modal show={show} onHide={onClose}>
       <CloseButtonPanel title="Audio Settings" onClose={onClose}>
         <div className="p-1 relative">
           <p className="mb-2">{t("music")}</p>

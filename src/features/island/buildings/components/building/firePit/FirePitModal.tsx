@@ -63,7 +63,7 @@ export const FirePitModal: React.FC<Props> = ({
   );
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       {showIntro && (
         <Panel bumpkinParts={NPC_WEARABLES.bruce}>
           <SpeakingText

@@ -35,7 +35,7 @@ export const LandscapingChest: React.FC<Props> = ({
   );
 
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[{ icon: chest, name: translate("chest") }]}
         currentTab={0}

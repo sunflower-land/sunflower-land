@@ -122,7 +122,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           </>
         )}
       </BuildingImageWrapper>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <ShopItems
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}

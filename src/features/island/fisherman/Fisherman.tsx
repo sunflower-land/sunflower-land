@@ -48,7 +48,7 @@ export const Fisherman: React.FC = () => {
 
   return (
     <div className={classNames({ "pointer-events-none": isVisiting })}>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <FishermanModal onCast={cast} onClose={() => setShowModal(false)} />
       </Modal>
 

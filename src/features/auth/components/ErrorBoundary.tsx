@@ -35,7 +35,7 @@ class ErrorBoundary extends Component<Props, State> {
               imageRendering: "pixelated",
             }}
           />
-          <Modal show={true} centered>
+          <Modal show={true}>
             <Panel>
               <BoundaryError
                 error={this.state.error.message}

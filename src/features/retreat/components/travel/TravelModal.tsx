@@ -47,12 +47,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
   return (
     <>
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        dialogClassName="md:max-w-3xl"
-      >
+      <Modal show={isOpen} onHide={onClose} dialogClassName="md:max-w-3xl">
         {showIntro ? (
           <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
             <SpeakingText

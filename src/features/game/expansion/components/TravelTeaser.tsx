@@ -134,7 +134,7 @@ export const TravelTeaser: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           onClose={() => setShowModal(false)}

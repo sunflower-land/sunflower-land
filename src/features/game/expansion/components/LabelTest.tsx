@@ -14,7 +14,7 @@ export const LabelTest: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { t } = useAppTranslation();
   return (
-    <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+    <Modal show={isOpen} onHide={() => setIsOpen(false)}>
       <CloseButtonPanel onClose={() => setIsOpen(false)}>
         <div className="p-2">
           <p className="mb-2">{t("labels")}</p>

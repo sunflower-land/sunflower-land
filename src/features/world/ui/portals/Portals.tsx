@@ -58,7 +58,7 @@ export const Portals: React.FC = () => {
 
   if (url) {
     return (
-      <Modal fullscreen show centered>
+      <Modal fullscreen show>
         <iframe
           src={url}
           className="w-full h-full rounded-lg shadow-md absolute"

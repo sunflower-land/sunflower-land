@@ -127,7 +127,7 @@ const HudComponent: React.FC = () => {
           </div>
 
           {farmAddress && (
-            <Modal show={showDepositModal} centered onHide={handleClose}>
+            <Modal show={showDepositModal} onHide={handleClose}>
               <CloseButtonPanel
                 onClose={depositDataLoaded ? handleClose : undefined}
               >

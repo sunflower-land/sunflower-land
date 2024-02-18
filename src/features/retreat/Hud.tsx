@@ -77,7 +77,7 @@ export const Hud: React.FC = () => {
           <Settings isFarming={false} />
         </div>
         {farmAddress && (
-          <Modal show={showDepositModal} centered onHide={handleDepositClose}>
+          <Modal show={showDepositModal} onHide={handleDepositClose}>
             <CloseButtonPanel
               onClose={depositDataLoaded ? handleDepositClose : undefined}
             >

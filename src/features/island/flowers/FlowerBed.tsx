@@ -89,11 +89,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
             }}
           />
         </div>
-        <Modal
-          show={showPlantModal}
-          onHide={() => setShowPlantModal(false)}
-          centered
-        >
+        <Modal show={showPlantModal} onHide={() => setShowPlantModal(false)}>
           <FlowerBedModal id={id} onClose={() => setShowPlantModal(false)} />
         </Modal>
       </>
@@ -205,7 +201,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         )}
       </div>
 
-      <Modal centered show={showCongratulationsModal}>
+      <Modal show={showCongratulationsModal}>
         <Panel
           className="relative space-y-1"
           bumpkinParts={NPC_WEARABLES.poppy}

@@ -54,7 +54,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
         onClick={data ? handleOpen : undefined}
       />
       {data && (
-        <Modal show={showLeaderboard} onHide={handleClose} centered>
+        <Modal show={showLeaderboard} onHide={handleClose}>
           <CloseButtonPanel
             onClose={handleClose}
             tabs={[

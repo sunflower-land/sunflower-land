@@ -102,7 +102,6 @@ export const Game = () => {
     <>
       <Modal
         show={SHOW_MODAL[goblinState.value as StateValues]}
-        centered
         backdrop={retreatLoaded}
       >
         <Panel className="text-shadow">
@@ -129,7 +128,6 @@ export const Game = () => {
           className="z-[999]"
           backdropClassName="z-[999]"
           show={true}
-          centered
           onHide={() => goblinService.send("PERSONHOOD_CANCELLED")}
         >
           <Panel className="text-shadow">
@@ -165,7 +163,6 @@ export const Game = () => {
               {/* No Gold Pass Modal */}
               <Modal
                 show={showGoldPassModal}
-                centered
                 backdrop="static"
                 keyboard={false}
               >

@@ -19,7 +19,7 @@ export const ArcadeModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const [activeWindow, setActiveWindow] = useState<string | null>(null);
   const { t } = useAppTranslation();
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
         onBack={activeWindow ? () => setActiveWindow(null) : undefined}

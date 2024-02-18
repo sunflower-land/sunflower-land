@@ -97,7 +97,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           />
         )}
       </BuildingImageWrapper>
-      <Modal centered show={isOpen} onHide={handleClose}>
+      <Modal show={isOpen} onHide={handleClose}>
         <WorkbenchModal onClose={handleClose} />
       </Modal>
     </>

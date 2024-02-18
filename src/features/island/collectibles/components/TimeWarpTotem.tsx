@@ -80,7 +80,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
 
   return (
     <>
-      <Modal centered show={showModal}>
+      <Modal show={showModal}>
         <CloseButtonPanel>
           <ModalContent />
         </CloseButtonPanel>

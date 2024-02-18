@@ -11,7 +11,7 @@ export const IslandNotFound = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   return (
-    <Modal centered show={true}>
+    <Modal show={true}>
       <Panel>
         <div className="flex flex-col items-center">
           <img id="richBegger" src={humanDeath} />

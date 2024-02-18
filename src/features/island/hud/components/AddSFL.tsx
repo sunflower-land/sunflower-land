@@ -25,7 +25,7 @@ export const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
-    <Modal show={isOpen} centered onHide={onClose}>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel title={translate("addSFL")} onClose={onClose}>
         <GameWallet action="purchase">
           <AddSFLOptions isOpen={isOpen} onClose={onClose} />

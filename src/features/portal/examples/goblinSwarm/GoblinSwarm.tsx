@@ -14,7 +14,7 @@ export const GoblinSwarm: React.FC = () => {
   if (state === "complete") {
     return (
       <Ocean>
-        <Modal show centered>
+        <Modal show>
           <SpeakingModal
             message={[{ text: t("congrats") }]}
             bumpkinParts={NPC_WEARABLES.grubnuk}
@@ -28,7 +28,7 @@ export const GoblinSwarm: React.FC = () => {
   if (state === "fail") {
     return (
       <Ocean>
-        <Modal show centered>
+        <Modal show>
           <SpeakingModal
             message={[{ text: "On no, you failed the challenge!" }]}
             bumpkinParts={NPC_WEARABLES.grubnuk}
@@ -41,7 +41,7 @@ export const GoblinSwarm: React.FC = () => {
 
   return (
     <Ocean>
-      <Modal show centered>
+      <Modal show>
         <Panel>
           <ChestCaptcha
             onOpen={() => setState("complete")}

@@ -56,7 +56,6 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
         setTimeout(() => setShowLevelUp(false), 500);
       }}
-      centered
     >
       {showLevelUp ? (
         <CloseButtonPanel

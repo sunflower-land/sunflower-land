@@ -59,7 +59,6 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
       <Modal
         // dialogClassName="npc-dialog"
         show={!!player}
-        centered
         onHide={closeModal}
       >
         <CloseButtonPanel

@@ -27,7 +27,7 @@ export const LandscapingIntroduction: React.FC = () => {
   };
 
   return (
-    <Modal centered show={showModal} onHide={onClose}>
+    <Modal show={showModal} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.grimtooth}

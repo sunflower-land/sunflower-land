@@ -33,7 +33,6 @@ export const NewMail: React.FC = () => {
 
   return (
     <Modal
-      centered
       show={gameState.matches("mailbox")}
       onHide={() => send("ACKNOWLEDGE")}
     >

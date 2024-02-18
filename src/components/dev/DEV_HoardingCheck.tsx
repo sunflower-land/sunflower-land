@@ -172,7 +172,7 @@ export const DEV_HoardingCheck: React.FC<Props> = ({ network }) => {
   const [show, setShow] = useState(false);
   return (
     <>
-      <Modal show={show} centered onHide={() => setShow(false)}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <HoarderCheck network={network} />
       </Modal>
       <Button onClick={() => setShow(!show)}>

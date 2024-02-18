@@ -93,7 +93,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={closeAndResetView} centered>
+    <Modal show={isOpen} onHide={closeAndResetView}>
       {Content()}
     </Modal>
   );

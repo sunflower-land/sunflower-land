@@ -21,7 +21,7 @@ export const HalveningCountdown: React.FC = () => {
 
   return createPortal(
     <>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           className="text-shadow"
           onClose={() => setShowModal(false)}

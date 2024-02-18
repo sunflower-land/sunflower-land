@@ -45,7 +45,7 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
   const canClose = !useIsNewFarm();
 
   return (
-    <Modal show={isOpen} onHide={canClose ? onClose : undefined} centered>
+    <Modal show={isOpen} onHide={canClose ? onClose : undefined}>
       <Panel>
         {step === Steps.HowToFarm && <HowToFarm onClose={onClose} />}
         {step === Steps.HowToUpgrade && (

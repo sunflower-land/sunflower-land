@@ -437,7 +437,7 @@ export const ComposterModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
       <CloseButtonPanel
         onClose={() => {
           setShowModal(false);

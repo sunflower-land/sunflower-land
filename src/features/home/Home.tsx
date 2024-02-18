@@ -221,11 +221,7 @@ export const Home: React.FC = () => {
         {!landscaping && <Hud isFarming location="home" />}
         {landscaping && <LandscapingHud location="home" />}
 
-        <Modal
-          centered
-          show={showPainting}
-          onHide={() => setShowPainting(false)}
-        >
+        <Modal show={showPainting} onHide={() => setShowPainting(false)}>
           <BumpkinPainting
             bumpkin={bumpkin as Bumpkin}
             onClose={() => setShowPainting(false)}

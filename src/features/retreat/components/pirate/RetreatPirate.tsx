@@ -67,7 +67,7 @@ export const RetreatPirate: React.FC = () => {
           </div>
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           bumpkinParts={bumpkin}
           tabs={[{ name: "Craft", icon: SUNNYSIDE.icons.hammer }]}

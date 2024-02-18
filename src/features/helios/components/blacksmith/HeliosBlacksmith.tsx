@@ -42,7 +42,7 @@ export const HeliosBlacksmith: React.FC = () => {
           </div>
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           bumpkinParts={{
             body: "Beige Farmer Potion",
