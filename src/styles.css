@@ -109,53 +109,6 @@ input[type="number"] {
   user-select: auto;
 }
 
-/*
-  Override React Bootstrap styles that don't play nicely
-*/
-
-.modal-content {
-  background: transparent;
-  border: none;
-}
-
-.modal.fade .modal-dialog {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-}
-
-/* If modal content overflows the screen height then allow the window to scroll */
-
-.modal-dialog-scrollable .modal-content {
-  overflow: initial;
-}
-
-.carousel-control-next,
-.carousel-control-prev {
-  opacity: 1;
-}
-
-.carousel-indicators {
-  bottom: -42px;
-}
-
-/* Disable default border */
-
-.accordion-button {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* Replace default chevron image */
-
-.accordion-button::after {
-  background-image: url("./assets/icons/indicator.png") !important;
-}
-
 img {
   image-rendering: pixelated;
 }
