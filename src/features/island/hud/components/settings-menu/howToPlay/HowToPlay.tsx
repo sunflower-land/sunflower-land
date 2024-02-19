@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 
 import { HowToFarm } from "./HowToFarm";
 import { HowToUpgrade } from "./HowToUpgrade";
 import { HowToSync } from "./HowToSync";
 import { LetsGo } from "./LetsGo";
-import { useIsNewFarm } from "features/farming/hud/lib/onboarding";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 enum Steps {
   HowToFarm = 1,
@@ -42,23 +41,22 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
-  const canClose = !useIsNewFarm();
+  const title =
+    step === Steps.HowToFarm ? t("howToFarm.title") : t("howToUpgrade.title");
 
   return (
-    <Modal show={isOpen} onHide={canClose ? onClose : undefined}>
-      <Panel>
-        {step === Steps.HowToFarm && <HowToFarm onClose={onClose} />}
-        {step === Steps.HowToUpgrade && (
-          <HowToUpgrade onClose={onClose} onBack={previous} />
-        )}
-        {step === Steps.HowToSync && (
-          <HowToSync onClose={onClose} onBack={previous} />
-        )}
-        {step === Steps.LetsGo && (
-          <LetsGo onClose={onClose} onBack={previous} />
-        )}
+    <Modal show={isOpen} onHide={onClose}>
+      <CloseButtonPanel
+        title={title}
+        onBack={step > 1 ? previous : undefined}
+        onClose={onClose}
+      >
+        {step === Steps.HowToFarm && <HowToFarm />}
+        {step === Steps.HowToUpgrade && <HowToUpgrade />}
+        {step === Steps.HowToSync && <HowToSync />}
+        {step === Steps.LetsGo && <LetsGo />}
 
-        <Modal.Footer className="justify-content-center">
+        <div className="justify-content-center">
           {step === Steps.LetsGo ? (
             <Button className="text-s px-1" onClick={finish}>
               {t("lets.go")}
@@ -68,8 +66,8 @@ export const HowToPlay: React.FC<Props> = ({ isOpen, onClose }) => {
               {t("next")}
             </Button>
           )}
-        </Modal.Footer>
-      </Panel>
+        </div>
+      </CloseButtonPanel>
     </Modal>
   );
 };

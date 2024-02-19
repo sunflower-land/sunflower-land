@@ -1,69 +1,65 @@
 import React from "react";
 
-import { Modal } from "components/ui/Modal";
-
 import token from "assets/icons/token_2.png";
 
 import shop from "assets/buildings/shop_building.png";
-import { HowToModalHeader } from "./HowToModalHeader";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const HowToFarm: React.FC<Props> = ({ onClose }) => {
+export const HowToFarm: React.FC = () => {
   const { t } = useAppTranslation();
   return (
-    <>
-      <HowToModalHeader title={t("howToFarm.title")} onClose={onClose} />
-      <Modal.Body>
-        <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepOne")}</p>
-          <div className="relative">
-            <img src={CROP_LIFECYCLE.Sunflower.crop} className="w-12" />
-            <img
-              src={SUNNYSIDE.ui.cursor}
-              className="w-4 absolute right-0 bottom-0"
-            />
-          </div>
+    <div className="flex flex-col space-y-1 p-2">
+      <div className="flex items-center justify-between">
+        <p className="text-xs sm:text-sm">{t("howToFarm.stepOne")}</p>
+        <div className="relative">
+          <img
+            src={CROP_LIFECYCLE.Sunflower.crop}
+            className="w-9 h-9 object-contain"
+          />
+          <img
+            src={SUNNYSIDE.ui.cursor}
+            className="w-4 absolute right-0 bottom-0"
+          />
         </div>
-        <div className="flex  items-center mt-2 ">
-          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepTwo")}</p>
-          <div className="relative">
-            <img src={shop} className="w-14" />
-            <img
-              src={SUNNYSIDE.ui.cursor}
-              className="w-4 absolute right-0 -bottom-2"
-            />
-          </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <p className="text-xs sm:text-sm">{t("howToFarm.stepTwo")}</p>
+        <div className="relative">
+          <img src={shop} className="w-9 h-9 object-contain" />
+          <img
+            src={SUNNYSIDE.ui.cursor}
+            className="w-4 absolute right-0 -bottom-2"
+          />
         </div>
-        <div className="flex items-center">
-          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepThree")}</p>
+      </div>
+      <div className="flex items-center justify-between">
+        <p className="text-xs sm:text-sm">{t("howToFarm.stepThree")}</p>
 
-          <div className="relative">
-            <img src={token} className="w-12" />
-          </div>
+        <div className="relative">
+          <img src={token} className="w-9 h-9 object-contain" />
         </div>
-        <div className="flex justify-between items-center mt-2">
-          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepFour")}</p>
-          <div className="relative">
-            <img src={SUNNYSIDE.icons.seeds} className="w-8" />
-          </div>
+      </div>
+      <div className="flex items-center justify-between">
+        <p className="text-xs sm:text-sm">{t("howToFarm.stepFour")}</p>
+        <div className="relative">
+          <img src={SUNNYSIDE.icons.seeds} className="w-9 h-9 object-contain" />
         </div>
-        <div className="flex justify-between items-center">
-          <p className="text-xs sm:text-sm p-2">{t("howToFarm.stepFive")}</p>
-          <div className="relative">
-            <img src={SUNNYSIDE.icons.seedling} className="w-12" />
-            <img
-              src={SUNNYSIDE.ui.cursor}
-              className="w-4 absolute right-0 bottom-0"
-            />
-          </div>
+      </div>
+      <div className="flex justify-between items-center">
+        <p className="text-xs sm:text-sm">{t("howToFarm.stepFive")}</p>
+        <div className="relative">
+          <img
+            src={SUNNYSIDE.icons.seedling}
+            className="w-9 h-9 object-contain"
+          />
+          <img
+            src={SUNNYSIDE.ui.cursor}
+            className="w-4 absolute right-0 bottom-0"
+          />
         </div>
-      </Modal.Body>
-    </>
+      </div>
+    </div>
   );
 };

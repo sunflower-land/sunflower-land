@@ -2,31 +2,20 @@ import classNames from "classnames";
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-interface Props {
-  className?: string;
-}
-
 interface ModalProps {
   size?: "lg" | "sm";
-  backdropClassName?: string;
   dialogClassName?: string;
-  className?: string;
 
   show?: boolean;
   fullscreen?: boolean;
   backdrop?: boolean | "static";
-  scrollable?: boolean;
 
   onHide?: () => void;
   onExited?: () => void;
   onShow?: () => void;
 }
 
-export const Modal: React.FC<ModalProps> & {
-  Body: React.FC<Props>;
-  Footer: React.FC<Props>;
-  Header: React.FC<Props>;
-} = ({
+export const Modal: React.FC<ModalProps> = ({
   children,
   show,
   onHide,
@@ -34,6 +23,7 @@ export const Modal: React.FC<ModalProps> & {
   onShow,
   size,
   fullscreen,
+  dialogClassName,
   backdrop = true,
 }) => {
   return (
@@ -62,7 +52,7 @@ export const Modal: React.FC<ModalProps> & {
           </Transition.Child>
         )}
 
-        <div className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center">
+        <div className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center z-1050 ">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -75,12 +65,15 @@ export const Modal: React.FC<ModalProps> & {
             afterLeave={() => onExited?.()}
           >
             <Dialog.Panel
-              className={classNames("relative w-full", {
-                "max-w-[300px]": !fullscreen && size === "sm",
-                "max-w-[500px]": !fullscreen && size === undefined,
-                "max-w-[800px]": !fullscreen && size === "lg",
-                "w-screen h-full": !!fullscreen,
-              })}
+              className={classNames(
+                `relative w-full ${dialogClassName ?? ""}`,
+                {
+                  "max-w-[300px]": !fullscreen && size === "sm",
+                  "max-w-[500px]": !fullscreen && size === undefined,
+                  "max-w-[800px]": !fullscreen && size === "lg",
+                  "w-screen h-full": !!fullscreen,
+                }
+              )}
             >
               {children}
             </Dialog.Panel>
@@ -90,7 +83,3 @@ export const Modal: React.FC<ModalProps> & {
     </Transition>
   );
 };
-
-Modal.Body = ({ children }) => <div>{children}</div>;
-Modal.Footer = ({ children }) => <div>{children}</div>;
-Modal.Header = ({ children }) => <div>{children}</div>;

@@ -125,8 +125,6 @@ export const Game = () => {
       {/*Anima iframe has zIndex 1000, set this componenet to 999*/}
       {goblinState.matches("provingPersonhood") && (
         <Modal
-          className="z-[999]"
-          backdropClassName="z-[999]"
           show={true}
           onHide={() => goblinService.send("PERSONHOOD_CANCELLED")}
         >

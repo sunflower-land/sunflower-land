@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 
 import { SpecialEventName } from "features/game/types/specialEvents";
 import { NPCName } from "lib/npcs";
-import { Modal } from "react-bootstrap";
 import { SpecialEventModalContent } from "./SpecialEventModalContent";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
+import { Modal } from "components/ui/Modal";
 
 interface SpecialEventModalProps {
   npc: NPCName;
@@ -34,7 +34,7 @@ export const SpecialEventModal: React.FC<SpecialEventModalProps> = ({
   }
 
   return (
-    <Modal show={show} centered onHide={onClose}>
+    <Modal show={show} onHide={onClose}>
       <SpecialEventModalContent
         npcName={npc}
         eventName={eventName}

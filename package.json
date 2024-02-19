@@ -59,7 +59,6 @@
     "process": "^0.11.10",
     "pubsub-js": "^1.9.4",
     "react": "^17.0.2",
-    "react-bootstrap": "^2.1.1",
     "react-dom": "^17.0.2",
     "react-draggable": "^4.4.5",
     "react-i18next": "^13.3.1",
