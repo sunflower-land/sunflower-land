@@ -15,7 +15,7 @@ export const Kicked: React.FC<{
   if (!event) return null;
 
   return (
-    <Modal show={true} backdrop="static" keyboard={false}>
+    <Modal show={true} backdrop="static">
       <Panel>
         <div className="flex flex-col gap-2">
           <div className="flex justify-center text-center">

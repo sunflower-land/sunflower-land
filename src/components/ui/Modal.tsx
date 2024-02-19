@@ -16,7 +16,6 @@ interface ModalProps {
   fullscreen?: boolean;
   backdrop?: boolean | "static";
   scrollable?: boolean;
-  keyboard?: boolean;
 
   onHide?: () => void;
   onExited?: () => void;

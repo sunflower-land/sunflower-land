@@ -161,11 +161,7 @@ export const Game = () => {
               />
 
               {/* No Gold Pass Modal */}
-              <Modal
-                show={showGoldPassModal}
-                backdrop="static"
-                keyboard={false}
-              >
+              <Modal show={showGoldPassModal} backdrop="static">
                 <GoldPassModal onClose={handleGoldPassModalClose} />
               </Modal>
 
