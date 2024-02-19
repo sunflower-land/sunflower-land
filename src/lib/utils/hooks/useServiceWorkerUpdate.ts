@@ -95,8 +95,7 @@ export function useServiceWorkerUpdate() {
       const pageSentToBackground = evt.newState === "hidden";
 
       if (refreshedPage || pageSentToBackground) {
-        updateServiceWorker();
-        window.location.reload();
+        updateServiceWorker(true);
       }
     };
 
