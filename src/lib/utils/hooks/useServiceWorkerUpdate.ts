@@ -88,11 +88,13 @@ export function useServiceWorkerUpdate() {
 
   useEffect(() => {
     const handleStateChange = (evt: any) => {
-      if (evt.oldState === "hidden" && evt.newState === "terminated") {
-        console.log("----RELOADED APP-----");
-      }
+      if (!needRefreshRef.current) return;
 
-      if (evt.newState === "hidden" && needRefreshRef.current) {
+      const refreshedPage =
+        evt.oldState === "hidden" && evt.newState === "terminated";
+      const pageSentToBackground = evt.newState === "hidden";
+
+      if (refreshedPage || pageSentToBackground) {
         updateServiceWorker();
       }
     };
