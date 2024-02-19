@@ -108,5 +108,17 @@ export function useServiceWorkerUpdate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    document.addEventListener("pageshow", () => {
+      console.log("[APP] pageshow event");
+    });
+
+    return () => {
+      document.removeEventListener("pageshow", () => {
+        console.log("[APP] Removing pageshow event");
+      });
+    };
+  }, []);
+
   return { isInstalling, needRefresh: needRefreshRef.current };
 }
