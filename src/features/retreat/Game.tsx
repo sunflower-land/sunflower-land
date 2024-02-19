@@ -135,8 +135,8 @@ export const Game = () => {
       )}
 
       <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
-        innerRef={container}
+        className="bg-blue-300 !overflow-scroll relative w-full h-full overscroll-none"
+        ref={container}
       >
         <GameBoard>
           {hasRequiredLevel && !goblinState.matches("loading") && (
