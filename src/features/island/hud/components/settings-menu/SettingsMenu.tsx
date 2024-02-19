@@ -285,7 +285,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       <Share
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        farmId={gameService.state.context.farmId}
+        farmId={gameService.state?.context?.farmId.toString() as string}
       />
       <HowToPlay
         isOpen={showHowToPlay}
