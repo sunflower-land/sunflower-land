@@ -96,6 +96,7 @@ export function useServiceWorkerUpdate() {
 
       if (refreshedPage || pageSentToBackground) {
         updateServiceWorker();
+        window.location.reload();
       }
     };
 
