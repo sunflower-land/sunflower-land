@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 interface ModalProps {
@@ -26,11 +26,13 @@ export const Modal: React.FC<ModalProps> = ({
   dialogClassName,
   backdrop = true,
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
   return (
     <Transition appear show={show} as={Fragment}>
       <Dialog
+        initialFocus={ref}
         as="div"
-        className="fixed inset-0 flex min-h-full items-center justify-center z-50"
+        className="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
         onClose={() => (backdrop === "static" ? undefined : onHide?.())}
         // Prevent click through to Phaser
         onMouseDown={(e) => e.stopPropagation()}
@@ -75,7 +77,7 @@ export const Modal: React.FC<ModalProps> = ({
                 }
               )}
             >
-              {children}
+              <div ref={ref}>{children}</div>
             </Dialog.Panel>
           </Transition.Child>
         </div>

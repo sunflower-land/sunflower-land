@@ -40,7 +40,7 @@ export const Button: React.FC<Props> = ({
   return (
     <button
       className={classnames(
-        "bg-brown-200 w-full p-1 text-xs object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50 outline-none",
+        "bg-brown-200 w-full p-1 text-xs object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50",
         className
       )}
       type={type}
