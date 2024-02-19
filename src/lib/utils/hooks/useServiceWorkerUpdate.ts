@@ -94,7 +94,10 @@ export function useServiceWorkerUpdate() {
         evt.oldState === "hidden" && evt.newState === "terminated";
       const pageSentToBackground = evt.newState === "hidden";
 
-      console.log({ refreshedPage, pageSentToBackground });
+      console.log("State change state ===>", {
+        refreshedPage,
+        pageSentToBackground,
+      });
 
       if (refreshedPage || pageSentToBackground) {
         updateServiceWorker(true);
