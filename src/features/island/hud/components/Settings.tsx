@@ -207,7 +207,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         ref={musicPlayer}
         onEnded={handleNextSong}
         src={song.path}
-        className="d-none"
+        className="hidden"
         autoPlay
         muted={true}
         controls
