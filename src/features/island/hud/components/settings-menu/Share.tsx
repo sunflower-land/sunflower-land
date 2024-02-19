@@ -10,7 +10,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
-  farmId: number;
+  farmId: string;
   isOpen: boolean;
   onClose: () => void;
 }
