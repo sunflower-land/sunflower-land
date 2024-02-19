@@ -301,7 +301,7 @@ export const GameWrapper: React.FC = ({ children }) => {
         <div
           className="h-screen w-full fixed top-0"
           style={{
-            zIndex: 1050,
+            zIndex: 49,
 
             backgroundImage: `url(${ocean})`,
             backgroundSize: `${64 * PIXEL_SCALE}px`,
@@ -345,7 +345,7 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   if (blacklisted) {
     return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 49 }}>
         <Modal show backdrop={false}>
           <Panel>
             <Blacklisted />

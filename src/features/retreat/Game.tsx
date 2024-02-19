@@ -122,7 +122,6 @@ export const Game = () => {
         </Panel>
       </Modal>
 
-      {/*Anima iframe has zIndex 1000, set this componenet to 999*/}
       {goblinState.matches("provingPersonhood") && (
         <Modal
           show={true}
