@@ -59,12 +59,21 @@ export type NPCName =
   | "misty"
   | "poppy"
   | "stevie"
-  | "Chun Long";
+  | "Chun Long"
+  | "evie";
 
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
-  // TODO
+  evie: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Pink Ponytail",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Farmer Overalls",
+    shirt: "Blue Farmer Shirt",
+  },
   wizard: {
     background: "Farm Background",
     body: "Beige Farmer Potion",

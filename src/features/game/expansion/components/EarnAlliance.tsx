@@ -5,6 +5,8 @@ import { NPC_WEARABLES } from "lib/npcs";
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 
+import raft from "assets/decorations/earn_alliance_raft.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 export const EarnAlliance: React.FC<{ event: SpecialEvent | undefined }> = ({
   event,
 }) => {
@@ -14,8 +16,17 @@ export const EarnAlliance: React.FC<{ event: SpecialEvent | undefined }> = ({
 
   return (
     <>
+      <img
+        src={raft}
+        className="absolute"
+        style={{
+          width: `${60 * PIXEL_SCALE}px`,
+          left: `${-24 * PIXEL_SCALE}px`,
+          top: `${-16 * PIXEL_SCALE}px`,
+        }}
+      />
       <NPC
-        parts={NPC_WEARABLES["pumpkin' pete"]}
+        parts={NPC_WEARABLES["evie"]}
         onClick={() => setShowSpecialEvent(true)}
       />
       <Modal
@@ -26,7 +37,7 @@ export const EarnAlliance: React.FC<{ event: SpecialEvent | undefined }> = ({
         <SpecialEventModalContent
           event={event}
           eventName="Earn Alliance Banner"
-          npcName="pumpkin' pete"
+          npcName="evie"
           onClose={() => setShowSpecialEvent(false)}
         />
       </Modal>
