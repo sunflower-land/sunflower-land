@@ -88,7 +88,9 @@ export function useServiceWorkerUpdate() {
 
   useEffect(() => {
     const handleStateChange = (evt: any) => {
-      console.log("[APP] Page Lifecycle event", evt);
+      if (evt.oldState === "hidden" && evt.newState === "terminated") {
+        console.log("RELOADED APP");
+      }
 
       if (
         (evt.newState === "hidden" ||
@@ -106,18 +108,6 @@ export function useServiceWorkerUpdate() {
       lifecycle.removeEventListener("statechange", handleStateChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("pageshow", () => {
-      console.log("[APP] pageshow event");
-    });
-
-    return () => {
-      document.removeEventListener("pageshow", () => {
-        console.log("[APP] Removing pageshow event");
-      });
-    };
   }, []);
 
   return { isInstalling, needRefresh: needRefreshRef.current };
