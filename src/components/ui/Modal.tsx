@@ -52,7 +52,7 @@ export const Modal: React.FC<ModalProps> = ({
           </Transition.Child>
         )}
 
-        <div className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center z-1050 ">
+        <div className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
