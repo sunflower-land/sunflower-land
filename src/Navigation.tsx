@@ -22,12 +22,12 @@ import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";
 import { useOrientation } from "lib/utils/hooks/useOrientation";
-import { Modal } from "react-bootstrap";
 import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { World } from "features/world/World";
 import { CommunityTools } from "features/world/ui/CommunityTools";
 import { Retreat } from "features/retreat/Retreat";
+import { Modal } from "components/ui/Modal";
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
@@ -110,12 +110,12 @@ export const Navigation: React.FC = () => {
       <Auth showOfflineModal={showConnectionModal} />
       {showGame ? (
         <ZoomProvider>
-          <Modal show={showOrientationModal} centered backdrop={false}>
+          <Modal show={showOrientationModal} backdrop={false}>
             <Panel>
               <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
             </Panel>
           </Modal>
-          <Modal show={showConnectionModal} centered>
+          <Modal show={showConnectionModal}>
             <Panel>
               <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
             </Panel>
