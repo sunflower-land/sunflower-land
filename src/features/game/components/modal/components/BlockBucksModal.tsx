@@ -165,8 +165,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {t("item")}
-              {":"} {price.amount} {"x"}
+              {t("item")} {price.amount} {"x"}
             </p>
             <img
               src={ticket}
@@ -201,8 +200,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {t("item")}
-              {":"} {price.amount} {"x"}
+              {t("item")} {price.amount} {"x"}
             </p>
             <img
               src={ticket}

@@ -102,8 +102,8 @@ const DepositOptions: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
-  canDeposit = true,
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [hasWeb3, setHasWeb3] = useState(false);
 
   const [status, setStatus] = useState<Status>("loading");
@@ -176,7 +176,7 @@ const DepositOptions: React.FC<Props> = ({
     };
 
     loadBalances();
-  }, [status]);
+  }, [onLoaded, status]);
 
   if (status === "error") {
     <div className="p-2">
@@ -327,7 +327,6 @@ const DepositOptions: React.FC<Props> = ({
           <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
             <span className="whitespace-nowrap">
               {t("deposit.farmAddress")}
-              {":"}
             </span>
             <CopyAddress address={farmAddress} />
           </div>
@@ -427,10 +426,7 @@ const DepositOptions: React.FC<Props> = ({
                   </>
                 )}
                 <div className="pt-3">
-                  <p className="mb-1">
-                    {t("deposit.farmWillReceive")}
-                    {":"}
-                  </p>
+                  <p className="mb-1">{t("deposit.farmWillReceive")}</p>
                   <div className="text-[11px] sm:text-xs mb-3">
                     <CopyAddress address={farmAddress} />
                   </div>

@@ -1,3 +1,4 @@
+import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -298,7 +299,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "making.wish": "Fazendo um desejo",
   max: "Máx",
   minimum: "Mínimo",
-  mins: "mins",
   mint: "Mintar",
   minting: "Mintando",
   music: "Música",
@@ -347,7 +347,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   save: "Salvar",
   saving: "Salvando",
   "seasonal.treasure": "Tesouro Sazonal",
-  secs: "segundos",
   seeds: "Sementes",
   selected: "Selecionado",
   "select.resource": "Selecione seu recurso",
@@ -435,7 +434,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   collection: "Coleção",
   complete: "completo",
   compost: "Composto",
-  day: "dia",
   decorations: "Decorações",
   default: "Padrão",
   deliver: "Entregar",
@@ -474,6 +472,17 @@ const generalTerms: Record<GeneralTerms, string> = {
   upcoming: "Próximo",
   wearables: "Vestíveis",
   wish: "Desejo",
+
+  // Time
+  sec: ENGLISH_TERMS["sec"],
+  min: ENGLISH_TERMS["min"],
+  hr: ENGLISH_TERMS["hr"],
+  day: "dia",
+
+  secs: "segundos",
+  mins: "mins",
+  hrs: ENGLISH_TERMS["hrs"],
+  days: ENGLISH_TERMS["days"],
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -593,6 +602,7 @@ const auction: Record<Auction, string> = {
   "auction.closed": "Leilão fechado",
   "auction.const": "Em construção!",
   "auction.const.soon": "Este recurso está chegando em breve.",
+  "auction.title": ENGLISH_TERMS["auction.title"],
 };
 const addSFL: Record<AddSFL, string> = {
   "addSFL.swapDetails":
@@ -3767,6 +3777,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarted": "Comece Agora",
   "offer.NFT.include": "Farm NFT. Isso incluirá",
   "offer.free": "grátis",
+  "offer.not.enough.BlockBucks": ENGLISH_TERMS["offer.not.enough.BlockBucks"],
 };
 
 const onboarding: Record<Onboarding, string> = {
@@ -3828,6 +3839,7 @@ const pageFounds: Record<PageFounds, string> = {
   "pageFounds.pageContainsInfo":
     "Ótimo! Esta página contém algumas informações sobre como cultivar um(a)",
   pageFounds: "Páginas Encontradas",
+  "pageFounds.title": ENGLISH_TERMS["pageFounds.title"],
 };
 
 const parsnip: Record<Parsnip, string> = {
@@ -4400,6 +4412,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "Para comprar sua fazenda, você precisará aceitar os termos de serviço do Sunflower Land.",
   "transaction.termsOfService.two":
     "Esta etapa o levará de volta para sua nova carteira de sequência para aceitar os termos de serviço.",
+  "transaction.buy.BlockBucks": ENGLISH_TERMS["transaction.buy.BlockBucks"],
 };
 
 const transfer: Record<Transfer, string> = {
