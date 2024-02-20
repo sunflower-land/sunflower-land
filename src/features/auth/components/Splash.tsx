@@ -20,6 +20,7 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
+import { isMobile } from "mobile-device-detect";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -55,7 +56,7 @@ const Languages = () => {
       : null;
 
   return (
-    <Button className="mb-2 py-1 text-xs relative" onClick={toggleLanguage}>
+    <Button className="py-1 text-xs relative" onClick={toggleLanguage}>
       <div className="px-8 pr-1">
         <img
           src={flagImage}
@@ -69,6 +70,10 @@ const Languages = () => {
 };
 
 export const Splash: React.FC = ({ children }) => {
+  const releaseVersion = isMobile
+    ? CONFIG.RELEASE_VERSION?.split("-")[0].slice(-8)
+    : CONFIG.RELEASE_VERSION?.split("-")[0];
+
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
@@ -176,16 +181,16 @@ export const Splash: React.FC = ({ children }) => {
         </Modal>
       )}
       <div
-        className="absolute bottom-0 right-auto m-1 pointer-events-auto safe-mb"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
+        className="absolute bottom-2 mx-auto pointer-events-auto safe-mb"
+        style={{ zIndex: 1100 }}
       >
         {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
       </div>
       <div
-        className="absolute bottom-0 right-0 m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
+        className="absolute bottom-2 right-1 pointer-events-auto safe-mb"
+        style={{ zIndex: 1100 }}
       >
-        <InnerPanel className="mb-2 safe-mb">
+        <InnerPanel>
           <div className="flex items-center justify-center">
             <a
               className="underline text-xxs text-white hover:text-blue-500 p-1"
@@ -193,7 +198,7 @@ export const Splash: React.FC = ({ children }) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {releaseVersion?.split("-")[0]}
+              {releaseVersion}
             </a>
           </div>
         </InnerPanel>
