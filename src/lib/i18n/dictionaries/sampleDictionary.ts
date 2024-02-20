@@ -2589,6 +2589,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarted": "",
   "offer.NFT.include": "",
   "offer.free": "",
+  "offer.not.enough.BlockBucks": "",
 };
 const onboarding: Record<Onboarding, string> = {
   "onboarding.welcome": "",
@@ -3053,6 +3054,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.withdraw.polygon": "",
   "transaction.termsOfService.one": "",
   "transaction.termsOfService.two": "",
+  "transaction.buy.BlockBucks": "",
 };
 const transfer: Record<Transfer, string> = {
   "transfer.sure.adress": "",
