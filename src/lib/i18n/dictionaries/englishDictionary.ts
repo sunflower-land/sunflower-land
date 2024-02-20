@@ -4609,7 +4609,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...goldpassModal,
   ...guideTerms,
   ...guideCompost,
-  ...guideCompost,
   ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,
