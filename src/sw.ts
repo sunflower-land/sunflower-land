@@ -15,11 +15,6 @@ import { CONFIG } from "./lib/config";
 
 declare let self: ServiceWorkerGlobalScope;
 
-const RELEASE_VERSION = CONFIG.RELEASE_VERSION;
-
-// eslint-disable-next-line no-console
-console.log(`[Service Worker] Release version: ${RELEASE_VERSION}`);
-
 const isTestnet = CONFIG.NETWORK === "mumbai";
 const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
 const gameAssetsCacheName = `${isTestnet ? "testnet" : "game"}-assets`;
