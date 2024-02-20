@@ -68,7 +68,7 @@ export const Modal: React.FC<ModalProps> = ({
           >
             <Dialog.Panel
               className={classNames(
-                `relative w-full ${dialogClassName ?? ""}`,
+                `relative m-2 w-full ${dialogClassName ?? ""}`,
                 {
                   "max-w-[300px]": !fullscreen && size === "sm",
                   "max-w-[500px]": !fullscreen && size === undefined,
