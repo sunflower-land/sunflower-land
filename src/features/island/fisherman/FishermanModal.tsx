@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -132,6 +132,25 @@ const BaitSelection: React.FC<{
       context: { state },
     },
   ] = useActor(gameService);
+
+  useEffect(() => {
+    const lastSelectedBait = localStorage.getItem("lastSelectedBait");
+    if (lastSelectedBait) {
+      setBait(lastSelectedBait as FishingBait);
+    }
+    const lastSelectedChum = localStorage.getItem("lastSelectedChum");
+
+    const hasRequirements =
+      lastSelectedChum &&
+      state.inventory[lastSelectedChum as InventoryItemName]?.gte(
+        CHUM_AMOUNTS[lastSelectedChum as Chum] ?? 0
+      );
+
+    if (hasRequirements) {
+      setChum(lastSelectedChum as Chum);
+    }
+  }, []);
+
   const [showChum, setShowChum] = useState(false);
   const [chum, setChum] = useState<Chum | undefined>();
   const [bait, setBait] = useState<FishingBait>("Earthworm");
@@ -146,6 +165,7 @@ const BaitSelection: React.FC<{
         initial={chum}
         onList={(selected) => {
           setChum(selected);
+          localStorage.setItem("lastSelectedChum", selected);
           setShowChum(false);
         }}
       />
@@ -211,7 +231,10 @@ const BaitSelection: React.FC<{
               image={ITEM_DETAILS[name].image}
               isSelected={bait === name}
               count={state.inventory[name]}
-              onClick={() => setBait(name)}
+              onClick={() => {
+                setBait(name);
+                localStorage.setItem("lastSelectedBait", name);
+              }}
               key={name}
             />
           ))}
