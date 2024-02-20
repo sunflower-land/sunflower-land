@@ -15,7 +15,7 @@ export const GameBoard: React.FC = ({ children }) => {
         }}
       >
         <animated.div
-          className="relative inset-0 bg-repeat w-full h-full bg-green-500"
+          className="relative inset-0 bg-repeat w-full h-full bg-white"
           style={{
             backgroundSize: `${64 * PIXEL_SCALE}px`,
             width: `${84 * GRID_WIDTH_PX * 4}px`,
