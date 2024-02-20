@@ -12,7 +12,7 @@ import shadow from "assets/npcs/shadow.png";
 
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "lib/i18n";
@@ -20,7 +20,6 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
-import { isMobile } from "mobile-device-detect";
 
 const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
@@ -70,10 +69,6 @@ const Languages = () => {
 };
 
 export const Splash: React.FC = ({ children }) => {
-  const releaseVersion = isMobile
-    ? CONFIG.RELEASE_VERSION?.split("-")[0].slice(-8)
-    : CONFIG.RELEASE_VERSION?.split("-")[0];
-
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
@@ -185,23 +180,6 @@ export const Splash: React.FC = ({ children }) => {
         style={{ zIndex: 1100 }}
       >
         {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
-      </div>
-      <div
-        className="absolute bottom-2 right-1 pointer-events-auto safe-mb"
-        style={{ zIndex: 1100 }}
-      >
-        <InnerPanel>
-          <div className="flex items-center justify-center">
-            <a
-              className="underline text-xxs text-white hover:text-blue-500 p-1"
-              href="https://github.com/sunflower-land/sunflower-land/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {releaseVersion}
-            </a>
-          </div>
-        </InnerPanel>
       </div>
     </div>
   );
