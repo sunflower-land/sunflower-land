@@ -4224,7 +4224,7 @@ const statements: Record<Statements, string> = {
   "statements.gold.pass.required": "A Gold Pass is required to mint rare NFTs.",
   "statements.frankie.plaza": "Travel to the plaza to craft rare decorations!",
   "statements.blacksmith.plaza": "Travel to the Plaza for more rare items.",
-  "statements.water.well.needed.one": "Additional Water Well required.",
+  "statements.water.well.needed.one": "Additional Water Well required. (T)",
   "statements.water.well.needed.two":
     "In order to support more crops, build a well.",
   "statements.soldOut": "Sold out",
