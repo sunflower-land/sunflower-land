@@ -9,7 +9,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { BeanName, BEANS } from "features/game/types/beans";
 import { Context } from "features/game/GameProvider";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -89,7 +89,7 @@ export const Bean: React.FC<CollectibleProps> = ({
         </div>
 
         {gameState.matches("revealing") && isRevealing && (
-          <Modal show centered backdrop="static">
+          <Modal show backdrop="static">
             <Panel className="z-10">
               <Revealing icon={magicBean} />
             </Panel>
@@ -97,7 +97,7 @@ export const Bean: React.FC<CollectibleProps> = ({
         )}
 
         {gameState.matches("beanRevealed") && isRevealing && (
-          <Modal show centered backdrop="static">
+          <Modal show backdrop="static">
             <Panel className="z-10">
               <Revealed id={id} onAcknowledged={() => setIsRevealing(false)} />
             </Panel>
@@ -126,7 +126,7 @@ export const Bean: React.FC<CollectibleProps> = ({
           alt="Bean"
         />
       </div>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)} title={name}>
           <div className="flex flex-col justify-center items-center">
             <span className="text-center mb-2">

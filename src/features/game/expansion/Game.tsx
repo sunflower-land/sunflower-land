@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
@@ -161,7 +161,7 @@ const GameContent = () => {
           <VisitingHud />
         </div>
         <div className="relative">
-          <Modal centered show backdrop={false}>
+          <Modal show backdrop={false}>
             <Panel
               bumpkinParts={{
                 body: "Beige Farmer Potion",
@@ -301,14 +301,14 @@ export const GameWrapper: React.FC = ({ children }) => {
         <div
           className="h-screen w-full fixed top-0"
           style={{
-            zIndex: 1050,
+            zIndex: 49,
 
             backgroundImage: `url(${ocean})`,
             backgroundSize: `${64 * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
           }}
         >
-          <Modal show centered backdrop={false}>
+          <Modal show backdrop={false}>
             <div
               className={classNames(
                 "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
@@ -345,8 +345,8 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   if (blacklisted) {
     return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Modal show centered backdrop={false}>
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 49 }}>
+        <Modal show backdrop={false}>
           <Panel>
             <Blacklisted />
           </Panel>
@@ -361,7 +361,7 @@ export const GameWrapper: React.FC = ({ children }) => {
     <ToastProvider>
       <ToastPanel />
 
-      <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
+      <Modal show={SHOW_MODAL[stateValue as StateValues]}>
         <Panel>
           {loading && <Loading />}
           {refreshing && <Refreshing />}

@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useNavigate } from "react-router-dom";
 import { COMMUNITY_TEST_ISLAND } from "../scenes/CommunityScene";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -19,7 +19,7 @@ export const CommunityTools: React.FC = () => {
   };
 
   return (
-    <Modal show centered>
+    <Modal show>
       <Panel>
         <div className="p-2">
           <p className="text-sm">{t("community.url")}</p>

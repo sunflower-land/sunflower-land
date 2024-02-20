@@ -6,7 +6,7 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -153,7 +153,7 @@ export const DiscordBoat: React.FC = () => {
 
   return (
     <>
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.wobble}
           onClose={() => setShowModal(false)}

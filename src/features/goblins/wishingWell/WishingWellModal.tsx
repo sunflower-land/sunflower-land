@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
 
 import wisingWell from "assets/buildings/wishing_well.png";
@@ -267,7 +267,7 @@ export const WishingWellModal: React.FC = () => {
   };
 
   return (
-    <Modal centered show={true} onHide={handleClose}>
+    <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
         {machine.matches("loading") && (
           <span className="loading mt-1">{t("loading")}</span>

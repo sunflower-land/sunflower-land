@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -112,14 +112,14 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
         </div>
       )}
       {gameState.matches("revealing") && isRevealing && (
-        <Modal show centered>
+        <Modal show>
           <Panel>
             <Revealing icon={manekiNekoShaking} />
           </Panel>
         </Modal>
       )}
       {gameState.matches("revealed") && isRevealing && (
-        <Modal show centered>
+        <Modal show>
           <Panel>
             <Revealed onAcknowledged={() => setIsRevealing(false)} />
           </Panel>

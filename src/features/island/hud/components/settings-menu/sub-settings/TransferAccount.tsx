@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { isAddress } from "web3-utils";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";
@@ -145,7 +145,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   };
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <Panel className="p-0">{Content()}</Panel>
     </Modal>
   );

@@ -6,7 +6,7 @@ import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { ShopItems } from "./ShopItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -122,7 +122,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           </>
         )}
       </BuildingImageWrapper>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <ShopItems
           onClose={() => setIsOpen(false)}
           hasSoldBefore={hasSoldBefore}

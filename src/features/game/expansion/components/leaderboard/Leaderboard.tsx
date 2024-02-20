@@ -4,7 +4,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getRelativeTime } from "lib/utils/time";
 import { Leaderboards } from "./actions/cache";
 import { LeaderboardButton } from "./LeaderboardButton";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { fetchLeaderboardData } from "./actions/leaderboard";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -54,7 +54,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
         onClick={data ? handleOpen : undefined}
       />
       {data && (
-        <Modal show={showLeaderboard} onHide={handleClose} centered>
+        <Modal show={showLeaderboard} onHide={handleClose}>
           <CloseButtonPanel
             onClose={handleClose}
             tabs={[

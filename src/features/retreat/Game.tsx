@@ -15,7 +15,7 @@ import { RetreatWishingWell } from "./components/wishingWell/RetreatWishingWell"
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Context } from "features/game/GoblinProvider";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Loading, Splash } from "features/auth/components";
 import { Forbidden } from "features/auth/components/Forbidden";
@@ -102,7 +102,6 @@ export const Game = () => {
     <>
       <Modal
         show={SHOW_MODAL[goblinState.value as StateValues]}
-        centered
         backdrop={retreatLoaded}
       >
         <Panel className="text-shadow">
@@ -123,13 +122,9 @@ export const Game = () => {
         </Panel>
       </Modal>
 
-      {/*Anima iframe has zIndex 1000, set this componenet to 999*/}
       {goblinState.matches("provingPersonhood") && (
         <Modal
-          className="z-[999]"
-          backdropClassName="z-[999]"
           show={true}
-          centered
           onHide={() => goblinService.send("PERSONHOOD_CANCELLED")}
         >
           <Panel className="text-shadow">
@@ -139,8 +134,8 @@ export const Game = () => {
       )}
 
       <ScrollContainer
-        className="bg-blue-300 overflow-scroll relative w-full h-full overscroll-none"
-        innerRef={container}
+        className="bg-blue-300 !overflow-scroll relative w-full h-full overscroll-none"
+        ref={container}
       >
         <GameBoard>
           {hasRequiredLevel && !goblinState.matches("loading") && (
@@ -163,12 +158,7 @@ export const Game = () => {
               />
 
               {/* No Gold Pass Modal */}
-              <Modal
-                show={showGoldPassModal}
-                centered
-                backdrop="static"
-                keyboard={false}
-              >
+              <Modal show={showGoldPassModal} backdrop="static">
                 <GoldPassModal onClose={handleGoldPassModalClose} />
               </Modal>
 

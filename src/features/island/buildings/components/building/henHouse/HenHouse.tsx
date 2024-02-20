@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import building from "assets/buildings/hen_house.png";
 
@@ -50,7 +50,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
           }}
         />
       </BuildingImageWrapper>
-      <Modal centered show={isOpen} onHide={handleClose}>
+      <Modal show={isOpen} onHide={handleClose}>
         <HenHouseModal onClose={handleClose} />
       </Modal>
     </>

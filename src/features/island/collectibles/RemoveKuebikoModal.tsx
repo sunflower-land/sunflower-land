@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import kuebiko from "assets/sfts/kuebiko.gif";
@@ -15,7 +15,7 @@ interface Props {
 export const RemoveKuebikoModal: React.FC<Props> = ({ onClose, onRemove }) => {
   const { t } = useAppTranslation();
   return (
-    <Modal show={true} onHide={onClose} centered={true}>
+    <Modal show={true} onHide={onClose}>
       <CloseButtonPanel title={t("removeKuebiko.title")} onClose={onClose}>
         <div className="flex flex-col items-center p-2 w-full text-center text-sm">
           <img

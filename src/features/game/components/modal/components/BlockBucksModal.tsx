@@ -13,7 +13,7 @@ import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
@@ -376,7 +376,6 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   return (
     <Modal
-      centered
       show={show}
       onHide={onClose}
       fullscreen={!!showXsolla && isMobile ? true : undefined}

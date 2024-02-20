@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 
 import logo from "assets/brand/logo_v2.png";
 import sparkle from "assets/fx/sparkle2.gif";
@@ -31,7 +31,6 @@ export const Auth: React.FC = () => {
   return (
     <>
       <Modal
-        centered
         show={!authState.matches("connected") && !authState.matches("visiting")}
         backdrop={false}
       >

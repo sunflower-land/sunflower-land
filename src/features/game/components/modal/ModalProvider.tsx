@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react";
 
 import { createContext } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { BlockBucksModal } from "./components/BlockBucksModal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
@@ -50,15 +50,15 @@ export const ModalProvider: FC = ({ children }) => {
         setCloseable={setCloseable}
       />
 
-      <Modal centered show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
+      <Modal show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
         <StoreOnChainModal onClose={handleClose} />
       </Modal>
 
-      <Modal centered show={opened === "GOLD_PASS"} onHide={handleClose}>
+      <Modal show={opened === "GOLD_PASS"} onHide={handleClose}>
         <GoldPassModal onClose={handleClose} />
       </Modal>
 
-      <Modal centered show={opened === "FIRST_EXPANSION"}>
+      <Modal show={opened === "FIRST_EXPANSION"}>
         <SpeakingModal
           message={[
             {
@@ -76,7 +76,7 @@ export const ModalProvider: FC = ({ children }) => {
         />
       </Modal>
 
-      <Modal centered show={opened === "NEXT_EXPANSION"}>
+      <Modal show={opened === "NEXT_EXPANSION"}>
         <SpeakingModal
           message={[
             {
@@ -87,7 +87,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
-      <Modal centered show={opened === "BETTY"}>
+      <Modal show={opened === "BETTY"}>
         <SpeakingModal
           message={[
             {
@@ -107,7 +107,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES.betty}
         />
       </Modal>
-      <Modal centered show={opened === "BLACKSMITH"}>
+      <Modal show={opened === "BLACKSMITH"}>
         <SpeakingModal
           message={[
             {
@@ -124,7 +124,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
-      <Modal centered show={opened === "THIRD_LEVEL"}>
+      <Modal show={opened === "THIRD_LEVEL"}>
         <SpeakingModal
           message={[
             {

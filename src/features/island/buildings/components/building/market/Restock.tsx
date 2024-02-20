@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ticket from "assets/icons/block_buck_detailed.png";
@@ -84,7 +84,7 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
           </div>
         </Button>
       )}
-      <Modal centered show={showConfirm} onHide={() => setShowConfirm(false)}>
+      <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
         <CloseButtonPanel className="md:w-4/5 m-auto">
           <div className="flex flex-col p-2 items-center">
             <img

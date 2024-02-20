@@ -99,7 +99,7 @@ const IslandListItem: React.FC<IslandProps> = ({
     <OuterPanel
       onClick={onClick}
       className={classNames(
-        "flex relative items-center py-2 mb-1",
+        "flex relative items-center !py-2 mb-1",
         cannotNavigate ? "opacity-70" : "cursor-pointer hover:bg-brown-200"
       )}
     >
@@ -146,7 +146,7 @@ const VisitFriendListItem: React.FC<{ onClick: () => void }> = ({
   const { t } = useAppTranslation();
   return (
     <div onClick={onClick}>
-      <OuterPanel className="flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200">
+      <OuterPanel className="flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200">
         <div className="w-16 justify-center flex mr-2">
           <img src={land} className="h-9" />
         </div>

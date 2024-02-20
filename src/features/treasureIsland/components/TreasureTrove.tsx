@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getEntries } from "features/game/types/craftables";
@@ -170,7 +170,7 @@ export const TreasureTrove: React.FC = () => {
   return (
     <MapPlacement x={-5} y={1} height={1} width={1}>
       <NPC onClick={() => setShowModal(true)} parts={bumpkin} />
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <TreasureTroveModal onClose={() => setShowModal(false)} />
       </Modal>
     </MapPlacement>

@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
@@ -59,12 +59,7 @@ export const TravelModal: React.FC<Props> = ({
 
   if (isVisiting) {
     return (
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        dialogClassName="md:max-w-3xl"
-      >
+      <Modal show={isOpen} onHide={onClose} dialogClassName="md:max-w-3xl">
         <CloseButtonPanel
           onClose={onClose}
           tabs={[{ icon: world, name: "Travel" }]}
@@ -97,7 +92,6 @@ export const TravelModal: React.FC<Props> = ({
 
   return (
     <Modal
-      centered
       show={isOpen}
       onHide={onClose}
       onShow={() => gameService.send("SAVE")}

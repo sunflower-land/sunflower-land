@@ -9,7 +9,7 @@ import lockIcon from "assets/skills/lock.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "./MapPlacement";
@@ -235,11 +235,11 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         </div>,
         document.body
       )}
-      <Modal show={showModal} centered onHide={onClose}>
+      <Modal show={showModal} onHide={onClose}>
         <IslandUpgraderModal onUpgrade={onUpgrade} onClose={onClose} />
       </Modal>
 
-      <Modal show={showUpgraded} centered>
+      <Modal show={showUpgraded}>
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
             <p className="text-sm mb-2">

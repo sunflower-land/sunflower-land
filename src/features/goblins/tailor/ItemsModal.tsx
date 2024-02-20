@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -20,7 +20,7 @@ export const ItemsModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
 
   return (
-    <Modal centered show={isOpen} onHide={onClose}>
+    <Modal show={isOpen} onHide={onClose}>
       <Panel className="relative" hasTabs>
         <div
           className="absolute flex"

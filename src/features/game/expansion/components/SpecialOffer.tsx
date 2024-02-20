@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -252,7 +252,7 @@ export const PromotingModal: React.FC<Props> = ({
     );
   };
   return (
-    <Modal centered show={isOpen} onHide={onCloseConfirmation}>
+    <Modal show={isOpen} onHide={onCloseConfirmation}>
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES.grubnuk}
         onClose={onCloseConfirmation}

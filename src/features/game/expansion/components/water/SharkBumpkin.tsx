@@ -8,7 +8,7 @@ import bumpkin from "assets/npcs/shark.png";
 import Spritesheet from "components/animation/SpriteAnimator";
 
 import { MapPlacement } from "../MapPlacement";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
@@ -39,7 +39,7 @@ export const SharkBumpkin: React.FC<Props> = ({ x, y }) => {
         width: `${24 * PIXEL_SCALE}px`,
       }}
     >
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <img className="absolute w-64 left-4 -top-44 -z-10" src={bumpkin} />
 
         <Panel>

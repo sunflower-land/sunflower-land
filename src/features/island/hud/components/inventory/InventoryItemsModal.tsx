@@ -6,7 +6,7 @@ import { Basket } from "./Basket";
 import { Chest } from "./Chest";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { BudName } from "features/game/types/buds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -48,7 +48,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   const [currentTab, setCurrentTab] = useState<number>(0);
   const { t } = useAppTranslation();
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
           { icon: SUNNYSIDE.icons.basket, name: t("basket") },

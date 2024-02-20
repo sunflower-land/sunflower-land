@@ -2827,9 +2827,7 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.timeMachine": "",
   "settingsMenu.storeOnChain": "",
   "settingsMenu.howToPlay": "",
-  "settingsMenu.community": "",
   "settingsMenu.swapMaticForSFL": "",
-  "settingsMenu.communityGarden": "",
   "settingsMenu.share": "",
   "settingsMenu.confirmLogout": "",
 };

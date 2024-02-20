@@ -20,7 +20,7 @@ import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
 import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -438,7 +438,6 @@ export const PhaserComponent: React.FC<Props> = ({
       />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
-        centered
         backdrop={false}
       >
         <Panel>
@@ -446,7 +445,7 @@ export const PhaserComponent: React.FC<Props> = ({
         </Panel>
       </Modal>
 
-      <Modal show={mmoState === "joinRoom"} centered backdrop={false}>
+      <Modal show={mmoState === "joinRoom"} backdrop={false}>
         <Panel>
           <p className="loading">{t("loading")}</p>
         </Panel>

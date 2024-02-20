@@ -9,7 +9,7 @@ import { Save } from "./components/Save";
 import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -175,7 +175,7 @@ const HudComponent: React.FC<{
           </div>
           <BumpkinProfile isFullUser={isFullUser} />
 
-          <Modal show={showDepositModal} centered onHide={handleClose}>
+          <Modal show={showDepositModal} onHide={handleClose}>
             <CloseButtonPanel
               onClose={depositDataLoaded ? handleClose : undefined}
             >

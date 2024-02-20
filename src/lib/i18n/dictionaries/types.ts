@@ -2722,9 +2722,7 @@ export type SettingsMenu =
   | "settingsMenu.timeMachine"
   | "settingsMenu.storeOnChain"
   | "settingsMenu.howToPlay"
-  | "settingsMenu.community"
   | "settingsMenu.swapMaticForSFL"
-  | "settingsMenu.communityGarden"
   | "settingsMenu.share"
   | "settingsMenu.confirmLogout";
 

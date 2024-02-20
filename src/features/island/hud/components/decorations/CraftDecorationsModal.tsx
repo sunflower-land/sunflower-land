@@ -3,7 +3,7 @@ import { InventoryItemName } from "features/game/types/game";
 import sunflower from "assets/decorations/bush.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { NPC_WEARABLES } from "lib/npcs";
 
@@ -19,7 +19,7 @@ export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const [tab, setTab] = useState(0);
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[{ icon: sunflower, name: "Landscaping" }]}
         setCurrentTab={setTab}

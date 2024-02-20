@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -130,7 +130,7 @@ export const HayseedHank: React.FC = () => {
           />
         )}
       </div>
-      <Modal centered show={isOpen} onHide={close}>
+      <Modal show={isOpen} onHide={close}>
         <CloseButtonPanel
           title={
             isTaskComplete(gameState.context.state) ? (

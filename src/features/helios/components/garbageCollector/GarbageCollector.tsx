@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import building from "assets/buildings/garbage.png";
 import stall from "assets/buildings/garbage_stall.png";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -65,7 +65,7 @@ export const GarbageCollector: React.FC = () => {
           </div>
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
           bumpkinParts={{

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import bank from "assets/buildings/goblin_bank.gif";
 import icon from "assets/icons/token_2.png";
@@ -52,7 +52,7 @@ export const RetreatBank: React.FC = () => {
           <Action className="pointer-events-none" text="Bank" icon={icon} />
         </div>
       </div>
-      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <BankModal
           farmAddress={goblinService.state?.context.farmAddress as string}
           onClose={() => setIsOpen(false)}

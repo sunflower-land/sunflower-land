@@ -38,7 +38,7 @@ export const Helios: React.FC = () => {
   const [scrollIntoView] = useScrollIntoView();
 
   useLayoutEffect(() => {
-    // Start with island centered
+    // Start with island
     scrollIntoView(Section.HeliosBackGround, "auto");
   }, []);
 

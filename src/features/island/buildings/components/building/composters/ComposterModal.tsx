@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -437,7 +437,7 @@ export const ComposterModal: React.FC<Props> = ({
   };
 
   return (
-    <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
       <CloseButtonPanel
         onClose={() => {
           setShowModal(false);

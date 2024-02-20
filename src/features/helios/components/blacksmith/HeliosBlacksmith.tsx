@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -42,7 +42,7 @@ export const HeliosBlacksmith: React.FC = () => {
           </div>
         </div>
       </MapPlacement>
-      <Modal centered show={isOpen} onHide={() => setIsOpen(false)}>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           bumpkinParts={{
             body: "Beige Farmer Potion",

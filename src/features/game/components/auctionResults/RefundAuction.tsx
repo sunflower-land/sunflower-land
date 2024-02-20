@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "../CloseablePanel";
 import { Context as GameContext } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -27,7 +27,7 @@ export const RefundAuction: React.FC = () => {
   };
 
   return (
-    <Modal centered show={true} onHide={onClose}>
+    <Modal show={true} onHide={onClose}>
       <CloseButtonPanel onClose={onClose} title={t("statements.better.luck")}>
         <div className="flex items-center w-full justify-center pb-2">
           <img src={image} className="w-20 h-20" />

@@ -8,7 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { loadAudio, shopAudio } from "lib/utils/sfx";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -97,7 +97,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           />
         )}
       </BuildingImageWrapper>
-      <Modal centered show={isOpen} onHide={handleClose}>
+      <Modal show={isOpen} onHide={handleClose}>
         <WorkbenchModal onClose={handleClose} />
       </Modal>
     </>

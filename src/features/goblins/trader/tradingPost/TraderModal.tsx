@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { Context } from "features/game/GoblinProvider";
 import { Panel } from "components/ui/Panel";
@@ -95,7 +95,6 @@ export const TraderModal: React.FC<TraderModalProps> = ({
 
   return (
     <Modal
-      centered
       show={isOpen}
       // Prevent modal from closing during asynchronous state (listing, purchasing, cancelling, etc)
       onHide={!isDisabled ? handleClose : undefined}

@@ -23,7 +23,7 @@ import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -289,11 +289,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   return (
     <>
-      <Modal
-        centered
-        show={showMissingSeeds}
-        onHide={() => setShowMissingSeeds(false)}
-      >
+      <Modal show={showMissingSeeds} onHide={() => setShowMissingSeeds(false)}>
         <CloseButtonPanel onClose={() => setShowMissingSeeds(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={SUNNYSIDE.icons.seeds} type="danger">
@@ -310,7 +306,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         </CloseButtonPanel>
       </Modal>
       <Modal
-        centered
         show={showSeedNotSelected}
         onHide={() => setShowSeedNotSelected(false)}
       >
@@ -329,7 +324,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       <Modal
         show={showMissingShovel}
         onHide={() => setShowMissingShovel(false)}
-        centered
       >
         <CloseButtonPanel onClose={() => setShowMissingShovel(false)}>
           <div className="flex flex-col items-center">

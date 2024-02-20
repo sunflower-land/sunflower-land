@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
@@ -27,7 +27,7 @@ export const LandscapingIntroduction: React.FC = () => {
   };
 
   return (
-    <Modal centered show={showModal} onHide={onClose}>
+    <Modal show={showModal} onHide={onClose}>
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.grimtooth}

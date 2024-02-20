@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { getKeys } from "features/game/types/craftables";
 import chefHat from "src/assets/icons/chef_hat.png";
 
@@ -46,7 +46,7 @@ export const KitchenModal: React.FC<Props> = ({
   );
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel
         bumpkinParts={{
           body: "Light Brown Farmer Potion",

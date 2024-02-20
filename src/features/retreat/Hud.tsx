@@ -8,7 +8,7 @@ import { GameState } from "features/game/types/game";
 import { GoblinInventory } from "./components/hud/GoblinInventory";
 import { Settings } from "features/island/hud/components/Settings";
 import { DepositArgs } from "lib/blockchain/Deposit";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -77,7 +77,7 @@ export const Hud: React.FC = () => {
           <Settings isFarming={false} />
         </div>
         {farmAddress && (
-          <Modal show={showDepositModal} centered onHide={handleDepositClose}>
+          <Modal show={showDepositModal} onHide={handleDepositClose}>
             <CloseButtonPanel
               onClose={depositDataLoaded ? handleDepositClose : undefined}
             >

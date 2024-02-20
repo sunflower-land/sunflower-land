@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { ModerationEvent } from "features/world/Phaser";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -58,7 +58,7 @@ export const Muted: React.FC<{
   if (!event) return null;
 
   return (
-    <Modal show={true} centered backdrop="static" keyboard={false}>
+    <Modal show={true} backdrop="static">
       <Panel>
         <div className="flex flex-col gap-2">
           <div className="flex justify-center text-center">

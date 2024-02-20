@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import island from "assets/land/islands/farmer_island.webp";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Quest } from "features/game/expansion/components/Quest";
 import appleTree from "assets/fruit/apple/apple_tree.png";
 import orangeTree from "assets/fruit/orange/orange_tree.png";
@@ -98,7 +98,7 @@ export const FruitQuest: React.FC<Props> = ({ offset }) => {
           />
         </div>
       </MapPlacement>
-      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Quest
           quests={["Fruit Quest 1", "Fruit Quest 2", "Fruit Quest 3"]}
           questTitle={t("modalDescription.friend")}

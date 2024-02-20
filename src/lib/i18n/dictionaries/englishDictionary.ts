@@ -2784,7 +2784,7 @@ const levelUpMessages: Record<LevelUpMessages, string> = {
 const letsGo: Record<LetsGo, string> = {
   "letsGo.title": "Time to play!",
   "letsGo.description":
-    "Thanks for playing beta! We are still working on the game and appreciate your support during the early stages!",
+    "Thanks for playing! We appreciate your support of Sunflower Land.",
   "letsGo.readMore": "You can read more about the game in the ",
   "letsGo.officialDocs": "official docs",
 };
@@ -3983,9 +3983,7 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.timeMachine": "Time Machine",
   "settingsMenu.storeOnChain": "Store on Chain",
   "settingsMenu.howToPlay": "How to Play?",
-  "settingsMenu.community": "Community",
   "settingsMenu.swapMaticForSFL": "Swap MATIC for SFL",
-  "settingsMenu.communityGarden": "Community Garden",
   "settingsMenu.share": "Share",
   "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
 };
@@ -3994,7 +3992,7 @@ const share: Record<Share, string> = {
   "share.TweetText": "Visit My Sunflower Land Farm",
   "share.ShareYourFarmLink": "Share Your Farm Link",
   "share.ShowOffToFarmers":
-    "Show off to fellow farmers by sharing your farm link (URL: to directly visit your farm!",
+    "Show off to fellow farmers by sharing your farm link",
   "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
   "share.CopyFarmURL": "Copy farm URL",
   "share.Tweet": "Tweet",

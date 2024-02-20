@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
@@ -56,7 +56,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose} centered>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel title={getTitle()} onClose={onClose}>
         {step === "MAIN" && (
           <div className="flex flex-col items-start gap-2 max-h-96 overflow-y-auto scrollable">

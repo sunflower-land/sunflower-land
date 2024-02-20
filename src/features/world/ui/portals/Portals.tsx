@@ -6,8 +6,8 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { wallet } from "lib/blockchain/wallet";
 import { SUPPORTED_PORTALS } from "features/game/types/portals";
-import { Modal } from "react-bootstrap";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
 
 export const Portals: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -58,7 +58,7 @@ export const Portals: React.FC = () => {
 
   if (url) {
     return (
-      <Modal fullscreen show centered>
+      <Modal fullscreen show>
         <iframe
           src={url}
           className="w-full h-full rounded-lg shadow-md absolute"

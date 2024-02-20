@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import token from "assets/icons/token_2.png";
 
 import matic from "assets/icons/polygon-token.png";
@@ -25,7 +25,7 @@ export const INPUT_MAX_CHAR = 10;
 
 export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
   return (
-    <Modal show={isOpen} centered onHide={onClose}>
+    <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel title={translate("addSFL")} onClose={onClose}>
         <GameWallet action="purchase">
           <AddSFLOptions isOpen={isOpen} onClose={onClose} />
