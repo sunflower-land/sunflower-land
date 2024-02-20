@@ -170,7 +170,7 @@ const HudComponent: React.FC<{
         </div>
         <BumpkinProfile isFullUser={isFullUser} />
 
-        <Modal show={showDepositModal} centered onHide={handleClose}>
+        <Modal show={showDepositModal} onHide={handleClose}>
           <CloseButtonPanel
             onClose={depositDataLoaded ? handleClose : undefined}
           >

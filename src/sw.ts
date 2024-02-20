@@ -5,11 +5,7 @@ import "workbox-core";
 import { googleFontsCache, offlineFallback } from "workbox-recipes";
 import { registerRoute, setDefaultHandler } from "workbox-routing";
 import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
-import {
-  CacheFirst,
-  StaleWhileRevalidate,
-  NetworkOnly,
-} from "workbox-strategies";
+import { StaleWhileRevalidate, NetworkOnly } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 
@@ -41,20 +37,6 @@ if (import.meta.env.PROD) {
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
-        }),
-      ],
-    })
-  );
-
-  // Bootstrap
-  registerRoute(
-    "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css",
-    new CacheFirst({
-      cacheName: "bootstrap",
-      plugins: [
-        new ExpirationPlugin({
-          maxEntries: 1,
-          maxAgeSeconds: 60 * 60 * 24 * 60, // 2 months
         }),
       ],
     })
