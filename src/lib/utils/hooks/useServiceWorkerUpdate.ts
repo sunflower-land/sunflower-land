@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2; // 1 hour
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 30; // 30 minutes
 /**
  * This hook runs periodic checks for service worker updates.
  * When a new service worker has been installed and is waiting to activate,
