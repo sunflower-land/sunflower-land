@@ -187,7 +187,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
               marginTop: `${DIMENSIONS.username.marginTop}px`,
             }}
           >
-            {`no cache`}
+            {username}
           </div>
         )}
         {showSkillPointAlert && (
