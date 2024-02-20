@@ -17,6 +17,7 @@ import { SEASONS, getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
+import lockIcon from "assets/skills/lock.png";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
@@ -116,7 +117,12 @@ export const PromotingModal: React.FC<Props> = ({
     if (showInsufficientBlockBuck) {
       return (
         <>
-          <p className="text-sm my-2">{t("offer.not.enough.BlockBucks")}</p>
+          <div className="p-2">
+            <Label icon={lockIcon} type="danger" className="my-2">
+              {t("transaction.buy.BlockBucks")}
+            </Label>
+            <p className="text-sm my-2">{t("offer.not.enough.BlockBucks")}</p>
+          </div>
           <div className="flex">
             <Button className="mr-1" onClick={onCloseInsufficientBlockBucks}>
               {t("no.thanks")}
