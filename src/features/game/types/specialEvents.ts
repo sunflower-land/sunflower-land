@@ -1,6 +1,9 @@
 import { InventoryItemName, Wardrobe } from "./game";
 
-export type SpecialEventName = "Lunar New Year" | "Earn Alliance Banner";
+export type SpecialEventName =
+  | "Lunar New Year"
+  | "Earn Alliance Banner"
+  | "One Planet Popper";
 
 export type Task = {
   requirements: {
