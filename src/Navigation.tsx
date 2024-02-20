@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useEffect, useState } from "react";
+import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -24,18 +24,27 @@ import { Panel } from "components/ui/Panel";
 import { useOrientation } from "lib/utils/hooks/useOrientation";
 import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { World } from "features/world/World";
-import { CommunityTools } from "features/world/ui/CommunityTools";
-import { Retreat } from "features/retreat/Retreat";
 import { Modal } from "components/ui/Modal";
+
+// Lazy load routes
+const World = lazy(() =>
+  import("features/world/World").then((m) => ({ default: m.World }))
+);
+const CommunityTools = lazy(() =>
+  import("features/world/ui/CommunityTools").then((m) => ({
+    default: m.CommunityTools,
+  }))
+);
+const Retreat = lazy(() =>
+  import("features/retreat/Retreat").then((m) => ({ default: m.Retreat }))
+);
 
 /**
  * FarmID must always be passed to the /retreat/:id route.
  * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
  * This reacter-router helper component will compute correct route and navigate to retreat.
  */
-// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
+const TraderDeeplinkHandler: React.FC = () => {
   const [params] = useSearchParams();
 
   return <Navigate to={`/retreat/0?${createSearchParams(params)}`} replace />;
