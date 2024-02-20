@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import lifecycle from "page-lifecycle/dist/lifecycle.mjs";
 
-const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2; // 1 hour
+const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 1; // 1 hour
 /**
  * This hook runs periodic checks for service worker updates.
  * When a new service worker has been installed and is waiting to activate,
@@ -13,49 +13,12 @@ const CHECK_FOR_UPDATE_INTERVAL = 1000 * 60 * 2; // 1 hour
  * the service worker will be updated.
  */
 export function useServiceWorkerUpdate() {
-  const [isInstalling, setIsInstalling] = useState(false);
-
-  const activeServiceWorkerInstallationHandler = (
-    registration: ServiceWorkerRegistration
-  ) => {
-    const updatefoundHandler = () => {
-      setIsInstalling(true);
-
-      const newWorker = registration.installing;
-
-      if (newWorker) {
-        const statechangeHandler = () => {
-          if (newWorker.state === "installed") {
-            setIsInstalling(false);
-          }
-        };
-
-        newWorker.addEventListener("statechange", statechangeHandler);
-
-        return () => {
-          // Cleanup statechange event listener when the component is unmounted
-          newWorker.removeEventListener("statechange", statechangeHandler);
-        };
-      }
-    };
-
-    registration.addEventListener("updatefound", updatefoundHandler);
-
-    return () => {
-      // Cleanup updatefound event listener when the component is unmounted
-      registration.removeEventListener("updatefound", updatefoundHandler);
-    };
-  };
-
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegisteredSW(swUrl, registration) {
-      console.log("[APP] onRegisteredSW called", JSON.stringify(registration));
       if (registration) {
-        activeServiceWorkerInstallationHandler(registration);
-
         setInterval(async () => {
           if (!(!registration.installing && navigator)) return;
 
@@ -69,11 +32,7 @@ export function useServiceWorkerUpdate() {
             },
           });
 
-          if (resp?.status === 200) {
-            console.log("[APP] checking for update");
-            await registration.update();
-            console.log("[APP] check for update complete");
-          }
+          if (resp?.status === 200) await registration.update();
         }, CHECK_FOR_UPDATE_INTERVAL);
       }
     },
@@ -82,25 +41,14 @@ export function useServiceWorkerUpdate() {
   const needRefreshRef = useRef(needRefresh);
 
   useEffect(() => {
-    console.log("[APP] needRefresh", needRefresh);
     needRefreshRef.current = needRefresh;
   }, [needRefresh]);
 
   useEffect(() => {
-    const handleStateChange = (evt: any) => {
-      if (!needRefreshRef.current) return;
-
-      const refreshedPage =
-        evt.oldState === "hidden" && evt.newState === "terminated";
-      const pageSentToBackground = evt.newState === "hidden";
-
-      console.log("State change state ===>", {
-        refreshedPage,
-        pageSentToBackground,
-      });
-
-      if (refreshedPage || pageSentToBackground) {
-        updateServiceWorker(true);
+    const handleStateChange = async (evt: any) => {
+      // When app is no longer visible to the user (tab is hidden)
+      if (evt.newState === "hidden" && needRefreshRef.current) {
+        updateServiceWorker();
       }
     };
 
@@ -111,6 +59,4 @@ export function useServiceWorkerUpdate() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  return { isInstalling, needRefresh: needRefreshRef.current };
 }

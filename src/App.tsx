@@ -17,11 +17,7 @@ initialise();
  * Top level wrapper for providers
  */
 export const App: React.FC = () => {
-  const { isInstalling } = useServiceWorkerUpdate();
-
-  if (isInstalling) {
-    return <div>{`Installing...`}</div>;
-  }
+  useServiceWorkerUpdate();
 
   return (
     <>

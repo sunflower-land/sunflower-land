@@ -2,14 +2,14 @@
 /// <reference no-default-lib="true"/>
 
 import "workbox-core";
-import { googleFontsCache } from "workbox-recipes";
-import { NavigationRoute, registerRoute } from "workbox-routing";
+import { googleFontsCache, offlineFallback } from "workbox-recipes";
+import { registerRoute, setDefaultHandler } from "workbox-routing";
+import { cleanupOutdatedCaches, precacheAndRoute } from "workbox-precaching";
 import {
-  cleanupOutdatedCaches,
-  createHandlerBoundToURL,
-  precacheAndRoute,
-} from "workbox-precaching";
-import { CacheFirst, StaleWhileRevalidate } from "workbox-strategies";
+  CacheFirst,
+  StaleWhileRevalidate,
+  NetworkOnly,
+} from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CONFIG } from "./lib/config";
 
@@ -32,12 +32,6 @@ self.addEventListener("message", (event) => {
     self.skipWaiting();
   }
 });
-
-// Allow only fallback in dev: we don't want to cache anything in development.
-let allowlist: undefined | RegExp[];
-if (import.meta.env.DEV) {
-  allowlist = [/^offline.html$/];
-}
 
 // Precaching strategy
 cleanupOutdatedCaches();
@@ -75,7 +69,8 @@ if (import.meta.env.PROD) {
   googleFontsCache();
 }
 
-// Fallback for offline navigation. offline.html will be displayed if our index.html is not available.
-registerRoute(
-  new NavigationRoute(createHandlerBoundToURL("offline.html"), { allowlist })
-);
+// Network only default handler for all other fetch requests
+setDefaultHandler(new NetworkOnly());
+
+// Offline fallback html page
+offlineFallback();
