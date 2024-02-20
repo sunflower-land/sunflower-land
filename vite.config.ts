@@ -32,7 +32,8 @@ export default defineConfig({
       ],
       injectManifest: {
         maximumFileSizeToCacheInBytes: 15000000,
-        globPatterns: ["**/*.{js,css,html}", "assets/*.{jpg,mp3,svg,gif,png}"],
+        globPatterns: ["assets/*.{jpg,mp3,svg,gif,png}"],
+        globIgnores: ["**/*.{js,css,html}"],
       },
       filename: "sw.ts",
       manifest: {

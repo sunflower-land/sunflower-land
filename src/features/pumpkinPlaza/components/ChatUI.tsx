@@ -129,7 +129,7 @@ export const ChatUI: React.FC<Props> = ({
       </div>
       <div
         className={classNames(
-          "absolute top-36 left-3 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          "absolute top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showReactions, "scale-100": showReactions }
         )}
         // eslint-disable-next-line no-console
