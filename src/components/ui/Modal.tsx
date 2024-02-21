@@ -59,34 +59,36 @@ export const Modal: React.FC<ModalProps> = ({
         )}
 
         <div
-          className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center"
+          className="fixed inset-0 overflow-y-auto"
           onClick={() => onHide?.()}
         >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-            beforeEnter={() => onShow?.()}
-            afterLeave={() => onExited?.()}
-          >
-            <Dialog.Panel
-              className={classNames(
-                `relative w-full ${dialogClassName ?? ""}`,
-                {
-                  "max-w-[300px]": !fullscreen && size === "sm",
-                  "max-w-[500px]": !fullscreen && size === undefined,
-                  "max-w-[800px]": !fullscreen && size === "lg",
-                  "w-screen h-full": !!fullscreen,
-                }
-              )}
+          <div className="flex min-h-full items-center justify-center p-2">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+              beforeEnter={() => onShow?.()}
+              afterLeave={() => onExited?.()}
             >
-              <div ref={ref}>{children}</div>
-            </Dialog.Panel>
-          </Transition.Child>
+              <Dialog.Panel
+                className={classNames(
+                  `relative w-full ${dialogClassName ?? ""}`,
+                  {
+                    "max-w-[300px]": !fullscreen && size === "sm",
+                    "max-w-[500px]": !fullscreen && size === undefined,
+                    "max-w-[800px]": !fullscreen && size === "lg",
+                    "w-screen h-full": !!fullscreen,
+                  }
+                )}
+              >
+                <div ref={ref}>{children}</div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
         </div>
       </Dialog>
     </Transition>
