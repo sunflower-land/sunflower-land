@@ -38,7 +38,7 @@ const GoblinRetreat: React.FC = () => {
         wallet={gameState.context.wallet}
         farmAddress={gameState.context.farmAddress}
         wrapper={({ children }) => (
-          <Modal show>
+          <Modal show backdrop={false}>
             <Panel>{children}</Panel>
           </Modal>
         )}

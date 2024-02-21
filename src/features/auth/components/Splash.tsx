@@ -12,7 +12,7 @@ import shadow from "assets/npcs/shadow.png";
 
 import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "lib/i18n";
@@ -55,7 +55,7 @@ const Languages = () => {
       : null;
 
   return (
-    <Button className="mb-2 py-1 text-xs relative" onClick={toggleLanguage}>
+    <Button className="py-1 text-xs relative" onClick={toggleLanguage}>
       <div className="px-8 pr-1">
         <img
           src={flagImage}
@@ -176,27 +176,10 @@ export const Splash: React.FC = ({ children }) => {
         </Modal>
       )}
       <div
-        className="absolute bottom-0 right-auto m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
+        className="absolute bottom-2 mx-auto pointer-events-auto safe-mb"
+        style={{ zIndex: 1100 }}
       >
         {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
-      </div>
-      <div
-        className="absolute bottom-0 right-0 m-1 pointer-events-auto"
-        style={{ zIndex: 1100, margin: `${PIXEL_SCALE * 1}px` }}
-      >
-        <InnerPanel>
-          <div className="flex items-center justify-center">
-            <a
-              className="underline text-xxs text-white hover:text-blue-500 p-1"
-              href="https://github.com/sunflower-land/sunflower-land/releases"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {releaseVersion?.split("-")[0]}
-            </a>
-          </div>
-        </InnerPanel>
       </div>
     </div>
   );
