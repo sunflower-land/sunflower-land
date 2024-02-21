@@ -4,8 +4,10 @@ import { SpecialEventModalContent } from "features/world/ui/SpecialEventModalCon
 import React, { useState } from "react";
 
 import raft from "assets/decorations/rewards_raft.png";
+import shadow from "assets/npcs/shadow.png";
+import bob from "assets/decorations/one_planet_bob.gif";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 export const OnePlanetPopper: React.FC<{ event: SpecialEvent | undefined }> = ({
   event,
@@ -26,15 +28,23 @@ export const OnePlanetPopper: React.FC<{ event: SpecialEvent | undefined }> = ({
           top: `${-16 * PIXEL_SCALE}px`,
         }}
       />
-      {/* TODO: Update with Bob Planet */}
       <img
-        src={ITEM_DETAILS["Freya Fox"].image}
-        className="absolute cursor-pointer hover:img-highlight"
+        src={bob}
+        className="absolute cursor-pointer hover:img-highlight animate-float"
         onClick={() => setShowSpecialEvent(true)}
         style={{
-          width: `${20 * PIXEL_SCALE}px`,
+          width: `${32 * PIXEL_SCALE}px`,
           left: `${0 * PIXEL_SCALE}px`,
-          top: `${-16 * PIXEL_SCALE}px`,
+          top: `${-30 * PIXEL_SCALE}px`,
+        }}
+      />
+      <img
+        src={shadow}
+        className="absolute"
+        style={{
+          width: `${16 * PIXEL_SCALE}px`,
+          left: `${8 * PIXEL_SCALE}px`,
+          top: `${1 * PIXEL_SCALE}px`,
         }}
       />
       <Modal show={showSpecialEvent} onHide={() => setShowSpecialEvent(false)}>
