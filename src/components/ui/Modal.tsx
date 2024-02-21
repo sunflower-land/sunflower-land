@@ -27,8 +27,9 @@ export const Modal: React.FC<ModalProps> = ({
   backdrop = true,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+
   return (
-    <Transition appear show={show} as={Fragment}>
+    <Transition appear show={!!show} as={Fragment}>
       <Dialog
         initialFocus={ref}
         as="div"

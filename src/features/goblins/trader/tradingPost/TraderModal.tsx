@@ -5,8 +5,6 @@ import { Modal } from "components/ui/Modal";
 import { Context } from "features/game/GoblinProvider";
 import { Panel } from "components/ui/Panel";
 
-import * as AuthProvider from "features/auth/lib/Provider";
-
 import { MachineInterpreter } from "./lib/tradingPostMachine";
 import { Selling } from "../selling/Selling";
 import { Buying } from "../buying/Buying";
@@ -26,11 +24,8 @@ export const TraderModal: React.FC<TraderModalProps> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
-
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
 
   const child = goblinState.children.tradingPost as MachineInterpreter;
 
