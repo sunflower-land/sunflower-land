@@ -107,13 +107,13 @@ export const WaterComponent: React.FC<Props> = ({
       <IslandUpgrader gameState={gameState} offset={offset} />
 
       {/* Earn Alliance NPC */}
-      <MapPlacement x={-4 - offset} y={3} width={4}>
+      <MapPlacement x={-5 - offset} y={3} width={4}>
         <EarnAlliance
           event={gameState.specialEvents.current["Earn Alliance Banner"]}
         />
       </MapPlacement>
 
-      <MapPlacement x={-4 - offset} y={7} width={4}>
+      <MapPlacement x={-5 - offset} y={7} width={4}>
         <OnePlanetPopper
           event={gameState.specialEvents.current["One Planet Popper"]}
         />
