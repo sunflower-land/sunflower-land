@@ -512,8 +512,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   // Placeholder fisherman
   finn: {
     body: "Light Brown Farmer Potion",
-    shirt: "Witches' Eve Tee",
-    coat: "Fish Pro Vest",
+    shirt: "Fish Pro Vest",
     hair: "Buzz Cut",
     background: "Seashore Background",
     pants: "Angler Waders",
@@ -523,9 +522,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   finley: {
     body: "Light Brown Farmer Potion",
-    shirt: "Dawn Breaker Tee",
+    shirt: "Reel Fishing Vest",
     hair: "White Long Hair",
-    coat: "Reel Fishing Vest",
     background: "Seashore Background",
     pants: "Angler Waders",
     shoes: "Wellies",
@@ -617,13 +615,12 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   misty: {
     body: "Beige Farmer Potion",
-    hair: "Parlour Hair",
+    hair: "Brown Rancher Hair",
     background: "Seashore Background",
     shoes: "Black Farmer Boots",
     tool: "Sunflower Rod",
     pants: "Fishing Pants",
-    shirt: "Trial Tee",
-    coat: "Reel Fishing Vest",
+    shirt: "Reel Fishing Vest",
   },
   // Flower expert
   poppy: {
