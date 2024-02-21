@@ -898,7 +898,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "50% Reduction to Crop, Mineral, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
-  "description.earnAlliance.boost": "2x XP Feb 2024",
+  "description.earnAlliance.boost": "2x XP Feb 2024 (Beginner Island)",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
