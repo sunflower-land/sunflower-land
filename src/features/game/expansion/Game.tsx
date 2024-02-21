@@ -118,10 +118,7 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches({ purchasing: "fetching" }) ||
-  state.matches({ purchasing: "transacting" }) ||
-  state.matches({ buyingBlockBucks: "fetching" }) ||
-  state.matches({ buyingBlockBucks: "transacting" });
+  state.matches("purchasing") || state.matches("buyingBlockBucks");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
 const isWeakBumpkin = (state: MachineState) => state.matches("weakBumpkin");
