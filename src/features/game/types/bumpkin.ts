@@ -95,6 +95,9 @@ export type BumpkinShirt =
   | "Chic Gala Blouse"
   | "Pumpkin Shirt"
   | "Grey Merch Hoodie"
+  | "Fresh Catch Vest"
+  | "Fish Pro Vest"
+  | "Reel Fishing Vest"
   | "Clown Shirt"
   | "Seaside Tank Top"
   | "Tiki Armor"
@@ -112,10 +115,7 @@ export type BumpkinShirt =
 export type BumpkinCoat =
   | "Chef Apron"
   | "Fruit Picker Apron"
-  | "Pirate General Coat"
-  | "Fresh Catch Vest"
-  | "Fish Pro Vest"
-  | "Reel Fishing Vest";
+  | "Pirate General Coat";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -927,9 +927,9 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Feather Hat": "hat",
   "Valoria Wreath": "hat",
   "Earn Alliance Sombrero": "hat",
-  "Fresh Catch Vest": "coat",
-  "Fish Pro Vest": "coat",
-  "Reel Fishing Vest": "coat",
+  "Fresh Catch Vest": "shirt",
+  "Fish Pro Vest": "shirt",
+  "Reel Fishing Vest": "shirt",
   "Clown Shirt": "shirt",
   "Luminous Anglerfish Topper": "hat",
   "Abyssal Angler Hat": "hat",
