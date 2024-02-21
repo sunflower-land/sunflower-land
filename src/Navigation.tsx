@@ -20,6 +20,11 @@ import { Builder } from "features/builder/Builder";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
+import { Panel } from "components/ui/Panel";
+import { useOrientation } from "lib/utils/hooks/useOrientation";
+import { isMobile } from "mobile-device-detect";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
+import { Modal } from "components/ui/Modal";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -39,8 +44,7 @@ const Retreat = lazy(() =>
  * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
  * This reacter-router helper component will compute correct route and navigate to retreat.
  */
-// eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-const TraderDeeplinkHandler: React.FC<{ farmId?: number }> = ({ farmId }) => {
+const TraderDeeplinkHandler: React.FC = () => {
   const [params] = useSearchParams();
 
   return <Navigate to={`/retreat/0?${createSearchParams(params)}`} replace />;
@@ -58,8 +62,48 @@ const selectState = (state: AuthMachineState) => ({
 export const Navigation: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const state = useSelector(authService, selectState);
-
   const [showGame, setShowGame] = useState(false);
+  const [showOrientationModal, setShowOrientationModal] = useState(false);
+  const [showConnectionModal, setShowConnectionModal] = useState(false);
+  const orientation = useOrientation();
+  const isPWA = useIsPWA();
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    if (orientation === "landscape") {
+      setShowOrientationModal(true);
+    } else {
+      setShowOrientationModal(false);
+    }
+  }, [orientation, isMobile]);
+
+  useEffect(() => {
+    // Check if online on initial load
+    if (!navigator.onLine) {
+      setShowConnectionModal(true);
+    }
+    // Set up listeners to watch for connection changes
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
+
+  const handleOffline = () => {
+    setShowConnectionModal(true);
+  };
+
+  const handleOnline = async () => {
+    const response = await fetch(".");
+    // Verify we get a valid response from the server
+    if (response.status >= 200 && response.status < 500) {
+      setShowConnectionModal(false);
+    }
+  };
 
   useEffect(() => {
     const _showGame = state.isAuthorised || state.isVisiting;
@@ -72,9 +116,19 @@ export const Navigation: React.FC = () => {
 
   return (
     <>
-      <Auth />
+      <Auth showOfflineModal={showConnectionModal} />
       {showGame ? (
         <ZoomProvider>
+          <Modal show={showOrientationModal} backdrop={false}>
+            <Panel>
+              <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
+            </Panel>
+          </Modal>
+          <Modal show={showConnectionModal}>
+            <Panel>
+              <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+            </Panel>
+          </Modal>
           <HashRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>

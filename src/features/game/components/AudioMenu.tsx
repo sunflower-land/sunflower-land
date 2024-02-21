@@ -50,20 +50,23 @@ export const AudioMenu: React.FC<Props> = ({
   }, [audioMuted]);
 
   useEffect(() => {
-    if (musicPlayer.current) {
-      if (musicPaused) {
-        musicPlayer.current.pause();
-      } else {
-        musicPlayer.current.play();
-        musicPlayer.current.muted = false;
-      }
+    if (!musicPlayer.current) return;
+
+    if (musicPaused) {
+      musicPlayer.current.pause();
+    } else {
+      musicPlayer.current.play();
+      musicPlayer.current.muted = false;
     }
+
     cacheAudioSetting(AudioLocalStorageKeys.musicPaused, musicPaused);
   }, [musicPaused]);
 
   useEffect(() => {
     // https://developer.mozilla.org/en-US/docs/Web/API/Document/visibilitychange_event
     document.addEventListener("visibilitychange", () => {
+      if (!musicPlayer.current) return;
+
       if (document.visibilityState === "visible") {
         if (!musicPaused) {
           musicPlayer.current.play();
