@@ -33,7 +33,10 @@ export const Modal: React.FC<ModalProps> = ({
         initialFocus={ref}
         as="div"
         className="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
-        onClose={() => (backdrop === "static" ? undefined : onHide?.())}
+        onClose={() => undefined}
+        // For some reason touchend events on mobile are triggering onClose immediately in canvas
+        // onClose={() => backdrop === "static" ? undefined : onHide?.()}
+
         // Prevent click through to Phaser
         onMouseDown={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
@@ -54,7 +57,10 @@ export const Modal: React.FC<ModalProps> = ({
           </Transition.Child>
         )}
 
-        <div className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center">
+        <div
+          className="fixed inset-0 overflow-y-auto flex min-h-full items-center justify-center"
+          onClick={() => onHide?.()}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
