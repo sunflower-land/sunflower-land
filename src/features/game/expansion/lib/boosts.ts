@@ -197,7 +197,8 @@ export const getFoodExpBoost = (
 
   if (
     isFebruary2024 &&
-    isCollectibleBuilt({ name: "Earn Alliance Banner", game })
+    isCollectibleBuilt({ name: "Earn Alliance Banner", game }) &&
+    game.island.type === "basic"
   ) {
     boostedExp = boostedExp.mul(2);
   }
