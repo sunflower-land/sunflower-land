@@ -11,7 +11,7 @@ export const InfoPopover: React.FC<Props> = ({ showPopover, children }) => {
   return (
     <InnerPanel
       className={classNames(
-        "transition-opacity absolute sm:opacity-0 w-fit z-50 pointer-events-none",
+        "transition-opacity absolute w-fit z-50 pointer-events-none",
         {
           "opacity-100": showPopover,
           "opacity-0": !showPopover,
