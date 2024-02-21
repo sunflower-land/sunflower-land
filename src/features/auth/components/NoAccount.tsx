@@ -178,7 +178,7 @@ export const ClaimAccount: React.FC<{
         {tokenIds.map((id) => (
           <OuterPanel
             className={
-              "flex relative items-center justify-between p-2 mb-1 cursor-pointer hover:bg-brown-200"
+              "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
             }
             key={id}
             onClick={() => onClaim(id)}

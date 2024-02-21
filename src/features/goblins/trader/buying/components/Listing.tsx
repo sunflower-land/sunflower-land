@@ -43,7 +43,7 @@ export const Listing: React.FC<ListingProps> = ({
   const { t } = useAppTranslation();
 
   return (
-    <OuterPanel className="p-2 mb-3">
+    <OuterPanel className="!p-2 mb-3">
       <div className="flex">
         {/* Item Image */}
         <div className="flex flex-col items-center w-1/3 mr-3">

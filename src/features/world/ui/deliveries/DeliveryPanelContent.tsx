@@ -57,7 +57,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
             <OuterPanel
               key={order.id}
               className={classNames(
-                "flex flex-1 p-2 flex-col space-y-1 relative",
+                "flex flex-1 !p-2 flex-col space-y-1 relative",
                 {
                   "opacity-50 cursor-default": !canDeliver,
                   "cursor-pointer": canDeliver,

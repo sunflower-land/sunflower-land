@@ -47,7 +47,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
           <OuterPanel
             key={auction.auctionId}
             onClick={() => onSelect(auction.auctionId)}
-            className="w-full cursor-pointer hover:bg-brown-300 p-2 relative flex mb-1"
+            className="w-full cursor-pointer hover:bg-brown-300 !p-2 relative flex mb-1"
           >
             <div className="relative w-20 h-20 flex items-center justify-center mr-2">
               <img

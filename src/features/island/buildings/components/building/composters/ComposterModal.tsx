@@ -241,7 +241,7 @@ export const ComposterModal: React.FC<Props> = ({
               >
                 {t("collect")}
               </Button>
-              <OuterPanel className="p-1">
+              <OuterPanel className="!p-1">
                 <div className="flex justify-between mb-1">
                   <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
                     {`${secondsToString(
@@ -279,7 +279,7 @@ export const ComposterModal: React.FC<Props> = ({
             </>
           )}
           {boost && (
-            <OuterPanel className="p-1">
+            <OuterPanel className="!p-1">
               <div className="flex justify-between">
                 <Label
                   type="info"

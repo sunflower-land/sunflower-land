@@ -53,7 +53,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
           ))}
 
           {GUIDE_PATHS[selected].achievements.map((name) => (
-            <OuterPanel className="mt-2 p-1" key={name}>
+            <OuterPanel className="mt-2 !p-1" key={name}>
               <GuideTask state={state} task={name} />
             </OuterPanel>
           ))}
@@ -93,7 +93,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
 
           return (
             <OuterPanel
-              className="flex mb-2 p-1 w-full cursor-pointer  hover:bg-brown-200"
+              className="flex mb-2 !p-1 w-full cursor-pointer  hover:bg-brown-200"
               key={path}
               onClick={() => onSelect(path)}
             >

@@ -96,7 +96,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
               return (
                 <OuterPanel
                   className={classNames(
-                    "flex relative items-center justify-between p-2 mb-1 cursor-pointer hover:bg-brown-200",
+                    "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200",
                     {
                       "cursor-not-allowed": isServerFull(servers, server.id),
                     }
@@ -149,7 +149,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
               return (
                 <OuterPanel
                   className={classNames(
-                    "flex relative items-center justify-between p-2 mb-1 cursor-pointer hover:bg-brown-200"
+                    "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
                   )}
                   key={island.id}
                   onClick={() => {
