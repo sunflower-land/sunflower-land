@@ -23,10 +23,5 @@
       "components/*": ["src/components/*"]
     }
   },
-  "include": [
-    "./src",
-    "./metadata",
-    "./node_modules/vite-plugin-pwa/react.d.ts",
-    "./src/types/page-lifecycle.d.ts"
-  ]
+  "include": ["./src", "./metadata"]
 }

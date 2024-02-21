@@ -30,7 +30,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { isMobile } from "mobile-device-detect";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { ZoomContext } from "components/ZoomProvider";
 import { InnerPanel } from "components/ui/Panel";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
@@ -130,6 +130,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
   const nodeRef = useRef(null);
 
+  const [isMobile] = useIsMobile();
   const { gameService } = useContext(Context);
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);

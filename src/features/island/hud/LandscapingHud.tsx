@@ -10,7 +10,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import bush from "assets/icons/decoration.png";
 import chest from "assets/icons/chest.png";
 
-import { isMobile } from "mobile-device-detect";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 
 import {
   MachineInterpreter,
@@ -27,11 +27,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
+import { createPortal } from "react-dom";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
-import { HudContainer } from "components/ui/HudContainer";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -50,6 +50,7 @@ const LandscapingHudComponent: React.FC<{
   location: CollectibleLocation;
 }> = ({ location }) => {
   const { gameService } = useContext(Context);
+  const [isMobile] = useIsMobile();
 
   const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
@@ -103,8 +104,12 @@ const LandscapingHudComponent: React.FC<{
     }
   };
 
-  return (
-    <HudContainer>
+  return createPortal(
+    <div
+      data-html2canvas-ignore="true"
+      aria-label="Hud"
+      className="absolute z-40"
+    >
       <Balance balance={balance} />
       <BlockBucks blockBucks={blockBucks} />
 
@@ -114,7 +119,7 @@ const LandscapingHudComponent: React.FC<{
         {idle && (
           <>
             <div
-              className="absolute flex z-50 flex-col"
+              className="fixed flex z-50 flex-col"
               style={{
                 marginLeft: `${PIXEL_SCALE * 2}px`,
                 marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -207,7 +212,7 @@ const LandscapingHudComponent: React.FC<{
       {showRemove && (
         <div
           onClick={() => !isRestricted && remove()}
-          className="absolute flex z-50 flex-col cursor-pointer"
+          className="fixed flex z-50 flex-col cursor-pointer"
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
             marginBottom: `${PIXEL_SCALE * 25}px`,
@@ -273,7 +278,8 @@ const LandscapingHudComponent: React.FC<{
       />
 
       <PlaceableController location={location} />
-    </HudContainer>
+    </div>,
+    document.body
   );
 };
 

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 
 import { wallet } from "lib/blockchain/wallet";
-import { isMobile } from "mobile-device-detect";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const WrongChain: React.FC = () => {
   const [isDefaultNetwork, setIsDefaultNetwork] = useState(false);
+  const [isMobile] = useIsMobile();
   const { t } = useAppTranslation();
   const goToPolygonSetupDocs = () => {
     window.open(

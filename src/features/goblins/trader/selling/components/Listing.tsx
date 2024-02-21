@@ -37,7 +37,7 @@ export const Listing: React.FC<ListingProps> = ({
   ).toFixed(3);
 
   return (
-    <OuterPanel className="!p-2">
+    <OuterPanel className="p-2">
       <div className="flex">
         {/* Item Image */}
         <div className="flex flex-col items-center w-1/3 mr-3">

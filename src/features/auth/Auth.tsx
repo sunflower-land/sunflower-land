@@ -23,11 +23,7 @@ import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-type Props = {
-  showOfflineModal: boolean;
-};
-
-export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
+export const Auth: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
@@ -75,30 +71,24 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             </>
           </div>
         </div>
-        {!showOfflineModal ? (
-          <Panel className="pb-1 relative">
-            {authState.matches("welcome") && <Welcome />}
-            {authState.matches("noAccount") && <NoAccount />}
-            {authState.matches("authorising") && <Loading />}
-            {authState.matches("verifying") && <Verifying />}
-            {(authState.matches("idle") || authState.matches("signIn")) && (
-              <SignIn />
-            )}
-            {authState.matches("signUp") && <SignUp />}
-            {authState.matches("oauthorising") && <Loading />}
-            {authState.matches("creating") && <Loading text="Creating" />}
-            {authState.matches("claiming") && <Loading text="Claiming" />}
-            {authState.matches("unauthorised") && (
-              <ErrorMessage
-                errorCode={authState.context.errorCode as ErrorCode}
-              />
-            )}
-          </Panel>
-        ) : (
-          <Panel>
-            <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
-          </Panel>
-        )}
+        <Panel className="pb-1 relative">
+          {authState.matches("welcome") && <Welcome />}
+          {authState.matches("noAccount") && <NoAccount />}
+          {authState.matches("authorising") && <Loading />}
+          {authState.matches("verifying") && <Verifying />}
+          {(authState.matches("idle") || authState.matches("signIn")) && (
+            <SignIn />
+          )}
+          {authState.matches("signUp") && <SignUp />}
+          {authState.matches("oauthorising") && <Loading />}
+          {authState.matches("creating") && <Loading text="Creating" />}
+          {authState.matches("claiming") && <Loading text="Claiming" />}
+          {authState.matches("unauthorised") && (
+            <ErrorMessage
+              errorCode={authState.context.errorCode as ErrorCode}
+            />
+          )}
+        </Panel>
       </Modal>
     </>
   );

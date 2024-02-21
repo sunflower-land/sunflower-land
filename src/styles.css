@@ -31,65 +31,6 @@
   .img-shadow {
     filter: drop-shadow(0px 3px 0px rgba(0, 0, 0, 0.2));
   }
-  /* Safe Areas Mobile */
-  .inset-safe-area {
-    top: env(safe-area-inset-top);
-    right: env(safe-area-inset-right);
-    bottom: env(safe-area-inset-bottom);
-    left: env(safe-area-inset-left);
-  }
-  .inset-b-safe-area {
-    bottom: env(safe-area-inset-bottom);
-  }
-  .inset-t-safe-area {
-    top: env(safe-area-inset-top);
-  }
-  .inset-l-safe-area {
-    left: env(safe-area-inset-left);
-  }
-  .inset-r-safe-area {
-    right: env(safe-area-inset-right);
-  }
-  .safe-pt {
-    padding-top: env(safe-area-inset-top);
-  }
-  .safe-pb {
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .safe-pl {
-    padding-left: env(safe-area-inset-left);
-  }
-  .safe-pr {
-    padding-right: env(safe-area-inset-right);
-  }
-  .safe-mt {
-    margin-top: env(safe-area-inset-top);
-  }
-  .safe-mb {
-    margin-bottom: env(safe-area-inset-bottom);
-  }
-  .safe-ml {
-    margin-left: env(safe-area-inset-left);
-  }
-  .safe-mr {
-    margin-right: env(safe-area-inset-right);
-  }
-  .safe-py {
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .safe-px {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
-  }
-  .safe-my {
-    margin-top: env(safe-area-inset-top);
-    margin-bottom: env(safe-area-inset-bottom);
-  }
-  .safe-mx {
-    margin-left: env(safe-area-inset-left);
-    margin-right: env(safe-area-inset-right);
-  }
 }
 
 @font-face {
@@ -100,10 +41,6 @@
 @font-face {
   font-family: "Teeny";
   src: url("https://sunflower-land.com/testnet-assets/fonts/Teeny.otf");
-}
-
-html {
-  min-height: calc(100% + env(safe-area-inset-top));
 }
 
 body {
@@ -150,7 +87,7 @@ img {
   -khtml-user-select: none;
   -webkit-user-select: none;
   /*
-        Introduced in Internet Explorer 10
+        Introduced in Internet Explorer 10.
         See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
       */
   -ms-user-select: none;

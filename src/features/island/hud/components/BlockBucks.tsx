@@ -22,7 +22,7 @@ export const BlockBucks: React.FC<Props> = ({
   return (
     <>
       <InnerPanel
-        className={classNames("flex items-center absolute z-50", {
+        className={classNames("flex items-center fixed z-50", {
           "cursor-pointer": !isVisiting,
         })}
         style={{

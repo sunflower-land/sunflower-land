@@ -21,6 +21,7 @@ import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
+import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
@@ -34,7 +35,6 @@ import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { isMobile } from "mobile-device-detect";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -116,6 +116,7 @@ const DepositOptions: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
+  const [isMobile] = useIsMobile();
 
   const { t } = useAppTranslation();
 
@@ -430,7 +431,11 @@ const DepositOptions: React.FC<Props> = ({
                     <CopyAddress address={farmAddress} />
                   </div>
                   <div className="space-y-3">
-                    {validDepositAmount && <p>{`${sflDepositAmount} SFL`}</p>}
+                    {validDepositAmount && (
+                      <p>
+                        {sflDepositAmount} {"SFL"}
+                      </p>
+                    )}
                     {hasItemsToDeposit && (
                       <div className="flex flex-wrap h-fit -ml-1.5">
                         {selectedItems.map((item) => {

@@ -9,7 +9,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import token from "assets/icons/token_2.png";
 import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
-import { HudContainer } from "components/ui/HudContainer";
+import { createPortal } from "react-dom";
 
 const MAX_TOAST = 6;
 
@@ -89,10 +89,10 @@ export const ToastPanel: React.FC = () => {
 
   return (
     <>
-      {showToasts && (
-        <HudContainer>
+      {showToasts &&
+        createPortal(
           <InnerPanel
-            className="flex flex-col items-start absolute z-[99999] pointer-events-none"
+            className="flex flex-col items-start fixed z-[99999] pointer-events-none"
             style={{
               top: `${PIXEL_SCALE * 54}px`,
               left: `${PIXEL_SCALE * 3}px`,
@@ -109,9 +109,9 @@ export const ToastPanel: React.FC = () => {
                   }${setPrecision(difference)}`}</span>
                 </div>
               ))}
-          </InnerPanel>
-        </HudContainer>
-      )}
+          </InnerPanel>,
+          document.body
+        )}
     </>
   );
 };

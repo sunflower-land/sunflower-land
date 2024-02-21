@@ -44,7 +44,6 @@ import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { HudContainer } from "components/ui/HudContainer";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -149,6 +148,7 @@ export const PhaserComponent: React.FC<Props> = ({
       },
       backgroundColor: "#000000",
       parent: "phaser-example",
+
       autoRound: true,
       pixelArt: true,
       plugins: {
@@ -167,6 +167,7 @@ export const PhaserComponent: React.FC<Props> = ({
       },
       width: window.innerWidth,
       height: window.innerHeight,
+
       physics: {
         default: "arcade",
         arcade: {
@@ -369,74 +370,6 @@ export const PhaserComponent: React.FC<Props> = ({
     <div>
       <div id="game-content" ref={ref} />
 
-      {/* Hud Components should all be inside here. - ie. components positioned absolutely to the window */}
-      <HudContainer>
-        {isMuted && (
-          <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
-            <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
-            <div className="flex flex-col p-1">
-              <span className="text-sm">{t("chat.mute")}</span>
-              <span className="text-xxs">
-                {t("chat.again")}{" "}
-                {isMuted.mutedUntil
-                  ? calculateMuteTime(isMuted.mutedUntil, "remaining")
-                  : "Unknown"}
-              </span>
-            </div>
-          </InnerPanel>
-        )}
-
-        <ChatUI
-          farmId={gameService.state.context.farmId}
-          gameState={gameService.state.context.state}
-          scene={scene}
-          onMessage={(m) => {
-            mmoService.state.context.server?.send(0, {
-              text: m.text ?? "?",
-            });
-          }}
-          onCommand={(name, args) => {
-            handleCommand(name, args).then(updateMessages);
-          }}
-          messages={messages ?? []}
-          isMuted={isMuted ? true : false}
-          onReact={(reaction) => {
-            mmoService.state.context.server?.send(0, {
-              reaction,
-            });
-          }}
-          onBudPlace={(tokenId) => {
-            mmoService.state.context.server?.send(0, {
-              budId: tokenId,
-            });
-          }}
-        />
-        {isModerator && !isCommunity && (
-          <ModerationTools
-            scene={game.current?.scene.getScene(scene)}
-            messages={messages ?? []}
-            players={players ?? []}
-            gameService={gameService}
-          />
-        )}
-
-        <CommunityToasts />
-
-        {mmoState === "error" && (
-          <InnerPanel
-            className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
-            onClick={() => mmoService.send("RETRY")}
-          >
-            <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
-            <div className="mb-0.5">
-              <Label type="danger">{t("chat.Fail")}</Label>
-            </div>
-          </InnerPanel>
-        )}
-      </HudContainer>
-
-      {/* Modals */}
-
       {MuteEvent && (
         <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
       )}
@@ -451,6 +384,39 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
+      <ChatUI
+        farmId={gameService.state.context.farmId}
+        gameState={gameService.state.context.state}
+        scene={scene}
+        onMessage={(m) => {
+          mmoService.state.context.server?.send(0, {
+            text: m.text ?? "?",
+          });
+        }}
+        onCommand={(name, args) => {
+          handleCommand(name, args).then(updateMessages);
+        }}
+        messages={messages ?? []}
+        isMuted={isMuted ? true : false}
+        onReact={(reaction) => {
+          mmoService.state.context.server?.send(0, {
+            reaction,
+          });
+        }}
+        onBudPlace={(tokenId) => {
+          mmoService.state.context.server?.send(0, {
+            budId: tokenId,
+          });
+        }}
+      />
+      {isModerator && !isCommunity && (
+        <ModerationTools
+          scene={game.current?.scene.getScene(scene)}
+          messages={messages ?? []}
+          players={players ?? []}
+          gameService={gameService}
+        />
+      )}
       <NPCModals
         id={gameService.state.context.farmId as number}
         scene={scene}
@@ -465,6 +431,7 @@ export const PhaserComponent: React.FC<Props> = ({
         farmId={gameService.state.context.farmId as number}
       />
       <CommunityModals />
+      <CommunityToasts />
       <InteractableModals
         id={gameService.state.context.farmId as number}
         scene={scene}
@@ -483,6 +450,32 @@ export const PhaserComponent: React.FC<Props> = ({
           <p className="loading">{t("loading")}</p>
         </Panel>
       </Modal>
+      {mmoState === "error" && (
+        <InnerPanel
+          className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer"
+          onClick={() => mmoService.send("RETRY")}
+        >
+          <img src={SUNNYSIDE.icons.sad} className="h-4 mr-1" />
+          <div className="mb-0.5">
+            <Label type="danger">{t("chat.Fail")}</Label>
+          </div>
+        </InnerPanel>
+      )}
+
+      {isMuted && (
+        <InnerPanel className="fixed top-2 left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
+          <img src={SoundOffIcon} className="h-8 mr-2 ml-1" />
+          <div className="flex flex-col p-1">
+            <span className="text-sm">{t("chat.mute")}</span>
+            <span className="text-xxs">
+              {t("chat.again")}{" "}
+              {isMuted.mutedUntil
+                ? calculateMuteTime(isMuted.mutedUntil, "remaining")
+                : "Unknown"}
+            </span>
+          </div>
+        </InnerPanel>
+      )}
     </div>
   );
 };
