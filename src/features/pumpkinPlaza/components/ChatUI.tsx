@@ -155,7 +155,7 @@ export const ChatUI: React.FC<Props> = ({
         style={{
           left: `${PIXEL_SCALE * 4}px`,
           width: `${PIXEL_SCALE * 22}px`,
-          zIndex: 51,
+          zIndex: 49,
         }}
         onClick={showOptions ? () => setOption("chat") : handleChatOpen}
       >
@@ -187,7 +187,7 @@ export const ChatUI: React.FC<Props> = ({
           style={{
             left: `${PIXEL_SCALE * 18}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            zIndex: 51,
+            zIndex: 49,
           }}
           onClick={() => setOption("reaction")}
         >
@@ -212,7 +212,7 @@ export const ChatUI: React.FC<Props> = ({
         style={{
           left: `${PIXEL_SCALE * 32}px`,
           width: `${PIXEL_SCALE * 22}px`,
-          zIndex: 51,
+          zIndex: 49,
         }}
         onClick={handleChatClose}
       >
