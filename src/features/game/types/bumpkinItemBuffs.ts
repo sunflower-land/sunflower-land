@@ -194,4 +194,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
+    "Beekeeper Hat": {
+      shortDescription: translate("description.beekeeper.hat.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS.Honey.image,
+    },
   };
