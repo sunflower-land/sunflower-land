@@ -196,8 +196,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     },
     "Beekeeper Hat": {
       shortDescription: translate("description.beekeeper.hat.boost"),
-      labelType: "vibrant",
-      boostTypeIcon: lightning,
-      boostedItemIcon: ITEM_DETAILS.Honey.image,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   };
