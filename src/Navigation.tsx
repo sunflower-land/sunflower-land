@@ -22,7 +22,6 @@ import { ZoomProvider } from "components/ZoomProvider";
 import { LoadingFallback } from "./LoadingFallback";
 import { Panel } from "components/ui/Panel";
 import { useOrientation } from "lib/utils/hooks/useOrientation";
-import { isMobile } from "mobile-device-detect";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { Modal } from "components/ui/Modal";
 
@@ -68,15 +67,15 @@ export const Navigation: React.FC = () => {
   const orientation = useOrientation();
   const isPWA = useIsPWA();
 
-  useEffect(() => {
-    if (!isMobile) return;
+  // useEffect(() => {
+  //   if (!isMobile) return;
 
-    if (orientation === "landscape") {
-      setShowOrientationModal(true);
-    } else {
-      setShowOrientationModal(false);
-    }
-  }, [orientation, isMobile]);
+  //   if (orientation === "landscape") {
+  //     setShowOrientationModal(true);
+  //   } else {
+  //     setShowOrientationModal(false);
+  //   }
+  // }, [orientation, isMobile]);
 
   useEffect(() => {
     // Check if online on initial load
@@ -119,11 +118,6 @@ export const Navigation: React.FC = () => {
       <Auth showOfflineModal={showConnectionModal} />
       {showGame ? (
         <ZoomProvider>
-          <Modal show={showOrientationModal} backdrop={false}>
-            <Panel>
-              <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, Sunflower Land currently prefers portrait mode. Tilt your device and enjoy the view for now, but prepare for the landscape mode coming soon!`}</div>
-            </Panel>
-          </Modal>
           <Modal show={showConnectionModal}>
             <Panel>
               <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
