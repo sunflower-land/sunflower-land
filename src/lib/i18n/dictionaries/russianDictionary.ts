@@ -237,7 +237,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "currently.Unavailable": "В данный момент недоступно!",
   danger: "Опасно",
   date: "Дата",
-  day: "day",
   decoration: "Декораци",
   deliver: "Доставить",
   deliveries: "Доставки",
@@ -314,7 +313,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   message: "Message",
   messages: "Messages",
   minimum: "Minimum",
-  mins: "mins",
   mint: "Mint",
   minting: "minting",
   music: "Music",
@@ -374,7 +372,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   save: "Save",
   saving: "Сохранение",
   "seasonal.treasure": "Seasonal Treasure",
-  secs: "secs",
   seeds: "Seeds",
   selected: "Selected",
   "select.resource": "Select your resource",
@@ -474,6 +471,17 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
+
+  // time
+  sec: "sec",
+  min: "min",
+  hr: "hr",
+  day: "day",
+
+  secs: "secs",
+  mins: "mins",
+  hrs: "hrs",
+  days: "days",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -583,6 +591,7 @@ const achievementTerms: Record<AchievementsTerms, string> = {
 };
 
 const auction: Record<Auction, string> = {
+  "auction.title": "Auctions & Drops",
   "auction.bid.message": "Ты сделал ставку.",
   "auction.reveal": "Показать победителей",
   "auction.live": "Аукцион стартовал!",
@@ -3690,6 +3699,7 @@ const offer: Record<Offer, string> = {
   "offer.getStarted": "Get Started Now",
   "offer.NFT.include": "Farm NFT. This will include",
   "offer.free": "free",
+  "offer.not.enough.BlockBucks": "You do not have enough Block Bucks!",
 };
 
 const onboarding: Record<Onboarding, string> = {
@@ -3741,6 +3751,7 @@ const orderhelp: Record<OrderHelp, string> = {
 };
 
 const pageFounds: Record<PageFounds, string> = {
+  "pageFounds.title": "Page Found!",
   "pageFounds.gardeningBookPage": "Looks like a page from a gardening book...",
   "pageFounds.lastPageFound":
     "Fantastic! Well done finding the last page! The pages reveal how to cross breed a new flower!",
@@ -3749,7 +3760,7 @@ const pageFounds: Record<PageFounds, string> = {
   "pageFounds.all": "All Pages Found!",
   "pageFounds.pageContainsInfo":
     "Great! This page contains some information about how to grow a",
-  pageFounds: "Pages Found",
+  pageFounds: "Pages Found:",
 };
 
 const parsnip: Record<Parsnip, string> = {
@@ -3985,9 +3996,7 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.timeMachine": "Time Machine",
   "settingsMenu.storeOnChain": "Store on Chain",
   "settingsMenu.howToPlay": "How to Play?",
-  "settingsMenu.community": "Community",
   "settingsMenu.swapMaticForSFL": "Swap MATIC for SFL",
-  "settingsMenu.communityGarden": "Community Garden",
   "settingsMenu.share": "Share",
   "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
 };
@@ -4299,6 +4308,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
     "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
   "transaction.termsOfService.two":
     "This step will take you back to your new sequence wallet to accept the terms of service.",
+  "transaction.buy.BlockBucks": "Buy Block Bucks",
 };
 
 const transfer: Record<Transfer, string> = {
