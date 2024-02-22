@@ -273,7 +273,10 @@ const BaitSelection: React.FC<{
           <img
             src={SUNNYSIDE.icons.cancel}
             className="h-5 pr-0.5 cursor-pointer"
-            onClick={() => setChum(undefined)}
+            onClick={() => {
+              setChum(undefined);
+              localStorage.removeItem("lastSelectedChum");
+            }}
           />
         </div>
       ) : (
