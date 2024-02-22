@@ -262,11 +262,12 @@ export const SpecialEventModalContent: React.FC<{
             {event?.tasks.map((task, index) => (
               <>
                 <div className="flex justify-between items-center mb-2">
-                  <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
-                    {`${
-                      (t("day") as string).charAt(0).toUpperCase() +
-                      (t("day") as string).slice(1)
-                    } ${index + 1}`}
+                  <Label
+                    type="default"
+                    className="capitalize"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                  >
+                    {`${t("day")} ${index + 1}`}
                   </Label>
                   <div className="flex justify-end space-x-3">
                     {getKeys(task.reward.items).map((itemName) => (
