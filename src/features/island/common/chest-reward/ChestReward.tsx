@@ -13,6 +13,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
+import classNames from "classnames";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -87,8 +88,11 @@ export const ChestReward: React.FC<Props> = ({
           />
         ) : (
           <div
-            hidden={loading} // render and hide captchas so images have time to load
-            className="flex flex-col items-center justify-between"
+            // render and hide captchas so images have time to load
+            className={classNames(
+              "flex flex-col items-center justify-between",
+              { hidden: loading }
+            )}
           >
             {challenge.current === "goblins" && (
               <StopTheGoblins
