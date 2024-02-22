@@ -608,7 +608,8 @@ export type BoostEffectDescriptions =
   | "description.christmas.festive.tree.boost"
   | "description.grinxs.hammer.boost"
   | "description.time.warp.totem.boost"
-  | "description.radiant.ray.boost";
+  | "description.radiant.ray.boost"
+  | "description.beekeeper.hat.boost";
 
 export type BountyDescription =
   | "description.clam.shell"

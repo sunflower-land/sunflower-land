@@ -898,6 +898,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.queen.bee.boost": "Dobra a Velocidade de Produção de Mel",
+  "description.beekeeper.hat.boost": "+20% na Velocidade de Produção de Mel",
   "description.humming.bird.boost": "Chance de 20% de +1 Flor",
   "description.beehive.boost":
     "Chance de 10% de +0.2 Cultivo quando a Colmeia estiver cheia",
