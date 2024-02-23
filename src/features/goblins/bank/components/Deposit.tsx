@@ -21,7 +21,6 @@ import { Box } from "components/ui/Box";
 import { KNOWN_IDS } from "features/game/types";
 import { Button } from "components/ui/Button";
 import { Loading } from "features/auth/components";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
@@ -35,6 +34,7 @@ import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { isMobile } from "mobile-device-detect";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -102,8 +102,8 @@ const DepositOptions: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
-  canDeposit = true,
 }) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
   const [hasWeb3, setHasWeb3] = useState(false);
 
   const [status, setStatus] = useState<Status>("loading");
@@ -116,7 +116,6 @@ const DepositOptions: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
-  const [isMobile] = useIsMobile();
 
   const { t } = useAppTranslation();
 
@@ -176,7 +175,7 @@ const DepositOptions: React.FC<Props> = ({
     };
 
     loadBalances();
-  }, [status]);
+  }, [onLoaded, status]);
 
   if (status === "error") {
     <div className="p-2">
@@ -327,7 +326,6 @@ const DepositOptions: React.FC<Props> = ({
           <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
             <span className="whitespace-nowrap">
               {t("deposit.farmAddress")}
-              {":"}
             </span>
             <CopyAddress address={farmAddress} />
           </div>
@@ -427,19 +425,12 @@ const DepositOptions: React.FC<Props> = ({
                   </>
                 )}
                 <div className="pt-3">
-                  <p className="mb-1">
-                    {t("deposit.farmWillReceive")}
-                    {":"}
-                  </p>
+                  <p className="mb-1">{t("deposit.farmWillReceive")}</p>
                   <div className="text-[11px] sm:text-xs mb-3">
                     <CopyAddress address={farmAddress} />
                   </div>
                   <div className="space-y-3">
-                    {validDepositAmount && (
-                      <p>
-                        {sflDepositAmount} {"SFL"}
-                      </p>
-                    )}
+                    {validDepositAmount && <p>{`${sflDepositAmount} SFL`}</p>}
                     {hasItemsToDeposit && (
                       <div className="flex flex-wrap h-fit -ml-1.5">
                         {selectedItems.map((item) => {

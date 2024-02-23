@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
@@ -17,7 +17,7 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
-import dragonLogo from "assets/brand/dragon_logo.gif";
+import logo from "assets/brand/logo_v2.png";
 import sparkle from "assets/fx/sparkle2.gif";
 import ocean from "assets/decorations/ocean.webp";
 
@@ -50,7 +50,6 @@ import { AirdropPopup } from "./components/Airdrop";
 import { PIXEL_SCALE } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
 import { Wallet } from "features/wallet/Wallet";
@@ -119,10 +118,7 @@ const isHoarding = (state: MachineState) => state.matches("hoarding");
 const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
-  state.matches({ purchasing: "fetching" }) ||
-  state.matches({ purchasing: "transacting" }) ||
-  state.matches({ buyingBlockBucks: "fetching" }) ||
-  state.matches({ buyingBlockBucks: "transacting" });
+  state.matches("purchasing") || state.matches("buyingBlockBucks");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
 const isWeakBumpkin = (state: MachineState) => state.matches("weakBumpkin");
@@ -162,7 +158,7 @@ const GameContent = () => {
           <VisitingHud />
         </div>
         <div className="relative">
-          <Modal centered show backdrop={false}>
+          <Modal show backdrop={false}>
             <Panel
               bumpkinParts={{
                 body: "Beige Farmer Potion",
@@ -302,14 +298,14 @@ export const GameWrapper: React.FC = ({ children }) => {
         <div
           className="h-screen w-full fixed top-0"
           style={{
-            zIndex: 1050,
+            zIndex: 49,
 
             backgroundImage: `url(${ocean})`,
             backgroundSize: `${64 * PIXEL_SCALE}px`,
             imageRendering: "pixelated",
           }}
         >
-          <Modal show centered backdrop={false}>
+          <Modal show backdrop={false}>
             <div
               className={classNames(
                 "relative flex items-center justify-center mb-4 w-full -mt-12 max-w-xl transition-opacity duration-500 opacity-100"
@@ -326,22 +322,11 @@ export const GameWrapper: React.FC = ({ children }) => {
                   }}
                 />
                 <>
-                  <img id="logo" src={dragonLogo} className="w-full" />
+                  <img id="logo" src={logo} className="w-full" />
                   <div className="flex justify-center">
                     <Label type="default">
                       {CONFIG.RELEASE_VERSION?.split("-")[0]}
                     </Label>
-
-                    {Date.now() > new Date("2024-02-09").getTime() &&
-                      Date.now() < new Date("2024-02-16").getTime() && (
-                        <Label
-                          secondaryIcon={SUNNYSIDE.icons.stopwatch}
-                          type="vibrant"
-                          className="ml-2"
-                        >
-                          {t("event.LunarNewYear")}
-                        </Label>
-                      )}
                   </div>
                 </>
               </div>
@@ -357,8 +342,8 @@ export const GameWrapper: React.FC = ({ children }) => {
 
   if (blacklisted) {
     return (
-      <div className="h-screen w-full fixed top-0" style={{ zIndex: 1050 }}>
-        <Modal show centered backdrop={false}>
+      <div className="h-screen w-full fixed top-0" style={{ zIndex: 49 }}>
+        <Modal show backdrop={false}>
           <Panel>
             <Blacklisted />
           </Panel>
@@ -373,7 +358,7 @@ export const GameWrapper: React.FC = ({ children }) => {
     <ToastProvider>
       <ToastPanel />
 
-      <Modal show={SHOW_MODAL[stateValue as StateValues]} centered>
+      <Modal show={SHOW_MODAL[stateValue as StateValues]}>
         <Panel>
           {loading && <Loading />}
           {refreshing && <Refreshing />}

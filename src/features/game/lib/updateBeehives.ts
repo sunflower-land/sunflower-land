@@ -4,6 +4,7 @@ import { Beehive, Beehives, FlowerBeds, GameState } from "../types/game";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getKeys } from "../types/craftables";
 import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
+import { isWearableActive } from "./wearables";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
@@ -16,10 +17,16 @@ import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
  */
 
 const getHoneyProductionRate = (game: GameState) => {
+  let rate = 1;
+
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
-    return 2;
+    rate += 1;
   }
-  return 1;
+
+  if (isWearableActive({ name: "Beekeeper Hat", game })) {
+    rate += 0.2;
+  }
+  return rate;
 };
 
 export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
@@ -202,11 +209,13 @@ const getBeehiveDetail = ({
   beehive,
   createdAt,
 }: GetBeehiveDetail): BeehiveDetail => {
-  const produced = beehive.flowers.reduce(
-    (honey, flower) =>
-      honey + (flower.attachedUntil - flower.attachedAt) * (flower.rate ?? 1),
-    beehive.honey.produced
-  );
+  const produced = beehive.flowers.reduce((honey, flower) => {
+    const start = Math.max(beehive.honey.updatedAt, flower.attachedAt);
+    const end = flower.attachedUntil;
+
+    return honey + Math.max(end - start, 0) * (flower.rate ?? 1);
+  }, beehive.honey.produced);
+
   const lastAttachment = beehive.flowers.sort(
     (a, b) => b.attachedUntil - a.attachedUntil
   )[0];
@@ -215,8 +224,9 @@ const getBeehiveDetail = ({
     beehiveAvailableAt: lastAttachment
       ? lastAttachment.attachedUntil
       : createdAt,
-    availableTime:
-      (DEFAULT_HONEY_PRODUCTION_TIME - produced) / getHoneyProductionRate(game),
+    availableTime: Math.ceil(
+      (DEFAULT_HONEY_PRODUCTION_TIME - produced) / getHoneyProductionRate(game)
+    ),
   };
 };
 

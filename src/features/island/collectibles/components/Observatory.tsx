@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "react-bootstrap/Modal";
+import { Modal } from "components/ui/Modal";
 
 import observatory from "assets/sfts/mom/observatory.gif";
 import observatoryAnimation from "assets/sfts/mom/mom_observatory_animation.webp";
@@ -50,7 +50,7 @@ export const Observatory: React.FC = () => {
           alt="Observatory"
         />
       </div>
-      <Modal centered show={!!playRand} onHide={handleCloseTelescope}>
+      <Modal show={!!playRand} onHide={handleCloseTelescope}>
         <CloseButtonPanel onClose={handleCloseTelescope}>
           {loading && <Loading />}
           <div

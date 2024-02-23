@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -108,20 +108,20 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           isOpen={interactable === "auction_item"}
         />
       )}
-      <Modal centered show={interactable === "donations"} onHide={closeModal}>
+      <Modal show={interactable === "donations"} onHide={closeModal}>
         <CloseButtonPanel title={t("enjoying.event")} onClose={closeModal}>
           <Donations />
         </CloseButtonPanel>
       </Modal>
       {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
-      <Modal centered show={interactable === "boat_modal"} onHide={closeModal}>
+      <Modal show={interactable === "boat_modal"} onHide={closeModal}>
         <BoatModal
           isOpen={interactable === "boat_modal"}
           closeModal={closeModal}
           id={id}
         />
       </Modal>
-      <Modal centered show={interactable === "fat_chicken"} onHide={closeModal}>
+      <Modal show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
@@ -131,10 +131,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "kraken"} onHide={closeModal}>
+      <Modal show={interactable === "kraken"} onHide={closeModal}>
         <KrakenIntro onClose={closeModal} />
       </Modal>
-      <Modal centered show={interactable === "lazy_bud"} onHide={closeModal}>
+      <Modal show={interactable === "lazy_bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
@@ -150,7 +150,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           closeModal={closeModal}
         />
       )}
-      <Modal centered show={interactable === "bud"} onHide={closeModal}>
+      <Modal show={interactable === "bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
@@ -160,7 +160,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "walrus"} onHide={closeModal}>
+      <Modal show={interactable === "walrus"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
@@ -170,11 +170,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "goblin_hammer"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "goblin_hammer"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.grimtooth}
@@ -185,11 +181,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "plaza_blue_book"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "plaza_blue_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.raven}
@@ -203,14 +195,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "basic_chest"}>
+      <Modal show={interactable === "basic_chest"}>
         <BasicTreasureChest onClose={closeModal} location={"plaza"} />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "plaza_orange_book"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "plaza_orange_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.cornwell}
@@ -224,11 +212,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "beach_green_book"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "beach_green_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.finley}
@@ -242,11 +226,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "beach_blue_book"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "beach_blue_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.finn}
@@ -263,11 +243,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "beach_orange_book"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "beach_orange_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.finley}
@@ -281,11 +257,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "plaza_green_book"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "plaza_green_book"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.grimbly}
@@ -299,11 +271,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "clubhouse_reward"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
           <div className="p-2">
             <p className="text-sm mb-2">
@@ -315,11 +283,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <Modal
-        centered
-        show={interactable === "plaza_statue"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           message={[
@@ -329,7 +293,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "dawn_book_1"} onHide={closeModal}>
+      <Modal show={interactable === "dawn_book_1"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["marcus"]}
@@ -346,10 +310,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "portal"} onHide={closeModal}>
+      <Modal show={interactable === "portal"} onHide={closeModal}>
         <Luna onClose={closeModal} />
       </Modal>
-      <Modal centered show={interactable === "dawn_book_2"} onHide={closeModal}>
+      <Modal show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["bella"]}
@@ -363,7 +327,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "dawn_book_3"} onHide={closeModal}>
+      <Modal show={interactable === "dawn_book_3"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["sofia"]}
@@ -380,7 +344,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "dawn_book_4"} onHide={closeModal}>
+      <Modal show={interactable === "dawn_book_4"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["marcus"]}
@@ -395,7 +359,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "timmy_home"} onHide={closeModal}>
+      <Modal show={interactable === "timmy_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["timmy"]}
@@ -406,7 +370,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "windmill"} onHide={closeModal}>
+      <Modal show={interactable === "windmill"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["cornwell"]}
@@ -417,7 +381,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "igor_home"} onHide={closeModal}>
+      <Modal show={interactable === "igor_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["igor"]}
@@ -428,11 +392,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "potion_house"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "potion_house"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
@@ -446,7 +406,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "guild_house"} onHide={closeModal}>
+      <Modal show={interactable === "guild_house"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
@@ -477,7 +437,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "betty_home"} onHide={closeModal}>
+      <Modal show={interactable === "betty_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["betty"]}
@@ -488,7 +448,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "bert_home"} onHide={closeModal}>
+      <Modal show={interactable === "bert_home"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["bert"]}
@@ -499,7 +459,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "beach"} onHide={closeModal}>
+      <Modal show={interactable === "beach"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["old salty"]}
@@ -513,7 +473,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "castle"} onHide={closeModal}>
+      <Modal show={interactable === "castle"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["tywin"]}
@@ -524,7 +484,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "woodlands"} onHide={closeModal}>
+      <Modal show={interactable === "woodlands"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["bert"]}
@@ -535,7 +495,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "port"} onHide={closeModal}>
+      <Modal show={interactable === "port"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES["grubnuk"]}
@@ -546,24 +506,16 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal centered show={interactable === "nye_button"} onHide={closeModal}>
+      <Modal show={interactable === "nye_button"} onHide={closeModal}>
         <NyeButton onClose={closeModal} />
       </Modal>
-      <Modal
-        centered
-        show={interactable === "crop_boom_finish"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "crop_boom_finish"} onHide={closeModal}>
         <Panel bumpkinParts={NPC_WEARABLES.wizard}>
           <CropBoomFinish onClose={closeModal} />
         </Panel>
       </Modal>
 
-      <Modal
-        centered
-        show={interactable === "page_discovered"}
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "page_discovered"} onHide={closeModal}>
         <PageFound onClose={closeModal} />
       </Modal>
     </>
@@ -573,7 +525,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
     /* 
 
       {/* <Modal
-        centered
+        
         show={!!interactable}
         onHide={closeModal}
       >

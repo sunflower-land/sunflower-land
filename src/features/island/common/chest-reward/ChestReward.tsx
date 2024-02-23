@@ -1,6 +1,6 @@
 import { Panel } from "components/ui/Panel";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { InventoryItemName, Reward } from "features/game/types/game";
 
@@ -13,6 +13,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
+import classNames from "classnames";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -67,7 +68,7 @@ export const ChestReward: React.FC<Props> = ({
   const { items, sfl } = reward;
 
   return (
-    <Modal centered show={true}>
+    <Modal show={true}>
       <Panel>
         {loading && <Loading />}
         {opened ? (
@@ -87,8 +88,11 @@ export const ChestReward: React.FC<Props> = ({
           />
         ) : (
           <div
-            hidden={loading} // render and hide captchas so images have time to load
-            className="flex flex-col items-center justify-between"
+            // render and hide captchas so images have time to load
+            className={classNames(
+              "flex flex-col items-center justify-between",
+              { hidden: loading }
+            )}
           >
             {challenge.current === "goblins" && (
               <StopTheGoblins

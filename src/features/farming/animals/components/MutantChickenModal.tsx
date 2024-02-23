@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { MutantChicken } from "features/game/types/game";
 
@@ -55,7 +55,7 @@ interface Props {
 export const MutantChickenModal = ({ type, show, onContinue }: Props) => {
   const { t } = useAppTranslation();
   return (
-    <Modal show={show} centered>
+    <Modal show={show}>
       <Panel>
         <div className="p-2">
           <h1 className="text-lg text-center">

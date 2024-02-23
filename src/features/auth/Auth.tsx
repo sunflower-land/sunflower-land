@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import Modal from "react-bootstrap/esm/Modal";
+import { Modal } from "components/ui/Modal";
 
+import logo from "assets/brand/logo_v2.png";
 import sparkle from "assets/fx/sparkle2.gif";
-import dragonLogo from "assets/brand/dragon_logo.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -23,7 +23,11 @@ import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const Auth: React.FC = () => {
+type Props = {
+  showOfflineModal: boolean;
+};
+
+export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { t } = useAppTranslation();
@@ -31,7 +35,6 @@ export const Auth: React.FC = () => {
   return (
     <>
       <Modal
-        centered
         show={!authState.matches("connected") && !authState.matches("visiting")}
         backdrop={false}
       >
@@ -51,7 +54,7 @@ export const Auth: React.FC = () => {
               }}
             />
             <>
-              <img id="logo" src={dragonLogo} className="w-full" />
+              <img id="logo" src={logo} className="w-full" />
 
               <div className="flex justify-center">
                 <Label type="default">
@@ -72,24 +75,30 @@ export const Auth: React.FC = () => {
             </>
           </div>
         </div>
-        <Panel className="pb-1 relative">
-          {authState.matches("welcome") && <Welcome />}
-          {authState.matches("noAccount") && <NoAccount />}
-          {authState.matches("authorising") && <Loading />}
-          {authState.matches("verifying") && <Verifying />}
-          {(authState.matches("idle") || authState.matches("signIn")) && (
-            <SignIn />
-          )}
-          {authState.matches("signUp") && <SignUp />}
-          {authState.matches("oauthorising") && <Loading />}
-          {authState.matches("creating") && <Loading text="Creating" />}
-          {authState.matches("claiming") && <Loading text="Claiming" />}
-          {authState.matches("unauthorised") && (
-            <ErrorMessage
-              errorCode={authState.context.errorCode as ErrorCode}
-            />
-          )}
-        </Panel>
+        {!showOfflineModal ? (
+          <Panel className="pb-1 relative">
+            {authState.matches("welcome") && <Welcome />}
+            {authState.matches("noAccount") && <NoAccount />}
+            {authState.matches("authorising") && <Loading />}
+            {authState.matches("verifying") && <Verifying />}
+            {(authState.matches("idle") || authState.matches("signIn")) && (
+              <SignIn />
+            )}
+            {authState.matches("signUp") && <SignUp />}
+            {authState.matches("oauthorising") && <Loading />}
+            {authState.matches("creating") && <Loading text="Creating" />}
+            {authState.matches("claiming") && <Loading text="Claiming" />}
+            {authState.matches("unauthorised") && (
+              <ErrorMessage
+                errorCode={authState.context.errorCode as ErrorCode}
+              />
+            )}
+          </Panel>
+        ) : (
+          <Panel>
+            <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+          </Panel>
+        )}
       </Modal>
     </>
   );

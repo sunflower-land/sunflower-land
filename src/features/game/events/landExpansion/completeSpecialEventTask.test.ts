@@ -636,4 +636,38 @@ describe("completeEventTask", () => {
 
     expect(state.balance).toEqual(new Decimal(1));
   });
+
+  it("throws if the user is not eligible", () => {
+    expect(() =>
+      completeSpecialEventTask({
+        createdAt: now,
+        action: {
+          type: "specialEvent.taskCompleted",
+          event: "Lunar New Year",
+          task: 1,
+        },
+        state: {
+          ...TEST_FARM,
+          specialEvents: {
+            history: {},
+            current: {
+              "Lunar New Year": {
+                text: "",
+                startAt: 0,
+                endAt: now + 1,
+                tasks: [
+                  {
+                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    requirements: { items: {}, sfl: 0 },
+                  },
+                ],
+                isEligible: false,
+                requiresWallet: false,
+              },
+            },
+          },
+        },
+      })
+    ).toThrow("You are not eligible");
+  });
 });

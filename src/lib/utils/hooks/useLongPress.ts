@@ -20,7 +20,7 @@ export const useLongPress = (
 ) => {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
   const timeout = useRef<NodeJS.Timeout>();
-  const timer = useRef<NodeJS.Timer>();
+  const timer = useRef<ReturnType<typeof setInterval>>();
   const target = useRef<EventTarget>();
 
   const clear = useCallback(

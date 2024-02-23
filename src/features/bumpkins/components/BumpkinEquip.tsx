@@ -166,7 +166,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
             return (
               <OuterPanel
                 key={name}
-                className={classNames("w-full flex mb-1 p-1 relative", {
+                className={classNames("w-full flex mb-1 !p-1 relative", {
                   "cursor-pointer hover:bg-brown-200":
                     !equippedItems.includes(name) ||
                     !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),

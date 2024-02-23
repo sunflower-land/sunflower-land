@@ -61,9 +61,7 @@ export const Grubnuk: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
     >
       {tab === 0 && <CommunityIslands />}
-      {tab === 1 && (
-        <DeliveryPanelContent npc="grubnuk" skipIntro onClose={onClose} />
-      )}
+      {tab === 1 && <DeliveryPanelContent npc="grubnuk" onClose={onClose} />}
     </CloseButtonPanel>
   );
 };

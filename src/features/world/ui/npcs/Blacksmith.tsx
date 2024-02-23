@@ -61,9 +61,7 @@ export const Blacksmith: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
     >
       {tab === 0 && <HeliosBlacksmithItems />}
-      {tab === 1 && (
-        <DeliveryPanelContent npc="blacksmith" skipIntro onClose={onClose} />
-      )}
+      {tab === 1 && <DeliveryPanelContent npc="blacksmith" onClose={onClose} />}
     </CloseButtonPanel>
   );
 };

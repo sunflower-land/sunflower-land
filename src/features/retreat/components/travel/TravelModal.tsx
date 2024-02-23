@@ -1,6 +1,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
@@ -47,12 +47,7 @@ export const TravelModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
   return (
     <>
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        dialogClassName="md:max-w-3xl"
-      >
+      <Modal show={isOpen} onHide={onClose} dialogClassName="md:max-w-3xl">
         {showIntro ? (
           <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
             <SpeakingText

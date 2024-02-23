@@ -107,8 +107,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           )}
           {transactionId && (
             <p className="leading-3">
-              {t("transaction.id")}
-              {":"} {transactionId}
+              {t("transaction.id")} {transactionId}
             </p>
           )}
           <p className="leading-3">
@@ -123,10 +122,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
           </p>
           {stack && showStackTrace && (
             <>
-              <p className="leading-3">
-                {t("details")}
-                {":"}
-              </p>
+              <p className="leading-3">{t("details")}</p>
               <pre className="leading-3 whitespace-pre-wrap text-[10px]">{`${stack}`}</pre>
             </>
           )}

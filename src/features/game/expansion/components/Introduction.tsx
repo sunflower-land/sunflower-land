@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { acknowledgeIntroduction } from "features/announcements/announcementsStorage";
 import { Context } from "features/game/GameProvider";
@@ -16,7 +16,7 @@ export const Introduction: React.FC = () => {
   const [gameState, send] = useActor(gameService);
 
   return (
-    <Modal centered show={gameState.matches("introduction")}>
+    <Modal show={gameState.matches("introduction")}>
       <Panel bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}>
         {/* <Content /> */}
         <SpeakingText

@@ -27,6 +27,8 @@ export function completeSpecialEventTask({
   const event = stateCopy.specialEvents.current[action.event];
   if (!event) throw new Error("Event does not exist");
 
+  if (!event.isEligible) throw new Error("You are not eligible");
+
   if (createdAt < event.startAt)
     throw new Error(`${action.event} has not started`);
 

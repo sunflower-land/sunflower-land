@@ -14,7 +14,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -147,7 +147,6 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                 {t("buy")}
               </Button>
               <Modal
-                centered
                 show={isConfirmBuyModalOpen}
                 onHide={closeConfirmationModal}
               >

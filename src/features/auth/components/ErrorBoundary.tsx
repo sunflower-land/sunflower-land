@@ -2,7 +2,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { Component, ReactNode } from "react";
 import ocean from "assets/decorations/ocean.webp";
 import { BoundaryError } from "./SomethingWentWrong";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 
 interface Props {
@@ -35,7 +35,7 @@ class ErrorBoundary extends Component<Props, State> {
               imageRendering: "pixelated",
             }}
           />
-          <Modal show={true} centered>
+          <Modal show={true}>
             <Panel>
               <BoundaryError
                 error={this.state.error.message}

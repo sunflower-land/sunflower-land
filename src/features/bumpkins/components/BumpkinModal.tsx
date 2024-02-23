@@ -209,7 +209,7 @@ export const BumpkinModal: React.FC<Props> = ({
               className="mb-2 cursor-pointer"
               onClick={() => setView("skills")}
             >
-              <InnerPanel className="relative mt-1 px-2 py-1">
+              <InnerPanel className="relative mt-1 !px-2 !py-1">
                 <div className="flex items-center mb-1 justify-between">
                   <div className="flex items-center">
                     <span className="text-xs">{t("skills")}</span>
@@ -233,7 +233,7 @@ export const BumpkinModal: React.FC<Props> = ({
               className="mb-2 cursor-pointer"
               onClick={() => setView("achievements")}
             >
-              <InnerPanel className="relative mt-1 px-2 py-1">
+              <InnerPanel className="relative mt-1 !px-2 !py-1">
                 <div className="flex items-center mb-1 justify-between">
                   <div className="flex items-center">
                     <span className="text-xs">{t("achievements")}</span>

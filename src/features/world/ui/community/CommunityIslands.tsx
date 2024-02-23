@@ -53,7 +53,7 @@ export const CommunityIslands: React.FC = () => {
           key={island.id}
           onClick={() => travel(island)}
           className={
-            "flex relative items-center py-2 mb-1 cursor-pointer hover:bg-brown-200"
+            "flex relative items-center !py-2 mb-1 cursor-pointer hover:bg-brown-200"
           }
         >
           <div className="w-16 justify-center flex mr-2">

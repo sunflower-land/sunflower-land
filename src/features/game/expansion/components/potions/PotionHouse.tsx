@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
@@ -31,7 +31,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const [state, send] = useActor(potionHouseService);
 
   return (
-    <Modal show centered onHide={onClose}>
+    <Modal show onHide={onClose}>
       <div
         className="bg-brown-600 text-white relative"
         style={{

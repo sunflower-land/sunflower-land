@@ -31,6 +31,65 @@
   .img-shadow {
     filter: drop-shadow(0px 3px 0px rgba(0, 0, 0, 0.2));
   }
+  /* Safe Areas Mobile */
+  .inset-safe-area {
+    top: env(safe-area-inset-top);
+    right: env(safe-area-inset-right);
+    bottom: env(safe-area-inset-bottom);
+    left: env(safe-area-inset-left);
+  }
+  .inset-b-safe-area {
+    bottom: env(safe-area-inset-bottom);
+  }
+  .inset-t-safe-area {
+    top: env(safe-area-inset-top);
+  }
+  .inset-l-safe-area {
+    left: env(safe-area-inset-left);
+  }
+  .inset-r-safe-area {
+    right: env(safe-area-inset-right);
+  }
+  .safe-pt {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-pl {
+    padding-left: env(safe-area-inset-left);
+  }
+  .safe-pr {
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-mt {
+    margin-top: env(safe-area-inset-top);
+  }
+  .safe-mb {
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-ml {
+    margin-left: env(safe-area-inset-left);
+  }
+  .safe-mr {
+    margin-right: env(safe-area-inset-right);
+  }
+  .safe-py {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-px {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  .safe-my {
+    margin-top: env(safe-area-inset-top);
+    margin-bottom: env(safe-area-inset-bottom);
+  }
+  .safe-mx {
+    margin-left: env(safe-area-inset-left);
+    margin-right: env(safe-area-inset-right);
+  }
 }
 
 @font-face {
@@ -41,6 +100,10 @@
 @font-face {
   font-family: "Teeny";
   src: url("https://sunflower-land.com/testnet-assets/fonts/Teeny.otf");
+}
+
+html {
+  min-height: calc(100% + env(safe-area-inset-top));
 }
 
 body {
@@ -87,11 +150,12 @@ img {
   -khtml-user-select: none;
   -webkit-user-select: none;
   /*
-        Introduced in Internet Explorer 10.
+        Introduced in Internet Explorer 10
         See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
       */
   -ms-user-select: none;
   user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* Disable html number input arrows  */
@@ -107,53 +171,6 @@ input[type="number"] {
   /* Enable user-select, for ios(Safari) compatibility */
   -webkit-user-select: auto;
   user-select: auto;
-}
-
-/*
-  Override React Bootstrap styles that don't play nicely
-*/
-
-.modal-content {
-  background: transparent;
-  border: none;
-}
-
-.modal.fade .modal-dialog {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-  -moz-transition: -moz-transform 0.3s ease-out;
-  -o-transition: -o-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-}
-
-/* If modal content overflows the screen height then allow the window to scroll */
-
-.modal-dialog-scrollable .modal-content {
-  overflow: initial;
-}
-
-.carousel-control-next,
-.carousel-control-prev {
-  opacity: 1;
-}
-
-.carousel-indicators {
-  bottom: -42px;
-}
-
-/* Disable default border */
-
-.accordion-button {
-  outline: none !important;
-  box-shadow: none !important;
-}
-
-/* Replace default chevron image */
-
-.accordion-button::after {
-  background-image: url("./assets/icons/indicator.png") !important;
 }
 
 img {

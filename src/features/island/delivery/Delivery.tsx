@@ -2,7 +2,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import deliveryBoard from "assets/ui/delivery_board.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -84,12 +84,7 @@ export const DeliveryModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <Modal
-        centered
-        show={isOpen}
-        onHide={onClose}
-        dialogClassName="md:max-w-3xl"
-      >
+      <Modal show={isOpen} onHide={onClose} dialogClassName="md:max-w-3xl">
         <CloseButtonPanel
           onClose={onClose}
           title={

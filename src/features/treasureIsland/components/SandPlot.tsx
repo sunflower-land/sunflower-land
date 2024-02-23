@@ -22,7 +22,7 @@ import {
 import { setImageWidth } from "lib/images";
 import classNames from "classnames";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Revealed } from "features/game/components/Revealed";
 import {
   MachineState,
@@ -312,7 +312,7 @@ export const SandPlot: React.FC<{
             }}
           />
         </div>
-        <Modal centered show={treasureFound}>
+        <Modal show={treasureFound}>
           <CloseButtonPanel>
             <Revealed onAcknowledged={handleAcknowledgeTreasureFound} />
           </CloseButtonPanel>
@@ -323,7 +323,7 @@ export const SandPlot: React.FC<{
 
   if (showMissingShovelModal) {
     return (
-      <Modal centered show onHide={handleAcknowledgeNoSandShovel}>
+      <Modal show onHide={handleAcknowledgeNoSandShovel}>
         <CloseButtonPanel
           title={t("treasureModal.noShovelTitle")}
           onClose={handleAcknowledgeNoSandShovel}
@@ -347,7 +347,7 @@ export const SandPlot: React.FC<{
 
   if (showMaxHolesModal) {
     return (
-      <Modal centered show onHide={() => setShowMaxHolesModal(false)}>
+      <Modal show onHide={() => setShowMaxHolesModal(false)}>
         <CloseButtonPanel
           title={t("treasureModal.maxHolesTitle")}
           onClose={() => setShowMaxHolesModal(false)}
@@ -375,7 +375,7 @@ export const SandPlot: React.FC<{
 
   if (drilling) {
     return (
-      <Modal centered show>
+      <Modal show>
         <Panel>
           <div className="flex flex-col items-center mt-2">
             <p className="text-center loading">{t("treasureModal.drilling")}</p>

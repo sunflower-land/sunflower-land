@@ -16,7 +16,6 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { hasFeatureAccess } from "lib/flags";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -338,18 +337,16 @@ export class PlazaScene extends BaseScene {
       });
     }
 
-    if (hasFeatureAccess(this.gameState, "BUMPKIN_GIFTS")) {
-      if (this.gameState.inventory["Treasure Key"]) {
-        this.add.sprite(210, 130, "key_disc").setDepth(1000000000);
-      } else {
-        this.add.sprite(210, 130, "locked_disc").setDepth(1000000000);
-      }
-
-      const basicChest = this.add.sprite(210, 150, "basic_chest");
-      basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open("basic_chest");
-      });
+    if (this.gameState.inventory["Treasure Key"]) {
+      this.add.sprite(210, 130, "key_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(210, 130, "locked_disc").setDepth(1000000000);
     }
+
+    const basicChest = this.add.sprite(210, 150, "basic_chest");
+    basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("basic_chest");
+    });
 
     const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
     shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {

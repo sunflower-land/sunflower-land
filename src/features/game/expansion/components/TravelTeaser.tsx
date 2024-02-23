@@ -3,7 +3,7 @@ import raft from "assets/decorations/raft.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -134,7 +134,7 @@ export const TravelTeaser: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} centered onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
           onClose={() => setShowModal(false)}

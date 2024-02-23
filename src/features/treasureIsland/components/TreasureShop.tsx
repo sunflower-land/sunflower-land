@@ -5,7 +5,7 @@ import beachBountyShop from "assets/buildings/treasure_shop.png";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { TreasureShopBuy } from "./TreasureShopBuy";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -59,7 +59,7 @@ export const TreasureShop: React.FC = () => {
         </div>
       </div>
 
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           onClose={() => setShowModal(false)}
           bumpkinParts={{

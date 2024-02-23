@@ -5,7 +5,7 @@ import shadow from "assets/npcs/shadow.png";
 
 import { Action } from "components/ui/Action";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { StorageModal } from "features/goblins/storageHouse/components/StorageModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -70,7 +70,7 @@ export const RetreatStorageHouse: React.FC = () => {
           />
         </div>
       </div>
-      <Modal show={isOpen} onHide={() => setIsOpen(false)} centered>
+      <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <StorageModal onClose={() => setIsOpen(false)} />
       </Modal>
     </MapPlacement>

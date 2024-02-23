@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Paytone+One&amp;display=swap"
+      rel="stylesheet"
+    />
+
+    <title>You are offline</title>
+
+    <!-- Inline the page's stylesheet. -->
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        background-image: url("data:image/webp;base64,UklGRogBAABXRUJQVlA4THwBAAAvP8APAB+goG0U6F7wrwCJ2BESEJXq/zVfyAQsNvp3lMI9/3FuqC3+g+Q2kiRJskZu7Tf36JYnChgFztZsBYrRKAUIwB4ZNatCRP8nIN3nsocuu4DaxnfWBt18vaHOnKvhE0qpyC24VEod4Ox+pU5Sdfz7WfHKXlu8HnA2Nuypo5tAbHYD0kAdtVEzdaQO1IGiQQVt6iwdOZtjaaTOg2XMz1upaDxSjddUHRr3UmVtsxT3UVf5rVi6mtmYV9Gh9R8rVrc66GZeZUepcT4uBqlOHtBwUDr4seZSJw8oCSpQ4QawRFkGfUkF1+dRE3htlPPBfqaDpcGdpUEqqgNUZ2puwdocRiPVzBqrs4cuL8ZrNuvi5ckWV/N5W+rIb8BycDXgzv6d1+dWHcb5QEc2sfTlUSq5DXUeqgE6aUp1AOR2W5sDzi91QF08N4BS4fV56GQZlAPgKEk1uEwp1XHeKAM43OfzVqpX8Yn7eH5199XEZ3ZU93rl/2TnxVwXJw==");
+        background-size: 168px;
+        image-rendering: pixelated;
+        font-family: "Paytone One", sans-serif;
+        overflow: hidden;
+        color: white;
+        font-size: 22px;
+        letter-spacing: -0.4px;
+        word-spacing: 3px;
+        line-height: 20px;
+        background-color: #000000;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        padding: 8px;
+      }
+
+      .logo {
+        max-width: 90%;
+        width: auto;
+        margin-bottom: 20px;
+      }
+
+      span {
+        text-shadow: 1px 1px #1f1f1f;
+      }
+
+      .outer-panel {
+        display: flex;
+        background-color: rgb(185 111 80);
+        border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAgMAAADwXCcuAAAACVBMVEUAAAAYFCXupGhEFGpVAAAAAXRSTlMAQObYZgAAABpJREFUCNdjYA1lYJBa5cCQwDABGwbJgdQAAKX2CF37xkC2AAAAAElFTkSuQmCC")
+          20% / 1 / 0 stretch;
+        border-style: solid;
+        border-width: 5.25px;
+        image-rendering: pixelated;
+        border-radius: 13.125px;
+        padding: 2.625px;
+      }
+
+      .inner-panel {
+        background-color: rgb(194 134 105);
+        border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAgMAAADwXCcuAAAACVBMVEUAAAAYFCXq1KoZSBjjAAAAAXRSTlMAQObYZgAAABpJREFUCNdjYA1lYJBa5cCQwDABGwbJgdQAAKX2CF37xkC2AAAAAElFTkSuQmCC")
+          20% / 1 / 0 stretch;
+        border-style: solid;
+        border-width: 5.25px;
+        image-rendering: pixelated;
+        border-radius: 13.125px;
+        padding: 2.625px;
+      }
+
+      .panel-content {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .connection-message {
+        padding: 8px 8px 0 8px;
+        margin-bottom: 12px;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="logo"
+        src="data:image/png;base64,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"
+        alt="Sunflower Land Logo"
+      />
+      <div class="outer-panel">
+        <div class="inner-panel">
+          <div class="panel-content">
+            <div class="connection-message">
+              <span style="margin-bottom: 6px"
+                >Oh no, it looks like your device is currently offline.</span
+              >
+              <span>
+                We will return to your farm once network connection is restored
+                or you can try again by refreshing the app.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inline the page's JavaScript file. -->
+    <script>
+      // Listen to changes in the network state, reload when online.
+      // This handles the case when the device is completely offline.
+      window.addEventListener("online", () => {
+        window.location.reload();
+      });
+    </script>
+  </body>
+</html>

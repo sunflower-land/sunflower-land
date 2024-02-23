@@ -75,7 +75,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   useEffect(() => {
     acknowledgeOrders(delivery);
-  }, [delivery.orders]);
+  }, [delivery, delivery.orders]);
 
   let previewOrder = delivery.orders.find((order) => order.id === selectedId);
 
@@ -231,7 +231,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
               <OuterPanel
                 onClick={() => select(order.id)}
-                className="w-full cursor-pointer hover:bg-brown-200 py-2 relative"
+                className="w-full cursor-pointer hover:bg-brown-200 !py-2 relative"
                 style={{ height: "80px" }}
               >
                 {hasRequirements(order) && !order.completedAt && (
@@ -347,12 +347,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           {nextOrder && !skippedOrder && (
             <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
-                className="w-full py-2 relative"
+                className="w-full !py-2 relative"
                 style={{ height: "80px" }}
               >
                 <p className="text-center mb-0.5 mt-1 text-sm">
-                  {t("next.order")}
-                  {":"}
+                  {t("next.order")}{" "}
                 </p>
                 <div className="flex justify-center items-center">
                   <img src={SUNNYSIDE.icons.timer} className="h-4 mr-2" />
@@ -368,7 +367,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           {skippedOrder && (
             <div className="w-1/2 sm:w-1/3 p-1">
               <OuterPanel
-                className="w-full py-2 relative"
+                className="w-full !py-2 relative"
                 style={{ height: "80px" }}
               >
                 <p className="text-center mb-0.5 mt-1 text-sm loading">
@@ -382,8 +381,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
             </div>
             <span className="text-xs">
-              {t("new.delivery.in")}
-              {":"}{" "}
+              {t("new.delivery.in")}{" "}
               {`${secondsToString(secondsTillReset(), {
                 length: "medium",
               })}.`}

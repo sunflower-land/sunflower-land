@@ -1,5 +1,5 @@
 import { MachineInterpreter } from "features/auth/lib/authMachine";
-import { detectMobile } from "./hooks/useIsMobile";
+import { isMobile } from "mobile-device-detect";
 
 type Vector = {
   x: number;
@@ -25,7 +25,7 @@ class ScreenTracker {
   private tracks = 0;
 
   private track(event: MouseEvent) {
-    if (detectMobile()) {
+    if (isMobile) {
       return true;
     }
 
@@ -51,7 +51,7 @@ class ScreenTracker {
 
   public calculate(): boolean {
     try {
-      if (detectMobile() || process.env.NODE_ENV === "test") {
+      if (isMobile || process.env.NODE_ENV === "test") {
         return true;
       }
 

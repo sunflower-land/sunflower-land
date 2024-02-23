@@ -6,6 +6,7 @@ export type GarbageName =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
   | "Crow Feather"
+  | "Mermaid Scale"
   | "War Bond"
   | "Love Letter"
   | "Red Envelope"
@@ -28,6 +29,7 @@ export type Garbage = {
 };
 
 export const GARBAGE: Record<GarbageName, Garbage> = {
+  // Seasonal Tickets
   "Solar Flare Ticket": {
     sellPrice: marketRate(0.1),
   },
@@ -37,6 +39,11 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
   "Crow Feather": {
     sellPrice: marketRate(0.1),
   },
+  "Mermaid Scale": {
+    sellPrice: marketRate(0.1),
+  },
+
+  // Old event tickets
   "Jack-o-lantern": {
     sellPrice: marketRate(1),
   },
@@ -50,6 +57,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: marketRate(0.1),
   },
 
+  // Easter Eggs
   "Blue Egg": {
     sellPrice: marketRate(1),
   },
@@ -68,10 +76,11 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
   "Red Egg": {
     sellPrice: marketRate(1),
   },
-
   "Yellow Egg": {
     sellPrice: marketRate(1),
   },
+
+  // Others
   "Rapid Growth": {
     sellPrice: marketRate(160),
   },
@@ -79,6 +88,7 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: new Decimal(1),
   },
 
+  // Worms
   Earthworm: {
     sellPrice: marketRate(0.1),
   },

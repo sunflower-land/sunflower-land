@@ -27,7 +27,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
   // This shouldn't happen
   if (!springBlossom) {
     return (
-      <CloseButtonPanel onClose={onClose} title={"Page Found"}>
+      <CloseButtonPanel onClose={onClose} title={t("pageFounds.title")}>
         <div className="flex flex-col items-center w-full">
           <span>
             {t("pageFounds.gardeningBookPage")}
@@ -41,7 +41,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
 
   if (springBlossom.collectedFlowerPages.length >= 3) {
     return (
-      <CloseButtonPanel onClose={onClose} title={"Page Found!"}>
+      <CloseButtonPanel onClose={onClose} title={t("pageFounds.title")}>
         <div className="flex flex-col w-full items-center justify-center gap-2">
           <span className="text-sm w-full">
             {t("pageFounds.lastPageFound")}
@@ -96,7 +96,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <CloseButtonPanel onClose={onClose} title={"Page Found!"}>
+    <CloseButtonPanel onClose={onClose} title={t("pageFounds.title")}>
       <div className="flex flex-col w-full items-center">
         <span className="text-sm">
           {t("pageFounds.pageContainsInfo")} {springBlossom.weeklyFlower}
@@ -105,9 +105,8 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
         <img src="world/page.png" style={{ width: PIXEL_SCALE * 16 * 2 }} />
 
         <Label type="info" className="mt-2">
-          {springBlossom.collectedFlowerPages.length}
+          {t("pageFounds")} {springBlossom.collectedFlowerPages.length}
           {"/3"}
-          {t("pageFounds")}
         </Label>
       </div>
     </CloseButtonPanel>

@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { LiveProgressBar } from "components/ui/ProgressBar";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -80,7 +80,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
 
   return (
     <>
-      <Modal centered show={showModal}>
+      <Modal show={showModal}>
         <CloseButtonPanel>
           <ModalContent />
         </CloseButtonPanel>

@@ -2,7 +2,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
@@ -44,7 +44,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
       </div>
 
       <Modal
-        centered
         show={!!selectedFarmHandId}
         onHide={() => setSelectedFarmHandId(undefined)}
       >

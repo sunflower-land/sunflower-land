@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Chest } from "./inventory/Chest";
 import { getChestBuds, getChestItems } from "./inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
@@ -35,7 +35,7 @@ export const LandscapingChest: React.FC<Props> = ({
   );
 
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[{ icon: chest, name: translate("chest") }]}
         currentTab={0}

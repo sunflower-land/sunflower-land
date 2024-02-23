@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -103,7 +103,6 @@ export const PirateChest: React.FC = () => {
       <Modal
         show={showCollectedModal}
         onHide={() => setShowCollectedModal(false)}
-        centered
       >
         <CloseButtonPanel onClose={() => setShowCollectedModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
@@ -116,10 +115,7 @@ export const PirateChest: React.FC = () => {
             />
             <span className="text-center">{t("piratechest.greeting")}</span>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">
-                {t("piratechest.refreshesIn")}
-                {":"}
-              </p>
+              <p className="text-xxs mr-2">{t("piratechest.refreshesIn")}</p>
               <CountdownLabel timeLeft={nextRefreshInSeconds} />
             </div>
           </div>
@@ -129,7 +125,6 @@ export const PirateChest: React.FC = () => {
       <Modal
         show={showNotPirateModal}
         onHide={() => setShowNotPirateModal(false)}
-        centered
       >
         <CloseButtonPanel onClose={() => setShowNotPirateModal(false)}>
           <div className="flex flex-col items-center p-2 w-full">
@@ -146,14 +141,14 @@ export const PirateChest: React.FC = () => {
       </Modal>
 
       {gameState.matches("revealing") && isCollecting && (
-        <Modal show centered>
+        <Modal show>
           <CloseButtonPanel>
             <Revealing icon={SUNNYSIDE.decorations.treasure_chest} />
           </CloseButtonPanel>
         </Modal>
       )}
       {gameState.matches("revealed") && isCollecting && (
-        <Modal show centered>
+        <Modal show>
           <CloseButtonPanel>
             <Revealed onAcknowledged={() => setIsCollecting(false)} />
           </CloseButtonPanel>

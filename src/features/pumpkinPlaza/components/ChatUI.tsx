@@ -114,7 +114,7 @@ export const ChatUI: React.FC<Props> = ({
     <>
       <div
         className={classNames(
-          "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "absolute top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showChatMessages, "scale-100": showChatMessages }
         )}
         // eslint-disable-next-line no-console
@@ -129,7 +129,7 @@ export const ChatUI: React.FC<Props> = ({
       </div>
       <div
         className={classNames(
-          "fixed top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
+          "absolute top-44 left-3 transition-transform origin-top-left ease-in-out duration-300",
           { "scale-0": !showReactions, "scale-100": showReactions }
         )}
         // eslint-disable-next-line no-console
@@ -145,7 +145,7 @@ export const ChatUI: React.FC<Props> = ({
 
       <div
         className={classNames(
-          "fixed top-36 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
+          "absolute top-36 cursor-pointer transition-transform origin-top-left ease-in-out duration-300",
           {
             "scale-50": showOptions,
             "opacity-50": isMuted,
@@ -155,7 +155,7 @@ export const ChatUI: React.FC<Props> = ({
         style={{
           left: `${PIXEL_SCALE * 4}px`,
           width: `${PIXEL_SCALE * 22}px`,
-          zIndex: 51,
+          zIndex: 49,
         }}
         onClick={showOptions ? () => setOption("chat") : handleChatOpen}
       >
@@ -179,7 +179,7 @@ export const ChatUI: React.FC<Props> = ({
       {canReact && (
         <div
           className={classNames(
-            "fixed top-36 left-12 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
+            "absolute top-36 left-12 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
             {
               "scale-50": showOptions,
             }
@@ -187,7 +187,7 @@ export const ChatUI: React.FC<Props> = ({
           style={{
             left: `${PIXEL_SCALE * 18}px`,
             width: `${PIXEL_SCALE * 22}px`,
-            zIndex: 51,
+            zIndex: 49,
           }}
           onClick={() => setOption("reaction")}
         >
@@ -204,7 +204,7 @@ export const ChatUI: React.FC<Props> = ({
       )}
       <div
         className={classNames(
-          "fixed top-36 left-20 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
+          "absolute top-36 left-20 cursor-pointer transition-transform origin-top-left ease-in-out duration-300 scale-0",
           {
             "scale-50": showOptions,
           }
@@ -212,7 +212,7 @@ export const ChatUI: React.FC<Props> = ({
         style={{
           left: `${PIXEL_SCALE * 32}px`,
           width: `${PIXEL_SCALE * 22}px`,
-          zIndex: 51,
+          zIndex: 49,
         }}
         onClick={handleChatClose}
       >

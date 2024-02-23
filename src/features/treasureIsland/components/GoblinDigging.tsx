@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -63,7 +63,7 @@ export const GoblinDigging: React.FC = () => {
         />
       </div>
 
-      <Modal centered show={showModal} onHide={() => setShowModal(false)}>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel
           onClose={() => setShowModal(false)}
           bumpkinParts={{

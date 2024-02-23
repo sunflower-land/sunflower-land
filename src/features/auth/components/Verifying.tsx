@@ -59,6 +59,7 @@ export const Verifying: React.FC = () => {
         src={`${CONFIG.API_URL}/auth/verify?token=${authState.context.user.rawToken}`}
         title="Yeeeet!"
         id="iframe"
+        style={{ height: 0 }}
       ></iframe>
       <span className="text-shadow loading">{t("loading")}</span>
     </>

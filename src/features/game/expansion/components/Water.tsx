@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
-import dragonfly from "assets/decorations/dragonfly.gif";
-
 import goblinSwimming from "assets/npcs/goblin_swimming.gif";
 import cossies from "assets/decorations/cossies.png";
 import mushroomIsland from "assets/land/mushroom_island.png";
@@ -21,6 +19,7 @@ import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { EarnAlliance } from "./EarnAlliance";
+import { OnePlanetPopper } from "./OnePlanetPopper";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -46,19 +45,6 @@ export const WaterComponent: React.FC<Props> = ({
       }}
     >
       {/* Decorations */}
-
-      {/* Dragonfly */}
-      <MapPlacement x={-4 - offset} y={3} width={1}>
-        <img
-          style={{
-            width: `${PIXEL_SCALE * 13}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            bottom: `${PIXEL_SCALE * 4}px`,
-          }}
-          src={dragonfly}
-          className={showAnimations ? " animate-float" : ""}
-        />
-      </MapPlacement>
 
       <DiscordBoat />
 
@@ -121,9 +107,15 @@ export const WaterComponent: React.FC<Props> = ({
       <IslandUpgrader gameState={gameState} offset={offset} />
 
       {/* Earn Alliance NPC */}
-      <MapPlacement x={-4 - offset} y={3} width={1}>
+      <MapPlacement x={-5 - offset} y={3} width={4}>
         <EarnAlliance
           event={gameState.specialEvents.current["Earn Alliance Banner"]}
+        />
+      </MapPlacement>
+
+      <MapPlacement x={-5 - offset} y={7} width={4}>
+        <OnePlanetPopper
+          event={gameState.specialEvents.current["One Planet Popper"]}
         />
       </MapPlacement>
     </div>

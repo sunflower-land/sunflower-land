@@ -1,5 +1,5 @@
 import { useSelector } from "@xstate/react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -17,6 +17,8 @@ import { SEASONS, getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import blockBuck from "assets/icons/block_buck.png";
+import lockIcon from "assets/skills/lock.png";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");
 const _inventory = (state: MachineState) => state.context.state.inventory;
@@ -25,7 +27,6 @@ export const SpecialOffer: React.FC = () => {
   const { gameService } = useContext(Context);
   const specialOffer = useSelector(gameService, isPromoting);
   const inventory = useSelector(gameService, _inventory);
-
   const hasPreviousSeasonBanner = !!inventory[getSeasonalBanner()];
 
   return (
@@ -56,6 +57,8 @@ export const PromotingModal: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
+  const { openModal } = useContext(ModalContext);
+
   const isPreSeason =
     Date.now() < SEASONS["Spring Blossom"].startDate.getTime();
 
@@ -63,6 +66,9 @@ export const PromotingModal: React.FC<Props> = ({
   const inventory = useSelector(gameService, _inventory);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [showInsufficientBlockBuck, setShowInsufficientBlockBuck] =
+    useState(false);
+
   const [showPurchased, setShowPurchased] = useState(hasPurchased);
 
   let price = hasDiscount ? "35" : "50";
@@ -74,6 +80,14 @@ export const PromotingModal: React.FC<Props> = ({
   const onCloseConfirmation = () => {
     onClose();
     setShowConfirmation(false);
+  };
+
+  const onCloseInsufficientBlockBucks = () => {
+    setShowInsufficientBlockBuck(false);
+  };
+
+  const buyBlockBucks = () => {
+    openModal("BUY_BLOCK_BUCKS");
   };
 
   const Content = () => {
@@ -100,7 +114,26 @@ export const PromotingModal: React.FC<Props> = ({
         </>
       );
     }
-
+    if (showInsufficientBlockBuck) {
+      return (
+        <>
+          <div className="p-2">
+            <Label icon={lockIcon} type="danger" className="my-2">
+              {t("transaction.buy.BlockBucks")}
+            </Label>
+            <p className="text-sm my-2">{t("offer.not.enough.BlockBucks")}</p>
+          </div>
+          <div className="flex">
+            <Button className="mr-1" onClick={onCloseInsufficientBlockBucks}>
+              {t("no.thanks")}
+            </Button>
+            <Button onClick={buyBlockBucks}>
+              {t("transaction.buy.BlockBucks")}
+            </Button>
+          </div>
+        </>
+      );
+    }
     if (showPurchased) {
       return (
         <>
@@ -115,10 +148,7 @@ export const PromotingModal: React.FC<Props> = ({
               />
               <p className="text-sm">{t("season.goodLuck")}</p>
             </div>
-            <p className="text-sm">
-              {t("season.access")}
-              {":"}
-            </p>
+            <p className="text-sm">{t("season.access")}</p>
             <ul className="list-disc">
               <li className="text-xs ml-4">{t("season.discount")}</li>
               <li className="text-xs ml-4">{t("season.banner")}</li>
@@ -132,7 +162,7 @@ export const PromotingModal: React.FC<Props> = ({
             </Label>
 
             <a
-              href="https://docs.sunflower-land.com/player-guides/seasons/catch-the-kraken#catch-the-kraken-banner"
+              href="https://docs.sunflower-land.com/player-guides/seasons/spring-blossom#spring-blossom-banner"
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
@@ -151,7 +181,7 @@ export const PromotingModal: React.FC<Props> = ({
 
     const msLeft = SEASONS["Spring Blossom"].startDate.getTime() - Date.now();
     const secondsLeft = msLeft / 1000;
-    const insuficientBlockBucks = !inventory["Block Buck"]?.gte(price);
+    const insufficientBlockBucks = !inventory["Block Buck"]?.gte(price);
 
     return (
       <>
@@ -194,10 +224,7 @@ export const PromotingModal: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <p className="text-sm">
-            {t("season.includes")}
-            {":"}
-          </p>
+          <p className="text-sm">{t("season.includes")}</p>
           <ul className="list-disc">
             <li className="text-sm ml-4">{t("season.banner")}</li>
             <li className="text-sm ml-4">{t("season.wearableAirdrop")}</li>
@@ -240,9 +267,12 @@ export const PromotingModal: React.FC<Props> = ({
             {t("no.thanks")}
           </Button>
           <Button
-            disabled={insuficientBlockBucks}
             onClick={() => {
-              setShowConfirmation(true);
+              if (insufficientBlockBucks) {
+                setShowInsufficientBlockBuck(true);
+              } else {
+                setShowConfirmation(true);
+              }
             }}
           >
             {t("season.buyNow")}
@@ -252,7 +282,7 @@ export const PromotingModal: React.FC<Props> = ({
     );
   };
   return (
-    <Modal centered show={isOpen} onHide={onCloseConfirmation}>
+    <Modal show={isOpen} onHide={onCloseConfirmation}>
       <CloseButtonPanel
         bumpkinParts={NPC_WEARABLES.grubnuk}
         onClose={onCloseConfirmation}

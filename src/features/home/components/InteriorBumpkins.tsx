@@ -3,7 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import React, { useContext } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getKeys } from "features/game/types/craftables";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
@@ -100,7 +100,6 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
       </div>
 
       <Modal
-        centered
         show={showBuyFarmHand}
         onHide={() => setShowBuyFarmHandModal(false)}
       >
@@ -110,11 +109,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         />
       </Modal>
 
-      <Modal
-        centered
-        show={showBumpkinModal}
-        onHide={() => setShowBumpkinModal(false)}
-      >
+      <Modal show={showBumpkinModal} onHide={() => setShowBumpkinModal(false)}>
         <CloseButtonPanel bumpkinParts={game.bumpkin?.equipped}>
           <BumpkinEquip
             game={game}
@@ -129,7 +124,6 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
       </Modal>
 
       <Modal
-        centered
         show={!!selectedFarmHandId}
         onHide={() => setSelectedFarmHandId(undefined)}
       >

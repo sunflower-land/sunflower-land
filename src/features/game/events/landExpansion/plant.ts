@@ -100,8 +100,12 @@ export function isPlotFertile({
 }: IsPlotFertile): boolean {
   // get the well count
   const wellCount = getEnabledWellCount(buildings, bumpkin);
-  const cropsWellCanWater =
+  let cropsWellCanWater =
     wellCount * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+
+  if (wellCount >= 4) {
+    cropsWellCanWater = 99;
+  }
 
   const cropPosition =
     getKeys(crops)

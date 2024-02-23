@@ -13,11 +13,12 @@ import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { randomID } from "lib/utils/random";
 import { Label } from "components/ui/Label";
-import { Modal } from "react-bootstrap";
-import { useIsMobile } from "lib/utils/hooks/useIsMobile";
+import { Modal } from "components/ui/Modal";
+import { isMobile } from "mobile-device-detect";
 import classNames from "classnames";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { translate } from "lib/i18n/translate";
 
 interface Props {
   show: boolean;
@@ -164,8 +165,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {t("item")}
-              {":"} {price.amount} {"x"}
+              {t("item")} {price.amount} {"x"}
             </p>
             <img
               src={ticket}
@@ -200,8 +200,7 @@ const Content: React.FC<{
         <div className="flex flex-col w-full items-center space-y-1 pb-2 px-2 text-sm">
           <div className="flex items-center">
             <p className="mr-2 mb-1">
-              {t("item")}
-              {":"} {price.amount} {"x"}
+              {t("item")} {price.amount} {"x"}
             </p>
             <img
               src={ticket}
@@ -324,9 +323,6 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
-
-  const [isMobile] = useIsMobile();
-
   const [price, setPrice] = useState<Price>();
 
   const onMaticBuy = async () => {
@@ -376,7 +372,6 @@ export const BlockBucksModal: React.FC<Props> = ({
 
   return (
     <Modal
-      centered
       show={show}
       onHide={onClose}
       fullscreen={!!showXsolla && isMobile ? true : undefined}
@@ -398,7 +393,7 @@ export const BlockBucksModal: React.FC<Props> = ({
         <CloseButtonPanel
           onBack={closeable && price ? () => setPrice(undefined) : undefined}
           onClose={closeable ? onClose : undefined}
-          title="Buy Block Bucks"
+          title={translate("transaction.buy.BlockBucks")}
           bumpkinParts={{
             body: "Light Brown Farmer Potion",
             hair: "White Long Hair",

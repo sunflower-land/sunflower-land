@@ -1,3 +1,5 @@
+import { translate } from "lib/i18n/translate";
+
 export const ONE_SEC = 1;
 export const ONE_MIN = ONE_SEC * 60;
 export const ONE_HR = ONE_MIN * 60;
@@ -8,6 +10,7 @@ export type TimeFormatLength = "short" | "medium" | "full";
 type TimeDuration = {
   value: number;
   unit: TimeUnit;
+  pluralisedUnit: TimeUnit;
 };
 
 /**
@@ -38,12 +41,13 @@ const timeUnitToString = (
 ) => {
   const value = duration.value;
   const unit = duration.unit;
+  const pluralisedUnit = duration.pluralisedUnit;
 
   if (options.isShortFormat) {
     return `${value}${unit.substring(0, 1)}`;
   }
 
-  const pluralizedUnit = value === 1 ? unit : `${unit}s`;
+  const pluralizedUnit = value === 1 ? unit : pluralisedUnit;
   return `${value}${pluralizedUnit}`;
 };
 
@@ -58,17 +62,24 @@ export const secondsToString = (
   // time durations
   const secondsValue = {
     value: roundingFunction(seconds % ONE_MIN),
-    unit: "sec",
+    unit: translate("sec"),
+    pluralisedUnit: translate("secs"),
   };
   const minutesValue = {
     value: roundingFunction((seconds / ONE_MIN) % ONE_MIN),
-    unit: "min",
+    unit: translate("min"),
+    pluralisedUnit: translate("mins"),
   };
   const hoursValue = {
     value: roundingFunction((seconds / ONE_HR) % 24),
-    unit: "hr",
+    unit: translate("hr"),
+    pluralisedUnit: translate("hrs"),
   };
-  const daysValue = { value: roundingFunction(seconds / ONE_DAY), unit: "day" };
+  const daysValue = {
+    value: roundingFunction(seconds / ONE_DAY),
+    unit: translate("day"),
+    pluralisedUnit: translate("days"),
+  };
 
   // all time units that constitutes the full string
   const timeUnits = [

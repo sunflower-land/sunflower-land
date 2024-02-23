@@ -62,7 +62,6 @@ export type GeneralTerms =
   | "currently.Unavailable"
   | "danger"
   | "date"
-  | "day"
   | "decoration"
   | "deliver"
   | "deliveries"
@@ -138,7 +137,6 @@ export type GeneralTerms =
   | "messages"
   | "max"
   | "minimum"
-  | "mins"
   | "mint"
   | "minting"
   | "music"
@@ -198,7 +196,6 @@ export type GeneralTerms =
   | "save"
   | "saving"
   | "seasonal.treasure"
-  | "secs"
   | "seeds"
   | "selected"
   | "select.resource"
@@ -297,7 +294,20 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations";
+  | "decorations"
+
+  // time units
+  // Singular
+  | "sec"
+  | "min"
+  | "hr"
+  | "day"
+
+  //Plural
+  | "secs"
+  | "mins"
+  | "hrs"
+  | "days";
 
 export type AchievementsTerms =
   | "breadWinner.description"
@@ -371,6 +381,7 @@ export type AchievementsTerms =
   | "task.harvestSunflowers";
 
 export type Auction =
+  | "auction.title"
   | "auction.bid.message"
   | "auction.reveal"
   | "auction.live"
@@ -597,7 +608,8 @@ export type BoostEffectDescriptions =
   | "description.christmas.festive.tree.boost"
   | "description.grinxs.hammer.boost"
   | "description.time.warp.totem.boost"
-  | "description.radiant.ray.boost";
+  | "description.radiant.ray.boost"
+  | "description.beekeeper.hat.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -2497,7 +2509,8 @@ export type Offer =
   | "offer.newHere"
   | "offer.getStarted"
   | "offer.NFT.include"
-  | "offer.free";
+  | "offer.free"
+  | "offer.not.enough.BlockBucks";
 
 export type Onboarding =
   | "onboarding.welcome"
@@ -2537,6 +2550,7 @@ export type OrderHelp =
   | "orderhelp.NoRight";
 
 export type PageFounds =
+  | "pageFounds.title"
   | "pageFounds.gardeningBookPage"
   | "pageFounds.lastPageFound"
   | "pageFounds.knowHowToGrow"
@@ -2722,9 +2736,7 @@ export type SettingsMenu =
   | "settingsMenu.timeMachine"
   | "settingsMenu.storeOnChain"
   | "settingsMenu.howToPlay"
-  | "settingsMenu.community"
   | "settingsMenu.swapMaticForSFL"
-  | "settingsMenu.communityGarden"
   | "settingsMenu.share"
   | "settingsMenu.confirmLogout";
 
@@ -2943,7 +2955,8 @@ export type TransactionTerms =
   | "transaction.displayItems"
   | "transaction.withdraw.polygon"
   | "transaction.termsOfService.one"
-  | "transaction.termsOfService.two";
+  | "transaction.termsOfService.two"
+  | "transaction.buy.BlockBucks";
 
 export type Transfer =
   | "transfer.sure.adress"

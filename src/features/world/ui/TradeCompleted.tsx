@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MachineInterpreter } from "../mmoMachine";
 import { Trade } from "../types/Room";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -40,7 +40,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
     : undefined;
 
   return (
-    <Modal centered show={!!sold} onHide={() => setTrade(undefined)}>
+    <Modal show={!!sold} onHide={() => setTrade(undefined)}>
       <CloseButtonPanel
         onClose={() => setTrade(undefined)}
         title={t("playerTrade.title.congrat")}

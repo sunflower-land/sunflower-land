@@ -47,8 +47,12 @@ const getUnSupportedPlotCount = (gameState: GameState): number => {
   }
 
   // How many plots well can support
-  const supportedPlots =
+  let supportedPlots =
     activeWells * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+
+  if (activeWells >= 4) {
+    supportedPlots = 99;
+  }
 
   const plotCount = getKeys(gameState.crops).length;
 

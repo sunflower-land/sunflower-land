@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { useActor } from "@xstate/react";
 
 import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
@@ -110,7 +110,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
     <>
       {/* Bumpkin profile */}
       <div
-        className={classNames(`grid fixed -left-4 z-50 top-0`, {
+        className={classNames(`grid absolute -left-4 z-50 top-0`, {
           "cursor-pointer hover:img-highlight": !!onClick,
         })}
         style={{ height: "80px" }}
@@ -263,7 +263,7 @@ export const BumpkinProfile: React.FC<{
   return (
     <>
       {/* Bumpkin modal */}
-      <Modal show={showModal} centered onHide={handleHideModal}>
+      <Modal show={showModal} onHide={handleHideModal}>
         <BumpkinModal
           initialView={viewSkillsPage ? "skills" : "home"}
           onClose={handleHideModal}

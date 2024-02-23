@@ -59,8 +59,7 @@ export const Hoarding: React.FC = () => {
         <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
         <p className="text-xs sm:text-sm mb-3">{t("warning.hoarding.one")}</p>
         <p className="text-xs sm:text-sm mb-1">
-          {t("warning.hoarding.two")}
-          {":"} {itemName}
+          {t("warning.hoarding.two")} {itemName}
         </p>
         <div className="text-xs underline my-2 w-full">
           <a

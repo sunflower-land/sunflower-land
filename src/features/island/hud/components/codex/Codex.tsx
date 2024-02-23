@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import { Modal } from "react-bootstrap";
+import { Modal } from "components/ui/Modal";
 import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -92,7 +92,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   return (
     <div className="flex justify-center">
-      <Modal centered show={show} onHide={onHide}>
+      <Modal show={show} onHide={onHide}>
         <div
           className="h-[600px] transition-opacity"
           style={
@@ -171,7 +171,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
       {/* <Modal
         show={showMilestoneReached}
-        centered
+        
         className="flex justify-center"
       ></Modal> */}
     </div>

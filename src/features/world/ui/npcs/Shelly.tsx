@@ -38,9 +38,12 @@ const OrderCards: React.FC<OrderCardsProps> = ({
     <>
       <div className="gap-2 mt-3">
         <OuterPanel
-          className={classNames("flex flex-1 p-2 flex-col space-y-1 relative", {
-            "opacity-50": !canTrade,
-          })}
+          className={classNames(
+            "flex flex-1 !p-2 flex-col space-y-1 relative",
+            {
+              "opacity-50": !canTrade,
+            }
+          )}
         >
           <RequirementLabel
             type="item"
