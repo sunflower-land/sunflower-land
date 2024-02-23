@@ -3621,7 +3621,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.badFlower":
     "This flower isn't quite right. Perhaps another search is in order?",
   "npcDialogues.raven.goodFlower":
-    "This Purple Carnation is perfect! Thank you for bringing it to me.",
+    "This Purple flower is perfect! Thank you for bringing it to me.",
 
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
