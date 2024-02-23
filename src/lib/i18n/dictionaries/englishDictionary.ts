@@ -3599,7 +3599,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finley.badFlower":
     "This flower isn't quite right. Perhaps another one would be more suitable?",
   "npcDialogues.finley.goodFlower":
-    "This Yellow Carnation is beautiful! Thank you for bringing it to me.",
+    "This Daffodil is beautiful! Thank you for bringing it to me.",
 
   "npcDialogues.corale.reward":
     "Your deliveries are much appreciated. Here's a little something to show my gratitude.",
