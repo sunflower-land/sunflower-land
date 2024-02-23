@@ -427,6 +427,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   bumpkin: "Bumpkin",
   cancelling: "Cancelando",
   caught: "Capturado",
+  "change.Language": "Alterar Idioma",
   chicken: "Galinha",
   chill: "Relaxar",
   collect: "Coletar",
