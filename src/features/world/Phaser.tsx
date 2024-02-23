@@ -409,7 +409,7 @@ export const PhaserComponent: React.FC<Props> = ({
           });
         }}
       />
-      {!isModerator && !isCommunity && (
+      {isModerator && !isCommunity && (
         <ModerationTools
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}
