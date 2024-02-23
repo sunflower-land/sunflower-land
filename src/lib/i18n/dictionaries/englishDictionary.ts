@@ -3582,13 +3582,13 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finn.reward":
     "Your contributions are invaluable. Here's a little something to express my gratitude.",
   "npcDialogues.finn.flowerIntro":
-    "I'm yearning for a beautiful Daffodil in Red, Yellow, Purple, White, or Blue. Can you find one?",
+    "I'm yearning for a beautiful Cosmos in White, or Blue. Can you find one?",
   "npcDialogues.finn.averageFlower":
     "Not exactly what I was hoping for, but it's quite pleasing. Thank you.",
   "npcDialogues.finn.badFlower":
     "This flower doesn't quite meet my expectations. Perhaps another try?",
   "npcDialogues.finn.goodFlower":
-    "This Daffodil is stunning! Thank you for bringing it to me.",
+    "This Cosmos is stunning! Thank you for bringing it to me.",
 
   "npcDialogues.finley.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
