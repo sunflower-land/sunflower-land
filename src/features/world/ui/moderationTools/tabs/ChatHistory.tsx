@@ -30,7 +30,7 @@ export const ChatHistory: React.FC<Props> = ({ messages }) => {
         <table className="w-full text-xs table-fixed">
           <thead className="text-sm">
             <tr>
-              <th className="w-1/2">{"Time"}</th>
+              <th className="w-1/3">{"Time"}</th>
               <th className="w-1/4">{"Farm ID"}</th>
               <th className="w-1/2">{"Message"}</th>
             </tr>
