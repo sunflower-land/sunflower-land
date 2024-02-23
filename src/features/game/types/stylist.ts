@@ -1,8 +1,6 @@
 import { GameState, InventoryItemName } from "./game";
-import { SFLDiscount } from "../lib/SFLDiscount";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
-import { getCurrentSeason } from "./seasons";
 
 export type StylistWearable = {
   sfl: Decimal;
@@ -95,80 +93,8 @@ export const BASIC_WEARABLES: ShopWearables = {
   },
 };
 
-export const LIMITED_WEARABLES: (game: GameState) => ShopWearables = (
-  game: GameState
-) => ({
-  ...(getCurrentSeason() === "Witches' Eve" && {
-    "Witching Wardrobe": {
-      sfl: new Decimal(0),
-      ingredients: {
-        Gold: new Decimal(5),
-        "Crow Feather": new Decimal(50),
-      },
-      from: new Date("2023-08-01"),
-      to: new Date("2023-11-01"),
-    },
-    "Witch's Broom": {
-      sfl: new Decimal(0),
-      ingredients: {
-        Gold: new Decimal(5),
-        "Crow Feather": new Decimal(50),
-      },
-      from: new Date("2023-08-01"),
-      to: new Date("2023-11-01"),
-    },
-    "Infernal Bumpkin Potion": {
-      sfl: SFLDiscount(game, new Decimal(250)),
-      ingredients: {},
-      from: new Date("2023-08-01"),
-      to: new Date("2023-09-01"),
-      requiresItem: "Witches' Eve Banner",
-    },
-    "Infernal Goblin Potion": {
-      sfl: SFLDiscount(game, new Decimal(300)),
-      ingredients: {},
-      from: new Date("2023-08-01"),
-      to: new Date("2023-09-01"),
-      requiresItem: "Witches' Eve Banner",
-    },
-    "Imp Costume": {
-      sfl: new Decimal(0),
-      ingredients: {
-        "Crow Feather": new Decimal(1000),
-      },
-      from: new Date("2023-09-01"),
-      to: new Date("2023-10-01"),
-    },
-    "Ox Costume": {
-      sfl: SFLDiscount(game, new Decimal(50)),
-      ingredients: {
-        "Crow Feather": new Decimal(500),
-      },
-      from: new Date("2023-08-01"),
-      to: new Date("2023-11-01"),
-    },
-    "Crow Wings": {
-      sfl: new Decimal(0),
-      ingredients: {
-        "Crow Feather": new Decimal(3000),
-      },
-      from: new Date("2023-08-01"),
-      to: new Date("2023-11-01"),
-    },
-    Kama: {
-      sfl: new Decimal(0),
-      ingredients: {
-        "Crow Feather": new Decimal(200),
-      },
-      from: new Date("2023-10-01"),
-      to: new Date("2023-11-01"),
-    },
-  }),
-});
-
 export const STYLIST_WEARABLES: (game: GameState) => ShopWearables = (
   game
 ) => ({
   ...BASIC_WEARABLES,
-  ...LIMITED_WEARABLES(game),
 });

@@ -10,8 +10,6 @@ import {
   LANDSCAPING_DECORATIONS,
   LandscapingDecorationName,
   POTION_HOUSE_DECORATIONS,
-  SEASONAL_DECORATIONS,
-  SeasonalDecorationName,
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
@@ -19,7 +17,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type buyDecorationAction = {
   type: "decoration.bought";
-  name: ShopDecorationName | SeasonalDecorationName | LandscapingDecorationName;
+  name: ShopDecorationName | LandscapingDecorationName;
   id?: string;
   coordinates?: {
     x: number;
@@ -37,7 +35,6 @@ const DECORATIONS = (state: GameState, date: Date) => {
   return {
     ...BASIC_DECORATIONS(),
     ...LANDSCAPING_DECORATIONS(),
-    ...SEASONAL_DECORATIONS(state, date),
     ...POTION_HOUSE_DECORATIONS(),
   };
 };

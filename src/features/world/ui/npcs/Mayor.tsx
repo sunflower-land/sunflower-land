@@ -12,38 +12,8 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { validateUsername, saveUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { formatDateTime } from "lib/utils/time";
-import { Label } from "components/ui/Label";
 import debounce from "lodash.debounce";
-import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-const network = CONFIG.NETWORK as "mainnet" | "mumbai";
-
-const NAME_START_DATE =
-  network === "mumbai" ? new Date(0) : new Date("2023-12-11T00:00:00.000Z");
-const NAME_END_DATE = new Date("2023-12-16T00:00:00.000Z");
-const MAX_FARM_ID = 250000;
-
-const WHITELISTED_FARM_IDS = [
-  39488, 53865, 4280, 201, 69166, 168, 27776, 3903, 13, 1336, 9609, 128727,
-  86190, 201, 8084, 21637, 1, 2, 3, 39488, 1011, 45, 130170, 29, 56, 73795,
-  21303, 51, 7841, 2253, 1451, 6127, 86, 1791, 63, 15747, 49035, 138310, 11,
-  146323, 28, 106, 373, 128295, 31878, 61992, 919, 136998, 80399, 51738, 591,
-  33,
-];
-
-const farmAvailableAt = (farmId: number) => {
-  const percentage = farmId / MAX_FARM_ID;
-
-  const availableAt =
-    percentage * (NAME_END_DATE.getTime() - NAME_START_DATE.getTime()) +
-    NAME_START_DATE.getTime();
-
-  const cappedAvailableAt = Math.min(availableAt, NAME_END_DATE.getTime());
-
-  return new Date(cappedAvailableAt);
-};
 
 interface MayorProps {
   onClose: () => void;
@@ -68,11 +38,6 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
 
   const alreadyHaveUsername = Boolean(gameState.context.state.username);
   const { t } = useAppTranslation();
-  const now = new Date();
-  const availableAt = farmAvailableAt(gameState.context.farmId);
-  const isAvailable =
-    now > availableAt ||
-    WHITELISTED_FARM_IDS.includes(gameState.context.farmId);
 
   // debounced function to check if username is available
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -169,90 +134,71 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
 
       {tab === 1 && (
         <CloseButtonPanel
-          onClose={state === "loading" || !isAvailable ? undefined : onClose}
+          onClose={state === "loading" ? undefined : onClose}
           bumpkinParts={NPC_WEARABLES.mayor}
         >
-          {isAvailable ? (
-            <>
-              <div className="flex flex-col items-center p-1">
-                <span>
-                  {t("mayor.plaza.enterUsernamePrompt")}
-                  {":"}
-                </span>
-                <div className="w-full py-3 relative">
-                  <input
-                    type="string"
-                    name="Username"
-                    autoComplete="off"
-                    className={
-                      "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 text-center"
+          <>
+            <div className="flex flex-col items-center p-1">
+              <span>
+                {t("mayor.plaza.enterUsernamePrompt")}
+                {":"}
+              </span>
+              <div className="w-full py-3 relative">
+                <input
+                  type="string"
+                  name="Username"
+                  autoComplete="off"
+                  className={
+                    "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2 text-center"
+                  }
+                  value={username}
+                  onChange={(e) => {
+                    setState("checking");
+                    setUsername(e.target.value);
+                    const validationState = validateUsername(e.target.value);
+                    setValidationState(validationState);
+
+                    debouncedCheckUsername.cancel();
+
+                    if (!validationState) {
+                      debouncedCheckUsername(
+                        authState.context.user.rawToken as string,
+                        e.target.value
+                      );
+                    } else {
+                      setState("idle");
                     }
-                    value={username}
-                    onChange={(e) => {
-                      setState("checking");
-                      setUsername(e.target.value);
-                      const validationState = validateUsername(e.target.value);
-                      setValidationState(validationState);
+                  }}
+                />
 
-                      debouncedCheckUsername.cancel();
-
-                      if (!validationState) {
-                        debouncedCheckUsername(
-                          authState.context.user.rawToken as string,
-                          e.target.value
-                        );
-                      } else {
-                        setState("idle");
-                      }
-                    }}
-                  />
-
-                  {validationState && (
-                    <label className="absolute -bottom-1 right-0 text-red-500 text-[11px] font-error">
-                      {validationState}
-                    </label>
-                  )}
-                </div>
+                {validationState && (
+                  <label className="absolute -bottom-1 right-0 text-red-500 text-[11px] font-error">
+                    {validationState}
+                  </label>
+                )}
               </div>
-              <Button
-                className="overflow-hidden"
-                type="submit"
-                onClick={state !== "idle" ? undefined : () => setTab(2)}
-                disabled={
-                  Boolean(validationState) || state !== "idle" || !username
-                }
-              >
-                {state === "idle"
-                  ? t("submit")
-                  : state === "loading"
-                  ? t("submitting")
-                  : state === "success"
-                  ? t("success")
-                  : state === "error"
-                  ? t("error")
-                  : state === "checking"
-                  ? "Checking availability..."
-                  : t("submit")}
-              </Button>
-            </>
-          ) : (
-            <>
-              <div className="flex flex-col gap-2 p-1">
-                <span>
-                  {`I'm processing usernames in order of Farm ID. You will be able
-                  to choose your username from:`}
-                </span>
-                <Label
-                  icon={SUNNYSIDE.icons.stopwatch}
-                  type="info"
-                  className="my-1 mx-auto"
-                >
-                  {formatDateTime(availableAt.toISOString())}
-                </Label>
-              </div>
-              <Button onClick={onClose}>{t("close")}</Button>
-            </>
-          )}
+            </div>
+            <Button
+              className="overflow-hidden"
+              type="submit"
+              onClick={state !== "idle" ? undefined : () => setTab(2)}
+              disabled={
+                Boolean(validationState) || state !== "idle" || !username
+              }
+            >
+              {state === "idle"
+                ? t("submit")
+                : state === "loading"
+                ? t("submitting")
+                : state === "success"
+                ? t("success")
+                : state === "error"
+                ? t("error")
+                : state === "checking"
+                ? "Checking availability..."
+                : t("submit")}
+            </Button>
+          </>
         </CloseButtonPanel>
       )}
 
