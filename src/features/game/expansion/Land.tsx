@@ -2,10 +2,6 @@ import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
-import cloudedMap from "src/assets/land/main_clouds.png";
-import movingClouds from "src/assets/land/moving_clouds.png";
-import backgroundIslands from "src/assets/land/background_islands.png";
-
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { Context } from "../GameProvider";
@@ -606,7 +602,7 @@ export const Land: React.FC = () => {
           imageRendering: "pixelated",
         }}
       >
-        <img
+        {/* <img
           src={cloudedMap}
           alt="land"
           className="z-30 absolute pointer-events-none  w-full h-full"
@@ -628,7 +624,7 @@ export const Land: React.FC = () => {
           src={backgroundIslands}
           alt="land"
           className="z-10 absolute pointer-events-none w-full h-full"
-        />
+        /> */}
 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
