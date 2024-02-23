@@ -1,8 +1,7 @@
-import React, { useContext, useLayoutEffect, useRef, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import ScrollContainer from "react-indiana-drag-scroll";
 import background from "assets/land/retreat.webp";
 import ocean from "assets/decorations/ocean.webp";
 import { RetreatBank } from "./components/bank/RetreatBank";
@@ -42,6 +41,7 @@ import { PersonhoodContent } from "./components/personhood/PersonhoodContent";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { Notifications } from "features/game/components/Notifications";
 import { Ocean } from "features/world/ui/Ocean";
+import { useScrollBoost } from "lib/utils/hooks/useScrollboost";
 
 const spawn = [
   [35, 15],
@@ -70,7 +70,18 @@ const SHOW_MODAL: Partial<Record<StateValues, boolean>> = {
 };
 
 export const Game = () => {
-  const container = useRef(null);
+  const [viewport] = useScrollBoost({
+    friction: 0.2,
+    scrollMode: "native",
+    shouldScroll: (_, event) => {
+      const target = event?.target;
+      if (target instanceof HTMLElement) {
+        return !("preventDragScroll" in target.dataset);
+      }
+      return false;
+    },
+  });
+
   const navigate = useNavigate();
   const { goblinService } = useContext(Context);
   const [goblinState] = useActor(goblinService);
@@ -133,9 +144,9 @@ export const Game = () => {
         </Modal>
       )}
 
-      <ScrollContainer
-        className="bg-blue-300 !overflow-scroll relative w-full h-full overscroll-none"
-        ref={container}
+      <div
+        className="overflow-scroll relative w-full h-full overscroll-none no-scrollbar"
+        ref={viewport}
       >
         <GameBoard>
           {hasRequiredLevel && !goblinState.matches("loading") && (
@@ -180,7 +191,7 @@ export const Game = () => {
           )}
           {goblinState.matches("loading") && <Ocean />}
         </GameBoard>
-      </ScrollContainer>
+      </div>
       <div className="absolute z-20">
         <Hud />
       </div>

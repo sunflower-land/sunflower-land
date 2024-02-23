@@ -1,6 +1,5 @@
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
-import React, { useRef, useState } from "react";
-import ScrollContainer from "react-indiana-drag-scroll";
+import React, { useState } from "react";
 
 import background from "assets/land/levels/level_1.webp";
 import { GameProvider } from "features/game/GameProvider";
@@ -16,13 +15,25 @@ import { Button } from "components/ui/Button";
 import { InnerPanel } from "components/ui/Panel";
 import { INITIAL_LAYOUTS, Layout } from "./lib/layouts";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useScrollBoost } from "lib/utils/hooks/useScrollboost";
 
 /**
  * A test component for collision detection and resource sizing/dimensions
  */
 export const Builder: React.FC = () => {
+  const [viewport] = useScrollBoost({
+    friction: 0.2,
+    scrollMode: "native",
+    shouldScroll: (_, event) => {
+      const target = event?.target;
+      if (target instanceof HTMLElement) {
+        return !("preventDragScroll" in target.dataset);
+      }
+      return false;
+    },
+  });
+
   const { t } = useAppTranslation();
-  const container = useRef(null);
 
   const [selected, setSelected] = useState<keyof Layout>();
 
@@ -150,9 +161,9 @@ export const Builder: React.FC = () => {
           <Button onClick={save}>{t("save")}</Button>
         </div>
         <div className="pointer-events-none">
-          <ScrollContainer
-            className="relative w-full h-full bg-[#0099db] !overflow-scroll overscroll-none"
-            innerRef={container}
+          <div
+            className="relative w-full h-full bg-[#0099db] !overflow-scroll overscroll-none no-scrollbar"
+            ref={viewport}
           >
             <div
               className="relative flex"
@@ -211,7 +222,7 @@ export const Builder: React.FC = () => {
                 imageRendering: "pixelated",
               }}
             />
-          </ScrollContainer>
+          </div>
         </div>
       </div>
     </GameProvider>
