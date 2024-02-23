@@ -229,7 +229,12 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             </Label>
             <div className="flex flex-wrap mb-2">
               {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
-                .filter((name) => !isFlower(name) || !!state.inventory[name])
+                .filter(
+                  (name) =>
+                    !isFlower(name) ||
+                    !!state.farmActivity[`${name} Harvested`] ||
+                    !!state.inventory[name]
+                )
                 .map((name) => (
                   <Box
                     image={ITEM_DETAILS[name].image}
