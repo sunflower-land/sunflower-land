@@ -4,7 +4,6 @@ import { Panel } from "components/ui/Panel";
 import { Modal } from "react-bootstrap";
 
 import { ModerationEvent } from "features/world/Phaser";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const calculateMuteTime = (
   time: number,
@@ -53,8 +52,6 @@ export const Muted: React.FC<{
   event?: ModerationEvent;
   onClose: () => void;
 }> = ({ event, onClose }) => {
-  const { t } = useAppTranslation();
-
   if (!event) return null;
 
   return (
@@ -62,14 +59,14 @@ export const Muted: React.FC<{
       <Panel>
         <div className="flex flex-col gap-2">
           <div className="flex justify-center text-center">
-            <h1 className="text-lg font-bold">{t("mute.you")}</h1>
+            <h1 className="text-lg font-bold">{"You have been muted!"}</h1>
           </div>
           <div className="flex flex-col justify-center text-center">
-            <p className="text-sm">{t("mute.Reason")}</p>
+            <p className="text-sm">{"Reason:"}</p>
             <p className="text-sm">{event.reason}</p>
           </div>
           <div className="flex flex-col justify-center text-center">
-            <p className="text-sm">{t("mute.until")}</p>
+            <p className="text-sm">{"You are muted until"}</p>
             <p className="text-sm">
               {event.mutedUntil
                 ? calculateMuteTime(event.mutedUntil, "until")
@@ -77,12 +74,15 @@ export const Muted: React.FC<{
             </p>
           </div>
           <div className="flex justify-center text-center">
-            <p className="text-xxs">{t("mute.discord")}</p>
+            <p className="text-xxs">
+              {
+                "If you are against this decision, please contact us on Discord."
+              }
+            </p>
           </div>
           <div className="flex justify-center">
             <Button className="mt-1" onClick={onClose}>
-              {t("accept")}
-              {":"}
+              {"Accept"}
             </Button>
           </div>
         </div>
