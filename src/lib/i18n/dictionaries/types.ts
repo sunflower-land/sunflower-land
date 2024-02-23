@@ -1177,7 +1177,7 @@ export type DecorationDescriptions =
   | "description.yellow.lotus"
   | "description.purple.lotus"
   | "description.white.lotus"
-  | "description.blue.lotu"
+  | "description.blue.lotus"
 
   //Banners
   | "description.goblin.war.banner"

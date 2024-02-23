@@ -1633,7 +1633,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.yellow.lotus": "A yellow lotus.",
   "description.purple.lotus": "A purple lotus.",
   "description.white.lotus": "A white lotus.",
-  "description.blue.lotu": "A blue lotus.",
+  "description.blue.lotus": "A blue lotus.",
 
   // Banners
   "description.goblin.war.banner":

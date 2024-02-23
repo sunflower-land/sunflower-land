@@ -1699,7 +1699,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.yellow.lotus": "Um lótus amarelo.",
   "description.purple.lotus": "Um lótus roxo.",
   "description.white.lotus": "Um lótus branco.",
-  "description.blue.lotu": "Um lótus azul.",
+  "description.blue.lotus": "Um lótus azul.",
 
   // Banners
   "description.goblin.war.banner":
