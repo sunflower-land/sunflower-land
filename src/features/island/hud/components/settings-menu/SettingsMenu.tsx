@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable unused-imports/no-unused-vars */
 import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
@@ -32,6 +34,7 @@ import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { LanguageSwitcher } from "./LanguageChangeModal";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -59,8 +62,10 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showHowToPlay, setShowHowToPlay] = useState(false);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [showTimeMachine, setShowTimeMachine] = useState(false);
+  const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
 
@@ -108,6 +113,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     onClose();
   };
 
+  const changeLanguage = () => {
+    setShowLanguageModal(true);
+    onClose();
+  };
+
   const onCaptchaSolved = async (captcha: string | null) => {
     await new Promise((res) => setTimeout(res, 1000));
 
@@ -128,7 +138,6 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     onClose();
   };
 
-  const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const openConfirmLogoutModal = () => {
     showConfirmLogoutModal(true);
   };
@@ -232,7 +241,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <span>{t("plazaSettings.title.main")}</span>
                   </Button>
                 </li>
-
+                <li className="p-1">
+                  <Button onClick={changeLanguage}>
+                    <span>{t("change.Language")}</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={handleSettingsClick}>
                     <span>{t("advanced")}</span>
@@ -300,6 +313,10 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       <SubSettings
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
+      />
+      <LanguageSwitcher
+        isOpen={showLanguageModal}
+        onClose={() => setShowLanguageModal(false)}
       />
       <AddSFL
         isOpen={showAddSFLModal}
