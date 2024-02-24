@@ -28,7 +28,7 @@ export class SequenceStrategy implements IWeb3ConnectStrategy {
   public async initialize(): Promise<void> {
     const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
-    this._wallet = sequence.initWallet("Helloworld", {
+    this._wallet = sequence.initWallet(CONFIG.SEQUENCE_ACCESS_KEY, {
       defaultNetwork: network,
     });
 
