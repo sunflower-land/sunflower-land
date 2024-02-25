@@ -138,8 +138,10 @@ export const NoBumpkin: React.FC = () => {
     (b) => Number(b.tokenId) === selectedBumpkinId
   );
 
+  const equipped = interpretTokenUri(selected?.tokenURI ?? "0_0").equipped;
+
   const missingWearables =
-    selected && Object.values(selected.wardrobe).filter(Boolean).length === 0;
+    selected && Object.values(equipped ?? {}).filter(Boolean).length === 0;
 
   return (
     <>
