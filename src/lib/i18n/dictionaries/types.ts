@@ -2059,7 +2059,12 @@ export type NoBumpkin =
   | "noBumpkin.chooseBumpkin"
   | "noBumpkin.deposit"
   | "noBumpkin.advancedIsland"
-  | "weakBumpkin.notStrong";
+  | "weakBumpkin.notStrong"
+  | "dequipper.noBumpkins"
+  | "dequipper.missingBumpkins"
+  | "dequipper.intro"
+  | "dequipper.success"
+  | "dequipper.dequip";
 
 export type NoTownCenter =
   | "noTownCenter.reward"

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 
+import walletIcon from "assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
@@ -11,11 +12,8 @@ import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { dequipBumpkin } from "lib/blockchain/Dequipper";
-import { IDS } from "features/game/types/bumpkin";
-import {
-  loadSupplyBatch,
-  loadWearablesBalanceBatch,
-} from "lib/blockchain/BumpkinItems";
+import { loadWearablesBalanceBatch } from "lib/blockchain/BumpkinItems";
+import { shortAddress } from "lib/utils/shortAddress";
 
 interface Props {
   onClose: () => void;
@@ -59,7 +57,7 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
     setIsLoading(true);
 
     // Get all the IDs + Amounts currently on the Bumpkin
-    let wearables = await loadWearablesBalanceBatch(
+    const wearables = await loadWearablesBalanceBatch(
       wallet.web3Provider,
       bumpkin.wardrobe // Bumpkin wallet address
     );
@@ -78,12 +76,14 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
   if (showSuccess) {
     return (
       <div className="p-2">
-        <Label icon={SUNNYSIDE.icons.confirm} type="success" className="my-2">
-          Success
+        <Label
+          icon={SUNNYSIDE.icons.confirm}
+          type="success"
+          className="my-2 capitalize"
+        >
+          {t("success")}
         </Label>
-        <span className="text-sm">
-          Your wearables have been sent to your wallet
-        </span>
+        <span className="text-sm">{t("dequipper.success")}</span>
       </div>
     );
   }
@@ -101,11 +101,9 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
       <>
         <div className="p-2">
           <Label icon={SUNNYSIDE.icons.player} type="danger" className="my-2">
-            No Bumpkins
+            {t("dequipper.noBumpkins")}
           </Label>
-          <span className="text-sm">
-            You do not have any Bumpkin NFTs in your personal wallet.
-          </span>
+          <span className="text-sm">{t("dequipper.missingBumpkins")}</span>
         </div>
       </>
     );
@@ -121,10 +119,8 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="p-2">
-        <p className="mb-3 text-center">{t("noBumpkin.allBumpkins")}</p>
-        <p className="mb-2 text-center text-xs">
-          {t("noBumpkin.chooseBumpkin")}
-        </p>
+        <p className="mb-3 text-sm">{t("dequipper.intro")}</p>
+        <p className="mb-2 text-xs">{t("noBumpkin.chooseBumpkin")}</p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
           {(walletBumpkins ?? []).map((bumpkin) => {
             const parts = interpretTokenUri(bumpkin.tokenURI).equipped;
@@ -155,6 +151,9 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
           })}
         </div>
 
+        <Label className="my-2" type="default" icon={walletIcon}>
+          {shortAddress(wallet.myAccount as string)}
+        </Label>
         {missingWearables && (
           <Label
             type="danger"
@@ -166,7 +165,7 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
         disabled={!selectedBumpkinId || missingWearables}
         onClick={dequip}
       >
-        Dequip
+        {t("dequipper.dequip")}
       </Button>
     </>
   );
