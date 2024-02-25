@@ -2063,6 +2063,7 @@ export type NoBumpkin =
   | "dequipper.noBumpkins"
   | "dequipper.missingBumpkins"
   | "dequipper.intro"
+  | "dequipper.warning"
   | "dequipper.success"
   | "dequipper.dequip";
 

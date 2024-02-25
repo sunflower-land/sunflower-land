@@ -19,12 +19,6 @@ export async function dequipBumpkin({
 }): Promise<void> {
   const gasPrice = await estimateGasPrice(web3);
 
-  console.log({
-    ids,
-    amounts,
-    contract: CONFIG.DEQUIPPER_CONTRACT,
-    bumpkinId,
-  });
   await new Promise((resolve, reject) => {
     (
       new web3.eth.Contract(

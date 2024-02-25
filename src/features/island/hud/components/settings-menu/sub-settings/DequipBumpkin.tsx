@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import walletIcon from "assets/icons/wallet.png";
+import lockIcon from "assets/skills/lock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
@@ -113,14 +114,18 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
     (b) => Number(b.tokenId) === selectedBumpkinId
   );
 
+  const equipped = interpretTokenUri(selected?.tokenURI ?? "0_0").equipped;
+
   const missingWearables =
-    selected && Object.values(selected.wardrobe).filter(Boolean).length === 0;
+    selected && Object.values(equipped ?? {}).filter(Boolean).length === 0;
 
   return (
     <>
       <div className="p-2">
+        <Label className="my-2" type="default" icon={walletIcon}>
+          {shortAddress(wallet.myAccount as string)}
+        </Label>
         <p className="mb-3 text-sm">{t("dequipper.intro")}</p>
-        <p className="mb-2 text-xs">{t("noBumpkin.chooseBumpkin")}</p>
         <div className="flex flex-wrap max-h-48 overflow-y-scroll">
           {(walletBumpkins ?? []).map((bumpkin) => {
             const parts = interpretTokenUri(bumpkin.tokenURI).equipped;
@@ -151,15 +156,18 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
           })}
         </div>
 
-        <Label className="my-2" type="default" icon={walletIcon}>
-          {shortAddress(wallet.myAccount as string)}
-        </Label>
         {missingWearables && (
           <Label
             type="danger"
-            className="mx-auto my-2"
+            icon={lockIcon}
+            className="my-2"
           >{`Bumpkin has already been dequipped!`}</Label>
         )}
+
+        <Label type="danger" className="capitalize my-1">
+          {t("warning")}
+        </Label>
+        <span className="text-xs mb-2"> {t("dequipper.warning")}</span>
       </div>
       <Button
         disabled={!selectedBumpkinId || missingWearables}

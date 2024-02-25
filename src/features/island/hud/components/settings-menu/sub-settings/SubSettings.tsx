@@ -80,8 +80,11 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
         </Button>
 
         {showDequipper && (
-          <Button className="col p-1 mt-2" onClick={() => setView("dequip")}>
-            {t("subSettings.dequipper")}
+          <Button
+            className="col p-1 mt-2 capitalize"
+            onClick={() => setView("dequip")}
+          >
+            {t("dequipper.dequip")}
           </Button>
         )}
 
