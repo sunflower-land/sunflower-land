@@ -1,8 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { OnChainBumpkin, loadBumpkins } from "lib/blockchain/BumpkinDetails";
@@ -10,40 +8,38 @@ import { wallet } from "lib/blockchain/wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
-import { BUMPKIN_EXPANSIONS_LEVEL } from "features/game/types/expansions";
-import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { dequipBumpkin } from "lib/blockchain/Dequipper";
+import { IDS } from "features/game/types/bumpkin";
+import {
+  loadSupplyBatch,
+  loadWearablesBalanceBatch,
+} from "lib/blockchain/BumpkinItems";
 
-export const NoBumpkin: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();
 
   const [walletBumpkins, setWalletBumpkins] = useState<OnChainBumpkin[]>();
-  const [farmBumpkins, setFarmBumpkins] = useState<OnChainBumpkin[]>();
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const requiredLevel =
-    BUMPKIN_EXPANSIONS_LEVEL[gameState.context.state.island.type][
-      gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3
-    ];
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     const load = async () => {
-      const [walletBumpkins, farmBumpkins] = await Promise.all([
-        loadBumpkins(wallet.web3Provider, wallet.myAccount as string),
-        loadBumpkins(
-          wallet.web3Provider,
-          gameService.state.context.farmAddress as string
-        ),
-      ]);
+      const walletBumpkins = await loadBumpkins(
+        wallet.web3Provider,
+        wallet.myAccount as string
+      );
 
       setWalletBumpkins(walletBumpkins);
-      setFarmBumpkins(farmBumpkins);
 
       setIsLoading(false);
     };
@@ -51,9 +47,7 @@ export const NoBumpkin: React.FC = () => {
     load();
   }, []);
 
-  const hasFarmBumpkins = (farmBumpkins?.length ?? 0) > 0;
-
-  const deposit = () => {
+  const dequip = async () => {
     const bumpkin = (walletBumpkins ?? []).find(
       (b) => Number(b.tokenId) === selectedBumpkinId
     );
@@ -61,24 +55,38 @@ export const NoBumpkin: React.FC = () => {
     if (!bumpkin) {
       return;
     }
-    const wearableIds = interpretTokenUri(bumpkin.tokenURI).orderedIds.filter(
-      Boolean
+
+    setIsLoading(true);
+
+    // Get all the IDs + Amounts currently on the Bumpkin
+    let wearables = await loadWearablesBalanceBatch(
+      wallet.web3Provider,
+      bumpkin.wardrobe // Bumpkin wallet address
     );
-    const wearableAmounts = new Array(wearableIds.length).fill(1);
 
-    gameService.send("DEPOSIT", {
-      bumpkinTokenUri: bumpkin.tokenURI,
-      wearableIds,
-      wearableAmounts,
-      sfl: 0,
-      itemIds: [],
-      itemAmounts: [],
+    await dequipBumpkin({
+      web3: wallet.web3Provider,
+      account: wallet.myAccount as string,
+      bumpkinId: selectedBumpkinId as number,
+      ids: Object.keys(wearables).map(Number),
+      amounts: Object.values(wearables),
     });
+
+    setShowSuccess(true);
   };
 
-  const refresh = () => {
-    gameService.send("REFRESH");
-  };
+  if (showSuccess) {
+    return (
+      <div className="p-2">
+        <Label icon={SUNNYSIDE.icons.confirm} type="success" className="my-2">
+          Success
+        </Label>
+        <span className="text-sm">
+          Your wearables have been sent to your wallet
+        </span>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (
@@ -88,47 +96,16 @@ export const NoBumpkin: React.FC = () => {
     );
   }
 
-  if (hasFarmBumpkins) {
-    return (
-      <>
-        <div className="p-2">
-          <p className="mb-2 text-center">{t("noBumpkin.readyToFarm")}</p>
-        </div>
-        <Button onClick={refresh}>{t("noBumpkin.play")}</Button>
-      </>
-    );
-  }
-
   if (walletBumpkins?.length === 0) {
     return (
       <>
-        <div className="flex items-center flex-col p-2">
-          <span> {t("noBumpkin.missingBumpkin")}</span>
-          <img src={SUNNYSIDE.icons.heart} className="w-20 my-2" />
-          <p className="text-sm my-2">{t("noBumpkin.bumpkinNFT")}</p>
-          <p className="text-sm my-2">{t("noBumpkin.bumpkinHelp")}</p>
-          <Label
-            type="danger"
-            className="mx-auto my-2"
-          >{`Level ${requiredLevel} required`}</Label>
-          <p className="text-sm my-2">
-            {t("noBumpkin.mintBumpkin")}
-            {":"}
-          </p>
-          <p className="text-xs sm:text-sm text-shadow text-white p-1">
-            <a
-              className="underline"
-              href={
-                CONFIG.NETWORK === "mumbai"
-                  ? "https://testnets.opensea.io/collection/bumpkin-vptgvexdat"
-                  : "https://opensea.io/collection/bumpkins"
-              }
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("opensea")}
-            </a>
-          </p>
+        <div className="p-2">
+          <Label icon={SUNNYSIDE.icons.player} type="danger" className="my-2">
+            No Bumpkins
+          </Label>
+          <span className="text-sm">
+            You do not have any Bumpkin NFTs in your personal wallet.
+          </span>
         </div>
       </>
     );
@@ -177,26 +154,19 @@ export const NoBumpkin: React.FC = () => {
             );
           })}
         </div>
-        <p className="text-sm my-2">
-          {t("noBumpkin.advancedIsland")}
-          {":"}
-        </p>
-        <Label
-          type="danger"
-          className="mx-auto my-2"
-        >{`Level ${requiredLevel} required`}</Label>
+
         {missingWearables && (
           <Label
             type="danger"
             className="mx-auto my-2"
-          >{`You cannot deposit an empty Bumpkin`}</Label>
+          >{`Bumpkin has already been dequipped!`}</Label>
         )}
       </div>
       <Button
         disabled={!selectedBumpkinId || missingWearables}
-        onClick={deposit}
+        onClick={dequip}
       >
-        {t("noBumpkin.deposit")}
+        Dequip
       </Button>
     </>
   );
