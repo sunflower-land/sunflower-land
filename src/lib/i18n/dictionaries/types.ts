@@ -166,7 +166,6 @@ export type GeneralTerms =
   | "place.bid"
   | "plant"
   | "play.again"
-  | "player.farm.iD"
   | "please.wait"
   | "please.try.again"
   | "print"
@@ -1897,17 +1896,6 @@ export type IslandNotFound =
   | "islandNotFound.message"
   | "islandNotFound.takeMeHome";
 
-export type Kick =
-  | "kick.player"
-  | "kick.Reason"
-  | "kick.player.farm"
-  | "kick.player.kick"
-  | "kick.player.failed"
-  | "kick.player.kicking"
-  | "kick.Message";
-
-export type Kicked = "kicked.kicked" | "kicked.Reason";
-
 export type LandscapeTerms =
   | "landscape.intro.one"
   | "landscape.intro.two"
@@ -2018,24 +2006,6 @@ export type ModalDescription =
   | "modalDescription.gift"
   | "modalDescription.limited.abilities"
   | "modalDescription.trail";
-
-export type Mute =
-  | "mute.playe"
-  | "mute.duration"
-  | "mute.Reason"
-  | "mute.player.farm"
-  | "mute.player.mute"
-  | "mute.Reason"
-  | "mute.fail"
-  | "mute.player.muting"
-  | "mute.you"
-  | "mute.until"
-  | "mute.discord"
-  | "mute.unmute.farm"
-  | "mute.unmute.player"
-  | "mute.unmute.failed"
-  | "mute.unmuting.player"
-  | "mute.online";
 
 export type Noaccount =
   | "noaccount.newFarmer"
@@ -2603,16 +2573,6 @@ export type PlazaSettings =
   | "plazaSettings.mutedPlayers.description"
   | "plazaSettings.keybinds.description"
   | "plazaSettings.noMutedPlayers";
-
-export type PlayerListMessages =
-  | "player.list.playerID"
-  | "player.list.farmID"
-  | "player.list.username"
-  | "player.list.status"
-  | "player.list.action"
-  | "player.list.mutedFor"
-  | "player.list.search"
-  | "player.list.playersConnected";
 
 export type PlayerTrade =
   | "playerTrade.no.trade"
@@ -3196,8 +3156,6 @@ export type TranslationKeys =
   | IntroPage
   | IslandName
   | IslandNotFound
-  | Kick
-  | Kicked
   | LandscapeTerms
   | LetsGo
   | LevelUpMessages
@@ -3206,7 +3164,6 @@ export type TranslationKeys =
   | MegaStore
   | MilestoneMessages
   | ModalDescription
-  | Mute
   | Noaccount
   | NoBumpkin
   | NoTownCenter
@@ -3229,7 +3186,6 @@ export type TranslationKeys =
   | PirateQuest
   | Pickserver
   | PlazaSettings
-  | PlayerListMessages
   | PlayerTrade
   | Portal
   | PurchaseableBaitTranslation

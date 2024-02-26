@@ -84,8 +84,6 @@ import {
   IntroPage,
   IslandName,
   IslandNotFound,
-  Kick,
-  Kicked,
   LandscapeTerms,
   LetsGo,
   LevelUpMessages,
@@ -93,7 +91,6 @@ import {
   LostSunflorian,
   MegaStore,
   ModalDescription,
-  Mute,
   Noaccount,
   NoBumpkin,
   NoTownCenter,
@@ -116,7 +113,6 @@ import {
   PirateQuest,
   Pickserver,
   PlazaSettings,
-  PlayerListMessages,
   PlayerTrade,
   Portal,
   PurchaseableBaitTranslation,
@@ -341,7 +337,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "placing.bid": "Placing bid",
   plant: "Plant",
   "play.again": "Play again",
-  "player.farm.iD": "Player Farm ID",
   "please.try.again": "Please try again later.",
   "please.wait": "Please wait",
   "pay.attention.feedback": "Pay attention to the feedback icons:",
@@ -2676,22 +2671,6 @@ const islandupgrade: Record<Islandupgrade, string> = {
     "This area of Sunflower Land is known for its exotic resources. Expand your land to discover fruit, flowers, bee hives & rare minerals!",
 };
 
-const kick: Record<Kick, string> = {
-  "kick.player": "Kick a Player",
-  "kick.Message":
-    "Please note that you can still rejoin, but if you continue to break the rules we will take further actions.",
-  "kick.Reason": "Kick Reason (Please note that the player will see this)",
-  "kick.player.farm": "Kick Player of Farm ",
-  "kick.player.kick": "Player has been kicked.",
-  "kick.player.failed": "Failed to kick player",
-  "kick.player.kicking": "Kicking Player...",
-};
-
-const kicked: Record<Kicked, string> = {
-  "kicked.kicked": "You have been kicked!",
-  "kicked.Reason": "Reason:",
-};
-
 const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.intro.one": "Design your dream island!",
   "landscape.intro.two":
@@ -2854,26 +2833,6 @@ const modalDescription: Record<ModalDescription, string> = {
     "I've been designing limited edition wearables that can enhance your fruit picking abilities",
   "modalDescription.trail":
     "I am looking for dedicated fruit pickers to trial this clothing....for FREE!",
-};
-
-const mute: Record<Mute, string> = {
-  "mute.playe": "Mute a Player",
-  "mute.duration": "Mute Duration (Please note that the player will see this)",
-  "mute.Reason": "Mute Reason (Please note that the player will see this)",
-  "mute.player.farm": "Mute Player of Farm ",
-  "mute.player.mute": "Player has been muted ",
-  "mute.fail": "Failed to mute player",
-  "mute.player.muting": "Muting Player...",
-  "mute.you": "You have been muted!",
-  "mute.until": "You are muted until",
-  "mute.discord":
-    "If you are against this decision, please contact us on Discord.",
-  "mute.unmute.farm": "Unmute Player of Farm",
-  "mute.unmute.player": "Player has been unmuted",
-  "mute.unmute.failed": "Failed to unmute player",
-  "mute.unmuting.player": "Unmuting Player...",
-  "mute.online":
-    "In case you need to mute a player that is not online, you can do so here. On their next login, they will be muted.",
 };
 
 const nftminting: Record<NFTMinting, string> = {
@@ -3839,17 +3798,6 @@ const pirateQuest: Record<PirateQuest, string> = {
     "Ahoy, ye be the finest pirate on the seven seas with yer loot!!",
 };
 
-const playerListMessages: Record<PlayerListMessages, string> = {
-  "player.list.playerID": "Player ID",
-  "player.list.farmID": "Farm ID",
-  "player.list.username": "Username",
-  "player.list.status": "Status",
-  "player.list.action": "Action",
-  "player.list.mutedFor": "Muted for",
-  "player.list.search": "Search",
-  "player.list.playersConnected": "150 Players Connected",
-};
-
 const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.no.trade": "No trades available.",
   "playerTrade.max.item": "Oh no! You've reached your max items.",
@@ -4639,8 +4587,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...islandName,
   ...islandNotFound,
   ...islandupgrade,
-  ...kick,
-  ...kicked,
   ...landscapeTerms,
   ...letsGo,
   ...levelUpMessages,
@@ -4649,7 +4595,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...megaStore,
   ...milestoneMessages,
   ...modalDescription,
-  ...mute,
   ...nftminting,
   ...noaccount,
   ...noBumpkin,
@@ -4672,7 +4617,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...pickserver,
   ...piratechest,
   ...pirateQuest,
-  ...playerListMessages,
   ...playerTrade,
   ...plazaSettings,
   ...portal,
