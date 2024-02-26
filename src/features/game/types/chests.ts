@@ -44,7 +44,7 @@ export const RARE_REWARDS: ChestReward[] = [
   { items: { "Block Buck": 25 }, weighting: 10 },
   { items: { "Block Buck": 50 }, weighting: 5 },
   { items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 }, weighting: 50 },
-  { items: { "Iron Pickaxe": 10 }, weighting: 50 },
+  { items: { "Gold Pickaxe": 3 }, weighting: 50 },
   { items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 }, weighting: 50 },
   { items: { "Fishing Lure": 25 }, weighting: 25 },
   { items: { "Pirate Cake": 5 }, weighting: 30 },
