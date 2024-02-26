@@ -188,10 +188,9 @@ export const NoBumpkin: React.FC = () => {
           className="mx-auto my-2"
         >{`Level ${requiredLevel} required`}</Label>
         {missingWearables && (
-          <Label
-            type="danger"
-            className="mx-auto my-2"
-          >{`You cannot deposit an empty Bumpkin`}</Label>
+          <Label type="danger" className="mx-auto my-2">
+            {t("noBumpkin.nude")}
+          </Label>
         )}
       </div>
       <Button

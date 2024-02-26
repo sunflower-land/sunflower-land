@@ -2920,6 +2920,8 @@ const noBumpkin: Record<NoBumpkin, string> = {
     "Congratulations, the wearables have been sent to your wallet. Deposit them to your farm to use them.",
   "dequipper.dequip": "Dequip",
   "dequipper.warning": "Once a Bumpkin is dequipped, it can no longer be used.",
+  "dequipper.nude": "Bumpkin is already dequipped",
+  "noBumpkin.nude": "Cannot dequip an empty Bumpkin",
 };
 
 const notOnDiscordServer: Record<NotOnDiscordServer, string> = {

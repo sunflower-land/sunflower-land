@@ -15,6 +15,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { dequipBumpkin } from "lib/blockchain/Dequipper";
 import { loadWearablesBalanceBatch } from "lib/blockchain/BumpkinItems";
 import { shortAddress } from "lib/utils/shortAddress";
+import { Loading } from "features/auth/components";
 
 interface Props {
   onClose: () => void;
@@ -90,9 +91,7 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
   }
 
   if (isLoading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
 
   if (walletBumpkins?.length === 0) {

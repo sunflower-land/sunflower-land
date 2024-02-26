@@ -2971,6 +2971,8 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "dequipper.warning": ENGLISH_TERMS["dequipper.warning"],
   "dequipper.success": ENGLISH_TERMS["dequipper.success"],
   "dequipper.dequip": ENGLISH_TERMS["dequipper.dequip"],
+  "dequipper.nude": ENGLISH_TERMS["dequipper.nude"],
+  "noBumpkin.nude": ENGLISH_TERMS["noBumpkin.nude"],
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {

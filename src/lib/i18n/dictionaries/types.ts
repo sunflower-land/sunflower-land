@@ -2059,12 +2059,14 @@ export type NoBumpkin =
   | "noBumpkin.chooseBumpkin"
   | "noBumpkin.deposit"
   | "noBumpkin.advancedIsland"
+  | "noBumpkin.nude"
   | "weakBumpkin.notStrong"
   | "dequipper.noBumpkins"
   | "dequipper.missingBumpkins"
   | "dequipper.intro"
   | "dequipper.warning"
   | "dequipper.success"
+  | "dequipper.nude"
   | "dequipper.dequip";
 
 export type NoTownCenter =
