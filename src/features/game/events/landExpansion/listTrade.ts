@@ -33,7 +33,7 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Blueberry: 100,
   Orange: 100,
   Apple: 100,
-  // Banana: 100,
+  Banana: 100,
   Wood: 100,
   Stone: 100,
   Iron: 100,
