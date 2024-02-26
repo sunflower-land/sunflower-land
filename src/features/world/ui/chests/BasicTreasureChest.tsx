@@ -34,14 +34,11 @@ export const BasicTreasureChest: React.FC<Props> = ({
   const [isRevealing, setIsRevealing] = useState(false);
 
   const hasKey = !!gameState.context.state.inventory[type]?.gte(1);
-<<<<<<< HEAD
 
   const open = async () => {
     setIsPicking(true);
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
-=======
->>>>>>> 3ee9ebd48 (Add rare chest drops)
 
     gameService.send("REVEAL", {
       event: {
