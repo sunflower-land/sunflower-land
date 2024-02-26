@@ -2,10 +2,6 @@ import React, { useContext, useLayoutEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 
-// import cloudedMap from "src/assets/land/main_clouds.png";
-// import movingClouds from "src/assets/land/moving_clouds.png";
-// import backgroundIslands from "src/assets/land/background_islands.png";
-
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { Coordinates, MapPlacement } from "./components/MapPlacement";
 import { Context } from "../GameProvider";
@@ -47,6 +43,7 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 import { Airdrop } from "./components/Airdrop";
 import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
+import { BackgroundIslands } from "./components/BackgroundIslands";
 
 const IMAGE_GRID_WIDTH = 36;
 
@@ -608,7 +605,7 @@ export const Land: React.FC = () => {
           imageRendering: "pixelated",
         }}
       >
-        <StaticClouds
+        <BackgroundIslands
           width={gameboardDimensions.x * GRID_WIDTH_PX}
           height={gameboardDimensions.y * GRID_WIDTH_PX}
         />
@@ -618,20 +615,10 @@ export const Land: React.FC = () => {
           height={gameboardDimensions.y * GRID_WIDTH_PX}
         />
 
-        {/* <img
-          src={movingClouds}
-          alt="land"
-          className={
-            "z-20 absolute pointer-events-none w-full h-full" +
-            (showAnimations ? " animate-float" : "")
-          }
-        /> */}
-
-        {/* <img
-          src={backgroundIslands}
-          alt="land"
-          className="z-10 absolute pointer-events-none w-full h-full"
-        /> */}
+        <StaticClouds
+          width={gameboardDimensions.x * GRID_WIDTH_PX}
+          height={gameboardDimensions.y * GRID_WIDTH_PX}
+        />
 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div
