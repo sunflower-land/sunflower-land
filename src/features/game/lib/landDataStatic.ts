@@ -293,7 +293,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "basic",
+    type: "spring",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -332,7 +332,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 100 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 1000000 },
   buds: {
     1: {
       aura: "Basic",

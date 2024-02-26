@@ -81,7 +81,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         className="absolute w-full"
         style={{
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * 0}px`,
           height: `${PIXEL_SCALE * 32}px`,
         }}
       >
@@ -92,7 +92,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
         className="absolute"
         style={{
           bottom: `${PIXEL_SCALE * 20}px`,
-          right: `${PIXEL_SCALE * 18}px`,
+          right: `${PIXEL_SCALE * 14}px`,
         }}
       >
         <LetterBox />
