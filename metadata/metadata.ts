@@ -5135,7 +5135,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Yield",
         value: 0.1,
       },
-      { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/09/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Grain Grinder": {
@@ -5151,7 +5151,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Cake XP",
         value: 20,
       },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   Kernaldo: {
@@ -5166,7 +5166,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Corn Growth Time",
         value: -25,
       },
-      { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/10/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Queen Cornelia": {
@@ -5183,7 +5183,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Yield",
         value: 1,
       },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 14/10/2023
+      { trait_type: "Tradable", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Plots Affected",
@@ -5199,7 +5199,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1278.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Haunted Stump": {
@@ -5209,7 +5209,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1279.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/09/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Spooky Tree": {
@@ -5219,7 +5219,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1280.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/10/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   Observer: {
@@ -5230,7 +5230,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1285.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Crow Rock": {
@@ -5240,7 +5240,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1286.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Mini Corn Maze": {
@@ -5251,7 +5251,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1287.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Bumpkin ganoush": {
@@ -5498,7 +5498,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1288.gif",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Compost Bin": {
