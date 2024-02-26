@@ -105,10 +105,10 @@ export const BasicTreasureChest: React.FC<Props> = ({
           <Label
             type="default"
             icon={ITEM_DETAILS[type].image}
-            className="mb-2 mr-3"
+            className="mb-2 mr-3 capitalize"
             secondaryIcon={SUNNYSIDE.icons.confirm}
           >
-            {t("basic.treasure.key")}
+            {type}
           </Label>
           {isValentinesDayUTC && (
             <Label
