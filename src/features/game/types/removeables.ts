@@ -42,7 +42,8 @@ type RESTRICTION_REASON =
   | "Recently fished"
   | "Recently used"
   | "Locked during festive season"
-  | "Bees are busy";
+  | "Bees are busy"
+  | "Flowers are growing";
 
 export type Restriction = [boolean, RESTRICTION_REASON];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -215,18 +216,22 @@ function hasFishedToday(game: GameState): Restriction {
   return [getDailyFishingCount(game) !== 0, "Recently fished"];
 }
 
-function isFlowersGrowing(game: GameState): boolean {
-  return Object.values(game.flowers.flowerBeds).some((flowerBed) => {
-    const flower = flowerBed.flower;
+function areFlowersGrowing(game: GameState): Restriction {
+  const flowerGrowing = Object.values(game.flowers.flowerBeds).some(
+    (flowerBed) => {
+      const flower = flowerBed.flower;
 
-    if (!flower) return false;
+      if (!flower) return false;
 
-    return (
-      flower.plantedAt +
-        FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000 >=
-      Date.now()
-    );
-  });
+      return (
+        flower.plantedAt +
+          FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000 >=
+        Date.now()
+      );
+    }
+  );
+
+  return [flowerGrowing, "Flowers are growing"];
 }
 
 function isBeehivesFull(game: GameState): boolean {
@@ -238,7 +243,7 @@ function isBeehivesFull(game: GameState): boolean {
 }
 
 function isProducingHoney(game: GameState): Restriction {
-  return [isFlowersGrowing(game) && !isBeehivesFull(game), "Bees are busy"];
+  return [areFlowersGrowing(game)[0] && !isBeehivesFull(game), "Bees are busy"];
 }
 
 function isFertiliserApplied(
