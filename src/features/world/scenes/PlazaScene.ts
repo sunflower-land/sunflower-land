@@ -16,7 +16,6 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { hasFeatureAccess } from "lib/flags";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -351,19 +350,15 @@ export class PlazaScene extends BaseScene {
       interactableModalManager.open("basic_chest");
     });
 
-    if (hasFeatureAccess(this.gameState, "CHESTS")) {
-      const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
-      luxuryChest
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("luxury_chest");
-        });
+    const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
+    luxuryChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("luxury_chest");
+    });
 
-      if (this.gameState.inventory["Luxury Key"]) {
-        this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
-      } else {
-        this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
-      }
+    if (this.gameState.inventory["Luxury Key"]) {
+      this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
     const shopIcon = this.add.sprite(321.5, 230, "shop_icon");

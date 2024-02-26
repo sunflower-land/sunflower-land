@@ -15,7 +15,6 @@ import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { DequipBumpkin } from "./DequipBumpkin";
 import { GameWallet } from "features/wallet/Wallet";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   isOpen: boolean;
@@ -71,8 +70,8 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       );
     }
 
-    const showDequipper =
-      !!linkedWallet && hasFeatureAccess(gameState.context.state, "DEQUIPPER");
+    const showDequipper = !!linkedWallet;
+
     return (
       <CloseButtonPanel title={t("advanced")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>

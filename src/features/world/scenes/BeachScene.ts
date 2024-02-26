@@ -7,7 +7,6 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
-import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -186,18 +185,16 @@ export class BeachScene extends BaseScene {
     });
     bird.play("bird_anim", true);
 
-    if (hasFeatureAccess(this.gameState, "CHESTS")) {
-      if (this.gameState.inventory["Rare Key"]) {
-        this.add.sprite(320, 580, "rare_key_disc").setDepth(1000000000);
-      } else {
-        this.add.sprite(320, 580, "locked_disc").setDepth(1000000000);
-      }
-
-      const chest = this.add.sprite(320, 600, "wooden_chest");
-      chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open("rare_chest");
-      });
+    if (this.gameState.inventory["Rare Key"]) {
+      this.add.sprite(320, 580, "rare_key_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(320, 580, "locked_disc").setDepth(1000000000);
     }
+
+    const chest = this.add.sprite(320, 600, "wooden_chest");
+    chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("rare_chest");
+    });
   }
 
   public loadKrakenHunger = (hunger: InventoryItemName) => {
