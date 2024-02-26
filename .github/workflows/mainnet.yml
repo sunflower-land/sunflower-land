@@ -83,7 +83,7 @@ jobs:
           VITE_BUMPKIN_CONTRACT: "0x624E4fa6980Afcf8EA27BFe08e2fB5979b64DF1C"
           VITE_GAME_ANALYTICS_APP_ID: ${{ secrets.GAME_ANALYTICS_APP_ID }}
           VITE_GAME_ANALYTICS_PUB_KEY: ${{ secrets.GAME_ANALYTICS_PUB_KEY }}
-          VITE_DEQUIPPER_CONTRACT: "?"
+          VITE_DEQUIPPER_CONTRACT: "0x7BACA66955d219e645fAecbA2810f8Ecd4d674a9"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1.5.9
