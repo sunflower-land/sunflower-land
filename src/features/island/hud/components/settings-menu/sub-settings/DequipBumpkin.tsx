@@ -80,7 +80,7 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
         <Label
           icon={SUNNYSIDE.icons.confirm}
           type="success"
-          className="my-2 capitalize"
+          className="mb-2 capitalize"
         >
           {t("success")}
         </Label>
