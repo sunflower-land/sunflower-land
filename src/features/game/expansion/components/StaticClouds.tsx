@@ -59,7 +59,7 @@ export const StaticClouds: React.FC<StaticCloudsProps> = ({
         src={mainCloudsBottom}
         className="z-30 absolute pointer-events-none"
         style={{
-          bottom: 0,
+          top: Math.round(528 * Y_SCALE) + Math.round(304 * Y_SCALE),
           left: 0,
           width: Math.round(1536 * X_SCALE),
           height: Math.round(256 * Y_SCALE),
