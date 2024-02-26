@@ -57,11 +57,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
   const [
     {
-      context: {
-        state: { flowers, farmActivity },
-      },
+      context: { state },
     },
   ] = useActor(gameService);
+  const { flowers, farmActivity } = state;
 
   const flowerBed = flowers.flowerBeds[id];
 
@@ -98,9 +97,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 
   const flower = flowerBed.flower;
 
-  const growTime =
-    getFlowerTime(FLOWERS[flower.name].seed, gameService.state.context.state) *
-    1000;
+  const growTime = getFlowerTime(FLOWERS[flower.name].seed, state) * 1000;
   const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
   const timeLeftSeconds = Math.round(timeLeft / 1000);
 
