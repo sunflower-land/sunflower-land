@@ -134,7 +134,7 @@ export const Game = () => {
       )}
 
       <ScrollContainer
-        className="bg-blue-300 !overflow-scroll relative w-full h-full overscroll-none"
+        className="!overflow-scroll relative w-full h-full overscroll-none"
         ref={container}
       >
         <GameBoard>
