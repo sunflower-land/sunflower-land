@@ -36,7 +36,8 @@ export type WalletAction =
   | "purchase"
   | "donate"
   | "dailyReward"
-  | "sync";
+  | "sync"
+  | "dequip";
 
 // Certain actions do not require an NFT to perform
 const NON_NFT_ACTIONS: WalletAction[] = [
@@ -44,6 +45,7 @@ const NON_NFT_ACTIONS: WalletAction[] = [
   "donate",
   "dailyReward",
   "specialEvent",
+  "dequip",
 ];
 
 type InitialiseEvent = {

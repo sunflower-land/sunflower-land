@@ -2964,6 +2964,15 @@ const noBumpkin: Record<NoBumpkin, string> = {
     "Esta é uma ilha avançada. Um Bumpkin forte é necessário",
   "weakBumpkin.notStrong":
     "Oh não! Seu Bumpkin não é forte o suficiente para esta ilha.",
+
+  "dequipper.noBumpkins": ENGLISH_TERMS["dequipper.noBumpkins"],
+  "dequipper.missingBumpkins": ENGLISH_TERMS["dequipper.missingBumpkins"],
+  "dequipper.intro": ENGLISH_TERMS["dequipper.intro"],
+  "dequipper.warning": ENGLISH_TERMS["dequipper.warning"],
+  "dequipper.success": ENGLISH_TERMS["dequipper.success"],
+  "dequipper.dequip": ENGLISH_TERMS["dequipper.dequip"],
+  "dequipper.nude": ENGLISH_TERMS["dequipper.nude"],
+  "noBumpkin.nude": ENGLISH_TERMS["noBumpkin.nude"],
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {

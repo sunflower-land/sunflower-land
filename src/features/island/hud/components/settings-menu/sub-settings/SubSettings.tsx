@@ -13,6 +13,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { DequipBumpkin } from "./DequipBumpkin";
+import { GameWallet } from "features/wallet/Wallet";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   isOpen: boolean;
@@ -28,10 +31,12 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const { walletService } = useContext(WalletContext);
 
-  const { farmAddress } = gameState.context;
+  const { farmAddress, linkedWallet } = gameState.context;
   const isFullUser = farmAddress !== undefined;
 
-  const [view, setView] = useState<"settings" | "transfer">("settings");
+  const [view, setView] = useState<"settings" | "transfer" | "dequip">(
+    "settings"
+  );
 
   const closeAndResetView = () => {
     onClose();
@@ -56,6 +61,18 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       );
     }
 
+    if (view === "dequip") {
+      return (
+        <Panel className="p-0">
+          <GameWallet action="dequip">
+            <DequipBumpkin onClose={closeAndResetView} />
+          </GameWallet>
+        </Panel>
+      );
+    }
+
+    const showDequipper =
+      !!linkedWallet && hasFeatureAccess(gameState.context.state, "DEQUIPPER");
     return (
       <CloseButtonPanel title={t("advanced")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
@@ -63,6 +80,15 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
             ? t("subSettings.disableAnimations")
             : t("subSettings.enableAnimations")}
         </Button>
+
+        {showDequipper && (
+          <Button
+            className="col p-1 mt-2 capitalize"
+            onClick={() => setView("dequip")}
+          >
+            {t("dequipper.dequip")}
+          </Button>
+        )}
 
         {isFullUser && (
           <>

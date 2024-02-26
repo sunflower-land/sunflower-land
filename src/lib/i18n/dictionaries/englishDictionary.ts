@@ -2912,6 +2912,16 @@ const noBumpkin: Record<NoBumpkin, string> = {
     "This is an advanced island. A strong Bumpkin is required",
   "weakBumpkin.notStrong":
     "Oh no! Your Bumpkin is not strong enough for this island.",
+  "dequipper.noBumpkins": "No Bumpkins",
+  "dequipper.missingBumpkins":
+    "You do not have any Bumpkin NFTs in your wallet.",
+  "dequipper.intro": "Send clothing from a Bumpkin to your wallet.",
+  "dequipper.success":
+    "Congratulations, the wearables have been sent to your wallet. Deposit them to your farm to use them.",
+  "dequipper.dequip": "Dequip",
+  "dequipper.warning": "Once a Bumpkin is dequipped, it can no longer be used.",
+  "dequipper.nude": "Bumpkin is already dequipped",
+  "noBumpkin.nude": "Cannot dequip an empty Bumpkin",
 };
 
 const notOnDiscordServer: Record<NotOnDiscordServer, string> = {

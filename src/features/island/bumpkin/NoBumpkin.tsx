@@ -134,6 +134,15 @@ export const NoBumpkin: React.FC = () => {
     );
   }
 
+  const selected = (walletBumpkins ?? []).find(
+    (b) => Number(b.tokenId) === selectedBumpkinId
+  );
+
+  const equipped = interpretTokenUri(selected?.tokenURI ?? "0_0").equipped;
+
+  const missingWearables =
+    selected && Object.values(equipped ?? {}).filter(Boolean).length === 0;
+
   return (
     <>
       <div className="p-2">
@@ -178,8 +187,16 @@ export const NoBumpkin: React.FC = () => {
           type="danger"
           className="mx-auto my-2"
         >{`Level ${requiredLevel} required`}</Label>
+        {missingWearables && (
+          <Label type="danger" className="mx-auto my-2">
+            {t("noBumpkin.nude")}
+          </Label>
+        )}
       </div>
-      <Button disabled={!selectedBumpkinId} onClick={deposit}>
+      <Button
+        disabled={!selectedBumpkinId || missingWearables}
+        onClick={deposit}
+      >
         {t("noBumpkin.deposit")}
       </Button>
     </>
