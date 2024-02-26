@@ -119,17 +119,6 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
 
   const { t } = useAppTranslation();
   const Action = () => {
-    if (state.wardrobe[selected])
-      return (
-        <div className="flex justify-center items-center">
-          <span className="text-xs">
-            {t("alr.bought")}
-            {"!"}
-          </span>
-          <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
-        </div>
-      );
-
     if (wearable.requiresItem && !state.inventory[wearable.requiresItem]) {
       return (
         <div className="flex items-center justify-center">
