@@ -626,11 +626,13 @@ const base: Record<Base, string> = {
 const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.missingKey": "Missing Key",
   "basic.treasure.needKey": "You need a Treasure Key to open this chest",
+  "rare.treasure.needKey": "You need a Rare Key to open this chest",
+  "luxury.treasure.needKey": "You need a Luxury Key to open this chest",
   "basic.treasure.getKey":
-    "You can get Treasure Keys by completing tasks for Bumpkins",
+    "You can get treasure keys by completing tasks for Bumpkins",
   "basic.treasure.goodLuck": "Good Luck",
   "basic.treasure.key": "Treasure Key",
-  "basic.treasure.congratsKey": "Congratulations, you have a Treasure Key!",
+  "basic.treasure.congratsKey": "Congratulations, you have the key!",
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
 };
