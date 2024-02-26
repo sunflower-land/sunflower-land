@@ -407,6 +407,8 @@ export type Base = "base.missing" | "base.far.away";
 export type BasicTreasure =
   | "basic.treasure.missingKey"
   | "basic.treasure.needKey"
+  | "rare.treasure.needKey"
+  | "luxury.treasure.needKey"
   | "basic.treasure.getKey"
   | "basic.treasure.goodLuck"
   | "basic.treasure.key"

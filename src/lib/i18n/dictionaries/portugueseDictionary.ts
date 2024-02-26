@@ -633,6 +633,8 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.missingKey": "Vocé nao tem uma chave do tesouro",
   "basic.treasure.needKey":
     "Você precisa de uma chave do tesouro para abrir este baú",
+  "luxury.treasure.needKey": ENGLISH_TERMS["luxury.treasure.needKey"],
+  "rare.treasure.needKey": ENGLISH_TERMS["rare.treasure.needKey"],
   "basic.treasure.openChest":
     "Você gostaria de abrir o baú e coletar uma recompensa?",
 };

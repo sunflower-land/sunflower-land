@@ -21,6 +21,8 @@ import { SceneId } from "../mmoMachine";
 type InteractableName =
   | "donations"
   | "basic_chest"
+  | "luxury_chest"
+  | "rare_chest"
   | "kraken"
   | "nye_button"
   | "portal"
@@ -196,7 +198,25 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "basic_chest"}>
-        <BasicTreasureChest onClose={closeModal} location={"plaza"} />
+        <BasicTreasureChest
+          type="Treasure Key"
+          onClose={closeModal}
+          location={"plaza"}
+        />
+      </Modal>
+      <Modal show={interactable === "rare_chest"}>
+        <BasicTreasureChest
+          type="Rare Key"
+          onClose={closeModal}
+          location={"plaza"}
+        />
+      </Modal>
+      <Modal show={interactable === "luxury_chest"}>
+        <BasicTreasureChest
+          type="Luxury Key"
+          onClose={closeModal}
+          location={"plaza"}
+        />
       </Modal>
       <Modal show={interactable === "plaza_orange_book"} onHide={closeModal}>
         <SpeakingModal

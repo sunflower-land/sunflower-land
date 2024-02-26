@@ -318,6 +318,8 @@ import bananaBlast from "assets/food/banana_blast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
+import rareKey from "src/assets/sfts/quest/rare_key.png";
+import luxuryKey from "src/assets/sfts/quest/luxury_key.png";
 import ancientGoblinSword from "src/assets/sfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer.png";
 
@@ -3213,11 +3215,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.earnAllianceBanner"),
   },
   "Luxury Key": {
-    image: sunflowerKey,
+    image: luxuryKey,
     description: translate("description.treasure.key"),
   },
   "Rare Key": {
-    image: sunflowerKey,
+    image: rareKey,
     description: translate("description.treasure.key"),
   },
   "Prize Ticket": {

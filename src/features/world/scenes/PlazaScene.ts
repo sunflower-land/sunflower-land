@@ -16,6 +16,7 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { hasFeatureAccess } from "lib/flags";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -249,8 +250,10 @@ export class PlazaScene extends BaseScene {
     this.load.image("chest", "world/rare_chest.png");
 
     this.load.image("basic_chest", "world/basic_chest.png");
+    this.load.image("luxury_chest", "world/luxury_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("key_disc", "world/key_disc.png");
+    this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
     this.load.image("flower_cart", "world/flower_cart.png");
@@ -347,6 +350,21 @@ export class PlazaScene extends BaseScene {
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("basic_chest");
     });
+
+    if (hasFeatureAccess(this.gameState, "CHESTS")) {
+      const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
+      luxuryChest
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("luxury_chest");
+        });
+
+      if (this.gameState.inventory["Luxury Key"]) {
+        this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
+      } else {
+        this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
+      }
+    }
 
     const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
     shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
