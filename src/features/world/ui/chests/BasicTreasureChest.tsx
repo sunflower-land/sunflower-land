@@ -10,8 +10,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import React, { useContext, useState } from "react";
 
-import { Revealing } from "features/game/components/Revealing";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ChestRevealing } from "./ChestRevealing";
 
 interface Props {
   onClose: () => void;
@@ -28,11 +28,18 @@ export const BasicTreasureChest: React.FC<Props> = ({
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
+  // Just a prolonged UI state to show the shuffle of items animation
+  const [isPicking, setIsPicking] = useState(false);
+
   const [isRevealing, setIsRevealing] = useState(false);
 
   const hasKey = !!gameState.context.state.inventory[type]?.gte(1);
 
-  const open = () => {
+  const open = async () => {
+    setIsPicking(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
     gameService.send("REVEAL", {
       event: {
         key: type,
@@ -42,12 +49,13 @@ export const BasicTreasureChest: React.FC<Props> = ({
       },
     });
     setIsRevealing(true);
+    setIsPicking(false);
   };
 
-  if (gameState.matches("revealing") && isRevealing) {
+  if (isPicking || (gameState.matches("revealing") && isRevealing)) {
     return (
       <Panel>
-        <Revealing icon={SUNNYSIDE.icons.treasure} />
+        <ChestRevealing type={type} />
       </Panel>
     );
   }

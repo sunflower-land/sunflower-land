@@ -55,7 +55,6 @@ export const RARE_REWARDS: ChestReward[] = [
   { wearables: { "Pale Potion": 1 }, weighting: 50 },
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { wearables: { "Bee Wings": 1 }, weighting: 5 },
   { wearables: { "Beekeeper Hat": 1 }, weighting: 5 },
   { items: { Capybara: 1 }, weighting: 25 },
   { items: { "Flower Rug": 1 }, weighting: 25 },
