@@ -85,8 +85,6 @@ import {
   IntroPage,
   IslandName,
   IslandNotFound,
-  Kick,
-  Kicked,
   LandscapeTerms,
   LetsGo,
   LevelUpMessages,
@@ -94,7 +92,6 @@ import {
   LostSunflorian,
   MegaStore,
   ModalDescription,
-  Mute,
   Noaccount,
   NoBumpkin,
   NoTownCenter,
@@ -117,7 +114,6 @@ import {
   PirateQuest,
   Pickserver,
   PlazaSettings,
-  PlayerListMessages,
   PlayerTrade,
   Portal,
   PurchaseableBaitTranslation,
@@ -319,7 +315,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "place.map": "Colocar no mapa",
   "placing.bid": "Colocando lance",
   plant: "Plantar",
-  "player.farm.iD": "ID da Fazenda do Jogador",
   "please.try.again": "Por favor, tente novamente mais tarde.",
   "please.wait": "Por favor, aguarde",
   "pay.attention.feedback": "Preste atenção aos ícones de feedback",
@@ -2746,22 +2741,6 @@ const islandNotFound: Record<IslandNotFound, string> = {
   "islandNotFound.takeMeHome": "Me leve para casa",
 };
 
-const kick: Record<Kick, string> = {
-  "kick.player": "Expulsar um Jogador",
-  "kick.Message":
-    "Por favor, note que você ainda pode se reconectar, mas se continuar quebrando as regras, tomaremos medidas adicionais.",
-  "kick.Reason": "Motivo da Expulsão (Por favor, note que o jogador verá isso)",
-  "kick.player.farm": "Expulsar Jogador da Fazenda",
-  "kick.player.kick": "O jogador foi expulso.",
-  "kick.player.failed": "Falha ao expulsar jogador",
-  "kick.player.kicking": "Expulsando jogador...",
-};
-
-const kicked: Record<Kicked, string> = {
-  "kicked.kicked": "Você foi expulso!",
-  "kicked.Reason": "Motivo",
-};
-
 const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.intro.one": "Desenhe sua ilha dos sonhos!",
   "landscape.intro.two":
@@ -2915,26 +2894,6 @@ const modalDescription: Record<ModalDescription, string> = {
     "Tenho projetado vestíveis de edição limitada que podem melhorar suas habilidades de colheita de frutas.",
   "modalDescription.trail":
     "Estou procurando colhedores de frutas dedicados para testar esta roupa....de GRAÇA!",
-};
-
-const mute: Record<Mute, string> = {
-  "mute.playe": "Silenciar um Jogador",
-  "mute.duration": "Duração do Silenciamento (Observação: o jogador verá isso)",
-  "mute.Reason": "Motivo do Silenciamento (Observação: o jogador verá isso)",
-  "mute.player.farm": "Silenciar Jogador da Fazenda",
-  "mute.player.mute": "Jogador foi silenciado",
-  "mute.fail": "Falha ao silenciar o jogador",
-  "mute.player.muting": "Silenciando Jogador...",
-  "mute.you": "Você foi silenciado!",
-  "mute.until": "Você está silenciado até",
-  "mute.discord":
-    "Se você é contra essa decisão, entre em contato conosco no Discord.",
-  "mute.unmute.farm": "Desmutar Jogador da Fazenda",
-  "mute.unmute.player": "Jogador foi desmutado",
-  "mute.unmute.failed": "Falha ao desmutar o jogador",
-  "mute.unmuting.player": "Desmutando Jogador...",
-  "mute.online":
-    "Caso você precise silenciar um jogador que não está online, você pode fazê-lo aqui. Na próxima vez que ele entrar, estará silenciado.",
 };
 
 const noaccount: Record<Noaccount, string> = {
@@ -3903,17 +3862,6 @@ const pirateQuest: Record<PirateQuest, string> = {
     "Ahoy, você é o melhor pirata dos sete mares com seu saque!!",
 };
 
-const playerListMessages: Record<PlayerListMessages, string> = {
-  "player.list.playerID": "ID do Jogador",
-  "player.list.farmID": "ID da Fazenda",
-  "player.list.username": "Nome de Usuário",
-  "player.list.status": "Status",
-  "player.list.action": "Ação",
-  "player.list.mutedFor": "Mudo por",
-  "player.list.search": "Pesquisar",
-  "player.list.playersConnected": "150 Jogadores Conectados",
-};
-
 const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.no.trade": "Nenhuma negociação disponível.",
   "playerTrade.max.item": "Oh não! Você atingiu o limite máximo de itens.",
@@ -4736,8 +4684,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...introPage,
   ...islandName,
   ...islandNotFound,
-  ...kick,
-  ...kicked,
   ...landscapeTerms,
   ...letsGo,
   ...levelUpMessages,
@@ -4746,7 +4692,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...megaStore,
   ...milestoneMessages,
   ...modalDescription,
-  ...mute,
   ...noaccount,
   ...noBumpkin,
   ...noTownCenter,
@@ -4769,7 +4714,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...pirateQuest,
   ...pickserver,
   ...plazaSettings,
-  ...playerListMessages,
   ...playerTrade,
   ...portal,
   ...purchaseableBaitTranslation,
