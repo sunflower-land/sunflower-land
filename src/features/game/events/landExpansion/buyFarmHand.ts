@@ -24,9 +24,9 @@ const FARM_HAND_PARTS: BumpkinParts = {
 };
 
 export const ISLAND_BUMPKIN_CAPACITY: Record<IslandType, number> = {
-  basic: 1,
-  spring: 2,
-  desert: 3,
+  basic: 2,
+  spring: 3,
+  desert: 4,
 };
 
 export const FARM_HAND_COST = 15;
