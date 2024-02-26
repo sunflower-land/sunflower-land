@@ -236,6 +236,7 @@ import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import budTicket from "assets/icons/bud_ticket.png";
+import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
 
@@ -3223,7 +3224,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.treasure.key"),
   },
   "Prize Ticket": {
-    image: sunflowerKey,
+    image: prizeTicket,
     description: translate("description.prizeTicket"),
   },
 };
