@@ -293,7 +293,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "basic",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -466,7 +466,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   chickens: {},
   trades: {},
   buildings: {
-    House: [
+    "Town Center": [
       {
         id: "123",
         readyAt: 0,
