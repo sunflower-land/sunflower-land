@@ -154,11 +154,9 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
         </div>
 
         {missingWearables && (
-          <Label
-            type="danger"
-            icon={lockIcon}
-            className="my-2"
-          >{`Bumpkin has already been dequipped!`}</Label>
+          <Label type="danger" icon={lockIcon} className="my-2">
+            {t("dequipper.nude")}
+          </Label>
         )}
 
         <Label type="danger" className="capitalize my-1">
