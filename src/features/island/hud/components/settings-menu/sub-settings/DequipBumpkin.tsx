@@ -91,9 +91,7 @@ export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
 
   if (isLoading) {
     return (
-      <div className="p-2">
-        <p className="loading">{t("loading")}</p>
-      </div>
+      <Loading />
     );
   }
 
