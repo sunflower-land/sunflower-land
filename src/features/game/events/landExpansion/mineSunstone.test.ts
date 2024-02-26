@@ -122,6 +122,7 @@ describe("mineSunstone", () => {
         bumpkin: INITIAL_BUMPKIN,
         inventory: {
           "Gold Pickaxe": new Decimal(1),
+          "Sunstone Rock": new Decimal(2),
         },
       },
       createdAt: Date.now(),
@@ -137,6 +138,7 @@ describe("mineSunstone", () => {
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
     expect(game.inventory.Sunstone).toEqual(new Decimal(3));
     expect(game.sunstones["1"]).toBeUndefined();
+    expect(game.inventory["Sunstone Rock"]).toEqual(new Decimal(1));
   });
 
   describe("BumpkinActivity", () => {
