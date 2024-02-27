@@ -42,7 +42,7 @@ export default defineConfig({
         description:
           "Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources.",
         short_name: "Sunflower Land",
-        start_url: "/play/",
+        start_url: "/pwa/",
         theme_color: "#303443",
         display: "standalone",
         background_color: "#0099dc",
