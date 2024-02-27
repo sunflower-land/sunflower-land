@@ -1,4 +1,4 @@
-name: Testnet deploy
+name: PWA deploy
 
 on:
   push:
@@ -51,7 +51,7 @@ jobs:
           VITE_BUMPKIN_DETAILS_CONTRACT: "0xAeB15F2aE9f248bf6a3606fadA02EF79f35c8bEF"
           VITE_BUMPKIN_ITEMS_CONTRACT: "0xa163b82370DeBb82C12B735b995a332D50a02252"
           VITE_BUMPKIN_CONTRACT: "0x48f53e506882a502b07668f6990f0e15422a539b"
-          VITE_DISCORD_REDIRECT: "https://sunflower-land.com/testnet/"
+          VITE_DISCORD_REDIRECT: "https://sunflower-land.com/pwa/"
           VITE_CLIENT_VERSION: ${{ steps.date.outputs.date }}
           VITE_RELEASE_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_RECAPTCHA_SITEKEY: "6Lfqm6MeAAAAAFS5a0vwAfTGUwnlNoHziyIlOl1s"
@@ -75,7 +75,6 @@ jobs:
           VITE_CHRISTMAS_EVENT_DONATION: "0xE336EF65aC5532C0BfeFF52e350B22F96E784b6F"
 
           VITE_BUD_CONTRACT: "0x8B8520e415eBb76bc1544fF1e1650c89cc58d5De"
-          VITE_DEQUIPPER_CONTRACT: "0x88DD17F0D007e79f1FB2d9332ED4426cA10CCF05"
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
