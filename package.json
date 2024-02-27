@@ -21,7 +21,7 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "0xsequence": "^0.43.2",
+    "0xsequence": "^1.8.7",
     "@alch/alchemy-web3": "^1.4.7",
     "@anima-protocol/personhood-sdk-react": "^0.4.6",
     "@headlessui/react": "^1.7.18",
@@ -43,7 +43,7 @@
     "clipboard": "^2.0.11",
     "colyseus.js": "^0.15.0",
     "decimal.js-light": "^2.5.1",
-    "ethers": "^5.7.2",
+    "ethers": "5.7.2",
     "events": "^3.3.0",
     "firebase": "^9.19.1",
     "gameanalytics": "^4.4.5",
