@@ -82,6 +82,7 @@ import enchantedRose from "assets/sfts/enchanted_rose.webp";
 import flowerCart from "assets/sfts/flower_cart.webp";
 import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
+import teaRug from "assets/sfts/tea_rug.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3138,6 +3139,11 @@ export const ITEM_DETAILS: Items = {
   "Flower Rug": {
     description: "Add a touch of nature's elegance to your home.",
     image: flowerRug,
+  },
+  "Tea Rug": {
+    description:
+      "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
+    image: teaRug,
   },
   "Blossom Royale": {
     description: translate("description.blossom.royale"),

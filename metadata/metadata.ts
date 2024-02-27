@@ -6787,6 +6787,24 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2011.png",
     attributes: [],
   },
+  "Tea Rug": {
+    name: "Tea Rug",
+    description:
+      "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2012.png",
+    attributes: [],
+  },
+  "Green Field Rug": {
+    name: "Green Field Rug",
+    description:
+      "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2013.png",
+    attributes: [],
+  },
   "Blossom Royale": {
     name: "Blossom Royale",
     description:
