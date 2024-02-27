@@ -422,6 +422,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Hungry Caterpillar": new Decimal(1),
     "Sunrise Bloom Rug": new Decimal(1),
     "Flower Rug": new Decimal(1),
+    "Tea Rug": new Decimal(1),
+    "Green Field Rug": new Decimal(1),
     "Blossom Royale": new Decimal(1),
     Rainbow: new Decimal(1),
     "Enchanted Rose": new Decimal(1),

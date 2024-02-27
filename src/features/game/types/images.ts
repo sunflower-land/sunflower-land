@@ -83,6 +83,7 @@ import flowerCart from "assets/sfts/flower_cart.webp";
 import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
+import greenFieldRug from "assets/sfts/green_field_rug.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3144,6 +3145,11 @@ export const ITEM_DETAILS: Items = {
     description:
       "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
     image: teaRug,
+  },
+  "Green Field Rug": {
+    description:
+      "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
+    image: greenFieldRug,
   },
   "Blossom Royale": {
     description: translate("description.blossom.royale"),
