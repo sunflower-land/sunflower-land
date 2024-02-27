@@ -65,7 +65,7 @@ export default defineConfig({
             type: "image/png",
           },
           {
-            src: "pwa/icons/maskable-icon-512x512.png",
+            src: "pwa/icons/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
@@ -78,14 +78,10 @@ export default defineConfig({
             type: "image/webp",
           },
           {
-            src: "pwa/screenshots/welcome.webp",
-            sizes: "780x349",
+            src: "pwa/screenshots/logo.webp",
+            sizes: "780x350",
             type: "image/webp",
-          },
-          {
-            src: "pwa/screenshots/fishing.webp",
-            sizes: "780x348",
-            type: "image/webp",
+            form_factor: "wide",
           },
         ],
       },
