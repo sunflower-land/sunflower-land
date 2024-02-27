@@ -203,6 +203,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   cancel: "Cancel",
   "card.cash": "Card / Cash",
   caught: "Caught",
+  "change.Language": "Change Language",
   check: "Check",
   chest: "Chest",
   chores: "Chores",

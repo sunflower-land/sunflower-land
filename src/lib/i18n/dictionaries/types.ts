@@ -31,6 +31,7 @@ export type GeneralTerms =
   | "cancel"
   | "card.cash"
   | "caught"
+  | "change.Language"
   | "check"
   | "chest"
   | "chores"
