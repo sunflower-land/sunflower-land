@@ -23,6 +23,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { HalveningCountdown } from "./HalveningCountdown";
+import { PWAInstallComponent } from "components/pwa/PWAInstallComponent.jsx";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -58,6 +59,10 @@ const HudComponent: React.FC<{
     <>
       <HudContainer>
         <div>
+          <div className="fixed top-2 left-1/2" style={{ zIndex: 5678907878 }}>
+            <PWAInstallComponent />
+          </div>
+
           {isFarming && (
             <div
               onClick={() => {
