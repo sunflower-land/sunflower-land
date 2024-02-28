@@ -1018,4 +1018,48 @@ describe("updateBeehives", () => {
 
     expect(futureUpdate[beehiveId].honey.produced).toEqual(tenMinutes * 2.2);
   });
+
+  it("give half beehive of honey with Flower crown", () => {
+    const flowerId = "123";
+    const beehiveId = "abc";
+    const twentyFourHours = 24 * 60 * 60 * 1000;
+
+    const beehives: Beehives = {
+      [beehiveId]: {
+        ...DEFAULT_BEEHIVE,
+        honey: { updatedAt: now, produced: 0 },
+      },
+    };
+    const flowerBeds: FlowerBeds = {
+      [flowerId]: {
+        ...DEFAULT_FLOWER_BED,
+        flower: { name: "Red Pansy", amount: 1, plantedAt: now },
+      },
+    };
+
+    const gameState: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Flower Crown" },
+      },
+    };
+    const game = {
+      ...gameState,
+      beehives,
+      flowers: { flowerBeds, discovered: {} },
+    };
+
+    const updatedBeehives = updateBeehives({
+      game,
+      createdAt: now,
+    });
+
+    const futureUpdate = updateBeehives({
+      game: { ...game, beehives: updatedBeehives },
+      createdAt: now + twentyFourHours,
+    });
+
+    expect(futureUpdate[beehiveId].honey.produced).toEqual(twentyFourHours / 2);
+  });
 });
