@@ -1,4 +1,4 @@
-import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
+import { FLOWERS } from "features/game/types/flowers";
 import { GameState } from "../../types/game";
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
@@ -8,6 +8,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { translate } from "lib/i18n/translate";
 
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { getFlowerTime } from "./plantFlower";
 
 export type HarvestFlowerAction = {
   type: "flower.harvested";
@@ -47,7 +48,7 @@ export function harvestFlower({
 
   const isReady =
     flower.plantedAt +
-      FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000 <
+      getFlowerTime(FLOWERS[flower.name].seed, stateCopy) * 1000 <
     createdAt;
 
   if (!isReady) throw new Error(translate("harvestflower.notReady"));
