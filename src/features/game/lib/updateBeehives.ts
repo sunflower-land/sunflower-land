@@ -3,9 +3,8 @@ import cloneDeep from "lodash.clonedeep";
 import { Beehive, Beehives, FlowerBeds, GameState } from "../types/game";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getKeys } from "../types/craftables";
-import { FLOWERS } from "../types/flowers";
+import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 import { isWearableActive } from "./wearables";
-import { getFlowerTime } from "../events/landExpansion/plantFlower";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
@@ -98,7 +97,7 @@ const getFlowerReadyAt = (
   }
 
   const plantMilliseconds =
-    getFlowerTime(FLOWERS[plantedFlower.name].seed, state) * 1000;
+    FLOWER_SEEDS()[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000;
 
   return plantedFlower.plantedAt + plantMilliseconds;
 };
