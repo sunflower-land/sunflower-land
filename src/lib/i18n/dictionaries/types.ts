@@ -1588,6 +1588,8 @@ export type GameDescriptions =
   | "description.farmhand"
   | "description.tulip.bulb"
   | "description.treasure.key"
+  | "description.rare.key"
+  | "description.luxury.key"
   | "description.prizeTicket"
   //Easter Items
   | "description.egg.basket"

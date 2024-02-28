@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
@@ -3229,11 +3230,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Luxury Key": {
     image: luxuryKey,
-    description: translate("description.treasure.key"),
+    description: translate("description.luxury.key"),
   },
   "Rare Key": {
     image: rareKey,
-    description: translate("description.treasure.key"),
+    description: translate("description.rare.key"),
   },
   "Prize Ticket": {
     image: prizeTicket,

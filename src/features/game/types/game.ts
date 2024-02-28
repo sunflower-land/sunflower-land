@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Decimal } from "decimal.js-light";
 
 import { CropName, CropSeedName } from "./crops";
@@ -237,10 +238,10 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: translate("description.treasure.key"),
   },
   "Luxury Key": {
-    description: translate("description.treasure.key"),
+    description: translate("description.luxury.key"),
   },
   "Rare Key": {
-    description: translate("description.treasure.key"),
+    description: translate("description.rare.key"),
   },
   "Prize Ticket": {
     description: translate("description.prizeTicket"),
