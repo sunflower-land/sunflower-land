@@ -611,7 +611,8 @@ export type BoostEffectDescriptions =
   | "description.grinxs.hammer.boost"
   | "description.time.warp.totem.boost"
   | "description.radiant.ray.boost"
-  | "description.beekeeper.hat.boost";
+  | "description.beekeeper.hat.boost"
+  | "description.flower.fox.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
