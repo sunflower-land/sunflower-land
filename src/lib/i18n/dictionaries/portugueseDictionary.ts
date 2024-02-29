@@ -986,8 +986,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.chef.apron.boost": "+20% Lucro com Bolos",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruta",
-  "bumpkinItemBuff.angel.wings.boost": "Chance de colheita Instantânea",
-  "bumpkinItemBuff.devil.wings.boost": "Chance de colheita Instantânea",
+  "bumpkinItemBuff.angel.wings.boost": "30% de Chance de colheita Instantânea",
+  "bumpkinItemBuff.devil.wings.boost": "30% de Chance de colheita Instantânea",
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Berinjela",
   "bumpkinItemBuff.golden.spatula.boost": "+10% XP",
   "bumpkinItemBuff.mushroom.hat.boost": "+0.1 Cogumelos",
