@@ -527,4 +527,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "success",
     boostTypeIcon: powerup,
   },
+
+  "Flower Fox": {
+    shortDescription: translate("description.flower.fox.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: ITEM_DETAILS.Honey.image,
+  },
 };

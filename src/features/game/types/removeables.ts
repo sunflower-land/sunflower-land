@@ -386,6 +386,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Honey
   "Queen Bee": (game) => isProducingHoney(game),
+  "Flower Fox": (game) => areFlowersGrowing(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
