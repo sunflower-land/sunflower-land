@@ -851,7 +851,9 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Flower Fox": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
   "Sunrise Bloom Rug": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Flower Rug": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
+  "Green Field Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Flower Cart": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
+  "Tea Rug": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {

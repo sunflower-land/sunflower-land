@@ -1,9 +1,10 @@
-import { sequence, Wallet as SequenceWallet } from "0xsequence";
+import { sequence } from "0xsequence";
 import { ConnectOptions } from "@0xsequence/provider";
 import { OnboardingGameAnalyticEvent } from "lib/onboardingAnalytics";
 import { CONFIG } from "lib/config";
 import { IWeb3ConnectStrategy } from "./interfaces/IWeb3ConnectStrategy";
 import { ERRORS } from "lib/errors";
+import { SequenceProvider } from "0xsequence/dist/declarations/src/provider";
 
 const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
   app: "Sunflower Land",
@@ -18,7 +19,7 @@ const SEQUENCE_CONNECT_OPTIONS: ConnectOptions = {
 };
 
 export class SequenceStrategy implements IWeb3ConnectStrategy {
-  private _wallet: SequenceWallet | null = null;
+  private _wallet: SequenceProvider | null = null;
 
   public getConnectEventType(): OnboardingGameAnalyticEvent {
     return "connect_to_sequence";
@@ -27,7 +28,9 @@ export class SequenceStrategy implements IWeb3ConnectStrategy {
   public async initialize(): Promise<void> {
     const network = CONFIG.NETWORK === "mainnet" ? "polygon" : "mumbai";
 
-    this._wallet = await sequence.initWallet(network);
+    this._wallet = sequence.initWallet(CONFIG.SEQUENCE_ACCESS_KEY, {
+      defaultNetwork: network,
+    });
 
     await this._wallet.connect(SEQUENCE_CONNECT_OPTIONS);
   }

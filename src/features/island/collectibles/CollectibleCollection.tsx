@@ -237,6 +237,8 @@ import { Blossombeard } from "./components/Blossombeard";
 import { CrimPeckster } from "./components/CrimPeckster";
 import { FlowerRug } from "./components/FlowerRug";
 import { EarnAllianceBanner } from "./components/EarnAllianceBanner";
+import { GreenFieldRug } from "./components/GreenFieldRug";
+import { TeaRug } from "./components/TeaRug";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -515,6 +517,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Flower Cart": FlowerCart,
   Capybara: Capybara,
   "Flower Rug": FlowerRug,
+  "Tea Rug": TeaRug,
+  "Green Field Rug": GreenFieldRug,
   // Flowers
   "Prism Petal": PrismPetal,
   "Celestial Frostbloom": CelestialFrostbloom,
