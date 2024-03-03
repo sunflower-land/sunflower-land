@@ -599,7 +599,6 @@ export function startGame(authContext: AuthContext) {
                 portalId,
                 token: authContext.user.rawToken as string,
                 farmId: context.farmId,
-                address: wallet.myAccount as string,
               });
 
               const redirect = getRedirect() as string;

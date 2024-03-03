@@ -4,7 +4,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { wallet } from "lib/blockchain/wallet";
 import { SUPPORTED_PORTALS } from "features/game/types/portals";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
@@ -48,7 +47,6 @@ export const Portals: React.FC = () => {
       portalId,
       token: authState.context.user.rawToken as string,
       farmId: gameState.context.farmId,
-      address: wallet.myAccount as string,
     });
 
     // Change route
