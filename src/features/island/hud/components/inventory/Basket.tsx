@@ -54,7 +54,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const { t } = useAppTranslation();
 
-  const { inventory, bumpkin, collectibles, buildings, buds } = gameState;
+  const { inventory, buds } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
