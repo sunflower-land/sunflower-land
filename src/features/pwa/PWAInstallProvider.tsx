@@ -29,6 +29,8 @@ export const PWAInstallProvider: React.FC<PWAInstallProviderProps> = ({
   const pwaInstallRef = useRef<PWAInstallElement | null>(null);
 
   useEffect(() => {
+    console.log("USER AGENT", navigator.userAgent);
+    console.log("WINDOW.ETHEREUM", window.ethereum);
     const currentElement = pwaInstallRef.current;
 
     if (!currentElement) return;
