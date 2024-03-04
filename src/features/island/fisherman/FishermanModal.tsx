@@ -44,12 +44,19 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
+const RARE_CHUM: InventoryItemName[] = [
+  "Rich Chicken",
+  "Speed Chicken",
+  "Fat Chicken",
+];
+
 const ChumSelection: React.FC<{
   inventory: Inventory;
+  bait: FishingBait;
   onList: (item: Chum) => void;
   onCancel: () => void;
   initial?: Chum;
-}> = ({ inventory, onList, onCancel, initial }) => {
+}> = ({ inventory, bait, onList, onCancel, initial }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Chum | undefined>(initial);
   const select = (name: Chum) => {
@@ -69,6 +76,13 @@ const ChumSelection: React.FC<{
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
           .filter((name) => !!inventory[name]?.gte(1))
+          .filter((name) => {
+            if (bait !== "Red Wiggler" && RARE_CHUM.includes(name)) {
+              return false;
+            }
+
+            return true;
+          })
           .map((name) => (
             <Box
               image={ITEM_DETAILS[name].image}
@@ -160,6 +174,7 @@ const BaitSelection: React.FC<{
   if (showChum) {
     return (
       <ChumSelection
+        bait={bait}
         inventory={state.inventory}
         onCancel={() => setShowChum(false)}
         initial={chum}
