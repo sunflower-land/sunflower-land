@@ -46,7 +46,7 @@ export async function mintNFTFarm(request: Request) {
   });
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.LOGIN_SERVER_ERROR);
+    throw new Error(ERRORS.MINT_SERVER_ERROR);
   }
 
   const payload: {
