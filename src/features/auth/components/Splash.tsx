@@ -10,7 +10,6 @@ import cossies from "assets/decorations/cossies.png";
 import goblinSwimming from "assets/npcs/goblin_farting.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
@@ -20,8 +19,6 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { GameState } from "features/game/types/game";
-
-const releaseVersion = CONFIG.RELEASE_VERSION as string;
 
 const Languages = () => {
   // Determine the initial language from localStorage or default to 'en'
