@@ -178,38 +178,6 @@ export const HELIOS_BLACKSMITH_ITEMS: (
       "Wooden Compass": new Decimal(2),
     },
   },
-  ...(getCurrentSeason(date) === "Witches' Eve" && {
-    Poppy: {
-      description: translate("description.poppy"),
-      boost: translate("description.poppy.boost"),
-      ingredients: {
-        Gold: new Decimal(5),
-        "Crow Feather": new Decimal(250),
-      },
-      from: new Date("2023-08-01"),
-      to: new Date("2023-09-01"),
-    },
-    Kernaldo: {
-      description: translate("description.kernaldo"),
-      boost: translate("description.kernaldo.boost"),
-      sfl: SFLDiscount(state, new Decimal(50)),
-      ingredients: {
-        "Crow Feather": new Decimal(500),
-      },
-      from: new Date("2023-09-01"),
-      to: new Date("2023-10-01"),
-    },
-    "Grain Grinder": {
-      description: translate("description.grain.grinder"),
-      boost: translate("description.grain.grinder.boost"),
-      sfl: SFLDiscount(state, new Decimal(100)),
-      ingredients: {
-        "Crow Feather": new Decimal(750),
-      },
-      from: new Date("2023-10-01"),
-      to: new Date("2023-11-01"),
-    },
-  }),
 });
 
 export type GoblinBlacksmithCraftable = CraftableCollectible & {

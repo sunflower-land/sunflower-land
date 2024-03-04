@@ -80,63 +80,6 @@ describe("craftCollectible", () => {
     expect(result.inventory["Immortal Pear"]).toEqual(new Decimal(1));
   });
 
-  it("does not craft too early", () => {
-    expect(() =>
-      craftCollectible({
-        state: {
-          ...GAME_STATE,
-          balance: new Decimal(400),
-        },
-        action: {
-          type: "collectible.crafted",
-          name: "Kernaldo",
-        },
-        createdAt: new Date("2023-08-10").getTime(),
-      })
-    ).toThrow("Too early");
-  });
-
-  it("does not craft too late", () => {
-    expect(() =>
-      craftCollectible({
-        state: {
-          ...GAME_STATE,
-          balance: new Decimal(400),
-        },
-        action: {
-          type: "collectible.crafted",
-          name: "Poppy",
-        },
-        createdAt: new Date("2023-09-02").getTime(),
-      })
-    ).toThrow("Too late");
-  });
-
-  it("crafts item with sufficient ingredients", () => {
-    const state = craftCollectible({
-      state: {
-        ...GAME_STATE,
-        balance: new Decimal(1),
-        inventory: {
-          Gold: new Decimal(10),
-          Apple: new Decimal(15),
-          Orange: new Decimal(12),
-          Blueberry: new Decimal(10),
-        },
-      },
-      action: {
-        type: "collectible.crafted",
-        name: "Immortal Pear",
-      },
-    });
-
-    expect(state.inventory["Immortal Pear"]).toEqual(new Decimal(1));
-    expect(state.inventory["Gold"]).toEqual(new Decimal(5));
-    expect(state.inventory["Apple"]).toEqual(new Decimal(5));
-    expect(state.inventory["Orange"]).toEqual(new Decimal(2));
-    expect(state.inventory["Blueberry"]).toEqual(new Decimal(0));
-  });
-
   it("does not craft an item that is not in stock", () => {
     expect(() =>
       craftCollectible({
@@ -270,29 +213,5 @@ describe("craftCollectible", () => {
       x: 0,
       y: 5,
     });
-  });
-  it("crafts item with sufficient ingredients", () => {
-    const timers = jest.useFakeTimers();
-
-    // Witches' Eve middle month
-    timers.setSystemTime(new Date("2023-09-15"));
-
-    const state = craftCollectible({
-      state: {
-        ...GAME_STATE,
-        balance: new Decimal(100),
-        inventory: {
-          "Crow Feather": new Decimal(500),
-        },
-      },
-      action: {
-        type: "collectible.crafted",
-        name: "Kernaldo",
-      },
-    });
-
-    expect(state.inventory["Kernaldo"]).toEqual(new Decimal(1));
-    expect(state.inventory["Crow Feather"]).toEqual(new Decimal(0));
-    expect(state.balance).toEqual(new Decimal(50));
   });
 });
