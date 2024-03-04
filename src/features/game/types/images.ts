@@ -98,7 +98,7 @@ import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
-import richChicken from "assets/animals/chickens/rich_chicken.gif";
+import richChicken from "assets/animals/chickens/rich_chicken.webp";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";

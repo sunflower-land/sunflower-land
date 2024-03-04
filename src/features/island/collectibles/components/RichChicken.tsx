@@ -1,6 +1,6 @@
 import React from "react";
 
-import richChicken from "assets/animals/chickens/rich_chicken.gif";
+import richChicken from "assets/animals/chickens/rich_chicken.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RichChicken: React.FC = () => {
