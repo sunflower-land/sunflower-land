@@ -29,8 +29,6 @@ export const PWAInstallProvider: React.FC<PWAInstallProviderProps> = ({
   const pwaInstallRef = useRef<PWAInstallElement | null>(null);
 
   useEffect(() => {
-    console.log("USER AGENT", navigator.userAgent);
-    console.log("WINDOW.ETHEREUM", window.ethereum);
     const currentElement = pwaInstallRef.current;
 
     if (!currentElement) return;
@@ -128,7 +126,7 @@ export const PWAInstallProvider: React.FC<PWAInstallProviderProps> = ({
         // disable-chrome="true"
         disable-install-description="false"
         disable-screenshots="true"
-        manifest-url="manifest.webmanifest"
+        manifest-url="/manifest.webmanifest"
         name="Sunflower Land"
         description="Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources."
         icon="pwa/icons/pwa-64x64.png"
