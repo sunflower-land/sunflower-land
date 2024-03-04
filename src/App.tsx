@@ -10,6 +10,7 @@ import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
 import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
+import { PWAInstallComponent } from "components/pwa/PWAInstallComponent";
 
 // Initialise Global Settings
 initialise();
@@ -58,6 +59,12 @@ export const App: React.FC = () => {
         <WalletProvider>
           <ErrorBoundary>
             <Navigation />
+            <div
+              className="fixed top-2 left-1/2"
+              style={{ zIndex: 5678907878 }}
+            >
+              <PWAInstallComponent />
+            </div>
           </ErrorBoundary>
         </WalletProvider>
       </Auth.Provider>

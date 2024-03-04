@@ -1,36 +1,19 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable no-console */
 import React, { useRef, useEffect } from "react";
-
-/*  dependencies:
-    "@khmyznikov/pwa-install": "*",
-    "@lit": "*"
-*/
 import PWAInstall from "@khmyznikov/pwa-install/dist/pwa-install.react.js";
+import { PWAInstallElement } from "@khmyznikov/pwa-install";
 
-/*
-  manifestUrl = '/manifest.json',
-  icon = '',
-  name = 'React App',
-  description = '',
-  installDescription = '',
-  disableDescription = false,
-  disableScreenshots = false,
-  manualApple = false,
-  manualChrome = false,
-  disableChrome = false,
-*/
+type PWAInstallComponentProps = {
+  onInstallSuccess?: (event: Event) => void;
+  onInstallFail?: (event: Event) => void;
+  onUserChoiceResult?: (event: Event) => void;
+  onInstallAvailable?: (event: Event) => void;
+  onInstallHowTo?: (event: Event) => void;
+  onInstallGallery?: (event: Event) => void;
+};
 
-export const PWAInstallComponent = ({
-  // eslint-disable-next-line react/prop-types
-  onInstallSuccess,
-  onInstallFail,
-  onUserChoiceResult,
-  onInstallAvailable,
-  onInstallHowTo,
-  onInstallGallery,
-  ...props
-}) => {
-  const pwaInstallRef = useRef(null);
+export const PWAInstallComponent = ({ ...props }: PWAInstallComponentProps) => {
+  const pwaInstallRef = useRef<PWAInstallElement>(null);
 
   // Filter out null or undefined props
   const nonNullProps = Object.fromEntries(
@@ -40,12 +23,26 @@ export const PWAInstallComponent = ({
   useEffect(() => {
     const currentElement = pwaInstallRef.current;
 
-    const handleInstallSuccess = (event) => onInstallSuccess?.(event);
-    const handleInstallFail = (event) => onInstallFail?.(event);
-    const handleUserChoiceResult = (event) => onUserChoiceResult?.(event);
-    const handleInstallAvailable = (event) => onInstallAvailable?.(event);
-    const handleInstallHowTo = (event) => onInstallHowTo?.(event);
-    const handleInstallGallery = (event) => onInstallGallery?.(event);
+    if (!currentElement) return;
+
+    const handleInstallSuccess = (event: Event) => {
+      console.log("Install Success", event);
+    };
+    const handleInstallFail = (event: Event) => {
+      console.log("Install Fail", event);
+    };
+    const handleUserChoiceResult = (event: Event) => {
+      console.log("User Choice Result", event);
+    };
+    const handleInstallAvailable = (event: Event) => {
+      console.log("Install Available", event);
+    };
+    const handleInstallHowTo = (event: Event) => {
+      console.log("Install How To", event);
+    };
+    const handleInstallGallery = (event: Event) => {
+      console.log("Install Gallery", event);
+    };
 
     if (currentElement) {
       currentElement.addEventListener(
@@ -100,34 +97,26 @@ export const PWAInstallComponent = ({
         );
       };
     }
-  }, [
-    onInstallSuccess,
-    onInstallFail,
-    onUserChoiceResult,
-    onInstallAvailable,
-    onInstallHowTo,
-    onInstallGallery,
-  ]);
+  }, []);
 
   return (
     <>
       <PWAInstall
         ref={pwaInstallRef}
-        // manual-apple="true"
-        // manual-chrome="true"
-        // disable-chrome="false"
-        install-description="Custom call to install text"
+        manual-apple="true"
+        manual-chrome="true"
+        // disable-chrome="true"
         disable-install-description="false"
         disable-screenshots="true"
         manifest-url="/manifest.webmanifest"
         name="Sunflower Land"
-        description="Progressive web application"
-        icon="/pwa/pwa-64x64.png"
+        description="Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources."
+        icon="pwa/icons/pwa-64x64.png"
         {...nonNullProps}
       />
       <button
         id="show install"
-        onClick={() => pwaInstallRef.current.showDialog(true)}
+        onClick={() => pwaInstallRef.current?.showDialog(true)}
       >
         {`Show Install Prompt`}
       </button>
