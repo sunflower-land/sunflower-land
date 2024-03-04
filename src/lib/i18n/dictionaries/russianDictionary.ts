@@ -203,6 +203,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   cancel: "Отмена",
   "card.cash": "Карта / Наличные",
   caught: "Caught",
+  "change.Language": "Change Language",
   check: "Проверить",
   chest: "Сундук",
   chores: "Задания",
@@ -889,6 +890,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.queen.bee.boost": "Doubles Honey Production Speed",
   "description.beekeeper.hat.boost": "+20% Honey Production Speed",
+  "description.flower.fox.boost": "-10% Flower Growth Time",
   "description.humming.bird.boost": "20% Chance for +1 Flower",
   "description.beehive.boost": "10% Chance for +0.2 Crop when Beehive is full",
   "description.walrus.boost": "+1 Fish",
@@ -1137,6 +1139,12 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.tuna": "What is big enough to eat a tuna?",
   "chumDetails.squid": "Awaken a ray with its favorite treat!",
   "chumDetails.wood": "Wood. An interesting choice....",
+  "chumDetails.redPansy": "Fiery allure for elusive fish.",
+  "chumDetails.fatChicken":
+    "The original white meat that the largest of quarry cannot resist.",
+  "chumDetails.speedChicken": "Fast food dessert for sharp-teeth hunters.",
+  "chumDetails.richChicken":
+    "Delicacy for the bright-bellied terror of the screen.",
 };
 
 const community: Record<Community, string> = {
