@@ -42,6 +42,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
         farmId: gameService.state.context.farmId,
         token: authState.context.user.rawToken as string,
         account: wallet.myAccount as string,
+        nftId: gameService.state.context.nftId!,
       });
       setState("success");
     } catch {
