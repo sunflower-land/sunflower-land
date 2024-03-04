@@ -108,7 +108,7 @@ export const PWAInstallComponent = ({ ...props }: PWAInstallComponentProps) => {
         // disable-chrome="true"
         disable-install-description="false"
         disable-screenshots="true"
-        manifest-url="manifest.webmanifest"
+        manifest-url="/manifest.webmanifest"
         name="Sunflower Land"
         description="Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources."
         icon="pwa/icons/pwa-64x64.png"
