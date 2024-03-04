@@ -364,6 +364,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Rich Chicken": new Decimal(1),
+    "Fat Chicken": new Decimal(2),
+    "Speed Chicken": new Decimal(2),
     "Treasure Key": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),
     "Farmhand Coupon": new Decimal(1),
