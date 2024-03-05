@@ -27,7 +27,7 @@ import {
 } from "./collectibles";
 import { TreasureToolName } from "./tools";
 import { Chore } from "./chores";
-import { ConversationName } from "./conversations";
+import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";

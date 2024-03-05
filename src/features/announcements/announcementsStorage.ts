@@ -1,5 +1,5 @@
 import { getSeasonalBanner } from "features/game/types/seasons";
-import { Announcements } from "features/game/types/conversations";
+import { Announcements } from "features/game/types/announcements";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 

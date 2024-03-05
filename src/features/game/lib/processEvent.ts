@@ -3,7 +3,7 @@ import { EVENTS, GameEvent } from "../events";
 import { FOODS, getKeys } from "../types/craftables";
 import { GameState, Inventory, InventoryItemName } from "../types/game";
 import { SKILL_TREE } from "../types/skills";
-import { Announcements } from "../types/conversations";
+import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
 import { BASIC_DECORATIONS, BasicDecorationName } from "../types/decorations";
 import { FISH, FishName, MarineMarvelName } from "../types/fishing";

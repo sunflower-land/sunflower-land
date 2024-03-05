@@ -7,8 +7,8 @@ import { Context } from "features/game/GameProvider";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Conversation } from "features/farming/mail/components/Conversation";
-import { ConversationName } from "features/game/types/conversations";
+import { Message } from "features/farming/mail/components/Message";
+import { ConversationName } from "features/game/types/announcements";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -47,7 +47,7 @@ export const NewMail: React.FC = () => {
             />
           </div>
 
-          <Conversation
+          <Message
             conversationId={newestMailId as ConversationName}
             read={!!mailbox.read.find((item) => item.id === newestMailId)}
             onAcknowledge={() => send("ACKNOWLEDGE")}

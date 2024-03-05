@@ -1,6 +1,7 @@
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
+import { Message as IMessage } from "features/game/types/announcements";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -10,14 +11,16 @@ interface Props {
   conversationId: string;
   read?: boolean;
   onAcknowledge?: () => void;
+  message: IMessage;
 }
 
 const CONTENT_HEIGHT = 300;
 
-export const Conversation: React.FC<Props> = ({
+export const Message: React.FC<Props> = ({
   conversationId,
   read,
   onAcknowledge,
+  message,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -25,13 +28,11 @@ export const Conversation: React.FC<Props> = ({
 
   const [showReward, setShowReward] = useState(false);
 
-  const announcements = gameState.context.announcements;
-
   const acknowledge = () => {
     gameService.send({ type: "message.read", id: conversationId });
   };
 
-  const conversation = announcements[conversationId];
+  const conversation = message;
 
   const next = () => {
     if (conversation.reward && !read) {

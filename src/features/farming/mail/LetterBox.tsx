@@ -8,19 +8,15 @@ import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Mail } from "./components/Mail";
-import { Conversation } from "./components/Conversation";
+import { Message } from "./components/Message";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ITEM_DETAILS } from "features/game/types/images";
+import letterDisc from "assets/icons/letter_disc.png";
 import letter from "assets/icons/letter.png";
-
-import { GameState } from "features/game/types/game";
-
-function getOnboardingAnnouncements({ game }: { game: GameState }) {}
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
@@ -32,6 +28,7 @@ export const LetterBox: React.FC = () => {
   const [selected, setSelected] = useState<string>();
 
   const announcements = gameState.context.announcements;
+
   const { t } = useAppTranslation();
   const close = () => {
     setIsOpen(false);
@@ -60,7 +57,8 @@ export const LetterBox: React.FC = () => {
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
           </div>
 
-          <Conversation
+          <Message
+            message={details}
             conversationId={selected}
             read={
               !!gameState.context.state.mailbox.read.find(
@@ -79,7 +77,7 @@ export const LetterBox: React.FC = () => {
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        <Mail setSelected={setSelected} />
+        <Mail setSelected={setSelected} announcements={announcements} />
       </CloseButtonPanel>
     );
   };
@@ -96,15 +94,15 @@ export const LetterBox: React.FC = () => {
       >
         {hasAnnouncement && (
           <img
-            src={letter}
+            src={letterDisc}
             className={
               "absolute  z-20 cursor-pointer group-hover:img-highlight" +
-              (showAnimations ? " animate-float" : "")
+              (showAnimations ? " animate-pulsate" : "")
             }
             style={{
-              width: `${PIXEL_SCALE * 14}px`,
+              width: `${PIXEL_SCALE * 18}px`,
               top: `${PIXEL_SCALE * -12}px`,
-              left: `${PIXEL_SCALE * 1}px`,
+              left: `${PIXEL_SCALE * 3}px`,
             }}
           />
         )}

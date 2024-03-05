@@ -61,7 +61,7 @@ import {
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
-import { Announcements } from "../types/conversations";
+import { Announcements } from "../types/announcements";
 import { purchaseItem, purchaseItemOnChain } from "../actions/purchaseItem";
 import {
   Currency,

@@ -10,17 +10,19 @@ import chest from "assets/icons/chest.png";
 import letter from "assets/icons/letter.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Announcements } from "features/game/types/announcements";
 
 interface Props {
   setSelected: (name?: string) => void;
+  announcements: Announcements;
 }
-export const Mail: React.FC<Props> = ({ setSelected }) => {
+export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   let ids = gameState.context.state.mailbox.read.map((item) => item.id);
-  const announcements = gameState.context.announcements;
+
   const announcementIds: string[] = getKeys(announcements)
     // Ensure they haven't read it already
     .filter((id) => !ids.find((readId) => readId === id));
