@@ -64,10 +64,13 @@ const ChumSelection: React.FC<{
     setSelected(name);
   };
 
-  const chestMap = getChestItems(state);
+  const items = {
+    ...getChestItems(state),
+    ...state.inventory,
+  };
 
   const hasRequirements =
-    selected && chestMap[selected]?.gte(CHUM_AMOUNTS[selected] ?? 0);
+    selected && items[selected]?.gte(CHUM_AMOUNTS[selected] ?? 0);
 
   return (
     <div>
@@ -78,7 +81,7 @@ const ChumSelection: React.FC<{
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
-          .filter((name) => !!chestMap[name]?.gte(1))
+          .filter((name) => !!items[name]?.gte(1))
           .filter((name) => {
             if (bait !== "Red Wiggler" && RARE_CHUM.includes(name)) {
               return false;
@@ -89,7 +92,7 @@ const ChumSelection: React.FC<{
           .map((name) => (
             <Box
               image={ITEM_DETAILS[name].image}
-              count={chestMap[name]}
+              count={items[name]}
               onClick={() => select(name)}
               key={name}
               isSelected={selected === name}
@@ -150,7 +153,10 @@ const BaitSelection: React.FC<{
     },
   ] = useActor(gameService);
 
-  const chestMap = getChestItems(state);
+  const items = {
+    ...getChestItems(state),
+    ...state.inventory,
+  };
 
   useEffect(() => {
     const lastSelectedBait = localStorage.getItem("lastSelectedBait");
@@ -161,7 +167,7 @@ const BaitSelection: React.FC<{
 
     const hasRequirements =
       lastSelectedChum &&
-      chestMap[lastSelectedChum as InventoryItemName]?.gte(
+      items[lastSelectedChum as InventoryItemName]?.gte(
         CHUM_AMOUNTS[lastSelectedChum as Chum] ?? 0
       );
 
@@ -250,7 +256,7 @@ const BaitSelection: React.FC<{
             <Box
               image={ITEM_DETAILS[name].image}
               isSelected={bait === name}
-              count={chestMap[name]}
+              count={items[name]}
               onClick={() => {
                 setBait(name);
                 localStorage.setItem("lastSelectedBait", name);
@@ -265,19 +271,19 @@ const BaitSelection: React.FC<{
             <div>
               <p className="text-sm">{bait}</p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
-              {!chestMap[bait] && bait !== "Fishing Lure" && (
+              {!items[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-1" type="default">
                   {t("statements.craft.composter")}
                 </Label>
               )}
-              {!chestMap[bait] && bait === "Fishing Lure" && (
+              {!items[bait] && bait === "Fishing Lure" && (
                 <Label className="mt-1" type="default">
                   {t("fishermanModal.craft.beach")}
                 </Label>
               )}
             </div>
           </div>
-          {!chestMap[bait] && (
+          {!items[bait] && (
             <Label className="absolute -top-3 right-0" type={"danger"}>
               {t("fishermanModal.zero.available")}
             </Label>
@@ -337,7 +343,7 @@ const BaitSelection: React.FC<{
         disabled={
           fishingLimitReached ||
           missingRod ||
-          !chestMap[bait as InventoryItemName]?.gte(1)
+          !items[bait as InventoryItemName]?.gte(1)
         }
       >
         <div className="flex items-center">
