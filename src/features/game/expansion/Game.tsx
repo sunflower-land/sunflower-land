@@ -55,6 +55,7 @@ import { Home } from "features/home/Home";
 import { Wallet } from "features/wallet/Wallet";
 import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Listed } from "../components/Listed";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -93,6 +94,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refundAuction: false,
   promo: true,
   trading: true,
+  listing: true,
+  listed: true,
   sniped: true,
   traded: true,
   buds: false,
@@ -108,6 +111,8 @@ const isLoading = (state: MachineState) =>
 const isPortalling = (state: MachineState) => state.matches("portalling");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
+const isListing = (state: MachineState) => state.matches("listing");
+const isListed = (state: MachineState) => state.matches("listed");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
@@ -227,6 +232,8 @@ export const GameWrapper: React.FC = ({ children }) => {
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
+  const listing = useSelector(gameService, isListing);
+  const listed = useSelector(gameService, isListed);
   const sniped = useSelector(gameService, isSniped);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
@@ -382,6 +389,8 @@ export const GameWrapper: React.FC = ({ children }) => {
           {depositing && <Loading text="Depositing" />}
           {trading && <Loading text="Trading" />}
           {traded && <Traded />}
+          {listing && <Loading text="Listing" />}
+          {listed && <Listed />}
           {sniped && <Sniped />}
           {minting && <Minting />}
           {promo && <Promo />}

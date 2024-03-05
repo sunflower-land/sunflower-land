@@ -169,6 +169,7 @@ import {
   Promo,
   Trader,
   NyonStatue,
+  Trading,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -341,6 +342,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "reward.discovered": "Recompensa Descoberta",
   save: "Salvar",
   saving: "Salvando",
+  search: "Buscar",
+  searching: "Buscando",
   "seasonal.treasure": "Tesouro Sazonal",
   seeds: "Sementes",
   selected: "Selecionado",
@@ -4600,6 +4603,13 @@ export const NYON_STATUE: Record<NyonStatue, string> = {
     "O lendário cavaleiro responsável por limpar os goblins das minas. Pouco depois de sua vitória, ele morreu envenenado por um conspirador Goblin. Os Cidadãos de Sunflower Land ergueram esta estátua com sua armadura para comemorar suas conquistas.",
 };
 
+const trading: Record<Trading, string> = {
+  "trading.select.resources": "Selecione recursos para ver listagens",
+  "trading.no.listings": "Nenhuma listagem encontrada",
+  "transaction.listing.congrats":
+    "Parabéns, você listou seus itens para troca!",
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -4753,6 +4763,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...toolDescriptions,
   ...transactionTerms,
   ...transfer,
+  ...trading,
   ...treasureModal,
   ...tutorialPage,
   ...visitislandEnter,

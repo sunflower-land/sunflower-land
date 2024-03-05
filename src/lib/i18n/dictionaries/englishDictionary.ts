@@ -168,6 +168,7 @@ import {
   Promo,
   Trader,
   NyonStatue,
+  Trading,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -367,6 +368,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "reward.discovered": "Reward Discovered",
   save: "Save",
   saving: "Saving",
+  search: "Search",
+  searching: "Searching",
   "seasonal.treasure": "Seasonal Treasure",
   seeds: "Seeds",
   selected: "Selected",
@@ -4515,6 +4518,13 @@ const wornDescription: Record<WornDescription, string> = {
   "worm.redWiggler": "An exotic worm that entices rare fish.",
 };
 
+const trading: Record<Trading, string> = {
+  "trading.select.resources": "Select resources to view listings",
+  "trading.no.listings": "No listings found",
+  "transaction.listing.congrats":
+    " Congratulations, you just listed your items for trade!",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4669,6 +4679,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...swarming,
   ...tieBreaker,
   ...toolDescriptions,
+  ...trading,
   ...trader,
   ...transactionTerms,
   ...transfer,

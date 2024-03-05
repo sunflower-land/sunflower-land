@@ -17,7 +17,8 @@ type FeatureName =
   | "LOCALISATION"
   | "PORTALS"
   | "DEQUIPPER"
-  | "CHESTS";
+  | "CHESTS"
+  | "TRADING_REVAMP";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -33,6 +34,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   LOCALISATION: testnetFeatureFlag,
   DEQUIPPER: defaultFeatureFlag,
   CHESTS: defaultFeatureFlag,
+  TRADING_REVAMP: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

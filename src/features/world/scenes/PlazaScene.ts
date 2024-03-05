@@ -66,11 +66,16 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "grimtooth",
     direction: "left",
   },
-  // {
-  //   x: 120,
-  //   y: 170,
-  //   npc: "gabi",
-  // },
+  {
+    x: 120,
+    y: 170,
+    npc: "gabi",
+  },
+  {
+    x: 420,
+    y: 420,
+    npc: "glinteye",
+  },
   {
     x: 480,
     y: 140,

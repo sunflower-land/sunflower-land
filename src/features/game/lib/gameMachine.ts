@@ -83,6 +83,7 @@ import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUti
 import { portal } from "features/world/ui/community/actions/portal";
 import { BUMPKIN_EXPANSIONS_LEVEL } from "../types/expansions";
 import { getBumpkinLevel } from "./level";
+import { listRequest } from "../actions/listTrade";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -238,6 +239,18 @@ type TradeEvent = {
   tradeId: string;
 };
 
+type ListingEvent = {
+  type: "LIST_TRADE";
+  sellerId: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  sfl: number;
+};
+
+type DeleteListingEvent = {
+  type: "DELETE_TRADE";
+  listingId: string;
+};
+
 export type UpdateUsernameEvent = {
   type: "UPDATE_USERNAME";
   username: string;
@@ -252,6 +265,8 @@ export type BlockchainEvent =
   | PurchaseEvent
   | CommunityEvent
   | TradeEvent
+  | ListingEvent
+  | DeleteListingEvent
   | {
       type: "REFRESH";
     }
@@ -405,6 +420,8 @@ export type BlockchainState = {
     | "specialOffer"
     | "promo"
     | "trading"
+    | "listing"
+    | "listed"
     | "traded"
     | "sniped"
     | "buds"
@@ -986,6 +1003,7 @@ export function startGame(authContext: AuthContext) {
             TRADE: {
               target: "trading",
             },
+            LIST_TRADE: { target: "listing" },
             UPDATE_BLOCK_BUCKS: {
               actions: assign((context, event) => ({
                 state: {
@@ -1419,7 +1437,55 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
+        listing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { sellerId, items, sfl } = event as ListingEvent;
 
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const state = await listRequest({
+                sellerId,
+                token: authContext.user.rawToken as string,
+                items,
+                sfl,
+              });
+
+              return { state };
+            },
+            onDone: [
+              {
+                target: "listed",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.state,
+                  })),
+                ],
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        listed: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
         trading: {
           entry: "setTransactionId",
           invoke: {

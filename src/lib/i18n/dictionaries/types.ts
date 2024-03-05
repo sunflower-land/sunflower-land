@@ -195,6 +195,8 @@ export type GeneralTerms =
   | "reward.discovered"
   | "save"
   | "saving"
+  | "search"
+  | "searching"
   | "seasonal.treasure"
   | "seeds"
   | "selected"
@@ -3081,6 +3083,11 @@ export type Trader =
 
 export type NyonStatue = "nyonStatue.memory" | "nyonStatue.description";
 
+export type Trading =
+  | "trading.select.resources"
+  | "trading.no.listings"
+  | "transaction.listing.congrats";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3250,4 +3257,5 @@ export type TranslationKeys =
   | Event
   | Promo
   | Trader
-  | NyonStatue;
+  | NyonStatue
+  | Trading;
