@@ -32,7 +32,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getChestItems } from "../hud/components/inventory/utils/inventory";
+import {
+  getBasketItems,
+  getChestItems,
+} from "../hud/components/inventory/utils/inventory";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -65,8 +68,8 @@ const ChumSelection: React.FC<{
   };
 
   const items = {
+    ...getBasketItems(state.inventory),
     ...getChestItems(state),
-    ...state.inventory,
   };
 
   const hasRequirements =
@@ -154,8 +157,8 @@ const BaitSelection: React.FC<{
   ] = useActor(gameService);
 
   const items = {
+    ...getBasketItems(state.inventory),
     ...getChestItems(state),
-    ...state.inventory,
   };
 
   useEffect(() => {
