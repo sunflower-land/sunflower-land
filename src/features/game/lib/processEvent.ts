@@ -104,6 +104,7 @@ export const maxItems: Inventory = {
   Stone: new Decimal("800"),
   Wood: new Decimal("4000"),
   "Wild Mushroom": new Decimal("100"),
+  Honey: new Decimal("100"),
 
   "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
