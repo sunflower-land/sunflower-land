@@ -3099,7 +3099,8 @@ export type NyonStatue = "nyonStatue.memory" | "nyonStatue.description";
 export type Trading =
   | "trading.select.resources"
   | "trading.no.listings"
-  | "transaction.listing.congrats";
+  | "trading.listing.congrats"
+  | "trading.listing.deleted";
 
 export type TranslationKeys =
   | AchievementsTerms

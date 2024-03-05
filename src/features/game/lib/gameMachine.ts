@@ -84,6 +84,7 @@ import { portal } from "features/world/ui/community/actions/portal";
 import { BUMPKIN_EXPANSIONS_LEVEL } from "../types/expansions";
 import { getBumpkinLevel } from "./level";
 import { listRequest } from "../actions/listTrade";
+import { deleteListingRequest } from "../actions/deleteListing";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -246,9 +247,11 @@ type ListingEvent = {
   sfl: number;
 };
 
-type DeleteListingEvent = {
-  type: "DELETE_TRADE";
+type DeleteTradeListingEvent = {
+  type: "DELETE_TRADE_LISTING";
+  sellerId: number;
   listingId: string;
+  listingType: string;
 };
 
 export type UpdateUsernameEvent = {
@@ -266,7 +269,7 @@ export type BlockchainEvent =
   | CommunityEvent
   | TradeEvent
   | ListingEvent
-  | DeleteListingEvent
+  | DeleteTradeListingEvent
   | {
       type: "REFRESH";
     }
@@ -422,6 +425,8 @@ export type BlockchainState = {
     | "trading"
     | "listing"
     | "listed"
+    | "deleteTradeListing"
+    | "tradeListingDeleted"
     | "traded"
     | "sniped"
     | "buds"
@@ -1003,6 +1008,7 @@ export function startGame(authContext: AuthContext) {
               target: "trading",
             },
             LIST_TRADE: { target: "listing" },
+            DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
             UPDATE_BLOCK_BUCKS: {
               actions: assign((context, event) => ({
                 state: {
@@ -1481,6 +1487,56 @@ export function startGame(authContext: AuthContext) {
           },
         },
         listed: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
+        deleteTradeListing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { listingId, listingType, sellerId } =
+                event as DeleteTradeListingEvent;
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const state = await deleteListingRequest({
+                sellerId,
+                listingId,
+                listingType,
+                token: authContext.user.rawToken as string,
+              });
+
+              return { state };
+            },
+            onDone: [
+              {
+                target: "tradeListingDeleted",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.state,
+                  })),
+                ],
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        tradeListingDeleted: {
           on: {
             CONTINUE: "playing",
           },

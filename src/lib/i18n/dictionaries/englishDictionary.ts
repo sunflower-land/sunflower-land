@@ -4541,8 +4541,9 @@ const wornDescription: Record<WornDescription, string> = {
 const trading: Record<Trading, string> = {
   "trading.select.resources": "Select resources to view listings",
   "trading.no.listings": "No listings found",
-  "transaction.listing.congrats":
+  "trading.listing.congrats":
     " Congratulations, you just listed your items for trade!",
+  "trading.listing.deleted": "Your listing has been deleted",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

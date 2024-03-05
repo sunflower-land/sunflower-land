@@ -249,7 +249,7 @@ const TradeDetails: React.FC<{
   return (
     <>
       <OuterPanel>
-        <div className="flex justify-between">
+        <div className="flex justify-between ">
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
@@ -304,6 +304,14 @@ export const Trade: React.FC = () => {
     }
 
     setShowListing(false);
+  };
+
+  const onCancel = (listingId: string, listingType: string) => {
+    gameService.send("DELETE_TRADE_LISTING", {
+      sellerId: gameState.context.farmId,
+      listingId,
+      listingType,
+    });
   };
 
   if (level < 10) {
@@ -363,17 +371,26 @@ export const Trade: React.FC = () => {
     return null;
   }
 
+  function makeListingType(
+    items: Partial<Record<InventoryItemName, number>>
+  ): string {
+    return Object.keys(items).sort().join("-").toLowerCase();
+  }
+
   if (hasAccess) {
     return (
       <div>
-        {getKeys(trades).map((trade, index) => {
+        {getKeys(trades).map((listingId, index) => {
           return (
-            <TradeDetails
-              key={index}
-              onCancel={() => null}
-              onClaim={() => null}
-              trade={trades[trade]}
-            />
+            <div className="mt-2" key={index}>
+              <TradeDetails
+                onCancel={() =>
+                  onCancel(listingId, makeListingType(trades[listingId].items))
+                }
+                onClaim={() => null}
+                trade={trades[listingId]}
+              />
+            </div>
           );
         })}
         {getKeys(trades).length < 3 && (
