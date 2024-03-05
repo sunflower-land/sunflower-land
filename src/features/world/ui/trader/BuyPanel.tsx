@@ -21,10 +21,13 @@ import {
   getTradeListings,
 } from "features/game/actions/getTradeListings";
 import { hasFeatureAccess } from "lib/flags";
+import { Context as AuthContext } from "features/auth/lib/Provider";
 
 export const BuyPanel: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
+  const [authState] = useActor(authService);
   const [view, setView] = useState<"search" | "list">("search");
   const [search, setSearch] = useState<Partial<InventoryItemName[]>>([]);
   const [data, setData] = useState<Listing[]>([]);
@@ -47,7 +50,6 @@ export const BuyPanel: React.FC = () => {
       }
     });
   };
-
   const searchView = () => {
     return (
       <div className="p-2">
@@ -164,7 +166,7 @@ export const BuyPanel: React.FC = () => {
   const onSearch = async (resources: Partial<InventoryItemName[]>) => {
     const type = resources.sort().join("-").toLowerCase();
     setIsSearching(true);
-    const data = await getTradeListings(type);
+    const data = await getTradeListings(type, authState.context.user.rawToken);
     setData(data);
     setIsSearching(false);
     setView("list");
