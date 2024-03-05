@@ -2278,6 +2278,9 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.tulip.bulb": "Um ingresso usado durante a Florada da Primavera",
   "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
   "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
+  "description.rare.key": "Visite a praia para desbloquear sua recompensa",
+  "description.luxury.key":
+    "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
 
   // Easter Items
   "description.egg.basket": "Evento de Páscoa",

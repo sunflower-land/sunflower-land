@@ -3230,11 +3230,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Luxury Key": {
     image: luxuryKey,
-    description: translate("description.treasure.key"),
+    description: translate("description.luxury.key"),
   },
   "Rare Key": {
     image: rareKey,
-    description: translate("description.treasure.key"),
+    description: translate("description.rare.key"),
   },
   "Prize Ticket": {
     image: prizeTicket,
