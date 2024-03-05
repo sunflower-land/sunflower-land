@@ -16,6 +16,8 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -70,11 +72,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 120,
     y: 170,
     npc: "gabi",
-  },
-  {
-    x: 420,
-    y: 420,
-    npc: "glinteye",
   },
   {
     x: 480,
@@ -325,6 +322,14 @@ export class PlazaScene extends BaseScene {
     });
 
     super.create();
+
+    if (hasFeatureAccess({} as GameState, "TRADING_REVAMP")) {
+      PLAZA_BUMPKINS.push({
+        x: 420,
+        y: 420,
+        npc: "glinteye",
+      });
+    }
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 

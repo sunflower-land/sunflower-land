@@ -170,6 +170,21 @@ export const BuyPanel: React.FC = () => {
     setView("list");
   };
 
+  if (!state.inventory["Gold Pass"]) {
+    return (
+      <div className="relative">
+        <div className="p-1 flex flex-col items-center">
+          <img
+            src={ITEM_DETAILS["Gold Pass"].image}
+            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+          />
+          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
+          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
       <div className="flex items-start justify-between mb-2">
