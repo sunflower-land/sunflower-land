@@ -814,7 +814,6 @@ export function startGame(authContext: AuthContext) {
         },
         mailbox: {
           on: {
-            "conversation.ended": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
             "message.read": (GAME_EVENT_HANDLERS as any)["message.read"],
             ACKNOWLEDGE: {
               target: "notifying",

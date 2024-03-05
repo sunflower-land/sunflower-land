@@ -8,10 +8,6 @@ import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Mail } from "./components/Mail";
-import {
-  ConversationName,
-  CONVERSATIONS,
-} from "features/game/types/conversations";
 import { Conversation } from "./components/Conversation";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -19,6 +15,12 @@ import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ITEM_DETAILS } from "features/game/types/images";
+import letter from "assets/icons/letter.png";
+
+import { GameState } from "features/game/types/game";
+
+function getOnboardingAnnouncements({ game }: { game: GameState }) {}
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
@@ -46,8 +48,7 @@ export const LetterBox: React.FC = () => {
 
   const Content = () => {
     if (selected) {
-      const details =
-        CONVERSATIONS[selected as ConversationName] ?? announcements[selected];
+      const details = announcements[selected];
       return (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
           <div className="flex items-center mb-1">
@@ -60,7 +61,7 @@ export const LetterBox: React.FC = () => {
           </div>
 
           <Conversation
-            conversationId={selected as ConversationName}
+            conversationId={selected}
             read={
               !!gameState.context.state.mailbox.read.find(
                 (item) => item.id === selected
@@ -74,9 +75,7 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[
-          { icon: SUNNYSIDE.icons.expression_chat, name: t("bumpkinBuzz") },
-        ]}
+        tabs={[{ icon: letter, name: t("bumpkinBuzz") }]}
         currentTab={tab}
         setCurrentTab={setTab}
       >
@@ -87,7 +86,7 @@ export const LetterBox: React.FC = () => {
   return (
     <>
       <div
-        className="absolute cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight group"
         id="letterbox"
         onClick={() => setIsOpen(true)}
         style={{
@@ -97,15 +96,15 @@ export const LetterBox: React.FC = () => {
       >
         {hasAnnouncement && (
           <img
-            src={SUNNYSIDE.icons.expression_alerted}
+            src={letter}
             className={
-              "absolute pointer-events-none z-20" +
+              "absolute  z-20 cursor-pointer group-hover:img-highlight" +
               (showAnimations ? " animate-float" : "")
             }
             style={{
-              width: `${PIXEL_SCALE * 4}px`,
+              width: `${PIXEL_SCALE * 14}px`,
               top: `${PIXEL_SCALE * -12}px`,
-              left: `${PIXEL_SCALE * 6}px`,
+              left: `${PIXEL_SCALE * 1}px`,
             }}
           />
         )}
