@@ -101,8 +101,8 @@ export const LetterBox: React.FC = () => {
             }
             style={{
               width: `${PIXEL_SCALE * 18}px`,
-              top: `${PIXEL_SCALE * -12}px`,
-              left: `${PIXEL_SCALE * 3}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+              left: `${PIXEL_SCALE * 0}px`,
             }}
           />
         )}
