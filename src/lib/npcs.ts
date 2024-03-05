@@ -60,7 +60,8 @@ export type NPCName =
   | "poppy"
   | "stevie"
   | "Chun Long"
-  | "evie";
+  | "evie"
+  | "glinteye";
 
 // Ol Salty
 
@@ -655,6 +656,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "China Town Background",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+  },
+  glinteye: {
+    body: "Goblin Potion",
+    hair: "Basic Hair",
+    shirt: "Bidder's Brocade",
+    pants: "Blue Suspenders",
+    tool: "Auction Megaphone",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
   },
 };
 
