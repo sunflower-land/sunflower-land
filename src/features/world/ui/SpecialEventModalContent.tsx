@@ -330,8 +330,7 @@ export const SpecialEventModalContent: React.FC<{
                         </a>
                       )}
                     </div>
-                    {/* {task.completedAt ? ( */}
-                    {!task.completedAt ? (
+                    {task.completedAt ? (
                       <div className="flex">
                         <span className="text-xs mr-1">{t("completed")}</span>
                         <img src={SUNNYSIDE.icons.confirm} className="h-4" />
