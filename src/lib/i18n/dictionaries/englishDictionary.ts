@@ -322,7 +322,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "no.event": "No Event",
   "no.have.bumpkin": "You do not have a Bumpkin!",
   "no.limits.exceeded": "No limits exceeded",
-  "no.mail": "No mail",
+  "no.mail": "Your mailbox is empty.",
   "no.obsessions": "No Obsessions",
   "no.thanks": "No thanks",
   "ocean.fishing": "Ocean fishing",
@@ -2248,7 +2248,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 const gameTerms: Record<GameTerms, string> = {
   "auction.winner": "Auction Winner!",
   "bumpkin.level": "Bumpkin level",
-  bumpkinBuzz: "Bumpkin Buzz",
+  bumpkinBuzz: "Mailbox",
   dailyLim: "Daily SFL Limit",
   "farm.banned": "This farm is banned",
   gobSwarm: "Goblin Swarm!",

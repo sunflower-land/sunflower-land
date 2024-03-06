@@ -13,7 +13,7 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ConversationName } from "features/game/types/conversations";
+import { ConversationName } from "features/game/types/announcements";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";

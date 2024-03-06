@@ -1,35 +1,40 @@
 import { useActor } from "@xstate/react";
 import { OuterPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
-import {
-  CONVERSATIONS,
-  ConversationName,
-} from "features/game/types/conversations";
 import React, { useContext } from "react";
 import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import chest from "assets/icons/chest.png";
+import letter from "assets/icons/letter.png";
+
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Announcements } from "features/game/types/announcements";
 
 interface Props {
   setSelected: (name?: string) => void;
+  announcements: Announcements;
 }
-export const Mail: React.FC<Props> = ({ setSelected }) => {
+export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   let ids = gameState.context.state.mailbox.read.map((item) => item.id);
-  const announcements = gameState.context.announcements;
+
   const announcementIds: string[] = getKeys(announcements)
     // Ensure they haven't read it already
     .filter((id) => !ids.find((readId) => readId === id));
 
   ids = [...announcementIds, ...ids];
   if (ids.length === 0) {
-    return <p>{t("no.mail")}</p>;
+    return (
+      <div className="flex items-center justify-center flex-col">
+        <img src={letter} className="w-32 my-2" />
+        <p className="mb-2 text-sm">{t("no.mail")}</p>
+      </div>
+    );
   }
 
   const open = (id: string) => {
@@ -39,7 +44,7 @@ export const Mail: React.FC<Props> = ({ setSelected }) => {
       (item) => item.id === id
     );
 
-    const details = CONVERSATIONS[id as ConversationName] ?? announcements[id];
+    const details = announcements[id];
 
     if (!read && !details.reward) {
       gameService.send("message.read", {
@@ -51,8 +56,7 @@ export const Mail: React.FC<Props> = ({ setSelected }) => {
   return (
     <div>
       {ids.map((id) => {
-        const details =
-          CONVERSATIONS[id as ConversationName] ?? announcements[id];
+        const details = announcements[id];
 
         // Message was removed
         if (!details) {

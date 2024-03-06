@@ -194,7 +194,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     },
     {
       name: "Pumpkin Plaza",
-      levelRequired: 1 as BumpkinLevel,
+      levelRequired: 3 as BumpkinLevel,
       image: CROP_LIFECYCLE.Pumpkin.crop,
       path: `/world/plaza`,
       labels: [
@@ -215,7 +215,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     },
     {
       name: "Beach",
-      levelRequired: 1 as BumpkinLevel,
+      levelRequired: 3 as BumpkinLevel,
       image: SUNNYSIDE.resource.crab,
       path: `/world/beach`,
       labels: [
@@ -230,7 +230,7 @@ export const IslandList: React.FC<IslandListProps> = ({
     },
     {
       name: "Woodlands",
-      levelRequired: 1 as BumpkinLevel,
+      levelRequired: 3 as BumpkinLevel,
       image: SUNNYSIDE.resource.wild_mushroom,
       path: `/world/woodlands`,
       labels: [
@@ -239,23 +239,10 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    {
-      name: "Helios",
-      levelRequired: 1 as BumpkinLevel,
-      image: SUNNYSIDE.icons.helios,
-      path: `/helios`,
-      labels: [
-        <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
-          {t("shopping")}
-        </Label>,
-        <Label type="default" key="trash" icon={SUNNYSIDE.icons.cancel}>
-          {t("trash.collection")}
-        </Label>,
-      ],
-    },
+
     {
       name: "Goblin Retreat",
-      levelRequired: 1 as BumpkinLevel,
+      levelRequired: 5 as BumpkinLevel,
       image: goblin,
       path: `/retreat/${farmId}`,
       passRequired: true,
@@ -272,6 +259,20 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
         <Label type="default" key="crafting" icon={SUNNYSIDE.icons.hammer}>
           {t("crafting")}
+        </Label>,
+      ],
+    },
+    {
+      name: "Helios",
+      levelRequired: 10 as BumpkinLevel,
+      image: SUNNYSIDE.icons.helios,
+      path: `/helios`,
+      labels: [
+        <Label type="default" key="shopping" icon={SUNNYSIDE.icons.basket}>
+          {t("shopping")}
+        </Label>,
+        <Label type="default" key="trash" icon={SUNNYSIDE.icons.cancel}>
+          {t("trash.collection")}
         </Label>,
       ],
     },
@@ -311,7 +312,10 @@ export const IslandList: React.FC<IslandListProps> = ({
     );
   }
 
+  const level = bumpkin ? getBumpkinLevel(bumpkin.experience) : 1;
+
   const hideVisitOption =
+    level <= 3 ||
     location.pathname.includes("retreat") ||
     location.pathname.includes("community-garden");
   return (

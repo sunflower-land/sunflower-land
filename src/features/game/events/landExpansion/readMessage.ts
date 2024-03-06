@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { Announcements } from "features/game/types/conversations";
+import { Announcements } from "features/game/types/announcements";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";

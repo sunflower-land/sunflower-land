@@ -8,17 +8,15 @@ import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Mail } from "./components/Mail";
-import {
-  ConversationName,
-  CONVERSATIONS,
-} from "features/game/types/conversations";
-import { Conversation } from "./components/Conversation";
+import { Message } from "./components/Message";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import letterDisc from "assets/icons/letter_disc.png";
+import letter from "assets/icons/letter.png";
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
@@ -30,6 +28,7 @@ export const LetterBox: React.FC = () => {
   const [selected, setSelected] = useState<string>();
 
   const announcements = gameState.context.announcements;
+
   const { t } = useAppTranslation();
   const close = () => {
     setIsOpen(false);
@@ -46,8 +45,7 @@ export const LetterBox: React.FC = () => {
 
   const Content = () => {
     if (selected) {
-      const details =
-        CONVERSATIONS[selected as ConversationName] ?? announcements[selected];
+      const details = announcements[selected];
       return (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
           <div className="flex items-center mb-1">
@@ -59,8 +57,9 @@ export const LetterBox: React.FC = () => {
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
           </div>
 
-          <Conversation
-            conversationId={selected as ConversationName}
+          <Message
+            message={details}
+            conversationId={selected}
             read={
               !!gameState.context.state.mailbox.read.find(
                 (item) => item.id === selected
@@ -74,20 +73,18 @@ export const LetterBox: React.FC = () => {
     return (
       <CloseButtonPanel
         onClose={close}
-        tabs={[
-          { icon: SUNNYSIDE.icons.expression_chat, name: t("bumpkinBuzz") },
-        ]}
+        tabs={[{ icon: letter, name: t("bumpkinBuzz") }]}
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        <Mail setSelected={setSelected} />
+        <Mail setSelected={setSelected} announcements={announcements} />
       </CloseButtonPanel>
     );
   };
   return (
     <>
       <div
-        className="absolute cursor-pointer hover:img-highlight"
+        className="absolute cursor-pointer hover:img-highlight group"
         id="letterbox"
         onClick={() => setIsOpen(true)}
         style={{
@@ -97,15 +94,15 @@ export const LetterBox: React.FC = () => {
       >
         {hasAnnouncement && (
           <img
-            src={SUNNYSIDE.icons.expression_alerted}
+            src={letterDisc}
             className={
-              "absolute pointer-events-none z-20" +
-              (showAnimations ? " animate-float" : "")
+              "absolute  z-20 cursor-pointer group-hover:img-highlight" +
+              (showAnimations ? " animate-pulsate" : "")
             }
             style={{
-              width: `${PIXEL_SCALE * 4}px`,
-              top: `${PIXEL_SCALE * -12}px`,
-              left: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 18}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+              left: `${PIXEL_SCALE * 0}px`,
             }}
           />
         )}

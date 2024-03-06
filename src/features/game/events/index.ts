@@ -128,7 +128,6 @@ import {
   placeFruitPatch,
   PlaceFruitPatchAction,
 } from "./landExpansion/placeFruitPatch";
-import { ConversationEnded, endConversation } from "./landExpansion/converse";
 import { MessageRead, readMessage } from "./landExpansion/readMessage";
 import {
   moveCollectible,
@@ -146,7 +145,7 @@ import { moveStone, MoveStoneAction } from "./landExpansion/moveStone";
 import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
-import { Announcements } from "../types/conversations";
+import { Announcements } from "../types/announcements";
 import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
@@ -306,7 +305,6 @@ export type PlayingEvent =
   | CompleteChoreAction
   | SkipChoreAction
   | ExpandLandAction
-  | ConversationEnded
   | MessageRead
   | PickMushroomAction
   // TODO - remove once landscaping is released
@@ -451,7 +449,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.started": startChore,
   "chore.skipped": skipChore,
   "land.expanded": expandLand,
-  "conversation.ended": endConversation,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
   // TODO - remove once landscaping is released

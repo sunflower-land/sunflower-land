@@ -61,7 +61,7 @@ import {
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
 import { setOnboardingComplete } from "features/auth/actions/onboardingComplete";
-import { Announcements } from "../types/conversations";
+import { Announcements } from "../types/announcements";
 import { purchaseItem, purchaseItemOnChain } from "../actions/purchaseItem";
 import {
   Currency,
@@ -831,7 +831,6 @@ export function startGame(authContext: AuthContext) {
         },
         mailbox: {
           on: {
-            "conversation.ended": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
             "message.read": (GAME_EVENT_HANDLERS as any)["message.read"],
             ACKNOWLEDGE: {
               target: "notifying",
