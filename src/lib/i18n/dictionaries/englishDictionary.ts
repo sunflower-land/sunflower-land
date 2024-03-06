@@ -1820,6 +1820,7 @@ const errorTerms: Record<ErrorTerms, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "Christmas event!",
   "event.LunarNewYear": "Lunar New Year Event",
+  "event.GasHero": "Gas Hero Event",
   "event.valentines.rewards": "Valentine Rewards",
 };
 

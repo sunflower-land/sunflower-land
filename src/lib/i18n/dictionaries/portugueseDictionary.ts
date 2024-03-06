@@ -4602,6 +4602,7 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "Evento de Natal!",
   "event.LunarNewYear": "Evento de Ano Novo Lunar",
+  "event.GasHero": "Evento de Gas Hero",
   "event.valentines.rewards": "Recompensas de Dia dis Namorados",
 };
 
