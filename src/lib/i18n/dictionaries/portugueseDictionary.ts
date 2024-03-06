@@ -4138,6 +4138,7 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.link": ENGLISH_TERMS["special.event.link"],
   "special.event.claimForm":
     "Preencha o formulário abaixo para reivindicar seu airdrop.",
   "special.event.airdropHandling":

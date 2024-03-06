@@ -2775,6 +2775,7 @@ export type SomethingWentWrong =
 
 export type SpecialEvent =
   | "special.event.claimForm"
+  | "special.event.link"
   | "special.event.airdropHandling"
   | "special.event.walletRequired"
   | "special.event.web3Wallet"

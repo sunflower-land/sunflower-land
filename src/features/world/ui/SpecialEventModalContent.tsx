@@ -1,6 +1,5 @@
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import React, { useContext, useEffect, useState } from "react";
+import { NPCName } from "lib/npcs";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -9,12 +8,13 @@ import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
+import chestIcon from "assets/icons/chest.png";
 import walletIcon from "assets/icons/wallet.png";
 import sfl from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
@@ -23,6 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   SpecialEvent,
   SpecialEventName,
+  Task,
 } from "features/game/types/specialEvents";
 import { GameWallet } from "features/wallet/Wallet";
 
@@ -94,7 +95,8 @@ export const SpecialEventModalContent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const [reward, setReward] = useState<Airdrop & { day: number }>();
-  const [showLink] = useState(false);
+  const task = useRef<Task>();
+  const [showLink, setShowLink] = useState(false);
 
   const { t } = useAppTranslation();
   const {
@@ -103,20 +105,20 @@ export const SpecialEventModalContent: React.FC<{
   } = gameState.context;
 
   const claimReward = (day: number) => {
-    const task = event.tasks[day - 1];
+    task.current = event.tasks[day - 1];
 
     gameService.send("specialEvent.taskCompleted", {
       event: eventName,
       task: day,
     });
     setReward({
-      items: task.reward.items,
-      sfl: task.reward.sfl,
+      items: task.current.reward.items,
+      sfl: task.current.reward.sfl,
       createdAt: Date.now(),
       id: `${eventName}-${day}`,
-      wearables: task.reward.wearables,
+      wearables: task.current.reward.wearables,
       day,
-      message: task.isAirdrop
+      message: task.current.isAirdrop
         ? "Airdrops are handled externally and may take a few days to arrive."
         : undefined,
     });
@@ -168,7 +170,7 @@ export const SpecialEventModalContent: React.FC<{
 
   if (showLink) {
     return (
-      <Panel>
+      <>
         <div className="p-2">
           <Label icon={giftIcon} type="warning" className="mb-2">
             {t("congrats")}
@@ -176,16 +178,31 @@ export const SpecialEventModalContent: React.FC<{
           <p className="text-sm mb-2">{t("special.event.claimForm")}</p>
           <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
         </div>
-        <Button>{t("continue")}</Button>
-      </Panel>
+        <Button
+          onClick={() => {
+            window?.open(task.current?.airdropUrl as string, "_blank")?.focus();
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </>
     );
   }
 
   if (reward) {
     return (
-      <Panel>
-        <ClaimReward reward={reward} onClose={() => setReward(undefined)} />
-      </Panel>
+      <>
+        <ClaimReward
+          reward={reward}
+          onClose={() => {
+            setReward(undefined);
+
+            if (task.current?.airdropUrl) {
+              setShowLink(true);
+            }
+          }}
+        />
+      </>
     );
   }
 
@@ -193,41 +210,33 @@ export const SpecialEventModalContent: React.FC<{
   // case it was missed, let's check it here as well
   if (!event.isEligible) {
     return (
-      <CloseButtonPanel
-        onClose={onClose}
-        bumpkinParts={npcName ? NPC_WEARABLES[npcName] : undefined}
-      >
-        <div>
-          {npcName && (
-            <div className="flex justify-between items-center p-2">
-              <Label
-                type="default"
-                className="capitalize"
-                icon={SUNNYSIDE.icons.player}
-              >
-                {npcName}
-              </Label>
-            </div>
-          )}
+      <div>
+        {npcName && (
+          <div className="flex justify-between items-center p-2">
+            <Label
+              type="default"
+              className="capitalize"
+              icon={SUNNYSIDE.icons.player}
+            >
+              {npcName}
+            </Label>
+          </div>
+        )}
 
-          <p className="text-sm mb-3 p-2">
-            <Dialogue
-              trail={25}
-              message={
-                "There is no work needing to be done right now, thanks for stopping by though!"
-              }
-            />
-          </p>
-        </div>
-      </CloseButtonPanel>
+        <p className="text-sm mb-3 p-2">
+          <Dialogue
+            trail={25}
+            message={
+              "There is no work needing to be done right now, thanks for stopping by though!"
+            }
+          />
+        </p>
+      </div>
     );
   }
 
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={npcName ? NPC_WEARABLES[npcName] : undefined}
-    >
+    <>
       <RequiresWallet
         requiresWallet={event.requiresWallet}
         hasWallet={!!linkedWallet}
@@ -271,7 +280,7 @@ export const SpecialEventModalContent: React.FC<{
                   </Label>
                   <div className="flex justify-end space-x-3">
                     {getKeys(task.reward.items).map((itemName) => (
-                      <Label type="warning" icon={giftIcon} key={itemName}>
+                      <Label type="warning" icon={chestIcon} key={itemName}>
                         {`${task.reward.items[itemName]} ${itemName}`}
                       </Label>
                     ))}
@@ -281,7 +290,7 @@ export const SpecialEventModalContent: React.FC<{
                       </Label>
                     )}
                     {getKeys(task.reward.wearables).map((wearableName) => (
-                      <Label type="warning" icon={giftIcon} key={wearableName}>
+                      <Label type="warning" icon={chestIcon} key={wearableName}>
                         {`${task.reward.wearables[wearableName]} ${wearableName}`}
                       </Label>
                     ))}
@@ -308,8 +317,21 @@ export const SpecialEventModalContent: React.FC<{
                       />
                     );
                   })}
-                  <div className="flex justify-end">
-                    {task.completedAt ? (
+                  <div className="flex justify-between items-center">
+                    <div>
+                      {!!task.completedAt && task.airdropUrl && (
+                        <a
+                          href={task.airdropUrl}
+                          className="underline text-xs ml-0.5"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {t("special.event.link")}
+                        </a>
+                      )}
+                    </div>
+                    {/* {task.completedAt ? ( */}
+                    {!task.completedAt ? (
                       <div className="flex">
                         <span className="text-xs mr-1">{t("completed")}</span>
                         <img src={SUNNYSIDE.icons.confirm} className="h-4" />
@@ -336,6 +358,6 @@ export const SpecialEventModalContent: React.FC<{
           </div>
         </div>
       </RequiresWallet>
-    </CloseButtonPanel>
+    </>
   );
 };
