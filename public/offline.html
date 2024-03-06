@@ -66,9 +66,10 @@
         border-radius: 13.125px;
         padding: 2.625px;
         width: 100%;
+        max-width: fit-content;
 
         @media screen and (min-width: 768px) {
-          width: 75%;
+          width: 50%;
         }
       }
 
@@ -81,6 +82,9 @@
         image-rendering: pixelated;
         border-radius: 13.125px;
         padding: 2.625px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
       }
 
       .panel-content {
@@ -93,6 +97,29 @@
         margin-bottom: 12px;
         display: flex;
         flex-direction: column;
+      }
+
+      .refresh-button {
+        border-image-slice: "20%";
+        border-image-repeat: "stretch";
+        background-color: rgb(231 168 115);
+        border-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKAgMAAADwXCcuAAAACVBMVEUAAAAYFCXq1KoZSBjjAAAAAXRSTlMAQObYZgAAABpJREFUCNdjYA1lYJBa5cCQwDABGwbJgdQAAKX2CF37xkC2AAAAAElFTkSuQmCC")
+          20% / 1 / 0 stretch;
+        border-style: solid;
+        border-width: 5.25px;
+        image-rendering: pixelated;
+        border-radius: 13.125px;
+        padding: 2.625px;
+        padding-bottom: 8px;
+        width: 100%;
+        font-family: "Paytone One", sans-serif;
+        overflow: hidden;
+        color: white;
+        font-size: 22px;
+        letter-spacing: -0.4px;
+        word-spacing: 3px;
+        line-height: 20px;
+        text-shadow: 1px 1px #1f1f1f;
       }
     </style>
   </head>
@@ -116,6 +143,9 @@
               </span>
             </div>
           </div>
+          <button class="refresh-button" onclick="window.location.reload(true)">
+            Refresh
+          </button>
         </div>
       </div>
     </div>
