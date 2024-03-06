@@ -3072,6 +3072,7 @@ export type World =
 export type Event =
   | "event.christmas"
   | "event.LunarNewYear"
+  | "event.GasHero"
   | "event.valentines.rewards";
 
 export type Promo = "promo.cdcBonus" | "promo.expandLand";
