@@ -4302,17 +4302,17 @@ const tieBreaker: Record<TieBreaker, string> = {
 
 const toolDescriptions: Record<ToolDescriptions, string> = {
   // Ferramentas
-  "description.axe": "Usado para coletar madeira",
-  "description.pickaxe": "Usado para coletar pedra",
-  "description.stone.pickaxe": "Usado para coletar ferro",
-  "description.iron.pickaxe": "Usado para coletar ouro",
+  "description.axe": "Usado para cortar madeira",
+  "description.pickaxe": "Usado para minerar pedra",
+  "description.stone.pickaxe": "Usado para minerar ferro",
+  "description.iron.pickaxe": "Usado para minerar ouro",
+  "description.gold.pickaxe": "Usado para minerar crimstone e sunstone",
   "description.rod": "Usado para pescar",
   "description.rusty.shovel": "Usado para remover construções e colecionáveis",
   "description.shovel": "Plantar e colher plantações.",
   "description.sand.shovel": "Usado para escavar tesouros",
   "description.sand.drill":
     "Perfurar profundamente por tesouros incomuns ou raros",
-  "description.gold.pickaxe": "Usado para coletar crimstone e sunstone",
 };
 
 const trader: Record<Trader, string> = {
