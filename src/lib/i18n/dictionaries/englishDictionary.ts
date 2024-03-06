@@ -4256,16 +4256,16 @@ const tieBreaker: Record<TieBreaker, string> = {
 
 const toolDescriptions: Record<ToolDescriptions, string> = {
   // Tools
-  "description.axe": "Used to collect wood",
-  "description.pickaxe": "Used to collect stone",
-  "description.stone.pickaxe": "Used to collect iron",
-  "description.iron.pickaxe": "Used to collect gold",
+  "description.axe": "Used to chop wood",
+  "description.pickaxe": "Used to mine stone",
+  "description.stone.pickaxe": "Used to mine iron",
+  "description.iron.pickaxe": "Used to mine gold",
+  "description.gold.pickaxe": "Used to mine crimstone and sunstone",
   "description.rod": "Used to catch fish",
   "description.rusty.shovel": "Used to remove buildings and collectibles",
   "description.shovel": "Plant and harvest crops.",
   "description.sand.shovel": "Used for digging treasure",
   "description.sand.drill": "Drill deep for uncommon or rare treasure",
-  "description.gold.pickaxe": "Used to collect crimstone and sunstone",
 };
 
 const trader: Record<Trader, string> = {
