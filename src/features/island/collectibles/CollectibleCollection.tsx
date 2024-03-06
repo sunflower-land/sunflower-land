@@ -239,6 +239,7 @@ import { FlowerRug } from "./components/FlowerRug";
 import { EarnAllianceBanner } from "./components/EarnAllianceBanner";
 import { GreenFieldRug } from "./components/GreenFieldRug";
 import { TeaRug } from "./components/TeaRug";
+import { BabyPanda } from "./components/BabyPanda";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -246,6 +247,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Baby Panda": BabyPanda,
   "Earn Alliance Banner": EarnAllianceBanner,
   Wardrobe: Wardrobe,
   "White Festive Fox": WhiteFestiveFox,

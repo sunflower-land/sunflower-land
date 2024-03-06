@@ -2280,6 +2280,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand": "Um Bumpkin adotado em sua fazenda",
   "description.tulip.bulb": "Um ingresso usado durante a Florada da Primavera",
   "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
+  "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
   "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",
   "description.luxury.key":

@@ -2231,6 +2231,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket":
     "A ticket to enter the end of season prize giveaway",
+  "description.babyPanda": "A cute panda from the Gas Hero event.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

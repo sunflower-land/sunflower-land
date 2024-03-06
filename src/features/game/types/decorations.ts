@@ -71,6 +71,7 @@ export type SeasonalDecorationName =
   | "Beach Umbrella";
 
 export type EventDecorationName =
+  | "Baby Panda"
   | "Valentine Bear"
   | "Easter Bear"
   | "Easter Bush"
@@ -105,6 +106,10 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Baby Panda": {
+    width: 1,
+    height: 1,
+  },
   "Earn Alliance Banner": {
     width: 1,
     height: 2,
