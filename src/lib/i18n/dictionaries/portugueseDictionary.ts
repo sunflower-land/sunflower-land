@@ -4303,10 +4303,10 @@ const tieBreaker: Record<TieBreaker, string> = {
 const toolDescriptions: Record<ToolDescriptions, string> = {
   // Ferramentas
   "description.axe": "Usado para cortar madeira",
-  "description.pickaxe": "Usado para extrair pedra",
-  "description.stone.pickaxe": "Usado para extrair ferro",
-  "description.iron.pickaxe": "Usado para extrair ouro",
-  "description.gold.pickaxe": "Usado para extrair crimstone e sunstone",
+  "description.pickaxe": "Usado para minerar pedra",
+  "description.stone.pickaxe": "Usado para minerar ferro",
+  "description.iron.pickaxe": "Usado para minerar ouro",
+  "description.gold.pickaxe": "Usado para minerar crimstone e sunstone",
   "description.rod": "Usado para pescar",
   "description.rusty.shovel": "Usado para remover construções e colecionáveis",
   "description.shovel": "Plantar e colher plantações.",
