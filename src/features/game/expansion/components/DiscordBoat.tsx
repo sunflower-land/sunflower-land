@@ -151,6 +151,10 @@ export const DiscordBoat: React.FC = () => {
   // When ready, show boat above island
   const isReady = authState.context.user.token?.discordId && !isClaimed;
 
+  if (isClaimed) {
+    return null;
+  }
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
