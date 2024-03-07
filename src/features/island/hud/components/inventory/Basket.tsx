@@ -135,7 +135,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   );
   const pirateCake = getItems(PIRATE_CAKE);
   const fertilisers = getItems(FERTILISERS);
-  const coupons = getItems(COUPONS);
+  const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
