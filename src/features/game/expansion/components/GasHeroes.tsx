@@ -16,7 +16,7 @@ export const GasHeroes: React.FC<{ event: SpecialEvent | undefined }> = ({
 }) => {
   const [showSpecialEvent, setShowSpecialEvent] = useState(false);
 
-  if (!event || !event.isEligible) return null;
+  if (!event || !event.isEligible || event.startAt > Date.now()) return null;
 
   return (
     <>
