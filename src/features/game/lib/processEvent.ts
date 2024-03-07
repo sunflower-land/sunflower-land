@@ -149,6 +149,7 @@ export const maxItems: Inventory = {
   "Dawn Breaker Ticket": new Decimal(750),
   "Crow Feather": new Decimal(750),
   "Mermaid Scale": new Decimal(1500),
+  "Tulip Bulb": new Decimal(1500),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
