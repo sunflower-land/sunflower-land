@@ -4504,9 +4504,10 @@ const withdraw: Record<Withdraw, string> = {
 };
 
 const world: Record<World, string> = {
-  "world.intro.one": "Howdy Traveller! Welcome to the Pumpkin Plaza.",
+  "world.intro.one":
+    "Howdy Bumpkin, welcome to the Pumpkin Plaza. Here Bumpkins from far and wide come together to trade, complete deliveries and play mini-games.",
   "world.intro.two":
-    "The plaza is home to a diverse group of hungry Bumpkins and Goblins that need your help!",
+    "Explore the Plaza and find Bumpkins who are waiting for your deliveries. In exchange, they will give you rewards!",
   "world.intro.three": "A few quick hints before you begin your adventure:",
   "world.intro.visit":
     "Visit NPCs and complete deliveries to earn SFL and rare rewards.",
