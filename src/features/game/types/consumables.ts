@@ -85,7 +85,7 @@ export type Consumable = Omit<
   "name" | "ingredients" | "cookingSeconds" | "building" | "marketRate"
 > & { name: ConsumableName };
 
-const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
+export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
   "Mashed Potato": {
     name: "Mashed Potato",
     description: translate("description.mashed.potato"),
@@ -216,7 +216,7 @@ const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
   },
 };
 
-const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
+export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
   "Sunflower Crunch": {
     name: "Sunflower Crunch",
     description: translate("description.sunflower.crunch"),
@@ -381,7 +381,7 @@ const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
   },
 };
 
-const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
+export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
   "Apple Pie": {
     name: "Apple Pie",
     description: translate("description.apple.pie"),
@@ -591,7 +591,7 @@ const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
   },
 };
 
-const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
+export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
   "Blueberry Jam": {
     name: "Blueberry Jam",
     description: translate("description.blueberry.jam"),
@@ -650,7 +650,7 @@ const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
   },
 };
 
-const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
+export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
   "Purple Smoothie": {
     name: "Purple Smoothie",
     description: translate("description.purple.smoothie"),

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
-import { getKeys } from "features/game/types/craftables";
 import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
   Cookable,
   CookableName,
-  COOKABLES,
+  DELI_COOKABLES,
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -29,13 +28,9 @@ export const DeliModal: React.FC<Props> = ({
   itemInProgress,
   craftingService,
 }) => {
-  const deliRecipes = getKeys(COOKABLES).reduce((acc, name) => {
-    if (COOKABLES[name].building !== "Deli") {
-      return acc;
-    }
-
-    return [...acc, COOKABLES[name]];
-  }, [] as Cookable[]);
+  const deliRecipes = Object.values(DELI_COOKABLES).sort(
+    (a, b) => a.cookingSeconds - b.cookingSeconds // Future proofing for future foods released
+  );
   const [selected, setSelected] = useState<Cookable>(
     deliRecipes.find((recipe) => recipe.name === itemInProgress) ||
       deliRecipes[0]
