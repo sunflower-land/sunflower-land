@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { getEntries } from "features/game/types/craftables";
@@ -30,7 +31,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
   const availableFood = getEntries(CONSUMABLES)
     .filter(([name, _]) => !!state.inventory[name]?.gt(0))
-    .map(([_, consumable]) => consumable);
+    .map(([_, consumable]) => consumable)
+    .sort((a, b) => a.experience - b.experience);
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 
