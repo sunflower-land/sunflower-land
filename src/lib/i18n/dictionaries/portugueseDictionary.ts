@@ -4150,6 +4150,9 @@ const specialEvent: Record<SpecialEvent, string> = {
   "special.event.web3Wallet":
     "Uma carteira Web3 é necessária para este evento, pois contém um Airdrop.",
   "special.event.airdrop": "Airdrop",
+  "special.event.finishedLabel": ENGLISH_TERMS["special.event.finishedLabel"],
+  "special.event.finished": ENGLISH_TERMS["special.event.finished"],
+  "special.event.ineligible": ENGLISH_TERMS["special.event.ineligible"],
 };
 
 const statements: Record<Statements, string> = {
