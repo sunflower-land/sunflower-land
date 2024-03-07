@@ -3751,6 +3751,8 @@ const onCollectReward: Record<OnCollectReward, string> = {
   "onCollectReward.Missing.Seed": "Missing Seeds",
   "onCollectReward.Market": "Go to the Market to purchase seeds.",
   "onCollectReward.Missing.Shovel": "Missing Shovel",
+  "onCollectReward.Missing.Shovel.description":
+    "Expand your island to find it.",
 };
 
 const orderhelp: Record<OrderHelp, string> = {

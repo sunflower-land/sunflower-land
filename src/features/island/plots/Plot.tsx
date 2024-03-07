@@ -330,6 +330,9 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
               src={ITEM_DETAILS.Shovel.image}
               className="w-10 mx-auto my-2"
             />
+            <p className="text-sm mb-2 text-center">
+              {t("onCollectReward.Missing.Shovel.description")}
+            </p>
           </div>
         </CloseButtonPanel>
       </Modal>

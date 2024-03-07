@@ -2529,7 +2529,8 @@ export type Onboarding =
 export type OnCollectReward =
   | "onCollectReward.Missing.Seed"
   | "onCollectReward.Market"
-  | "onCollectReward.Missing.Shovel";
+  | "onCollectReward.Missing.Shovel"
+  | "onCollectReward.Missing.Shovel.description";
 
 export type OrderHelp =
   | "orderhelp.Skip.hour"
