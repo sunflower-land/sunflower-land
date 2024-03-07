@@ -61,14 +61,14 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
                   {CONFIG.RELEASE_VERSION?.split("-")[0]}
                 </Label>
 
-                {Date.now() > new Date("2024-02-09").getTime() &&
-                  Date.now() < new Date("2024-02-16").getTime() && (
+                {Date.now() > new Date("2024-03-14").getTime() &&
+                  Date.now() < new Date("2024-03-17").getTime() && (
                     <Label
                       secondaryIcon={SUNNYSIDE.icons.stopwatch}
                       type="vibrant"
                       className="ml-2"
                     >
-                      {t("event.LunarNewYear")}
+                      {t("event.GasHero")}
                     </Label>
                   )}
               </div>

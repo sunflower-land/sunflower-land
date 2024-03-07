@@ -415,6 +415,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Luxury Key": 932,
   "Rare Key": 933,
   "Prize Ticket": 934,
+  "Baby Panda": 935,
 
   // Buildings
   Market: 1001,

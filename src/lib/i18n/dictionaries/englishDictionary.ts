@@ -1820,6 +1820,7 @@ const errorTerms: Record<ErrorTerms, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "Christmas event!",
   "event.LunarNewYear": "Lunar New Year Event",
+  "event.GasHero": "Gas Hero Event",
   "event.valentines.rewards": "Valentine Rewards",
 };
 
@@ -2230,6 +2231,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket":
     "A ticket to enter the end of season prize giveaway",
+  "description.babyPanda": "A cute panda from the Gas Hero event.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
@@ -4098,6 +4100,7 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.link": "Airdrop link",
   "special.event.claimForm":
     "Please fill in the form below to claim your airdrop.",
   "special.event.airdropHandling":

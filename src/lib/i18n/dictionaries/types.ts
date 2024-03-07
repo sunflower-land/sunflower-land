@@ -1597,6 +1597,7 @@ export type GameDescriptions =
   | "description.rare.key"
   | "description.luxury.key"
   | "description.prizeTicket"
+  | "description.babyPanda"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
@@ -2776,6 +2777,7 @@ export type SomethingWentWrong =
 
 export type SpecialEvent =
   | "special.event.claimForm"
+  | "special.event.link"
   | "special.event.airdropHandling"
   | "special.event.walletRequired"
   | "special.event.web3Wallet"
@@ -3072,6 +3074,7 @@ export type World =
 export type Event =
   | "event.christmas"
   | "event.LunarNewYear"
+  | "event.GasHero"
   | "event.valentines.rewards";
 
 export type Promo = "promo.cdcBonus" | "promo.expandLand";

@@ -432,6 +432,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Enchanted Rose": new Decimal(1),
     "Flower Cart": new Decimal(1),
     Capybara: new Decimal(1),
+    "Baby Panda": new Decimal(1),
   },
   wardrobe: {
     "Elf Suit": 1,

@@ -2280,6 +2280,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand": "Um Bumpkin adotado em sua fazenda",
   "description.tulip.bulb": "Um ingresso usado durante a Florada da Primavera",
   "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
+  "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
   "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",
   "description.luxury.key":
@@ -4140,6 +4141,7 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.link": ENGLISH_TERMS["special.event.link"],
   "special.event.claimForm":
     "Preencha o formulário abaixo para reivindicar seu airdrop.",
   "special.event.airdropHandling":
@@ -4603,6 +4605,7 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "Evento de Natal!",
   "event.LunarNewYear": "Evento de Ano Novo Lunar",
+  "event.GasHero": "Evento de Gas Hero",
   "event.valentines.rewards": "Recompensas de Dia dis Namorados",
 };
 
