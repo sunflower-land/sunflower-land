@@ -4109,6 +4109,11 @@ const specialEvent: Record<SpecialEvent, string> = {
   "special.event.web3Wallet":
     "A Web3 wallet is required for this event as it contains an Airdrop.",
   "special.event.airdrop": "Airdrop",
+  "special.event.finishedLabel": "Event Finished",
+  "special.event.finished":
+    "This event has finished. Stay tuned for future events!",
+  "special.event.ineligible":
+    "There is no work needing to be done right now, thanks for stopping by though!",
 };
 
 const statements: Record<Statements, string> = {

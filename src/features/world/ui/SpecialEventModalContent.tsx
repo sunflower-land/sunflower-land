@@ -206,6 +206,26 @@ export const SpecialEventModalContent: React.FC<{
     );
   }
 
+  if (event.endAt < Date.now()) {
+    return (
+      <div>
+        <div className="flex justify-between items-center p-2">
+          <Label
+            type="default"
+            className="capitalize"
+            icon={SUNNYSIDE.icons.player}
+          >
+            {npcName ?? t("special.event.finishedLabel")}
+          </Label>
+        </div>
+
+        <p className="text-sm mb-3 p-2">
+          <Dialogue trail={25} message={t("special.event.finished")} />
+        </p>
+      </div>
+    );
+  }
+
   // isEligible should already be checked by the parent component but just in
   // case it was missed, let's check it here as well
   if (!event.isEligible) {
@@ -224,12 +244,7 @@ export const SpecialEventModalContent: React.FC<{
         )}
 
         <p className="text-sm mb-3 p-2">
-          <Dialogue
-            trail={25}
-            message={
-              "There is no work needing to be done right now, thanks for stopping by though!"
-            }
-          />
+          <Dialogue trail={25} message={t("special.event.ineligible")} />
         </p>
       </div>
     );
