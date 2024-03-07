@@ -225,6 +225,8 @@ export class PlazaScene extends BaseScene {
     [sessionId: string]: PlaceableContainer;
   } = {};
 
+  public arrows: Phaser.GameObjects.Sprite | undefined;
+
   constructor() {
     super({
       name: "plaza",
@@ -237,6 +239,7 @@ export class PlazaScene extends BaseScene {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
     this.load.image("page", "world/page.png");
+    this.load.image("arrows_to_move", "world/arrows_to_move.png");
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("timer_icon", "world/timer_icon.png");
@@ -375,6 +378,16 @@ export class PlazaScene extends BaseScene {
           );
         }
       });
+    }
+
+    if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
+      this.arrows = this.add
+        .sprite(
+          (this.currentPlayer?.x ?? 0) + 2,
+          (this.currentPlayer?.y ?? 0) - 4,
+          "arrows_to_move"
+        )
+        .setDepth(1000000000000);
     }
 
     if (this.gameState.inventory["Treasure Key"]) {
@@ -646,5 +659,9 @@ export class PlazaScene extends BaseScene {
   public update() {
     super.update();
     this.syncPlaceables();
+
+    if (this.movementAngle && this.arrows) {
+      this.arrows.setVisible(false);
+    }
   }
 }
