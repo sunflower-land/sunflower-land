@@ -1245,11 +1245,11 @@ const conversations: Record<Conversations, string> = {
   "luna.rewards": "Rewards",
   "luna.travel": "Travel to these player built portals and earn rewards.",
   "pete.intro.one":
-    "Howdy there, Bumpkin! Welcome to Sunflower Land, the bountiful farming paradise where anything is possible!",
+    "Howdy there, Bumpkin! Are you ready to get your hands dirty and explore the magical world of Sunflower Land?",
   "pete.intro.two":
-    "What a beautiful island you have set up on! I'm Pumpkin Pete, your neighboring farmer.",
+    "Before you can embark on your adventure, you will need to grow your farm, cook food and level up!",
   "pete.intro.three":
-    "Right now the players are celebrating a festival in the plaza with fantastic rewards and magical items.",
+    "To get started, you will want to chop down those trees and expand your island.",
   "pete.intro.four":
     "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
   "pete.intro.five":

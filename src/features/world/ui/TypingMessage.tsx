@@ -38,7 +38,7 @@ export const TypingMessage: React.FC<Props> = ({
     };
   }, [message, forceShowFullMessage, trail, currentIndex, onMessageEnd]);
 
-  return <div className="leading-[1]">{displayedMessage}</div>;
+  return <div className="leading-[1] text-sm">{displayedMessage}</div>;
 };
 
 export const InlineDialogue: React.FC<{
