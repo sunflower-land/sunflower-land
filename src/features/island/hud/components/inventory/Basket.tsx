@@ -130,7 +130,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
-  const foods = getItems(COOKABLES);
+  const foods = getItems(COOKABLES).sort(
+    (a, b) => COOKABLES[a].experience - COOKABLES[b].experience
+  );
   const pirateCake = getItems(PIRATE_CAKE);
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS);
