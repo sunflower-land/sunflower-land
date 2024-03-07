@@ -143,7 +143,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fruitCompost = getItems(FRUIT_COMPOST);
   const worm = getItems(WORM);
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
-  const fish = getItems(FISH);
+  const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
 
   const allSeeds = [...seeds, ...fruitSeeds, ...flowerSeeds];
   const allTools = [...workbenchTools, ...treasureTools];
