@@ -11,6 +11,7 @@ import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
 import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
 import { PWAInstallComponent } from "components/pwa/PWAInstallComponent";
+import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 
 // Initialise Global Settings
 initialise();
@@ -56,17 +57,29 @@ export const App: React.FC = () => {
         <ServiceWorker />
       )}
       <Auth.Provider>
-        <WalletProvider>
-          <ErrorBoundary>
-            <Navigation />
-            <div
-              className="fixed top-2 left-1/2"
-              style={{ zIndex: 5678907878 }}
+        <PWAInstallProvider>
+          <WalletProvider>
+            <ErrorBoundary>
+              <Navigation />
+              <div
+                className="fixed top-2 left-1/2"
+                style={{ zIndex: 5678907878 }}
+              >
+                <PWAInstallComponent />
+              </div>
+              {/* <div
+              className="fixed top-6 left-0 text-xs w-full"
+              style={{ fontFamily: "sans-serif", zIndex: 5678907878 }}
             >
-              <PWAInstallComponent />
-            </div>
-          </ErrorBoundary>
-        </WalletProvider>
+              {" "}
+              {`Device: ${JSON.stringify(parser.getDevice())}`}
+              {`Browser: ${JSON.stringify(parser.getBrowser())}`}
+              {`Result: ${JSON.stringify(parser.getResult())}`}
+              {`UA: ${JSON.stringify(navigator.userAgent)}`}
+            </div> */}
+            </ErrorBoundary>
+          </WalletProvider>
+        </PWAInstallProvider>
       </Auth.Provider>
     </>
   );

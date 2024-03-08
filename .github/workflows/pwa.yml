@@ -31,7 +31,7 @@ jobs:
           NODE_OPTIONS: --max-old-space-size=6144
           CI: false
 
-          VITE_API_URL: ${{ secrets.API_URL }}
+          VITE_API_URL: "https://dtdzgrp2r9.execute-api.us-east-1.amazonaws.com"
           VITE_ROOM_URL: ${{ secrets.ROOM_URL }}
           VITE_DONATION_ADDRESS: ${{ secrets.DONATION_ADDRESS }}
           VITE_NETWORK: mumbai
