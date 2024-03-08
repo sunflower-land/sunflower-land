@@ -20,6 +20,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { makeListingType } from "lib/utils/makeTradeListingType";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const INPUT_MAX_CHAR = 10;
@@ -133,7 +134,6 @@ const ListTrade: React.FC<{
             </div>
           ))}
           <p className="text-sm ml-2">{t("bumpkinTrade.askPrice")} </p>
-
           <div className="flex items-center relative">
             <span className="text-xxs absolute right-[10px] top-[-5px]">{`${t(
               "max"
@@ -170,11 +170,9 @@ const ListTrade: React.FC<{
               )}
             />
           </div>
-
-          {/* <div className="flex mb-2 mx-1.5">
-            <img src={ITEM_DETAILS["Block Buck"].image} className="h-4 mr-1" />
-            <span className="text-xs">A listing requires 1 x Block Buck</span>
-          </div> */}
+          <p className="text-xxs ml-2 mb-2">{`You will receive ${(
+            sfl * 0.9
+          ).toFixed(2)} SFL and ${(sfl * 0.1).toFixed(2)} will be burned`}</p>
         </>
       )}
       <div className="flex">
@@ -208,10 +206,6 @@ const TradeDetails: React.FC<{
   if (trade.boughtAt) {
     return (
       <div>
-        <div className="flex items-center   mb-2 mt-1 mx-1">
-          <img src={SUNNYSIDE.icons.heart} className="h-4 mr-1" />
-          <p className="text-xs">{t("bumpkinTrade.listingPurchased")}</p>
-        </div>
         <OuterPanel>
           <div className="flex justify-between">
             <div>
@@ -371,12 +365,6 @@ export const Trade: React.FC = () => {
     return null;
   }
 
-  function makeListingType(
-    items: Partial<Record<InventoryItemName, number>>
-  ): string {
-    return Object.keys(items).sort().join("-").toLowerCase();
-  }
-
   if (hasAccess) {
     return (
       <div>
@@ -387,7 +375,10 @@ export const Trade: React.FC = () => {
                 onCancel={() =>
                   onCancel(listingId, makeListingType(trades[listingId].items))
                 }
-                onClaim={() => null}
+                onClaim={() => {
+                  gameService.send("trade.received", { tradeId: firstTrade });
+                  gameService.send("SAVE");
+                }}
                 trade={trades[listingId]}
               />
             </div>

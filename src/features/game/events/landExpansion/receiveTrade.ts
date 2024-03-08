@@ -31,7 +31,7 @@ export function receiveTrade({
   // }
 
   // Add SFL to balance (minus tax)
-  game.balance = game.balance.add(trade.sfl);
+  game.balance = game.balance.add(trade.sfl).minus(trade.sfl * 0.1);
 
   // Remove trade
   delete game.trades.listings?.[action.tradeId];

@@ -4623,6 +4623,7 @@ const trading: Record<Trading, string> = {
   "trading.no.listings": "Nenhuma listagem encontrada",
   "trading.listing.congrats": "Parabéns, você listou seus itens para troca!",
   "trading.listing.deleted": "Sua listagem foi excluída",
+  "trading.listing.fulfilled": "A troca foi completada",
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {

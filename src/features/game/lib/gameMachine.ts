@@ -85,6 +85,7 @@ import { BUMPKIN_EXPANSIONS_LEVEL } from "../types/expansions";
 import { getBumpkinLevel } from "./level";
 import { listRequest } from "../actions/listTrade";
 import { deleteListingRequest } from "../actions/deleteListing";
+import { fulfillTradeListingRequest } from "../actions/fulfillTradeListing";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -254,6 +255,13 @@ type DeleteTradeListingEvent = {
   listingType: string;
 };
 
+type FulfillTradeListingEvent = {
+  type: "FULFILL_TRADE_LISTING";
+  sellerId: number;
+  listingId: string;
+  listingType: string;
+};
+
 export type UpdateUsernameEvent = {
   type: "UPDATE_USERNAME";
   username: string;
@@ -270,6 +278,7 @@ export type BlockchainEvent =
   | TradeEvent
   | ListingEvent
   | DeleteTradeListingEvent
+  | FulfillTradeListingEvent
   | {
       type: "REFRESH";
     }
@@ -427,6 +436,8 @@ export type BlockchainState = {
     | "listed"
     | "deleteTradeListing"
     | "tradeListingDeleted"
+    | "tradeListingFulfilled"
+    | "fulfillTradeListing"
     | "traded"
     | "sniped"
     | "buds"
@@ -1009,6 +1020,7 @@ export function startGame(authContext: AuthContext) {
             },
             LIST_TRADE: { target: "listing" },
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
+            FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
             UPDATE_BLOCK_BUCKS: {
               actions: assign((context, event) => ({
                 state: {
@@ -1537,6 +1549,76 @@ export function startGame(authContext: AuthContext) {
           },
         },
         tradeListingDeleted: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
+        fulfillTradeListing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { sellerId, listingId, listingType } =
+                event as FulfillTradeListingEvent;
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const { farm, error } = await fulfillTradeListingRequest({
+                buyerId: Number(context.farmId),
+                sellerId,
+                listingId,
+                listingType,
+                token: authContext.user.rawToken as string,
+              });
+
+              return {
+                farm,
+                buyerId: String(context.farmId),
+                sellerId: String(sellerId),
+                listingId,
+                error,
+              };
+            },
+            onDone: [
+              {
+                target: "sniped",
+                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
+              },
+              {
+                target: "tradeListingFulfilled",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.farm,
+                  })),
+                  (_, event) => {
+                    mmoBus.send({
+                      trade: {
+                        buyerId: event.data.buyerId,
+                        sellerId: event.data.sellerId,
+                        tradeId: event.data.listingId,
+                      },
+                    });
+                  },
+                ],
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+        tradeListingFulfilled: {
           on: {
             CONTINUE: "playing",
           },

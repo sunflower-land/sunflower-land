@@ -4544,6 +4544,7 @@ const trading: Record<Trading, string> = {
   "trading.listing.congrats":
     " Congratulations, you just listed your items for trade!",
   "trading.listing.deleted": "Your listing has been deleted",
+  "trading.listing.fulfilled": "Trade has been fulfilled",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

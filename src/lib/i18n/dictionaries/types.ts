@@ -3100,7 +3100,8 @@ export type Trading =
   | "trading.select.resources"
   | "trading.no.listings"
   | "trading.listing.congrats"
-  | "trading.listing.deleted";
+  | "trading.listing.deleted"
+  | "trading.listing.fulfilled";
 
 export type TranslationKeys =
   | AchievementsTerms

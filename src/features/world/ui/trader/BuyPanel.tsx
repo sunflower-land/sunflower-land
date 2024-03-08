@@ -146,13 +146,6 @@ export const BuyPanel: React.FC = () => {
                       <p className="text-xs">{`${sfl} SFL`}</p>
                       <img src={token} className="h-6 ml-1" />
                     </div>
-                    <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <p className="text-xs">{`1 x`}</p>
-                      <img
-                        src={ITEM_DETAILS["Block Buck"].image}
-                        className="h-6 ml-1"
-                      />
-                    </div>
                   </div>
                 </div>
               </OuterPanel>
