@@ -55,6 +55,7 @@ export type GeneralTerms =
   | "cook"
   | "copied"
   | "copy.address"
+  | "copy.link"
   | "coupons"
   | "craft"
   | "craft"

@@ -229,6 +229,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   cook: "Cook",
   copied: "Copied",
   "copy.address": "Copy Address",
+  "copy.link": "Copy Link",
   coupons: "Coupons",
   craft: "Craft",
   crafting: "Crafting",
