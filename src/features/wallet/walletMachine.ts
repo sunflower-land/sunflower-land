@@ -281,6 +281,9 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           },
           {
             target: "error",
+            actions: assign<Context, any>({
+              errorCode: (_context, event) => event.data.message,
+            }),
           },
         ],
       },
@@ -339,6 +342,9 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           },
           {
             target: "error",
+            actions: assign<Context, any>({
+              errorCode: (_context, event) => event.data.message,
+            }),
           },
         ],
       },
