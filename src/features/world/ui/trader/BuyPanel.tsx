@@ -11,6 +11,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/token_2.png";
+import lock from "assets/skills/lock.png";
 import { TRADE_LIMITS } from "features/game/events/landExpansion/listTrade";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
@@ -20,26 +21,32 @@ import {
   Listing,
   getTradeListings,
 } from "features/game/actions/getTradeListings";
-import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { hasMaxItems } from "features/game/lib/processEvent";
+import { makeListingType } from "lib/utils/makeTradeListingType";
 
-export const BuyPanel: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
+
   const [view, setView] = useState<"search" | "list">("search");
   const [search, setSearch] = useState<Partial<InventoryItemName[]>>([]);
   const [data, setData] = useState<Listing[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
+  const [showConfirm, setShowConfirm] = useState(false);
   const [
     {
-      context: { state },
+      context: { state, transaction },
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
-
-  const hasAccess = hasFeatureAccess(state, "TRADING_REVAMP");
 
   const toggleItemInSearch = (itemName: InventoryItemName) => {
     setSearch((currentSearch) => {
@@ -103,6 +110,97 @@ export const BuyPanel: React.FC = () => {
       );
     }
 
+    const confirm = (listing: Listing) => {
+      const updatedInventory = getKeys(listing.items).reduce(
+        (acc, name) => ({
+          ...acc,
+          [name]: (inventory[name] ?? new Decimal(0)).add(
+            listing.items[name] ?? 0
+          ),
+        }),
+        inventory
+      );
+
+      const hasMaxedOut = hasMaxItems({
+        current: updatedInventory,
+        old: state.previousInventory,
+      });
+
+      if (hasMaxedOut) {
+        setWarning("hoarding");
+        return;
+      }
+
+      if (transaction && transaction.expiresAt > Date.now()) {
+        setWarning("pendingTransaction");
+        return;
+      }
+
+      setShowConfirm(true);
+    };
+
+    const onConfirm = async (listing: Listing) => {
+      gameService.send("FULFILL_TRADE_LISTING", {
+        sellerId: listing.farmId,
+        listingId: listing.id,
+        listingType: makeListingType(listing.items),
+      });
+      onClose();
+    };
+
+    const Action = (listing: Listing) => {
+      if (showConfirm) {
+        return (
+          <Button onClick={() => onConfirm(listing)}>
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
+              <span className="text-xs">{t("confirm")}</span>
+            </div>
+          </Button>
+        );
+      }
+
+      const hasSFL = state.balance.gte(listing.sfl);
+      const disabled = !hasSFL;
+
+      return (
+        <Button
+          disabled={disabled}
+          onClick={() => {
+            confirm(listing);
+          }}
+        >
+          {t("buy")}
+        </Button>
+      );
+    };
+
+    if (warning === "hoarding") {
+      return (
+        <div className="p-1 flex flex-col items-center">
+          <img src={lock} className="w-1/5 mb-2" />
+          <p className="text-sm mb-1 text-center">
+            {t("playerTrade.max.item")}
+          </p>
+          <p className="text-xs mb-1 text-center">
+            {t("playerTrade.Progress")}
+          </p>
+        </div>
+      );
+    }
+
+    if (warning === "pendingTransaction") {
+      return (
+        <div className="p-1 flex flex-col items-center">
+          <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
+          <p className="text-sm mb-1 text-center">
+            {t("playerTrade.transaction")}
+          </p>
+          <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
+        </div>
+      );
+    }
+
     return (
       <div>
         <img
@@ -117,15 +215,15 @@ export const BuyPanel: React.FC = () => {
           onClick={() => onBack()}
         />
         <div className="mt-10">
-          {data.map(({ items, sfl }, index) => {
+          {data.map((listing, index) => {
             return (
               <OuterPanel className="p-2 mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
                   <div className="flex flex-wrap w-52">
-                    {getKeys(items).map((item) => (
+                    {getKeys(listing.items).map((item) => (
                       <Box
                         image={ITEM_DETAILS[item].image}
-                        count={new Decimal(items[item] ?? 0)}
+                        count={new Decimal(listing.items[item] ?? 0)}
                         disabled
                         key={`items-${index}`}
                       />
@@ -133,17 +231,10 @@ export const BuyPanel: React.FC = () => {
                   </div>
 
                   <div className="w-28">
-                    <Button
-                      disabled={false}
-                      onClick={() => {
-                        confirm();
-                      }}
-                    >
-                      {t("buy")}
-                    </Button>
+                    {Action(listing)}
 
                     <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <p className="text-xs">{`${sfl} SFL`}</p>
+                      <p className="text-xs">{`${listing.sfl} SFL`}</p>
                       <img src={token} className="h-6 ml-1" />
                     </div>
                   </div>

@@ -60,7 +60,7 @@ export const Glinteye: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <BuyPanel />}
+      {tab === 0 && <BuyPanel onClose={onClose} />}
       {tab === 1 && <Trade />}
     </CloseButtonPanel>
   );
