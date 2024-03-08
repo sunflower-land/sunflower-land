@@ -6,12 +6,6 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    https: {
-      key: "/Users/spencerdezartsmith/privkey.pem",
-      cert: "/Users/spencerdezartsmith/cert.pem",
-    },
-  },
   plugins: [
     reactRefresh(),
     tsconfigPaths(),
