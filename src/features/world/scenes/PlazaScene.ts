@@ -91,8 +91,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 729,
-    y: 270,
+    x: 790,
+    y: 280,
     npc: "grubnuk",
     direction: "left",
   },
@@ -280,6 +280,7 @@ export class PlazaScene extends BaseScene {
     });
 
     this.load.image("chest", "world/rare_chest.png");
+    this.load.image("trading_board", "world/trading_board.png");
 
     this.load.image("basic_chest", "world/basic_chest.png");
     this.load.image("luxury_chest", "world/luxury_chest.png");
@@ -325,13 +326,19 @@ export class PlazaScene extends BaseScene {
     });
 
     super.create();
-
     if (hasFeatureAccess({} as GameState, "TRADING_REVAMP")) {
       PLAZA_BUMPKINS.push({
-        x: 420,
-        y: 420,
+        x: 700,
+        y: 250,
         npc: "glinteye",
       });
+
+      const tradingBoard = this.add.sprite(729, 225, "trading_board");
+      tradingBoard
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("trading_board");
+        });
     }
 
     this.initialiseNPCs(PLAZA_BUMPKINS);

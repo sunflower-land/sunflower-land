@@ -32,15 +32,22 @@ const ListTrade: React.FC<{
   inventory: Inventory;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
-}> = ({ inventory, onList, onCancel }) => {
+  hasFeatureAccess: boolean;
+  isSaving: boolean;
+}> = ({ inventory, onList, onCancel, hasFeatureAccess, isSaving }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Items>({});
   const [sfl, setSFL] = useState(1);
+
   const select = (name: InventoryItemName) => {
-    setSelected((prev) => ({
-      ...prev,
-      [name]: 1,
-    }));
+    if (!hasFeatureAccess) {
+      setSelected((prev) => ({
+        ...prev,
+        [name]: 1,
+      }));
+    } else {
+      setSelected({ [name]: 1 });
+    }
   };
 
   const hasResources = getKeys(selected).every((name) =>
@@ -170,9 +177,12 @@ const ListTrade: React.FC<{
               )}
             />
           </div>
-          <p className="text-xxs ml-2 mb-2">{`You will receive ${(
-            sfl * 0.9
-          ).toFixed(2)} SFL and ${(sfl * 0.1).toFixed(2)} will be burned`}</p>
+          <p className="text-xxs ml-2 mb-2">
+            {t("trading.you.receive")} {(sfl * 0.9).toFixed(2)}
+          </p>
+          <p className="text-xxs ml-2 mb-2">
+            {(sfl * 0.1).toFixed(2)} {t("trading.burned")}
+          </p>
         </>
       )}
       <div className="flex">
@@ -183,6 +193,7 @@ const ListTrade: React.FC<{
           disabled={
             maxSFL ||
             exceedsMax ||
+            isSaving ||
             getKeys(selected).length === 0 ||
             !hasResources ||
             !allListedAmtGreaterThanZero ||
@@ -341,6 +352,8 @@ export const Trade: React.FC = () => {
         inventory={gameState.context.state.inventory}
         onCancel={() => setShowListing(false)}
         onList={onList}
+        hasFeatureAccess={hasAccess}
+        isSaving={gameState.matches("autosaving")}
       />
     );
   }
@@ -376,7 +389,10 @@ export const Trade: React.FC = () => {
                   onCancel(listingId, makeListingType(trades[listingId].items))
                 }
                 onClaim={() => {
-                  gameService.send("trade.received", { tradeId: firstTrade });
+                  gameService.send("trade.received", {
+                    tradeId: firstTrade,
+                    beta: hasAccess,
+                  });
                   gameService.send("SAVE");
                 }}
                 trade={trades[listingId]}
@@ -410,7 +426,10 @@ export const Trade: React.FC = () => {
           gameService.send("SAVE");
         }}
         onClaim={() => {
-          gameService.send("trade.received", { tradeId: firstTrade });
+          gameService.send("trade.received", {
+            tradeId: firstTrade,
+            beta: hasAccess,
+          });
           gameService.send("SAVE");
         }}
         trade={trade}

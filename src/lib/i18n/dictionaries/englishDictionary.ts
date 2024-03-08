@@ -3666,6 +3666,16 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Wow, thanks Bumpkin. Here is a small gift for your help!",
   "npcDialogues.default.locked": "Please come back tomorrow.",
+
+  // Glinteye Intro
+  "npcDialogues.glinteye.intro1":
+    "Ah, adventurer! Glinteye at your service. Ready to trade secrets and resources? Dive into my listings or add your own. Let's make a deal!",
+  "npcDialogues.glinteye.intro2":
+    "Welcome, curious soul! I'm Glinteye, your guide to trading wonders. Seek or list resources with me; fortune favors the bold!",
+  "npcDialogues.glinteye.intro3":
+    "Glinteye's my name, trading's my game! Browse or list, there's always a twist. What's your fancy today?",
+  "npcDialogues.glinteye.intro4":
+    "Hello there! I'm Glinteye, the goblin of trade. Explore player trades or list your items. Let's see what we can find together!",
 };
 
 const nyeButton: Record<NyeButton, string> = {
@@ -4545,6 +4555,9 @@ const trading: Record<Trading, string> = {
     " Congratulations, you just listed your items for trade!",
   "trading.listing.deleted": "Your listing has been deleted",
   "trading.listing.fulfilled": "Trade has been fulfilled",
+  "trading.your.listing": "Your listing",
+  "trading.you.receive": "You receive",
+  "trading.burned": "is burned.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

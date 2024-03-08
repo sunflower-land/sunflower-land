@@ -2472,7 +2472,13 @@ export type NpcDialogues =
   | "npcDialogues.tywin.flowerIntro"
   | "npcDialogues.tywin.averageFlower"
   | "npcDialogues.tywin.badFlower"
-  | "npcDialogues.tywin.goodFlower";
+  | "npcDialogues.tywin.goodFlower"
+
+  // Glinteye dialogue
+  | "npcDialogues.glinteye.intro1"
+  | "npcDialogues.glinteye.intro2"
+  | "npcDialogues.glinteye.intro3"
+  | "npcDialogues.glinteye.intro4";
 
 export type NyeButton = "plaza.magicButton.query";
 
@@ -3101,7 +3107,10 @@ export type Trading =
   | "trading.no.listings"
   | "trading.listing.congrats"
   | "trading.listing.deleted"
-  | "trading.listing.fulfilled";
+  | "trading.listing.fulfilled"
+  | "trading.your.listing"
+  | "trading.you.receive"
+  | "trading.burned";
 
 export type TranslationKeys =
   | AchievementsTerms

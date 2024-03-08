@@ -24,6 +24,7 @@ import {
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import { makeListingType } from "lib/utils/makeTradeListingType";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -36,27 +37,18 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   const [authState] = useActor(authService);
 
   const [view, setView] = useState<"search" | "list">("search");
-  const [search, setSearch] = useState<Partial<InventoryItemName[]>>([]);
-  const [data, setData] = useState<Listing[]>([]);
+  const [search, setSearch] = useState<Partial<InventoryItemName>>("Sunflower");
+  const [listings, setListings] = useState<Listing[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirmId, setShowConfirmId] = useState("");
   const [
     {
-      context: { state, transaction },
+      context: { state, transaction, farmId },
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const toggleItemInSearch = (itemName: InventoryItemName) => {
-    setSearch((currentSearch) => {
-      if (currentSearch.includes(itemName)) {
-        return currentSearch.filter((item) => item !== itemName);
-      } else {
-        return [...currentSearch, itemName];
-      }
-    });
-  };
   const searchView = () => {
     return (
       <div className="p-2">
@@ -66,9 +58,9 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
           {getKeys(TRADE_LIMITS).map((name) => (
             <Box
               image={ITEM_DETAILS[name].image}
-              onClick={() => toggleItemInSearch(name)}
+              onClick={() => setSearch(name)}
               key={name}
-              isSelected={search.includes(name)}
+              isSelected={search === name}
             />
           ))}
         </div>
@@ -87,11 +79,11 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
 
   const onBack = () => {
     setView("search");
-    setSearch([]);
+    setSearch("Sunflower");
   };
 
-  const listView = (data: Listing[]) => {
-    if (data.length === 0) {
+  const listView = (listings: Listing[]) => {
+    if (listings.length === 0) {
       return (
         <div className="p-2">
           <img
@@ -105,7 +97,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
             alt="back"
             onClick={() => onBack()}
           />
-          <p className="mt-6">{t("trading.no.listings")}</p>
+          <p className="mt-8">{t("trading.no.listings")}</p>
         </div>
       );
     }
@@ -136,7 +128,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         return;
       }
 
-      setShowConfirm(true);
+      setShowConfirmId(listing.id);
     };
 
     const onConfirm = async (listing: Listing) => {
@@ -149,7 +141,17 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
     };
 
     const Action = (listing: Listing) => {
-      if (showConfirm) {
+      if (listing.farmId == farmId) {
+        return (
+          <div className="flex items-center mt-1  justify-end mr-0.5">
+            <Label icon={token} type="info" className="mb-4">
+              {t("trading.your.listing")}
+            </Label>
+          </div>
+        );
+      }
+
+      if (showConfirmId == listing.id) {
         return (
           <Button onClick={() => onConfirm(listing)}>
             <div className="flex items-center">
@@ -208,29 +210,37 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
           className="absolute self-start cursor-pointer"
           style={{
             top: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 6}px`,
             width: `${PIXEL_SCALE * 11}px`,
           }}
           alt="back"
           onClick={() => onBack()}
         />
         <div className="mt-10">
-          {data.map((listing, index) => {
+          {listings.map((listing, index) => {
+            // only one resource listing
+            const listingItem = listing.items[
+              getKeys(listing.items)[0]
+            ] as number;
+            const unitPrice = (listing.sfl / listingItem).toFixed(2);
             return (
-              <OuterPanel className="p-2 mb-2" key={`data-${index}`}>
+              <OuterPanel className="mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
-                  <div className="flex flex-wrap w-52">
-                    {getKeys(listing.items).map((item) => (
-                      <Box
-                        image={ITEM_DETAILS[item].image}
-                        count={new Decimal(listing.items[item] ?? 0)}
-                        disabled
-                        key={`items-${index}`}
-                      />
-                    ))}
+                  <div>
+                    <div className="flex flex-wrap w-52">
+                      {getKeys(listing.items).map((item) => (
+                        <Box
+                          image={ITEM_DETAILS[item].image}
+                          count={new Decimal(listing.items[item] ?? 0)}
+                          disabled
+                          key={`items-${index}`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
                   </div>
 
-                  <div className="w-28">
+                  <div className="w-40">
                     {Action(listing)}
 
                     <div className="flex items-center mt-1  justify-end mr-0.5">
@@ -247,11 +257,14 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
     );
   };
 
-  const onSearch = async (resources: Partial<InventoryItemName[]>) => {
-    const type = resources.sort().join("-").toLowerCase();
+  const onSearch = async (resource: Partial<InventoryItemName>) => {
     setIsSearching(true);
-    const data = await getTradeListings(type, authState.context.user.rawToken);
-    setData(data);
+    const listings = await getTradeListings(
+      resource.toLowerCase(),
+      authState.context.user.rawToken
+    );
+
+    setListings(listings);
     setIsSearching(false);
     setView("list");
   };
@@ -278,7 +291,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         {!isSearching && (
           <div className="relative w-full mr-4">
             {view === "search" && searchView()}
-            {view === "list" && listView(data)}
+            {view === "list" && listView(listings)}
           </div>
         )}
       </div>
