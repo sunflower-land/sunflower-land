@@ -371,13 +371,6 @@ export const Trade: React.FC = () => {
     );
   }
 
-  const firstTrade = getKeys(trades)[0];
-  const trade = trades[firstTrade];
-
-  if (!trade) {
-    return null;
-  }
-
   if (hasAccess) {
     return (
       <div>
@@ -390,7 +383,7 @@ export const Trade: React.FC = () => {
                 }
                 onClaim={() => {
                   gameService.send("trade.received", {
-                    tradeId: firstTrade,
+                    tradeId: listingId,
                     beta: hasAccess,
                   });
                   gameService.send("SAVE");
@@ -416,6 +409,13 @@ export const Trade: React.FC = () => {
         )}
       </div>
     );
+  }
+
+  const firstTrade = getKeys(trades)[0];
+  const trade = trades[firstTrade];
+
+  if (!trade) {
+    return null;
   }
 
   return (
