@@ -12,6 +12,7 @@ import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import british_flag from "assets/sfts/flags/british_flag.gif";
+import usaFlag from "assets/sfts/flags/usa_flag.gif";
 import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
 
@@ -45,6 +46,11 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
               style={{ display: "inline-block", marginRight: "5px" }}
               src={british_flag}
               alt="British Flag"
+            />
+            <img
+              style={{ display: "inline-block", marginRight: "5px" }}
+              src={usaFlag}
+              alt="American Flag"
             />
             {"English"}
           </Button>
