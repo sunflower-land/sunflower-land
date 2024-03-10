@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BUILDINGS, BuildingName } from "features/game/types/buildings";
 import { Button } from "components/ui/Button";
@@ -127,10 +126,6 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
         {t("build")}
       </Button>
     );
-  };
-
-  const FILTERED_BUILDINGS = () => {
-    return getKeys(BUILDINGS());
   };
 
   return (
