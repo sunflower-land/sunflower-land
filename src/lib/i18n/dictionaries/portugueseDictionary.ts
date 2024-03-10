@@ -986,8 +986,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.chef.apron.boost": "+20% Lucro com Bolos",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruta",
-  "bumpkinItemBuff.angel.wings.boost": "Chance de colheita Instantânea",
-  "bumpkinItemBuff.devil.wings.boost": "Chance de colheita Instantânea",
+  "bumpkinItemBuff.angel.wings.boost": "30% de Chance de colheita Instantânea",
+  "bumpkinItemBuff.devil.wings.boost": "30% de Chance de colheita Instantânea",
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Berinjela",
   "bumpkinItemBuff.golden.spatula.boost": "+10% XP",
   "bumpkinItemBuff.mushroom.hat.boost": "+0.1 Cogumelos",
@@ -1699,7 +1699,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.yellow.lotus": "Um lótus amarelo.",
   "description.purple.lotus": "Um lótus roxo.",
   "description.white.lotus": "Um lótus branco.",
-  "description.blue.lotu": "Um lótus azul.",
+  "description.blue.lotus": "Um lótus azul.",
 
   // Banners
   "description.goblin.war.banner":
@@ -3635,13 +3635,13 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finn.reward":
     "Suas contribuições são inestimáveis. Aqui está algo para expressar minha gratidão.",
   "npcDialogues.finn.flowerIntro":
-    "Estou desejando um belo Narciso em Vermelho, Amarelo, Roxo, Branco ou Azul. Você consegue encontrar um?",
+    "Estou desejando um belo Cosmos em Branco ou Azul. Você consegue encontrar um?",
   "npcDialogues.finn.averageFlower":
     "Não é exatamente o que eu esperava, mas é bastante agradável. Obrigado.",
   "npcDialogues.finn.badFlower":
     "Esta flor não atende exatamente às minhas expectativas. Talvez outra tentativa?",
   "npcDialogues.finn.goodFlower":
-    "Este Narciso é deslumbrante! Obrigado por trazê-lo para mim.",
+    "Este Cosmos é deslumbrante! Obrigado por trazê-lo para mim.",
 
   "npcDialogues.finley.reward":
     "Obrigado por seus esforços. Aqui está um pequeno gesto de apreço por suas entregas.",
@@ -3652,7 +3652,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finley.badFlower":
     "Esta flor não está certa. Talvez outra opção seria mais adequada?",
   "npcDialogues.finley.goodFlower":
-    "Este Cravo Amarelo é lindo! Obrigado por trazê-lo para mim.",
+    "Esse Narciso é lindo! Obrigado por trazê-lo para mim.",
 
   "npcDialogues.corale.reward":
     "Suas entregas são muito apreciadas. Aqui está um pequeno gesto de apreço por seus esforços.",
@@ -3674,7 +3674,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.badFlower":
     "Esta flor não está exatamente certa. Talvez outra busca seja necessária?",
   "npcDialogues.raven.goodFlower":
-    "Este Cravo Roxo está perfeito! Obrigado por trazê-lo para mim.",
+    "Este Flor Roxo está perfeito! Obrigado por trazê-lo para mim.",
 
   "npcDialogues.miranda.reward":
     "Obrigado por seus esforços. Aqui está um pequeno gesto de apreço por suas entregas.",

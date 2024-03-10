@@ -272,7 +272,7 @@ export const SpecialEventModalContent: React.FC<{
               {secondsToString(Math.floor((event.endAt - Date.now()) / 1000), {
                 length: "medium",
                 removeTrailingZeros: true,
-              })}
+              })}{" "}
               {t("remaining")}
             </Label>
           </div>

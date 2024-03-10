@@ -970,8 +970,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.chef.apron.boost": "+20% Cake Profit",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruit",
-  "bumpkinItemBuff.angel.wings.boost": "Instant Crops",
-  "bumpkinItemBuff.devil.wings.boost": "Instant Crops",
+  "bumpkinItemBuff.angel.wings.boost": "30% Chance of Instant Crops",
+  "bumpkinItemBuff.devil.wings.boost": "30% Chance of Instant Crops",
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Eggplant",
   "bumpkinItemBuff.golden.spatula.boost": "+10% XP",
   "bumpkinItemBuff.mushroom.hat.boost": "+0.1 Mushrooms",
@@ -1633,7 +1633,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.yellow.lotus": "A yellow lotus.",
   "description.purple.lotus": "A purple lotus.",
   "description.white.lotus": "A white lotus.",
-  "description.blue.lotu": "A blue lotus.",
+  "description.blue.lotus": "A blue lotus.",
 
   // Banners
   "description.goblin.war.banner":
@@ -3582,13 +3582,13 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finn.reward":
     "Your contributions are invaluable. Here's a little something to express my gratitude.",
   "npcDialogues.finn.flowerIntro":
-    "I'm yearning for a beautiful Daffodil in Red, Yellow, Purple, White, or Blue. Can you find one?",
+    "I'm yearning for a beautiful Cosmos in White, or Blue. Can you find one?",
   "npcDialogues.finn.averageFlower":
     "Not exactly what I was hoping for, but it's quite pleasing. Thank you.",
   "npcDialogues.finn.badFlower":
     "This flower doesn't quite meet my expectations. Perhaps another try?",
   "npcDialogues.finn.goodFlower":
-    "This Daffodil is stunning! Thank you for bringing it to me.",
+    "This Cosmos is stunning! Thank you for bringing it to me.",
 
   "npcDialogues.finley.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
@@ -3599,7 +3599,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.finley.badFlower":
     "This flower isn't quite right. Perhaps another one would be more suitable?",
   "npcDialogues.finley.goodFlower":
-    "This Yellow Carnation is beautiful! Thank you for bringing it to me.",
+    "This Daffodil is beautiful! Thank you for bringing it to me.",
 
   "npcDialogues.corale.reward":
     "Your deliveries are much appreciated. Here's a little something to show my gratitude.",
@@ -3621,7 +3621,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.raven.badFlower":
     "This flower isn't quite right. Perhaps another search is in order?",
   "npcDialogues.raven.goodFlower":
-    "This Purple Carnation is perfect! Thank you for bringing it to me.",
+    "This Purple flower is perfect! Thank you for bringing it to me.",
 
   "npcDialogues.miranda.reward":
     "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",

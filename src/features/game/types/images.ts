@@ -3224,7 +3224,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Blue Lotus": {
     image: blueLotus,
-    description: translate("description.blue.lotu"),
+    description: translate("description.blue.lotus"),
   },
   "Earn Alliance Banner": {
     image: earnAllianceBanner,

@@ -63,8 +63,7 @@ export const PageFound: React.FC<Props> = ({ onClose }) => {
               />
             </div>
             <span className="text-sm">
-              {t("pageFounds.knowHowToGrow")}
-              {springBlossom.weeklyFlower}
+              {t("pageFounds.knowHowToGrow")} {springBlossom.weeklyFlower}
               {"!"}
             </span>
           </div>
