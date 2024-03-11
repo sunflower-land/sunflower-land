@@ -177,12 +177,16 @@ const ListTrade: React.FC<{
               )}
             />
           </div>
-          <p className="text-xxs ml-2 mb-2">
-            {t("trading.you.receive")} {(sfl * 0.9).toFixed(2)}
-          </p>
-          <p className="text-xxs ml-2 mb-2">
-            {(sfl * 0.1).toFixed(2)} {t("trading.burned")}
-          </p>
+          {hasFeatureAccess && (
+            <>
+              <p className="text-xxs ml-2 mb-2">
+                {t("trading.you.receive")} {(sfl * 0.9).toFixed(2)}
+              </p>
+              <p className="text-xxs ml-2 mb-2">
+                {(sfl * 0.1).toFixed(2)} {t("trading.burned")}
+              </p>
+            </>
+          )}
         </>
       )}
       <div className="flex">
