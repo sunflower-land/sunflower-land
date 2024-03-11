@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable unused-imports/no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/react-in-jsx-scope */
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
@@ -12,6 +8,7 @@ import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import british_flag from "assets/sfts/flags/british_flag.gif";
+import usaFlag from "assets/sfts/flags/usa_flag.gif";
 import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
 
@@ -46,6 +43,11 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
               src={british_flag}
               alt="British Flag"
             />
+            <img
+              style={{ display: "inline-block", marginRight: "5px" }}
+              src={usaFlag}
+              alt="American Flag"
+            />
             {"English"}
           </Button>
           <Button
@@ -70,6 +72,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   // Close Modal on Hide
+  // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
   const [view, setView] = useState<"settings">("settings");
 
   const closeAndResetView = () => {
