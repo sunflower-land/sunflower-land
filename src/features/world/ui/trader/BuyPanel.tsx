@@ -11,6 +11,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/token_2.png";
+import lock from "assets/skills/lock.png";
 import { TRADE_LIMITS } from "features/game/events/landExpansion/listTrade";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
@@ -20,36 +21,34 @@ import {
   Listing,
   getTradeListings,
 } from "features/game/actions/getTradeListings";
-import { hasFeatureAccess } from "lib/flags";
 import { Context as AuthContext } from "features/auth/lib/Provider";
+import { hasMaxItems } from "features/game/lib/processEvent";
+import { makeListingType } from "lib/utils/makeTradeListingType";
+import { Label } from "components/ui/Label";
 
-export const BuyPanel: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
+
   const [view, setView] = useState<"search" | "list">("search");
-  const [search, setSearch] = useState<Partial<InventoryItemName[]>>([]);
-  const [data, setData] = useState<Listing[]>([]);
+  const [search, setSearch] = useState<Partial<InventoryItemName>>("Sunflower");
+  const [listings, setListings] = useState<Listing[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
+  const [showConfirmId, setShowConfirmId] = useState("");
   const [
     {
-      context: { state },
+      context: { state, transaction, farmId },
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const hasAccess = hasFeatureAccess(state, "TRADING_REVAMP");
-
-  const toggleItemInSearch = (itemName: InventoryItemName) => {
-    setSearch((currentSearch) => {
-      if (currentSearch.includes(itemName)) {
-        return currentSearch.filter((item) => item !== itemName);
-      } else {
-        return [...currentSearch, itemName];
-      }
-    });
-  };
   const searchView = () => {
     return (
       <div className="p-2">
@@ -59,9 +58,9 @@ export const BuyPanel: React.FC = () => {
           {getKeys(TRADE_LIMITS).map((name) => (
             <Box
               image={ITEM_DETAILS[name].image}
-              onClick={() => toggleItemInSearch(name)}
+              onClick={() => setSearch(name)}
               key={name}
-              isSelected={search.includes(name)}
+              isSelected={search === name}
             />
           ))}
         </div>
@@ -80,11 +79,11 @@ export const BuyPanel: React.FC = () => {
 
   const onBack = () => {
     setView("search");
-    setSearch([]);
+    setSearch("Sunflower");
   };
 
-  const listView = (data: Listing[]) => {
-    if (data.length === 0) {
+  const listView = (listings: Listing[]) => {
+    if (listings.length === 0) {
       return (
         <div className="p-2">
           <img
@@ -98,7 +97,108 @@ export const BuyPanel: React.FC = () => {
             alt="back"
             onClick={() => onBack()}
           />
-          <p className="mt-6">{t("trading.no.listings")}</p>
+          <p className="mt-8">{t("trading.no.listings")}</p>
+        </div>
+      );
+    }
+
+    const confirm = (listing: Listing) => {
+      const updatedInventory = getKeys(listing.items).reduce(
+        (acc, name) => ({
+          ...acc,
+          [name]: (inventory[name] ?? new Decimal(0)).add(
+            listing.items[name] ?? 0
+          ),
+        }),
+        inventory
+      );
+
+      const hasMaxedOut = hasMaxItems({
+        current: updatedInventory,
+        old: state.previousInventory,
+      });
+
+      if (hasMaxedOut) {
+        setWarning("hoarding");
+        return;
+      }
+
+      if (transaction && transaction.expiresAt > Date.now()) {
+        setWarning("pendingTransaction");
+        return;
+      }
+
+      setShowConfirmId(listing.id);
+    };
+
+    const onConfirm = async (listing: Listing) => {
+      gameService.send("FULFILL_TRADE_LISTING", {
+        sellerId: listing.farmId,
+        listingId: listing.id,
+        listingType: makeListingType(listing.items),
+      });
+      onClose();
+    };
+
+    const Action = (listing: Listing) => {
+      if (listing.farmId == farmId) {
+        return (
+          <div className="flex items-center mt-1  justify-end mr-0.5">
+            <Label icon={token} type="info" className="mb-4">
+              {t("trading.your.listing")}
+            </Label>
+          </div>
+        );
+      }
+
+      if (showConfirmId == listing.id) {
+        return (
+          <Button onClick={() => onConfirm(listing)}>
+            <div className="flex items-center">
+              <img src={SUNNYSIDE.icons.confirm} className="h-4 mr-1" />
+              <span className="text-xs">{t("confirm")}</span>
+            </div>
+          </Button>
+        );
+      }
+
+      const hasSFL = state.balance.gte(listing.sfl);
+      const disabled = !hasSFL;
+
+      return (
+        <Button
+          disabled={disabled}
+          onClick={() => {
+            confirm(listing);
+          }}
+        >
+          {t("buy")}
+        </Button>
+      );
+    };
+
+    if (warning === "hoarding") {
+      return (
+        <div className="p-1 flex flex-col items-center">
+          <img src={lock} className="w-1/5 mb-2" />
+          <p className="text-sm mb-1 text-center">
+            {t("playerTrade.max.item")}
+          </p>
+          <p className="text-xs mb-1 text-center">
+            {t("playerTrade.Progress")}
+          </p>
+        </div>
+      );
+    }
+
+    if (warning === "pendingTransaction") {
+      return (
+        <div className="p-1 flex flex-col items-center">
+          <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
+          <p className="text-sm mb-1 text-center">
+            {t("playerTrade.transaction")}
+          </p>
+          <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
         </div>
       );
     }
@@ -110,48 +210,42 @@ export const BuyPanel: React.FC = () => {
           className="absolute self-start cursor-pointer"
           style={{
             top: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 6}px`,
             width: `${PIXEL_SCALE * 11}px`,
           }}
           alt="back"
           onClick={() => onBack()}
         />
         <div className="mt-10">
-          {data.map(({ items, sfl }, index) => {
+          {listings.map((listing, index) => {
+            // only one resource listing
+            const listingItem = listing.items[
+              getKeys(listing.items)[0]
+            ] as number;
+            const unitPrice = (listing.sfl / listingItem).toFixed(2);
             return (
-              <OuterPanel className="p-2 mb-2" key={`data-${index}`}>
+              <OuterPanel className="mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
-                  <div className="flex flex-wrap w-52">
-                    {getKeys(items).map((item) => (
-                      <Box
-                        image={ITEM_DETAILS[item].image}
-                        count={new Decimal(items[item] ?? 0)}
-                        disabled
-                        key={`items-${index}`}
-                      />
-                    ))}
+                  <div>
+                    <div className="flex flex-wrap w-52">
+                      {getKeys(listing.items).map((item) => (
+                        <Box
+                          image={ITEM_DETAILS[item].image}
+                          count={new Decimal(listing.items[item] ?? 0)}
+                          disabled
+                          key={`items-${index}`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
                   </div>
 
-                  <div className="w-28">
-                    <Button
-                      disabled={false}
-                      onClick={() => {
-                        confirm();
-                      }}
-                    >
-                      {t("buy")}
-                    </Button>
+                  <div className="w-40">
+                    {Action(listing)}
 
                     <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <p className="text-xs">{`${sfl} SFL`}</p>
+                      <p className="text-xs">{`${listing.sfl} SFL`}</p>
                       <img src={token} className="h-6 ml-1" />
-                    </div>
-                    <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <p className="text-xs">{`1 x`}</p>
-                      <img
-                        src={ITEM_DETAILS["Block Buck"].image}
-                        className="h-6 ml-1"
-                      />
                     </div>
                   </div>
                 </div>
@@ -163,11 +257,14 @@ export const BuyPanel: React.FC = () => {
     );
   };
 
-  const onSearch = async (resources: Partial<InventoryItemName[]>) => {
-    const type = resources.sort().join("-").toLowerCase();
+  const onSearch = async (resource: Partial<InventoryItemName>) => {
     setIsSearching(true);
-    const data = await getTradeListings(type, authState.context.user.rawToken);
-    setData(data);
+    const listings = await getTradeListings(
+      resource.toLowerCase(),
+      authState.context.user.rawToken
+    );
+
+    setListings(listings);
     setIsSearching(false);
     setView("list");
   };
@@ -194,7 +291,7 @@ export const BuyPanel: React.FC = () => {
         {!isSearching && (
           <div className="relative w-full mr-4">
             {view === "search" && searchView()}
-            {view === "list" && listView(data)}
+            {view === "list" && listView(listings)}
           </div>
         )}
       </div>

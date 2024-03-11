@@ -5,7 +5,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-export const Listed: React.FC = () => {
+export const ListingDeleted: React.FC = () => {
   const { gameService } = useContext(Context);
 
   function onAcknowledge() {
@@ -17,7 +17,7 @@ export const Listed: React.FC = () => {
       <div className="p-2">
         <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-12 my-2" />
         <p className="text-sm mb-2 text-center">
-          {t("trading.listing.congrats")}
+          {t("trading.listing.deleted")}
         </p>
       </div>
       <Button onClick={onAcknowledge}>{t("continue")}</Button>
