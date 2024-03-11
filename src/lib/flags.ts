@@ -14,7 +14,6 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
  */
 type FeatureName =
   | "JEST_TEST"
-  | "LOCALISATION"
   | "PORTALS"
   | "DEQUIPPER"
   | "CHESTS"
@@ -31,7 +30,6 @@ type FeatureFlag = (game: GameState) => boolean;
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
-  LOCALISATION: testnetFeatureFlag,
   DEQUIPPER: defaultFeatureFlag,
   CHESTS: defaultFeatureFlag,
   TRADING_REVAMP: testnetFeatureFlag,

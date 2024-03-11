@@ -196,14 +196,14 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </li>
                     <li className="p-1">
                       <DEV_HoardingCheck network="mumbai" />
-                    </li>{" "}
-                    <li className="p-1">
-                      <Button onClick={changeLanguage}>
-                        <span>{t("change.Language")}</span>
-                      </Button>
                     </li>
                   </>
                 )}
+                <li className="p-1">
+                  <Button onClick={changeLanguage}>
+                    <span>{t("change.Language")}</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={storeOnChain}>
                     <span>{t("settingsMenu.storeOnChain")}</span>
