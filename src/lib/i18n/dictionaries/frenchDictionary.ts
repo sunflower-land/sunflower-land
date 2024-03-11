@@ -240,7 +240,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   copied: "Copié",
   "copy.address": "Copier l'adresse",
   coupons: "Coupons",
-  craft: "Artisanat",
+  craft: "Fabriquer",
   crafting: "Fabrication",
   crops: "Cultures",
   "currently.Unavailable": "Actuellement indisponible!",
