@@ -3751,6 +3751,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Cette fleur n'est pas tout à fait appropriée. Peut-être qu'une autre serait plus adaptée?",
   "npcDialogues.finley.goodFlower":
     "Cette jonquille est magnifique ! Merci de me l'avoir apportée.",
+
   "npcDialogues.corale.reward":
     "Vos livraisons sont grandement appréciées. Voici un petit geste pour témoigner de ma gratitude.",
   "npcDialogues.corale.flowerIntro":
@@ -4741,12 +4742,11 @@ const trading: Record<Trading, string> = {
   "trading.no.listings": "Aucune annonce trouvée",
   "trading.listing.congrats":
     " Félicitations, vous venez de mettre vos objets en vente !",
-  // To Translate
-  "trading.listing.deleted": "Your listing has been deleted",
-  "trading.listing.fulfilled": "Trade has been fulfilled",
-  "trading.your.listing": "Your listing",
-  "trading.you.receive": "You receive",
-  "trading.burned": "is burned.",
+  "trading.listing.deleted": "Votre annonce a été supprimée",
+  "trading.listing.fulfilled": "L'échange a été réalisé",
+  "trading.your.listing": "Votre annonce",
+  "trading.you.receive": "Vous recevez",
+  "trading.burned": "est brûlé.",
 };
 
 export const FRENCH_TERMS: Record<TranslationKeys, string> = {
