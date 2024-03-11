@@ -18,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   farmId: number;
@@ -142,11 +143,19 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   };
 
   const onConfirm = async (listingId: string) => {
-    gameService.send("FULFILL_TRADE_LISTING", {
-      sellerId: farmId,
-      listingId: listingId,
-      listingType: makeListingType(listings[listingId].items),
-    });
+    if (hasFeatureAccess(gameState.context.state, "TRADING_REVAMP")) {
+      gameService.send("FULFILL_TRADE_LISTING", {
+        sellerId: farmId,
+        listingId: listingId,
+        listingType: makeListingType(listings[listingId].items),
+      });
+    } else {
+      gameService.send("TRADE", {
+        sellerId: farmId,
+        tradeId: listingId,
+      });
+    }
+
     onClose();
   };
 
