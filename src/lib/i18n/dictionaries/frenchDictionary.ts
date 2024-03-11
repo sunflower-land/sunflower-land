@@ -4456,7 +4456,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.stone.pickaxe": "Utilisé pour collecter du fer",
   "description.iron.pickaxe": "Utilisé pour collecter de l'or",
   "description.gold.pickaxe":
-    "Utilisé pour collecter des rimstoneset sunstones",
+    "Utilisé pour collecter des Crimstones et Sunstones",
   "description.rod": "Utilisé pour attraper des poissons",
   "description.rusty.shovel":
     "Utilisé pour enlever des bâtiments et des objets à collecter",
