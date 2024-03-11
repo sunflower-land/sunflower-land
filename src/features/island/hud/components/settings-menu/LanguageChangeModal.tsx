@@ -67,7 +67,10 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
             />
             {"Português"}
           </Button>
-          <Button onClick={() => handleChangeLanguage("fr")}>
+          <Button
+            onClick={() => handleChangeLanguage("fr")}
+            disabled={language === "fr"}
+          >
             <img
               style={{ display: "inline-block", marginRight: "5px" }}
               src={franceFlag}
