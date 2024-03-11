@@ -1,8 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable unused-imports/no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/react-in-jsx-scope */
-import { useState } from "react";
+import React, { useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
@@ -76,6 +72,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   // Close Modal on Hide
+  // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
   const [view, setView] = useState<"settings">("settings");
 
   const closeAndResetView = () => {
