@@ -195,6 +195,21 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       </Button>
     );
   };
+
+  const isBetaSeller = getKeys(listings).some((listingId) => {
+    return listingId.length > 27;
+  });
+
+  const text =
+    "Hi, I'm a beta tester and am testing the new trading system, ask me what I think about it!";
+
+  if (
+    !hasFeatureAccess(gameState.context.state, "TRADING_REVAMP") &&
+    isBetaSeller
+  ) {
+    return <div className="p-1 text-sm">{text}</div>;
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-1">
