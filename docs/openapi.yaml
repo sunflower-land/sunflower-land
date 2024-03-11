@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: Sunflower Land Public API
+  version: 0.1.0
+
+servers:
+  - url: https://api.sunflower-land.com/
+    description: Production API Server
+  - url: https://api-dev.sunflower-land.com/
+    description: Testnet API Server
+paths:
+  "/community/farms":
+    get:
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
