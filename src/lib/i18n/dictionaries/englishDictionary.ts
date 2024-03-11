@@ -902,6 +902,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "50% Reduction to Crop, Mineral, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
   "description.earnAlliance.boost": "2x XP Feb 2024 (Beginner Island)",
+  "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2231,7 +2232,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket":
     "A ticket to enter the end of season prize giveaway",
-  "description.babyPanda": "A cute panda from the Gas Hero event.",
+  "description.babyPanda":
+    "A cute panda from the Gas Hero event. Double experience for beginners during March.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

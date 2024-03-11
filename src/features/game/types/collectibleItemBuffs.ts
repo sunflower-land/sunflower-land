@@ -528,6 +528,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
   },
 
+  "Baby Panda": {
+    shortDescription: translate("description.babyPanda.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
+
   "Flower Fox": {
     shortDescription: translate("description.flower.fox.boost"),
     labelType: "vibrant",

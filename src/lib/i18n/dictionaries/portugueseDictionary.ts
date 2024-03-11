@@ -917,6 +917,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "Redução de 50% no Tempo de Plantações, Mineral, Cozimento e Árvore",
   "description.radiant.ray.boost": "+0.1 Ferro",
   "description.earnAlliance.boost": "2x XP Fev 2024",
+  "description.babyPanda.boost": "2x XP Mar 2024",
   "description.flower.fox.boost": "-10% Tempo de Crescimento de Flores",
 };
 

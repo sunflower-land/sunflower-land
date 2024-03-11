@@ -407,7 +407,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("provides 2x experience with Earn Alliance Banner in February", () => {
+  it("provides 2x experience with Baby Panda in March", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -418,7 +418,7 @@ describe("feedBumpkin", () => {
           Gumbo: new Decimal(1),
         },
         collectibles: {
-          "Earn Alliance Banner": [
+          "Baby Panda": [
             {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
@@ -433,7 +433,7 @@ describe("feedBumpkin", () => {
         food: "Gumbo",
         amount: 1,
       },
-      createdAt: new Date("2024-02-04").getTime(),
+      createdAt: new Date("2024-03-04").getTime(),
     });
 
     expect(result.bumpkin?.experience).toBe(

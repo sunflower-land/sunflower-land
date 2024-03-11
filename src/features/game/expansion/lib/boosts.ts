@@ -190,14 +190,14 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.1);
   }
 
-  // Is February 2024 UTC
-  const isFebruary2024 =
-    createdAt >= new Date("2024-02-01T00:00:00Z").getTime() &&
-    createdAt <= new Date("2024-02-29T23:59:59Z").getTime();
+  // Is March 2024 UTC
+  const isMarch2024 =
+    createdAt >= new Date("2024-03-01T00:00:00Z").getTime() &&
+    createdAt <= new Date("2024-03-31T23:59:59Z").getTime();
 
   if (
-    isFebruary2024 &&
-    isCollectibleBuilt({ name: "Earn Alliance Banner", game }) &&
+    isMarch2024 &&
+    isCollectibleBuilt({ name: "Baby Panda", game }) &&
     game.island.type === "basic"
   ) {
     boostedExp = boostedExp.mul(2);
