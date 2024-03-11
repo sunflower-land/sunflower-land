@@ -34,7 +34,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const [listings, setListings] = useState<
     Record<string, TradeListing> | undefined
   >();
-  const [showConfirm, setShowConfirm] = useState(false);
+  const [showConfirmId, setShowConfirmId] = useState("");
 
   const { t } = useAppTranslation();
 
@@ -138,7 +138,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       return;
     }
 
-    setShowConfirm(true);
+    setShowConfirmId(listingId);
   };
 
   const onConfirm = async (listingId: string) => {
@@ -161,7 +161,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       );
     }
 
-    if (showConfirm) {
+    if (showConfirmId === listingId) {
       return (
         <Button onClick={() => onConfirm(listingId)}>
           <div className="flex items-center">
