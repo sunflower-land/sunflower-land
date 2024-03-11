@@ -388,7 +388,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   requires: "Requiert",
   resale: "Revente",
   resources: "Ressources",
-  restock: "Réapprovisionner",
+  restock: "Recharger",
   retry: "Réessayer",
   reward: "Récompense",
   "reward.discovered": "Récompense découverte",
@@ -4098,8 +4098,8 @@ const resourceTerms: Record<ResourceTerms, string> = {
 
 const restock: Record<Restock, string> = {
   "restock.one.buck":
-    "Vous allez utiliser 1 Block Buck pour réapprovisionner tous les articles du magasin dans le jeu",
-  "restock.sure": "Êtes-vous sûr de vouloir réapprovisionner?",
+    "Vous allez utiliser 1 Block Buck pour recharger tous les articles du magasin dans le jeu",
+  "restock.sure": "Êtes-vous sûr de vouloir recharger ?",
   "restock.seed.buy": "Vous avez trop de graines dans votre panier!",
 };
 
@@ -4509,7 +4509,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.storeProgress.blockchain.one":
     "Souhaitez-vous stocker votre progression sur la Blockchain?",
   "transaction.storeProgress.blockchain.two":
-    "Stocker des données sur la Blockchain ne réapprovisionne pas les magasins.",
+    "Stocker des données sur la Blockchain ne recharge pas les magasins.",
   "transaction.storeProgress": "Stockez la progression",
   "transaction.storeProgress.chain": "Stockez la progression sur la chaîne",
   "transaction.storeProgress.success":
