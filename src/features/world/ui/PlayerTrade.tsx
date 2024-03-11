@@ -197,7 +197,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   };
 
   const isBetaSeller = getKeys(listings).some((listingId) => {
-    return listingId.length > 27;
+    return listingId.length === 27;
   });
 
   const text =
