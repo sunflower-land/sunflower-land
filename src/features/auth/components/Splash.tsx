@@ -17,8 +17,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import i18n from "lib/i18n";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
-import { GameState } from "features/game/types/game";
 
 const Languages = () => {
   // Determine the initial language from localStorage or default to 'en'
@@ -176,7 +174,7 @@ export const Splash: React.FC = ({ children }) => {
         className="absolute bottom-2 mx-auto pointer-events-auto safe-mb"
         style={{ zIndex: 1100 }}
       >
-        {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
+        {<Languages />}
       </div>
     </div>
   );
