@@ -18,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   farmId: number;
@@ -142,11 +143,19 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   };
 
   const onConfirm = async (listingId: string) => {
-    gameService.send("FULFILL_TRADE_LISTING", {
-      sellerId: farmId,
-      listingId: listingId,
-      listingType: makeListingType(listings[listingId].items),
-    });
+    if (hasFeatureAccess(gameState.context.state, "TRADING_REVAMP")) {
+      gameService.send("FULFILL_TRADE_LISTING", {
+        sellerId: farmId,
+        listingId: listingId,
+        listingType: makeListingType(listings[listingId].items),
+      });
+    } else {
+      gameService.send("TRADE", {
+        sellerId: farmId,
+        tradeId: listingId,
+      });
+    }
+
     onClose();
   };
 
@@ -186,6 +195,21 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
       </Button>
     );
   };
+
+  const isBetaSeller = getKeys(listings).some((listingId) => {
+    return listingId.length === 27;
+  });
+
+  const text =
+    "Hi, I'm a beta tester and am testing the new trading system, ask me what I think about it!";
+
+  if (
+    !hasFeatureAccess(gameState.context.state, "TRADING_REVAMP") &&
+    isBetaSeller
+  ) {
+    return <div className="p-1 text-sm">{text}</div>;
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-1">
