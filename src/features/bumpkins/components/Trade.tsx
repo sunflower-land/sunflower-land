@@ -210,9 +210,10 @@ const ListTrade: React.FC<{
 
 const TradeDetails: React.FC<{
   trade: TradeListing;
+  isOldListing: boolean;
   onCancel: () => void;
   onClaim: () => void;
-}> = ({ trade, onCancel, onClaim }) => {
+}> = ({ trade, onCancel, onClaim, isOldListing }) => {
   const { t } = useAppTranslation();
   if (trade.boughtAt) {
     return (
@@ -251,6 +252,7 @@ const TradeDetails: React.FC<{
     );
   }
 
+  const text = "Cancel Old";
   return (
     <>
       <OuterPanel>
@@ -267,7 +269,7 @@ const TradeDetails: React.FC<{
           </div>
           <div className="flex flex-col justify-between h-full">
             <Button className="mb-1" onClick={onCancel}>
-              {t("cancel")}
+              {isOldListing ? text : t("cancel")}
             </Button>
 
             <div className="flex items-center">
@@ -312,11 +314,15 @@ export const Trade: React.FC = () => {
   };
 
   const onCancel = (listingId: string, listingType: string) => {
-    gameService.send("DELETE_TRADE_LISTING", {
-      sellerId: gameState.context.farmId,
-      listingId,
-      listingType,
-    });
+    if (listingId.length < 27) {
+      gameService.send("trade.cancelled", { tradeId: listingId });
+      gameService.send("SAVE");
+    } else
+      gameService.send("DELETE_TRADE_LISTING", {
+        sellerId: gameState.context.farmId,
+        listingId,
+        listingType,
+      });
   };
 
   if (level < 10) {
@@ -389,6 +395,7 @@ export const Trade: React.FC = () => {
                   gameService.send("SAVE");
                 }}
                 trade={trades[listingId]}
+                isOldListing={listingId.length < 27}
               />
             </div>
           );
@@ -433,6 +440,7 @@ export const Trade: React.FC = () => {
           gameService.send("SAVE");
         }}
         trade={trade}
+        isOldListing={firstTrade.length < 27}
       />
     </div>
   );
