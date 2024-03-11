@@ -16,8 +16,6 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { hasFeatureAccess } from "lib/flags";
-import { GameState } from "features/game/types/game";
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -326,20 +324,16 @@ export class PlazaScene extends BaseScene {
     });
 
     super.create();
-    if (hasFeatureAccess({} as GameState, "TRADING_REVAMP")) {
-      PLAZA_BUMPKINS.push({
-        x: 700,
-        y: 250,
-        npc: "glinteye",
-      });
+    PLAZA_BUMPKINS.push({
+      x: 700,
+      y: 250,
+      npc: "glinteye",
+    });
 
-      const tradingBoard = this.add.sprite(729, 225, "trading_board");
-      tradingBoard
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("trading_board");
-        });
-    }
+    const tradingBoard = this.add.sprite(729, 225, "trading_board");
+    tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("trading_board");
+    });
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 

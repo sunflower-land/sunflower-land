@@ -32,7 +32,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   DEQUIPPER: defaultFeatureFlag,
   CHESTS: defaultFeatureFlag,
-  TRADING_REVAMP: testnetFeatureFlag,
+  TRADING_REVAMP: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
