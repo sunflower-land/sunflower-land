@@ -142,8 +142,9 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     setShowConfirmId(listingId);
   };
 
+  const hasAccess = hasFeatureAccess(gameState.context.state, "TRADING_REVAMP");
   const onConfirm = async (listingId: string) => {
-    if (hasFeatureAccess(gameState.context.state, "TRADING_REVAMP")) {
+    if (hasAccess) {
       gameService.send("FULFILL_TRADE_LISTING", {
         sellerId: farmId,
         listingId: listingId,
@@ -203,10 +204,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   const text =
     "Hi, I'm a beta tester and am testing the new trading system, ask me what I think about it!";
 
-  if (
-    !hasFeatureAccess(gameState.context.state, "TRADING_REVAMP") &&
-    isBetaSeller
-  ) {
+  if (!hasAccess && isBetaSeller) {
     return <div className="p-1 text-sm">{text}</div>;
   }
 
@@ -240,6 +238,15 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                   <p className="text-xs">{`${listings[listingId].sfl} SFL`}</p>
                   <img src={token} className="h-6 ml-1" />
                 </div>
+                {!hasAccess && (
+                  <div className="flex items-center mt-1  justify-end mr-0.5">
+                    <p className="text-xs">{`1 x`}</p>
+                    <img
+                      src={ITEM_DETAILS["Block Buck"].image}
+                      className="h-6 ml-1"
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </OuterPanel>
