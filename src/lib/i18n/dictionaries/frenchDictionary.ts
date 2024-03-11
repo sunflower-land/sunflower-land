@@ -302,7 +302,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   guide: "Guide",
   harvested: "Récolté",
   "hoarding.check": "Vérification des stocks",
-  honey: "Miel",
+  honey: "Honey",
   "hungry?": "Affamé?",
   info: "Info",
   kick: "Expulser",
@@ -646,7 +646,7 @@ const beach: Record<Beach, string> = {
 };
 
 const beehive: Record<Beehive, string> = {
-  "beehive.harvestHoney": "Récolter le miel",
+  "beehive.harvestHoney": "Récolter le Honey",
   "beehive.noFlowersGrowing": "Aucune fleur en croissance",
   "beehive.beeSwarm": "Essaim d'abeilles",
   "beehive.pollinationCelebration":
@@ -871,14 +871,14 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.lg.carrot.boost": "+0.2 Carotte",
   "description.lg.radish.boost": "+0.4 Radish",
   "description.fat.chicken.boost": "-0.1 Wheat pour nourrir les poulets",
-  "description.rich.chicken.boost": "+0.1 Oeuf",
-  "description.speed.chicken.boost": "-10% Temps de production des oeufs",
-  "description.ayam.cemani.boost": "+0.2 Oeuf",
-  "description.el.pollo.veloz.boost": "-4h Temps de production des oeufs",
+  "description.rich.chicken.boost": "+0.1 E",
+  "description.speed.chicken.boost": "-10% Temps de production des Eggs",
+  "description.ayam.cemani.boost": "+0.2 Egg",
+  "description.el.pollo.veloz.boost": "-4h Temps de production des Eggs",
   "description.rooster.boost": "Chance x2 d'obtenir un poulet mutant",
-  "description.undead.rooster.boost": "+0.1 Oeuf",
+  "description.undead.rooster.boost": "+0.1 Egg",
   "description.chicken.coop.boost":
-    "+1 Rendement en oeufs ; +5 Limite de poulets par poulailler",
+    "+1 Rendement en Eggs ; +5 Limite de poulets par poulailler",
   "description.gold.egg.boost": "Nourrir les poulets sans Wheat",
   "description.woody.beaver.boost": "+20% Wood",
   "description.apprentice.beaver.boost":
@@ -893,8 +893,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "Chance de 10% d'obtenir +2 Pierre",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
-  "description.queen.bee.boost": "Double la vitesse de production de miel",
-  "description.beekeeper.hat.boost": "+20% de vitesse de production de miel",
+  "description.queen.bee.boost": "Double la vitesse de production de Honey",
+  "description.beekeeper.hat.boost": "+20% de vitesse de production de Honey",
   "description.flower.fox.boost": "-10% Temps de Croissance des Fleurs",
   "description.humming.bird.boost": "Chance de 20% d'obtenir +1 Fleur",
   "description.beehive.boost":
@@ -1010,12 +1010,12 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.boost": "+20 % de Vitesse de Banane",
   "bumpkinItemBuff.deep.sea.helm":
     "Chances x3 d'obtenir des Merveilles Marines",
-  "bumpkinItemBuff.bee.suit": "+0,1 Miel",
+  "bumpkinItemBuff.bee.suit": "+0,1 Honey",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones à la 5e mine",
   "bumpkinItemBuff.crimstone.amulet": "20 % de vitesse de Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0,1 Crimstones",
   "bumpkinItemBuff.hornet.mask": "Chances x2 d'obtenir un Essaim d'Abeilles",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Miel",
+  "bumpkinItemBuff.honeycomb.shield": "+1 Honey",
   "bumpkinItemBuff.flower.crown": "Vitesse des fleurs x2",
 };
 
@@ -1651,7 +1651,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
   "description.Farmhand": "Un ouvrier agricole utile.",
   "description.Beehive":
-    "Une ruche animée, produisant du miel à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du miel d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
+    "Une ruche animée, produisant du Honey à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du Honey d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
   // Flowers
   "description.red.pansy": "Une red pansy.",
   "description.yellow.pansy": "Une yellow pansy.",
@@ -2110,9 +2110,9 @@ const flowerBed: Record<FlowerBed, string> = {
   "flowerBedGuide.collectAllSpecies":
     "Collectionnez toutes les espèces de fleurs dans le Codex!",
   "flowerBedGuide.beesProduceHoney":
-    "Les abeilles produisent du miel pendant que les fleurs poussent.",
+    "Les abeilles produisent du Honey pendant que les fleurs poussent.",
   "flowerBedGuide.fillUpBeehive":
-    "Remplissez complètement une ruche et collectez le miel pour avoir une chance qu'un essaim d'abeilles apparaisse.",
+    "Remplissez complètement une ruche et collectez le Honey pour avoir une chance qu'un essaim d'abeilles apparaisse.",
   "flowerBedGuide.beeSwarmsBoost":
     "Les essaims d'abeilles donnent un bonus de +0,2 aux cultures plantées.",
   "flowerBed.newSpecies.discovered":
@@ -2566,7 +2566,7 @@ const halveningCountdown: Record<HalveningCountdown, string> = {
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.notPlaced": "Cette ruche n'est pas placée.",
-  "harvestBeeHive.noHoney": "Cette ruche n'a pas de miel.",
+  "harvestBeeHive.noHoney": "Cette ruche n'a pas de Honey.",
 };
 
 const harvestflower: Record<Harvestflower, string> = {
