@@ -8,6 +8,7 @@ import crimstone_6 from "assets/resources/crimstone/crimstone_rock_6.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { getCrimstoneStage } from "../Crimstone";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   timeLeft: number;
@@ -20,6 +21,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
   minesLeft,
   minedAt,
 }) => {
+  const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
   const crimstone = [
@@ -54,7 +56,7 @@ const DepletedCrimstoneComponent: React.FC<Props> = ({
           }}
         >
           <TimeLeftPanel
-            text="Recovers in:"
+            text={t("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
           />
