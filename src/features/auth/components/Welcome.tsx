@@ -45,7 +45,6 @@ export const Welcome: React.FC = () => {
         <div className="px-8">
           <img
             src={SUNNYSIDE.icons.expression_chat}
-            // alt={}
             className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
           />
           {t("change.Language")}
