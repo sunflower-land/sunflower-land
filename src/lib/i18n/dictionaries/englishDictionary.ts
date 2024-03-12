@@ -2699,7 +2699,7 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.intro.three": "Craft rare decorations",
   "landscape.intro.four": "Place collectibles from your chest",
   "landscape.expansion.one":
-    "Each piece of land comes with unique resources to help build your farming empire!",
+    "Howdy Bumpkin, would you like to expand your land? You can discover new resources, crops, and rewards.",
   "landscape.expansion.two": "More expansions will be available soon...",
   "landscape.timerPopover": "Next Expansion",
   "landscape.dragMe": "Drag me",

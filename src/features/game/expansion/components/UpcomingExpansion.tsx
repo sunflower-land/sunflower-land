@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
-import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
 import { Coordinates, MapPlacement } from "./MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Pontoon } from "./Pontoon";
@@ -30,13 +29,16 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import classNames from "classnames";
 import {
-  ExpansionRequirements,
+  ExpansionRequirements as IExpansionRequirements,
   GameState,
   Inventory,
+  Bumpkin,
 } from "features/game/types/game";
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
+import { Button } from "components/ui/Button";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
@@ -51,7 +53,7 @@ function hasRead() {
 
 interface ExpandIconProps {
   onOpen: () => void;
-  requirements: ExpansionRequirements;
+  requirements: IExpansionRequirements;
   position: Coordinates;
   isLocked: boolean;
   canExpand: boolean;
@@ -249,10 +251,9 @@ export const UpcomingExpansion: React.FC = () => {
   const [_, setRender] = useState(0);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [showIntro, setShowIntro] = useState(!hasRead());
   const { openModal } = useContext(ModalContext);
   const [isRevealing, setIsRevealing] = useState(false);
-  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(true);
 
   const state = gameState.context.state;
 
@@ -341,7 +342,7 @@ export const UpcomingExpansion: React.FC = () => {
           isLocked={isLocked}
           onOpen={() => setShowBumpkinModal(true)}
           position={nextPosition}
-          requirements={requirements as ExpansionRequirements}
+          requirements={requirements as IExpansionRequirements}
           showHelper={showHelper ?? false}
         />
       )}
@@ -362,37 +363,24 @@ export const UpcomingExpansion: React.FC = () => {
         </Modal>
       )}
       <Modal show={showBumpkinModal} onHide={() => setShowBumpkinModal(false)}>
-        {showIntro && (
-          <SpeakingModal
-            message={[
-              {
-                text: translate("grimbly.expansion.one"),
-              },
-              {
-                text: translate("grimbly.expansion.two"),
-              },
-            ]}
-            onClose={() => {
-              acknowledgeRead();
-              setShowIntro(false);
+        <CloseButtonPanel
+          bumpkinParts={NPC_WEARABLES.grimbly}
+          onClose={() => setShowBumpkinModal(false)}
+        >
+          <ExpansionRequirements
+            inventory={state.inventory}
+            bumpkin={state.bumpkin as Bumpkin}
+            details={{
+              description: translate("landscape.expansion.one"),
             }}
-            bumpkinParts={NPC_WEARABLES.grimbly}
+            requirements={requirements}
+            actionView={
+              <Button onClick={onExpand} disabled={!canExpand}>
+                {t("expand")}
+              </Button>
+            }
           />
-        )}
-
-        {!showIntro && (
-          <CloseButtonPanel
-            bumpkinParts={NPC_WEARABLES.grimbly}
-            title={t("expand.land")}
-            onClose={() => setShowBumpkinModal(false)}
-          >
-            <UpcomingExpansionModal
-              gameState={state}
-              onClose={() => setShowBumpkinModal(false)}
-              onExpand={onExpand}
-            />
-          </CloseButtonPanel>
-        )}
+        </CloseButtonPanel>
       </Modal>
     </>
   );
