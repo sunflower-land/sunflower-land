@@ -12,7 +12,8 @@ import { translate } from "lib/i18n/translate";
 import clipboard from "clipboard";
 import { Label } from "components/ui/Label";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
-import { isIOS, getUA } from "mobile-device-detect";
+import { isMobile, isIOS, getUA } from "mobile-device-detect";
+import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 
 interface Props {
   conversationId: string;
@@ -47,6 +48,9 @@ export const PWAInstallMessage: React.FC<Props> = ({
   const farmId = useSelector(gameService, _farmId);
   const token = useSelector(authService, _token);
 
+  const isMetamaskMobile = /MetaMaskMobile/.test(getUA);
+  const mobileBrowserToUser = isIOS ? "Safari" : "Chrome";
+
   const fetchMagicLink = async () => {
     const { link } = await getMagicLink({
       token,
@@ -59,11 +63,26 @@ export const PWAInstallMessage: React.FC<Props> = ({
   useEffect(() => {
     if (magicLink) return;
 
-    fetchMagicLink();
+    if (isMetamaskMobile) {
+      fetchMagicLink();
+    }
   }, []);
 
-  const acknowledge = () => {
-    gameService.send({ type: "message.read", id: conversationId });
+  const handleAcknowledge = () => {
+    // gameService.send({ type: "message.read", id: conversationId });
+    onAcknowledge();
+  };
+
+  const handleInstall = () => {
+    if (isIOS) {
+      pwaInstall.current?.showDialog();
+    } else {
+      pwaInstall.current?.install();
+    }
+
+    fixInstallPromptTextStyles();
+
+    handleAcknowledge();
   };
 
   const copyToClipboard = () => {
@@ -83,9 +102,6 @@ export const PWAInstallMessage: React.FC<Props> = ({
       setTooltipMessage(TOOL_TIP_MESSAGE);
     }, 2000);
   };
-
-  const isMetamaskMobile = /MetaMaskMobile/.test(getUA);
-  const mobileBrowserToUser = isIOS ? "Safari" : "Chrome";
 
   const conversation = message;
 
@@ -107,7 +123,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
         {`isIOS: ${isIOS}`}
         {`isAndroid: ${isAndroid}`} */}
 
-        {isMetamaskMobile && (
+        {isMobile && isMetamaskMobile && (
           <div className="relative w-full mb-2">
             <p className="text-sm mb-2">{`Copy the magic link below and open it in ${mobileBrowserToUser} on your device to install!`}</p>
             <p
@@ -128,33 +144,16 @@ export const PWAInstallMessage: React.FC<Props> = ({
           </div>
         )}
 
-        {/* {magicLink && (
-          <div className="relative w-full">
-            <p
-              className="cursor-pointer text-sm underline"
-              onMouseEnter={() => setShowLabel(true)}
-              onMouseLeave={() => setShowLabel(false)}
-              onClick={copyToClipboard}
-            >{`Click here to copy the magic link`}</p>
-            <div
-              className={`absolute top-6 left-9 mr-5 transition duration-400 pointer-events-none ${
-                showLabel ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <Label type="success">{tooltipMessage}</Label>
-            </div>
+        {isMobile && !isMetamaskMobile && (
+          <div className="flex space-x-1">
+            <Button onClick={handleAcknowledge}>{`Not now`}</Button>
+            <Button onClick={handleInstall}>{`Let's go!`}</Button>
           </div>
-        )} */}
+        )}
 
         {/* If user is in correct browser then show the install button */}
-        <Button
-          onClick={() => {
-            pwaInstall.current?.install();
-            onAcknowledge();
-          }}
-        >{`Install`}</Button>
 
-        {!read && <Button onClick={acknowledge}>{t("gotIt")}</Button>}
+        {/* {!read && <Button onClick={acknowledge}>{t("gotIt")}</Button>} */}
       </>
     </div>
   );

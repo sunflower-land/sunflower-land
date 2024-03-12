@@ -60,6 +60,7 @@ import { Listed } from "../components/Listed";
 import { ListingDeleted } from "../components/listingDeleted";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
+import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -329,18 +330,7 @@ export const GameWrapper: React.FC = ({ children }) => {
 
       authService.send("PWA_INSTALL_PROMPT_SHOWN");
 
-      // Fix broken styles in PWA install dialog
-      const pwaEl = document.querySelector("pwa-install");
-
-      if (!pwaEl?.shadowRoot) return;
-
-      const shadowInstallEl = pwaEl.shadowRoot.querySelector(
-        "#pwa-install-element > .install-dialog.chrome.mobile"
-      ) as HTMLElement | null;
-
-      if (shadowInstallEl) {
-        shadowInstallEl.style.textShadow = "none";
-      }
+      fixInstallPromptTextStyles();
     }
   }, [playing, pwaInstallRef, showPWAInstallPrompt]);
 
