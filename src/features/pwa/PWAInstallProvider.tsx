@@ -39,7 +39,12 @@ export const PWAInstallProvider: React.FC<PWAInstallProviderProps> = ({
     const handleInstallFail = (event: Event) => {
       console.log("Install Fail", event);
     };
-    const handleUserChoiceResult = (event: Event) => {
+    const handleUserChoiceResult = (event: any) => {
+      if (event.detail.message === "dismissed") {
+        pwaInstallRef.current?.hideDialog();
+
+        // Store in local storage that user dismissed the prompt
+      }
       console.log("User Choice Result", event);
     };
     const handleInstallAvailable = (event: Event) => {
@@ -110,27 +115,18 @@ export const PWAInstallProvider: React.FC<PWAInstallProviderProps> = ({
   return (
     <PWAInstallContext.Provider value={pwaInstallRef}>
       {/* Render the PWAInstall component and pass the ref */}
-      {children}
-      <div className="fixed top-2 left-1/2" style={{ zIndex: 5678907878 }}>
-        <button
-          id="show install"
-          onClick={() => pwaInstallRef.current?.showDialog(true)}
-        >
-          {`Show Install Prompt`}
-        </button>
-      </div>
       <PWAInstall
+        id="pwa-install"
         ref={pwaInstallRef}
         manual-apple="true"
         manual-chrome="true"
         // disable-chrome="true"
-        disable-install-description="false"
-        disable-screenshots="true"
         manifest-url="/pwa/manifest.webmanifest"
         name="Sunflower Land"
-        description="Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources."
+        description="🧑‍🌾 Install our app for a more seamless farming experience. Enjoy full-screen action, easy access, and exclusive features."
         icon="pwa/icons/pwa-64x64.png"
       />
+      {children}
     </PWAInstallContext.Provider>
   );
 };

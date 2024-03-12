@@ -6,6 +6,12 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    https: {
+      key: "/Users/spencerdezart-smith/Documents/certs/privkey.pem",
+      cert: "/Users/spencerdezart-smith/Documents/certs/fullchain.pem",
+    },
+  },
   plugins: [
     reactRefresh(),
     tsconfigPaths(),
@@ -40,7 +46,7 @@ export default defineConfig({
         name: "Sunflower Land",
         id: "com.sunflower-land",
         description:
-          "Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources.",
+          "🧑‍🌾 Install our app for a more seamless farming experience. Enjoy full-screen action, easy access, and exclusive features!",
         short_name: "Sunflower Land",
         start_url: "/pwa/",
         theme_color: "#303443",
@@ -73,15 +79,16 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: "pwa/screenshots/logo.webp",
-            sizes: "780x350",
-            type: "image/webp",
+            src: "pwa/screenshots/1.jpg",
+            sizes: "900x1680",
+            type: "image/jpg",
+            form_factor: "narrow",
           },
           {
-            src: "pwa/screenshots/logo.webp",
-            sizes: "780x350",
-            type: "image/webp",
-            form_factor: "wide",
+            src: "pwa/screenshots/2.jpg",
+            sizes: "900x1680",
+            type: "image/jpg",
+            form_factor: "narrow",
           },
         ],
       },

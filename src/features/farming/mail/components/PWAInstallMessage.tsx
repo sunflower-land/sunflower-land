@@ -12,6 +12,7 @@ import { translate } from "lib/i18n/translate";
 import clipboard from "clipboard";
 import { Label } from "components/ui/Label";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
+import { isIOS, getUA } from "mobile-device-detect";
 
 interface Props {
   conversationId: string;
@@ -83,6 +84,9 @@ export const PWAInstallMessage: React.FC<Props> = ({
     }, 2000);
   };
 
+  const isMetamaskMobile = /MetaMaskMobile/.test(getUA);
+  const mobileBrowserToUser = isIOS ? "Safari" : "Chrome";
+
   const conversation = message;
 
   return (
@@ -94,24 +98,26 @@ export const PWAInstallMessage: React.FC<Props> = ({
         {conversation.content.map((content, index) => (
           <div className="mb-2" key={index}>
             <p className="text-sm mb-2">{content.text}</p>
-            {content.image && (
-              <img
-                src={content.image}
-                className="w-full mx-auto rounded-md mt-1"
-              />
-            )}
           </div>
         ))}
 
         {/* If user is in metamask browser show a link and direct them to open up in relevant browser */}
+        {/* {`metamask: ${isMetamaskMobile}`}
+        {`isMobile: ${isMobile}`}
+        {`isIOS: ${isIOS}`}
+        {`isAndroid: ${isAndroid}`} */}
 
-        {magicLink && (
-          <div className="relative w-full">
+        {isMetamaskMobile && (
+          <div className="relative w-full mb-2">
+            <p className="text-sm mb-2">{`Copy the magic link below and open it in ${mobileBrowserToUser} on your device to install!`}</p>
             <p
-              className="cursor-pointer text-sm underline"
+              className="cursor-pointer text-xs underline"
               onMouseEnter={() => setShowLabel(true)}
               onMouseLeave={() => setShowLabel(false)}
-            >{`Magic Link`}</p>
+              onClick={copyToClipboard}
+            >
+              {magicLink ? `Magic Link` : `Generating link...`}
+            </p>
             <div
               className={`absolute top-6 left-9 mr-5 transition duration-400 pointer-events-none ${
                 showLabel ? "opacity-100" : "opacity-0"
@@ -122,10 +128,28 @@ export const PWAInstallMessage: React.FC<Props> = ({
           </div>
         )}
 
+        {/* {magicLink && (
+          <div className="relative w-full">
+            <p
+              className="cursor-pointer text-sm underline"
+              onMouseEnter={() => setShowLabel(true)}
+              onMouseLeave={() => setShowLabel(false)}
+              onClick={copyToClipboard}
+            >{`Click here to copy the magic link`}</p>
+            <div
+              className={`absolute top-6 left-9 mr-5 transition duration-400 pointer-events-none ${
+                showLabel ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Label type="success">{tooltipMessage}</Label>
+            </div>
+          </div>
+        )} */}
+
         {/* If user is in correct browser then show the install button */}
         <Button
           onClick={() => {
-            pwaInstall.current?.showDialog(true);
+            pwaInstall.current?.install();
             onAcknowledge();
           }}
         >{`Install`}</Button>

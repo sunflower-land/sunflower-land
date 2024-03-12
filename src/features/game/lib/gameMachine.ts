@@ -715,9 +715,15 @@ export function startGame(authContext: AuthContext) {
               target: "gameRules",
               cond: () => {
                 const lastRead = getGameRulesLastRead();
+                const isPWAInstallLink = authContext.showPWAInstallPrompt;
+
+                // Don't show game rules if they have been read in the last 7 days
+                // or if the user has come from a pwa install magic link
                 return (
-                  !lastRead ||
-                  Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
+                  (!lastRead ||
+                    Date.now() - lastRead.getTime() >
+                      7 * 24 * 60 * 60 * 1000) &&
+                  !isPWAInstallLink
                 );
               },
             },
