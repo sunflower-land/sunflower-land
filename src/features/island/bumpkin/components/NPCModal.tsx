@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { COOKABLES, PIRATE_CAKE, FISH } from "features/game/types/consumables";
+import {
+  COOKABLES,
+  PIRATE_CAKE,
+  FISH,
+  Consumable,
+} from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";
@@ -38,7 +43,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
 
-  const availableFood = [
+  const allFoods: Consumable[] = [
     ...Object.values(COOKABLES)
       .sort((a, b) => a.cookingSeconds - b.cookingSeconds)
       .sort(
@@ -49,6 +54,10 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
     ...Object.values(PIRATE_CAKE),
     ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),
   ];
+
+  const availableFood: Consumable[] = allFoods
+    .filter((consumable) => !!state.inventory[consumable.name]?.gt(0))
+    .map((consumable) => consumable);
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 
