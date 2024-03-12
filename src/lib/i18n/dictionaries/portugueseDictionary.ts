@@ -3720,6 +3720,16 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Uau, obrigado Bumpkin. Aqui está um pequeno presente pela sua ajuda!",
   "npcDialogues.default.locked": "Por favor, volte amanhã.",
+
+  // Glinteye Intro
+  "npcDialogues.glinteye.intro1":
+    "Ah, aventureiro! Glinteye à sua disposição. Pronto para negociar segredos e recursos? Mergulhe em minhas listagens ou adicione as suas. Vamos fazer um acordo!",
+  "npcDialogues.glinteye.intro2":
+    "Bem-vindo, alma curiosa! Sou Glinteye, seu guia para trocar maravilhas. Procure ou liste recursos comigo; a sorte favorece os ousados!",
+  "npcDialogues.glinteye.intro3":
+    "Glinteye é meu nome, trocar é meu lema! Navegue ou liste, sempre uma trama. O que te agrada hoje?",
+  "npcDialogues.glinteye.intro4":
+    "Olá! Sou Glinteye, o goblin do comércio. Explore trocas de jogadores ou liste seus itens. Vamos ver o que podemos encontrar juntos!",
 };
 
 const nyeButton: Record<NyeButton, string> = {
@@ -4622,8 +4632,12 @@ export const NYON_STATUE: Record<NyonStatue, string> = {
 const trading: Record<Trading, string> = {
   "trading.select.resources": "Selecione recursos para ver listagens",
   "trading.no.listings": "Nenhuma listagem encontrada",
-  "transaction.listing.congrats":
-    "Parabéns, você listou seus itens para troca!",
+  "trading.listing.congrats": "Parabéns, você listou seus itens para troca!",
+  "trading.listing.deleted": "Sua listagem foi excluída",
+  "trading.listing.fulfilled": "A troca foi completada",
+  "trading.your.listing": "Sua listagem",
+  "trading.you.receive": "Você recebe",
+  "trading.burned": "será queimado.",
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {

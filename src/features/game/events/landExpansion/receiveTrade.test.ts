@@ -9,6 +9,7 @@ describe("receiveTrade", () => {
         action: {
           tradeId: "123",
           type: "trade.received",
+          beta: false,
         },
         state: TEST_FARM,
       })
@@ -20,6 +21,7 @@ describe("receiveTrade", () => {
       action: {
         tradeId: "123",
         type: "trade.received",
+        beta: false,
       },
       state: {
         ...TEST_FARM,
@@ -47,6 +49,7 @@ describe("receiveTrade", () => {
       action: {
         tradeId: "123",
         type: "trade.received",
+        beta: false,
       },
       state: {
         ...TEST_FARM,
@@ -67,5 +70,33 @@ describe("receiveTrade", () => {
     });
 
     expect(state.balance).toEqual(new Decimal(5));
+  });
+
+  it("deducts 10% SFL on new system", () => {
+    const state = receiveTrade({
+      action: {
+        tradeId: "123",
+        type: "trade.received",
+        beta: true,
+      },
+      state: {
+        ...TEST_FARM,
+        trades: {
+          listings: {
+            "123": {
+              createdAt: 1000000,
+              sfl: 5,
+              items: {
+                Sunflower: 10,
+              },
+              boughtAt: 12000000,
+              buyerId: 12,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(5 * 0.9));
   });
 });

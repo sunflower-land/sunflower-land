@@ -656,12 +656,13 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   glinteye: {
     body: "Goblin Potion",
-    hair: "Basic Hair",
-    shirt: "Bidder's Brocade",
-    pants: "Blue Suspenders",
-    tool: "Auction Megaphone",
-    background: "Farm Background",
+    hair: "Greyed Glory",
+    beard: "Hoary Chin",
+    shirt: "Traveller's Shirt",
+    pants: "Brown Suspenders",
+    tool: "Dawn Lamp",
     shoes: "Black Farmer Boots",
+    background: "Farm Background",
   },
 };
 

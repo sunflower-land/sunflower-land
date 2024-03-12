@@ -56,6 +56,8 @@ import { Wallet } from "features/wallet/Wallet";
 import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Listed } from "../components/Listed";
+import { ListingDeleted } from "../components/listingDeleted";
+import { ListingFulfilled } from "../components/listingFulfilled";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -95,6 +97,10 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   promo: true,
   trading: true,
   listing: true,
+  deleteTradeListing: true,
+  tradeListingDeleted: true,
+  tradeListingFulfilled: true,
+  fulfillTradeListing: true,
   listed: true,
   sniped: true,
   traded: true,
@@ -113,6 +119,14 @@ const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
 const isListing = (state: MachineState) => state.matches("listing");
 const isListed = (state: MachineState) => state.matches("listed");
+const isDeletingListing = (state: MachineState) =>
+  state.matches("deleteTradeListing");
+const isListingDeleted = (state: MachineState) =>
+  state.matches("tradeListingDeleted");
+const isFulfillingTradeListing = (state: MachineState) =>
+  state.matches("fulfillTradeListing");
+const isTradeListingFulfilled = (state: MachineState) =>
+  state.matches("tradeListingFulfilled");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
@@ -234,6 +248,16 @@ export const GameWrapper: React.FC = ({ children }) => {
   const traded = useSelector(gameService, isTraded);
   const listing = useSelector(gameService, isListing);
   const listed = useSelector(gameService, isListed);
+  const deletingListing = useSelector(gameService, isDeletingListing);
+  const listingDeleted = useSelector(gameService, isListingDeleted);
+  const tradeListingFulfilled = useSelector(
+    gameService,
+    isTradeListingFulfilled
+  );
+  const fulfillingTradeListing = useSelector(
+    gameService,
+    isFulfillingTradeListing
+  );
   const sniped = useSelector(gameService, isSniped);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
@@ -391,6 +415,10 @@ export const GameWrapper: React.FC = ({ children }) => {
           {traded && <Traded />}
           {listing && <Loading text="Listing" />}
           {listed && <Listed />}
+          {deletingListing && <Loading text="Deleting listing" />}
+          {listingDeleted && <ListingDeleted />}
+          {fulfillingTradeListing && <Loading text="Trading" />}
+          {tradeListingFulfilled && <ListingFulfilled />}
           {sniped && <Sniped />}
           {minting && <Minting />}
           {promo && <Promo />}
