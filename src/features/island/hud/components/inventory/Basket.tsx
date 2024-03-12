@@ -42,6 +42,7 @@ import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BUILDING_ORDER } from "features/island/bumpkin/components/NPCModal";
 
 interface Prop {
   gameState: GameState;
@@ -130,10 +131,17 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
-  const foods = getItems(COOKABLES).sort(
-    (a, b) => COOKABLES[a].experience - COOKABLES[b].experience
-  );
+
+  // Sort all foods by Cooking Time and Building
+  const foods = getItems(COOKABLES)
+    .sort((a, b) => COOKABLES[a].cookingSeconds - COOKABLES[b].cookingSeconds)
+    .sort(
+      (a, b) =>
+        BUILDING_ORDER.indexOf(COOKABLES[a].building) -
+        BUILDING_ORDER.indexOf(COOKABLES[b].building)
+    );
   const pirateCake = getItems(PIRATE_CAKE);
+
   const fertilisers = getItems(FERTILISERS);
   const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
