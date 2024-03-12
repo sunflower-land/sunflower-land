@@ -1,8 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC_WEARABLES } from "lib/npcs";
 import React, { useContext, useState } from "react";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuyPanel } from "../trader/BuyPanel";
@@ -15,9 +13,8 @@ interface Props {
   onClose: () => void;
 }
 
-export const Glinteye: React.FC<Props> = ({ onClose }) => {
+export const TradingBoard: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
-  const [confirmAction, setConfirmAction] = useState(false);
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -25,11 +22,6 @@ export const Glinteye: React.FC<Props> = ({ onClose }) => {
   const {
     context: { state },
   } = gameState;
-
-  const handleConfirm = (tab: number) => {
-    setConfirmAction(true);
-    setTab(tab);
-  };
 
   const intro = [
     t("npcDialogues.glinteye.intro1"),
@@ -47,7 +39,6 @@ export const Glinteye: React.FC<Props> = ({ onClose }) => {
     return (
       <CloseButtonPanel
         onClose={onClose}
-        bumpkinParts={NPC_WEARABLES.glinteye}
         tabs={[
           { icon: SUNNYSIDE.icons.heart, name: t("buy") },
           { icon: SUNNYSIDE.icons.expression_chat, name: t("sell") },
@@ -59,35 +50,11 @@ export const Glinteye: React.FC<Props> = ({ onClose }) => {
       </CloseButtonPanel>
     );
   }
-
-  if (!confirmAction) {
-    return (
-      <SpeakingModal
-        onClose={onClose}
-        bumpkinParts={NPC_WEARABLES.glinteye}
-        message={[
-          {
-            text: randomIntro,
-            actions: [
-              {
-                text: t("buy"),
-                cb: () => handleConfirm(0),
-              },
-              {
-                text: t("sell"),
-                cb: () => handleConfirm(1),
-              },
-            ],
-          },
-        ]}
-      />
-    );
-  }
+  const closeable = gameService.state.matches("fulfillTradeListing");
 
   return (
     <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES.glinteye}
+      onClose={closeable ? onClose : undefined}
       tabs={[
         { icon: SUNNYSIDE.icons.heart, name: t("buy") },
         { icon: SUNNYSIDE.icons.expression_chat, name: t("sell") },
