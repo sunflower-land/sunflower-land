@@ -57,7 +57,6 @@ import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Listed } from "../components/Listed";
 import { ListingDeleted } from "../components/listingDeleted";
-import { ListingFulfilled } from "../components/listingFulfilled";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -99,8 +98,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   listing: true,
   deleteTradeListing: true,
   tradeListingDeleted: true,
-  tradeListingFulfilled: true,
-  fulfillTradeListing: true,
+  fulfillTradeListing: false,
   listed: true,
   sniped: true,
   traded: true,
@@ -125,8 +123,6 @@ const isListingDeleted = (state: MachineState) =>
   state.matches("tradeListingDeleted");
 const isFulfillingTradeListing = (state: MachineState) =>
   state.matches("fulfillTradeListing");
-const isTradeListingFulfilled = (state: MachineState) =>
-  state.matches("tradeListingFulfilled");
 const isSniped = (state: MachineState) => state.matches("sniped");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
@@ -250,10 +246,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const listed = useSelector(gameService, isListed);
   const deletingListing = useSelector(gameService, isDeletingListing);
   const listingDeleted = useSelector(gameService, isListingDeleted);
-  const tradeListingFulfilled = useSelector(
-    gameService,
-    isTradeListingFulfilled
-  );
   const fulfillingTradeListing = useSelector(
     gameService,
     isFulfillingTradeListing
@@ -417,8 +409,6 @@ export const GameWrapper: React.FC = ({ children }) => {
           {listed && <Listed />}
           {deletingListing && <Loading text="Deleting listing" />}
           {listingDeleted && <ListingDeleted />}
-          {fulfillingTradeListing && <Loading text="Trading" />}
-          {tradeListingFulfilled && <ListingFulfilled />}
           {sniped && <Sniped />}
           {minting && <Minting />}
           {promo && <Promo />}

@@ -405,14 +405,7 @@ export const Trade: React.FC = () => {
           );
         })}
         {getKeys(trades).length < 3 && (
-          <div className="relative">
-            <div className="p-1 flex flex-col items-center">
-              <img
-                src={token}
-                className="w-1/5 mx-auto my-2 img-highlight-heavy"
-              />
-              <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
-            </div>
+          <div className="relative mt-2">
             <Button onClick={() => setShowListing(true)}>
               {t("list.trade")}
             </Button>

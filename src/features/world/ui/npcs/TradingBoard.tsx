@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useState } from "react";
-import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuyPanel } from "../trader/BuyPanel";
 import { Trade } from "features/bumpkins/components/Trade";
@@ -23,22 +22,14 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
     context: { state },
   } = gameState;
 
-  const intro = [
-    t("npcDialogues.glinteye.intro1"),
-    t("npcDialogues.glinteye.intro2"),
-    t("npcDialogues.glinteye.intro3"),
-    t("npcDialogues.glinteye.intro4"),
-  ];
-
-  const randomIntro = useRandomItem(intro);
-
+  const notCloseable = gameService.state.matches("fulfillTradeListing");
   const BetaText =
     "Beta testers are working hard to make this feature available to you soon!";
 
   if (!hasFeatureAccess(state, "TRADING_REVAMP")) {
     return (
       <CloseButtonPanel
-        onClose={onClose}
+        onClose={notCloseable ? undefined : onClose}
         tabs={[
           { icon: SUNNYSIDE.icons.heart, name: t("buy") },
           { icon: SUNNYSIDE.icons.expression_chat, name: t("sell") },
@@ -50,11 +41,9 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
       </CloseButtonPanel>
     );
   }
-  const closeable = gameService.state.matches("fulfillTradeListing");
-
   return (
     <CloseButtonPanel
-      onClose={closeable ? onClose : undefined}
+      onClose={notCloseable ? undefined : onClose}
       tabs={[
         { icon: SUNNYSIDE.icons.heart, name: t("buy") },
         { icon: SUNNYSIDE.icons.expression_chat, name: t("sell") },
@@ -62,7 +51,7 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <BuyPanel onClose={onClose} />}
+      {tab === 0 && <BuyPanel />}
       {tab === 1 && <Trade />}
     </CloseButtonPanel>
   );

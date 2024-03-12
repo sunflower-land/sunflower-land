@@ -540,7 +540,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "page_discovered"} onHide={closeModal}>
         <PageFound onClose={closeModal} />
       </Modal>
-      <Modal show={interactable === "trading_board"} onHide={closeModal}>
+      <Modal show={interactable === "trading_board"}>
         <TradingBoard onClose={closeModal} />
       </Modal>
     </>
