@@ -514,6 +514,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Ray: new Decimal(1),
     "Hammerhead shark": new Decimal(1),
     "Barred Knifejaw": new Decimal(1),
+
     Tuna: new Decimal(1),
     "Mahi Mahi": new Decimal(1),
     "Blue Marlin": new Decimal(1),
