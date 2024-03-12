@@ -8,15 +8,14 @@ import {
 } from "features/game/types/game";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
-import { SpeakingText } from "features/game/components/SpeakingModal";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
-import levelup from "assets/icons/level_up.png";
 import lockIcon from "assets/skills/lock.png";
 
 import { Label } from "../Label";
 import { secondsToString } from "lib/utils/time";
 import { OuterPanel } from "../Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -52,6 +51,8 @@ export const ExpansionRequirements: React.FC<Props> = ({
   requirements,
   actionView,
 }: Props) => {
+  const { t } = useAppTranslation();
+
   const hasLevel =
     getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
 
@@ -63,7 +64,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
           icon={SUNNYSIDE.icons.player}
           className="capitalize mb-2"
         >
-          Grimbly
+          {`Grimbly`}
         </Label>
         <div
           style={{
@@ -102,9 +103,12 @@ export const ExpansionRequirements: React.FC<Props> = ({
         </OuterPanel>
 
         {!hasLevel && (
-          <Label type="danger" icon={lockIcon} className="mt-2">
-            {`Level ${requirements.bumpkinLevel} required`}
-          </Label>
+          <>
+            <Label type="danger" icon={lockIcon} className="my-2">
+              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
+            </Label>
+            <p className="text-xs mb-2">{t("statements.visit.firePit")}</p>
+          </>
         )}
       </div>
       {actionView}

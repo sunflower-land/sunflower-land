@@ -20,7 +20,6 @@ import { getKeys } from "features/game/types/craftables";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import classNames from "classnames";
 import {
@@ -54,30 +53,11 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
   showHelper,
   inventory,
 }) => {
-  const [showLockedModal, setShowLockedModal] = useState(false);
-
   const showRequirements = inventory["Basic Land"]?.lte(5);
 
   const { t } = useAppTranslation();
   return (
     <>
-      <Modal show={showLockedModal} onHide={() => setShowLockedModal(false)}>
-        <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
-          <div className="flex flex-col items-center">
-            <Label className="mt-2" icon={lockIcon} type="danger">
-              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
-            </Label>
-            <img
-              src={ITEM_DETAILS.Hammer.image}
-              className="w-10 mx-auto my-2"
-            />
-            <p className="text-sm text-center mb-2">
-              {t("statements.visit.firePit")}
-            </p>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-
       <MapPlacement
         x={position.x - LAND_SIZE / 2}
         y={position.y + LAND_SIZE / 2}
@@ -95,11 +75,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
               }
             )}
             onClick={() => {
-              if (isLocked) {
-                setShowLockedModal(true);
-              } else {
-                onOpen();
-              }
+              onOpen();
             }}
           />
           {showRequirements && (
@@ -239,8 +215,6 @@ export const UpcomingExpansion: React.FC = () => {
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const state = gameState.context.state;
-
-  const playing = gameState.matches("playing");
 
   const requirements = expansionRequirements({ game: state });
 
