@@ -12,6 +12,7 @@ import okxIcon from "src/assets/icons/okx.svg";
 import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
 import bitgetIcon from "src/assets/icons/bitget_logo.svg";
 import googleIcon from "src/assets/icons/sign_in_with_google.svg";
+import wechatIcon from "src/assets/icons/wechat.png";
 
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";
@@ -358,6 +359,19 @@ export const SignIn = () => {
           >
             <img src={googleIcon} />
           </button>
+          <Button
+            className="mb-2 py-2 text-sm relative"
+            onClick={() => {
+              setShowLoading(true);
+              window.location.href = `${CONFIG.API_URL}/auth/wechat/authorize`;
+            }}
+          >
+            <img
+              src={wechatIcon}
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            {"Wechat"}
+          </Button>
         </>
       )}
 
