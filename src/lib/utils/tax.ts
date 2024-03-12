@@ -32,5 +32,5 @@ export function getTax({ amount, game }: { amount: Decimal; game: GameState }) {
   }
 
   // 50% reduced fee if LP badge exists
-  return tax;
+  return Math.floor(tax);
 }
