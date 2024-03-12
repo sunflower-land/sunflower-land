@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
@@ -13,18 +13,13 @@ import lockIcon from "assets/skills/lock.png";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
-import { Revealing } from "features/game/components/Revealing";
-import { Panel } from "components/ui/Panel";
-import { Revealed } from "features/game/components/Revealed";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import classNames from "classnames";
@@ -39,17 +34,7 @@ import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
 import { Button } from "components/ui/Button";
-
-const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
-
-function acknowledgeRead() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
-}
-
-function hasRead() {
-  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
-}
+import confetti from "canvas-confetti";
 
 interface ExpandIconProps {
   onOpen: () => void;
@@ -251,9 +236,7 @@ export const UpcomingExpansion: React.FC = () => {
   const [_, setRender] = useState(0);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { openModal } = useContext(ModalContext);
-  const [isRevealing, setIsRevealing] = useState(false);
-  const [showBumpkinModal, setShowBumpkinModal] = useState(true);
+  const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const state = gameState.context.state;
 
@@ -262,12 +245,6 @@ export const UpcomingExpansion: React.FC = () => {
   const requirements = expansionRequirements({ game: state });
 
   const { t } = useAppTranslation();
-
-  useEffect(() => {
-    if (isRevealing && playing) {
-      setIsRevealing(false);
-    }
-  }, [gameState.value]);
 
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
@@ -294,15 +271,10 @@ export const UpcomingExpansion: React.FC = () => {
   };
 
   const onReveal = () => {
-    setIsRevealing(true);
-    const state = gameService.send("land.revealed");
+    gameService.send("land.revealed");
     gameService.send("SAVE");
 
-    if (state.context.state.inventory["Basic Land"]?.eq(4)) {
-      openModal("FIRST_EXPANSION");
-    } else {
-      openModal("NEXT_EXPANSION");
-    }
+    confetti();
   };
 
   const nextPosition =
@@ -347,21 +319,6 @@ export const UpcomingExpansion: React.FC = () => {
         />
       )}
 
-      {gameState.matches("revealing") && isRevealing && (
-        <Modal show>
-          <CloseButtonPanel>
-            <Revealing icon={SUNNYSIDE.npcs.goblin_hammering} />
-          </CloseButtonPanel>
-        </Modal>
-      )}
-
-      {gameState.matches("revealed") && isRevealing && (
-        <Modal show>
-          <Panel>
-            <Revealed />
-          </Panel>
-        </Modal>
-      )}
       <Modal show={showBumpkinModal} onHide={() => setShowBumpkinModal(false)}>
         <CloseButtonPanel
           bumpkinParts={NPC_WEARABLES.grimbly}
@@ -373,7 +330,7 @@ export const UpcomingExpansion: React.FC = () => {
             details={{
               description: translate("landscape.expansion.one"),
             }}
-            requirements={requirements}
+            requirements={requirements as IExpansionRequirements}
             actionView={
               <Button onClick={onExpand} disabled={!canExpand}>
                 {t("expand")}
