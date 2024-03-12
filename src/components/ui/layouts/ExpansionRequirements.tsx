@@ -8,7 +8,14 @@ import {
 } from "features/game/types/game";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
+import { InlineDialogue } from "features/world/ui/TypingMessage";
+import { SUNNYSIDE } from "assets/sunnyside";
+import lockIcon from "assets/skills/lock.png";
 
+import { Label } from "../Label";
+import { secondsToString } from "lib/utils/time";
+import { OuterPanel } from "../Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 /**
  * The props for the component.
  * @param gameState The game state.
@@ -19,8 +26,8 @@ import { RequirementLabel } from "../RequirementsLabel";
 interface Props {
   inventory: Inventory;
   bumpkin: Bumpkin;
-  details?: DetailsProps;
-  requirements?: IExpansionRequirements;
+  details: DetailsProps;
+  requirements: IExpansionRequirements;
   actionView?: JSX.Element;
 }
 
@@ -30,7 +37,7 @@ interface Props {
  * @param description The description.
  */
 interface DetailsProps {
-  description?: string;
+  description: string;
 }
 
 /**
@@ -44,82 +51,67 @@ export const ExpansionRequirements: React.FC<Props> = ({
   requirements,
   actionView,
 }: Props) => {
-  const getItemDetail = () => {
-    if (!details?.description) return null;
+  const { t } = useAppTranslation();
 
-    return (
-      <>
-        <span className="text-xs mt-1 whitespace-pre-line sm:text-center">
-          {details.description}
-        </span>
-      </>
-    );
-  };
-
-  const getRequirements = () => {
-    if (!requirements) return null;
-
-    return (
-      <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        <Requirements
-          requirements={requirements}
-          inventory={inventory}
-          bumpkin={bumpkin}
-        />
-      </div>
-    );
-  };
+  const hasLevel =
+    getBumpkinLevel(bumpkin.experience) >= requirements.bumpkinLevel;
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="flex flex-col justify-center px-1 py-0">
-        {getItemDetail()}
-        {getRequirements()}
+      <div className="flex flex-col justify-center p-2">
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.player}
+          className="capitalize mb-2"
+        >
+          {`Grimbly`}
+        </Label>
+        <div
+          style={{
+            minHeight: "50px",
+          }}
+          className="mb-2"
+        >
+          <InlineDialogue trail={25} message={details.description} />
+        </div>
+        <div className="mb-2 flex justify-between items-center">
+          <Label type={"default"} icon={SUNNYSIDE.icons.basket}>
+            {`Requirements`}
+          </Label>
+          <Label
+            type="info"
+            icon={SUNNYSIDE.icons.stopwatch}
+            secondaryIcon={SUNNYSIDE.icons.hammer}
+          >
+            {secondsToString(requirements.seconds, { length: "medium" })}
+          </Label>
+        </div>
+
+        <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
+          {getKeys(requirements.resources).map((itemName) => {
+            return (
+              <RequirementLabel
+                key={itemName}
+                type="item"
+                item={itemName}
+                balance={inventory[itemName] ?? new Decimal(0)}
+                showLabel
+                requirement={new Decimal(requirements.resources[itemName] ?? 0)}
+              />
+            );
+          })}
+        </OuterPanel>
+
+        {!hasLevel && (
+          <>
+            <Label type="danger" icon={lockIcon} className="my-2">
+              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
+            </Label>
+            <p className="text-xs mb-2">{t("statements.visit.firePit")}</p>
+          </>
+        )}
       </div>
       {actionView}
     </div>
-  );
-};
-
-export const Requirements = ({
-  requirements,
-  inventory,
-  bumpkin,
-}: {
-  inventory: Inventory;
-  requirements?: IExpansionRequirements;
-  bumpkin: Bumpkin;
-}) => {
-  if (!requirements) return <></>;
-
-  return (
-    <>
-      {/* Item ingredients requirements */}
-      {getKeys(requirements.resources)?.map((name, index) => {
-        return (
-          <RequirementLabel
-            key={index}
-            type="item"
-            item={name}
-            balance={inventory[name] ?? new Decimal(0)}
-            requirement={new Decimal(requirements.resources[name] ?? 0)}
-          />
-        );
-      })}
-
-      {/* Level requirement */}
-      {!!requirements.bumpkinLevel && (
-        <RequirementLabel
-          type="level"
-          currentLevel={getBumpkinLevel(bumpkin?.experience ?? 0)}
-          requirement={requirements.bumpkinLevel}
-        />
-      )}
-
-      {/* Time requirement display */}
-      {!!requirements.seconds && (
-        <RequirementLabel type="time" waitSeconds={requirements.seconds} />
-      )}
-    </>
   );
 };
