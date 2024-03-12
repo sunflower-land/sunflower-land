@@ -31,7 +31,6 @@ export function feedBumpkin({
   const stateCopy = cloneDeep(state);
 
   const bumpkin = stateCopy.bumpkin;
-  const collectibles = stateCopy.collectibles;
   const buds = stateCopy.buds;
   const inventory = stateCopy.inventory;
 
