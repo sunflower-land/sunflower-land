@@ -14,6 +14,8 @@ import { Label } from "components/ui/Label";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { isMobile, isIOS, getUA } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
+import { QRCodeSVG } from "qrcode.react";
+import logo from "assets/brand/icon_pwa.png";
 
 interface Props {
   conversationId: string;
@@ -63,7 +65,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
   useEffect(() => {
     if (magicLink) return;
 
-    if (isMetamaskMobile) {
+    if (isMetamaskMobile || !isMobile) {
       fetchMagicLink();
     }
   }, []);
@@ -117,12 +119,6 @@ export const PWAInstallMessage: React.FC<Props> = ({
           </div>
         ))}
 
-        {/* If user is in metamask browser show a link and direct them to open up in relevant browser */}
-        {/* {`metamask: ${isMetamaskMobile}`}
-        {`isMobile: ${isMobile}`}
-        {`isIOS: ${isIOS}`}
-        {`isAndroid: ${isAndroid}`} */}
-
         {isMobile && isMetamaskMobile && (
           <div className="relative w-full mb-2">
             <p className="text-sm mb-2">{`Copy the magic link below and open it in ${mobileBrowserToUser} on your device to install!`}</p>
@@ -151,9 +147,33 @@ export const PWAInstallMessage: React.FC<Props> = ({
           </div>
         )}
 
-        {/* If user is in correct browser then show the install button */}
-
-        {/* {!read && <Button onClick={acknowledge}>{t("gotIt")}</Button>} */}
+        {!isMobile && (
+          <div>
+            <p className="mb-2 text-sm">{`Scan the code to install on your device.`}</p>
+            {!magicLink && (
+              <p
+                className="text-sm loading"
+                style={{ marginLeft: 0 }}
+              >{`Generating code`}</p>
+            )}
+            {magicLink && (
+              <div className="flex justify-center mb-2">
+                <QRCodeSVG
+                  style={{ width: 150, height: 150 }}
+                  level="M"
+                  value={magicLink}
+                  imageSettings={{
+                    src: logo,
+                    height: 20,
+                    width: 20,
+                    excavate: false,
+                  }}
+                />
+              </div>
+            )}
+            {!read && <Button onClick={handleAcknowledge}>{t("gotIt")}</Button>}
+          </div>
+        )}
       </>
     </div>
   );

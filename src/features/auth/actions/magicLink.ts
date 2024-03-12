@@ -18,8 +18,12 @@ export async function getMagicLink(request: Request) {
     }
   );
 
+  if (response.status === 401) {
+    throw new Error(ERRORS.UNAUTHORIZED);
+  }
+
   if (response.status >= 400) {
-    throw new Error(ERRORS.CREATE_ACCOUNT_SERVER_ERROR);
+    throw new Error(ERRORS.MAGIC_LINK_ERROR);
   }
 
   return await response.json();
