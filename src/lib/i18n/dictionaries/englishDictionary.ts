@@ -3851,7 +3851,7 @@ const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.Please": "Please allow 5 minutes before continuing.",
   "playerTrade.sold": "Sold",
   "playerTrade.sale": "For sale",
-  "playerTrade.title.congrat": "Congratulations, your listing was purchased",
+  "playerTrade.title.congrat": "Congratulations, your listing was purchased!",
 };
 
 const plazaSettings: Record<PlazaSettings, string> = {
