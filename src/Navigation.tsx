@@ -24,6 +24,7 @@ import { Panel } from "components/ui/Panel";
 import { useOrientation } from "lib/utils/hooks/useOrientation";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { Modal } from "components/ui/Modal";
+import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -117,56 +118,61 @@ export const Navigation: React.FC = () => {
     <>
       <Auth showOfflineModal={showConnectionModal} />
       {showGame ? (
-        <ZoomProvider>
-          <Modal show={showConnectionModal}>
-            <Panel>
-              <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
-            </Panel>
-          </Modal>
-          <HashRouter>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-                {!state.isVisiting && (
+        <PWAInstallProvider>
+          <ZoomProvider>
+            <Modal show={showConnectionModal}>
+              <Panel>
+                <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+              </Panel>
+            </Modal>
+            <HashRouter>
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+                  {!state.isVisiting && (
+                    <Route
+                      path="/goblins"
+                      element={
+                        <Splash>
+                          <Forbidden />
+                        </Splash>
+                      }
+                    />
+                  )}
+                  <Route path="/world/:name" element={<World key="world" />} />
                   <Route
-                    path="/goblins"
-                    element={
-                      <Splash>
-                        <Forbidden />
-                      </Splash>
-                    }
+                    path="/community/:name"
+                    element={<World key="community" isCommunity />}
                   />
-                )}
-                <Route path="/world/:name" element={<World key="world" />} />
-                <Route
-                  path="/community/:name"
-                  element={<World key="community" isCommunity />}
-                />
-                {CONFIG.NETWORK === "mumbai" && (
+                  {CONFIG.NETWORK === "mumbai" && (
+                    <Route
+                      path="/community-tools"
+                      element={<CommunityTools key="community-tools" />}
+                    />
+                  )}
+
                   <Route
-                    path="/community-tools"
-                    element={<CommunityTools key="community-tools" />}
+                    path="/visit/*"
+                    element={<LandExpansion key="visit" />}
                   />
-                )}
 
-                <Route
-                  path="/visit/*"
-                  element={<LandExpansion key="visit" />}
-                />
+                  <Route path="/retreat">
+                    <Route index element={<TraderDeeplinkHandler />} />
+                    <Route path=":id" element={<Retreat key="retreat" />} />
+                  </Route>
+                  {CONFIG.NETWORK === "mumbai" && (
+                    <Route
+                      path="/builder"
+                      element={<Builder key="builder" />}
+                    />
+                  )}
 
-                <Route path="/retreat">
-                  <Route index element={<TraderDeeplinkHandler />} />
-                  <Route path=":id" element={<Retreat key="retreat" />} />
-                </Route>
-                {CONFIG.NETWORK === "mumbai" && (
-                  <Route path="/builder" element={<Builder key="builder" />} />
-                )}
-
-                <Route path="*" element={<LandExpansion key="land" />} />
-              </Routes>
-            </Suspense>
-          </HashRouter>
-        </ZoomProvider>
+                  <Route path="*" element={<LandExpansion key="land" />} />
+                </Routes>
+              </Suspense>
+            </HashRouter>
+          </ZoomProvider>
+        </PWAInstallProvider>
       ) : (
         <Splash />
       )}
