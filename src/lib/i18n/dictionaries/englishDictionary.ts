@@ -289,6 +289,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   honey: "Honey",
   "hungry?": "Hungry?",
   info: "Info",
+  "install.app": "Install App",
   kick: "Kick",
   item: "Item:",
   land: "Land",

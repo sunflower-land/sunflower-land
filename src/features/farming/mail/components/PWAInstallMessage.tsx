@@ -15,7 +15,7 @@ import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { isMobile, isIOS, getUA } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { QRCodeSVG } from "qrcode.react";
-import logo from "assets/brand/icon_pwa.png";
+import logo from "assets/brand/icon.png";
 
 interface Props {
   conversationId: string;
@@ -41,7 +41,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [showLabel, setShowLabel] = useState(false);
+  const [showLabel, setShowLabel] = useState(true);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [magicLink, setMagicLink] = useState<string>();
 
@@ -131,7 +131,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
               {magicLink ? `Magic Link` : `Generating link...`}
             </p>
             <div
-              className={`absolute top-6 left-9 mr-5 transition duration-400 pointer-events-none ${
+              className={`absolute top-11 left-9 mr-5 transition duration-400 pointer-events-none ${
                 showLabel ? "opacity-100" : "opacity-0"
               }`}
             >

@@ -115,6 +115,7 @@ export type GeneralTerms =
   | "honey"
   | "hungry?"
   | "info"
+  | "install.app"
   | "item"
   | "kick"
   | "land.id"

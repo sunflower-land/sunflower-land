@@ -35,6 +35,10 @@ import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LanguageSwitcher } from "./LanguageChangeModal";
+import { usePWAInstall } from "features/pwa/PWAInstallProvider";
+import { isMobile, isIOS, getUA } from "mobile-device-detect";
+import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
+import { InstallAppModal } from "./InstallAppModal";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -65,9 +69,14 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [showTimeMachine, setShowTimeMachine] = useState(false);
+  const [showInstallAppModal, setShowInstallAppModal] = useState(false);
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
+
+  const isMetamaskMobile = /MetaMaskMobile/.test(getUA);
+
+  const pwaInstall = usePWAInstall();
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -115,6 +124,21 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
   const changeLanguage = () => {
     setShowLanguageModal(true);
+    onClose();
+  };
+
+  const handleInstallApp = () => {
+    if (isMobile && !isMetamaskMobile) {
+      if (isIOS) {
+        pwaInstall.current?.showDialog();
+      } else {
+        pwaInstall.current?.install();
+      }
+
+      fixInstallPromptTextStyles();
+    } else {
+      setShowInstallAppModal(true);
+    }
     onClose();
   };
 
@@ -196,6 +220,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </li>
                     <li className="p-1">
                       <DEV_HoardingCheck network="mumbai" />
+                    </li>
+                    <li className="p-1">
+                      <Button onClick={handleInstallApp}>
+                        <span>{t("install.app")}</span>
+                      </Button>
                     </li>
                   </>
                 )}
@@ -323,6 +352,10 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       <PlazaSettings
         isOpen={showPlazaSettingsModal}
         onClose={() => setShowPlazaSettingsModal(false)}
+      />
+      <InstallAppModal
+        isOpen={showInstallAppModal}
+        onClose={() => setShowInstallAppModal(false)}
       />
 
       {showCaptcha && (
