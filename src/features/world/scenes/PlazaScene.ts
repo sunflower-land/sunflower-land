@@ -214,6 +214,48 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
       y: 200,
     },
   ],
+  7: [
+    {
+      x: 400,
+      y: 420,
+    },
+    {
+      x: 800,
+      y: 300,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
+  8: [
+    {
+      x: 775,
+      y: 350,
+    },
+    {
+      x: 750,
+      y: 140,
+    },
+    {
+      x: 150,
+      y: 445,
+    },
+  ],
+  9: [
+    {
+      x: 750,
+      y: 140,
+    },
+    {
+      x: 300,
+      y: 320,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
 };
 
 export class PlazaScene extends BaseScene {

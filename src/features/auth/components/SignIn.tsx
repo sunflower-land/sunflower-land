@@ -359,19 +359,21 @@ export const SignIn = () => {
           >
             <img src={googleIcon} />
           </button>
-          <Button
-            className="mb-2 py-2 text-sm relative"
-            onClick={() => {
-              setShowLoading(true);
-              window.location.href = `${CONFIG.API_URL}/auth/wechat/authorize`;
-            }}
-          >
-            <img
-              src={wechatIcon}
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            {"Wechat"}
-          </Button>
+          {!isMobile && (
+            <Button
+              className="mb-2 py-2 text-sm relative"
+              onClick={() => {
+                setShowLoading(true);
+                window.location.href = `${CONFIG.API_URL}/auth/wechat/authorize`;
+              }}
+            >
+              <img
+                src={wechatIcon}
+                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+              />
+              {"Wechat"}
+            </Button>
+          )}
         </>
       )}
 
