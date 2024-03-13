@@ -296,9 +296,9 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations"
+  | "decorations";
 
-  // time units
+export type TimeUnits =
   // Singular
   | "sec"
   | "min"
@@ -3264,6 +3264,7 @@ export type TranslationKeys =
   | SubSettings
   | Swarming
   | TieBreaker
+  | TimeUnits
   | ToolDescriptions
   | TransactionTerms
   | Transfer

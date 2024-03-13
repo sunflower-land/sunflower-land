@@ -170,6 +170,7 @@ import {
   Trader,
   NyonStatue,
   Trading,
+  TimeUnits,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -471,7 +472,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   upcoming: "Próximo",
   wearables: "Vestíveis",
   wish: "Desejo",
+};
 
+const timeUnits: Record<TimeUnits, string> = {
   // Time
   sec: ENGLISH_TERMS["sec"],
   min: ENGLISH_TERMS["min"],
@@ -4790,6 +4793,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...subSettings,
   ...swarming,
   ...tieBreaker,
+  ...timeUnits,
   ...toolDescriptions,
   ...transactionTerms,
   ...transfer,
