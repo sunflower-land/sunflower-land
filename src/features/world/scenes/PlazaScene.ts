@@ -283,6 +283,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("timer_icon", "world/timer_icon.png");
+    this.load.image("trade_icon", "world/trade_icon.png");
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -371,6 +372,14 @@ export class PlazaScene extends BaseScene {
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("trading_board");
     });
+
+    const tradingBoardIcon = this.add.sprite(750, 255, "trade_icon");
+    tradingBoardIcon
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("trading_board");
+      });
+    tradingBoardIcon.setDepth(1000000);
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
