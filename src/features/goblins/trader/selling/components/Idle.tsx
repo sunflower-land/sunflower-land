@@ -9,7 +9,6 @@ import {
 } from "lib/blockchain/Trader";
 
 import { Listing } from "./Listing";
-import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface IdleProps {
@@ -54,25 +53,7 @@ export const Idle: React.FC<IdleProps> = ({
             !farmSlot.listing ||
             farmSlot.listing?.status !== ListingStatus.LISTED
           ) {
-            return (
-              <div
-                key={farmSlot.slotId}
-                className="border-4 border-dashed border-brown-600 p-3 flex items-center justify-center"
-              >
-                <span
-                  className={classNames("text-sm cursor-pointer", {
-                    "cursor-not-allowed opacity-50": remainingListings === 0,
-                  })}
-                  onClick={
-                    remainingListings !== 0
-                      ? () => onDraft(farmSlot.slotId)
-                      : undefined
-                  }
-                >
-                  {t("list.trade")}
-                </span>
-              </div>
-            );
+            return <></>;
           }
 
           // if listed, return a listing UI
