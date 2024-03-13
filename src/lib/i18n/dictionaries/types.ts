@@ -1406,7 +1406,6 @@ export type FishDescriptions =
 
 export type FishermanModal =
   | "fishermanModal.attractFish"
-  | "fishermanModal.royChallenge"
   | "fishermanModal.fishBenefits"
   | "fishermanModal.baitAndResources"
   | "fishermanModal.crazyHappening"
@@ -1415,8 +1414,7 @@ export type FishermanModal =
   | "fishermanModal.needCraftRod"
   | "fishermanModal.craft.beach"
   | "fishermanModal.zero.available"
-  | "fishermanmodal.greetingPart1"
-  | "fishermanmodal.greetingPart2";
+  | "fishermanmodal.greeting";
 
 export type FishermanQuest = "fishermanQuest.Ohno" | "fishermanQuest.Newfish";
 

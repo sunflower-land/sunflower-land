@@ -2063,8 +2063,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish":
     "Attirez les poissons en jetant de l'appât dans l'eau.",
-  "fishermanModal.royChallenge":
-    "Ahoy, camarades insulaires ! Je suis Reelin' Roy, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
   "fishermanModal.fishBenefits":
     "Les poissons sont parfaits pour manger, livrer et obtenir des récompenses!",
   "fishermanModal.baitAndResources":
@@ -2074,14 +2072,13 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Dépêchez-vous, vous obtiendrez un poisson bonus pour chaque capture!",
   "fishermanModal.dailyLimitReached":
-    "Vous avez atteint votre limite quotidienne de pêche de ",
+    "Vous avez atteint votre limite quotidienne de pêche de {{limit}}",
   "fishermanModal.needCraftRod":
     "Vous devez d'abord fabriquer une canne à pêche.",
   "fishermanModal.craft.beach": "Fabriquez-la sur la plage",
   "fishermanModal.zero.available": "0 disponible",
-  "fishermanmodal.greetingPart1": "Ahoy, camarades insulaires ! Je suis --",
-  "fishermanmodal.greetingPart2":
-    "--, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
+  "fishermanmodal.greeting":
+    "Ahoy, camarades insulaires ! Je suis {{name}}, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -4655,7 +4652,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Aucune hache sélectionnée!",
   "warning.chat.maxCharacters": "Max de caractères",
   "warning.chat.noSpecialCharacters": "Pas de caractères spéciaux",
-  "warning.level.required": "Niveau requis",
+  "warning.level.required": "Niveau requis: {{lvl}}",
   "warning.hoarding.message":
     "Vous avez atteint la limite d'entassement pour l'objet suivant",
   "warning.hoarding.one":
