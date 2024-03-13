@@ -2724,7 +2724,9 @@ export type PwaInstall =
   | "generating.code"
   | "install.app.mobile.description.one"
   | "install.app.mobile.description.two"
-  | "install.desktop.description";
+  | "install.app.desktop.description"
+  | "install.app.mobile.metamask.description.one"
+  | "install.app.mobile.metamask.description.two";
 
 export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
 

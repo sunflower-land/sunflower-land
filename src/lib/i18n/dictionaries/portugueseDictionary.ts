@@ -4067,8 +4067,11 @@ const pwaInstall: Record<PwaInstall, string> = {
   "generating.code": "Generating Code",
   "install.app.mobile.description.one": "Install Sunflower Land on your device",
   "install.app.mobile.description.two": "on your device.",
-  "install.desktop.description":
+  "install.app.desktop.description":
     "Scan the code below to install on your device.",
+  "install.app.mobile.metamask.description.one":
+    "Copy the magic link below and open it in",
+  "install.app.mobile.metamask.description.two": "on your device to install!",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
