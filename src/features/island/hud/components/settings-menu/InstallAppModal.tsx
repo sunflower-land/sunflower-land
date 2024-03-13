@@ -11,7 +11,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getMagicLink } from "features/auth/actions/magicLink";
 import { Label } from "components/ui/Label";
-import clipboard from "clipboard";
 import logo from "assets/brand/icon.png";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -60,9 +59,9 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
     fetchMagicLink();
   }, [isOpen]);
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     try {
-      clipboard.copy(magicLink as string);
+      await navigator.clipboard.writeText(magicLink as string);
 
       setShowLabel(true);
       setTooltipMessage(translate("copied"));
@@ -112,7 +111,9 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
           )}
           {!isMobile && (
             <div>
-              <p className="mb-2 text-sm">{t("install.desktop.description")}</p>
+              <p className="mb-2 text-sm">
+                {t("install.app.desktop.description")}
+              </p>
               {magicLink === undefined && (
                 <p className="text-sm loading" style={{ marginLeft: 0 }}>
                   {t("generating.code")}

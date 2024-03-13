@@ -9,13 +9,13 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { getMagicLink } from "features/auth/actions/magicLink";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { translate } from "lib/i18n/translate";
-import clipboard from "clipboard";
 import { Label } from "components/ui/Label";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { isMobile, isIOS, getUA } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { QRCodeSVG } from "qrcode.react";
 import logo from "assets/brand/icon.png";
+import classNames from "classnames";
 
 interface Props {
   conversationId: string;
@@ -77,7 +77,9 @@ export const PWAInstallMessage: React.FC<Props> = ({
   }, []);
 
   const handleAcknowledge = () => {
-    gameService.send({ type: "message.read", id: conversationId });
+    if (!read) {
+      gameService.send({ type: "message.read", id: conversationId });
+    }
     onAcknowledge();
   };
 
@@ -93,9 +95,9 @@ export const PWAInstallMessage: React.FC<Props> = ({
     handleAcknowledge();
   };
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     try {
-      clipboard.copy(magicLink as string);
+      await navigator.clipboard.writeText(magicLink as string);
 
       setShowLabel(true);
       setTooltipMessage(translate("copied"));
@@ -127,14 +129,21 @@ export const PWAInstallMessage: React.FC<Props> = ({
 
         {isMobile && isMetamaskMobile && (
           <div className="relative w-full mb-2">
-            <p className="text-sm mb-2">{`Copy the magic link below and open it in ${mobileBrowserToUser} on your device to install!`}</p>
+            <p className="text-sm mb-2">{`${t(
+              "install.app.mobile.metamask.description.one"
+            )} ${mobileBrowserToUser} ${t(
+              "install.app.mobile.metamask.description.two"
+            )}`}</p>
             <p
-              className="cursor-pointer text-xs underline"
+              className={classNames("cursor-pointer text-xs", {
+                "loading underline": magicLink === undefined,
+              })}
+              style={{ marginLeft: 0, height: 25 }}
               onMouseEnter={() => setShowLabel(true)}
               onMouseLeave={() => setShowLabel(false)}
               onClick={copyToClipboard}
             >
-              {magicLink ? `Magic Link` : `Generating link...`}
+              {magicLink ? t("magic.link") : t("generating.link")}
             </p>
             <div
               className={`absolute top-11 left-9 mr-5 transition duration-400 pointer-events-none ${
@@ -148,14 +157,16 @@ export const PWAInstallMessage: React.FC<Props> = ({
 
         {isMobile && !isMetamaskMobile && (
           <div className="flex space-x-1">
-            <Button onClick={handleAcknowledge}>{`Not now`}</Button>
-            <Button onClick={handleInstall}>{`Let's go!`}</Button>
+            <Button onClick={handleAcknowledge}>{t("no.thanks")}</Button>
+            <Button onClick={handleInstall}>{t("lets.go")}</Button>
           </div>
         )}
 
         {!isMobile && (
           <div>
-            <p className="mb-2 text-sm">{`Scan the code to install on your device.`}</p>
+            <p className="mb-2 text-sm">
+              {t("install.app.desktop.description")}
+            </p>
             {magicLink === undefined && (
               <p
                 className="text-sm loading"

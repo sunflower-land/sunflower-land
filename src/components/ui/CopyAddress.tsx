@@ -4,7 +4,6 @@ import { CopySvg } from "components/ui/CopyField";
 import { shortAddress } from "lib/utils/shortAddress";
 
 import { Label } from "components/ui/Label";
-import clipboard from "clipboard";
 import classNames from "classnames";
 import { translate } from "lib/i18n/translate";
 
@@ -18,9 +17,9 @@ export const CopyAddress: React.FC<{ address: string; showCopy?: boolean }> = ({
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [showLabel, setShowLabel] = useState(false);
 
-  const copyToClipboard = () => {
+  const copyToClipboard = async () => {
     try {
-      clipboard.copy(address);
+      await navigator.clipboard.writeText(address);
 
       setShowLabel(true);
       setTooltipMessage(translate("copied"));

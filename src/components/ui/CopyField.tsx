@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Label } from "./Label";
-import clipboard from "clipboard";
 import { translate } from "lib/i18n/translate";
 
 export const CopySvg = ({ height = 16 }: { height?: number }) => (
@@ -33,9 +32,9 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
   const [tooltipMessage, setTooltipMessage] = useState(copyFieldMessage);
   const [showLabel, setShowLabel] = useState(false);
 
-  const copyToClipboard = (): void => {
+  const copyToClipboard = async (): Promise<void> => {
     try {
-      clipboard.copy(text);
+      await navigator.clipboard.writeText(text);
       setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
       setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
