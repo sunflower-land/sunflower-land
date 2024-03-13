@@ -16,7 +16,6 @@ interface IdleProps {
   freeListings: number;
   remainingListings: number;
   farmSlots: FarmSlot[];
-  onDraft: (slotId: number) => void;
   onCancel: (listing: ListingType) => void;
 }
 
@@ -25,7 +24,6 @@ export const Idle: React.FC<IdleProps> = ({
   freeListings,
   remainingListings,
   farmSlots,
-  onDraft,
   onCancel,
 }) => {
   const { t } = useAppTranslation();

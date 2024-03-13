@@ -36,7 +36,6 @@ export const Selling: React.FC = () => {
         freeListings={tradingPostState.context.freeListings}
         remainingListings={tradingPostState.context.remainingListings}
         farmSlots={tradingPostState.context.farmSlots}
-        onDraft={(slotId) => sellingService.send("DRAFT_LISTING", { slotId })}
         onCancel={(listing) =>
           sellingService.send("CANCEL_LISTING", { listing })
         }
