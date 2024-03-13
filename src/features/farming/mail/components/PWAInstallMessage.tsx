@@ -41,7 +41,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [showLabel, setShowLabel] = useState(true);
+  const [showLabel, setShowLabel] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
   const [magicLink, setMagicLink] = useState<string | null>();
 
