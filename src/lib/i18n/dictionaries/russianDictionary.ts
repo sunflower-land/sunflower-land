@@ -168,6 +168,7 @@ import {
   Promo,
   Trader,
   NyonStatue,
+  Trading,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -367,6 +368,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "reward.discovered": "Reward Discovered",
   save: "Save",
   saving: "Сохранение",
+  search: "Search",
+  searching: "Searching",
   "seasonal.treasure": "Seasonal Treasure",
   seeds: "Seeds",
   selected: "Selected",
@@ -906,6 +909,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "50% Reduction to Crop, Mineral, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
   "description.earnAlliance.boost": "2x XP Feb 2024",
+  "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1657,7 +1661,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.yellow.lotus": "A yellow lotus.",
   "description.purple.lotus": "A purple lotus.",
   "description.white.lotus": "A white lotus.",
-  "description.blue.lotu": "A blue lotus.",
+  "description.blue.lotus": "A blue lotus.",
 
   // Banners
   "description.goblin.war.banner":
@@ -1956,8 +1960,11 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
-  "fishermanmodal.greeting":
-    "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
+  "fishermanmodal.greetingPart1": "",
+  "fishermanmodal.greetingPart2": "",
+  "fishermanModal.royChallenge": "",
+  // "fishermanmodal.greeting":
+  //   "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2227,7 +2234,12 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand": "An adopted Bumpkin on your farm",
   "description.tulip.bulb": "A ticket used during the Spring Blossom",
   "description.treasure.key": "Visit the plaza to unlock your reward",
+  "description.rare.key": "Visit the beach to unlock your reward",
+  "description.luxury.key":
+    "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket": "A ticket to enter the prize giveaways",
+  "description.babyPanda":
+    "A cute panda from the Gas Hero event. Double experience for beginners during March.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
@@ -3634,6 +3646,16 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Wow, thanks Bumpkin. Here is a small gift for your help!",
   "npcDialogues.default.locked": "Please come back tomorrow.",
+
+  // Glinteye Intro
+  "npcDialogues.glinteye.intro1":
+    "Ah, adventurer! Glinteye at your service. Ready to trade secrets and resources? Dive into my listings or add your own. Let's make a deal!",
+  "npcDialogues.glinteye.intro2":
+    "Welcome, curious soul! I'm Glinteye, your guide to trading wonders. Seek or list resources with me; fortune favors the bold!",
+  "npcDialogues.glinteye.intro3":
+    "Glinteye's my name, trading's my game! Browse or list, there's always a twist. What's your fancy today?",
+  "npcDialogues.glinteye.intro4":
+    "Hello there! I'm Glinteye, the goblin of trade. Explore player trades or list your items. Let's see what we can find together!",
 };
 
 const nyeButton: Record<NyeButton, string> = {
@@ -3715,6 +3737,8 @@ const onCollectReward: Record<OnCollectReward, string> = {
   "onCollectReward.Missing.Seed": "Missing Seeds",
   "onCollectReward.Market": "Go to the Market to purchase seeds.",
   "onCollectReward.Missing.Shovel": "Missing Shovel",
+  "onCollectReward.Missing.Shovel.description":
+    "Expand your island to find it.",
 };
 
 const orderhelp: Record<OrderHelp, string> = {
@@ -4048,6 +4072,7 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.link": "Airdrop link",
   "special.event.claimForm":
     "Please fill in the form below to claim your airdrop.",
   "special.event.airdropHandling":
@@ -4056,6 +4081,11 @@ const specialEvent: Record<SpecialEvent, string> = {
   "special.event.web3Wallet":
     "A Web3 wallet is required to claim this airdrop.",
   "special.event.airdrop": "Airdrop",
+  "special.event.finishedLabel": "Event Finished",
+  "special.event.finished":
+    "This event has finished. Stay tuned for future events!",
+  "special.event.ineligible":
+    "There is no work needing to be done right now, thanks for stopping by though!",
 };
 
 const statements: Record<Statements, string> = {
@@ -4348,7 +4378,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",
-  "warning.level.required": "Level Required",
+  "warning.level.required": "Level Required: {{lvl}}",
   "warning.hoarding.message":
     "You have reached the Hoarding Limit for the following item",
   "warning.hoarding.one":
@@ -4490,6 +4520,7 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
 const event: Record<Event, string> = {
   "event.christmas": "Christmas event!",
   "event.LunarNewYear": "Lunar New Year Event",
+  "event.GasHero": "Gas Hero Event",
   "event.valentines.rewards": "Valentine Rewards",
 };
 
@@ -4516,6 +4547,18 @@ export const NYON_STATUE: Record<NyonStatue, string> = {
   "nyonStatue.memory": "In memory of",
   "nyonStatue.description":
     "The legendary knight responsible for clearing the goblins from the mines. Shortly after his victory he died by poisoning from a Goblin conspirator. The Sunflower Citizens erected this statue with his armor to commemorate his conquests.",
+};
+
+const trading: Record<Trading, string> = {
+  "trading.select.resources": "Select resources to view listings",
+  "trading.no.listings": "No listings found",
+  "trading.listing.congrats":
+    " Congratulations, you just listed your items for trade!",
+  "trading.listing.deleted": "Your listing has been deleted",
+  "trading.listing.fulfilled": "Trade has been fulfilled",
+  "trading.your.listing": "Your listing",
+  "trading.you.receive": "You receive",
+  "trading.burned": "is burned.",
 };
 
 export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
@@ -4688,4 +4731,5 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...promo,
   ...trader,
   ...NYON_STATUE,
+  ...trading,
 };
