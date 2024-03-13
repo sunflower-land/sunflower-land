@@ -215,7 +215,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   clear: "Clear",
   close: "Close",
   collect: "Collect",
-  "come.back": "Come back in",
   "coming.soon": "Coming soon",
   common: "Common",
   completed: "Completed",
@@ -4211,7 +4210,6 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.worthwell": "worth of rewards in the well!",
   "statements.wishing.well.look.like": "It doesn't look like you are",
   "statements.wishing.well.lucky": "Let's see how lucky you are!",
-  "statements.wishing.just.lucky": "to see just how lucky you have been.",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
   "statements.feed.bumpkin.one": "You have no food in your inventory.",
