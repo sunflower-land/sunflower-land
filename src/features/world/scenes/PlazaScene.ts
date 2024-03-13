@@ -366,13 +366,8 @@ export class PlazaScene extends BaseScene {
     });
 
     super.create();
-    PLAZA_BUMPKINS.push({
-      x: 700,
-      y: 250,
-      npc: "glinteye",
-    });
 
-    const tradingBoard = this.add.sprite(729, 225, "trading_board");
+    const tradingBoard = this.add.sprite(729, 275, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("trading_board");
     });

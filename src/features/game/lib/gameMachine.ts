@@ -436,7 +436,6 @@ export type BlockchainState = {
     | "listed"
     | "deleteTradeListing"
     | "tradeListingDeleted"
-    | "tradeListingFulfilled"
     | "fulfillTradeListing"
     | "traded"
     | "sniped"
@@ -1594,7 +1593,7 @@ export function startGame(authContext: AuthContext) {
                 cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
               },
               {
-                target: "tradeListingFulfilled",
+                target: "playing",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
@@ -1616,11 +1615,6 @@ export function startGame(authContext: AuthContext) {
               target: "error",
               actions: "assignErrorMessage",
             },
-          },
-        },
-        tradeListingFulfilled: {
-          on: {
-            CONTINUE: "playing",
           },
         },
         trading: {

@@ -17,7 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { Donations } from "./donations/Donations";
 import { SceneId } from "../mmoMachine";
-import { Glinteye } from "./npcs/Glinteye";
+import { TradingBoard } from "./npcs/TradingBoard";
 
 type InteractableName =
   | "donations"
@@ -540,8 +540,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "page_discovered"} onHide={closeModal}>
         <PageFound onClose={closeModal} />
       </Modal>
-      <Modal show={interactable === "trading_board"} onHide={closeModal}>
-        <Glinteye onClose={closeModal} />
+      <Modal show={interactable === "trading_board"}>
+        <TradingBoard onClose={closeModal} />
       </Modal>
     </>
   );

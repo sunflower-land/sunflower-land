@@ -25,12 +25,9 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
+import { Loading } from "features/auth/components";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const BuyPanel: React.FC<Props> = ({ onClose }) => {
+export const BuyPanel: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
@@ -39,9 +36,11 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   const [view, setView] = useState<"search" | "list">("search");
   const [search, setSearch] = useState<Partial<InventoryItemName>>("Sunflower");
   const [listings, setListings] = useState<Listing[]>([]);
+  const [selectedListing, setSelectedListing] = useState<Listing>();
   const [isSearching, setIsSearching] = useState(false);
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
-  const [showConfirmId, setShowConfirmId] = useState("");
+
+  const [loading, setLoading] = useState(false);
   const [
     {
       context: { state, transaction, farmId },
@@ -128,7 +127,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         return;
       }
 
-      setShowConfirmId(listing.id);
+      setSelectedListing(listing);
     };
 
     const onConfirm = async (listing: Listing) => {
@@ -137,7 +136,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         listingId: listing.id,
         listingType: makeListingType(listing.items),
       });
-      onClose();
+      setLoading(true);
     };
 
     const Action = (listing: Listing) => {
@@ -151,7 +150,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         );
       }
 
-      if (showConfirmId == listing.id) {
+      if (selectedListing?.id == listing.id) {
         return (
           <Button onClick={() => onConfirm(listing)}>
             <div className="flex items-center">
@@ -203,6 +202,67 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
       );
     }
 
+    if (loading) {
+      if (gameService.state.matches("fulfillTradeListing")) {
+        return <Loading text="Trading" />;
+      }
+
+      if (selectedListing) {
+        const listingItem = selectedListing.items[
+          getKeys(selectedListing.items)[0]
+        ] as number;
+        const unitPrice = (selectedListing.sfl / listingItem).toFixed(4);
+
+        return (
+          <>
+            <div className="p-2">
+              <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
+              <p className="text-sm mb-2 text-center">
+                {t("trading.listing.fulfilled")}
+              </p>
+              <OuterPanel className="mb-2">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="flex flex-wrap w-52">
+                      {getKeys(selectedListing.items).map((item, index) => (
+                        <Box
+                          image={ITEM_DETAILS[item].image}
+                          count={new Decimal(selectedListing.items[item] ?? 0)}
+                          disabled
+                          key={`items-${index}`}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
+                  </div>
+
+                  <div className="">
+                    <div className="flex items-center mt-1  justify-end mr-0.5">
+                      <Label icon={token} type="info" className="mb-4">
+                        {t("purchased")}
+                      </Label>
+                    </div>
+                    <div className="flex items-center mt-1  justify-end mr-0.5">
+                      <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
+                      <img src={token} className="h-6 ml-1" />
+                    </div>
+                  </div>
+                </div>
+              </OuterPanel>
+            </div>
+            <Button
+              onClick={() => {
+                setLoading(false);
+                setView("search");
+              }}
+            >
+              {t("continue")}
+            </Button>
+          </>
+        );
+      }
+    }
+
     return (
       <div>
         <img
@@ -222,11 +282,11 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
             const listingItem = listing.items[
               getKeys(listing.items)[0]
             ] as number;
-            const unitPrice = (listing.sfl / listingItem).toFixed(2);
+            const unitPrice = (listing.sfl / listingItem).toFixed(4);
             return (
               <OuterPanel className="mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
-                  <div>
+                  <div className="justify-start">
                     <div className="flex flex-wrap w-52">
                       {getKeys(listing.items).map((item) => (
                         <Box
@@ -240,12 +300,12 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
                     <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
                   </div>
 
-                  <div className="w-40">
+                  <div className="flex flex-col justify-end">
                     {Action(listing)}
 
-                    <div className="flex items-center mt-1  justify-end mr-0.5">
+                    <div className="flex justfy-end">
+                      <img src={token} className="h-6 mr-2" />
                       <p className="text-xs">{`${listing.sfl} SFL`}</p>
-                      <img src={token} className="h-6 ml-1" />
                     </div>
                   </div>
                 </div>
@@ -285,11 +345,11 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <div className="h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+    <div className="max-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
       <div className="flex items-start justify-between mb-2">
         {isSearching && <p className="loading">{t("searching")}</p>}
         {!isSearching && (
-          <div className="relative w-full mr-4">
+          <div className="relative w-full">
             {view === "search" && searchView()}
             {view === "list" && listView(listings)}
           </div>

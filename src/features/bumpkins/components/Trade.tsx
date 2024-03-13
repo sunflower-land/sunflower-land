@@ -23,6 +23,8 @@ import { hasFeatureAccess } from "lib/flags";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
+const VALID_INTEGER = new RegExp(/^\d+$/);
+const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
 const INPUT_MAX_CHAR = 10;
 
 const MAX_SFL = 150;
@@ -108,7 +110,7 @@ const ListTrade: React.FC<{
                   ) {
                     e.target.value = e.target.value.replace(/^0/, "");
                   }
-                  if (VALID_NUMBER.test(e.target.value)) {
+                  if (VALID_INTEGER.test(e.target.value)) {
                     const amount = Number(
                       e.target.value.slice(0, INPUT_MAX_CHAR)
                     );
@@ -162,7 +164,7 @@ const ListTrade: React.FC<{
                   e.target.value = e.target.value.replace(/^0/, "");
                 }
 
-                if (VALID_NUMBER.test(e.target.value)) {
+                if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
                   const amount = Number(
                     e.target.value.slice(0, INPUT_MAX_CHAR)
                   );
@@ -405,14 +407,7 @@ export const Trade: React.FC = () => {
           );
         })}
         {getKeys(trades).length < 3 && (
-          <div className="relative">
-            <div className="p-1 flex flex-col items-center">
-              <img
-                src={token}
-                className="w-1/5 mx-auto my-2 img-highlight-heavy"
-              />
-              <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
-            </div>
+          <div className="relative mt-2">
             <Button onClick={() => setShowListing(true)}>
               {t("list.trade")}
             </Button>
