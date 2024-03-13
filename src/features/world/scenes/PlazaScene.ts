@@ -88,16 +88,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "betty",
     direction: "left",
   },
-  {
-    x: 790,
-    y: 280,
-    npc: "grubnuk",
-    direction: "left",
-  },
+
   {
     x: 834,
     y: 335,
-    npc: "luna",
+    npc: "grubnuk",
     direction: "left",
   },
   {
@@ -368,12 +363,12 @@ export class PlazaScene extends BaseScene {
 
     super.create();
 
-    const tradingBoard = this.add.sprite(729, 275, "trading_board");
+    const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("trading_board");
     });
 
-    const tradingBoardIcon = this.add.sprite(750, 255, "trade_icon");
+    const tradingBoardIcon = this.add.sprite(745, 240, "trade_icon");
     tradingBoardIcon
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {

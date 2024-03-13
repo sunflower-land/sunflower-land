@@ -15,12 +15,14 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { ChangeEvent, useContext, useState } from "react";
 import token from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
+import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { makeListingType } from "lib/utils/makeTradeListingType";
+import { Label } from "components/ui/Label";
 
 const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const VALID_INTEGER = new RegExp(/^\d+$/);
@@ -236,21 +238,23 @@ const TradeDetails: React.FC<{
                     key={name}
                   />
                 ))}
-              </div>
-              <div className="flex items-center ml-1 mb-1">
-                <img src={SUNNYSIDE.icons.player} className="h-5 mr-1" />
-                <p className="text-xs">{`Bought by #${trade.buyerId}`}</p>
+
+                <div>
+                  <Label
+                    type="success"
+                    className="ml-1 mt-0.5"
+                  >{`Bought`}</Label>
+                  <div className="flex items-center mr-0.5 mt-1">
+                    <img src={token} className="h-6 mr-1" />
+                    <p className="text-xs">{`${trade.sfl} SFL`}</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div className="flex flex-col justify-between h-full">
               <Button className="mb-1" onClick={onClaim}>
                 {t("claim")}
               </Button>
-
-              <div className="flex items-center mt-3 mr-0.5">
-                <img src={token} className="h-6 mr-1" />
-                <p className="text-xs">{`${trade.sfl} SFL`}</p>
-              </div>
             </div>
           </div>
         </OuterPanel>
@@ -272,16 +276,18 @@ const TradeDetails: React.FC<{
                 key={name}
               />
             ))}
+            <div>
+              <Label type="default" className="ml-1 mt-0.5">{`Listed`}</Label>
+              <div className="flex items-center mr-0.5 mt-1">
+                <img src={token} className="h-6 mr-1" />
+                <p className="text-xs">{`${trade.sfl} SFL`}</p>
+              </div>
+            </div>
           </div>
           <div className="flex flex-col justify-between h-full">
             <Button className="mb-1" onClick={onCancel}>
               {isOldListing ? text : t("cancel")}
             </Button>
-
-            <div className="flex items-center">
-              <img src={token} className="h-6 mr-2" />
-              <p className="text-xs">{`${trade.sfl} SFL`}</p>
-            </div>
           </div>
         </div>
       </OuterPanel>
@@ -374,7 +380,10 @@ export const Trade: React.FC = () => {
     return (
       <div className="relative">
         <div className="p-1 flex flex-col items-center">
-          <img src={token} className="w-1/5 mx-auto my-2 img-highlight-heavy" />
+          <img
+            src={tradeIcon}
+            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+          />
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>

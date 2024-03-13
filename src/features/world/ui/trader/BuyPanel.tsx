@@ -34,7 +34,6 @@ export const BuyPanel: React.FC = () => {
   const [authState] = useActor(authService);
 
   const [view, setView] = useState<"search" | "list">("search");
-  const [search, setSearch] = useState<Partial<InventoryItemName>>("Sunflower");
   const [listings, setListings] = useState<Listing[]>([]);
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [isSearching, setIsSearching] = useState(false);
@@ -51,34 +50,40 @@ export const BuyPanel: React.FC = () => {
   const searchView = () => {
     return (
       <div className="p-2">
-        <p className="text-xs mt-2">{t("trading.select.resources")}</p>
+        <Label type="default" icon={SUNNYSIDE.icons.basket}>
+          {t("trading.select.resources")}
+        </Label>
 
         <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              onClick={() => setSearch(name)}
+            <div
               key={name}
-              isSelected={search === name}
-            />
+              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+            >
+              <OuterPanel
+                className="w-full flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                onClick={() => {
+                  onSearch(name);
+                }}
+              >
+                <span className="text-xs mb-1">{name}</span>
+                <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
+              </OuterPanel>
+            </div>
+            // <Box
+            //   image={ITEM_DETAILS[name].image}
+            //   onClick={() => setSearch(name)}
+            //   key={name}
+            //   isSelected={search === name}
+            // />
           ))}
         </div>
-
-        <Button
-          disabled={search.length === 0}
-          onClick={() => {
-            onSearch(search);
-          }}
-        >
-          {t("search")}
-        </Button>
       </div>
     );
   };
 
   const onBack = () => {
     setView("search");
-    setSearch("Sunflower");
   };
 
   const listView = (listings: Listing[]) => {
@@ -345,7 +350,7 @@ export const BuyPanel: React.FC = () => {
   }
 
   return (
-    <div className="max-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+    <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
       <div className="flex items-start justify-between mb-2">
         {isSearching && <p className="loading">{t("searching")}</p>}
         {!isSearching && (

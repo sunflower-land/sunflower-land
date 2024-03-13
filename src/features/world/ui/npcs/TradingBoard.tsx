@@ -8,6 +8,8 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { hasFeatureAccess } from "lib/flags";
 
+import tradeIcon from "assets/icons/trade.png";
+
 interface Props {
   onClose: () => void;
 }
@@ -31,8 +33,8 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel
         onClose={notCloseable ? undefined : onClose}
         tabs={[
-          { icon: SUNNYSIDE.icons.heart, name: t("buy") },
-          { icon: SUNNYSIDE.icons.expression_chat, name: t("sell") },
+          { icon: SUNNYSIDE.icons.search, name: t("buy") },
+          { icon: tradeIcon, name: t("sell") },
         ]}
         setCurrentTab={setTab}
         currentTab={tab}
@@ -45,8 +47,8 @@ export const TradingBoard: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       onClose={notCloseable ? undefined : onClose}
       tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: t("buy") },
-        { icon: SUNNYSIDE.icons.expression_chat, name: t("sell") },
+        { icon: SUNNYSIDE.icons.search, name: t("buy") },
+        { icon: tradeIcon, name: t("sell") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}

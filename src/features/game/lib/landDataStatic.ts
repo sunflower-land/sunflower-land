@@ -334,7 +334,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 1 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000 },
   buds: {
     1: {
       aura: "Basic",
@@ -563,7 +563,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
   stock: INITIAL_STOCK,
   stockExpiry: {},
   chickens: {},
-  trades: {},
+  trades: {
+    listings: {
+      "1": {
+        createdAt: 0,
+        items: { Sunflower: 10 },
+        sfl: 10,
+        boughtAt: 100,
+        buyerId: 1,
+      },
+      "2": {
+        createdAt: 0,
+        items: { Sunflower: 10 },
+        sfl: 5,
+      },
+    },
+  },
   buildings: {
     "Town Center": [
       {
