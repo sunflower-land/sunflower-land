@@ -56,6 +56,7 @@ export type GeneralTerms =
   | "copied"
   | "copy.address"
   | "copy.link"
+  | "copy.failed"
   | "coupons"
   | "craft"
   | "craft"
@@ -115,7 +116,6 @@ export type GeneralTerms =
   | "honey"
   | "hungry?"
   | "info"
-  | "install.app"
   | "item"
   | "kick"
   | "land.id"
@@ -2717,6 +2717,15 @@ export type RulesTerms =
   | "rules.noBots"
   | "rules.termsOfService";
 
+export type PwaInstall =
+  | "install.app"
+  | "magic.link"
+  | "generating.link"
+  | "generating.code"
+  | "install.app.mobile.description.one"
+  | "install.app.mobile.description.two"
+  | "install.desktop.description";
+
 export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
 
 export type SeasonTerms =
@@ -3259,6 +3268,7 @@ export type TranslationKeys =
   | RewardTerms
   | RulesGameStart
   | RulesTerms
+  | PwaInstall
   | SceneDialogueKey
   | SeasonTerms
   | SettingsMenu

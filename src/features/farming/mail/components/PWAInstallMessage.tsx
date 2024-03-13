@@ -43,7 +43,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [showLabel, setShowLabel] = useState(true);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
-  const [magicLink, setMagicLink] = useState<string>();
+  const [magicLink, setMagicLink] = useState<string | null>();
 
   const pwaInstall = usePWAInstall();
 
@@ -54,12 +54,18 @@ export const PWAInstallMessage: React.FC<Props> = ({
   const mobileBrowserToUser = isIOS ? "Safari" : "Chrome";
 
   const fetchMagicLink = async () => {
-    const { link } = await getMagicLink({
-      token,
-      farmId,
-    });
+    try {
+      const { link } = await getMagicLink({
+        token,
+        farmId,
+      });
 
-    setMagicLink(link);
+      setMagicLink(link);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      setMagicLink(null);
+    }
   };
 
   useEffect(() => {
@@ -71,7 +77,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
   }, []);
 
   const handleAcknowledge = () => {
-    // gameService.send({ type: "message.read", id: conversationId });
+    gameService.send({ type: "message.read", id: conversationId });
     onAcknowledge();
   };
 
@@ -95,7 +101,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
       setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
       setShowLabel(true);
-      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
+      setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
     }
 
     // Close tooltip after two seconds
@@ -150,11 +156,16 @@ export const PWAInstallMessage: React.FC<Props> = ({
         {!isMobile && (
           <div>
             <p className="mb-2 text-sm">{`Scan the code to install on your device.`}</p>
-            {!magicLink && (
+            {magicLink === undefined && (
               <p
                 className="text-sm loading"
                 style={{ marginLeft: 0 }}
               >{`Generating code`}</p>
+            )}
+            {magicLink === null && (
+              <p className="text-sm mb-2" style={{ marginLeft: 0 }}>
+                {`${t("error.wentWrong")} ${t("please.try.again")}`}
+              </p>
             )}
             {magicLink && (
               <div className="flex justify-center mb-2">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Label } from "./Label";
 import clipboard from "clipboard";
+import { translate } from "lib/i18n/translate";
 
 export const CopySvg = ({ height = 16 }: { height?: number }) => (
   <svg
@@ -35,9 +36,9 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
   const copyToClipboard = (): void => {
     try {
       clipboard.copy(text);
-      setTooltipMessage("Copied!");
+      setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
-      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
+      setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
     }
 
     setTimeout(() => {

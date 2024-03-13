@@ -26,7 +26,7 @@ export const CopyAddress: React.FC<{ address: string; showCopy?: boolean }> = ({
       setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
       setShowLabel(true);
-      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
+      setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
     }
 
     // Close tooltip after two seconds

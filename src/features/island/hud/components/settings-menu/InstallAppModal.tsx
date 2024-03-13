@@ -14,6 +14,7 @@ import { Label } from "components/ui/Label";
 import clipboard from "clipboard";
 import logo from "assets/brand/icon.png";
 import classNames from "classnames";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const TOOL_TIP_MESSAGE = translate("copy.link");
 
@@ -31,18 +32,26 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
   const [showLabel, setShowLabel] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
-  const [magicLink, setMagicLink] = useState<string>();
+  const [magicLink, setMagicLink] = useState<string | null>();
+
+  const { t } = useAppTranslation();
 
   const farmId = useSelector(gameService, _farmId);
   const token = useSelector(authService, _token);
 
   const fetchMagicLink = async () => {
-    const { link } = await getMagicLink({
-      token,
-      farmId,
-    });
+    try {
+      const { link } = await getMagicLink({
+        token,
+        farmId,
+      });
 
-    setMagicLink(link);
+      setMagicLink(link);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      setMagicLink(null);
+    }
   };
 
   useEffect(() => {
@@ -59,7 +68,7 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
       setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
       setShowLabel(true);
-      setTooltipMessage(typeof e === "string" ? e : "Copy Failed!");
+      setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
     }
 
     // Close tooltip after two seconds
@@ -73,11 +82,15 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel title="Install App" onClose={onClose}>
+      <CloseButtonPanel title={t("install.app")} onClose={onClose}>
         <div className="p-1">
           {isMobile && (
             <div className="relative space-y-2 text-sm mb-2">
-              <p>{`To install the app you will need to copy the magic link below and open it in ${mobileBrowserToUser} on your device.`}</p>
+              <p>{`${t(
+                "install.app.mobile.description.one"
+              )} ${mobileBrowserToUser} ${t(
+                "install.app.mobile.description.two"
+              )}`}</p>
               <p
                 className={classNames("cursor-pointer text-xs underline", {
                   loading: !magicLink,
@@ -86,7 +99,7 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 onMouseLeave={() => setShowLabel(false)}
                 onClick={copyToClipboard}
               >
-                {magicLink ? `Magic Link` : `Generating link`}
+                {magicLink ? t("magic.link") : t("generating.link")}
               </p>
               <div
                 className={`absolute top-14 left-9 mr-5 transition duration-400 pointer-events-none ${
@@ -99,17 +112,21 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
           )}
           {!isMobile && (
             <div>
-              <p className="mb-2 text-sm">{`Scan the code below to install on your device.`}</p>
-              {!magicLink && (
-                <p
-                  className="text-sm loading"
-                  style={{ marginLeft: 0 }}
-                >{`Generating code`}</p>
+              <p className="mb-2 text-sm">{t("install.desktop.description")}</p>
+              {magicLink === undefined && (
+                <p className="text-sm loading" style={{ marginLeft: 0 }}>
+                  {t("generating.code")}
+                </p>
+              )}
+              {magicLink === null && (
+                <p className="text-sm mb-2" style={{ marginLeft: 0 }}>
+                  {`${t("error.wentWrong")} ${t("please.try.again")}`}
+                </p>
               )}
               {magicLink && (
                 <div className="flex justify-center mb-2">
                   <QRCodeSVG
-                    style={{ width: 150, height: 150 }}
+                    style={{ width: 180, height: 180 }}
                     level="M"
                     value={magicLink}
                     imageSettings={{
