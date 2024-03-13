@@ -235,8 +235,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
             <Label className="mt-2" icon={lockIcon} type="danger">
-              {t("warning.level.required")}
-              {": 5"}
+              {t("warning.level.required", { lvl: 5 })}
             </Label>
             <img src={ITEM_DETAILS.Rod.image} className="w-10 mx-auto my-2" />
             <p className="text-sm text-center mb-2">

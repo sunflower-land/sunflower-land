@@ -2014,8 +2014,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish": "Atraia peixes jogando isca na água.",
-  "fishermanModal.royChallenge":
-    "Ahoy, colegas! Sou Reelin' Roy, o pescador confiável da ilha, e tracei um grande desafio - coletar todos os peixes sob o sol!",
   "fishermanModal.fishBenefits":
     "Peixes são ótimos para comer, entregar e reivindicar recompensas!",
   "fishermanModal.baitAndResources":
@@ -2025,13 +2023,12 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Rápido, você receberá um peixe bônus para cada captura!",
   "fishermanModal.dailyLimitReached":
-    "Você atingiu seu limite diário de pesca de ",
+    "Você atingiu seu limite diário de pesca de {{limit}}",
   "fishermanModal.needCraftRod": "Você deve primeiro criar uma vara.",
   "fishermanModal.craft.beach": "Artesanato na Praia",
   "fishermanModal.zero.available": "0 disponível",
-  "fishermanmodal.greetingPart1": "Ahoy, colegas! Eu sou --",
-  "fishermanmodal.greetingPart2":
-    "--, seu confiável pescador da ilha, e tracei um grande desafio - coletar todos os peixes sob o sol!",
+  "fishermanmodal.greeting":
+    "Ahoy, colegas! Eu sou {{name}}, seu confiável pescador da ilha, e tracei um grande desafio - coletar todos os peixes sob o sol!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -4519,7 +4516,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Nenhuma Machado Selecionado!",
   "warning.chat.maxCharacters": "Máximo de caracteres",
   "warning.chat.noSpecialCharacters": "Sem caracteres especiais",
-  "warning.level.required": "Nível Necessário",
+  "warning.level.required": "Nível Necessário: {{lvl}}",
   "warning.hoarding.message":
     "Você atingiu o Limite de Acumulação para o seguinte item",
   "warning.hoarding.one":

@@ -1974,8 +1974,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish": "Attract fish by throwing chum into the water.",
-  "fishermanModal.royChallenge":
-    "Ahoy, fellow islanders! I'm Reelin' Roy, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
   "fishermanModal.fishBenefits":
     "Fish are great for eating, delivering and claiming rewards!",
   "fishermanModal.baitAndResources":
@@ -1985,13 +1983,12 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Hurry, you will get a bonus fish for each catch!",
   "fishermanModal.dailyLimitReached":
-    "You have reached your daily fishing limit of ",
+    "You have reached your daily fishing limit of {{limit}}",
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
-  "fishermanmodal.greetingPart1": "Ahoy, fellow islanders! I'm --",
-  "fishermanmodal.greetingPart2":
-    "--, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
+  "fishermanmodal.greeting":
+    "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -4478,7 +4475,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",
-  "warning.level.required": "Level Required",
+  "warning.level.required": "Level Required: {{lvl}}",
   "warning.hoarding.message":
     "You have reached the Hoarding Limit for the following item",
   "warning.hoarding.one":
