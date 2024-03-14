@@ -40,185 +40,218 @@ const ListTrade: React.FC<{
   isSaving: boolean;
 }> = ({ inventory, onList, onCancel, hasFeatureAccess, isSaving }) => {
   const { t } = useAppTranslation();
-  const [selected, setSelected] = useState<Items>({});
+  const [selected, setSelected] = useState<InventoryItemName>();
+  const [quantity, setQuantity] = useState<number>(1);
   const [sfl, setSFL] = useState(1);
 
-  const select = (name: InventoryItemName) => {
-    if (!hasFeatureAccess) {
-      setSelected((prev) => ({
-        ...prev,
-        [name]: 1,
-      }));
-    } else {
-      setSelected({ [name]: 1 });
-    }
-  };
-
-  const hasResources = getKeys(selected).every((name) =>
-    inventory[name]?.gte(selected[name] ?? 0)
-  );
-
-  const exceedsMax = getKeys(selected).some(
-    (name) => (selected[name] ?? 0) > (TRADE_LIMITS[name] ?? 0)
-  );
-
   const maxSFL = sfl > MAX_SFL;
-  const allListedAmtGreaterThanZero = getKeys(selected).every((name) => {
-    return selected[name] ?? 0 > 0;
-  });
+
+  if (!selected) {
+    return (
+      <div>
+        <Label
+          icon={SUNNYSIDE.icons.basket}
+          type="default"
+          className="m-1 ml-2 mb-3"
+        >
+          {t("bumpkinTrade.like.list")}
+        </Label>
+
+        <div className="flex flex-wrap">
+          {getKeys(TRADE_LIMITS)
+            .filter((name) => !!inventory[name]?.gte(1))
+            .map((name) => (
+              <div
+                key={name}
+                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+              >
+                <OuterPanel
+                  className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                  onClick={() => {
+                    setSelected(name);
+                  }}
+                >
+                  <Label type="default" className="absolute -top-3 -right-2">
+                    {inventory?.[name]?.toNumber()}
+                  </Label>
+                  <span className="text-xs mb-1">{name}</span>
+                  <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
+                </OuterPanel>
+              </div>
+            ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <Label
-        icon={SUNNYSIDE.icons.basket}
-        type="default"
-        className="mb-1 m-1 ml-2"
-      >
-        {t("bumpkinTrade.like.list")}
-      </Label>
+    <>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center">
+          <Box image={ITEM_DETAILS[selected].image} disabled />
+          <span className="text-sm">{selected}</span>
+        </div>
+        <div className="flex flex-col items-end pr-1">
+          <Label
+            type={inventory[selected]?.lt(quantity) ? "danger" : "info"}
+            className="my-1"
+          >
+            {t("bumpkinTrade.available")}
+          </Label>
+          <span className="text-sm mr-1">
+            {inventory?.[selected]?.toNumber() ?? 0}
+          </span>
+        </div>
+      </div>
+      <div className="flex">
+        <div className="w-1/2 mr-1">
+          <div className="flex items-center">
+            <Label
+              icon={SUNNYSIDE.icons.basket}
+              className="my-1 ml-2"
+              type="default"
+            >
+              {t("bumpkinTrade.quantity")}
+            </Label>
+            {quantity > (TRADE_LIMITS[selected] ?? 0) && (
+              <Label type="danger" className="my-1 ml-2 mr-1">
+                {`Max: ${TRADE_LIMITS[selected] ?? 0}`}
+              </Label>
+            )}
+          </div>
 
-      <div className="flex flex-wrap">
-        {getKeys(TRADE_LIMITS)
-          .filter((name) => !!inventory[name]?.gte(1) && !selected[name])
-          .map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              count={inventory[name]}
-              onClick={() => select(name)}
-              key={name}
-            />
-          ))}
+          <input
+            style={{
+              boxShadow: "#b96e50 0px 1px 1px 1px inset",
+              border: "2px solid #ead4aa",
+            }}
+            type="number"
+            min={1}
+            value={quantity}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              // Strip the leading zero from numbers
+              if (
+                /^0+(?!\.)/.test(e.target.value) &&
+                e.target.value.length > 1
+              ) {
+                e.target.value = e.target.value.replace(/^0/, "");
+              }
+              if (VALID_INTEGER.test(e.target.value)) {
+                const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
+                setQuantity(amount);
+              }
+            }}
+            className={classNames(
+              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+              {
+                "text-error":
+                  inventory[selected]?.lt(quantity) ||
+                  quantity > (TRADE_LIMITS[selected] ?? 0),
+              }
+            )}
+          />
+        </div>
+        <div className="flex-1 flex flex-col items-end ml-2">
+          <div className="flex items-center">
+            {sfl > MAX_SFL && (
+              <Label type="danger" className="my-1 ml-2 mr-1">
+                {`Max: ${MAX_SFL}`}
+              </Label>
+            )}
+            <Label icon={token} type="default" className="my-1 ml-2 mr-1">
+              {t("bumpkinTrade.price")}
+            </Label>
+          </div>
+          <input
+            style={{
+              boxShadow: "#b96e50 0px 1px 1px 1px inset",
+              border: "2px solid #ead4aa",
+              textAlign: "right",
+            }}
+            type="number"
+            value={sfl}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              // Strip the leading zero from numbers
+              if (
+                /^0+(?!\.)/.test(e.target.value) &&
+                e.target.value.length > 1
+              ) {
+                e.target.value = e.target.value.replace(/^0/, "");
+              }
+
+              if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
+                const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
+                setSFL(amount);
+              }
+            }}
+            className={classNames(
+              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+              {
+                "text-error": maxSFL || sfl === 0,
+              }
+            )}
+          />
+        </div>
       </div>
 
-      {getKeys(selected).length > 0 && (
-        <>
-          {getKeys(selected).map((item) => (
-            <div key={item} className="flex items-center relative">
-              <Box
-                image={ITEM_DETAILS[item].image}
-                count={inventory[item]}
-                onClick={() => select(item)}
-              />
-              <span className="text-xxs absolute right-[10px] top-[-5px]">{`Max: ${
-                TRADE_LIMITS[item] ?? 0
-              }`}</span>
-              <input
-                style={{
-                  boxShadow: "#b96e50 0px 1px 1px 1px inset",
-                  border: "2px solid #ead4aa",
-                }}
-                type="number"
-                min={1}
-                value={selected[item]}
-                onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                  // Strip the leading zero from numbers
-                  if (
-                    /^0+(?!\.)/.test(e.target.value) &&
-                    e.target.value.length > 1
-                  ) {
-                    e.target.value = e.target.value.replace(/^0/, "");
-                  }
-                  if (VALID_INTEGER.test(e.target.value)) {
-                    const amount = Number(
-                      e.target.value.slice(0, INPUT_MAX_CHAR)
-                    );
-                    setSelected((prev) => ({
-                      ...prev,
-                      [item]: amount,
-                    }));
-                  }
-                }}
-                className={classNames(
-                  "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
-                  {
-                    "text-error":
-                      inventory[item]?.lt(selected[item] ?? 0) ||
-                      (selected[item] ?? 0) > (TRADE_LIMITS[item] ?? 0) ||
-                      !allListedAmtGreaterThanZero,
-                  }
-                )}
-              />
-              <img
-                src={SUNNYSIDE.icons.cancel}
-                className="h-6 absolute top-5 right-4 cursor-pointer"
-                onClick={() =>
-                  setSelected((prev) => {
-                    delete prev[item];
-                    return { ...prev };
-                  })
-                }
-              />
-            </div>
-          ))}
-          <p className="text-sm ml-2">{t("bumpkinTrade.askPrice")} </p>
-          <div className="flex items-center relative">
-            <span className="text-xxs absolute right-[10px] top-[-5px]">{`${t(
-              "max"
-            )} : ${MAX_SFL}`}</span>
-            <Box image={token} />
-            <input
-              style={{
-                boxShadow: "#b96e50 0px 1px 1px 1px inset",
-                border: "2px solid #ead4aa",
-              }}
-              type="number"
-              value={sfl}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                // Strip the leading zero from numbers
-                if (
-                  /^0+(?!\.)/.test(e.target.value) &&
-                  e.target.value.length > 1
-                ) {
-                  e.target.value = e.target.value.replace(/^0/, "");
-                }
-
-                if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
-                  const amount = Number(
-                    e.target.value.slice(0, INPUT_MAX_CHAR)
-                  );
-                  setSFL(amount);
-                }
-              }}
-              className={classNames(
-                "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
-                {
-                  "text-error": maxSFL || sfl === 0,
-                }
-              )}
-            />
-          </div>
-          {hasFeatureAccess && (
-            <>
-              <p className="text-xxs ml-2 mb-2">
-                {t("trading.you.receive")} {(sfl * 0.9).toFixed(2)} {"SFL"}
-              </p>
-              <p className="text-xxs ml-2 mb-2">
-                {(sfl * 0.1).toFixed(2)} {"SFL"} {t("trading.burned")}
-              </p>
-            </>
-          )}
-        </>
-      )}
-      <div className="flex">
-        <Button className="mr-1" onClick={() => onCancel()}>
-          {t("cancel")}
+      <div
+        className="flex justify-between"
+        style={{
+          borderBottom: "1px solid #ead4aa",
+          padding: "5px 5px 5px 2px",
+        }}
+      >
+        <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
+        <p className="text-xs">{`${sfl.toFixed(2)} SFL`}</p>
+      </div>
+      <div
+        className="flex justify-between"
+        style={{
+          borderBottom: "1px solid #ead4aa",
+          padding: "5px 5px 5px 2px",
+        }}
+      >
+        <span className="text-xs"> {t("bumpkinTrade.pricePerUnit")}</span>
+        <p className="text-xs">{`${(sfl / quantity).toFixed(2)} SFL`}</p>
+      </div>
+      <div
+        className="flex justify-between"
+        style={{
+          borderBottom: "1px solid #ead4aa",
+          padding: "5px 5px 5px 2px",
+        }}
+      >
+        <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
+        <p className="text-xs">{`${(sfl * 0.1).toFixed(2)} SFL`}</p>
+      </div>
+      <div
+        className="flex justify-between"
+        style={{
+          padding: "5px 5px 5px 2px",
+        }}
+      >
+        <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
+        <p className="text-xs">{`${(sfl * 0.9).toFixed(2)} SFL`}</p>
+      </div>
+      <div className="flex mt-2">
+        <Button onClick={onCancel} className="mr-1">
+          {" "}
+          {t("bumpkinTrade.cancel")}
         </Button>
         <Button
           disabled={
             maxSFL ||
-            exceedsMax ||
-            isSaving ||
-            getKeys(selected).length === 0 ||
-            !hasResources ||
-            !allListedAmtGreaterThanZero ||
-            sfl === 0
+            (inventory[selected]?.lt(quantity) ?? false) ||
+            quantity > (TRADE_LIMITS[selected] ?? 0) ||
+            sfl === 0 ||
+            isSaving
           }
-          onClick={() => onList(selected, sfl)}
+          onClick={() => onList({ [selected]: quantity }, sfl)}
         >
-          {t("list")}
+          {t("bumpkinTrade.list")}
         </Button>
       </div>
-    </div>
+    </>
   );
 };
 

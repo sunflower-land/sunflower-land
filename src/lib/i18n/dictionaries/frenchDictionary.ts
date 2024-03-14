@@ -1,3 +1,4 @@
+import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -1077,6 +1078,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
   "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
+  "bumpkinTrade.available": ENGLISH_TERMS["bumpkinTrade.available"],
+  "bumpkinTrade.quantity": ENGLISH_TERMS["bumpkinTrade.quantity"],
+  "bumpkinTrade.price": ENGLISH_TERMS["bumpkinTrade.price"],
+  "bumpkinTrade.listingPrice": ENGLISH_TERMS["bumpkinTrade.listingPrice"],
+  "bumpkinTrade.pricePerUnit": ENGLISH_TERMS["bumpkinTrade.pricePerUnit"],
+  "bumpkinTrade.tradingFee": ENGLISH_TERMS["bumpkinTrade.tradingFee"],
+  "bumpkinTrade.youWillReceive": ENGLISH_TERMS["bumpkinTrade.youWillReceive"],
+  "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
+  "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
