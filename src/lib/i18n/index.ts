@@ -11,6 +11,7 @@ if (process.env.NODE_ENV !== "metadata") {
       interpolation: {
         escapeValue: false,
       },
+      fallbackLng: "en",
     },
     (err, t) => {
       // eslint-disable-next-line no-console

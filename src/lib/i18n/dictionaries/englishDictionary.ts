@@ -1,3 +1,4 @@
+import { TranslationResource } from "./dictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -148,7 +149,6 @@ import {
   TieBreaker,
   ToolDescriptions,
   TransactionTerms,
-  TranslationKeys,
   Transfer,
   TreasureModal,
   TutorialPage,
@@ -4593,7 +4593,7 @@ const trading: Record<Trading, string> = {
   "trading.burned": "is burned.",
 };
 
-export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
+export const ENGLISH_TERMS: TranslationResource = {
   ...achievementTerms,
   ...addSFL,
   ...auction,

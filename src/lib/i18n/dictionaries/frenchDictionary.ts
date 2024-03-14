@@ -1,3 +1,4 @@
+import { PartialTranslationResource } from "./dictionary";
 import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
@@ -149,7 +150,6 @@ import {
   TieBreaker,
   ToolDescriptions,
   TransactionTerms,
-  TranslationKeys,
   Transfer,
   TreasureModal,
   TutorialPage,
@@ -173,7 +173,7 @@ import {
   TimeUnits,
 } from "./types";
 
-const generalTerms: Record<GeneralTerms, string> = {
+const generalTerms: Partial<Record<GeneralTerms, string>> = {
   "2x.sale": "Vente 2x",
   advanced: "Avancé",
   achievements: "Succès",
@@ -475,7 +475,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "you.are.here": "Vous êtes ici",
 };
 
-const timeUnits: Record<TimeUnits, string> = {
+const timeUnits: Partial<Record<TimeUnits, string>> = {
   // Time
   sec: "sec",
   min: "min",
@@ -488,7 +488,7 @@ const timeUnits: Record<TimeUnits, string> = {
   days: "Jours",
 };
 
-const achievementTerms: Record<AchievementsTerms, string> = {
+const achievementTerms: Partial<Record<AchievementsTerms, string>> = {
   "breadWinner.description": "Gagnez 0.001 SFL",
   "breadWinner.one":
     "Eh bien, eh bien, partenaire... On dirait que vous avez besoin de SFL!",
@@ -595,7 +595,7 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "task.harvestSunflowers": "Récolter 10 Sunflowers",
 };
 
-const addSFL: Record<AddSFL, string> = {
+const addSFL: Partial<Record<AddSFL, string>> = {
   "addSFL.swapDetails":
     "Sunflower Land offre un moyen rapide d'échanger du Matic contre du SFL via Quickswap.",
   "addSFL.referralFee":
@@ -604,7 +604,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.minimumReceived": "Minimum reçu",
 };
 
-const auction: Record<Auction, string> = {
+const auction: Partial<Record<Auction, string>> = {
   "auction.title": "Auctions & Drops",
   "auction.bid.message": "Vous avez placé votre enchère.",
   "auction.reveal": "Révéler les gagnants",
@@ -617,18 +617,18 @@ const auction: Record<Auction, string> = {
   "auction.const.soon": "Cette fonctionnalité sera bientôt disponible.",
 };
 
-const availableSeeds: Record<AvailableSeeds, string> = {
+const availableSeeds: Partial<Record<AvailableSeeds, string>> = {
   "availableSeeds.select": "Graine non sélectionnée",
   "availableSeeds.select.plant":
     "Quelle graine souhaitez-vous sélectionner et planter?",
 };
 
-const base: Record<Base, string> = {
+const base: Partial<Record<Base, string>> = {
   "base.missing": "Nom manquant dans la configuration",
   "base.far.away": "Vous êtes trop éloigné",
 };
 
-const basicTreasure: Record<BasicTreasure, string> = {
+const basicTreasure: Partial<Record<BasicTreasure, string>> = {
   "basic.treasure.missingKey": "Clé manquante",
   "basic.treasure.needKey":
     "Vous avez besoin d'une Treasure Key pour ouvrir ce coffre",
@@ -658,12 +658,12 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.enter": "Entrer",
 };
 
-const beach: Record<Beach, string> = {
+const beach: Partial<Record<Beach, string>> = {
   "beach.party": "Nous travaillons dur pour préparer une fête sur la plage.",
   "beach.ready": "Préparez votre crème solaire et vos parasols, l'été arrive!",
 };
 
-const beehive: Record<Beehive, string> = {
+const beehive: Partial<Record<Beehive, string>> = {
   "beehive.harvestHoney": "Récolter le Honey",
   "beehive.noFlowersGrowing": "Aucune fleur en croissance",
   "beehive.beeSwarm": "Essaim d'abeilles",
@@ -671,7 +671,7 @@ const beehive: Record<Beehive, string> = {
     "Célébration de la pollinisation ! Vos cultures sont gâtées avec un bonus de 0,2 grâce à un essaim d'abeilles amical!",
 };
 
-const beachLuck: Record<BeachLuck, string> = {
+const beachLuck: Partial<Record<BeachLuck, string>> = {
   "beachLuck.tryLuck": "Envie de tenter ta chance aujourd'hui?",
   "beachLuck.uncleFound":
     "Mon oncle a trouvé une bague en diamant en creusant sur cette plage. Tout ce que je trouve, ce sont des pièces SFL ennuyeuses.",
@@ -679,7 +679,7 @@ const beachLuck: Record<BeachLuck, string> = {
   "beachLuck.refreshesIn": "Les trésors se rafraîchissent dans",
 };
 
-const birdiePlaza: Record<BirdiePlaza, string> = {
+const birdiePlaza: Partial<Record<BirdiePlaza, string>> = {
   "birdieplaza.birdieIntro":
     "Salut, je suis Birdie, le Bumpkin le plus beau de tous!",
   "birdieplaza.admiringOutfit":
@@ -711,7 +711,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
     "et les échanger dans les magasins ou à la maison des enchères.",
 };
 
-const boostDescriptions: Record<BoostDescriptions, string> = {
+const boostDescriptions: Partial<Record<BoostDescriptions, string>> = {
   // Mutant Chickens
   "description.speed.chicken.one":
     "Vos poules produiront désormais des œufs 10% plus rapidement.",
@@ -829,7 +829,9 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Commandez le pouvoir royal de la Reine Cornelia et bénéficiez d'un magnifique boost de zone d'effet pour votre production de Corn. +1 de Corn.",
 };
 
-const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
+const boostEffectDescriptions: Partial<
+  Record<BoostEffectDescriptions, string>
+> = {
   "description.obie.boost": "-25% Temps de croissance de l'aubergine",
   "description.purple.trail.boost": "+0.2 Eggplant",
   "description.freya.fox.boost": "+0.5 pumpkin",
@@ -933,7 +935,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
-const bountyDescription: Record<BountyDescription, string> = {
+const bountyDescription: Partial<Record<BountyDescription, string>> = {
   "description.clam.shell": "Une coquille de palourde.",
   "description.sea.cucumber": "Un concombre de mer.",
   "description.coral": "Un morceau de corail, c'est joli",
@@ -954,7 +956,7 @@ const bountyDescription: Record<BountyDescription, string> = {
   "description.seaweed": "Des algues marines.",
 };
 
-const buildingDescriptions: Record<BuildingDescriptions, string> = {
+const buildingDescriptions: Partial<Record<BuildingDescriptions, string>> = {
   // Bâtiments
   "description.water.well": "Les cultures ont besoin d'eau!",
   "description.kitchen": "Améliorez vos compétences en cuisine",
@@ -980,7 +982,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.house": "Un endroit où reposer votre tête",
 };
 
-const bumpkinDelivery: Record<BumpkinDelivery, string> = {
+const bumpkinDelivery: Partial<Record<BumpkinDelivery, string>> = {
   "bumpkin.delivery.haveFlower":
     "As-tu une fleur pour moi ? Assure-toi que c'est quelque chose que j'aime.",
   "bumpkin.delivery.notFavorite":
@@ -997,7 +999,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.more.time": "plus de fois.",
 };
 
-const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
+const bumpkinItemBuff: Partial<Record<BumpkinItemBuff, string>> = {
   "bumpkinItemBuff.chef.apron.boost": "+20 % de profit de gâteau",
   "bumpkinItemBuff.fruit.picker.apron.boost": "+0,1 Fruit",
   "bumpkinItemBuff.angel.wings.boost":
@@ -1036,7 +1038,9 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.flower.crown": "Vitesse des fleurs x2",
 };
 
-const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
+const bumpkinPartRequirements: Partial<
+  Record<BumpkinPartRequirements, string>
+> = {
   "equip.missingHair": "Les cheveux sont nécessaires",
   "equip.missingBody": "Le corps est nécessaire",
   "equip.missingShoes": "Les chaussures sont nécessaires",
@@ -1045,7 +1049,9 @@ const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
   "equip.missingBackground": "L'arrière-plan est nécessaire",
 };
 
-const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
+const bumpkinSkillsDescription: Partial<
+  Record<BumpkinSkillsDescription, string>
+> = {
   // Crops
   "description.green.thumb": "Les cultures rapportent 5 % de plus",
   "description.cultivator": "Les cultures poussent 5 % plus vite",
@@ -1078,7 +1084,7 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   "description.buckaroo": "Chance d'obtenir des doubles récoltes",
 };
 
-const bumpkinTrade: Record<BumpkinTrade, string> = {
+const bumpkinTrade: Partial<Record<BumpkinTrade, string>> = {
   "bumpkinTrade.askPrice": "Prix demandé",
   "bumpkinTrade.listingPurchased":
     "Félicitations, votre annonce a été achetée!",
@@ -1104,7 +1110,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
 };
 
-const buyFarmHand: Record<BuyFarmHand, string> = {
+const buyFarmHand: Partial<Record<BuyFarmHand, string>> = {
   "buyFarmHand.howdyBumpkin": "Salut Bumpkin.",
   "buyFarmHand.confirmBuyAdditional":
     "Êtes-vous sûr de vouloir acheter un Bumpkin supplémentaire?",
@@ -1118,18 +1124,18 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
     "Je suis votre nouveau fermier. J'ai hâte de commencer à travailler!",
 };
 
-const chat: Record<Chat, string> = {
+const chat: Partial<Record<Chat, string>> = {
   "chat.Fail": "Échec de la connexion",
   "chat.mute": "Vous êtes en mode muet",
   "chat.again": "Vous pourrez discuter à nouveau dans",
   "chat.Kicked": "Expulsé",
 };
 
-const chickenWinner: Record<ChickenWinner, string> = {
+const chickenWinner: Partial<Record<ChickenWinner, string>> = {
   "chicken.winner.playagain": "Cliquez ici pour rejouer",
 };
 
-const choresStart: Record<ChoresStart, string> = {
+const choresStart: Partial<Record<ChoresStart, string>> = {
   "chores.harvestFields": "Récolter les champs",
   "chores.harvestFieldsIntro":
     "Ces champs ne se récolteront pas tout seuls. Récoltez 3 Sunflowers.",
@@ -1148,7 +1154,7 @@ const choresStart: Record<ChoresStart, string> = {
     "De nouvelles tâches saisonnières ouvriront bientôt. Les tâches et les progrès de la saison précédente seront réinitialisés.",
 };
 
-const chumDetails: Record<ChumDetails, string> = {
+const chumDetails: Partial<Record<ChumDetails, string>> = {
   "chumDetails.gold": "L'or scintillant peut être vu à 100 miles à la ronde",
   "chumDetails.iron":
     "Un éclat scintillant, visible sous tous les angles au crépuscule",
@@ -1203,19 +1209,19 @@ const chumDetails: Record<ChumDetails, string> = {
     "Délice pour la terreur au ventre lumineux de l'écran.",
 };
 
-const claimAchievement: Record<ClaimAchievement, string> = {
+const claimAchievement: Partial<Record<ClaimAchievement, string>> = {
   "claimAchievement.alreadyHave": "Vous avez déjà obtenu cette réalisation",
   "claimAchievement.requirementsNotMet":
     "Vous ne remplissez pas les conditions requises",
 };
 
-const community: Record<Community, string> = {
+const community: Partial<Record<Community, string>> = {
   "community.toast": "Le texte du toast est vide",
   "community.url": "Entrez l'URL de votre dépôt",
   "comunity.Travel": "Voyagez vers les îles construites par la communauté",
 };
 
-const compostDescription: Record<CompostDescription, string> = {
+const compostDescription: Partial<Record<CompostDescription, string>> = {
   "compost.fruitfulBlend":
     "Le Mélange Fertile augmente le rendement de chaque fruit de +0.1",
   "compost.sproutMix":
@@ -1226,22 +1232,22 @@ const compostDescription: Record<CompostDescription, string> = {
     "La Croissance Rapide réduit le temps de croissance des cultures de 50%",
 };
 
-const composterDescription: Record<ComposterDescription, string> = {
+const composterDescription: Partial<Record<ComposterDescription, string>> = {
   "composter.compostBin": "Détails du Bac à Compost...",
   "composter.turboComposter": "Détails du Turbo Composteur...",
   "composter.premiumComposter": "Détails du Composteur Premium...",
 };
 
-const confirmSkill: Record<ConfirmSkill, string> = {
+const confirmSkill: Partial<Record<ConfirmSkill, string>> = {
   "confirm.skillClaim":
     "Êtes-vous sûr de vouloir revendiquer cette compétence?",
 };
 
-const confirmationTerms: Record<ConfirmationTerms, string> = {
+const confirmationTerms: Partial<Record<ConfirmationTerms, string>> = {
   "confirmation.sellCrops": "Êtes-vous sûr de vouloir",
 };
 
-const conversations: Record<Conversations, string> = {
+const conversations: Partial<Record<Conversations, string>> = {
   "hank-intro.headline": "Aider un vieil homme?",
   "hank-intro.one":
     "Salut Bumpkin ! Bienvenue dans notre petit coin de paradis.",
@@ -1352,7 +1358,7 @@ const conversations: Record<Conversations, string> = {
     "Vos formalités administratives sont maintenant terminées. À bientôt!",
 };
 
-const cropBoomMessages: Record<CropBoomMessages, string> = {
+const cropBoomMessages: Partial<Record<CropBoomMessages, string>> = {
   "crop.boom.welcome": "Bienvenue dans Crop Boom",
   "crop.boom.reachOtherSide":
     "Atteignez l'autre côté du champ de culture dangereux pour réclamer un jeton d'arcade",
@@ -1362,7 +1368,7 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
   "crop.boom.back.puzzle": "Revenez plus tard pour un tout nouveau puzzle!",
 };
 
-const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
+const cropFruitDescriptions: Partial<Record<CropFruitDescriptions, string>> = {
   // Crops
   "description.sunflower": "Une fleur ensoleillée",
   "description.potato": "Plus sain que vous ne le pensez.",
@@ -1402,357 +1408,365 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "Une graine de lys",
 };
 
-const decorationDescriptions: Record<DecorationDescriptions, string> = {
-  // Décorations
-  "description.wicker.man":
-    "Unissez-vous et formez une chaîne, l'ombre de l'Homme en osier se lèvera à nouveau",
-  "description.golden bonsai": "Les Gobelins aiment aussi les bonsaïs",
-  "description.christmas.bear": "Le favori du Père Noël",
-  "description.war.skull": "Décorez l'île avec les os de vos ennemis.",
-  "description.war.tombstone": "R.I.P",
-  "description.white.tulips": "Éloignez l'odeur des Gobelins.",
-  "description.potted.sunflower": "Illuminez votre île.",
-  "description.potted.potato": "Le sang de la potato coule dans votre Bumpkin.",
-  "description.potted.pumpkin": "Des pumpkins pour les Bumpkins",
-  "description.cactus": "Économise de l'eau et rend votre ferme magnifique!",
-  "description.basic.bear":
-    "Un ours basique. Utilisez-le au Goblin Retreat pour construire un ours!",
-  "description.bonnies.tombstone":
-    "Un ajout effrayant à n'importe quelle ferme, la pierre tombale humaine de Bonnie vous donnera des frissons dans le dos.",
-  "description.grubnashs.tombstone":
-    "Ajoutez un charme espiègle avec la pierre tombale Goblin de Grubnash.",
-  "description.town.sign": "Montrez fièrement votre ID de ferme!",
-  "description.dirt.path":
-    "Gardez vos bottes de fermier propres avec un chemin bien foulé.",
-  "description.bush": "Que se cache-t-il dans les buissons?",
-  "description.fence": "Ajoutez une touche de charme rustique à votre ferme.",
-  "description.stone.fence":
-    "Adoptez l'élégance intemporelle d'une clôture en pierre.",
-  "description.pine.tree":
-    "Debout haut et puissant, un rêve habillé d'aiguilles.",
-  "description.shrub":
-    "Améliorez votre aménagement paysager en jeu avec un bel arbuste.",
-  "description.field.maple":
-    "Un charmeur petit qui étend ses feuilles comme une délicate canopée verte.",
-  "description.red.maple":
-    "Foliage enflammé et un cœur plein de chaleur automnale.",
-  "description.golden.maple":
-    "Illuminant de sa brillance avec ses feuilles dorées scintillantes.",
-  "description.crimson.cap":
-    "Un champignon imposant et vibrant, le Crimson Cap Giant Mushroom apportera de la vie à votre ferme.",
-  "description.toadstool.seat":
-    "Asseyez-vous et détendez-vous sur le whimsical Toadstool Mushroom Seat.",
-  "description.chestnut.fungi.stool":
-    "Le Chestnut Fungi Stool est un ajout robuste et rustique à n'importe quelle ferme.",
-  "description.mahogany.cap":
-    "Ajoutez une touche de sophistication avec le Mahogany Cap Giant Mushroom.",
-  "description.candles":
-    "Enchantez votre ferme avec des flammes spectrales vacillantes pendant la Veille des Sorcières.",
-  "description.haunted.stump":
-    "Invoquez des esprits et ajoutez un charme étrange à votre ferme.",
-  "description.spooky.tree":
-    "Un ajout amusant et hanté à la décoration de votre ferme!",
-  "description.observer":
-    "Un œil perpétuellement en mouvement, toujours vigilant et attentif!",
-  "description.crow.rock": "Un corbeau perché sur un rocher mystérieux.",
-  "description.mini.corn.maze":
-    "Un souvenir du labyrinthe bien-aimé de la saison de la Veille des Sorcières 2023.",
-  "description.lifeguard.ring":
-    "Restez à flot avec style, votre sauveur en bord de mer!",
-  "description.surfboard":
-    "Ridez les vagues de l'émerveillement, béatitude de plage à bord!",
-  "description.hideaway.herman":
-    "Herman est là pour se cacher, mais regarde toujours pour une fête!",
-  "description.shifty.sheldon":
-    "Sheldon est sournois, toujours en train de se faufiler vers la prochaine surprise sableuse!",
-  "description.tiki.torch":
-    "Illuminez la nuit, des vibrations tropicales brûlant brillamment!",
-  "description.beach.umbrella":
-    "Ombre, abri et élégance en bord de mer en un seul arrangement ensoleillé!",
-  "description.magic.bean": "Que poussera-t-il?",
-  "description.giant.potato": "Une potato géante.",
-  "description.giant.pumpkin": "Une pumpkin géante.",
-  "description.giant.cabbage": "Un Cabbage géant.",
-  "description.chef.bear": "Chaque chef a besoin d'une aide précieuse.",
-  "description.construction.bear":
-    "Toujours construire en période de marché baissier.",
-  "description.angel.bear": "Le moment de transcender l'agriculture paysanne.",
-  "description.badass.bear": "Rien ne se dresse sur votre chemin.",
-  "description.bear.trap": "C'est un piège!",
-  "description.brilliant.bear": "Pure brillance!",
-  "description.classy.bear": "Plus SFL que vous ne savez quoi en faire!",
-  "description.farmer.bear": "Rien de tel qu'une dure journée de travail!",
-  "description.rich.bear": "Une possession précieuse.",
-  "description.sunflower.bear": "Une culture chérie par un ours.",
-  "description.beta.bear": "Un ours trouvé lors d'événements de test spéciaux.",
-  "description.rainbow.artist.bear":
-    "Le propriétaire est un bel artiste de l'ours!",
-  "description.devil.bear":
-    "Mieux vaut le Diable que vous connaissez que le Diable que vous ne connaissez pas.",
-  "description.collectible.bear": "Un ours précieux, toujours en parfait état!",
-  "description.cyborg.bear": "Hasta la vista, l'ours.",
-  "description.christmas.snow.globe":
-    "Remuez la neige et regardez-la prendre vie.",
-  "description.kraken.tentacle":
-    "Plongez dans le mystère des profondeurs ! Cette tentacule évoque des contes anciens de légendes marines et de merveilles aquatiques.",
-  "description.kraken.head":
-    "Plongez dans le mystère des profondeurs ! Cette tête évoque des contes anciens de légendes marines et de merveilles aquatiques.",
-  "description.abandoned.bear": "Un ours qui a été laissé derrière sur l'île.",
-  "description.turtle.bear": "Assez pour le club des tortues.",
-  "description.trex.skull": "Un crâne de T-Rex ! Incroyable!",
-  "description.sunflower.coin": "Une pièce faite de Sunflowers.",
-  "description.skeleton.king.staff": "Tous saluent le Roi Squelette!",
-  "description.lifeguard.bear":
-    "L'ours sauveteur est là pour sauver la journée!",
-  "description.snorkel.bear": "L'ours tuba aime nager.",
-  "description.parasaur.skull": "Un crâne de parasaur!",
-  "description.goblin.bear": "Un ours gobelin. C'est un peu effrayant.",
-  "description.golden.bear.head": "Effrayant, mais cool.",
-  "description.pirate.bear": "Argh, matelot ! Serre-moi dans tes bras!",
-  "description.galleon": "Un navire jouet, toujours en très bon état.",
-  "description.dinosaur.bone":
-    "Un os de dinosaure ! De quelle créature s'agit-il?",
-  "description.human.bear":
-    "Un ours humain. Encore plus effrayant qu'un ours gobelin.",
-  "description.flamingo":
-    "Représente un symbole de la beauté de l'amour, debout grand et confiant.",
-  "description.blossom.tree":
-    "Ses pétales délicats symbolisent la beauté et la fragilité de l'amour.",
-  "description.heart.balloons":
-    "Utilisez-les comme décoration pour des occasions romantiques.",
-  "description.whale.bear":
-    "Il a un corps rond et poilu comme un ours, mais avec les nageoires, la queue et le blowhole d'une baleine.",
-  "description.valentine.bear": "Pour ceux qui aiment.",
-  "description.easter.bear": "Comment un lapin peut-il pondre des œufs?",
-  "description.easter.bush": "Qu'y a-t-il à l'intérieur?",
-  "description.giant.carrot":
-    "Une grosse carotte debout, projetant des ombres amusantes, alors que les lapins contemplent avec émerveillement.",
-  "description.beach.ball":
-    "La balle rebondissante apporte des vibrations de plage, chasse l'ennui.",
-  "description.palm.tree":
-    "Haut, branché, ombragé et chic, les palmiers font des vagues.",
+const decorationDescriptions: Partial<Record<DecorationDescriptions, string>> =
+  {
+    // Décorations
+    "description.wicker.man":
+      "Unissez-vous et formez une chaîne, l'ombre de l'Homme en osier se lèvera à nouveau",
+    "description.golden bonsai": "Les Gobelins aiment aussi les bonsaïs",
+    "description.christmas.bear": "Le favori du Père Noël",
+    "description.war.skull": "Décorez l'île avec les os de vos ennemis.",
+    "description.war.tombstone": "R.I.P",
+    "description.white.tulips": "Éloignez l'odeur des Gobelins.",
+    "description.potted.sunflower": "Illuminez votre île.",
+    "description.potted.potato":
+      "Le sang de la potato coule dans votre Bumpkin.",
+    "description.potted.pumpkin": "Des pumpkins pour les Bumpkins",
+    "description.cactus": "Économise de l'eau et rend votre ferme magnifique!",
+    "description.basic.bear":
+      "Un ours basique. Utilisez-le au Goblin Retreat pour construire un ours!",
+    "description.bonnies.tombstone":
+      "Un ajout effrayant à n'importe quelle ferme, la pierre tombale humaine de Bonnie vous donnera des frissons dans le dos.",
+    "description.grubnashs.tombstone":
+      "Ajoutez un charme espiègle avec la pierre tombale Goblin de Grubnash.",
+    "description.town.sign": "Montrez fièrement votre ID de ferme!",
+    "description.dirt.path":
+      "Gardez vos bottes de fermier propres avec un chemin bien foulé.",
+    "description.bush": "Que se cache-t-il dans les buissons?",
+    "description.fence": "Ajoutez une touche de charme rustique à votre ferme.",
+    "description.stone.fence":
+      "Adoptez l'élégance intemporelle d'une clôture en pierre.",
+    "description.pine.tree":
+      "Debout haut et puissant, un rêve habillé d'aiguilles.",
+    "description.shrub":
+      "Améliorez votre aménagement paysager en jeu avec un bel arbuste.",
+    "description.field.maple":
+      "Un charmeur petit qui étend ses feuilles comme une délicate canopée verte.",
+    "description.red.maple":
+      "Foliage enflammé et un cœur plein de chaleur automnale.",
+    "description.golden.maple":
+      "Illuminant de sa brillance avec ses feuilles dorées scintillantes.",
+    "description.crimson.cap":
+      "Un champignon imposant et vibrant, le Crimson Cap Giant Mushroom apportera de la vie à votre ferme.",
+    "description.toadstool.seat":
+      "Asseyez-vous et détendez-vous sur le whimsical Toadstool Mushroom Seat.",
+    "description.chestnut.fungi.stool":
+      "Le Chestnut Fungi Stool est un ajout robuste et rustique à n'importe quelle ferme.",
+    "description.mahogany.cap":
+      "Ajoutez une touche de sophistication avec le Mahogany Cap Giant Mushroom.",
+    "description.candles":
+      "Enchantez votre ferme avec des flammes spectrales vacillantes pendant la Veille des Sorcières.",
+    "description.haunted.stump":
+      "Invoquez des esprits et ajoutez un charme étrange à votre ferme.",
+    "description.spooky.tree":
+      "Un ajout amusant et hanté à la décoration de votre ferme!",
+    "description.observer":
+      "Un œil perpétuellement en mouvement, toujours vigilant et attentif!",
+    "description.crow.rock": "Un corbeau perché sur un rocher mystérieux.",
+    "description.mini.corn.maze":
+      "Un souvenir du labyrinthe bien-aimé de la saison de la Veille des Sorcières 2023.",
+    "description.lifeguard.ring":
+      "Restez à flot avec style, votre sauveur en bord de mer!",
+    "description.surfboard":
+      "Ridez les vagues de l'émerveillement, béatitude de plage à bord!",
+    "description.hideaway.herman":
+      "Herman est là pour se cacher, mais regarde toujours pour une fête!",
+    "description.shifty.sheldon":
+      "Sheldon est sournois, toujours en train de se faufiler vers la prochaine surprise sableuse!",
+    "description.tiki.torch":
+      "Illuminez la nuit, des vibrations tropicales brûlant brillamment!",
+    "description.beach.umbrella":
+      "Ombre, abri et élégance en bord de mer en un seul arrangement ensoleillé!",
+    "description.magic.bean": "Que poussera-t-il?",
+    "description.giant.potato": "Une potato géante.",
+    "description.giant.pumpkin": "Une pumpkin géante.",
+    "description.giant.cabbage": "Un Cabbage géant.",
+    "description.chef.bear": "Chaque chef a besoin d'une aide précieuse.",
+    "description.construction.bear":
+      "Toujours construire en période de marché baissier.",
+    "description.angel.bear":
+      "Le moment de transcender l'agriculture paysanne.",
+    "description.badass.bear": "Rien ne se dresse sur votre chemin.",
+    "description.bear.trap": "C'est un piège!",
+    "description.brilliant.bear": "Pure brillance!",
+    "description.classy.bear": "Plus SFL que vous ne savez quoi en faire!",
+    "description.farmer.bear": "Rien de tel qu'une dure journée de travail!",
+    "description.rich.bear": "Une possession précieuse.",
+    "description.sunflower.bear": "Une culture chérie par un ours.",
+    "description.beta.bear":
+      "Un ours trouvé lors d'événements de test spéciaux.",
+    "description.rainbow.artist.bear":
+      "Le propriétaire est un bel artiste de l'ours!",
+    "description.devil.bear":
+      "Mieux vaut le Diable que vous connaissez que le Diable que vous ne connaissez pas.",
+    "description.collectible.bear":
+      "Un ours précieux, toujours en parfait état!",
+    "description.cyborg.bear": "Hasta la vista, l'ours.",
+    "description.christmas.snow.globe":
+      "Remuez la neige et regardez-la prendre vie.",
+    "description.kraken.tentacle":
+      "Plongez dans le mystère des profondeurs ! Cette tentacule évoque des contes anciens de légendes marines et de merveilles aquatiques.",
+    "description.kraken.head":
+      "Plongez dans le mystère des profondeurs ! Cette tête évoque des contes anciens de légendes marines et de merveilles aquatiques.",
+    "description.abandoned.bear":
+      "Un ours qui a été laissé derrière sur l'île.",
+    "description.turtle.bear": "Assez pour le club des tortues.",
+    "description.trex.skull": "Un crâne de T-Rex ! Incroyable!",
+    "description.sunflower.coin": "Une pièce faite de Sunflowers.",
+    "description.skeleton.king.staff": "Tous saluent le Roi Squelette!",
+    "description.lifeguard.bear":
+      "L'ours sauveteur est là pour sauver la journée!",
+    "description.snorkel.bear": "L'ours tuba aime nager.",
+    "description.parasaur.skull": "Un crâne de parasaur!",
+    "description.goblin.bear": "Un ours gobelin. C'est un peu effrayant.",
+    "description.golden.bear.head": "Effrayant, mais cool.",
+    "description.pirate.bear": "Argh, matelot ! Serre-moi dans tes bras!",
+    "description.galleon": "Un navire jouet, toujours en très bon état.",
+    "description.dinosaur.bone":
+      "Un os de dinosaure ! De quelle créature s'agit-il?",
+    "description.human.bear":
+      "Un ours humain. Encore plus effrayant qu'un ours gobelin.",
+    "description.flamingo":
+      "Représente un symbole de la beauté de l'amour, debout grand et confiant.",
+    "description.blossom.tree":
+      "Ses pétales délicats symbolisent la beauté et la fragilité de l'amour.",
+    "description.heart.balloons":
+      "Utilisez-les comme décoration pour des occasions romantiques.",
+    "description.whale.bear":
+      "Il a un corps rond et poilu comme un ours, mais avec les nageoires, la queue et le blowhole d'une baleine.",
+    "description.valentine.bear": "Pour ceux qui aiment.",
+    "description.easter.bear": "Comment un lapin peut-il pondre des œufs?",
+    "description.easter.bush": "Qu'y a-t-il à l'intérieur?",
+    "description.giant.carrot":
+      "Une grosse carotte debout, projetant des ombres amusantes, alors que les lapins contemplent avec émerveillement.",
+    "description.beach.ball":
+      "La balle rebondissante apporte des vibrations de plage, chasse l'ennui.",
+    "description.palm.tree":
+      "Haut, branché, ombragé et chic, les palmiers font des vagues.",
 
-  //other
-  "description.sunflower.amulet":
-    "Augmentation de 10 % du rendement en Sunflowers.",
-  "description.carrot.amulet": "Les carottes poussent 20 % plus vite.",
-  "description.beetroot.amulet":
-    "Augmentation de 20 % du rendement en betteraves.",
-  "description.green.amulet":
-    "Chance d'obtenir un rendement de culture 10 fois supérieur.",
-  "description.warrior.shirt": "Marque d'un véritable guerrier.",
-  "description.warrior.pants": "Protégez vos cuisses.",
-  "description.warrior.helmet": "Immunité aux flèches.",
-  "description.sunflower.shield":
-    "Un héros de Sunflower Land. Des graines de tournesol gratuites!",
-  "description.skull.hat": "Un chapeau rare pour votre Bumpkin.",
-  "description.sunflower.statue": "Un symbole du jeton sacré.",
-  "description.potato.statue": "Le OG de la potato qui en a dans le ventre.",
-  "description.christmas.tree":
-    "Recevez une distribution de cadeaux du Père Noël le jour de Noël.",
-  "description.gnome": "Un gnome chanceux.",
-  "description.homeless.tent": "Une tente agréable et confortable.",
-  "description.sunflower.tombstone":
-    "En mémoire des agriculteurs de Sunflowers.",
-  "description.sunflower.rock": "Le jeu qui a fait exploser Polygon.",
-  "description.goblin.crown": "Invoque le leader des Gobelins.",
-  "description.fountain": "Une fontaine relaxante pour votre ferme.",
-  "description.nyon.statue": "En mémoire de Nyon Lann.",
-  "description.farmer.bath":
-    "Un bain parfumé à la betterave pour les agriculteurs.",
-  "description.woody.Beaver": "Augmente les récoltes de Wood de 20 %.",
-  "description.apprentice.beaver":
-    "Les arbres se régénèrent 50 % plus rapidement.",
-  "description.foreman.beaver": "Abattez des arbres sans hache.",
-  "description.egg.basket": "Donne accès à la chasse aux œufs de Pâques.",
-  "description.mysterious.head": "Une statue censée protéger les agriculteurs.",
-  "description.tunnel.mole": "Augmente de 25 % les mines de pierre.",
-  "description.rocky.the.mole": "Augmente de 25 % les mines de fer.",
-  "description.nugget": "Augmente de 25 % les mines d'or.",
-  "description.rock.golem":
-    "Donne 10 % de chances d'obtenir 3 fois plus de pierre.",
-  "description.chef.apron":
-    "Donne 20 % de revenus SFL supplémentaires en vendant des gâteaux.",
-  "description.chef.hat": "La couronne d'un boulanger légendaire!",
-  "description.nancy":
-    "Éloigne quelques corbeaux. Les cultures poussent 15 % plus vite.",
-  "description.scarecrow":
-    "Un épouvantail gobelin. Rendement 20 % plus élevé en cultures.",
-  "description.kuebiko":
-    "Même le propriétaire de la boutique a peur de cet épouvantail. Les graines sont gratuites.",
-  "description.golden.cauliflower": "Double le rendement en choux-fleurs.",
-  "description.mysterious.parsnip": "Les Parsnip poussent 50 % plus vite.",
-  "description.carrot.sword":
-    "Augmente les chances qu'une culture mutante apparaisse.",
-  "description.chicken.coop": "Collectez deux fois plus d'œufs.",
-  "description.farm.cat": "Éloigne les rats.",
-  "description.farm.dog": "Rassemblez les moutons avec votre chien de ferme.",
-  "description.gold.egg": "Nourrissez les poules sans avoir besoin de Wheat.",
-  "description.easter.bunny": "Gagnez 20 % de carottes supplémentaires.",
-  "description.rooster":
-    "Doublez les chances de faire apparaître un poulet mutant.",
-  "description.chicken":
-    "Produit des œufs. Nécessite du Wheat pour la nourriture.",
-  "description.cow": "Produit du lait. Nécessite du Wheat pour la nourriture.",
-  "description.pig":
-    "Produit du fumier. Nécessite du Wheat pour la nourriture.",
-  "description.sheep":
-    "Produit de la laine. Nécessite du Wheat pour la nourriture.",
-  "description.basic.land": "Un morceau d'île basique.",
-  "description.crop.plot": "Une parcelle vide pour planter des cultures.",
-  "description.gold.rock": "Une roche exploitable pour collecter de l'or.",
-  "description.iron.rock": "Une roche exploitable pour collecter du fer.",
-  "description.stone.rock":
-    "Une roche exploitable pour collecter de la pierre.",
-  "description.crimstone.rock":
-    "Une roche exploitable pour collecter du crimstone.",
-  "description.flower.bed": "Une parcelle vide pour planter des fleurs.",
-  "description.tree":
-    "Un arbre que vous pouvez abattre pour collecter du Wood.",
-  "description.fruit.patch": "Une parcelle vide pour planter des fruits.",
-  "description.boulder":
-    "Une roche mythique qui peut laisser tomber des minéraux rares.",
-  "description.catch.the.kraken.banner":
-    "Le Kraken est là ! La marque d'un participant à la saison Catch the Kraken.",
-  "description.luminous.lantern":
-    "Une lanterne en papier lumineuse qui éclaire le chemin.",
-  "description.radiance.lantern":
-    "Une lanterne en papier radieuse qui brille d'une lumière puissante.",
-  "description.ocean.lantern":
-    "Une lanterne en papier ondulée qui flotte avec la marée.",
-  "description.solar.lantern":
-    "Utilisant l'essence vibrante des Sunflowers, la lanterne solaire émet une lueur chaude et radieuse.",
-  "description.aurora.lantern":
-    "Une lanterne en papier qui transforme tout espace en un pays des merveilles magique.",
-  "description.dawn.umbrella":
-    "Gardez ces Eggplants au sec lors des journées pluvieuses avec le siège-parapluie Dawn.",
-  "description.eggplant.grill":
-    "Préparez vos repas en plein air avec le Eggplant Grill, parfait pour tout repas en plein air.",
-  "description.giant.dawn.mushroom":
-    "Le champignon géant Dawn est un ajout majestueux et magique à toute ferme.",
-  "description.shroom.glow":
-    "Illuminez votre ferme avec la lueur enchanteresse de Shroom Glow.",
-  "description.clementine":
-    "Le gnome Clementine est un compagnon joyeux pour vos aventures agricoles.",
-  "description.blossombeard":
-    "Le gnome Blossombeard est un compagnon puissant pour vos aventures agricoles.",
-  "description.cobalt":
-    "Le gnome Cobalt ajoute une touche de couleur à votre ferme avec son chapeau vibrant.",
-  "description.hoot": "Hibou hibou ! Avez-vous résolu mon énigme?",
-  "description.genie.bear": "Exactement ce que je souhaitais!",
-  "description.betty.lantern":
-    "Elle a l'air tellement réelle ! Je me demande comment ils l'ont fabriquée.",
-  "description.bumpkin.lantern":
-    "En vous approchant, vous entendez des murmures d'un Bumpkin vivant... effrayant!",
-  "description.eggplant.bear": "La marque généreuse Eggplant balaine.",
-  "description.goblin.lantern": "Une lanterne au look effrayant.",
-  "description.dawn.flower":
-    "Embrassez la beauté radieuse de la Dawn Flower alors que ses pétales délicats scintillent avec les premières lueurs du jour.",
-  "description.kernaldo.bonus": "+25 % de vitesse de croissance du Corn.",
-  "description.white.crow": "Un corbeau blanc mystérieux et éthéré.",
-  "description.sapo.docuras": "Un vrai régal!",
-  "description.sapo.travessuras": "Oh oh... quelqu'un a été méchant.",
-  "description.walrus":
-    "Avec ses défenses fiables et son amour pour les profondeurs, il s'assurera que vous pêchiez un poisson de plus à chaque fois.",
-  "description.alba":
-    "Avec ses instincts aiguisés, elle s'assure que vous avez un peu plus de plaisir dans votre pêche. 50 % de chances d'obtenir +1 poisson de base!",
-  "description.knowledge.crab":
-    "Le crabe de la connaissance double l'effet de votre mélange de graines, rendant vos trésors de sol aussi riches que les pillages marins!",
-  "description.anchor":
-    "Jetez l'ancre avec cette gemme nautique, rendant chaque endroit navigable et d'une élégance éclaboussante!",
-  "description.rubber.ducky":
-    "Flottez dans le plaisir avec ce canard classique, apportant une joie pétillante à chaque coin!",
-  "description.arcade.token":
-    "Un jeton gagné grâce à des mini-jeux et des aventures. Peut être échangé contre des récompenses.",
-  "description.bumpkin.nutcracker": "Une décoration festive de 2023.",
-  "description.festive.tree":
-    "Un arbre festif disponible chaque saison des fêtes. Je me demande s'il est assez grand pour que le Père Noël le voie?",
-  "description.white.festive.fox":
-    "La bénédiction du Renard Blanc habite les fermes généreuses.",
-  "description.grinxs.hammer":
-    "Le marteau magique de Grinx, le légendaire forgeron gobelin.",
-  "description.angelfish":
-    "La beauté céleste aquatique, ornée d'une palette de couleurs vibrantes.",
-  "description.halibut":
-    "Le habitant plat du fond de l'océan, un maître du déguisement en camouflage sableux.",
-  "description.parrotFish":
-    "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
-  "description.Farmhand": "Un ouvrier agricole utile.",
-  "description.Beehive":
-    "Une ruche animée, produisant du Honey à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du Honey d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
-  // Flowers
-  "description.red.pansy": "Une red pansy.",
-  "description.yellow.pansy": "Une yellow pansy.",
-  "description.purple.pansy": "Une purple pansy.",
-  "description.white.pansy": "Une white panssy.",
-  "description.blue.pansy": "Une blue pansy.",
+    //other
+    "description.sunflower.amulet":
+      "Augmentation de 10 % du rendement en Sunflowers.",
+    "description.carrot.amulet": "Les carottes poussent 20 % plus vite.",
+    "description.beetroot.amulet":
+      "Augmentation de 20 % du rendement en betteraves.",
+    "description.green.amulet":
+      "Chance d'obtenir un rendement de culture 10 fois supérieur.",
+    "description.warrior.shirt": "Marque d'un véritable guerrier.",
+    "description.warrior.pants": "Protégez vos cuisses.",
+    "description.warrior.helmet": "Immunité aux flèches.",
+    "description.sunflower.shield":
+      "Un héros de Sunflower Land. Des graines de tournesol gratuites!",
+    "description.skull.hat": "Un chapeau rare pour votre Bumpkin.",
+    "description.sunflower.statue": "Un symbole du jeton sacré.",
+    "description.potato.statue": "Le OG de la potato qui en a dans le ventre.",
+    "description.christmas.tree":
+      "Recevez une distribution de cadeaux du Père Noël le jour de Noël.",
+    "description.gnome": "Un gnome chanceux.",
+    "description.homeless.tent": "Une tente agréable et confortable.",
+    "description.sunflower.tombstone":
+      "En mémoire des agriculteurs de Sunflowers.",
+    "description.sunflower.rock": "Le jeu qui a fait exploser Polygon.",
+    "description.goblin.crown": "Invoque le leader des Gobelins.",
+    "description.fountain": "Une fontaine relaxante pour votre ferme.",
+    "description.nyon.statue": "En mémoire de Nyon Lann.",
+    "description.farmer.bath":
+      "Un bain parfumé à la betterave pour les agriculteurs.",
+    "description.woody.Beaver": "Augmente les récoltes de Wood de 20 %.",
+    "description.apprentice.beaver":
+      "Les arbres se régénèrent 50 % plus rapidement.",
+    "description.foreman.beaver": "Abattez des arbres sans hache.",
+    "description.egg.basket": "Donne accès à la chasse aux œufs de Pâques.",
+    "description.mysterious.head":
+      "Une statue censée protéger les agriculteurs.",
+    "description.tunnel.mole": "Augmente de 25 % les mines de pierre.",
+    "description.rocky.the.mole": "Augmente de 25 % les mines de fer.",
+    "description.nugget": "Augmente de 25 % les mines d'or.",
+    "description.rock.golem":
+      "Donne 10 % de chances d'obtenir 3 fois plus de pierre.",
+    "description.chef.apron":
+      "Donne 20 % de revenus SFL supplémentaires en vendant des gâteaux.",
+    "description.chef.hat": "La couronne d'un boulanger légendaire!",
+    "description.nancy":
+      "Éloigne quelques corbeaux. Les cultures poussent 15 % plus vite.",
+    "description.scarecrow":
+      "Un épouvantail gobelin. Rendement 20 % plus élevé en cultures.",
+    "description.kuebiko":
+      "Même le propriétaire de la boutique a peur de cet épouvantail. Les graines sont gratuites.",
+    "description.golden.cauliflower": "Double le rendement en choux-fleurs.",
+    "description.mysterious.parsnip": "Les Parsnip poussent 50 % plus vite.",
+    "description.carrot.sword":
+      "Augmente les chances qu'une culture mutante apparaisse.",
+    "description.chicken.coop": "Collectez deux fois plus d'œufs.",
+    "description.farm.cat": "Éloigne les rats.",
+    "description.farm.dog": "Rassemblez les moutons avec votre chien de ferme.",
+    "description.gold.egg": "Nourrissez les poules sans avoir besoin de Wheat.",
+    "description.easter.bunny": "Gagnez 20 % de carottes supplémentaires.",
+    "description.rooster":
+      "Doublez les chances de faire apparaître un poulet mutant.",
+    "description.chicken":
+      "Produit des œufs. Nécessite du Wheat pour la nourriture.",
+    "description.cow":
+      "Produit du lait. Nécessite du Wheat pour la nourriture.",
+    "description.pig":
+      "Produit du fumier. Nécessite du Wheat pour la nourriture.",
+    "description.sheep":
+      "Produit de la laine. Nécessite du Wheat pour la nourriture.",
+    "description.basic.land": "Un morceau d'île basique.",
+    "description.crop.plot": "Une parcelle vide pour planter des cultures.",
+    "description.gold.rock": "Une roche exploitable pour collecter de l'or.",
+    "description.iron.rock": "Une roche exploitable pour collecter du fer.",
+    "description.stone.rock":
+      "Une roche exploitable pour collecter de la pierre.",
+    "description.crimstone.rock":
+      "Une roche exploitable pour collecter du crimstone.",
+    "description.flower.bed": "Une parcelle vide pour planter des fleurs.",
+    "description.tree":
+      "Un arbre que vous pouvez abattre pour collecter du Wood.",
+    "description.fruit.patch": "Une parcelle vide pour planter des fruits.",
+    "description.boulder":
+      "Une roche mythique qui peut laisser tomber des minéraux rares.",
+    "description.catch.the.kraken.banner":
+      "Le Kraken est là ! La marque d'un participant à la saison Catch the Kraken.",
+    "description.luminous.lantern":
+      "Une lanterne en papier lumineuse qui éclaire le chemin.",
+    "description.radiance.lantern":
+      "Une lanterne en papier radieuse qui brille d'une lumière puissante.",
+    "description.ocean.lantern":
+      "Une lanterne en papier ondulée qui flotte avec la marée.",
+    "description.solar.lantern":
+      "Utilisant l'essence vibrante des Sunflowers, la lanterne solaire émet une lueur chaude et radieuse.",
+    "description.aurora.lantern":
+      "Une lanterne en papier qui transforme tout espace en un pays des merveilles magique.",
+    "description.dawn.umbrella":
+      "Gardez ces Eggplants au sec lors des journées pluvieuses avec le siège-parapluie Dawn.",
+    "description.eggplant.grill":
+      "Préparez vos repas en plein air avec le Eggplant Grill, parfait pour tout repas en plein air.",
+    "description.giant.dawn.mushroom":
+      "Le champignon géant Dawn est un ajout majestueux et magique à toute ferme.",
+    "description.shroom.glow":
+      "Illuminez votre ferme avec la lueur enchanteresse de Shroom Glow.",
+    "description.clementine":
+      "Le gnome Clementine est un compagnon joyeux pour vos aventures agricoles.",
+    "description.blossombeard":
+      "Le gnome Blossombeard est un compagnon puissant pour vos aventures agricoles.",
+    "description.cobalt":
+      "Le gnome Cobalt ajoute une touche de couleur à votre ferme avec son chapeau vibrant.",
+    "description.hoot": "Hibou hibou ! Avez-vous résolu mon énigme?",
+    "description.genie.bear": "Exactement ce que je souhaitais!",
+    "description.betty.lantern":
+      "Elle a l'air tellement réelle ! Je me demande comment ils l'ont fabriquée.",
+    "description.bumpkin.lantern":
+      "En vous approchant, vous entendez des murmures d'un Bumpkin vivant... effrayant!",
+    "description.eggplant.bear": "La marque généreuse Eggplant balaine.",
+    "description.goblin.lantern": "Une lanterne au look effrayant.",
+    "description.dawn.flower":
+      "Embrassez la beauté radieuse de la Dawn Flower alors que ses pétales délicats scintillent avec les premières lueurs du jour.",
+    "description.kernaldo.bonus": "+25 % de vitesse de croissance du Corn.",
+    "description.white.crow": "Un corbeau blanc mystérieux et éthéré.",
+    "description.sapo.docuras": "Un vrai régal!",
+    "description.sapo.travessuras": "Oh oh... quelqu'un a été méchant.",
+    "description.walrus":
+      "Avec ses défenses fiables et son amour pour les profondeurs, il s'assurera que vous pêchiez un poisson de plus à chaque fois.",
+    "description.alba":
+      "Avec ses instincts aiguisés, elle s'assure que vous avez un peu plus de plaisir dans votre pêche. 50 % de chances d'obtenir +1 poisson de base!",
+    "description.knowledge.crab":
+      "Le crabe de la connaissance double l'effet de votre mélange de graines, rendant vos trésors de sol aussi riches que les pillages marins!",
+    "description.anchor":
+      "Jetez l'ancre avec cette gemme nautique, rendant chaque endroit navigable et d'une élégance éclaboussante!",
+    "description.rubber.ducky":
+      "Flottez dans le plaisir avec ce canard classique, apportant une joie pétillante à chaque coin!",
+    "description.arcade.token":
+      "Un jeton gagné grâce à des mini-jeux et des aventures. Peut être échangé contre des récompenses.",
+    "description.bumpkin.nutcracker": "Une décoration festive de 2023.",
+    "description.festive.tree":
+      "Un arbre festif disponible chaque saison des fêtes. Je me demande s'il est assez grand pour que le Père Noël le voie?",
+    "description.white.festive.fox":
+      "La bénédiction du Renard Blanc habite les fermes généreuses.",
+    "description.grinxs.hammer":
+      "Le marteau magique de Grinx, le légendaire forgeron gobelin.",
+    "description.angelfish":
+      "La beauté céleste aquatique, ornée d'une palette de couleurs vibrantes.",
+    "description.halibut":
+      "Le habitant plat du fond de l'océan, un maître du déguisement en camouflage sableux.",
+    "description.parrotFish":
+      "Un kaléidoscope de couleurs sous les vagues, ce poisson est une œuvre d'art vivante de la nature.",
+    "description.Farmhand": "Un ouvrier agricole utile.",
+    "description.Beehive":
+      "Une ruche animée, produisant du Honey à partir de fleurs en croissance active ; 10 % de chance lors de la récolte du Honey d'invoquer un essaim d'abeilles qui pollinisera toutes les cultures en croissance avec un bonus de +0.2!",
+    // Flowers
+    "description.red.pansy": "Une red pansy.",
+    "description.yellow.pansy": "Une yellow pansy.",
+    "description.purple.pansy": "Une purple pansy.",
+    "description.white.pansy": "Une white panssy.",
+    "description.blue.pansy": "Une blue pansy.",
 
-  "description.red.cosmos": "Un red cosmos.",
-  "description.yellow.cosmos": "Un yellow cosmos.",
-  "description.purple.cosmos": "Un purple cosmos.",
-  "description.white.cosmos": "Un white cosmos.",
-  "description.blue.cosmos": "Un blue cosmos.",
+    "description.red.cosmos": "Un red cosmos.",
+    "description.yellow.cosmos": "Un yellow cosmos.",
+    "description.purple.cosmos": "Un purple cosmos.",
+    "description.white.cosmos": "Un white cosmos.",
+    "description.blue.cosmos": "Un blue cosmos.",
 
-  "description.red.balloon.flower": "Une red balloon flower.",
-  "description.yellow.balloon.flower": "Une yellow balloon flower.",
-  "description.purple.balloon.flower": "Une purple balloon flower.",
-  "description.white.balloon.flower": "Une white balloon flower.",
-  "description.blue.balloon.flower": "Une blue balloon flower.",
+    "description.red.balloon.flower": "Une red balloon flower.",
+    "description.yellow.balloon.flower": "Une yellow balloon flower.",
+    "description.purple.balloon.flower": "Une purple balloon flower.",
+    "description.white.balloon.flower": "Une white balloon flower.",
+    "description.blue.balloon.flower": "Une blue balloon flower.",
 
-  "description.red.carnation": "Une red carnation.",
-  "description.yellow.carnation": "Une yellow carnation.",
-  "description.purple.carnation": "Une purple carnation.",
-  "description.white.carnation": "Unewhite carnation.",
-  "description.blue.carnation": "Une blue carnation.",
+    "description.red.carnation": "Une red carnation.",
+    "description.yellow.carnation": "Une yellow carnation.",
+    "description.purple.carnation": "Une purple carnation.",
+    "description.white.carnation": "Unewhite carnation.",
+    "description.blue.carnation": "Une blue carnation.",
 
-  "description.humming.bird":
-    "Un joyau du ciel, le Colibri virevolte avec grâce et couleur.",
-  "description.queen.bee":
-    "Majestueuse reine de la ruche, l'Abeille Reine bourdonne avec autorité royale.",
-  "description.flower.fox":
-    "Le Renard des Fleurs, une créature espiègle ornée de pétales, apporte de la joie au jardin.",
-  "description.hungry.caterpillar":
-    "Se régalant de feuilles, la Chenille Gourmande est toujours prête pour une aventure savoureuse.",
-  "description.sunrise.bloom.rug":
-    "Marchez sur le Tapis de l'Éclosion du Soleil, où les pétales dansent autour d'un lever de soleil floral.",
-  "description.blossom.royale":
-    "Le Blossom Royale, une fleur géante aux couleurs bleues et roses vibrantes, se dresse en majesté.",
-  "description.rainbow":
-    "Un arc-en-ciel joyeux, reliant le ciel et la terre avec son arc-en-ciel coloré.",
-  "description.enchanted.rose":
-    "La Rose Enchantée, symbole de beauté éternelle, captive par son charme magique.",
-  "description.flower.cart":
-    "Le Chariot de Fleurs, débordant de fleurs, est un jardin mobile de délices floraux.",
-  "description.capybara":
-    "Le Capybara, un ami décontracté, apprécie les journées paisibles au bord de l'eau.",
-  "description.prism.petal":
-    "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
-  "description.celestial.frostbloom":
-    "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
-  "description.primula.enigma":
-    "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
+    "description.humming.bird":
+      "Un joyau du ciel, le Colibri virevolte avec grâce et couleur.",
+    "description.queen.bee":
+      "Majestueuse reine de la ruche, l'Abeille Reine bourdonne avec autorité royale.",
+    "description.flower.fox":
+      "Le Renard des Fleurs, une créature espiègle ornée de pétales, apporte de la joie au jardin.",
+    "description.hungry.caterpillar":
+      "Se régalant de feuilles, la Chenille Gourmande est toujours prête pour une aventure savoureuse.",
+    "description.sunrise.bloom.rug":
+      "Marchez sur le Tapis de l'Éclosion du Soleil, où les pétales dansent autour d'un lever de soleil floral.",
+    "description.blossom.royale":
+      "Le Blossom Royale, une fleur géante aux couleurs bleues et roses vibrantes, se dresse en majesté.",
+    "description.rainbow":
+      "Un arc-en-ciel joyeux, reliant le ciel et la terre avec son arc-en-ciel coloré.",
+    "description.enchanted.rose":
+      "La Rose Enchantée, symbole de beauté éternelle, captive par son charme magique.",
+    "description.flower.cart":
+      "Le Chariot de Fleurs, débordant de fleurs, est un jardin mobile de délices floraux.",
+    "description.capybara":
+      "Le Capybara, un ami décontracté, apprécie les journées paisibles au bord de l'eau.",
+    "description.prism.petal":
+      "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
+    "description.celestial.frostbloom":
+      "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
+    "description.primula.enigma":
+      "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
 
-  "description.red.daffodil": "Une red daffodil.",
-  "description.yellow.daffodil": "Une yellow daffodil.",
-  "description.purple.daffodil": "Une purple daffodil.",
-  "description.white.daffodil": "Une white daffodil.",
-  "description.blue.daffodil": "Une blue daffodil.",
+    "description.red.daffodil": "Une red daffodil.",
+    "description.yellow.daffodil": "Une yellow daffodil.",
+    "description.purple.daffodil": "Une purple daffodil.",
+    "description.white.daffodil": "Une white daffodil.",
+    "description.blue.daffodil": "Une blue daffodil.",
 
-  "description.red.lotus": "Un red lotus.",
-  "description.yellow.lotus": "Un yellow lotus.",
-  "description.purple.lotus": "Un purple lotus.",
-  "description.white.lotus": "Un white lotus.",
-  "description.blue.lotus": "Un blue lotus.",
+    "description.red.lotus": "Un red lotus.",
+    "description.yellow.lotus": "Un yellow lotus.",
+    "description.purple.lotus": "Un purple lotus.",
+    "description.white.lotus": "Un white lotus.",
+    "description.blue.lotus": "Un blue lotus.",
 
-  // Bannières
-  "description.goblin.war.banner":
-    "Un affichage d'allégeance à la cause des Gobelins.",
-  "description.human.war.banner":
-    "Un affichage d'allégeance à la cause des Humains.",
-  "description.earnAllianceBanner": "A special event banner",
-};
+    // Bannières
+    "description.goblin.war.banner":
+      "Un affichage d'allégeance à la cause des Gobelins.",
+    "description.human.war.banner":
+      "Un affichage d'allégeance à la cause des Humains.",
+    "description.earnAllianceBanner": "A special event banner",
+  };
 
-const defaultDialogue: Record<DefaultDialogue, string> = {
+const defaultDialogue: Partial<Record<DefaultDialogue, string>> = {
   "defaultDialogue.intro":
     "Bonjour, ami ! Je suis là pour voir si vous avez ce dont j'ai besoin.",
   "defaultDialogue.positiveDelivery":
@@ -1762,7 +1776,7 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
   "defaultDialogue.noOrder": "Pas de commande active à traiter pour le moment.",
 };
 
-const delivery: Record<Delivery, string> = {
+const delivery: Partial<Record<Delivery, string>> = {
   "delivery.panel.one":
     "Hmm, il semble que votre ferme n'aura pas les ressources dont j'ai besoin. Atteignez ",
   "delivery.panel.two": "e expansion et revenez vers moi.",
@@ -1775,7 +1789,7 @@ const delivery: Record<Delivery, string> = {
   "delivery.goblin.comm.treasury": "Trésor de la Communauté des Gobelins",
 };
 
-const deliveryHelp: Record<DeliveryHelp, string> = {
+const deliveryHelp: Partial<Record<DeliveryHelp, string>> = {
   "deliveryHelp.pumpkinSoup":
     "Rassemblez les ingrédients et prenez un bateau pour Pumpkin Plaza pour livrer des commandes aux Bumpkins en échange d'une récompense!",
   "deliveryHelp.hammer":
@@ -1786,7 +1800,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
     "Établissez des relations avec les Bumpkins en effectuant plusieurs commandes pour débloquer des récompenses bonus. (Bientôt disponible)",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Partial<Record<Deliveryitem, string>> = {
   "deliveryitem.inventory": "Inventaire :",
   "deliveryitem.itemsToDeliver": "Articles à livrer :",
   "deliveryitem.deliverToWallet": "Livrer à votre portefeuille",
@@ -1795,7 +1809,7 @@ const deliveryitem: Record<Deliveryitem, string> = {
   "deliveryitem.deliver": "Livrer",
 };
 
-const depositWallet: Record<DepositWallet, string> = {
+const depositWallet: Partial<Record<DepositWallet, string>> = {
   "deposit.errorLoadingBalances":
     "Une erreur s'est produite lors du chargement de vos soldes.",
   "deposit.yourPersonalWallet": "Votre Portefeuille Personnel",
@@ -1814,14 +1828,14 @@ const depositWallet: Record<DepositWallet, string> = {
     "Souhaitez-vous déposer des objets de Sunflower Land, des accessoires ou des SFL?",
 };
 
-const detail: Record<Detail, string> = {
+const detail: Partial<Record<Detail, string>> = {
   "detail.how.item": "Comment obtenir cet objet?",
   "detail.Claim.Reward": "Réclamer la récompense",
   "detail.basket.empty": "Votre panier est vide!",
   "detail.view.item": "Voir l'objet sur",
 };
 
-const discordBonus: Record<DiscordBonus, string> = {
+const discordBonus: Partial<Record<DiscordBonus, string>> = {
   "discord.bonus.niceHat": "Wow, beau chapeau!",
   "discord.bonus.attentionEvents":
     "N'oubliez pas de prêter attention aux événements spéciaux et aux cadeaux sur Discord pour ne rien manquer.",
@@ -1839,19 +1853,19 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.connect": "Connectez-vous à Discord",
 };
 
-const donation: Record<Donation, string> = {
+const donation: Partial<Record<Donation, string>> = {
   "donation.one":
     "Il s'agissait d'une initiative artistique communautaire et les dons sont grandement appréciés!",
 };
 
-const draftBid: Record<DraftBid, string> = {
+const draftBid: Partial<Record<DraftBid, string>> = {
   "draftBid.howAuctionWorks": "Comment fonctionne l'enchère?",
   "draftBid.unsuccessfulParticipants":
     "Les participants qui ne réussissent pas seront remboursés de leurs ressources.",
   "draftBid.termsAndConditions": "Conditions générales",
 };
 
-const errorAndAccess: Record<ErrorAndAccess, string> = {
+const errorAndAccess: Partial<Record<ErrorAndAccess, string>> = {
   "errorAndAccess.blocked.betaTestersOnly":
     "Accès réservé aux bêta-testeurs uniquement",
   "errorAndAccess.denied.message": "Vous n'avez pas encore accès au jeu.",
@@ -1862,7 +1876,7 @@ const errorAndAccess: Record<ErrorAndAccess, string> = {
   "error.cannotPlaceInside": "Impossible de placer à l'intérieur",
 };
 
-const errorTerms: Record<ErrorTerms, string> = {
+const errorTerms: Partial<Record<ErrorTerms, string>> = {
   "error.betaTestersOnly": "Réservé aux bêta-testeurs uniquement!",
   "error.congestion.one":
     "Nous faisons de notre mieux, mais il semble que Polygon soit très fréquenté ou que vous ayez perdu votre connexion.",
@@ -1932,14 +1946,14 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.ClientRPC": "Client RPC Erreur",
 };
 
-const event: Record<Event, string> = {
+const event: Partial<Record<Event, string>> = {
   "event.christmas": "Événement de Noël!",
   "event.LunarNewYear": "Événement du Nouvel An lunaire",
   "event.GasHero": "Événement Gas Hero",
   "event.valentines.rewards": "Récompenses de la Saint-Valentin",
 };
 
-const exoticShopItems: Record<ExoticShopItems, string> = {
+const exoticShopItems: Partial<Record<ExoticShopItems, string>> = {
   "exoticShopItems.line1":
     "Notre magasin de haricots ferme ses portes alors que nos haricots se lancent dans une nouvelle aventure avec un savant fou.",
   "exoticShopItems.line2":
@@ -1948,7 +1962,7 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
   "exoticShopItems.line4": "L'équipe des haricots",
 };
 
-const festiveTree: Record<FestiveTree, string> = {
+const festiveTree: Partial<Record<FestiveTree, string>> = {
   "festivetree.greedyBumpkin": "Bumpkin avide détecté",
   "festivetree.alreadyGifted":
     "Cet arbre a déjà été offert. Attendez jusqu'à Noël prochain pour plus de festivités.",
@@ -1956,7 +1970,7 @@ const festiveTree: Record<FestiveTree, string> = {
     "Ce n'est pas la saison des fêtes. Revenez plus tard.",
 };
 
-const fishDescriptions: Record<FishDescriptions, string> = {
+const fishDescriptions: Partial<Record<FishDescriptions, string>> = {
   // Poissons
   "description.anchovy.one":
     "L'acrobate miniature des océans, toujours pressé!",
@@ -2062,7 +2076,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
   "description.crimson.carp": "Un joyau rare et vibrant des eaux du printemps.",
 };
 
-const fishermanModal: Record<FishermanModal, string> = {
+const fishermanModal: Partial<Record<FishermanModal, string>> = {
   "fishermanModal.attractFish":
     "Attirez les poissons en jetant de l'appât dans l'eau.",
   "fishermanModal.fishBenefits":
@@ -2083,12 +2097,12 @@ const fishermanModal: Record<FishermanModal, string> = {
     "Ahoy, camarades insulaires ! Je suis {{name}}, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
 };
 
-const fishermanQuest: Record<FishermanQuest, string> = {
+const fishermanQuest: Partial<Record<FishermanQuest, string>> = {
   "fishermanQuest.Ohno": "Oh non ! Il s'est échappé",
   "fishermanQuest.Newfish": "Nouveau poisson",
 };
 
-const fishingChallengeIntro: Record<FishingChallengeIntro, string> = {
+const fishingChallengeIntro: Partial<Record<FishingChallengeIntro, string>> = {
   "fishingChallengeIntro.powerfulCatch": "Une prise puissante vous attend!",
   "fishingChallengeIntro.useStrength":
     "Utilisez toute votre force pour la ramener.",
@@ -2098,7 +2112,7 @@ const fishingChallengeIntro: Record<FishingChallengeIntro, string> = {
     "Soyez rapide - 3 tentatives ratées, et il s'échappe!",
 };
 
-const fishingGuide: Record<FishingGuide, string> = {
+const fishingGuide: Partial<Record<FishingGuide, string>> = {
   "fishingGuide.catch.rod":
     "Fabriquez une canne à pêche et rassemblez de l'appât pour attraper des poissons.",
   "fishingGuide.bait.earn":
@@ -2115,7 +2129,7 @@ const fishingGuide: Record<FishingGuide, string> = {
     "Méfiez-vous des poissons légendaires ; ils nécessitent une compétence et une force exceptionnelles pour être capturés.",
 };
 
-const fishingQuests: Record<FishingQuests, string> = {
+const fishingQuests: Partial<Record<FishingQuests, string>> = {
   "quest.basic.fish": "Attrapez chaque poisson de base",
   "quest.advanced.fish": "Attrapez chaque poisson avancé",
   "quest.all.fish": "Découvrez chaque poisson de base, avancé et expert",
@@ -2128,7 +2142,7 @@ const fishingQuests: Record<FishingQuests, string> = {
   "quest.lily.luminary": "Découvrez 12 variantes de Lily",
 };
 
-const flowerBed: Record<FlowerBed, string> = {
+const flowerBed: Partial<Record<FlowerBed, string>> = {
   "flowerBedGuide.buySeeds": "Achetez des graines à la boutique de graines.",
   "flowerBedGuide.crossbreedWithCrops":
     "Croisez-les avec des cultures et d'autres fleurs pour découvrir de nouvelles espèces de fleurs.",
@@ -2147,7 +2161,7 @@ const flowerBed: Record<FlowerBed, string> = {
   "flowerBedContent.select.crossbreed": "Sélectionnez un croisement",
 };
 
-const flowerbreed: Record<Flowerbreed, string> = {
+const flowerbreed: Partial<Record<Flowerbreed, string>> = {
   "flower.breed.sunflower":
     "Les botanistes de Bumpkin jurent que ce ne sont pas des fleurs.",
   "flower.breed.cauliflower":
@@ -2209,7 +2223,7 @@ const flowerbreed: Record<Flowerbreed, string> = {
     "Une mutation extrêmement rare. Êtes-vous sûr de vouloir la croiser?",
 };
 
-const flowerShopTerms: Record<FlowerShopTerms, string> = {
+const flowerShopTerms: Partial<Record<FlowerShopTerms, string>> = {
   "flowerShop.desired.dreaming": "Oh, j'ai rêvé de cultiver un(e) ",
   "flowerShop.desired.delightful": "Quelle délice ce serait d'avoir un(e) ",
   "flowerShop.desired.wonderful": "Quelle merveille ce serait d'avoir un(e) ",
@@ -2229,7 +2243,7 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
   "flowerShop.do.have.trade.one": "seriez-vous prêt(e) à m'en échanger un(e)?",
 };
 
-const foodDescriptions: Record<FoodDescriptions, string> = {
+const foodDescriptions: Partial<Record<FoodDescriptions, string>> = {
   // Fire Pit
   "description.pumpkin.soup": "Une soupe crémeuse que les gobelins adorent",
   "description.mashed.potato": "Ma vie, c'est la potato.",
@@ -2313,7 +2327,7 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.radish.pie": "Détestée par les humains, adorée par les gobelins",
 };
 
-const gameDescriptions: Record<GameDescriptions, string> = {
+const gameDescriptions: Partial<Record<GameDescriptions, string>> = {
   // Objets de quête
   "description.goblin.key": "La Clé des Gobelins",
   "description.sunflower.key": "La Clé du Tournesol",
@@ -2385,7 +2399,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Un tableau du propriétaire de cette maison.",
 };
 
-const gameTerms: Record<GameTerms, string> = {
+const gameTerms: Partial<Record<GameTerms, string>> = {
   "auction.winner": "Gagnant de l'enchère!",
   "bumpkin.level": "Niveau de Bumpkin",
   bumpkinBuzz: "Boites aux lettres",
@@ -2406,19 +2420,19 @@ const gameTerms: Record<GameTerms, string> = {
   sunflowerLandCodex: "Sunflower Land Codex",
 };
 
-const garbageCollector: Record<GarbageCollector, string> = {
+const garbageCollector: Partial<Record<GarbageCollector, string>> = {
   "garbageCollector.welcome": "Bienvenue dans ma modeste boutique.",
   "garbageCollector.description":
     "Je suis le Marchand d'Ordures, et j'achèterai tout ce que vous avez - tant que c'est de la garbage.",
 };
 
-const genieLamp: Record<GenieLamp, string> = {
+const genieLamp: Partial<Record<GenieLamp, string>> = {
   "genieLamp.ready.wish": "Prêt à faire un vœu?",
   "genieLamp.cannotWithdraw":
     "Vous ne pouvez pas retirer la lampe une fois qu'elle a été frottée",
 };
 
-const getContent: Record<GetContent, string> = {
+const getContent: Partial<Record<GetContent, string>> = {
   "getContent.error": "Erreur!",
   "getContent.joining": "En cours de connexion",
   "getContent.accessGranted":
@@ -2431,7 +2445,7 @@ const getContent: Record<GetContent, string> = {
   "getContent.join": "Rejoindre",
 };
 
-const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
+const getInputErrorMessage: Partial<Record<GetInputErrorMessage, string>> = {
   "getInputErrorMessage.minimum": "L'enchère minimum est de ",
   "getInputErrorMessage.sfl": "SFL",
   "getInputErrorMessage.s": "s",
@@ -2444,7 +2458,7 @@ const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
     "Les enchères ne peuvent pas être modifiées une fois qu'elles ont été placées.",
 };
 
-const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
+const goblin_messages: Partial<Record<GOBLIN_MESSAGES, string>> = {
   "goblinMessages.msg1":
     "Eh toi ! Humain ! Apporte-moi de la nourriture ou sinon...",
   "goblinMessages.msg2":
@@ -2467,7 +2481,7 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
     "Peu m'importe ce que c'est, donne-moi de la nourriture!",
 };
 
-const goldpassModal: Record<GoldPassModal, string> = {
+const goldpassModal: Partial<Record<GoldPassModal, string>> = {
   "goldPass.unlockPower": "Débloquez le pouvoir du Gold Pass",
   "goldPass.craftNFTs": "Fabriquez des NFTs rares",
   "goldPass.trade": "Échangez avec d'autres joueurs",
@@ -2479,14 +2493,14 @@ const goldpassModal: Record<GoldPassModal, string> = {
   "goldPass.priceInMatic": "Le prix est payé en $MATIC équivalent à $",
 };
 
-const goldTooth: Record<GoldTooth, string> = {
+const goldTooth: Partial<Record<GoldTooth, string>> = {
   "goldTooth.intro.part1":
     "Arrr, mes matelots ! La zone de recherche de trésors regorge de richesses et d'aventures, et elle ouvrira bientôt ses portes aux intrépides fermiers!",
   "goldTooth.intro.part2":
     "Soyez prêts à rejoindre mon équipage, car la chasse aux richesses commence sous peu!",
 };
 
-const guideCompost: Record<GuideCompost, string> = {
+const guideCompost: Partial<Record<GuideCompost, string>> = {
   "guide.compost.add.eggs.speed":
     "Ajoutez des œufs pour accélérer la production",
   "guide.compost.add.eggs": "Ajouter des œufs",
@@ -2503,7 +2517,7 @@ const guideCompost: Record<GuideCompost, string> = {
     "Fatigué d'attendre ? Utilisez des œufs pour accélérer la production de compost",
 };
 
-const guideTerms: Record<GuideTerms, string> = {
+const guideTerms: Partial<Record<GuideTerms, string>> = {
   "guide.intro":
     "De vos modestes débuts à la maîtrise de la ferme, ce guide vous couvre!",
   "gathering.guide.one":
@@ -2582,7 +2596,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": "Cuisinez de la nourriture et montez de niveau",
 };
 
-const halveningCountdown: Record<HalveningCountdown, string> = {
+const halveningCountdown: Partial<Record<HalveningCountdown, string>> = {
   "halveningCountdown.approaching": "La Réduction approche!",
   "halveningCountdown.description":
     "À la Réduction, tous les prix des cultures et de certaines ressources sont réduits de moitié. Cela rend plus difficile l'obtention de SFL.",
@@ -2590,19 +2604,19 @@ const halveningCountdown: Record<HalveningCountdown, string> = {
   "halveningCountdown.title": "Réduction",
 };
 
-const harvestBeeHive: Record<HarvestBeeHive, string> = {
+const harvestBeeHive: Partial<Record<HarvestBeeHive, string>> = {
   "harvestBeeHive.notPlaced": "Cette ruche n'est pas placée.",
   "harvestBeeHive.noHoney": "Cette ruche n'a pas de Honey.",
 };
 
-const harvestflower: Record<Harvestflower, string> = {
+const harvestflower: Partial<Record<Harvestflower, string>> = {
   "harvestflower.noFlowerBed": "Le lit de fleurs n'existe pas",
   "harvestflower.noFlower": "Le lit de fleurs n'a pas de fleur",
   "harvestflower.notReady": "La fleur n'est pas prête à être récoltée",
   "harvestflower.alr.plant": "La fleur est déjà plantée",
 };
 
-const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
+const hayseedHankPlaza: Partial<Record<HayseedHankPlaza, string>> = {
   "hayseedHankPlaza.cannotCompleteChore":
     "Impossible de terminer cette corvée?",
   "hayseedHankPlaza.skipChore": "Passer la corvée",
@@ -2611,7 +2625,7 @@ const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
   "hayseedHankPlaza.lendAHand": "Donner un coup de main?",
 };
 
-const hayseedHankV2: Record<HayseedHankV2, string> = {
+const hayseedHankV2: Partial<Record<HayseedHankV2, string>> = {
   "hayseedHankv2.dialog1":
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank, un vieux fermier expérimenté, travaillant la terre comme au bon vieux temps.",
   "hayseedHankv2.dialog2":
@@ -2625,14 +2639,14 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank...",
 };
 
-const heliosSunflower: Record<HeliosSunflower, string> = {
+const heliosSunflower: Partial<Record<HeliosSunflower, string>> = {
   "heliosSunflower.title": "Clytie la Tournesol",
   "heliosSunflower.description":
     "Seul le véritable sauveur peut revenir et récolter cette Tournesol.",
   "confirmation.craft": "Êtes-vous sûr de vouloir fabriquer",
 };
 
-const helper: Record<Helper, string> = {
+const helper: Partial<Record<Helper, string>> = {
   "helper.highScore1":
     "Incroyable ! Vous maîtrisez l'art de la fabrication de potions!",
   "helper.highScore2": "Magnifique ! Vos compétences donnent vie à la plante!",
@@ -2663,7 +2677,7 @@ const helper: Record<Helper, string> = {
     "Uh-oh ! Quelque chose dans votre potion est un échec total auprès de la plante ! Réessayez.",
 };
 
-const henHouseTerms: Record<HenHouseTerms, string> = {
+const henHouseTerms: Partial<Record<HenHouseTerms, string>> = {
   "henHouse.chickens": "Poules",
   "henHouse.text.one": "Nourrissez-les avec du Wheat et collectez des œufs",
   "henHouse.text.two": "Poule paresseuse",
@@ -2675,7 +2689,7 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
     "Construisez une autre Maison de Poules pour élever plus de poules",
 };
 
-const howToFarm: Record<HowToFarm, string> = {
+const howToFarm: Partial<Record<HowToFarm, string>> = {
   "howToFarm.title": "Comment cultiver?",
   "howToFarm.stepOne": "1. Récoltez les cultures lorsqu'elles sont prêtes",
   "howToFarm.stepTwo": "2. Rendez-vous en ville et cliquez sur la boutique",
@@ -2684,7 +2698,7 @@ const howToFarm: Record<HowToFarm, string> = {
   "howToFarm.stepFive": "5. Plantez les graines et attendez",
 };
 
-const howToSync: Record<HowToSync, string> = {
+const howToSync: Partial<Record<HowToSync, string>> = {
   "howToSync.title": "Comment synchroniser?",
   "howToSync.description":
     "Tout votre progrès est enregistré sur notre serveur de jeu. Vous devrez synchroniser sur la chaîne lorsque vous souhaiterez déplacer vos jetons, NFT et ressources sur Polygon.",
@@ -2692,7 +2706,7 @@ const howToSync: Record<HowToSync, string> = {
   "howToSync.stepTwo": "2. Cliquez sur 'Synchroniser sur la chaîne'",
 };
 
-const howToUpgrade: Record<HowToUpgrade, string> = {
+const howToUpgrade: Partial<Record<HowToUpgrade, string>> = {
   "howToUpgrade.title": "Comment améliorer?",
   "howToUpgrade.stepOne": "1. Parlez à un lutin bloquant les champs",
   "howToUpgrade.stepTwo": "2. Visitez la ville et cliquez sur la cuisine",
@@ -2701,7 +2715,7 @@ const howToUpgrade: Record<HowToUpgrade, string> = {
     "4. Voilà ! Profitez de vos nouveaux champs et cultures",
 };
 
-const interactableModals: Record<InteractableModals, string> = {
+const interactableModals: Partial<Record<InteractableModals, string>> = {
   "interactableModals.returnhome.message": "Souhaitez-vous rentrer chez vous?",
   "interactableModals.fatChicken.message":
     "Pourquoi ces Bumpkins ne me laissent-ils pas tranquille ? Je veux juste me détendre.",
@@ -2802,7 +2816,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "Attends là ! Les gobelins sont toujours en train de construire le port. Il sera prêt pour les voyages et la pêche bientôt.",
 };
 
-const introPage: Record<IntroPage, string> = {
+const introPage: Partial<Record<IntroPage, string>> = {
   "introPage.welcome":
     "Bienvenue dans la Salle des Potions, mon apprenti curieux!",
   "introPage.description":
@@ -2816,7 +2830,7 @@ const introPage: Record<IntroPage, string> = {
   "introPage.playButton": "Commençons le jeu",
 };
 
-const islandName: Record<IslandName, string> = {
+const islandName: Partial<Record<IslandName, string>> = {
   "island.home": "Accueil",
   "island.pumpkin.plaza": "Bumpkin Plaza",
   "island.beach": "Plage",
@@ -2825,12 +2839,12 @@ const islandName: Record<IslandName, string> = {
   "island.goblin.retreat": "Retraite des Gobelins",
 };
 
-const islandNotFound: Record<IslandNotFound, string> = {
+const islandNotFound: Partial<Record<IslandNotFound, string>> = {
   "islandNotFound.message": "Vous avez atterri au milieu de nulle part!",
   "islandNotFound.takeMeHome": "Ramène-moi à la maison",
 };
 
-const islandupgrade: Record<Islandupgrade, string> = {
+const islandupgrade: Partial<Record<Islandupgrade, string>> = {
   "islandupgrade.confirmUpgrade":
     "Êtes-vous sûr de vouloir passer à une nouvelle île?",
   "islandupgrade.warning":
@@ -2852,7 +2866,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
     "Cette partie de Sunflower Land est connue pour ses ressources exotiques. Étendez votre île pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares!",
 };
 
-const landscapeTerms: Record<LandscapeTerms, string> = {
+const landscapeTerms: Partial<Record<LandscapeTerms, string>> = {
   "landscape.intro.one": "Concevez votre île de rêve!",
   "landscape.intro.two":
     "En mode de conception, vous pouvez saisir, faire glisser et déplacer des objets.",
@@ -2868,7 +2882,7 @@ const landscapeTerms: Record<LandscapeTerms, string> = {
   "landscape.great.work": "Excellent travail, Bumpkin!",
 };
 
-const letsGo: Record<LetsGo, string> = {
+const letsGo: Partial<Record<LetsGo, string>> = {
   "letsGo.title": "C'est le moment de jouer!",
   "letsGo.description":
     "Merci d'avoir participé à la version bêta ! Nous travaillons toujours sur le jeu et nous vous sommes reconnaissants de votre soutien pendant les premières étapes!",
@@ -2876,7 +2890,7 @@ const letsGo: Record<LetsGo, string> = {
   "letsGo.officialDocs": "documentation officielle",
 };
 
-const levelUpMessages: Record<LevelUpMessages, string> = {
+const levelUpMessages: Partial<Record<LevelUpMessages, string>> = {
   "levelUp.2":
     "Youpi, vous avez atteint le niveau 2 ! Les cultures tremblent dans leurs bottes.",
   "levelUp.3":
@@ -2971,20 +2985,20 @@ const levelUpMessages: Record<LevelUpMessages, string> = {
     "Niveau 60, vous êtes une véritable superstar de l'agriculture!",
 };
 
-const loser: Record<Loser, string> = {
+const loser: Partial<Record<Loser, string>> = {
   "loser.unsuccess": "Vous n'avez pas réussi",
   "loser.longer": "L'enchère n'existe plus",
   "loser.refund.one": "Remboursement",
 };
 
-const lostSunflorian: Record<LostSunflorian, string> = {
+const lostSunflorian: Partial<Record<LostSunflorian, string>> = {
   "lostSunflorian.line1": "Mon père m'a envoyé ici pour régner sur Helios.",
   "lostSunflorian.line2":
     "Malheureusement, ces Bumpkins n'aiment pas que je les observe.",
   "lostSunflorian.line3": "J'ai hâte de retourner à Sunfloria.",
 };
 
-const megaStore: Record<MegaStore, string> = {
+const megaStore: Partial<Record<MegaStore, string>> = {
   "megaStore.message":
     "Bienvenue dans le Mega Store ! Découvrez les articles limités du mois. Si vous aimez quelque chose, assurez-vous de le prendre avant qu'il ne disparaisse dans les méandres du temps.",
   "megaStore.month.sale": "Les soldes du mois en cours",
@@ -2994,7 +3008,7 @@ const megaStore: Record<MegaStore, string> = {
     "Super achat ! Votre nouveau collectible est en sécurité dans votre inventaire.",
 };
 
-const milestoneMessages: Record<MilestoneMessages, string> = {
+const milestoneMessages: Partial<Record<MilestoneMessages, string>> = {
   "milestone.noviceAngler":
     "Félicitations, vous venez d'atteindre le jalon du Pêcheur Novice ! Vous êtes bien parti pour devenir un pro de la pêche en attrapant chaque poisson de base.",
   "milestone.advancedAngler":
@@ -3017,7 +3031,7 @@ const milestoneMessages: Record<MilestoneMessages, string> = {
     "Félicitations, vous venez d'atteindre le jalon du Luminaire du Lys ! Vous avez découvert chaque variante de Lys. Vous êtes un vrai expert en Lys!",
 };
 
-const modalDescription: Record<ModalDescription, string> = {
+const modalDescription: Partial<Record<ModalDescription, string>> = {
   "modalDescription.friend": "Salut l'ami!",
   "modalDescription.love.fruit":
     "Waouh, tu aimes vraiment les fruits autant que moi!",
@@ -3029,14 +3043,14 @@ const modalDescription: Record<ModalDescription, string> = {
     "Je recherche des cueilleurs de fruits dévoués pour tester ces vêtements... GRATUITEMENT!",
 };
 
-const nftminting: Record<NFTMinting, string> = {
+const nftminting: Partial<Record<NFTMinting, string>> = {
   "nftminting.mintAccountNFT": "Création de votre NFT de compte",
   "nftminting.mintingYourNFT":
     "Création de votre NFT et stockage de la progression sur la blockchain",
   "nftminting.almostThere": "Presque terminé",
 };
 
-const noaccount: Record<Noaccount, string> = {
+const noaccount: Partial<Record<Noaccount, string>> = {
   "noaccount.newFarmer": "Nouveau fermier",
   "noaccount.addPromoCode": "Ajouter un code promotionnel?",
   "noaccount.alreadyHaveNFTFarm": "Déjà en possession d'une ferme NFT?",
@@ -3049,7 +3063,7 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.promoCodeLabel": "Code promotionnel",
 };
 
-const noBumpkin: Record<NoBumpkin, string> = {
+const noBumpkin: Partial<Record<NoBumpkin, string>> = {
   "noBumpkin.readyToFarm":
     "Génial, votre Bumpkin est prêt à travailler à la ferme!",
   "noBumpkin.play": "Jouer",
@@ -3080,7 +3094,7 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.nude": "Impossible d'équiper un Bumpkin vide",
 };
 
-const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
+const notOnDiscordServer: Partial<Record<NotOnDiscordServer, string>> = {
   "notOnDiscordServer.intro":
     "Il semblerait que vous n'ayez pas encore rejoint le serveur Discord de Sunflower Land.",
   "notOnDiscordServer.joinDiscord": "Rejoignez notre ",
@@ -3090,14 +3104,14 @@ const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
   "notOnDiscordServer.acceptRules": "3. Acceptez les règles dans #rules",
 };
 
-const noTownCenter: Record<NoTownCenter, string> = {
+const noTownCenter: Partial<Record<NoTownCenter, string>> = {
   "noTownCenter.reward": "Récompense : 1 x Centre-ville!",
   "noTownCenter.news": "Vos dernières nouvelles ou déclarations ici.",
   "noTownCenter.townCenterPlacement":
     "Vous pouvez placer le Centre-ville dans l'inventaire > section des bâtiments",
 };
 
-const npc_message: Record<NPC_MESSAGE, string> = {
+const npc_message: Partial<Record<NPC_MESSAGE, string>> = {
   // Betty
   "npcMessages.betty.msg1":
     "Oh la la, je suis impatiente de mettre la main sur des produits frais!",
@@ -3317,7 +3331,7 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "La sécurité des Bumpkins est ma priorité absolue, et j'ai bien peur que le Kraken soit impliqué. Les tentacules peuvent faire la différence!",
 };
 
-const npc: Record<Npc, string> = {
+const npc: Partial<Record<Npc, string>> = {
   "npc.Modal.Hammer":
     "Rassemblez-vous, Bumpkins, une vente aux enchères va bientôt commencer.",
   "npc.Modal.Marcus":
@@ -3334,7 +3348,7 @@ const npc: Record<Npc, string> = {
   "npc.Modal.Craig.one": "Est-ce qu'il y a quelque chose entre mes dents...",
 };
 
-const npcDialogues: Record<NpcDialogues, string> = {
+const npcDialogues: Partial<Record<NpcDialogues, string>> = {
   // Blacksmith Intro
   "npcDialogues.blacksmith.intro1":
     "Que voulez-vous ? Parlez vite ; le temps, c'est de l'argent.",
@@ -3857,18 +3871,18 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Hello there! I'm Glinteye, the goblin of trade. Explore player trades or list your items. Let's see what we can find together!",
 };
 
-const nyeButton: Record<NyeButton, string> = {
+const nyeButton: Partial<Record<NyeButton, string>> = {
   "plaza.magicButton.query":
     "Un bouton magique est apparu sur la place. Souhaitez-vous appuyer dessus?",
 };
 
-export const NYON_STATUE: Record<NyonStatue, string> = {
+export const NYON_STATUE: Partial<Record<NyonStatue, string>> = {
   "nyonStatue.memory": "En mémoire de",
   "nyonStatue.description":
     "Le chevalier légendaire responsable d'avoir débarrassé les gobelins des mines. Peu de temps après sa victoire, il est décédé empoisonné par un conspirateur gobelin. Les Citoyens du Tournesol ont érigé cette statue avec son armure pour commémorer ses conquêtes.",
 };
 
-const obsessionDialogue: Record<ObsessionDialogue, string> = {
+const obsessionDialogue: Partial<Record<ObsessionDialogue, string>> = {
   "obsessionDialogue.line1.part1": "Ah, le",
   "obsessionDialogue.line1.part2":
     "! Je souhaite seulement le voir, pas le posséder. Montre-le-moi, et",
@@ -3895,7 +3909,7 @@ const obsessionDialogue: Record<ObsessionDialogue, string> = {
   "obsessionDialogue.line5.part3": "te seront accordés.",
 };
 
-const offer: Record<Offer, string> = {
+const offer: Partial<Record<Offer, string>> = {
   "offer.okxOffer": "Salut fermier, j'ai une offre exclusive OKX pour toi!",
   "offer.beginWithNFT": "Pour commencer, tu devras créer un ",
   "offer.getStarterPack": "Obtiens le Pack de Démarrage Maintenant",
@@ -3906,7 +3920,7 @@ const offer: Record<Offer, string> = {
   "offer.not.enough.BlockBucks": "Vous n'avez pas assez de Block Bucks!",
 };
 
-const onboarding: Record<Onboarding, string> = {
+const onboarding: Partial<Record<Onboarding, string>> = {
   "onboarding.welcome": "Bienvenue dans le monde du jeu décentralisé!",
   "onboarding.step.one": "Étape 1/3",
   "onboarding.step.two": "Étape 2/3 (Créer un portefeuille)",
@@ -3939,7 +3953,7 @@ const onboarding: Record<Onboarding, string> = {
   "onboarding.wallet.already": "J'ai déjà un portefeuille",
 };
 
-const onCollectReward: Record<OnCollectReward, string> = {
+const onCollectReward: Partial<Record<OnCollectReward, string>> = {
   "onCollectReward.Missing.Seed": "Graines manquantes",
   "onCollectReward.Market":
     "Rendez-vous sur le Marché pour acheter des graines.",
@@ -3948,7 +3962,7 @@ const onCollectReward: Record<OnCollectReward, string> = {
     "Agrandissez votre île pour la trouver.",
 };
 
-const orderhelp: Record<OrderHelp, string> = {
+const orderhelp: Partial<Record<OrderHelp, string>> = {
   "orderhelp.Skip.hour":
     "Vous ne pouvez sauter une commande qu'après 24 heures!",
   "orderhelp.New.Season":
@@ -3960,7 +3974,7 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.NoRight": "Pas maintenant",
 };
 
-const pageFounds: Record<PageFounds, string> = {
+const pageFounds: Partial<Record<PageFounds, string>> = {
   "pageFounds.title": "Pages Trouvées!",
   "pageFounds.gardeningBookPage":
     "On dirait une page d'un livre de jardinage...",
@@ -3974,25 +3988,25 @@ const pageFounds: Record<PageFounds, string> = {
   pageFounds: "Pages Trouvées",
 };
 
-const pending: Record<Pending, string> = {
+const pending: Partial<Record<Pending, string>> = {
   "pending.calcul": "Les résultats sont en cours de calcul.",
   "pending.comeback": "Revenez plus tard.",
 };
 
-const personHood: Record<PersonHood, string> = {
+const personHood: Partial<Record<PersonHood, string>> = {
   "personHood.Details": "Chargement des détails de l'identité échoué",
   "personHood.Identify": "Votre identité n'a pas pu être vérifiée",
   "personHood.Congrat": "Félicitations, votre identité a été vérifiée!",
 };
 
-const pickserver: Record<Pickserver, string> = {
+const pickserver: Partial<Record<Pickserver, string>> = {
   "pickserver.server": "Choisissez un serveur à rejoindre",
   "pickserver.full": "COMPLET",
   "pickserver.explore": "Explorez les îles de projets personnalisés.",
   "pickserver.built": "Voulez-vous construire votre propre île?",
 };
 
-const piratechest: Record<PirateChest, string> = {
+const piratechest: Partial<Record<PirateChest, string>> = {
   "piratechest.greeting":
     "Ahoy matey! Mettez les voiles et revenez plus tard pour un coffre rempli de récompenses de flibustier!",
   "piratechest.refreshesIn": "Le coffre se rafraîchit dans",
@@ -4000,7 +4014,7 @@ const piratechest: Record<PirateChest, string> = {
     "Ahoy là ! Ce coffre est rempli de trésors dignes d'un roi pirate, mais méfiez-vous, seuls ceux avec une apparence de pirate peuvent l'ouvrir et réclamer le butin à l'intérieur!",
 };
 
-const pirateQuest: Record<PirateQuest, string> = {
+const pirateQuest: Partial<Record<PirateQuest, string>> = {
   "questDescription.farmerQuest1": "Récoltez 1000 Sunflowers",
   "questDescription.fruitQuest1": "Récoltez 10 Myrtilles",
   "questDescription.fruitQuest2": "Récoltez 100 Oranges",
@@ -4015,7 +4029,7 @@ const pirateQuest: Record<PirateQuest, string> = {
     "Ahoy, vous êtes le meilleur pirate des sept mers avec votre butin !!",
 };
 
-const playerTrade: Record<PlayerTrade, string> = {
+const playerTrade: Partial<Record<PlayerTrade, string>> = {
   "playerTrade.no.trade": "Aucun échange disponible.",
   "playerTrade.max.item":
     "Oh non ! Vous avez atteint le nombre maximal d'objets.",
@@ -4029,7 +4043,7 @@ const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.title.congrat": "Félicitations, votre annonce a été achetée",
 };
 
-const plazaSettings: Record<PlazaSettings, string> = {
+const plazaSettings: Partial<Record<PlazaSettings, string>> = {
   "plazaSettings.title.main": "Paramètres de la Place",
   "plazaSettings.title.mutedPlayers": "Joueurs Muettes",
   "plazaSettings.title.keybinds": "Raccourcis",
@@ -4041,23 +4055,24 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.changeServer": "Changer de serveur",
 };
 
-const portal: Record<Portal, string> = {
+const portal: Partial<Record<Portal, string>> = {
   "portal.wrong": "Quelque chose s'est mal passé",
   "portal.unauthorised": "non autorisé",
 };
 
-const promo: Record<Promo, string> = {
+const promo: Partial<Record<Promo, string>> = {
   "promo.cdcBonus": "Bonus Crypto.com!",
   "promo.expandLand": "Étendez votre terrain deux fois pour obtenir 100 SFL.",
 };
 
-const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
-  {
-    "purchaseableBait.fishingLure.description":
-      "Idéal pour attraper des poissons rares!",
-  };
+const purchaseableBaitTranslation: Partial<
+  Record<PurchaseableBaitTranslation, string>
+> = {
+  "purchaseableBait.fishingLure.description":
+    "Idéal pour attraper des poissons rares!",
+};
 
-const pwaInstall: Record<PwaInstall, string> = {
+const pwaInstall: Partial<Record<PwaInstall, string>> = {
   "install.app": ENGLISH_TERMS["install.app"], // "Install App",
   "magic.link": ENGLISH_TERMS["magic.link"], // "Magic Link",
   "generating.link": ENGLISH_TERMS["generating.link"], // "Generating Link",
@@ -4073,18 +4088,18 @@ const pwaInstall: Record<PwaInstall, string> = {
   "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"], // "QR code not working?",
 };
 
-const quest: Record<Quest, string> = {
+const quest: Partial<Record<Quest, string>> = {
   "quest.mint.free": "Mint gratuit pour vêtement",
   "quest.equipWearable": "Équipez ce vêtement sur votre Bumpkin",
   "quest.congrats": "Félicitations, vous avez minté un",
 };
 
-const questions: Record<Questions, string> = {
+const questions: Partial<Record<Questions, string>> = {
   "questions.obtain.MATIC": "Comment puis-je obtenir du MATIC?",
   "questions.lowCash": "En manque de liquidités?",
 };
 
-const reaction: Record<Reaction, string> = {
+const reaction: Partial<Record<Reaction, string>> = {
   "reaction.bumpkin": "Bumpkin de niveau 3",
   "reaction.bumpkin.10": "Bumpkin de niveau 10",
   "reaction.bumpkin.30": "Bumpkin de niveau 30",
@@ -4095,51 +4110,51 @@ const reaction: Record<Reaction, string> = {
   "reaction.crown": "Posséder une Couronne de Gobelin",
 };
 
-const reactionBud: Record<ReactionBud, string> = {
+const reactionBud: Partial<Record<ReactionBud, string>> = {
   "reaction.bud.show": "Montrez vos boutons",
   "reaction.bud.select": "Sélectionnez un bouton à placer sur la place",
   "reaction.bud.noFound": "Aucun bouton trouvé dans votre inventaire",
 };
 
-const refunded: Record<Refunded, string> = {
+const refunded: Partial<Record<Refunded, string>> = {
   "refunded.itemsReturned":
     "Vos objets ont été retournés dans votre inventaire",
   "refunded.goodLuck": "Bonne chance la prochaine fois!",
 };
 
-const removeKuebiko: Record<RemoveKuebiko, string> = {
+const removeKuebiko: Partial<Record<RemoveKuebiko, string>> = {
   "removeKuebiko.title": "Supprimer Kuebiko",
   "removeKuebiko.description":
     "Cette action supprimera toutes vos graines de votre inventaire.",
   "removeKuebiko.removeSeeds": "Supprimer les graines",
 };
 
-const resale: Record<Resale, string> = {
+const resale: Partial<Record<Resale, string>> = {
   "resale.actionText": "Revente",
 };
 
-const resources: Record<Resources, string> = {
+const resources: Partial<Record<Resources, string>> = {
   "resources.recoversIn": "Récupère dans :",
   "resources.required": "requis.",
   "resources.boulder.rareMineFound": "Vous avez trouvé une mine rare!",
   "resources.boulder.advancedMining": "Exploitation minière avancée en cours.",
 };
 
-const resourceTerms: Record<ResourceTerms, string> = {
+const resourceTerms: Partial<Record<ResourceTerms, string>> = {
   "chicken.description": "Utilisé pour pondre des œufs",
   "magicMushroom.description": "Utilisé pour cuisiner des recettes avancées",
   "wildMushroom.description": "Utilisé pour cuisiner des recettes de base",
   "honey.description": "Utilisé pour sucrer vos plats",
 };
 
-const restock: Record<Restock, string> = {
+const restock: Partial<Record<Restock, string>> = {
   "restock.one.buck":
     "Vous allez utiliser 1 Block Buck pour recharger tous les articles du magasin dans le jeu",
   "restock.sure": "Êtes-vous sûr de vouloir recharger ?",
   "restock.seed.buy": "Vous avez trop de graines dans votre panier!",
 };
 
-const retreatTerms: Record<RetreatTerms, string> = {
+const retreatTerms: Partial<Record<RetreatTerms, string>> = {
   "retreatTerms.lookingForRareItems": "À la recherche d'objets rares?",
   "retreatTerms.resale.one":
     "Les joueurs peuvent échanger des objets spéciaux qu'ils ont fabriqués en jeu.",
@@ -4148,7 +4163,7 @@ const retreatTerms: Record<RetreatTerms, string> = {
   "retreatTerms.resale.three": "Voir les objets sur OpenSea",
 };
 
-const rewardTerms: Record<RewardTerms, string> = {
+const rewardTerms: Partial<Record<RewardTerms, string>> = {
   "reward.daily.reward": "Récompense quotidienne",
   "reward.streak": " jour de série",
   "reward.comeBackLater": "Revenez plus tard pour plus de récompenses",
@@ -4168,7 +4183,7 @@ const rewardTerms: Record<RewardTerms, string> = {
     "Connectez un portefeuille Web3 pour une récompense quotidienne.",
 };
 
-const rulesGameStart: Record<RulesGameStart, string> = {
+const rulesGameStart: Partial<Record<RulesGameStart, string>> = {
   "rules.gameStart":
     "Au début du jeu, la plante choisira au hasard une combinaison de 4 potions et 1 potion 'chaos'. La combinaison peut être complètement différente ou complètement identique.",
   "rules.chaosPotionRule":
@@ -4190,7 +4205,7 @@ const rulesGameStart: Record<RulesGameStart, string> = {
     "Créez un paradis biologique luxuriant pour vos plantes.",
 };
 
-const rulesTerms: Record<RulesTerms, string> = {
+const rulesTerms: Partial<Record<RulesTerms, string>> = {
   "game.rules": "Règles du jeu",
   "rules.oneAccountPerPlayer": "1 compte par joueur",
   "rules.gameNotFinancialProduct":
@@ -4199,11 +4214,11 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.termsOfService": "Conditions d'utilisation",
 };
 
-const sceneDialogueKey: Record<SceneDialogueKey, string> = {
+const sceneDialogueKey: Partial<Record<SceneDialogueKey, string>> = {
   "sceneDialogues.chefIsBusy": "Le chef est occupé",
 };
 
-const seasonTerms: Record<SeasonTerms, string> = {
+const seasonTerms: Partial<Record<SeasonTerms, string>> = {
   "season.access": "Vous avez accès à",
   "season.banner": "Bannière saisonnière",
   "season.bonusTickets": "Billets saisonniers bonus",
@@ -4218,7 +4233,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.place.land": "Vous devez le placer sur votre terrain",
 };
 
-const settingsMenu: Record<SettingsMenu, string> = {
+const settingsMenu: Partial<Record<SettingsMenu, string>> = {
   "settingsMenu.timeMachine": "Machine à remonter le temps",
   "settingsMenu.storeOnChain": "Stockage sur la chaîne",
   "settingsMenu.howToPlay": "Comment jouer?",
@@ -4227,7 +4242,7 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.confirmLogout": "Êtes-vous sûr de vouloir vous déconnecter?",
 };
 
-const share: Record<Share, string> = {
+const share: Partial<Record<Share, string>> = {
   "share.TweetText": "Visitez ma ferme de Sunflower Land",
   "share.ShareYourFarmLink": "Partagez le lien de votre ferme",
   "share.ShowOffToFarmers":
@@ -4241,12 +4256,12 @@ const share: Record<Share, string> = {
   "share.buildYourOwnIsland": "Voulez-vous construire votre propre île?",
 };
 
-const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
+const sharkBumpkinDialogues: Partial<Record<SharkBumpkinDialogues, string>> = {
   "sharkBumpkin.dialogue.shhhh": "Chut!",
   "sharkBumpkin.dialogue.scareGoblins": "J'essaie d'effrayer les Gobelins.",
 };
 
-const shelly: Record<Shelly, string> = {
+const shelly: Partial<Record<Shelly, string>> = {
   "shelly.Dialogue.one": "Salut, Bumpkin ! Bienvenue à la plage!",
   "shelly.Dialogue.two":
     "Après une journée de dur labeur dans ta ferme, il n'y a pas de meilleur endroit pour se détendre et profiter des vagues.",
@@ -4259,7 +4274,7 @@ const shelly: Record<Shelly, string> = {
   "shelly.Dialogue.letsgo": "Allons-y!",
 };
 
-const shellyDialogue: Record<ShellyDialogue, string> = {
+const shellyDialogue: Partial<Record<ShellyDialogue, string>> = {
   "shellyPanelContent.tasksFrozen":
     "J'attends le début de la nouvelle saison. Reviens me voir à ce moment-là!",
   "shellyPanelContent.canTrade":
@@ -4279,7 +4294,7 @@ const shellyDialogue: Record<ShellyDialogue, string> = {
     "Rends-toi à ton lieu de pêche et essaie d'attraper la bête!",
 };
 
-const shopItems: Record<ShopItems, string> = {
+const shopItems: Partial<Record<ShopItems, string>> = {
   "betty.post.sale.one": "Eh bien, bienvenue de retour.",
   "betty.post.sale.two":
     "Tu as aidé à résoudre la pénurie de récoltes et les prix sont revenus à la normale.",
@@ -4290,24 +4305,24 @@ const shopItems: Record<ShopItems, string> = {
   "betty.sellCrops": "Vendre des récoltes",
 };
 
-const showingFarm: Record<ShowingFarm, string> = {
+const showingFarm: Partial<Record<ShowingFarm, string>> = {
   "showing.farm": "Affichage sur la ferme",
   "showing.wallet": "Dans le portefeuille",
 };
 
-const snorklerDialogues: Record<SnorklerDialogues, string> = {
+const snorklerDialogues: Partial<Record<SnorklerDialogues, string>> = {
   "snorkler.vastOcean": "C'est un vaste océan!",
   "snorkler.goldBeneath":
     "Il doit y avoir de l'or quelque part sous la surface.",
 };
 
-const somethingWentWrong: Record<SomethingWentWrong, string> = {
+const somethingWentWrong: Partial<Record<SomethingWentWrong, string>> = {
   "somethingWentWrong.supportTeam": "équipe de support",
   "somethingWentWrong.jumpingOver": "ou en sautant sur notre",
   "somethingWentWrong.askingCommunity": "et en demandant à notre communauté.",
 };
 
-const specialEvent: Record<SpecialEvent, string> = {
+const specialEvent: Partial<Record<SpecialEvent, string>> = {
   "special.event.link": "Lien Airdrop",
   "special.event.claimForm":
     "Veuillez remplir le formulaire ci-dessous pour réclamer votre airdrop.",
@@ -4324,7 +4339,7 @@ const specialEvent: Record<SpecialEvent, string> = {
     "Il n'y a aucun travail à faire pour le moment, merci d'être passé !",
 };
 
-const statements: Record<Statements, string> = {
+const statements: Partial<Record<Statements, string>> = {
   "statements.adventure": "Commencez votre aventure!",
   "statements.auctioneer.one":
     "J'ai voyagé loin et large à travers Sunflower Land à la recherche de trésors exotiques à ramener à mes compagnons Bumpkins.",
@@ -4448,7 +4463,7 @@ const statements: Record<Statements, string> = {
     "Il semble que votre session ait expiré. Veuillez actualiser la page pour continuer à jouer.",
 };
 
-const stopGoblin: Record<StopGoblin, string> = {
+const stopGoblin: Partial<Record<StopGoblin, string>> = {
   "stopGoblin.stop.goblin": "Arrêtez les Gobelins!",
   "stopGoblin.stop.moon": "Arrêtez les Chercheurs de Lune!",
   "stopGoblin.tap.one":
@@ -4458,7 +4473,7 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.left": "Tentatives restantes",
 };
 
-const subSettings: Record<SubSettings, string> = {
+const subSettings: Partial<Record<SubSettings, string>> = {
   "subSettings.disableAnimations": "Désactiver les animations",
   "subSettings.enableAnimations": "Activer les animations",
   "subSettings.logout": "Déconnexion",
@@ -4467,14 +4482,14 @@ const subSettings: Record<SubSettings, string> = {
     "Actualisez votre session pour obtenir les dernières modifications de la Blockchain. Cela est utile si vous avez déposé des objets sur votre ferme.",
 };
 
-const swarming: Record<Swarming, string> = {
+const swarming: Partial<Record<Swarming, string>> = {
   "swarming.tooLongToFarm":
     "Faites attention, vous avez mis trop de temps pour cultiver vos cultures!",
   "swarming.goblinsTakenOver":
     "Les Gobelins ont envahi votre ferme. Vous devez attendre qu'ils partent.",
 };
 
-const tieBreaker: Record<TieBreaker, string> = {
+const tieBreaker: Partial<Record<TieBreaker, string>> = {
   "tieBreaker.tiebreaker": "Tiebreaker",
   "tieBreaker.closeBid":
     "Si près ! Vous avez mis exactement les mêmes ressources que l'offre de {{supply}}. Le tie-breaker est choisi en fonction du Bumpkin qui a le plus d'expérience. Malheureusement, vous avez perdu.",
@@ -4483,7 +4498,7 @@ const tieBreaker: Record<TieBreaker, string> = {
   "tieBreaker.refund": "Remboursement de ressources",
 };
 
-const toolDescriptions: Record<ToolDescriptions, string> = {
+const toolDescriptions: Partial<Record<ToolDescriptions, string>> = {
   // Outils
   "description.axe": "Utilisé pour collecter du Wood",
   "description.pickaxe": "Utilisé pour collecter de la pierre",
@@ -4500,7 +4515,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
     "Creusez profondément pour trouver des trésors peu communs ou rares",
 };
 
-const trader: Record<Trader, string> = {
+const trader: Partial<Record<Trader, string>> = {
   "trader.you.pay": "Vous payez",
   "trader.price.per.unit": "Prix par unité",
   "trader.goblin.fee": "Frais de gobelin",
@@ -4514,7 +4529,7 @@ const trader: Record<Trader, string> = {
   "trader.start.verification": "Démarrer la vérification",
 };
 
-const transactionTerms: Record<TransactionTerms, string> = {
+const transactionTerms: Partial<Record<TransactionTerms, string>> = {
   "transaction.t&c.one":
     "Acceptez les termes et conditions pour vous connecter à Sunflower Land.",
   "transaction.t&c.two": "Accepter les termes et conditions",
@@ -4573,7 +4588,7 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.buy.BlockBucks": "Acheter des Block Bucks",
 };
 
-const transfer: Record<Transfer, string> = {
+const transfer: Partial<Record<Transfer, string>> = {
   "transfer.sure.adress":
     "Veuillez vous assurer que l'adresse que vous avez fournie appartient à la Blockchain Polygon, qu'elle est correcte et qu'elle vous appartient. Il n'y a aucune récupération possible en cas d'adresse incorrecte.",
   "transfer.Account": "Votre compte #",
@@ -4584,7 +4599,7 @@ const transfer: Record<Transfer, string> = {
   "transfer.address": "Adresse du portefeuille",
 };
 
-const treasureModal: Record<TreasureModal, string> = {
+const treasureModal: Partial<Record<TreasureModal, string>> = {
   "treasureModal.noShovelTitle": "Pas de pelle à sable!",
   "treasureModal.needShovel":
     "Vous devez avoir une pelle à sable équipée pour pouvoir creuser à la recherche de trésors!",
@@ -4599,7 +4614,7 @@ const treasureModal: Record<TreasureModal, string> = {
   "treasureModal.drilling": "Forage en cours",
 };
 
-const tutorialPage: Record<TutorialPage, string> = {
+const tutorialPage: Partial<Record<TutorialPage, string>> = {
   "tutorial.pageOne.text1":
     "Ce menu vous montrera les niveaux requis pour débloquer de nouveaux bâtiments.",
   "tutorial.pageOne.text2":
@@ -4610,16 +4625,16 @@ const tutorialPage: Record<TutorialPage, string> = {
     "Commençons par augmenter le niveau de notre Bumpkin pour obtenir l'établi et en apprendre davantage sur les outils.",
 };
 
-const visitislandEnter: Record<VisitislandEnter, string> = {
+const visitislandEnter: Partial<Record<VisitislandEnter, string>> = {
   "visitIsland.enterIslandId": "Entrez l'ID de l'île",
   "visitIsland.visit": "Visiter",
 };
 
-const visitislandNotFound: Record<VisitislandNotFound, string> = {
+const visitislandNotFound: Partial<Record<VisitislandNotFound, string>> = {
   "visitislandNotFound.title": "Île non trouvée!",
 };
 
-const wallet: Record<Wallet, string> = {
+const wallet: Partial<Record<Wallet, string>> = {
   "wallet.connect": "Connectez votre portefeuille",
   "wallet.linkWeb3": "Lier un portefeuille Web3",
   "wallet.setupWeb3":
@@ -4642,7 +4657,7 @@ const wallet: Record<Wallet, string> = {
     "Signez la demande dans votre portefeuille pour continuer",
 };
 
-const warningTerms: Record<WarningTerms, string> = {
+const warningTerms: Partial<Record<WarningTerms, string>> = {
   "warning.noAxe": "Aucune hache sélectionnée!",
   "warning.chat.maxCharacters": "Max de caractères",
   "warning.chat.noSpecialCharacters": "Pas de caractères spéciaux",
@@ -4657,7 +4672,7 @@ const warningTerms: Record<WarningTerms, string> = {
     "Avant de voyager, vous devez augmenter de niveau.",
 };
 
-const welcomeTerms: Record<WelcomeTerms, string> = {
+const welcomeTerms: Partial<Record<WelcomeTerms, string>> = {
   "welcome.createAccount": "Créer un compte",
   "welcome.creatingAccount": "Création de votre compte",
   "welcome.email": "Email et connexion sociale",
@@ -4672,13 +4687,13 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.promo": "Ajouter un code promo",
 };
 
-const winner: Record<Winner, string> = {
+const winner: Partial<Record<Winner, string>> = {
   "winner.mintTime":
     "Vous avez 24 heures pour mettre en circulation votre récompense.",
   "winner.mintTime.one": "Aucun objet disponible à fabriquer!",
 };
 
-const wishingWellTerms: Record<WishingWell, string> = {
+const wishingWellTerms: Partial<Record<WishingWell, string>> = {
   "wishingWell.makeWish":
     "Exaucez un nouveau vœu et voyez à quel point vous êtes chanceux!",
   "wishingWell.newWish":
@@ -4712,7 +4727,7 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.luck": "Voyons à quel point vous êtes chanceux!",
 };
 
-const withdraw: Record<Withdraw, string> = {
+const withdraw: Partial<Record<Withdraw, string>> = {
   "withdraw.proof":
     "La preuve d'humanité est nécessaire pour cette fonctionnalité. Veuillez prendre rapidement un selfie.",
   "withdraw.verification": "Démarrer la vérification",
@@ -4738,7 +4753,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.buds": "Sélectionnez des Buds à retirer",
 };
 
-const world: Record<World, string> = {
+const world: Partial<Record<World, string>> = {
   "world.intro.one":
     "Salut Bumpkin, bienvenue au Pumpkin Plaza. Ici, des Bumpkins du monde entier se réunissent pour échanger, effectuer des livraisons et jouer à des mini-jeux.",
   "world.intro.two":
@@ -4764,13 +4779,13 @@ const world: Record<World, string> = {
     "Aucun harcèlement, injure ou intimidation. Merci de respecter les autres.",
 };
 
-const wornDescription: Record<WornDescription, string> = {
+const wornDescription: Partial<Record<WornDescription, string>> = {
   "worm.earthworm": "Un ver qui attire les petits poissons.",
   "worm.grub": "Un ver juteux - parfait pour les poissons avancés.",
   "worm.redWiggler": "Un ver exotique qui attire les poissons rares.",
 };
 
-const trading: Record<Trading, string> = {
+const trading: Partial<Record<Trading, string>> = {
   "trading.select.resources":
     "Sélectionnez des ressources pour afficher les listes",
   "trading.no.listings": "Aucune annonce trouvée",
@@ -4783,7 +4798,7 @@ const trading: Record<Trading, string> = {
   "trading.burned": "est brûlé.",
 };
 
-export const FRENCH_TERMS: Record<TranslationKeys, string> = {
+export const FRENCH_TERMS: PartialTranslationResource = {
   ...achievementTerms,
   ...addSFL,
   ...auction,

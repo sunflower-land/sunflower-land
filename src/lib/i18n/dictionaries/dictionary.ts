@@ -6,10 +6,13 @@ import { TranslationKeys } from "./types";
 export type LanguageCode = "en" | "fr" | "pt";
 
 export type TranslationResource = Record<TranslationKeys, string>;
+export type PartialTranslationResource = Partial<
+  Record<TranslationKeys, string>
+>;
 
 export const resources: Record<
   LanguageCode,
-  { translation: TranslationResource }
+  { translation: PartialTranslationResource }
 > = {
   en: {
     translation: ENGLISH_TERMS,
