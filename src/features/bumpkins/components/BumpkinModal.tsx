@@ -163,7 +163,7 @@ export const BumpkinModal: React.FC<Props> = ({
     >
       <div
         style={{
-          maxHeight: "calc(100vh - 100px)",
+          maxHeight: "calc(100vh - 200px)",
           overflowY: "auto",
         }}
         className="scrollable"
