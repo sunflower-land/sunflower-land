@@ -56,25 +56,6 @@ export const sellingMachine = createMachine<
           },
         },
       },
-      confirming: {
-        on: {
-          BACK: {
-            target: "drafting",
-            // store current draft
-            actions: assign<Context, any>((context) => ({
-              draftingSlotId: context.draftingSlotId,
-              draft: context.draft,
-            })),
-          },
-          CONFIRM: {
-            actions: sendParent((context) => ({
-              type: "LIST",
-              slotId: context.draftingSlotId,
-              draft: context.draft,
-            })),
-          },
-        },
-      },
       cancelling: {
         on: {
           BACK: { target: "idle" },
