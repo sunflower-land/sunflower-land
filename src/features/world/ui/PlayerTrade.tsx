@@ -18,7 +18,6 @@ import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   farmId: number;
@@ -141,21 +140,12 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
 
     setShowConfirmId(listingId);
   };
-
-  const hasAccess = hasFeatureAccess(gameState.context.state, "TRADING_REVAMP");
   const onConfirm = async (listingId: string) => {
-    if (hasAccess) {
-      gameService.send("FULFILL_TRADE_LISTING", {
-        sellerId: farmId,
-        listingId: listingId,
-        listingType: makeListingType(listings[listingId].items),
-      });
-    } else {
-      gameService.send("TRADE", {
-        sellerId: farmId,
-        tradeId: listingId,
-      });
-    }
+    gameService.send("FULFILL_TRADE_LISTING", {
+      sellerId: farmId,
+      listingId: listingId,
+      listingType: makeListingType(listings[listingId].items),
+    });
 
     onClose();
   };
@@ -197,17 +187,6 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
     );
   };
 
-  const isBetaSeller = getKeys(listings).some((listingId) => {
-    return listingId.length === 27;
-  });
-
-  const text =
-    "Hi, I'm a beta tester and am testing the new trading system, ask me what I think about it!";
-
-  if (!hasAccess && isBetaSeller) {
-    return <div className="p-1 text-sm">{text}</div>;
-  }
-
   return (
     <div>
       <div className="flex justify-between items-center mb-1">
@@ -218,6 +197,16 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         <Label type="info">{t("beta")}</Label>
       </div>
       {getKeys(listings).map((listingId, index) => {
+        if (listingId.length < 38)
+          return (
+            <div className="p-2">
+              <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
+              <p className="text-sm mb-2 text-center">
+                {t("playerTrade.no.trade")}
+              </p>
+            </div>
+          );
+
         return (
           <OuterPanel className="mb-2" key={index}>
             <div className="flex justify-between">
@@ -238,15 +227,6 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                   <p className="text-xs">{`${listings[listingId].sfl} SFL`}</p>
                   <img src={token} className="h-6 ml-1" />
                 </div>
-                {!hasAccess && (
-                  <div className="flex items-center mt-1  justify-end mr-0.5">
-                    <p className="text-xs">{`1 x`}</p>
-                    <img
-                      src={ITEM_DETAILS["Block Buck"].image}
-                      className="h-6 ml-1"
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </OuterPanel>

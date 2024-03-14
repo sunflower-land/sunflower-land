@@ -159,7 +159,6 @@ import {
 } from "./landExpansion/completeBertObsession";
 import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
 import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
-import { listTrade, ListTradeAction } from "./landExpansion/listTrade";
 import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
 import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
 import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
@@ -320,7 +319,6 @@ export type PlayingEvent =
   | CompleteBertObsessionAction
   | StartPotionAction
   | ReceiveTradeAction
-  | ListTradeAction
   | CancelTradeAction
   | StartComposterAction
   | collectCompostAction
@@ -464,7 +462,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "bertObsession.completed": completeBertObsession,
   "potion.started": startPotion,
   "trade.cancelled": cancelTrade,
-  "trade.listed": listTrade,
   "trade.received": receiveTrade,
   "composter.started": startComposter,
   "compost.collected": collectCompost,
