@@ -1,3 +1,4 @@
+import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -166,9 +167,11 @@ import {
   MilestoneMessages,
   Event,
   Promo,
+  PwaInstall,
   Trader,
   NyonStatue,
   Trading,
+  TimeUnits,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -225,7 +228,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   collect: "Collecter",
   collectibles: "Objets de collection",
   collection: "Collection",
-  "come.back": "Reviens dans",
   "coming.soon": "Bientôt disponible",
   common: "Commun",
   completed: "Terminé",
@@ -239,6 +241,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   cook: "Cuisiner",
   copied: "Copié",
   "copy.address": "Copier l'adresse",
+  "copy.failed": "Copy Failed!",
+  "copy.link": "Copy Link",
   coupons: "Coupons",
   craft: "Fabriquer",
   crafting: "Fabrication",
@@ -470,7 +474,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   yes: "Oui",
   "yes.please": "Oui, s'il vous plaît",
   "you.are.here": "Vous êtes ici",
+};
 
+const timeUnits: Record<TimeUnits, string> = {
   // Time
   sec: "sec",
   min: "min",
@@ -1071,9 +1077,19 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "Vous n'avez aucune annonce en cours.",
   "bumpkinTrade.sell":
     "Vendez vos ressources à d'autres joueurs contre des SFL.",
-  "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce",
+  "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
   "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
+  "bumpkinTrade.available": ENGLISH_TERMS["bumpkinTrade.available"],
+  "bumpkinTrade.quantity": ENGLISH_TERMS["bumpkinTrade.quantity"],
+  "bumpkinTrade.price": ENGLISH_TERMS["bumpkinTrade.price"],
+  "bumpkinTrade.listingPrice": ENGLISH_TERMS["bumpkinTrade.listingPrice"],
+  "bumpkinTrade.pricePerUnit": ENGLISH_TERMS["bumpkinTrade.pricePerUnit"],
+  "bumpkinTrade.tradingFee": ENGLISH_TERMS["bumpkinTrade.tradingFee"],
+  "bumpkinTrade.youWillReceive": ENGLISH_TERMS["bumpkinTrade.youWillReceive"],
+  "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
+  "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
+  "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -4037,6 +4053,20 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
       "Idéal pour attraper des poissons rares!",
   };
 
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.mobile.description.one": "Install Sunflower Land on your device",
+  "install.app.mobile.description.two": "on your device.",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device.",
+  "install.app.mobile.metamask.description.one":
+    "Copy the magic link below and open it in",
+  "install.app.mobile.metamask.description.two": "on your device to install!",
+};
+
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint gratuit pour vêtement",
   "quest.equipWearable": "Équipez ce vêtement sur votre Bumpkin",
@@ -4374,8 +4404,6 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.worthwell": "valeur des récompenses dans le puits!",
   "statements.wishing.well.look.like": "On dirait que vous n'êtes pas",
   "statements.wishing.well.lucky": "Voyons à quel point vous êtes chanceux!",
-  "statements.wishing.just.lucky":
-    "pour voir à quel point vous avez été chanceux.",
   "statements.wrongChain.one": "Consultez ce guide pour vous connecter.",
   "statements.feed.bumpkin.one":
     "Vous n'avez pas de nourriture dans votre inventaire.",
@@ -4885,6 +4913,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,
+  ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
   ...settingsMenu,
@@ -4902,6 +4931,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...subSettings,
   ...swarming,
   ...tieBreaker,
+  ...timeUnits,
   ...toolDescriptions,
   ...trader,
   ...transactionTerms,

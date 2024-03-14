@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -12,7 +12,6 @@ import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
-import { TRADE_LIMITS } from "features/game/events/landExpansion/listTrade";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -25,23 +24,47 @@ import { Context as AuthContext } from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
+import { Loading } from "features/auth/components";
 
-interface Props {
-  onClose: () => void;
-}
+export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
+  Sunflower: 1000,
+  Potato: 1000,
+  Pumpkin: 1000,
+  Carrot: 1000,
+  Cabbage: 1000,
+  Beetroot: 500,
+  Cauliflower: 500,
+  Parsnip: 200,
+  Eggplant: 200,
+  Corn: 200,
+  Radish: 200,
+  Wheat: 200,
+  Kale: 200,
+  Blueberry: 100,
+  Orange: 100,
+  Apple: 100,
+  Banana: 100,
+  Wood: 100,
+  Stone: 100,
+  Iron: 100,
+  Gold: 50,
+  Egg: 100,
+};
 
-export const BuyPanel: React.FC<Props> = ({ onClose }) => {
+export const BuyPanel: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
   const [view, setView] = useState<"search" | "list">("search");
-  const [search, setSearch] = useState<Partial<InventoryItemName>>("Sunflower");
+  const selected = useRef<InventoryItemName>();
   const [listings, setListings] = useState<Listing[]>([]);
+  const [selectedListing, setSelectedListing] = useState<Listing>();
   const [isSearching, setIsSearching] = useState(false);
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
-  const [showConfirmId, setShowConfirmId] = useState("");
+
+  const [loading, setLoading] = useState(false);
   const [
     {
       context: { state, transaction, farmId },
@@ -52,52 +75,69 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   const searchView = () => {
     return (
       <div className="p-2">
-        <p className="text-xs mt-2">{t("trading.select.resources")}</p>
+        <Label type="default" icon={SUNNYSIDE.icons.basket}>
+          {t("trading.select.resources")}
+        </Label>
 
         <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
-            <Box
-              image={ITEM_DETAILS[name].image}
-              onClick={() => setSearch(name)}
+            <div
               key={name}
-              isSelected={search === name}
-            />
+              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+            >
+              <OuterPanel
+                className="w-full flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                onClick={() => {
+                  onSearch(name);
+                }}
+              >
+                <span className="text-xs mb-1">{name}</span>
+                <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
+              </OuterPanel>
+            </div>
+            // <Box
+            //   image={ITEM_DETAILS[name].image}
+            //   onClick={() => setSearch(name)}
+            //   key={name}
+            //   isSelected={search === name}
+            // />
           ))}
         </div>
-
-        <Button
-          disabled={search.length === 0}
-          onClick={() => {
-            onSearch(search);
-          }}
-        >
-          {t("search")}
-        </Button>
       </div>
     );
   };
 
   const onBack = () => {
     setView("search");
-    setSearch("Sunflower");
   };
 
   const listView = (listings: Listing[]) => {
     if (listings.length === 0) {
       return (
-        <div className="p-2">
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="absolute self-start cursor-pointer"
-            style={{
-              top: `${PIXEL_SCALE * 2}px`,
-              left: `${PIXEL_SCALE * 2}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-            alt="back"
-            onClick={() => onBack()}
-          />
-          <p className="mt-8">{t("trading.no.listings")}</p>
+        <div>
+          <div className="flex items-center">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="self-start cursor-pointer mr-3"
+              style={{
+                top: `${PIXEL_SCALE * 2}px`,
+                left: `${PIXEL_SCALE * 2}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+              alt="back"
+              onClick={() => onBack()}
+            />
+            <Label
+              type="default"
+              icon={ITEM_DETAILS[selected.current as InventoryItemName].image}
+            >
+              {selected.current}
+            </Label>
+          </div>
+          <div className="flex flex-col items-center justify-center py-4">
+            <img src={SUNNYSIDE.icons.search} className="w-1/5 mx-auto my-2" />
+            <p className="text-sm">{t("trading.no.listings")}</p>
+          </div>
         </div>
       );
     }
@@ -128,7 +168,7 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         return;
       }
 
-      setShowConfirmId(listing.id);
+      setSelectedListing(listing);
     };
 
     const onConfirm = async (listing: Listing) => {
@@ -137,21 +177,21 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
         listingId: listing.id,
         listingType: makeListingType(listing.items),
       });
-      onClose();
+      setLoading(true);
     };
 
     const Action = (listing: Listing) => {
       if (listing.farmId == farmId) {
         return (
           <div className="flex items-center mt-1  justify-end mr-0.5">
-            <Label icon={token} type="info" className="mb-4">
+            <Label type="danger" className="mb-4">
               {t("trading.your.listing")}
             </Label>
           </div>
         );
       }
 
-      if (showConfirmId == listing.id) {
+      if (selectedListing?.id == listing.id) {
         return (
           <Button onClick={() => onConfirm(listing)}>
             <div className="flex items-center">
@@ -203,31 +243,102 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
       );
     }
 
+    if (loading) {
+      if (gameService.state.matches("fulfillTradeListing")) {
+        return <Loading text="Trading" />;
+      }
+
+      if (selectedListing) {
+        const listingItem = selectedListing.items[
+          getKeys(selectedListing.items)[0]
+        ] as number;
+        const unitPrice = (selectedListing.sfl / listingItem).toFixed(4);
+
+        return (
+          <>
+            <div className="p-2">
+              <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
+              <p className="text-sm mb-2 text-center">
+                {t("trading.listing.fulfilled")}
+              </p>
+              <OuterPanel className="mb-2">
+                <div className="flex justify-between">
+                  <div>
+                    <div className="flex flex-wrap w-52">
+                      {getKeys(selectedListing.items).map((item, index) => (
+                        <Box
+                          image={ITEM_DETAILS[item].image}
+                          count={new Decimal(selectedListing.items[item] ?? 0)}
+                          disabled
+                          key={`items-${index}`}
+                        />
+                      ))}
+                      <div className="ml-1">
+                        <div className="flex justfy-end items-center mb-1">
+                          <img src={token} className="h-6 mr-1" />
+                          <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
+                        </div>
+                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="">
+                    <div className="flex items-center mt-1  justify-end mr-0.5">
+                      <Label type="success" className="mb-4">
+                        {t("purchased")}
+                      </Label>
+                    </div>
+                  </div>
+                </div>
+              </OuterPanel>
+            </div>
+            <Button
+              onClick={() => {
+                setLoading(false);
+                setView("search");
+              }}
+            >
+              {t("continue")}
+            </Button>
+          </>
+        );
+      }
+    }
+
     return (
       <div>
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="absolute self-start cursor-pointer"
-          style={{
-            top: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 6}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-          alt="back"
-          onClick={() => onBack()}
-        />
-        <div className="mt-10">
+        <div className="flex items-center">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="self-start cursor-pointer mr-3"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+            alt="back"
+            onClick={() => onBack()}
+          />
+          <Label
+            type="default"
+            icon={ITEM_DETAILS[selected.current as InventoryItemName].image}
+          >
+            {selected.current}
+          </Label>
+        </div>
+        <div className="mt-1">
           {listings.map((listing, index) => {
             // only one resource listing
             const listingItem = listing.items[
               getKeys(listing.items)[0]
             ] as number;
-            const unitPrice = (listing.sfl / listingItem).toFixed(2);
+            const unitPrice = (listing.sfl / listingItem).toFixed(4);
             return (
               <OuterPanel className="mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
-                  <div>
-                    <div className="flex flex-wrap w-52">
+                  <div className="justify-start">
+                    <div className="flex flex-wrap w-52 items-center">
                       {getKeys(listing.items).map((item) => (
                         <Box
                           image={ITEM_DETAILS[item].image}
@@ -236,18 +347,17 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
                           key={`items-${index}`}
                         />
                       ))}
-                    </div>
-                    <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
-                  </div>
-
-                  <div className="w-40">
-                    {Action(listing)}
-
-                    <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <p className="text-xs">{`${listing.sfl} SFL`}</p>
-                      <img src={token} className="h-6 ml-1" />
+                      <div className="ml-1">
+                        <div className="flex justfy-end items-center mb-1">
+                          <img src={token} className="h-6 mr-1" />
+                          <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        </div>
+                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                      </div>
                     </div>
                   </div>
+
+                  <div>{Action(listing)}</div>
                 </div>
               </OuterPanel>
             );
@@ -258,6 +368,8 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   };
 
   const onSearch = async (resource: Partial<InventoryItemName>) => {
+    selected.current = resource;
+
     setIsSearching(true);
     const listings = await getTradeListings(
       resource.toLowerCase(),
@@ -285,11 +397,11 @@ export const BuyPanel: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <div className="h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+    <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
       <div className="flex items-start justify-between mb-2">
         {isSearching && <p className="loading">{t("searching")}</p>}
         {!isSearching && (
-          <div className="relative w-full mr-4">
+          <div className="relative w-full">
             {view === "search" && searchView()}
             {view === "list" && listView(listings)}
           </div>

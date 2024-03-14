@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { Cake, getKeys } from "./craftables";
+import { Cake } from "./craftables";
 import { Inventory } from "./game";
 import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
@@ -762,7 +762,7 @@ export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
   },
 };
 
-const FISH: Record<FishName, Consumable> = {
+export const FISH: Record<FishName, Consumable> = {
   Anchovy: {
     name: "Anchovy",
     description: translate("description.anchovy.two"),
@@ -917,8 +917,8 @@ const FISH: Record<FishName, Consumable> = {
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
-  ...FISH,
   ...PIRATE_CAKE,
+  ...FISH,
 };
 
 export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
@@ -927,9 +927,7 @@ export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
     ...FISH,
   };
 
-const Juices = getKeys(COOKABLES).filter(
-  (name) => COOKABLES[name].building === "Smoothie Shack"
-);
+const Juices = Object.keys(JUICE_COOKABLES);
 
 export function isJuice(item: any) {
   return Juices.includes(item);

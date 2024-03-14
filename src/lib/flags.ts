@@ -17,7 +17,7 @@ type FeatureName =
   | "PORTALS"
   | "DEQUIPPER"
   | "CHESTS"
-  | "TRADING_REVAMP";
+  | "PWA_INSTALL";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -32,7 +32,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   DEQUIPPER: defaultFeatureFlag,
   CHESTS: defaultFeatureFlag,
-  TRADING_REVAMP: defaultFeatureFlag,
+  PWA_INSTALL: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

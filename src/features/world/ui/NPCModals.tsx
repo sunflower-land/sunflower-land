@@ -22,7 +22,6 @@ import { AuctionHouseModal } from "./AuctionHouseModal";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpecialEventModal } from "./SpecialEventModal";
-import { Glinteye } from "./npcs/Glinteye";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -182,7 +181,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "luna" && <Luna onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
-        {npc === "glinteye" && <Glinteye onClose={closeModal} />}
       </Modal>
       {npc === "Chun Long" && (
         <SpecialEventModal

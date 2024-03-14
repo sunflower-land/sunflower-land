@@ -74,7 +74,6 @@ import { mintAuctionItem } from "../actions/mintAuctionItem";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
-import { trade } from "../actions/trade";
 import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
@@ -235,12 +234,6 @@ type UpdateEvent = {
   state: GameState;
 };
 
-type TradeEvent = {
-  type: "TRADE";
-  sellerId: number;
-  tradeId: string;
-};
-
 type ListingEvent = {
   type: "LIST_TRADE";
   sellerId: number;
@@ -275,7 +268,6 @@ export type BlockchainEvent =
   | SyncEvent
   | PurchaseEvent
   | CommunityEvent
-  | TradeEvent
   | ListingEvent
   | DeleteTradeListingEvent
   | FulfillTradeListingEvent
@@ -436,9 +428,7 @@ export type BlockchainState = {
     | "listed"
     | "deleteTradeListing"
     | "tradeListingDeleted"
-    | "tradeListingFulfilled"
     | "fulfillTradeListing"
-    | "traded"
     | "sniped"
     | "buds"
     | "airdrop"
@@ -716,6 +706,9 @@ export function startGame(authContext: AuthContext) {
               target: "gameRules",
               cond: () => {
                 const lastRead = getGameRulesLastRead();
+
+                // Don't show game rules if they have been read in the last 7 days
+                // or if the user has come from a pwa install magic link
                 return (
                   !lastRead ||
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
@@ -1014,9 +1007,6 @@ export function startGame(authContext: AuthContext) {
             },
             BUY_SFL: {
               target: "buyingSFL",
-            },
-            TRADE: {
-              target: "trading",
             },
             LIST_TRADE: { target: "listing" },
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
@@ -1594,7 +1584,7 @@ export function startGame(authContext: AuthContext) {
                 cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
               },
               {
-                target: "tradeListingFulfilled",
+                target: "playing",
                 actions: [
                   assign((_, event) => ({
                     actions: [],
@@ -1616,93 +1606,6 @@ export function startGame(authContext: AuthContext) {
               target: "error",
               actions: "assignErrorMessage",
             },
-          },
-        },
-        tradeListingFulfilled: {
-          on: {
-            CONTINUE: "playing",
-          },
-        },
-        trading: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { sellerId, tradeId } = event as TradeEvent;
-
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const { farm, error } = await trade({
-                buyerId: Number(context.farmId),
-                sellerId,
-                tradeId,
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
-
-              gameAnalytics.trackSink({
-                currency: "Block Buck",
-                amount: 1,
-                item: "Trade",
-                type: "Fee",
-              });
-
-              return {
-                farm,
-                buyerId: String(context.farmId),
-                sellerId: String(sellerId),
-                tradeId,
-                error,
-              };
-            },
-            onDone: [
-              {
-                target: "sniped",
-                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
-              },
-              {
-                target: "traded",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.farm,
-                  })),
-                  (_, event) => {
-                    mmoBus.send({
-                      trade: {
-                        buyerId: event.data.buyerId,
-                        sellerId: event.data.sellerId,
-                        tradeId: event.data.tradeId,
-                      },
-                    });
-                    // https://developers.google.com/analytics/devguides/collection/ga4/reference/events?client_type=gtag#spend_virtual_currency
-                    onboardingAnalytics.logEvent("spend_virtual_currency", {
-                      value: 1,
-                      virtual_currency_name: "Trade",
-                      item_name: "Trade",
-                    });
-                  },
-                ],
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        traded: {
-          on: {
-            CONTINUE: "playing",
           },
         },
         sniped: {

@@ -23,7 +23,6 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { HalveningCountdown } from "./HalveningCountdown";
-
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.

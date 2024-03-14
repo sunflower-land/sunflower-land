@@ -27,6 +27,7 @@
     "./src",
     "./metadata",
     "./node_modules/vite-plugin-pwa/react.d.ts",
+    "./node_modules/@khmyznikov/pwa-install/index.d.ts",
     "./src/types/page-lifecycle.d.ts"
   ]
 }

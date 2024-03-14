@@ -88,16 +88,11 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "betty",
     direction: "left",
   },
-  {
-    x: 790,
-    y: 280,
-    npc: "grubnuk",
-    direction: "left",
-  },
+
   {
     x: 834,
     y: 335,
-    npc: "luna",
+    npc: "grubnuk",
     direction: "left",
   },
   {
@@ -214,6 +209,48 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
       y: 200,
     },
   ],
+  7: [
+    {
+      x: 400,
+      y: 420,
+    },
+    {
+      x: 800,
+      y: 300,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
+  8: [
+    {
+      x: 775,
+      y: 350,
+    },
+    {
+      x: 750,
+      y: 140,
+    },
+    {
+      x: 150,
+      y: 445,
+    },
+  ],
+  9: [
+    {
+      x: 750,
+      y: 140,
+    },
+    {
+      x: 300,
+      y: 320,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
 };
 
 export class PlazaScene extends BaseScene {
@@ -241,6 +278,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("timer_icon", "world/timer_icon.png");
+    this.load.image("trade_icon", "world/trade_icon.png");
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -324,16 +362,19 @@ export class PlazaScene extends BaseScene {
     });
 
     super.create();
-    PLAZA_BUMPKINS.push({
-      x: 700,
-      y: 250,
-      npc: "glinteye",
-    });
 
-    const tradingBoard = this.add.sprite(729, 225, "trading_board");
+    const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("trading_board");
     });
+
+    const tradingBoardIcon = this.add.sprite(745, 240, "trade_icon");
+    tradingBoardIcon
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("trading_board");
+      });
+    tradingBoardIcon.setDepth(1000000);
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 

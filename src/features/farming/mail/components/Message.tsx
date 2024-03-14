@@ -1,4 +1,3 @@
-import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Message as IMessage } from "features/game/types/announcements";
@@ -24,8 +23,6 @@ export const Message: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
   const [showReward, setShowReward] = useState(false);
 
   const acknowledge = () => {

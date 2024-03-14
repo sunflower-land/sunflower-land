@@ -198,6 +198,7 @@ export const getFoodExpBoost = (
   if (
     isMarch2024 &&
     isCollectibleBuilt({ name: "Baby Panda", game }) &&
+    getBumpkinLevel(game.bumpkin?.experience ?? 0) <= 20 &&
     game.island.type === "basic"
   ) {
     boostedExp = boostedExp.mul(2);

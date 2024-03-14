@@ -36,7 +36,8 @@ export type OnboardingGameAnalyticEvent =
   | "wallet_connected"
   | "wallet_funded"
   | "select_poko"
-  | "select_matic";
+  | "select_matic"
+  | "pwa_installed";
 
 /**
  * Events used to track new users onboarding
