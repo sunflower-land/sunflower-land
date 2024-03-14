@@ -7,7 +7,6 @@ import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { useNavigate } from "react-router-dom";
 import { translate } from "lib/i18n/translate";
 
 type GlobalModal =
@@ -29,13 +28,13 @@ export const ModalProvider: FC = ({ children }) => {
   const [opened, setOpened] = useState<GlobalModal>();
   const [closeable, setCloseable] = useState(true);
 
-  const navigate = useNavigate();
   const openModal = (type: GlobalModal) => {
     setOpened(type);
   };
 
   const handleClose = () => {
     if (!closeable) return;
+
     setOpened(undefined);
   };
 

@@ -3,6 +3,7 @@ import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
@@ -57,6 +58,9 @@ import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Listed } from "../components/Listed";
 import { ListingDeleted } from "../components/listingDeleted";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { usePWAInstall } from "features/pwa/PWAInstallProvider";
+import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -159,6 +163,7 @@ const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
+const isPlaying = (state: MachineState) => state.matches("playing");
 
 const GameContent = () => {
   const { gameService } = useContext(Context);
@@ -235,8 +240,13 @@ export const Game: React.FC = () => {
   );
 };
 
+const _showPWAInstallPrompt = (state: AuthMachineState) =>
+  state.context.showPWAInstallPrompt;
+
 export const GameWrapper: React.FC = ({ children }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
+  const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
   const portalling = useSelector(gameService, isPortalling);
@@ -246,10 +256,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const listed = useSelector(gameService, isListed);
   const deletingListing = useSelector(gameService, isDeletingListing);
   const listingDeleted = useSelector(gameService, isListingDeleted);
-  const fulfillingTradeListing = useSelector(
-    gameService,
-    isFulfillingTradeListing
-  );
   const sniped = useSelector(gameService, isSniped);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
@@ -277,6 +283,9 @@ export const GameWrapper: React.FC = ({ children }) => {
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
   const specialOffer = useSelector(gameService, hasSpecialOffer);
+  const playing = useSelector(gameService, isPlaying);
+
+  const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
   const { t } = useAppTranslation();
   useInterval(() => {
@@ -314,6 +323,16 @@ export const GameWrapper: React.FC = ({ children }) => {
       save();
     };
   }, []);
+
+  useEffect(() => {
+    if (playing && showPWAInstallPrompt) {
+      pwaInstallRef.current?.showDialog();
+
+      authService.send("PWA_INSTALL_PROMPT_SHOWN");
+
+      fixInstallPromptTextStyles();
+    }
+  }, [playing, pwaInstallRef, showPWAInstallPrompt]);
 
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
@@ -378,53 +397,55 @@ export const GameWrapper: React.FC = ({ children }) => {
   const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
 
   return (
-    <ToastProvider>
-      <ToastPanel />
+    <>
+      <ToastProvider>
+        <ToastPanel />
 
-      <Modal show={SHOW_MODAL[stateValue as StateValues]}>
-        <Panel>
-          {loading && <Loading />}
-          {refreshing && <Refreshing />}
-          {buyingSFL && <AddingSFL />}
-          {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
-          {synced && <Success />}
-          {syncing && <Syncing />}
-          {purchasing && <Purchasing />}
-          {hoarding && <Hoarding />}
-          {swarming && <Swarming />}
-          {noBumpkinFound && (
-            <Wallet action="deposit">
-              <NoBumpkin />
-            </Wallet>
-          )}
-          {weakBumpkin && <WeakBumpkin />}
+        <Modal show={SHOW_MODAL[stateValue as StateValues]}>
+          <Panel>
+            {loading && <Loading />}
+            {refreshing && <Refreshing />}
+            {buyingSFL && <AddingSFL />}
+            {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
+            {synced && <Success />}
+            {syncing && <Syncing />}
+            {purchasing && <Purchasing />}
+            {hoarding && <Hoarding />}
+            {swarming && <Swarming />}
+            {noBumpkinFound && (
+              <Wallet action="deposit">
+                <NoBumpkin />
+              </Wallet>
+            )}
+            {weakBumpkin && <WeakBumpkin />}
 
-          {coolingDown && <Cooldown />}
-          {gameRules && <Rules />}
-          {transacting && <Transacting />}
-          {depositing && <Loading text="Depositing" />}
-          {trading && <Loading text="Trading" />}
-          {traded && <Traded />}
-          {listing && <Loading text="Listing" />}
-          {listed && <Listed />}
-          {deletingListing && <Loading text="Deleting listing" />}
-          {listingDeleted && <ListingDeleted />}
-          {sniped && <Sniped />}
-          {minting && <Minting />}
-          {promo && <Promo />}
-          {airdrop && <AirdropPopup />}
-          {specialOffer && <SpecialOffer />}
-        </Panel>
-      </Modal>
+            {coolingDown && <Cooldown />}
+            {gameRules && <Rules />}
+            {transacting && <Transacting />}
+            {depositing && <Loading text="Depositing" />}
+            {trading && <Loading text="Trading" />}
+            {traded && <Traded />}
+            {listing && <Loading text="Listing" />}
+            {listed && <Listed />}
+            {deletingListing && <Loading text="Deleting listing" />}
+            {listingDeleted && <ListingDeleted />}
+            {sniped && <Sniped />}
+            {minting && <Minting />}
+            {promo && <Promo />}
+            {airdrop && <AirdropPopup />}
+            {specialOffer && <SpecialOffer />}
+          </Panel>
+        </Modal>
 
-      {claimingAuction && <ClaimAuction />}
-      {refundAuction && <RefundAuction />}
+        {claimingAuction && <ClaimAuction />}
+        {refundAuction && <RefundAuction />}
 
-      <SpecialOffer />
-      <Introduction />
-      <NewMail />
+        <SpecialOffer />
+        <Introduction />
+        <NewMail />
 
-      {children}
-    </ToastProvider>
+        {children}
+      </ToastProvider>
+    </>
   );
 };

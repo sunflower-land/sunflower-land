@@ -171,6 +171,7 @@ import {
   NyonStatue,
   Trading,
   TimeUnits,
+  PwaInstall,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -224,6 +225,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   cook: "Cozinhar",
   copied: "Copiado",
   "copy.address": "Copiar Endereço",
+  "copy.link": "Copy Link",
+  "copy.failed": "Copy Failed!",
   coupons: "Cupons",
   craft: "Artesanato",
   crafting: "Artesanato",
@@ -4057,6 +4060,20 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.termsOfService": "Termos de Serviço",
 };
 
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.mobile.description.one": "Install Sunflower Land on your device",
+  "install.app.mobile.description.two": "on your device.",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device.",
+  "install.app.mobile.metamask.description.one":
+    "Copy the magic link below and open it in",
+  "install.app.mobile.metamask.description.two": "on your device to install!",
+};
+
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
   "sceneDialogues.chefIsBusy": "O Chef está ocupado",
 };
@@ -4784,6 +4801,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,
+  ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
   ...settingsMenu,

@@ -167,6 +167,7 @@ import {
   MilestoneMessages,
   Event,
   Promo,
+  PwaInstall,
   Trader,
   NyonStatue,
   Trading,
@@ -240,6 +241,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   cook: "Cuisiner",
   copied: "Copié",
   "copy.address": "Copier l'adresse",
+  "copy.failed": "Copy Failed!",
+  "copy.link": "Copy Link",
   coupons: "Coupons",
   craft: "Fabriquer",
   crafting: "Fabrication",
@@ -4050,6 +4053,20 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
       "Idéal pour attraper des poissons rares!",
   };
 
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.mobile.description.one": "Install Sunflower Land on your device",
+  "install.app.mobile.description.two": "on your device.",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device.",
+  "install.app.mobile.metamask.description.one":
+    "Copy the magic link below and open it in",
+  "install.app.mobile.metamask.description.two": "on your device to install!",
+};
+
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint gratuit pour vêtement",
   "quest.equipWearable": "Équipez ce vêtement sur votre Bumpkin",
@@ -4896,6 +4913,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,
+  ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
   ...settingsMenu,
