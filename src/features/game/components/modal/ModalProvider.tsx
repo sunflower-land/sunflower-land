@@ -17,8 +17,7 @@ type GlobalModal =
   | "NEXT_EXPANSION"
   | "THIRD_LEVEL"
   | "BETTY"
-  | "BLACKSMITH"
-  | "INSTALL_PWA";
+  | "BLACKSMITH";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -35,12 +34,6 @@ export const ModalProvider: FC = ({ children }) => {
 
   const handleClose = () => {
     if (!closeable) return;
-
-    if (opened === "THIRD_LEVEL") {
-      setTimeout(() => {
-        openModal("INSTALL_PWA");
-      }, 1000);
-    }
 
     setOpened(undefined);
   };
