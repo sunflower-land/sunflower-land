@@ -14,7 +14,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { COMMUNITY_ISLANDS } from "./community/CommunityIslands";
 import { useNavigate } from "react-router-dom";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
@@ -82,10 +81,6 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
           icon: SUNNYSIDE.icons.player,
           name: "Town",
         },
-        {
-          icon: SUNNYSIDE.icons.heart,
-          name: t("explore"),
-        },
       ]}
     >
       {tab === 0 && (
@@ -139,60 +134,6 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
               );
             })}
           </>
-        </div>
-      )}
-      {tab === 1 && (
-        <div className="p-2">
-          <p className="text-xs mb-2">{t("share.exploreCustomIslands")}</p>
-          <>
-            {COMMUNITY_ISLANDS.map((island) => {
-              return (
-                <OuterPanel
-                  className={classNames(
-                    "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200"
-                  )}
-                  key={island.id}
-                  onClick={() => {
-                    // Set IslandID in route
-                    navigate(`/community/${island.id}`);
-                  }}
-                >
-                  <div className="flex items-center">
-                    <img src={island.icon} className="w-7 mr-2" />
-                    <div>
-                      <p
-                        className={classNames("text-sm break-words", {
-                          "-mb-2": !!island.special,
-                        })}
-                      >
-                        {island.name}
-                      </p>
-                      {!!island.special && (
-                        <Label type="info" className="-mt-2">
-                          {t("special.event")}
-                        </Label>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex-1 flex items-center justify-end">
-                    <img
-                      src={SUNNYSIDE.icons.chevron_right}
-                      className="h-5 ml-2"
-                    />
-                  </div>
-                </OuterPanel>
-              );
-            })}
-          </>
-
-          <a
-            href="https://docs.sunflower-land.com/contributing/community-islands"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-white text-xs"
-          >
-            {t("share.buildYourOwnIsland")}
-          </a>
         </div>
       )}
     </CloseButtonPanel>
