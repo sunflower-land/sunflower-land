@@ -4,7 +4,6 @@ import classNames from "classnames";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { TRADE_LIMITS } from "features/game/events/landExpansion/listTrade";
 import { getKeys } from "features/game/types/craftables";
 import {
   Inventory,
@@ -20,11 +19,10 @@ import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
+import { TRADE_LIMITS } from "features/world/ui/trader/BuyPanel";
 
-const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
 const INPUT_MAX_CHAR = 10;
@@ -36,9 +34,8 @@ const ListTrade: React.FC<{
   inventory: Inventory;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
-  hasFeatureAccess: boolean;
   isSaving: boolean;
-}> = ({ inventory, onList, onCancel, hasFeatureAccess, isSaving }) => {
+}> = ({ inventory, onList, onCancel, isSaving }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
   const [quantity, setQuantity] = useState<number>(1);
@@ -72,7 +69,7 @@ const ListTrade: React.FC<{
                   }}
                 >
                   <Label type="default" className="absolute -top-3 -right-2">
-                    {inventory?.[name]?.toNumber()}
+                    {inventory?.[name]?.toFixed(0)}
                   </Label>
                   <span className="text-xs mb-1">{name}</span>
                   <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
@@ -99,7 +96,7 @@ const ListTrade: React.FC<{
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
-            {inventory?.[selected]?.toNumber() ?? 0}
+            {inventory?.[selected]?.toFixed(0) ?? 0}
           </span>
         </div>
       </div>
@@ -340,8 +337,6 @@ export const Trade: React.FC = () => {
 
   const [showListing, setShowListing] = useState(false);
 
-  const hasAccess = hasFeatureAccess(gameState.context.state, "TRADING_REVAMP");
-
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
@@ -350,22 +345,17 @@ export const Trade: React.FC = () => {
   );
 
   const onList = (items: Items, sfl: number) => {
-    if (hasAccess) {
-      gameService.send("LIST_TRADE", {
-        sellerId: gameState.context.farmId,
-        items,
-        sfl,
-      });
-    } else {
-      gameService.send("trade.listed", { items, sfl });
-      gameService.send("SAVE");
-    }
+    gameService.send("LIST_TRADE", {
+      sellerId: gameState.context.farmId,
+      items,
+      sfl,
+    });
 
     setShowListing(false);
   };
 
   const onCancel = (listingId: string, listingType: string) => {
-    if (listingId.length < 27) {
+    if (listingId.length < 38) {
       gameService.send("trade.cancelled", { tradeId: listingId });
       gameService.send("SAVE");
     } else
@@ -409,7 +399,6 @@ export const Trade: React.FC = () => {
         inventory={gameState.context.state.inventory}
         onCancel={() => setShowListing(false)}
         onList={onList}
-        hasFeatureAccess={hasAccess}
         isSaving={gameState.matches("autosaving")}
       />
     );
@@ -431,71 +420,41 @@ export const Trade: React.FC = () => {
     );
   }
 
-  if (hasAccess) {
-    return (
-      <div>
-        {getKeys(trades).map((listingId, index) => {
-          return (
-            <div className="mt-2" key={index}>
-              <TradeDetails
-                onCancel={() =>
-                  onCancel(listingId, makeListingType(trades[listingId].items))
-                }
-                onClaim={() => {
-                  gameService.send("trade.received", {
-                    tradeId: listingId,
-                    beta: hasAccess,
-                  });
-                  gameService.send("SAVE");
-                }}
-                trade={trades[listingId]}
-                isOldListing={listingId.length < 27}
-              />
-            </div>
-          );
-        })}
-        {getKeys(trades).length < 3 && (
-          <div className="relative mt-2">
-            <Button onClick={() => setShowListing(true)}>
-              {t("list.trade")}
-            </Button>
-          </div>
-        )}
-        {getKeys(trades).length >= 3 && (
-          <div className="relative my-2">
-            <Label type="danger" icon={lock} className="mx-auto">
-              {t("bumpkinTrade.maxListings")}
-            </Label>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  const firstTrade = getKeys(trades)[0];
-  const trade = trades[firstTrade];
-
-  if (!trade) {
-    return null;
-  }
-
   return (
     <div>
-      <TradeDetails
-        onCancel={() => {
-          gameService.send("trade.cancelled", { tradeId: firstTrade });
-          gameService.send("SAVE");
-        }}
-        onClaim={() => {
-          gameService.send("trade.received", {
-            tradeId: firstTrade,
-            beta: hasAccess,
-          });
-          gameService.send("SAVE");
-        }}
-        trade={trade}
-        isOldListing={firstTrade.length < 27}
-      />
+      {getKeys(trades).map((listingId, index) => {
+        return (
+          <div className="mt-2" key={index}>
+            <TradeDetails
+              onCancel={() =>
+                onCancel(listingId, makeListingType(trades[listingId].items))
+              }
+              onClaim={() => {
+                gameService.send("trade.received", {
+                  tradeId: listingId,
+                });
+                gameService.send("SAVE");
+              }}
+              trade={trades[listingId]}
+              isOldListing={listingId.length < 38}
+            />
+          </div>
+        );
+      })}
+      {getKeys(trades).length < 3 && (
+        <div className="relative mt-2">
+          <Button onClick={() => setShowListing(true)}>
+            {t("list.trade")}
+          </Button>
+        </div>
+      )}
+      {getKeys(trades).length >= 3 && (
+        <div className="relative my-2">
+          <Label type="danger" icon={lock} className="mx-auto">
+            {t("bumpkinTrade.maxListings")}
+          </Label>
+        </div>
+      )}
     </div>
   );
 };

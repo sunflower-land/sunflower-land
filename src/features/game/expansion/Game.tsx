@@ -105,7 +105,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   fulfillTradeListing: false,
   listed: true,
   sniped: true,
-  traded: true,
   buds: false,
   mailbox: false,
   blacklisted: true,

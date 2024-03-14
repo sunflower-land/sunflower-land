@@ -12,7 +12,6 @@ import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
-import { TRADE_LIMITS } from "features/game/events/landExpansion/listTrade";
 import { getKeys } from "features/game/types/craftables";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,6 +25,31 @@ import { hasMaxItems } from "features/game/lib/processEvent";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
+
+export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
+  Sunflower: 1000,
+  Potato: 1000,
+  Pumpkin: 1000,
+  Carrot: 1000,
+  Cabbage: 1000,
+  Beetroot: 500,
+  Cauliflower: 500,
+  Parsnip: 200,
+  Eggplant: 200,
+  Corn: 200,
+  Radish: 200,
+  Wheat: 200,
+  Kale: 200,
+  Blueberry: 100,
+  Orange: 100,
+  Apple: 100,
+  Banana: 100,
+  Wood: 100,
+  Stone: 100,
+  Iron: 100,
+  Gold: 50,
+  Egg: 100,
+};
 
 export const BuyPanel: React.FC = () => {
   const { t } = useAppTranslation();
