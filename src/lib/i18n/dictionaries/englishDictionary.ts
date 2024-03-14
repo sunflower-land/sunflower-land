@@ -1050,7 +1050,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.minLevel": "You must be level 10 to trade",
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
-  "bumpkinTrade.like.list": "What would you like to list",
+  "bumpkinTrade.like.list": "What would you like to list?",
   "bumpkinTrade.goldpass.required": "Gold Pass is required",
   "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
 };

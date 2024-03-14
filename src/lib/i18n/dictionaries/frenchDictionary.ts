@@ -1071,7 +1071,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "Vous n'avez aucune annonce en cours.",
   "bumpkinTrade.sell":
     "Vendez vos ressources à d'autres joueurs contre des SFL.",
-  "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce",
+  "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
   "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
 };

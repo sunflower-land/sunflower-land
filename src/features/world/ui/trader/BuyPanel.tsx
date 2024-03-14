@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -34,6 +34,7 @@ export const BuyPanel: React.FC = () => {
   const [authState] = useActor(authService);
 
   const [view, setView] = useState<"search" | "list">("search");
+  const selected = useRef<InventoryItemName>();
   const [listings, setListings] = useState<Listing[]>([]);
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [isSearching, setIsSearching] = useState(false);
@@ -89,19 +90,30 @@ export const BuyPanel: React.FC = () => {
   const listView = (listings: Listing[]) => {
     if (listings.length === 0) {
       return (
-        <div className="p-2">
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="absolute self-start cursor-pointer"
-            style={{
-              top: `${PIXEL_SCALE * 2}px`,
-              left: `${PIXEL_SCALE * 2}px`,
-              width: `${PIXEL_SCALE * 11}px`,
-            }}
-            alt="back"
-            onClick={() => onBack()}
-          />
-          <p className="mt-8">{t("trading.no.listings")}</p>
+        <div>
+          <div className="flex items-center">
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="self-start cursor-pointer mr-3"
+              style={{
+                top: `${PIXEL_SCALE * 2}px`,
+                left: `${PIXEL_SCALE * 2}px`,
+                width: `${PIXEL_SCALE * 11}px`,
+              }}
+              alt="back"
+              onClick={() => onBack()}
+            />
+            <Label
+              type="default"
+              icon={ITEM_DETAILS[selected.current as InventoryItemName].image}
+            >
+              {selected.current}
+            </Label>
+          </div>
+          <div className="flex flex-col items-center justify-center py-4">
+            <img src={SUNNYSIDE.icons.search} className="w-1/5 mx-auto my-2" />
+            <p className="text-sm">{t("trading.no.listings")}</p>
+          </div>
         </div>
       );
     }
@@ -148,7 +160,7 @@ export const BuyPanel: React.FC = () => {
       if (listing.farmId == farmId) {
         return (
           <div className="flex items-center mt-1  justify-end mr-0.5">
-            <Label icon={token} type="info" className="mb-4">
+            <Label type="danger" className="mb-4">
               {t("trading.your.listing")}
             </Label>
           </div>
@@ -237,19 +249,21 @@ export const BuyPanel: React.FC = () => {
                           key={`items-${index}`}
                         />
                       ))}
+                      <div className="ml-1">
+                        <div className="flex justfy-end items-center mb-1">
+                          <img src={token} className="h-6 mr-1" />
+                          <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
+                        </div>
+                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                      </div>
                     </div>
-                    <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
                   </div>
 
                   <div className="">
                     <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <Label icon={token} type="info" className="mb-4">
+                      <Label type="success" className="mb-4">
                         {t("purchased")}
                       </Label>
-                    </div>
-                    <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
-                      <img src={token} className="h-6 ml-1" />
                     </div>
                   </div>
                 </div>
@@ -270,18 +284,26 @@ export const BuyPanel: React.FC = () => {
 
     return (
       <div>
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="absolute self-start cursor-pointer"
-          style={{
-            top: `${PIXEL_SCALE * 2}px`,
-            left: `${PIXEL_SCALE * 6}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-          alt="back"
-          onClick={() => onBack()}
-        />
-        <div className="mt-10">
+        <div className="flex items-center">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="self-start cursor-pointer mr-3"
+            style={{
+              top: `${PIXEL_SCALE * 2}px`,
+              left: `${PIXEL_SCALE * 2}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+            alt="back"
+            onClick={() => onBack()}
+          />
+          <Label
+            type="default"
+            icon={ITEM_DETAILS[selected.current as InventoryItemName].image}
+          >
+            {selected.current}
+          </Label>
+        </div>
+        <div className="mt-1">
           {listings.map((listing, index) => {
             // only one resource listing
             const listingItem = listing.items[
@@ -292,7 +314,7 @@ export const BuyPanel: React.FC = () => {
               <OuterPanel className="mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
                   <div className="justify-start">
-                    <div className="flex flex-wrap w-52">
+                    <div className="flex flex-wrap w-52 items-center">
                       {getKeys(listing.items).map((item) => (
                         <Box
                           image={ITEM_DETAILS[item].image}
@@ -301,18 +323,17 @@ export const BuyPanel: React.FC = () => {
                           key={`items-${index}`}
                         />
                       ))}
-                    </div>
-                    <p className="text-xxs ml-2">{`${unitPrice} per unit`}</p>
-                  </div>
-
-                  <div className="flex flex-col justify-end">
-                    {Action(listing)}
-
-                    <div className="flex justfy-end">
-                      <img src={token} className="h-6 mr-2" />
-                      <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                      <div className="ml-1">
+                        <div className="flex justfy-end items-center mb-1">
+                          <img src={token} className="h-6 mr-1" />
+                          <p className="text-xs">{`${listing.sfl} SFL`}</p>
+                        </div>
+                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                      </div>
                     </div>
                   </div>
+
+                  <div>{Action(listing)}</div>
                 </div>
               </OuterPanel>
             );
@@ -323,6 +344,8 @@ export const BuyPanel: React.FC = () => {
   };
 
   const onSearch = async (resource: Partial<InventoryItemName>) => {
+    selected.current = resource;
+
     setIsSearching(true);
     const listings = await getTradeListings(
       resource.toLowerCase(),
