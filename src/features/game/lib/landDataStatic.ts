@@ -2,6 +2,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "../types/game";
+
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
@@ -369,6 +370,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Rich Chicken": new Decimal(1),
     "Fat Chicken": new Decimal(2),
     "Speed Chicken": new Decimal(2),
+    "Mashed Potato": new Decimal(1),
     "Treasure Key": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),
     "Farmhand Coupon": new Decimal(1),
@@ -436,7 +438,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Baby Panda": new Decimal(1),
 
     // Foods
-    "Mashed Potato": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
     "Reindeer Carrot": new Decimal(1),
     "Mushroom Soup": new Decimal(1),

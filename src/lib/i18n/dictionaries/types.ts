@@ -42,7 +42,6 @@ export type GeneralTerms =
   | "clear"
   | "close"
   | "collect"
-  | "come.back"
   | "coming.soon"
   | "common"
   | "completed"
@@ -55,6 +54,8 @@ export type GeneralTerms =
   | "cook"
   | "copied"
   | "copy.address"
+  | "copy.link"
+  | "copy.failed"
   | "coupons"
   | "craft"
   | "craft"
@@ -757,7 +758,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.tradingFee"
   | "bumpkinTrade.youWillReceive"
   | "bumpkinTrade.cancel"
-  | "bumpkinTrade.list";
+  | "bumpkinTrade.list"
+  | "bumpkinTrade.maxListings";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
@@ -2715,6 +2717,17 @@ export type RulesTerms =
   | "rules.noBots"
   | "rules.termsOfService";
 
+export type PwaInstall =
+  | "install.app"
+  | "magic.link"
+  | "generating.link"
+  | "generating.code"
+  | "install.app.mobile.description.one"
+  | "install.app.mobile.description.two"
+  | "install.app.desktop.description"
+  | "install.app.mobile.metamask.description.one"
+  | "install.app.mobile.metamask.description.two";
+
 export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
 
 export type SeasonTerms =
@@ -2863,7 +2876,6 @@ export type Statements =
   | "statements.wishing.well.worthwell"
   | "statements.wishing.well.look.like"
   | "statements.wishing.well.lucky"
-  | "statements.wishing.just.lucky"
   | "statements.wrongChain.one"
   | "statements.empty.chest"
   | "statements.chest.captcha"
@@ -3257,6 +3269,7 @@ export type TranslationKeys =
   | RewardTerms
   | RulesGameStart
   | RulesTerms
+  | PwaInstall
   | SceneDialogueKey
   | SeasonTerms
   | SettingsMenu

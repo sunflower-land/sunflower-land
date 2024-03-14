@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import mailbox from "assets/decorations/mailbox.png";
+import mailboxImg from "assets/decorations/mailbox.png";
+
 import classNames from "classnames";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -13,39 +14,38 @@ import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import letterDisc from "assets/icons/letter_disc.png";
 import letter from "assets/icons/letter.png";
+import { MachineState } from "features/game/lib/gameMachine";
+import { PWAInstallMessage } from "./components/PWAInstallMessage";
+
+const _announcements = (state: MachineState) => state.context.announcements;
+const _mailbox = (state: MachineState) => state.context.state.mailbox;
 
 export const LetterBox: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
   const [tab, setTab] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
   const [selected, setSelected] = useState<string>();
 
-  const announcements = gameState.context.announcements;
+  const announcements = useSelector(gameService, _announcements);
+  const mailbox = useSelector(gameService, _mailbox);
 
   const { t } = useAppTranslation();
   const close = () => {
     setIsOpen(false);
   };
 
-  const hasAnnouncement = getKeys(gameState.context.announcements ?? {})
+  const hasAnnouncement = getKeys(announcements ?? {})
     // Ensure they haven't read it already
-    .some(
-      (id) =>
-        !gameState.context.state.mailbox.read.find(
-          (message) => message.id === id
-        )
-    );
+    .some((id) => !mailbox.read.find((message) => message.id === id));
 
-  const Content = () => {
+  const Content = useCallback(() => {
     if (selected) {
       const details = announcements[selected];
+
       return (
         <Panel bumpkinParts={NPC_WEARABLES[details.from]}>
           <div className="flex items-center mb-1">
@@ -57,15 +57,20 @@ export const LetterBox: React.FC = () => {
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
           </div>
 
-          <Message
-            message={details}
-            conversationId={selected}
-            read={
-              !!gameState.context.state.mailbox.read.find(
-                (item) => item.id === selected
-              )
-            }
-          />
+          {selected === "pwa-install-prompt" ? (
+            <PWAInstallMessage
+              message={details}
+              conversationId={selected}
+              read={!!mailbox.read.find((item) => item.id === selected)}
+              onAcknowledge={close}
+            />
+          ) : (
+            <Message
+              message={details}
+              conversationId={selected}
+              read={!!mailbox.read.find((item) => item.id === selected)}
+            />
+          )}
         </Panel>
       );
     }
@@ -80,7 +85,8 @@ export const LetterBox: React.FC = () => {
         <Mail setSelected={setSelected} announcements={announcements} />
       </CloseButtonPanel>
     );
-  };
+  }, [selected]);
+
   return (
     <>
       <div
@@ -108,7 +114,7 @@ export const LetterBox: React.FC = () => {
         )}
 
         <img
-          src={mailbox}
+          src={mailboxImg}
           className={classNames("absolute pointer-events-none")}
           style={{
             width: `${PIXEL_SCALE * 8}px`,

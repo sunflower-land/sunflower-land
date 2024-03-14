@@ -171,6 +171,7 @@ import {
   NyonStatue,
   Trading,
   TimeUnits,
+  PwaInstall,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -213,7 +214,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Reivindicar Habilidade",
   clear: "Limpar",
   close: "Fechar",
-  "come.back": "Volte em",
   "coming.soon": "Em breve",
   common: "Comum",
   completed: "Concluído",
@@ -225,6 +225,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   cook: "Cozinhar",
   copied: "Copiado",
   "copy.address": "Copiar Endereço",
+  "copy.link": "Copy Link",
+  "copy.failed": "Copy Failed!",
   coupons: "Cupons",
   craft: "Artesanato",
   crafting: "Artesanato",
@@ -1084,6 +1086,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.youWillReceive": ENGLISH_TERMS["bumpkinTrade.youWillReceive"],
   "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
   "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
+  "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -4057,6 +4060,20 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.termsOfService": "Termos de Serviço",
 };
 
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.mobile.description.one": "Install Sunflower Land on your device",
+  "install.app.mobile.description.two": "on your device.",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device.",
+  "install.app.mobile.metamask.description.one":
+    "Copy the magic link below and open it in",
+  "install.app.mobile.metamask.description.two": "on your device to install!",
+};
+
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
   "sceneDialogues.chefIsBusy": "O Chef está ocupado",
 };
@@ -4264,7 +4281,6 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.worthwell": "em recompensas no poço!",
   "statements.wishing.well.look.like": "Não parece que você está",
   "statements.wishing.well.lucky": "Vamos ver o quão sortudo você é!",
-  "statements.wishing.just.lucky": "para ver o quão sortudo você tem sido.",
   "statements.wrongChain.one": "Confira este guia para ajudá-lo a se conectar.",
   "statements.feed.bumpkin.one": "Você não tem comida em seu inventário.",
   "statements.feed.bumpkin.two":
@@ -4785,6 +4801,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,
+  ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
   ...settingsMenu,

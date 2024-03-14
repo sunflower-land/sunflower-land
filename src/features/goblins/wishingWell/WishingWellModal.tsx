@@ -137,12 +137,7 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => {
         </div>
         <p className="mb-4 text-sm">
           {t("wishingWell.wish.comeBackAfter")}
-          {":"}
-        </p>
-        <p className="mb-4 text-sm">
-          {`${t("come.back")} ${lockedTime} ${t(
-            "statements.wishing.just.lucky"
-          )}`}
+          {":"} {`${lockedTime}`}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.wish.warning.one")}</p>
         <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
