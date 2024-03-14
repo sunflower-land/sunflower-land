@@ -47,7 +47,6 @@ export const TraderModal: React.FC<TraderModalProps> = ({
   const isDisabled =
     machine.matches("loading") ||
     machine.matches("updatingSession") ||
-    machine.matches("listing") ||
     machine.matches("cancelling") ||
     machine.matches("purchasing");
 
@@ -75,9 +74,6 @@ export const TraderModal: React.FC<TraderModalProps> = ({
           <span className="loading m-2">{t("refreshing")}</span>
         )}
 
-        {machine.matches("listing") && (
-          <span className="loading m-2">{t("listing")}</span>
-        )}
         {machine.matches("cancelling") && (
           <span className="loading m-2">{t("cancelling")}</span>
         )}

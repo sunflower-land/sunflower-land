@@ -199,7 +199,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-        <p className="text-xs">{`${sfl.toFixed(2)} SFL`}</p>
+        <p className="text-xs">{`${sfl.toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -209,7 +209,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.pricePerUnit")}</span>
-        <p className="text-xs">{`${(sfl / quantity).toFixed(2)} SFL`}</p>
+        <p className="text-xs">{`${(sfl / quantity).toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -219,7 +219,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${(sfl * 0.1).toFixed(2)} SFL`}</p>
+        <p className="text-xs">{`${(sfl * 0.1).toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -228,7 +228,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${(sfl * 0.9).toFixed(2)} SFL`}</p>
+        <p className="text-xs">{`${(sfl * 0.9).toFixed(4)} SFL`}</p>
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
