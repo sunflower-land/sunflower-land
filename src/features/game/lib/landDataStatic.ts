@@ -438,7 +438,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Baby Panda": new Decimal(1),
 
     // Foods
-    "Mashed Potato": new Decimal(1),
     "Pumpkin Soup": new Decimal(1),
     "Reindeer Carrot": new Decimal(1),
     "Mushroom Soup": new Decimal(1),
