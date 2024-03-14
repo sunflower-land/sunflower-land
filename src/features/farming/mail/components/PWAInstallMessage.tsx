@@ -16,6 +16,7 @@ import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptSty
 import { QRCodeSVG } from "qrcode.react";
 import logo from "assets/brand/icon.png";
 import classNames from "classnames";
+import { CopySvg } from "components/ui/CopyField";
 
 interface Props {
   conversationId: string;
@@ -134,17 +135,27 @@ export const PWAInstallMessage: React.FC<Props> = ({
             )} ${mobileBrowserToUser} ${t(
               "install.app.mobile.metamask.description.two"
             )}`}</p>
-            <p
-              className={classNames("cursor-pointer text-xs", {
-                "loading underline": magicLink === undefined,
+            <div
+              className={classNames("cursor-pointer text-xs flex", {
+                loading: magicLink === undefined,
+                underline: !!magicLink,
               })}
               style={{ marginLeft: 0, height: 25 }}
               onMouseEnter={() => setShowLabel(true)}
               onMouseLeave={() => setShowLabel(false)}
               onClick={copyToClipboard}
             >
-              {magicLink ? t("magic.link") : t("generating.link")}
-            </p>
+              {magicLink ? (
+                <span>{t("magic.link")}</span>
+              ) : (
+                <span>{t("generating.link")}</span>
+              )}
+              {magicLink && (
+                <span className="ml-2 flex-none">
+                  <CopySvg height={14} />
+                </span>
+              )}
+            </div>
             <div
               className={`absolute top-11 left-9 mr-5 transition duration-400 pointer-events-none ${
                 showLabel ? "opacity-100" : "opacity-0"
