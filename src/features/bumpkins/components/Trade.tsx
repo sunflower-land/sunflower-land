@@ -124,7 +124,6 @@ const ListTrade: React.FC<{
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
               border: "2px solid #ead4aa",
-              textAlign: "right",
             }}
             type="number"
             min={1}
