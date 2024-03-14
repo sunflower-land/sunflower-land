@@ -1083,6 +1083,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.youWillReceive": ENGLISH_TERMS["bumpkinTrade.youWillReceive"],
   "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
   "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
+  "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

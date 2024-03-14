@@ -461,6 +461,13 @@ export const Trade: React.FC = () => {
             </Button>
           </div>
         )}
+        {getKeys(trades).length >= 3 && (
+          <div className="relative my-2">
+            <Label type="danger" icon={lock} className="mx-auto">
+              {t("bumpkinTrade.maxListings")}
+            </Label>
+          </div>
+        )}
       </div>
     );
   }

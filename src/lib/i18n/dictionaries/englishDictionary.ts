@@ -1065,6 +1065,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.youWillReceive": "You will receive",
   "bumpkinTrade.cancel": "Cancel",
   "bumpkinTrade.list": "List",
+  "bumpkinTrade.maxListings": "Max listings reached",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

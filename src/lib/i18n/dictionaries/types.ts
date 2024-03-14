@@ -756,7 +756,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.tradingFee"
   | "bumpkinTrade.youWillReceive"
   | "bumpkinTrade.cancel"
-  | "bumpkinTrade.list";
+  | "bumpkinTrade.list"
+  | "bumpkinTrade.maxListings";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
