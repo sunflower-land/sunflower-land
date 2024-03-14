@@ -213,7 +213,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Reivindicar Habilidade",
   clear: "Limpar",
   close: "Fechar",
-  "come.back": "Volte em",
   "coming.soon": "Em breve",
   common: "Comum",
   completed: "Concluído",
@@ -4264,7 +4263,6 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.worthwell": "em recompensas no poço!",
   "statements.wishing.well.look.like": "Não parece que você está",
   "statements.wishing.well.lucky": "Vamos ver o quão sortudo você é!",
-  "statements.wishing.just.lucky": "para ver o quão sortudo você tem sido.",
   "statements.wrongChain.one": "Confira este guia para ajudá-lo a se conectar.",
   "statements.feed.bumpkin.one": "Você não tem comida em seu inventário.",
   "statements.feed.bumpkin.two":

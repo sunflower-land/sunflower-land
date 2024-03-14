@@ -227,7 +227,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   collect: "Collecter",
   collectibles: "Objets de collection",
   collection: "Collection",
-  "come.back": "Reviens dans",
   "coming.soon": "Bientôt disponible",
   common: "Commun",
   completed: "Terminé",
@@ -4387,8 +4386,6 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.worthwell": "valeur des récompenses dans le puits!",
   "statements.wishing.well.look.like": "On dirait que vous n'êtes pas",
   "statements.wishing.well.lucky": "Voyons à quel point vous êtes chanceux!",
-  "statements.wishing.just.lucky":
-    "pour voir à quel point vous avez été chanceux.",
   "statements.wrongChain.one": "Consultez ce guide pour vous connecter.",
   "statements.feed.bumpkin.one":
     "Vous n'avez pas de nourriture dans votre inventaire.",
