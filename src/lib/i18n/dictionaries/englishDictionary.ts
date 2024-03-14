@@ -1053,6 +1053,16 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.like.list": "What would you like to list?",
   "bumpkinTrade.goldpass.required": "Gold Pass is required",
   "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
+
+  "bumpkinTrade.available": "Available",
+  "bumpkinTrade.quantity": "Quantity",
+  "bumpkinTrade.price": "Price",
+  "bumpkinTrade.listingPrice": "Listing price",
+  "bumpkinTrade.pricePerUnit": "Price per unit",
+  "bumpkinTrade.tradingFee": "Trading fee",
+  "bumpkinTrade.youWillReceive": "You will receive",
+  "bumpkinTrade.cancel": "Cancel",
+  "bumpkinTrade.list": "List",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

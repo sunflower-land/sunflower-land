@@ -747,7 +747,17 @@ export type BumpkinTrade =
   | "bumpkinTrade.sell"
   | "bumpkinTrade.like.list"
   | "bumpkinTrade.goldpass.required"
-  | "bumpkinTrade.purchase";
+  | "bumpkinTrade.purchase"
+  | "bumpkinTrade.available"
+  | "bumpkinTrade.quantity"
+  | "bumpkinTrade.price"
+  | "bumpkinTrade.listingPrice"
+  | "bumpkinTrade.listingPrice"
+  | "bumpkinTrade.pricePerUnit"
+  | "bumpkinTrade.tradingFee"
+  | "bumpkinTrade.youWillReceive"
+  | "bumpkinTrade.cancel"
+  | "bumpkinTrade.list";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
