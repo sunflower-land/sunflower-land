@@ -12,12 +12,7 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
  *
  * Do not delete JEST_TEST.
  */
-type FeatureName =
-  | "JEST_TEST"
-  | "PORTALS"
-  | "DEQUIPPER"
-  | "CHESTS"
-  | "PWA_INSTALL";
+type FeatureName = "JEST_TEST" | "PORTALS" | "DEQUIPPER" | "CHESTS";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -32,7 +27,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   DEQUIPPER: defaultFeatureFlag,
   CHESTS: defaultFeatureFlag,
-  PWA_INSTALL: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

@@ -39,8 +39,6 @@ import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { isMobile, isIOS, getUA } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { InstallAppModal } from "./InstallAppModal";
-import { hasFeatureAccess } from "lib/flags";
-import { GameState } from "features/game/types/game";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -223,15 +221,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <li className="p-1">
                       <DEV_HoardingCheck network="mumbai" />
                     </li>
-                    {hasFeatureAccess({} as GameState, "PWA_INSTALL") && (
-                      <li className="p-1">
-                        <Button onClick={handleInstallApp}>
-                          <span>{t("install.app")}</span>
-                        </Button>
-                      </li>
-                    )}
                   </>
                 )}
+                <li className="p-1">
+                  <Button onClick={handleInstallApp}>
+                    <span>{t("install.app")}</span>
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={changeLanguage}>
                     <span>{t("change.Language")}</span>
