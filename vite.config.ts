@@ -42,7 +42,8 @@ export default defineConfig({
         description:
           "🧑‍🌾 Install our app for a more seamless farming experience. Enjoy full-screen action, easy access, and exclusive features!",
         short_name: "Sunflower Land",
-        start_url: "/testnet/",
+        start_url:
+          process.env.VITE_NETWORK === "mainnet" ? "/play/" : "/testnet/",
         theme_color: "#303443",
         display: "standalone",
         background_color: "#0099dc",
