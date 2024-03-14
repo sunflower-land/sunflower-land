@@ -34,7 +34,7 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
   const Content = () => {
     return (
       <CloseButtonPanel title={t("change.Language")} onClose={onClose}>
-        <div className="p-1">
+        <div className="p-1 space-y-2">
           <Button
             onClick={() => handleChangeLanguage("en")}
             disabled={language === "en"}

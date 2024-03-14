@@ -9,7 +9,6 @@ describe("receiveTrade", () => {
         action: {
           tradeId: "123",
           type: "trade.received",
-          beta: false,
         },
         state: TEST_FARM,
       })
@@ -21,7 +20,6 @@ describe("receiveTrade", () => {
       action: {
         tradeId: "123",
         type: "trade.received",
-        beta: false,
       },
       state: {
         ...TEST_FARM,
@@ -49,7 +47,6 @@ describe("receiveTrade", () => {
       action: {
         tradeId: "123",
         type: "trade.received",
-        beta: false,
       },
       state: {
         ...TEST_FARM,
@@ -77,7 +74,6 @@ describe("receiveTrade", () => {
       action: {
         tradeId: "123",
         type: "trade.received",
-        beta: true,
       },
       state: {
         ...TEST_FARM,

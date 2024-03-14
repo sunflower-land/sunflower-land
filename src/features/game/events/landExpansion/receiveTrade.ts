@@ -4,7 +4,6 @@ import cloneDeep from "lodash.clonedeep";
 export type ReceiveTradeAction = {
   type: "trade.received";
   tradeId: string;
-  beta: boolean;
 };
 
 type Options = {
@@ -32,9 +31,8 @@ export function receiveTrade({
   // }
 
   // Subtract 10% tax
-  if (action.beta) {
-    trade.sfl = trade.sfl * 0.9;
-  }
+  trade.sfl = trade.sfl * 0.9;
+
   // Add SFL to balance (minus tax)
   game.balance = game.balance.add(trade.sfl);
 
