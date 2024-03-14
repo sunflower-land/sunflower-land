@@ -239,7 +239,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
                 fill="currentColor"
               ></path>
             </svg>
-            {`Wallet Connect`}
+            {`Wallets`}
           </div>
         </Button>
       </>
