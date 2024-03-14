@@ -197,6 +197,16 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         <Label type="info">{t("beta")}</Label>
       </div>
       {getKeys(listings).map((listingId, index) => {
+        if (listingId.length < 38)
+          return (
+            <div className="p-2">
+              <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
+              <p className="text-sm mb-2 text-center">
+                {t("playerTrade.no.trade")}
+              </p>
+            </div>
+          );
+
         return (
           <OuterPanel className="mb-2" key={index}>
             <div className="flex justify-between">

@@ -436,7 +436,7 @@ export const Trade: React.FC = () => {
                 gameService.send("SAVE");
               }}
               trade={trades[listingId]}
-              isOldListing={listingId.length < 27}
+              isOldListing={listingId.length < 38}
             />
           </div>
         );
