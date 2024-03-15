@@ -697,6 +697,9 @@ const beehive: Record<Beehive, string> = {
   "beehive.beeSwarm": "Enxame de abelhas",
   "beehive.pollinationCelebration":
     "Celebração da polinização! Suas colheitas terão um boost de 0,2 graças a um enxame de abelhas amigáveis!",
+  "beehive.honeyProductionPaused": "Honey production paused",
+  "beehive.rateInfo": "Rate: {{rate}} Honey / day",
+  "beehive.estimatedFullIn": "Estimated full in: {{estimatedTime}}",
 };
 
 const beachLuck: Record<BeachLuck, string> = {
