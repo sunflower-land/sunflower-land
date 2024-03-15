@@ -346,12 +346,17 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </div>
-            {currentRate > 0 && (
+            {currentRate > 0 && !!secondsLeftUntilFull && (
               <div className="text-xs mx-1 mb-2">
                 {`${t("beehive.rateInfo")}`.replace(
                   "{{rate}}",
                   `${setPrecision(new Decimal(currentRate))}`
                 )}
+              </div>
+            )}
+            {currentRate === 0 && (
+              <div className="text-xs mx-1 mb-2">
+                {t("beehive.honeyProductionPaused")}
               </div>
             )}
             {!!secondsLeftUntilFull && (
@@ -362,11 +367,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                     length: "medium",
                   })}`
                 )}
-              </div>
-            )}
-            {secondsLeftUntilFull === undefined && (
-              <div className="text-xs mx-1 mb-2">
-                {t("beehive.honeyProductionPaused")}
               </div>
             )}
             <Button onClick={handleHarvestHoney}>
