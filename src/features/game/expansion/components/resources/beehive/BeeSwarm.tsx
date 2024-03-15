@@ -14,7 +14,7 @@ export const BeeSwarm: React.FC = () => (
         alt="Bee"
         className={`absolute left-1/2 -translate-x-1/2 swarm-bee-${i + 1}`}
         style={{
-          width: `${PIXEL_SCALE * 7}px`,
+          width: `${PIXEL_SCALE * 10}px`,
         }}
       />
     ))}
