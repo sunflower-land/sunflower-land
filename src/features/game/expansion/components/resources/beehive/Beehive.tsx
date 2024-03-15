@@ -22,6 +22,7 @@ import {
   MachineInterpreter,
   beehiveMachine,
   getCurrentHoneyProduced,
+  getCurrentRate,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
 import { Modal } from "components/ui/Modal";
@@ -39,6 +40,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
+import { secondsToString } from "lib/utils/time";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   id: string;
@@ -112,7 +115,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHiveClick = () => {
-    if (showBeeAnimation) return;
     if (!honeyProduced) return;
 
     setShowHoneyLevelModal(true);
@@ -124,7 +126,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (!honeyReady && !showBeeAnimation) {
+    if (!honeyReady) {
       setShowHoneyLevelPopover(true);
     }
   };
@@ -179,10 +181,19 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
+  const currentRate = getCurrentRate(hive);
+  const secondsLeftUntilFull =
+    currentRate === 0
+      ? undefined
+      : Math.max(
+          0,
+          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentRate / 1000
+        );
+
   return (
     <>
       <div
-        className={!showBeeAnimation ? "cursor-pointer" : ""}
+        className={"cursor-pointer"}
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
         onClick={handleHiveClick}
@@ -190,9 +201,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         <img
           src={beehive}
           alt="Beehive"
-          className={classNames("absolute bottom-0", {
-            "hover:img-highlight": !showBeeAnimation,
-          })}
+          className="absolute bottom-0 hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
@@ -222,7 +231,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               "animate-exit-hive": showProducingBee,
             })}
             style={{
-              width: `${PIXEL_SCALE * 7}px`,
+              width: `${PIXEL_SCALE * 10}px`,
             }}
           />
         )}
@@ -337,6 +346,29 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </div>
+            {currentRate > 0 && (
+              <div className="text-xs mx-1 mb-2">
+                {`${t("beehive.rateInfo")}`.replace(
+                  "{{rate}}",
+                  `${setPrecision(new Decimal(currentRate))}`
+                )}
+              </div>
+            )}
+            {!!secondsLeftUntilFull && (
+              <div className="text-xs mx-1 mb-2">
+                {`${t("beehive.estimatedFullIn")}`.replace(
+                  "{{estimatedTime}}",
+                  `${secondsToString(secondsLeftUntilFull, {
+                    length: "medium",
+                  })}`
+                )}
+              </div>
+            )}
+            {secondsLeftUntilFull === undefined && (
+              <div className="text-xs mx-1 mb-2">
+                {t("beehive.honeyProductionPaused")}
+              </div>
+            )}
             <Button onClick={handleHarvestHoney}>
               {t("beehive.harvestHoney")}
             </Button>
