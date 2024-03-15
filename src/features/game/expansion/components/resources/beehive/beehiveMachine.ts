@@ -10,6 +10,7 @@ export type AttachedFlower = {
 
 export interface BeehiveContext {
   honeyProduced: number;
+  currentRate: number;
   hive: Beehive;
   isProducing?: boolean;
   attachedFlower?: AttachedFlower;
@@ -204,6 +205,7 @@ export const beehiveMachine = createMachine<
     actions: {
       checkAndUpdateHoney: assign({
         honeyProduced: ({ hive }) => getCurrentHoneyProduced(hive),
+        currentRate: ({ hive }) => getCurrentRate(hive),
         isProducing: ({ attachedFlower }) => {
           if (!attachedFlower) return false;
           if (attachedFlower.attachedAt > Date.now()) return false;

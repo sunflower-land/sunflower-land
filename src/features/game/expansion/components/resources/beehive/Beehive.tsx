@@ -60,6 +60,7 @@ const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
   state.context.honeyProduced;
+const _currentRate = (state: BeehiveMachineState) => state.context.currentRate;
 const _currentFlowerId = (state: BeehiveMachineState) =>
   state.context.attachedFlower?.id;
 const _showBeeAnimation = (state: BeehiveMachineState) =>
@@ -84,6 +85,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     gameState: gameState.context.state,
     hive,
     honeyProduced: getCurrentHoneyProduced(hive),
+    currentRate: getCurrentRate(hive),
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
@@ -93,6 +95,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const honeyReady = useSelector(beehiveService, _honeyReady);
   const isProducing = useSelector(beehiveService, _isProducing);
   const honeyProduced = useSelector(beehiveService, _honeyProduced);
+  const currentRate = useSelector(beehiveService, _currentRate);
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
@@ -181,7 +184,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
-  const currentRate = getCurrentRate(hive);
   const secondsLeftUntilFull =
     currentRate === 0
       ? undefined
@@ -211,7 +213,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           src={honeyDrop}
           alt="Honey Drop"
           className={classNames(
-            "absolute top-0 right-1 transition-transform duration-700",
+            "absolute top-0 transition-transform duration-700",
             {
               "scale-0": !honeyReady,
               "scale-100 honey-drop-ready": honeyReady,
@@ -219,22 +221,26 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           )}
           style={{
             width: `${PIXEL_SCALE * 7}px`,
+            right: `${PIXEL_SCALE * 2}px`,
           }}
         />
         {/* Bee to indicate honey is currently being produced */}
-        {!showBeeAnimation && !landscaping && showProducingBee !== undefined && (
-          <img
-            src={bee}
-            alt="Bee"
-            className={classNames("absolute left-1/2 -translate-x-1/2", {
-              "animate-enter-hive": !showProducingBee,
-              "animate-exit-hive": showProducingBee,
-            })}
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-            }}
-          />
-        )}
+        {!showBeeAnimation &&
+          !landscaping &&
+          showProducingBee !== undefined &&
+          !honeyReady && (
+            <img
+              src={bee}
+              alt="Bee"
+              className={classNames("absolute left-1/2 -translate-x-1/2", {
+                "animate-enter-hive": !showProducingBee,
+                "animate-exit-hive": showProducingBee,
+              })}
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+          )}
         {/* Progress bar for honey production */}
         {showQuantityBar && (
           <div
