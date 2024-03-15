@@ -39,6 +39,7 @@ import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { isMobile, isIOS, getUA } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { InstallAppModal } from "./InstallAppModal";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -77,6 +78,8 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const isMetamaskMobile = /MetaMaskMobile/.test(getUA);
 
   const pwaInstall = usePWAInstall();
+  const isPWA = useIsPWA();
+  const isMobilePWA = isMobile && isPWA;
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -223,11 +226,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </li>
                   </>
                 )}
-                <li className="p-1">
-                  <Button onClick={handleInstallApp}>
-                    <span>{t("install.app")}</span>
-                  </Button>
-                </li>
+                {!isMobilePWA && (
+                  <li className="p-1">
+                    <Button onClick={handleInstallApp}>
+                      <span>{t("install.app")}</span>
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button onClick={changeLanguage}>
                     <span>{t("change.Language")}</span>
