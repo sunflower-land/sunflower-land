@@ -44,7 +44,7 @@ const BeeComponent: React.FC<Props> = ({
     y: number;
     distance: number;
   } => {
-    const beeWidth = PIXEL_SCALE * 7;
+    const beeWidth = PIXEL_SCALE * 10;
     const xOffsetToFlowerPosition =
       (GRID_WIDTH_PX * RESOURCE_DIMENSIONS["Flower Bed"].width) / 2 -
       beeWidth / 2;
@@ -109,16 +109,21 @@ const BeeComponent: React.FC<Props> = ({
   const initialBeeDirection = getBeeDirection();
   const finalBeeDirection = -initialBeeDirection;
 
+  const initialPosition = {
+    x: PIXEL_SCALE * 3,
+    y: PIXEL_SCALE * -3,
+  };
+
   // React Spring animation
   const animation = useSpring({
     from: {
-      transform: `translate(13px, -13px) scale(0) scaleX(${initialBeeDirection})`,
+      transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(0) scaleX(${initialBeeDirection})`,
     },
     to: async (next) => {
       const flightDuration = getFlightDuration(flowerPosition.distance);
 
       await next({
-        transform: `translate(13px, -13px) scale(1) scaleX(${initialBeeDirection})`,
+        transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(1) scaleX(${initialBeeDirection})`,
         config: {
           duration: 500,
         },
@@ -142,7 +147,7 @@ const BeeComponent: React.FC<Props> = ({
       });
       // Phase 4: Move back to the hive
       await next({
-        transform: `translate(13px, -13px) scale(1) scaleX(${finalBeeDirection})`,
+        transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(1) scaleX(${finalBeeDirection})`,
         config: {
           ...config.slow,
           duration: flightDuration,
@@ -150,7 +155,7 @@ const BeeComponent: React.FC<Props> = ({
       });
       // Phase 5: Scale back into the hive
       await next({
-        transform: `translate(13px, -1px) scale(0) scaleX(${finalBeeDirection})`,
+        transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(0) scaleX(${finalBeeDirection})`,
         transformOrigin: "center bottom",
         config: { duration: 500 },
       });
@@ -160,10 +165,10 @@ const BeeComponent: React.FC<Props> = ({
 
   return (
     <animated.div
-      className="absolute z-50"
+      className="absolute z-50 pointer-events-none"
       style={{
-        width: `${PIXEL_SCALE * 7}px`,
-        height: `${PIXEL_SCALE * 7}px`,
+        width: `${PIXEL_SCALE * 10}px`,
+        height: `${PIXEL_SCALE * 10}px`,
         ...animation,
       }}
     >
@@ -172,7 +177,7 @@ const BeeComponent: React.FC<Props> = ({
         alt="Bee"
         className="bee-flight"
         style={{
-          width: `${PIXEL_SCALE * 7}px`,
+          width: `${PIXEL_SCALE * 10}px`,
         }}
       />
     </animated.div>
