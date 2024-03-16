@@ -4,11 +4,10 @@ import { FarmSlot, ItemLimits } from "lib/blockchain/Trader";
 import { InventoryItemName } from "features/game/types/game";
 
 import { loadTradingPost } from "./actions/loadTradingPost";
-import { Draft, sellingMachine } from "../../selling/lib/sellingMachine";
+import { sellingMachine } from "../../selling/lib/sellingMachine";
 import { buyingMachine } from "../../buying/lib/buyingMachine";
 import { loadUpdatedSession } from "./actions/loadUpdatedSession";
 import { purchase } from "./actions/purchase";
-import { list } from "./actions/list";
 import { cancel } from "./actions/cancel";
 import { escalate } from "xstate/lib/actions";
 import { randomID } from "lib/utils/random";
@@ -33,11 +32,6 @@ export interface Context {
   transactionId?: string;
 }
 
-type ListEvent = {
-  type: "LIST";
-  slotId: number;
-  draft: Draft;
-};
 type CancelEvent = {
   type: "CANCEL";
   listingId: number;
@@ -47,17 +41,12 @@ type PurchaseEvent = {
   sfl: number;
   listingId: number;
 };
-export type BlockchainEvent =
-  | { type: "CLOSE" }
-  | ListEvent
-  | CancelEvent
-  | PurchaseEvent;
+export type BlockchainEvent = { type: "CLOSE" } | CancelEvent | PurchaseEvent;
 
 export type BlockchainState = {
   value:
     | "loading"
     | "trading"
-    | "listing"
     | "cancelling"
     | "purchasing"
     | "updatingSession";
@@ -116,9 +105,6 @@ export const tradingPostMachine = createMachine<
               },
             },
             on: {
-              LIST: {
-                target: "#listing",
-              },
               CANCEL: {
                 target: "#cancelling",
               },
@@ -143,32 +129,6 @@ export const tradingPostMachine = createMachine<
         },
         onDone: {
           target: "#updatingSession",
-        },
-      },
-      listing: {
-        id: "listing",
-        entry: "setTransactionId",
-        invoke: {
-          src: async (context, event) => {
-            if (!wallet.myAccount) throw new Error("No account");
-
-            await list({
-              slotId: (event as ListEvent).slotId,
-              draft: (event as ListEvent).draft,
-              farmId: context.farmId,
-              token: context.token,
-              transactionId: context.transactionId as string,
-              account: wallet.myAccount,
-            });
-          },
-          onDone: {
-            target: "updatingSession",
-          },
-          onError: {
-            actions: escalate((_, event) => ({
-              message: event.data.message,
-            })),
-          },
         },
       },
       cancelling: {

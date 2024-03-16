@@ -13,24 +13,24 @@ import {
 } from "../types/decorations";
 
 export const maxItems: Inventory = {
-  Sunflower: new Decimal("15000"),
-  Potato: new Decimal("10000"),
-  Pumpkin: new Decimal("8000"),
-  Carrot: new Decimal("7000"),
-  Cabbage: new Decimal("6000"),
-  Beetroot: new Decimal("5000"),
-  Cauliflower: new Decimal("5000"),
-  Parsnip: new Decimal("4000"),
-  Eggplant: new Decimal("3000"),
-  Corn: new Decimal("2500"),
-  Radish: new Decimal("2000"),
-  Wheat: new Decimal("2000"),
-  Kale: new Decimal("2000"),
+  Sunflower: new Decimal("30000"),
+  Potato: new Decimal("20000"),
+  Pumpkin: new Decimal("16000"),
+  Carrot: new Decimal("14000"),
+  Cabbage: new Decimal("12000"),
+  Beetroot: new Decimal("10000"),
+  Cauliflower: new Decimal("10000"),
+  Parsnip: new Decimal("8000"),
+  Eggplant: new Decimal("6000"),
+  Corn: new Decimal("5000"),
+  Radish: new Decimal("4000"),
+  Wheat: new Decimal("4000"),
+  Kale: new Decimal("4000"),
 
-  Apple: new Decimal("300"),
-  Orange: new Decimal("400"),
-  Blueberry: new Decimal("400"),
-  Banana: new Decimal("300"),
+  Apple: new Decimal("700"),
+  Orange: new Decimal("900"),
+  Blueberry: new Decimal("900"),
+  Banana: new Decimal("600"),
 
   Chicken: new Decimal("20"),
   Egg: new Decimal("800"),
@@ -98,11 +98,11 @@ export const maxItems: Inventory = {
   "Primula Enigma": new Decimal("80"),
 
   Sunstone: new Decimal("20"),
-  Crimstone: new Decimal("40"),
-  Gold: new Decimal("200"),
-  Iron: new Decimal("400"),
-  Stone: new Decimal("800"),
-  Wood: new Decimal("4000"),
+  Crimstone: new Decimal("100"),
+  Gold: new Decimal("400"),
+  Iron: new Decimal("800"),
+  Stone: new Decimal("1600"),
+  Wood: new Decimal("8000"),
   "Wild Mushroom": new Decimal("100"),
   Honey: new Decimal("80"),
 
@@ -260,6 +260,10 @@ export const maxItems: Inventory = {
     }),
     {}
   ),
+
+  Anchovy: new Decimal(300),
+  Tuna: new Decimal(250),
+  "Red Snapper": new Decimal(200),
 
   // Max of 1000 landscaping decoration, but only 100 for mushrooms
   ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])

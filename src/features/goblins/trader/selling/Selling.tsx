@@ -9,7 +9,6 @@ import { MachineInterpreter as TradingPostMachineInterpreter } from "../tradingP
 import { MachineInterpreter as SellingMachineInterpreter } from "./lib/sellingMachine";
 import { Idle } from "./components/Idle";
 import { Cancelling } from "./components/Cancelling";
-import { Confirming } from "./components/Confirming";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -38,17 +37,6 @@ export const Selling: React.FC = () => {
         onCancel={(listing) =>
           sellingService.send("CANCEL_LISTING", { listing })
         }
-      />
-    );
-  }
-
-  if (machine.matches("confirming")) {
-    return (
-      <Confirming
-        tax={TAX}
-        draft={machine.context.draft}
-        onBack={() => send("BACK")}
-        onConfirm={() => send("CONFIRM")}
       />
     );
   }

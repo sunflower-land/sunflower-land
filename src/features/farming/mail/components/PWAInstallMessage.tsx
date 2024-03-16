@@ -116,6 +116,13 @@ export const PWAInstallMessage: React.FC<Props> = ({
 
   const conversation = message;
 
+  const formatMagicLink = () => {
+    if (!magicLink) return "";
+
+    const url = new URL(magicLink);
+    return `${url.origin}...`;
+  };
+
   return (
     <div
       style={{ maxHeight: CONTENT_HEIGHT }}
@@ -136,17 +143,20 @@ export const PWAInstallMessage: React.FC<Props> = ({
               "install.app.mobile.metamask.description.two"
             )}`}</p>
             <div
-              className={classNames("cursor-pointer text-xs flex", {
-                loading: magicLink === undefined,
-                underline: !!magicLink,
-              })}
+              className={classNames(
+                "cursor-pointer text-xs flex items-center",
+                {
+                  loading: magicLink === undefined,
+                  underline: !!magicLink,
+                }
+              )}
               style={{ marginLeft: 0, height: 25 }}
               onMouseEnter={() => setShowLabel(true)}
               onMouseLeave={() => setShowLabel(false)}
               onClick={copyToClipboard}
             >
               {magicLink ? (
-                <span>{t("magic.link")}</span>
+                <span>{formatMagicLink()}</span>
               ) : (
                 <span>{t("generating.link")}</span>
               )}
