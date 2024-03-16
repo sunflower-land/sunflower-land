@@ -125,8 +125,8 @@ export class CropBoomScene extends BaseScene {
         return;
       }
 
-      this.currentPlayer.x = SPAWNS.crop_boom.default.x;
-      this.currentPlayer.y = SPAWNS.crop_boom.default.y;
+      this.currentPlayer.x = SPAWNS().crop_boom.default.x;
+      this.currentPlayer.y = SPAWNS().crop_boom.default.y;
 
       this.bombed = false;
       // Your code to run when the animation is complete

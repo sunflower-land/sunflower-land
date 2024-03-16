@@ -191,8 +191,8 @@ export abstract class BaseScene extends Phaser.Scene {
 
       let spawn = this.options.player.spawn;
 
-      if (SPAWNS[this.sceneId]) {
-        spawn = SPAWNS[this.sceneId][from] ?? SPAWNS[this.sceneId].default;
+      if (SPAWNS()[this.sceneId]) {
+        spawn = SPAWNS()[this.sceneId][from] ?? SPAWNS()[this.sceneId].default;
       }
 
       this.createPlayer({
