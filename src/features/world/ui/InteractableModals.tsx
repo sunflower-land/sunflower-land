@@ -18,6 +18,7 @@ import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { Donations } from "./donations/Donations";
 import { SceneId } from "../mmoMachine";
 import { TradingBoard } from "./npcs/TradingBoard";
+import { BudBox } from "./chests/BudBox";
 
 type InteractableName =
   | "donations"
@@ -88,7 +89,8 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] =
+    useState<InteractableName>("clubhouse_reward");
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -293,17 +295,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
-          <div className="p-2">
-            <p className="text-sm mb-2">
-              {t("interactableModals.clubhouseReward.message1")}
-            </p>
-            <p className="text-sm">
-              {t("interactableModals.clubhouseReward.message2")}
-            </p>
-          </div>
-        </CloseButtonPanel>
+      <Modal show={interactable === "clubhouse_reward"}>
+        <BudBox onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal

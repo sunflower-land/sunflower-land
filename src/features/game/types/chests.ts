@@ -86,3 +86,14 @@ export const LUXURY_REWARDS: ChestReward[] = [
   { items: { Capybara: 1 }, weighting: 50 },
   { items: { "Flower Fox": 1 }, weighting: 25 },
 ];
+
+export const BUD_BOX_REWARDS: ChestReward[] = [
+  { items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 }, weighting: 10 },
+  { items: { "Iron Pickaxe": 10 }, weighting: 10 },
+  { items: { Rod: 10 }, weighting: 10 },
+  { items: { "Fishing Lure": 5 }, weighting: 10 },
+  { items: { "Radish Cake": 10 }, weighting: 5 },
+  { items: { "Time Warp Totem": 1 }, weighting: 10 },
+  { items: { "Prize Ticket": 1 }, weighting: 10 },
+  { wearables: { "Seedling Hat": 1 }, weighting: 1 },
+];
