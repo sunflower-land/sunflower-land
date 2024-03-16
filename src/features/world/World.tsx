@@ -1,6 +1,6 @@
 import { Context, GameProvider } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
 import { useActor, useInterpret, useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -9,6 +9,7 @@ import { Panel } from "components/ui/Panel";
 import { useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
 import ocean from "assets/decorations/ocean.webp";
+import PubSub from "pubsub-js";
 
 import {
   MachineInterpreter as MMOMachineInterpreter,
@@ -74,6 +75,18 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     },
   }) as unknown as MMOMachineInterpreter;
 
+  // We need to listen to events outside of MMO scope (Settings Panel)
+  useEffect(() => {
+    // Subscribe to the event
+    const eventSubscription = PubSub.subscribe("CHANGE_SERVER", () => {
+      mmoService.send("CHANGE_SERVER");
+    });
+
+    return () => {
+      PubSub.unsubscribe(eventSubscription);
+    };
+  }, []);
+
   const isInitialising = useSelector(mmoService, _isMMOInitialising);
   const isConnecting = useSelector(mmoService, _isConnecting);
   const isConnected = useSelector(mmoService, _isConnected);
@@ -102,6 +115,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
         inventory={gameState.context.state.inventory}
         route={name as SceneId}
       />
+
       <Modal show={isIntroducting}>
         <WorldIntroduction
           onClose={() => {

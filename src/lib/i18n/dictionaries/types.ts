@@ -2608,6 +2608,7 @@ export type Pickserver =
   | "pickserver.built";
 
 export type PlazaSettings =
+  | "plazaSettings.changeServer"
   | "plazaSettings.title.main"
   | "plazaSettings.title.mutedPlayers"
   | "plazaSettings.title.keybinds"

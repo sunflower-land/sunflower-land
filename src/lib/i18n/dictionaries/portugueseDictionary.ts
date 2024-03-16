@@ -3925,6 +3925,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Precisa saber quais atalhos de teclado estão disponíveis? Confira-os aqui.",
   "plazaSettings.noMutedPlayers": "Você não tem jogadores silenciados.",
+  "plazaSettings.changeServer": ENGLISH_TERMS["plazaSettings.changeServer"],
 };
 
 const portal: Record<Portal, string> = {

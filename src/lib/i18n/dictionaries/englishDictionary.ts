@@ -3879,6 +3879,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
+  "plazaSettings.changeServer": "Change server",
 };
 
 const portal: Record<Portal, string> = {

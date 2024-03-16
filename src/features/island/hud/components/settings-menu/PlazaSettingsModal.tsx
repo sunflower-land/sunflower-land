@@ -73,6 +73,14 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
                 {t("plazaSettings.title.mutedPlayers")}
               </Button>
+              <Button
+                onClick={() => {
+                  PubSub.publish("CHANGE_SERVER");
+                  onClose();
+                }}
+              >
+                {t("plazaSettings.changeServer")}
+              </Button>
             </div>
             {/* <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
