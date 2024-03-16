@@ -153,26 +153,37 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
           const buds = getKeys(BUD_DAYS).filter(
             (bud) => BUD_DAYS[bud] === dayIndex
           );
+
+          const hasBud = buds.some((type) => playerBudTypes.includes(type));
           return (
-            <OuterPanel className="flex relative mb-1">
-              {buds.map((type, index) => (
-                <img
-                  src={budIcon}
-                  className={classNames("h-8 img-highlight", {
-                    "-ml-2": index > 0,
-                  })}
-                />
-              ))}
-              {buds.map((type) => (
-                <div>
-                  <Label
-                    type={playerBudTypes.includes(type) ? "success" : "default"}
-                    className="mr-1"
-                  >
-                    {type}
-                  </Label>
-                </div>
-              ))}
+            <OuterPanel className="flex justify-between relative mb-1">
+              <div className="flex justify-between relative mb-1">
+                {buds.map((type, index) => (
+                  <img
+                    src={budIcon}
+                    className={classNames("h-8 img-highlight", {
+                      "-ml-2": index > 0,
+                    })}
+                  />
+                ))}
+                {buds.map((type) => (
+                  <div>
+                    <Label
+                      type={
+                        playerBudTypes.includes(type) ? "success" : "default"
+                      }
+                      className="mr-1"
+                    >
+                      {type}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+              {index === 0 && !hasOpened && (
+                <Button disabled={!hasBud} className="w-16 h-8 text-xs mt-4">
+                  Open
+                </Button>
+              )}
               {index === 0 && hasOpened && (
                 <Label
                   icon={SUNNYSIDE.icons.confirm}
