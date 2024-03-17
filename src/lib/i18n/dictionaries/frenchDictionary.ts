@@ -648,6 +648,12 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.opened": ENGLISH_TERMS["budBox.opened"],
   "budBox.title": ENGLISH_TERMS["budBox.title"],
   "budBox.description": ENGLISH_TERMS["budBox.description"],
+  "raffle.title": ENGLISH_TERMS["raffle.title"],
+  "raffle.description": ENGLISH_TERMS["raffle.description"],
+  "raffle.entries": ENGLISH_TERMS["raffle.entries"],
+  "raffle.noTicket": ENGLISH_TERMS["raffle.noTicket"],
+  "raffle.how": ENGLISH_TERMS["raffle.how"],
+  "raffle.enter": ENGLISH_TERMS["raffle.enter"],
 };
 
 const beach: Record<Beach, string> = {

@@ -643,6 +643,14 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "budBox.opened": "Opened",
   "budBox.title": "Bud box",
   "budBox.description": "Each day, a bud type can unlock farming rewards.",
+  "raffle.title": "Goblin Raffle",
+  "raffle.description":
+    "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
+  "raffle.entries": "entries",
+  "raffle.noTicket": "Missing Prize Ticket",
+  "raffle.how":
+    "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",
+  "raffle.enter": "Enter",
 };
 
 const beach: Record<Beach, string> = {

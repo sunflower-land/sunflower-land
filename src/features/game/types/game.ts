@@ -949,6 +949,9 @@ export interface GameState {
     budBox?: {
       openedAt: number;
     };
+    raffle?: {
+      entries: Record<string, number>;
+    };
   };
   conversations: ConversationName[];
   mailbox: {
