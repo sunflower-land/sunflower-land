@@ -36,7 +36,13 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LanguageSwitcher } from "./LanguageChangeModal";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
-import { isMobile, isIOS, getUA } from "mobile-device-detect";
+import {
+  isMobile,
+  isIOS,
+  isSafari,
+  isAndroid,
+  isChrome,
+} from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { InstallAppModal } from "./InstallAppModal";
 
@@ -74,7 +80,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
 
-  const isMetamaskMobile = /MetaMaskMobile/.test(getUA);
+  const isWeb3MobileBrowser = isMobile && !!window.ethereum;
 
   const pwaInstall = usePWAInstall();
 
@@ -128,10 +134,10 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   };
 
   const handleInstallApp = () => {
-    if (isMobile && !isMetamaskMobile) {
-      if (isIOS) {
+    if (isMobile && !isWeb3MobileBrowser) {
+      if (isIOS && isSafari) {
         pwaInstall.current?.showDialog();
-      } else {
+      } else if (isAndroid && isChrome) {
         pwaInstall.current?.install();
       }
 
