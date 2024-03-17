@@ -639,10 +639,10 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Congratulations, you have the key!",
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
-  "buxBox.open": "Open",
-  "buxBox.opened": "Opened",
-  "buxBox.title": "Bud box",
-  "buxBox.description": "Each day, a bud type can unlock farming rewards.",
+  "budBox.open": "Open",
+  "budBox.opened": "Opened",
+  "budBox.title": "Bud box",
+  "budBox.description": "Each day, a bud type can unlock farming rewards.",
 };
 
 const beach: Record<Beach, string> = {

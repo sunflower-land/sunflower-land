@@ -417,10 +417,10 @@ export type BasicTreasure =
   | "basic.treasure.key"
   | "basic.treasure.congratsKey"
   | "basic.treasure.openChest"
-  | "buxBox.open"
-  | "buxBox.opened"
-  | "buxBox.title"
-  | "buxBox.description";
+  | "budBox.open"
+  | "budBox.opened"
+  | "budBox.title"
+  | "budBox.description";
 
 export type Beach = "beach.party" | "beach.ready";
 

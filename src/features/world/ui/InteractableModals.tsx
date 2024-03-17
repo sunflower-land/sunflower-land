@@ -89,8 +89,7 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] =
-    useState<InteractableName>("clubhouse_reward");
+  const [interactable, setInteractable] = useState<InteractableName>();
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
