@@ -949,7 +949,7 @@ export interface GameState {
     budBox?: {
       openedAt: number;
     };
-    raffle: {
+    raffle?: {
       entries: Record<string, number>;
     };
   };

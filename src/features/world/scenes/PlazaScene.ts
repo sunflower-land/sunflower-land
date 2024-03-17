@@ -280,6 +280,11 @@ export class PlazaScene extends BaseScene {
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
 
+    this.load.spritesheet("raffle", "world/raffle.webp", {
+      frameWidth: 33,
+      frameHeight: 28,
+    });
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -322,6 +327,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_chest", "world/luxury_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("key_disc", "world/key_disc.png");
+    this.load.image("raffle_disc", "world/raffle_disc.png");
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
@@ -421,6 +427,24 @@ export class PlazaScene extends BaseScene {
         }
       });
     }
+
+    this.add.sprite(300, 132, "raffle_disc").setDepth(1000000000);
+
+    const raffle = this.add.sprite(300, 156, "raffle").setDepth(1000000000000);
+    this.anims.create({
+      key: "raffle_animation",
+      frames: this.anims.generateFrameNumbers("raffle", {
+        start: 0,
+        end: 7,
+      }),
+      repeat: -1,
+      frameRate: 4,
+    });
+    raffle.play("raffle_animation", true);
+
+    raffle.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("raffle");
+    });
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
       this.arrows = this.add
