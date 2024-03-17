@@ -40,7 +40,7 @@ describe("enterRaffle", () => {
       createdAt: now.getTime(),
     });
 
-    expect(state.pumpkinPlaza.raffle.entries).toEqual({
+    expect(state.pumpkinPlaza.raffle?.entries).toEqual({
       "2024-02": 12,
       "2024-03": 4, // Incremented
     });

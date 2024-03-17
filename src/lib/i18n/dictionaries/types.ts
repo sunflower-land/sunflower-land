@@ -420,7 +420,13 @@ export type BasicTreasure =
   | "budBox.open"
   | "budBox.opened"
   | "budBox.title"
-  | "budBox.description";
+  | "budBox.description"
+  | "raffle.title"
+  | "raffle.description"
+  | "raffle.entries"
+  | "raffle.noTicket"
+  | "raffle.how"
+  | "raffle.enter";
 
 export type Beach = "beach.party" | "beach.ready";
 

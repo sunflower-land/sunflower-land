@@ -2,22 +2,14 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { OuterPanel, Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Revealed } from "features/game/components/Revealed";
 
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
-import budIcon from "assets/icons/bud.png";
 import chestIcon from "assets/icons/gift.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ChestRevealing } from "./ChestRevealing";
-import { getKeys } from "features/game/types/craftables";
-import { Bud, TypeTrait } from "features/game/types/buds";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { getDayOfYear, secondsToString } from "lib/utils/time";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -43,6 +35,8 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
   const tickets =
     gameState.context.state.inventory["Prize Ticket"] ?? new Decimal(0);
 
+  const monthName = new Date().toLocaleString("default", { month: "long" });
+
   return (
     <CloseButtonPanel onClose={onClose}>
       <div className="p-2">
@@ -56,15 +50,15 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <p className="text-xs mb-1">{t("raffle.description")}</p>
-        <p className="text-xs mb-1">- 5 x 1000 SFL winners</p>
-        <p className="text-xs mb-2">- 2 Bud NFTs</p>
+        <p className="text-xs mb-1">{`- 5 x 1000 SFL winners`}</p>
+        <p className="text-xs mb-2">{`- 2 Bud NFTs`}</p>
         <div className="flex justify-between items-center">
           <Label
             icon={SUNNYSIDE.icons.stopwatch}
             type="info"
             className="mb-2 mr-3 capitalize"
           >
-            {t("raffle.month")}
+            {monthName}
           </Label>
           {entries > 0 && (
             <Label icon={ITEM_DETAILS["Prize Ticket"].image} type="success">
