@@ -115,7 +115,7 @@ export const PWAInstallMessage: React.FC<Props> = ({
         ))}
 
         {isMobile && showMagicLinkFlow && (
-          <MagicLinkFlow magicLink={magicLink} showInstructions={false} />
+          <MagicLinkFlow magicLink={magicLink} />
         )}
 
         {isMobile && showInstallButtonFlow && (
