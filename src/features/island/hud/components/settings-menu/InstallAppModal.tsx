@@ -94,7 +94,7 @@ export const QRCodeFlow = ({ magicLink }: { magicLink?: string | null }) => {
     <div>
       <p className="mb-2 text-sm">{t("install.app.desktop.description")}</p>
       <Label className="mt-1" type="warning">
-        {t("do.not.share.link")}
+        {t("do.not.share.code")}
       </Label>
       {magicLink === undefined && (
         <p className="text-sm loading" style={{ marginLeft: 0 }}>

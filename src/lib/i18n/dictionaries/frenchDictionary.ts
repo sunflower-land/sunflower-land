@@ -4067,6 +4067,7 @@ const pwaInstall: Record<PwaInstall, string> = {
     "Copy the magic link below and open it in",
   "install.app.mobile.metamask.description.two": "on your device to install!",
   "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
   "qr.code.not.working": "QR code not working?",
 };
 
