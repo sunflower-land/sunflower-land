@@ -4045,6 +4045,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
   "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
+  "plazaSettings.changeServer": ENGLISH_TERMS["plazaSettings.changeServer"],
 };
 
 const portal: Record<Portal, string> = {
