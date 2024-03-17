@@ -6,7 +6,6 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Revealed } from "features/game/components/Revealed";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 import React, { useContext, useState } from "react";
 
@@ -17,7 +16,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { getKeys } from "features/game/types/craftables";
 import { Bud, TypeTrait } from "features/game/types/buds";
-import classNames from "classnames";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 
@@ -92,7 +90,6 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
         <Revealed
           onAcknowledged={() => {
             setIsRevealing(false);
-            onClose();
           }}
         />
       </Panel>
@@ -101,21 +98,9 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  if (buds.length === 0) {
-    throw new Error("Missing Bud");
-  }
-
-  const day = new Date().getDay();
-
-  const hasBud = buds.some((id) => {
-    const bud = gameState.context.state.buds?.[id] as Bud;
-
-    return BUD_DAYS[bud.type as TypeTrait] === day;
-  });
-
   const utcDayOfWeek = new Date().getUTCDay();
 
-  let days = [];
+  const days = [];
   for (let i = 0; i < 7; i++) {
     days.push((utcDayOfWeek + i) % 7);
   }
@@ -143,31 +128,33 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
             type="default"
             className="mb-2 mr-3 capitalize"
           >
-            Bud Box
+            {t("budBox.title")}
           </Label>
         </div>
-        <p className="text-xs mb-2">
-          Each day, a bud type can unlock farming rewards.
-        </p>
+        <p className="text-xs mb-2">{t("budBox.description")}</p>
         {days.map((dayIndex, index) => {
           const buds = getKeys(BUD_DAYS).filter(
             (bud) => BUD_DAYS[bud] === dayIndex
           );
 
-          const hasBud = buds.some((type) => playerBudTypes.includes(type));
+          const hasBud = true; //buds.some((type) => playerBudTypes.includes(type));
+          // const hasBud = buds.some((type) => playerBudTypes.includes(type));
           return (
-            <OuterPanel className="flex justify-between relative mb-1">
+            <OuterPanel
+              key={dayIndex}
+              className="flex justify-between relative mb-1"
+            >
               <div className="flex justify-between relative mb-1">
-                {buds.map((type, index) => (
+                {/* {buds.map((type, index) => (
                   <img
                     src={budIcon}
                     className={classNames("h-8 img-highlight", {
                       "-ml-2": index > 0,
                     })}
                   />
-                ))}
+                ))} */}
                 {buds.map((type) => (
-                  <div>
+                  <div key={type}>
                     <Label
                       type={
                         playerBudTypes.includes(type) ? "success" : "default"
@@ -180,8 +167,12 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
                 ))}
               </div>
               {index === 0 && !hasOpened && (
-                <Button disabled={!hasBud} className="w-16 h-8 text-xs mt-4">
-                  Open
+                <Button
+                  onClick={open}
+                  disabled={!hasBud}
+                  className="w-16 h-8 text-xs mt-4"
+                >
+                  {t("budBox.open")}
                 </Button>
               )}
               {index === 0 && hasOpened && (
@@ -190,7 +181,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
                   type="success"
                   className="absolute -top-2 -right-2"
                 >
-                  Opened
+                  {t("budBox.opened")}
                 </Label>
               )}
               {index === 0 && !hasOpened && (

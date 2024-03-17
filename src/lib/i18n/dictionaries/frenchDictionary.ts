@@ -644,6 +644,10 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Félicitations, vous avez une clé de trésor!",
   "basic.treasure.openChest":
     "Souhaitez-vous ouvrir le coffre et réclamer une récompense?",
+  "buxBox.open": ENGLISH_TERMS["buxBox.open"],
+  "buxBox.opened": ENGLISH_TERMS["buxBox.opened"],
+  "buxBox.title": ENGLISH_TERMS["buxBox.title"],
+  "buxBox.description": ENGLISH_TERMS["buxBox.description"],
 };
 
 const beach: Record<Beach, string> = {
