@@ -45,6 +45,7 @@ import {
 } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { InstallAppModal } from "./InstallAppModal";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -79,6 +80,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
+  const isPWA = useIsPWA();
 
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
 
@@ -229,11 +231,13 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </li>
                   </>
                 )}
-                <li className="p-1">
-                  <Button onClick={handleInstallApp}>
-                    <span>{t("install.app")}</span>
-                  </Button>
-                </li>
+                {!isPWA && (
+                  <li className="p-1">
+                    <Button onClick={handleInstallApp}>
+                      <span>{t("install.app")}</span>
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button onClick={changeLanguage}>
                     <span>{t("change.Language")}</span>
