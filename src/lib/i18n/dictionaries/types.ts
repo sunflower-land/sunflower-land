@@ -416,7 +416,11 @@ export type BasicTreasure =
   | "basic.treasure.goodLuck"
   | "basic.treasure.key"
   | "basic.treasure.congratsKey"
-  | "basic.treasure.openChest";
+  | "basic.treasure.openChest"
+  | "budBox.open"
+  | "budBox.opened"
+  | "budBox.title"
+  | "budBox.description";
 
 export type Beach = "beach.party" | "beach.ready";
 

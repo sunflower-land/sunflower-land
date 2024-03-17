@@ -641,6 +641,10 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "rare.treasure.needKey": ENGLISH_TERMS["rare.treasure.needKey"],
   "basic.treasure.openChest":
     "Você gostaria de abrir o baú e coletar uma recompensa?",
+  "budBox.open": ENGLISH_TERMS["budBox.open"],
+  "budBox.opened": ENGLISH_TERMS["budBox.opened"],
+  "budBox.title": ENGLISH_TERMS["budBox.title"],
+  "budBox.description": ENGLISH_TERMS["budBox.description"],
 };
 
 const beach: Record<Beach, string> = {
