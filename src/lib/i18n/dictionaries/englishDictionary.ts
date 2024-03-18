@@ -106,7 +106,6 @@ import {
   OnCollectReward,
   OrderHelp,
   PageFounds,
-  Parsnip,
   Pending,
   PersonHood,
   PirateChest,
@@ -3820,14 +3819,6 @@ const pageFounds: Record<PageFounds, string> = {
   pageFounds: "Pages Found:",
 };
 
-const parsnip: Record<Parsnip, string> = {
-  "parsnip.hat": "Wow, nice horns!",
-  "parsnip.miss": "Don't miss out on future events and giveaways!",
-  "parsnip.Bonus": "Bonus reward",
-  "parsnip.wearable": "You've discovered a special event wearable",
-  "parsnip.found": "Woohoo....you found me!",
-};
-
 const pending: Record<Pending, string> = {
   "pending.calcul": "The results are being calculated.",
   "pending.comeback": "Come back later.",
@@ -4719,7 +4710,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...onCollectReward,
   ...orderhelp,
   ...pageFounds,
-  ...parsnip,
   ...pending,
   ...personHood,
   ...pickserver,
