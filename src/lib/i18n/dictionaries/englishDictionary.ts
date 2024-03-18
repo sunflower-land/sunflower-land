@@ -2259,7 +2259,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.luxury.key":
     "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket":
-    "A ticket to enter the end of season prize giveaway",
+    "A prized ticket. You can use it to enter the monthly goblin raffle.",
   "description.babyPanda":
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
 
