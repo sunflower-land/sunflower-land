@@ -2731,11 +2731,8 @@ export type PwaInstall =
   | "magic.link"
   | "generating.link"
   | "generating.code"
-  | "install.app.mobile.description.one"
-  | "install.app.mobile.description.two"
   | "install.app.desktop.description"
-  | "install.app.mobile.metamask.description.one"
-  | "install.app.mobile.metamask.description.two"
+  | "install.app.mobile.metamask.description"
   | "do.not.share.link"
   | "do.not.share.code"
   | "qr.code.not.working";

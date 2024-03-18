@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -179,11 +180,11 @@ export const MagicLinkFlow = ({
     <div className="w-full mb-2">
       {showInstructions && (
         <>
-          <p className="text-sm mb-2">{`${t(
-            "install.app.mobile.metamask.description.one"
-          )} ${mobileBrowserToUser} ${t(
-            "install.app.mobile.description.two"
-          )}`}</p>
+          <p className="text-sm mb-2">
+            {t("install.app.mobile.metamask.description", {
+              browser: mobileBrowserToUser,
+            })}
+          </p>
           <Label type="warning">{t("do.not.share.link")}</Label>
         </>
       )}
