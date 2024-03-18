@@ -873,6 +873,7 @@ export interface GameState {
   };
 
   username?: string;
+  coins: number;
   balance: Decimal;
   previousBalance: Decimal;
   airdrops?: Airdrop[];
