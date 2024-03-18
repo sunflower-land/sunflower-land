@@ -639,6 +639,18 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Congratulations, you have the key!",
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
+  "budBox.open": "Open",
+  "budBox.opened": "Opened",
+  "budBox.title": "Bud box",
+  "budBox.description": "Each day, a bud type can unlock farming rewards.",
+  "raffle.title": "Goblin Raffle",
+  "raffle.description":
+    "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
+  "raffle.entries": "entries",
+  "raffle.noTicket": "Missing Prize Ticket",
+  "raffle.how":
+    "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",
+  "raffle.enter": "Enter",
 };
 
 const beach: Record<Beach, string> = {
@@ -2247,7 +2259,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.luxury.key":
     "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket":
-    "A ticket to enter the end of season prize giveaway",
+    "A prized ticket. You can use it to enter the monthly goblin raffle.",
   "description.babyPanda":
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
 
@@ -3879,6 +3891,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
+  "plazaSettings.changeServer": "Change server",
 };
 
 const portal: Record<Portal, string> = {
@@ -4024,13 +4037,17 @@ const pwaInstall: Record<PwaInstall, string> = {
   "magic.link": "Magic Link",
   "generating.link": "Generating Link",
   "generating.code": "Generating Code",
-  "install.app.mobile.description.one": "Install Sunflower Land on your device",
-  "install.app.mobile.description.two": "on your device.",
+  "install.app.mobile.description.one":
+    "To install Sunflower Land, copy the link below and open it in",
+  "install.app.mobile.description.two": "to install on your device.",
   "install.app.desktop.description":
-    "Scan the code below to install on your device.",
+    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
   "install.app.mobile.metamask.description.one":
     "Copy the magic link below and open it in",
   "install.app.mobile.metamask.description.two": "on your device to install!",
+  "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
+  "qr.code.not.working": "QR code not working?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {

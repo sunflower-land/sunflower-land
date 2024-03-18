@@ -946,6 +946,12 @@ export interface GameState {
     rewardCollectedAt?: number;
     kickedAt?: number;
     kickedById?: number;
+    budBox?: {
+      openedAt: number;
+    };
+    raffle?: {
+      entries: Record<string, number>;
+    };
   };
   conversations: ConversationName[];
   mailbox: {

@@ -644,6 +644,16 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Félicitations, vous avez une clé de trésor!",
   "basic.treasure.openChest":
     "Souhaitez-vous ouvrir le coffre et réclamer une récompense?",
+  "budBox.open": ENGLISH_TERMS["budBox.open"],
+  "budBox.opened": ENGLISH_TERMS["budBox.opened"],
+  "budBox.title": ENGLISH_TERMS["budBox.title"],
+  "budBox.description": ENGLISH_TERMS["budBox.description"],
+  "raffle.title": ENGLISH_TERMS["raffle.title"],
+  "raffle.description": ENGLISH_TERMS["raffle.description"],
+  "raffle.entries": ENGLISH_TERMS["raffle.entries"],
+  "raffle.noTicket": ENGLISH_TERMS["raffle.noTicket"],
+  "raffle.how": ENGLISH_TERMS["raffle.how"],
+  "raffle.enter": ENGLISH_TERMS["raffle.enter"],
 };
 
 const beach: Record<Beach, string> = {
@@ -4035,6 +4045,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
   "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
+  "plazaSettings.changeServer": ENGLISH_TERMS["plazaSettings.changeServer"],
 };
 
 const portal: Record<Portal, string> = {
@@ -4058,13 +4069,17 @@ const pwaInstall: Record<PwaInstall, string> = {
   "magic.link": "Magic Link",
   "generating.link": "Generating Link",
   "generating.code": "Generating Code",
-  "install.app.mobile.description.one": "Install Sunflower Land on your device",
-  "install.app.mobile.description.two": "on your device.",
+  "install.app.mobile.description.one":
+    "To install Sunflower Land, copy the link below and open it in",
+  "install.app.mobile.description.two": "to install on your device.",
   "install.app.desktop.description":
-    "Scan the code below to install on your device.",
+    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
   "install.app.mobile.metamask.description.one":
     "Copy the magic link below and open it in",
   "install.app.mobile.metamask.description.two": "on your device to install!",
+  "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
+  "qr.code.not.working": "QR code not working?",
 };
 
 const quest: Record<Quest, string> = {

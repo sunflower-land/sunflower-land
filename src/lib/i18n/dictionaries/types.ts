@@ -416,7 +416,17 @@ export type BasicTreasure =
   | "basic.treasure.goodLuck"
   | "basic.treasure.key"
   | "basic.treasure.congratsKey"
-  | "basic.treasure.openChest";
+  | "basic.treasure.openChest"
+  | "budBox.open"
+  | "budBox.opened"
+  | "budBox.title"
+  | "budBox.description"
+  | "raffle.title"
+  | "raffle.description"
+  | "raffle.entries"
+  | "raffle.noTicket"
+  | "raffle.how"
+  | "raffle.enter";
 
 export type Beach = "beach.party" | "beach.ready";
 
@@ -2608,6 +2618,7 @@ export type Pickserver =
   | "pickserver.built";
 
 export type PlazaSettings =
+  | "plazaSettings.changeServer"
   | "plazaSettings.title.main"
   | "plazaSettings.title.mutedPlayers"
   | "plazaSettings.title.keybinds"
@@ -2726,7 +2737,10 @@ export type PwaInstall =
   | "install.app.mobile.description.two"
   | "install.app.desktop.description"
   | "install.app.mobile.metamask.description.one"
-  | "install.app.mobile.metamask.description.two";
+  | "install.app.mobile.metamask.description.two"
+  | "do.not.share.link"
+  | "do.not.share.code"
+  | "qr.code.not.working";
 
 export type SceneDialogueKey = "sceneDialogues.chefIsBusy";
 

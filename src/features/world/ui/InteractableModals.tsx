@@ -18,6 +18,8 @@ import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { Donations } from "./donations/Donations";
 import { SceneId } from "../mmoMachine";
 import { TradingBoard } from "./npcs/TradingBoard";
+import { BudBox } from "./chests/BudBox";
+import { Raffle } from "./chests/Raffle";
 
 type InteractableName =
   | "donations"
@@ -55,6 +57,7 @@ type InteractableName =
   | "plaza_green_book"
   | "potion_house"
   | "clubhouse_reward"
+  | "raffle"
   | "beach_green_book"
   | "beach_orange_book"
   | "beach_blue_book"
@@ -293,17 +296,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
-          <div className="p-2">
-            <p className="text-sm mb-2">
-              {t("interactableModals.clubhouseReward.message1")}
-            </p>
-            <p className="text-sm">
-              {t("interactableModals.clubhouseReward.message2")}
-            </p>
-          </div>
-        </CloseButtonPanel>
+      <Modal show={interactable === "clubhouse_reward"}>
+        <BudBox onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "raffle"} onHide={closeModal}>
+        <Raffle onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal

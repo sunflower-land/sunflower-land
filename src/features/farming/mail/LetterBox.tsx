@@ -20,6 +20,7 @@ import letterDisc from "assets/icons/letter_disc.png";
 import letter from "assets/icons/letter.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 
 const _announcements = (state: MachineState) => state.context.announcements;
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
@@ -29,6 +30,7 @@ export const LetterBox: React.FC = () => {
   const [tab, setTab] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState<string>();
+  const isPWA = useIsPWA();
 
   const announcements = useSelector(gameService, _announcements);
   const mailbox = useSelector(gameService, _mailbox);
@@ -57,7 +59,7 @@ export const LetterBox: React.FC = () => {
             <p className="text-sm capitalize ml-1 underline">{details.from}</p>
           </div>
 
-          {selected === "pwa-install-prompt" ? (
+          {selected === "pwa-install-prompt" && !isPWA ? (
             <PWAInstallMessage
               message={details}
               conversationId={selected}
