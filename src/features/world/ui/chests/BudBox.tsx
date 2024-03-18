@@ -150,8 +150,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
             (bud) => BUD_DAYS[bud] === dayIndex
           );
 
-          const hasBud = true; //buds.some((type) => playerBudTypes.includes(type));
-          // const hasBud = buds.some((type) => playerBudTypes.includes(type));
+          const hasBud = buds.some((type) => playerBudTypes.includes(type));
           return (
             <OuterPanel
               key={dayIndex}
