@@ -22,6 +22,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { TRADE_LIMITS } from "features/world/ui/trader/BuyPanel";
+import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -35,7 +36,8 @@ const ListTrade: React.FC<{
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
   isSaving: boolean;
-}> = ({ inventory, onList, onCancel, isSaving }) => {
+  floorPrices: FloorPrices;
+}> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
   const [quantity, setQuantity] = useState<number>(1);
@@ -73,6 +75,13 @@ const ListTrade: React.FC<{
                   </Label>
                   <span className="text-xs mb-1">{name}</span>
                   <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
+                  <Label
+                    type="warning"
+                    className="self-stretch text-center w-full mt-1"
+                  >
+                    {floorPrices[name]?.toFixed(4)}
+                    {t("unit")}
+                  </Label>
                 </OuterPanel>
               </div>
             ))}
@@ -331,7 +340,9 @@ const TradeDetails: React.FC<{
   );
 };
 
-export const Trade: React.FC = () => {
+export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
+  floorPrices,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -400,6 +411,7 @@ export const Trade: React.FC = () => {
         onCancel={() => setShowListing(false)}
         onList={onList}
         isSaving={gameState.matches("autosaving")}
+        floorPrices={floorPrices}
       />
     );
   }

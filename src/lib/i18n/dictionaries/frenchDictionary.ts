@@ -474,6 +474,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   yes: "Oui",
   "yes.please": "Oui, s'il vous plaît",
   "you.are.here": "Vous êtes ici",
+  unit: ENGLISH_TERMS.unit,
 };
 
 const timeUnits: Record<TimeUnits, string> = {

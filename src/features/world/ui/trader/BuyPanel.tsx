@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -25,6 +25,7 @@ import { hasMaxItems } from "features/game/lib/processEvent";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
+import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -51,7 +52,9 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Egg: 200,
 };
 
-export const BuyPanel: React.FC = () => {
+export const BuyPanel: React.FC<{
+  floorPrices: FloorPrices;
+}> = ({ floorPrices }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
@@ -63,8 +66,8 @@ export const BuyPanel: React.FC = () => {
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [isSearching, setIsSearching] = useState(false);
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
-
   const [loading, setLoading] = useState(false);
+  const [floor, setFloor] = useState<FloorPrices>({});
   const [
     {
       context: { state, transaction, farmId },
@@ -72,7 +75,15 @@ export const BuyPanel: React.FC = () => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
+  useEffect(() => {
+    setFloor(floorPrices);
+  }, [floorPrices]);
+
   const searchView = () => {
+    if (floor.Sunflower == undefined) {
+      return <Loading text="Fetching floor prices" />;
+    }
+
     return (
       <div className="p-2">
         <Label type="default" icon={SUNNYSIDE.icons.basket}>
@@ -91,16 +102,17 @@ export const BuyPanel: React.FC = () => {
                   onSearch(name);
                 }}
               >
-                <span className="text-xs mb-1">{name}</span>
-                <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
+                <span className="text-xs mt-1">{name}</span>
+                <img src={ITEM_DETAILS[name].image} className="h-10 mt-1" />
+                <Label
+                  type="warning"
+                  className="self-stretch text-center w-full mt-1"
+                >
+                  {floorPrices[name]?.toFixed(4)}
+                  {t("unit")}
+                </Label>
               </OuterPanel>
             </div>
-            // <Box
-            //   image={ITEM_DETAILS[name].image}
-            //   onClick={() => setSearch(name)}
-            //   key={name}
-            //   isSelected={search === name}
-            // />
           ))}
         </div>
       </div>

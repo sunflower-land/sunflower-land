@@ -473,6 +473,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
+  unit: "/unit",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
