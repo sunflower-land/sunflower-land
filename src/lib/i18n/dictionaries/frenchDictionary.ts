@@ -928,7 +928,6 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
   "description.radiant.ray.boost": "+0.1 Fer",
-  "description.earnAlliance.boost": "2x XP Feb 2024",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 

@@ -561,7 +561,6 @@ export type BoostEffectDescriptions =
   | "description.Karkinos.boost"
   | "description.mushroom.house.boost"
   | "description.boost.gilded.swordfish"
-  | "description.earnAlliance.boost"
   | "description.babyPanda.boost"
   | "description.nancy.boost"
   | "description.scarecrow.boost"
