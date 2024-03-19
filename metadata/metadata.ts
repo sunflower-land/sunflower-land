@@ -7087,4 +7087,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/935.png",
     attributes: [{ trait_type: "Tradable", value: "No" }],
   },
+  Baozi: {
+    name: "Bazoi",
+    description:
+      "A delicious steamed bun. A special event item from Lunar New Year 2024.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/936.gif",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
 };

@@ -11,7 +11,7 @@
     "format": "yarn lint --fix",
     "preview": "vite preview",
     "test": "jest",
-    "metadata": "NODE_PATH=./src ts-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
+    "metadata": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
     "prepare": "husky install"
   },
   "browserslist": [
