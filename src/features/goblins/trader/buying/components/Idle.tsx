@@ -104,7 +104,6 @@ export const Idle: React.FC<IdleProps> = ({
         <div className="flex items-center">
           <span className="text-shadow text-sm mr-2 whitespace-nowrap">
             {t("land.id")}
-            {":"}
           </span>
           <input
             type="number"

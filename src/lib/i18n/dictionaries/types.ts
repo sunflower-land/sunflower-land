@@ -2038,7 +2038,8 @@ export type MegaStore =
   | "megaStore.message"
   | "megaStore.month.sale"
   | "megaStore.wearable"
-  | "megaStore.collectible";
+  | "megaStore.collectible"
+  | "megaStore.timeRemaining";
 
 export type MilestoneMessages =
   | "milestone.noviceAngler"
@@ -2999,7 +3000,6 @@ export type TransactionTerms =
 export type Transfer =
   | "transfer.sure.adress"
   | "transfer.Account"
-  | "transfer.Account.Trans"
   | "transfer.Farm"
   | "transfer.Refresh"
   | "transfer.Taccount"
@@ -3050,6 +3050,8 @@ export type WarningTerms =
   | "warning.chat.noSpecialCharacters"
   | "warning.level.required"
   | "warning.hoarding.message"
+  | "warning.hoarding.indefiniteArticle.a"
+  | "warning.hoarding.indefiniteArticle.an"
   | "warning.hoarding.one"
   | "warning.hoarding.two"
   | "travelRequirement.notice";
@@ -3064,7 +3066,8 @@ export type WelcomeTerms =
   | "welcome.signIn.Message"
   | "welcome.email"
   | "welcome.takeover.ownership"
-  | "welcome.promo";
+  | "welcome.promo"
+  | "welcome.offline";
 
 export type Winner = "winner.mintTime" | "winner.mintTime.one";
 
@@ -3085,6 +3088,7 @@ export type WishingWell =
   | "wishingWell.info.one"
   | "wishingWell.info.two"
   | "wishingWell.info.three"
+  | "wishingWell.moreInfo"
   | "wishingWell.noLiquidity"
   | "wishingWell.rewardsInWell"
   | "wishingWell.luck";

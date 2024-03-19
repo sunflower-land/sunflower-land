@@ -36,9 +36,14 @@ export const Hoarding: React.FC = () => {
   const makeTitle = () => {
     const regex = new RegExp(/^[aeiou]/gi);
     const startsWithVowel = regex.test(maxedItem);
-    const indefiniteArticle = startsWithVowel ? "an" : "a";
+    const indefiniteArticle = startsWithVowel
+      ? t("warning.hoarding.indefiniteArticle.an")
+      : t("warning.hoarding.indefiniteArticle.a");
 
-    return `Are you ${indefiniteArticle} ${itemName} hoarder?!`;
+    return t("warning.hoarding.message", {
+      indefiniteArticle: indefiniteArticle,
+      itemName: itemName,
+    });
   };
 
   return (
@@ -58,9 +63,7 @@ export const Hoarding: React.FC = () => {
         <span className="text-center text-sm sm:text-base">{makeTitle()}</span>
         <img src={maxedItemImage} className="h-12 mt-2 mb-3" />
         <p className="text-xs sm:text-sm mb-3">{t("warning.hoarding.one")}</p>
-        <p className="text-xs sm:text-sm mb-1">
-          {t("warning.hoarding.two")} {itemName}
-        </p>
+        <p className="text-xs sm:text-sm mb-1">{t("warning.hoarding.two")}</p>
         <div className="text-xs underline my-2 w-full">
           <a
             href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"

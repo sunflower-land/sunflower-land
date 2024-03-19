@@ -192,11 +192,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.minted": "Déjà obtenu!",
   auction: "Enchère",
   auctions: "Enchères",
-  "available.all.year": "Disponible toute l'année",
+  "available.all.year": "Disponible toute l'année: ",
   available: "Disponible",
   back: "Retour",
   bait: "Appât",
-  balance: "Solde",
+  balance: "Solde: ",
   basket: "Panier",
   "beach.bounty": "Prime de plage",
   beta: "Bêta",
@@ -285,7 +285,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "feed.bumpkin": "Nourrir Bumpkin",
   fertilisers: "Fertilisants",
   fish: "Poisson",
-  "fish.caught": "Poissons Capturés",
+  "fish.caught": "Poissons Capturés: ",
   flowers: "Fleurs",
   "flowers.found": "Fleurs trouvées",
   foods: "Nourritures",
@@ -293,7 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "for.info.wearable": "pour plus d'informations sur cet accessoire portable",
   forbidden: "Interdit",
   formula: "Formule",
-  "free.trade": "Échange gratuit",
+  "free.trade": "Échange gratuit: {{freeTrades}}",
   fruit: "Fruit",
   fruits: "Fruits",
   full: "Complet",
@@ -314,7 +314,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "Objet",
   labels: "Étiquettes",
   land: "Île",
-  "land.id": "ID de la île :",
+  "land.id": "ID de la île: ",
   "last.updated": "Dernière mise à jour",
   layouts: "Mises en page",
   left: "Restant",
@@ -385,7 +385,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   refresh: "Rafraîchir",
   refreshing: "Rafraîchissement",
   remaining: "restante",
-  "remaining.trades": "Échanges restants",
+  "remaining.trades": "Échanges restants: {{remainingTrades}}",
   remove: "Retirer",
   reqSkillPts: "Points de compétence requis",
   reqSkills: "Compétences requises",
@@ -404,7 +404,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "seasonal.treasure": "Trésor saisonnier",
   seeds: "Graines",
   selected: "Sélectionné",
-  "select.resource": "Sélectionner votre ressource",
+  "select.resource": "Sélectionner votre ressource: ",
   sell: "Vendre",
   "sell.all": "Tout vendre",
   "sell.one": "Vendre 1",
@@ -603,7 +603,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land prend une commission de parrainage de 5% pour compléter cette transaction.",
   "addSFL.swapTitle": "Détails de l'échange",
-  "addSFL.minimumReceived": "Minimum reçu",
+  "addSFL.minimumReceived": "Minimum reçu: ",
 };
 
 const auction: Record<Auction, string> = {
@@ -678,7 +678,7 @@ const beachLuck: Record<BeachLuck, string> = {
   "beachLuck.uncleFound":
     "Mon oncle a trouvé une bague en diamant en creusant sur cette plage. Tout ce que je trouve, ce sont des pièces SFL ennuyeuses.",
   "beachLuck.grabShovel": "Prends simplement une pelle et commence à creuser.",
-  "beachLuck.refreshesIn": "Les trésors se rafraîchissent dans",
+  "beachLuck.refreshesIn": "Les trésors se rafraîchissent dans: ",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
@@ -1347,7 +1347,7 @@ const conversations: Record<Conversations, string> = {
     "Je suis le maire de cette ville ! Je suis chargé de m'assurer que tout le monde est heureux. Je veille également à ce que tout le monde ait un nom!",
   "mayor.plaza.fixNamePrompt":
     "Tu n'as pas encore de nom ? Eh bien, nous pouvons arranger ça ! Veux-tu que je prépare les papiers?",
-  "mayor.plaza.enterUsernamePrompt": "Entrez votre nom d'utilisateur :",
+  "mayor.plaza.enterUsernamePrompt": "Entrez votre nom d'utilisateur: ",
   "mayor.plaza.usernameValidation":
     "Veuillez noter que les noms d'utilisateur doivent respecter nos",
   "mayor.plaza.niceToMeetYou": "Enchanté,!",
@@ -1797,8 +1797,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
-  "deliveryitem.inventory": "Inventaire :",
-  "deliveryitem.itemsToDeliver": "Articles à livrer :",
+  "deliveryitem.inventory": "Inventaire:",
+  "deliveryitem.itemsToDeliver": "Articles à livrer: ",
   "deliveryitem.deliverToWallet": "Livrer à votre portefeuille",
   "deliveryitem.viewOnOpenSea":
     "Une fois livré, vous pourrez voir vos articles sur OpenSea.",
@@ -3010,6 +3010,7 @@ const megaStore: Record<MegaStore, string> = {
     "Super achat ! Votre nouveau vêtement est en sécurité dans votre garde-robe. Vous pouvez l'équiper sur un Bumpkin à partir de là.",
   "megaStore.collectible":
     "Super achat ! Votre nouveau collectible est en sécurité dans votre inventaire.",
+  "megaStore.timeRemaining": ENGLISH_TERMS["megaStore.timeRemaining"],
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
@@ -3076,12 +3077,12 @@ const noBumpkin: Record<NoBumpkin, string> = {
     "Un Bumpkin est un NFT (jeton non fongible) minté sur la Blockchain.",
   "noBumpkin.bumpkinHelp":
     "Vous avez besoin d'un Bumpkin pour vous aider à planter, récolter, couper, miner et étendre votre terrain.",
-  "noBumpkin.mintBumpkin": "Vous pouvez obtenir un Bumpkin sur OpenSea",
+  "noBumpkin.mintBumpkin": "Vous pouvez obtenir un Bumpkin sur OpenSea:",
   "noBumpkin.allBumpkins": "Regardez tous ces Bumpkins!",
   "noBumpkin.chooseBumpkin": "Quel Bumpkin souhaitez-vous utiliser pour jouer?",
   "noBumpkin.deposit": "Déposer",
   "noBumpkin.advancedIsland":
-    "Ceci est une île avancée. Un Bumpkin fort est requis.",
+    "Ceci est une île avancée. Un Bumpkin fort est requis:",
   "weakBumpkin.notStrong":
     "Oh non ! Votre Bumpkin n'est pas assez fort pour cette île.",
   "dequipper.noBumpkins": "Pas de Bumpkins",
@@ -4043,7 +4044,7 @@ const playerTrade: Record<PlayerTrade, string> = {
     "Oh oh ! Il semble que vous ayez une transaction en cours.",
   "playerTrade.Please": "Veuillez patienter 5 minutes avant de continuer.",
   "playerTrade.sold": "Vendu",
-  "playerTrade.sale": "À vendre",
+  "playerTrade.sale": "À vendre: ",
   "playerTrade.title.congrat": "Félicitations, votre annonce a été achetée",
 };
 
@@ -4429,7 +4430,9 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.five": " dans le jeu",
   "statements.wishing.well.info.six": "Fournir de la liquidité",
   "statements.wishing.well.worthwell": "valeur des récompenses dans le puits!",
-  "statements.wishing.well.look.like": "On dirait que vous n'êtes pas",
+  "statements.wishing.well.look.like":
+    ENGLISH_TERMS["statements.wishing.well.look.like"],
+  //  "It doesn't look like you are providing liquidity yet.",
   "statements.wishing.well.lucky": "Voyons à quel point vous êtes chanceux!",
   "statements.wrongChain.one": "Consultez ce guide pour vous connecter.",
   "statements.feed.bumpkin.one":
@@ -4456,7 +4459,7 @@ const statements: Record<Statements, string> = {
   "statements.wallet.to.inventory.transfer":
     "Déposez des objets de votre portefeuille",
   "statements.crop.water": "Ces cultures ont besoin d'eau!",
-  "statements.daily.limit": "Limite quotidienne",
+  "statements.daily.limit": "Limite quotidienne: ",
   "statements.sure.buy": "Êtes-vous sûr de vouloir acheter ",
   "statements.perplayer": "par joueur",
   "statements.minted.goToChest":
@@ -4476,7 +4479,7 @@ const stopGoblin: Record<StopGoblin, string> = {
     "Touchez les Chercheurs de Lune avant qu'ils ne volent vos ressources",
   "stopGoblin.tap.two":
     "Touchez les Gobelins avant qu'ils ne mangent votre nourriture",
-  "stopGoblin.left": "Tentatives restantes",
+  "stopGoblin.left": "Tentatives restantes: {{attemptsLeft}}",
 };
 
 const subSettings: Record<SubSettings, string> = {
@@ -4597,12 +4600,12 @@ const transactionTerms: Record<TransactionTerms, string> = {
 const transfer: Record<Transfer, string> = {
   "transfer.sure.adress":
     "Veuillez vous assurer que l'adresse que vous avez fournie appartient à la Blockchain Polygon, qu'elle est correcte et qu'elle vous appartient. Il n'y a aucune récupération possible en cas d'adresse incorrecte.",
-  "transfer.Account": "Votre compte #",
-  "transfer.Account.Trans": "a été transféré vers",
+  "transfer.Account": ENGLISH_TERMS["transfer.Account"],
+  // "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
   "transfer.Farm": "Transfert de votre ferme!",
   "transfer.Refresh": "Ne rafraîchissez pas ce navigateur",
   "transfer.Taccount": "Transférer votre compte",
-  "transfer.address": "Adresse du portefeuille",
+  "transfer.address": "Adresse du portefeuille: ",
 };
 
 const treasureModal: Record<TreasureModal, string> = {
@@ -4667,9 +4670,14 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Aucune hache sélectionnée!",
   "warning.chat.maxCharacters": "Max de caractères",
   "warning.chat.noSpecialCharacters": "Pas de caractères spéciaux",
-  "warning.level.required": "Niveau requis: {{lvl}}",
-  "warning.hoarding.message":
-    "Vous avez atteint la limite d'entassement pour l'objet suivant",
+  "warning.level.required": "Niveau {{lvl}} requis",
+  "warning.hoarding.message": ENGLISH_TERMS["warning.hoarding.message"],
+  // indefiniteArticle: 'a' or 'an' depending if first letter is vowel.
+  // If this is not used in your language, leave the `{{indefiniteArticle}}` part out
+  "warning.hoarding.indefiniteArticle.a":
+    ENGLISH_TERMS["warning.hoarding.indefiniteArticle.a"], // Leave this blank if not needed
+  "warning.hoarding.indefiniteArticle.an":
+    ENGLISH_TERMS["warning.hoarding.indefiniteArticle.an"], // Leave this blank if not needed
   "warning.hoarding.one":
     "On dit que les Goblins sont connus pour attaquer les fermes qui regorgent de ressources.",
   "warning.hoarding.two":
@@ -4691,6 +4699,7 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.takeover.ownership":
     "Il semble que vous soyez nouveau dans Sunflower Land et que vous ayez revendiqué la propriété du compte d'un autre joueur.",
   "welcome.promo": "Ajouter un code promo",
+  "welcome.offline": ENGLISH_TERMS["welcome.offline"],
 };
 
 const winner: Record<Winner, string> = {
@@ -4708,15 +4717,18 @@ const wishingWellTerms: Record<WishingWell, string> = {
     "Vous n'avez aucune récompense disponible ! La liquidité doit être détenue pendant 3 jours pour obtenir une récompense!",
   "wishingWell.wish.lucky":
     "Accordez un nouveau souhait et voyez à quel point vous êtes chanceux!",
-  "wishingWell.sflRewardsReceived": "Récompenses SFL reçues",
+  "wishingWell.sflRewardsReceived":
+    ENGLISH_TERMS["wishingWell.sflRewardsReceived"], // "You received {{reward}} SFL!",
   "wishingWell.wish.grantTime": "Il est temps d'exaucer votre vœu!",
   "wishingWell.wish.granted": "Votre vœu a été exaucé.",
   "wishingWell.wish.made": "Vous avez fait un vœu!",
-  "wishingWell.wish.timeTillNextWish": "Temps jusqu'au prochain vœu",
+  "wishingWell.wish.timeTillNextWish":
+    "Temps jusqu'au prochain vœu: {{nextWishTime}}",
   "wishingWell.wish.thanksForSupport":
     "Merci de soutenir le projet et de faire un vœu.",
   "wishingWell.wish.comeBackAfter":
-    "Revenez dans le temps indiqué pour voir à quel point vous avez été chanceux",
+    ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
+  // "Come back in {{nextWishTime}} to see just how lucky you have been!",
   "wishingWell.wish.warning.one":
     "Sachez que seuls les jetons LP que vous déteniez au moment où le vœu a été fait seront pris en compte lorsque le vœu sera exaucé.",
   "wishingWell.wish.warning.two":
@@ -4724,13 +4736,15 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.info.one":
     "Le puits à vœux est un endroit magique où des récompenses SFL peuvent être obtenues simplement en faisant un vœu!",
   "wishingWell.info.two":
-    "Les vœux sont accordés aux fermiers qui fournissent de la liquidité dans le jeu. Plus d'informations",
+    "Les vœux sont accordés aux fermiers qui fournissent de la liquidité dans le jeu.",
   "wishingWell.info.three":
     "Il semble que vous ayez ces jetons LP magiques dans votre portefeuille!",
   "wishingWell.noLiquidity":
     "Il semble que vous ne fournissiez pas encore de liquidité. Plus d'informations,",
   "wishingWell.rewardsInWell": "Montant des récompenses dans le puits",
   "wishingWell.luck": "Voyons à quel point vous êtes chanceux!",
+
+  "wishingWell.moreInfo": "Plus d'informations",
 };
 
 const withdraw: Record<Withdraw, string> = {
@@ -4744,7 +4758,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL est disponible sur la chaîne",
   "withdraw.send.wallet": "Envoyé à votre portefeuille",
   "withdraw.choose": "Choisissez le montant à retirer",
-  "withdraw.receive": "Vous recevrez",
+  "withdraw.receive": "Vous recevrez: {{sflReceived}}",
   "withdraw.select.item": "Sélectionnez les objets à retirer",
   "withdraw.opensea":
     "Une fois retirés, vous pourrez voir vos objets sur OpenSea.",

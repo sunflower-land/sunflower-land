@@ -144,8 +144,9 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => {
           <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
         </div>
         <p className="mb-4 text-sm">
-          {t("wishingWell.wish.comeBackAfter")}
-          {":"} {`${lockedTime}`}
+          {t("wishingWell.wish.comeBackAfter", {
+            nextWishTime: lockedTime || "",
+          })}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.wish.warning.one")}</p>
         <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">

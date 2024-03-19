@@ -106,7 +106,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           </Panel>
         ) : (
           <Panel>
-            <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+            <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
           </Panel>
         )}
       </Modal>
