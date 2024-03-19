@@ -199,65 +199,65 @@ const generalTerms: Record<GeneralTerms, string> = {
   "beach.bounty": "Пляжные сокровища",
   beta: "Бета",
   bid: "Ставка",
-  bounty: "Сокровище",
+  bounty: "Сокровища",
   build: "Построить",
   buy: "Купить",
   cancel: "Отмена",
   "card.cash": "Карта / Наличные",
-  caught: "Caught",
-  "change.Language": "Change Language",
+  caught: "Поймано",
+  "change.Language": "Сменить язык",
   check: "Проверить",
   chest: "Сундук",
-  chores: "Задания",
-  "choose.wisely": "Choose wisely!",
+  chores: "Список дел",
+  "choose.wisely": "Выбирай с умом!",
   claim: "Забрать",
   "claim.gift": "Забрать подарок",
-  "claim.skill": "Получить навыкскилл",
+  "claim.skill": "Получить навык",
   clear: "Очистить",
   close: "Закрыть",
-  collect: "Collect",
+  collect: "Собрать",
   "coming.soon": "Скоро",
   common: "Обычный",
-  completed: "Завершена",
-  complete: "complete",
+  completed: "Завершено",
+  complete: "Завершить",
   confirm: "Подтвердить",
   congrats: "Поздравляем",
   connected: "Подключен",
   connecting: "Подключение",
   continue: "Продолжить",
   cook: "Приготовить",
-  copied: "скопировано",
+  copied: "Скопировано",
   "copy.address": "Скопировать адрес",
   "copy.link": "Copy Link",
   "copy.failed": "Copy Failed!",
   coupons: "Купоны",
   craft: "Скрафтить",
   crafting: "Крафтится",
-  crops: "Овощи",
+  crops: "Растения",
   "currently.Unavailable": "В данный момент недоступно!",
   danger: "Опасно",
   date: "Дата",
-  decoration: "Декораци",
+  decoration: "Украшение",
   deliver: "Доставить",
   deliveries: "Доставки",
-  "deliveries.closed": "Deliveries closed",
+  "deliveries.closed": "Доставки закрыты",
   delivery: "Доставка",
   details: "Подробнее",
   donate: "Пожертвовать",
-  donating: "Передаем пожертвования",
-  "drafting.noitem": "No items available to list",
-  "drafting.select": "Select an item to list",
-  "drafting.trade.detail": "Trade Details",
+  donating: "Жертвуем",
+  "drafting.noitem": "Нет товаров в наличии",
+  "drafting.select": "Выберите товар для выставления",
+  "drafting.trade.detail": "Детали торговли",
   dragMe: "Drag me",
   earn: "Earn",
-  "easter.eggs": "Easter Eggs",
+  "easter.eggs": "Пасхальные яйца",
   egg: "Яйцо",
   empty: "Пусто",
-  "enjoying.event": "Enjoying this event?",
+  "enjoying.event": "Наслаждаетесь этим событием?",
   equip: "Экипировать",
   error: "Ошибка",
-  exotics: "Exotics",
-  "expand.land": "Expand your Land",
+  exotics: "Экзотика",
+  "expand.land": "Расширяйте свою территорию",
   expand: "Расширить",
   explore: "Исследовать",
   farm: "Ферма",
@@ -265,11 +265,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   featured: "Рекомендуемый",
   fee: "fee",
   "feed.bumpkin": "Feed Bumpkin",
-  fertilisers: "Fertilisers",
-  fish: "Fish",
-  "fish.caught": "Fish Caught",
-  flowers: "Flowers",
-  "flowers.found": "Flowers Found",
+  fertilisers: "Удобрения",
+  fish: "Рыба",
+  "fish.caught": "Пойманная рыба",
+  flowers: "Цветы",
+  "flowers.found": "Найденные цветы",
   foods: "Foods",
   for: "for",
   "for.info.wearable": "for more info about this wearable",
@@ -401,7 +401,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   swapping: "Swapping",
   syncing: "Syncing",
   task: "Задание",
-  "terms.condition": "Terms and conditions",
+  "terms.condition": "Правила и условия",
   test: "Test",
   "thank.you": "Thank you!",
   "there.currently": "There is currently",
@@ -450,9 +450,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   formula: "Formula",
   chill: "Chill",
   full: "Full",
-  collectibles: "Collectibles",
-  buds: "Buds",
-  wearables: "Wearables",
+  collectibles: "Коллекционные предметы",
+  buds: "Бады",
+  wearables: "Одежда",
   bumpkin: "Bumpkin",
   storage: "Storage",
   upcoming: "Upcoming",
@@ -463,7 +463,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   skip: "Skip",
   docs: "Docs",
   exit: "Exit",
-  compost: "Compost",
+  compost: "Загрузить",
   chicken: "Chicken",
   recipes: "Recipes",
   unlocked: "Unlocked",
@@ -475,16 +475,15 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // time
-  sec: "sec",
-  min: "min",
-  hr: "hr",
-  day: "day",
+  sec: "сек",
+  min: "мин",
+  hr: "ч",
+  day: "день",
 
-  secs: "secs",
-  mins: "mins",
-  hrs: "hrs",
-  days: "days",
+  secs: "сек",
+  mins: "мин",
+  hrs: "ч",
+  days: "дней",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -495,26 +494,26 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "breadWinner.three":
     "Выращивание и продажа урожая - это самый быстрый способ заработка SFL.",
 
-  "sunSeeker.description": "Собрать подсолнух 100 раз",
-  "cabbageKing.description": "Собрать капусту 200 раз",
-  "jackOLantern.description": "Собрать тыкву 500 раз",
-  "coolFlower.description": "Собрать цветную капусту 100 раз",
+  "sunSeeker.description": "Собрать Sunflower 100 раз",
+  "cabbageKing.description": "Собрать Cabbage 200 раз",
+  "jackOLantern.description": "Собрать Pumpkin 500 раз",
+  "coolFlower.description": "Собрать Cauliflower 100 раз",
   "farmHand.description": "Собрать урожай 10,000 раз",
-  "beetrootBeast.description": "Собрать свеклу 2,000 раз",
-  "myLifeIsPotato.description": "Собрать картофель 5,000 раз",
-  "rapidRadish.description": "Собрать редис 200 раз",
-  "twentyTwentyVision.description": "Собрать морковь 10,000 раз",
-  "stapleCrop.description": "Собрать пшеницу 10,000 раз",
-  "sunflowerSuperstar.description": "Собрать подсолнух 100,000 раз",
+  "beetrootBeast.description": "Собрать Beetroot 2,000 раз",
+  "myLifeIsPotato.description": "Собрать Potato 5,000 раз",
+  "rapidRadish.description": "Собрать Radish 200 раз",
+  "twentyTwentyVision.description": "Собрать Carrot 10,000 раз",
+  "stapleCrop.description": "Собрать Wheat 10,000 раз",
+  "sunflowerSuperstar.description": "Собрать Sunflower 100,000 раз",
   "bumpkinBillionaire.description": "Заработать 5,000 SFL",
-  "patientParsnips.description": "Собрать пастернак 5,000 раз",
+  "patientParsnips.description": "Собрать Parsnip 5,000 раз",
   "cropChampion.description": "Собрать урожай 1 миллион раз",
 
   "busyBumpkin.description": "Достичь 2 уровня",
   "busyBumpkin.one":
     "Привет, мой амбициозный друг! Для открытия новых растений, участков земли, строений и многого другого, тебе придется повышать свой уровень.",
   "busyBumpkin.two":
-    "Загляни в Fire Pit, приготовь вкусное блюдо согласно рецепту и покорми им своего Бампкина.",
+    "Загляни в Fire Pit, приготовь вкусное блюдо согласно рецепту и покорми им своего бампкина.",
 
   "kissTheCook.description": "Приготовить 20 блюд",
   "bakersDozen.description": "Испечь 13 тортов",
@@ -522,11 +521,11 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "chefDeCuisine.description": "Приготовить 5,000 блюд",
 
   "scarecrowMaestro.description":
-    "Смастери пугало, чтобы увеличить количество урожая",
+    "Скрафти Scarecrow, чтобы увеличить количество урожая",
   "scarecrowMaestro.one":
-    "Привет, приятель! Пришло время научить тебя искусству изготовления предметов и улучшить твои фермерские навыки",
+    "Привет, приятель! Пришло время научить тебя искусству крафта предметов и улучшить твои фермерские навыки",
   "scarecrowMaestro.two":
-    "Отправляйся на тыквенную площадь, загляни к кузнецу и сделай пугало.",
+    "Отправляйся на Pumpkin Plaza, загляни к Blacksmith и скрафти Scarecrow.",
 
   "bigSpender.description": "Потратить 10 SFL",
   "museum.description":
@@ -561,9 +560,9 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "fruitAficionado.two":
     "Собирая различные фрукты, такие как яблоки, апельсины и голубику, ты разблокируешь уникальные рецепты, улучшишь свои кулинарные навыки и создашь восхитительные угощения",
 
-  "orangeSqueeze.description": "Собрать апельсины 100 раз",
-  "appleOfMyEye.description": "Собрать яблоко 500 раз",
-  "blueChip.description": "Собрать голубику 5000 раз",
+  "orangeSqueeze.description": "Собрать Orange 100 раз",
+  "appleOfMyEye.description": "Собрать Apple 500 раз",
+  "blueChip.description": "Собрать Blueberry 5000 раз",
   "fruitPlatter.description": "Собрать фрукты 50000 раз",
   "crowdFavourite.description": "Завершить 100 доставок",
 
@@ -579,7 +578,7 @@ const achievementTerms: Record<AchievementsTerms, string> = {
   "seasonedFarmer.two":
     "Собирая Сезонные ресурсы, ты получишь доступ к ограниченным по времени наградам, эксклюзивным крафтам и редким сокровищам. Это как оказаться в первом ряду, наслаждаясь всеми чудесами сезона.",
   "seasonedFarmer.three":
-    "Для полного наслаждения всем тем, что может предложить тебе Sunflower Land, выполняй задания, участвуй в ивентах и собирай Сезонные Билеты!",
+    "Для полного наслаждения всем тем, что может предложить тебе Sunflower Land, выполняй задания, участвуй в событиях и собирай Сезонные Билеты!",
   "treasureHunter.description": "Выкопать 10 ям",
   "treasureHunter.one":
     "Эхей, искатель сокровищ! Sunflower Land кишит спрятанными сокровищами, которые так и ждут своего часа.",
@@ -590,11 +589,11 @@ const achievementTerms: Record<AchievementsTerms, string> = {
     "Хэй, собиратель яиц! Куры — замечательные фермерские компаньоны, которые обеспечивают нас вкусными яйцами.",
   "eggcellentCollection.two":
     "Собирая яйца, у тебя будет свежий запас ингредиентов для приготовления еды, и также откроются особые рецепты и бонусы.",
-  "task.harvestSunflowers": "Собрать подсолнухи 10 раз",
+  "task.harvestSunflowers": "Собрать Sunflower 10 раз",
 };
 
 const auction: Record<Auction, string> = {
-  "auction.title": "Auctions & Drops",
+  "auction.title": "Аукцион",
   "auction.bid.message": "Ты сделал ставку.",
   "auction.reveal": "Показать победителей",
   "auction.live": "Аукцион стартовал!",
@@ -622,21 +621,21 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 
 const base: Record<Base, string> = {
   "base.missing": "Missing name in config",
-  "base.far.away": "You are too far away",
+  "base.far.away": "Ты слишком далеко",
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {
-  "basic.treasure.missingKey": "Missing Key",
-  "basic.treasure.needKey": "You need a Treasure Key to open this chest",
-  "rare.treasure.needKey": "You need a Rare Key to open this chest",
-  "luxury.treasure.needKey": "You need a Luxury Key to open this chest",
+  "basic.treasure.missingKey": "Отсутствует ключ",
+  "basic.treasure.needKey":
+    "Тебе нужен Treasure Key, чтобы открыть этот сундук",
+  "rare.treasure.needKey": "Тебе нужен Rare Key, чтобы открыть этот сундук",
+  "luxury.treasure.needKey": "Тебе нужен Luxury Key, чтобы открыть этот сундук",
   "basic.treasure.getKey":
-    "You can get Treasure Keys by completing tasks for Bumpkins",
-  "basic.treasure.goodLuck": "Good Luck",
+    "Ты можешь получать Treasure Keys, помогая бампкинам с заданиями",
+  "basic.treasure.goodLuck": "Удачи",
   "basic.treasure.key": "Treasure Key",
-  "basic.treasure.congratsKey": "Congratulations, you have a Treasure Key!",
-  "basic.treasure.openChest":
-    "Would you like to open the chest and claim a reward?",
+  "basic.treasure.congratsKey": "Поздравляю, у тебя есть Treasure Key!",
+  "basic.treasure.openChest": "Хочешь ли ты открыть сундук и забрать награду?",
   "budBox.open": "Open",
   "budBox.opened": "Opened",
   "budBox.title": "Bud box",
@@ -657,11 +656,11 @@ const beach: Record<Beach, string> = {
 };
 
 const beehive: Record<Beehive, string> = {
-  "beehive.harvestHoney": "Собрать мед",
+  "beehive.harvestHoney": "Собрать Honey",
   "beehive.noFlowersGrowing": "Нет растущих цветов",
-  "beehive.beeSwarm": "Пчелиный Рой",
+  "beehive.beeSwarm": "Пчелиный рой",
   "beehive.pollinationCelebration":
-    "Pollination celebration! Your crops are in for a treat with a 0.2 boost from a friendly bee swarm!",
+    "Праздник опыления! Твои посевы получают +0.2 к урожаю от дружелюбного пчелиного роя!",
 };
 
 const beachLuck: Record<BeachLuck, string> = {
@@ -678,7 +677,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.admiringOutfit":
     "Я заметила, что ты восхищаешься моим нарядом. Ну разве он не великолепен?!?",
   "birdieplaza.currentSeason": "На данный момент мы в",
-  "birdieplaza.currentSeason.two": "Сезоне, и Бампкины сходят с ума по",
+  "birdieplaza.currentSeason.two": "сезоне, и бампкины сходят с ума по",
   "birdieplaza.collectTickets": "Собери достаточно",
   "birdieplaza.collectTickets.two":
     "и ты сможешь скрафтить редкие NFTs. Так у меня и появился этот редкий наряд!",
@@ -688,7 +687,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.earnTicketsVariety.two": "различными способами.",
   "birdieplaza.commonMethod": "Самый распространенный способ заработать ",
   "birdieplaza.commonMethod.two":
-    "- это собирать ресурсы и доставлять их к Бампкинам в Плазе.",
+    "- это собирать ресурсы и доставлять их к бампкинам в плазе.",
   "birdieplaza.choresAndRewards": "Ты также можешь заработать",
   "birdieplaza.choresAndRewards.two":
     "за прохождение списка дел у Хэнка и собирая ежедневные награды!",
@@ -701,7 +700,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
     "В этом сезоне тебя ждут увлекательные задания и редкие коллекционные предметы, которые ты можешь заработать.",
   "birdieplaza.craftItems": "Чтобы скрафтить эти предметы, ты должен собирать",
   "birdieplaza.craftItems.two":
-    "и обменивать их в магазинах или в Аукционном доме.",
+    "и обменивать их в магазинах или в аукционном доме.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -710,7 +709,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Твои куры теперь будут производить яйца на 10% быстрее.",
   "description.speed.chicken.two": "Яйца производятся на 10% быстрее",
   "description.fat.chicken.one":
-    "Твои куры теперь будут требовать на 10% меньше пшеницы на корм.",
+    "Твои куры теперь будут требовать на 10% меньше Wheat на корм.",
   "description.fat.chicken.two": "На корм курице нужно на 10% меньше пшеницы",
   "description.rich.chicken.one":
     "Твои куры теперь будут производить на 10% больше яиц.",
@@ -721,360 +720,363 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.el.pollo.veloz.two":
     "Дай мне эти яйца, быстро! Яйца несутся на 4 часа быстрее.",
   "description.banana.chicken":
-    "Курица, которая бустит бананы. В каком мире мы живем.",
+    "Курица, которая бустит Bananas. В каком мире мы живем.",
 
   // Boosts
-  "description.lab.grow.pumpkin": "+0.3 к Урожаю Тыквы",
-  "description.lab.grown.radish": "+0.4 к Урожаю Редиса",
-  "description.lab.grown.carrot": "+0.2 к Урожаю Морковки",
+  "description.lab.grow.pumpkin": "+0.3 к урожаю Pumpkin",
+  "description.lab.grown.radish": "+0.4 к урожаю Radish",
+  "description.lab.grown.carrot": "+0.2 к урожаю Carrot",
   "description.purple.trail":
-    "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
-  "description.obie": "A fierce eggplant soldier",
-  "description.maximus": "Squash the competition with plump Maximus",
+    "Завораживающий и уникальный Purple Trail оставит за твоими противниками след зависти",
+  "description.obie": "Свирепый баклажановый солдат",
+  "description.maximus": "Раздави соперников с помощью пухлого Maximus",
   "description.mushroom.house":
-    "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
+    "Причудливый грибной дом, в котором очарованием пропитаны не только стены, но и мебель!",
   "description.Karkinos":
-    "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
+    "Колючий, но добрый. Отличное дополнение к твоей ферме в виде буста к cabbage!",
   "description.heart.of.davy.jones":
-    "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring",
+    "Тот, кто владеет этим, обладает огромной властью над семью морями, может без устали копать сокровища",
   "description.tin.turtle":
-    "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
+    "Tin Turtle дает +0.1 к Stones, которые ты добываешь в области ее действия.",
   "description.emerald.turtle":
-    "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
-  "description.iron.idol": "The Idol adds 1 iron every time you mine iron.",
+    "Emerald Turtle дает +0.5 к любым минералам, которые ты добываешь в области ее действия.",
+  "description.iron.idol":
+    "Idol добавляет 1 iron каждый раз, когда ты добываешь iron.",
   "description.crim.peckster":
-    "A gem detective with a knack for unearthing Crimstones.",
+    "Детектив, который обладает умением находить Crimstones.",
   "description.skill.shrimpy":
-    "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
+    "Shrimpy's здесь, чтобы помочь! Он позаботится о том, чтобы ты получил дополнительный опыт с рыбы.",
   "description.soil.krabby":
-    "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
+    "Быстрое просеивание с улыбкой! Крабообразный чемпион, увеличивающий скорость компостирования на 10%.",
   "description.nana":
-    "This rare beauty is a surefire way to boost your banana harvests.",
+    "Эта редкая прелесть - верный способ увеличить урожай твоих бананов.",
   "description.grain.grinder":
-    "Grind your grain and experience a delectable surge in Cake XP.",
-  "description.kernaldo": "The magical corn whisperer.",
+    "Перемалывай зерна и получай аппетитный прирост к опыту с тортов!",
+  "description.kernaldo": "Волшебный заклинатель кукурузы.",
   "description.kernaldo.1":
-    "The magical corn whisperer. +25% Corn Growth Speed.",
-  "description.poppy": "The mystical corn kernel.",
-  "description.poppy.1": "The mystical corn kernel. +0.1 Corn per harvest,",
-  "description.victoria.sisters": "The pumpkin loving sisters",
+    "Волшебный заклинатель кукурузы. +25% скорости роста corn.",
+  "description.poppy": "Мистическое кукурузное зерно.",
+  "description.poppy.1": "Мистическое кукурузное зерно. +0.1 Corn с урожая.",
+  "description.victoria.sisters": "Сестры, любящие тыкву",
   "description.undead.rooster":
-    "An unfortunate casualty of the war. 10% increased egg yield.",
-  "description.observatory":
-    "Explore the stars and improve scientific development",
-  "description.engine.core": "The power of the sunflower",
+    "Несчастная жертва войны. Производство яиц увеличивается на 10%.",
+  "description.observatory": "Изучай звезды и улучшай научное развитие",
+  "description.engine.core": "Сила подсолнуха",
   "description.time.warp.totem":
-    "2x speed for crops, trees, cooking & minerals. Only lasts for 2 hours",
+    "Время роста урожая, готовки, восстановления минералов и деревьев уменьшается на 50%. Длится только 2 часа",
   "description.time.warp.totem.expired":
-    "Your Time Warp Totem has expired. Head to the Pumpkin Plaza to discover and craft more magical items to boost your farming abilities!",
+    "Срок действия твоего Time Warp Totem закончился. Отправляйся на Pumpkin Plaza, чтобы найти и скрафтить больше волшебных предметов, которые улучшат твои фермерские навыки!",
   "description.time.warp.totem.temporarily":
-    "The Time Warp Totem temporarily boosts your cooking, crops, trees & mineral time. Make the most of it!",
-  "description.cabbage.boy": "Don't wake the baby!",
-  "description.cabbage.girl": "Shhh it's sleeping",
+    "Time Warp Totem временно дает буст к времени роста урожая, готовки, восстановления минералов и деревьев. Используй его по максимуму!",
+  "description.cabbage.boy": "Не разбуди ребенка!",
+  "description.cabbage.girl": "Тссс, она спит",
   "description.wood.nymph.wendy":
-    "Cast an enchantment to entice the wood fairies.",
+    "Накладывает чары для того, чтобы завлечь лесный фей.",
   "description.peeled.potato":
-    "A precious potato, encourages bonus potatoes on harvest.",
+    "Прекрасный картофель, поощряет бонусным картофелем при сборе.",
   "description.potent.potato":
-    "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
+    "Мощный! Дает 3% шанс на получение +10 potatoes при сборе.",
   "description.radical.radish":
-    "Radical! Grants a 3% chance to get +10 radishes on harvest.",
+    "Коренной! Дает 3% шанс на получение +10 radishes при сборе.",
   "description.stellar.sunflower":
-    "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
+    "Звездный! Дает 3% шанс на получение +10 sunflowers при сборе.",
   "description.lady.bug":
-    "An incredible bug that feeds on aphids. Improves Apple quality.",
+    "Потрясающая букашка, которая питается тлями. Улучшает качество яблок.",
   "description.squirrel.monkey":
-    "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
+    "Естественный оранжевый хищник. Апельсиновые деревья пугаются, когда Squirrel Monkey рядом с ними.",
   "description.black.bearry":
-    "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
+    "Его любимое лакомство - пухлые, сочные blueberries. Съедает ее горстями!",
   "description.maneki.neko":
-    "The beckoning cat. Pull its arm and good luck will come",
-  "description.easter.bunny": "A rare Easter item",
-  "description.pablo.bunny": "A magical Easter bunny",
-  "description.foliant": "A book of spells.",
+    "Манящая кошка. Потяни ее за ручку, и удача придет",
+  "description.easter.bunny": "Редкий пасхальный предмет",
+  "description.pablo.bunny": "Волшебный Easter bunny",
+  "description.foliant": "Книга заклинаний.",
   "description.tiki.totem":
-    "The Tiki Totem adds 0.1 wood to every tree you chop.",
+    "Tiki Totem добавляет 0.1 wood к каждому дереву, которое ты рубишь.",
   "description.lunar.calendar":
-    "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
+    "Растения теперь следуют лунному циклу! Скорость роста культур увеличивается на 10%.",
   "description.heart.davy.jones":
-    "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
+    "Тот, кто владеет этим, обладает огромной властью над семью морями, может без устали копать сокровища.",
   "description.treasure.map":
-    "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
+    "Зачарованная карта, которая приведет владельца к ценным сокровищам. +20% прибыли с пляжных сокровищ.",
   "description.genie.lamp":
-    "A magical lamp that contains a genie who will grant you three wishes.",
-  "description.basic.scarecrow":
-    "Choosy defender of your farm's VIP (Very Important Plants)",
+    "Волшебная лампа, в которой живет джин, исполняющий три твоих желания.",
+  "description.basic.scarecrow": "Придирчивый VIP защитник на твоей ферме",
   "description.scary.mike":
-    "The veggie whisperer and champion of frightfully good harvests!",
+    "Любитель овощей и защитник до ужаса хорошего урожая!",
   "description.laurie.chuckle.crow":
-    "With her disconcerting chuckle, she shooes peckers away from your crops!",
+    "Своим обескураживающим хохотом она прогоняет клювы от твоих посевов!",
   "description.immortal.pear":
-    "A long-lived pear that makes fruit trees last longer.",
+    "Долгоживущая груша, благодаря которой фруктовые деревья живут дольше.",
   "description.bale":
-    "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    "Любимый сосед домашних птиц, обеспечивающий курам уютную обстановку",
   "description.sir.goldensnout":
-    "A royal member, Sir Goldensnout infuses your farm with sovereign prosperity through its golden manure.",
+    "Член королевской семьи, Sir Goldensnout наполняет твою ферму процветанием благодаря своему золотому навозу.",
   "description.freya.fox":
-    "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
+    "Очаровательная хранительница, своим мистическим шармом увеличивает скорость роста pumpkin. Собери много pumpkins под ее пристальным взглядом.",
   "description.queen.cornelia":
-    "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
+    "Воспользуйся силой Queen Cornelia и испытай внушительное увеличение урожая corn в области ее действия. +1 Corn.",
 };
 
 const resourceTerms: Record<ResourceTerms, string> = {
-  "chicken.description": "Used to lay eggs",
-  "magicMushroom.description": "Used to cook advanced recipes",
-  "wildMushroom.description": "Used to cook basic recipes",
-  "honey.description": "Used to sweeten your cooking",
+  "chicken.description": "Используется для откладывания яиц",
+  "magicMushroom.description":
+    "Используется для приготовления продвинутых блюд",
+  "wildMushroom.description": "Используется для приготовления базовых блюд",
+  "honey.description": "Используется для подслащивания твоих блюд",
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
-  "description.obie.boost": "-25% Eggplant Growth Time",
+  "description.obie.boost": "-25% времени роста Eggplant",
   "description.purple.trail.boost": "+0.2 Eggplant",
   "description.freya.fox.boost": "+0.5 Pumpkin",
-  "description.sir.goldensnout.boost": "+0.5 Crop (AOE 4x4)",
+  "description.sir.goldensnout.boost": "+0.5 урожая (область 4x4)",
   "description.maximus.boost": "+1 Eggplant",
   "description.basic.scarecrow.boost":
-    "-20% Basic Crop Growth Time: Sunflower, Potato and Pumpkin (AOE 3x3)",
+    "-20% времени роста базовых культур: Sunflower, Potato and Pumpkin (область 3х3)",
   "description.scary.mike.boost":
-    "+0.2 Medium Crop: Carrot, Cabbage, Beetroot, Cauliflower and Parsnip (AOE 3x3)",
+    "+0.2 средних культур: Carrot, Cabbage, Beetroot, Cauliflower and Parsnip (область 3х3)",
   "description.laurie.chuckle.crow.boost":
-    "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
-  "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
-  "description.treasure.map.boost": "+20% SFL on Treasure Bounty Sales",
+    "+0.2 продвинутых культур: Eggplant, Corn, Radish, Wheat, Kale (область 3x3)",
+  "description.bale.boost": "+0.2 Egg (область 4x4)",
+  "description.immortal.pear.boost": "+1 урожай фруктов за семя",
+  "description.treasure.map.boost": "+20% SFL за продажу сокровищ",
   "description.poppy.boost": "+0.1 Corn",
-  "description.kernaldo.boost": "-25% Corn Growth Time",
-  "description.grain.grinder.boost": "+20% Cake XP",
-  "description.nana.boost": "-10% Banana Growth Time",
-  "description.soil.krabby.boost": "-10% Composter Compost Time",
-  "description.skill.shrimpy.boost": "+20% Fish XP",
+  "description.kernaldo.boost": "-25% времени роста Corn",
+  "description.grain.grinder.boost": "+20% опыта с торта",
+  "description.nana.boost": "-10% времени роста Banana",
+  "description.soil.krabby.boost": "-10% времени компостирования у Composter",
+  "description.skill.shrimpy.boost": "+20% опыта с рыбы",
   "description.iron.idol.boost": "+1 Iron",
-  "description.emerald.turtle.boost": "+0.5 Stone, Iron, Gold (AOE 3x3)",
-  "description.tin.turtle.boost": "+0.1 Stone (AOE 3x3)",
-  "description.heart.of.davy.jones.boost": "+20 Daily Digging Limit",
-  "description.Karkinos.boost": "+0.1 Cabbage (Inactive with Cabbage Boy)",
+  "description.emerald.turtle.boost": "+0.5 Stone, Iron, Gold (область 3x3)",
+  "description.tin.turtle.boost": "+0.1 Stone (область 3x3)",
+  "description.heart.of.davy.jones.boost": "+20 к ежедневному лимиту раскопок",
+  "description.Karkinos.boost": "+0.1 Cabbage (не работает с Cabbage Boy)",
   "description.mushroom.house.boost": "+0.2 Wild Mushroom",
   "description.boost.gilded.swordfish": "+0.1 Gold",
-  "description.nancy.boost": "-15% Crop Growth Time",
-  "description.scarecrow.boost": "-15% Crop Growth Time; +20% Crop Yield",
+  "description.nancy.boost": "-15% времени роста урожая",
+  "description.scarecrow.boost": "-15% времени роста урожая; +20% к урожаю",
   "description.kuebiko.boost":
-    "-15% Crop Growth Time; +20% Crop Yield; Free Seeds",
+    "-15% времени роста урожая; +20% к урожаю; бесплатные семена",
   "description.gnome.boost":
-    "+10 Yield to Medium/Advanced Crops (AOE plot below)",
-  "description.lunar.calendar.boost": "-10% Crop Growth Time",
-  "description.peeled.potato.boost": "20% Chance for +1 Potato",
+    "+10 к урожаю средних/продвинутых культур (область 1х1)",
+  "description.lunar.calendar.boost": "-10% времени роста урожая",
+  "description.peeled.potato.boost": "20% шанс на +1 Potato",
   "description.victoria.sisters.boost": "+20% Pumpkin",
   "description.easter.bunny.boost": "+20% Carrot",
   "description.pablo.bunny.boost": "+0.1 Carrot",
-  "description.cabbage.boy.boost": "+0.25 Cabbage (+0.5 with Cabbage Girl)",
-  "description.cabbage.girl.boost": "-50% Cabbage Growth Time",
+  "description.cabbage.boy.boost": "+0.25 Cabbage (+0.5 с Cabbage Girl)",
+  "description.cabbage.girl.boost": "-50% времени роста Cabbage",
   "description.golden.cauliflower.boost": "+100% Cauliflower",
-  "description.mysterious.parsnip.boost": "-50% Parsnip Growth Time",
-  "description.queen.cornelia.boost": "+1 Corn (AOE 3x4)",
+  "description.mysterious.parsnip.boost": "-50% времени роста Parsnip",
+  "description.queen.cornelia.boost": "+1 Corn (область 3x4)",
   "description.foliant.boost": "+0.2 Kale",
   "description.hoot.boost": "+0.5 Wheat, Radish, Kale",
-  "description.hungry.caterpillar.boost": "Free Flower Seeds",
+  "description.hungry.caterpillar.boost": "Бесплатные семена цветов",
   "description.black.bearry.boost": "+1 Blueberry",
-  "description.squirrel.monkey.boost": "-50% Orange Growth Time",
+  "description.squirrel.monkey.boost": "-50% времени роста Orange",
   "description.lady.bug.boost": "+0.25 Apple",
   "description.banana.chicken.boost": "+0.1 Banana",
-  "description.carrot.sword.boost": "4x Chance of Mutant Crop",
-  "description.stellar.sunflower.boost": "3% Chance of +10 Sunflower",
-  "description.potent.potato.boost": "3% Chance of +10 Potato",
-  "description.radical.radish.boost": "3% Chance of +10 Radish",
+  "description.carrot.sword.boost": "4x шанс на урожай мутантов",
+  "description.stellar.sunflower.boost": "3% шанс на +10 Sunflower",
+  "description.potent.potato.boost": "3% шанс на +10 Potato",
+  "description.radical.radish.boost": "3% шанс на +10 Radish",
   "description.lg.pumpkin.boost": "+0.3 Pumpkin",
   "description.lg.carrot.boost": "+0.2 Carrot",
   "description.lg.radish.boost": "+0.4 Radish",
-  "description.fat.chicken.boost": "-0.1 Wheat to Feed Chickens",
+  "description.fat.chicken.boost": "-0.1 Wheat для корма Chickens",
   "description.rich.chicken.boost": "+0.1 Egg",
-  "description.speed.chicken.boost": "-10% Egg Production Time",
+  "description.speed.chicken.boost": "-10% времени производства Egg",
   "description.ayam.cemani.boost": "+0.2 Egg",
-  "description.el.pollo.veloz.boost": "-4h Egg Production Time",
-  "description.rooster.boost": "2x Chance of Mutant Chicken",
+  "description.el.pollo.veloz.boost": "-4ч времени производства Egg",
+  "description.rooster.boost": "2x шанс на курицу-мутанта",
   "description.undead.rooster.boost": "+0.1 Egg",
   "description.chicken.coop.boost":
-    "+1 Egg Yield; +5 Chicken Limit per Hen House",
-  "description.gold.egg.boost": "Feed Chickens without Wheat",
+    "+1 к производству Egg; +5 к лимиту Chicken на Hen House",
+  "description.gold.egg.boost": "Для кормления кур не требуется Wheat",
   "description.woody.beaver.boost": "+20% Wood",
-  "description.apprentice.beaver.boost": "+20% Wood; -50% Tree Recovery Time",
+  "description.apprentice.beaver.boost":
+    "+20% Wood; -50% времени восстановления Tree",
   "description.foreman.beaver.boost":
-    "+20% Wood; -50% Tree Recovery Time; Chop Trees without Axes",
+    "+20% Wood; -50% времени восстановления Tree; для рубки деревьев не требуются топоры",
   "description.wood.nymph.wendy.boost": "+0.2 Wood",
   "description.tiki.totem.boost": "+0.1 Wood",
   "description.tunnel.mole.boost": "+0.25 Stone",
   "description.rocky.mole.boost": "+0.25 Iron",
   "description.nugget.boost": "+0.25 Gold",
-  "description.rock.golem.boost": "10% Chance of +2 Stone",
+  "description.rock.golem.boost": "10% шанс на +2 Stone",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
-  "description.queen.bee.boost": "Doubles Honey Production Speed",
-  "description.beekeeper.hat.boost": "+20% Honey Production Speed",
-  "description.flower.fox.boost": "-10% Flower Growth Time",
-  "description.humming.bird.boost": "20% Chance for +1 Flower",
-  "description.beehive.boost": "10% Chance for +0.2 Crop when Beehive is full",
-  "description.walrus.boost": "+1 Fish",
-  "description.alba.boost": "50% Chance of +1 Basic Fish",
-  "description.knowledge.crab.boost": "Double Sprout Mix Boost Effect",
-  "description.maneki.neko.boost": "1 Free Food per Day",
-  "description.genie.lamp.boost": "Grants 3 Wishes",
-  "description.observatory.boost": "+5% XP",
-  "description.blossombeard.boost": "+10% XP",
-  "description.christmas.festive.tree.boost": "Free Gift at Christmas",
-  "description.grinxs.hammer.boost": "Halves expansion costs",
+  "description.queen.bee.boost": "Удваивает скорость производства Honey",
+  "description.beekeeper.hat.boost": "+20% скорость производства Honey",
+  "description.flower.fox.boost": "-10% времени роста цветов",
+  "description.humming.bird.boost": "20% шанс на +1 цветок",
+  "description.beehive.boost": "10% шанс на +0.2 урожая когда улей заполнен",
+  "description.walrus.boost": "+1 рыба",
+  "description.alba.boost": "50% шанс на +1 базовую рыбу",
+  "description.knowledge.crab.boost": "Двойной эффект от Sprout Mix",
+  "description.maneki.neko.boost": "1 бесплатное блюдо в день",
+  "description.genie.lamp.boost": "Исполняет 3 желания",
+  "description.observatory.boost": "+5% опыта",
+  "description.blossombeard.boost": "+10% опыта",
+  "description.christmas.festive.tree.boost": "Бесплатный подарок на рождество",
+  "description.grinxs.hammer.boost": "Снижает стоимость расширений вдвое",
   "description.time.warp.totem.boost":
-    "50% Reduction to Crop, Mineral, Cooking and Tree Time",
+    "Время роста урожая, готовки, восстановления минералов и деревьев уменьшается на 50%",
   "description.radiant.ray.boost": "+0.1 Iron",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
-  "description.clam.shell": "A clam shell.",
-  "description.sea.cucumber": "A sea cucumber.",
-  "description.coral": "A piece of coral, it's pretty",
-  "description.crab": "A crab, watch out for its claws!",
-  "description.starfish": "The star of the sea.",
-  "description.pirate.bounty":
-    "A bounty for a pirate. It's worth a lot of money.",
+  "description.clam.shell": "Ракушка моллюска.",
+  "description.sea.cucumber": "Морской огурец",
+  "description.coral": "Кусочек коралла, красивый",
+  "description.crab": "Краб, остерегайся его клешней!",
+  "description.starfish": "Морская звезда.",
+  "description.pirate.bounty": "Награда за пирата. Она стоит больших денег.",
   "description.wooden.compass":
-    "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
+    "Может он и не хай-тек, но всегда направит тебя в нужное направление, не так ли?",
   "description.iron.compass":
-    "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
+    "Проложи свой путь к сокровищам! Этот компас притягателен, и не только к Северному полюсу!",
   "description.emerald.compass":
-    "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
+    "Проложи свой путь через сочные тайны жизни! Этот компас не просто указывает на Север, он указывает на роскошь и величие!",
   "description.old.bottle":
-    "Antique pirate bottle, echoing tales of high seas adventure.",
-  "description.pearl": "Shimmers in the sun.",
-  "description.pipi": "Plebidonax deltoides, found in the Pacific Ocean.",
-  "description.seaweed": "Seaweed.",
+    "Антикварная пиратская бутылка, напоминающая о приключениях в открытом море.",
+  "description.pearl": "Переливается на солнце.",
+  "description.pipi": "Plebidonax deltoides, встречается в Тихом океане.",
+  "description.seaweed": "Морская водоросль.",
 };
 
 const buildingDescriptions: Record<BuildingDescriptions, string> = {
   // Buildings
-  "description.water.well": "Crops need water!",
-  "description.kitchen": "Step up your cooking game",
-  "description.compost.bin": "Produces bait & fertiliser on a regular basis.",
-  "description.hen.house": "Grow your chicken empire",
-  "description.bakery": "Bake your favourite cakes",
+  "description.water.well": "Растениям нужна вода!",
+  "description.kitchen": "Улучши свои кулинарные навыки",
+  "description.compost.bin":
+    "Производит приманки и удобрения на регулярной основе.",
+  "description.hen.house": "Развивай свою куриную империю",
+  "description.bakery": "Испеки свои любимые торты",
   "description.turbo.composter":
-    "Produces advanced bait & fertiliser on a regular basis.",
-  "description.deli": "Satisfy your appetite with these delicatessen foods!",
-  "description.smoothie.shack": "Freshly squeezed!",
-  "description.warehouse": "Increase your seed stocks by 20%",
-  "description.toolshed": "Increase your workbench tool stock by 50%",
+    "Производит продвинутые приманки и удобрения на регулярной основе.",
+  "description.deli": "Утоли свой аппетит этими деликатесами!",
+  "description.smoothie.shack": "Свежевыжатый!",
+  "description.warehouse": "Увеличь свой запас семян на 20%",
+  "description.toolshed": "Увеличь свой запас инструментов на 50%",
   "description.premium.composter":
-    "Produces expert bait & fertiliser on a regular basis.",
+    "Производит экспертные приманки и удобрения на регулярной основе.",
   "description.town.center":
-    "Gather around the town center for the latest news",
-  "description.market": "Buy and sell at the Farmer's Market",
+    "Соберись в Town Center, чтобы быть в курсе последних событий",
+  "description.market": "Покупай и продавай на фермерском рынке",
   "description.fire.pit":
-    "Roast your Sunflowers, feed and level up your Bumpkin",
-  "description.workbench": "Craft tools to collect resources",
-  "description.tent": "(Discontinued)",
-  "description.house": "A place to rest your head",
+    "Поджарь свои Sunflowers, накорми и подними уровень своему бампкину",
+  "description.workbench": "Создавай инструменты для сбора ресурсов",
+  "description.tent": "(Отменено)",
+  "description.house": "Место, где можно отдохнуть",
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.haveFlower":
-    "Have you got a flower for me? Make sure it is something I like.",
+    "У тебя есть для меня цветок? Убедись, что это то, что мне нравится.",
   "bumpkin.delivery.notFavorite":
-    "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts.",
-  "bumpkin.delivery.loveFlower": "Wow, thanks! I love this flower!",
+    "Хммм, это не мой любимый цветок. Но, думаю, главное не подарок, а внимание.",
+  "bumpkin.delivery.loveFlower": "Ух ты, спасибо! Я обожаю этот цветок!",
   "bumpkin.delivery.favoriteFlower":
-    "This is my favorite flower! Thanks a bunch!",
-  "bumpkin.delivery.selectFlower": "Select a flower",
-  "bumpkin.delivery.noFlowers": "Oh no, you don't have any flowers to gift!",
-  "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!",
+    "Это мой любимый цветок! Огромное спасибо!",
+  "bumpkin.delivery.selectFlower": "Выбери цветок",
+  "bumpkin.delivery.noFlowers": "О нет, у тебя нет цветов для подарка!",
+  "bumpkin.delivery.thanks": "Вот здорово, спасибо, бампкин!!!",
   "bumpkin.delivery.waiting":
-    "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
-  "bumpkin.delivery.proveYourself": "Prove yourself worthy. Expand your island",
-  "bumpkin.delivery.more.time": "more times.",
+    "То что надо. Огромное спасибо! Возвращайся позже за новыми доставками.",
+  "bumpkin.delivery.proveYourself":
+    "Докажи, что ты достоин. Расширь свой остров еще",
+  "bumpkin.delivery.more.time": "раз.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
-  "bumpkinItemBuff.chef.apron.boost": "+20% Cake Profit",
-  "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruit",
-  "bumpkinItemBuff.angel.wings.boost": "Instant Crops",
-  "bumpkinItemBuff.devil.wings.boost": "Instant Crops",
+  "bumpkinItemBuff.chef.apron.boost": "+20% прибыли от торта",
+  "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 к фруктам",
+  "bumpkinItemBuff.angel.wings.boost": "Мгновенный урожай",
+  "bumpkinItemBuff.devil.wings.boost": "Мгновенный урожай",
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Eggplant",
-  "bumpkinItemBuff.golden.spatula.boost": "+10% XP",
+  "bumpkinItemBuff.golden.spatula.boost": "+10% опыта",
   "bumpkinItemBuff.mushroom.hat.boost": "+0.1 Mushrooms",
   "bumpkinItemBuff.parsnip.boost": "+20% Parsnip",
   "bumpkinItemBuff.sunflower.amulet.boost": "+10% Sunflower",
-  "bumpkinItemBuff.carrot.amulet.boost": "-20% Carrot Growth time",
+  "bumpkinItemBuff.carrot.amulet.boost": "-20% времени роста Carrot",
   "bumpkinItemBuff.beetroot.amulet.boost": "+20% Beetroot",
-  "bumpkinItemBuff.green.amulet.boost": "Chance 10x Crops",
-  "bumpkinItemBuff.Luna.s.hat.boost": "-50% Cooking Time",
-  "bumpkinItemBuff.infernal.pitchfork.boost": "+3 Crops",
-  "bumpkinItemBuff.cattlegrim.boost": "+0.25 Animal Produce",
+  "bumpkinItemBuff.green.amulet.boost": "Шанс на 10x урожая",
+  "bumpkinItemBuff.Luna.s.hat.boost": "-50% времени готовки",
+  "bumpkinItemBuff.infernal.pitchfork.boost": "+3 урожая",
+  "bumpkinItemBuff.cattlegrim.boost": "+0.25 продукции от животных",
   "bumpkinItemBuff.corn.onesie.boost": "+0.1 Corn",
-  "bumpkinItemBuff.sunflower.rod.boost": "10% Chance +1 Fish",
-  "bumpkinItemBuff.trident.boost": "20% Chance +1 Fish",
-  "bumpkinItemBuff.bucket.o.worms.boost": "+1 Worm",
-  "bumpkinItemBuff.luminous.anglerfish.topper.boost": "+50% Fish XP",
-  "bumpkinItemBuff.angler.waders.boost": "+10 Fishing Limit",
-  "bumpkinItemBuff.ancient.rod.boost": "Cast without rod",
+  "bumpkinItemBuff.sunflower.rod.boost": "10% шанс на +1 рыбу",
+  "bumpkinItemBuff.trident.boost": "20% шанс на +1 рыбу",
+  "bumpkinItemBuff.bucket.o.worms.boost": "+1 Червь",
+  "bumpkinItemBuff.luminous.anglerfish.topper.boost": "+50% опыта с рыбы",
+  "bumpkinItemBuff.angler.waders.boost": "+10 к лимиту рыбалки",
+  "bumpkinItemBuff.ancient.rod.boost": "Ловля без rod",
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananas",
-  "bumpkinItemBuff.banana.boost": "-20% Banana Growth Time",
-  "bumpkinItemBuff.deep.sea.helm": "3x chance Marine Marvels",
+  "bumpkinItemBuff.banana.boost": "-20% времени роста Banana",
+  "bumpkinItemBuff.deep.sea.helm": "3x шанс на Marine Marvels",
   "bumpkinItemBuff.bee.suit": "+0.1 Honey",
-  "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones on 5th mine",
-  "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Cooldown Time",
+  "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones на 5й копке",
+  "bumpkinItemBuff.crimstone.amulet": "-20% времени восстановления Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
-  "bumpkinItemBuff.hornet.mask": "2x chance Bee Swarm",
+  "bumpkinItemBuff.hornet.mask": "2x шанс на пчелиный рой",
   "bumpkinItemBuff.honeycomb.shield": "+1 Honey",
-  "bumpkinItemBuff.flower.crown": "-50% Flower Growth Time",
+  "bumpkinItemBuff.flower.crown": "-50% времени роста цветов",
 };
 
 const bumpkinPartRequirements: Record<BumpkinPartRequirements, string> = {
-  "equip.missingHair": "Hair is required",
-  "equip.missingBody": "Body is required",
-  "equip.missingShoes": "Shoes are required",
-  "equip.missingShirt": "Shirt is required",
-  "equip.missingPants": "Pants are required",
-  "equip.missingBackground": "Background is required",
+  "equip.missingHair": "Требуется прическа",
+  "equip.missingBody": "Требуется туловище",
+  "equip.missingShoes": "Требуется обувь",
+  "equip.missingShirt": "Требуется рубашка",
+  "equip.missingPants": "Требуются брюки",
+  "equip.missingBackground": "Требуется задний фон",
 };
 
 const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   // Crops
-  "description.green.thumb": "Crops yield 5% more",
-  "description.cultivator": "Crops grow 5% quicker",
-  "description.master.farmer": "Crops yield 10% more",
-  "description.golden.flowers": "Chance for Sunflowers to Drop Gold ",
-  "description.happy.crop": "Chance to get 2x crops",
+  "description.green.thumb": "Растения дают на 5% больше урожая",
+  "description.cultivator": "Растения растут на 5% быстрее",
+  "description.master.farmer": "Растения дают на 10% больше урожая",
+  "description.golden.flowers": "Шанс на выпадение Gold с Sunflowers",
+  "description.happy.crop": "Шанс получить двойной урожай",
   // Trees
-  "description.lumberjack": "Trees drop 10% more",
-  "description.tree.hugger": "Trees regrow 20% quicker",
-  "description.tough.tree": "Chance to get 3x wood drops",
-  "description.money.tree": "Chance for SFL drops",
+  "description.lumberjack": "С Trees падает на 10% больше",
+  "description.tree.hugger": "Trees вырастают на 20% быстрее",
+  "description.tough.tree": "Шанс получить 3x Wood",
+  "description.money.tree": "Шанс на выпадение SFL",
   // Rocks
-  "description.digger": "Stone Drops 10% more",
-  "description.coal.face": "Stones recover 20% quicker",
-  "description.seeker": "Attract Rock Monsters",
-  "description.gold.rush": "Chance to get 2.5x gold drops",
+  "description.digger": "Падает на 10% больше Stone",
+  "description.coal.face": "Stones восстанавливаются на 20% быстрее",
+  "description.seeker": "Привлечение каменных монстров",
+  "description.gold.rush": "Шанс получить 2.5x gold",
   // Cooking
-  "description.rush.hour": "Cook meals 10% faster",
-  "description.kitchen.hand": "Meals yield an extra 5% experience",
-  "description.michelin.stars": "High quality food, earn additional 5% SFL",
-  "description.curer": "Consuming deli goods adds extra 15% exp",
+  "description.rush.hour": "Блюда готовятся на 10% быстрее",
+  "description.kitchen.hand": "Блюда дают дополнительно 5% опыта",
+  "description.michelin.stars":
+    "Высококачественная еда, зарабатывайте на 5% больше SFL",
+  "description.curer":
+    "Употребление деликатесов с deli добавляет дополнительно 15% опыта",
   // Animals
-  "description.stable.hand": "Animals produce 10% quicker",
-  "description.free.range": "Animals produce 10% more",
-  "description.horse.whisperer": "Increase chance of mutants",
-  "description.buckaroo": "Chance of double drops",
+  "description.stable.hand": "Животные производят на 10% быстрее",
+  "description.free.range": "Животные производят на 10% больше",
+  "description.horse.whisperer": "Увеличение шанса на получение мутантов",
+  "description.buckaroo": "Шанс на двойной сбор",
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Asking price",
-  "bumpkinTrade.listingPurchased":
-    "Congratulations, your listing was purchased!",
+  "bumpkinTrade.askPrice": "Запрашиваемая цена",
+  "bumpkinTrade.listingPurchased": "Мои поздравления, твой товар был куплен!",
   "bumpkinTrade.travelPlaza":
-    "Travel to the plaza so players can trade with you",
-  "bumpkinTrade.minLevel": "You must be level 10 to trade",
-  "bumpkinTrade.noTradeListed": "You have no trades listed.",
-  "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
-  "bumpkinTrade.like.list": "What would you like to list",
-  "bumpkinTrade.goldpass.required": "Gold Pass is required",
-  "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
+    "Отправляйся на плазу, чтобы игроки могли торговать с тобой",
+  "bumpkinTrade.minLevel": "Чтобы торговать, тебе нужен 10 уровень",
+  "bumpkinTrade.noTradeListed": "Ты ничего не выставил на продажу.",
+  "bumpkinTrade.sell": "Продавай свои ресурсы другим игрокам за SFL.",
+  "bumpkinTrade.like.list": "Что бы ты хотел выставить на продажу",
+  "bumpkinTrade.goldpass.required": "Требуется Gold Pass",
+  "bumpkinTrade.purchase": "Приобрести в Goblin Retreat",
   "bumpkinTrade.available": "Available",
   "bumpkinTrade.quantity": "Quantity",
   "bumpkinTrade.price": "Price",
@@ -1088,92 +1090,97 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
-  "buyFarmHand.howdyBumpkin": "Howdy Bumpkin.",
+  "buyFarmHand.howdyBumpkin": "Привет, бампкин.",
   "buyFarmHand.confirmBuyAdditional":
-    "Are you sure you want to buy an additional Bumpkin?",
+    "Ты уверен, что хочешь купить еще одного бампкина?",
   "buyFarmHand.farmhandCoupon": "1 Farmhand Coupon",
-  "buyFarmHand.adoptBumpkin": "Adopt a Bumpkin",
+  "buyFarmHand.adoptBumpkin": "Усыновить бампкина",
   "buyFarmHand.additionalBumpkinsInfo":
-    "Additional Bumpkins can be used to equip wearables and boost your farm.",
-  "buyFarmHand.notEnoughSpace": "Not enough space - upgrade your island",
-  "buyFarmHand.buyBumpkin": "Buy Bumpkin",
+    "Дополнительного бампкина можно использовать, чтобы экипировать его одеждой и дать ферме буст.",
+  "buyFarmHand.notEnoughSpace": "Не хватает места - улучши свой остров",
+  "buyFarmHand.buyBumpkin": "Купить бампкина",
   "buyFarmHand.newFarmhandGreeting":
-    "I am your new farmhand. I can't wait to get to work!",
+    "Я твой новый новый помощник. Мне не терпится приступить к работе!",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
-  "claimAchievement.alreadyHave": "You already have this achievement",
-  "claimAchievement.requirementsNotMet": "You do not meet the requirements",
+  "claimAchievement.alreadyHave": "У тебя уже есть это достижение",
+  "claimAchievement.requirementsNotMet": "Не выполнены все условия",
 };
 
 const chat: Record<Chat, string> = {
-  "chat.Fail": "Connection failed",
-  "chat.mute": "You are muted",
-  "chat.again": "You will be able to chat again in",
-  "chat.Kicked": "Kicked",
+  "chat.Fail": "Проблемы с подключением",
+  "chat.mute": "Ты в муте",
+  "chat.again": "Ты снова сможешь общаться через",
+  "chat.Kicked": "Кикнут",
 };
 
 const chickenWinner: Record<ChickenWinner, string> = {
-  "chicken.winner.playagain": "click here to play again",
+  "chicken.winner.playagain": "нажми здесь, чтобы сыграть еще раз",
 };
 
 const choresStart: Record<ChoresStart, string> = {
-  "chores.harvestFields": "Harvest the fields",
+  "chores.harvestFields": "Собери урожай с грядок",
   "chores.harvestFieldsIntro":
-    "These fields ain't gonna plow themselves. Harvest 3 Sunflowers.",
+    "Эти грядки сами себя не вспашут. Собери 3 Sunflowers.",
   "chores.earnSflIntro":
-    "If you want to make it big in the farming business, you better start by sellin' sunflowers, buyin' seeds, and reaping the profit.",
-  "chores.reachLevel": "Reach Level 2",
+    "Если ты хочешь добиться больших успехов в фермерских делах, то лучше начни с продажи sunflowers, покупки семян и получения прибыли.",
+  "chores.reachLevel": "Достичь 2 уровня",
   "chores.reachLevelIntro":
-    "If you want to level up & unlock new abilities, you better start cookin' up food & chowin' it down.",
-  "chores.chopTrees": "Chop 3 Trees",
+    "Если ты хочешь повысить уровень и открыть новые возможности, то тебе следует приготовить еду и заточить ее.",
+  "chores.chopTrees": "Срубить 3 Trees",
   "chores.helpWithTrees":
-    "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
-  "chores.noChore": "Sorry, I don't have any chores that need doing right now.",
-  "chores.newSeason": "A new season approaches, chores will temporarily close.",
+    "Мои старые кости уже не такие как раньше, не поможешь ли ты мне срубить эти проклятые деревья? Наш местный Blacksmith поможет тебе скрафтить немного инструментов.",
+  "chores.noChore":
+    "К сожалению, у меня сейчас нет списка дел, которые надо сделать.",
+  "chores.newSeason": "Приближается новый сезон, список дел временно закрыт.",
   "chores.choresFrozen":
-    "New Seasonal Chores opening soon. Previous season chores & progress will be reset.",
+    "Скоро появится новый сезонный список дел. Список дел и прогресс с прошлого сезона будет сброшен.",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
-  "chumDetails.gold": "The shimmering gold can be seen 100 miles away",
+  "chumDetails.gold": "Сияющее золото, которое можно увидеть за 100 миль",
   "chumDetails.iron":
-    "A shimmering sparkle, can be seen at all angles during Dusk",
-  "chumDetails.stone": "Maybe throwing a few stones will attract some fish",
-  "chumDetails.egg": "Hmmm, not sure what fish would like eggs...",
-  "chumDetails.sunflower": "A sunny, vibrant lure for curious fish.",
-  "chumDetails.potato": "Potatoes make for an unusual fishy feast.",
-  "chumDetails.pumpkin":
-    "Fish might be intrigued by the orange glow of pumpkins.",
-  "chumDetails.carrot": "Best used with Earthworms to catch Anchovies!",
-  "chumDetails.cabbage": "A leafy temptation for underwater herbivores.",
-  "chumDetails.beetroot": "Beets, the undersea delight for the bold fish.",
-  "chumDetails.cauliflower": "Fish may find the florets oddly enticing.",
-  "chumDetails.parsnip": "An earthy, rooty lure for curious fish.",
-  "chumDetails.eggplant":
-    "Eggplants: the aquatic adventure for the daring fish.",
-  "chumDetails.corn": "Corn on the cob - an odd but intriguing treat.",
-  "chumDetails.radish": "Radishes, the buried treasure for aquatics.",
-  "chumDetails.wheat": "Wheat, a grainy delight for underwater foragers.",
-  "chumDetails.kale": "A leafy green surprise for the inquisitive fish.",
-  "chumDetails.blueberry": "Often confused by blue fish as potential mates.",
-  "chumDetails.orange": "Oranges, the citrusy curiosity for sea creatures.",
-  "chumDetails.apple": "Apples - a crunchy enigma beneath the waves.",
-  "chumDetails.banana": "Lighter than water!",
-  "chumDetails.seaweed": "A taste of the ocean in a leafy underwater snack.",
-  "chumDetails.crab": "A tantalizing morsel for a curious undersea fish.",
-  "chumDetails.anchovy":
-    "Anchovies, mysteriously alluring to the outlaws of the sea.",
-  "chumDetails.redSnapper": "A mystery hidden within the depths of the ocean.",
-  "chumDetails.tuna": "What is big enough to eat a tuna?",
-  "chumDetails.squid": "Awaken a ray with its favorite treat!",
-  "chumDetails.wood": "Wood. An interesting choice....",
-  "chumDetails.redPansy": "Fiery allure for elusive fish.",
+    "Сверкающий блеск, который можно увидеть под любым ракурсом во время Dusk",
+  "chumDetails.stone":
+    "Возможно, забросив несколько камней, получится привлечь какую-нибудь рыбу",
+  "chumDetails.egg": "Хммм, не знаю какой рыбе понравятся яйца...",
+  "chumDetails.sunflower": "Солнечная, яркая насадка для любопытных рыб.",
+  "chumDetails.potato": "Из картофеля получится необычное угощение для рыбы.",
+  "chumDetails.pumpkin": "Рыб может заинтриговать оранжевое сияние тыкв.",
+  "chumDetails.carrot":
+    "Лучше всего использовать вместе с Earthworms для ловли Anchovies!",
+  "chumDetails.cabbage": "Листовый соблазн для подводных травоядных.",
+  "chumDetails.beetroot": "Свекла - подводное лакомство для отважных рыб.",
+  "chumDetails.cauliflower":
+    "Рыбы могут считать цветочки весьма привлекательными",
+  "chumDetails.parsnip": "Землянистая, корневая насадка  для любопытных рыб.",
+  "chumDetails.eggplant": "Баклажаны: подводное приключения для отважных рыб.",
+  "chumDetails.corn":
+    "Кукуруза в початках - странное, но интригующее угощение.",
+  "chumDetails.radish": "Редис - зарытое сокровище для подводных обитателей.",
+  "chumDetails.wheat":
+    "Пшеница - зернистое лакомство для подводных обитателей.",
+  "chumDetails.kale": "Лиственно-зеленый сюрприз для любопытных рыб.",
+  "chumDetails.blueberry":
+    "Голубые рыбы часто путают с потенциальными приятелями.",
+  "chumDetails.orange":
+    "Апельсины - цитрусовая диковинка для подводных обитателей.",
+  "chumDetails.apple": "Яблоки - хрустящая тайна под волнами.",
+  "chumDetails.banana": "Легче воды!",
+  "chumDetails.seaweed": "Вкус океана в листовой подводной закуске.",
+  "chumDetails.crab": "Манящее лакомство для любопытных подводных рыб.",
+  "chumDetails.anchovy": "Анчоусы, таинственно манящие морских разбойников.",
+  "chumDetails.redSnapper": "Тайна, скрытая в глубинах океана.",
+  "chumDetails.tuna": "Что может быть настолько большим, чтобы съесть тунца?",
+  "chumDetails.squid": "Пробуди ray его любимым угощением!",
+  "chumDetails.wood": "Древесина. Интересный выбор....",
+  "chumDetails.redPansy": "Пламенная приманка для неуловимой рыбы.",
   "chumDetails.fatChicken":
-    "The original white meat that the largest of quarry cannot resist.",
-  "chumDetails.speedChicken": "Fast food dessert for sharp-teeth hunters.",
-  "chumDetails.richChicken":
-    "Delicacy for the bright-bellied terror of the screen.",
+    "Настоящее белое мясо, перед которым не устоит самый крупный хищник.",
+  "chumDetails.speedChicken":
+    "Фастфудный перекус для хищника с острыми зубами.",
+  "chumDetails.richChicken": "Деликатес для ужасающего яркобрюхого хищника.",
 };
 
 const community: Record<Community, string> = {
@@ -1193,24 +1200,25 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Fruitful Blend boosts each fruit yield by +0.1",
-  "compost.sproutMix": "Sprout Mix increases your crop yield by +0.2",
-  "compost.sproutMixBoosted": "Sprout Mix increases your crop yield by +0.4",
-  "compost.rapidRoot": "Rapid Root reduces crop growth time by 50%",
+  "compost.fruitfulBlend":
+    "Fruitful Blend добавляет +0.1 к урожаю каждого фрукта",
+  "compost.sproutMix": "Sprout Mix увеличивает урожай растений на +0.2",
+  "compost.sproutMixBoosted": "Sprout Mix увеличивает урожай растений на +0.4",
+  "compost.rapidRoot": "Rapid Root снижает время роста растений на 50%",
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
-  "composter.compostBin": "Compost Bin details...",
-  "composter.turboComposter": "Turbo Composter details...",
-  "composter.premiumComposter": "Premium Composter details...",
+  "composter.compostBin": "Детали Compost Bin...",
+  "composter.turboComposter": "Детали Turbo Composter...",
+  "composter.premiumComposter": "Детали Premium Composter...",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
-  "confirm.skillClaim": "Are you sure you want to claim the skill?",
+  "confirm.skillClaim": "Ты точно хочешь выбрать этот навык?",
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops": "Are you sure you want to",
+  "confirmation.sellCrops": "Ты уверен что хочешь",
 };
 
 const conversations: Record<Conversations, string> = {
@@ -1220,957 +1228,969 @@ const conversations: Record<Conversations, string> = {
   "hank-intro.two":
     "Я работаю на этой земле уже пятьдесят лет, и мне бы точно пригодилась помощь.",
   "hank-intro.three":
-    "Я могу научить вас основам фермерства, при условии, что вы поможете мне с повседневными заданиями.",
-  "hank.crafting.scarecrow": "Создать пугало",
+    "Я могу научить тебя основам фермерства, при условии, что ты поможешь мне с моим ежедневным списком дел.",
+  "hank.crafting.scarecrow": "Создать Scarecrow",
   "hank-crafting.one":
     "Хммм, этот урожай растет до ужаса медленно. У меня нет времени ждать.",
-  "hank-crafting.two": "Создай пугало, чтобы ускорить рост твоего урожая.",
+  "hank-crafting.two": "Создай Scarecrow, чтобы ускорить рост своего урожая.",
   "betty-intro.headline": "Как развить твою ферму",
-  "betty-intro.one": "Приветь привет! Добро пожаловать ко мне на рынок.",
+  "betty-intro.one": "Привет привет! Добро пожаловать ко мне на рынок.",
   "betty-intro.two":
     "Приноси мне свой лучший урожай, и я предложу тебе справедливую цену за него!",
   "betty-intro.three":
     "Тебе нужны семена? У меня есть все, от картошки до пастернака!",
   "betty.market-intro.one":
-    "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.",
+    "Привет, бампкин! Это Betty с рынка на ферме. Я путешествую между островами, чтобы прикупить урожай и продать свежие семена.",
   "betty.market-intro.two":
-    "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.",
+    "Хорошая новость: ты только что наткнулся на новую блестящую лопату! Плохая новость: нам не хватает урожая.",
   "betty.market-intro.three":
-    "For a limited time I am offering newcomers double the money for any crops you bring to me.",
+    "В течение ограниченного времени, я предлагаю новичкам удвоить их прибыль с любых растений, которые они мне принесут.",
   "betty.market-intro.four":
-    "Harvest those Sunflowers and let's start your farming empire.",
+    "Собери эти Sunflowers и начинай развивать свою фермерскую империю.",
   "bruce-intro.headline": "Введение в кулинарию",
   "bruce-intro.one": "Я владелец этого маленького уютного бистро.",
   "bruce-intro.two":
     "Принеси мне ингредиенты, и я приготовлю столько еды, сколько ты сможешь съесть!",
   "bruce-intro.three":
-    "Howdy farmer! I can spot a hungry Bumpkin from a mile away.",
-  "blacksmith-intro.headline": "Chop chop chop.",
+    "Привет, фермер! Я могу за милю учуять голодного бампкина.",
+  "blacksmith-intro.headline": "Поторапливайся.",
   "blacksmith-intro.one":
-    "Я мастер по изготовлению инструментов, и с правильными ресурсами я могу скрафтить все, что ты пожелаешь... включая еще больше инструментов!",
+    "Я мастер по крафту инструментов, и с правильными ресурсами я могу скрафтить все, что ты пожелаешь... включая еще больше инструментов!",
   "pete.first-expansion.one":
-    "Congratulations, Bumpkin! Your farm is growing faster than a beanstalk in a rainstorm!",
+    "Мои поздравления, бампкин! Твоя ферма развивается быстрее, чем бобовый стебель в ливень!",
   "pete.first-expansion.two":
-    "With each expansion, you'll find cool stuff like special resources, new trees, and more to collect!",
+    "С каждым расширением ты будешь открывать новые возможности, такие как: особые ресурсы, новые деревья и многое другое!",
   "pete.first-expansion.three":
-    "Keep an eye out for surprise gifts from the generous goblins as you explore-they're not just expert builders, but crafty secret givers!",
-  "pete.first-expansion.four":
-    "Congratulations, Bumpkin! Keep up the good work.",
-  "pete.craftScarecrow.one": "Hmm, those crops are growing slow.",
+    "Не пропускай подарки от щедрых гоблинов после расширений - они не только опытные строители, но и искусные дарители!",
+  "pete.first-expansion.four": "Поздравляю, бампкин! Продолжай в том же духе.",
+  "pete.craftScarecrow.one": "Хмм, эти растения медленно растут.",
   "pete.craftScarecrow.two":
-    "Sunflower Land is full of magical items you can craft to enhance your farming abilities.",
+    "Sunflower Land полон волшебных предметов, которые ты можешь скрафтить, чтобы усилить свои фермерские навыки.",
   "pete.craftScarecrow.three":
-    "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.",
-  "pete.levelthree.one": "Congratulations, your green thumb is truly shining!",
+    "Подойди к work bench и скрафти scarecrow, чтобы увеличить скорость роста Sunflowers.",
+  "pete.levelthree.one":
+    "Поздравляю, твой зеленый палец действительно блестящий! ",
   "pete.levelthree.two":
-    "It's high time we head to the Plaza, where your farming prowess can shine even brighter.",
+    "Пришло время отправиться в Plaza, где ты можешь усовершенствовать свое фермерское мастерство.",
   "pete.levelthree.three":
-    "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
+    "В plaza ты можешь сдавать свои ресурсы за награды, крафтить волшебные предметы и торговать с другими игроками.",
   "pete.levelthree.four":
-    "You can travel by clicking on the world icon in the bottom left.",
-  "pete.help.zero": "Visit the fire pit, cook food and eat to level up.",
+    "Ты можешь путешествовать, нажав на значок мира в левом нижнем углу.",
+  "pete.help.zero":
+    "Посещай fire pit, готовь и ешь еду, чтобы поднимать свой уровень.",
   "pete.pumpkinPlaza.one":
-    "As you level up, you will unlock new areas to explore. First up is the Pumpkin Plaza....my home!",
+    "По мере повышения уровня, ты будешь открывать новые места для исследования. Первое - это Pumpkin Plaza....мой дом!",
   "pete.pumpkinPlaza.two":
-    "Here you can complete deliveries for rewards, craft magical items & trade with other players.",
+    "Здесь ты можешь выполнять доставки и получать за них награды, крафтить волшебные предметы и торговать с другими игроками.",
   "sunflowerLand.islandDescription":
-    "Sunflower Land is filled with exciting islands where you can complete deliveries, craft rare NFTs and even dig for treasure!",
+    "Sunflower Land полон захватывающих островов, где ты можешь выполнять доставки, крафтить редкие NFTs и даже раскапывать сокровища!",
   "sunflowerLand.opportunitiesDescription":
-    "Different locations bring different opportunities to spend your hard earned resources.",
+    "В разных локациях есть разные возможности потратить свои усердно заработанные ресурсы.",
   "sunflowerLand.returnHomeInstruction":
-    "At any time click the travel button to return home.",
+    "В любое время можно нажать на кнопку путешествия и отправиться домой.",
   "grimbly.expansion.one":
-    "Greetings, budding farmer! I am Grimbly, a seasoned Goblin Builder.",
+    "Приветствую тебя, начинающий фермер! Я - Grimbly, опытный гоблин-строитель.",
   "grimbly.expansion.two":
-    "With the right materials and my ancient crafting skills, we can turn your island into a masterpiece.",
+    "С помощью подходящих материалов и моего древнего таланта, мы можем превратить твой остров в произведение искусства.",
   "luna.portalNoAccess":
-    "Hmmm, this portal just appeared out of nowhere. What could this mean?",
-  "luna.portals": "Portals",
-  "luna.rewards": "Rewards",
-  "luna.travel": "Travel to these player built portals and earn rewards.",
+    "Хммм, этот портал появился из ниоткуда. Что это может означать?",
+  "luna.portals": "Порталы",
+  "luna.rewards": "Награды",
+  "luna.travel":
+    "Путешествуй по построенным игроками порталам и зарабатывай награды.",
   "pete.intro.one":
-    "Приветствую тебя, Бампкин! Добро пожаловать в Sunflower Land, изобильный фермерский край, где возможно всё!",
+    "Приветствую тебя, Бампкин! Добро пожаловать в Sunflower Land, изобильный фермерский мир, где возможно всё!",
   "pete.intro.two":
-    "На каком живописном острове ты обосновался! Я - Тыквенный Пит, твой сосед.",
+    "На каком живописном острове ты обосновался! Я - Pumpkin Pete, твой сосед.",
   "pete.intro.three":
-    "Прямо сейчас игроки отмечают праздник на площади, получая фантастические награды и волшебные предметы.",
+    "Прямо сейчас в Plaza игроки отмечают праздник, получая фантастические награды и волшебные предметы.",
   "pete.intro.four":
-    "Но перед тем, как присоединиться к веселью, ты должен развить свою ферму и собрать несколько ресурсов. Ты же не хочешь прийти с пустыми руками?",
+    "Но перед тем, как присоединиться к веселью, ты должен развить свою ферму и собрать немного ресурсов. Ты же не хочешь прийти туда с пустыми руками?",
   "pete.intro.five":
     "Для начала тебе нужно срубить деревья и расширить свой остров.",
   "mayor.plaza.changeNamePrompt":
-    "Do you want to change your name? Unfortunately, I can't do that for you right now, the paperwork is too much for me to handle.",
+    "Ты хочешь сменить имя? К сожалению, я не могу тебе сейчас с этим помочь, слишком много документов для меня.",
   "mayor.plaza.intro":
-    "Howdy fellow Bumpkin, it seems we haven't been introduced yet.",
+    "Привет, дорогой бампкин, кажется, мы еще не познакомились.",
   "mayor.plaza.role":
-    "I'm the Mayor of this town! I'm in charge of making sure everyone is happy. I also make sure that everyone has a name!",
+    "Я мэр этого города! Я отвечаю за то, чтобы все были счастливы. А еще я слежу за тем, чтобы у каждого было имя!",
   "mayor.plaza.fixNamePrompt":
-    "You don't have a name yet? Well, we can fix that! Do you want me to get the papers ready?",
-  "mayor.plaza.enterUsernamePrompt": "Enter your username",
+    "У тебя еще нет имени? Что ж, мы можем это исправить! Хочешь, чтобы я подготовил документы?",
+  "mayor.plaza.enterUsernamePrompt": "Введи свое имя пользователя",
   "mayor.plaza.usernameValidation":
-    "Please be aware that usernames must adhere to our",
-  "mayor.plaza.niceToMeetYou": "Nice to meet you, !",
+    "Пожалуйста, имей в виду, что имя пользователя должно соответствовать нашим",
+  "mayor.plaza.niceToMeetYou": "Приятно познакомиться, !",
   "mayor.plaza.congratulations":
-    "Congratulations , your paperwork is now complete. See you around!",
+    "Поздравляю, оформление документов завершено. До встречи!",
   "mayor.plaza.enjoyYourStay":
-    "I hope you enjoy your stay in Sunflower Land! If you ever need me again, just come back to me!",
-  "mayor.codeOfConduct": "Code of Conduct",
+    "Надеюсь, тебе нравится твое пребывание в Sunflower Land! Если я тебе когда-нибудь понадоблюсь, то ты знаешь где меня искать!",
+  "mayor.codeOfConduct": "Кодекс поведения",
   "mayor.failureToComply":
-    "Failure to comply may result in penalties, including possible account suspension",
-  "mayor.paperworkComplete": "Your paperwork is now complete. See you around",
+    "Несоблюдение правил может повлечь за собой наказание, включая возможную блокировку аккаунта",
+  "mayor.paperworkComplete": "Оформление документов завершено. До встречи",
 };
 
 const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   // Crops
-  "description.sunflower": "A sunny flower",
-  "description.potato": "Healthier than you might think.",
-  "description.pumpkin": "There's more to pumpkin than pie.",
-  "description.carrot": "They're good for your eyes!",
-  "description.cabbage": "Once a luxury, now a food for many.",
-  "description.beetroot": "Good for hangovers!",
-  "description.cauliflower": "Excellent rice substitute!",
-  "description.parsnip": "Not to be mistaken for carrots.",
-  "description.eggplant": "Nature's edible work of art.",
+  "description.sunflower": "Солнечный цветок",
+  "description.potato": "Полезнее, чем ты мог бы подумать.",
+  "description.pumpkin": "Не только для пирога.",
+  "description.carrot": "Она полезна для твоих глаз!",
+  "description.cabbage": "Когда-то роскошь, а теперь просто еда.",
+  "description.beetroot": "Хорошо помогает от похмелья!",
+  "description.cauliflower": "Отличная замена рису!",
+  "description.parsnip": "Не путать с морковью.",
+  "description.eggplant": "Съедобное произведение искусства.",
   "description.corn":
-    "Sun-kissed kernels of delight, nature's summer treasure.",
-  "description.radish": "Takes time but is worth the wait!",
-  "description.wheat": "The most harvested crop in the world.",
-  "description.kale": "A Bumpkin Power Food!",
+    "Обожженные солнцем лакомые зернышки, летнее природное богатство.",
+  "description.radish": "Придется подождать, но это того стоит!",
+  "description.wheat": "Самая собираемая культура в мире.",
+  "description.kale": "Мощная еда для бампкина!",
 
   // Fruits
-  "description.blueberry": "A Goblin's weakness",
-  "description.orange": "Vitamin C to keep your Bumpkin Healthy",
-  "description.apple": "Perfect for homemade Apple Pie",
-  "description.banana": "Oh banana!",
+  "description.blueberry": "Гоблинская слабость",
+  "description.orange": "Витамин С для поддержания здоровья твоего бампкина",
+  "description.apple": "Идеально для домашнего Apple Pie",
+  "description.banana": "О, банан!",
 
   // Exotic Crops
-  "description.white.carrot": "A pale carrot with pale roots",
-  "description.warty.goblin.pumpkin": "A whimsical, wart-covered pumpkin",
-  "description.adirondack.potato": "A rugged spud, Adirondack style!",
-  "description.purple.cauliflower": "A regal purple cauliflowser",
-  "description.chiogga": "A rainbow beet!",
-  "description.golden.helios": "Sun-kissed grandeur!",
-  "description.black.magic": "A dark and mysterious flower!",
+  "description.white.carrot": "Бледная морковь с бледными корнями",
+  "description.warty.goblin.pumpkin": "Причудливая, покрытая бородавками тыква",
+  "description.adirondack.potato": "Прочный картофель, в стиле адирондак!",
+  "description.purple.cauliflower": "Царская фиолетовая цветная капуста",
+  "description.chiogga": "Радужная свекла!",
+  "description.golden.helios": "Загорелое чудо!",
+  "description.black.magic": "Мрачный и таинственный цветок!",
 
   //Flower Seed
-  "description.sunpetal.seed": "A sunpetal seed",
-  "description.bloom.seed": "A bloom seed",
-  "description.lily.seed": "A lily seed",
+  "description.sunpetal.seed": "Семя sunpetal",
+  "description.bloom.seed": "Семя bloom",
+  "description.lily.seed": "Семя lily",
 };
 
 const deliveryitem: Record<Deliveryitem, string> = {
-  "deliveryitem.inventory": "Inventory",
-  "deliveryitem.itemsToDeliver": "Items to deliver",
-  "deliveryitem.deliverToWallet": "Deliver to your wallet",
+  "deliveryitem.inventory": "Инвентарь",
+  "deliveryitem.itemsToDeliver": "Предметы для отправки",
+  "deliveryitem.deliverToWallet": "Отправить на твой кошелек",
   "deliveryitem.viewOnOpenSea":
-    "Once delivered, you will be able to view your items on OpenSea.",
-  "deliveryitem.deliver": "Deliver",
+    "После получения ты увидишь свои товары на OpenSea.",
+  "deliveryitem.deliver": "Доставить",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
   "defaultDialogue.intro":
-    "Hello, friend! I'm here to see if you have what I need.",
+    "Привет, друг! Я здесь для того, чтобы узнать, нет ли у тебя нужной мне вещи!",
   "defaultDialogue.positiveDelivery":
-    "Oh, fantastic! You've brought exactly what I need. Thank you!",
+    "О, замечательно! Ты принес именно то, что мне нужно. Спасибо!",
   "defaultDialogue.negativeDelivery":
-    "Oh no! It seems you don't have what I need. No worries, though. Keep exploring, and we'll find another opportunity.",
-  "defaultDialogue.noOrder": "No active order for me to fulfill right now.",
+    "О нет! Похоже, у тебя нет того, что мне нужно. Впрочем, не переживай. Продолжай поиски и мы найдем другую возможность.",
+  "defaultDialogue.noOrder":
+    "Сейчас нет активного заказа, который я мог бы выполнить.",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
   // Decorations
   "description.wicker.man":
-    "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
-  "description.golden bonsai": "Goblins love bonsai too",
-  "description.christmas.bear": "Santa's favorite",
-  "description.war.skull": "Decorate the land with the bones of your enemies.",
+    "Возьмитесь за руки и образуйте цепь, и тень Wicker Man появится вновь",
+  "description.golden bonsai": "Гоблины тоже любят бонсай",
+  "description.christmas.bear": "Любимец Санты",
+  "description.war.skull": "Украшает землю костями твоих врагов.",
   "description.war.tombstone": "R.I.P",
-  "description.white.tulips": "Keep the smell of goblins away.",
-  "description.potted.sunflower": "Brighten up your land.",
-  "description.potted.potato": "Potato blood runs through your Bumpkin.",
-  "description.potted.pumpkin": "Pumpkins for Bumpkins",
-  "description.cactus": "Saves water and makes your farm look stunning!",
+  "description.white.tulips":
+    "Отгораживает от запаха гоблинов как можно дальше.",
+  "description.potted.sunflower": "Украшает твою землю.",
+  "description.potted.potato": "В твоем бампкине течет картофельная кровь.",
+  "description.potted.pumpkin": "Pumpkins для бампкинов",
+  "description.cactus": "Экономит воду и придает твоей ферме превосходный вид!",
   "description.basic.bear":
-    "A basic bear. Use this at Goblin Retreat to build a bear!",
+    "A basic bear. Используй его в Goblin Retreat, чтобы создать медведя!",
   "description.bonnies.tombstone":
-    "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
+    "Жуткое дополнение к любой ферме, от Bonnie's Human Tombstone у тебя пойдут мурашки по спине.",
   "description.grubnashs.tombstone":
-    "Add some mischievous charm with Grubnash's Goblin Tombstone.",
-  "description.town.sign": "Show your farm ID with pride!",
+    "Добавь немного зловещего обаяния с помощью Grubnash's Goblin Tombstone.",
+  "description.town.sign": "С гордостью показывает номер твоей фермы!",
   "description.dirt.path":
-    "Keep your farmer boots clean with a well trodden path.",
-  "description.bush": "What's lurking in the bushes?",
-  "description.fence": "Add a touch of rustic charm to your farm.",
-  "description.stone.fence": "Embrace the timeless elegance of a stone fence.",
-  "description.pine.tree": "Standing tall and mighty, a needle-clad dream.",
-  "description.shrub":
-    "Enhance your in-game landscaping with a beautiful shrub",
+    "Не пачкает твою фермерскую обувь благодаря хорошо протоптанной дорожке.",
+  "description.bush": "Что затаилось в кустах?",
+  "description.fence": "Добавляет нотку деревенского стиля твоей ферме.",
+  "description.stone.fence":
+    "Насладись неустаревающей элегантностью каменного забора.",
+  "description.pine.tree": "Стоит высокая и могучая, покрытая иголками.",
+  "description.shrub": "Укрась свой игровой ландшафт красивым кустарником",
   "description.field.maple":
-    "A petite charmer that spreads its leaves like a delicate green canopy.",
-  "description.red.maple": "Fiery foliage and a heart full of autumnal warmth.",
+    "Маленький клен, раскинувший свои листья в виде нежно-зеленого купола.",
+  "description.red.maple":
+    "Пламенные листья и сердце, наполненное осенним теплом.",
   "description.golden.maple":
-    "Radiating brilliance with its shimmering golden leaves.",
+    "Излучает блеск своими мерцающими золотыми листьями.",
   "description.crimson.cap":
-    "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
+    "Возвышающийся и красочный гриб, Crimson Cap Giant Mushroom оживит твою ферму.",
   "description.toadstool.seat":
-    "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
+    "Устраивайся поудобнее и расслабься на причудливом Toadstool Mushroom Seat.",
   "description.chestnut.fungi.stool":
-    "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
+    "Chestnut Fungi Stool - прочное и деревенское дополнение к любой ферме.",
   "description.mahogany.cap":
-    "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
+    "Добавь нотку изысканности с помощью Mahogany Cap Giant Mushroom.",
   "description.candles":
-    "Enchant your farm with flickering spectral flames during Witches' Eve.",
+    "Зачаровывает твою ферму мерцающим призрачным пламенем во время Witches' Eve.",
   "description.haunted.stump":
-    "Summon spirits and add eerie charm to your farm.",
-  "description.spooky.tree": "A hauntingly fun addition to your farm's decor!",
-  "description.observer":
-    "A perpetually roving eyeball, always vigilant and ever-watchful!",
-  "description.crow.rock": "A crow perched atop a mysterious rock.",
+    "Призывает духов и добавляет мрачности твоей ферме.",
+  "description.spooky.tree":
+    "Невероятно забавное дополнение к декору на твоей ферме!",
+  "description.observer": "Вечно бдящее глазное яблоко, которое всегда начеку!",
+  "description.crow.rock": "Ворона, сидящее на загадочном камне.",
   "description.mini.corn.maze":
-    "A memento of the beloved maze from the 2023 Witches' Eve season.",
-  "description.lifeguard.ring": "Stay afloat with style, your seaside savior!",
-  "description.surfboard": "Ride the waves of wonder, beach bliss on board!",
+    "В память о любимом лабиринте с 2023 Witches' Eve сезона.",
+  "description.lifeguard.ring":
+    "Оставайся на плаву со стилем, вместе с морским спасателем!",
+  "description.surfboard": "Оседлай волну чудес и пляжного счастья на доске!",
   "description.hideaway.herman":
-    "Herman's here to hide, but always peeks for a party!",
+    "Herman здесь, чтобы спрятаться, но он всегд заглядывает на вечеринку!",
   "description.shifty.sheldon":
-    "Sheldon's sly, always scuttling to the next sandy surprise!",
-  "description.tiki.torch": "Light the night, tropical vibes burning bright!",
+    "Скользкий Sheldon, всегда убегает к следующему песчаному сюрпризу!",
+  "description.tiki.torch":
+    "Освети ночь, потому что тропический вайб горит ярко!",
   "description.beach.umbrella":
-    "Shade, shelter, and seaside chic in one sunny setup!",
-  "description.magic.bean": "What will grow?",
-  "description.giant.potato": "A giant potato.",
-  "description.giant.pumpkin": "A giant pumpkin.",
-  "description.giant.cabbage": "A giant cabbage.",
-  "description.chef.bear": "Every chef needs a helping hand",
-  "description.construction.bear": "Always build in a bear market",
-  "description.angel.bear": "Time to transcend peasant farming",
-  "description.badass.bear": "Nothing stands in your way.",
-  "description.bear.trap": "It's a trap!",
-  "description.brilliant.bear": "Pure brilliance!",
-  "description.classy.bear": "More SFL than you know what to do with it!",
-  "description.farmer.bear": "Nothing quite like a hard day's work!",
-  "description.rich.bear": "A prized possession",
-  "description.sunflower.bear": "A Bear's cherished crop",
-  "description.beta.bear": "A bear found through special testing events",
-  "description.rainbow.artist.bear": "The owner is a beautiful bear artist!",
+    "Тенек, навес и морской шик в одном солнечном устройстве!",
+  "description.magic.bean": "Что же вырастет?",
+  "description.giant.potato": "Гигантский картофель.",
+  "description.giant.pumpkin": "Гигантская тыква.",
+  "description.giant.cabbage": "Гигантская капуста.",
+  "description.chef.bear": "Каждому шеф-повару нужна помощь",
+  "description.construction.bear": "Всегда производится на медвежьем рынке",
+  "description.angel.bear":
+    "Пришло время выйти за рамки крестьянского фермерства",
+  "description.badass.bear": "Ничто тебя не остановит",
+  "description.bear.trap": "Это ловушка!",
+  "description.brilliant.bear": "Чистейшее великолепие!",
+  "description.classy.bear": "Здесь больше SFL, чем тебе нужно!",
+  "description.farmer.bear": "Ничто не сравнится с тяжелым рабочим днем!",
+  "description.rich.bear": "Ценная вещь",
+  "description.sunflower.bear": "Любимое растение медведя",
+  "description.beta.bear":
+    "Медведь, полученный в ходе специальных тестовых событий",
+  "description.rainbow.artist.bear": "Его владелец прекрасно рисует медведя!",
   "description.devil.bear":
-    "Better the Devil you know than the Devil you don't",
-  "description.collectible.bear": "A prized bear, still in mint condition!",
-  "description.cyborg.bear": "Hasta la vista, bear",
+    "Лучше тот дьявол, которого знаешь, чем тот, которого не знаешь",
+  "description.collectible.bear":
+    "Ценный медведь, до сих пор в отличном состоянии!",
+  "description.cyborg.bear": "Hasta la vista, медвежонок",
   "description.christmas.snow.globe":
-    "Swirl the snow and watch it come to life",
+    "Потряси шар и смотри за тем, как он оживает",
   "description.kraken.tentacle":
-    "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
+    "Окунись в тайны морских глубин! Это щупальце расскажет о древних океанских легендах и морских чудесах.",
   "description.kraken.head":
-    "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
-  "description.abandoned.bear": "A bear that was left behind on the island.",
-  "description.turtle.bear": "Turtley enough for the turtle club.",
-  "description.trex.skull": "A skull from a T-Rex! Amazing!",
-  "description.sunflower.coin": "A coin made of sunflowers.",
-  "description.skeleton.king.staff": "All hail the Skeleton King!",
-  "description.lifeguard.bear": "Lifeguard Bear is here to save the day!",
-  "description.snorkel.bear": "Snorkel Bear loves to swim.",
-  "description.parasaur.skull": "A skull from a parasaur!",
-  "description.goblin.bear": "A goblin bear. It's a bit scary.",
-  "description.golden.bear.head": "Spooky, but cool.",
-  "description.pirate.bear": "Argh, matey! Hug me!",
-  "description.galleon": "A toy ship, still in pretty good nick.",
-  "description.dinosaur.bone":
-    "A Dinosaur Bone! What kind of creature was this?",
-  "description.human.bear": "A human bear. Even scarier than a goblin bear.",
+    "Окунись в тайны морских глубин! Эта голова расскажет о древних океанских легендах и морских чудесах.",
+  "description.abandoned.bear": "Медведь, которого оставили на острове.",
+  "description.turtle.bear": "Хватит для черепашьего клуба.",
+  "description.trex.skull": "Череп Ти-Рекса! Потрясающе!",
+  "description.sunflower.coin": "Монета, сделанная из подсолнухов.",
+  "description.skeleton.king.staff": "Да здравствует Skeleton King!",
+  "description.lifeguard.bear": "Lifeguard Bear здесь, чтобы выручить!",
+  "description.snorkel.bear": "Snorkel Bear обожает плавать.",
+  "description.parasaur.skull": "Череп Паразавра!",
+  "description.goblin.bear": "Медведь-гоблин. Немного пугающе.",
+  "description.golden.bear.head": "Жуткий, но клевый.",
+  "description.pirate.bear": "Аррр, старый пройдоха! Обними меня!",
+  "description.galleon": "Игрушечный корабль, все еще в хорошем состоянии.",
+  "description.dinosaur.bone": "Кость динозавра! Интересно, чья она?",
+  "description.human.bear":
+    "Медведь-человек. Даже страшнее, чем медведь-гоблин.",
   "description.flamingo":
-    "Represents a symbol of love's beauty standing tall and confident.",
+    "Представляет собой символ любви, стоящей высоко и уверенно.",
   "description.blossom.tree":
-    "Its delicate petals symbolizes the beauty and fragility of love.",
+    "Эти нежные лепестки символизируют красоту и хрупкость любви.",
   "description.heart.balloons":
-    "Use them as decorations for romantic occasions.",
+    "Используй их в качестве декорации для романтических свиданий.",
   "description.whale.bear":
-    "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
-  "description.valentine.bear": "For those who love.",
-  "description.easter.bear": "How can a Bunny lay eggs?",
-  "description.easter.bush": "What is inside?",
+    "У него круглое пушистое тело, как у медведя, но плавники, хвост и дыхало кита.",
+  "description.valentine.bear": "Для тех, кто любит.",
+  "description.easter.bear": "Как кролик может откладывать яйца?",
+  "description.easter.bush": "Что там внутри?",
   "description.giant.carrot":
-    "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
+    "Стояла гигантская морковка, отбрасывая забавные тени, а кролики с удивлением смотрели на нее.",
   "description.beach.ball":
-    "Bouncy ball brings beachy vibes, blows boredom away.",
+    "Надувной мяч, создающий пляжный вайб и прогоняющий скуку.",
   "description.palm.tree":
-    "Tall, beachy, shady and chic, palm trees make waves sashay.",
+    "Высокие, пляжные, тенистые и изысканные пальмы заставляют волны колыхаться.",
 
   //other
-  "description.sunflower.amulet": "10% increased Sunflower yield.",
-  "description.carrot.amulet": "Carrots grow 20% faster.",
-  "description.beetroot.amulet": "20% increased Beetroot yield.",
-  "description.green.amulet": "Chance for 10x crop yield.",
-  "description.warrior.shirt": "A mark of a true warrior.",
-  "description.warrior.pants": "Protect your thighs.",
-  "description.warrior.helmet": "Immune to arrows.",
+  "description.sunflower.amulet": "Урожай Sunflower увеличен на 10%.",
+  "description.carrot.amulet": "Carrots растут на 20% быстрее.",
+  "description.beetroot.amulet": "Урожай Beetroot увеличен на 20%.",
+  "description.green.amulet": "Шанс на 10х урожая.",
+  "description.warrior.shirt": "Знак настоящего воина.",
+  "description.warrior.pants": "Защитит твои бедра.",
+  "description.warrior.helmet": "Иммунитет к стрелам.",
   "description.sunflower.shield":
-    "A hero of Sunflower Land. Free Sunflower Seeds!",
-  "description.skull.hat": "A rare hat for your Bumpkin.",
-  "description.sunflower.statue": "A symbol of the holy token",
-  "description.potato.statue": "The OG potato hustler flex",
-  "description.christmas.tree": "Receive a Santa Airdrop on Christmas day",
-  "description.gnome": "A lucky gnome",
-  "description.homeless.tent": "A nice and cozy tent",
-  "description.sunflower.tombstone": "In memory of Sunflower Farmers",
-  "description.sunflower.rock": "The game that broke Polygon",
-  "description.goblin.crown": "Summon the leader of the Goblins",
-  "description.fountain": "A relaxing fountain for your farm",
-  "description.nyon.statue": "In memory of Nyon Lann",
-  "description.farmer.bath": "A beetroot scented bath for the farmers",
-  "description.woody.Beaver": "Increase wood drops by 20%",
-  "description.apprentice.beaver": "Trees recover 50% faster",
-  "description.foreman.beaver": "Cut trees without axes",
-  "description.egg.basket": "Gives access to the Easter Egg Hunt",
-  "description.mysterious.head": "A statue thought to protect farmers",
-  "description.tunnel.mole": "Gives a 25% increase to stone mines",
-  "description.rocky.the.mole": "Gives a 25% increase to iron mines",
-  "description.nugget": "Gives a 25% increase to gold mines",
-  "description.rock.golem": "Gives a 10% chance to get 3x stone",
-  "description.chef.apron": "Gives 20% extra SFL selling cakes",
+    "Герой Sunflower Land. Бесплатные Sunflower Seeds!",
+  "description.skull.hat": "Редкая шляпа для твоего бампкина.",
+  "description.sunflower.statue": "Символ священного токена",
+  "description.potato.statue": "Настоящий картофельный барыга",
+  "description.christmas.tree": "Получает подарок от Санты на Рождество",
+  "description.gnome": "Везучий гном",
+  "description.homeless.tent": "Красивая и уютная палатка",
+  "description.sunflower.tombstone": "В память о Sunflower Farmers",
+  "description.sunflower.rock": "Игра, сломавшая Polygon",
+  "description.goblin.crown": "Призывает предводителя гоблинов",
+  "description.fountain": "Расслабляющий фонтан для твоей фермы",
+  "description.nyon.statue": "В память о Nyon Lann",
+  "description.farmer.bath": "Ванна с ароматом свеклы для фермеров",
+  "description.woody.Beaver": "Выпадение wood увеличено на 20%",
+  "description.apprentice.beaver": "Trees восстанавливаются на 50% быстрее",
+  "description.foreman.beaver": "Руби trees без axes",
+  "description.egg.basket": "Дает доступ к Easter Egg Hunt",
+  "description.mysterious.head": "Статуя, призванная защищать фермеров",
+  "description.tunnel.mole": "Дает 25% увеличение к выпадению stone",
+  "description.rocky.the.mole": "Дает 25% увеличение к выпадению iron",
+  "description.nugget": "Дает 25% увеличение к выпадению gold",
+  "description.rock.golem": "Дает 10% шанс на получение 3х stone",
+  "description.chef.apron": "Дает дополнительно 20% SFL с продажи тортов",
   "description.chef.hat": "La couronne d'un boulanger légendaire !",
-  "description.nancy": "Keeps a few crows away. Crops grow 15% faster",
-  "description.scarecrow": "A goblin scarecrow. Yield 20% more crops",
+  "description.nancy": "Отгоняет немного ворон. Растения растут на 15% быстрее",
+  "description.scarecrow": "Пугало-гоблин. Урожай с растений увеличен на 20%",
   "description.kuebiko":
-    "Even the shopkeeper is scared of this scarecrow. Seeds are free",
-  "description.golden.cauliflower": "Doubles cauliflower yield",
-  "description.mysterious.parsnip": "Parsnips grow 50% faster",
-  "description.carrot.sword": "Increase chance of a mutant crop appearing",
-  "description.chicken.coop": "Collect 2x the amount of eggs",
-  "description.farm.cat": "Keep the rats away",
-  "description.farm.dog": "Herd sheep with your farm dog",
-  "description.gold.egg": "Feed chickens without needing wheat",
-  "description.easter.bunny": "Earn 20% more Carrots",
-  "description.rooster": "Doubles the chance of dropping a mutant chicken",
-  "description.chicken": "Produces eggs. Requires wheat for feeding",
-  "description.cow": "Produces milk. Requires wheat for feeding",
-  "description.pig": "Produces manure. Requires wheat for feeding",
-  "description.sheep": "Produces wool. Requires wheat for feeding",
-  "description.basic.land": "A basic piece of land",
-  "description.crop.plot": "An empty plot to plant crops on",
-  "description.gold.rock": "A mineable rock to collect gold",
-  "description.iron.rock": "A mineable rock to collect iron",
-  "description.stone.rock": "A mineable rock to collect stone",
-  "description.crimstone.rock": "A mineable rock to collect crimstone",
-  "description.flower.bed": "An empty plot to plant flowers on",
-  "description.tree": "A choppable tree to collect wood",
-  "description.fruit.patch": "An empty plot to plant fruit on",
-  "description.boulder": "A mythical rock that can drop rare minerals",
+    "Даже торговец боится этого пугала. Семена теперь бесплатные",
+  "description.golden.cauliflower": "Удваивает урожай с cauliflower",
+  "description.mysterious.parsnip": "Parsnips растут на 50% быстрее",
+  "description.carrot.sword": "Увеличивает шанс на появление растений-мутантов",
+  "description.chicken.coop": "Собирает в 2 раза больше eggs",
+  "description.farm.cat": "Отгоняет крыс",
+  "description.farm.dog": "Паси овец вместе со своим фермерским песиком",
+  "description.gold.egg": "Кормит chickens без необходимости wheat",
+  "description.easter.bunny": "Получает на 20% больше Carrots",
+  "description.rooster": "Удваивает шанс на выпадение курицы-мутанта",
+  "description.chicken": "Производит eggs. Нужна wheat для корма",
+  "description.cow": "Производит milk. Нужна wheat для корма",
+  "description.pig": "Производит manure. Нужна wheat для корма",
+  "description.sheep": "Produces wool. Нужна wheat для корма",
+  "description.basic.land": "Базовый кусок земли",
+  "description.crop.plot": "Пустая грядка для выращивания растений",
+  "description.gold.rock": "Добываемый камень для сбора gold",
+  "description.iron.rock": "Добываемый камень для сбора iron",
+  "description.stone.rock": "Добываемый камень для сбора stone",
+  "description.crimstone.rock": "Добываемый камень для сбора crimstone",
+  "description.flower.bed": "Пустая клумба для выращивания цветов",
+  "description.tree": "Дерево, которое можно срубить для сбора wood",
+  "description.fruit.patch": "Пустая лунка для выращивания фруктов",
+  "description.boulder":
+    "Мифический камень, из которого могут выпасть редкие минералы",
   "description.catch.the.kraken.banner":
-    "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
-  "description.luminous.lantern":
-    "A bright paper lantern that illuminates the way.",
+    "Кракен здесь! Знак участника в Catch the Kraken сезоне.",
+  "description.luminous.lantern": "Яркий бумажный фонарь, освещающий путь.",
   "description.radiance.lantern":
-    "A radiant paper lantern that shines with a powerful light.",
+    "Сияющий бумажный фонарь, излучающий мощный свет.",
   "description.ocean.lantern":
-    "A wavy paper lantern that sways with the bobbing of the tide.",
+    "Волнистый бумажный фонарь, покачивающийся в такт приливу.",
   "description.solar.lantern":
-    "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
+    "Используя яркую силу подсолнухов, Solar Lantern излучает теплое и сияющее свечение.",
   "description.aurora.lantern":
-    "A paper lantern that transforms any space into a magical wonderland.",
+    "Бумажный фонарь, который превращает любое пространство в волшебную страну чудес.",
   "description.dawn.umbrella":
-    "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
+    "С помощью Dawn Umbrella Seat, баклажаны будут сухими даже в дождливые дни.",
   "description.eggplant.grill":
-    "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
+    "Приступай к готовке с Eggplant Grill, который идеально подходит для любой трапезы на открытом воздухе.",
   "description.giant.dawn.mushroom":
-    "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
+    "Giant Dawn Mushroom - величественное и волшебное дополнение к любой ферме.",
   "description.shroom.glow":
-    "Illuminate your farm with the enchanting glow of Shroom Glow.",
+    "Освети свою ферму чарующим сиянием от Shroom Glow.",
   "description.clementine":
-    "The Clementine Gnome is a cheerful companion for your farming adventures.",
+    "Clementine Gnome - веселый компаньон для твоих фермерских увлечений.",
   "description.blossombeard":
-    "The Blossombeard Gnome is a powerful companion for your farming adventures.",
+    "Blossombeard Gnome - мощный компаньон для твоих фермерских увлечений.",
   "description.cobalt":
-    "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
-  "description.hoot": "Hoot hoot! Have you solved my riddle yet?",
-  "description.genie.bear": "Exactly what I wished for!",
+    "Cobalt Gnome добавит красок твоей ферме своей яркой шляпкой.",
+  "description.hoot": "Ух-уху-ху! Ты уже разгадал мою загадку?",
+  "description.genie.bear": "Именно то, что я хотел!",
   "description.betty.lantern":
-    "It looks so real! I wonder how they crafted this.",
+    "Это выглядит так реалистично! Интересно, как они это сделали?",
   "description.bumpkin.lantern":
-    "Moving closer you hear murmurs of a living Bumpkin...creepy!",
-  "description.eggplant.bear": "The mark of a generous eggplant whale.",
-  "description.goblin.lantern": "A scary looking lantern",
+    "Подойдя ближе, ты слышишь шорохи живого бампкина... жуть!",
+  "description.eggplant.bear": "Знак щедрого баклажанного кита.",
+  "description.goblin.lantern": "Страшный фонарь",
   "description.dawn.flower":
-    "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
-  "description.kernaldo.bonus": "+25% Corn Growth Speed",
-  "description.white.crow": "A mysterious and ethereal white crow",
-  "description.sapo.docuras": "A real treat!",
-  "description.sapo.travessuras": "Oh oh...someone was naughty",
+    "Насладись сияющей красотой Dawn Flower, когда его нежные лепестки мерцают при первых лучах солнца",
+  "description.kernaldo.bonus": "+25% скорости роста Corn",
+  "description.white.crow": "Таинственная и неземная белая ворона",
+  "description.sapo.docuras": "Настоящее удовольствие!",
+  "description.sapo.travessuras": "Ой-ой...кто-то был непослушным",
   "description.walrus":
-    "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
+    "Благодаря его надежным бивням и любви к глубинам, ты всегда будешь вылавливать дополнительную рыбу.",
   "description.alba":
-    "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
+    "Благодаря её острому чутью, ты будешь вылавливать дополнительную рыбу. 50% шанс на +1 базовую рыбу!",
   "description.knowledge.crab":
-    "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
+    "Knowledge Crab удваивает эффект от Sprout Mix, делая твои посевы такими же богатыми, как морская добыча!",
   "description.anchor":
-    "Drop anchor with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
+    "Брось якорь с помощью этой морской драгоценности, которая придает любому месту морской и восхитительный стиль!",
   "description.rubber.ducky":
-    "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
+    "Веселись вместе с этой классической уточкой, которая приподнимает настроение в любом уголке!",
   "description.arcade.token":
-    "A token earned from mini-games and adventures. Can be exchanged for rewards.",
-  "description.bumpkin.nutcracker": "A festive decoration from 2023.",
+    "Токен, получаемый с мини-игр и приключений. Можно обменять на награды.",
+  "description.bumpkin.nutcracker": "Праздничная декорация 2023.",
   "description.festive.tree":
-    "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
+    "Праздничное дерево, доступное каждый праздничный сезон. Интересно, достаточно ли она большая, чтобы Санта мог ее увидеть?",
   "description.white.festive.fox":
-    "The blessing of the White Fox inhabits the generous farms",
+    "Благословение White Fox обитает на щедрых фермах",
   "description.grinxs.hammer":
-    "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
+    "Волшебный молот от Grinx, легендарного гоблина-кузнеца.",
   "description.angelfish":
-    "The aquatic celestial beauty, adorned in a palette of vibrant hues.",
+    "Водная небесная красавица, украшенная палитрой ярких цветов.",
   "description.halibut":
-    "The flat ocean floor dweller, a master of disguise in sandy camouflage.",
+    "Обитатель океанского дна, мастер маскировки в песчаном камуфляже.",
   "description.parrotFish":
-    "A kaleidoscope of colors beneath the waves, this fish is nature's living artwork.",
-  "description.Farmhand": "A helpful farmhand",
+    "Эта рыба, представляющая собой калейдоскоп цветов под волнами, является живым произведением искусства.",
+  "description.Farmhand": "Полезный помощник",
   "description.Beehive":
-    "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
+    "Шумный рой, производящий Honey из активно растущих цветов; 10% шанс при сборе Honey вызвать пчелиный рой, который опылит все посевы на +0.2 к урожаю!",
   // Flowers
-  "description.red.pansy": "A red pansy.",
-  "description.yellow.pansy": "A yellow pansy.",
-  "description.purple.pansy": "A purple pansy.",
-  "description.white.pansy": "A white pansy.",
-  "description.blue.pansy": "A blue pansy.",
+  "description.red.pansy": "Красная фиалка.",
+  "description.yellow.pansy": "Желтая фиалка.",
+  "description.purple.pansy": "Фиолетовая фиалка.",
+  "description.white.pansy": "Белая фиалка.",
+  "description.blue.pansy": "Голубая фиалка.",
 
-  "description.red.cosmos": "A red cosmos.",
-  "description.yellow.cosmos": "A yellow cosmos.",
-  "description.purple.cosmos": "A purple cosmos.",
-  "description.white.cosmos": "A white cosmos.",
-  "description.blue.cosmos": "A blue cosmos.",
+  "description.red.cosmos": "Красный космос.",
+  "description.yellow.cosmos": "Желтый космос.",
+  "description.purple.cosmos": "Фиолетовый космос.",
+  "description.white.cosmos": "Белый космос.",
+  "description.blue.cosmos": "Голубой космос.",
 
-  "description.red.balloon.flower": "A red balloon flower.",
-  "description.yellow.balloon.flower": "A yellow balloon flower.",
-  "description.purple.balloon.flower": "A purple balloon flower.",
-  "description.white.balloon.flower": "A white balloon flower.",
-  "description.blue.balloon.flower": "A blue balloon flower.",
+  "description.red.balloon.flower": "Красный колокольчик.",
+  "description.yellow.balloon.flower": "Желтый колокольчик.",
+  "description.purple.balloon.flower": "Фиолетовый колокольчик.",
+  "description.white.balloon.flower": "Белый колокольчик.",
+  "description.blue.balloon.flower": "Голубой колокольчик.",
 
-  "description.red.carnation": "A red carnation.",
-  "description.yellow.carnation": "A yellow carnation.",
-  "description.purple.carnation": "A purple carnation.",
-  "description.white.carnation": "A white carnation.",
-  "description.blue.carnation": "A blue carnation.",
+  "description.red.carnation": "Красная гвоздика.",
+  "description.yellow.carnation": "Желтая гвоздика.",
+  "description.purple.carnation": "Фиолетовая гвоздика.",
+  "description.white.carnation": "Белая гвоздика.",
+  "description.blue.carnation": "Голубая гвоздика.",
 
   "description.humming.bird":
-    "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
+    "Маленькая небесная драгоценность, Humming Bird порхает с красочной грацией.",
   "description.queen.bee":
-    "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
+    "Величественная правительница улья, Queen Bee жужжит с королевской властью.",
   "description.flower.fox":
-    "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
+    "Flower Fox - игривое существо, украшенное лепестками, приносит радость в сад.",
   "description.hungry.caterpillar":
-    "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
+    "Жуя листья, Hungry Caterpillar всегда готов к вкусным приключениям.",
   "description.sunrise.bloom.rug":
-    "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+    "Встань на Sunrise Bloom Rug, где лепестки танцуют вокруг цветочного рассвета.",
   "description.blossom.royale":
-    "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
+    "Blossom Royale - гигантский цветок в ярких голубых и розовых тонах, величественно цветущий.",
   "description.rainbow":
-    "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
+    "Веселая радуга, соединяющая небо и землю своей разноцветной аркой.",
   "description.enchanted.rose":
-    "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
+    "Enchanted Rose - символ вечной красоты, завораживает своим волшебным очарованием.",
   "description.flower.cart":
-    "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
+    "Flower Cart, наполненная цветами, представляет собой передвижной сад цветочных прелестей.",
   "description.capybara":
-    "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
+    "Capybara - спокойный друг, наслаждающийся ленивыми деньками у берега.",
   "description.prism.petal":
-    "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    "Вау! Какой красивый цветок! Думаю, он достоин того, чтобы разместить его на ферме.",
   "description.celestial.frostbloom":
-    "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    "Вау! Какой красивый цветок! Думаю, он достоин того, чтобы разместить его на ферме.",
   "description.primula.enigma":
-    "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
+    "Вау! Какой красивый цветок! Думаю, он достоин того, чтобы разместить его на ферме.",
 
-  "description.red.daffodil": "A red daffodil.",
-  "description.yellow.daffodil": "A yellow daffodil.",
-  "description.purple.daffodil": "A purple daffodil.",
-  "description.white.daffodil": "A white daffodil.",
-  "description.blue.daffodil": "A blue daffodil.",
+  "description.red.daffodil": "Красный нарцисс.",
+  "description.yellow.daffodil": "Желтый нарцисс.",
+  "description.purple.daffodil": "Фиолетовый нарцисс.",
+  "description.white.daffodil": "Белый нарцисс.",
+  "description.blue.daffodil": "Голубой нарцисс.",
 
-  "description.red.lotus": "A red lotus.",
-  "description.yellow.lotus": "A yellow lotus.",
-  "description.purple.lotus": "A purple lotus.",
-  "description.white.lotus": "A white lotus.",
-  "description.blue.lotus": "A blue lotus.",
+  "description.red.lotus": "Красный лотос.",
+  "description.yellow.lotus": "Желтый лотос.",
+  "description.purple.lotus": "Фиолетовый лотос.",
+  "description.white.lotus": "Белый лотос.",
+  "description.blue.lotus": "Голубой лотос.",
 
   // Banners
-  "description.goblin.war.banner":
-    "A display of allegiance to the Goblin cause",
-  "description.human.war.banner": "A display of allegiance to the Human cause",
-  "description.earnAllianceBanner": "A special event banner",
+  "description.goblin.war.banner": "Демонстрирует преданность гоблинскому делу",
+  "description.human.war.banner":
+    "Демонстрирует преданность человеческому делу",
+  "description.earnAllianceBanner": "Баннер специального события",
 };
 
 const delivery: Record<Delivery, string> = {
   "delivery.panel.one":
-    "Hmm, it doesn't look like your farm will have the resources I need. Reach ",
-  "delivery.panel.two": "e expansions and come back to me.",
-  "delivery.panel.three": "Delivery: No order selected",
+    "Хмм, не похоже, что на твоей ферме есть нужные мне ресурсы. Достигни ",
+  "delivery.panel.two": "расширения и возвращайся ко мне.",
+  "delivery.panel.three": "Доставка: заказ не выбран",
   "delivery.panel.four":
-    "I am waiting for the new season to start. Come back to me then!",
-  "delivery.ressource": "Want me to deliver resources?",
-  "delivery.feed": "It ain't free, I've got a tribe to feed!",
-  "delivery.fee": "I'll take 30% of the resources for the ",
+    "Я жду начала нового сезона. Возвращайся ко мне, когда он начнется!",
+  "delivery.ressource": "Хочешь, чтобы я доставил ресурсы?",
+  "delivery.feed": "Это не бесплатно, мне надо кормить целое племя!",
+  "delivery.fee": "Я возьму с тебя 30% ресурсов для ",
   "delivery.goblin.comm.treasury": "Goblin Community Treasury",
 };
 
 const deliveryHelp: Record<DeliveryHelp, string> = {
   "deliveryHelp.pumpkinSoup":
-    "Gather ingredients and take a boat ride to Pumpkin Plaza to deliver orders to Bumpkins for a reward!",
+    "Собери ингредиенты и отправляйся на лодке на Pumpkin Plaza, чтобы доставить заказы бампкинам за вознаграждение!",
   "deliveryHelp.hammer":
-    "Expand your land to unlock more slots + quicker delivery orders",
+    "Расширь свою землю, чтобы разблокировать больше слотов + ускорить появление новых заказов",
   "deliveryHelp.axe":
-    "Complete your chores and find Hank at the Plaza to claim your rewards.",
+    "Выполняй список дел и найди Hank на Plaza, чтобы забрать свою награду.",
   "deliveryHelp.chest":
-    "Build relationships with Bumpkins by completing multiple orders to unlock bonus rewards. (Coming soon)",
+    "Строй отношения с бампкинами, завершая различные заказы для разблокировки наград.",
 };
 
 const depositWallet: Record<DepositWallet, string> = {
-  "deposit.errorLoadingBalances": "There was an error loading your balances.",
-  "deposit.yourPersonalWallet": "Your Personal Wallet",
-  "deposit.farmWillReceive": "Your farm will receive",
-  "deposit.depositDidNotArrive": "Deposit didn't arrive?",
+  "deposit.errorLoadingBalances":
+    "Произошла ошибка при загрузке твоего баланса.",
+  "deposit.yourPersonalWallet": "Твой личный кошелек",
+  "deposit.farmWillReceive": "Твоя ферма получит",
+  "deposit.depositDidNotArrive": "Депозит не поступил?",
   "deposit.goblinTaxInfo":
-    "When players withdraw any SFL, a Goblin Tax is applied.",
-  "deposit.applied": "is applied.",
-  "deposit.sendToFarm": "Send to farm",
-  "deposit.toDepositLevelUp": "To deposit items you must first level up",
-  "deposit.level": "Level 3",
-  "deposit.noSflOrCollectibles": "No SFL or Collectibles Found!",
-  "deposit.farmAddress": "Farm address",
+    "Когда игроки выводят любое количество SFL, гоблинам платится налог.",
+  "deposit.applied": "применен.",
+  "deposit.sendToFarm": "Отправить на ферму",
+  "deposit.toDepositLevelUp":
+    "Для отправки, тебе сначала нужно поднять свой уровень",
+  "deposit.level": "3 уровень",
+  "deposit.noSflOrCollectibles": "SFL или коллекционные предметы не найдены!",
+  "deposit.farmAddress": "Адрес фермы",
   "question.depositSFLItems":
-    "Would you like to deposit Sunflower Land collectibles, wearables or SFL?",
+    "Хочешь закинуть Sunflower Land предметы, одежду или токен SFL?",
 };
 
 const detail: Record<Detail, string> = {
-  "detail.how.item": "How to get this item?",
-  "detail.Claim.Reward": "Claim reward",
-  "detail.basket.empty": "Your basket is empty!",
-  "detail.view.item": "View item on",
+  "detail.how.item": "Как получить этот предмет?",
+  "detail.Claim.Reward": "Забрать награду",
+  "detail.basket.empty": "Твоя корзина пуста!",
+  "detail.view.item": "Посмотреть предмет на",
 };
 
 const discordBonus: Record<DiscordBonus, string> = {
-  "discord.bonus.niceHat": "Wow, nice hat!",
+  "discord.bonus.niceHat": "Ого, красивая шляпа!",
   "discord.bonus.attentionEvents":
-    "Don't forget to pay attention to special events and giveaways on Discord so you don't miss out.",
-  "discord.bonus.bonusReward": "Bonus Reward",
+    "Не забывай следить за специальными событиями и розыгрышами в Discord, чтобы не пропустить их.",
+  "discord.bonus.bonusReward": "Бонусная награда",
   "discord.bonus.payAttention":
-    "Pay attention to special events and giveaways on Discord so you don't miss out.",
+    "Следи за специальными событиями и розыгрышами в Discord, чтобы не пропустить их.",
   "discord.bonus.enjoyCommunity":
-    "We hope you are enjoying being a part of our community!",
+    "Мы надеемся, что тебе нравится быть частью нашего сообщества!",
   "discord.bonus.communityInfo":
-    "Did you know there are over 100,000 players in our vibrant Discord community?",
+    "Ты знал, что в нашем активном Discord сообществе больше 100,000 игроков?",
   "discord.bonus.farmingTips":
-    "If you are looking for farming tips & tricks, it is the place to be.",
+    "Если ты ищешь фермерских советов и фишек, то тебе сюда.",
   "discord.bonus.freeGift":
-    "The best part...everyone who joins gets a free gift!",
-  "discord.bonus.connect": "Connect to Discord",
+    "И самая лучшая часть...каждый, кто присоединится, получит бесплатный подарок!",
+  "discord.bonus.connect": "Подключиться к Discord",
 };
 
 const donation: Record<Donation, string> = {
   "donation.one":
-    "This was a community art initiative and donations are greatly appreciated!",
+    "Это была инициатива от художников нашего сообщества, и они будут очень признательны за пожертвования!",
 };
 
 const draftBid: Record<DraftBid, string> = {
-  "draftBid.howAuctionWorks": "How does the auction work?",
+  "draftBid.howAuctionWorks": "Как работает аукцион?",
   "draftBid.unsuccessfulParticipants":
-    "Participants who are unsuccessful will be refunded their resources.",
-  "draftBid.termsAndConditions": "Terms and conditions",
+    "Проигравшим участникам будут возвращены их ресурсы.",
+  "draftBid.termsAndConditions": "Правила и условия",
 };
 
 const errorAndAccess: Record<ErrorAndAccess, string> = {
   "errorAndAccess.blocked.betaTestersOnly":
-    "Access limited to beta testers only",
-  "errorAndAccess.denied.message": "You don't have access to the game yet.",
-  "errorAndAccess.instructions.part1": "Make sure you have joined the ",
+    "Доступ открыт только для бета-тестеров",
+  "errorAndAccess.denied.message": "У тебя пока что нет доступа к игре",
+  "errorAndAccess.instructions.part1": "Убедись, что ты присоединился к ",
   "errorAndAccess.sflDiscord": "Sunflower Land Discord",
   "errorAndAccess.instructions.part2":
-    ", go to the #verify channel and have the 'farmer' role.",
-  "error.cannotPlaceInside": "Cannot place inside",
+    ", зайди в #verify канал и получи роль 'farmer'.",
+  "error.cannotPlaceInside": "Нельзя разместить в помещении",
 };
 
 const errorTerms: Record<ErrorTerms, string> = {
-  "error.betaTestersOnly": "Beta testers only!",
+  "error.betaTestersOnly": "Только для бета-тестеров!",
   "error.congestion.one":
-    "We are trying our best but looks like Polygon is getting a lot of traffic or you have lost your connection.",
+    "Мы стараемся изо всех сил, но, похоже, у Polygon большой трафик или вы потеряли соединение.",
   "error.congestion.two":
-    "If this error continues please try changing your Metamask RPC",
-  "error.connection.one":
-    "It looks like we were unable to complete this request.",
-  "error.connection.two": "It may be a simple connection issue.",
-  "error.connection.three": "You can click refresh to try again.",
+    "Если эта ошибка повторяется, пожалуйста, попробуйте изменить свой Metamask RPC",
+  "error.connection.one": "Похоже, нам не удалось выполнить этот запрос.",
+  "error.connection.two": "Возможно, это просто проблема с соединением.",
+  "error.connection.three": "Вы можете нажать обновить и попробовать снова.",
   "error.connection.four":
-    "If the issue remains, you can reach out for help by either contacting our support team or jumping over to our discord and asking our community",
-  "error.diagnostic.info": "Diagnostic Information",
-  "error.forbidden.goblinVillage":
-    "You are not allowed to visit Goblin Village!",
-  "error.multipleDevices.one": "Multiple devices open",
+    "Если проблема не устранена, вы можете обратиться за помощью в нашу службу поддержки, либо перейти в наш discord и спросить у нашего сообщества",
+  "error.diagnostic.info": "Диагностическая информация",
+  "error.forbidden.goblinVillage": "Тебе запрещено посещать Goblin Village!",
+  "error.multipleDevices.one": "Открыто несколько устройств",
   "error.multipleDevices.two":
-    "Please close any other browser tabs or devices that you are operating on.",
-  "error.multipleWallets.one": "Multiple Wallets",
+    "Пожалуйста, закройте все другие вкладки в браузере или на устройствах, которые вы используете.",
+  "error.multipleWallets.one": "Несколько кошельков",
   "error.multipleWallets.two":
-    "It looks like you have multiple wallets installed. This can cause unexpected behaviour.Try to disable all but one wallet.",
-  "error.polygonRPC": "Please try again or check your Polygon RPC settings.",
-  "error.toManyRequest.one": "Too many requests!",
+    "Похоже, что у вас установлено несколько кошельков. Это может привести к неожиданному поведению. Попробуйте отключить все кошельки, кроме одного.",
+  "error.polygonRPC":
+    "Пожалуйста, попробуйте еще раз или проверьте настройки вашего Polygon RPC.",
+  "error.toManyRequest.one": "Слишков много запросов!",
   "error.toManyRequest.two":
-    "Looks like you have been busy! Please try again later.",
+    "Похоже, ты был занят! Пожалуйста, повтори попытку позже.",
   "error.Web3NotFound": "Web3 Not Found",
-  "error.wentWrong": "Something went wrong!",
-  "error.clock.not.synced": "Clock not in sync",
-  "error.polygon.cant.connect": "Can't connect to Polygon",
-  "error.composterNotExist": "Composter does not exist",
-  "error.composterNotProducing": "Composter is not producing",
-  "error.composterAlreadyDone": "Composter already done",
-  "error.composterAlreadyBoosted": "Already boosted",
-  "error.missingEggs": "Missing Eggs",
-  "error.insufficientSFL": "Insufficient SFL",
-  "error.insufficientSpaceForChickens": "Insufficient space for more chickens",
-  "error.dailyAttemptsExhausted": "Daily attempts exhausted",
-  "error.missingRod": "Missing rod",
-  "error.missingBait": "Missing ",
-  "error.alreadyCasted": "Already casted",
-  "error.unsupportedChum": " is not a supported chum",
-  "error.insufficientChum": "Insufficient Chum",
-  "error.alr.composter": "Composter is already composting",
-  "error.no.alr.composter": "Composter is not ready for produce",
-  "error.missing": "Missing requirements",
-  "error.no.ready": "Compost is not ready",
-  "error.noprod.composter": "Composter is not producing anything",
-  "error.buildingNotExist": "Building does not exist",
-  "error.buildingNotCooking": "Building is not cooking anything",
-  "error.recipeNotReady": "Recipe is not ready",
-  "error.npcsNotExist": "NPCs does not exist",
+  "error.wentWrong": "Что-то пошло не так!",
+  "error.clock.not.synced": "Часы не синхронизированы",
+  "error.polygon.cant.connect": "Не удается подключиться к Polygon",
+  "error.composterNotExist": "Компостер не установлен",
+  "error.composterNotProducing": "Компостер не работает",
+  "error.composterAlreadyDone": "Компост готов",
+  "error.composterAlreadyBoosted": "Буст уже применен",
+  "error.missingEggs": "Отсутствуют Eggs",
+  "error.insufficientSFL": "Недостаточно SFL",
+  "error.insufficientSpaceForChickens": "Недостаточно места для chickens",
+  "error.dailyAttemptsExhausted": "Ежедневные попытки потрачены",
+  "error.missingRod": "Отсутствует rod",
+  "error.missingBait": "Отсутствует ",
+  "error.alreadyCasted": "Уже заброшена",
+  "error.unsupportedChum": " не поддерживаемая насадка",
+  "error.insufficientChum": "Недостаточно насадки",
+  "error.alr.composter": "Компостер уже полон",
+  "error.no.alr.composter": "Компостер не готов к производству",
+  "error.missing": "Отсутствуют требуемые материалы",
+  "error.no.ready": "Компост еще не готов",
+  "error.noprod.composter": "Компостер ничего не производит",
+  "error.buildingNotExist": "Строения не существует",
+  "error.buildingNotCooking": "В строении ничего не готовится",
+  "error.recipeNotReady": "Рецепт не готов",
+  "error.npcsNotExist": "NPCs не найдены",
   "error.noDiscoveryAvailable": "No discovery available",
-  "error.obsessionAlreadyCompleted": "This obsession is already completed",
-  "error.collectibleNotInInventory": "You do not have the collectible required",
-  "error.wearableNotInWardrobe": "You do not have the wearable required",
-  "error.requiredBuildingNotExist": "Required building does not exist",
-  "error.cookingInProgress": "Cooking already in progress",
-  "error.insufficientIngredient": "Insufficient ingredient",
-  "error.itemNotExist": "Item does not exist",
-  "error.notEnoughStock": "Not enough stock",
-  "error.tooEarly": "Too early",
-  "error.tooLate": "Too late",
-  "error.decorationCollides": "Decoration collides",
-  "error.idAlreadyExists": "ID already exists",
-  "error.ClientRPC": "Client RPC Error",
+  "error.obsessionAlreadyCompleted": "Эта одержимость уже выполнена",
+  "error.collectibleNotInInventory": "У тебя нет требуемого предмета",
+  "error.wearableNotInWardrobe": "У тебя нет требуемой одежды",
+  "error.requiredBuildingNotExist": "Нужное строение не установлено",
+  "error.cookingInProgress": "Приготовление в процессе",
+  "error.insufficientIngredient": "Недостаточно ингредиента",
+  "error.itemNotExist": "Предмет не найден",
+  "error.notEnoughStock": "Не достаточно запасов",
+  "error.tooEarly": "Слишком рано",
+  "error.tooLate": "Слишком поздно",
+  "error.decorationCollides": "Декорации сталкиваются",
+  "error.idAlreadyExists": "ID уже есть",
+  "error.ClientRPC": "Ошибка клиентского RPC",
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {
   "exoticShopItems.line1":
-    "Our bean shop is closing as our beans embark on a new journey with a mad scientist.",
+    "Наш магазин бобов закрывается, так как наши бобы отправляются в новое путешествие с безумным ученым.",
   "exoticShopItems.line2":
-    "Thank you for being part of our legume-loving community.",
-  "exoticShopItems.line3": "Best regards,",
+    "Спасибо за то, что был частью нашего сообщества любителей бобов.",
+  "exoticShopItems.line3": "С наилучшими пожеланиями,",
   "exoticShopItems.line4": "The Bean Team",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
-  "festivetree.greedyBumpkin": "Greedy Bumpkin Detected",
+  "festivetree.greedyBumpkin": "Обнаружен жадный бампкин",
   "festivetree.alreadyGifted":
-    "This tree has already been gifted. Wait until next Christmas for more festivities.",
-  "festivetree.notFestiveSeason":
-    "It is not the Festive season. Come back later.",
+    "Под елкой уже оставили подарок. Подожди до следующего Рождественского праздника.",
+  "festivetree.notFestiveSeason": "Сейчас не праздничный сезон. Приходи позже.",
 };
 
 const fishDescriptions: Record<FishDescriptions, string> = {
   // Fish
   "description.anchovy.one":
-    "The ocean's pocket-sized darting acrobat, always in a hurry!",
-  "description.anchovy.two": "Tiny fish, big flavor!",
+    "Океанический карманный акробат, всегда стремится только вперед!",
+  "description.anchovy.two": "Крошечная рыбка, с сильным вкусом!",
   "description.butterflyfish.one":
-    "A fish with a fashion-forward sense, flaunting its vivid, stylish stripes.",
-  "description.butterflyfish.two": "Swimming in colors and taste!",
+    "Рыба, ориентирующаяся на моду, демонстрирующая свои яркие и стильные полоски.",
+  "description.butterflyfish.two": "Вкус и цвет расплывается во рту!",
   "description.blowfish.one":
-    "The round, inflated comedian of the sea, guaranteed to bring a smile.",
-  "description.blowfish.two": "Dine with danger, a spiky surprise!",
+    "Круглый, надутый морской комик, который гарантированно вызовет улыбку.",
+  "description.blowfish.two": "Ешь с опаской, шипастый сюрприз!",
   "description.clownfish.one":
-    "The underwater jester, sporting a tangerine tuxedo and a clownish charm.",
-  "description.clownfish.two": "No jokes, just pure deliciousness!",
+    "Подводный шут в мандариновом смокинге и с клоунским обаянием.",
+  "description.clownfish.two":
+    "Никаких шуток, только чистейшее наслаждение вкусом!",
   "description.seabass.one":
-    "Your 'not-so-exciting' friend with silver scales – a bassic catch!",
-  "description.seabass.two": "The bass-ics of seaside cuisine!",
+    "Твой 'не-такой-интересный' друг с серебристой чешуей - отличный улов!",
+  "description.seabass.two": "Основа морской кухни!",
   "description.seahorse.one":
-    "The ocean's slow-motion dancer, swaying gracefully in the aquatic ballet.",
-  "description.seahorse.two": "Dainty, rare, and surprisingly tasty!",
+    "Океанический танцор в слоумо, грациозно покачивающийся в водном балете.",
+  "description.seahorse.two": "Изысканная, редкая и на удивление вкусная!",
   "description.horsemackerel.one":
-    "A speedster with a shiny coat, always racing through the waves.",
-  "description.horsemackerel.two": "Gallop through flavors with every bite!",
+    "Спидстер с блестящим покрытием, всегда мчится по волнам.",
+  "description.horsemackerel.two": "Галопом по вкусам с каждым укусом!",
   "description.squid.one":
-    "The deep-sea enigma with tentacles to tickle your curiosity.",
-  "description.squid.two": "Ink your way to exquisite tastes!",
+    "Загадка глубин с щупальцами, способными пощекотать твое любопытство.",
+  "description.squid.two": "Проложи путь к изысканным вкусам!",
   "description.redsnapper.one":
-    "A catch worth its weight in gold, dressed in fiery crimson.",
-  "description.redsnapper.two": "Snap into rich, zesty oceans of flavor!",
+    "Улов на вес золота, окрашенный в огненно-малиновый цвет.",
+  "description.redsnapper.two": "Окунись в богатый и пикантный вкус океана!",
   "description.morayeel.one":
-    "A slinky, sinister lurker in the ocean's shadowy corners.",
-  "description.morayeel.two": "Slippery, savory, and sensational!",
+    "Скользкое, зловещее существо, скрывающееся в темных уголках океана. ",
+  "description.morayeel.two": "Скользкая, пикантная и сенсационная!",
   "description.oliveflounder.one":
-    "The seabed's master of disguise, always blending in with the crowd.",
-  "description.oliveflounder.two": "Floundering in richness and taste!",
+    "Мастер маскировки на морском дне, всегда сливающийся с толпой.",
+  "description.oliveflounder.two": "Утопай в богатстве и вкусе!",
   "description.napoleanfish.one":
-    "Meet the fish with the Napoleon complex – short, but regal!",
-  "description.napoleanfish.two": "Conquer your hunger with this catch!",
+    "Встречай рыбу с комплексом Наполеона - короткая, но властная!",
+  "description.napoleanfish.two": "Преодолей свой голод с помощью этого улова!",
   "description.surgeonfish.one":
-    "The ocean's neon warrior, armed with a spine-sharp attitude.",
-  "description.surgeonfish.two": "Operate on your taste buds with precision!",
+    "Океанический неоновый воин, вооруженный острым шипом.",
+  "description.surgeonfish.two":
+    "Развивай свои вкусовые рецепторы с точностью до мелочей!",
   "description.zebraturkeyfish.one":
-    "Stripes, spines, and a zesty disposition, this fish is a true showstopper!",
+    "Полосы, шипы и пикантный вид, эта рыба - настоящее зрелище!",
   "description.zebraturkeyfish.two":
-    "Striped, spiky, and spectacularly scrumptious!",
+    "Полосатая, колючая и невероятно аппетитная!",
   "description.ray.one":
-    "The underwater glider, a serene winged beauty through the waves.",
-  "description.ray.two": "Glide into a realm of rich flavors!",
+    "Подводный глайдер, спокойный крылатый красавец, летящий по волнам.",
+  "description.ray.two": "Окунись в царство насыщенных вкусов!",
   "description.hammerheadshark.one":
-    "Meet the shark with a head for business, and a body for adventure!",
-  "description.hammerheadshark.two": "A head-on collision with taste!",
+    "Встречай, акула с головой для охоты, и телом для приключений",
+  "description.hammerheadshark.two": "Лобовое столкновение со вкусом!",
   "description.tuna.one":
-    "The ocean's muscle-bound sprinter, ready for a fin-tastic race!",
-  "description.tuna.two": "A titan of taste in every slice!",
+    "Океанический мускулистый спринтер, готовый к финальной гонке!",
+  "description.tuna.two": "Титанический вкус в каждом ломтике!",
   "description.mahimahi.one":
-    "A fish that believes in living life colorfully with fins of gold.",
-  "description.mahimahi.two": "Double the name, double the deliciousness!",
+    "Рыба, которая верит в красочную жизнь с золотыми плавниками.",
+  "description.mahimahi.two": "Двойное название - двойной вкус!",
   "description.bluemarlin.one":
-    "An oceanic legend, the marlin with an attitude as deep as the sea.",
-  "description.bluemarlin.two":
-    "Spearhead your appetite with this royal catch!",
+    "Океаническая легенда, марлин, чье отношение к жизни столь же глубоко, как и море.",
+  "description.bluemarlin.two": "Утоли свой аппетит этим королевским уловом!",
   "description.oarfish.one":
-    "The long and the long of it – an enigmatic ocean wanderer.",
-  "description.oarfish.two": "Row your way into legendary flavor!",
+    "Длинный–предлинный - загадочный океанический странник.",
+  "description.oarfish.two": "Проложи себе путь к легендарному вкусу!",
   "description.footballfish.one":
-    "The MVP of the deep, a bioluminescent star that's ready to play!",
-  "description.footballfish.two": "Score a touchdown in taste!",
+    "MVP глубин, биолюминесцентная звезда, готовая играть!",
+  "description.footballfish.two": "Забей вкусовой тачдаун!",
   "description.sunfish.one":
-    "The ocean's sunbather, basking in the spotlight with fins held high.",
-  "description.sunfish.two": "Bask in the glow of its delectable flavor!",
+    "Океанический любитель солнца, греющийся в лучах света с высоко поднятыми плавниками.",
+  "description.sunfish.two": "Насладись этим аппетитнейшим вкусом!",
   "description.coelacanth.one":
-    "A prehistoric relic, with a taste for the past and the present.",
+    "Доисторический реликт, относящийся со вкусом к прошлому и настоящему.",
   "description.coelacanth.two":
-    "Prehistoric flavor that's stood the test of time!",
+    "Доисторический вкус, выдержавший испытание временем!",
   "description.whaleshark.one":
-    "The gentle giant of the deep, sifting treasures from the ocean's buffet.",
-  "description.whaleshark.two": "A mammoth meal for monumental cravings!",
+    "Бережный гигант из глубин, добывающий сокровища из океанского буфета.",
+  "description.whaleshark.two":
+    "Огромное лакомство для тех, кто испытывает невероятную тягу к еде!",
   "description.barredknifejaw.one":
-    "An oceanic outlaw with black-and-white stripes and a heart of gold.",
-  "description.barredknifejaw.two":
-    "Cut through the hunger with sharp flavors!",
+    "Океанический преступник с черно-белыми полосами и золотым сердцем.",
+  "description.barredknifejaw.two": "Утоли голод резким вкусом!",
   "description.sawshark.one":
-    "With a saw-like snout, it's the ocean's carpenter, always cutting edge!",
-  "description.sawshark.two": "Cutting-edge flavor from the deep!",
+    "С похожим на пилу рылом, этот океанический плотник, который всегда на виду!",
+  "description.sawshark.two": "Новейший вкус из глубин!",
   "description.whiteshark.one":
-    "The shark with a killer smile, ruling the seas with fin-tensity!",
-  "description.whiteshark.two": "Dive into an ocean of thrilling taste!",
+    "Акула с убийственной улыбкой, правящая морями!",
+  "description.whiteshark.two": "Погрузись в океан захватывающего вкуса!",
 
   // Marine Marvels
   "description.twilight.anglerfish":
-    "A deep-sea angler with a built-in nightlight, guiding its way through darkness.",
+    "Глубоководный удильщик со встроенной лампочкой, прокладывающей путь в темноте.",
   "description.starlight.tuna":
-    "A tuna that outshines the stars, ready to light up your collection.",
+    "Тунец, затмевающий звезды, готов украсить твою коллекцию.",
   "description.radiant.ray":
-    "A ray that prefers to glow in the dark, with a shimmering secret to share.",
+    "Скат, предпочитающий светиться в темноте с сияющим секретом, которым хочет поделиться.",
   "description.phantom.barracuda":
-    "An elusive and ghostly fish of the deep, hiding in the shadows.",
+    "Неуловимая и призрачная глубоководная рыба, скрывающаяся в тенях.",
   "description.gilded.swordfish":
-    "A swordfish with scales that sparkle like gold, the ultimate catch!",
-  "description.crimson.carp": "A rare, vibrant jewel of the Spring waters.",
+    "Рыба-меч с чешуей, сверкающей, как золото. Лучший улов!",
+  "description.crimson.carp": "Редкая и яркая драгоценность весенних вод.",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
-  "fishermanModal.attractFish": "Attract fish by throwing chum into the water.",
+  "fishermanModal.attractFish": "Привлеки рыбу, бросив в воду приманку.",
   "fishermanModal.fishBenefits":
-    "Fish are great for eating, delivering and claiming rewards!",
+    "Рыба отлично подходит для еды, доставки и получения наград!",
   "fishermanModal.baitAndResources":
-    "Bring me bait and resources and we'll reel in the rarest prizes that the ocean has to offer!",
+    "Принеси мне приманку и ресурсы, и мы вытащим редчайшие призы, которые только может предложить океан!",
   "fishermanModal.crazyHappening":
-    "Wow, something crazy is happening......It is a fish frenzy!",
+    "Ух ты, происходит что-то безумное......это рыбное безумие!",
   "fishermanModal.bonusFish":
-    "Hurry, you will get a bonus fish for each catch!",
+    "Поторопись, за каждый улов ты получишь дополнительную рыбу!",
   "fishermanModal.dailyLimitReached":
-    "You have reached your daily fishing limit of {{limit}}",
-  "fishermanModal.needCraftRod": "You must first craft a rod.",
+    "Ты исчерпал свой суточный лимит в ({{limit}}) уловов",
+  "fishermanModal.needCraftRod": "Сперва ты должен изготовить удочку.",
   "fishermanModal.craft.beach": "Craft at Beach",
-  "fishermanModal.zero.available": "0 available",
+  "fishermanModal.zero.available": "0 в наличии",
   "fishermanmodal.greeting":
-    "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
+    "Эхой, земляк! Я - {{name}}, твой верный островной рыбак, и я поставил перед собой грандиозную задачу - собрать всю рыбу!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
-  "fishermanQuest.Ohno": "Oh no! It got away",
-  "fishermanQuest.Newfish": "New fish",
+  "fishermanQuest.Ohno": "О нет! Она сорвалась",
+  "fishermanQuest.Newfish": "Новая рыба",
 };
 
 const fishingChallengeIntro: Record<FishingChallengeIntro, string> = {
-  "fishingChallengeIntro.powerfulCatch": "A powerful catch awaits you!",
-  "fishingChallengeIntro.useStrength": "Use all your strength to reel it in.",
+  "fishingChallengeIntro.powerfulCatch": "Тебя ждет мощный улов!",
+  "fishingChallengeIntro.useStrength":
+    "Используй всю свою силу, чтобы выловить его.",
   "fishingChallengeIntro.stopGreenBar":
-    "Stop the green bar on the fish to succeed.",
+    "Останавливай зеленую полоску на рыбе, чтобы добиться успеха.",
   "fishingChallengeIntro.beQuick":
-    "Be quick - 3 missed attempts, and it escapes!",
+    "Не медли - 3 неудачные попытки, и она сорвется!",
 };
 
 const fishingGuide: Record<FishingGuide, string> = {
-  "fishingGuide.catch.rod": "Craft a rod and gather bait to catch fish.",
+  "fishingGuide.catch.rod":
+    "Изготовь удочку и собери приманку, для того чтобы ловить рыбу.",
   "fishingGuide.bait.earn":
-    "Bait can be earned through composting or crafting lures.",
+    "Приманку можно собрать с компостера или создать самому.",
   "fishingGuide.eat.fish":
-    "Eat fish to level up your Bumpkin or perform fish deliveries for rewards.",
+    "Ешь рыбу, чтобы поднять уровень бампкина или выполняй рыбные доставки за вознаграждение.",
   "fishingGuide.discover.fish":
-    "Explore the waters to discover rare fish, complete missions, and unlock unique rewards within the Codex.",
+    "Изучай воды для открытия редких рыб, прохождения миссий и разблокировки уникальных наград в кодексе.",
   "fishingGuide.condition":
-    "Keep track of the changing tide patterns; specific fish species are only available during certain conditions.",
+    "Следи за изменением времени суток и событиями; Некоторые рыбы доступны только при определенных условиях.",
   "fishingGuide.bait.chum":
-    "Experiment with different types of bait and chum combinations to maximize your chances of catching various fish species.",
+    "Экспериментируй с разными комбинациями приманок и насадок, чтобы увеличить шанс на ловлю различных видов рыб.",
   "fishingGuide.legendery.fish":
-    "Beware of legendary fish; they require exceptional skill and strength to catch.",
+    "Остерегайся легендарных рыб; их ловля требует исключительного мастерства и силы.",
 };
 
 const fishingQuests: Record<FishingQuests, string> = {
-  "quest.basic.fish": "Catch each basic fish",
-  "quest.advanced.fish": "Catch each advanced fish",
-  "quest.all.fish": "Discover each basic, advanced, and expert fish",
-  "quest.300.fish": "Catch 300 fish",
-  "quest.1500.fish": "Catch 1500 fish",
-  "quest.marine.marvel": "Catch each Marine Marvel",
-  "quest.5.fish": "Catch 5 of every fish",
-  "quest.sunpetal.savant": "Discover 12 Sunpetal variants",
-  "quest.bloom.bigshot": "Discover 12 Bloom variants",
-  "quest.lily.luminary": "Discover 12 Lily variants",
+  "quest.basic.fish": "Вылови каждую базовую рыбу!",
+  "quest.advanced.fish": "Вылови каждую продвинутую рыбу!",
+  "quest.all.fish": "Открой каждую базовую, продвинутую и экспертную рыбу",
+  "quest.300.fish": "Вылови 300 рыб",
+  "quest.1500.fish": "Вылови 1500 рыб",
+  "quest.marine.marvel": "Вылови каждое морское чудище",
+  "quest.5.fish": "Вылови по 5 штук каждой рыбы",
+  "quest.sunpetal.savant": "Открой 12 разновидностей с Sunpetal",
+  "quest.bloom.bigshot": "Открой 12 разновидностей с Bloom",
+  "quest.lily.luminary": "Открой 12 разновидностей с Lily",
 };
 
 const flowerBed: Record<FlowerBed, string> = {
-  "flowerBedGuide.buySeeds": "Buy seeds from the Seed Shop.",
+  "flowerBedGuide.buySeeds": "Покупай семена в магазине семян.",
   "flowerBedGuide.crossbreedWithCrops":
-    "Crossbreed with crops and other flowers to discover new flowers species.",
-  "flowerBedGuide.collectAllSpecies":
-    "Collect all species of flowers in the Codex!",
+    "Скрещивай с урожаем и другими цветами, чтобы открыть новые виды цветов.",
+  "flowerBedGuide.collectAllSpecies": "Собери все виды цветов в кодексе!",
   "flowerBedGuide.beesProduceHoney":
-    "Bees produce honey while flowers are growing.",
+    "Пчелы производят мед во время роста цветов.",
   "flowerBedGuide.fillUpBeehive":
-    "Fill up a beehive completely and collect the honey for a chance of a bee swarm to appear.",
+    "Если собрать мед с заполненного улья, то появится шанс на пчелиный рой.",
   "flowerBedGuide.beeSwarmsBoost":
-    "Bee swarms give +0.2 boost to any planted crops.",
-  "flowerBed.newSpecies.discovered":
-    "By golly, you've discovered a new species of flower!",
-  "flowerBedContent.select.combination": "Select your combination",
-  "flowerBedContent.select.seed": "Select a seed",
-  "flowerBedContent.select.crossbreed": "Select a crossbreed",
+    "Пчелиные рои дают +0.2 к урожаю любым посевам.",
+  "flowerBed.newSpecies.discovered": "Боже мой, ты открыл новый вид цветка!",
+  "flowerBedContent.select.combination": "Выбери свою комбинацию",
+  "flowerBedContent.select.seed": "Выбери семя",
+  "flowerBedContent.select.crossbreed": "Выбери скрещивание",
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
-  "flower.breed.sunflower": "Bumpkin Botanists swear they're not flowers.",
+  "flower.breed.sunflower": "Бампкины-ботаники клянутся, что это не цветы.",
   "flower.breed.cauliflower":
-    "Not so sure what the Bumpkin Botanists say about this one.",
-  "flower.breed.beetroot": "It has a beautiful purple color.",
+    "Не совсем уверен, что скажут об этом бампкины-ботаники.",
+  "flower.breed.beetroot": "У него красивый фиолетовый цвет.",
   "flower.breed.parsnip":
-    "A parsnip might be a good choice to cross breed with.",
+    "Пастернак может стать хорошим выбором для скрещивания.",
   "flower.breed.eggplant":
-    "Eggplant has a vibrant color, perhaps it will cross breed well.",
-  "flower.breed.radish": "Wow, this radish is red!",
-  "flower.breed.kale": "It's green, but not like the other greens.",
+    "У баклажана яркий цвет, возможно, он будет хорошо скрещиваться.",
+  "flower.breed.radish": "Вау, этот редис красный!",
+  "flower.breed.kale": "Он зеленый, но не такой, как другие зеленые.",
   "flower.breed.blueberry":
-    "These blueberries are very ripe, I hope they don't stain.",
-  "flower.breed.apple": "Crunchy apples!",
-  "flower.breed.banana": "A bunch of bananas.",
-  "flower.breed.redPansy": "A red pansy.",
-  "flower.breed.yellowPansy": "A yellow pansy.",
-  "flower.breed.purplePansy": "A purple pansy.",
+    "Эта голубика очень спелая, надеюсь, она не красит.",
+  "flower.breed.apple": "Хрустящие яблоки!",
+  "flower.breed.banana": "Связка бананов.",
+  "flower.breed.redPansy": "Красная фиалка.",
+  "flower.breed.yellowPansy": "Желтая фиалка.",
+  "flower.breed.purplePansy": "Фиолетовая фиалка.",
   "flower.breed.whitePansy":
-    "A white pansy. Devoid of color, I wonder if this is rare.",
-  "flower.breed.bluePansy": "A blue pansy.",
-  "flower.breed.redCosmos": "A red cosmos.",
-  "flower.breed.yellowCosmos": "A yellow cosmos.",
-  "flower.breed.purpleCosmos": "A purple cosmos.",
-  "flower.breed.whiteCosmos": "A white cosmos.",
-  "flower.breed.blueCosmos": "A blue cosmos. Very descriptive.",
+    "Белая фиалка. Лишена цвета, я задаюсь вопросом, редкость ли это.",
+  "flower.breed.bluePansy": "Голубая фиалка.",
+  "flower.breed.redCosmos": "Красный космос.",
+  "flower.breed.yellowCosmos": "Желтый космос.",
+  "flower.breed.purpleCosmos": "Фиолетовый космос.",
+  "flower.breed.whiteCosmos": "Белый космос.",
+  "flower.breed.blueCosmos": "Голубой космос. Весьма познавательно.",
   "flower.breed.prismPetal":
-    "An extremely rare mutation, are you sure you want to cross breed this?",
+    "Крайне редкая мутация, ты уверен, что хочешь скрестить её?",
   "flower.breed.redBalloonFlower":
-    "Balloon flowers are very pretty. The red ones especially.",
-  "flower.breed.yellowBalloonFlower": "A yellow balloon flower.",
-  "flower.breed.purpleBalloonFlower": "A purple balloon flower.",
-  "flower.breed.whiteBalloonFlower": "A white balloon flower. This is rare.",
+    "Колокольчики очень красивые. Особенно красные.",
+  "flower.breed.yellowBalloonFlower": "Желтый колокольчик.",
+  "flower.breed.purpleBalloonFlower": "Фиолетовый колокольчик.",
+  "flower.breed.whiteBalloonFlower": "Белый колокольчик. Он редкий.",
   "flower.breed.blueBalloonFlower":
-    "The most basic of balloon flowers. Nothing to brag about.",
+    "Самый обычный колокольчик. Нечем похвастаться.",
   "flower.breed.redDaffodil": "",
   "flower.breed.yellowDaffodil": "",
   "flower.breed.purpleDaffodil": "",
   "flower.breed.whiteDaffodil": "",
   "flower.breed.blueDaffodil": "",
   "flower.breed.celestialFrostbloom":
-    "An extremely rare mutation. Are you sure you want to cross breed this?",
+    "Крайне редкая мутация, ты уверен, что хочешь скрестить её?",
   "flower.breed.redCarnation":
-    "Bumpkins value the red carnation for its rarity.",
-  "flower.breed.yellowCarnation":
-    "Bumpkins don't value the yellow carnation for.",
+    "Бампкины ценят красную гвоздику за её редкость.",
+  "flower.breed.yellowCarnation": "Бампкины не ценят желтую гвоздику.",
   "flower.breed.purpleCarnation":
-    "Bumpkins value the purple carnation for its beauty.",
+    "Бампкины ценят фиолетовую гвоздику за её красоту.",
   "flower.breed.whiteCarnation":
-    "Bumpkins value the yellow carnation for its simplicity.",
+    "Бампкины ценят белую гвоздику за её простоту.",
   "flower.breed.blueCarnation":
-    "Bumpkins value the blue carnation for its ability to cross breed with Bloom seeds.",
+    "Бампкины ценят голубую гвоздику за её возможность скрещиваться с семенами Bloom.",
   "flower.breed.redLotus": "",
   "flower.breed.yellowLotus": "",
   "flower.breed.purpleLotus": "",
   "flower.breed.whiteLotus": "",
   "flower.breed.blueLotus": "",
   "flower.breed.primulaEnigma":
-    "An extremely rare mutation, are you sure you want to cross breed this?",
+    "Крайне редкая мутация, ты уверен, что хочешь скрестить её?",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming": "Oh, I've been dreaming of cultivating a ",
-  "flowerShop.desired.delightful": "How delightful it would be to have a ",
-  "flowerShop.desired.wonderful": "How wonderful it would be to have a ",
-  "flowerShop.desired.setMyHeart": "I've set my heart on growing a ",
+  "flowerShop.desired.dreaming": "О, я так давно мечтаю вырастить ",
+  "flowerShop.desired.delightful": "Как восхитительно было бы иметь ",
+  "flowerShop.desired.wonderful": "Как прекрасно было бы иметь ",
+  "flowerShop.desired.setMyHeart": "Я очень сильно хочу вырастить ",
   "flowerShop.missingPages.alas":
-    "But alas! I've misplaced the pages of my cross-breeding book! They must be in the plaza somewhere.",
+    "Но увы! Я потеряла страницы своей книги по скрещиванию! Они должны быть где-то на площади.",
   "flowerShop.missingPages.cantBelieve":
-    "But I can't believe it, the pages with my best hybrid flower recipes are missing. They must be in the plaza somewhere.",
+    "Но я не могу поверить, что страницы с моими лучшими рецептами скрещивания цветов пропали. Они должны быть где-то на площади.",
   "flowerShop.missingPages.inABind":
-    "However, I'm in a bit of a bind – the pages containing my cross-breeding techniques seem to have disappeared. They must be in the plaza somewhere.",
+    "Однако я попала в затруднительное положение - страницы, содержащие мои методы скрещивания, похоже, пропали. Они должны быть где-то на площади.",
   "flowerShop.missingPages.sadly":
-    "Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.",
+    "К сожалению, мои записи о скрещивании пропали! Я уверена, что они где-то здесь. Они должны быть где-то на площади.",
   "flowerShop.noFlowers.noTrade":
-    "I'm sorry, I don't have any flowers to trade right now.",
-  "flowerShop.do.have": "Do you have a",
-  "flowerShop.do.have.trade": "you would trade me?",
-  "flowerShop.do.have.trade.one": "you would be willing to trade?",
+    "Извини, но сейчас у меня нет цветов для обмена.",
+  "flowerShop.do.have": "У тебя есть",
+  "flowerShop.do.have.trade": ", которым ты бы мог со мной обменяться?",
+  "flowerShop.do.have.trade.one": ", которым ты бы хотел обменяться?",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
-  "description.pumpkin.soup": "A creamy soup that goblins love",
-  "description.mashed.potato": "My life is potato.",
-  "description.bumpkin.broth": "A nutritious broth to replenish your Bumpkin",
-  "description.boiled.eggs": "Boiled Eggs are great for breakfast",
-  "description.kale.stew": "A perfect Bumpkin Booster!",
-  "description.mushroom.soup": "Warm your Bumpkin's soul.",
-  "description.reindeer.carrot": "Rudolph can't stop eating them!",
-  "description.kale.omelette": "A healthy breakfast",
-  "description.cabbers.mash": "Cabbages and Mashed Potatoes",
-  "description.popcorn": "Classic homegrown crunchy snack.",
+  "description.pumpkin.soup": "Кремовый суп, который любят гоблины",
+  "description.mashed.potato": "Моя жизнь - картошка.",
+  "description.bumpkin.broth":
+    "Питательный бульон для восполнения сил твоего бампкина",
+  "description.boiled.eggs": "Вареные яйца - отличный вариант для завтрака",
+  "description.kale.stew": "Идеальный усилитель бампкина!",
+  "description.mushroom.soup": "Согрей душу своему бампкину.",
+  "description.reindeer.carrot": "Rudolph не может перестать их есть!",
+  "description.kale.omelette": "Полезный завтрак",
+  "description.cabbers.mash": "Капуста и картофельное пюре",
+  "description.popcorn": "Классическая домашняя хрустящая закуска.",
   "description.gumbo":
-    "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+    "Кастрюля, полная волшебства! Каждая ложка - это парад Марди Гра!",
 
   // Kitchen
-  "description.roast.veggies": "Even Goblins need to eat their veggies!",
-  "description.bumpkin.salad": "Gotta keep your Bumpkin healthy!",
-  "description.goblins.treat": "Goblins go crazy for this stuff!",
-  "description.cauliflower.burger": "Calling all cauliflower lovers!",
+  "description.roast.veggies": "Даже гоблины должны есть овощи!",
+  "description.bumpkin.salad": "Нужно следить за здоровьем своего бампкина!",
+  "description.goblins.treat": "Гоблины сходят с ума от этой штуки!",
+  "description.cauliflower.burger": "Призываю всех любителей цветной капусты!",
   "description.club.sandwich":
-    "Filled with Carrots and Roasted Sunflower Seeds",
-  "description.mushroom.jacket.potatoes": "Cram them taters with what ya got!",
-  "description.sunflower.crunch": "Crunchy goodness. Try not to burn it.",
-  "description.bumpkin.roast": "A traditional Bumpkin dish",
-  "description.goblin.brunch": "A traditional Goblin dish",
-  "description.fruit.salad": "Fruit Salad, Yummy Yummy",
-  "description.bumpkin.ganoush": "Zesty roasted eggplant spread.",
+    "С начинкой из моркови и обжаренных семян подсолнуха",
+  "description.mushroom.jacket.potatoes": "Запихивайте в них все, что есть!",
+  "description.sunflower.crunch":
+    "Хрустящая вкуснятина. Старайтесь не обжечься.",
+  "description.bumpkin.roast": "Традиционное блюдо бампкинов",
+  "description.goblin.brunch": "Традиционное блюдо гоблинов",
+  "description.fruit.salad": "Фруктовый салат, вкуснятина",
+  "description.bumpkin.ganoush": "Пикантный спред из обжаренных баклажанов.",
   "description.chowder":
-    "Sailor's delight in a bowl! Dive in, there's treasure inside!",
-  "description.pancakes": "A great start to a Bumpkins day",
+    "Морское удовольствие в миске! Ныряйте, там внутри сокровища!",
+  "description.pancakes": "Отличное начало дня для бампкина",
 
   // Bakery
-  "description.apple.pie": "Bumpkin Betty's famous recipe",
-  "description.kale.mushroom.pie": "A traditional Sapphiron recipe",
-  "description.cornbread": "Hearty golden farm-fresh bread.",
+  "description.apple.pie": "Знаменитый рецепт Betty",
+  "description.kale.mushroom.pie": "Традиционный рецепт Sapphiron",
+  "description.cornbread": "Пышный золотистый фермерский хлеб.",
   "description.sunflower.cake": "Sunflower Cake",
-  "description.potato.cake": "Potato Cake",
-  "description.pumpkin.cake": "Pumpkin Cake",
+  "description.potato.cake": "Картофельный пирог",
+  "description.pumpkin.cake": "Тыквенный пирог",
   "description.carrot.cake": "Carrot Cake",
   "description.cabbage.cake": "Cabbage Cake",
   "description.beetroot.cake": "Beetroot Cake",
@@ -2178,10 +2198,11 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.parsnip.cake": "Parsnip Cake",
   "description.radish.cake": "Radish Cake",
   "description.wheat.cake": "Wheat Cake",
-  "description.honey.cake": "A scrumptious cake!",
-  "description.eggplant.cake": "Sweet farm-fresh dessert surprise.",
-  "description.orange.cake": "Orange you glad we aren't cooking apples",
-  "description.pirate.cake": "Great for Pirate themed birthday parties.",
+  "description.honey.cake": "Восхитительный торт!",
+  "description.eggplant.cake": "Сладкий фермерский десерт-сюрприз.",
+  "description.orange.cake": "Orange ты рад, что мы не готовим яблоки?",
+  "description.pirate.cake":
+    "Отлично подходит для пиратских вечеринок на день рождения.",
 
   // Deli
   "description.blueberry.jam": "Goblins will do anything for this jam",
@@ -2460,125 +2481,124 @@ const guideTerms: Record<GuideTerms, string> = {
 };
 
 const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching": "The Halvening is Approaching!",
+  "halveningCountdown.approaching": "Халвинг приближается!",
   "halveningCountdown.description":
-    "At the Halvening, all prices of crops & certain resources are halved. This makes it more difficult to attain SFL.",
-  "halveningCountdown.preparation": "Make sure you are prepared!",
-  "halveningCountdown.title": "Halvening",
+    "Во время халвинга все цены на урожай и некоторые ресурсы снижаются вдвое. Это затрудняет получение SFL.",
+  "halveningCountdown.preparation": "Убедись, что ты подготовился!",
+  "halveningCountdown.title": "Халвинг!",
 };
 
 const harvestflower: Record<Harvestflower, string> = {
-  "harvestflower.noFlowerBed": "Flower bed does not exist",
-  "harvestflower.noFlower": "Flower bed does not have a flower",
-  "harvestflower.notReady": "Flower is not ready to harvest",
-  "harvestflower.alr.plant": "Flower is already planted",
+  "harvestflower.noFlowerBed": "Цветочная клумба отсутствует",
+  "harvestflower.noFlower": "На клумбе нет цветка",
+  "harvestflower.notReady": "Цветок не готов к сбору",
+  "harvestflower.alr.plant": "Цветок уже посажен.",
 };
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
-  "harvestBeeHive.notPlaced": "This beehive is not placed.",
-  "harvestBeeHive.noHoney": "This beehive has no honey.",
+  "harvestBeeHive.notPlaced": "Этот улей не установлен.",
+  "harvestBeeHive.noHoney": "В этом улье нет мёда.",
 };
 
 const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore": "Cannot complete this chore?",
-  "hayseedHankPlaza.skipChore": "Skip chore",
-  "hayseedHankPlaza.canSkipIn": "You can skip this chore in",
-  "hayseedHankPlaza.wellDone": "Well done",
-  "hayseedHankPlaza.lendAHand": "Lend a hand?",
+  "hayseedHankPlaza.cannotCompleteChore": "Не можешь выполнить это задание?",
+  "hayseedHankPlaza.skipChore": "Пропустить задание",
+  "hayseedHankPlaza.canSkipIn": "Ты можешь пропустить это задание через",
+  "hayseedHankPlaza.wellDone": "Отличная работа",
+  "hayseedHankPlaza.lendAHand": "Помочь?",
 };
 
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
-    "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
+    "Ну здравствуй, малец! Я - Hayseed Hank, опытный фермер, ухаживающий за землей как в старые добрые времена.",
   "hayseedHankv2.dialog2":
-    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ",
-  "hayseedHankv2.action": "Let's do it",
-  "hayseedHankv2.title": "Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores available in ",
-  "hayseedHankv2.skipChores": "You can skip chores each new day.",
-  "hayseedHankv2.greeting":
-    "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
+    "Однако мои кости уже не те, что прежде. Если ты поможешь мне с повседневными делами, я вознагражу тебя ",
+  "hayseedHankv2.action": "Приступим",
+  "hayseedHankv2.title": "Ежедневные дела",
+  "hayseedHankv2.newChoresAvailable": "Новые дела будут доступны через",
+  "hayseedHankv2.skipChores": "Можно пропускать задачи каждый новый день",
+  "hayseedHankv2.greeting": "Ну здравствуй, малец! Я - Hayseed Hank...",
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Clytie the Sunflower",
   "heliosSunflower.description":
-    "Only the true saviour can return and harvest this Sunflower.",
-  "confirmation.craft": "Are you sure you want to craft",
+    "Только истинный спаситель может вернуться и собрать урожай этого Подсолнуха.",
+  "confirmation.craft": "Вы уверены, что хотите создать",
 };
 
 const helper: Record<Helper, string> = {
-  "helper.highScore1": "Incredible! You're mastering the art of potion-making!",
-  "helper.highScore2":
-    "Magnificent! Your skills are bringing the plant to life!",
-  "helper.highScore3": "Astounding! The plant is in awe of your expertise!",
-  "helper.midScore1":
-    "Almost! Your potion has had a positive impact on your plant!",
+  "helper.highScore1": "Невероятно! Ты осваиваешь искусство зельеварения!",
+  "helper.highScore2": "Великолепно! Благодаря твоим навыкам растение оживает!",
+  "helper.highScore3": "Потрясающе! Растение в восторге от твоего мастерства!",
+  "helper.midScore1": "Почти! Твоё зелье положительно повлияло на растение!",
   "helper.midScore2":
-    "Keep it up! The plant is starting to thrive on your skillful concoction!",
-  "helper.midScore3":
-    "Nice one! Your potion is starting to work its magic on the plant!",
-  "helper.lowScore1": "Getting there. The plant is showing signs of happiness.",
+    "Дерзайте! Растение начинает процветать благодаря твоему мастерству!",
+  "helper.midScore3": "Отлично! Твое зелье уже начало действовать на растение!",
+  "helper.lowScore1": "Добраться до места. Растение подает признаки счастья.",
   "helper.lowScore2":
-    "Nice effort. Your potion has brought a bit of joy to the plant.",
+    "Хорошая работа. Ваше зелье доставило растению немного радости.",
   "helper.lowScore3":
-    "Not bad. Your skills are starting to make a good impression on the plant.",
+    "Неплохо. Твои навыки начинают производить хорошее впечатление на растение.",
   "helper.veryLowScore1":
-    "Keep trying. The plant recognizes your determination.",
-  "helper.veryLowScore2": "You're getting there. The plant sees your progress.",
-  "helper.veryLowScore3": "Not quite, but the plant senses your commitment.",
+    "Продолжайте пробовать. Растение признает твою целеустремленность.",
+  "helper.veryLowScore2": "У тебя получается. Растение видит твои успехи.",
+  "helper.veryLowScore3":
+    "Не совсем так, но растение чувствует твое стремление.",
   "helper.noScore1":
-    "Oh no! The plant despises something in your potion! Try again.",
+    "О нет! Растению что-то не понравилось в твоем зелье! Попробуйте еще раз.",
   "helper.noScore2":
-    "Oops! The plant recoils from something in your potion! Try again.",
+    "Упс! Растение отказывается от чего-то в твоем зелье! Попробуй еще раз.",
   "helper.noScore3":
-    "Uh-oh! Something in your potion is a total flop with the plant! Try again.",
+    "Ой-ой! Что-то в твоем зелье совершенно не подходит для растения! Попробуй еще раз.",
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {
-  "henHouse.chickens": "Курицы",
+  "henHouse.chickens": "Куры",
   "henHouse.text.one": "Корми пшеницей и собирай яйца",
   "henHouse.text.two": "Ленивая курица",
-  "henHouse.text.three": "Put your chicken to work to start collecting eggs!",
-  "henHouse.text.four": "Working Chicken",
+  "henHouse.text.three":
+    "Заставь свою курицу работать, чтобы начать собирать яйца!",
+  "henHouse.text.four": "Работающая курица",
   "henHouse.text.five": "Уже размещены и усердно трудятся!",
   "henHouse.text.six":
     "Постройте дополнительный курятник, чтобы разводить больше кур",
 };
 
 const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "How to Farm?",
-  "howToFarm.stepOne": "1.Harvest crops when they are ready",
-  "howToFarm.stepTwo": "2.Visit the town & click on the shop",
-  "howToFarm.stepThree": "3.Sell crops at the shop for SFL",
-  "howToFarm.stepFour": "4.Buy seeds using your SFL",
-  "howToFarm.stepFive": "5. Plant seeds and wait",
+  "howToFarm.title": "Как заниматься фермерством?",
+  "howToFarm.stepOne": "1.Собирай урожай, когда он готов",
+  "howToFarm.stepTwo": "2.Посети город и нажмите на магазин",
+  "howToFarm.stepThree": "3.Продай урожай в магазине за SFL",
+  "howToFarm.stepFour": "4.Покупай семена, используя SFL",
+  "howToFarm.stepFive": "5. Посади семена и жди",
 };
 
 const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "How to sync?",
+  "howToSync.title": "Как синхронизироваться?",
   "howToSync.description":
-    "All of your progress is saved on our game server. You will need to sync on chain when you want to move your tokens, NFTs and resources onto Polygon.",
-  "howToSync.stepOne": "1. Open the menu",
-  "howToSync.stepTwo": "2. Click 'Sync on chain'",
+    "Весь ваш прогресс сохраняется на нашем игровом сервере. Вам нужно будет синхронизироваться по цепочке, когда вы захотите перенести свои токены, NFT и ресурсы на Polygon.",
+  "howToSync.stepOne": "1. Открой меню",
+  "howToSync.stepTwo": '2. Нажми "Sync on chain".',
 };
 
 const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "How to upgrade?",
-  "howToUpgrade.stepOne": "1. Talk to a Goblin blocking the fields",
-  "howToUpgrade.stepTwo": "2.Visit the town & click on the kitchen",
-  "howToUpgrade.stepThree": "3. Craft the food that the goblin wants",
-  "howToUpgrade.stepFour": "4. Voila! Enjoy your new fields and crops",
+  "howToUpgrade.title": "Как улучшиться?",
+  "howToUpgrade.stepOne": "1. Поговори с гоблином, перекрывающим поля",
+  "howToUpgrade.stepTwo": "2.Посети город и открой кухню",
+  "howToUpgrade.stepThree": "3. Приготовь еду, которую хочет гоблин.",
+  "howToUpgrade.stepFour":
+    "4. Вуаля! Наслаждайся своими новыми грядками и урожаем",
 };
 
 const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmUpgrade":
-    "Are you sure you want to upgrade to a new island.",
+    "Вы уверены, что хотите перейти на новый остров?",
   "islandupgrade.warning":
-    "Make sure you do not have any crops, fruit, buildings or chickens in progress. These will be returned to your inventory.",
-  "islandupgrade.upgradeIsland": "Upgrade Island",
+    "Убедитесь, что у вас нет урожая, фруктов, зданий или кур в процессе работы. Они будут возвращены в твой инвентарь.",
+  "islandupgrade.upgradeIsland": "Улучшить остров",
   "islandupgrade.newOpportunities":
-    "An exotic island awaits you with new resources and opportunities to grow your farm.",
+    "тебя ждет экзотический остров с новыми ресурсами и возможностями для развития твоей фермы.",
   "islandupgrade.confirmation":
     "Would you like to upgrade? You will start on a small island with all of your items.",
   "islandupgrade.locked": "Locked",
@@ -4408,7 +4428,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",
-  "warning.level.required": "Level Required: {{lvl}}",
+  "warning.level.required": "Необходимый уровень: {{lvl}}",
   "warning.hoarding.message":
     "You have reached the Hoarding Limit for the following item",
   "warning.hoarding.one":
