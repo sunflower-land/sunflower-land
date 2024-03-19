@@ -20,8 +20,12 @@ import { SceneId } from "../mmoMachine";
 import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
+import { FanArt } from "./FanArt";
+
+export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
 type InteractableName =
+  | FanArtNPC
   | "donations"
   | "basic_chest"
   | "luxury_chest"
@@ -532,6 +536,18 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <Panel bumpkinParts={NPC_WEARABLES.wizard}>
           <CropBoomFinish onClose={closeModal} />
         </Panel>
+      </Modal>
+
+      <Modal
+        show={
+          interactable === "fan_npc_1" ||
+          interactable === "fan_npc_2" ||
+          interactable === "fan_npc_3" ||
+          interactable === "fan_npc_4"
+        }
+        onHide={closeModal}
+      >
+        <FanArt name={interactable as FanArtNPC} onClose={closeModal} />
       </Modal>
 
       <Modal show={interactable === "page_discovered"} onHide={closeModal}>

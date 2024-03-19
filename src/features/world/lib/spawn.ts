@@ -13,8 +13,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
   plaza: {
     // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 400 + randomXOffset,
-      y: 450 - randomYOffset,
+      // x: 400 + randomXOffset,
+      // y: 450 - randomYOffset,
+      x: 110 + randomXOffset,
+      y: 145 - randomYOffset,
     },
     woodlands: {
       x: 867,

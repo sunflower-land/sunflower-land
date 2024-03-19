@@ -1872,6 +1872,7 @@ export type InteractableModals =
   | "interactableModals.beachOrangeBook.message2"
   | "interactableModals.plazaGreenBook.message1"
   | "interactableModals.plazaGreenBook.message2"
+  | "interactableModals.fanArt.winner"
   | "interactableModals.fanArt1.message"
   | "interactableModals.fanArt2.message"
   | "interactableModals.fanArt2.linkLabel"
