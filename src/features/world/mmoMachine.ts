@@ -17,6 +17,7 @@ export type Scenes = {
   windmill_floor: Room<PlazaRoomState> | undefined;
   woodlands: Room<PlazaRoomState> | undefined;
   beach: Room<PlazaRoomState> | undefined;
+  retreat: Room<PlazaRoomState> | undefined;
   crop_boom: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;
 };
@@ -83,7 +84,6 @@ export interface MMOContext {
   serverId: ServerId;
   sceneId: SceneId;
   experience: number;
-  isCommunity?: boolean;
   moderation: Moderation;
 }
 
@@ -144,7 +144,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     serverId: "sunflorea_bliss",
     sceneId: "plaza",
     experience: 0,
-    isCommunity: false,
     moderation: {
       kicked: [],
       muted: [],
@@ -154,10 +153,6 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
   states: {
     initialising: {
       always: [
-        {
-          target: "idle",
-          cond: (context) => !!context.isCommunity,
-        },
         {
           target: "connecting",
         },

@@ -26,14 +26,11 @@ import { IslandNotFound } from "features/game/expansion/components/IslandNotFoun
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { Snow } from "./ui/Snow";
 
-interface Props {
-  isCommunity?: boolean;
-}
-export const World: React.FC<Props> = ({ isCommunity = false }) => {
+export const World: React.FC = () => {
   return (
     <GameProvider>
       <ModalProvider>
-        <Explore isCommunity={isCommunity} />
+        <Explore />
       </ModalProvider>
     </GameProvider>
   );
@@ -52,9 +49,7 @@ const _isMMOInitialising = (state: MMOMachineState) =>
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
 
-type MMOProps = { isCommunity: boolean };
-
-export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
+export const MMO: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -70,7 +65,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       bumpkin: gameState.context.state.bumpkin,
       sceneId: name as SceneId,
       experience: gameState.context.state.bumpkin?.experience ?? 0,
-      isCommunity,
       moderation: gameState.context.moderation,
       username: gameState.context.state.username,
     },
@@ -101,7 +95,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     <>
       <PhaserComponent
         mmoService={mmoService}
-        isCommunity={isCommunity}
         inventory={gameState.context.state.inventory}
         route={name as SceneId}
       />
@@ -162,7 +155,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
   );
 };
 
-export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
+export const Explore: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
   const isLoading = useSelector(gameService, _isLoading);
   const name = useParams().name as SceneId;
@@ -185,7 +178,7 @@ export const Explore: React.FC<Props> = ({ isCommunity = false }) => {
         Date.now() < new Date("2023-12-27").getTime() && <Snow />}
       {hasAccess ? (
         <GameWrapper>
-          {!isLoading && <MMO isCommunity={isCommunity} />}
+          {!isLoading && <MMO />}
           <WorldHud />
         </GameWrapper>
       ) : (

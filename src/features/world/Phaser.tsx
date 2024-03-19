@@ -15,7 +15,7 @@ import {
 } from "./ui/moderationTools/components/Muted";
 
 import { PlazaScene } from "./scenes/PlazaScene";
-import { AuctionScene } from "./scenes/AuctionHouseScene";
+import { WoodlandsScene } from "./scenes/WoodlandsScene";
 
 import { InteractableModals } from "./ui/InteractableModals";
 import { NPCModals } from "./ui/NPCModals";
@@ -23,17 +23,11 @@ import { MachineInterpreter, MachineState, mmoBus } from "./mmoMachine";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "react-bootstrap";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { ClothesShopScene } from "./scenes/ClothesShopScene";
-import { DecorationShopScene } from "./scenes/DecorationShop";
-import { WindmillFloorScene } from "./scenes/WindmillFloorScene";
-import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
 import { Label } from "components/ui/Label";
-import { CommunityScene } from "./scenes/CommunityScene";
-import { CommunityModals } from "./ui/CommunityModalManager";
-import { CommunityToasts } from "./ui/CommunityToastManager";
+
 import { SceneId } from "./mmoMachine";
 import { useNavigate } from "react-router-dom";
 import { PlayerModals } from "./ui/PlayerModals";
@@ -49,6 +43,7 @@ import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 import { hasFeatureAccess } from "lib/flags";
 import { SpringPlazaScene } from "./scenes/SpringPlazaScene";
+import { RetreatScene } from "./scenes/RetreatScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -71,14 +66,12 @@ export type ModerationEvent = {
 };
 
 interface Props {
-  isCommunity: boolean;
   mmoService: MachineInterpreter;
   inventory: Inventory;
   route: SceneId;
 }
 
 export const PhaserComponent: React.FC<Props> = ({
-  isCommunity,
   mmoService,
   inventory,
   route,
@@ -105,20 +98,15 @@ export const PhaserComponent: React.FC<Props> = ({
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);
 
-  const scenes = isCommunity
-    ? [CommunityScene]
-    : [
-        Preloader,
-        AuctionScene,
-        WoodlandsScene,
-        WindmillFloorScene,
-        ClothesShopScene,
-        DecorationShopScene,
-        BeachScene,
-        hasFeatureAccess(gameService.state.context.state, "SPRING")
-          ? SpringPlazaScene
-          : PlazaScene,
-      ];
+  const scenes = [
+    Preloader,
+    WoodlandsScene,
+    BeachScene,
+    RetreatScene,
+    hasFeatureAccess(gameService.state.context.state, "SPRING")
+      ? SpringPlazaScene
+      : PlazaScene,
+  ];
 
   useEffect(() => {
     // Set up community APIs
@@ -423,7 +411,7 @@ export const PhaserComponent: React.FC<Props> = ({
           });
         }}
       />
-      {isModerator && !isCommunity && (
+      {isModerator && (
         <ModerationTools
           scene={game.current?.scene.getScene(scene)}
           messages={messages ?? []}
@@ -443,8 +431,6 @@ export const PhaserComponent: React.FC<Props> = ({
         mmoService={mmoService}
         farmId={gameService.state.context.farmId as number}
       />
-      <CommunityModals />
-      <CommunityToasts />
       <InteractableModals id={gameService.state.context.farmId as number} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}

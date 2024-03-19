@@ -13,6 +13,12 @@ export const SPAWNS: SpawnLocation = {
       y: 422,
     },
   },
+  retreat: {
+    default: {
+      x: 318,
+      y: 417,
+    },
+  },
   mushroom_forest: {
     default: {
       x: 220,
