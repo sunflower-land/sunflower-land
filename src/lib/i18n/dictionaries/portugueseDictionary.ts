@@ -2012,8 +2012,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish": "Atraia peixes jogando isca na água.",
-  "fishermanModal.royChallenge":
-    "Ahoy, colegas! Sou Reelin' Roy, o pescador confiável da ilha, e tracei um grande desafio - coletar todos os peixes sob o sol!",
   "fishermanModal.fishBenefits":
     "Peixes são ótimos para comer, entregar e reivindicar recompensas!",
   "fishermanModal.baitAndResources":
@@ -2023,13 +2021,12 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Rápido, você receberá um peixe bônus para cada captura!",
   "fishermanModal.dailyLimitReached":
-    "Você atingiu seu limite diário de pesca de ",
+    "Você atingiu seu limite diário de pesca de {{limit}}",
   "fishermanModal.needCraftRod": "Você deve primeiro criar uma vara.",
   "fishermanModal.craft.beach": "Artesanato na Praia",
   "fishermanModal.zero.available": "0 disponível",
-  "fishermanmodal.greetingPart1": "Ahoy, colegas! Eu sou --",
-  "fishermanmodal.greetingPart2":
-    "--, seu confiável pescador da ilha, e tracei um grande desafio - coletar todos os peixes sob o sol!",
+  "fishermanmodal.greeting":
+    "Ahoy, colegas! Eu sou {{name}}, seu confiável pescador da ilha, e tracei um grande desafio - coletar todos os peixes sob o sol!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -4063,21 +4060,19 @@ const rulesTerms: Record<RulesTerms, string> = {
 };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": "Install App",
-  "magic.link": "Magic Link",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
-  "install.app.mobile.description.one":
-    "To install Sunflower Land, copy the link below and open it in",
-  "install.app.mobile.description.two": "to install on your device.",
+  "install.app": ENGLISH_TERMS["install.app"], // "Install App",
+  "magic.link": ENGLISH_TERMS["magic.link"], // "Magic Link",
+  "generating.link": ENGLISH_TERMS["generating.link"], // "Generating Link",
+  "generating.code": ENGLISH_TERMS["generating.code"], // "Generating Code",
   "install.app.desktop.description":
-    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
-  "install.app.mobile.metamask.description.one":
-    "Copy the magic link below and open it in",
-  "install.app.mobile.metamask.description.two": "on your device to install!",
-  "do.not.share.link": "Do not share this link!",
-  "do.not.share.code": "Do not share this code!",
-  "qr.code.not.working": "QR code not working?",
+    ENGLISH_TERMS["install.app.desktop.description"],
+  // "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    ENGLISH_TERMS["install.app.mobile.metamask.description"],
+  // "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"], // "Do not share this link!",
+  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"], // "Do not share this code!",
+  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"], // "QR code not working?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
@@ -4510,7 +4505,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Nenhuma Machado Selecionado!",
   "warning.chat.maxCharacters": "Máximo de caracteres",
   "warning.chat.noSpecialCharacters": "Sem caracteres especiais",
-  "warning.level.required": "Nível Necessário",
+  "warning.level.required": "Nível Necessário: {{lvl}}",
   "warning.hoarding.message":
     "Você atingiu o Limite de Acumulação para o seguinte item",
   "warning.hoarding.one":

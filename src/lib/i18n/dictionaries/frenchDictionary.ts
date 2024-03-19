@@ -2065,8 +2065,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish":
     "Attirez les poissons en jetant de l'appât dans l'eau.",
-  "fishermanModal.royChallenge":
-    "Ahoy, camarades insulaires ! Je suis Reelin' Roy, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
   "fishermanModal.fishBenefits":
     "Les poissons sont parfaits pour manger, livrer et obtenir des récompenses!",
   "fishermanModal.baitAndResources":
@@ -2076,14 +2074,13 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Dépêchez-vous, vous obtiendrez un poisson bonus pour chaque capture!",
   "fishermanModal.dailyLimitReached":
-    "Vous avez atteint votre limite quotidienne de pêche de ",
+    "Vous avez atteint votre limite quotidienne de pêche de {{limit}}",
   "fishermanModal.needCraftRod":
     "Vous devez d'abord fabriquer une canne à pêche.",
   "fishermanModal.craft.beach": "Fabriquez-la sur la plage",
   "fishermanModal.zero.available": "0 disponible",
-  "fishermanmodal.greetingPart1": "Ahoy, camarades insulaires ! Je suis --",
-  "fishermanmodal.greetingPart2":
-    "--, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
+  "fishermanmodal.greeting":
+    "Ahoy, camarades insulaires ! Je suis {{name}}, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -4059,21 +4056,19 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": "Install App",
-  "magic.link": "Magic Link",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
-  "install.app.mobile.description.one":
-    "To install Sunflower Land, copy the link below and open it in",
-  "install.app.mobile.description.two": "to install on your device.",
+  "install.app": ENGLISH_TERMS["install.app"], // "Install App",
+  "magic.link": ENGLISH_TERMS["magic.link"], // "Magic Link",
+  "generating.link": ENGLISH_TERMS["generating.link"], // "Generating Link",
+  "generating.code": ENGLISH_TERMS["generating.code"], // "Generating Code",
   "install.app.desktop.description":
-    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
-  "install.app.mobile.metamask.description.one":
-    "Copy the magic link below and open it in",
-  "install.app.mobile.metamask.description.two": "on your device to install!",
-  "do.not.share.link": "Do not share this link!",
-  "do.not.share.code": "Do not share this code!",
-  "qr.code.not.working": "QR code not working?",
+    ENGLISH_TERMS["install.app.desktop.description"],
+  // "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    ENGLISH_TERMS["install.app.mobile.metamask.description"],
+  // "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"], // "Do not share this link!",
+  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"], // "Do not share this code!",
+  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"], // "QR code not working?",
 };
 
 const quest: Record<Quest, string> = {
@@ -4649,7 +4644,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Aucune hache sélectionnée!",
   "warning.chat.maxCharacters": "Max de caractères",
   "warning.chat.noSpecialCharacters": "Pas de caractères spéciaux",
-  "warning.level.required": "Niveau requis",
+  "warning.level.required": "Niveau requis: {{lvl}}",
   "warning.hoarding.message":
     "Vous avez atteint la limite d'entassement pour l'objet suivant",
   "warning.hoarding.one":
