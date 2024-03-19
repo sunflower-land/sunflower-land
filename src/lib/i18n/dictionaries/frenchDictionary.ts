@@ -2370,6 +2370,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket":
     "Un ticket pour participer au concours de fin de saison",
   "description.babyPanda": "Un adorable panda de l'événement Gas Hero.",
+  "description.baozi": ENGLISH_TERMS["description.baozi"],
 
   // Objets de Pâques
   "description.egg.basket": "Événement de Pâques",
