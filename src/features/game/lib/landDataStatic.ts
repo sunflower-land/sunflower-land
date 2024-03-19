@@ -367,6 +367,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    Baozi: new Decimal(10),
+    "Prize Ticket": new Decimal(10),
     "Rich Chicken": new Decimal(1),
     "Fat Chicken": new Decimal(2),
     "Speed Chicken": new Decimal(2),
@@ -628,7 +630,13 @@ export const STATIC_OFFLINE_FARM: GameState = {
     ],
   },
   collectibles: {},
-  pumpkinPlaza: {},
+  pumpkinPlaza: {
+    raffle: {
+      entries: {
+        "2024-03": 12,
+      },
+    },
+  },
   treasureIsland: {
     holes: {},
   },

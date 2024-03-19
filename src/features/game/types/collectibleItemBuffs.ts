@@ -522,12 +522,6 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: ITEM_DETAILS.Gold.image,
   },
 
-  "Earn Alliance Banner": {
-    shortDescription: translate("description.earnAlliance.boost"),
-    labelType: "success",
-    boostTypeIcon: powerup,
-  },
-
   "Baby Panda": {
     shortDescription: translate("description.babyPanda.boost"),
     labelType: "success",

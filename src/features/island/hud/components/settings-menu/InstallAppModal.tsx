@@ -1,7 +1,14 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { isMobile, isIOS } from "mobile-device-detect";
+import {
+  isMobile,
+  isIOS,
+  isChrome,
+  isSafari,
+  isAndroid,
+} from "mobile-device-detect";
 import { QRCodeSVG } from "qrcode.react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -14,6 +21,8 @@ import { Label } from "components/ui/Label";
 import logo from "assets/brand/icon.png";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CopySvg } from "components/ui/CopyField";
+import clipboard from "clipboard";
 
 const TOOL_TIP_MESSAGE = translate("copy.link");
 
@@ -29,14 +38,18 @@ const _token = (state: AuthMachineState) =>
 export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [showLabel, setShowLabel] = useState(false);
-  const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
+
   const [magicLink, setMagicLink] = useState<string | null>();
 
   const { t } = useAppTranslation();
 
   const farmId = useSelector(gameService, _farmId);
   const token = useSelector(authService, _token);
+
+  const isWeb3MobileBrowser = isMobile && !!window.ethereum;
+  const showMagicLinkFlow =
+    isWeb3MobileBrowser || (isAndroid && !isChrome) || (isIOS && !isSafari);
+  const showQRCodeFlow = !isMobile;
 
   const fetchMagicLink = async () => {
     try {
@@ -56,8 +69,80 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
   useEffect(() => {
     if (magicLink || !isOpen) return;
 
-    fetchMagicLink();
+    if (showMagicLinkFlow || showQRCodeFlow) {
+      fetchMagicLink();
+    }
   }, [isOpen]);
+
+  return (
+    <Modal show={isOpen} onHide={onClose}>
+      <CloseButtonPanel title={t("install.app")} onClose={onClose}>
+        <div className="p-1">
+          {isMobile && showMagicLinkFlow && (
+            <MagicLinkFlow magicLink={magicLink} />
+          )}
+          {showQRCodeFlow && <QRCodeFlow magicLink={magicLink} />}
+        </div>
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+export const QRCodeFlow = ({ magicLink }: { magicLink?: string | null }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div>
+      <p className="mb-2 text-sm">{t("install.app.desktop.description")}</p>
+      <Label className="mt-1" type="warning">
+        {t("do.not.share.code")}
+      </Label>
+      {magicLink === undefined && (
+        <p className="text-sm loading" style={{ marginLeft: 0 }}>
+          {t("generating.code")}
+        </p>
+      )}
+      {magicLink === null && (
+        <p className="text-sm mb-2" style={{ marginLeft: 0 }}>
+          {`${t("error.wentWrong")} ${t("please.try.again")}`}
+        </p>
+      )}
+      {magicLink && (
+        <>
+          <div className="flex my-2">
+            <QRCodeSVG
+              style={{ width: 250, height: 250 }}
+              level="L"
+              value={magicLink}
+              imageSettings={{
+                src: logo,
+                height: 20,
+                width: 20,
+                excavate: false,
+              }}
+            />
+          </div>
+          {/* FINISH THIS PART HERE */}
+          <div className="space-y-2 mt-4">
+            <p className="text-sm">{t("qr.code.not.working")}</p>
+            <MagicLinkFlow magicLink={magicLink} showInstructions={false} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export const MagicLinkFlow = ({
+  magicLink,
+  showInstructions = true,
+}: {
+  magicLink?: string | null;
+  showInstructions?: boolean;
+}) => {
+  const [showLabel, setShowLabel] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState(TOOL_TIP_MESSAGE);
+  const { t } = useAppTranslation();
 
   const copyToClipboard = async () => {
     try {
@@ -66,8 +151,13 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
       setShowLabel(true);
       setTooltipMessage(translate("copied"));
     } catch (e: unknown) {
-      setShowLabel(true);
-      setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
+      try {
+        // Try fallback copy to clipboard - uses deprecated API
+        clipboard.copy(magicLink as string);
+      } catch (e: unknown) {
+        setShowLabel(true);
+        setTooltipMessage(typeof e === "string" ? e : translate("copy.failed"));
+      }
     }
 
     // Close tooltip after two seconds
@@ -77,72 +167,58 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
     }, 2000);
   };
 
+  const formatMagicLink = () => {
+    if (!magicLink) return "";
+
+    const url = new URL(magicLink);
+    return `${url.origin}...`;
+  };
+
   const mobileBrowserToUser = isIOS ? "Safari" : "Chrome";
 
   return (
-    <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel title={t("install.app")} onClose={onClose}>
-        <div className="p-1">
-          {isMobile && (
-            <div className="relative space-y-2 text-sm mb-2">
-              <p>{`${t(
-                "install.app.mobile.description.one"
-              )} ${mobileBrowserToUser} ${t(
-                "install.app.mobile.description.two"
-              )}`}</p>
-              <p
-                className={classNames("cursor-pointer text-xs underline", {
-                  loading: !magicLink,
-                })}
-                onMouseEnter={() => setShowLabel(true)}
-                onMouseLeave={() => setShowLabel(false)}
-                onClick={copyToClipboard}
-              >
-                {magicLink ? t("magic.link") : t("generating.link")}
-              </p>
-              <div
-                className={`absolute top-14 left-9 mr-5 transition duration-400 pointer-events-none ${
-                  showLabel ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <Label type="success">{tooltipMessage}</Label>
-              </div>
-            </div>
-          )}
-          {!isMobile && (
-            <div>
-              <p className="mb-2 text-sm">
-                {t("install.app.desktop.description")}
-              </p>
-              {magicLink === undefined && (
-                <p className="text-sm loading" style={{ marginLeft: 0 }}>
-                  {t("generating.code")}
-                </p>
-              )}
-              {magicLink === null && (
-                <p className="text-sm mb-2" style={{ marginLeft: 0 }}>
-                  {`${t("error.wentWrong")} ${t("please.try.again")}`}
-                </p>
-              )}
-              {magicLink && (
-                <div className="flex justify-center mb-2">
-                  <QRCodeSVG
-                    style={{ width: 180, height: 180 }}
-                    level="M"
-                    value={magicLink}
-                    imageSettings={{
-                      src: logo,
-                      height: 20,
-                      width: 20,
-                      excavate: false,
-                    }}
-                  />
-                </div>
-              )}
-            </div>
-          )}
+    <div className="w-full mb-2">
+      {showInstructions && (
+        <>
+          <p className="text-sm mb-2">
+            {t("install.app.mobile.metamask.description", {
+              browser: mobileBrowserToUser,
+            })}
+          </p>
+          <Label type="warning">{t("do.not.share.link")}</Label>
+        </>
+      )}
+      <div
+        className={classNames(
+          "relative cursor-pointer text-xs flex items-center my-2",
+          {
+            loading: magicLink === undefined,
+            underline: !!magicLink,
+          }
+        )}
+        style={{ marginLeft: 0, height: 25 }}
+        onMouseEnter={() => setShowLabel(true)}
+        onMouseLeave={() => setShowLabel(false)}
+        onClick={copyToClipboard}
+      >
+        {magicLink ? (
+          <span>{formatMagicLink()}</span>
+        ) : (
+          <span>{t("generating.link")}</span>
+        )}
+        {magicLink && (
+          <span className="ml-2 flex-none">
+            <CopySvg height={14} />
+          </span>
+        )}
+        <div
+          className={`absolute top-[-31px] right-6 mr-5 transition duration-400 pointer-events-none ${
+            showLabel ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Label type="success">{tooltipMessage}</Label>
         </div>
-      </CloseButtonPanel>
-    </Modal>
+      </div>
+    </div>
   );
 };

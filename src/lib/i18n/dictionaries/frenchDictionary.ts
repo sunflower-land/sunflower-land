@@ -107,7 +107,6 @@ import {
   OnCollectReward,
   OrderHelp,
   PageFounds,
-  Parsnip,
   Pending,
   PersonHood,
   PirateChest,
@@ -644,6 +643,19 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Félicitations, vous avez une clé de trésor!",
   "basic.treasure.openChest":
     "Souhaitez-vous ouvrir le coffre et réclamer une récompense?",
+  "budBox.open": "Ouvrir",
+  "budBox.opened": "Ouvert",
+  "budBox.title": "Bud Box",
+  "budBox.description":
+    "Chaque jour, un type de tête peut débloquer des récompenses agricoles.",
+  "raffle.title": "Tombola Gobelin",
+  "raffle.description":
+    "Chaque mois, vous avez une chance de gagner des récompenses. Les gagnants seront annoncés sur Discord.",
+  "raffle.entries": "entrées",
+  "raffle.noTicket": "Billet gagnant manquant",
+  "raffle.how":
+    "Vous pouvez collecter des tickets de récompense gratuitement grâce à des événements spéciaux et des livraisons de Bumpkin.",
+  "raffle.enter": "Entrer",
 };
 
 const beach: Record<Beach, string> = {
@@ -922,7 +934,6 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
   "description.radiant.ray.boost": "+0.1 Fer",
-  "description.earnAlliance.boost": "2x XP Feb 2024",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
@@ -1084,16 +1095,17 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
   "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
-  "bumpkinTrade.available": ENGLISH_TERMS["bumpkinTrade.available"],
-  "bumpkinTrade.quantity": ENGLISH_TERMS["bumpkinTrade.quantity"],
-  "bumpkinTrade.price": ENGLISH_TERMS["bumpkinTrade.price"],
-  "bumpkinTrade.listingPrice": ENGLISH_TERMS["bumpkinTrade.listingPrice"],
-  "bumpkinTrade.pricePerUnit": ENGLISH_TERMS["bumpkinTrade.pricePerUnit"],
-  "bumpkinTrade.tradingFee": ENGLISH_TERMS["bumpkinTrade.tradingFee"],
-  "bumpkinTrade.youWillReceive": ENGLISH_TERMS["bumpkinTrade.youWillReceive"],
-  "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
-  "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
-  "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
+
+  "bumpkinTrade.available": "Disponible",
+  "bumpkinTrade.quantity": "Quantité",
+  "bumpkinTrade.price": "Prix",
+  "bumpkinTrade.listingPrice": "Prix catalogue",
+  "bumpkinTrade.pricePerUnit": "Prix par unité",
+  "bumpkinTrade.tradingFee": "Frais de négociation",
+  "bumpkinTrade.youWillReceive": "Vous recevrez",
+  "bumpkinTrade.cancel": "Annuler",
+  "bumpkinTrade.list": "Liste",
+  "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -2057,8 +2069,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish":
     "Attirez les poissons en jetant de l'appât dans l'eau.",
-  "fishermanModal.royChallenge":
-    "Ahoy, camarades insulaires ! Je suis Reelin' Roy, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
   "fishermanModal.fishBenefits":
     "Les poissons sont parfaits pour manger, livrer et obtenir des récompenses!",
   "fishermanModal.baitAndResources":
@@ -2068,14 +2078,13 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Dépêchez-vous, vous obtiendrez un poisson bonus pour chaque capture!",
   "fishermanModal.dailyLimitReached":
-    "Vous avez atteint votre limite quotidienne de pêche de ",
+    "Vous avez atteint votre limite quotidienne de pêche de {{limit}}",
   "fishermanModal.needCraftRod":
     "Vous devez d'abord fabriquer une canne à pêche.",
   "fishermanModal.craft.beach": "Fabriquez-la sur la plage",
   "fishermanModal.zero.available": "0 disponible",
-  "fishermanmodal.greetingPart1": "Ahoy, camarades insulaires ! Je suis --",
-  "fishermanmodal.greetingPart2":
-    "--, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
+  "fishermanmodal.greeting":
+    "Ahoy, camarades insulaires ! Je suis {{name}}, votre fidèle pêcheur insulaire, et j'ai lancé un grand défi - collecter tous les poissons sous le soleil!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2363,6 +2372,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket":
     "Un ticket pour participer au concours de fin de saison",
   "description.babyPanda": "Un adorable panda de l'événement Gas Hero.",
+  "description.baozi": ENGLISH_TERMS["description.baozi"],
 
   // Objets de Pâques
   "description.egg.basket": "Événement de Pâques",
@@ -2730,6 +2740,8 @@ const interactableModals: Record<InteractableModals, string> = {
     "Les Bumpkins contrôlent ces îles, nous laissant, les gobelins, avec peu de travail et encore moins de nourriture.",
   "interactableModals.plazaGreenBook.message2":
     "Nous luttons pour l'égalité, un endroit que nous pouvons appeler chez nous, où nous pouvons vivre et prospérer.",
+  "interactableModals.fanArt.winner":
+    ENGLISH_TERMS["interactableModals.fanArt1.message"],
   "interactableModals.fanArt1.message":
     "Félicitations Palisman, le gagnant du premier concours de Fan Art",
   "interactableModals.fanArt2.message":
@@ -3966,15 +3978,6 @@ const pageFounds: Record<PageFounds, string> = {
   pageFounds: "Pages Trouvées",
 };
 
-const parsnip: Record<Parsnip, string> = {
-  "parsnip.hat": "Wow, jolis cornes!",
-  "parsnip.miss": "Ne manquez pas les futurs événements et cadeaux!",
-  "parsnip.Bonus": "Récompense bonus",
-  "parsnip.wearable":
-    "Vous avez découvert un accessoire spécial pour événement",
-  "parsnip.found": "Youpi... tu m'as trouvé!",
-};
-
 const pending: Record<Pending, string> = {
   "pending.calcul": "Les résultats sont en cours de calcul.",
   "pending.comeback": "Revenez plus tard.",
@@ -4039,6 +4042,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
   "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
+  "plazaSettings.changeServer": "Changer de serveur",
 };
 
 const portal: Record<Portal, string> = {
@@ -4058,17 +4062,19 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": "Install App",
-  "magic.link": "Magic Link",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
-  "install.app.mobile.description.one": "Install Sunflower Land on your device",
-  "install.app.mobile.description.two": "on your device.",
+  "install.app": ENGLISH_TERMS["install.app"], // "Install App",
+  "magic.link": ENGLISH_TERMS["magic.link"], // "Magic Link",
+  "generating.link": ENGLISH_TERMS["generating.link"], // "Generating Link",
+  "generating.code": ENGLISH_TERMS["generating.code"], // "Generating Code",
   "install.app.desktop.description":
-    "Scan the code below to install on your device.",
-  "install.app.mobile.metamask.description.one":
-    "Copy the magic link below and open it in",
-  "install.app.mobile.metamask.description.two": "on your device to install!",
+    ENGLISH_TERMS["install.app.desktop.description"],
+  // "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    ENGLISH_TERMS["install.app.mobile.metamask.description"],
+  // "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"], // "Do not share this link!",
+  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"], // "Do not share this code!",
+  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"], // "QR code not working?",
 };
 
 const quest: Record<Quest, string> = {
@@ -4644,7 +4650,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Aucune hache sélectionnée!",
   "warning.chat.maxCharacters": "Max de caractères",
   "warning.chat.noSpecialCharacters": "Pas de caractères spéciaux",
-  "warning.level.required": "Niveau requis",
+  "warning.level.required": "Niveau requis: {{lvl}}",
   "warning.hoarding.message":
     "Vous avez atteint la limite d'entassement pour l'objet suivant",
   "warning.hoarding.one":
@@ -4892,7 +4898,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...onCollectReward,
   ...orderhelp,
   ...pageFounds,
-  ...parsnip,
   ...pending,
   ...personHood,
   ...pickserver,

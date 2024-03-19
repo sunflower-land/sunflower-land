@@ -3,7 +3,7 @@ import mapJson from "assets/map/plaza.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
-import { interactableModalManager } from "../ui/InteractableModals";
+import { FanArtNPC, interactableModalManager } from "../ui/InteractableModals";
 import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
@@ -16,7 +16,30 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import { hasFeatureAccess } from "lib/flags";
 
+const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
+  {
+    name: "fan_npc_1",
+    x: 110,
+    y: 137,
+  },
+  {
+    name: "fan_npc_2",
+    x: 130,
+    y: 118,
+  },
+  {
+    name: "fan_npc_3",
+    x: 172,
+    y: 118,
+  },
+  {
+    name: "fan_npc_4",
+    x: 210,
+    y: 137,
+  },
+];
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 600,
@@ -66,11 +89,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "grimtooth",
     direction: "left",
   },
-  {
-    x: 120,
-    y: 170,
-    npc: "gabi",
-  },
+
   {
     x: 480,
     y: 140,
@@ -280,6 +299,11 @@ export class PlazaScene extends BaseScene {
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
 
+    this.load.spritesheet("raffle", "world/raffle.webp", {
+      frameWidth: 33,
+      frameHeight: 28,
+    });
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -315,6 +339,13 @@ export class PlazaScene extends BaseScene {
       frameHeight: 21,
     });
 
+    FAN_NPCS.map((npc) => {
+      this.load.spritesheet(npc.name, `world/${npc.name}.png`, {
+        frameWidth: 20,
+        frameHeight: 19,
+      });
+    });
+
     this.load.image("chest", "world/rare_chest.png");
     this.load.image("trading_board", "world/trading_board.png");
 
@@ -322,6 +353,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_chest", "world/luxury_chest.png");
     this.load.image("locked_disc", "world/locked_disc.png");
     this.load.image("key_disc", "world/key_disc.png");
+    this.load.image("raffle_disc", "world/raffle_disc.png");
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
@@ -422,6 +454,28 @@ export class PlazaScene extends BaseScene {
       });
     }
 
+    if (hasFeatureAccess(this.gameState, "RAFFLE")) {
+      this.add.sprite(300, 132, "raffle_disc").setDepth(1000000000);
+
+      const raffle = this.add
+        .sprite(300, 156, "raffle")
+        .setDepth(1000000000000);
+      this.anims.create({
+        key: "raffle_animation",
+        frames: this.anims.generateFrameNumbers("raffle", {
+          start: 0,
+          end: 7,
+        }),
+        repeat: -1,
+        frameRate: 4,
+      });
+      raffle.play("raffle_animation", true);
+
+      raffle.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        interactableModalManager.open("raffle");
+      });
+    }
+
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
       this.arrows = this.add
         .sprite(
@@ -433,12 +487,12 @@ export class PlazaScene extends BaseScene {
     }
 
     if (this.gameState.inventory["Treasure Key"]) {
-      this.add.sprite(210, 130, "key_disc").setDepth(1000000000);
+      this.add.sprite(152, 140, "key_disc").setDepth(1000000000);
     } else {
-      this.add.sprite(210, 130, "locked_disc").setDepth(1000000000);
+      this.add.sprite(152, 140, "locked_disc").setDepth(1000000000);
     }
 
-    const basicChest = this.add.sprite(210, 150, "basic_chest");
+    const basicChest = this.add.sprite(152, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("basic_chest");
     });
@@ -503,6 +557,33 @@ export class PlazaScene extends BaseScene {
       .on("pointerdown", () => {
         interactableModalManager.open("bud");
       });
+
+    // Art NPCs
+    FAN_NPCS.map((npc, index) => {
+      this.add.sprite(npc.x, npc.y + 8, "shadow");
+
+      const fanNPC = this.add.sprite(npc.x, npc.y, npc.name);
+      this.anims.create({
+        key: `${npc.name}_animation`,
+        frames: this.anims.generateFrameNumbers(npc.name, {
+          start: 0,
+          end: 8,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+      fanNPC.play(`${npc.name}_animation`, true);
+
+      // Face left
+      if (index >= 2) {
+        fanNPC.setScale(-1, 1);
+      }
+
+      // On click
+      fanNPC.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        interactableModalManager.open(npc.name);
+      });
+    });
 
     // Banner
     const banner = this.add.sprite(400, 220, "banner");

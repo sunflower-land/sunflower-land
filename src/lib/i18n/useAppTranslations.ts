@@ -7,7 +7,8 @@ export const useAppTranslation = () => {
   const { t: originalT } = useOriginalTranslation();
 
   // Here we cast the original t function to a more strictly typed version
-  const t = (key: TranslationKeys) => originalT(key);
+  const t = (key: TranslationKeys, args?: { [key: string]: string | number }) =>
+    originalT(key, args);
 
   return { t };
 };

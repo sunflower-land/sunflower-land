@@ -264,6 +264,7 @@ import {
 } from "./landExpansion/completeSpecialEventTask";
 import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
 import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
+import { enterRaffle, EnterRaffleAction } from "./landExpansion/enterRaffle";
 
 export type PlayingEvent =
   | TradeAction
@@ -344,7 +345,8 @@ export type PlayingEvent =
   | BuyMegaStoreItemAction
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
-  | ClaimGiftAction;
+  | ClaimGiftAction
+  | EnterRaffleAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -488,6 +490,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "specialEvent.taskCompleted": completeSpecialEventTask,
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,
+  "raffle.entered": enterRaffle,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

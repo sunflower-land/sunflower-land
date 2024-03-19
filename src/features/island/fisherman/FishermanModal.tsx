@@ -331,7 +331,7 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached")} {dailyFishingMax}
+          {t("fishermanModal.dailyLimitReached", { limit: dailyFishingMax })}
         </Label>
       )}
 
@@ -399,11 +399,9 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: `${t(
-                "fishermanmodal.greetingPart1"
-              )} ${capitalizeFirstLetters(npc)} ${t(
-                "fishermanmodal.greetingPart2"
-              )}`,
+              text: t("fishermanmodal.greeting", {
+                name: capitalizeFirstLetters(npc),
+              }),
             },
             {
               text: translate("fishermanModal.fishBenefits"),

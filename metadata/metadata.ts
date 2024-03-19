@@ -7038,11 +7038,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Earn Alliance Banner": {
     name: "Earn Alliance Banner",
     description:
-      "A special event banner. Gives a starter bonus of 2x XP in February 2024 for players on the beginner island.",
+      "A special event banner. Gave a starter bonus of 2x XP in February 2024 for players on the beginner island.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/930.png",
-    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
   },
   "Treasure Key": {
     name: "Treasure Key",
@@ -7086,5 +7089,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/935.png",
     attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  Baozi: {
+    name: "Bazoi",
+    description:
+      "A delicious steamed bun. A special event item from Lunar New Year 2024.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/936.gif",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
 };

@@ -106,7 +106,6 @@ import {
   OnCollectReward,
   OrderHelp,
   PageFounds,
-  Parsnip,
   Pending,
   PersonHood,
   PirateChest,
@@ -639,6 +638,18 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Congratulations, you have the key!",
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
+  "budBox.open": "Open",
+  "budBox.opened": "Opened",
+  "budBox.title": "Bud box",
+  "budBox.description": "Each day, a bud type can unlock farming rewards.",
+  "raffle.title": "Goblin Raffle",
+  "raffle.description":
+    "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
+  "raffle.entries": "entries",
+  "raffle.noTicket": "Missing Prize Ticket",
+  "raffle.how":
+    "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",
+  "raffle.enter": "Enter",
 };
 
 const beach: Record<Beach, string> = {
@@ -909,7 +920,6 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "50% Reduction to Crop, Mineral, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
-  "description.earnAlliance.boost": "2x XP Feb 2024 (Beginner Island)",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
@@ -1965,8 +1975,6 @@ const fishDescriptions: Record<FishDescriptions, string> = {
 
 const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.attractFish": "Attract fish by throwing chum into the water.",
-  "fishermanModal.royChallenge":
-    "Ahoy, fellow islanders! I'm Reelin' Roy, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
   "fishermanModal.fishBenefits":
     "Fish are great for eating, delivering and claiming rewards!",
   "fishermanModal.baitAndResources":
@@ -1976,13 +1984,12 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.bonusFish":
     "Hurry, you will get a bonus fish for each catch!",
   "fishermanModal.dailyLimitReached":
-    "You have reached your daily fishing limit of ",
+    "You have reached your daily fishing limit of {{limit}}",
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
-  "fishermanmodal.greetingPart1": "Ahoy, fellow islanders! I'm --",
-  "fishermanmodal.greetingPart2":
-    "--, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
+  "fishermanmodal.greeting":
+    "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2250,9 +2257,10 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.luxury.key":
     "Visit the plaza near woodlands to unlock your reward",
   "description.prizeTicket":
-    "A ticket to enter the end of season prize giveaway",
+    "A prized ticket. You can use it to enter the monthly goblin raffle.",
   "description.babyPanda":
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
+  "description.baozi": "A delicious treat from the Lunar New Year event.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
@@ -2601,6 +2609,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "The Bumpkins control these islands, leaving us goblins with scarce work and even scarcer food.",
   "interactableModals.plazaGreenBook.message2":
     "We strive for equality, a place to call our own, where we can live and thrive",
+  "interactableModals.fanArt.winner": "Fan art winner",
   "interactableModals.fanArt1.message":
     "Congratulations Palisman, the winner of the first Fan Art competition",
   "interactableModals.fanArt2.message":
@@ -3811,14 +3820,6 @@ const pageFounds: Record<PageFounds, string> = {
   pageFounds: "Pages Found:",
 };
 
-const parsnip: Record<Parsnip, string> = {
-  "parsnip.hat": "Wow, nice horns!",
-  "parsnip.miss": "Don't miss out on future events and giveaways!",
-  "parsnip.Bonus": "Bonus reward",
-  "parsnip.wearable": "You've discovered a special event wearable",
-  "parsnip.found": "Woohoo....you found me!",
-};
-
 const pending: Record<Pending, string> = {
   "pending.calcul": "The results are being calculated.",
   "pending.comeback": "Come back later.",
@@ -3882,6 +3883,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
+  "plazaSettings.changeServer": "Change server",
 };
 
 const portal: Record<Portal, string> = {
@@ -4027,13 +4029,13 @@ const pwaInstall: Record<PwaInstall, string> = {
   "magic.link": "Magic Link",
   "generating.link": "Generating Link",
   "generating.code": "Generating Code",
-  "install.app.mobile.description.one": "Install Sunflower Land on your device",
-  "install.app.mobile.description.two": "on your device.",
   "install.app.desktop.description":
-    "Scan the code below to install on your device.",
-  "install.app.mobile.metamask.description.one":
-    "Copy the magic link below and open it in",
-  "install.app.mobile.metamask.description.two": "on your device to install!",
+    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
+  "qr.code.not.working": "QR code not working?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
@@ -4464,7 +4466,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",
-  "warning.level.required": "Level Required",
+  "warning.level.required": "Level Required: {{lvl}}",
   "warning.hoarding.message":
     "You have reached the Hoarding Limit for the following item",
   "warning.hoarding.one":
@@ -4705,7 +4707,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...onCollectReward,
   ...orderhelp,
   ...pageFounds,
-  ...parsnip,
   ...pending,
   ...personHood,
   ...pickserver,

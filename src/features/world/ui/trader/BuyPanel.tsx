@@ -285,7 +285,7 @@ export const BuyPanel: React.FC = () => {
 
                   <div className="">
                     <div className="flex items-center mt-1  justify-end mr-0.5">
-                      <Label type="success" className="mb-4">
+                      <Label type="success" className="mb-4 capitalize">
                         {t("purchased")}
                       </Label>
                     </div>
