@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
@@ -14,11 +13,11 @@ interface ItemDetailsProps {
 }
 
 /**
- * The props for the feed bumpkin details.
- * @param sfl The sfl gained for selling the item.
+ * The props for selling the item.
+ * @param coins The coins gained for selling the item.
  */
 interface PropertiesProps {
-  sfl?: Decimal;
+  coins?: number;
 }
 
 /**
@@ -70,9 +69,12 @@ export const ShopSellDetails: React.FC<Props> = ({
 
     return (
       <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        {/* SFL display */}
-        {!!properties.sfl && (
-          <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
+        {/* Price display */}
+        {!!properties.coins && (
+          <RequirementLabel
+            type="sellForCoins"
+            requirement={properties.coins}
+          />
         )}
       </div>
     );
