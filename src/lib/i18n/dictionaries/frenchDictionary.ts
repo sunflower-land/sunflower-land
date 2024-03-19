@@ -2736,6 +2736,8 @@ const interactableModals: Record<InteractableModals, string> = {
     "Les Bumpkins contrôlent ces îles, nous laissant, les gobelins, avec peu de travail et encore moins de nourriture.",
   "interactableModals.plazaGreenBook.message2":
     "Nous luttons pour l'égalité, un endroit que nous pouvons appeler chez nous, où nous pouvons vivre et prospérer.",
+  "interactableModals.fanArt.winner":
+    ENGLISH_TERMS["interactableModals.fanArt1.message"],
   "interactableModals.fanArt1.message":
     "Félicitations Palisman, le gagnant du premier concours de Fan Art",
   "interactableModals.fanArt2.message":
