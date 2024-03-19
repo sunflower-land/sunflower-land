@@ -595,6 +595,7 @@ import whiteLotus from "assets/flowers/white_lotus.webp";
 import purpleLotus from "assets/flowers/purple_lotus.webp";
 
 import babyPanda from "assets/sfts/baby_panda.png";
+import baozi from "assets/sfts/baozi.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3245,5 +3246,9 @@ export const ITEM_DETAILS: Items = {
   "Baby Panda": {
     image: babyPanda,
     description: translate("description.babyPanda"),
+  },
+  Baozi: {
+    image: baozi,
+    description: translate("description.baozi"),
   },
 };

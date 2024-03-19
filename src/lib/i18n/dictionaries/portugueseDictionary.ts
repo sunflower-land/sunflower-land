@@ -2307,6 +2307,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.tulip.bulb": "Um ingresso usado durante a Florada da Primavera",
   "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
   "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
+  "description.baozi": ENGLISH_TERMS["description.baozi"],
   "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",
   "description.luxury.key":

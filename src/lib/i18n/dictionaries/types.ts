@@ -1621,6 +1621,7 @@ export type GameDescriptions =
   | "description.luxury.key"
   | "description.prizeTicket"
   | "description.babyPanda"
+  | "description.baozi"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"

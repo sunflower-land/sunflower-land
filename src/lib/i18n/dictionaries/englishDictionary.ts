@@ -2262,6 +2262,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "A prized ticket. You can use it to enter the monthly goblin raffle.",
   "description.babyPanda":
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
+  "description.baozi": "A delicious treat from the Lunar New Year event.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
