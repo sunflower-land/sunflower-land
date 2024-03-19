@@ -1,25 +1,20 @@
 import Decimal from "decimal.js-light";
-import { CropName, CROPS } from "../../types/crops";
+import { Crop, CropName, CROPS } from "../../types/crops";
 import { GameState } from "../../types/game";
 import cloneDeep from "lodash.clonedeep";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Cake } from "features/game/types/craftables";
-import { FRUIT, FruitName } from "features/game/types/fruits";
+import { Fruit, FRUIT, FruitName } from "features/game/types/fruits";
 import { translate } from "lib/i18n/translate";
+
+export type SellableName = CropName | FruitName;
+export type SellableItem = Crop | Fruit;
 
 export type SellCropAction = {
   type: "crop.sold";
-  crop: CropName | FruitName;
+  crop: SellableName;
   amount: number;
-};
-
-export type SellableName = CropName | Cake | FruitName;
-
-export type SellableItem = {
-  name: SellableName;
-  sellPrice?: Decimal;
 };
 
 export const SELLABLE = { ...CROPS(), ...FRUIT() };
@@ -56,25 +51,24 @@ export function sellCrop({ state, action }: Options): GameState {
   }
 
   const price = getSellPrice({
-    item: sellables as SellableItem,
+    item: sellables,
     game,
   });
 
-  const sflEarned = price.mul(action.amount);
-  bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
+  const coinsEarned = price * action.amount;
+  bumpkin.activity = trackActivity(
+    "Coins Earned",
+    bumpkin.activity,
+    new Decimal(coinsEarned)
+  );
   bumpkin.activity = trackActivity(
     `${action.crop} Sold`,
     bumpkin?.activity,
     new Decimal(amount)
   );
 
-  return {
-    ...game,
-    bumpkin,
-    balance: game.balance.add(sflEarned),
-    inventory: {
-      ...game.inventory,
-      [sellables.name]: setPrecision(count.sub(amount)),
-    },
-  };
+  game.coins = game.coins + coinsEarned;
+  game.inventory[action.crop] = setPrecision(count.sub(amount));
+
+  return game;
 }
