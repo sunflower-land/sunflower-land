@@ -1,4 +1,3 @@
-import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -644,16 +643,19 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Félicitations, vous avez une clé de trésor!",
   "basic.treasure.openChest":
     "Souhaitez-vous ouvrir le coffre et réclamer une récompense?",
-  "budBox.open": ENGLISH_TERMS["budBox.open"],
-  "budBox.opened": ENGLISH_TERMS["budBox.opened"],
-  "budBox.title": ENGLISH_TERMS["budBox.title"],
-  "budBox.description": ENGLISH_TERMS["budBox.description"],
-  "raffle.title": ENGLISH_TERMS["raffle.title"],
-  "raffle.description": ENGLISH_TERMS["raffle.description"],
-  "raffle.entries": ENGLISH_TERMS["raffle.entries"],
-  "raffle.noTicket": ENGLISH_TERMS["raffle.noTicket"],
-  "raffle.how": ENGLISH_TERMS["raffle.how"],
-  "raffle.enter": ENGLISH_TERMS["raffle.enter"],
+  "budBox.open": "Ouvrir",
+  "budBox.opened": "Ouvert",
+  "budBox.title": "Bud Box",
+  "budBox.description":
+    "Chaque jour, un type de tête peut débloquer des récompenses agricoles.",
+  "raffle.title": "Tombola Gobelin",
+  "raffle.description":
+    "Chaque mois, vous avez une chance de gagner des récompenses. Les gagnants seront annoncés sur Discord.",
+  "raffle.entries": "entrées",
+  "raffle.noTicket": "Billet gagnant manquant",
+  "raffle.how":
+    "Vous pouvez collecter des tickets de récompense gratuitement grâce à des événements spéciaux et des livraisons de Bumpkin.",
+  "raffle.enter": "Entrer",
 };
 
 const beach: Record<Beach, string> = {
@@ -1089,16 +1091,17 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
   "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
-  "bumpkinTrade.available": ENGLISH_TERMS["bumpkinTrade.available"],
-  "bumpkinTrade.quantity": ENGLISH_TERMS["bumpkinTrade.quantity"],
-  "bumpkinTrade.price": ENGLISH_TERMS["bumpkinTrade.price"],
-  "bumpkinTrade.listingPrice": ENGLISH_TERMS["bumpkinTrade.listingPrice"],
-  "bumpkinTrade.pricePerUnit": ENGLISH_TERMS["bumpkinTrade.pricePerUnit"],
-  "bumpkinTrade.tradingFee": ENGLISH_TERMS["bumpkinTrade.tradingFee"],
-  "bumpkinTrade.youWillReceive": ENGLISH_TERMS["bumpkinTrade.youWillReceive"],
-  "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
-  "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
-  "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
+
+  "bumpkinTrade.available": "Disponible",
+  "bumpkinTrade.quantity": "Quantité",
+  "bumpkinTrade.price": "Prix",
+  "bumpkinTrade.listingPrice": "Prix catalogue",
+  "bumpkinTrade.pricePerUnit": "Prix par unité",
+  "bumpkinTrade.tradingFee": "Frais de négociation",
+  "bumpkinTrade.youWillReceive": "Vous recevrez",
+  "bumpkinTrade.cancel": "Annuler",
+  "bumpkinTrade.list": "Liste",
+  "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -4044,7 +4047,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
   "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
-  "plazaSettings.changeServer": ENGLISH_TERMS["plazaSettings.changeServer"],
+  "plazaSettings.changeServer": "Changer de serveur",
 };
 
 const portal: Record<Portal, string> = {
