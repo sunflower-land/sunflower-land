@@ -106,7 +106,6 @@ import {
   OnCollectReward,
   OrderHelp,
   PageFounds,
-  Parsnip,
   Pending,
   PersonHood,
   PirateChest,
@@ -169,6 +168,8 @@ import {
   Trader,
   NyonStatue,
   Trading,
+  TimeUnits,
+  PwaInstall,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -215,7 +216,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   clear: "Очистить",
   close: "Закрыть",
   collect: "Collect",
-  "come.back": "Вернись через",
   "coming.soon": "Скоро",
   common: "Обычный",
   completed: "Завершена",
@@ -228,6 +228,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   cook: "Приготовить",
   copied: "скопировано",
   "copy.address": "Скопировать адрес",
+  "copy.link": "Copy Link",
+  "copy.failed": "Copy Failed!",
   coupons: "Купоны",
   craft: "Скрафтить",
   crafting: "Крафтится",
@@ -470,7 +472,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
+};
 
+const timeUnits: Record<TimeUnits, string> = {
   // time
   sec: "sec",
   min: "min",
@@ -633,6 +637,18 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.congratsKey": "Congratulations, you have a Treasure Key!",
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
+  "budBox.open": "Open",
+  "budBox.opened": "Opened",
+  "budBox.title": "Bud box",
+  "budBox.description": "Each day, a bud type can unlock farming rewards.",
+  "raffle.title": "Goblin Raffle",
+  "raffle.description":
+    "Each month, you have a chance to win rewards. Winners will be announced on Discord.",
+  "raffle.entries": "entries",
+  "raffle.noTicket": "Missing Prize Ticket",
+  "raffle.how":
+    "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",
+  "raffle.enter": "Enter",
 };
 
 const beach: Record<Beach, string> = {
@@ -908,7 +924,6 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "50% Reduction to Crop, Mineral, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
-  "description.earnAlliance.boost": "2x XP Feb 2024",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
 };
 
@@ -1060,6 +1075,16 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.like.list": "What would you like to list",
   "bumpkinTrade.goldpass.required": "Gold Pass is required",
   "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
+  "bumpkinTrade.available": "Available",
+  "bumpkinTrade.quantity": "Quantity",
+  "bumpkinTrade.price": "Price",
+  "bumpkinTrade.listingPrice": "Listing price",
+  "bumpkinTrade.pricePerUnit": "Price per unit",
+  "bumpkinTrade.tradingFee": "Trading fee",
+  "bumpkinTrade.youWillReceive": "You will receive",
+  "bumpkinTrade.cancel": "Cancel",
+  "bumpkinTrade.list": "List",
+  "bumpkinTrade.maxListings": "Max listings reached",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -1960,11 +1985,8 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.needCraftRod": "You must first craft a rod.",
   "fishermanModal.craft.beach": "Craft at Beach",
   "fishermanModal.zero.available": "0 available",
-  "fishermanmodal.greetingPart1": "",
-  "fishermanmodal.greetingPart2": "",
-  "fishermanModal.royChallenge": "",
-  // "fishermanmodal.greeting":
-  //   "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
+  "fishermanmodal.greeting":
+    "Ahoy, fellow islanders! I'm {{name}}, your trusty island fisherman, and I've set my sights on a grand challenge - collecting every fish under the sun!",
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2240,6 +2262,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket": "A ticket to enter the prize giveaways",
   "description.babyPanda":
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
+  "description.baozi": "A delicious treat from the Lunar New Year event.",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
@@ -2604,6 +2627,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "The Bumpkins control these islands, leaving us goblins with scarce work and even scarcer food.",
   "interactableModals.plazaGreenBook.message2":
     "We strive for equality, a place to call our own, where we can live and thrive",
+  "interactableModals.fanArt.winner": "Fan art winner",
   "interactableModals.fanArt1.message":
     "Congratulations Palisman, the winner of the first Fan Art competition",
   "interactableModals.fanArt2.message":
@@ -3764,14 +3788,6 @@ const pageFounds: Record<PageFounds, string> = {
   pageFounds: "Pages Found:",
 };
 
-const parsnip: Record<Parsnip, string> = {
-  "parsnip.hat": "Wow, nice horns!",
-  "parsnip.miss": "Don't miss out on future events and giveaways!",
-  "parsnip.Bonus": "Bonus reward",
-  "parsnip.wearable": "You've discovered a special event wearable",
-  "parsnip.found": "Woohoo....you found me!",
-};
-
 const pending: Record<Pending, string> = {
   "pending.calcul": "The results are being calculated.",
   "pending.comeback": "Come back later.",
@@ -3822,6 +3838,7 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
+  "plazaSettings.changeServer": "Change server",
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
@@ -3961,6 +3978,20 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.gameNotFinancialProduct": "Это игра. Не финансовый продукт.",
   "rules.noBots": "Без ботоводства или автоматизации",
   "rules.termsOfService": "Пользовательское соглашение",
+};
+
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
+  "qr.code.not.working": "QR code not working?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
@@ -4171,7 +4202,6 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.worthwell": "worth of rewards in the well!",
   "statements.wishing.well.look.like": "It doesn't look like you are",
   "statements.wishing.well.lucky": "Let's see how lucky you are!",
-  "statements.wishing.just.lucky": "чтобы увидеть насколько тебе повезло",
   "statements.wrongChain.one":
     "Check out this guide to help you get connected.",
   "statements.feed.bumpkin.one": "You have no food in your inventory.",
@@ -4671,7 +4701,6 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...onboarding,
   ...orderhelp,
   ...pageFounds,
-  ...parsnip,
   ...pending,
   ...personHood,
   ...piratechest,
@@ -4695,6 +4724,7 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,
+  ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
   ...settingsMenu,
@@ -4712,6 +4742,7 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...subSettings,
   ...swarming,
   ...tieBreaker,
+  ...timeUnits,
   ...toolDescriptions,
   ...transactionTerms,
   ...transfer,
