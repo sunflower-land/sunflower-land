@@ -1,5 +1,3 @@
-import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { InventoryItemName } from "./game";
 import { translate } from "lib/i18n/translate";
 
@@ -39,7 +37,7 @@ export type ExoticCropName =
 
 export type ExoticCrop = {
   description: string;
-  sellPrice: Decimal;
+  sellPrice: number;
   name: ExoticCropName;
 };
 
@@ -47,36 +45,36 @@ export const EXOTIC_CROPS: Record<ExoticCropName, ExoticCrop> = {
   "Black Magic": {
     name: "Black Magic",
     description: translate("description.black.magic"),
-    sellPrice: marketRate(32000),
+    sellPrice: 32000,
   },
   "Golden Helios": {
     name: "Golden Helios",
     description: translate("description.golden.helios"),
-    sellPrice: marketRate(16000),
+    sellPrice: 16000,
   },
   Chiogga: {
     name: "Chiogga",
     description: translate("description.chiogga"),
-    sellPrice: marketRate(8000),
+    sellPrice: 8000,
   },
   "Purple Cauliflower": {
     name: "Purple Cauliflower",
     description: translate("description.purple.cauliflower"),
-    sellPrice: marketRate(3200),
+    sellPrice: 3200,
   },
   "Adirondack Potato": {
     name: "Adirondack Potato",
     description: translate("description.adirondack.potato"),
-    sellPrice: marketRate(2400),
+    sellPrice: 2400,
   },
   "Warty Goblin Pumpkin": {
     name: "Warty Goblin Pumpkin",
     description: translate("description.warty.goblin.pumpkin"),
-    sellPrice: marketRate(1600),
+    sellPrice: 1600,
   },
   "White Carrot": {
     name: "White Carrot",
     description: translate("description.white.carrot"),
-    sellPrice: marketRate(800),
+    sellPrice: 800,
   },
 };
