@@ -1,4 +1,5 @@
 import { translate } from "lib/i18n/translate";
+import { Seed } from "./seeds";
 
 export type CropName =
   | "Sunflower"
@@ -123,89 +124,96 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
 
 export type CropSeedName = `${CropName} Seed`;
 
-export type CropSeed = {
-  name: CropSeedName;
-  description: string;
-  price: number;
-  bumpkinLevel?: number;
-  disabled?: boolean;
-};
-
-export const CROP_SEEDS: () => Record<CropSeedName, CropSeed> = () => ({
+export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
   "Sunflower Seed": {
-    name: "Sunflower Seed",
-    description: translate("description.sunflower"),
     price: 0.01,
+    description: translate("description.sunflower"),
+    plantSeconds: 60,
+    bumpkinLevel: 1,
+    yield: "Sunflower",
   },
   "Potato Seed": {
-    name: "Potato Seed",
-    description: translate("description.potato"),
     price: 0.1,
+    description: translate("description.potato"),
+    plantSeconds: 5 * 60,
+    bumpkinLevel: 1,
+    yield: "Potato",
   },
   "Pumpkin Seed": {
-    name: "Pumpkin Seed",
     description: translate("description.pumpkin"),
     price: 0.2,
+    plantSeconds: 30 * 60,
     bumpkinLevel: 2,
+    yield: "Pumpkin",
   },
   "Carrot Seed": {
-    name: "Carrot Seed",
     description: translate("description.carrot"),
     price: 0.5,
+    plantSeconds: 60 * 60,
     bumpkinLevel: 2,
+    yield: "Carrot",
   },
   "Cabbage Seed": {
-    name: "Cabbage Seed",
     description: translate("description.cabbage"),
     price: 1,
     bumpkinLevel: 3,
+    plantSeconds: 2 * 60 * 60,
+    yield: "Cabbage",
   },
   "Beetroot Seed": {
-    name: "Beetroot Seed",
     description: translate("description.beetroot"),
     price: 2,
     bumpkinLevel: 3,
+    plantSeconds: 4 * 60 * 60,
+    yield: "Beetroot",
   },
   "Cauliflower Seed": {
-    name: "Cauliflower Seed",
     description: translate("description.cauliflower"),
     price: 3,
     bumpkinLevel: 4,
+    plantSeconds: 8 * 60 * 60,
+    yield: "Cauliflower",
   },
   "Parsnip Seed": {
-    name: "Parsnip Seed",
     description: translate("description.parsnip"),
     price: 5,
     bumpkinLevel: 4,
+    plantSeconds: 12 * 60 * 60,
+    yield: "Parsnip",
   },
   "Eggplant Seed": {
-    name: "Eggplant Seed",
     description: translate("description.eggplant"),
     price: 6,
     bumpkinLevel: 5,
+    plantSeconds: 16 * 60 * 60,
+    yield: "Eggplant",
   },
   "Corn Seed": {
-    name: "Corn Seed",
     description: translate("description.corn"),
     price: 7,
     bumpkinLevel: 5,
+    plantSeconds: 20 * 60 * 60,
+    yield: "Corn",
   },
   "Radish Seed": {
-    name: "Radish Seed",
     description: translate("description.radish"),
     price: 7,
     bumpkinLevel: 5,
+    plantSeconds: 24 * 60 * 60,
+    yield: "Radish",
   },
   "Wheat Seed": {
-    name: "Wheat Seed",
     description: translate("description.wheat"),
     price: 5,
     bumpkinLevel: 5,
+    plantSeconds: 24 * 60 * 60,
+    yield: "Wheat",
   },
   "Kale Seed": {
-    name: "Kale Seed",
-    description: translate("description.kale"),
     price: 7,
+    description: translate("description.kale"),
     bumpkinLevel: 7,
+    plantSeconds: 36 * 60 * 60,
+    yield: "Kale",
   },
 });
