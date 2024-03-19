@@ -2579,13 +2579,6 @@ export type PageFounds =
   | "pageFounds.pageContainsInfo"
   | "pageFounds";
 
-export type Parsnip =
-  | "parsnip.hat"
-  | "parsnip.miss"
-  | "parsnip.Bonus"
-  | "parsnip.wearable"
-  | "parsnip.found";
-
 export type Pending = "pending.calcul" | "pending.comeback";
 
 export type PersonHood =
@@ -3258,7 +3251,6 @@ export type TranslationKeys =
   | OnCollectReward
   | OrderHelp
   | PageFounds
-  | Parsnip
   | Pending
   | PersonHood
   | PirateChest
