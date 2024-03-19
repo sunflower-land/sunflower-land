@@ -20,6 +20,7 @@ export type Scenes = {
   beach: Room<PlazaRoomState> | undefined;
   crop_boom: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;
+  retreat: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
