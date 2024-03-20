@@ -4549,6 +4549,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.bumpkin.play":
     "To play the game, you always need a Bumpkin on your farm.",
   "withdraw.buds": "Select Buds to withdraw",
+  "withdraw.budRestricted": "Used in today's bud box",
 };
 
 const world: Record<World, string> = {

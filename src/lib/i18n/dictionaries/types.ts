@@ -3082,6 +3082,7 @@ export type Withdraw =
   | "withdraw.select.item"
   | "withdraw.opensea"
   | "withdraw.restricted"
+  | "withdraw.budRestricted"
   | "withdraw.bumpkin.wearing"
   | "withdraw.bumpkin.sure.withdraw"
   | "withdraw.bumpkin.play"

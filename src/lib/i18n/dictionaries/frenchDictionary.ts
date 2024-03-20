@@ -4727,6 +4727,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.select.item": "Sélectionnez les objets à retirer",
   "withdraw.opensea":
     "Une fois retirés, vous pourrez voir vos objets sur OpenSea.",
+  "withdraw.budRestricted": ENGLISH_TERMS["withdraw.budRestricted"],
   "withdraw.restricted":
     "Certains objets ne peuvent pas être retirés. D'autres objets peuvent être restreints lorsque",
   "withdraw.bumpkin.wearing":
