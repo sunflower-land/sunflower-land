@@ -14,6 +14,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getDailyBudBoxType } from "features/world/ui/chests/BudBox";
+import { getDayOfYear } from "lib/utils/time";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -43,6 +45,17 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
     setUnselected((prev) => [...prev, budId]);
     setSelected((prev) => prev.filter((bud) => bud !== budId));
   };
+
+  const dailyBudBoxType = getDailyBudBoxType(new Date());
+
+  const openedAt = goblinState.context.state.pumpkinPlaza?.budBox?.openedAt;
+
+  const hasOpenedRecently =
+    !!openedAt && getDayOfYear(new Date()) === getDayOfYear(new Date(openedAt));
+
+  const isRestricted =
+    hasOpenedRecently &&
+    selected.some((id) => buds[id].type === dailyBudBoxType);
 
   return (
     <>
@@ -111,7 +124,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
       <Button
         className="mt-3"
         onClick={() => onWithdraw(selected)}
-        disabled={selected.length <= 0}
+        disabled={selected.length <= 0 || isRestricted}
       >
         {t("withdraw")}
       </Button>

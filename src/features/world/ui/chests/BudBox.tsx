@@ -24,20 +24,28 @@ interface Props {
   onClose: () => void;
 }
 
-const BUD_DAYS: Record<TypeTrait, number> = {
-  // Monday
-  Plaza: 1,
-  Woodlands: 2,
-  Cave: 2,
-  Sea: 3,
-  Castle: 4,
-  Port: 4,
-  Retreat: 5,
-  Saphiro: 6,
-  // Sunday
-  Snow: 0,
-  Beach: 0,
-};
+const BUD_ORDER: TypeTrait[] = [
+  "Plaza",
+  "Woodlands",
+  "Cave",
+  "Sea",
+  "Castle",
+  "Port",
+  "Retreat",
+  "Saphiro",
+  "Snow",
+  "Beach",
+];
+
+/**
+ * Based on day of year + year to get a consistent order of buds
+ */
+export function getDailyBudBoxType(date: Date): TypeTrait {
+  const dayOfYear = getDayOfYear(date);
+
+  const index = dayOfYear % BUD_ORDER.length;
+  return BUD_ORDER[index];
+}
 
 const ICONS: Record<TypeTrait, string> = {
   Plaza: budIcon,
@@ -111,12 +119,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  const utcDayOfWeek = new Date().getUTCDay();
-
-  const days = [];
-  for (let i = 0; i < 7; i++) {
-    days.push((utcDayOfWeek + i) % 7);
-  }
+  const days = new Array(7).fill(0);
 
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;
@@ -145,38 +148,37 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {days.map((dayIndex, index) => {
-          const buds = getKeys(BUD_DAYS).filter(
-            (bud) => BUD_DAYS[bud] === dayIndex
+        {days.map((BUD_BOX, index) => {
+          const dailyBud = getDailyBudBoxType(
+            new Date(Date.now() + index * 24 * 60 * 60 * 1000)
           );
 
-          const hasBud = buds.some((type) => playerBudTypes.includes(type));
+          const hasBud = buds.some((type) => playerBudTypes.includes(dailyBud));
+
+          const date = new Date(
+            new Date().getTime() + index * 24 * 60 * 60 * 1000
+          );
+
+          const dayOfWeek = date.toLocaleDateString("en-US", {
+            weekday: "long",
+          });
+
           return (
             <OuterPanel
-              key={dayIndex}
+              key={index}
               className="flex justify-between relative mb-1"
             >
               <div className="flex justify-between relative mb-1">
-                {/* {buds.map((type, index) => (
-                  <img
-                    src={budIcon}
-                    className={classNames("h-8 img-highlight", {
-                      "-ml-2": index > 0,
-                    })}
-                  />
-                ))} */}
-                {buds.map((type) => (
-                  <div key={type}>
-                    <Label
-                      type={
-                        playerBudTypes.includes(type) ? "success" : "default"
-                      }
-                      className="mr-1"
-                    >
-                      {type}
-                    </Label>
-                  </div>
-                ))}
+                <div>
+                  <Label
+                    type={
+                      playerBudTypes.includes(dailyBud) ? "success" : "default"
+                    }
+                    className="mr-1"
+                  >
+                    {dailyBud}
+                  </Label>
+                </div>
               </div>
               {index === 0 && !hasOpened && (
                 <Button
@@ -209,11 +211,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
               )}
               {index > 0 && (
                 <Label type="default" className="absolute -top-2 -right-2">
-                  {
-                    new Date(new Date().getTime() + index * 24 * 60 * 60 * 1000)
-                      .toISOString()
-                      .split("T")[0]
-                  }
+                  {dayOfWeek}
                 </Label>
               )}
             </OuterPanel>
