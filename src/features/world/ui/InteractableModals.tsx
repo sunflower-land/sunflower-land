@@ -21,6 +21,7 @@ import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
+import { BankModal } from "features/goblins/bank/components/BankModal";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -41,6 +42,7 @@ type InteractableName =
   | "homeless_man"
   | "potion_table"
   | "dawn_book_1"
+  | "bank"
   | "dawn_book_2"
   | "dawn_book_3"
   | "dawn_book_4"
@@ -305,6 +307,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "raffle"} onHide={closeModal}>
         <Raffle onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "bank"} onHide={closeModal}>
+        <BankModal onClose={closeModal} farmAddress="?" />
       </Modal>
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal
