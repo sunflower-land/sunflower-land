@@ -38,7 +38,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
 
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = selected.coins ?? 0;
 
   const landscapingMachine = gameService.state.children
     .landscaping as MachineInterpreter;
@@ -48,7 +48,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       action: "decoration.bought",
       placeable: selected.name,
       requirements: {
-        sfl: selected.sfl,
+        coins: price,
         ingredients: selected.ingredients,
       },
       multiple: true,
@@ -58,15 +58,6 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       gameAnalytics.trackSink({
         currency: "Block Buck",
         amount: selected.ingredients["Block Buck"].toNumber() ?? 1,
-        item: selected.name,
-        type: "Collectible",
-      });
-    }
-
-    if (selected.sfl) {
-      gameAnalytics.trackSink({
-        currency: "SFL",
-        amount: selected.sfl.toNumber(),
         item: selected.name,
         type: "Collectible",
       });
@@ -96,7 +87,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
           }}
           requirements={{
             resources: selected.ingredients,
-            sfl: price,
+            coins: price,
           }}
           actionView={
             <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>

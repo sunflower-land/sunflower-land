@@ -6,7 +6,7 @@ import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
 import token from "assets/icons/token_2.png";
-import coin from "assets/icons/coin.webp";
+import coins from "assets/icons/coins.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -148,7 +148,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
-        return coin;
+        return coins;
       case "sfl":
       case "sellForSfl":
         return token;
