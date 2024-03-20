@@ -34,7 +34,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const selected = TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
 
-  const price = selected.sfl.mul(BUY_AMOUNT) ?? new Decimal(0);
+  const price = selected.price * BUY_AMOUNT ?? 0;
 
   const lessIngredients = (amount = BUY_AMOUNT) =>
     getKeys(selected.ingredients).some((name) =>
@@ -44,7 +44,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
   const lessFunds = (amount = BUY_AMOUNT) => {
     if (!price) return;
 
-    return state.balance.lessThan(price.mul(amount));
+    return state.coins < price * amount;
   };
 
   const onToolClick = (seedName: TreasureToolName) => {
@@ -92,10 +92,7 @@ export const TreasureShopBuy: React.FC<Props> = ({ onClose }) => {
           details={{
             item: selectedName,
           }}
-          requirements={{
-            sfl: price,
-            resources: selected.ingredients,
-          }}
+          requirements={{ coins: price, resources: selected.ingredients }}
           actionView={Action()}
         />
       }

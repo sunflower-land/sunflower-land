@@ -71,7 +71,7 @@ export function sellTreasure({ state, action }: Options) {
     price = EXOTIC_CROPS[item].sellPrice;
     earned = price * amount;
     bumpkin.activity = trackActivity(
-      "SFL Earned",
+      "Coins Earned",
       bumpkin.activity,
       new Decimal(earned)
     );
