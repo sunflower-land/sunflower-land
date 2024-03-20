@@ -3,6 +3,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
+import Decimal from "decimal.js-light";
 
 /**
  * The props for the details for items.
@@ -18,6 +19,7 @@ interface ItemDetailsProps {
  */
 interface PropertiesProps {
   coins?: number;
+  sfl?: Decimal;
 }
 
 /**
@@ -75,6 +77,9 @@ export const ShopSellDetails: React.FC<Props> = ({
             type="sellForCoins"
             requirement={properties.coins}
           />
+        )}
+        {!!properties.sfl && (
+          <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
         )}
       </div>
     );
