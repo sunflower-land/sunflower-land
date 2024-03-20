@@ -10,7 +10,7 @@ import token from "assets/icons/token_2.png";
 import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";
-import coin from "assets/icons/coin.webp";
+import coins from "assets/icons/coins.webp";
 
 const MAX_TOAST = 6;
 
@@ -19,7 +19,7 @@ const getToastIcon = (item: ToastItem) => {
 
   if (item === "XP") return levelup;
 
-  if (item === "coins") return coin;
+  if (item === "coins") return coins;
 
   return ITEM_DETAILS[item]?.image;
 };
