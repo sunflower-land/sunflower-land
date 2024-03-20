@@ -1731,6 +1731,12 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
   "description.primula.enigma":
     "Waouh ! Quelle belle fleur ! Je pense que celle-ci mérite d'être placée sur votre ferme.",
+  "description.flower.rug":
+    "Ajoutez une touche d'élégance naturelle à votre maison.",
+  "description.tea.rug":
+    "Un magnifique tapis d'une teinte vert foncé qui rappelle une prairie vibrante en pleine floraison.",
+  "description.green.field.rug":
+    "Ajoutez une touche d'élégance naturelle à votre maison.",
 
   "description.red.daffodil": "Une red daffodil.",
   "description.yellow.daffodil": "Une yellow daffodil.",

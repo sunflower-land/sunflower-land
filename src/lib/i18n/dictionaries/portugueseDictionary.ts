@@ -1713,6 +1713,9 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
   "description.primula.enigma":
     "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
+  "description.flower.rug": ENGLISH_TERMS["description.flower.rug"],
+  "description.tea.rug": ENGLISH_TERMS["description.tea.rug"],
+  "description.green.field.rug": ENGLISH_TERMS["description.green.field.rug"],
 
   "description.red.daffodil": "Um narciso vermelho.",
   "description.yellow.daffodil": "Um narciso amarelo.",
