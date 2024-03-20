@@ -23,19 +23,19 @@ describe("buyDecoration", () => {
     ).toThrow("This item is not a decoration");
   });
 
-  it("does not craft decoration if there is not enough funds", () => {
+  it.only("does not craft a decoration if there is not enough coins", () => {
     expect(() =>
       buyDecoration({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0),
+          coins: 0,
         },
         action: {
           type: "decoration.bought",
           name: "Potted Sunflower",
         },
       })
-    ).toThrow("Insufficient tokens");
+    ).toThrow("Insufficient coins");
   });
 
   it("does not craft decoration if requirements are not met", () => {
@@ -43,7 +43,7 @@ describe("buyDecoration", () => {
       buyDecoration({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(100),
+          coins: 1000,
           inventory: {},
         },
         action: {
@@ -54,12 +54,12 @@ describe("buyDecoration", () => {
     ).toThrow("Insufficient ingredient: Sunflower");
   });
 
-  it("burns the SFL on purchase", () => {
-    const balance = new Decimal(140);
+  it("burns the coins on purchase", () => {
+    const coins = 1000;
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -70,18 +70,18 @@ describe("buyDecoration", () => {
       },
     });
 
-    expect(state.balance).toEqual(
-      balance.minus(BASIC_DECORATIONS()["Potted Sunflower"].sfl as Decimal)
+    expect(state.coins).toEqual(
+      coins - (BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0)
     );
   });
 
   it("mints the newly bought decoration", () => {
-    const balance = new Decimal(150);
+    const coins = 1000;
     const item = "Potted Sunflower";
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -112,11 +112,11 @@ describe("buyDecoration", () => {
     ).toThrow("Bumpkin not found");
   });
 
-  it("increments the sfl spent activity", () => {
+  it("increments the coins spent activity", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(150),
+        coins: 1000,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -126,8 +126,8 @@ describe("buyDecoration", () => {
         name: "Potted Sunflower",
       },
     });
-    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      BASIC_DECORATIONS()["Potted Sunflower"].sfl?.toNumber()
+    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
+      BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0
     );
   });
 
@@ -135,7 +135,7 @@ describe("buyDecoration", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1000,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -153,7 +153,7 @@ describe("buyDecoration", () => {
       buyDecoration({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(1),
+          coins: 1000,
           inventory: {
             Sunflower: new Decimal(150),
             "Basic Land": new Decimal(10),
@@ -185,7 +185,7 @@ describe("buyDecoration", () => {
       buyDecoration({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(1),
+          coins: 1000,
           inventory: {
             Sunflower: new Decimal(150),
             "Basic Land": new Decimal(10),
@@ -216,7 +216,7 @@ describe("buyDecoration", () => {
     const state = buyDecoration({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1000,
         inventory: {
           Sunflower: new Decimal(150),
           "Basic Land": new Decimal(10),

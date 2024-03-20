@@ -6,10 +6,8 @@ import {
   getKeys,
 } from "features/game/types/craftables";
 import {
-  BASIC_DECORATIONS,
-  LANDSCAPING_DECORATIONS,
+  DECORATIONS,
   LandscapingDecorationName,
-  POTION_HOUSE_DECORATIONS,
   ShopDecorationName,
 } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
@@ -31,21 +29,14 @@ type Options = {
   createdAt?: number;
 };
 
-const DECORATIONS = (state: GameState, date: Date) => {
-  return {
-    ...BASIC_DECORATIONS(),
-    ...LANDSCAPING_DECORATIONS(),
-    ...POTION_HOUSE_DECORATIONS(),
-  };
-};
 export function buyDecoration({
   state,
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy: GameState = cloneDeep(state);
   const { name } = action;
-  const desiredItem = DECORATIONS(stateCopy, new Date(createdAt))[name];
+  const desiredItem = DECORATIONS[name];
 
   if (!desiredItem) {
     throw new Error("This item is not a decoration");
@@ -57,22 +48,10 @@ export function buyDecoration({
     throw new Error("Bumpkin not found");
   }
 
-  if (desiredItem.from && desiredItem.from?.getTime() > createdAt) {
-    throw new Error("Too early");
-  }
+  const price = desiredItem.coins ?? 0;
 
-  if (desiredItem.to && desiredItem.to?.getTime() < createdAt) {
-    throw new Error("Too late");
-  }
-
-  const totalExpenses = desiredItem.sfl;
-
-  if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {
-    throw new Error("Insufficient tokens");
-  }
-
-  if (desiredItem.limit && stateCopy.inventory[name]?.gte(desiredItem.limit)) {
-    throw new Error("Max limit reached");
+  if (price && stateCopy.coins < price) {
+    throw new Error("Insufficient coins");
   }
 
   const subtractedInventory = getKeys(desiredItem.ingredients)?.reduce(
@@ -96,9 +75,9 @@ export function buyDecoration({
   const oldAmount = stateCopy.inventory[name] ?? new Decimal(0);
 
   bumpkin.activity = trackActivity(
-    "SFL Spent",
+    "Coins Spent",
     bumpkin?.activity,
-    totalExpenses ?? new Decimal(0)
+    new Decimal(price)
   );
   bumpkin.activity = trackActivity(
     `${name} Bought`,
@@ -138,15 +117,11 @@ export function buyDecoration({
     });
   }
 
-  return {
-    ...stateCopy,
-    balance: totalExpenses
-      ? stateCopy.balance.sub(totalExpenses)
-      : stateCopy.balance,
-    inventory: {
-      ...stateCopy.inventory,
-      ...subtractedInventory,
-      [name]: oldAmount.add(1) as Decimal,
-    },
+  stateCopy.coins = stateCopy.coins - price;
+  stateCopy.inventory = {
+    ...subtractedInventory,
+    [name]: oldAmount.add(1),
   };
+
+  return stateCopy;
 }

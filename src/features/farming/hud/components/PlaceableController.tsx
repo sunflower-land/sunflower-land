@@ -7,7 +7,7 @@ import { Context } from "features/game/GameProvider";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import token from "assets/icons/token_2.png";
+import coins from "assets/icons/coins.webp";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
@@ -29,6 +29,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   location: CollectibleLocation;
 }
+
 export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
   const child = gameService.state.children.landscaping as MachineInterpreter;
@@ -77,16 +78,14 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     let hasRequirements = false;
     if (requirements) {
-      const hasSFL = gameState.context.state.balance.gte(
-        requirements.sfl.mul(2)
-      );
+      const hasCoins = gameState.context.state.coins > requirements.coins * 2;
       const hasIngredients = getKeys(requirements.ingredients).every((name) =>
         gameState.context.state.inventory[name]?.gte(
           requirements.ingredients[name]?.mul(2) ?? 0
         )
       );
 
-      hasRequirements = hasSFL && hasIngredients;
+      hasRequirements = hasCoins && hasIngredients;
     }
 
     let placeMore = false;
@@ -155,10 +154,10 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     return (
       <div className="flex flex-wrap justify-center items-center my-1">
-        {requirements.sfl.gt(0) && (
+        {requirements.coins > 0 && (
           <div className="flex mr-2">
-            <img src={token} className="h-6 mr-1" />
-            <p className="text-sm">{requirements.sfl.toNumber()}</p>
+            <img src={coins} className="h-6 mr-1" />
+            <p className="text-sm">{requirements.coins}</p>
           </div>
         )}
         {getKeys(requirements.ingredients).map((name) => (

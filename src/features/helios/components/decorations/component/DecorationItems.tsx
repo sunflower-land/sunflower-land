@@ -10,22 +10,11 @@ import { Decoration, DecorationName } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-function isNotReady(collectible: Decoration) {
-  return (
-    collectible.from &&
-    collectible.to &&
-    (collectible.from.getTime() > Date.now() ||
-      collectible.to.getTime() < Date.now())
-  );
-}
 
 const ADVANCED_DECORATIONS: DecorationName[] = [
   "Fence",
@@ -55,12 +44,12 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = selected.coins;
 
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.balance.lessThan(price.toString());
+    return state.coins < price;
   };
 
   const lessIngredients = () =>
@@ -82,15 +71,6 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
       });
     }
 
-    if (selected.sfl) {
-      gameAnalytics.trackSink({
-        currency: "SFL",
-        amount: selected.sfl.toNumber(),
-        item: selected.name,
-        type: "Collectible",
-      });
-    }
-
     if (selected.ingredients[getSeasonalTicket()]) {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
@@ -103,17 +83,17 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
     shortcutItem(selected.name);
   };
 
-  const limitReached = () =>
-    selected.limit ? inventory[selected.name]?.gte(selected.limit) : false;
-
   const [isConfirmBuyModalOpen, showConfirmBuyModal] = useState(false);
+
   const openConfirmModal = () => {
     showConfirmBuyModal(true);
   };
+
   const handleBuy = () => {
     buy();
     showConfirmBuyModal(false);
   };
+
   const closeConfirmationModal = () => {
     showConfirmBuyModal(false);
   };
@@ -125,23 +105,15 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
           gameState={state}
           details={{
             item: selected.name,
-            from: selected.from,
-            to: selected.to,
           }}
           requirements={{
             resources: selected.ingredients,
-            sfl: price,
+            coins: price,
           }}
-          limit={selected.limit}
           actionView={
             <>
               <Button
-                disabled={
-                  isNotReady(selected) ||
-                  lessFunds() ||
-                  lessIngredients() ||
-                  limitReached()
-                }
+                disabled={lessFunds() || lessIngredients()}
                 onClick={openConfirmModal}
               >
                 {t("buy")}
@@ -159,12 +131,7 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                   </div>
                   <div className="flex justify-content-around mt-2 space-x-1">
                     <Button
-                      disabled={
-                        isNotReady(selected) ||
-                        lessFunds() ||
-                        lessIngredients() ||
-                        limitReached()
-                      }
+                      disabled={lessFunds() || lessIngredients()}
                       onClick={handleBuy}
                     >
                       {t("buy")}
@@ -184,8 +151,6 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
           {Object.values(items)
             .filter((item) => !ADVANCED_DECORATIONS.includes(item.name))
             .map((item: Decoration) => {
-              const isTimeLimited = isNotReady(items[item.name] as Decoration);
-
               return (
                 <Box
                   isSelected={selected.name === item.name}
@@ -193,20 +158,6 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                   onClick={() => setSelected(item)}
                   image={ITEM_DETAILS[item.name].image}
                   count={inventory[item.name]}
-                  showOverlay={isTimeLimited}
-                  overlayIcon={
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      id="confirm"
-                      alt="confirm"
-                      className="object-contain absolute"
-                      style={{
-                        width: `${PIXEL_SCALE * 8}px`,
-                        top: `${PIXEL_SCALE * -4}px`,
-                        right: `${PIXEL_SCALE * -4}px`,
-                      }}
-                    />
-                  }
                 />
               );
             })}

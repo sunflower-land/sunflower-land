@@ -39,12 +39,12 @@ describe("craftCollectible", () => {
     ).toThrow("Insufficient ingredient: Gold");
   });
 
-  it("does not craft item if there is insufficient SFL", () => {
+  it("does not craft item if there is insufficient coins", () => {
     expect(() =>
       craftCollectible({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0),
+          coins: 0,
           inventory: {
             Wood: new Decimal(100),
             Radish: new Decimal(60),
@@ -57,14 +57,14 @@ describe("craftCollectible", () => {
           name: "Laurie the Chuckle Crow",
         },
       })
-    ).toThrow("Insufficient SFL");
+    ).toThrow("Insufficient Coins");
   });
 
-  it("crafts item if there is sufficient ingredients and no SFL requirement", () => {
+  it("crafts item if there is sufficient ingredients and no coin requirement", () => {
     const result = craftCollectible({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(0),
+        coins: 0,
         inventory: {
           Gold: new Decimal(5),
           Apple: new Decimal(10),
@@ -88,7 +88,7 @@ describe("craftCollectible", () => {
           stock: {
             "Immortal Pear": new Decimal(0),
           },
-          balance: new Decimal(10),
+          coins: 1000,
         },
         action: {
           type: "collectible.crafted",
@@ -102,7 +102,7 @@ describe("craftCollectible", () => {
     const state = craftCollectible({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1000,
         inventory: {
           Gold: new Decimal(10),
           Apple: new Decimal(15),
@@ -124,7 +124,7 @@ describe("craftCollectible", () => {
       craftCollectible({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(1),
+          coins: 1000,
           inventory: {
             Sunflower: new Decimal(150),
             "Basic Land": new Decimal(10),
@@ -158,7 +158,7 @@ describe("craftCollectible", () => {
       craftCollectible({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(1),
+          coins: 1000,
           inventory: {
             Sunflower: new Decimal(150),
             "Basic Land": new Decimal(10),
@@ -191,7 +191,7 @@ describe("craftCollectible", () => {
     const state = craftCollectible({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1000,
         inventory: {
           Sunflower: new Decimal(150),
           "Basic Land": new Decimal(10),
