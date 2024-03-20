@@ -1303,6 +1303,7 @@ export type ErrorTerms =
   | "error.composterAlreadyBoosted"
   | "error.missingEggs"
   | "error.insufficientSFL"
+  | "error.insufficientCoins"
   | "error.insufficientSpaceForChickens"
   | "error.dailyAttemptsExhausted"
   | "error.missingRod"
