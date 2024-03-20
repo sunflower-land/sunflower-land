@@ -1,6 +1,4 @@
-import Decimal from "decimal.js-light";
 import { CRAFTABLE_TOOLS } from "../events/landExpansion/craftTool";
-import { marketRate } from "../lib/halvening";
 import { CONSUMABLES } from "./consumables";
 import { DECORATION_DIMENSIONS } from "./decorations";
 import { RESOURCES } from "./resources";
@@ -71,75 +69,75 @@ export interface Treasure {
 }
 
 export type SellableTreasure = {
-  sellPrice: Decimal;
+  sellPrice: number;
 } & Treasure;
 
 export const SELLABLE_TREASURE: Record<BeachBountyTreasure, SellableTreasure> =
   {
     "Clam Shell": {
-      sellPrice: marketRate(375),
+      sellPrice: 375,
       description: "A clam shell.",
       type: "good",
     },
     Coral: {
-      sellPrice: marketRate(1500),
+      sellPrice: 1500,
       description: "A piece of coral, it's pretty",
       type: "good",
     },
     Crab: {
-      sellPrice: marketRate(15),
+      sellPrice: 15,
       description: "A crab, watch out for it's claws!",
       type: "average",
     },
     Pearl: {
-      sellPrice: marketRate(3750),
+      sellPrice: 3750,
       description: "Shimmers in the sun.",
       type: "rare",
     },
     "Pirate Bounty": {
-      sellPrice: marketRate(7500),
+      sellPrice: 7500,
       description: "A bounty for a pirate. It's worth a lot of money.",
       type: "rare",
     },
     Seaweed: {
-      sellPrice: marketRate(75),
+      sellPrice: 75,
       description: "Seaweed.",
       type: "average",
     },
     Starfish: {
-      sellPrice: marketRate(112.5),
+      sellPrice: 112.5,
       description: "The star of the sea.",
       type: "average",
     },
     "Wooden Compass": {
-      sellPrice: marketRate(131.25),
+      sellPrice: 131.25,
       description: "?",
       type: "good",
     },
     "Iron Compass": {
-      sellPrice: marketRate(187.5),
+      sellPrice: 187.5,
       description:
         "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
       type: "good",
     },
     "Old Bottle": {
-      sellPrice: marketRate(22.5),
+      sellPrice: 22.5,
       description:
         "Antique pirate bottle, echoing tales of high seas adventure.",
       type: "average",
     },
     "Sea Cucumber": {
-      sellPrice: marketRate(22.5),
+      sellPrice: 22.5,
       description: "A sea cucumber.",
       type: "average",
     },
     Pipi: {
-      sellPrice: marketRate(187.5),
+      sellPrice: 187.5,
       description: "Plebidonax deltoides, found in the Pacific Ocean.",
       type: "good",
     },
     "Emerald Compass": {
-      sellPrice: marketRate(187.5),
+      sellPrice: 187.5,
       description:
         "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
       type: "good",
