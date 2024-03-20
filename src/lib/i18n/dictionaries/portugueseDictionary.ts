@@ -1860,6 +1860,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.composterAlreadyBoosted": "Já impulsionado",
   "error.missingEggs": "Ovos em falta",
   "error.insufficientSFL": "SFL insuficiente",
+  "error.insufficientCoins": "Insufficient Coins",
   "error.insufficientSpaceForChickens":
     "Espaço insuficiente para mais galinhas",
   "error.dailyAttemptsExhausted": "Tentativas diárias esgotadas",
