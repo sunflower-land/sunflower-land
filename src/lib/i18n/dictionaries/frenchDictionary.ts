@@ -1,4 +1,3 @@
-import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -2369,7 +2368,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket":
     "Un ticket pour participer au concours de fin de saison",
   "description.babyPanda": "Un adorable panda de l'événement Gas Hero.",
-  "description.baozi": ENGLISH_TERMS["description.baozi"],
+  "description.baozi":
+    "Une délicieuse gâterie de l'événement du Nouvel An lunaire",
 
   // Objets de Pâques
   "description.egg.basket": "Événement de Pâques",
@@ -2740,8 +2740,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "Les Bumpkins contrôlent ces îles, nous laissant, les gobelins, avec peu de travail et encore moins de nourriture.",
   "interactableModals.plazaGreenBook.message2":
     "Nous luttons pour l'égalité, un endroit que nous pouvons appeler chez nous, où nous pouvons vivre et prospérer.",
-  "interactableModals.fanArt.winner":
-    ENGLISH_TERMS["interactableModals.fanArt1.message"],
+  "interactableModals.fanArt.winner": "Gagnant du Fan art",
   "interactableModals.fanArt1.message":
     "Félicitations Palisman, le gagnant du premier concours de Fan Art",
   "interactableModals.fanArt2.message":
@@ -4062,19 +4061,17 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": ENGLISH_TERMS["install.app"], // "Install App",
-  "magic.link": ENGLISH_TERMS["magic.link"], // "Magic Link",
-  "generating.link": ENGLISH_TERMS["generating.link"], // "Generating Link",
-  "generating.code": ENGLISH_TERMS["generating.code"], // "Generating Code",
+  "install.app": "Installer l'application",
+  "magic.link": "Lien magique",
+  "generating.link": "Génération du lien",
+  "generating.code": "Génération du code",
   "install.app.desktop.description":
-    ENGLISH_TERMS["install.app.desktop.description"],
-  // "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+    "Scannez le code ci-dessous pour l'installer sur votre appareil. Assurez-vous de l'ouvrir dans le navigateur Safari ou Chrome.",
   "install.app.mobile.metamask.description":
-    ENGLISH_TERMS["install.app.mobile.metamask.description"],
-  // "Copy the magic link below and open it in {{browser}} on your device to install!",
-  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"], // "Do not share this link!",
-  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"], // "Do not share this code!",
-  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"], // "QR code not working?",
+    "Copiez le lien magique ci-dessous et ouvrez-le dans {{browser}} sur votre appareil pour l'installer !",
+  "do.not.share.link": "Ne partagez pas ce lien !",
+  "do.not.share.code": "Ne partagez pas ce code !",
+  "qr.code.not.working": "Le code QR ne fonctionne pas ?",
 };
 
 const quest: Record<Quest, string> = {
@@ -4731,7 +4728,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.select.item": "Sélectionnez les objets à retirer",
   "withdraw.opensea":
     "Une fois retirés, vous pourrez voir vos objets sur OpenSea.",
-  "withdraw.budRestricted": ENGLISH_TERMS["withdraw.budRestricted"],
+  "withdraw.budRestricted": "Utilisé dans la bud box d'aujourd'hui",
   "withdraw.restricted":
     "Certains objets ne peuvent pas être retirés. D'autres objets peuvent être restreints lorsque",
   "withdraw.bumpkin.wearing":
