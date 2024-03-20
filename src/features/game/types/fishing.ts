@@ -58,7 +58,7 @@ export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
     ingredients: {
       "Block Buck": new Decimal(1),
     },
-    sfl: new Decimal(0),
+    price: 0,
     description: translate("purchaseableBait.fishingLure.description"),
     name: "Fishing Lure",
   },
