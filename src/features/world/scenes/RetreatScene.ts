@@ -69,7 +69,7 @@ export class RetreatScene extends BaseScene {
       interactableModalManager.open("wishingWell");
     });
 
-    const balloon = this.add.sprite(63, 49, "balloon");
+    const balloon = this.add.sprite(513, 404, "balloon");
 
     const blacksmith = this.add.sprite(193, 77, "blacksmith");
     this.anims.create({
