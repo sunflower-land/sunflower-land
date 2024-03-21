@@ -27,6 +27,8 @@ export class RetreatScene extends BaseScene {
       `${CONFIG.PROTECTED_IMAGE_URL}/world/goblin_map-extruded.png`
     );
 
+    this.load.image("wishing_well", `world/goblin_wishing_well.png`);
+    this.load.image("balloon", `world/hot_air_balloon.png`);
     this.load.image("bank", `world/goblin_bank.png`);
     this.load.image("exchange", `world/goblin_exchange.png`);
     this.load.spritesheet("blacksmith", `world/goblin_blacksmith.png`, {
@@ -59,6 +61,15 @@ export class RetreatScene extends BaseScene {
     bank.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("bank");
     });
+
+    this.add.sprite(532, 51, "raffle_disc").setDepth(1000000000);
+
+    const wishingWell = this.add.sprite(532, 71, "wishing_well");
+    wishingWell.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("wishingWell");
+    });
+
+    const balloon = this.add.sprite(63, 49, "balloon");
 
     const blacksmith = this.add.sprite(193, 77, "blacksmith");
     this.anims.create({

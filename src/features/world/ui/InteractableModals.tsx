@@ -21,7 +21,8 @@ import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
-import { BankModal } from "features/goblins/bank/components/BankModal";
+import { WishingWellModal } from "features/goblins/wishingWell/WishingWellModal";
+import { BankModal } from "features/game/components/bank/components/BankModal";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -73,7 +74,8 @@ type InteractableName =
   | "christmas_reward"
   | "goblin_hammer"
   | "page_discovered"
-  | "trading_board";
+  | "trading_board"
+  | "wishingWell";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -311,6 +313,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "bank"} onHide={closeModal}>
         <BankModal onClose={closeModal} farmAddress="?" />
       </Modal>
+      {interactable === "wishingWell" && (
+        <WishingWellModal onClose={closeModal} farmAddress="?" />
+      )}
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
