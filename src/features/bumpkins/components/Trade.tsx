@@ -56,13 +56,14 @@ const ListTrade: React.FC<{
           {t("bumpkinTrade.like.list")}
         </Label>
 
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap ">
           {getKeys(TRADE_LIMITS)
             .filter((name) => !!inventory[name]?.gte(1))
+
             .map((name) => (
               <div
                 key={name}
-                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2"
               >
                 <OuterPanel
                   className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
@@ -74,10 +75,11 @@ const ListTrade: React.FC<{
                     {inventory?.[name]?.toFixed(0)}
                   </Label>
                   <span className="text-xs mb-1">{name}</span>
-                  <img src={ITEM_DETAILS[name].image} className="h-10 mb-1" />
+                  <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
                   <Label
                     type="warning"
-                    className="self-stretch text-center w-full mt-1"
+                    className="absolute -bottom-2 text-center mt-1 p-1"
+                    style={{ width: "calc(100% + 10px)" }}
                   >
                     {floorPrices[name]?.toFixed(4)}
                     {t("unit")}

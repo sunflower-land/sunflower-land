@@ -263,7 +263,7 @@ export const BumpkinProfile: React.FC<{
   return (
     <>
       {/* Bumpkin modal */}
-      <Modal show={showModal} onHide={handleHideModal}>
+      <Modal show={showModal} onHide={handleHideModal} size="lg">
         <BumpkinModal
           initialView={viewSkillsPage ? "skills" : "home"}
           onClose={handleHideModal}
