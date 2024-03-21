@@ -18,7 +18,6 @@ import { getKeys } from "features/game/types/craftables";
 import { Bud, TypeTrait } from "features/game/types/buds";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
-import { hasFeatureAccess } from "lib/flags";
 
 // Function to get UTC date at 12:00 AM
 function getUTCDateAtMidnight(date: Date) {
@@ -87,18 +86,6 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
   const [isPicking, setIsPicking] = useState(false);
 
   const [isRevealing, setIsRevealing] = useState(false);
-
-  const hasAccess = hasFeatureAccess(gameState.context.state, "BUD_BOX");
-
-  if (!hasAccess) {
-    return (
-      <CloseButtonPanel onClose={onClose}>
-        <div className="p-2">
-          <Label type="danger">{t("coming.soon")}</Label>
-        </div>
-      </CloseButtonPanel>
-    );
-  }
 
   const open = async () => {
     setIsPicking(true);
