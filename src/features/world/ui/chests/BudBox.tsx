@@ -58,7 +58,14 @@ const BUD_ORDER: TypeTrait[] = [
  * Based on day of year + year to get a consistent order of buds
  */
 export function getDailyBudBoxType(date: Date): TypeTrait {
-  const dayOfYear = getDayOfYear(date);
+  const offset = date.getTimezoneOffset();
+
+  let dateToUse = date;
+
+  if (offset > 0) {
+    dateToUse = new Date(date.getTime() + offset * 60 * 1000);
+  }
+  const dayOfYear = getDayOfYear(dateToUse);
 
   const index = dayOfYear % BUD_ORDER.length;
   return BUD_ORDER[index];
@@ -133,7 +140,12 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
   const currentUTCMidnight = getUTCDateAtMidnight(currentDate);
 
   // Get array of 7 consecutive dates starting from current date
-  const consecutiveDatesArray = getConsecutiveDatesArray(currentUTCMidnight, 7);
+  let consecutiveDatesArray = getConsecutiveDatesArray(currentUTCMidnight, 7);
+
+  // Add timezone offset
+  consecutiveDatesArray = consecutiveDatesArray.map((date) => {
+    return new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
+  });
 
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;
