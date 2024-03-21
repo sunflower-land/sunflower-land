@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import plus from "assets/icons/plus.png";
 import boxChicken from "assets/animals/chickens/box_chicken.png";
-import token from "assets/icons/token_2.png";
+import coins from "assets/icons/coins.webp";
 
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Tab } from "components/ui/Tab";
@@ -54,10 +54,12 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const workingCapacityFull =
     workingChickenCount.greaterThanOrEqualTo(availableSpots);
 
-  const price = ANIMALS()["Chicken"].tokenAmount;
+  const price = ANIMALS["Chicken"].price;
+
   const lessFunds = () => {
     if (price === undefined) return true;
-    return state.balance.lessThan(price);
+
+    return state.coins < price;
   };
 
   const canBuyChicken = !henHouseFull && !workingCapacityFull && !lessFunds();
@@ -74,7 +76,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       action: "chicken.bought",
       // Not used yet
       requirements: {
-        sfl: price,
+        coins: price,
         ingredients: {},
       },
       maximum: availableSpots,
@@ -91,7 +93,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       multiple: true,
       // Not used yet
       requirements: {
-        sfl: new Decimal(0),
+        coins: 0,
         ingredients: {},
       },
     });
@@ -101,56 +103,59 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
   const Details = () => {
     if (selectedChicken === "buy") {
       return (
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">{t("chicken")}</span>
-          <img
-            src={SUNNYSIDE.resource.chicken}
-            className="h-16 img-highlight mt-1"
-            alt="chicken"
-          />
-          <span className="text-center mt-2 text-sm">
-            {t("henHouse.text.one")}
-          </span>
-          <>
-            <div className="border-t border-white w-full mt-2 pt-1">
-              <div className="flex justify-center items-end">
-                <img src={token} className="h-5 mr-1" />
-                <span
-                  className={classNames("text-xs text-center mt-2 ", {
-                    "text-red-500": lessFunds(),
-                  })}
-                >
-                  {`${price?.toString()}`}
-                </span>
+        <>
+          <div className="flex flex-col justify-center items-center p-2 relative">
+            <span className="text-center">{t("chicken")}</span>
+            <img
+              src={SUNNYSIDE.resource.chicken}
+              className="h-16 img-highlight mt-1"
+              alt="chicken"
+            />
+            <span className="text-center mt-2 text-sm">
+              {t("henHouse.text.one")}
+            </span>
+            <>
+              <div className="border-t border-white w-full mt-2 pt-1">
+                <div className="flex justify-center mt-2 items-center">
+                  <img src={coins} className="h-5 mr-1" />
+                  <span
+                    className={classNames("text-xs text-center ", {
+                      "text-red-500": lessFunds(),
+                    })}
+                  >
+                    {`${price?.toString()}`}
+                  </span>
+                </div>
               </div>
-            </div>
-            <Button
-              disabled={!canBuyChicken || autosaving}
-              className="text-xs mt-3 whitespace-nowrap"
-              onClick={handleBuy}
-            >
-              {autosaving ? t("saving") : t("buy")}
-            </Button>
-          </>
-        </div>
+            </>
+          </div>
+          <Button
+            disabled={!canBuyChicken || autosaving}
+            className="text-xs mt-3 whitespace-nowrap"
+            onClick={handleBuy}
+          >
+            {autosaving ? t("saving") : t("buy")}
+          </Button>
+        </>
       );
     }
 
     if (selectedChicken === "lazy") {
       return (
-        <div className="flex flex-col justify-center items-center p-2 relative">
-          <span className="text-center">{t("henHouse.text.two")}</span>
-          <img
-            src={boxChicken}
-            className="h-16 img-highlight mt-1"
-            alt="chicken"
-          />
-          <div className="flex mt-2 relative">
-            <span className="text-center text-sm">
-              {t("henHouse.text.three")}
-            </span>
+        <>
+          <div className="flex flex-col justify-center items-center p-2 relative">
+            <span className="text-center">{t("henHouse.text.two")}</span>
+            <img
+              src={boxChicken}
+              className="h-16 img-highlight mt-1"
+              alt="chicken"
+            />
+            <div className="flex mt-2 relative">
+              <span className="text-center text-sm">
+                {t("henHouse.text.three")}
+              </span>
+            </div>
           </div>
-
           <Button
             className="text-xs mt-3 whitespace-nowrap"
             onClick={handlePlace}
@@ -158,7 +163,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           >
             {autosaving ? t("saving") : "Place"}
           </Button>
-        </div>
+        </>
       );
     }
 
@@ -170,7 +175,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           className="h-16 img-highlight mt-1"
           alt="chicken"
         />
-        <span className="text-center mt-2 text-sm">
+        <span className="text-center mt-2 text-xs">
           {t("henHouse.text.five")}
         </span>
       </div>
@@ -183,7 +188,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
         className="absolute flex"
         style={{
           top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 0}px`,
           right: `${PIXEL_SCALE * 1}px`,
         }}
       >
@@ -204,11 +209,12 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
       </div>
 
       <div
+        className="flex"
         style={{
           minHeight: "200px",
         }}
       >
-        <div className="flex flex-col-reverse sm:flex-row">
+        <div className="flex items-stretch flex-col-reverse sm:flex-row">
           <div
             className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
             style={{ maxHeight: 400 }}

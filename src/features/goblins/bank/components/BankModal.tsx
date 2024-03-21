@@ -36,7 +36,7 @@ export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
         className="absolute flex"
         style={{
           top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 0}px`,
           right: `${PIXEL_SCALE * 1}px`,
         }}
       >
