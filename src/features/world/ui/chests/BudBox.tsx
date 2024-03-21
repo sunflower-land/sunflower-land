@@ -20,6 +20,24 @@ import { secondsTillReset } from "features/helios/components/hayseedHank/Hayseed
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
 
+// Function to get UTC date at 12:00 AM
+function getUTCDateAtMidnight(date: Date) {
+  return new Date(
+    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
+  );
+}
+
+// Function to get an array of 7 consecutive dates starting from the given date
+function getConsecutiveDatesArray(startDate: Date, length: number) {
+  const datesArray = [startDate];
+  for (let i = 1; i < length; i++) {
+    const nextDate = new Date(startDate);
+    nextDate.setUTCDate(startDate.getUTCDate() + i);
+    datesArray.push(getUTCDateAtMidnight(nextDate));
+  }
+  return datesArray;
+}
+
 interface Props {
   onClose: () => void;
 }
@@ -121,6 +139,15 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
 
   const days = new Array(7).fill(0);
 
+  // Get current UTC date
+  const currentDate = new Date();
+
+  // Get UTC date at midnight
+  const currentUTCMidnight = getUTCDateAtMidnight(currentDate);
+
+  // Get array of 7 consecutive dates starting from current date
+  const consecutiveDatesArray = getConsecutiveDatesArray(currentUTCMidnight, 7);
+
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;
     return bud.type;
@@ -148,16 +175,10 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {days.map((BUD_BOX, index) => {
-          const dailyBud = getDailyBudBoxType(
-            new Date(Date.now() + index * 24 * 60 * 60 * 1000)
-          );
+        {consecutiveDatesArray.map((date, index) => {
+          const dailyBud = getDailyBudBoxType(date);
 
           const hasBud = buds.some((type) => playerBudTypes.includes(dailyBud));
-
-          const date = new Date(
-            new Date().getTime() + index * 24 * 60 * 60 * 1000
-          );
 
           const dayOfWeek = date.toLocaleDateString("en-US", {
             weekday: "long",
@@ -165,7 +186,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
 
           return (
             <OuterPanel
-              key={index}
+              key={date.toISOString()}
               className="flex justify-between relative mb-1"
             >
               <div className="flex justify-between relative mb-1">
