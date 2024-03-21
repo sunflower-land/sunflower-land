@@ -312,6 +312,7 @@ export const TEST_FARM: GameState = {
     weeklyCatches: {},
   },
   wardrobe: {},
+  previousWardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
   mailbox: {
@@ -467,6 +468,7 @@ export const EMPTY: GameState = {
   stock: {},
   stockExpiry: {},
   wardrobe: {},
+  previousWardrobe: {},
   conversations: [],
   farmHands: {
     bumpkins: {},

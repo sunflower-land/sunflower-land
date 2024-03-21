@@ -92,6 +92,7 @@ import {
   withdrawSFL,
   withdrawWearables,
 } from "../actions/withdraw";
+import { CONFIG } from "lib/config";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -556,6 +557,7 @@ export function startGame(authContext: AuthContext) {
           kicked: [],
         },
         saveQueued: false,
+        verified: !CONFIG.API_URL,
       },
       states: {
         loading: {

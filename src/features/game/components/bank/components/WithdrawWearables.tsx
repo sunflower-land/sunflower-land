@@ -44,7 +44,19 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   const [selected, setSelected] = useState<Wardrobe>({});
 
   useEffect(() => {
-    setWardrobe(availableWardrobe(gameState.context.state));
+    let available = availableWardrobe(gameState.context.state);
+
+    available = getKeys(available).reduce((acc, key) => {
+      const currentAmount = available[key] ?? 0;
+      const onChainAMount = gameState.context.state.previousWardrobe[key] ?? 0;
+
+      return {
+        ...acc,
+        [key]: Math.min(currentAmount, onChainAMount),
+      };
+    }, {} as Wardrobe);
+
+    setWardrobe(available);
   }, []);
 
   const withdraw = () => {

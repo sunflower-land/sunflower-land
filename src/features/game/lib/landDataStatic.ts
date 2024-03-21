@@ -546,6 +546,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Santa Beard": 1,
     "Sunflower Amulet": 2,
   },
+  previousWardrobe: {
+    "Elf Suit": 1,
+    "Banana Onesie": 1,
+    "Beige Farmer Potion": 2,
+    "Fire Hair": 3,
+    "Basic Hair": 1,
+    "Red Farmer Shirt": 2,
+    "Blue Farmer Shirt": 1,
+    "Brown Suspenders": 1,
+
+    "Black Farmer Boots": 1,
+    "Farmer Pitchfork": 1,
+    "Farm Background": 1,
+    "Santa Beard": 1,
+    "Sunflower Amulet": 2,
+  },
 
   createdAt: new Date().getTime(),
 

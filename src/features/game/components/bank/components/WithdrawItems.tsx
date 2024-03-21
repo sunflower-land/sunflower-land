@@ -69,7 +69,7 @@ export const WithdrawItems: React.FC<Props> = ({
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
-    const bankItems = getBankItems(gameState.context.state.inventory);
+    const bankItems = getBankItems(gameState.context.state);
     setInventory(bankItems);
     setSelected({});
   }, []);

@@ -24,7 +24,6 @@ interface Props {
 }
 export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
@@ -36,7 +35,11 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [tax, setTax] = useState(0);
 
-  const balance = state.balance;
+  // A player has SFL that is not yet synced
+  const hasOffChainSFL = state.previousBalance < state.balance;
+
+  // Use whichever is lowest (current game state or on chain)
+  const balance = hasOffChainSFL ? state.previousBalance : state.balance;
 
   useEffect(() => {
     // Use base 1000
@@ -90,13 +93,8 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
     }
   };
 
-  const enabled = authState.context.user.token?.userAccess.withdraw;
   const disableWithdraw =
     safeAmount(amount).gte(balance) || safeAmount(amount).lt(0);
-
-  if (!enabled) {
-    return <span>{t("withdraw.available")}</span>;
-  }
 
   return (
     <>

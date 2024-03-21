@@ -1,7 +1,6 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import { Context } from "features/game/GoblinProvider";
 import { shortAddress } from "lib/utils/shortAddress";
 
 import { Button } from "components/ui/Button";
@@ -14,6 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Context } from "features/game/GameProvider";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -22,12 +22,12 @@ interface Props {
 }
 
 export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const { t } = useAppTranslation();
 
-  const buds = goblinState.context.state.buds ?? {};
+  const buds = gameState.context.state.buds ?? {};
 
   const [unselected, setUnselected] = useState<number[]>(
     getKeys(buds).filter((budId) => !buds[budId].coordinates)
