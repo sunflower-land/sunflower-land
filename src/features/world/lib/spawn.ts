@@ -13,8 +13,8 @@ export const SPAWNS: () => SpawnLocation = () => ({
   retreat: {
     // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 320 + randomXOffset,
-      y: 421 - randomYOffset,
+      x: 72 + randomXOffset,
+      y: 80 - randomYOffset,
     },
   },
   plaza: {
