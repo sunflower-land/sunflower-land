@@ -30,7 +30,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
     },
   ] = useActor(gameService);
 
-  const selected = WORKBENCH_TOOLS()[selectedName];
+  const selected = WORKBENCH_TOOLS[selectedName];
   const inventory = state.inventory;
 
   const lessIngredients = (amount = 1) =>
@@ -115,7 +115,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(WORKBENCH_TOOLS()).map((toolName) => (
+          {getKeys(WORKBENCH_TOOLS).map((toolName) => (
             <Box
               isSelected={selectedName === toolName}
               key={toolName}

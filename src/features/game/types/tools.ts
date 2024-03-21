@@ -3,7 +3,7 @@
  */
 
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "./game";
+import { Inventory } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type WorkbenchToolName =
@@ -11,6 +11,7 @@ export type WorkbenchToolName =
   | "Pickaxe"
   | "Stone Pickaxe"
   | "Iron Pickaxe"
+  | "Gold Pickaxe"
   | "Rod";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
@@ -23,9 +24,7 @@ export interface Tool {
   disabled?: boolean;
 }
 
-export const WORKBENCH_TOOLS: (
-  gameState?: GameState
-) => Record<WorkbenchToolName, Tool> = () => ({
+export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
   Axe: {
     name: "Axe",
     description: translate("description.axe"),
@@ -77,7 +76,7 @@ export const WORKBENCH_TOOLS: (
       Stone: new Decimal(1),
     },
   },
-});
+};
 
 export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
   "Sand Shovel": {
