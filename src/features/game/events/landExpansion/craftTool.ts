@@ -29,7 +29,7 @@ export type CraftToolAction = {
 };
 
 export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
-  ...WORKBENCH_TOOLS(),
+  ...WORKBENCH_TOOLS,
   ...TREASURE_TOOLS,
   ...PURCHASEABLE_BAIT,
 };

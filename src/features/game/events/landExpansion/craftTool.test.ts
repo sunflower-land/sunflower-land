@@ -64,7 +64,7 @@ describe("craftTool", () => {
       },
     });
 
-    expect(state.coins).toEqual(coins - WORKBENCH_TOOLS()["Axe"].price);
+    expect(state.coins).toEqual(coins - WORKBENCH_TOOLS["Axe"].price);
     expect(state.inventory["Axe"]).toEqual(new Decimal(1));
   });
 
