@@ -35,7 +35,7 @@ export async function listRequest(request: Request): Promise<GameState> {
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.PURCHASE_TRADE_SERVER_ERROR);
+    throw new Error(ERRORS.LIST_TRADE_SERVER_ERROR);
   }
 
   const data = await response.json();

@@ -37,7 +37,7 @@ export async function deleteListingRequest(
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.PURCHASE_TRADE_SERVER_ERROR);
+    throw new Error(ERRORS.CANCEL_TRADE_SERVER_ERROR);
   }
 
   const data = await response.json();
