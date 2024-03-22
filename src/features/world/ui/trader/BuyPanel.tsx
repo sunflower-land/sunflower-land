@@ -81,7 +81,7 @@ export const BuyPanel: React.FC<{
 
   const searchView = () => {
     if (floor.Sunflower == undefined) {
-      return <Loading text="Fetching floor prices" />;
+      return <Loading />;
     }
 
     return (
