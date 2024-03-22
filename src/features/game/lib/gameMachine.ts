@@ -93,6 +93,9 @@ import {
   withdrawWearables,
 } from "../actions/withdraw";
 import { CONFIG } from "lib/config";
+  TradeableName,
+  sellMarketResourceRequest,
+} from "../actions/sellMarketResource";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -269,6 +272,11 @@ type FulfillTradeListingEvent = {
   listingType: string;
 };
 
+type SellMarketResourceEvent = {
+  type: "SELL_MARKET_RESOURCE";
+  item: TradeableName;
+};
+
 export type UpdateUsernameEvent = {
   type: "UPDATE_USERNAME";
   username: string;
@@ -285,6 +293,7 @@ export type BlockchainEvent =
   | ListingEvent
   | DeleteTradeListingEvent
   | FulfillTradeListingEvent
+  | SellMarketResourceEvent
   | {
       type: "REFRESH";
     }
@@ -453,6 +462,7 @@ export type BlockchainState = {
     | "deleteTradeListing"
     | "tradeListingDeleted"
     | "fulfillTradeListing"
+    | "sellMarketResource"
     | "sniped"
     | "buds"
     | "airdrop"
@@ -1043,6 +1053,7 @@ export function startGame(authContext: AuthContext) {
             LIST_TRADE: { target: "listing" },
             DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
             FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
+            SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
             UPDATE_BLOCK_BUCKS: {
               actions: assign((context, event) => ({
                 state: {
@@ -1645,6 +1656,55 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
           },
         },
+        sellMarketResource: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const { item } = event as SellMarketResourceEvent;
+
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
+              const { farm, prices } = await sellMarketResourceRequest({
+                farmId: Number(context.farmId),
+                token: authContext.user.rawToken as string,
+                soldAt: new Date().toISOString(),
+                item,
+              });
+
+              return {
+                farm,
+                // prices,
+                // error,
+              };
+            },
+            onDone: [
+              {
+                target: "playing",
+                actions: [
+                  assign((_, event) => ({
+                    actions: [],
+                    state: event.data.farm,
+                  })),
+                ],
+              },
+            ],
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
+          },
+        },
+
         depositing: {
           invoke: {
             src: async (context, event) => {

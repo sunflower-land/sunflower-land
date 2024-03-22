@@ -119,6 +119,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   provingPersonhood: false,
   withdrawing: true,
   withdrawn: true,
+  sellMarketResource: false,
 };
 
 // State change selectors
