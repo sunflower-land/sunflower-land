@@ -124,6 +124,7 @@ export interface Context {
   goblinSwarm?: Date;
   deviceTrackerId?: string;
   revealed?: {
+    coins: number;
     balance: string;
     inventory: Record<InventoryItemName, string>;
     wardrobe: Record<BumpkinItem, number>;

@@ -84,6 +84,7 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
           items: BONUSES["discord-signup"].reward.inventory,
           wearables: BONUSES["discord-signup"].reward.wearables,
           sfl: 0,
+          coins: 0,
         }}
       />
     );
