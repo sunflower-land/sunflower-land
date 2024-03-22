@@ -280,7 +280,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                     style={{ width: "calc(100% + 16px)" }}
                   >
-                    {`${getOrderSellPrice(gameState, order).toFixed(2)} SFL`}
+                    {`${getOrderSellPrice<Decimal>(gameState, order).toFixed(
+                      2
+                    )} SFL`}
                   </Label>
                 )}
                 {!order.completedAt && order.reward.tickets && (
