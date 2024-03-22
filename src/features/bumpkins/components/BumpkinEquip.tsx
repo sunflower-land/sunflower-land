@@ -159,7 +159,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
           </Button>
           {warn && <Label type="warning">{warning()}</Label>}
         </div>
-        <div className="flex-1 flex flex-wrap justify-center pr-1 overflow-y-auto scrollable max-h-60">
+        <div className="flex-1 flex flex-wrap justify-center pr-1 overflow-y-auto scrollable max-h-[290px]">
           {sortedWardrobeNames.map((name) => {
             const buffLabel = BUMPKIN_ITEM_BUFF_LABELS[name];
 

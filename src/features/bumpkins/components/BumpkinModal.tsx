@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
 import token from "assets/icons/token_2.png";
@@ -27,6 +27,13 @@ import { AchievementBadges } from "./AchievementBadges";
 import { Trade } from "./Trade";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  FloorPrices,
+  getListingsFloorPrices,
+} from "features/game/actions/getListingsFloorPrices";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useActor } from "@xstate/react";
+import { Loading } from "features/auth/components";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -88,7 +95,10 @@ export const BumpkinModal: React.FC<Props> = ({
   gameState,
 }) => {
   const { gameService } = useContext(Context);
-
+  const { authService } = useContext(AuthContext);
+  const [authState] = useActor(authService);
+  const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
+  const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState<ViewState>(initialView);
 
   const [tab, setTab] = useState(0);
@@ -110,6 +120,24 @@ export const BumpkinModal: React.FC<Props> = ({
 
     return `${baseUrl}/${bumpkin?.id}`;
   };
+
+  useEffect(() => {
+    if (tab === 2) {
+      const load = async () => {
+        setIsLoading(true);
+        const floorPrices = await getListingsFloorPrices(
+          authState.context.user.rawToken
+        );
+        setFloorPrices((prevFloorPrices) => ({
+          ...prevFloorPrices,
+          ...floorPrices,
+        }));
+
+        setIsLoading(false);
+      };
+      load();
+    }
+  }, [tab]);
 
   if (view === "achievements") {
     return (
@@ -265,7 +293,8 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === 2 && <Trade />}
+        {tab === 2 && isLoading && <Loading />}
+        {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
       </div>
     </CloseButtonPanel>
   );

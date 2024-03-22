@@ -473,6 +473,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   upcoming: "Próximo",
   wearables: "Vestíveis",
   wish: "Desejo",
+  unit: "/unidade",
 };
 
 const timeUnits: Record<TimeUnits, string> = {

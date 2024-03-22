@@ -297,7 +297,8 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations";
+  | "decorations"
+  | "unit";
 
 export type TimeUnits =
   // Singular
