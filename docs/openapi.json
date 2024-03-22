@@ -3,7 +3,7 @@
   "info": {
     "title": "Sunflower Land",
     "version": "0.1.0",
-    "description": "The Sunflower Land API is available for developers to build on Sunflower Land.\n\nDid you know you can now build tools that can be accessed directly by players in game? Consider building your next tool inside of Sunflower Land as part of the Creator Economy!\nLearn more <a href='https://docs.sunflower-land.com/contributing/portals/portal-development'>here </a>.\n\nThank you for joining our journey and helping us build the #1 Community Metaverse game."
+    "description": "The Sunflower Land API is available for developers to build on Sunflower Land.\n\nDid you know you can now build tools that can be accessed directly by players in game? Consider building your next tool inside of Sunflower Land as part of the Creator Economy!\nLearn more <a href='https://docs.sunflower-land.com/contributing/portals/portal-development'>here</a>.\n\nThank you for joining our journey and helping us build the #1 Community Metaverse game."
   },
   "servers": [
     {
@@ -21,6 +21,7 @@
         "description": "Gets a player's farm.",
         "parameters": [
           {
+            "required": true,
             "name": "id",
             "description": "The ID of the farm. Can be a Farm ID or NFT ID.",
             "in": "path",
