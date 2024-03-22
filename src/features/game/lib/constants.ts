@@ -396,6 +396,7 @@ export const TEST_FARM: GameState = {
       },
       wearables: {},
       sfl: 3,
+      coins: 0,
       message: "You are a legend!",
     },
   ],

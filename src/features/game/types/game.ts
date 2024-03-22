@@ -49,6 +49,7 @@ import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
 
 export type Reward = {
+  coins?: number;
   sfl?: Decimal;
   items?: {
     name: InventoryItemName;
@@ -502,6 +503,7 @@ export type Airdrop = {
   items: Partial<Record<InventoryItemName, number>>;
   wearables: Partial<Record<BumpkinItem, number>>;
   sfl: number;
+  coins: number;
   message?: string;
   coordinates?: Coordinates;
 };

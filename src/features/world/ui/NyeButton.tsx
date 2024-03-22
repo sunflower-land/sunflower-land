@@ -33,6 +33,7 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
               "New Years Tiara": 1,
             },
             sfl: 0,
+            coins: 0,
           }}
           onClaim={() => {
             gameService.send("bonus.claimed", {

@@ -30,6 +30,7 @@ export const CropBoomFinish: React.FC<Props> = ({ onClose }) => {
         items: { "Arcade Token": 1 },
         wearables: {},
         sfl: 0,
+        coins: 0,
       }}
     />
   );
