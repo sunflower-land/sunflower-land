@@ -293,7 +293,7 @@ export const maxItems: Inventory = {
 /**
  * Humanly possible SFL in a single session
  */
-const MAX_SESSION_SFL = 255;
+export const MAX_SESSION_SFL = 255;
 
 export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   valid: boolean;

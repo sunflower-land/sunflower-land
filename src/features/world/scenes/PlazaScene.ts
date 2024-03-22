@@ -544,6 +544,12 @@ export class PlazaScene extends BaseScene {
       });
     tradingBoardIcon.setDepth(1000000);
 
+    // GoblinMarket
+    const goblinMarket = this.add.sprite(725, 300, "trading_board");
+    goblinMarket.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("goblin_market");
+    });
+
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
     let week: number | undefined = undefined;
