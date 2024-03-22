@@ -39,7 +39,7 @@ export const OrderCard: React.FC<{
   game: GameState;
   onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({ order, game, onDeliver, hasRequirementsCheck }) => {
+}> = ({ order, game, hasRequirementsCheck }) => {
   const { balance, inventory } = game;
 
   const canDeliver = hasRequirementsCheck(order);
@@ -508,7 +508,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       id: "delivery-gift",
       createdAt: Date.now(),
       items: nextGift?.items ?? {},
-      sfl: nextGift?.sfl ?? 0,
+      sfl: 0,
+      coins: nextGift?.coins ?? 0,
       wearables: nextGift?.wearables ?? {},
       message: t(GIFT_RESPONSES[npc]?.reward ?? DEFAULT_DIALOGUE.reward),
     });

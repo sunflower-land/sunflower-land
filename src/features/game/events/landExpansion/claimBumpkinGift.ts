@@ -92,7 +92,7 @@ export function claimGift({ state, action, createdAt = Date.now() }: Options) {
     game.wardrobe[name] = previous + (nextGift.wearables[name] ?? 0);
   });
 
-  game.balance = game.balance.add(nextGift.sfl);
+  game.coins = game.coins + nextGift.coins;
 
   return game;
 }
