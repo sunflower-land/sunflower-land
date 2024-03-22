@@ -21,8 +21,8 @@
         "description": "Gets a player's farm.",
         "parameters": [
           {
-            "required": true,
             "name": "id",
+            "required": true,
             "description": "The ID of the farm. Can be a Farm ID or NFT ID.",
             "in": "path",
             "schema": {
@@ -42,7 +42,7 @@
                       "type": "integer"
                     },
                     "nft_id": {
-                      "type": "string",
+                      "type": "integer",
                       "description": "The NFT ID of the farm. Will be <b>undefined</b> if the farm does not have a linked NFT."
                     },
                     "farm": {
@@ -106,7 +106,7 @@
                             "type": "integer"
                           },
                           "nft_id": {
-                            "type": "string",
+                            "type": "integer",
                             "description": "The NFT ID of the farm. Will be <b>undefined</b> if the farm does not have a linked NFT."
                           },
                           "farm": {
