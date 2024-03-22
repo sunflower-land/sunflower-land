@@ -316,7 +316,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <BankModal onClose={closeModal} farmAddress="?" />
       </Modal>
       <Modal show={interactable === "garbage_collector"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.garbo}
+        >
           <GarbageCollectorModal />
         </CloseButtonPanel>
       </Modal>
