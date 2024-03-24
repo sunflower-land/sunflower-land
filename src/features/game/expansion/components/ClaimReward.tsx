@@ -73,7 +73,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <Box image={coins} />
               <div>
                 <Label type="warning">
-                  {airdrop.coins} {"Coins"}
+                  {airdrop.coins} {airdrop.coins === 1 ? "Coin" : "Coins"}
                 </Label>
                 <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>

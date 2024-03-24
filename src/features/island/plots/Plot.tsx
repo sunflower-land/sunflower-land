@@ -87,7 +87,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const [touchCount, setTouchCount] = useState(0);
   const [showMissingSeeds, setShowMissingSeeds] = useState(false);
   const [showSeedNotSelected, setShowSeedNotSelected] = useState(false);
-  const [reward, setReward] = useState<Reward>();
+  const [reward, setReward] = useState<Omit<Reward, "sfl">>();
   const [showMissingShovel, setShowMissingShovel] = useState(false);
   const clickedAt = useRef<number>(0);
 
@@ -109,7 +109,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
-  const collectibles = state.collectibles;
   const bumpkin = state.bumpkin;
   const buds = state.buds;
   const plot = crops[id];
