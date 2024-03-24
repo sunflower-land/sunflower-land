@@ -1,9 +1,9 @@
-import { GameState, InventoryItemName } from "./game";
+import { InventoryItemName } from "./game";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 
 export type StylistWearable = {
-  sfl: Decimal;
+  coins: number;
   ingredients: Partial<Record<InventoryItemName, Decimal>>;
   disabled?: boolean;
   hoursPlayed?: number;
@@ -16,85 +16,83 @@ export type ShopWearables = Partial<Record<BumpkinItem, StylistWearable>>;
 
 export const BASIC_WEARABLES: ShopWearables = {
   "Beige Farmer Potion": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {},
   },
   "Light Brown Farmer Potion": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {},
   },
   "Dark Brown Farmer Potion": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {},
   },
   "Goblin Potion": {
-    sfl: new Decimal(50),
+    coins: 16000,
     ingredients: {},
   },
   "Rancher Hair": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {},
   },
   "Basic Hair": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {},
   },
   "Buzz Cut": {
-    sfl: new Decimal(15),
+    coins: 4800,
     ingredients: {},
   },
   "Explorer Hair": {
-    sfl: new Decimal(15),
+    coins: 4800,
     ingredients: {},
   },
 
   "Red Farmer Shirt": {
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {},
   },
   "Blue Farmer Shirt": {
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {},
   },
   "Yellow Farmer Shirt": {
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {},
   },
   "Farmer Pants": {
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {},
   },
   "Farmer Overalls": {
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {},
   },
   "Lumberjack Overalls": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {},
   },
   "Streamer Helmet": {
-    sfl: new Decimal(10),
+    coins: 3200,
     ingredients: {
       "Sunflower Supporter": new Decimal(50),
     },
     disabled: true,
   },
   "Birthday Hat": {
-    sfl: new Decimal(25),
+    coins: 8000,
     ingredients: {},
     disabled: true,
     hoursPlayed: 24 * 365,
   },
   "Double Harvest Cap": {
-    sfl: new Decimal(50),
+    coins: 16000,
     ingredients: {},
     disabled: true,
     hoursPlayed: 2 * 24 * 365,
   },
 };
 
-export const STYLIST_WEARABLES: (game: GameState) => ShopWearables = (
-  game
-) => ({
+export const STYLIST_WEARABLES: ShopWearables = {
   ...BASIC_WEARABLES,
-});
+};
