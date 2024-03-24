@@ -1,9 +1,10 @@
 import { ENGLISH_TERMS } from "./englishDictionary";
+import { TURKISH_TERMS } from "./turkishDictionary";
 import { PORTUGUESE_TERMS } from "./portugueseDictionary";
 import { FRENCH_TERMS } from "./frenchDictionary";
 import { TranslationKeys } from "./types";
 
-export type LanguageCode = "en" | "fr" | "pt";
+export type LanguageCode = "en" | "fr" | "pt" | "tk";
 
 export type TranslationResource = Record<TranslationKeys, string>;
 
@@ -19,5 +20,8 @@ export const resources: Record<
   },
   pt: {
     translation: PORTUGUESE_TERMS,
+  },
+  tk: {
+    translation: TURKISH_TERMS,
   },
 };
