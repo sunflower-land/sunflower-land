@@ -69,7 +69,7 @@ export function removePlaceable({
     return game;
   }
 
-  if (name in BUILDINGS()) {
+  if (name in BUILDINGS) {
     game.buildings[name as BuildingName] = game.buildings[
       name as BuildingName
     ]?.filter((b) => b.id !== id);

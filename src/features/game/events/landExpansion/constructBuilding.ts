@@ -37,7 +37,7 @@ export function constructBuilding({
   const { bumpkin, inventory, coins } = stateCopy;
 
   const buildingNumber = inventory[action.name]?.toNumber() ?? 0;
-  const building = BUILDINGS()[action.name];
+  const building = BUILDINGS[action.name];
 
   if (bumpkin === undefined) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
