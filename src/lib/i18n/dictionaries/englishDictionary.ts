@@ -2693,7 +2693,7 @@ const interactableModals: Record<InteractableModals, string> = {
 const introPage: Record<IntroPage, string> = {
   "introPage.welcome": "Welcome to the Potion Room, my curious apprentice!",
   "introPage.description":
-    "I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land! Each attempt will cost 1 SFL.",
+    "I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land! Each attempt will cost 320 coins.",
   "introPage.mission":
     "Your mission: decipher the right combination of potions within the enchanted grid.",
   "introPage.tip":
@@ -4293,7 +4293,7 @@ const statements: Record<Statements, string> = {
   "statements.minted.goToChest": "Go to your chest and place it on your island",
   "statements.minted.withdrawAfterMint":
     "You will be able to withdraw your item once the mint has finished",
-  "statements.startgame": "Start New Game",
+  "statements.startgame": "Start Game",
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
