@@ -80,7 +80,7 @@ export type FieldItem = {
   // Epoch time in milliseconds
   plantedAt: number;
   multiplier?: number;
-  reward?: Reward;
+  reward?: Omit<Reward, "sfl">;
   fertiliser?: CropFertiliser;
 };
 
@@ -377,7 +377,7 @@ export type Position = {
 export type Wood = {
   amount: number;
   choppedAt: number;
-  reward?: Reward;
+  reward?: Omit<Reward, "sfl">;
 };
 
 export type PlantedCrop = {
