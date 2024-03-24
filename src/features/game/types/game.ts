@@ -385,7 +385,7 @@ export type PlantedCrop = {
   name: CropName;
   plantedAt: number;
   amount: number;
-  reward?: Reward;
+  reward?: Omit<Reward, "sfl">;
 };
 
 export type PlantedFruit = {
