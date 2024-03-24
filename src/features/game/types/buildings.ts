@@ -44,10 +44,7 @@ export type PlaceableName =
 
 export const UPGRADABLES: Partial<Record<BuildingName, BuildingName>> = {};
 
-export const BUILDINGS: () => Record<
-  BuildingName,
-  BuildingBluePrint[]
-> = () => ({
+export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
   "Town Center": [
     {
       unlocksAtLevel: 99,
@@ -408,7 +405,7 @@ export const BUILDINGS: () => Record<
       ],
     },
   ],
-});
+};
 
 export type Dimensions = { width: number; height: number };
 

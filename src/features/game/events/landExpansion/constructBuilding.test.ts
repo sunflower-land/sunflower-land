@@ -199,7 +199,7 @@ describe("Construct building", () => {
   });
 
   it("constructs building", () => {
-    const waterWell = BUILDINGS()["Water Well"][0];
+    const waterWell = BUILDINGS["Water Well"][0];
     const initialWood = new Decimal(100);
     const initialStone = new Decimal(101);
     const initialCoins = 1000;
@@ -375,7 +375,7 @@ describe("Construct building", () => {
       ],
     };
 
-    const waterWell = BUILDINGS()["Water Well"][0];
+    const waterWell = BUILDINGS["Water Well"][0];
     const createdAt = Date.now();
 
     const state = constructBuilding({
@@ -438,7 +438,7 @@ describe("Construct building", () => {
 
   it("constructs second building using the correct requirements", () => {
     // Second Hen House
-    const building = BUILDINGS()["Hen House"][1];
+    const building = BUILDINGS["Hen House"][1];
     const initialWood = new Decimal(200);
     const initialIron = new Decimal(20);
     const initialGold = new Decimal(20);

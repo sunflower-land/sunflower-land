@@ -10,7 +10,7 @@ export function getBuildingBumpkinLevelRequired(
   index?: number
 ): number {
   let requiredExpansionLevel = 1;
-  const blueprint = BUILDINGS()[name];
+  const blueprint = BUILDINGS[name];
   if (blueprint) requiredExpansionLevel = blueprint[index ?? 0].unlocksAtLevel;
   return (
     EXPANSION_REQUIREMENTS[requiredExpansionLevel as Land]?.bumpkinLevel ?? 1

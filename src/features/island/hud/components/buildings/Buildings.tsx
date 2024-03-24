@@ -34,7 +34,7 @@ const VALID_BUILDINGS: BuildingName[] = [
   "Turbo Composter" as BuildingName,
   "Premium Composter" as BuildingName,
 ].sort(
-  (a, b) => BUILDINGS()[a][0].unlocksAtLevel - BUILDINGS()[b][0].unlocksAtLevel
+  (a, b) => BUILDINGS[a][0].unlocksAtLevel - BUILDINGS[b][0].unlocksAtLevel
 );
 
 export const Buildings: React.FC<Props> = ({ onClose }) => {
@@ -47,7 +47,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   ] = useActor(gameService);
   const { inventory } = state;
   const { t } = useAppTranslation();
-  const buildingBlueprints = BUILDINGS()[selectedName];
+  const buildingBlueprints = BUILDINGS[selectedName];
   const buildingUnlockLevels = buildingBlueprints.map(
     ({ unlocksAtLevel }) => unlocksAtLevel
   );
@@ -64,7 +64,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   );
 
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(
-    BUILDINGS()[selectedName].length
+    BUILDINGS[selectedName].length
   );
 
   const ingredients = buildingBlueprints[0].ingredients.reduce(
@@ -154,23 +154,21 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       content={
         <>
           {VALID_BUILDINGS.map((name: BuildingName) => {
-            const blueprints = BUILDINGS()[name];
+            const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]
               ? inventoryCount.toNumber()
               : 0;
             const isLocked =
               getBumpkinLevel(state.bumpkin?.experience ?? 0) <
-              BUILDINGS()[name][nextIndex].unlocksAtLevel;
+              BUILDINGS[name][nextIndex].unlocksAtLevel;
 
             let secondaryIcon = undefined;
             if (isLocked) {
               secondaryIcon = lock;
             }
 
-            if (
-              inventory[name]?.greaterThanOrEqualTo(BUILDINGS()[name].length)
-            ) {
+            if (inventory[name]?.greaterThanOrEqualTo(BUILDINGS[name].length)) {
               secondaryIcon = SUNNYSIDE.icons.confirm;
             }
 
