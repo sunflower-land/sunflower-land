@@ -79,7 +79,10 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
             />
             {"Português"}
           </Button>
-          <Button onClick={() => handleChangeLanguage("tk")}>
+          <Button
+            onClick={() => handleChangeLanguage("tk")}
+            disabled={language === "tk"}
+          >
             <img
               style={{ display: "inline-block", marginRight: "5px" }}
               src={turkeyFlag}
