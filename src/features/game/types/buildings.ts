@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { CollectibleName } from "./craftables";
 import { InventoryItemName } from "./game";
 import { ResourceName } from "./resources";
@@ -32,7 +31,7 @@ export type Ingredient = {
 export type BuildingBluePrint = {
   unlocksAtLevel: number;
   ingredients: Ingredient[];
-  sfl: Decimal;
+  coins: number;
   constructionSeconds: number;
 };
 
@@ -52,7 +51,7 @@ export const BUILDINGS: () => Record<
   "Town Center": [
     {
       unlocksAtLevel: 99,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 30,
       ingredients: [],
     },
@@ -60,7 +59,7 @@ export const BUILDINGS: () => Record<
   House: [
     {
       unlocksAtLevel: 99,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 30,
       ingredients: [],
     },
@@ -68,7 +67,7 @@ export const BUILDINGS: () => Record<
   Market: [
     {
       unlocksAtLevel: 99,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 30,
       ingredients: [],
     },
@@ -76,7 +75,7 @@ export const BUILDINGS: () => Record<
   "Fire Pit": [
     {
       unlocksAtLevel: 99,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 0,
       ingredients: [
         {
@@ -93,7 +92,7 @@ export const BUILDINGS: () => Record<
   Workbench: [
     {
       unlocksAtLevel: 99,
-      sfl: marketRate(5),
+      coins: 5,
       constructionSeconds: 60 * 1,
       ingredients: [],
     },
@@ -101,7 +100,7 @@ export const BUILDINGS: () => Record<
   Tent: [
     {
       unlocksAtLevel: 99,
-      sfl: marketRate(0.06255),
+      coins: 20,
       constructionSeconds: 60 * 60,
       ingredients: [
         {
@@ -115,7 +114,7 @@ export const BUILDINGS: () => Record<
   "Water Well": [
     {
       unlocksAtLevel: 2,
-      sfl: new Decimal(1),
+      coins: 320,
       constructionSeconds: 60 * 5,
       ingredients: [
         {
@@ -130,7 +129,7 @@ export const BUILDINGS: () => Record<
     },
     {
       unlocksAtLevel: 4,
-      sfl: new Decimal(1),
+      coins: 320,
       constructionSeconds: 60 * 5,
       ingredients: [
         {
@@ -145,7 +144,7 @@ export const BUILDINGS: () => Record<
     },
     {
       unlocksAtLevel: 11,
-      sfl: new Decimal(1),
+      coins: 320,
       constructionSeconds: 60 * 5,
       ingredients: [
         {
@@ -160,7 +159,7 @@ export const BUILDINGS: () => Record<
     },
     {
       unlocksAtLevel: 15,
-      sfl: new Decimal(1),
+      coins: 320,
       constructionSeconds: 60 * 5,
       ingredients: [
         {
@@ -177,7 +176,7 @@ export const BUILDINGS: () => Record<
   Kitchen: [
     {
       unlocksAtLevel: 5,
-      sfl: marketRate(10),
+      coins: 10,
       constructionSeconds: 60 * 30,
       ingredients: [
         {
@@ -195,7 +194,7 @@ export const BUILDINGS: () => Record<
   "Hen House": [
     {
       unlocksAtLevel: 6,
-      sfl: marketRate(100),
+      coins: 100,
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
         {
@@ -214,7 +213,7 @@ export const BUILDINGS: () => Record<
     },
     {
       unlocksAtLevel: 20,
-      sfl: marketRate(800),
+      coins: 800,
       constructionSeconds: 60 * 60 * 3,
       ingredients: [
         {
@@ -239,7 +238,7 @@ export const BUILDINGS: () => Record<
   Bakery: [
     {
       unlocksAtLevel: 8,
-      sfl: marketRate(200),
+      coins: 200,
       constructionSeconds: 60 * 60 * 4,
       ingredients: [
         {
@@ -260,7 +259,7 @@ export const BUILDINGS: () => Record<
   Deli: [
     {
       unlocksAtLevel: 16,
-      sfl: marketRate(300),
+      coins: 300,
       constructionSeconds: 60 * 60 * 12,
       ingredients: [
         {
@@ -281,7 +280,7 @@ export const BUILDINGS: () => Record<
   "Smoothie Shack": [
     {
       unlocksAtLevel: 23,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 60 * 60 * 12,
       ingredients: [
         {
@@ -303,7 +302,7 @@ export const BUILDINGS: () => Record<
   Toolshed: [
     {
       unlocksAtLevel: 25,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
         {
@@ -332,7 +331,7 @@ export const BUILDINGS: () => Record<
   Warehouse: [
     {
       unlocksAtLevel: 20,
-      sfl: new Decimal(0),
+      coins: 0,
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
         {
@@ -365,7 +364,7 @@ export const BUILDINGS: () => Record<
   "Compost Bin": [
     {
       unlocksAtLevel: 7,
-      sfl: marketRate(0),
+      coins: 0,
       constructionSeconds: 60 * 60,
       ingredients: [
         {
@@ -382,7 +381,7 @@ export const BUILDINGS: () => Record<
   "Turbo Composter": [
     {
       unlocksAtLevel: 12,
-      sfl: marketRate(0),
+      coins: 0,
       constructionSeconds: 60 * 60 * 2,
       ingredients: [
         {
@@ -399,7 +398,7 @@ export const BUILDINGS: () => Record<
   "Premium Composter": [
     {
       unlocksAtLevel: 18,
-      sfl: marketRate(0),
+      coins: 0,
       constructionSeconds: 60 * 60 * 4,
       ingredients: [
         {

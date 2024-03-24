@@ -75,7 +75,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     {}
   );
 
-  const { sfl } = buildingBlueprints[nextBlueprintIndex];
+  const { coins } = buildingBlueprints[nextBlueprintIndex];
 
   const lessIngredients = () =>
     buildingBlueprints[nextBlueprintIndex].ingredients.some((ingredient) =>
@@ -87,7 +87,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       action: "building.constructed",
       placeable: selectedName,
       requirements: {
-        sfl,
+        coins,
         ingredients,
       },
     });
@@ -120,7 +120,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
 
     return (
       <Button
-        disabled={lessIngredients() || state.balance.lt(sfl)}
+        disabled={lessIngredients() || state.coins < coins}
         onClick={craft}
       >
         {t("build")}
@@ -137,7 +137,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
             item: selectedName,
           }}
           requirements={{
-            sfl,
+            coins,
             resources: buildingBlueprints[
               nextBlueprintIndex
             ].ingredients.reduce(
