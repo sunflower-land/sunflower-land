@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "./game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
@@ -67,7 +66,7 @@ export type Achievement = {
   introduction?: string[];
   progress: (game: GameState) => number;
   requirement: number;
-  sfl: Decimal;
+  coins: number;
   rewards?: Inventory;
 };
 
@@ -78,7 +77,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 0.001,
-    sfl: new Decimal(0),
+    coins: 0,
     introduction: [
       translate("breadWinner.one"),
       translate("breadWinner.two"),
@@ -90,7 +89,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Basic Bear": new Decimal(1),
     },
@@ -100,14 +99,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cabbage Harvested"] || 0,
     requirement: 200,
-    sfl: marketRate(10),
+    coins: 10,
   },
   "Jack O'Latern": {
     description: translate("jackOLantern.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Pumpkin Harvested"] || 0,
     requirement: 500,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Pumpkin Seed": new Decimal(50),
     },
@@ -117,7 +116,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Cauliflower Harvested"] || 0,
     requirement: 100,
-    sfl: marketRate(70),
+    coins: 70,
   },
   "Farm Hand": {
     description: translate("farmHand.description"),
@@ -133,7 +132,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 10000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Farmer Bear": new Decimal(1),
     },
@@ -143,7 +142,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Beetroot Harvested"] || 0,
     requirement: 2000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Beetroot Seed": new Decimal(100),
     },
@@ -153,35 +152,35 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Potato Harvested"] || 0,
     requirement: 5000,
-    sfl: marketRate(300),
+    coins: 300,
   },
   "Rapid Radish": {
     description: translate("rapidRadish.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Radish Harvested"] || 0,
     requirement: 200,
-    sfl: marketRate(400),
+    coins: 400,
   },
   "20/20 Vision": {
     description: translate("twentyTwentyVision.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Carrot Harvested"] || 0,
     requirement: 10000,
-    sfl: marketRate(400),
+    coins: 400,
   },
   "Staple Crop": {
     description: translate("stapleCrop.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Wheat Harvested"] || 0,
     requirement: 10000,
-    sfl: marketRate(500),
+    coins: 500,
   },
   "Sunflower Superstar": {
     description: translate("sunflowerSuperstar.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Sunflower Harvested"] || 0,
     requirement: 100000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Sunflower Bear": new Decimal(1),
     },
@@ -191,7 +190,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Earned"] || 0,
     requirement: 5000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Rich Bear": new Decimal(1),
     },
@@ -201,7 +200,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Parsnip Harvested"] || 0,
     requirement: 5000,
-    sfl: marketRate(750),
+    coins: 750,
   },
   "Crop Champion": {
     description: translate("cropChampion.description"),
@@ -217,7 +216,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 1000000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Angel Bear": new Decimal(1),
     },
@@ -229,7 +228,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 2,
-    sfl: marketRate(10),
+    coins: 10,
     introduction: [translate("busyBumpkin.one"), translate("busyBumpkin.two")],
   },
   "Kiss the Cook": {
@@ -246,7 +245,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 20,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Club Sandwich": new Decimal(1),
     },
@@ -267,7 +266,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return bakedCakes;
     },
     requirement: 13,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Chef Bear": new Decimal(1),
     },
@@ -277,7 +276,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       getBumpkinLevel(gameState.bumpkin?.experience || 0),
     requirement: 20,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Brilliant Bear": new Decimal(1),
     },
@@ -296,7 +295,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 5000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Sunflower Cake": new Decimal(5),
     },
@@ -308,7 +307,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.collectibles["Basic Scarecrow"]?.length ?? 0,
     requirement: 1,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("scarecrowMaestro.one"),
       translate("scarecrowMaestro.two"),
@@ -319,13 +318,13 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 10,
-    sfl: marketRate(20),
+    coins: 20,
   },
   Museum: {
     description: translate("museum.description"),
     progress: (gameState: GameState) => getKeys(gameState.collectibles).length,
     requirement: 10,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Potted Pumpkin": new Decimal(1),
     },
@@ -335,7 +334,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["SFL Spent"] || 0,
     requirement: 7500,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Bear Trap": new Decimal(1),
     },
@@ -347,7 +346,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 150,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       Axe: new Decimal(10),
     },
@@ -366,7 +365,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 100,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       Axe: new Decimal(20),
     },
@@ -376,7 +375,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 50,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       Pickaxe: new Decimal(10),
     },
@@ -386,7 +385,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Iron Mined"] || 0,
     requirement: 50,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Stone Pickaxe": new Decimal(10),
     },
@@ -396,7 +395,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Gold Mined"] || 0,
     requirement: 50,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Iron Pickaxe": new Decimal(5),
     },
@@ -406,7 +405,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Axe Crafted"] || 0,
     requirement: 500,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       Axe: new Decimal(25),
     },
@@ -416,14 +415,14 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Stone Mined"] || 0,
     requirement: 1000,
-    sfl: marketRate(500),
+    coins: 500,
   },
   "Something Shiny": {
     description: translate("somethingShiny.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Iron Mined"] || 0,
     requirement: 500,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Stone Pickaxe": new Decimal(20),
     },
@@ -433,7 +432,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Tree Chopped"] || 0,
     requirement: 5000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Badass Bear": new Decimal(1),
     },
@@ -443,7 +442,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Gold Mined"] || 0,
     requirement: 500,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Classy Bear": new Decimal(1),
     },
@@ -454,7 +453,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       gameState.inventory["Basic Land"]?.toNumber() ?? 0,
     requirement: 4,
     introduction: [translate("pete.intro.four"), translate("explorer.one")],
-    sfl: new Decimal(0),
+    coins: 0,
   },
   "Land Expansion Enthusiast": {
     description: translate("expansion.description"),
@@ -462,7 +461,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
     requirement: 6,
-    sfl: marketRate(0),
+    coins: 0,
   },
   "Land Expansion Extraordinaire": {
     description: translate("expansion.description"),
@@ -470,7 +469,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
     requirement: 7,
-    sfl: marketRate(0),
+    coins: 0,
   },
   "Land Baron": {
     description: translate("expansion.description"),
@@ -478,7 +477,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.inventory["Basic Land"]?.toNumber() ?? 0;
     },
     requirement: 5,
-    sfl: marketRate(0),
+    coins: 0,
   },
 
   // Building
@@ -488,7 +487,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.buildings["Water Well"]?.length ?? 0;
     },
     requirement: 1,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("wellOfProsperity.one"),
       translate("wellOfProsperity.two"),
@@ -504,7 +503,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return totalBuildingsOnLand;
     },
     requirement: 10,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Construction Bear": new Decimal(1),
     },
@@ -525,7 +524,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 50,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("fruitAficionado.one"),
       translate("fruitAficionado.two"),
@@ -536,21 +535,21 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Orange Harvested"] || 0,
     requirement: 100,
-    sfl: marketRate(10),
+    coins: 10,
   },
   "Apple of my Eye": {
     description: translate("appleOfMyEye.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Apple Harvested"] || 0,
     requirement: 500,
-    sfl: marketRate(400),
+    coins: 400,
   },
   "Blue Chip": {
     description: translate("blueChip.description"),
     progress: (gameState: GameState) =>
       gameState.bumpkin?.activity?.["Blueberry Harvested"] || 0,
     requirement: 5000,
-    sfl: marketRate(800),
+    coins: 800,
   },
   "Fruit Platter": {
     description: translate("fruitPlatter.description"),
@@ -566,7 +565,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       }, 0);
     },
     requirement: 50000,
-    sfl: marketRate(0),
+    coins: 0,
     rewards: {
       "Devil Bear": new Decimal(1),
     },
@@ -579,7 +578,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.delivery.fulfilledCount;
     },
     requirement: 3,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("deliveryDynamo.one"),
       translate("deliveryDynamo.two"),
@@ -591,7 +590,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.delivery.fulfilledCount;
     },
     requirement: 100,
-    sfl: marketRate(0),
+    coins: 0,
   },
 
   // Seasons
@@ -601,7 +600,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.inventory[getSeasonalTicket()]?.toNumber() ?? 0;
     },
     requirement: 50,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("seasonedFarmer.one"),
       translate("seasonedFarmer.two"),
@@ -616,7 +615,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.bumpkin?.activity?.["Treasure Dug"] ?? 0;
     },
     requirement: 10,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("treasureHunter.one"),
       translate("treasureHunter.two"),
@@ -630,7 +629,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
       return gameState.bumpkin?.activity?.["Egg Collected"] ?? 0;
     },
     requirement: 10,
-    sfl: marketRate(0),
+    coins: 0,
     introduction: [
       translate("eggcellentCollection.one"),
       translate("eggcellentCollection.two"),

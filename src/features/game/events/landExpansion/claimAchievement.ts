@@ -44,8 +44,8 @@ export function claimAchievement({ state, action }: Options): GameState {
 
   bumpkin.achievements = { ...bumpkinAchievements, [action.achievement]: 1 };
 
-  if (achievement.sfl) {
-    stateCopy.balance = stateCopy.balance.add(achievement.sfl);
+  if (achievement.coins) {
+    stateCopy.coins = stateCopy.coins + achievement.coins;
   }
 
   if (achievement.rewards) {

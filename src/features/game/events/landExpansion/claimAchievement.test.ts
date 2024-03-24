@@ -22,6 +22,7 @@ describe("claim achievements", () => {
       })
     ).toThrow("You do not have a Bumpkin");
   });
+
   it("throws an error if requirement is not met", () => {
     expect(() =>
       claimAchievement({
@@ -40,6 +41,7 @@ describe("claim achievements", () => {
       })
     ).toThrow("You do not meet the requirements");
   });
+
   it("throws an error if achievement has already been claimed", () => {
     expect(() =>
       claimAchievement({
@@ -60,6 +62,7 @@ describe("claim achievements", () => {
       })
     ).toThrow("You already have this achievement");
   });
+
   it("claims busy bumpkin achievement", () => {
     const state = claimAchievement({
       state: {
@@ -78,13 +81,13 @@ describe("claim achievements", () => {
     expect(state.bumpkin?.achievements?.["Busy Bumpkin"]).toBe(1);
   });
 
-  it("claims busy bumpkin sfl rewards", () => {
-    const balance = new Decimal(0);
+  it("claims busy bumpkin coin rewards", () => {
+    const coins = 0;
     const experience = 250;
     const state = claimAchievement({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience,
@@ -96,9 +99,7 @@ describe("claim achievements", () => {
         achievement: "Busy Bumpkin",
       },
     });
-    expect(state.balance).toEqual(
-      balance.add(ACHIEVEMENTS()["Busy Bumpkin"].sfl)
-    );
+    expect(state.coins).toEqual(coins + ACHIEVEMENTS()["Busy Bumpkin"].coins);
   });
 
   it("claims farmer bear", () => {
