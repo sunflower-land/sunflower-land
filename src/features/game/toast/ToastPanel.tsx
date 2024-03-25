@@ -121,14 +121,21 @@ export const ToastPanel: React.FC = () => {
             {/* show visible toasts only */}
             {visibleToasts
               .slice(0, MAX_TOAST)
-              .map(({ item, difference, id }) => (
-                <div className="flex items-center justify-center" key={id}>
-                  <img className="h-6" src={getToastIcon(item)} />
-                  <span className="text-sm mx-1 mb-0.5">{`${
-                    difference.greaterThan(0) ? "+" : ""
-                  }${setPrecision(difference)}`}</span>
-                </div>
-              ))}
+              .map(({ item, difference, id }) => {
+                const diff =
+                  item === "coins"
+                    ? difference.toFixed(2)
+                    : setPrecision(difference);
+
+                return (
+                  <div className="flex items-center justify-center" key={id}>
+                    <img className="h-6" src={getToastIcon(item)} />
+                    <span className="text-sm mx-1 mb-0.5">{`${
+                      difference.greaterThan(0) ? "+" : ""
+                    }${diff}`}</span>
+                  </div>
+                );
+              })}
           </InnerPanel>
         </HudContainer>
       )}
