@@ -81,7 +81,12 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           </div>
         </div>
         {!showOfflineModal ? (
-          <Panel className="pb-1 relative">
+          <Panel
+            className="pb-1 relative"
+            style={{
+              minHeight: "70px",
+            }}
+          >
             {authState.matches("welcome") && <Welcome />}
             {authState.matches("noAccount") && <NoAccount />}
             {authState.matches("authorising") && <Loading />}
