@@ -6,6 +6,9 @@ import { Withdraw } from "./Withdraw";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameWallet } from "features/wallet/Wallet";
+import { Label } from "components/ui/Label";
+
+import withdrawIcon from "assets/icons/withdraw.png";
 
 interface Props {
   farmAddress: string;
@@ -15,7 +18,21 @@ interface Props {
 export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
   return (
     <Panel className="relative">
-      <GameWallet action="withdraw">
+      <GameWallet
+        action="withdraw"
+        wrapper={({ children }) => (
+          <div>
+            <Label
+              type="default"
+              icon={withdrawIcon}
+              className="text-center m-1"
+            >
+              Withdraw
+            </Label>
+            {children}
+          </div>
+        )}
+      >
         <div
           className="absolute flex"
           style={{

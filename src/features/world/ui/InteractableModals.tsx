@@ -101,7 +101,8 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] =
+    useState<InteractableName>("wishingWell");
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -324,7 +325,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </CloseButtonPanel>
       </Modal>
       {interactable === "wishingWell" && (
-        <WishingWellModal onClose={closeModal} farmAddress="?" />
+        <WishingWellModal onClose={closeModal} />
       )}
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal

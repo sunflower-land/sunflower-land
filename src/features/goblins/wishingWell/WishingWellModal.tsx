@@ -27,6 +27,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
+import { Label } from "components/ui/Label";
+import giftIcon from "assets/icons/gift.png";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -233,7 +235,10 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
   );
 };
 
-export const WishingWellModal: React.FC = () => {
+interface Props {
+  onClose?: () => void;
+}
+export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const wishingWellService = useInterpret(
@@ -253,6 +258,10 @@ export const WishingWellModal: React.FC = () => {
 
   const handleClose = () => {
     send("CLOSING");
+
+    if (onClose) {
+      onClose();
+    }
   };
 
   const goToQuickSwap = () => {
@@ -265,7 +274,17 @@ export const WishingWellModal: React.FC = () => {
   return (
     <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
-        <GameWallet>
+        <GameWallet
+          action="withdraw"
+          wrapper={({ children }) => (
+            <div>
+              <Label type="default" icon={giftIcon} className="text-center m-1">
+                Wishing Well Rewards
+              </Label>
+              {children}
+            </div>
+          )}
+        >
           {machine.matches("loading") && (
             <span className="loading mt-1">{t("loading")}</span>
           )}

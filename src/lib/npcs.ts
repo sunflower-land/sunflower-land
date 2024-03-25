@@ -65,11 +65,23 @@ export type NPCName =
   | "goblet"
   | "garbo"
   | "guria"
-  | "grabnab";
+  | "grabnab"
+  | "greedclaw";
 
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  greedclaw: {
+    body: "Goblin Potion",
+    hair: "Wise Hair",
+    beard: "Wise Beard",
+    pants: "Wise Slacks",
+    shirt: "Wise Robes",
+    tool: "Wise Staff",
+    secondaryTool: "Wise Book",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
   grabnab: {
     body: "Goblin Potion",
     background: "Dawn Breaker Background",

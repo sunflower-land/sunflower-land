@@ -72,10 +72,18 @@ export class RetreatScene extends BaseScene {
       frameWidth: 121,
       frameHeight: 86,
     });
+    this.load.spritesheet("greedclaw", `world/greedclaw.webp`, {
+      frameWidth: 20,
+      frameHeight: 19,
+    });
 
     this.load.spritesheet("raffle", "world/raffle.webp", {
       frameWidth: 33,
       frameHeight: 28,
+    });
+    this.load.spritesheet("big_goblin", "world/big_goblin.png", {
+      frameWidth: 26,
+      frameHeight: 32,
     });
     this.load.image("raffle_disc", "world/raffle_disc.png");
     this.load.image("exchange_disc", "world/exchange_disc.png");
@@ -103,6 +111,18 @@ export class RetreatScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
+    const bigGoblin = this.add.sprite(545, 241, "big_goblin");
+    this.anims.create({
+      key: "big_goblin_animation",
+      frames: this.anims.generateFrameNumbers("big_goblin", {
+        start: 0,
+        end: 3,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    bigGoblin.play("big_goblin_animation", true);
+
     const exchange = this.add.sprite(114, 215, "exchange");
     // On click
     exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
@@ -110,6 +130,18 @@ export class RetreatScene extends BaseScene {
     });
 
     this.add.sprite(422, 84, "withdraw_disc").setDepth(1000000000);
+
+    const greedclaw = this.add.sprite(422, 100, "greedclaw");
+    this.anims.create({
+      key: "greedclaw_animation",
+      frames: this.anims.generateFrameNumbers("greedclaw", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    greedclaw.play("greedclaw_animation", true);
 
     const bank = this.add.sprite(422, 94, "bank");
     bank.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
