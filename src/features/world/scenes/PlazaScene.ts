@@ -551,7 +551,7 @@ export class PlazaScene extends BaseScene {
     tradingBoardIcon.setDepth(1000000);
 
     // GoblinMarket
-    const goblinMarket = this.add.sprite(725, 300, "trading_board");
+    const goblinMarket = this.add.sprite(325, 400, "trading_board");
     goblinMarket.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("goblin_market");
     });
