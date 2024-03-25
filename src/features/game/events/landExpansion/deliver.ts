@@ -118,7 +118,7 @@ const clone = (state: GameState): GameState => {
   return cloneDeep(state);
 };
 
-export function getOrderSellPrice(game: GameState, order: Order) {
+export function getOrderSellPrice<T>(game: GameState, order: Order): T {
   let mul = 1;
 
   if (game.bumpkin?.skills["Michelin Stars"]) {
@@ -133,7 +133,11 @@ export function getOrderSellPrice(game: GameState, order: Order) {
     mul += 0.2;
   }
 
-  return new Decimal(order.reward.sfl ?? 0).mul(mul);
+  if (order.reward.sfl) {
+    return new Decimal(order.reward.sfl ?? 0).mul(mul) as T;
+  }
+
+  return ((order.reward.coins ?? 0) * mul) as T;
 }
 
 export function deliverOrder({
@@ -172,15 +176,22 @@ export function deliverOrder({
   }
 
   getKeys(order.items).forEach((name) => {
-    if (name === "sfl") {
-      const balance = game.balance;
-      const amount = order.items[name] || new Decimal(0);
+    if (name === "coins") {
+      const coins = game.coins;
+      const amount = order.items[name] ?? 0;
 
-      if (balance.lessThan(amount)) {
+      if (coins < amount) {
         throw new Error(`Insufficient ingredient: ${name}`);
       }
 
-      game.balance = balance.sub(amount);
+      game.coins = coins - amount;
+    } else if (name === "sfl") {
+      const sfl = game.balance;
+      const amount = order.items[name] || new Decimal(0);
+
+      if (sfl.lessThan(amount)) {
+        throw new Error(`Insufficient ingredient: ${name}`);
+      }
     } else {
       const count = game.inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
@@ -194,10 +205,22 @@ export function deliverOrder({
   });
 
   if (order.reward.sfl) {
-    const sfl = getOrderSellPrice(game, order);
+    const sfl = getOrderSellPrice<Decimal>(game, order);
     game.balance = game.balance.add(sfl);
 
     bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sfl);
+  }
+
+  if (order.reward.coins) {
+    const coinsReward = getOrderSellPrice<number>(game, order);
+
+    game.coins = game.coins + coinsReward;
+
+    bumpkin.activity = trackActivity(
+      "Coins Earned",
+      bumpkin.activity,
+      new Decimal(coinsReward)
+    );
   }
 
   if (order.reward.tickets) {
@@ -207,6 +230,16 @@ export function deliverOrder({
     const amount = order.reward.tickets || new Decimal(0);
 
     game.inventory[seasonalTicket] = count.add(amount);
+  }
+
+  const rewardItems = order.reward.items ?? {};
+
+  if (Object.keys(rewardItems).length > 0) {
+    getKeys(rewardItems).forEach((name) => {
+      const previousAmount = game.inventory[name] || new Decimal(0);
+
+      game.inventory[name] = previousAmount.add(rewardItems[name] || 0);
+    });
   }
 
   game.delivery.fulfilledCount += 1;
