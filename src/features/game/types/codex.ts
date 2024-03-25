@@ -1,5 +1,4 @@
 import { SeasonName } from "features/game/types/seasons";
-import { categories } from "features/island/hud/components/codex/Codex";
 import { BuffLabel } from ".";
 
 export type CodexCategoryName =
@@ -18,11 +17,10 @@ export interface CodexCategory {
   name: CodexCategoryName;
   icon: string;
   disabled?: boolean;
+  count: number;
 }
 
 export type AssetType = "collectible" | "wearable" | "bud";
-
-export type CodexTabIndex = keyof typeof categories;
 
 // Extend from this type for more detailed information
 export type BaseInformation = {

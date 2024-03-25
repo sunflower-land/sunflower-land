@@ -1,19 +1,14 @@
 import React, { useContext, useState } from "react";
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
-import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
 import { Fish } from "./pages/Fish";
-import {
-  CodexCategory,
-  CodexCategoryName,
-  CodexTabIndex,
-} from "features/game/types/codex";
+import { CodexCategory } from "features/game/types/codex";
 import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
 import { Flowers } from "./pages/Flowers";
@@ -21,9 +16,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { DeliveryOrders } from "features/island/delivery/components/Orders";
 import { Deliveries } from "./pages/Deliveries";
-import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
 import { Chores } from "./pages/Chores";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
@@ -31,29 +24,6 @@ import classNames from "classnames";
 interface Props {
   show: boolean;
   onHide: () => void;
-}
-
-export const categories: CodexCategory[] = [
-  {
-    name: "Deliveries",
-    icon: SUNNYSIDE.icons.player,
-  },
-  {
-    name: "Chores",
-    icon: SUNNYSIDE.icons.hammer,
-  },
-  {
-    name: "Fish",
-    icon: SUNNYSIDE.icons.fish,
-  },
-  {
-    name: "Flowers",
-    icon: ITEM_DETAILS["Red Pansy"].image,
-  },
-];
-
-export function getCodexCategoryIndex(category: CodexCategoryName) {
-  return categories.findIndex((c) => c.name === category);
 }
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
@@ -65,11 +35,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
-  const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
+  const [currentTab, setCurrentTab] = useState<number>(0);
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
-  const handleTabClick = (index: CodexTabIndex) => {
+  const handleTabClick = (index: number) => {
     setCurrentTab(index);
   };
 
@@ -82,6 +52,29 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setShowMilestoneReached(false);
     setMilestoneName(undefined);
   };
+
+  const categories: CodexCategory[] = [
+    {
+      name: "Deliveries",
+      icon: SUNNYSIDE.icons.player,
+      count: 0,
+    },
+    {
+      name: "Chores",
+      icon: SUNNYSIDE.icons.hammer,
+      count: 3,
+    },
+    {
+      name: "Fish",
+      icon: SUNNYSIDE.icons.fish,
+      count: 0,
+    },
+    {
+      name: "Flowers",
+      icon: ITEM_DETAILS["Red Pansy"].image,
+      count: 0,
+    },
+  ];
 
   return (
     <div className="flex justify-center">
@@ -110,9 +103,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 }}
               />
             </div>
-            <Label type="default" className="absolute top-2 left-2">
-              0
-            </Label>
+
             <div
               className="relative h-full overflow-hidden"
               style={{
@@ -120,7 +111,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               }}
             >
               {/* Tabs */}
-              <div className="absolute top-0 left-0">
+              <div className="absolute top-1.5 left-0">
                 <div className="flex flex-col">
                   {categories.map((tab, index) => (
                     <OuterPanel
@@ -133,6 +124,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                       )}
                       onClick={() => handleTabClick(index)}
                     >
+                      {!!tab.count && (
+                        <Label
+                          type="default"
+                          className="absolute -top-3 left-3 z-10"
+                        >
+                          {tab.count}
+                        </Label>
+                      )}
+
                       <SquareIcon icon={tab.icon} width={7} />
                     </OuterPanel>
                   ))}
