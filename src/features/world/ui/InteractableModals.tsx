@@ -101,7 +101,7 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>("bank");
+  const [interactable, setInteractable] = useState<InteractableName>();
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -18,7 +18,6 @@ import classNames from "classnames";
 import Decimal from "decimal.js-light";
 import { MachineInterpreter, wishingWellMachine } from "./wishingWellMachine";
 import { WishingWellTokens } from "./actions/loadWishingWell";
-import { Context } from "features/game/GoblinProvider";
 import { setPrecision } from "lib/utils/formatNumber";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -279,7 +278,7 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
           wrapper={({ children }) => (
             <div>
               <Label type="default" icon={giftIcon} className="text-center m-1">
-                Wishing Well Rewards
+                {`Wishing well`}
               </Label>
               {children}
             </div>

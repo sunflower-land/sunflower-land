@@ -8,8 +8,6 @@ import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { MachineState } from "features/game/lib/gameMachine";
 import { TravelModal } from "./TravelModal";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
-import { Modal } from "components/ui/Modal";
-import { WorldMap } from "../map/WorldMap";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _chores = (state: MachineState) => state.context.state.chores;
