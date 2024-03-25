@@ -17,6 +17,7 @@ import token from "assets/icons/token_2.png";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { WithdrawResources } from "./WithdrawResources";
 
 interface Props {
   onClose: () => void;
@@ -28,7 +29,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
 
   const [page, setPage] = useState<
-    "tokens" | "items" | "wearables" | "bumpkin" | "buds"
+    "tokens" | "items" | "wearables" | "bumpkin" | "buds" | "resources"
   >();
 
   const withdrawAmount = useRef({
@@ -162,6 +163,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
               {"SFL"}
             </div>
           </Button>
+          <Button onClick={() => setPage("resources")}>
+            <div className="flex">
+              <img src={SUNNYSIDE.resource.wood} className="h-4 mr-1" />
+              {t("resources")}
+            </div>
+          </Button>
           <Button onClick={() => setPage("items")}>
             <div className="flex">
               <img src={chest} className="h-4 mr-1" />
@@ -192,6 +199,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       </div>
       {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
+      {page === "resources" && <WithdrawResources onWithdraw={onClose} />}
       {page === "wearables" && (
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}

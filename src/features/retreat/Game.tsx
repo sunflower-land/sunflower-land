@@ -26,7 +26,7 @@ import {
   StateValues,
 } from "features/game/lib/goblinMachine";
 import { Withdrawing } from "features/game/components/Withdrawing";
-import { Withdrawn } from "features/game/components/Withdrawn";
+import { GoblinWithdrawn } from "features/game/components/Withdrawn";
 import { getBumpkinLevel } from "features/game/lib/level";
 // random seal spawn spots
 import { randomInt } from "lib/utils/random";
@@ -112,7 +112,7 @@ export const Game = () => {
           )}
           {goblinState.matches("withdrawing") && <Withdrawing />}
           {goblinState.matches("loading") && <Loading />}
-          {goblinState.matches("withdrawn") && <Withdrawn />}
+          {goblinState.matches("withdrawn") && <GoblinWithdrawn />}
           {goblinState.matches("minting") && <Minting />}
           {goblinState.matches("minted") && <Minted />}
           {goblinState.matches("depositing") && <Loading text="Depositing" />}

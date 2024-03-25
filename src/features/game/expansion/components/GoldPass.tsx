@@ -49,9 +49,6 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
             <li className="text-xs ml-4">
               {t("goldPass.withdrawTransferNFTs")}
             </li>
-            <li className="text-xs ml-4">
-              {t("goldPass.accessRestrictedAreas")}
-            </li>
           </ul>
 
           <a

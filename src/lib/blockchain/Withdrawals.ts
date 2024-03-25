@@ -30,7 +30,7 @@ export async function withdrawSFLTransaction({
   sfl: number;
   tax: number;
 }): Promise<string> {
-  const oldSessionId = await getSessionId(web3, farmId);
+  const oldSessionId = sessionId;
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {
@@ -110,7 +110,7 @@ export async function withdrawItemsTransaction({
   ids: number[];
   amounts: number[];
 }): Promise<string> {
-  const oldSessionId = await getSessionId(web3, farmId);
+  const oldSessionId = sessionId;
   const gasPrice = await estimateGasPrice(web3);
 
   await new Promise((resolve, reject) => {

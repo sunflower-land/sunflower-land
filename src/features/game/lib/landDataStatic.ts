@@ -354,7 +354,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   balance: new Decimal(100),
   previousBalance: new Decimal(0),
-  previousInventory: {},
+  previousInventory: {
+    Wood: new Decimal(10),
+    Egg: new Decimal(10),
+    Iron: new Decimal(10),
+  },
   npcs: {
     "pumpkin' pete": {
       deliveryCount: 0,

@@ -607,6 +607,7 @@ export function startGame(authContext: AuthContext) {
                 linkedWallet: response.linkedWallet,
                 nftId: response.nftId,
                 wallet: response.wallet,
+                verified: response.verified,
               };
             },
             onDone: [
@@ -1001,6 +1002,9 @@ export function startGame(authContext: AuthContext) {
             },
             MINT: {
               target: "minting",
+            },
+            WITHDRAW: {
+              target: "withdrawing",
             },
             BUY_BLOCK_BUCKS: {
               target: "buyingBlockBucks",
@@ -2028,6 +2032,7 @@ export function startGame(authContext: AuthContext) {
           linkedWallet: (_, event) => event.data.linkedWallet,
           wallet: (_, event) => event.data.wallet,
           nftId: (_, event) => event.data.nftId,
+          verified: (_, event) => event.data.verified,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

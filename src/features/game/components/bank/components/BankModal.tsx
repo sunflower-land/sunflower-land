@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Panel } from "components/ui/Panel";
 
@@ -9,13 +9,26 @@ import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 
 import withdrawIcon from "assets/icons/withdraw.png";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { GoldPassModal } from "features/game/expansion/components/GoldPass";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   farmAddress: string;
   onClose: () => void;
 }
 
-export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
+export const BankModal: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const { t } = useAppTranslation();
+
+  if (!gameState.context.state.inventory["Gold Pass"]) {
+    return <GoldPassModal onClose={onClose} />;
+  }
+
   return (
     <Panel className="relative">
       <GameWallet
@@ -27,7 +40,7 @@ export const BankModal: React.FC<Props> = ({ onClose, farmAddress }) => {
               icon={withdrawIcon}
               className="text-center m-1"
             >
-              Withdraw
+              {t("withdraw")}
             </Label>
             {children}
           </div>

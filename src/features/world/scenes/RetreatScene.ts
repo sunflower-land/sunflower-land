@@ -82,8 +82,8 @@ export class RetreatScene extends BaseScene {
       frameHeight: 28,
     });
     this.load.spritesheet("big_goblin", "world/big_goblin.png", {
-      frameWidth: 26,
-      frameHeight: 32,
+      frameWidth: 27,
+      frameHeight: 35,
     });
     this.load.image("raffle_disc", "world/raffle_disc.png");
     this.load.image("exchange_disc", "world/exchange_disc.png");
@@ -111,7 +111,7 @@ export class RetreatScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const bigGoblin = this.add.sprite(545, 241, "big_goblin");
+    const bigGoblin = this.add.sprite(550, 231, "big_goblin");
     this.anims.create({
       key: "big_goblin_animation",
       frames: this.anims.generateFrameNumbers("big_goblin", {
@@ -119,14 +119,14 @@ export class RetreatScene extends BaseScene {
         end: 3,
       }),
       repeat: -1,
-      frameRate: 10,
+      frameRate: 6,
     });
     bigGoblin.play("big_goblin_animation", true);
 
     const exchange = this.add.sprite(114, 215, "exchange");
     // On click
     exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      console.log("OPEN EXCHANGE");
+      // TODO
     });
 
     this.add.sprite(422, 84, "withdraw_disc").setDepth(1000000000);
