@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
@@ -21,6 +21,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { DeliveryOrders } from "features/island/delivery/components/Orders";
+import { Deliveries } from "./pages/Deliveries";
+import { ChoreV2 } from "features/helios/components/hayseedHank/components/ChoreV2";
+import { Chores } from "./pages/Chores";
+import { Label } from "components/ui/Label";
+import classNames from "classnames";
 
 interface Props {
   show: boolean;
@@ -29,33 +35,20 @@ interface Props {
 
 export const categories: CodexCategory[] = [
   {
+    name: "Deliveries",
+    icon: SUNNYSIDE.icons.player,
+  },
+  {
+    name: "Chores",
+    icon: SUNNYSIDE.icons.hammer,
+  },
+  {
     name: "Fish",
     icon: SUNNYSIDE.icons.fish,
   },
   {
     name: "Flowers",
     icon: ITEM_DETAILS["Red Pansy"].image,
-  },
-  {
-    name: "Bumpkins",
-    icon: SUNNYSIDE.icons.player,
-    disabled: true,
-  },
-  {
-    name: "Farming",
-    icon: SUNNYSIDE.icons.basket,
-    disabled: true,
-  },
-
-  {
-    name: "Treasures",
-    icon: SUNNYSIDE.decorations.treasure_chest,
-    disabled: true,
-  },
-  {
-    name: "Season",
-    icon: SUNNYSIDE.icons.stopwatch,
-    disabled: true,
   },
 ];
 
@@ -92,7 +85,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   return (
     <div className="flex justify-center">
-      <Modal show={show} onHide={onHide}>
+      <Modal show={show} onHide={onHide} dialogClassName="md:max-w-3xl">
         <div
           className="h-[600px] transition-opacity"
           style={
@@ -117,6 +110,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 }}
               />
             </div>
+            <Label type="default" className="absolute top-2 left-2">
+              0
+            </Label>
             <div
               className="relative h-full overflow-hidden"
               style={{
@@ -124,29 +120,32 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               }}
             >
               {/* Tabs */}
-              <div className="absolute top-4 left-0">
+              <div className="absolute top-0 left-0">
                 <div className="flex flex-col">
                   {categories.map((tab, index) => (
-                    <Tab
+                    <OuterPanel
                       key={`${tab}-${index}`}
-                      isFirstTab={index === 0}
-                      className="flex items-center relative"
-                      isActive={currentTab === index}
+                      className={classNames(
+                        "flex items-center relative p-0.5 mb-1 cursor-pointer",
+                        {
+                          "bg-[#ead4aa]": currentTab === index,
+                        }
+                      )}
                       onClick={() => handleTabClick(index)}
-                      vertical
-                      disabled={tab.disabled}
                     >
                       <SquareIcon icon={tab.icon} width={7} />
-                    </Tab>
+                    </OuterPanel>
                   ))}
                 </div>
               </div>
               {/* Content */}
               <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
-                {currentTab === 0 && (
+                {currentTab === 0 && <Deliveries />}
+                {currentTab === 1 && <Chores />}
+                {currentTab === 2 && (
                   <Fish onMilestoneReached={handleMilestoneReached} />
                 )}
-                {currentTab === 1 && (
+                {currentTab === 3 && (
                   <Flowers onMilestoneReached={handleMilestoneReached} />
                 )}
               </InnerPanel>

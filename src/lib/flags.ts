@@ -19,7 +19,8 @@ type FeatureName =
   | "CHESTS"
   | "BUD_BOX"
   | "RAFFLE"
-  | "RETREAT";
+  | "RETREAT"
+  | "WORLD_MAP";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -37,6 +38,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   RAFFLE: defaultFeatureFlag,
   RETREAT: defaultFeatureFlag,
   BUD_BOX: defaultFeatureFlag,
+  WORLD_MAP: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
