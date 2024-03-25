@@ -71,12 +71,18 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
           />
         )}
       </div>
-
-      <TravelModal
+      <Modal
+        show={showModal}
+        dialogClassName="md:max-w-3xl"
+        onHide={() => setShowModal(false)}
+      >
+        <WorldMap onClose={() => setShowModal(false)} />
+      </Modal>
+      {/* <TravelModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         isVisiting={isVisiting}
-      />
+      /> */}
     </>
   );
 };
