@@ -7,6 +7,7 @@ import { GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import sfl from "assets/icons/token_2.png";
+import coinsImg from "assets/icons/coins.webp";
 
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
@@ -73,11 +74,22 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
               }
             >
               {getKeys(order.items).map((itemName) => {
+                if (itemName === "coins") {
+                  return (
+                    <RequirementLabel
+                      type="coins"
+                      balance={game.coins}
+                      requirement={order?.items[itemName] ?? 0}
+                      showLabel
+                    />
+                  );
+                }
+
                 if (itemName === "sfl") {
                   return (
                     <RequirementLabel
                       type="sfl"
-                      balance={balance}
+                      balance={game.balance}
                       requirement={new Decimal(order?.items[itemName] ?? 0)}
                       showLabel
                     />
@@ -100,7 +112,15 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                   <div className="flex items-center mt-1">
                     <img src={sfl} className="h-5 mr-1" />
                     <span className="text-xs">
-                      {getOrderSellPrice(game, order).toFixed(2)}
+                      {getOrderSellPrice<Decimal>(game, order).toFixed(2)}
+                    </span>
+                  </div>
+                )}
+                {order.reward.coins && (
+                  <div className="flex items-center mt-1">
+                    <img src={coinsImg} className="h-5 mr-1" />
+                    <span className="text-xs">
+                      {getOrderSellPrice<number>(game, order).toFixed(2)}
                     </span>
                   </div>
                 )}

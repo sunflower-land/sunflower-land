@@ -600,10 +600,11 @@ export type Party = {
 export type Order = {
   id: string;
   from: NPCName;
-  items: Partial<Record<InventoryItemName | "sfl", number>>;
+  items: Partial<Record<InventoryItemName | "coins" | "sfl", number>>;
   reward: {
     tickets?: number;
     sfl?: number;
+    coins?: number;
     items?: Partial<Record<InventoryItemName, number>>;
   };
   createdAt: number;
