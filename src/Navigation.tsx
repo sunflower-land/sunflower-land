@@ -1,4 +1,11 @@
-import React, { Suspense, lazy, useContext, useEffect, useState } from "react";
+import React, {
+  Suspense,
+  lazy,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { useSelector } from "@xstate/react";
 import {
   Routes,
@@ -105,13 +112,13 @@ export const Navigation: React.FC = () => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const _showGame = state.isAuthorised || state.isVisiting;
 
     // TODO: look into this further
     // This is to prevent a modal clash when the authmachine switches
     // to the game machine.
-    setTimeout(() => setShowGame(_showGame), 20);
+    setShowGame(_showGame);
   }, [state]);
 
   return (
