@@ -12,6 +12,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSelector } from "@xstate/react";
 
 const _hasNewDeliveries = (state: MachineState) =>
   hasNewOrders(state.context.state.delivery) &&
