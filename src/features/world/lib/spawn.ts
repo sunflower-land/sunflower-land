@@ -6,7 +6,7 @@ export type SpawnLocation = Record<
   { default: Coordinates } & Partial<Record<SceneId, Coordinates>>
 >;
 
-const randomXOffset = Math.random() * 20;
+const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
