@@ -226,7 +226,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           </div>
         )}
 
-        <div className="flex flex-row w-full flex-wrap max-h-80 scrollable overflow-y-auto">
+        <div className="flex flex-row w-full flex-wrap scrollable overflow-y-auto">
           {orders.map((order) => (
             <div className="w-1/2 sm:w-1/3 p-1" key={order.id}>
               <OuterPanel
