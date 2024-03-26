@@ -124,7 +124,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
               labelIcon={SUNNYSIDE.tools.fishing_rod}
             />
           </div>
-          <div className="space-y-1.5 px-1.5">
+          <div className="space-y-1.5 px-1.5 flex flex-wrap">
             {unclaimedMilestones.map((milestone, index) => (
               <MilestonePanel
                 key={milestone}

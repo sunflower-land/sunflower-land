@@ -1739,6 +1739,8 @@ export type GuideTerms =
   | "crafting.guide.four"
   | "deliveries.guide.one"
   | "deliveries.guide.two"
+  | "deliveries.intro"
+  | "chores.intro"
   | "scavenger.guide.one"
   | "scavenger.guide.two"
   | "fruit.guide.one"
@@ -3106,7 +3108,11 @@ export type World =
   | "world.intro.four"
   | "world.intro.five"
   | "world.intro.six"
-  | "world.intro.seven";
+  | "world.intro.seven"
+  | "world.plaza"
+  | "world.retreat"
+  | "world.home"
+  | "world.kingdom";
 
 export type Event =
   | "event.christmas"

@@ -6,8 +6,11 @@ import { Context } from "features/game/GameProvider";
 import world from "assets/icons/world.png";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { MachineState } from "features/game/lib/gameMachine";
-import { TravelModal } from "./TravelModal";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
+import { Modal } from "components/ui/Modal";
+import { WorldMap } from "./WorldMap";
+import { hasFeatureAccess } from "lib/flags";
+import { TravelModal } from "./TravelModal";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _chores = (state: MachineState) => state.context.state.chores;
@@ -23,6 +26,10 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
   const showExpression =
     (hasNewOrders(delivery) || (chores && hasNewChores(chores))) && !isVisiting;
 
+  const showNewMap = hasFeatureAccess(
+    gameService.state?.context.state ?? {},
+    "WORLD_MAP"
+  );
   return (
     <>
       <div className="relative">
@@ -72,11 +79,23 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
         )}
       </div>
 
-      <TravelModal
-        isOpen={showModal}
-        onClose={() => setShowModal(false)}
-        isVisiting={isVisiting}
-      />
+      {showNewMap && (
+        <Modal
+          show={showModal}
+          dialogClassName="md:max-w-3xl"
+          onHide={() => setShowModal(false)}
+        >
+          <WorldMap onClose={() => setShowModal(false)} />
+        </Modal>
+      )}
+
+      {!showNewMap && (
+        <TravelModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          isVisiting={isVisiting}
+        />
+      )}
     </>
   );
 };
