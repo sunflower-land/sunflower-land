@@ -3,13 +3,15 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
+import deliveryAlert from "assets/ui/delivery_alert.png";
+
 import { Codex } from "./Codex";
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
+    <div className="relative">
       <div
         className="relative flex cursor-pointer hover:img-highlight"
         style={{
@@ -36,6 +38,17 @@ export const CodexButton: React.FC = () => {
             width: `${PIXEL_SCALE * 12}px`,
           }}
         />
+
+        <div
+          className="absolute "
+          style={{
+            width: `${PIXEL_SCALE * 52}px`,
+            left: `${PIXEL_SCALE * 18}px`,
+            top: `${PIXEL_SCALE * -6}px`,
+          }}
+        >
+          <img src={deliveryAlert} className="w-full" />
+        </div>
       </div>
 
       <Codex show={isOpen} onHide={() => setIsOpen(false)} />
