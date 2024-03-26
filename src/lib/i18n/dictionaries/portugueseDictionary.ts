@@ -4278,6 +4278,7 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Por favor, tenha paciência enquanto sincronizamos todos os seus dados na cadeia.",
   "statements.tapCont": "Toque para continuar",
+  "statements.price.change": "Oh não! O preço mudou, tente novamente.",
 
   "statements.tutorial.one":
     "O barco o levará entre as ilhas onde você pode descobrir novas terras e aventuras emocionantes.",

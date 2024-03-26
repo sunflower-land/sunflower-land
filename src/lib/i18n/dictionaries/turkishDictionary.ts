@@ -4266,6 +4266,7 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Zincirdeki tüm verilerinizi senkronize ederken lütfen sabırlı olun.",
   "statements.tapCont": "Devam etmek için dokunun",
+  "statements.price.change": ENGLISH_TERMS["statements.price.change"],
 
   "statements.tutorial.one":
     "Tekne sizi yeni topraklar ve heyecan verici maceralar keşfedebileceğiniz adalar arasında götürecek.",

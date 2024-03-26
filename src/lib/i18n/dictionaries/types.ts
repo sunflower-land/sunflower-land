@@ -2906,7 +2906,8 @@ export type Statements =
   | "statements.minted.goToChest"
   | "statements.minted.withdrawAfterMint"
   | "statements.startgame"
-  | "statements.session.expired";
+  | "statements.session.expired"
+  | "statements.price.change";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"

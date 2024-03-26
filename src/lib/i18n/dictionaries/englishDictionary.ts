@@ -4240,6 +4240,8 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Please bear with us while we sync all of your data on chain.",
   "statements.tapCont": "Tap to continue",
+  "statements.price.change":
+    "Oh no! Looks like the price has changed, please try again!",
 
   "statements.tutorial.one":
     "The boat will take you between islands where you can discover new lands and exciting adventures.",
