@@ -1526,7 +1526,7 @@
     {
       "columns": 64,
       "firstgid": 1,
-      "image": "../../../../images/assets/world/goblin_map.png",
+      "image": "../../../../images/assets/world/map.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,

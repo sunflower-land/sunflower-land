@@ -2,7 +2,6 @@ import mapJSON from "assets/map/retreat.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
-import { CONFIG } from "lib/config";
 import { interactableModalManager } from "../ui/InteractableModals";
 
 const BUMPKINS: NPCBumpkin[] = [
@@ -50,19 +49,13 @@ export class RetreatScene extends BaseScene {
   constructor() {
     super({
       name: "retreat",
-      map: { json: mapJSON, imageKey: "goblin-tileset" },
+      map: { json: mapJSON },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
 
   preload() {
     super.preload();
-
-    // Phaser assets must be served from an URL
-    this.load.image(
-      "goblin-tileset",
-      `${CONFIG.PROTECTED_IMAGE_URL}/world/goblin_map-extruded.png`
-    );
 
     this.load.image("wishing_well", `world/goblin_wishing_well.png`);
     this.load.image("balloon", `world/hot_air_balloon.png`);
