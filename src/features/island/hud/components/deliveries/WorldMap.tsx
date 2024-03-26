@@ -8,6 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNavigate } from "react-router-dom";
+import { OuterPanel } from "components/ui/Panel";
 
 export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { authService } = useContext(Auth.Context);
@@ -21,8 +22,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   }, []);
 
   return (
-    <div className="w-full relative shadow-xl">
-      <img src={worldMap} className="w-full rounded-md" />
+    <OuterPanel className="w-full relative shadow-xl">
+      <img src={worldMap} className="w-full" />
 
       <img
         src={SUNNYSIDE.icons.close}
@@ -131,6 +132,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {t("world.retreat")}
         </span>
       </div>
-    </div>
+    </OuterPanel>
   );
 };
