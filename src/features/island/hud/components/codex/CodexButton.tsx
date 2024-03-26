@@ -14,15 +14,19 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 
-const _hasNewDeliveries = (state: MachineState) =>
-  hasNewOrders(state.context.state.delivery) &&
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 2;
+const _delivery = (state: MachineState) => state.context.state.delivery;
+const _level = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { gameService } = useContext(Context);
-  const hasDeliveries = useSelector(gameService, _hasNewDeliveries);
+
+  const deliveries = useSelector(gameService, _delivery);
+  const level = useSelector(gameService, _level);
+
+  const hasDeliveries = hasNewOrders(deliveries) && level >= 2;
 
   const { t } = useAppTranslation();
 
