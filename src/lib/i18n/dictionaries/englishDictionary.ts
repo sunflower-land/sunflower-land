@@ -2437,6 +2437,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "As a new player, you start with three order slots, but as you expand your farm, you will unlock additional slots, allowing advanced players to take on more orders. New orders come in every 24 hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, delicious cakes, and other rewards. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.",
   "deliveries.intro":
     "Travel to different islands and deliver goods to earn rewards.",
+  "deliveries.new": "New delivery",
   "chores.intro":
     "Complete tasks around the farm to earn rewards from Bumpkins.",
   "scavenger.guide.one":

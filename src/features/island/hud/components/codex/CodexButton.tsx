@@ -3,14 +3,15 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import deliveryAlert from "assets/ui/delivery_alert.png";
+import coins from "assets/ui/coins.png";
+import speechBubble from "assets/ui/speech_border.png";
 
 import { Codex } from "./Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _hasNewDeliveries = (state: MachineState) =>
   hasNewOrders(state.context.state.delivery) &&
@@ -20,7 +21,9 @@ export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { gameService } = useContext(Context);
-  const hasDeliveries = useSelector(gameService, _hasNewDeliveries);
+  const hasDeliveries = true; //useSelector(gameService, _hasNewDeliveries);
+
+  const { t } = useAppTranslation();
 
   return (
     <div className="relative">
@@ -56,11 +59,63 @@ export const CodexButton: React.FC = () => {
             className="absolute "
             style={{
               width: `${PIXEL_SCALE * 68}px`,
-              left: `${PIXEL_SCALE * 18}px`,
-              top: `${PIXEL_SCALE * -6}px`,
+              left: `${PIXEL_SCALE * 11}px`,
+              top: `${PIXEL_SCALE * 3}px`,
             }}
           >
-            <img src={deliveryAlert} className="w-full" />
+            <div
+              className={"absolute uppercase"}
+              style={{
+                fontFamily: "Teeny",
+                color: "black",
+                textShadow: "none",
+                top: `${PIXEL_SCALE * -8}px`,
+                left: `${PIXEL_SCALE * 6}px`,
+
+                borderImage: `url(${speechBubble})`,
+                borderStyle: "solid",
+                borderTopWidth: `${PIXEL_SCALE * 2}px`,
+                borderRightWidth: `${PIXEL_SCALE * 2}px`,
+                borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+                borderLeftWidth: `${PIXEL_SCALE * 5}px`,
+
+                borderImageSlice: "2 2 4 5 fill",
+                imageRendering: "pixelated",
+                borderImageRepeat: "stretch",
+                fontSize: "8px",
+              }}
+            >
+              <div
+                style={{
+                  height: "12px",
+                  minWidth: "50px",
+                  paddingRight: "14px",
+                }}
+              >
+                <span
+                  className="whitespace-nowrap"
+                  style={{
+                    fontSize: "10px",
+                    position: "relative",
+                    bottom: "4px",
+                    left: "4px",
+                    wordSpacing: "-4px",
+                    color: "#262b45",
+                  }}
+                >
+                  {t("deliveries.new")}
+                </span>
+                <img
+                  src={coins}
+                  className="absolute animate-pulsate"
+                  style={{
+                    width: "30px",
+                    top: "-12px",
+                    right: "-22px",
+                  }}
+                />
+              </div>
+            </div>
           </div>
         )}
       </div>
