@@ -196,6 +196,7 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("mmoService", mmoService); // LEGACY
     game.current.registry.set("mmoServer", mmoService.state.context.server);
     game.current.registry.set("gameState", gameService.state.context.state);
+    game.current.registry.set("authService", authService);
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);

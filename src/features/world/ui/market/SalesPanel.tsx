@@ -43,7 +43,7 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
 };
 
 export const SalesPanel: React.FC<{
-  marketPrices: MarketPrices;
+  marketPrices: MarketPrices | undefined;
 }> = ({ marketPrices }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -88,14 +88,14 @@ export const SalesPanel: React.FC<{
 
     const progress = state.balance
       .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * marketPrices[item])
+      .add(MARKET_BUNDLES[item] * marketPrices![item])
       .sub(state.previousBalance ?? new Decimal(0));
 
     return progress.gt(MAX_SESSION_SFL);
   };
 
   const searchView = () => {
-    if (marketPrices.Apple == undefined) {
+    if (marketPrices === undefined) {
       return <Loading />;
     }
 

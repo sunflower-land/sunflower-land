@@ -22,6 +22,11 @@ import { hasFeatureAccess } from "lib/flags";
 import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
 import { GameState } from "features/game/types/game";
 import shuffle from "lodash.shuffle";
+import {
+  getCachedMarketPrices,
+  setCachedMarketPrices,
+} from "../ui/market/lib/marketCache";
+import { getMarketPrices } from "features/game/actions/getMarketPrices";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -551,10 +556,12 @@ export class PlazaScene extends BaseScene {
     tradingBoardIcon.setDepth(1000000);
 
     // GoblinMarket
-    const goblinMarket = this.add.sprite(325, 400, "trading_board");
-    goblinMarket.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("goblin_market");
-    });
+    this.goblinMarket = this.add.sprite(325, 400, "trading_board");
+    this.goblinMarket
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("goblin_market");
+      });
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 
@@ -892,6 +899,17 @@ export class PlazaScene extends BaseScene {
         this.layers["Club House Door"].setVisible(true);
       }
     });
+
+    const twentyFourHours = 1000 * 60 * 60 * 24;
+    const marketPrices = getCachedMarketPrices();
+    if (!marketPrices || marketPrices.cachedAt < Date.now() - twentyFourHours) {
+      const marketPrices = await getMarketPrices(
+        this.gameService.state.context.farmId,
+        this.gameService.state.context.transactionId as string,
+        this.authService.state.context.user.rawToken as string
+      );
+      setCachedMarketPrices(marketPrices);
+    }
   }
 
   syncPlaceables() {
