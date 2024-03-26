@@ -2332,6 +2332,7 @@ const gameTerms: Record<GameTerms, string> = {
   gobSwarm: "Enxame de Goblins!",
   "granting.wish": "Concedendo seu desejo",
   "new.delivery.in": "Novas entregas disponíveis em",
+  "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "no.sfl": "Nenhum token SFL encontrado",
   opensea: "OpenSea",
   polygonscan: "PolygonScan",

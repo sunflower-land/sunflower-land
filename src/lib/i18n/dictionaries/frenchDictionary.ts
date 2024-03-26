@@ -2395,6 +2395,7 @@ const gameTerms: Record<GameTerms, string> = {
   gobSwarm: "Nuée de Gobelins!",
   "granting.wish": "Exaucement de votre souhait",
   "new.delivery.in": "Nouvelles livraisons disponibles dans",
+  "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "no.sfl": "Aucun jeton SFL trouvé",
   opensea: "OpenSea",
   polygonscan: "PolygonScan",

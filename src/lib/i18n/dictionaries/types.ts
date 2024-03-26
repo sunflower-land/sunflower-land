@@ -1641,6 +1641,7 @@ export type GameTerms =
   | "gobSwarm"
   | "granting.wish"
   | "new.delivery.in"
+  | "new.delivery.levelup"
   | "no.sfl"
   | "opensea"
   | "polygonscan"

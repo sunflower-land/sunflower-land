@@ -12,6 +12,7 @@ import sfl from "assets/icons/token_2.png";
 import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
 import chest from "assets/icons/chest.png";
+import lockIcon from "assets/skills/lock.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -147,7 +148,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     (delivery.milestone.claimedAt ?? 0) < new Date("2024-02-15").getTime();
 
   return (
-    <div className="flex md:flex-row flex-col-reverse md:mr-1">
+    <div className="flex md:flex-row flex-col-reverse md:mr-1 overflow-scroll">
       <div
         className={classNames("md:flex flex-col w-full md:w-2/3", {
           hidden: selectedId,
@@ -386,6 +387,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 length: "medium",
               })}.`}
             </span>
+          </div>
+          <div className="flex items-center mb-1 mt-2">
+            <div className="w-6">
+              <img src={lockIcon} className="h-4 mx-auto" />
+            </div>
+            <span className="text-xs">{t("new.delivery.levelup")}</span>
           </div>
         </div>
       </div>

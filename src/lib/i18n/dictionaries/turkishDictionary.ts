@@ -2303,6 +2303,7 @@ const gameTerms: Record<GameTerms, string> = {
   gobSwarm: "Goblin Sürüsü!",
   "granting.wish": "Dileğinin yerine getirilmesi",
   "new.delivery.in": "Yeni siparişler içi kalan süre",
+  "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "no.sfl": "SFL bulunamadı",
   opensea: "OpenSea",
   polygonscan: "PolygonScan",
