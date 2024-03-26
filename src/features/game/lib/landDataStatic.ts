@@ -358,6 +358,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Wood: new Decimal(10),
     Egg: new Decimal(10),
     Iron: new Decimal(10),
+    "Golden Cauliflower": new Decimal(1),
   },
   npcs: {
     "pumpkin' pete": {
@@ -441,7 +442,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Enchanted Rose": new Decimal(1),
     "Flower Cart": new Decimal(1),
     Capybara: new Decimal(1),
-    "Baby Panda": new Decimal(1),
+    "Golden Cauliflower": new Decimal(1),
 
     // Foods
     "Pumpkin Soup": new Decimal(1),
@@ -649,7 +650,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     ],
   },
-  collectibles: {},
+  collectibles: {
+    // "Golden Cauliflower": [
+    //   {
+    //     id: "123",
+    //     createdAt: 0,
+    //     readyAt: 0,
+    //     coordinates: {
+    //       x: 3,
+    //       y: 3,
+    //     },
+    //   },
+    // ],
+  },
   pumpkinPlaza: {
     raffle: {
       entries: {

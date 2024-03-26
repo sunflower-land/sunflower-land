@@ -1,11 +1,11 @@
 import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
-import { getBankItemsLegacy, getDeliverableItems } from "./storageItems";
+import { getBankItemsLegacy, getDeliverableItemsLegacy } from "./storageItems";
 import { TEST_FARM } from "features/game/lib/constants";
 
 describe("getDeliverableItems", () => {
   it("includes crops", () => {
-    const filtered = getDeliverableItems({
+    const filtered = getDeliverableItemsLegacy({
       Sunflower: new Decimal(1),
       Radish: new Decimal(10.2),
       "Chicken Coop": new Decimal(1),
@@ -18,7 +18,7 @@ describe("getDeliverableItems", () => {
   });
 
   it("includes fruits", () => {
-    const filtered = getDeliverableItems({
+    const filtered = getDeliverableItemsLegacy({
       Apple: new Decimal(5),
       Orange: new Decimal(2),
       Blueberry: new Decimal(3),
@@ -33,7 +33,7 @@ describe("getDeliverableItems", () => {
   });
 
   it("includes natural resources", () => {
-    const filtered = getDeliverableItems({
+    const filtered = getDeliverableItemsLegacy({
       Wood: new Decimal(100),
       Gold: new Decimal(15),
     });
@@ -45,7 +45,7 @@ describe("getDeliverableItems", () => {
   });
 
   it("filters out chickens", () => {
-    const filtered = getDeliverableItems({
+    const filtered = getDeliverableItemsLegacy({
       Chicken: new Decimal(20),
       Beetroot: new Decimal(100),
     });
@@ -56,7 +56,7 @@ describe("getDeliverableItems", () => {
   });
 
   it("excludes rare items", () => {
-    const filtered = getDeliverableItems({
+    const filtered = getDeliverableItemsLegacy({
       Wood: new Decimal(100),
       Gold: new Decimal(15),
       "Farm Cat": new Decimal(1),

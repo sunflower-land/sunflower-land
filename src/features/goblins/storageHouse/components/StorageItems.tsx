@@ -8,7 +8,7 @@ import { InventoryItemName, Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 
-import { getDeliverableItems } from "../lib/storageItems";
+import { getDeliverableItemsLegacy } from "../lib/storageItems";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const StorageItems: React.FC = () => {
@@ -23,14 +23,14 @@ export const StorageItems: React.FC = () => {
 
       const _treasuryInventory = await getTreasuryItems();
 
-      setTreasuryInventory(getDeliverableItems(_treasuryInventory));
+      setTreasuryInventory(getDeliverableItemsLegacy(_treasuryInventory));
       setLoading(false);
     };
 
     load();
   }, []);
 
-  const resourceInventory = getDeliverableItems(
+  const resourceInventory = getDeliverableItemsLegacy(
     goblinState.context.state.inventory
   );
   const { t } = useAppTranslation();

@@ -18,7 +18,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { wallet } from "lib/blockchain/wallet";
-import { getDeliverableItems } from "../lib/storageItems";
+import { getDeliverableItemsLegacy } from "../lib/storageItems";
 import { shortAddress } from "lib/utils/shortAddress";
 import { loadBanDetails } from "features/game/actions/bans";
 import { Jigger, JiggerStatus } from "features/game/components/Jigger";
@@ -59,7 +59,7 @@ export const DeliverItems: React.FC<Props> = ({ onWithdraw }) => {
   const [selected, setSelected] = useState<Inventory>({});
 
   const inventory: Inventory = useMemo(() => {
-    const deliverables = getDeliverableItems(
+    const deliverables = getDeliverableItemsLegacy(
       goblinState.context.state.inventory
     );
 

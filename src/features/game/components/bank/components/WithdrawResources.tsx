@@ -50,9 +50,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const [selected, setSelected] = useState<Inventory>({});
 
   const inventory: Inventory = useMemo(() => {
-    const deliverables = getDeliverableItems(
-      gameState.context.state.previousInventory
-    );
+    const deliverables = getDeliverableItems({ game: gameState.context.state });
 
     return Object.fromEntries(
       Object.entries(deliverables).filter(([_, v]) => v?.gt(0))
