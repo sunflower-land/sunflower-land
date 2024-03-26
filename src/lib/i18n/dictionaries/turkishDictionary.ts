@@ -1,3 +1,4 @@
+import { ENGLISH_TERMS } from "./englishDictionary";
 import {
   AchievementsTerms,
   Auction,
@@ -2457,6 +2458,8 @@ const guideTerms: Record<GuideTerms, string> = {
     "Sunflower Land’deki teslimatlar, aç Goblinlere ve Bumpkins dostlarına yardım ederken ödüller kazanma konusunda heyecan verici bir fırsat sunuyor. Her gün ekranın sol alt kısmındaki teslimat panosuna tıklayarak sahip olduğunuz tüm siparişleri görebileceksiniz. Siparişler, Pumpkin Plaza civarında bulunabilen bazı yerel NPC'ler tarafından verilmiştir. Bir siparişi yerine getirmek için Pumpkin Plaza'ya tekneyle gitmeniz ve teslimatı bekleyen NPC'yi aramanız gerekecek. Onları bulduğunuzda, siparişi teslim etmek ve ödülünüzü almak için üzerlerine tıklayın.",
   "deliveries.guide.two":
     "Yeni bir oyuncu olarak üç sipariş yuvasıyla başlarsınız, ancak çiftliğinizi genişlettikçe ek yuvaların kilidini açarak ileri düzey oyuncuların daha fazla sipariş almasına olanak tanıyacaksınız. Her 24 saatte bir yeni siparişler geliyor ve tarım ürünlerinden yemek pişirmeye ve kaynak toplamaya kadar çeşitli görevler sunuyor. Siparişleri tamamlamak size Block Bucks, SFL, lezzetli pastalar ve diğer ödüller dahil olmak üzere dönüm noktası bonusları kazandıracak. Ödül sistemi isteğin zorluğuna dayalıdır; bu nedenle kazancınızı en üst düzeye çıkarmak için daha büyük ödüller sunan siparişlere öncelik vermeyi düşünün. Tahtaya göz kulak olun ve çeşitli siparişlerle kendinize meydan okuyun, seviye atlayın ve daha zorlu istekleri yerine getirmek için gerektiğinde yeni binaların kilidini açın.",
+  "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
+  "chores.intro": ENGLISH_TERMS["chores.intro"],
 
   "scavenger.guide.one":
     "Sunflower Land’de çöp toplamak, gizli hazineleri ortaya çıkarmak ve değerli kaynakları toplamak için heyecan verici fırsatlar sunar. Çöp toplamanın ilk yönü, korsan hazine avcısı olabileceğiniz Define Adası'nda hazine kazmaktır. Bir kum küreği üreterek ve Treasure Island'a giderek, ödül, dekorasyon ve hatta kullanışlı antik SFT'ler dahil olmak üzere çeşitli hazineleri ortaya çıkarmak için karanlık kumlu alanları kazabilirsiniz.",
@@ -4609,6 +4612,10 @@ const world: Record<World, string> = {
     "Bir Bumpkin veya bir nesneyle etkileşime geçmek için onun yanına yürüyün ve ona tıklayın",
   "world.intro.seven":
     "Taciz, küfür veya zorbalık yok. Başkalarına saygı duyduğunuz için teşekkür ederiz.",
+  "world.plaza": ENGLISH_TERMS["world.plaza"],
+  "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.home": ENGLISH_TERMS["world.home"],
+  "world.kingdom": ENGLISH_TERMS["world.kingdom"],
 };
 
 const wornDescription: Record<WornDescription, string> = {

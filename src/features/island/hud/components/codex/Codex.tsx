@@ -53,16 +53,24 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setMilestoneName(undefined);
   };
 
+  const incompleteDeliveries = state.delivery.orders.filter(
+    (order) => !order.completedAt
+  ).length;
+
+  const incompleteChores = Object.values(state.chores?.chores ?? {}).filter(
+    (chore) => !chore.completedAt
+  ).length;
+
   const categories: CodexCategory[] = [
     {
       name: "Deliveries",
       icon: SUNNYSIDE.icons.player,
-      count: 0,
+      count: incompleteDeliveries,
     },
     {
       name: "Chores",
       icon: SUNNYSIDE.icons.hammer,
-      count: 3,
+      count: incompleteChores,
     },
     {
       name: "Fish",

@@ -2482,6 +2482,8 @@ const guideTerms: Record<GuideTerms, string> = {
     "As entregas em Sunflower Land oferecem uma oportunidade emocionante de ajudar Goblins famintos e companheiros Bumpkins enquanto ganha recompensas. Todos os dias, você poderá ver todos os pedidos que possui clicando no quadro de entregas na parte inferior esquerda da tela. Os pedidos foram feitos por alguns NPCs locais que podem ser encontrados em torno da Pumpkin Plaza. Para cumprir um pedido, você precisará fazer um passeio de barco até a Pumpkin Plaza e procurar pelo NPC que espera a entrega. Depois de encontrá-los, clique neles para entregar o pedido e receber sua recompensa.",
   "deliveries.guide.two":
     "Como um novo jogador, você começa com três slots de pedidos, mas à medida que expande sua fazenda, desbloqueará slots adicionais, permitindo que jogadores avançados assumam mais pedidos. Novos pedidos chegam a cada 24 horas, oferecendo uma variedade de tarefas, desde cultivar produtos até cozinhar alimentos e reunir recursos. Completar pedidos lhe renderá bônus de marcos, incluindo Block Bucks, SFL, bolos deliciosos e outras recompensas. O sistema de recompensas é baseado na dificuldade do pedido, então considere priorizar pedidos que ofereçam maiores recompensas para maximizar seus ganhos. Fique de olho no quadro e desafie-se com uma variedade de pedidos, subindo de nível e desbloqueando novos prédios conforme necessário para cumprir pedidos mais exigentes.",
+  "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
+  "chores.intro": ENGLISH_TERMS["chores.intro"],
 
   "scavenger.guide.one":
     "Coletar em Sunflower Land oferece oportunidades emocionantes para  descobrir tesouros escondidos e reunir recursos valiosos. O primeiro aspecto é cavar tesouros na Ilha do Tesouro, onde você pode se tornar um caçador de tesouros piratas. Ao criar uma pá de areia e aventurar-se na Ilha do Tesouro, você pode cavar em áreas de areia escura para descobrir uma variedade de tesouros, incluindo recompensas, decorações e até mesmo SFTs antigos com utilidade.",
@@ -4618,6 +4620,10 @@ const world: Record<World, string> = {
     "Para interagir com um Bumpkin ou um objeto, aproxime-se e clique nele",
   "world.intro.seven":
     "Sem assédio, palavrões ou bullying. Obrigado por respeitar os outros.",
+  "world.plaza": ENGLISH_TERMS["world.plaza"],
+  "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.home": ENGLISH_TERMS["world.home"],
+  "world.kingdom": ENGLISH_TERMS["world.kingdom"],
 };
 
 const wornDescription: Record<WornDescription, string> = {

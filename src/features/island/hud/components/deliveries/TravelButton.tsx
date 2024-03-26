@@ -9,7 +9,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
-import { Transition } from "@headlessui/react";
 import { hasFeatureAccess } from "lib/flags";
 import { TravelModal } from "./TravelModal";
 

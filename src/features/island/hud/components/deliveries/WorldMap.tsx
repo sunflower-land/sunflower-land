@@ -34,7 +34,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         style={{
           width: "27%",
           height: "34%",
-          // border: "1px solid red",
           position: "absolute",
           left: 0,
           bottom: 0,
@@ -53,7 +52,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             } as any
           }
         >
-          Home
+          {t("world.home")}
         </span>
       </div>
 
@@ -61,7 +60,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         style={{
           width: "18%",
           height: "24%",
-          // border: "1px solid red",
           position: "absolute",
           left: "35%",
           bottom: "20%",
@@ -80,11 +78,11 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             } as any
           }
         >
-          Plaza
+          {t("world.plaza")}
         </span>
       </div>
 
-      <div
+      {/* <div
         style={{
           width: "18%",
           height: "24%",
@@ -93,7 +91,19 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "50%",
         }}
-      />
+        >
+        <span
+          className="text-xs sm:text-sm"
+          style={
+            {
+              "-webkit-text-stroke": "1px black",
+            } as any
+          }
+        >
+          {t("world.kingdom")}
+
+        </span>
+      </div> */}
 
       <div
         style={{
@@ -118,22 +128,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             } as any
           }
         >
-          Retreat
+          {t("world.retreat")}
         </span>
       </div>
-
-      {/* <span
-        className="text-xxs sm:text-xs absolute"
-        style={{
-          "-webkit-text-stroke": "1px black",
-          left: "calc(45% - 25px)",
-          bottom: "calc(56% - 50px)",
-          width: "50px",
-          "text-align": "center",
-        }}
-      >
-        Plaza
-      </span> */}
     </div>
   );
 };
