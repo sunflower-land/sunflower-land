@@ -21,7 +21,7 @@ export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { gameService } = useContext(Context);
-  const hasDeliveries = true; //useSelector(gameService, _hasNewDeliveries);
+  const hasDeliveries = useSelector(gameService, _hasNewDeliveries);
 
   const { t } = useAppTranslation();
 
