@@ -169,20 +169,22 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
               {t("resources")}
             </div>
           </Button>
+        </div>
+        <div className="flex space-x-1">
           <Button onClick={() => setPage("items")}>
             <div className="flex">
               <img src={chest} className="h-4 mr-1" />
               {t("collectibles")}
             </div>
           </Button>
-        </div>
-        <div className="flex space-x-1">
           <Button onClick={() => setPage("wearables")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
               {t("wearables")}
             </div>
           </Button>
+        </div>
+        <div className="flex space-x-1">
           <Button onClick={() => setPage("bumpkin")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
