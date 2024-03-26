@@ -1,18 +1,14 @@
 import React, { useState, useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import world from "assets/icons/world.png";
-import { hasNewOrders } from "features/island/delivery/lib/delivery";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasNewChores } from "features/helios/components/hayseedHank/lib/chores";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
 import { hasFeatureAccess } from "lib/flags";
 import { TravelModal } from "./TravelModal";
 
-const _delivery = (state: MachineState) => state.context.state.delivery;
 const _chores = (state: MachineState) => state.context.state.chores;
 
 export const Travel: React.FC<{ isVisiting?: boolean }> = ({
@@ -20,11 +16,6 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
 }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
-  const delivery = useSelector(gameService, _delivery);
-  const chores = useSelector(gameService, _chores);
-
-  const showExpression =
-    (hasNewOrders(delivery) || (chores && hasNewChores(chores))) && !isVisiting;
 
   const showNewMap = hasFeatureAccess(
     gameService.state?.context.state ?? {},
@@ -63,20 +54,6 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
             className="absolute"
           />
         </div>
-        {showExpression && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={
-              "absolute z-50 pointer-events-none" +
-              (showAnimations ? " animate-float" : "")
-            }
-            style={{
-              width: `${PIXEL_SCALE * 4}px`,
-              top: `${PIXEL_SCALE * 0}px`,
-              right: `${PIXEL_SCALE * 3}px`,
-            }}
-          />
-        )}
       </div>
 
       {showNewMap && (
