@@ -1,6 +1,6 @@
 import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
-import { getBankItems, getDeliverableItems } from "./storageItems";
+import { getBankItemsLegacy, getDeliverableItems } from "./storageItems";
 import { TEST_FARM } from "features/game/lib/constants";
 
 describe("getDeliverableItems", () => {
@@ -78,7 +78,7 @@ const farm = TEST_FARM;
 
 describe("getBankItems", () => {
   it("filters out crops", () => {
-    const filtered = getBankItems({
+    const filtered = getBankItemsLegacy({
       ...farm,
       inventory: {
         Sunflower: new Decimal(1),
@@ -93,7 +93,7 @@ describe("getBankItems", () => {
   });
 
   it("filters out fruits", () => {
-    const filtered = getBankItems({
+    const filtered = getBankItemsLegacy({
       ...farm,
       inventory: {
         Apple: new Decimal(1),
@@ -109,7 +109,7 @@ describe("getBankItems", () => {
   });
 
   it("filters out natural resources", () => {
-    const filtered = getBankItems({
+    const filtered = getBankItemsLegacy({
       ...farm,
       inventory: {
         Wood: new Decimal(100),
@@ -121,7 +121,7 @@ describe("getBankItems", () => {
   });
 
   it("include rare items", () => {
-    const filtered = getBankItems({
+    const filtered = getBankItemsLegacy({
       ...farm,
       inventory: {
         Wood: new Decimal(100),

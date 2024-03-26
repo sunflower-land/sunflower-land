@@ -37,8 +37,29 @@ export function getDeliverableItems(inventory: Inventory) {
 }
 
 /**
- * Items for the bank
+ * TODO - remove Items for the bank
  */
+export function getBankItemsLegacy(game: GameState) {
+  const { inventory, previousInventory } = game;
+  return (Object.keys(inventory) as InventoryItemName[]).reduce(
+    (acc, itemName) => {
+      if (
+        itemName in CROPS() ||
+        itemName in FRUIT() ||
+        (itemName in COMMODITIES && itemName !== "Chicken")
+      ) {
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [itemName]: inventory[itemName],
+      };
+    },
+    {} as Inventory
+  );
+}
+
 export function getBankItems(game: GameState) {
   const { inventory, previousInventory } = game;
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
