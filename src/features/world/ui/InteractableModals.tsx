@@ -21,12 +21,16 @@ import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
+import { WishingWellModal } from "features/goblins/wishingWell/WishingWellModal";
+import { BankModal } from "features/game/components/bank/components/BankModal";
+import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
 type InteractableName =
   | FanArtNPC
   | "donations"
+  | "garbage_collector"
   | "basic_chest"
   | "luxury_chest"
   | "rare_chest"
@@ -41,6 +45,7 @@ type InteractableName =
   | "homeless_man"
   | "potion_table"
   | "dawn_book_1"
+  | "bank"
   | "dawn_book_2"
   | "dawn_book_3"
   | "dawn_book_4"
@@ -71,7 +76,8 @@ type InteractableName =
   | "christmas_reward"
   | "goblin_hammer"
   | "page_discovered"
-  | "trading_board";
+  | "trading_board"
+  | "wishingWell";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -306,6 +312,20 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "raffle"} onHide={closeModal}>
         <Raffle onClose={closeModal} />
       </Modal>
+      <Modal show={interactable === "bank"} onHide={closeModal}>
+        <BankModal onClose={closeModal} farmAddress="?" />
+      </Modal>
+      <Modal show={interactable === "garbage_collector"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.garbo}
+        >
+          <GarbageCollectorModal />
+        </CloseButtonPanel>
+      </Modal>
+      {interactable === "wishingWell" && (
+        <WishingWellModal onClose={closeModal} />
+      )}
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}

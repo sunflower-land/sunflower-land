@@ -148,13 +148,13 @@ export type GoblinMachineState = {
     | "minted"
     | "withdrawing"
     | "withdrawn"
+    | "provingPersonhood"
     | "playing"
     | "trading"
     | "depositing"
     | "refreshing"
     | "levelRequirementNotReached"
     | "error"
-    | "provingPersonhood"
     | "tradeNotification";
   context: Context;
 };

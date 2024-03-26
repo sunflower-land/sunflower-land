@@ -6,16 +6,24 @@ export type SpawnLocation = Record<
   { default: Coordinates } & Partial<Record<SceneId, Coordinates>>
 >;
 
-const randomXOffset = Math.random() * 70;
-const randomYOffset = Math.random() * 40;
+const randomXOffset = Math.random() * 20;
+const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
+  retreat: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 310 + randomXOffset,
+      y: 420 - randomYOffset,
+    },
+  },
   plaza: {
     // Make sure everyone doesn't spawn in same spot
     default: {
       x: 400 + randomXOffset,
       y: 450 - randomYOffset,
     },
+
     woodlands: {
       x: 867,
       y: 142,

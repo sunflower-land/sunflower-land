@@ -61,6 +61,9 @@ import { ListingDeleted } from "../components/listingDeleted";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
+import { Withdrawing } from "../components/Withdrawing";
+import { Withdrawn } from "../components/Withdrawn";
+import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -110,6 +113,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   blacklisted: true,
   airdrop: true,
   portalling: true,
+  provingPersonhood: false,
+  withdrawing: true,
+  withdrawn: true,
 };
 
 // State change selectors
@@ -154,6 +160,8 @@ const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 
+const isWithdrawing = (state: MachineState) => state.matches("withdrawing");
+const isWithdrawn = (state: MachineState) => state.matches("withdrawn");
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
@@ -163,6 +171,8 @@ const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
 const isPlaying = (state: MachineState) => state.matches("playing");
+const isProvingPersonhood = (state: MachineState) =>
+  state.matches("provingPersonhood");
 
 const GameContent = () => {
   const { gameService } = useContext(Context);
@@ -248,6 +258,9 @@ export const GameWrapper: React.FC = ({ children }) => {
   const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
+  const provingPersonhood = useSelector(gameService, isProvingPersonhood);
+  const withdrawing = useSelector(gameService, isWithdrawing);
+  const withdrawn = useSelector(gameService, isWithdrawn);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -433,6 +446,8 @@ export const GameWrapper: React.FC = ({ children }) => {
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
             {specialOffer && <SpecialOffer />}
+            {withdrawing && <Withdrawing />}
+            {withdrawn && <Withdrawn />}
           </Panel>
         </Modal>
 
@@ -442,6 +457,17 @@ export const GameWrapper: React.FC = ({ children }) => {
         <SpecialOffer />
         <Introduction />
         <NewMail />
+
+        {provingPersonhood && (
+          <Modal
+            show={true}
+            onHide={() => gameService.send("PERSONHOOD_CANCELLED")}
+          >
+            <Panel className="text-shadow">
+              <PersonhoodContent />
+            </Panel>
+          </Modal>
+        )}
 
         {children}
       </ToastProvider>

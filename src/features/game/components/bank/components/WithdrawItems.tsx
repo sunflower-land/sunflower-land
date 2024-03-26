@@ -2,7 +2,6 @@ import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Context } from "features/game/GoblinProvider";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { shortAddress } from "lib/utils/shortAddress";
@@ -16,10 +15,11 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "features/game/types/craftables";
-import { getBankItemsLegacy } from "features/goblins/storageHouse/lib/storageItems";
+import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WITHDRAWABLES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -62,14 +62,14 @@ export const WithdrawItems: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const { goblinService } = useContext(Context);
-  const [goblinState] = useActor(goblinService);
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
 
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
-    const bankItems = getBankItemsLegacy(goblinState.context.state);
+    const bankItems = getBankItems(gameState.context.state);
     setInventory(bankItems);
     setSelected({});
   }, []);
@@ -96,17 +96,16 @@ export const WithdrawItems: React.FC<Props> = ({
   const makeItemDetails = (itemName: InventoryItemName) => {
     const details = ITEM_DETAILS[itemName];
 
-    const mintedAt = goblinState.context.mintedAtTimes[itemName];
     return {
-      mintedAt: mintedAt,
+      mintedAt: 0,
       image: details.image,
     };
   };
 
   const isCurrentObsession = (itemName: InventoryItemName) => {
     const obsessionCompletedAt =
-      goblinState.context.state.npcs?.bert?.questCompletedAt;
-    const currentObsession = goblinState.context.state.bertObsession;
+      gameState.context.state.npcs?.bert?.questCompletedAt;
+    const currentObsession = gameState.context.state.bertObsession;
 
     if (!obsessionCompletedAt || !currentObsession) return false;
     if (currentObsession.name !== itemName) return false;

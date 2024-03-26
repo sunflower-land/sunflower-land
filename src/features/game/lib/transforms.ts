@@ -25,6 +25,7 @@ export function makeGame(farm: any): GameState {
       {} as Record<InventoryItemName, Decimal>
     ),
     wardrobe: farm.wardrobe,
+    previousWardrobe: farm.previousWardrobe,
     stock: Object.keys(farm.stock).reduce(
       (items, item) => ({
         ...items,

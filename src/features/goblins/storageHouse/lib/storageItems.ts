@@ -1,6 +1,11 @@
+import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { FRUIT } from "features/game/types/fruits";
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { COMMODITIES } from "features/game/types/resources";
 import { WITHDRAWABLES } from "features/game/types/withdrawables";
 
@@ -32,9 +37,10 @@ export function getDeliverableItems(inventory: Inventory) {
 }
 
 /**
- * Items for the bank
+ * TODO - remove Items for the bank
  */
-export function getBankItems(inventory: Inventory) {
+export function getBankItemsLegacy(game: GameState) {
+  const { inventory, previousInventory } = game;
   return (Object.keys(inventory) as InventoryItemName[]).reduce(
     (acc, itemName) => {
       if (
@@ -48,6 +54,35 @@ export function getBankItems(inventory: Inventory) {
       return {
         ...acc,
         [itemName]: inventory[itemName],
+      };
+    },
+    {} as Inventory
+  );
+}
+
+export function getBankItems(game: GameState) {
+  const { inventory, previousInventory } = game;
+  return (Object.keys(inventory) as InventoryItemName[]).reduce(
+    (acc, itemName) => {
+      if (
+        itemName in CROPS() ||
+        itemName in FRUIT() ||
+        (itemName in COMMODITIES && itemName !== "Chicken")
+      ) {
+        return acc;
+      }
+
+      const previousAmount = previousInventory[itemName] ?? new Decimal(0);
+      const currentAmount = inventory[itemName] ?? new Decimal(0);
+
+      // Use the lesser
+      const amount = previousAmount.lessThan(currentAmount)
+        ? previousAmount
+        : currentAmount;
+
+      return {
+        ...acc,
+        [itemName]: amount,
       };
     },
     {} as Inventory

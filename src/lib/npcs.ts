@@ -60,11 +60,78 @@ export type NPCName =
   | "poppy"
   | "stevie"
   | "Chun Long"
-  | "evie";
+  | "evie"
+  | "gordo"
+  | "goblet"
+  | "garbo"
+  | "guria"
+  | "grabnab"
+  | "greedclaw";
 
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  greedclaw: {
+    body: "Goblin Potion",
+    hair: "Wise Hair",
+    beard: "Wise Beard",
+    pants: "Wise Slacks",
+    shirt: "Wise Robes",
+    tool: "Wise Staff",
+    secondaryTool: "Wise Book",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  grabnab: {
+    body: "Goblin Potion",
+    background: "Dawn Breaker Background",
+    hair: "Sun Spots",
+    shirt: "Bidder's Brocade",
+    pants: "Auctioneer Slacks",
+    shoes: "Leather Shoes",
+    tool: "Auction Megaphone",
+    hat: "Harry's Hat",
+  },
+  garbo: {
+    body: "Goblin Potion",
+    shirt: "Yellow Farmer Shirt",
+    pants: "Farmer Overalls",
+    hair: "Buzz Cut",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Ancient Goblin Sword",
+  },
+  gordo: {
+    body: "Goblin Potion",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    hair: "Sun Spots",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Parsnip",
+  },
+
+  goblet: {
+    body: "Goblin Potion",
+    shirt: "Blue Farmer Shirt",
+    pants: "Farmer Pants",
+    hair: "White Long Hair",
+    hat: "Luna's Hat",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Dawn Lamp",
+  },
+
+  guria: {
+    body: "Goblin Potion",
+    shirt: "Red Farmer Shirt",
+    pants: "Lumberjack Overalls",
+    hair: "Rancher Hair",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Pirate Scimitar",
+  },
+
   evie: {
     background: "Farm Background",
     body: "Beige Farmer Potion",

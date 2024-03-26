@@ -354,7 +354,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   balance: new Decimal(100),
   previousBalance: new Decimal(0),
-  previousInventory: {},
+  previousInventory: {
+    Wood: new Decimal(10),
+    Egg: new Decimal(10),
+    Iron: new Decimal(10),
+  },
   npcs: {
     "pumpkin' pete": {
       deliveryCount: 0,
@@ -531,6 +535,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "White Shark": new Decimal(1),
   },
   wardrobe: {
+    "Elf Suit": 1,
+    "Banana Onesie": 1,
+    "Beige Farmer Potion": 2,
+    "Fire Hair": 3,
+    "Basic Hair": 1,
+    "Red Farmer Shirt": 2,
+    "Blue Farmer Shirt": 1,
+    "Brown Suspenders": 1,
+
+    "Black Farmer Boots": 1,
+    "Farmer Pitchfork": 1,
+    "Farm Background": 1,
+    "Santa Beard": 1,
+    "Sunflower Amulet": 2,
+  },
+  previousWardrobe: {
     "Elf Suit": 1,
     "Banana Onesie": 1,
     "Beige Farmer Potion": 2,

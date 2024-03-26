@@ -71,6 +71,7 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
           />
         )}
       </div>
+
       <TravelModal
         isOpen={showModal}
         onClose={() => setShowModal(false)}

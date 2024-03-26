@@ -45,6 +45,7 @@ import { Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
+import { RetreatScene } from "./scenes/RetreatScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -105,7 +106,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = isCommunity
     ? [CommunityScene]
-    : [Preloader, WoodlandsScene, BeachScene, PlazaScene];
+    : [Preloader, WoodlandsScene, BeachScene, PlazaScene, RetreatScene];
 
   useEffect(() => {
     // Set up community APIs

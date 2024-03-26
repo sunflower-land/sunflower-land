@@ -895,6 +895,7 @@ export interface GameState {
   inventory: Inventory;
   previousInventory: Inventory;
   wardrobe: Wardrobe;
+  previousWardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
 

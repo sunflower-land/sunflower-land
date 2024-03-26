@@ -85,6 +85,14 @@ import { getBumpkinLevel } from "./level";
 import { listRequest } from "../actions/listTrade";
 import { deleteListingRequest } from "../actions/deleteListing";
 import { fulfillTradeListingRequest } from "../actions/fulfillTradeListing";
+import {
+  withdrawBuds,
+  withdrawBumpkin,
+  withdrawItems,
+  withdrawSFL,
+  withdrawWearables,
+} from "../actions/withdraw";
+import { CONFIG } from "lib/config";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -130,6 +138,7 @@ export interface Context {
   wallet?: string;
   nftId?: number;
   paused?: boolean;
+  verified?: boolean;
 }
 
 export type Moderation = {
@@ -156,7 +165,11 @@ type WithdrawEvent = {
   sfl: number;
   ids: number[];
   amounts: string[];
+  bumpkinId?: number;
+  wearableIds: number[];
+  wearableAmounts: number[];
   captcha: string;
+  budIds: number[];
 };
 
 type SyncEvent = {
@@ -303,6 +316,16 @@ export type BlockchainEvent =
       type: "SKIP_MIGRATION";
     }
   | { type: "END_VISIT" }
+  | {
+      type: "PROVE_PERSONHOOD";
+    }
+  | {
+      type: "PERSONHOOD_FINISHED";
+      verified: boolean;
+    }
+  | {
+      type: "PERSONHOOD_CANCELLED";
+    }
   | WithdrawEvent
   | GameEvent
   | MintEvent
@@ -440,6 +463,9 @@ export type BlockchainState = {
     | "claimAuction"
     | "refundAuction"
     | "blacklisted"
+    | "withdrawing"
+    | "withdrawn"
+    | "provingPersonhood"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -531,6 +557,7 @@ export function startGame(authContext: AuthContext) {
           kicked: [],
         },
         saveQueued: false,
+        verified: !CONFIG.API_URL,
       },
       states: {
         loading: {
@@ -580,6 +607,7 @@ export function startGame(authContext: AuthContext) {
                 linkedWallet: response.linkedWallet,
                 nftId: response.nftId,
                 wallet: response.wallet,
+                verified: response.verified,
               };
             },
             onDone: [
@@ -974,6 +1002,9 @@ export function startGame(authContext: AuthContext) {
             },
             MINT: {
               target: "minting",
+            },
+            WITHDRAW: {
+              target: "withdrawing",
             },
             BUY_BLOCK_BUCKS: {
               target: "buyingBlockBucks",
@@ -1775,6 +1806,134 @@ export function startGame(authContext: AuthContext) {
           },
         },
         transacting: {},
+        withdrawing: {
+          entry: "setTransactionId",
+          invoke: {
+            src: async (context, event) => {
+              const {
+                amounts,
+                ids,
+                sfl,
+                captcha,
+                type,
+                wearableAmounts,
+                wearableIds,
+                bumpkinId,
+                budIds,
+              } = event as WithdrawEvent;
+
+              if (Number(sfl) > 0) {
+                const { sessionId } = await withdrawSFL({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  token: authContext.user.rawToken as string,
+                  sfl,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (ids.length > 0) {
+                const { sessionId } = await withdrawItems({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  token: authContext.user.rawToken as string,
+                  amounts,
+                  ids,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (wearableIds.length > 0) {
+                const { sessionId } = await withdrawWearables({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  token: authContext.user.rawToken as string,
+                  amounts: wearableAmounts,
+                  ids: wearableIds,
+                  captcha,
+                  transactionId: context.transactionId as string,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (bumpkinId) {
+                const { sessionId } = await withdrawBumpkin({
+                  farmId: Number(context.farmId),
+                  token: authContext.user.rawToken as string,
+                  transactionId: context.transactionId as string,
+                  bumpkinId: bumpkinId,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+
+              if (budIds.length > 0) {
+                const { sessionId } = await withdrawBuds({
+                  farmId: Number(context.farmId),
+                  token: authContext.user.rawToken as string,
+                  transactionId: context.transactionId as string,
+                  budIds,
+                });
+
+                return {
+                  sessionId,
+                };
+              }
+            },
+            onDone: {
+              target: "withdrawn",
+              actions: assign({
+                sessionId: (_, event) => event.data.sessionId,
+              }),
+            },
+            onError: [
+              {
+                target: "playing",
+                cond: (_, event: any) =>
+                  event.data.message === ERRORS.REJECTED_TRANSACTION,
+              },
+              {
+                target: "error",
+                actions: "assignErrorMessage",
+              },
+            ],
+          },
+        },
+        withdrawn: {
+          on: {
+            REFRESH: {
+              target: "loading",
+            },
+          },
+        },
+        provingPersonhood: {
+          on: {
+            PERSONHOOD_FINISHED: {
+              actions: assign({
+                verified: (_context, event) => event.verified,
+              }),
+              target: "playing",
+            },
+            PERSONHOOD_CANCELLED: {
+              target: "playing",
+            },
+          },
+        },
         randomising: {
           invoke: {
             src: async () => {
@@ -1873,6 +2032,7 @@ export function startGame(authContext: AuthContext) {
           linkedWallet: (_, event) => event.data.linkedWallet,
           wallet: (_, event) => event.data.wallet,
           nftId: (_, event) => event.data.nftId,
+          verified: (_, event) => event.data.verified,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),
