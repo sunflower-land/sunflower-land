@@ -4405,6 +4405,7 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Veuillez patienter pendant que nous synchronisons toutes vos données sur la chaîne.",
   "statements.tapCont": "Appuyez pour continuer",
+  "statements.price.change": ENGLISH_TERMS["statements.price.change"],
 
   "statements.tutorial.one":
     "Le bateau vous emmènera entre les îles où vous pourrez découvrir de nouveaux territoires et des aventures passionnantes.",

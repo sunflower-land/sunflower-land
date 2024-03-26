@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
@@ -8,7 +8,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context as AuthContext } from "features/auth/lib/Provider";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { MarketPrices } from "features/game/actions/getMarketPrices";
@@ -19,28 +18,28 @@ import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
-  // Sunflower: 2000,
-  // Potato: 2000,
-  // Pumpkin: 2000,
-  // Carrot: 2000,
-  // Cabbage: 2000,
-  // Beetroot: 1000,
-  // Cauliflower: 1000,
-  // Parsnip: 400,
-  // Eggplant: 400,
-  // Corn: 400,
-  // Radish: 400,
-  // Wheat: 400,
-  // Kale: 400,
-  // Blueberry: 200,
+  Sunflower: 2000,
+  Potato: 2000,
+  Pumpkin: 2000,
+  Carrot: 2000,
+  Cabbage: 2000,
+  Beetroot: 1000,
+  Cauliflower: 1000,
+  Parsnip: 400,
+  Eggplant: 400,
+  Corn: 400,
+  Radish: 400,
+  Wheat: 400,
+  Kale: 400,
+  Blueberry: 200,
   Orange: 200,
   Apple: 200,
   Banana: 200,
-  // Wood: 200,
-  // Stone: 200,
-  // Iron: 200,
-  // Gold: 100,
-  // Egg: 200,
+  Wood: 200,
+  Stone: 200,
+  Iron: 200,
+  Gold: 100,
+  Egg: 200,
 };
 
 export const SalesPanel: React.FC<{
@@ -48,29 +47,18 @@ export const SalesPanel: React.FC<{
 }> = ({ marketPrices }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthContext);
-  const [authState] = useActor(authService);
 
   const [isSearching, setIsSearching] = useState(false);
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
   const [loading, setLoading] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [selected, setSelected] = useState<TradeableName>("Apple");
-  const [marketPrice, setMarketPrice] = useState<MarketPrices>({
-    Apple: 0,
-    Orange: 0,
-    Banana: 0,
-  });
   const [
     {
-      context: { state, transaction, farmId },
+      context: { state },
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
-
-  useEffect(() => {
-    setMarketPrice(marketPrices);
-  }, [marketPrices]);
 
   const onSell = (item: TradeableName) => {
     const isHoarding = checkHoard(item);
@@ -100,14 +88,14 @@ export const SalesPanel: React.FC<{
 
     const progress = state.balance
       .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * marketPrice[item])
+      .add(MARKET_BUNDLES[item] * marketPrices[item])
       .sub(state.previousBalance ?? new Decimal(0));
 
     return progress.gt(MAX_SESSION_SFL);
   };
 
   const searchView = () => {
-    if (marketPrice.Apple == undefined) {
+    if (marketPrices.Apple == undefined) {
       return <Loading />;
     }
 

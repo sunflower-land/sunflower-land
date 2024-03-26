@@ -92,6 +92,7 @@ import {
   withdrawWearables,
 } from "../actions/withdraw";
 import { CONFIG } from "lib/config";
+import {
   TradeableName,
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
@@ -462,6 +463,7 @@ export type BlockchainState = {
     | "fulfillTradeListing"
     | "sellMarketResource"
     | "sniped"
+    | "priceChanged"
     | "buds"
     | "airdrop"
     | "noBumpkinFound"
@@ -1681,7 +1683,7 @@ export function startGame(authContext: AuthContext) {
                 });
               }
 
-              const { farm, prices } = await sellMarketResourceRequest({
+              const { farm, prices, error } = await sellMarketResourceRequest({
                 farmId: Number(context.farmId),
                 token: authContext.user.rawToken as string,
                 soldAt: new Date().toISOString(),
@@ -1690,11 +1692,15 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farm,
-                // prices,
-                // error,
+                error,
+                prices,
               };
             },
             onDone: [
+              {
+                target: "priceChanged",
+                cond: (_, event) => event.data.error === "PRICE_CHANGED",
+              },
               {
                 target: "playing",
                 actions: [
@@ -1711,7 +1717,11 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
+        priceChanged: {
+          on: {
+            CONTINUE: "playing",
+          },
+        },
         depositing: {
           invoke: {
             src: async (context, event) => {

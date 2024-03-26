@@ -7,7 +7,28 @@ const API_URL = CONFIG.API_URL;
 
 export type TradeableName = Extract<
   InventoryItemName,
-  "Apple" | "Orange" | "Banana"
+  | "Sunflower"
+  | "Potato"
+  | "Pumpkin"
+  | "Carrot"
+  | "Cabbage"
+  | "Beetroot"
+  | "Cauliflower"
+  | "Parsnip"
+  | "Eggplant"
+  | "Corn"
+  | "Radish"
+  | "Wheat"
+  | "Kale"
+  | "Blueberry"
+  | "Orange"
+  | "Apple"
+  | "Banana"
+  | "Wood"
+  | "Stone"
+  | "Iron"
+  | "Gold"
+  | "Egg"
 >;
 
 type Request = {
@@ -20,7 +41,7 @@ type Request = {
 type Response = {
   farm: GameState;
   prices: Record<TradeableName, number>;
-  // error?: "ALREADY_BOUGHT";
+  error?: "PRICE_CHANGED";
 };
 
 export async function sellMarketResourceRequest(
@@ -52,5 +73,5 @@ export async function sellMarketResourceRequest(
 
   const data = await response.json();
 
-  return { farm: makeGame(data.farm), prices: data.prices };
+  return { farm: makeGame(data.farm), prices: data.prices, error: data.error };
 }
