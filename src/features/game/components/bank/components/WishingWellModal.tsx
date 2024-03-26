@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import wisingWell from "assets/buildings/wishing_well.png";
 import goblinHead from "assets/npcs/goblin_head.png";
@@ -31,6 +32,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import giftIcon from "assets/icons/gift.png";
+import { Context } from "features/game/GameProvider";
+import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -241,11 +244,28 @@ interface Props {
   onClose?: () => void;
 }
 export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
+
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
   const { t } = useAppTranslation();
 
-  const wishingWellService = useInterpret(
-    wishingWellMachine
-  ) as unknown as MachineInterpreter;
+  const { rawToken, token } = authState.context.user;
+  const { bumpkin, balance, previousBalance } = gameState.context.state;
+
+  const sfl = balance.gt(previousBalance) ? previousBalance : balance;
+
+  const wishingWellService = useInterpret(wishingWellMachine, {
+    context: {
+      farmId: gameState.context.farmId,
+      bumpkinTokenUri: tokenUriBuilder(bumpkin?.equipped as BumpkinParts),
+      sessionId: gameState.context.sessionId as string,
+      token: rawToken,
+      balance: sfl,
+    },
+  }) as unknown as MachineInterpreter;
 
   const [machine, send] = useActor(wishingWellService);
 
@@ -277,7 +297,7 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
     <Modal show={true} onHide={handleClose}>
       <Panel className="relative">
         <GameWallet
-          action="withdraw"
+          action="wishingWell"
           wrapper={({ children }) => (
             <div>
               <Label type="default" icon={giftIcon} className="text-center m-1">
