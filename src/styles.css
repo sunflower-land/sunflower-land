@@ -28,6 +28,10 @@
     word-break: break-word;
   }
 
+  .text-stroke {
+    -webkit-text-stroke: 1px black;
+  }
+
   .img-shadow {
     filter: drop-shadow(0px 3px 0px rgba(0, 0, 0, 0.2));
   }
