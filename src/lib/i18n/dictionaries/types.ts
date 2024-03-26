@@ -1740,6 +1740,7 @@ export type GuideTerms =
   | "deliveries.guide.one"
   | "deliveries.guide.two"
   | "deliveries.intro"
+  | "deliveries.new"
   | "chores.intro"
   | "scavenger.guide.one"
   | "scavenger.guide.two"
