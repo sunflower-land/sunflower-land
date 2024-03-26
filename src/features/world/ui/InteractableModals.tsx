@@ -21,9 +21,9 @@ import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
 import { FanArt } from "./FanArt";
-import { WishingWellModal } from "features/goblins/wishingWell/WishingWellModal";
 import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
+import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
