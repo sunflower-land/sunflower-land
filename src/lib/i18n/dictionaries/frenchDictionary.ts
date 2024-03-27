@@ -1111,6 +1111,7 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
   "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
   "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
+  "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

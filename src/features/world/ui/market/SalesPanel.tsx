@@ -14,13 +14,13 @@ import { MarketPrices } from "features/game/actions/getMarketPrices";
 import { TradeableName } from "features/game/actions/sellMarketResource";
 import Decimal from "decimal.js-light";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
-import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 import sflIcon from "assets/icons/token_2.png";
+import lock from "assets/skills/lock.png";
 import { Box } from "components/ui/Box";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
@@ -140,6 +140,38 @@ export const SalesPanel: React.FC<{
   );
   const canSell = state.inventory[selected]?.gte(MARKET_BUNDLES[selected]);
 
+  if (warning === "hoarding") {
+    return (
+      <>
+        <div className="p-1 flex flex-col items-center">
+          <img src={lock} className="w-1/5 mb-2" />
+          <p className="text-sm mb-1 text-center">
+            {t("goblinTrade.hoarding")}
+          </p>
+          <p className="text-xs mb-1 text-center">
+            {t("playerTrade.Progress")}
+          </p>
+        </div>
+        <Button onClick={() => setWarning(undefined)}>{t("back")}</Button>
+      </>
+    );
+  }
+
+  if (warning === "pendingTransaction") {
+    return (
+      <>
+        <div className="p-1 flex flex-col items-center">
+          <img src={SUNNYSIDE.icons.timer} className="w-1/6 mb-2" />
+          <p className="text-sm mb-1 text-center">
+            {t("playerTrade.transaction")}
+          </p>
+          <p className="text-xs mb-1 text-center">{t("playerTrade.Please")}</p>
+        </div>
+        <Button onClick={() => setWarning(undefined)}>{t("back")}</Button>
+      </>
+    );
+  }
+
   if (gameService.state.matches("sellMarketResource")) {
     return <Loading text="Selling" />;
   }
@@ -243,11 +275,6 @@ export const SalesPanel: React.FC<{
             </div>
           </div>
         </div>
-        {warning && (
-          <Modal show>
-            <OuterPanel></OuterPanel>
-          </Modal>
-        )}
       </div>
     </div>
   );
