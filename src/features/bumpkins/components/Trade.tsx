@@ -82,8 +82,9 @@ const ListTrade: React.FC<{
                     className="absolute -bottom-2 text-center mt-1 p-1"
                     style={{ width: "calc(100% + 10px)" }}
                   >
-                    {floorPrices[name]?.toFixed(4)}
-                    {t("unit")}
+                    {t("bumpkinTrade.price/unit", {
+                      price: floorPrices[name]?.toFixed(4) || "",
+                    })}
                   </Label>
                 </OuterPanel>
               </div>
@@ -124,7 +125,7 @@ const ListTrade: React.FC<{
             </Label>
             {quantity > (TRADE_LIMITS[selected] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {`Max: ${TRADE_LIMITS[selected] ?? 0}`}
+                {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
               </Label>
             )}
           </div>
@@ -168,7 +169,7 @@ const ListTrade: React.FC<{
           <div className="flex items-center">
             {sfl > MAX_SFL && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {`Max: ${MAX_SFL}`}
+                {t("bumpkinTrade.max", { max: MAX_SFL })}
               </Label>
             )}
             <Label icon={token} type="default" className="my-1 ml-2 mr-1">

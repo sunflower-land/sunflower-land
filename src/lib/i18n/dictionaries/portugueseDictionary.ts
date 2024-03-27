@@ -475,7 +475,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   upcoming: "Próximo",
   wearables: "Vestíveis",
   wish: "Desejo",
-  unit: "/unidade",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1079,10 +1078,6 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Preço solicitado",
-  "bumpkinTrade.listingPurchased": "Parabéns, sua oferta foi comprada!",
-  "bumpkinTrade.travelPlaza":
-    "Viaje para a praça para que outros(as) jogadores(as) possam negociar com você",
   "bumpkinTrade.minLevel": "Você deve estar no nível 10 para negociar",
   "bumpkinTrade.noTradeListed": "Você não tem negociações listadas.",
   "bumpkinTrade.sell": "Venda seus recursos para outros jogadores por SFL.",
@@ -1099,6 +1094,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": ENGLISH_TERMS["bumpkinTrade.cancel"],
   "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
   "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
+  "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
+  "bumpkinTrade.price/unit": "{{price}}/unidade",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

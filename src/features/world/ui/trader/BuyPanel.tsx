@@ -112,8 +112,9 @@ export const BuyPanel: React.FC<{
                   className="absolute -bottom-2 text-center mt-1 p-1"
                   style={{ width: "calc(100% + 10px)" }}
                 >
-                  {floorPrices[name]?.toFixed(4)}
-                  {t("unit")}
+                  {t("bumpkinTrade.price/unit", {
+                    price: floorPrices[name]?.toFixed(4) || "",
+                  })}
                 </Label>
               </OuterPanel>
             </div>

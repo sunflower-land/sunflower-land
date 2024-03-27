@@ -475,7 +475,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.failed": "Kopyalama Başarısız!",
   search: "Ara",
   searching: "Aranıyor",
-  unit: "/birim",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1063,10 +1062,6 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Fiyat sorma",
-  "bumpkinTrade.listingPurchased": "Tebrikler, ilanınız satın alındı!",
-  "bumpkinTrade.travelPlaza":
-    "Oyuncuların sizinle ticaret yapabilmesi için plazaya gidin",
   "bumpkinTrade.minLevel": "Ticaret yapmak için 10. seviyede olmanız gerekir",
   "bumpkinTrade.noTradeListed": "Listelenen herhangi bir işleminiz yok.",
   "bumpkinTrade.sell": "Kaynaklarınızı SFL için diğer oyunculara satın.",
@@ -1083,6 +1078,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "İptal",
   "bumpkinTrade.list": "Listele",
   "bumpkinTrade.maxListings": "Maksimum listelemeye ulaşıldı",
+  "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
+  "bumpkinTrade.price/unit": "{{price}}/birim",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
