@@ -19,7 +19,7 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
-import { collectRabbit } from "../ui/npcs/Hopper";
+import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
 import { GameState } from "features/game/types/game";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
@@ -471,8 +471,10 @@ export class PlazaScene extends BaseScene {
         y: 245,
       });
 
-      const rabbitPositions = CURRENT_RABBIT_CORDS;
-
+      const rabbitPositions = CURRENT_RABBIT_CORDS.slice(
+        rabbitsCaught(),
+        RABBITS
+      );
       rabbitPositions.forEach((coords, index) => {
         const rabbit = this.add.sprite(
           coords[0],

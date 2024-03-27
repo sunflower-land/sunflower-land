@@ -9,18 +9,37 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SpecialEvent } from "features/game/types/specialEvents";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import confetti from "canvas-confetti";
+import { Button } from "components/ui/Button";
 
 interface Props {
   onClose: () => void;
 }
 
-// Store per session
-let RABIBTS_FOUND = 0;
+export const RABBITS = 6;
 
-const RABBITS = 6;
+// Store per session
+let RABBITS_FOUND = 0;
+
+const lastFoundAt = localStorage.getItem("easter.rabbitsFound");
+
+// every 24 hours the rabbits go missing
+if (lastFoundAt && Number(lastFoundAt) > Date.now() - 24 * 60 * 60 * 1000) {
+  RABBITS_FOUND = RABBITS;
+}
 
 export function collectRabbit() {
-  RABIBTS_FOUND += 1;
+  RABBITS_FOUND += 1;
+
+  if (RABBITS_FOUND === RABBITS) {
+    confetti();
+
+    localStorage.setItem("easter.rabbitsFound", Date.now().toString());
+  }
+}
+
+export function rabbitsCaught() {
+  return RABBITS_FOUND;
 }
 
 export const Hopper: React.FC<Props> = ({ onClose }) => {
@@ -29,7 +48,7 @@ export const Hopper: React.FC<Props> = ({ onClose }) => {
 
   const { t } = useAppTranslation();
 
-  if (RABIBTS_FOUND < RABBITS) {
+  if (RABBITS_FOUND < RABBITS) {
     return (
       <CloseButtonPanel bumpkinParts={NPC_WEARABLES.hopper}>
         <div className="flex flex-col justify-center">
@@ -44,7 +63,7 @@ export const Hopper: React.FC<Props> = ({ onClose }) => {
               </Label>
               <Label type="info">
                 {`${t("special.event.rabbitsMissing")}: ${
-                  RABBITS - RABIBTS_FOUND
+                  RABBITS - RABBITS_FOUND
                 }`}
               </Label>
             </div>
@@ -61,6 +80,7 @@ export const Hopper: React.FC<Props> = ({ onClose }) => {
             </div>
           </div>
         </div>
+        <Button onClick={onClose}>{t("close")}</Button>
       </CloseButtonPanel>
     );
   }

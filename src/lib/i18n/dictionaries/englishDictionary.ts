@@ -4153,7 +4153,7 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 
 const specialEvent: Record<SpecialEvent, string> = {
   "special.event.easterIntro":
-    "Oh no, my rabbits have gone missing again....they must be searching for food. Can you help me find them? They look similar to other rabbits but have a unique sparkle. Click on them to capture them.",
+    "Oh no, my 6 rabbits have gone missing again....they must be searching for food. Can you help me find them? They look similar to other rabbits but have a unique sparkle. Click on them to capture them.",
   "special.event.rabbitsMissing": "Rabbits missing",
   "special.event.link": "Airdrop link",
   "special.event.claimForm":
