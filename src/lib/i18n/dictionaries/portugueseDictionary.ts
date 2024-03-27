@@ -1095,7 +1095,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.list": ENGLISH_TERMS["bumpkinTrade.list"],
   "bumpkinTrade.maxListings": ENGLISH_TERMS["bumpkinTrade.maxListings"],
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
-  "bumpkinTrade.price/unit": "{{price}}/unidade",
+  "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
+  "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

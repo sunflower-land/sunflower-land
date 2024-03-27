@@ -97,9 +97,25 @@ const ListTrade: React.FC<{
   return (
     <>
       <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <Box image={ITEM_DETAILS[selected].image} disabled />
-          <span className="text-sm">{selected}</span>
+        <div className="flex flex-col items-start">
+          <div className="flex items-center">
+            <Box image={ITEM_DETAILS[selected].image} disabled />
+            <span className="text-sm">{selected}</span>
+          </div>
+          <Label
+            type={
+              sfl / quantity < (floorPrices[selected] ?? 0)
+                ? "danger"
+                : sfl / quantity > (floorPrices[selected] ?? 0)
+                ? "success"
+                : "warning"
+            }
+            className="my-1"
+          >
+            {t("bumpkinTrade.floorPrice", {
+              price: floorPrices[selected]?.toFixed(4) || "",
+            })}
+          </Label>
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
@@ -113,6 +129,7 @@ const ListTrade: React.FC<{
           </span>
         </div>
       </div>
+
       <div className="flex">
         <div className="w-1/2 mr-1">
           <div className="flex items-center">
@@ -225,7 +242,9 @@ const ListTrade: React.FC<{
           padding: "5px 5px 5px 2px",
         }}
       >
-        <span className="text-xs"> {t("bumpkinTrade.pricePerUnit")}</span>
+        <span className="text-xs">
+          {t("bumpkinTrade.pricePerUnit", { resource: selected })}
+        </span>
         <p className="text-xs">
           {quantity === 0 ? "0.0000 SFL" : `${(sfl / quantity).toFixed(4)} SFL`}
         </p>

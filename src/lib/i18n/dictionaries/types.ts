@@ -763,13 +763,14 @@ export type BumpkinTrade =
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.pricePerUnit"
+  | "bumpkinTrade.price/unit"
   | "bumpkinTrade.tradingFee"
   | "bumpkinTrade.youWillReceive"
   | "bumpkinTrade.cancel"
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
-  | "bumpkinTrade.price/unit"
-  | "bumpkinTrade.max";
+  | "bumpkinTrade.max"
+  | "bumpkinTrade.floorPrice";
 
 export type GoblinTrade =
   | "goblinTrade.select"

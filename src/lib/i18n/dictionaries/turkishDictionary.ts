@@ -1072,14 +1072,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.quantity": "Miktar",
   "bumpkinTrade.price": "Fiyat",
   "bumpkinTrade.listingPrice": "Listeleme fiyatı",
-  "bumpkinTrade.pricePerUnit": "Ürün başına fiyat",
+  "bumpkinTrade.pricePerUnit": ENGLISH_TERMS["bumpkinTrade.pricePerUnit"],
   "bumpkinTrade.tradingFee": "Takas ücreti",
   "bumpkinTrade.youWillReceive": "Alacağın miktar",
   "bumpkinTrade.cancel": "İptal",
   "bumpkinTrade.list": "Listele",
   "bumpkinTrade.maxListings": "Maksimum listelemeye ulaşıldı",
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
-  "bumpkinTrade.price/unit": "{{price}}/birim",
+  "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
+  "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

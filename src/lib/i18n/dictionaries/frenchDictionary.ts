@@ -1094,14 +1094,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.quantity": "Quantité",
   "bumpkinTrade.price": "Prix",
   "bumpkinTrade.listingPrice": "Prix catalogue",
-  "bumpkinTrade.pricePerUnit": "Prix par unité",
+  "bumpkinTrade.pricePerUnit": "Prix par {{resource}}",
   "bumpkinTrade.tradingFee": "Frais de négociation",
   "bumpkinTrade.youWillReceive": "Vous recevrez",
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
-  "bumpkinTrade.price/unit": "{{price}}/unité",
+  "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
+  "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

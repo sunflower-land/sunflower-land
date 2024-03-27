@@ -1071,14 +1071,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.quantity": "Quantity",
   "bumpkinTrade.price": "Price",
   "bumpkinTrade.listingPrice": "Listing price",
-  "bumpkinTrade.pricePerUnit": "Price per unit",
+  "bumpkinTrade.pricePerUnit": "Price per {{resource}}",
   "bumpkinTrade.tradingFee": "Trading fee",
   "bumpkinTrade.youWillReceive": "You will receive",
   "bumpkinTrade.cancel": "Cancel",
   "bumpkinTrade.list": "List",
   "bumpkinTrade.maxListings": "Max listings reached",
   "bumpkinTrade.max": "Max: {{max}}",
-  "bumpkinTrade.price/unit": "{{price}}/unit",
+  "bumpkinTrade.floorPrice": "Floor Price: {{price}} SFL",
+  "bumpkinTrade.price/unit": "{{price}} / unit",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
