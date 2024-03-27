@@ -265,6 +265,10 @@ import {
 import { claimGift, ClaimGiftAction } from "./landExpansion/claimBumpkinGift";
 import { giftFlowers, GiftFlowersAction } from "./landExpansion/giftFlowers";
 import { enterRaffle, EnterRaffleAction } from "./landExpansion/enterRaffle";
+import {
+  exchangeSFLtoCoins,
+  ExchangeSFLtoCoinsAction,
+} from "./landExpansion/exchangeSFLtoCoins";
 
 export type PlayingEvent =
   | TradeAction
@@ -346,7 +350,8 @@ export type PlayingEvent =
   | CompleteSpecialEventTaskAction
   | GiftFlowersAction
   | ClaimGiftAction
-  | EnterRaffleAction;
+  | EnterRaffleAction
+  | ExchangeSFLtoCoinsAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -491,6 +496,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flowers.gifted": giftFlowers,
   "gift.claimed": claimGift,
   "raffle.entered": enterRaffle,
+  "sfl.exchanged": exchangeSFLtoCoins,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

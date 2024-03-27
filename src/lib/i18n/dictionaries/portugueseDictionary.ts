@@ -33,7 +33,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
-  Deliveryitem,
+  DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -250,6 +250,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   empty: "Vazio",
   equip: "Equipar",
   error: "Erro",
+  exchange: "Trocar",
   exotics: "Exóticos",
   "expand.land": "Expandir sua Terra",
   expand: "Expandir",
@@ -1392,7 +1393,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "Uma semente de Lírio",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Record<DeliveryItem, string> = {
   "deliveryitem.inventory": "Inventário",
   "deliveryitem.itemsToDeliver": "Itens para entregar",
   "deliveryitem.deliverToWallet": "Entregar para sua carteira",

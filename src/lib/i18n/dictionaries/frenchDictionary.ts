@@ -33,7 +33,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
-  Deliveryitem,
+  DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -272,6 +272,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "enjoying.event": "Appréciez-vous cet événement?",
   equip: "Équiper",
   error: "Erreur",
+  exchange: "Échange",
   exit: "Quitter",
   exotics: "Exotiques",
   "expand.land": "Étendre votre île",
@@ -1796,7 +1797,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
     "Établissez des relations avec les Bumpkins en effectuant plusieurs commandes pour débloquer des récompenses bonus. (Bientôt disponible)",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Record<DeliveryItem, string> = {
   "deliveryitem.inventory": "Inventaire :",
   "deliveryitem.itemsToDeliver": "Articles à livrer :",
   "deliveryitem.deliverToWallet": "Livrer à votre portefeuille",

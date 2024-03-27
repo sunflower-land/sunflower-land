@@ -1,18 +1,16 @@
 import React, { useContext, useState } from "react";
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
-import { BlockBucks } from "./components/BlockBucks";
-import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Deposit } from "features/goblins/bank/components/Deposit";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+// import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import classNames from "classnames";
@@ -23,6 +21,10 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { HalveningCountdown } from "./HalveningCountdown";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import Decimal from "decimal.js-light";
+import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
+
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -36,6 +38,7 @@ const HudComponent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
   const autosaving = gameState.matches("autosaving");
@@ -48,6 +51,10 @@ const HudComponent: React.FC<{
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
   ) => {
     gameService.send("DEPOSIT", args);
+  };
+
+  const handleBuyCurrencies = () => {
+    setShowBuyCurrencies(!showBuyCurrencies);
   };
 
   const farmAddress = gameService.state?.context?.farmAddress;
@@ -121,14 +128,13 @@ const HudComponent: React.FC<{
           />
         </div>
 
-        <Balance
-          onBalanceClick={() => setShowDepositModal(true)}
-          balance={gameState.context.state.balance}
-        />
-        <BlockBucks
+        <Balances
+          sfl={gameState.context.state.balance}
+          coins={gameState.context.state.coins}
           blockBucks={
             gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
           }
+          onClick={handleBuyCurrencies}
         />
 
         <div
@@ -186,6 +192,10 @@ const HudComponent: React.FC<{
             />
           </CloseButtonPanel>
         </Modal>
+        <BuyCurrenciesModal
+          isOpen={showBuyCurrencies}
+          onClose={handleBuyCurrencies}
+        />
       </HudContainer>
     </>
   );

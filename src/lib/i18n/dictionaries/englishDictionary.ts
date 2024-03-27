@@ -32,7 +32,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
-  Deliveryitem,
+  DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -257,6 +257,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "enjoying.event": "Enjoying this event?",
   equip: "Equip",
   error: "Error",
+  exchange: "Exchange",
   exotics: "Exotics",
   "expand.land": "Expand your Land",
   expand: "Expand",
@@ -1713,7 +1714,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
     "Build relationships with Bumpkins by completing multiple orders to unlock bonus rewards. (Coming soon)",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Record<DeliveryItem, string> = {
   "deliveryitem.inventory": "Inventory",
   "deliveryitem.itemsToDeliver": "Items to deliver",
   "deliveryitem.deliverToWallet": "Deliver to your wallet",

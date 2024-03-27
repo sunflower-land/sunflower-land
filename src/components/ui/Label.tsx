@@ -83,15 +83,18 @@ interface Props {
   type: LabelType;
   style?: React.CSSProperties;
   icon?: string;
+  iconWidth?: number;
   secondaryIcon?: string;
   onClick?: () => void;
 }
+
 export const Label: React.FC<Props> = ({
   children,
   className,
   type,
   style,
   icon,
+  iconWidth,
   secondaryIcon,
   onClick,
 }) => {
@@ -131,7 +134,7 @@ export const Label: React.FC<Props> = ({
       {icon && (
         <SquareIcon
           icon={icon}
-          width={9}
+          width={iconWidth ?? 9}
           className="absolute top-1/2 -translate-y-1/2"
           style={{
             height: `24px`,

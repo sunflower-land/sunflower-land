@@ -4,7 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 type ExchangePackage = { sfl: number; coins: number };
 export type PackageId = 1 | 2 | 3;
 
-const SFL_TO_COIN_PACKAGES: Record<number, ExchangePackage> = {
+export const SFL_TO_COIN_PACKAGES: Record<number, ExchangePackage> = {
   1: {
     sfl: 1,
     coins: 160,
