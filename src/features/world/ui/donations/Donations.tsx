@@ -11,21 +11,22 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const CONTRIBUTORS = [
-  "Poro",
-  "Telk",
-  "whaitte",
-  "Andand0",
-  "PurpleDrvnk",
+  "JC",
   "Kotob",
-  "Neonlight",
-  "SFWhat",
-  "LittleEins",
-  "Oniel",
+  "whaitte",
   "Ventin",
   "shinon",
-  "JC",
-  "Netherzapdos",
+  "PurpleDvrnk",
+  "SFWhat",
+  "Andand0",
+  "Telk",
+  "Neonlight",
   "Vergel",
+  "Netherzapdos",
+  "LittleEins",
+  "Poro",
+  "Mr Findlay",
+  "default",
 ];
 
 export const Donations: React.FC = () => {
