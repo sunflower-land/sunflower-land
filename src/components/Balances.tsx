@@ -26,7 +26,11 @@ export const Balances: React.FC<Props> = ({
   return (
     <>
       <div className="flex flex-col absolute space-y-1 items-end z-50 right-3 top-3 text-sm text-stroke">
-        <div className="flex items-center space-x-3 relative" onClick={onClick}>
+        <div
+          className="flex cursor-pointer items-center space-x-3 relative"
+          onClick={onClick}
+        >
+          <div className="h-9 w-full bg-black opacity-25 absolute coins-bb-hud-backdrop" />
           {/* Coins */}
           <div className="flex items-center space-x-2">
             <span>{coins % 1 !== 0 ? coins.toFixed(2) : coins}</span>
@@ -44,6 +48,7 @@ export const Balances: React.FC<Props> = ({
               src={blockBucksIcon}
               alt="Block Bucks"
               style={{
+                marginTop: 2,
                 width: 28,
               }}
             />
@@ -58,10 +63,12 @@ export const Balances: React.FC<Props> = ({
             }}
           />
         </div>
+        {/* SFL */}
         <div
-          className="flex items-center space-x-2"
+          className="flex items-center cursor-pointer space-x-2 relative"
           onClick={() => setShowFullBalance(!showFullBalance)}
         >
+          <div className="h-9 w-full bg-black opacity-25 absolute sfl-hud-backdrop -z-10" />
           <span>
             {showFullBalance ? sfl.toString() : setPrecision(sfl).toString()}
           </span>
