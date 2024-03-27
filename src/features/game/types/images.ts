@@ -3142,17 +3142,15 @@ export const ITEM_DETAILS: Items = {
     image: sunriseBloomRug,
   },
   "Flower Rug": {
-    description: "Add a touch of nature's elegance to your home.",
+    description: translate("description.flower.rug"),
     image: flowerRug,
   },
   "Tea Rug": {
-    description:
-      "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
+    description: translate("description.tea.rug"),
     image: teaRug,
   },
   "Green Field Rug": {
-    description:
-      "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
+    description: translate("description.green.field.rug"),
     image: greenFieldRug,
   },
   "Blossom Royale": {

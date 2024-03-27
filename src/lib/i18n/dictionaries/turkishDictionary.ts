@@ -1688,6 +1688,9 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner": "Goblin davasına bağlılığın bir göstergesi",
   "description.human.war.banner": "İnsan davasına bağlılığın bir göstergesi",
   "description.earnAllianceBanner": "Özel bir etkinlik bayrağı",
+  "description.flower.rug": ENGLISH_TERMS["description.flower.rug"],
+  "description.tea.rug": ENGLISH_TERMS["description.tea.rug"],
+  "description.green.field.rug": ENGLISH_TERMS["description.green.field.rug"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
