@@ -276,16 +276,34 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
 };
 
-const RABBIT_POSITIONS = [
-  [
-    { x: 262, y: 357 },
-    { x: 282, y: 357 },
-    { x: 302, y: 357 },
-    { x: 322, y: 357 },
-    { x: 342, y: 357 },
-    { x: 362, y: 357 },
-  ],
+const RABBIT_CORDS = [
+  [144, 413],
+  [232, 391],
+  [6, 168],
+  [249, 260],
+  [23, 89],
+  [120, 23],
+  [256, 127],
+  [330, 46],
+  [296, 104],
+  [433, 150],
+  [584, 73],
+  [585, 373],
+  [710, 432],
+  [792, 214],
+  [728, 174],
+  [776, 39],
+  [872, 86],
+  [329, 215],
+  [330, 361],
 ];
+
+// Pick 6 random coords
+const CURRENT_RABBIT_CORDS = RABBIT_CORDS.sort(() => 0.5 - Math.random()).slice(
+  0,
+  6
+);
+
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
@@ -396,6 +414,11 @@ export class PlazaScene extends BaseScene {
       frameHeight: 36,
     });
 
+    this.load.spritesheet("glint", "world/glint.png", {
+      frameWidth: 7,
+      frameHeight: 7,
+    });
+
     super.preload();
 
     const audioMuted = getCachedAudioSetting<boolean>(
@@ -425,6 +448,17 @@ export class PlazaScene extends BaseScene {
     const IS_EASTER = hasFeatureAccess(this.gameState, "EASTER");
 
     if (IS_EASTER) {
+      this.anims.create({
+        key: `glint_anim`,
+        frames: this.anims.generateFrameNumbers("glint", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 6,
+        repeatDelay: 5000,
+      });
+
       PLAZA_BUMPKINS.push({
         npc: "hopper",
         x: 434,
@@ -437,24 +471,33 @@ export class PlazaScene extends BaseScene {
         y: 245,
       });
 
-      const easterDay = 0;
-      const rabbitPositions = RABBIT_POSITIONS[easterDay];
+      const rabbitPositions = CURRENT_RABBIT_CORDS;
 
       rabbitPositions.forEach((coords, index) => {
         const rabbit = this.add.sprite(
-          coords.x,
-          coords.y,
+          coords[0],
+          coords[1],
           `rabbit_${index + 1}`
         );
 
+        const glint = this.add
+          .sprite(coords[0] + 4, coords[1] - 4, "glint")
+          .setOrigin(0.5);
+
+        glint.play(`glint_anim`, true);
+
+        rabbit.setDepth(100000000);
+        glint.setDepth(100000000);
+
         rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
           rabbit.destroy();
+          glint.destroy();
 
           collectRabbit();
 
           // Show poof at position
           const poof = this.add
-            .sprite(coords.x, coords.y, "poof")
+            .sprite(coords[0], coords[1], "poof")
             .setOrigin(0.5);
 
           this.anims.create({
