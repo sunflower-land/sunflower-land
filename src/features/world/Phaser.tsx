@@ -106,7 +106,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = [
     Preloader,
-    WoodlandsScene,
+    new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),
   ];
