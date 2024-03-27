@@ -33,13 +33,11 @@ export const Idle: React.FC<IdleProps> = ({
         <div className="flex items-center mb-1">
           <img src={ticket} className="w-6 mr-2" />
           <p className="text-xxs sm:text-xs whitespace-nowrap">
-            {t("free.trade")}
-            {":"} {freeListings}
+            {t("free.trade", { freeTrades: freeListings })}
           </p>
         </div>
         <p className="text-xxs sm:text-xs w-auto px-2 py-1 bg-blue-600 text-shadow border rounded-md whitespace-nowrap">
-          {t("remaining.trades")}
-          {":"} {remainingListings}
+          {t("remaining.trades", { remainingTrades: remainingListings })}
         </p>
       </div>
       <h2 className="text-sm mb-2">{`Land #${farmId} Listings`}</h2>

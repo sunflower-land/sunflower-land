@@ -81,8 +81,9 @@ const ListTrade: React.FC<{
                     className="absolute -bottom-2 text-center mt-1 p-1"
                     style={{ width: "calc(100% + 10px)" }}
                   >
-                    {floorPrices[name]?.toFixed(4)}
-                    {t("unit")}
+                    {t("trading.price.per.unit", {
+                      price: floorPrices[name]?.toFixed(4) || "",
+                    })}
                   </Label>
                 </OuterPanel>
               </div>

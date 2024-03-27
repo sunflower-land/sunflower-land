@@ -191,11 +191,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.minted": "Zaten Mintlendi!",
   auction: "Açık Artırma",
   auctions: "Açık Artırmalar",
-  "available.all.year": "Tüm yıl boyunca mevcut",
+  "available.all.year": "Tüm yıl boyunca mevcut: ",
   available: "Mevcut",
   back: "Geri",
   bait: "Yem",
-  balance: "Bakiye",
+  balance: "Bakiye: ",
   basket: "Sepet",
   "beach.bounty": "Plaj Ödülü",
   beta: "Beta",
@@ -265,20 +265,20 @@ const generalTerms: Record<GeneralTerms, string> = {
   "feed.bumpkin": "Bumpkin’i besle",
   fertilisers: "Gübreler",
   fish: "Balık",
-  "fish.caught": "Balık Yakalandı",
+  "fish.caught": "Balık Yakalandı: ",
   flowers: "Çiçekler",
   "flowers.found": "Çiçekler Bulundu",
   foods: "Yemekler",
   for: "için",
   "for.info.wearable": "bu giyilebilir hakkında daha fazla bilgi için",
   forbidden: "Yasaklı",
-  "free.trade": "Bedava Takas",
+  "free.trade": "Bedava Takas: {{freeTrades}}",
   fruit: "Meyve",
   fruits: "Meyveler",
   gift: "Hediye",
   "go.home": "Eve git",
   "goblin.delivery":
-    "Goblinler hazinedeki teslimatlarını kesintiye uğratıyor. Bunları ayrıca görüntüleyin",
+    "Goblinler hazinedeki teslimatlarını kesintiye uğratıyor. Bunları ayrıca görüntüleyin {{opensea}}",
   gotIt: "Anlaşıldı",
   goto: "Git",
   "grant.wish": "Yeni Dilek Dile",
@@ -290,7 +290,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   kick: "Atılmak",
   item: "Öğe",
   land: "Ada",
-  "land.id": "Ada Kimliği",
+  "land.id": "Ada Kimliği: ",
   "last.updated": "Son güncelleme:",
   left: "Çıktı",
   "let'sDoThis": "Hadi bunu yapalım!",
@@ -354,7 +354,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   refresh: "Yenile",
   refreshing: "Yenileniliyor",
   remaining: "geriye kalan",
-  "remaining.trades": "Kalan Takaslar",
+  "remaining.trades": "Kalan Takaslar: {{remainingTrades}}",
   remove: "Kaldır",
   reqSkillPts: "Gerekli Yetenek Puanları",
   reqSkills: "Gerekli Yetenekler",
@@ -371,7 +371,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "seasonal.treasure": "Sezonluk Hazine",
   seeds: "Tohumlar",
   selected: "Seçildi",
-  "select.resource": "Kaynağınızı seçin",
+  "select.resource": "Kaynağınızı seçin: ",
   sell: "Sat",
   "sell.all": "Hepsini Sat",
   "sell.one": "1 Adet Sat",
@@ -473,7 +473,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.failed": "Kopyalama Başarısız!",
   search: "Ara",
   searching: "Aranıyor",
-  unit: "/birim",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -601,7 +600,7 @@ const addSFL: Record<AddSFL, string> = {
   "addSFL.referralFee":
     "Sunflower Land bu işlemi tamamlamak için %5 komisyon ücreti alır.",
   "addSFL.swapTitle": "Değiştirme Detayları",
-  "addSFL.minimumReceived": "Minimum Alınan",
+  "addSFL.minimumReceived": "Minimum Alınan: ",
 };
 
 const auction: Record<Auction, string> = {
@@ -667,7 +666,7 @@ const beachLuck: Record<BeachLuck, string> = {
   "beachLuck.uncleFound":
     "Amcam bu kumsalda kazı yaparken bir elmas yüzük buldu. Benim bulduğum tek şey sıkıcı SFL coinleri.",
   "beachLuck.grabShovel": "Bir kürek alın ve kazmaya başlayın.",
-  "beachLuck.refreshesIn": "Hazineler Yenileniyor",
+  "beachLuck.refreshesIn": "Hazineler Yenileniyor: ",
 };
 
 const beehive: Record<Beehive, string> = {
@@ -1306,7 +1305,7 @@ const conversations: Record<Conversations, string> = {
     "Ben bu şehrin belediye başkanıyım! Herkesin mutlu olmasını sağlamak benim görevim. Ayrıca herkesin bir adı olduğundan da emin oluyorum!",
   "mayor.plaza.fixNamePrompt":
     "Henüz bir adınız yok mu? Pekâlâ, bunu düzeltebiliriz! Evrakları hazırlamamı ister misin?",
-  "mayor.plaza.enterUsernamePrompt": "Kullanıcı adınızı giriniz:",
+  "mayor.plaza.enterUsernamePrompt": "Kullanıcı adınızı giriniz: ",
   "mayor.plaza.usernameValidation":
     "Lütfen kullanıcı adlarının kurallara uyması gerektiğini unutmayın.",
   "mayor.plaza.niceToMeetYou": "Tanıştığıma memnun oldum, !",
@@ -1726,8 +1725,8 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
 };
 
 const deliveryitem: Record<Deliveryitem, string> = {
-  "deliveryitem.inventory": "Envanter",
-  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler",
+  "deliveryitem.inventory": "Envanter: ",
+  "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler: ",
   "deliveryitem.deliverToWallet": "Cüzdanınıza teslim edin",
   "deliveryitem.viewOnOpenSea":
     "Teslim edildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
@@ -2875,6 +2874,7 @@ const megaStore: Record<MegaStore, string> = {
     "Güzel tercih! Yeni giyilebilir cihazınız gardırobunuzda güvenle saklanır. Oradan onu kuşanabilirsin.",
   "megaStore.collectible":
     "Güzel tercih! Yeni koleksiyonunuz envanterinizde güvenle saklanır.",
+  "megaStore.timeRemaining": ENGLISH_TERMS["megaStore.timeRemaining"], // "{{timeRemaining}} left!",
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
@@ -2939,12 +2939,12 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.bumpkinNFT": "Bumpkin, Blockchain üzerinde üretilen bir NFT'dir.",
   "noBumpkin.bumpkinHelp":
     "Toprağınızı ekmenize, hasat etmenize, doğramanıza, madencilik yapmanıza ve genişletmenize yardımcı olacak bir Bumpkin'e ihtiyacınız var.",
-  "noBumpkin.mintBumpkin": "OpenSea'den Bumpkin alabilirsiniz",
+  "noBumpkin.mintBumpkin": "OpenSea'den Bumpkin alabilirsiniz: ",
   "noBumpkin.allBumpkins": "Vay be, şu Bumpkinler’e bak!",
   "noBumpkin.chooseBumpkin": "Hangi Bumpkinle oynamak istersin?",
   "noBumpkin.deposit": "Deposit",
   "noBumpkin.advancedIsland":
-    "Burası gelişmiş bir ada. Güçlü bir Bumpkin gerekli",
+    "Burası gelişmiş bir ada. Güçlü bir Bumpkin gerekli:",
   "weakBumpkin.notStrong":
     "Oh hayır! Bumpkin'in bu ada için yeterince güçlü değil.",
   "dequipper.noBumpkins": "Bumpkin’in yok",
@@ -3914,7 +3914,7 @@ const playerTrade: Record<PlayerTrade, string> = {
     "Oh oh! Devam eden bir işleminiz olduğunu gösteriyor gibi.",
   "playerTrade.Please": "Devam etmeden önce lütfen 5 dakika bekleyin.",
   "playerTrade.sold": "Satıldı",
-  "playerTrade.sale": "Satılık",
+  "playerTrade.sale": "Satılık: ",
   "playerTrade.title.congrat": "Tebrikler, listelemeniz satın alındı",
 };
 
@@ -4275,7 +4275,9 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.five": "oyunda",
   "statements.wishing.well.info.six": "likidite sağlanıyor",
   "statements.wishing.well.worthwell": "kuyudaki ödüller değerinde!",
-  "statements.wishing.well.look.like": "öyleymişsin gibi görünmüyor",
+  "statements.wishing.well.look.like":
+    ENGLISH_TERMS["statements.wishing.well.look.like"],
+  // "It doesn't look like you are providing liquidity yet.",
   "statements.wishing.well.lucky": "Bakalım ne kadar şanslısın!",
   "statements.wrongChain.one":
     "Bağlantı kurmanıza yardımcı olacak bu kılavuza göz atın.",
@@ -4298,7 +4300,7 @@ const statements: Record<Statements, string> = {
   "statements.craft.composter": "Composter'da üret",
   "statements.wallet.to.inventory.transfer": "Cüzdanınızdan eşya yatırma",
   "statements.crop.water": "Bu mahsullerin suya ihtiyacı var!",
-  "statements.daily.limit": "Günlük Limit",
+  "statements.daily.limit": "Günlük Limit: ",
   "statements.sure.buy": "Satın almak istediğinizden emin misiniz?",
   "statements.perplayer": "Oyuncu başına",
   "statements.minted.goToChest": "Göğsünüze gidin ve onu adanıza yerleştirin",
@@ -4315,7 +4317,7 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.stop.moon": "Ay Arayanları Durdurun!",
   "stopGoblin.tap.one": "Kaynaklarınızı çalmadan önce Ay Arayanlara dokunun",
   "stopGoblin.tap.two": "Yemeğinizi yemeden önce Goblinlere dokunun",
-  "stopGoblin.left": "Kalan deneme sayısı",
+  "stopGoblin.left": "Kalan deneme sayısı: {{attemptsLeft}}",
 };
 
 const subSettings: Record<SubSettings, string> = {
@@ -4433,12 +4435,12 @@ const transactionTerms: Record<TransactionTerms, string> = {
 const transfer: Record<Transfer, string> = {
   "transfer.sure.adress":
     "Lütfen sağladığınız adresin Polygon Blockchain'de olduğundan, doğru olduğundan ve size ait olduğundan emin olun. Yanlış adreslerden kurtarma mümkün değildir.",
-  "transfer.Account": "Hesabınız #",
-  "transfer.Account.Trans": "şuraya transfer edildi",
+  "transfer.Account": ENGLISH_TERMS["transfer.Account"],
+  // "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
   "transfer.Farm": "Çiftliğini transfer ediyor!",
   "transfer.Refresh": "Sayfayı yenilemeyin",
   "transfer.Taccount": "Hesabınızı aktarın",
-  "transfer.address": "Cüzdan adresi",
+  "transfer.address": "Cüzdan adresi: ",
 };
 
 const treasureModal: Record<TreasureModal, string> = {
@@ -4502,7 +4504,7 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.noAxe": "Balta Seçilmedi!",
   "warning.chat.maxCharacters": "Maksimum karakter",
   "warning.chat.noSpecialCharacters": "Özel karakter yok",
-  "warning.level.required": "Seviye Gerekli",
+  "warning.level.required": ENGLISH_TERMS["warning.level.required"], // "Level {{lvl}} required",
   "warning.hoarding.message": "Aşağıdaki öğe için İstifleme Limitine ulaştınız",
   "warning.hoarding.one":
     "Söylentiye göre Goblinlerin bol miktarda kaynağa sahip çiftliklere baskın yaptıkları biliniyor.",
@@ -4524,6 +4526,8 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.takeover.ownership":
     "Görünüşe göre Sunflower Land'de yenisiniz ve başka bir oyuncunun hesabının sahipliğini talep etmişsiniz.",
   "welcome.promo": "Promosyon Kodu Ekle",
+  "welcome.offline": ENGLISH_TERMS["welcome.offline"],
+  // "Hey there Bumpkin, it looks like you aren't online. Please check your network connection.",
 };
 
 const winner: Record<Winner, string> = {
@@ -4540,15 +4544,18 @@ const wishingWellTerms: Record<WishingWell, string> = {
     "Hiçbir ödülünüz yok! Ödül alabilmek için likiditenin 3 gün tutulması gerekiyor!",
   "wishingWell.wish.lucky":
     "Yeni bir dilek dile ve ne kadar şanslı olduğunu gör!",
-  "wishingWell.sflRewardsReceived": "Alınan SFL ödülleri",
+  "wishingWell.sflRewardsReceived":
+    ENGLISH_TERMS["wishingWell.sflRewardsReceived"], // "You received {{reward}} SFL!",
   "wishingWell.wish.grantTime": "Dileğinizi yerine getirmenin zamanı geldi!",
   "wishingWell.wish.granted": "Dileğiniz kabul edildi.",
   "wishingWell.wish.made": "Bir dilek tuttun!",
-  "wishingWell.wish.timeTillNextWish": "Bir sonraki dilek zamanı",
+  "wishingWell.wish.timeTillNextWish":
+    "Bir sonraki dilek zamanı: {{nextWishTime}}",
   "wishingWell.wish.thanksForSupport":
     "Projeyi desteklediğiniz ve dilek tuttuğunuz için teşekkür ederiz.",
   "wishingWell.wish.comeBackAfter":
-    "Ne kadar şanslı olduğunuzu görmek için aşağıdaki süre içinde tekrar gelin",
+    ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
+  // "Come back in {{nextWishTime}} to see just how lucky you have been!",
   "wishingWell.wish.warning.one":
     "Dilek kabul edildiğinde yalnızca dilek tutulduğu sırada elinizde bulunan LP jetonlarının dikkate alınacağını unutmayın.",
   "wishingWell.wish.warning.two":
@@ -4556,13 +4563,14 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.info.one":
     "Dilek kuyusu, sadece bir dilek tutularak SFL ödüllerinin alınabileceği büyülü bir yerdir!",
   "wishingWell.info.two":
-    "Oyunda likidite sağlayan çiftçilerin dilekleri yerine getirilir. Daha fazla bilgi",
+    "Oyunda likidite sağlayan çiftçilerin dilekleri yerine getirilir.",
   "wishingWell.info.three":
     "Görünüşe göre cüzdanınızda o sihirli LP jetonları var!",
   "wishingWell.noLiquidity":
     "Henüz likidite sağlıyormuşsunuz gibi görünmüyor. Daha fazla bilgi,",
   "wishingWell.rewardsInWell": "Kuyudaki ödül miktarı",
   "wishingWell.luck": "Bakalım ne kadar şanslısın!",
+  "wishingWell.moreInfo": ENGLISH_TERMS["wishingWell.moreInfo"], // "More info",
 };
 
 const withdraw: Record<Withdraw, string> = {
@@ -4576,7 +4584,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL zincir üzerinde mevcuttur",
   "withdraw.send.wallet": "Cüzdanınıza gönderildi",
   "withdraw.choose": "Çekilecek tutarı seçin",
-  "withdraw.receive": "Alacaksın",
+  "withdraw.receive": "Alacaksın: {{sflReceived}}",
   "withdraw.select.item": "Geri çekilecek öğeleri seçin",
   "withdraw.opensea":
     "Geri çekildikten sonra öğelerinizi OpenSea'de görebileceksiniz.",
@@ -4646,12 +4654,13 @@ const trading: Record<Trading, string> = {
     "Listelemeleri görüntülemek için kaynakları seçin",
   "trading.no.listings": "Hiçbir listeleme bulunamadı",
   "trading.listing.congrats":
-    "Tebrikler, ürünlerinizi takas için listelediniz!",
+    "Tebrikler, ürünlerisnizi takas için listelediniz!",
   "trading.listing.deleted": "Listelemeniz Kaldırıldı",
   "trading.listing.fulfilled": "Ticaret gerçekleşti",
   "trading.your.listing": "Listelemeniz",
   "trading.you.receive": "Aldığın",
   "trading.burned": "yakılan.",
+  "trading.price.per.unit": "{{price}}/birim",
 };
 
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {

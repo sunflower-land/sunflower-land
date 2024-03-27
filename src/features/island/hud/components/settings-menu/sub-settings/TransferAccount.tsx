@@ -69,10 +69,10 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
           }}
           className="text-center mb-2"
         >
-          {t("transfer.Account")} {gameService.state.context.farmId}{" "}
-          {t("transfer.Account.Trans")}
-          {":"} {receiver.address}
-          {"!"}
+          {t("transfer.Account", {
+            farmID: gameService.state.context.farmId,
+            receivingAddress: receiver.address,
+          })}
         </span>
         <Button onClick={handleContinue}>{t("continue")}</Button>
       </div>
@@ -99,10 +99,7 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
     return (
       <div className="p-2">
         <p>{t("transfer.Taccount")}</p>
-        <p className="text-xs mt-2">
-          {t("transfer.address")}
-          {":"}
-        </p>
+        <p className="text-xs mt-2">{t("transfer.address")}</p>
         <input
           type="text"
           name="farmId"
