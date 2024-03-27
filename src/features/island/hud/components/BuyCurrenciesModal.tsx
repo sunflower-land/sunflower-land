@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -12,21 +12,100 @@ import sflIcon from "assets/icons/sfl.webp";
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
 import { OuterPanel } from "components/ui/Panel";
 import { useTranslation } from "react-i18next";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
+import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
+import { Context } from "features/game/GameProvider";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { onboardingAnalytics } from "lib/onboardingAnalytics";
+import { randomID } from "lib/utils/random";
+import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
+import {
+  BuyBlockBucks,
+  Price,
+} from "features/game/components/modal/components/BuyBlockBucks";
 
 const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
 
 type Props = {
-  isOpen: boolean;
+  show: boolean;
   onClose: () => void;
 };
 
-export const BuyCurrenciesModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { t } = useTranslation();
+const _token = (state: AuthMachineState) =>
+  state.context.user.rawToken as string;
+const _farmId = (state: MachineState) => state.context.farmId;
+const _autosaving = (state: MachineState) => state.matches("autosaving");
+
+export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
+  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
 
+  const { t } = useTranslation();
+  // Block bucks
+  const [showXsolla, setShowXsolla] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  const [price, setPrice] = useState<Price>();
+  const [hideBuyBBLabel, setHideBuyBBLabel] = useState(false);
+
+  const token = useSelector(authService, _token);
+  const farmId = useSelector(gameService, _farmId);
+  const autosaving = false;
+
+  useEffect(() => {
+    // Trigger an autosave in case they have changes so user can sync right away
+    gameService.send("SAVE");
+
+    onboardingAnalytics.logEvent("begin_checkout");
+  }, []);
+
+  const onMaticBuy = async () => {
+    gameService.send("BUY_BLOCK_BUCKS", {
+      currency: "MATIC",
+      amount: price?.amount,
+    });
+    onClose();
+  };
+
+  const handleExited = () => {
+    setShowXsolla(undefined);
+    setPrice(undefined);
+    setLoading(false);
+  };
+
+  const handleCreditCardBuy = async () => {
+    setLoading(true);
+    try {
+      const amount = price?.amount ?? 0;
+
+      const { url } = await buyBlockBucksXsolla({
+        amount,
+        farmId,
+        transactionId: randomID(),
+        token,
+      });
+
+      setShowXsolla(url);
+      setLoading(false);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      setLoading(false);
+    }
+  };
+
+  const handleCreditCardSuccess = () => {
+    gameService.send("UPDATE_BLOCK_BUCKS", { amount: price?.amount });
+    onClose();
+  };
+
   return (
-    <Modal show={isOpen}>
+    <Modal show={show} onHide={onClose} onExited={handleExited}>
       <CloseButtonPanel
+        onBack={price ? () => setPrice(undefined) : undefined}
         currentTab={tab}
         setCurrentTab={(tab) => {
           setTab(tab);
@@ -37,11 +116,55 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ isOpen, onClose }) => {
           { icon: exchangeIcon, name: `$SFL/Coins` },
         ]}
       >
-        {tab === 0 && <div>{t("Buy")}</div>}
+        {tab === 0 && (
+          <div className="flex flex-col space-y-1">
+            {!hideBuyBBLabel && (
+              <div className="flex justify-between pt-2 px-1">
+                <Label icon={blockBucksIcon} type="default" className="ml-2">
+                  {`${t("transaction.buy.BlockBucks")}`}
+                </Label>
+                <a
+                  href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+                  className="text-xxs underline"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t("read.more")}
+                </a>
+              </div>
+            )}
+
+            {/* BB UI */}
+            {showXsolla ? (
+              <div className="relative w-full h-full min-h-[65vh] min-w[65vw] px-1">
+                <XsollaLoading autoClose={true} />
+                <XsollaIFrame
+                  url={showXsolla}
+                  onSuccess={handleCreditCardSuccess}
+                  onClose={onClose}
+                />
+              </div>
+            ) : loading ? (
+              <div className="h-32 flex items-center justify-center">
+                <XsollaLoading autoClose={false} />
+              </div>
+            ) : (
+              <BuyBlockBucks
+                isSaving={autosaving}
+                price={price}
+                setPrice={setPrice}
+                onMaticBuy={onMaticBuy}
+                onCreditCardBuy={handleCreditCardBuy}
+                onHideBuyBBLabel={(hide) => setHideBuyBBLabel(hide)}
+              />
+            )}
+          </div>
+          // </div>
+        )}
         {tab === 1 && (
           <div className="flex flex-col p-1 py-2 space-y-2">
-            <Label icon={exchangeIcon} type="default">
-              {`${t("exchange")} $SFL ${t("for")} Coins`}
+            <Label icon={exchangeIcon} type="default" className="ml-1">
+              {`${t("exchange")} SFL ${t("for")} Coins`}
             </Label>
             <div className="flex justify-between gap-1 text-[14px] sm:text-sm sm:gap-2">
               {Object.values(SFL_TO_COIN_PACKAGES).map((option, index) => (
