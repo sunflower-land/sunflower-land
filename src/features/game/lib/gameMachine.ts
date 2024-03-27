@@ -96,6 +96,7 @@ import {
   TradeableName,
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
+import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -274,6 +275,7 @@ type FulfillTradeListingEvent = {
 type SellMarketResourceEvent = {
   type: "SELL_MARKET_RESOURCE";
   item: TradeableName;
+  pricePerUnit: number;
 };
 
 export type UpdateUsernameEvent = {
@@ -1669,7 +1671,7 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, event) => {
-              const { item } = event as SellMarketResourceEvent;
+              const { item, pricePerUnit } = event as SellMarketResourceEvent;
 
               if (context.actions.length > 0) {
                 await autosave({
@@ -1688,6 +1690,7 @@ export function startGame(authContext: AuthContext) {
                 token: authContext.user.rawToken as string,
                 soldAt: new Date().toISOString(),
                 item,
+                pricePerUnit,
               });
 
               return {
@@ -1704,6 +1707,9 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "playing",
                 actions: [
+                  (_context, event) => {
+                    setCachedMarketPrices(event.data.prices);
+                  },
                   assign((_, event) => ({
                     actions: [],
                     state: event.data.farm,

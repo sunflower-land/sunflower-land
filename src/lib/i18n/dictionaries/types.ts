@@ -772,6 +772,11 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings";
 
+export type GoblinTrade =
+  | "goblinTrade.select"
+  | "goblinTrade.bulk"
+  | "goblinTrade.conversion";
+
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
   | "buyFarmHand.confirmBuyAdditional"
@@ -3222,6 +3227,7 @@ export type TranslationKeys =
   | GetContent
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
+  | GoblinTrade
   | GoldPassModal
   | GoldTooth
   | GuideTerms

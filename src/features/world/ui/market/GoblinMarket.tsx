@@ -13,7 +13,8 @@ import {
   setCachedMarketPrices,
 } from "./lib/marketCache";
 
-const SIXTY_SECONDS = 1000 * 10;
+const THIRTY_SECONDS = 1000 * 30;
+const SIXTY_SECONDS = 1000 * 60;
 
 interface Props {
   onClose: () => void;
@@ -27,12 +28,17 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
   const [authState] = useActor(authService);
 
   const [marketPrices, setMarketPrices] = useState(getCachedMarketPrices());
+  const [loading, setLoading] = useState(false);
 
-  const notCloseable = gameService.state.matches("fulfillTradeListing");
+  const selling = gameService.state.matches("sellMarketResource");
 
   useEffect(() => {
     const load = async () => {
-      if (!marketPrices || marketPrices.cachedAt < Date.now() - SIXTY_SECONDS) {
+      if (
+        !marketPrices ||
+        marketPrices.cachedAt < Date.now() - THIRTY_SECONDS
+      ) {
+        setLoading(true);
         const marketPrices = await getMarketPrices(
           gameService.state.context.farmId,
           gameService.state.context.transactionId as string,
@@ -40,6 +46,7 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
         );
         setCachedMarketPrices(marketPrices);
         setMarketPrices({ prices: marketPrices, cachedAt: Date.now() });
+        setLoading(false);
       }
     };
     load();
@@ -47,12 +54,20 @@ export const GoblinMarket: React.FC<Props> = ({ onClose }) => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    if (!selling) {
+      // Used when cache is updated after a sale
+      const prices = getCachedMarketPrices();
+      if (prices) setMarketPrices(prices);
+    }
+  }, [selling]);
+
   return (
     <CloseButtonPanel
-      onClose={notCloseable ? undefined : onClose}
+      onClose={selling ? undefined : onClose}
       tabs={[{ icon: SUNNYSIDE.icons.search, name: t("sell") }]}
     >
-      {<SalesPanel marketPrices={marketPrices?.prices} />}
+      {<SalesPanel marketPrices={marketPrices} loadingNewPrices={loading} />}
     </CloseButtonPanel>
   );
 };
