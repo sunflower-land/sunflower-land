@@ -40,8 +40,8 @@ const ListTrade: React.FC<{
 }> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
-  const [quantity, setQuantity] = useState<number>(1);
-  const [sfl, setSFL] = useState(1);
+  const [quantity, setQuantity] = useState<number>(0);
+  const [sfl, setSFL] = useState(0);
 
   const maxSFL = sfl > MAX_SFL;
 
@@ -145,7 +145,10 @@ const ListTrade: React.FC<{
               ) {
                 e.target.value = e.target.value.replace(/^0/, "");
               }
-              if (VALID_INTEGER.test(e.target.value)) {
+
+              if (e.target.value === "") {
+                setQuantity(0); // Reset to 0 if input is empty
+              } else if (VALID_INTEGER.test(e.target.value)) {
                 const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
                 setQuantity(amount);
               }
@@ -155,7 +158,8 @@ const ListTrade: React.FC<{
               {
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
-                  quantity > (TRADE_LIMITS[selected] ?? 0),
+                  quantity > (TRADE_LIMITS[selected] ?? 0) ||
+                  quantity === 0, // Add condition to change text color to red when quantity is 0
               }
             )}
           />
@@ -221,7 +225,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.pricePerUnit")}</span>
-        <p className="text-xs">{`${(sfl / quantity).toFixed(4)} SFL`}</p>
+        <p className="text-xs">
+          {quantity === 0 ? "0.0000 SFL" : `${(sfl / quantity).toFixed(4)} SFL`}
+        </p>
       </div>
       <div
         className="flex justify-between"
@@ -251,8 +257,8 @@ const ListTrade: React.FC<{
           disabled={
             maxSFL ||
             (inventory[selected]?.lt(quantity) ?? false) ||
-            quantity > (TRADE_LIMITS[selected] ?? 0) ||
-            sfl === 0 ||
+            quantity === 0 || // Disable when quantity is 0
+            sfl === 0 || // Disable when sfl is 0
             isSaving
           }
           onClick={() => onList({ [selected]: quantity }, sfl)}
