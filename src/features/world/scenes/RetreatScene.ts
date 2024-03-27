@@ -30,12 +30,6 @@ const BUMPKINS: NPCBumpkin[] = [
     direction: "right",
   },
   {
-    npc: "grabnab",
-    x: 87,
-    y: 237,
-    direction: "right",
-  },
-  {
     npc: "gordo",
     x: 574,
     y: 277,
@@ -68,6 +62,10 @@ export class RetreatScene extends BaseScene {
     this.load.spritesheet("greedclaw", `world/greedclaw.webp`, {
       frameWidth: 20,
       frameHeight: 19,
+    });
+    this.load.spritesheet("grabnab", `world/grabnab.webp`, {
+      frameWidth: 20,
+      frameHeight: 21,
     });
 
     this.load.spritesheet("raffle", "world/raffle.webp", {
@@ -121,6 +119,18 @@ export class RetreatScene extends BaseScene {
     exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       // TODO
     });
+
+    const grabnab = this.add.sprite(90, 235, "grabnab");
+    this.anims.create({
+      key: "grabnab_animation",
+      frames: this.anims.generateFrameNumbers("grabnab", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    grabnab.play("grabnab_animation", true);
 
     this.add.sprite(422, 84, "withdraw_disc").setDepth(1000000000);
 
