@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -36,6 +35,10 @@ const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
 };
 
+const compareCoins = (prev: number, next: number) => {
+  return prev === next;
+};
+
 const compareBlockBucks = (prev: Decimal, next: Decimal) => {
   const previous = prev ?? new Decimal(0);
   const current = next ?? new Decimal(0);
@@ -59,6 +62,12 @@ const LandscapingHudComponent: React.FC<{
     gameService,
     (state) => state.context.state.balance,
     compareBalance
+  );
+
+  const coins = useSelector(
+    gameService,
+    (state) => state.context.state.coins,
+    compareCoins
   );
 
   const blockBucks = useSelector(
@@ -104,8 +113,11 @@ const LandscapingHudComponent: React.FC<{
 
   return (
     <HudContainer>
-      <Balance balance={balance} />
-      <BlockBucks blockBucks={blockBucks} />
+      <Balances
+        sfl={balance}
+        coins={coins}
+        blockBucks={blockBucks ?? new Decimal(0)}
+      />
 
       <>
         {idle && (

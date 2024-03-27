@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GoblinProvider";
 import { BumpkinAvatar } from "features/island/hud/components/BumpkinProfile";
@@ -14,6 +14,7 @@ import { Deposit } from "features/goblins/bank/components/Deposit";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TravelButton } from "./components/travel/TravelButton";
 import { HudContainer } from "components/ui/HudContainer";
+import Decimal from "decimal.js-light";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -47,9 +48,13 @@ export const Hud: React.FC = () => {
 
   return (
     <HudContainer>
-      <Balance
-        onBalanceClick={handleDepositOpen}
-        balance={goblinState.context.state.balance}
+      <Balances
+        sfl={goblinState.context.state.balance}
+        coins={goblinState.context.state.coins}
+        blockBucks={
+          goblinState.context.state.inventory["Block Buck"] ?? new Decimal(0)
+        }
+        onAddClick={handleDepositOpen}
       />
       <GoblinInventory
         state={goblinState.context.state as GameState}

@@ -193,7 +193,7 @@ const HudComponent: React.FC<{
           </CloseButtonPanel>
         </Modal>
         <BuyCurrenciesModal
-          isOpen={showBuyCurrencies}
+          show={showBuyCurrencies}
           onClose={handleBuyCurrencies}
         />
       </HudContainer>

@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
-import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
@@ -67,13 +66,10 @@ const HudComponent: React.FC = () => {
         isFarming={false}
       />
 
-      <Balance
-        onBalanceClick={
-          farmAddress ? () => setShowDepositModal(true) : undefined
-        }
-        balance={gameState.context.state.balance}
-      />
-      <BlockBucks
+      <Balances
+        onAddClick={farmAddress ? () => setShowDepositModal(true) : undefined}
+        sfl={gameState.context.state.balance}
+        coins={gameState.context.state.coins}
         blockBucks={
           gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
         }

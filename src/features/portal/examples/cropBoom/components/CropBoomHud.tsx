@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { createPortal } from "react-dom";
-import { BlockBucks } from "features/island/hud/components/BlockBucks";
 import { PortalContext } from "../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -26,8 +25,9 @@ export const CropBoomHud: React.FC = () => {
           aria-label="Hud"
           className="absolute z-40"
         >
-          <Balance balance={portalState.context.state.balance} />
-          <BlockBucks
+          <Balances
+            sfl={portalState.context.state.balance}
+            coins={portalState.context.state.coins}
             blockBucks={
               portalState.context.state.inventory["Block Buck"] ??
               new Decimal(0)

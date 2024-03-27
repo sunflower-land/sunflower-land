@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
@@ -12,7 +12,6 @@ import { Settings } from "./components/Settings";
 import { createPortal } from "react-dom";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 
 /**
@@ -34,12 +33,12 @@ export const VisitingHud: React.FC = () => {
           <span className="text-white">{`Visiting #${gameState.context.farmId}`}</span>
         </InnerPanel>
       )}
-      <Balance balance={gameState.context.state.balance} />
-      <BlockBucks
+      <Balances
+        sfl={gameState.context.state.balance}
+        coins={gameState.context.state.coins}
         blockBucks={
           gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
         }
-        isVisiting={true}
       />
       <Inventory
         state={gameState.context.state}
