@@ -65,7 +65,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           left: "35%",
           bottom: "20%",
         }}
-        className="flex justify-center  cursor-pointer"
+        className="flex justify-center items-center  cursor-pointer"
         onClick={() => {
           navigate("/world/plaza");
           onClose();
@@ -80,6 +80,32 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           }
         >
           {t("world.plaza")}
+        </span>
+      </div>
+
+      <div
+        style={{
+          width: "12%",
+          height: "34%",
+          position: "absolute",
+          left: "22%",
+          bottom: "25%",
+        }}
+        className="flex justify-center items-start md:items-center  cursor-pointer"
+        onClick={() => {
+          navigate("/world/beach");
+          onClose();
+        }}
+      >
+        <span
+          className="text-xs sm:text-sm"
+          style={
+            {
+              "-webkit-text-stroke": "1px black",
+            } as any
+          }
+        >
+          {t("world.beach")}
         </span>
       </div>
 

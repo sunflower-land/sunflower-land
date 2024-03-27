@@ -4581,6 +4581,7 @@ const world: Record<World, string> = {
   "world.intro.seven":
     "No harrasment, swearing or bullying. Thank you for respecting others.",
   "world.plaza": "Plaza",
+  "world.beach": "Beach",
   "world.retreat": "Retreat",
   "world.home": "Home",
   "world.kingdom": "Kingdom",

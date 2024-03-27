@@ -4615,6 +4615,7 @@ const world: Record<World, string> = {
   "world.intro.seven":
     "Taciz, küfür veya zorbalık yok. Başkalarına saygı duyduğunuz için teşekkür ederiz.",
   "world.plaza": ENGLISH_TERMS["world.plaza"],
+  "world.beach": ENGLISH_TERMS["world.beach"],
   "world.retreat": ENGLISH_TERMS["world.retreat"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],

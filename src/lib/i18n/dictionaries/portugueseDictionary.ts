@@ -4623,6 +4623,7 @@ const world: Record<World, string> = {
   "world.intro.seven":
     "Sem assédio, palavrões ou bullying. Obrigado por respeitar os outros.",
   "world.plaza": ENGLISH_TERMS["world.plaza"],
+  "world.beach": ENGLISH_TERMS["world.beach"],
   "world.retreat": ENGLISH_TERMS["world.retreat"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
