@@ -1849,6 +1849,7 @@ const event: Record<Event, string> = {
   "event.christmas": "Christmas event!",
   "event.LunarNewYear": "Lunar New Year Event",
   "event.GasHero": "Gas Hero Event",
+  "event.Easter": "Easter Event",
   "event.valentines.rewards": "Valentine Rewards",
 };
 
@@ -4151,6 +4152,9 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.easterIntro":
+    "Oh no, my rabbits have gone missing again....they must be searching for food. Can you help me find them? They are masters of disguise and can be hard to spot. Click on them to capture them.",
+  "special.event.rabbitsMissing": "Rabbits missing",
   "special.event.link": "Airdrop link",
   "special.event.claimForm":
     "Please fill in the form below to claim your airdrop.",

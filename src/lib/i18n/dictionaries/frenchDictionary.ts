@@ -1937,6 +1937,7 @@ const event: Record<Event, string> = {
   "event.christmas": "Événement de Noël!",
   "event.LunarNewYear": "Événement du Nouvel An lunaire",
   "event.GasHero": "Événement Gas Hero",
+  "event.Easter": "Événement de Pâques",
   "event.valentines.rewards": "Récompenses de la Saint-Valentin",
 };
 
@@ -4313,6 +4314,8 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
+  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
   "special.event.link": "Lien Airdrop",
   "special.event.claimForm":
     "Veuillez remplir le formulaire ci-dessous pour réclamer votre airdrop.",

@@ -19,6 +19,7 @@ import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
 import logo from "assets/brand/logo_v2.png";
+import easterlogo from "assets/brand/easterlogo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 import ocean from "assets/decorations/ocean.webp";
 
@@ -48,7 +49,7 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
-import { PIXEL_SCALE } from "../lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
@@ -64,6 +65,8 @@ import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptSty
 import { Withdrawing } from "../components/Withdrawing";
 import { Withdrawn } from "../components/Withdrawn";
 import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
+import { hasFeatureAccess } from "lib/flags";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -376,11 +379,24 @@ export const GameWrapper: React.FC = ({ children }) => {
                   }}
                 />
                 <>
-                  <img id="logo" src={logo} className="w-full" />
+                  {hasFeatureAccess(TEST_FARM, "EASTER") ? (
+                    <img id="logo" src={easterlogo} className="w-full" />
+                  ) : (
+                    <img id="logo" src={logo} className="w-full" />
+                  )}
                   <div className="flex justify-center">
                     <Label type="default">
                       {CONFIG.RELEASE_VERSION?.split("-")[0]}
                     </Label>
+                    {hasFeatureAccess(TEST_FARM, "EASTER") && (
+                      <Label
+                        secondaryIcon={SUNNYSIDE.icons.stopwatch}
+                        type="vibrant"
+                        className="ml-2"
+                      >
+                        {t("event.Easter")}
+                      </Label>
+                    )}
                   </div>
                 </>
               </div>

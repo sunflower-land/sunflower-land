@@ -4190,6 +4190,8 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
+  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
   "special.event.link": ENGLISH_TERMS["special.event.link"],
   "special.event.claimForm":
     "Preencha o formulário abaixo para reivindicar seu airdrop.",
@@ -4663,6 +4665,7 @@ const event: Record<Event, string> = {
   "event.christmas": "Evento de Natal!",
   "event.LunarNewYear": "Evento de Ano Novo Lunar",
   "event.GasHero": "Evento de Gas Hero",
+  "event.Easter": "Evento de Páscoa",
   "event.valentines.rewards": "Recompensas de Dia dis Namorados",
 };
 

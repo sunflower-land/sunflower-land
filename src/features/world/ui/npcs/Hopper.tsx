@@ -3,12 +3,12 @@ import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext } from "react";
 import { InlineDialogue } from "../TypingMessage";
-import { SpecialEventModal } from "../SpecialEventModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpecialEventModalContent } from "../SpecialEventModalContent";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SpecialEvent } from "features/game/types/specialEvents";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -27,6 +27,8 @@ export const Hopper: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { t } = useAppTranslation();
+
   if (RABIBTS_FOUND < RABBITS) {
     return (
       <CloseButtonPanel bumpkinParts={NPC_WEARABLES.hopper}>
@@ -41,7 +43,9 @@ export const Hopper: React.FC<Props> = ({ onClose }) => {
                 {`Hopper`}
               </Label>
               <Label type="info">
-                Rabbits missing: {RABBITS - RABIBTS_FOUND}
+                {`${t("special.event.rabbitsMissing")}: ${
+                  RABBITS - RABIBTS_FOUND
+                }`}
               </Label>
             </div>
             <div
@@ -52,9 +56,7 @@ export const Hopper: React.FC<Props> = ({ onClose }) => {
             >
               <InlineDialogue
                 trail={25}
-                message={
-                  "Oh no, my rabbits have gone missing again....they must be searching for food. Can you help me find them?"
-                }
+                message={t("special.event.easterIntro")}
               />
             </div>
           </div>

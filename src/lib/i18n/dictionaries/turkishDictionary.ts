@@ -1874,6 +1874,7 @@ const event: Record<Event, string> = {
   "event.LunarNewYear": "Ay Yeni Yılı Etkinliği",
   "event.valentines.rewards": "Sevgililer Günü Ödülleri",
   "event.GasHero": "Gas Hero Etkinliği",
+  "event.Easter": "Paskalya Etkinliği",
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {
@@ -4177,6 +4178,8 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
+  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
   "special.event.claimForm":
     "Airdropunuzu talep etmek için lütfen aşağıdaki formu doldurun.",
   "special.event.airdropHandling":
