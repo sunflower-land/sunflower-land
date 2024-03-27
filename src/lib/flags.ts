@@ -1,3 +1,4 @@
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -15,9 +16,6 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
 type FeatureName =
   | "JEST_TEST"
   | "PORTALS"
-  | "DEQUIPPER"
-  | "CHESTS"
-  | "BUD_BOX"
   | "RAFFLE"
   | "RETREAT"
   | "WORLD_MAP"
@@ -34,12 +32,23 @@ type FeatureFlag = (game: GameState) => boolean;
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
-  DEQUIPPER: defaultFeatureFlag,
-  CHESTS: defaultFeatureFlag,
   RAFFLE: defaultFeatureFlag,
-  RETREAT: defaultFeatureFlag,
-  BUD_BOX: defaultFeatureFlag,
-  WORLD_MAP: defaultFeatureFlag,
+  WORLD_MAP: (game) => {
+    if (defaultFeatureFlag(game)) return true;
+
+    const hasGoblinBud = getKeys(game.buds ?? {}).some(
+      (id) => game.buds?.[id].type === "Retreat"
+    );
+    return !!hasGoblinBud;
+  },
+  RETREAT: (game) => {
+    if (defaultFeatureFlag(game)) return true;
+
+    const hasGoblinBud = getKeys(game.buds ?? {}).some(
+      (id) => game.buds?.[id].type === "Retreat"
+    );
+    return !!hasGoblinBud;
+  },
   EASTER: (game) => {
     // Event ended
     if (Date.now() > new Date("2024-04-05T00:00:00Z").getTime()) return false;
