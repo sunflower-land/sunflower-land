@@ -1,6 +1,7 @@
 import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
+  | "hopper"
   | "betty"
   | "bruce"
   | "hank"
@@ -71,6 +72,18 @@ export type NPCName =
 // Ol Salty
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  hopper: {
+    body: "Beige Farmer Potion",
+    hair: "Wise Hair",
+    beard: "Wise Beard",
+    pants: "Wise Slacks",
+    shirt: "Wise Robes",
+    tool: "Wise Staff",
+    secondaryTool: "Wise Book",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+    onesie: "Bunny Onesie",
+  },
   greedclaw: {
     body: "Goblin Potion",
     hair: "Wise Hair",

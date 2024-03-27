@@ -1,4 +1,6 @@
 import mapJson from "assets/map/plaza.json";
+import rabbitJson from "assets/map/rabbit_plaza.json";
+import rabbitTileset from "assets/map/rabbit-tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -17,6 +19,7 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
+import { collectRabbit } from "../ui/npcs/Hopper";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -272,6 +275,22 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
 };
 
+const IS_EASTER = true; /*
+  Date.now() > new Date("2024-03-26T00:00:00Z").getTime() &&
+  Date.now() < new Date("2024-04-02T00:00:00Z").getTime();*/
+
+console.log({ IS_EASTER });
+
+const RABBIT_POSITIONS = [
+  [
+    { x: 262, y: 357 },
+    { x: 282, y: 357 },
+    { x: 302, y: 357 },
+    { x: 322, y: 357 },
+    { x: 342, y: 357 },
+    { x: 362, y: 357 },
+  ],
+];
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
@@ -284,13 +303,25 @@ export class PlazaScene extends BaseScene {
   constructor() {
     super({
       name: "plaza",
-      map: { json: mapJson },
+      map: {
+        json: IS_EASTER ? rabbitJson : mapJson,
+        imageKey: IS_EASTER ? "easter-tileset" : "tileset",
+        defaultTilesetConfig: IS_EASTER ? rabbitTileset : undefined,
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
+    console.log("CONSTRUCTED");
   }
 
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
+
+    this.load.image("rabbit_1", "world/rabbit_1.png");
+    this.load.image("rabbit_2", "world/rabbit_2.png");
+    this.load.image("rabbit_3", "world/rabbit_3.png");
+    this.load.image("rabbit_4", "world/rabbit_4.png");
+    this.load.image("rabbit_5", "world/rabbit_5.png");
+    this.load.image("rabbit_6", "world/rabbit_6.png");
 
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
@@ -389,11 +420,42 @@ export class PlazaScene extends BaseScene {
   }
 
   async create() {
-    this.map = this.make.tilemap({
-      key: "main-map",
-    });
-
     super.create();
+
+    const easterDay = 0;
+    const rabbitPositions = RABBIT_POSITIONS[easterDay];
+
+    rabbitPositions.forEach((coords, index) => {
+      const rabbit = this.add.sprite(coords.x, coords.y, `rabbit_${index + 1}`);
+
+      rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        rabbit.destroy();
+
+        collectRabbit();
+
+        // Show poof at position
+        const poof = this.add.sprite(coords.x, coords.y, "poof").setOrigin(0.5);
+
+        this.anims.create({
+          key: `poof_anim`,
+          frames: this.anims.generateFrameNumbers("poof", {
+            start: 0,
+            end: 8,
+          }),
+          repeat: 0,
+          frameRate: 10,
+        });
+
+        poof.play(`poof_anim`, true);
+
+        // Listen for the animation complete event
+        poof.on("animationcomplete", function (animation: { key: string }) {
+          if (animation.key === "poof_anim") {
+            poof.destroy();
+          }
+        });
+      });
+    });
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
@@ -407,6 +469,14 @@ export class PlazaScene extends BaseScene {
         interactableModalManager.open("trading_board");
       });
     tradingBoardIcon.setDepth(1000000);
+
+    if (IS_EASTER) {
+      PLAZA_BUMPKINS.push({
+        npc: "hopper",
+        x: 434,
+        y: 340,
+      });
+    }
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 

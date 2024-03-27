@@ -148,6 +148,7 @@ export abstract class BaseScene extends Phaser.Scene {
       player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
 
+    console.log({ defaultedOptions });
     super(defaultedOptions.name);
 
     this.options = defaultedOptions;
@@ -161,11 +162,10 @@ export abstract class BaseScene extends Phaser.Scene {
           this.options.map.defaultTilesetConfig ??
           defaultTilesetConfig.tilesets,
       };
+      console.log({ name: this.options.name, json });
       this.load.tilemapTiledJSON(this.options.name, json);
+      console.log("LOADED");
     }
-
-    if (this.options.map?.tilesetUrl)
-      this.load.image("community-tileset", this.options.map.tilesetUrl);
   }
 
   init(data: SceneTransitionData) {
@@ -215,6 +215,7 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
+      console.log({ error });
       errorLogger(JSON.stringify(error));
     }
   }
@@ -222,29 +223,23 @@ export abstract class BaseScene extends Phaser.Scene {
   private roof: Phaser.Tilemaps.TilemapLayer | null = null;
 
   public initialiseMap() {
+    console.log("pre map", this.options.name);
     this.map = this.make.tilemap({
+      // key: "main-map",
       key: this.options.name,
     });
 
-    const tileset = this.options.map?.tilesetUrl
-      ? // Community tileset
-        (this.map.addTilesetImage(
-          "Sunnyside V3",
-          "community-tileset",
-          16,
-          16,
-          ...(this.options.map.padding ?? [0, 0])
-        ) as Phaser.Tilemaps.Tileset)
-      : // Standard tileset
-        (this.map.addTilesetImage(
-          "Sunnyside V3",
-          this.options.map.imageKey ?? "tileset",
-          16,
-          16,
-          1,
-          2
-        ) as Phaser.Tilemaps.Tileset);
+    console.log("Make map", this.options.name);
+    const tileset = this.map.addTilesetImage(
+      "Sunnyside V3",
+      this.options.map.imageKey ?? "tileset",
+      16,
+      16,
+      1,
+      2
+    ) as Phaser.Tilemaps.Tileset;
 
+    console.log({ tileset });
     // Set up collider layers
     this.colliders = this.add.group();
 
@@ -331,6 +326,7 @@ export abstract class BaseScene extends Phaser.Scene {
       this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
     });
 
+    console.log({ map: this.map });
     this.physics.world.setBounds(
       0,
       0,

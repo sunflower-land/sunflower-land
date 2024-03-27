@@ -23,6 +23,7 @@ import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpecialEventModal } from "./SpecialEventModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
+import { Hopper } from "./npcs/Hopper";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -89,6 +90,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
 
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "hopper" && <Hopper onClose={closeModal} />}
 
         {npc === "marcus" && (
           <SpeakingModal
