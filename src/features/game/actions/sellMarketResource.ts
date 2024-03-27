@@ -36,6 +36,7 @@ type Request = {
   item: TradeableName;
   soldAt: string;
   token: string;
+  pricePerUnit: number;
 };
 
 type Response = {
@@ -60,6 +61,7 @@ export async function sellMarketResourceRequest(
     body: JSON.stringify({
       item: request.item,
       soldAt: request.soldAt,
+      pricePerUnit: request.pricePerUnit,
     }),
   });
 

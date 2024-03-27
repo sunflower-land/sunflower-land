@@ -584,6 +584,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal
         show={interactable === "goblin_market"}
         dialogClassName="md:max-w-3xl"
+        onHide={closeModal}
       >
         <GoblinMarket onClose={closeModal} />
       </Modal>

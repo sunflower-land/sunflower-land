@@ -171,6 +171,7 @@ import {
   NyonStatue,
   Trading,
   TimeUnits,
+  GoblinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1103,6 +1104,12 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
+};
+
+const goblinTrade: Record<GoblinTrade, string> = {
+  "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
+  "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
+  "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -4866,6 +4873,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...getContent,
   ...getInputErrorMessage,
   ...goblin_messages,
+  ...goblinTrade,
   ...goldpassModal,
   ...goldTooth,
   ...guideCompost,
