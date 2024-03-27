@@ -335,6 +335,11 @@ export class PlazaScene extends BaseScene {
       frameHeight: 28,
     });
 
+    this.load.spritesheet("easter_egg", "world/easter_donation.png", {
+      frameWidth: 16,
+      frameHeight: 19,
+    });
+
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
       frameHeight: 18,
@@ -422,40 +427,74 @@ export class PlazaScene extends BaseScene {
   async create() {
     super.create();
 
-    const easterDay = 0;
-    const rabbitPositions = RABBIT_POSITIONS[easterDay];
+    if (IS_EASTER) {
+      PLAZA_BUMPKINS.push({
+        npc: "hopper",
+        x: 434,
+        y: 340,
+      });
 
-    rabbitPositions.forEach((coords, index) => {
-      const rabbit = this.add.sprite(coords.x, coords.y, `rabbit_${index + 1}`);
+      PLAZA_BUMPKINS.push({
+        npc: "flopsy",
+        x: 380,
+        y: 245,
+      });
 
-      rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        rabbit.destroy();
+      const easterDay = 0;
+      const rabbitPositions = RABBIT_POSITIONS[easterDay];
 
-        collectRabbit();
+      rabbitPositions.forEach((coords, index) => {
+        const rabbit = this.add.sprite(
+          coords.x,
+          coords.y,
+          `rabbit_${index + 1}`
+        );
 
-        // Show poof at position
-        const poof = this.add.sprite(coords.x, coords.y, "poof").setOrigin(0.5);
+        rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+          rabbit.destroy();
 
-        this.anims.create({
-          key: `poof_anim`,
-          frames: this.anims.generateFrameNumbers("poof", {
-            start: 0,
-            end: 8,
-          }),
-          repeat: 0,
-          frameRate: 10,
-        });
+          collectRabbit();
 
-        poof.play(`poof_anim`, true);
+          // Show poof at position
+          const poof = this.add
+            .sprite(coords.x, coords.y, "poof")
+            .setOrigin(0.5);
 
-        // Listen for the animation complete event
-        poof.on("animationcomplete", function (animation: { key: string }) {
-          if (animation.key === "poof_anim") {
-            poof.destroy();
-          }
+          this.anims.create({
+            key: `poof_anim`,
+            frames: this.anims.generateFrameNumbers("poof", {
+              start: 0,
+              end: 8,
+            }),
+            repeat: 0,
+            frameRate: 10,
+          });
+
+          poof.play(`poof_anim`, true);
+
+          // Listen for the animation complete event
+          poof.on("animationcomplete", function (animation: { key: string }) {
+            if (animation.key === "poof_anim") {
+              poof.destroy();
+            }
+          });
         });
       });
-    });
+
+      const easterEgg = this.add
+        .sprite(395, 245, "easter_egg")
+        .setDepth(1000000000000);
+      this.anims.create({
+        key: "egg_animation",
+        frames: this.anims.generateFrameNumbers("easter_egg", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 4,
+      });
+      easterEgg.play("egg_animation", true);
+    }
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
@@ -469,14 +508,6 @@ export class PlazaScene extends BaseScene {
         interactableModalManager.open("trading_board");
       });
     tradingBoardIcon.setDepth(1000000);
-
-    if (IS_EASTER) {
-      PLAZA_BUMPKINS.push({
-        npc: "hopper",
-        x: 434,
-        y: 340,
-      });
-    }
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
 

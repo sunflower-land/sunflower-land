@@ -9,6 +9,8 @@ import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
 import bloomSeed from "assets/flowers/bloom_seed.webp";
 import lilySeed from "assets/flowers/lily_seed.webp";
 
+import communityEgg from "assets/sfts/easter_donation_egg.webp";
+
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
@@ -3250,5 +3252,9 @@ export const ITEM_DETAILS: Items = {
   Baozi: {
     image: baozi,
     description: translate("description.baozi"),
+  },
+  "Community Egg": {
+    image: communityEgg,
+    description: translate("description.communityEgg"),
   },
 };

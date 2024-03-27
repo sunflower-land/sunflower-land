@@ -2259,6 +2259,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.babyPanda":
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
   "description.baozi": "A delicious treat from the Lunar New Year event.",
+  "description.communityEgg": "Wow, you must really care about the community!",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

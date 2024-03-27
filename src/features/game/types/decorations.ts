@@ -71,6 +71,7 @@ export type SeasonalDecorationName =
   | "Beach Umbrella";
 
 export type EventDecorationName =
+  | "Community Egg"
   | "Baozi"
   | "Baby Panda"
   | "Valentine Bear"
@@ -107,6 +108,11 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Community Egg": {
+    width: 1,
+    height: 1,
+  },
+
   Baozi: {
     width: 1,
     height: 1,

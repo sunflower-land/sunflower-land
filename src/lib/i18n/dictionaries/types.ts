@@ -1620,6 +1620,7 @@ export type GameDescriptions =
   | "description.prizeTicket"
   | "description.babyPanda"
   | "description.baozi"
+  | "description.communityEgg"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
