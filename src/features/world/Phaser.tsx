@@ -104,7 +104,12 @@ export const PhaserComponent: React.FC<Props> = ({
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);
 
-  const scenes = [Preloader, WoodlandsScene, BeachScene, PlazaScene];
+  const scenes = [
+    Preloader,
+    WoodlandsScene,
+    BeachScene,
+    new PlazaScene({ gameState: gameService.state.context.state }),
+  ];
 
   if (hasFeatureAccess(gameService.state.context.state, "RETREAT")) {
     scenes.push(RetreatScene);
@@ -194,6 +199,7 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
+
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
         mmoService.state.context.server?.send(0, {

@@ -148,7 +148,6 @@ export abstract class BaseScene extends Phaser.Scene {
       player: options.player ?? { spawn: { x: 0, y: 0 } },
     };
 
-    console.log({ defaultedOptions });
     super(defaultedOptions.name);
 
     this.options = defaultedOptions;
@@ -162,9 +161,7 @@ export abstract class BaseScene extends Phaser.Scene {
           this.options.map.defaultTilesetConfig ??
           defaultTilesetConfig.tilesets,
       };
-      console.log({ name: this.options.name, json });
       this.load.tilemapTiledJSON(this.options.name, json);
-      console.log("LOADED");
     }
   }
 
@@ -215,7 +212,6 @@ export abstract class BaseScene extends Phaser.Scene {
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
     } catch (error) {
-      console.log({ error });
       errorLogger(JSON.stringify(error));
     }
   }
@@ -223,13 +219,10 @@ export abstract class BaseScene extends Phaser.Scene {
   private roof: Phaser.Tilemaps.TilemapLayer | null = null;
 
   public initialiseMap() {
-    console.log("pre map", this.options.name);
     this.map = this.make.tilemap({
-      // key: "main-map",
       key: this.options.name,
     });
 
-    console.log("Make map", this.options.name);
     const tileset = this.map.addTilesetImage(
       "Sunnyside V3",
       this.options.map.imageKey ?? "tileset",
@@ -239,7 +232,6 @@ export abstract class BaseScene extends Phaser.Scene {
       2
     ) as Phaser.Tilemaps.Tileset;
 
-    console.log({ tileset });
     // Set up collider layers
     this.colliders = this.add.group();
 
@@ -326,7 +318,6 @@ export abstract class BaseScene extends Phaser.Scene {
       this.layers[layerData.name] = layer as Phaser.Tilemaps.TilemapLayer;
     });
 
-    console.log({ map: this.map });
     this.physics.world.setBounds(
       0,
       0,

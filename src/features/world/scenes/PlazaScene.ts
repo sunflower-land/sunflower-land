@@ -20,6 +20,7 @@ import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
 import { collectRabbit } from "../ui/npcs/Hopper";
+import { GameState } from "features/game/types/game";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -275,12 +276,6 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
 };
 
-const IS_EASTER = true; /*
-  Date.now() > new Date("2024-03-26T00:00:00Z").getTime() &&
-  Date.now() < new Date("2024-04-02T00:00:00Z").getTime();*/
-
-console.log({ IS_EASTER });
-
 const RABBIT_POSITIONS = [
   [
     { x: 262, y: 357 },
@@ -300,7 +295,8 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor() {
+  constructor({ gameState }: { gameState: GameState }) {
+    const IS_EASTER = hasFeatureAccess(gameState, "EASTER");
     super({
       name: "plaza",
       map: {
@@ -310,7 +306,6 @@ export class PlazaScene extends BaseScene {
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
-    console.log("CONSTRUCTED");
   }
 
   preload() {
@@ -426,6 +421,8 @@ export class PlazaScene extends BaseScene {
 
   async create() {
     super.create();
+
+    const IS_EASTER = hasFeatureAccess(this.gameState, "EASTER");
 
     if (IS_EASTER) {
       PLAZA_BUMPKINS.push({

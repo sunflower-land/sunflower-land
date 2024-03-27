@@ -20,7 +20,8 @@ type FeatureName =
   | "BUD_BOX"
   | "RAFFLE"
   | "RETREAT"
-  | "WORLD_MAP";
+  | "WORLD_MAP"
+  | "EASTER";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -39,6 +40,14 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   RETREAT: defaultFeatureFlag,
   BUD_BOX: defaultFeatureFlag,
   WORLD_MAP: defaultFeatureFlag,
+  EASTER: (game) => {
+    // Event ended
+    if (Date.now() > new Date("2024-04-05T00:00:00Z").getTime()) return false;
+
+    if (defaultFeatureFlag(game)) return true;
+
+    return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
+  },
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
