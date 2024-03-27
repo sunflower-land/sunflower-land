@@ -117,7 +117,7 @@ export class RetreatScene extends BaseScene {
     const exchange = this.add.sprite(114, 215, "exchange");
     // On click
     exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      // TODO
+      interactableModalManager.open("goblin_market");
     });
 
     const grabnab = this.add.sprite(90, 235, "grabnab");

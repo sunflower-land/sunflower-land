@@ -53,7 +53,7 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
 
   useUiRefresher();
   return (
-    <span className="text-xs">{`${t("last.updated")}: ${getRelativeTime(
+    <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
       cachedAt
     )}`}</span>
   );
