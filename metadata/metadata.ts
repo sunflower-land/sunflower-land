@@ -7099,4 +7099,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/936.gif",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
+  "Community Egg": {
+    name: "Community Egg",
+    description: "Wow, you must really care about the community",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/937.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
 };

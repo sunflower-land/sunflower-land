@@ -1,9 +1,13 @@
 import woodlandsJSON from "assets/map/woodlands.json";
+import rabbitJson from "assets/map/rabbit_woodlands.json";
+import rabbitTileset from "assets/map/rabbit-tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { npcModalManager } from "../ui/NPCModals";
 import { interactableModalManager } from "../ui/InteractableModals";
+import { GameState } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -37,10 +41,15 @@ const BUMPKINS: NPCBumpkin[] = [
 export class WoodlandsScene extends BaseScene {
   sceneId: SceneId = "woodlands";
 
-  constructor() {
+  constructor({ gameState }: { gameState: GameState }) {
+    const IS_EASTER = hasFeatureAccess(gameState, "EASTER");
     super({
       name: "woodlands",
-      map: { json: woodlandsJSON },
+      map: {
+        json: IS_EASTER ? rabbitJson : woodlandsJSON,
+        imageKey: IS_EASTER ? "easter-tileset" : "tileset",
+        defaultTilesetConfig: IS_EASTER ? rabbitTileset : undefined,
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }

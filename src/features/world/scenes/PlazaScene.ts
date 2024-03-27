@@ -1,4 +1,6 @@
 import mapJson from "assets/map/plaza.json";
+import rabbitJson from "assets/map/rabbit_plaza.json";
+import rabbitTileset from "assets/map/rabbit-tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -17,6 +19,8 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
+import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
+import { GameState } from "features/game/types/game";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -137,7 +141,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   },
   {
     x: 442,
-    y: 163,
+    y: 173,
     npc: "mayor",
     direction: "left",
   },
@@ -272,6 +276,34 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
 };
 
+const RABBIT_CORDS = [
+  [144, 413],
+  [232, 391],
+  [6, 168],
+  [249, 260],
+  [23, 89],
+  [120, 23],
+  [256, 127],
+  [330, 46],
+  [296, 104],
+  [433, 150],
+  [584, 73],
+  [585, 373],
+  [710, 432],
+  [792, 214],
+  [728, 174],
+  [776, 39],
+  [872, 86],
+  [329, 215],
+  [330, 361],
+];
+
+// Pick 6 random coords
+const CURRENT_RABBIT_CORDS = RABBIT_CORDS.sort(() => 0.5 - Math.random()).slice(
+  0,
+  6
+);
+
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
@@ -281,16 +313,28 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor() {
+  constructor({ gameState }: { gameState: GameState }) {
+    const IS_EASTER = hasFeatureAccess(gameState, "EASTER");
     super({
       name: "plaza",
-      map: { json: mapJson },
+      map: {
+        json: IS_EASTER ? rabbitJson : mapJson,
+        imageKey: IS_EASTER ? "easter-tileset" : "tileset",
+        defaultTilesetConfig: IS_EASTER ? rabbitTileset : undefined,
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
 
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
+
+    this.load.image("rabbit_1", "world/rabbit_1.png");
+    this.load.image("rabbit_2", "world/rabbit_2.png");
+    this.load.image("rabbit_3", "world/rabbit_3.png");
+    this.load.image("rabbit_4", "world/rabbit_4.png");
+    this.load.image("rabbit_5", "world/rabbit_5.png");
+    this.load.image("rabbit_6", "world/rabbit_6.png");
 
     this.load.image("page", "world/page.png");
     this.load.image("arrows_to_move", "world/arrows_to_move.png");
@@ -302,6 +346,11 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("raffle", "world/raffle.webp", {
       frameWidth: 33,
       frameHeight: 28,
+    });
+
+    this.load.spritesheet("easter_egg", "world/easter_donation.png", {
+      frameWidth: 16,
+      frameHeight: 19,
     });
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -365,6 +414,11 @@ export class PlazaScene extends BaseScene {
       frameHeight: 36,
     });
 
+    this.load.spritesheet("glint", "world/glint.png", {
+      frameWidth: 7,
+      frameHeight: 7,
+    });
+
     super.preload();
 
     const audioMuted = getCachedAudioSetting<boolean>(
@@ -389,11 +443,100 @@ export class PlazaScene extends BaseScene {
   }
 
   async create() {
-    this.map = this.make.tilemap({
-      key: "main-map",
-    });
-
     super.create();
+
+    const IS_EASTER = hasFeatureAccess(this.gameState, "EASTER");
+
+    if (IS_EASTER) {
+      this.anims.create({
+        key: `glint_anim`,
+        frames: this.anims.generateFrameNumbers("glint", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 6,
+        repeatDelay: 5000,
+      });
+
+      PLAZA_BUMPKINS.push({
+        npc: "hopper",
+        x: 434,
+        y: 340,
+      });
+
+      PLAZA_BUMPKINS.push({
+        npc: "flopsy",
+        x: 380,
+        y: 245,
+      });
+
+      const rabbitPositions = CURRENT_RABBIT_CORDS.slice(
+        rabbitsCaught(),
+        RABBITS
+      );
+      rabbitPositions.forEach((coords, index) => {
+        const rabbit = this.add.sprite(
+          coords[0],
+          coords[1],
+          `rabbit_${index + 1}`
+        );
+
+        const glint = this.add
+          .sprite(coords[0] + 4, coords[1] - 4, "glint")
+          .setOrigin(0.5);
+
+        glint.play(`glint_anim`, true);
+
+        rabbit.setDepth(100000000);
+        glint.setDepth(100000000);
+
+        rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+          rabbit.destroy();
+          glint.destroy();
+
+          collectRabbit();
+
+          // Show poof at position
+          const poof = this.add
+            .sprite(coords[0], coords[1], "poof")
+            .setOrigin(0.5);
+
+          this.anims.create({
+            key: `poof_anim`,
+            frames: this.anims.generateFrameNumbers("poof", {
+              start: 0,
+              end: 8,
+            }),
+            repeat: 0,
+            frameRate: 10,
+          });
+
+          poof.play(`poof_anim`, true);
+
+          // Listen for the animation complete event
+          poof.on("animationcomplete", function (animation: { key: string }) {
+            if (animation.key === "poof_anim") {
+              poof.destroy();
+            }
+          });
+        });
+      });
+
+      const easterEgg = this.add
+        .sprite(395, 245, "easter_egg")
+        .setDepth(1000000000000);
+      this.anims.create({
+        key: "egg_animation",
+        frames: this.anims.generateFrameNumbers("easter_egg", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 4,
+      });
+      easterEgg.play("egg_animation", true);
+    }
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {

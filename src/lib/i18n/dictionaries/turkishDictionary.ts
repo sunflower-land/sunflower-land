@@ -1874,6 +1874,7 @@ const event: Record<Event, string> = {
   "event.LunarNewYear": "Ay Yeni Yılı Etkinliği",
   "event.valentines.rewards": "Sevgililer Günü Ödülleri",
   "event.GasHero": "Gas Hero Etkinliği",
+  "event.Easter": "Paskalya Etkinliği",
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {
@@ -2292,6 +2293,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.babyPanda":
     "Gas Hero etkinliğinden sevimli bir panda. Mart ayında yeni başlayanlar için 2x XP.",
   "description.baozi": "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
+  "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -4176,6 +4178,8 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
+  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
   "special.event.claimForm":
     "Airdropunuzu talep etmek için lütfen aşağıdaki formu doldurun.",
   "special.event.airdropHandling":

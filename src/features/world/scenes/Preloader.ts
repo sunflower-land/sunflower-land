@@ -37,7 +37,12 @@ export abstract class Preloader extends Phaser.Scene {
       // Phaser assets must be served from an URL
       this.load.image(
         "tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png?bust=1`
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/map-extruded.png`
+      );
+
+      this.load.image(
+        "easter-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/easter-map-extruded.png`
       );
 
       this.load.image("speech_bubble", "world/speech_bubble.png");

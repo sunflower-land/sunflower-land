@@ -2304,6 +2304,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
   "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
   "description.baozi": ENGLISH_TERMS["description.baozi"],
+  "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
   "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",
   "description.luxury.key":
@@ -4189,6 +4190,8 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
+  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
+  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
   "special.event.link": ENGLISH_TERMS["special.event.link"],
   "special.event.claimForm":
     "Preencha o formulário abaixo para reivindicar seu airdrop.",
@@ -4662,6 +4665,7 @@ const event: Record<Event, string> = {
   "event.christmas": "Evento de Natal!",
   "event.LunarNewYear": "Evento de Ano Novo Lunar",
   "event.GasHero": "Evento de Gas Hero",
+  "event.Easter": "Evento de Páscoa",
   "event.valentines.rewards": "Recompensas de Dia dis Namorados",
 };
 

@@ -399,6 +399,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Wardrobe: new Decimal(1),
     "Abandoned Bear": new Decimal(10),
     "Chef Bear": new Decimal(10),
+    "Community Egg": new Decimal(10),
     "Grinx's Hammer": new Decimal(1),
     Rod: new Decimal(20),
     Earthworm: new Decimal(10),

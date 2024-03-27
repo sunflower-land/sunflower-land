@@ -1620,6 +1620,7 @@ export type GameDescriptions =
   | "description.prizeTicket"
   | "description.babyPanda"
   | "description.baozi"
+  | "description.communityEgg"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
@@ -2814,6 +2815,8 @@ export type SomethingWentWrong =
   | "somethingWentWrong.askingCommunity";
 
 export type SpecialEvent =
+  | "special.event.easterIntro"
+  | "special.event.rabbitsMissing"
   | "special.event.claimForm"
   | "special.event.link"
   | "special.event.airdropHandling"
@@ -3121,6 +3124,7 @@ export type Event =
   | "event.christmas"
   | "event.LunarNewYear"
   | "event.GasHero"
+  | "event.Easter"
   | "event.valentines.rewards";
 
 export type Promo = "promo.cdcBonus" | "promo.expandLand";
