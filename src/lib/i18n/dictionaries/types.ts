@@ -774,7 +774,8 @@ export type BumpkinTrade =
 export type GoblinTrade =
   | "goblinTrade.select"
   | "goblinTrade.bulk"
-  | "goblinTrade.conversion";
+  | "goblinTrade.conversion"
+  | "goblinTrade.hoarding";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
