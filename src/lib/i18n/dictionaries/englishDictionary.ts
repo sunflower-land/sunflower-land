@@ -3995,7 +3995,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.spendWisely": "Spend it wisely.",
   "reward.wearable": "A wearable for your Bumpkin",
   "reward.promo.code": "Enter your promo code:",
-  "reward.woohoo": "Woohoo! Here is your reward",
+  "reward.woohoo": "Woohoo! You found a hidden reward.",
   "reward.connectWeb3Wallet": "Connect a Web3 Wallet for a daily reward.",
 };
 

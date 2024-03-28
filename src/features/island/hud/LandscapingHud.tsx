@@ -24,7 +24,6 @@ import { getChestItems } from "./components/inventory/utils/inventory";
 import { getKeys } from "features/game/types/craftables";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { LandscapingIntroduction } from "./components/LandscapingIntroduction";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
@@ -107,8 +106,6 @@ const LandscapingHudComponent: React.FC<{
     <HudContainer>
       <Balance balance={balance} />
       <BlockBucks blockBucks={blockBucks} />
-
-      <LandscapingIntroduction />
 
       <>
         {idle && (
