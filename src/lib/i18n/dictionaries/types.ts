@@ -297,8 +297,7 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations"
-  | "unit";
+  | "decorations";
 
 export type TimeUnits =
   // Singular
@@ -750,9 +749,6 @@ export type BumpkinSkillsDescription =
   | "description.buckaroo";
 
 export type BumpkinTrade =
-  | "bumpkinTrade.askPrice"
-  | "bumpkinTrade.listingPurchased"
-  | "bumpkinTrade.travelPlaza"
   | "bumpkinTrade.minLevel"
   | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
@@ -765,11 +761,14 @@ export type BumpkinTrade =
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.pricePerUnit"
+  | "bumpkinTrade.price/unit"
   | "bumpkinTrade.tradingFee"
   | "bumpkinTrade.youWillReceive"
   | "bumpkinTrade.cancel"
   | "bumpkinTrade.list"
-  | "bumpkinTrade.maxListings";
+  | "bumpkinTrade.maxListings"
+  | "bumpkinTrade.max"
+  | "bumpkinTrade.floorPrice";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
