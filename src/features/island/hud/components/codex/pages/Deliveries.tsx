@@ -14,15 +14,17 @@ export const Deliveries: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-between">
-        <Label type="default">{t("deliveries")}</Label>
-        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-          {`${t("new.delivery.in")} ${secondsToString(secondsTillReset(), {
-            length: "short",
-          })}`}
-        </Label>
+      <div className="p-1">
+        <div className="flex justify-between">
+          <Label type="default">{t("deliveries")}</Label>
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {`${t("new.delivery.in")} ${secondsToString(secondsTillReset(), {
+              length: "short",
+            })}`}
+          </Label>
+        </div>
+        <p className="mb-2 mt-1 ml-1 text-xs">{t("deliveries.intro")}</p>
       </div>
-      <p className="mb-2 mt-1 ml-1 text-xs">{t("deliveries.intro")}</p>
       <DeliveryOrders
         onSelect={(id) => setSelected(id)}
         selectedId={selected}
