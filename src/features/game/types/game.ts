@@ -981,15 +981,17 @@ export interface GameState {
   springBlossom: Record<number, SpringBlossom>;
   megastore: MegaStore;
   specialEvents: SpecialEvents;
-  goblinMarket: Partial<
-    Record<
-      TradeableName,
-      {
-        bundlesSold: number;
-        date: number;
-      }
-    >
-  >;
+  goblinMarket: {
+    resources: Partial<
+      Record<
+        TradeableName,
+        {
+          bundlesSold: number;
+          date: number;
+        }
+      >
+    >;
+  };
 }
 
 export interface Context {
