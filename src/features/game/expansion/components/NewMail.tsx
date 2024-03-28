@@ -56,6 +56,7 @@ export const NewMail: React.FC = () => {
             conversationId={newestMailId as ConversationName}
             read={!!mailbox.read.find((item) => item.id === newestMailId)}
             onAcknowledge={() => send("ACKNOWLEDGE")}
+            onClose={() => send("ACKNOWLEDGE")}
           />
         </Panel>
       ) : (

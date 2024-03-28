@@ -134,14 +134,15 @@ export async function autosave(request: Request) {
     throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }
 
-  const { farm, changeset } = await sanitizeHTTPResponse<{
+  const { farm, changeset, announcements } = await sanitizeHTTPResponse<{
     farm: any;
     changeset: any;
+    announcements: any;
   }>(response);
 
   farm.id = request.farmId;
 
   const game = makeGame(farm);
 
-  return { verified: true, farm: game, changeset };
+  return { verified: true, farm: game, changeset, announcements };
 }
