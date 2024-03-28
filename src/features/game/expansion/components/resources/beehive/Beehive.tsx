@@ -22,6 +22,7 @@ import {
   MachineInterpreter,
   beehiveMachine,
   getCurrentHoneyProduced,
+  getCurrentRate,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
 import { Modal } from "components/ui/Modal";
@@ -39,6 +40,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
+import { secondsToString } from "lib/utils/time";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   id: string;
@@ -57,6 +60,7 @@ const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
   state.context.honeyProduced;
+const _currentRate = (state: BeehiveMachineState) => state.context.currentRate;
 const _currentFlowerId = (state: BeehiveMachineState) =>
   state.context.attachedFlower?.id;
 const _showBeeAnimation = (state: BeehiveMachineState) =>
@@ -81,6 +85,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     gameState: gameState.context.state,
     hive,
     honeyProduced: getCurrentHoneyProduced(hive),
+    currentRate: getCurrentRate(hive),
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
@@ -90,6 +95,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const honeyReady = useSelector(beehiveService, _honeyReady);
   const isProducing = useSelector(beehiveService, _isProducing);
   const honeyProduced = useSelector(beehiveService, _honeyProduced);
+  const currentRate = useSelector(beehiveService, _currentRate);
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
@@ -112,7 +118,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHiveClick = () => {
-    if (showBeeAnimation) return;
     if (!honeyProduced) return;
 
     setShowHoneyLevelModal(true);
@@ -124,7 +129,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (!honeyReady && !showBeeAnimation) {
+    if (!honeyReady) {
       setShowHoneyLevelPopover(true);
     }
   };
@@ -179,10 +184,18 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
+  const secondsLeftUntilFull =
+    currentRate === 0
+      ? undefined
+      : Math.max(
+          0,
+          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentRate / 1000
+        );
+
   return (
     <>
       <div
-        className={!showBeeAnimation ? "cursor-pointer" : ""}
+        className={"cursor-pointer"}
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
         onClick={handleHiveClick}
@@ -190,9 +203,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         <img
           src={beehive}
           alt="Beehive"
-          className={classNames("absolute bottom-0", {
-            "hover:img-highlight": !showBeeAnimation,
-          })}
+          className="absolute bottom-0 hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
@@ -202,7 +213,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           src={honeyDrop}
           alt="Honey Drop"
           className={classNames(
-            "absolute top-0 right-1 transition-transform duration-700",
+            "absolute top-0 transition-transform duration-700",
             {
               "scale-0": !honeyReady,
               "scale-100 honey-drop-ready": honeyReady,
@@ -210,22 +221,26 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           )}
           style={{
             width: `${PIXEL_SCALE * 7}px`,
+            right: `${PIXEL_SCALE * 2}px`,
           }}
         />
         {/* Bee to indicate honey is currently being produced */}
-        {!showBeeAnimation && !landscaping && showProducingBee !== undefined && (
-          <img
-            src={bee}
-            alt="Bee"
-            className={classNames("absolute left-1/2 -translate-x-1/2", {
-              "animate-enter-hive": !showProducingBee,
-              "animate-exit-hive": showProducingBee,
-            })}
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-            }}
-          />
-        )}
+        {!showBeeAnimation &&
+          !landscaping &&
+          showProducingBee !== undefined &&
+          !honeyReady && (
+            <img
+              src={bee}
+              alt="Bee"
+              className={classNames("absolute left-1/2 -translate-x-1/2", {
+                "animate-enter-hive": !showProducingBee,
+                "animate-exit-hive": showProducingBee,
+              })}
+              style={{
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+          )}
         {/* Progress bar for honey production */}
         {showQuantityBar && (
           <div
@@ -337,6 +352,27 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </div>
+            {currentRate > 0 && !!secondsLeftUntilFull && (
+              <div className="text-xs mx-1 mb-2">
+                {t("beehive.rateInfo", {
+                  rate: `${setPrecision(new Decimal(currentRate))}`,
+                })}
+              </div>
+            )}
+            {currentRate === 0 && (
+              <div className="text-xs mx-1 mb-2">
+                {t("beehive.honeyProductionPaused")}
+              </div>
+            )}
+            {!!secondsLeftUntilFull && (
+              <div className="text-xs mx-1 mb-2">
+                {t("beehive.estimatedFullIn", {
+                  estimatedTime: secondsToString(secondsLeftUntilFull, {
+                    length: "medium",
+                  }),
+                })}
+              </div>
+            )}
             <Button onClick={handleHarvestHoney}>
               {t("beehive.harvestHoney")}
             </Button>
