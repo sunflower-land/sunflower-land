@@ -131,7 +131,8 @@ interface Props {
 
 const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
-  const { gameService, shortcutItem, showTimers } = useContext(Context);
+  const { gameService, shortcutItem, showAnimations, showTimers } =
+    useContext(Context);
 
   const chicken = useSelector(
     gameService,
@@ -282,7 +283,9 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={hungryChicken}
+                src={
+                  showAnimations ? hungryChicken : SUNNYSIDE.resource.chicken
+                }
                 alt="hungry-chicken"
                 style={{
                   width: `${PIXEL_SCALE * 16}px`,
@@ -320,7 +323,9 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
           {eating && (
             <>
               <img
-                src={wheatOnGround}
+                src={
+                  showAnimations ? wheatOnGround : SUNNYSIDE.resource.chicken
+                }
                 alt="wheat-on-ground"
                 className="absolute display-block"
                 style={{
@@ -360,7 +365,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={happyChicken}
+                src={showAnimations ? happyChicken : SUNNYSIDE.resource.chicken}
                 alt="happy-chicken"
                 className="absolute"
                 style={{
@@ -383,7 +388,9 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={sleepingChicken}
+                src={
+                  showAnimations ? sleepingChicken : SUNNYSIDE.resource.chicken
+                }
                 alt="sleeping-chicken"
                 className="absolute"
                 style={{
@@ -407,25 +414,40 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                   left: `${PIXEL_SCALE * 1}px`,
                 }}
               />
-              <Spritesheet
-                className="absolute"
-                style={{
-                  width: `${PIXEL_SCALE * 17}px`,
-                  top: `${PIXEL_SCALE * -16}px`,
-                  left: `${PIXEL_SCALE * 1}px`,
-                  imageRendering: "pixelated",
-                }}
-                image={layingEggSheet}
-                widthFrame={17}
-                heightFrame={31}
-                zoomScale={scale}
-                fps={3}
-                steps={21}
-                endAt={7}
-                direction={`forward`}
-                autoplay={true}
-                loop={true}
-              />
+              {showAnimations && (
+                <Spritesheet
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 17}px`,
+                    top: `${PIXEL_SCALE * -16}px`,
+                    left: `${PIXEL_SCALE * 1}px`,
+                    imageRendering: "pixelated",
+                  }}
+                  image={layingEggSheet}
+                  widthFrame={17}
+                  heightFrame={31}
+                  zoomScale={scale}
+                  fps={3}
+                  steps={21}
+                  endAt={7}
+                  direction={`forward`}
+                  autoplay={true}
+                  loop={true}
+                />
+              )}
+              {!showAnimations && (
+                <img
+                  src={SUNNYSIDE.resource.chicken}
+                  className="absolute"
+                  style={{
+                    transformOrigin: "top left",
+                    scale: "calc(19/16)",
+                    width: `${PIXEL_SCALE * 16}px`,
+                    top: `${PIXEL_SCALE * -8}px`,
+                    left: `${PIXEL_SCALE * 1}px`,
+                  }}
+                />
+              )}
             </>
           )}
           {eggLaid && (
@@ -439,24 +461,39 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                   left: `${PIXEL_SCALE * 1}px`,
                 }}
               />
-              <Spritesheet
-                image={layingEggSheet}
-                className="absolute"
-                style={{
-                  width: `${PIXEL_SCALE * 17}px`,
-                  top: `${PIXEL_SCALE * -16}px`,
-                  left: `${PIXEL_SCALE * 1}px`,
-                  imageRendering: "pixelated",
-                }}
-                widthFrame={17}
-                heightFrame={31}
-                zoomScale={scale}
-                fps={20}
-                steps={21}
-                direction={`forward`}
-                autoplay={true}
-                loop={false}
-              />
+              {showAnimations && (
+                <Spritesheet
+                  image={layingEggSheet}
+                  className="absolute"
+                  style={{
+                    width: `${PIXEL_SCALE * 17}px`,
+                    top: `${PIXEL_SCALE * -16}px`,
+                    left: `${PIXEL_SCALE * 1}px`,
+                    imageRendering: "pixelated",
+                  }}
+                  widthFrame={17}
+                  heightFrame={31}
+                  zoomScale={scale}
+                  fps={20}
+                  steps={21}
+                  direction={`forward`}
+                  autoplay={true}
+                  loop={false}
+                />
+              )}
+              {!showAnimations && (
+                <img
+                  src={SUNNYSIDE.resource.chicken}
+                  className="absolute"
+                  style={{
+                    transformOrigin: "top left",
+                    scale: "calc(19/16)",
+                    width: `${PIXEL_SCALE * 16}px`,
+                    top: `${PIXEL_SCALE * -8}px`,
+                    left: `${PIXEL_SCALE * 1}px`,
+                  }}
+                />
+              )}
             </>
           )}
         </div>
