@@ -18,6 +18,7 @@ import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { CodexButton } from "./components/codex/CodexButton";
 import { HudContainer } from "components/ui/HudContainer";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -26,16 +27,23 @@ import { HudContainer } from "components/ui/HudContainer";
 const HudComponent: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { openModal } = useContext(ModalContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
+  const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
   const farmId = Number(gameState.context.farmId);
 
   const autosaving = gameState.matches("autosaving");
 
-  const handleClose = () => {
-    setShowDepositModal(false);
+  const handleBuyCurrenciesModal = () => {
+    openModal("BUY_BLOCK_BUCKS");
+    setShowBuyCurrencies(!showBuyCurrencies);
+  };
+
+  const handleDepositModal = () => {
+    setShowDepositModal(!showDepositModal);
   };
 
   const handleDeposit = (
@@ -67,7 +75,7 @@ const HudComponent: React.FC = () => {
       />
 
       <Balances
-        onAddClick={farmAddress ? () => setShowDepositModal(true) : undefined}
+        onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
         sfl={gameState.context.state.balance}
         coins={gameState.context.state.coins}
         blockBucks={
@@ -113,16 +121,19 @@ const HudComponent: React.FC = () => {
       </div>
 
       {farmAddress && (
-        <Modal show={showDepositModal} onHide={handleClose}>
+        <Modal
+          show={showDepositModal}
+          onHide={() => setShowDepositModal(false)}
+        >
           <CloseButtonPanel
             title={depositDataLoaded ? "Deposit" : undefined}
-            onClose={depositDataLoaded ? handleClose : undefined}
+            onClose={depositDataLoaded ? handleDepositModal : undefined}
           >
             <Deposit
               farmAddress={farmAddress}
               onDeposit={handleDeposit}
               onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleClose}
+              onClose={handleDepositModal}
             />
           </CloseButtonPanel>
         </Modal>

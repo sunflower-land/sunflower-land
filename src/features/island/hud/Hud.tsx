@@ -43,17 +43,13 @@ const HudComponent: React.FC<{
 
   const autosaving = gameState.matches("autosaving");
 
-  const handleClose = () => {
-    setShowDepositModal(false);
-  };
-
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
   ) => {
     gameService.send("DEPOSIT", args);
   };
 
-  const handleBuyCurrencies = () => {
+  const handleBuyCurrenciesModal = () => {
     setShowBuyCurrencies(!showBuyCurrencies);
   };
 
@@ -134,7 +130,7 @@ const HudComponent: React.FC<{
           blockBucks={
             gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
           }
-          onClick={handleBuyCurrencies}
+          onClick={handleBuyCurrenciesModal}
         />
 
         <div
@@ -194,7 +190,7 @@ const HudComponent: React.FC<{
         </Modal>
         <BuyCurrenciesModal
           show={showBuyCurrencies}
-          onClose={handleBuyCurrencies}
+          onClose={handleBuyCurrenciesModal}
         />
       </HudContainer>
     </>
