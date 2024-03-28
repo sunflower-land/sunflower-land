@@ -287,7 +287,9 @@ export const SalesPanel: React.FC<{
                         style={{ width: "calc(100% + 10px)" }}
                       >
                         <span className={classNames({ pulse: showPulse })}>
-                          {unitPrice}
+                          {marketPrices?.prices?.currentPrices?.[name]?.toFixed(
+                            4
+                          ) || "0.0000"}
                           {t("unit")}
                         </span>
                         {priceMovement === "up" && (
