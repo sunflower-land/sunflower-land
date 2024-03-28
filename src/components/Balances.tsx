@@ -7,6 +7,7 @@ import blockBucksIcon from "assets/icons/block_buck.png";
 
 import { setPrecision } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
+import classNames from "classnames";
 
 interface Props {
   sfl: Decimal;
@@ -65,7 +66,10 @@ export const Balances: React.FC<Props> = ({
         </div>
         {/* SFL */}
         <div
-          className="flex items-center cursor-pointer space-x-2 relative"
+          className={classNames("flex items-center space-x-2 relative", {
+            // show cursor if balance has a decimal place
+            "cursor-pointer": sfl.toNumber() % 1 !== 0,
+          })}
           onClick={() => setShowFullBalance(!showFullBalance)}
         >
           <div className="h-9 w-full bg-black opacity-25 absolute sfl-hud-backdrop -z-10" />
@@ -82,29 +86,5 @@ export const Balances: React.FC<Props> = ({
         </div>
       </div>
     </>
-    // <>
-    //   <InnerPanel
-    //     className={classNames("absolute z-50 flex items-center p-1", {
-    //       "cursor-pointer": !!onBalanceClick,
-    //     })}
-    //     style={{
-    //       top: `${PIXEL_SCALE * 3}px`,
-    //       right: `${PIXEL_SCALE * 3}px`,
-    //     }}
-    //     onMouseEnter={() => setShowFullBalance(true)}
-    //     onMouseLeave={() => setShowFullBalance(false)}
-    //     onClick={onBalanceClick}
-    //   >
-    //     <img
-    //       src={token}
-    //       style={{
-    //         width: `${PIXEL_SCALE * 10}px`,
-    //       }}
-    //     />
-    //     <span className="text-sm ml-1.5 mb-0.5">
-    //       {showFullBalance ? sfl.toString() : setPrecision(sfl).toString()}
-    //     </span>
-    //   </InnerPanel>
-    // </>
   );
 };

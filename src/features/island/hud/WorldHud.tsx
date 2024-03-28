@@ -30,7 +30,6 @@ const HudComponent: React.FC = () => {
   const { openModal } = useContext(ModalContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
-  const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
   const farmId = Number(gameState.context.farmId);
@@ -39,7 +38,6 @@ const HudComponent: React.FC = () => {
 
   const handleBuyCurrenciesModal = () => {
     openModal("BUY_BLOCK_BUCKS");
-    setShowBuyCurrencies(!showBuyCurrencies);
   };
 
   const handleDepositModal = () => {

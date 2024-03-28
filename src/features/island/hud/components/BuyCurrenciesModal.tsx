@@ -26,6 +26,7 @@ import {
   BuyBlockBucks,
   Price,
 } from "features/game/components/modal/components/BuyBlockBucks";
+import { Button } from "components/ui/Button";
 
 const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
 
@@ -51,6 +52,9 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
   const [price, setPrice] = useState<Price>();
   const [hideBuyBBLabel, setHideBuyBBLabel] = useState(false);
 
+  // SFL to Coins
+  const [exchangePackageId, setExchangePackageId] = useState<number>();
+
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
   const autosaving = useSelector(gameService, _autosaving);
@@ -61,6 +65,12 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
 
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
+
+  const handleSFLtoCoinsExchange = (packageId: number) => {
+    gameService.send("sfl.exchanged", { packageId });
+    setExchangePackageId(undefined);
+    onClose();
+  };
 
   const onMaticBuy = async () => {
     gameService.send("BUY_BLOCK_BUCKS", {
@@ -163,40 +173,78 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
             </div>
           )}
           {tab === 1 && (
-            <div className="flex flex-col p-1 py-2 space-y-2">
-              <Label icon={exchangeIcon} type="default" className="ml-1">
+            <div className="flex flex-col space-y-2">
+              <Label icon={exchangeIcon} type="default" className="mt-2 ml-1">
                 {`${t("exchange")} SFL ${t("for")} Coins`}
               </Label>
-              <div className="flex justify-between gap-1 text-[14px] sm:text-sm sm:gap-2">
-                {Object.values(SFL_TO_COIN_PACKAGES).map((option, index) => (
-                  <OuterPanel
-                    key={JSON.stringify(option)}
-                    className="flex relative flex-col flex-1 items-center p-2"
-                  >
-                    <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
-                    <div className="flex flex-1 justify-center items-center mb-6 w-full relative">
-                      <img
-                        src={COIN_IMAGES[index]}
-                        alt="Coins"
-                        className="w-2/5 sm:w-1/4"
-                      />
+              {/* Exchange packages */}
+              {!exchangePackageId && (
+                <div className="flex px-1 pb-2 justify-between gap-1 text-[14px] sm:text-sm sm:gap-2">
+                  {Object.keys(SFL_TO_COIN_PACKAGES).map((packageId, index) => {
+                    const option = SFL_TO_COIN_PACKAGES[Number(packageId)];
+
+                    return (
+                      <OuterPanel
+                        key={JSON.stringify(option)}
+                        className="flex relative flex-col flex-1 items-center p-2"
+                        onClick={() => setExchangePackageId(Number(packageId))}
+                      >
+                        <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
+                        <div className="flex flex-1 justify-center items-center mb-6 w-full relative">
+                          <img
+                            src={COIN_IMAGES[index]}
+                            alt="Coins"
+                            className="w-2/5 sm:w-1/4"
+                          />
+                        </div>
+                        <Label
+                          icon={sflIcon}
+                          type="warning"
+                          iconWidth={11}
+                          className="absolute h-7"
+                          style={{
+                            width: "106%",
+                            bottom: "-8px",
+                            left: "-2px",
+                          }}
+                        >
+                          {`${option.sfl} $SFL`}
+                        </Label>
+                      </OuterPanel>
+                    );
+                  })}
+                </div>
+              )}
+              {/* Exchange confirmation */}
+              {!!exchangePackageId && (
+                <div className="flex flex-col space-y-1">
+                  <div className="flex px-1 py-2 w-full items-center text-sm justify-between">
+                    <div className="flex items-center space-x-2">
+                      <span>
+                        {t("item")}{" "}
+                        {SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].coins}{" "}
+                        {"x"}
+                      </span>
+                      <img src={coinsIcon} className="w-6" />
                     </div>
-                    <Label
-                      icon={sflIcon}
-                      type="warning"
-                      iconWidth={11}
-                      className="absolute h-7"
-                      style={{
-                        width: "106%",
-                        bottom: "-8px",
-                        left: "-2px",
-                      }}
+                    <span>{`${t("total")} ${
+                      SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
+                    } $SFL`}</span>
+                  </div>
+                  <div className="flex space-x-1">
+                    <Button onClick={() => setExchangePackageId(undefined)}>
+                      {t("cancel")}
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        handleSFLtoCoinsExchange(exchangePackageId)
+                      }
                     >
-                      {`${option.sfl} $SFL`}
-                    </Label>
-                  </OuterPanel>
-                ))}
-              </div>
+                      {t("confirm")}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </CloseButtonPanel>
