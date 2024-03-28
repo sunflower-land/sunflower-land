@@ -23,6 +23,7 @@ import lock from "assets/skills/lock.png";
 import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
+import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -58,6 +59,11 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
       cachedAt
     )}`}</span>
   );
+};
+
+const getPriceMovement = (current: number, yesterday: number) => {
+  if (current >= yesterday * 0.95 && current <= yesterday * 1.05) return "same";
+  return current > yesterday ? "up" : "down";
 };
 
 export const SalesPanel: React.FC<{
@@ -122,8 +128,7 @@ export const SalesPanel: React.FC<{
       .add(MARKET_BUNDLES[item] * marketPrices!.prices.currentPrices[item])
       .sub(state.previousBalance ?? new Decimal(0));
 
-    // return progress.gt(MAX_SESSION_SFL);
-    return false;
+    return progress.gt(MAX_SESSION_SFL);
   };
 
   if (!state.inventory["Gold Pass"]) {
@@ -251,13 +256,10 @@ export const SalesPanel: React.FC<{
 
             <div className="flex flex-wrap mt-2">
               {getKeys(MARKET_BUNDLES).map((name) => {
-                const priceUp =
-                  (marketPrices?.prices?.currentPrices[name] ?? 0) >
-                  (marketPrices?.prices?.yesterdayPrices[name] ?? 0);
-
-                const samePrice =
-                  (marketPrices?.prices?.currentPrices[name] ?? 0) ==
-                  (marketPrices?.prices?.yesterdayPrices[name] ?? 0);
+                const priceMovement = getPriceMovement(
+                  marketPrices?.prices?.currentPrices?.[name] ?? 0,
+                  marketPrices?.prices?.yesterdayPrices?.[name] ?? 0
+                );
 
                 return (
                   <div
@@ -285,14 +287,18 @@ export const SalesPanel: React.FC<{
                         style={{ width: "calc(100% + 10px)" }}
                       >
                         <span className={classNames({ pulse: showPulse })}>
-                          {marketPrices?.prices?.currentPrices[name]?.toFixed(
-                            4
-                          ) || "0.0000"}
+                          {unitPrice}
                           {t("unit")}
                         </span>
-                        {!samePrice && (
+                        {priceMovement === "up" && (
                           <img
-                            src={priceUp ? increase_arrow : decrease_arrow}
+                            src={increase_arrow}
+                            className="w-6 absolute -right-1 -top-6"
+                          />
+                        )}
+                        {priceMovement === "down" && (
+                          <img
+                            src={decrease_arrow}
                             className="w-6 absolute -right-1 -top-6"
                           />
                         )}
