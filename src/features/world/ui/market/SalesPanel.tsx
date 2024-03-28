@@ -13,7 +13,6 @@ import { Loading } from "features/auth/components";
 import { MarketPrices } from "features/game/actions/getMarketPrices";
 import { TradeableName } from "features/game/actions/sellMarketResource";
 import Decimal from "decimal.js-light";
-import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
@@ -21,6 +20,8 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 import sflIcon from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
+import increase_arrow from "assets/icons/increase_arrow.png";
+import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
@@ -60,7 +61,12 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
 };
 
 export const SalesPanel: React.FC<{
-  marketPrices: { prices: MarketPrices; cachedAt: number } | undefined;
+  marketPrices:
+    | {
+        prices: MarketPrices;
+        cachedAt: number;
+      }
+    | undefined;
   loadingNewPrices: boolean;
 }> = ({ marketPrices, loadingNewPrices }) => {
   const { t } = useAppTranslation();
@@ -104,7 +110,7 @@ export const SalesPanel: React.FC<{
     gameService.send({
       type: "SELL_MARKET_RESOURCE",
       item: selected,
-      pricePerUnit: marketPrices!.prices[selected],
+      pricePerUnit: marketPrices!.prices.currentPrices[selected],
     });
   };
 
@@ -113,10 +119,11 @@ export const SalesPanel: React.FC<{
 
     const progress = state.balance
       .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * marketPrices!.prices[item])
+      .add(MARKET_BUNDLES[item] * marketPrices!.prices.currentPrices[item])
       .sub(state.previousBalance ?? new Decimal(0));
 
-    return progress.gt(MAX_SESSION_SFL);
+    // return progress.gt(MAX_SESSION_SFL);
+    return false;
   };
 
   if (!state.inventory["Gold Pass"]) {
@@ -134,7 +141,8 @@ export const SalesPanel: React.FC<{
     );
   }
 
-  const unitPrice = marketPrices?.prices?.[selected]?.toFixed(4) || "0.0000";
+  const unitPrice =
+    marketPrices?.prices?.currentPrices[selected]?.toFixed(4) || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
     4
   );
@@ -242,36 +250,57 @@ export const SalesPanel: React.FC<{
             </div>
 
             <div className="flex flex-wrap mt-2">
-              {getKeys(MARKET_BUNDLES).map((name) => (
-                <div
-                  key={name}
-                  className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-                >
-                  <OuterPanel
-                    className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
-                    onClick={() => {
-                      onSell(name);
-                    }}
+              {getKeys(MARKET_BUNDLES).map((name) => {
+                const priceUp =
+                  (marketPrices?.prices?.currentPrices[name] ?? 0) >
+                  (marketPrices?.prices?.yesterdayPrices[name] ?? 0);
+
+                const samePrice =
+                  (marketPrices?.prices?.currentPrices[name] ?? 0) ==
+                  (marketPrices?.prices?.yesterdayPrices[name] ?? 0);
+
+                return (
+                  <div
+                    key={name}
+                    className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
                   >
-                    <span className="text-xs mt-1">{name}</span>
-                    <img src={ITEM_DETAILS[name].image} className="h-10 my-1" />
-                    <span className={"text-xxs md:text-xs mb-7"}>
-                      {/* \u{d7} is &times; in unicode */}
-                      {`\u{d7}${MARKET_BUNDLES[name]}`}
-                    </span>
-                    <Label
-                      type="warning"
-                      className="absolute -bottom-2 text-center mt-1 p-1"
-                      style={{ width: "calc(100% + 10px)" }}
+                    <OuterPanel
+                      className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                      onClick={() => {
+                        onSell(name);
+                      }}
                     >
-                      <span className={classNames({ pulse: showPulse })}>
-                        {marketPrices?.prices?.[name]?.toFixed(4) || "0.0000"}
-                        {t("unit")}
+                      <span className="text-xs mt-1">{name}</span>
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-10 my-1"
+                      />
+                      <span className={"text-xxs md:text-xs mb-7"}>
+                        {/* \u{d7} is &times; in unicode */}
+                        {`\u{d7}${MARKET_BUNDLES[name]}`}
                       </span>
-                    </Label>
-                  </OuterPanel>
-                </div>
-              ))}
+                      <Label
+                        type="warning"
+                        className="absolute -bottom-2 text-center mt-1 p-1"
+                        style={{ width: "calc(100% + 10px)" }}
+                      >
+                        <span className={classNames({ pulse: showPulse })}>
+                          {marketPrices?.prices?.currentPrices[name]?.toFixed(
+                            4
+                          ) || "0.0000"}
+                          {t("unit")}
+                        </span>
+                        {!samePrice && (
+                          <img
+                            src={priceUp ? increase_arrow : decrease_arrow}
+                            className="w-6 absolute -right-1 -top-6"
+                          />
+                        )}
+                      </Label>
+                    </OuterPanel>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

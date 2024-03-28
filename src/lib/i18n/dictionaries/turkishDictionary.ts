@@ -1875,6 +1875,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.decorationCollides": "Dekorasyon çarpışıyor",
   "error.idAlreadyExists": "Kimlik zaten mevcut",
   "error.ClientRPC": "İstemci RPC Hatası",
+  "error.insufficientCoins": ENGLISH_TERMS["error.insufficientCoins"],
 };
 
 const event: Record<Event, string> = {

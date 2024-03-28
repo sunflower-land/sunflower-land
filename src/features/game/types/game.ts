@@ -46,6 +46,7 @@ import { PortalName } from "./portals";
 import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
+import { TradeableName } from "../actions/sellMarketResource";
 
 export type Reward = {
   coins?: number;
@@ -984,6 +985,15 @@ export interface GameState {
   springBlossom: Record<number, SpringBlossom>;
   megastore: MegaStore;
   specialEvents: SpecialEvents;
+  goblinMarket: Partial<
+    Record<
+      TradeableName,
+      {
+        bundlesSold: number;
+        date: number;
+      }
+    >
+  >;
 }
 
 export interface Context {

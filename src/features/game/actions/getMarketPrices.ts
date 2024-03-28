@@ -4,7 +4,10 @@ import { TradeableName } from "./sellMarketResource";
 
 const API_URL = CONFIG.API_URL;
 
-export type MarketPrices = Record<TradeableName, number>;
+export type MarketPrices = {
+  currentPrices: Record<TradeableName, number>;
+  yesterdayPrices: Record<TradeableName, number>;
+};
 
 export async function getMarketPrices(
   farmId: number,
