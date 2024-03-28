@@ -21,6 +21,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
 import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
 import { GameState } from "features/game/types/game";
+import shuffle from "lodash.shuffle";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -298,11 +299,9 @@ const RABBIT_CORDS = [
   [330, 361],
 ];
 
+const randomiseList = shuffle(RABBIT_CORDS);
 // Pick 6 random coords
-const CURRENT_RABBIT_CORDS = RABBIT_CORDS.sort(() => 0.5 - Math.random()).slice(
-  0,
-  6
-);
+const CURRENT_RABBIT_CORDS = randomiseList.slice(0, 6);
 
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
