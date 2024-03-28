@@ -18,7 +18,6 @@ import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
-import { GasHeroes } from "./GasHeroes";
 
 interface Props {
   townCenterBuilt: boolean;
@@ -104,10 +103,6 @@ export const WaterComponent: React.FC<Props> = ({
       <TravelTeaser />
 
       <IslandUpgrader gameState={gameState} offset={offset} />
-
-      <MapPlacement x={-7 - offset} y={9} width={5}>
-        <GasHeroes event={gameState.specialEvents.current["Gas Hero"]} />
-      </MapPlacement>
     </div>
   );
 };
