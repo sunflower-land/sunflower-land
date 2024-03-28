@@ -115,6 +115,7 @@ export function makeGame(farm: any): GameState {
         price: new Decimal(collectible.price),
       })),
     },
+    goblinMarket: farm.goblinMarket,
   };
 }
 

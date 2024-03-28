@@ -451,6 +451,7 @@ export const TEST_FARM: GameState = {
     current: {},
     history: {},
   },
+  goblinMarket: {},
 };
 
 export const EMPTY: GameState = {
@@ -545,6 +546,7 @@ export const EMPTY: GameState = {
     current: {},
     history: {},
   },
+  goblinMarket: {},
 };
 
 export const TREE_RECOVERY_TIME = 2 * 60 * 60;
