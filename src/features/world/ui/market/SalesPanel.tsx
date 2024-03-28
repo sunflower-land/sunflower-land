@@ -152,7 +152,7 @@ export const SalesPanel: React.FC<{
     4
   );
   const canSell =
-    state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) ||
+    state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) &&
     !(Number(unitPrice) === 0);
 
   if (warning === "hoarding") {
