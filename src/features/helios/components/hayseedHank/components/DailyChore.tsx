@@ -57,7 +57,7 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
 
   if (isSkipping && gameState.matches("autosaving")) {
     return (
-      <OuterPanel className="!p-2 mb-2">
+      <OuterPanel className="!p-2 mb-2 text-xs">
         <span className="loading">{t("skipping")}</span>
       </OuterPanel>
     );
@@ -77,9 +77,9 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
   });
 
   return (
-    <OuterPanel className="!p-2 mb-2">
+    <OuterPanel className="mb-2">
       <div className="flex justify-between">
-        <span className="text-sm mb-1 flex-1 whitespace-normal pr-2">
+        <span className="text-xxs sm:text-xs mb-1 flex-1 whitespace-normal pr-2">
           {chore.description}
         </span>
         <div className="flex items-start mr-1">

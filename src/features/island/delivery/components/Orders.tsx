@@ -290,6 +290,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {!order.completedAt && order.reward.sfl && (
                   <Label
                     type="warning"
+                    iconWidth={8}
                     icon={sfl}
                     className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
                     style={{ width: "calc(100% + 15px)" }}

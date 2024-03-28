@@ -13,7 +13,7 @@ export const Deliveries: React.FC = () => {
   const { t } = useAppTranslation();
 
   return (
-    <>
+    <div className="flex flex-col h-full">
       <div className="p-1">
         <div className="flex justify-between">
           <Label type="default">{t("deliveries")}</Label>
@@ -23,12 +23,12 @@ export const Deliveries: React.FC = () => {
             })}`}
           </Label>
         </div>
-        <p className="mb-2 mt-1 ml-1 text-xs">{t("deliveries.intro")}</p>
+        <p className="my-2 ml-1 text-xxs">{t("deliveries.intro")}</p>
       </div>
       <DeliveryOrders
         onSelect={(id) => setSelected(id)}
         selectedId={selected}
       />
-    </>
+    </div>
   );
 };

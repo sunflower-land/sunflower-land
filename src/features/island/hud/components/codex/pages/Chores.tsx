@@ -11,31 +11,30 @@ export const Chores: React.FC = () => {
 
   return (
     <>
-      <div className="p-1">
+      <div className="p-1 text-xxs sm:text-xs">
         <Label type="default">{t("chores")}</Label>
-        <p className="mb-2 ml-1 text-xs"></p>
-        <div className="p-1 mb-2">
-          <div className="flex items-center mb-1">
-            <div className="w-6">
-              <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
+        <div className="my-1 space-y-1">
+          <div className="flex items-center">
+            <div className="w-7">
+              <img src={SUNNYSIDE.icons.heart} className="object-fit w-4 h-4" />
             </div>
-            <span className="text-xs">{t("chores.intro")}</span>
+            <span className="w-fit">{t("chores.intro")}</span>
           </div>
-          <div className="flex items-center mb-1">
-            <div className="w-6">
-              <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
+          <div className="flex items-center">
+            <div className="w-7">
+              <img src={SUNNYSIDE.icons.timer} className="object-fit h-4 " />
             </div>
-            <span className="text-xs">{`${t(
+            <span className="w-fit">{`${t(
               "hayseedHankv2.newChoresAvailable"
             )} ${secondsToString(secondsTillReset(), {
               length: "full",
             })}.`}</span>
           </div>
-          <div className="flex items-center ">
-            <div className="w-6">
-              <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
+          <div className="flex items-center">
+            <div className="w-7">
+              <img src={SUNNYSIDE.icons.heart} className="object-fit w-4 h-4" />
             </div>
-            <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
+            <span className="w-fit">{t("hayseedHankv2.skipChores")}</span>
           </div>
         </div>
       </div>
