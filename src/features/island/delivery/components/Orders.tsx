@@ -235,7 +235,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 className={classNames(
                   "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
                   {
-                    "bg-brown-200": order.id === previewOrder?.id,
+                    "!bg-brown-200": order.id === previewOrder?.id,
                   }
                 )}
                 style={{ paddingBottom: "20px" }}
