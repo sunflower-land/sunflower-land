@@ -147,7 +147,7 @@ export const SalesPanel: React.FC<{
   }
 
   const unitPrice =
-    marketPrices?.prices?.currentPrices[selected]?.toFixed(4) || "0.0000";
+    marketPrices?.prices?.currentPrices?.[selected]?.toFixed(4) || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
     4
   );
