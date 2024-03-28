@@ -151,7 +151,9 @@ export const SalesPanel: React.FC<{
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
     4
   );
-  const canSell = state.inventory[selected]?.gte(MARKET_BUNDLES[selected]);
+  const canSell =
+    state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) ||
+    !(Number(unitPrice) === 0);
 
   if (warning === "hoarding") {
     return (
