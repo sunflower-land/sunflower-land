@@ -53,7 +53,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
 
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
-  const autosaving = false;
+  const autosaving = useSelector(gameService, _autosaving);
 
   useEffect(() => {
     // Trigger an autosave in case they have changes so user can sync right away
@@ -103,52 +103,55 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={onClose} onExited={handleExited}>
-      <CloseButtonPanel
-        onBack={price ? () => setPrice(undefined) : undefined}
-        currentTab={tab}
-        setCurrentTab={(tab) => {
-          setTab(tab);
-        }}
-        onClose={onClose}
-        tabs={[
-          { icon: blockBucksIcon, name: `Buy` },
-          { icon: exchangeIcon, name: `$SFL/Coins` },
-        ]}
-      >
-        {tab === 0 && (
-          <div className="flex flex-col space-y-1">
-            {!hideBuyBBLabel && (
-              <div className="flex justify-between pt-2 px-1">
-                <Label icon={blockBucksIcon} type="default" className="ml-2">
-                  {`${t("transaction.buy.BlockBucks")}`}
-                </Label>
-                <a
-                  href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
-                  className="text-xxs underline"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t("read.more")}
-                </a>
-              </div>
-            )}
-
-            {/* BB UI */}
-            {showXsolla ? (
-              <div className="relative w-full h-full min-h-[65vh] min-w[65vw] px-1">
-                <XsollaLoading autoClose={true} />
-                <XsollaIFrame
-                  url={showXsolla}
-                  onSuccess={handleCreditCardSuccess}
-                  onClose={onClose}
-                />
-              </div>
-            ) : loading ? (
-              <div className="h-32 flex items-center justify-center">
-                <XsollaLoading autoClose={false} />
-              </div>
-            ) : (
+    <Modal
+      show={show}
+      onHide={onClose}
+      onExited={handleExited}
+      size={showXsolla ? "lg" : undefined}
+    >
+      {showXsolla ? (
+        <div className="relative w-full h-full min-h-[65vh] min-w[65vw] px-1">
+          <XsollaLoading autoClose={true} />
+          <XsollaIFrame
+            url={showXsolla}
+            onSuccess={handleCreditCardSuccess}
+            onClose={onClose}
+          />
+        </div>
+      ) : loading ? (
+        <div className="h-32 flex items-center justify-center">
+          <XsollaLoading autoClose={false} />
+        </div>
+      ) : (
+        <CloseButtonPanel
+          onBack={price ? () => setPrice(undefined) : undefined}
+          currentTab={tab}
+          setCurrentTab={(tab) => {
+            setTab(tab);
+          }}
+          onClose={onClose}
+          tabs={[
+            { icon: blockBucksIcon, name: `Buy` },
+            { icon: exchangeIcon, name: `$SFL/Coins` },
+          ]}
+        >
+          {tab === 0 && (
+            <div className="flex flex-col space-y-1">
+              {!hideBuyBBLabel && (
+                <div className="flex justify-between pt-2 px-1">
+                  <Label icon={blockBucksIcon} type="default" className="ml-2">
+                    {`${t("transaction.buy.BlockBucks")}`}
+                  </Label>
+                  <a
+                    href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+                    className="text-xxs underline"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t("read.more")}
+                  </a>
+                </div>
+              )}
               <BuyBlockBucks
                 isSaving={autosaving}
                 price={price}
@@ -157,48 +160,47 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                 onCreditCardBuy={handleCreditCardBuy}
                 onHideBuyBBLabel={(hide) => setHideBuyBBLabel(hide)}
               />
-            )}
-          </div>
-          // </div>
-        )}
-        {tab === 1 && (
-          <div className="flex flex-col p-1 py-2 space-y-2">
-            <Label icon={exchangeIcon} type="default" className="ml-1">
-              {`${t("exchange")} SFL ${t("for")} Coins`}
-            </Label>
-            <div className="flex justify-between gap-1 text-[14px] sm:text-sm sm:gap-2">
-              {Object.values(SFL_TO_COIN_PACKAGES).map((option, index) => (
-                <OuterPanel
-                  key={JSON.stringify(option)}
-                  className="flex relative flex-col flex-1 items-center p-2"
-                >
-                  <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
-                  <div className="flex flex-1 justify-center items-center mb-6 w-full">
-                    <img
-                      src={COIN_IMAGES[index]}
-                      alt="Coins"
-                      className="w-2/5 sm:w-1/4"
-                    />
-                  </div>
-                  <Label
-                    icon={sflIcon}
-                    type="warning"
-                    iconWidth={11}
-                    className="absolute h-7"
-                    style={{
-                      width: "106%",
-                      bottom: "-8px",
-                      left: "-2px",
-                    }}
-                  >
-                    {`${option.sfl} $SFL`}
-                  </Label>
-                </OuterPanel>
-              ))}
             </div>
-          </div>
-        )}
-      </CloseButtonPanel>
+          )}
+          {tab === 1 && (
+            <div className="flex flex-col p-1 py-2 space-y-2">
+              <Label icon={exchangeIcon} type="default" className="ml-1">
+                {`${t("exchange")} SFL ${t("for")} Coins`}
+              </Label>
+              <div className="flex justify-between gap-1 text-[14px] sm:text-sm sm:gap-2">
+                {Object.values(SFL_TO_COIN_PACKAGES).map((option, index) => (
+                  <OuterPanel
+                    key={JSON.stringify(option)}
+                    className="flex relative flex-col flex-1 items-center p-2"
+                  >
+                    <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
+                    <div className="flex flex-1 justify-center items-center mb-6 w-full relative">
+                      <img
+                        src={COIN_IMAGES[index]}
+                        alt="Coins"
+                        className="w-2/5 sm:w-1/4"
+                      />
+                    </div>
+                    <Label
+                      icon={sflIcon}
+                      type="warning"
+                      iconWidth={11}
+                      className="absolute h-7"
+                      style={{
+                        width: "106%",
+                        bottom: "-8px",
+                        left: "-2px",
+                      }}
+                    >
+                      {`${option.sfl} $SFL`}
+                    </Label>
+                  </OuterPanel>
+                ))}
+              </div>
+            </div>
+          )}
+        </CloseButtonPanel>
+      )}
     </Modal>
   );
 };
