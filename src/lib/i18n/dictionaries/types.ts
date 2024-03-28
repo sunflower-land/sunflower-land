@@ -1621,6 +1621,7 @@ export type GameDescriptions =
   | "description.babyPanda"
   | "description.baozi"
   | "description.communityEgg"
+  | "description.hungryHare"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"

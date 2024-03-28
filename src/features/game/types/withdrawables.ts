@@ -726,6 +726,7 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
+  "Hungry Hare": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
   "Community Egg": () => true,
   "Baby Panda": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
   Baozi: () => true,

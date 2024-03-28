@@ -2372,6 +2372,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.babyPanda": "Un adorable panda de l'événement Gas Hero.",
   "description.baozi": ENGLISH_TERMS["description.baozi"],
   "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
+  "description.hungryHare": ENGLISH_TERMS["description.hungryHare"],
 
   // Objets de Pâques
   "description.egg.basket": "Événement de Pâques",

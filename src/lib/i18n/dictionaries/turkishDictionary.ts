@@ -2293,6 +2293,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.babyPanda":
     "Gas Hero etkinliğinden sevimli bir panda. Mart ayında yeni başlayanlar için 2x XP.",
   "description.baozi": "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
+  "description.hungryHare": ENGLISH_TERMS["description.hungryHare"],
   "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
 };
 

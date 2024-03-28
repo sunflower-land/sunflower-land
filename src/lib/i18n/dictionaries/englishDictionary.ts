@@ -2261,6 +2261,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "A cute panda from the Gas Hero event. Double experience for beginners during March.",
   "description.baozi": "A delicious treat from the Lunar New Year event.",
   "description.communityEgg": "Wow, you must really care about the community!",
+  "description.hungryHare":
+    "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

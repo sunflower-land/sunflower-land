@@ -10,6 +10,7 @@ import bloomSeed from "assets/flowers/bloom_seed.webp";
 import lilySeed from "assets/flowers/lily_seed.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
+import hungryHare from "assets/sfts/hungryHare.png";
 
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
@@ -3256,5 +3257,9 @@ export const ITEM_DETAILS: Items = {
   "Community Egg": {
     image: communityEgg,
     description: translate("description.communityEgg"),
+  },
+  "Hungry Hare": {
+    image: hungryHare,
+    description: translate("description.hungryHare"),
   },
 };

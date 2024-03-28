@@ -2304,6 +2304,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
   "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
   "description.baozi": ENGLISH_TERMS["description.baozi"],
+  "description.hungryHare": ENGLISH_TERMS["description.hungryHare"],
   "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
   "description.treasure.key": "Visite o Plaza para desbloquear sua recompensa",
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",

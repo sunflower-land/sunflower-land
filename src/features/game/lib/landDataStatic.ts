@@ -379,6 +379,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Speed Chicken": new Decimal(2),
     "Mashed Potato": new Decimal(1),
     "Treasure Key": new Decimal(1),
+    "Hungry Hare": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),
     "Farmhand Coupon": new Decimal(1),
     "Sunpetal Seed": new Decimal(100),
