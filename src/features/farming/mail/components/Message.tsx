@@ -1,5 +1,6 @@
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { Message as IMessage } from "features/game/types/announcements";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -11,6 +12,7 @@ interface Props {
   read?: boolean;
   onAcknowledge?: () => void;
   message: IMessage;
+  onClose: () => void;
 }
 
 const CONTENT_HEIGHT = 300;
@@ -19,6 +21,7 @@ export const Message: React.FC<Props> = ({
   conversationId,
   read,
   onAcknowledge,
+  onClose,
   message,
 }) => {
   const { t } = useAppTranslation();
@@ -27,6 +30,7 @@ export const Message: React.FC<Props> = ({
 
   const acknowledge = () => {
     gameService.send({ type: "message.read", id: conversationId });
+    onClose();
   };
 
   const conversation = message;
@@ -43,31 +47,16 @@ export const Message: React.FC<Props> = ({
   const Content = () => {
     if (showReward && conversation.reward) {
       return (
-        <>
-          <p className="text-center">{t("statements.conversation.one")}</p>
-
-          <div className="flex flex-col items-center">
-            {getKeys(conversation.reward?.items).map((name) => (
-              <img
-                key={`${name}`}
-                src={ITEM_DETAILS[name].image}
-                className="mb-2 w-1/5 my-2 img-highlight"
-              />
-            ))}
-          </div>
-
-          {/* Text*/}
-          <div>
-            {getKeys(conversation.reward?.items).map((name) => (
-              <p
-                key={`${name}`}
-                className="text-center text-sm mb-2"
-              >{`${conversation.reward?.items[name]} x ${name}`}</p>
-            ))}
-          </div>
-
-          <Button onClick={acknowledge}>{t("claim")}</Button>
-        </>
+        <ClaimReward
+          onClaim={acknowledge}
+          reward={{
+            createdAt: Date.now(),
+            id: "mail-bonus",
+            items: conversation.reward.items,
+            wearables: {},
+            sfl: 0,
+          }}
+        />
       );
     }
     return (
