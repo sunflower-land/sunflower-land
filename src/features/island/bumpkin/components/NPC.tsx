@@ -125,6 +125,73 @@ export const NPC: React.FC<NPCProps & { onClick?: () => void }> = ({
   );
 };
 
+export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
+  const [sheetSrc, setSheetSrc] = useState<string>();
+
+  // make sure all body parts are synchronized
+  useEffect(() => {
+    const load = async () => {
+      const { sheets } = await buildNPCSheets({
+        parts,
+      });
+
+      setSheetSrc(sheets.idle);
+    };
+
+    load();
+  }, []);
+
+  return (
+    <>
+      <div>
+        {!sheetSrc && (
+          <img
+            src={silhouette}
+            style={{
+              width: `${PIXEL_SCALE * 12}px`,
+              top: `${PIXEL_SCALE * 8}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+            }}
+            className="absolute pointer-events-none npc-loading"
+          />
+        )}
+
+        {sheetSrc && (
+          <>
+            {!hideShadow && (
+              <img
+                src={shadow}
+                style={{
+                  width: `${PIXEL_SCALE * 9}px`,
+                  top: `${PIXEL_SCALE * 11}px`,
+                  left: `${PIXEL_SCALE * 2.3}px`,
+                }}
+                className="absolute pointer-events-none"
+              />
+            )}
+
+            <Spritesheet
+              className="w-full inset-0 pointer-events-none"
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+                imageRendering: "pixelated" as const,
+              }}
+              image={sheetSrc}
+              widthFrame={FRAME_WIDTH}
+              heightFrame={FRAME_HEIGHT}
+              zoomScale={new SpringValue(1)}
+              steps={STEPS}
+              fps={14}
+              autoplay={true}
+              loop={true}
+            />
+          </>
+        )}
+      </div>
+    </>
+  );
+};
+
 export const NPCFixed: React.FC<NPCProps & { width: number }> = ({
   parts,
   width,

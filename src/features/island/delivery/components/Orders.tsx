@@ -21,7 +21,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import { Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { NPC } from "features/island/bumpkin/components/NPC";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
@@ -249,24 +249,17 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
                 <div className="flex flex-col pb-4">
                   <div className="flex items-center">
-                    <div className="relative bottom-4 h-14 w-12 mr-2 ml-0.5">
-                      <NPC
-                        parts={NPC_WEARABLES[order.from]}
-                        preventZoom={true}
-                      />
+                    <div className="relative mb-2 -ml-1.5 mr-0.5">
+                      <NPCIcon parts={NPC_WEARABLES[order.from]} />
                     </div>
-                    <div className="flex-1">
-                      <div className="flex justify-start ml-2 h-8 items-center w-6 ">
-                        {getKeys(order.items).map((name) => (
-                          <img
-                            key={name}
-                            src={
-                              name === "sfl" ? sfl : ITEM_DETAILS[name].image
-                            }
-                            className="w-6 img-highlight"
-                          />
-                        ))}
-                      </div>
+                    <div className="flex-1 flex justify-center h-8 items-center w-6 ">
+                      {getKeys(order.items).map((name) => (
+                        <img
+                          key={name}
+                          src={name === "sfl" ? sfl : ITEM_DETAILS[name].image}
+                          className="w-6 img-highlight"
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>

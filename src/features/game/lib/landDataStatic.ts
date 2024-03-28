@@ -689,6 +689,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         items: {
           Sunflower: 20,
+          Potato: 20,
+          Pumpkin: 20,
         },
       },
       // {
