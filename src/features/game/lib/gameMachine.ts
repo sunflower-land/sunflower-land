@@ -510,8 +510,6 @@ export const saveGame = async (
     transactionId: context.transactionId as string,
   });
 
-  console.log({ autosaved: announcements });
-
   // This gives the UI time to indicate that a save is taking place both when clicking save
   // and when autosaving
   await new Promise((res) => setTimeout(res, 1000));
@@ -530,7 +528,6 @@ const handleSuccessfulSave = (context: Context, event: any) => {
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime()
   );
 
-  console.log({ event });
   const updatedState = recentActions.reduce((state, action) => {
     return processEvent({
       state,
@@ -1113,7 +1110,6 @@ export function startGame(authContext: AuthContext) {
                 authContext.user.rawToken as string
               );
 
-              console.log({ data });
               return data;
             },
             onDone: [
