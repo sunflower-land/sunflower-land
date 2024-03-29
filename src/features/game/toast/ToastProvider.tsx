@@ -265,7 +265,7 @@ export const ToastProvider: FC = ({ children }) => {
     }
 
     // set toast if balance difference is not zero
-    const difference = balance - oldCoinBalance.current ?? 0;
+    const difference = balance - (oldCoinBalance.current ?? 0);
 
     if (difference !== 0) {
       addToast({ item: "coins" });
