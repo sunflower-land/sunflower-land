@@ -341,7 +341,6 @@ export function getRewards({
         id: "expansion-fifth-airdrop",
         items: {
           "Time Warp Totem": 1,
-          "Pumpkin Soup": 1,
           "Block Buck": 1,
         },
         sfl: 0,

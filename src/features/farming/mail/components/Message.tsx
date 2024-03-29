@@ -2,8 +2,6 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { Message as IMessage } from "features/game/types/announcements";
-import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 
