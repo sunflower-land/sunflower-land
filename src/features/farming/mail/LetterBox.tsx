@@ -89,7 +89,7 @@ export const LetterBox: React.FC = () => {
         <Mail setSelected={setSelected} announcements={announcements} />
       </CloseButtonPanel>
     );
-  }, [selected]);
+  }, [selected, announcements]);
 
   return (
     <>
