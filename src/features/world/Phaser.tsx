@@ -123,11 +123,13 @@ export const PhaserComponent: React.FC<Props> = ({
       gameService,
     });
 
-    // Set up moderator by looking if bumpkin has Halo hat equipped
+    // Set up moderator by looking if bumpkin has Halo hat equipped and Beta Pass in inventory
     const bumpkin = gameService.state.context.state.bumpkin;
-    bumpkin?.equipped?.hat === "Halo"
+    const hasBetaPass = !!inventory["Beta Pass"];
+
+    bumpkin?.equipped?.hat === "Halo" && hasBetaPass
       ? setIsModerator(true)
-      : setIsModerator(false);
+      : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
 
     // Check if user is muted and if so, apply mute details to isMuted state
     const userModLogs = gameService.state.context.moderation;
