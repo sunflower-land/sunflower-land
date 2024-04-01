@@ -19,7 +19,8 @@ type FeatureName =
   | "RAFFLE"
   | "RETREAT"
   | "WORLD_MAP"
-  | "EASTER";
+  | "EASTER"
+  | "GOBLIN_EXCHANGE";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -57,6 +58,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
   },
+  GOBLIN_EXCHANGE: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
