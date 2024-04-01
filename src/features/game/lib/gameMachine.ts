@@ -491,10 +491,15 @@ export const saveGame = async (
 
   // Skip autosave when no actions were produced or if playing ART_MODE
   if (context.actions.length === 0 || ART_MODE) {
-    return { verified: true, saveAt, farm: context.state };
+    return {
+      verified: true,
+      saveAt,
+      farm: context.state,
+      announcements: context.announcements,
+    };
   }
 
-  const { verified, farm } = await autosave({
+  const { verified, farm, announcements } = await autosave({
     farmId,
     sessionId: context.sessionId as string,
     actions: context.actions,
@@ -512,6 +517,7 @@ export const saveGame = async (
     saveAt,
     verified,
     farm,
+    announcements,
   };
 };
 
@@ -534,6 +540,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
     actions: recentActions,
     state: updatedState,
     saveQueued: false,
+    announcements: event.data.announcements,
   };
 };
 
@@ -1095,12 +1102,14 @@ export function startGame(authContext: AuthContext) {
           },
           invoke: {
             src: async (context, event) => {
-              return saveGame(
+              const data = await saveGame(
                 context,
                 event,
                 context.farmId as number,
                 authContext.user.rawToken as string
               );
+
+              return data;
             },
             onDone: [
               {

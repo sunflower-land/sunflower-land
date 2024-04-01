@@ -37,6 +37,7 @@ export const LetterBox: React.FC = () => {
 
   const { t } = useAppTranslation();
   const close = () => {
+    setSelected(undefined);
     setIsOpen(false);
   };
 
@@ -71,6 +72,7 @@ export const LetterBox: React.FC = () => {
               message={details}
               conversationId={selected}
               read={!!mailbox.read.find((item) => item.id === selected)}
+              onClose={close}
             />
           )}
         </Panel>
@@ -87,7 +89,7 @@ export const LetterBox: React.FC = () => {
         <Mail setSelected={setSelected} announcements={announcements} />
       </CloseButtonPanel>
     );
-  }, [selected]);
+  }, [selected, announcements]);
 
   return (
     <>
