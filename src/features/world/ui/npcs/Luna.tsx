@@ -14,8 +14,6 @@ interface Props {
 }
 
 export const Luna: React.FC<Props> = ({ onClose }) => {
-  const [tab, setTab] = useState(0);
-
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
@@ -39,26 +37,11 @@ export const Luna: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.luna}
-      tabs={[
-        { icon: SUNNYSIDE.icons.heart, name: t("luna.portals") },
-        { icon: SUNNYSIDE.icons.treasure, name: t("luna.rewards") },
-      ]}
-      setCurrentTab={setTab}
-      currentTab={tab}
+      tabs={[{ icon: SUNNYSIDE.icons.heart, name: t("luna.portals") }]}
     >
-      {tab === 0 && (
-        <>
-          <div className="p-1">
-            <p className="text-sm">{t("luna.travel")}</p>
-          </div>
-          <Portals />
-        </>
-      )}
-      {tab === 1 && (
-        <div className="p-1">
-          <p className="text-sm">{t("coming.soon")}</p>
-        </div>
-      )}
+      <div style={{ height: "350px" }} className="scrollable overflow-y-auto">
+        <Portals />
+      </div>
     </CloseButtonPanel>
   );
 };

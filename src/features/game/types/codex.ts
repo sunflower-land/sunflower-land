@@ -11,7 +11,8 @@ export type CodexCategoryName =
   | "Farming"
   | "Treasures"
   | "Leaderboard"
-  | "Factions";
+  | "Factions"
+  | "Minigames";
 
 export type CollectionGroup = "fish";
 

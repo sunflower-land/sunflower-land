@@ -26,6 +26,7 @@ import { WishingWellModal } from "features/game/components/bank/components/Wishi
 import { GoblinMarket } from "./market/GoblinMarket";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { VIPGift } from "./VIPGift";
+import { ChickenRescue } from "./portals/ChickenRescue";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -88,7 +89,8 @@ type InteractableName =
   | "bumpkins_faction"
   | "goblins_faction"
   | "nightshades_faction"
-  | "sunflorians_faction";
+  | "sunflorians_faction"
+  | "chicken_rescue";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -112,7 +114,8 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] =
+    useState<InteractableName>("chicken_rescue");
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -370,6 +373,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "portal"} onHide={closeModal}>
         <Luna onClose={closeModal} />
+      </Modal>
+
+      <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <ChickenRescue onClose={closeModal} />
+        </CloseButtonPanel>
       </Modal>
       <Modal show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal
