@@ -932,6 +932,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
   "description.radiant.ray.boost": "+0.1 Fer",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
+  "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

@@ -924,6 +924,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.beekeeper.hat.boost": "+20% Bal Üretim Hızı",
   "description.babyPanda.boost": "Başlangıç 2x XP Takviyesi",
   "description.flower.fox.boost": "-10% Çiçek Büyüme Hızı",
+  "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
