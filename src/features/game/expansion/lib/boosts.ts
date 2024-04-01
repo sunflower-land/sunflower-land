@@ -190,16 +190,9 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.1);
   }
 
-  // Is March 2024 UTC
-  const isMarch2024 =
-    createdAt >= new Date("2024-03-01T00:00:00Z").getTime() &&
-    createdAt <= new Date("2024-03-31T23:59:59Z").getTime();
-
   if (
-    isMarch2024 &&
-    isCollectibleBuilt({ name: "Baby Panda", game }) &&
-    getBumpkinLevel(game.bumpkin?.experience ?? 0) <= 20 &&
-    game.island.type === "basic"
+    isCollectibleBuilt({ name: "Hungry Hare", game }) &&
+    food.name === "Fermented Carrots"
   ) {
     boostedExp = boostedExp.mul(2);
   }

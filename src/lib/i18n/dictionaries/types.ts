@@ -563,6 +563,7 @@ export type BoostEffectDescriptions =
   | "description.mushroom.house.boost"
   | "description.boost.gilded.swordfish"
   | "description.babyPanda.boost"
+  | "description.hungryHare.boost"
   | "description.nancy.boost"
   | "description.scarecrow.boost"
   | "description.kuebiko.boost"
