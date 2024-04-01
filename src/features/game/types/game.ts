@@ -56,7 +56,7 @@ import {
   MarineMarvelName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { PortalName } from "./portals";
+import { MinigameName } from "./minigames";
 import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
@@ -785,13 +785,21 @@ export type CommunityIsland = {
   };
 };
 
-export type Portal = {
-  arcadeTokensMinted: number;
+export type MinigamePrize = {
+  startAt: number;
+  endAt: number;
+  score: number;
+  sfl: number;
+};
 
+export type Minigame = {
   history: Record<
     string,
     {
-      arcadeTokensMinted: number;
+      highscore: number;
+      attempts: number;
+      sflBurned: number;
+      prizeClaimedAt: number;
     }
   >;
 };
@@ -967,8 +975,10 @@ export interface GameState {
   bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
-  islands?: Record<string, CommunityIsland>;
-  portals?: Partial<Record<PortalName, Portal>>;
+  minigames: {
+    prizes: Partial<Record<MinigameName, MinigamePrize>>;
+    games: Partial<Record<MinigameName, Minigame>>;
+  };
 
   farmHands: {
     bumpkins: Record<string, FarmHand>;

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { PortalName } from "features/game/types/portals";
+import { MinigameName } from "features/game/types/minigames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -9,13 +9,13 @@ import { Label } from "components/ui/Label";
 import chickenRescueBanner from "assets/portals/chicken_rescue_preview.png";
 import chickenRescueThumbnail from "assets/portals/chicken_rescue_thumbnail.png";
 
-const VALID_PORTALS: PortalName[] = ["chicken-rescue"];
+const VALID_PORTALS: MinigameName[] = ["chicken-rescue"];
 
 export const Minigames: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [selected, setSelected] = useState<PortalName>();
+  const [selected, setSelected] = useState<MinigameName>();
 
   const { t } = useAppTranslation();
 

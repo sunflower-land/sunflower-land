@@ -4,7 +4,10 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { PortalName, SUPPORTED_PORTALS } from "features/game/types/portals";
+import {
+  MinigameName,
+  SUPPORTED_MINIGAMES,
+} from "features/game/types/minigames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { OuterPanel, Panel } from "components/ui/Panel";
@@ -13,13 +16,13 @@ import { Label } from "components/ui/Label";
 import chickenRescueBanner from "assets/portals/chicken_rescue_preview.png";
 import chickenRescueThumbnail from "assets/portals/chicken_rescue_thumbnail.png";
 
-const VALID_PORTALS: PortalName[] = ["chicken-rescue"];
+const VALID_PORTALS: MinigameName[] = ["chicken-rescue"];
 
 export const Portals: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [selected, setSelected] = useState<PortalName>();
+  const [selected, setSelected] = useState<MinigameName>();
 
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -49,7 +52,7 @@ export const Portals: React.FC = () => {
     };
   }, []);
 
-  const travel = async (portalId: PortalName) => {
+  const travel = async (portalId: MinigameName) => {
     setLoading(true);
 
     const { token } = await portal({

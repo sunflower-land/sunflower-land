@@ -4,7 +4,10 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { PortalName, SUPPORTED_PORTALS } from "features/game/types/portals";
+import {
+  MinigameName,
+  SUPPORTED_MINIGAMES,
+} from "features/game/types/minigames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { OuterPanel, Panel } from "components/ui/Panel";

@@ -4,7 +4,7 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { loadPortal } from "../actions/loadPortal";
 import { CONFIG } from "lib/config";
 import { claimArcadeToken } from "../actions/claimArcadeToken";
-import { PortalName } from "features/game/types/portals";
+import { MinigameName } from "features/game/types/minigames";
 import { Client, Room } from "colyseus.js";
 import { PlazaRoomState } from "features/world/types/Room";
 import { SPAWNS } from "features/world/lib/spawn";
@@ -100,7 +100,7 @@ export const portalMachine = createMachine({
             const portals = (c.state?.portals ??
               {}) as Required<GameState>["portals"];
 
-            const portal = portals[CONFIG.PORTAL_APP as PortalName];
+            const portal = portals[CONFIG.PORTAL_APP as MinigameName];
 
             const alreadyMintedToday =
               portal?.history[todayKey]?.arcadeTokensMinted ?? 0;
