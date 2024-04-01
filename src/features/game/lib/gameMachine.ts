@@ -56,7 +56,6 @@ import { CollectibleLocation, PurchasableItems } from "../types/collectibles";
 import {
   getGameRulesLastRead,
   getIntroductionRead,
-  getSeasonPassRead,
 } from "features/announcements/announcementsStorage";
 import { depositToFarm } from "lib/blockchain/Deposit";
 import Decimal from "decimal.js-light";
@@ -782,13 +781,13 @@ export function startGame(authContext: AuthContext) {
               target: "swarming",
               cond: () => isSwarming(),
             },
-            {
-              target: "specialOffer",
-              cond: (context) =>
-                (context.state.bumpkin?.experience ?? 0) > 100 &&
-                !context.state.collectibles["Spring Blossom Banner"] &&
-                !getSeasonPassRead(),
-            },
+            // {
+            //   target: "specialOffer",
+            //   cond: (context) =>
+            //     (context.state.bumpkin?.experience ?? 0) > 100 &&
+            //     !context.state.collectibles["Spring Blossom Banner"] &&
+            //     !getSeasonPassRead(),
+            // },
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
