@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import market from "assets/buildings/market.png";
+import market from "assets/buildings/bettys_market.png";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -85,7 +85,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 6}px`,
+            right: `${PIXEL_SCALE * 18}px`,
           }}
         />
         <img
@@ -94,7 +94,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 8}px`,
-            right: `${PIXEL_SCALE * 4}px`,
+            right: `${PIXEL_SCALE * 16}px`,
             transform: "scaleX(-1)",
           }}
         />
