@@ -35,13 +35,15 @@ type GetMinedAtArgs = {
  * Set a mined in the past to make it replenish faster
  */
 export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
-  let time = createdAt;
+  let totalSeconds = IRON_RECOVERY_TIME;
 
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {
-    time -= IRON_RECOVERY_TIME * 0.5 * 1000;
+    totalSeconds = totalSeconds * 0.5;
   }
 
-  return time;
+  const buff = IRON_RECOVERY_TIME - totalSeconds;
+
+  return createdAt - buff * 1000;
 }
 
 export function mineIron({

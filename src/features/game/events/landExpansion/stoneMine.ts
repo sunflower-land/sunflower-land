@@ -37,17 +37,19 @@ export function getMinedAt({
   createdAt,
   game,
 }: GetMinedAtArgs): number {
-  let time = createdAt;
+  let totalSeconds = STONE_RECOVERY_TIME;
 
   if (skills["Coal Face"]) {
-    time -= STONE_RECOVERY_TIME * 0.2 * 1000;
+    totalSeconds = totalSeconds * 0.8;
   }
 
   if (isCollectibleActive({ name: "Time Warp Totem", game })) {
-    time -= STONE_RECOVERY_TIME * 0.5 * 1000;
+    totalSeconds = totalSeconds * 0.5;
   }
 
-  return time;
+  const buff = STONE_RECOVERY_TIME - totalSeconds;
+
+  return createdAt - buff * 1000;
 }
 
 export function mineStone({
