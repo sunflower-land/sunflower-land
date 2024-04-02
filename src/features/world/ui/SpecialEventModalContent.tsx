@@ -10,7 +10,7 @@ import { Button } from "components/ui/Button";
 import giftIcon from "assets/icons/gift.png";
 import chestIcon from "assets/icons/chest.png";
 import walletIcon from "assets/icons/wallet.png";
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
