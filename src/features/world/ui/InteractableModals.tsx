@@ -582,7 +582,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <TradingBoard onClose={closeModal} />
       </Modal>
       <Modal
-        show={interactable === "goblin_market" || true}
+        show={interactable === "goblin_market"}
         dialogClassName="md:max-w-3xl"
         onHide={closeModal}
       >

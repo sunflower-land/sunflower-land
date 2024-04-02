@@ -137,7 +137,7 @@ export const SalesPanel: React.FC<{
 
   const hasBanner = (
     state.inventory[getSeasonalBanner()] ?? new Decimal(0)
-  ).gte(10);
+  ).gte(1);
 
   const unitPrice =
     marketPrices?.prices?.currentPrices?.[selected]?.toFixed(4) || "0.0000";
