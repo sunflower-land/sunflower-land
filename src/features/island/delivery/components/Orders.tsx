@@ -311,7 +311,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       {`${`${makeRewardAmountForLabel(order)}`}`}
                     </Label>
                   )}
-                  {!order.completedAt && order.reward.coins && (
+                  {!order.completedAt && order.reward.coins !== undefined && (
                     <Label
                       type="warning"
                       icon={coinsImg}

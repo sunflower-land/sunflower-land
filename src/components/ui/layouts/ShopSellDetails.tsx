@@ -72,7 +72,7 @@ export const ShopSellDetails: React.FC<Props> = ({
     return (
       <div className="border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
         {/* Price display */}
-        {!!properties.coins && (
+        {properties.coins !== undefined && (
           <RequirementLabel
             type="sellForCoins"
             requirement={properties.coins}
