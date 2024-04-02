@@ -1089,7 +1089,7 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.bulk": "Bulk Amount",
   "goblinTrade.conversion": "Conversion",
   "goblinTrade.select": "Select resource to sell",
-  "goblinTrade.hoarding": "Oh no! You've reached the max $SFL.",
+  "goblinTrade.hoarding": "Oh no! You've reached the max SFL.",
   "goblinTrade.vipRequired": "VIP Access Required",
 };
 

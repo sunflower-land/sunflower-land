@@ -222,7 +222,7 @@ export const SalesPanel: React.FC<{
           <span className="pt-3 text-xs pb-2">
             {`${t("sell")} ${MARKET_BUNDLES[selected]} ${selected} ${t(
               "for"
-            )} ${bundlePrice} ${"$SFL"}?`}
+            )} ${bundlePrice} ${"SFL"}?`}
           </span>
         </div>
         <div className="flex space-x-1">

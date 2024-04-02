@@ -142,7 +142,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
           onClose={onClose}
           tabs={[
             { icon: blockBucksIcon, name: `Buy` },
-            { icon: exchangeIcon, name: `$SFL/Coins` },
+            { icon: exchangeIcon, name: `SFL/Coins` },
           ]}
         >
           {tab === 0 && (
@@ -208,7 +208,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                             left: "-2px",
                           }}
                         >
-                          {`${option.sfl} $SFL`}
+                          {`${option.sfl} SFL`}
                         </Label>
                       </OuterPanel>
                     );
@@ -229,7 +229,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     </div>
                     <span>{`${t("total")} ${
                       SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
-                    } $SFL`}</span>
+                    } SFL`}</span>
                   </div>
                   <div className="flex space-x-1">
                     <Button onClick={() => setExchangePackageId(undefined)}>
