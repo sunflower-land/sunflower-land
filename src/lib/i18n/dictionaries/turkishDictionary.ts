@@ -1089,6 +1089,7 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
   "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
   "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
+  "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

@@ -20,7 +20,6 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 import sflIcon from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
-import banner from "assets/icons/tulip_bulb.png";
 import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
@@ -242,11 +241,23 @@ export const SalesPanel: React.FC<{
         <div className="relative w-full">
           <div className="p-2">
             <div className="flex flex-col justify-between space-y-1 sm:flex-row sm:space-y-0">
-              <Label type="default" icon={SUNNYSIDE.icons.basket}>
-                {t("goblinTrade.select")}
-              </Label>
+              {!hasBanner ? (
+                <Label
+                  type="warning"
+                  icon={lock}
+                  secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
+                >
+                  {t("goblinTrade.vipRequired")}
+                </Label>
+              ) : (
+                <Label type="default" icon={SUNNYSIDE.icons.basket}>
+                  {t("goblinTrade.select")}
+                </Label>
+              )}
               {marketPrices && (
-                <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                <div className="opacity-75">
+                  <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                </div>
               )}
             </div>
 
@@ -263,10 +274,20 @@ export const SalesPanel: React.FC<{
                     className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
                   >
                     <OuterPanel
-                      className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200 opacity-75"
-                      onClick={() => {
-                        onSell(name);
-                      }}
+                      className={classNames(
+                        "w-full relative flex flex-col items-center justify-center",
+                        {
+                          "cursor-not-allowed opacity-75": !hasBanner,
+                          "cursor-pointer hover:bg-brown-200": hasBanner,
+                        }
+                      )}
+                      onClick={
+                        hasBanner
+                          ? () => {
+                              onSell(name);
+                            }
+                          : undefined
+                      }
                     >
                       <span className="text-xs mt-1">{name}</span>
                       <img
@@ -309,14 +330,6 @@ export const SalesPanel: React.FC<{
           </div>
         </div>
       </div>
-      <Label
-        type="warning"
-        icon={lock}
-        secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
-        className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
-      >
-        LOCKED!
-      </Label>
     </div>
   );
 };
