@@ -20,10 +20,15 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
 import sflIcon from "assets/icons/token_2.png";
 import lock from "assets/skills/lock.png";
+import banner from "assets/icons/tulip_bulb.png";
 import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
+import {
+  getSeasonalBanner,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -131,20 +136,9 @@ export const SalesPanel: React.FC<{
     return progress.gt(MAX_SESSION_SFL);
   };
 
-  if (!state.inventory["Gold Pass"]) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={ITEM_DETAILS["Gold Pass"].image}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
-          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
-        </div>
-      </div>
-    );
-  }
+  const hasBanner = (
+    state.inventory[getSeasonalBanner()] ?? new Decimal(0)
+  ).gte(10);
 
   const unitPrice =
     marketPrices?.prices?.currentPrices?.[selected]?.toFixed(4) || "0.0000";
@@ -269,7 +263,7 @@ export const SalesPanel: React.FC<{
                     className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
                   >
                     <OuterPanel
-                      className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                      className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200 opacity-75"
                       onClick={() => {
                         onSell(name);
                       }}
@@ -315,6 +309,14 @@ export const SalesPanel: React.FC<{
           </div>
         </div>
       </div>
+      <Label
+        type="warning"
+        icon={lock}
+        secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
+        className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
+      >
+        LOCKED!
+      </Label>
     </div>
   );
 };
