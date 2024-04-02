@@ -33,7 +33,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
-  Deliveryitem,
+  DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -255,6 +255,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "enjoying.event": "Bu etkinlikten memnun musunuz?",
   equip: "Kuşan",
   error: "Hata",
+  exchange: "Exchange",
   exotics: "Egzotikler",
   "expand.land": "Adanı Genişlet",
   expand: "Genişlet",
@@ -1734,7 +1735,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
     "Bonus ödüllerin kilidini açmak için birden fazla siparişi tamamlayarak Bumpkinler ile ilişkiler kurun. (Yakında gelecek)",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Record<DeliveryItem, string> = {
   "deliveryitem.inventory": "Envanter",
   "deliveryitem.itemsToDeliver": "Teslim edilecek öğeler",
   "deliveryitem.deliverToWallet": "Cüzdanınıza teslim edin",
@@ -1842,6 +1843,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.composterAlreadyDone": "Komposto zaten yapıldı",
   "error.composterAlreadyBoosted": "Zaten öne çıkarıldı",
   "error.missingEggs": "Kayıp Yumurtalar",
+  "error.insufficientCoins": "Yetersiz Coins",
   "error.insufficientSFL": "Yetersiz SFL",
   "error.insufficientSpaceForChickens":
     "Daha fazla tavuk için yeterli alan yok",
