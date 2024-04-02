@@ -141,7 +141,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
                 <img src={creditCard} className="w-1/5 sm:w-1/5" />
                 {price.amount === 1 && (
                   <span className="text-[12px] italic">
-                    {`*${t("minimum")} 5 BB's`}
+                    {`*${t("minimum")} 5 Block Bucks`}
                   </span>
                 )}
               </div>
@@ -187,9 +187,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               className="flex flex-col items-center relative cursor-pointer"
               onClick={() => setPrice(price)}
             >
-              <span className="whitespace-nowrap mb-2">{`${price.amount} ${
-                price.amount > 1 ? "BB's" : "BB"
-              }`}</span>
+              <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
               <div className="flex flex-1 justify-center items-center mb-6 w-full">
                 <img src={blockBucksIcon} className="w-2/5 sm:w-1/4" />
               </div>
