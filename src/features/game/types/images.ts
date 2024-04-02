@@ -336,7 +336,7 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 import kitchen from "src/assets/buildings/kitchen.png";
-import market from "src/assets/buildings/market.png";
+import market from "src/assets/buildings/bettys_market.png";
 import townCenter from "src/assets/buildings/town_center.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent.png";
