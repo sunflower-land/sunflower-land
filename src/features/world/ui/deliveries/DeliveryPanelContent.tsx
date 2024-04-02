@@ -6,7 +6,7 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
 
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
@@ -47,6 +47,18 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
       onSelectOrder(firstFillableOrder.id);
     }
   }, [orders.length]);
+
+  const makeRewardAmountForLabel = (order: Order) => {
+    if (order.reward.sfl !== undefined) {
+      const sfl = getOrderSellPrice<Decimal>(game, order);
+
+      return sfl.toFixed(2);
+    }
+
+    const coins = getOrderSellPrice<number>(game, order);
+
+    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+  };
 
   return (
     <>
@@ -108,19 +120,19 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 );
               })}
               <div className="flex flex-col justify-center">
-                {order.reward.sfl && (
+                {order.reward.sfl !== undefined && (
                   <div className="flex items-center mt-1">
                     <img src={sfl} className="h-5 mr-1" />
                     <span className="text-xs">
-                      {getOrderSellPrice<Decimal>(game, order).toFixed(2)}
+                      {makeRewardAmountForLabel(order)}
                     </span>
                   </div>
                 )}
-                {order.reward.coins && (
+                {order.reward.coins !== undefined && (
                   <div className="flex items-center mt-1">
                     <img src={coinsImg} className="h-5 mr-1" />
                     <span className="text-xs">
-                      {getOrderSellPrice<number>(game, order).toFixed(2)}
+                      {makeRewardAmountForLabel(order)}
                     </span>
                   </div>
                 )}

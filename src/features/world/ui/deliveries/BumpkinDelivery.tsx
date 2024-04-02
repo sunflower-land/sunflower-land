@@ -8,7 +8,7 @@ import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
 import chest from "assets/icons/chest.png";
 import lockIcon from "assets/skills/lock.png";
@@ -29,7 +29,10 @@ import { defaultDialogue, npcDialogues } from "./dialogues";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { getTotalExpansions } from "./DeliveryPanelContent";
 import { DELIVERY_LEVELS } from "features/island/delivery/lib/delivery";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getSeasonalBanner,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 import { NpcDialogues } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
@@ -95,7 +98,7 @@ export const OrderCard: React.FC<{
               <Label icon={chest} type="warning" className="ml-1.5">
                 {t("reward")}
               </Label>
-              {order.reward.sfl && (
+              {order.reward.sfl !== undefined && (
                 <div className="flex items-center mr-1">
                   <img src={sfl} className="w-4 h-auto mr-1" />
                   <span
@@ -109,7 +112,7 @@ export const OrderCard: React.FC<{
                   </span>
                 </div>
               )}
-              {order.reward.coins && (
+              {order.reward.coins !== undefined && (
                 <div className="flex items-center mr-1">
                   <img src={coinsImg} className="w-4 h-auto mr-1" />
                   <span
@@ -503,6 +506,13 @@ interface Props {
   npc: NPCName;
 }
 
+const GOBLINS_REQUIRING_SEASON_PASS: Partial<NPCName[]> = [
+  "grimtooth",
+  "grubnuk",
+  "gordo",
+  "guria",
+];
+
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -521,6 +531,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       friendship: true,
     });
   };
+
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
     if (name === "coins") {
       return game.coins > (delivery?.items.coins ?? 0);
@@ -547,6 +558,11 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
 
+  const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
+  const hasSeasonPass = (
+    game.inventory[getSeasonalBanner()] ?? new Decimal(0)
+  )?.gte(1);
+
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
   const positive = useRandomItem(dialogue.positiveDelivery);
@@ -566,8 +582,13 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = noOrder;
   }
 
+  if (requiresSeasonPass && !hasSeasonPass) {
+    message = t("bumpkin.delivery.requiresSeasonPass");
+  }
+
   const missingExpansions =
     (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
+  const missingRequiredSeasonBanner = requiresSeasonPass && !hasSeasonPass;
   const isLocked = missingExpansions >= 1;
 
   const acceptGifts = !!getNextGift({ game, npc });
@@ -637,7 +658,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   {t("completed")}
                 </Label>
               )}
-              {isLocked && (
+              {(isLocked || missingRequiredSeasonBanner) && (
                 <Label className="my-2" type="danger" icon={lockIcon}>
                   {t("locked")}
                 </Label>
@@ -650,7 +671,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
             {isLocked && (
               <>
-                <p className="text-xs">
+                <p className="text-xs mb-2">
                   {t("bumpkin.delivery.proveYourself")} {missingExpansions}{" "}
                   {t("bumpkin.delivery.more.time")}
                 </p>
@@ -675,7 +696,13 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             )}
 
             <Button
-              disabled={!delivery || !hasDelivery || !!delivery?.completedAt}
+              disabled={
+                !delivery ||
+                !hasDelivery ||
+                !!delivery?.completedAt ||
+                isLocked ||
+                missingRequiredSeasonBanner
+              }
               onClick={deliver}
             >
               {t("deliver")}
