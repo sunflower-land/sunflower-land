@@ -675,7 +675,8 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
   | "bumpkin.delivery.proveYourself"
-  | "bumpkin.delivery.more.time";
+  | "bumpkin.delivery.more.time"
+  | "bumpkin.delivery.requiresSeasonPass";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"

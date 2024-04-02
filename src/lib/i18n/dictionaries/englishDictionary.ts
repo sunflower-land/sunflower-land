@@ -985,6 +985,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself": "Prove yourself worthy. Expand your island",
   "bumpkin.delivery.more.time": "more times.",
+  "bumpkin.delivery.requiresSeasonPass":
+    "I will only accept deliveries from Season Pass holders.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
