@@ -83,6 +83,7 @@ export type GeneralTerms =
   | "enjoying.event"
   | "equip"
   | "error"
+  | "exchange"
   | "exotics"
   | "expand.land"
   | "expand"
@@ -965,7 +966,7 @@ export type CropFruitDescriptions =
   | "description.bloom.seed"
   | "description.lily.seed";
 
-export type Deliveryitem =
+export type DeliveryItem =
   | "deliveryitem.inventory"
   | "deliveryitem.itemsToDeliver"
   | "deliveryitem.deliverToWallet"
@@ -1303,6 +1304,7 @@ export type ErrorTerms =
   | "error.composterAlreadyBoosted"
   | "error.missingEggs"
   | "error.insufficientSFL"
+  | "error.insufficientCoins"
   | "error.insufficientSpaceForChickens"
   | "error.dailyAttemptsExhausted"
   | "error.missingRod"
@@ -3196,7 +3198,7 @@ export type TranslationKeys =
   | Conversations
   | CropBoomMessages
   | CropFruitDescriptions
-  | Deliveryitem
+  | DeliveryItem
   | DefaultDialogue
   | DecorationDescriptions
   | Delivery

@@ -1,5 +1,6 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { randomID } from "lib/utils/random";
 
 type Request = {
   token: string;
@@ -14,6 +15,7 @@ export async function getMagicLink(request: Request) {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
+        "x-transaction-id": randomID(),
       },
     }
   );

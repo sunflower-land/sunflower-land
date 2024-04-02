@@ -3,7 +3,6 @@ import { CropSeedName } from "./crops";
 import { InventoryItemName, LanternName } from "./game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
-import { marketRate } from "../lib/halvening";
 import { LimitedItemType } from ".";
 import { DecorationName, DECORATION_DIMENSIONS } from "./decorations";
 import { BeanName, MutantCropName } from "./beans";
@@ -46,8 +45,8 @@ export type CraftableName =
 export interface Craftable {
   name: CraftableName;
   description: string;
-  price?: Decimal;
-  sellPrice?: Decimal;
+  price?: number;
+  sellPrice?: number;
   ingredients: Ingredient[];
   limit?: number;
   supply?: number;
@@ -66,7 +65,7 @@ export interface CraftableItem {
   id?: number;
   name: CraftableName;
   description: string;
-  tokenAmount?: Decimal;
+  price?: number;
   ingredients?: Ingredient[];
   disabled?: boolean;
   // Hidden for crafting
@@ -246,7 +245,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   "Pumpkin Soup": {
     name: "Pumpkin Soup",
     description: translate("description.pumpkin.soup"),
-    tokenAmount: marketRate(3),
+    price: 3,
     ingredients: [
       {
         item: "Pumpkin",
@@ -258,7 +257,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   Sauerkraut: {
     name: "Sauerkraut",
     description: translate("description.sauerkraut"),
-    tokenAmount: marketRate(25),
+    price: 25,
     ingredients: [
       {
         item: "Cabbage",
@@ -269,7 +268,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   "Roasted Cauliflower": {
     name: "Roasted Cauliflower",
     description: translate("description.roasted.cauliflower"),
-    tokenAmount: marketRate(150),
+    price: 150,
     ingredients: [
       {
         item: "Cauliflower",
@@ -280,7 +279,7 @@ export const FOODS: () => Record<Food, CraftableItem> = () => ({
   "Radish Pie": {
     name: "Radish Pie",
     description: translate("description.radish.pie"),
-    tokenAmount: marketRate(300),
+    price: 300,
     ingredients: [
       {
         item: "Radish",
@@ -295,8 +294,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Sunflower Cake": {
     name: "Sunflower Cake",
     description: translate("description.sunflower.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(320),
+    price: 0,
+    sellPrice: 320,
     ingredients: [
       {
         item: "Sunflower",
@@ -315,8 +314,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Potato Cake": {
     name: "Potato Cake",
     description: translate("description.potato.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(320),
+    price: 0,
+    sellPrice: 320,
     ingredients: [
       {
         item: "Potato",
@@ -335,8 +334,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Pumpkin Cake": {
     name: "Pumpkin Cake",
     description: translate("description.pumpkin.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(320),
+    price: 0,
+    sellPrice: 320,
     ingredients: [
       {
         item: "Pumpkin",
@@ -355,8 +354,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Carrot Cake": {
     name: "Carrot Cake",
     description: translate("description.carrot.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(360),
+    price: 0,
+    sellPrice: 360,
     ingredients: [
       {
         item: "Carrot",
@@ -375,8 +374,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Cabbage Cake": {
     name: "Cabbage Cake",
     description: translate("description.cabbage.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(360),
+    price: 0,
+    sellPrice: 360,
     ingredients: [
       {
         item: "Cabbage",
@@ -395,8 +394,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Beetroot Cake": {
     name: "Beetroot Cake",
     description: translate("description.beetroot.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
+    price: 0,
+    sellPrice: 560,
     ingredients: [
       {
         item: "Beetroot",
@@ -415,8 +414,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Cauliflower Cake": {
     name: "Cauliflower Cake",
     description: translate("description.cauliflower.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
+    price: 0,
+    sellPrice: 560,
     ingredients: [
       {
         item: "Cauliflower",
@@ -435,8 +434,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Parsnip Cake": {
     name: "Parsnip Cake",
     description: translate("description.parsnip.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
+    price: 0,
+    sellPrice: 560,
     ingredients: [
       {
         item: "Parsnip",
@@ -455,8 +454,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Radish Cake": {
     name: "Radish Cake",
     description: translate("description.radish.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
+    price: 0,
+    sellPrice: 560,
     ingredients: [
       {
         item: "Radish",
@@ -475,8 +474,8 @@ export const CAKES: () => Record<Cake, Craftable> = () => ({
   "Wheat Cake": {
     name: "Wheat Cake",
     description: translate("description.wheat.cake"),
-    tokenAmount: new Decimal(0),
-    sellPrice: marketRate(560),
+    price: 0,
+    sellPrice: 560,
     ingredients: [
       {
         item: "Wheat",
@@ -494,13 +493,13 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   Axe: {
     name: "Axe",
     description: translate("description.axe"),
-    tokenAmount: new Decimal(1),
+    price: 320,
     ingredients: [],
   },
   Pickaxe: {
     name: "Pickaxe",
     description: translate("description.pickaxe"),
-    tokenAmount: new Decimal(1),
+    price: 320,
     ingredients: [
       {
         item: "Wood",
@@ -511,7 +510,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
     description: translate("description.stone.pickaxe"),
-    tokenAmount: new Decimal(2),
+    price: 640,
     ingredients: [
       {
         item: "Wood",
@@ -526,7 +525,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
     description: translate("description.iron.pickaxe"),
-    tokenAmount: new Decimal(5),
+    price: 1600,
     ingredients: [
       {
         item: "Wood",
@@ -541,7 +540,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
     description: translate("description.gold.pickaxe"),
-    tokenAmount: new Decimal(7),
+    price: 2240,
     ingredients: [
       {
         item: "Wood",
@@ -556,7 +555,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   Hammer: {
     name: "Hammer",
     description: translate("coming.soon"),
-    tokenAmount: new Decimal(5),
+    price: 1600,
     ingredients: [
       {
         item: "Wood",
@@ -572,7 +571,7 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
   Rod: {
     name: "Rod",
     description: translate("description.rod"),
-    tokenAmount: new Decimal(5),
+    price: 1600,
     ingredients: [
       {
         item: "Wood",
@@ -593,7 +592,7 @@ export const SHOVELS: Record<Shovel, CraftableItem> = {
   Shovel: {
     name: "Shovel",
     description: translate("description.shovel"),
-    tokenAmount: new Decimal(0),
+    price: 0,
     ingredients: [
       {
         item: "Rusty Shovel",
@@ -991,35 +990,35 @@ export const BARN_ITEMS: Record<BarnItem, LimitedItem> = {
   },
 };
 
-export const ANIMALS: () => Record<Animal, CraftableItem> = () => ({
+export const ANIMALS: Record<Animal, CraftableItem> = {
   Chicken: {
     name: "Chicken",
     description: translate("description.chicken"),
-    tokenAmount: marketRate(200),
+    price: 200,
     ingredients: [],
   },
   Cow: {
     name: "Cow",
     description: translate("description.cow"),
-    tokenAmount: new Decimal(50),
+    price: 16000,
     ingredients: [],
     disabled: true,
   },
   Pig: {
     name: "Pig",
     description: translate("description.pig"),
-    tokenAmount: new Decimal(20),
+    price: 6400,
     ingredients: [],
     disabled: true,
   },
   Sheep: {
     name: "Sheep",
     description: translate("description.sheep"),
-    tokenAmount: new Decimal(20),
+    price: 6400,
     ingredients: [],
     disabled: true,
   },
-});
+};
 
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.

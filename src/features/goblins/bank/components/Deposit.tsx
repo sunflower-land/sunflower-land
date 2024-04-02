@@ -35,6 +35,8 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -521,5 +523,36 @@ const DepositOptions: React.FC<Props> = ({
         </>
       )}
     </>
+  );
+};
+
+interface DepositModalProps {
+  farmAddress: string;
+  canDeposit: boolean;
+  showDepositModal: boolean;
+  handleDeposit: (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => void;
+  handleClose: () => void;
+}
+
+export const DepositModal: React.FC<DepositModalProps> = ({
+  farmAddress,
+  canDeposit,
+  showDepositModal,
+  handleDeposit,
+  handleClose,
+}) => {
+  return (
+    <Modal show={showDepositModal} onHide={handleClose}>
+      <CloseButtonPanel onClose={canDeposit ? handleClose : undefined}>
+        <Deposit
+          farmAddress={farmAddress}
+          onDeposit={handleDeposit}
+          onClose={handleClose}
+          canDeposit={canDeposit}
+        />
+      </CloseButtonPanel>
+    </Modal>
   );
 };

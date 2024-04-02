@@ -31,12 +31,12 @@ export const PotionHouseItems: React.FC = () => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const price = selected.sfl;
+  const price = selected.coins ?? 0;
 
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.balance.lessThan(price.toString());
+    return state.coins < price;
   };
 
   const lessIngredients = () =>
@@ -81,7 +81,7 @@ export const PotionHouseItems: React.FC = () => {
           }}
           requirements={{
             resources: selected.ingredients,
-            sfl: price,
+            coins: price,
           }}
           actionView={Action()}
         />

@@ -8,7 +8,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
   MAX_BUILDINGS_REACHED = "Building limit reached for your bumpkin level!",
-  NOT_ENOUGH_SFL = "Insufficient SFL!",
+  NOT_ENOUGH_COINS = "Insufficient Coins!",
   NOT_ENOUGH_INGREDIENTS = "Insufficient ingredient! Missing: ",
 }
 
@@ -34,10 +34,10 @@ export function constructBuilding({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const { bumpkin, inventory } = stateCopy;
+  const { bumpkin, inventory, coins } = stateCopy;
 
   const buildingNumber = inventory[action.name]?.toNumber() ?? 0;
-  const building = BUILDINGS()[action.name];
+  const building = BUILDINGS[action.name];
 
   if (bumpkin === undefined) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NO_BUMPKIN);
@@ -55,8 +55,8 @@ export function constructBuilding({
     throw new Error(CONSTRUCT_BUILDING_ERRORS.MAX_BUILDINGS_REACHED);
   }
 
-  if (stateCopy.balance.lessThan(buildingToConstruct.sfl)) {
-    throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
+  if (coins < buildingToConstruct.coins) {
+    throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
   }
 
   let missingIngredients: string[] = [];
@@ -97,7 +97,7 @@ export function constructBuilding({
 
   bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
 
-  stateCopy.balance = stateCopy.balance.sub(buildingToConstruct.sfl);
+  stateCopy.coins = coins - buildingToConstruct.coins;
   stateCopy.inventory = inventoryMinusIngredients;
   stateCopy.inventory[action.name] = buildingInventory.add(1);
   stateCopy.buildings[action.name] = [...placed, newBuilding];

@@ -1,6 +1,6 @@
 import React from "react";
 
-import sflIcon from "assets/icons/token_2.png";
+import coins from "assets/icons/coins.webp";
 
 import {
   AchievementName,
@@ -108,16 +108,16 @@ export const AchievementDetails: React.FC<Props> = ({
             {!isAlreadyClaimed && (
               <div className="w-full">
                 <div className={classNames("flex flex-col items-center", {})}>
-                  {achievement.sfl?.gt(0) && (
+                  {achievement.coins > 0 && (
                     <div className={classNames("flex items-center mt-1", {})}>
                       <img
-                        src={sflIcon}
+                        src={coins}
                         style={{
                           width: `${PIXEL_SCALE * 10}px`,
                           marginRight: `${PIXEL_SCALE * 4}px`,
                         }}
                       />
-                      <span className="text-xs">{`${achievement.sfl} SFL`}</span>
+                      <span className="text-xs">{`${achievement.coins} coins`}</span>
                     </div>
                   )}
                   {getKeys(achievement.rewards || {}).map((name) => {
@@ -140,19 +140,15 @@ export const AchievementDetails: React.FC<Props> = ({
                     );
                   })}
                 </div>
-                {!readonly && (
-                  <Button
-                    className="text-xs mt-2"
-                    onClick={onClaim}
-                    disabled={!isComplete}
-                  >
-                    <span>{t("claim")}</span>
-                  </Button>
-                )}
               </div>
             )}
           </>
         </div>
+        {!readonly && (
+          <Button className="text-xs" onClick={onClaim} disabled={!isComplete}>
+            <span>{t("claim")}</span>
+          </Button>
+        )}
       </OuterPanel>
     </div>
   );

@@ -8,7 +8,7 @@ import { InventoryItemName } from "../types/game";
 /**
  * The type of the toast.
  */
-export type ToastItem = InventoryItemName | "SFL" | "XP";
+export type ToastItem = InventoryItemName | "SFL" | "XP" | "coins";
 
 /**
  * The toast props.
@@ -28,7 +28,8 @@ export interface Toast {
  * The context of the toast provider.
  * @param toastList The toasts list for the toast panel.
  * @param setInventory Sets the inventory state of the toast provider.
- * @param setBalance Sets the balance state of the toast provider.
+ * @param setSflBalance Sets the sfl balance state of the toast provider.
+ * @param setCoinBalance Sets the coin balance state of the toast provider.
  * @param setExperience Sets the experience state of the toast provider.
  */
 export const ToastContext = createContext<{
@@ -36,14 +37,17 @@ export const ToastContext = createContext<{
   setInventory: (
     inventory: Partial<Record<InventoryItemName, Decimal>>
   ) => void;
-  setBalance: (balance: Decimal) => void;
+  setSflBalance: (balance: Decimal) => void;
+  setCoinBalance: (balance: number) => void;
   setExperience: (experience: Decimal) => void;
 }>({
   toastsList: [],
   // eslint-disable-next-line no-console
   setInventory: console.log,
   // eslint-disable-next-line no-console
-  setBalance: console.log,
+  setSflBalance: console.log,
+  // eslint-disable-next-line no-console
+  setCoinBalance: console.log,
   // eslint-disable-next-line no-console
   setExperience: console.log,
 });
@@ -62,10 +66,12 @@ export const ToastProvider: FC = ({ children }) => {
 
   const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
   const newInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
-  const oldBalance = useRef<Decimal>();
-  const newBalance = useRef<Decimal>();
+  const oldSflBalance = useRef<Decimal>();
+  const newSflBalance = useRef<Decimal>();
   const oldExperience = useRef<Decimal>();
   const newExperience = useRef<Decimal>();
+  const oldCoinBalance = useRef<number>();
+  const newCoinBalance = useRef<number>();
 
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -75,9 +81,15 @@ export const ToastProvider: FC = ({ children }) => {
    * @returns The quantity difference of the item between the new and old states.
    */
   const getDifference = (item: ToastItem) => {
+    if (item === "coins") {
+      return new Decimal(
+        (newCoinBalance.current ?? 0) - (oldCoinBalance.current ?? 0)
+      );
+    }
+
     if (item === "SFL")
-      return (newBalance.current ?? new Decimal(0))?.minus(
-        oldBalance.current ?? new Decimal(0)
+      return (newSflBalance.current ?? new Decimal(0))?.minus(
+        oldSflBalance.current ?? new Decimal(0)
       );
 
     if (item === "XP")
@@ -107,13 +119,14 @@ export const ToastProvider: FC = ({ children }) => {
       const existingToast = toastList.find(
         (existingToast) => existingToast.item === toast.item
       );
-      if (!!existingToast && existingToast.difference.equals(difference))
+      if (!!existingToast && existingToast.difference.equals(difference)) {
         return toastList;
+      }
 
       // add new toast to the start of the list
       const newToast = {
         ...toast,
-        id: id,
+        id,
         difference,
         hidden: false,
       };
@@ -155,7 +168,8 @@ export const ToastProvider: FC = ({ children }) => {
    */
   const updateOldStates = () => {
     oldInventory.current = newInventory.current;
-    oldBalance.current = newBalance.current;
+    oldSflBalance.current = newSflBalance.current;
+    oldCoinBalance.current = newCoinBalance.current;
     oldExperience.current = newExperience.current;
     setToastsList([]);
   };
@@ -188,9 +202,11 @@ export const ToastProvider: FC = ({ children }) => {
 
     // get the inventory difference between the new and old states
     const difference: Partial<Record<InventoryItemName, Decimal>> = {};
+
     getKeys(inventory).forEach((item) => {
       difference[item] = inventory[item] ?? new Decimal(0);
     });
+
     getKeys(oldInventory.current ?? {}).forEach((item) => {
       const value = oldInventory.current?.[item] ?? new Decimal(0);
       difference[item] = difference[item]?.minus(value) ?? value.mul(-1);
@@ -203,7 +219,7 @@ export const ToastProvider: FC = ({ children }) => {
 
     // set toast for each item in the inventory with quantity difference
     getKeys(difference).forEach((item) => {
-      addToast({ item: item });
+      addToast({ item });
     });
 
     // clear all toasts after debounced timeout
@@ -211,23 +227,48 @@ export const ToastProvider: FC = ({ children }) => {
   };
 
   /**
-   * Sets the new balance state and add toast if there is a quantity difference.
-   * @param inventory The new balance state.
+   * Sets the new sfl balance state and add toast if there is a quantity difference.
+   * @param balance The new sfl balance state.
    */
-  const setBalance = (balance: Decimal) => {
+  const setSflBalance = (balance: Decimal) => {
     // set the new state
-    newBalance.current = balance;
+    newSflBalance.current = balance;
 
     // if old state is not set, skip the toast logic because it is the first time setting the state
-    if (!oldBalance.current) {
-      oldBalance.current = balance;
+    if (!oldSflBalance.current) {
+      oldSflBalance.current = balance;
       return;
     }
 
     // set toast if balance difference is not zero
-    const difference = balance.minus(oldBalance.current ?? new Decimal(0));
+    const difference = balance.minus(oldSflBalance.current ?? new Decimal(0));
     if (!difference.equals(0)) {
       addToast({ item: "SFL" });
+    }
+
+    // clear all toasts after timeout
+    debouncedSetOldStates();
+  };
+
+  /**
+   * Sets the new coin balance state and add toast if there is a quantity difference.
+   * @param balance The new coin balance state.
+   */
+  const setCoinBalance = (balance: number) => {
+    // set the new state
+    newCoinBalance.current = balance;
+
+    // if old state is not set, skip the toast logic because it is the first time setting the state
+    if (!oldCoinBalance.current) {
+      oldCoinBalance.current = balance;
+      return;
+    }
+
+    // set toast if balance difference is not zero
+    const difference = balance - (oldCoinBalance.current ?? 0);
+
+    if (difference !== 0) {
+      addToast({ item: "coins" });
     }
 
     // clear all toasts after timeout
@@ -262,7 +303,13 @@ export const ToastProvider: FC = ({ children }) => {
 
   return (
     <ToastContext.Provider
-      value={{ toastsList, setInventory, setBalance, setExperience }}
+      value={{
+        toastsList,
+        setInventory,
+        setSflBalance,
+        setExperience,
+        setCoinBalance,
+      }}
     >
       {children}
     </ToastContext.Provider>

@@ -1,18 +1,13 @@
 import React, { useContext, useState } from "react";
-import { Balance } from "components/Balance";
-import { useActor } from "@xstate/react";
+import { Balances } from "components/Balances";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
-import { BlockBucks } from "./components/BlockBucks";
-import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Deposit } from "features/goblins/bank/components/Deposit";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { DepositModal } from "features/goblins/bank/components/Deposit";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import classNames from "classnames";
@@ -23,6 +18,15 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { HalveningCountdown } from "./HalveningCountdown";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import Decimal from "decimal.js-light";
+import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _farmAddress = (state: MachineState) => state.context.farmAddress;
+const _xp = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
+
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -35,14 +39,13 @@ const HudComponent: React.FC<{
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const farmAddress = useSelector(gameService, _farmAddress);
+  const xp = useSelector(gameService, _xp);
+
   const [showDepositModal, setShowDepositModal] = useState(false);
-  const [depositDataLoaded, setDepositDataLoaded] = useState(false);
+  const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
   const autosaving = gameState.matches("autosaving");
-
-  const handleClose = () => {
-    setShowDepositModal(false);
-  };
 
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
@@ -50,7 +53,10 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const farmAddress = gameService.state?.context?.farmAddress;
+  const handleBuyCurrenciesModal = () => {
+    setShowBuyCurrencies(!showBuyCurrencies);
+  };
+
   const isFullUser = farmAddress !== undefined;
 
   return (
@@ -121,14 +127,13 @@ const HudComponent: React.FC<{
           />
         </div>
 
-        <Balance
-          onBalanceClick={() => setShowDepositModal(true)}
-          balance={gameState.context.state.balance}
-        />
-        <BlockBucks
+        <Balances
+          sfl={gameState.context.state.balance}
+          coins={gameState.context.state.coins}
           blockBucks={
             gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
           }
+          onClick={handleBuyCurrenciesModal}
         />
 
         <div
@@ -169,23 +174,17 @@ const HudComponent: React.FC<{
         </div>
         <BumpkinProfile isFullUser={isFullUser} />
 
-        <Modal show={showDepositModal} onHide={handleClose}>
-          <CloseButtonPanel
-            onClose={depositDataLoaded ? handleClose : undefined}
-          >
-            <Deposit
-              farmAddress={gameState.context.farmAddress ?? ""}
-              onDeposit={handleDeposit}
-              onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleClose}
-              canDeposit={
-                getBumpkinLevel(
-                  gameState.context.state.bumpkin?.experience ?? 0
-                ) >= 3
-              }
-            />
-          </CloseButtonPanel>
-        </Modal>
+        <DepositModal
+          farmAddress={farmAddress ?? ""}
+          canDeposit={getBumpkinLevel(xp) >= 3}
+          handleClose={() => setShowDepositModal(false)}
+          handleDeposit={handleDeposit}
+          showDepositModal={showDepositModal}
+        />
+        <BuyCurrenciesModal
+          show={showBuyCurrencies}
+          onClose={handleBuyCurrenciesModal}
+        />
       </HudContainer>
     </>
   );

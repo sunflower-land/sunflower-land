@@ -2,12 +2,12 @@ import React, { FC, useState } from "react";
 
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
-import { BlockBucksModal } from "./components/BlockBucksModal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
+import { BuyCurrenciesModal } from "features/island/hud/components/BuyCurrenciesModal";
 
 type GlobalModal =
   | "BUY_BLOCK_BUCKS"
@@ -42,11 +42,9 @@ export const ModalProvider: FC = ({ children }) => {
     <ModalContext.Provider value={{ openModal }}>
       {children}
 
-      <BlockBucksModal
+      <BuyCurrenciesModal
         show={opened === "BUY_BLOCK_BUCKS"}
         onClose={handleClose}
-        closeable={closeable}
-        setCloseable={setCloseable}
       />
 
       <Modal show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>

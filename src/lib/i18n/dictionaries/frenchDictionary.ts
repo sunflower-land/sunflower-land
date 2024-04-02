@@ -33,7 +33,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
-  Deliveryitem,
+  DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -272,6 +272,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "enjoying.event": "Appréciez-vous cet événement?",
   equip: "Équiper",
   error: "Erreur",
+  exchange: "Échange",
   exit: "Quitter",
   exotics: "Exotiques",
   "expand.land": "Étendre votre île",
@@ -1060,7 +1061,7 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   "description.lumberjack": "Les arbres rapportent 10 % de plus",
   "description.tree.hugger": "Les arbres repoussent 20 % plus vite",
   "description.tough.tree": "Chance d'obtenir des arbres triplés",
-  "description.money.tree": "Chance d'obtenir des pièces SFL",
+  "description.money.tree": "Chance d'obtenir des pièces coins",
   // Roches
   "description.digger": "Les pierres rapportent 10 % de plus",
   "description.coal.face": "Les pierres se régénèrent 20 % plus vite",
@@ -1796,7 +1797,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
     "Établissez des relations avec les Bumpkins en effectuant plusieurs commandes pour débloquer des récompenses bonus. (Bientôt disponible)",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Record<DeliveryItem, string> = {
   "deliveryitem.inventory": "Inventaire :",
   "deliveryitem.itemsToDeliver": "Articles à livrer :",
   "deliveryitem.deliverToWallet": "Livrer à votre portefeuille",
@@ -1909,6 +1910,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.composterAlreadyBoosted": "Déjà boosté",
   "error.missingEggs": "Œufs manquants",
   "error.insufficientSFL": "SFL insuffisant",
+  "error.insufficientCoins": "Insufficient Coins",
   "error.insufficientSpaceForChickens":
     "Espace insuffisant pour plus de poulets",
   "error.dailyAttemptsExhausted": "Tentatives quotidiennes épuisées",

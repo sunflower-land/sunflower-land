@@ -28,7 +28,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
-  const wearable = STYLIST_WEARABLES(state)[name] as StylistWearable;
+  const wearable = STYLIST_WEARABLES[name] as StylistWearable;
 
   if (wearable.hoursPlayed) {
     const hoursPlayed = (Date.now() - state.createdAt) / 1000 / 60 / 60;
@@ -57,14 +57,14 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const wearable = STYLIST_WEARABLES(state)[selected] as StylistWearable;
+  const wearable = STYLIST_WEARABLES[selected] as StylistWearable; // Add type assertion to StylistWearable
 
-  const price = wearable.sfl;
+  const price = wearable.coins;
 
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.balance.lessThan(price.toString());
+    return state.coins < price;
   };
 
   const lessIngredients = () =>
@@ -90,15 +90,6 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
       gameAnalytics.trackSink({
         currency: "Seasonal Ticket",
         amount: wearable.ingredients[getSeasonalTicket()]?.toNumber() ?? 1,
-        item: selected,
-        type: "Wearable",
-      });
-    }
-
-    if (wearable.sfl) {
-      gameAnalytics.trackSink({
-        currency: "SFL",
-        amount: wearable.sfl.toNumber(),
         item: selected,
         type: "Wearable",
       });
@@ -183,7 +174,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           // boost={selectedItem.boost}
           requirements={{
             resources: wearable.ingredients,
-            sfl: wearable.sfl,
+            coins: price,
           }}
           actionView={Action()}
         />

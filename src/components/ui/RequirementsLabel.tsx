@@ -6,6 +6,7 @@ import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
 import token from "assets/icons/token_2.png";
+import coins from "assets/icons/coins.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -32,6 +33,29 @@ interface SFLProps {
 interface SellSFLProps {
   type: "sellForSfl";
   requirement: Decimal;
+}
+
+/**
+ * The props for Coins requirement label. Use this when the item costs Coins.
+ * @param type The type is Coins.
+ * @param balance The Coins balance of the player.
+ * @param requirement The Coins requirement.
+ */
+interface CoinsProps {
+  type: "coins";
+  balance: number;
+  requirement: number;
+  showLabel?: boolean;
+}
+
+/**
+ * The props for sell for Coins requirement label. Use this when selling the item gives players Coins.
+ * @param type The type is sell for Coins.
+ * @param requirement The Coins requirement.
+ */
+interface SellCoinsProps {
+  type: "sellForCoins";
+  requirement: number;
 }
 
 /**
@@ -102,6 +126,8 @@ interface defaultProps {
 }
 
 type Props = (
+  | CoinsProps
+  | SellCoinsProps
   | SFLProps
   | SellSFLProps
   | ItemProps
@@ -120,6 +146,9 @@ type Props = (
 export const RequirementLabel: React.FC<Props> = (props) => {
   const getIcon = () => {
     switch (props.type) {
+      case "coins":
+      case "sellForCoins":
+        return coins;
       case "sfl":
       case "sellForSfl":
         return token;
@@ -137,6 +166,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
 
   const getText = () => {
     switch (props.type) {
+      case "coins":
+      case "sellForCoins":
+        return `${props.requirement}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
       case "sellForSfl": {
@@ -165,8 +197,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       }
     }
   };
+
   const isRequirementMet = () => {
     switch (props.type) {
+      case "coins":
+        return props.balance >= props.requirement;
       case "sfl":
         return props.balance.greaterThanOrEqualTo(props.requirement);
       case "item":
@@ -174,6 +209,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "level":
         return props.currentLevel >= props.requirement;
       case "sellForSfl":
+      case "sellForCoins":
       case "time":
       case "xp":
       case "harvests":

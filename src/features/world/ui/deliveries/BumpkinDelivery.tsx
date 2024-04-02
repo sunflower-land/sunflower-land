@@ -9,6 +9,7 @@ import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
 import sfl from "assets/icons/token_2.png";
+import coinsImg from "assets/icons/coins.webp";
 import chest from "assets/icons/chest.png";
 import lockIcon from "assets/skills/lock.png";
 
@@ -39,8 +40,8 @@ export const OrderCard: React.FC<{
   game: GameState;
   onDeliver: () => void;
   hasRequirementsCheck: (order: Order) => boolean;
-}> = ({ order, game, onDeliver, hasRequirementsCheck }) => {
-  const { balance, inventory } = game;
+}> = ({ order, game, hasRequirementsCheck }) => {
+  const { balance, inventory, coins } = game;
 
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
@@ -55,6 +56,18 @@ export const OrderCard: React.FC<{
         >
           <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
             {getKeys(order.items).map((itemName) => {
+              if (itemName === "coins") {
+                return (
+                  <RequirementLabel
+                    key={itemName}
+                    type="coins"
+                    balance={coins}
+                    requirement={order?.items[itemName] ?? 0}
+                    showLabel
+                  />
+                );
+              }
+
               if (itemName === "sfl") {
                 return (
                   <RequirementLabel
@@ -92,7 +105,21 @@ export const OrderCard: React.FC<{
                       fontSize: "13px",
                     }}
                   >
-                    {getOrderSellPrice(game, order).toFixed(2)}
+                    {getOrderSellPrice<Decimal>(game, order).toFixed(2)}
+                  </span>
+                </div>
+              )}
+              {order.reward.coins && (
+                <div className="flex items-center mr-1">
+                  <img src={coinsImg} className="w-4 h-auto mr-1" />
+                  <span
+                    style={{
+                      // Match labels
+                      lineHeight: "15px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    {getOrderSellPrice<number>(game, order).toFixed(2)}
                   </span>
                 </div>
               )}
@@ -495,9 +522,14 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
   const hasDelivery = getKeys(delivery?.items ?? {}).every((name) => {
-    if (name === "sfl") {
-      return game.balance.gte(delivery?.items.sfl ?? 0);
+    if (name === "coins") {
+      return game.coins > (delivery?.items.coins ?? 0);
     }
+
+    if (name === "sfl") {
+      return game.balance?.gte(delivery?.items.sfl ?? 0);
+    }
+
     return game.inventory[name]?.gte(delivery?.items[name] ?? 0);
   });
 
@@ -508,7 +540,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       id: "delivery-gift",
       createdAt: Date.now(),
       items: nextGift?.items ?? {},
-      sfl: nextGift?.sfl ?? 0,
+      sfl: 0,
+      coins: nextGift?.coins ?? 0,
       wearables: nextGift?.wearables ?? {},
       message: t(GIFT_RESPONSES[npc]?.reward ?? DEFAULT_DIALOGUE.reward),
     });

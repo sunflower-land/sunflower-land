@@ -4,7 +4,10 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { buyWearable } from "./buyWearable";
-import { STYLIST_WEARABLES } from "features/game/types/stylist";
+import {
+  STYLIST_WEARABLES,
+  StylistWearable,
+} from "features/game/types/stylist";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -33,7 +36,7 @@ describe("buyWearable", () => {
           name: "Red Farmer Shirt",
         },
       })
-    ).toThrow("Insufficient tokens");
+    ).toThrow("Insufficient coins");
   });
 
   it("does not craft wearable too early", () => {
@@ -89,7 +92,7 @@ describe("buyWearable", () => {
     const state = buyWearable({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(400),
+        coins: 10000,
         createdAt: new Date().getTime() - 366 * 24 * 60 * 60 * 1000,
       },
       action: {
@@ -118,12 +121,12 @@ describe("buyWearable", () => {
   //   ).toThrow("Insufficient ingredient: Sunflower");
   // });
 
-  it("burns the SFL on purchase", () => {
-    const balance = new Decimal(140);
+  it("burns the coins on purchase", () => {
+    const coins = 10000;
     const state = buyWearable({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -134,18 +137,18 @@ describe("buyWearable", () => {
       },
     });
 
-    expect(state.balance).toEqual(
-      balance.minus(STYLIST_WEARABLES(state)["Red Farmer Shirt"]?.sfl ?? 0)
-    );
+    const shirt = STYLIST_WEARABLES["Red Farmer Shirt"] as StylistWearable;
+
+    expect(state.coins).toEqual(coins - shirt.coins ?? 0);
   });
 
   it("mints the newly bought decoration", () => {
-    const balance = new Decimal(150);
+    const coins = 10000;
     const item = "Red Farmer Shirt";
     const state = buyWearable({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -176,11 +179,11 @@ describe("buyWearable", () => {
     ).toThrow("Bumpkin not found");
   });
 
-  it("increments the sfl spent activity", () => {
+  it("increments the coins spent activity", () => {
     const state = buyWearable({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(150),
+        coins: 10000,
         inventory: {
           Sunflower: new Decimal(150),
         },
@@ -190,8 +193,9 @@ describe("buyWearable", () => {
         name: "Red Farmer Shirt",
       },
     });
-    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      STYLIST_WEARABLES(state)["Red Farmer Shirt"]?.sfl.toNumber() ?? 0
-    );
+
+    const shirt = STYLIST_WEARABLES["Red Farmer Shirt"] as StylistWearable;
+
+    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(shirt.coins ?? 0);
   });
 });

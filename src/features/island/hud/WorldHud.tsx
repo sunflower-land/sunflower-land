@@ -1,10 +1,9 @@
 import React, { useContext, useState } from "react";
-import { Balance } from "components/Balance";
+import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
-import { BlockBucks } from "./components/BlockBucks";
 import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
@@ -19,6 +18,7 @@ import { TravelButton } from "./components/deliveries/TravelButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { CodexButton } from "./components/codex/CodexButton";
 import { HudContainer } from "components/ui/HudContainer";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -27,6 +27,7 @@ import { HudContainer } from "components/ui/HudContainer";
 const HudComponent: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { openModal } = useContext(ModalContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
@@ -35,8 +36,12 @@ const HudComponent: React.FC = () => {
 
   const autosaving = gameState.matches("autosaving");
 
-  const handleClose = () => {
-    setShowDepositModal(false);
+  const handleBuyCurrenciesModal = () => {
+    openModal("BUY_BLOCK_BUCKS");
+  };
+
+  const handleDepositModal = () => {
+    setShowDepositModal(!showDepositModal);
   };
 
   const handleDeposit = (
@@ -67,13 +72,10 @@ const HudComponent: React.FC = () => {
         isFarming={false}
       />
 
-      <Balance
-        onBalanceClick={
-          farmAddress ? () => setShowDepositModal(true) : undefined
-        }
-        balance={gameState.context.state.balance}
-      />
-      <BlockBucks
+      <Balances
+        onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
+        sfl={gameState.context.state.balance}
+        coins={gameState.context.state.coins}
         blockBucks={
           gameState.context.state.inventory["Block Buck"] ?? new Decimal(0)
         }
@@ -117,16 +119,19 @@ const HudComponent: React.FC = () => {
       </div>
 
       {farmAddress && (
-        <Modal show={showDepositModal} onHide={handleClose}>
+        <Modal
+          show={showDepositModal}
+          onHide={() => setShowDepositModal(false)}
+        >
           <CloseButtonPanel
             title={depositDataLoaded ? "Deposit" : undefined}
-            onClose={depositDataLoaded ? handleClose : undefined}
+            onClose={depositDataLoaded ? handleDepositModal : undefined}
           >
             <Deposit
               farmAddress={farmAddress}
               onDeposit={handleDeposit}
               onLoaded={(loaded) => setDepositDataLoaded(loaded)}
-              onClose={handleClose}
+              onClose={handleDepositModal}
             />
           </CloseButtonPanel>
         </Modal>

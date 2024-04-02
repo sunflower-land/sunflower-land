@@ -33,7 +33,7 @@ import {
   Conversations,
   CropBoomMessages,
   CropFruitDescriptions,
-  Deliveryitem,
+  DeliveryItem,
   DefaultDialogue,
   DecorationDescriptions,
   Delivery,
@@ -250,6 +250,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   empty: "Vazio",
   equip: "Equipar",
   error: "Erro",
+  exchange: "Trocar",
   exotics: "Exóticos",
   "expand.land": "Expandir sua Terra",
   expand: "Expandir",
@@ -1056,7 +1057,7 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   "description.lumberjack": "Árvores rendem 10% a mais",
   "description.tree.hugger": "Árvores regeneram 20% mais rápido",
   "description.tough.tree": "Chance de obter 3x de madeira",
-  "description.money.tree": "Chance para SFL",
+  "description.money.tree": "Chance para coins",
   // Rocks
   "description.digger": "Pedras rendem 10% a mais",
   "description.coal.face": "Pedras recuperam 20% mais rápido",
@@ -1392,7 +1393,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "Uma semente de Lírio",
 };
 
-const deliveryitem: Record<Deliveryitem, string> = {
+const deliveryitem: Record<DeliveryItem, string> = {
   "deliveryitem.inventory": "Inventário",
   "deliveryitem.itemsToDeliver": "Itens para entregar",
   "deliveryitem.deliverToWallet": "Entregar para sua carteira",
@@ -1869,6 +1870,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.composterAlreadyBoosted": "Já impulsionado",
   "error.missingEggs": "Ovos em falta",
   "error.insufficientSFL": "SFL insuficiente",
+  "error.insufficientCoins": "Insufficient Coins",
   "error.insufficientSpaceForChickens":
     "Espaço insuficiente para mais galinhas",
   "error.dailyAttemptsExhausted": "Tentativas diárias esgotadas",

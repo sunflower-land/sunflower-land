@@ -95,7 +95,7 @@ export const DEFAULT_FLOWER_POINTS: Record<FlowerName, number> = {
 export type BumpkinGift = {
   friendshipPoints: number;
   items: Partial<Record<InventoryItemName, number>>;
-  sfl: number;
+  coins: number;
   wearables: Wardrobe;
 };
 
@@ -110,7 +110,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 5,
         items: { "Block Buck": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
@@ -118,26 +118,26 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: {
           "Treasure Key": 1,
         },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 50,
         items: {},
         wearables: { "Pumpkin Hat": 1 },
-        sfl: 0,
+        coins: 0,
       },
       {
         friendshipPoints: 100,
         items: {},
-        sfl: 2,
+        coins: 640,
         wearables: {},
       },
     ],
     repeats: {
       friendshipPoints: 100,
       items: { "Treasure Key": 1 },
-      sfl: 2,
+      coins: 640,
       wearables: {},
     },
   },
@@ -146,32 +146,32 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 10,
         items: { "Treasure Key": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 20,
         items: {},
-        sfl: 3,
+        coins: 960,
         wearables: {},
       },
       {
         friendshipPoints: 40,
         items: { "Block Buck": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 110,
         items: { "Radish Cake": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
     ],
     repeats: {
       friendshipPoints: 100,
       items: { "Treasure Key": 1 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -180,32 +180,32 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 50,
         items: { "Treasure Key": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 110,
         items: { "Block Buck": 2 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 200,
         items: {},
-        sfl: 5,
+        coins: 1600,
         wearables: {},
       },
       {
         friendshipPoints: 320,
         items: { Pickaxe: 10 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
     ],
     repeats: {
       friendshipPoints: 150,
       items: { "Treasure Key": 1 },
-      sfl: 3,
+      coins: 960,
       wearables: {},
     },
   },
@@ -214,7 +214,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 60,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: {
           "Tattered Jacket": 1,
         },
@@ -222,19 +222,19 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 100,
         items: { "Block Buck": 2 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 210,
         items: { "Pirate Cake": 3 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 330,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: {
           "Greyed Glory": 1,
         },
@@ -243,7 +243,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     repeats: {
       friendshipPoints: 150,
       items: { "Rare Key": 1 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -252,26 +252,26 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 25,
         items: { "Fishing Lure": 3 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 95,
         items: {},
-        sfl: 10,
+        coins: 3200,
         wearables: {},
       },
       {
         friendshipPoints: 150,
         items: { Tuna: 5 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
     ],
     repeats: {
       friendshipPoints: 100,
       items: { "Fishing Lure": 5 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -280,31 +280,31 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 50,
         items: { "Time Warp Totem": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 140,
         items: {},
-        sfl: 8,
+        coins: 2560,
         wearables: {},
       },
       {
         friendshipPoints: 220,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: { "Victorian Hat": 1 },
       },
       {
         friendshipPoints: 330,
         items: { "Eggplant Seed": 50 },
-        sfl: 5,
+        coins: 1600,
         wearables: {},
       },
       {
         friendshipPoints: 700,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: {
           "Bat Wings": 1,
         },
@@ -313,7 +313,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     repeats: {
       friendshipPoints: 160,
       items: { "Rare Key": 1 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -322,13 +322,13 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 30,
         items: { "Time Warp Totem": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 90,
         items: {},
-        sfl: 3,
+        coins: 960,
         wearables: {
           "Fruit Picker Shirt": 1,
         },
@@ -336,13 +336,13 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 260,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: { "Fruit Picker Apron": 1 },
       },
       {
         friendshipPoints: 500,
         items: {},
-        sfl: 20,
+        coins: 6400,
         wearables: { "Fruit Bowl": 1 },
       },
     ],
@@ -354,7 +354,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         "Banana Plant": 5,
         "Orange Seed": 5,
       },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -363,20 +363,20 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 40,
         items: { Rod: 10 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 150,
         items: {},
-        sfl: 3,
+        coins: 960,
         wearables: {},
       },
     ],
     repeats: {
       friendshipPoints: 130,
       items: { "Rare Key": 1 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -385,26 +385,26 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 45,
         items: {},
-        sfl: 3,
+        coins: 960,
         wearables: {},
       },
       {
         friendshipPoints: 150,
         items: { "Block Buck": 2 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 320,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: { "Pink Ponytail": 1 },
       },
     ],
     repeats: {
       friendshipPoints: 200,
       items: {},
-      sfl: 10,
+      coins: 3200,
       wearables: {},
     },
   },
@@ -413,32 +413,32 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 65,
         items: { "Rare Key": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 175,
         items: { "Block Buck": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 340,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: { "Wise Robes": 1 },
       },
       {
         friendshipPoints: 600,
         items: {},
-        sfl: 0,
+        coins: 0,
         wearables: { "Wise Beard": 1 },
       },
     ],
     repeats: {
       friendshipPoints: 200,
       items: { "Luxury Key": 1 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },
@@ -448,26 +448,26 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       {
         friendshipPoints: 35,
         items: { "Rare Key": 1 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
       {
         friendshipPoints: 175,
         items: {},
-        sfl: 10,
+        coins: 3200,
         wearables: {},
       },
       {
         friendshipPoints: 330,
         items: { "Pirate Cake": 5 },
-        sfl: 0,
+        coins: 0,
         wearables: {},
       },
     ],
     repeats: {
       friendshipPoints: 160,
       items: { "Luxury Key": 1 },
-      sfl: 0,
+      coins: 0,
       wearables: {},
     },
   },

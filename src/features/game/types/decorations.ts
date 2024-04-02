@@ -1,5 +1,4 @@
 import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { Dimensions } from "./buildings";
 import { Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
@@ -492,11 +491,7 @@ export type Decoration = {
   name: DecorationName;
   ingredients: Inventory;
   description: string;
-  // If no SFL it is not available for purchase
-  sfl?: Decimal;
-  limit?: number;
-  from?: Date;
-  to?: Date;
+  coins?: number;
 };
 
 export const BASIC_DECORATIONS: () => Record<
@@ -505,14 +500,14 @@ export const BASIC_DECORATIONS: () => Record<
 > = () => ({
   "White Tulips": {
     name: "White Tulips",
-    sfl: new Decimal(0.25),
+    coins: 80,
     ingredients: {},
     description: translate("description.white.tulips"),
   },
   "Potted Sunflower": {
     name: "Potted Sunflower",
     description: translate("description.potted.sunflower"),
-    sfl: new Decimal(0.25),
+    coins: 80,
     ingredients: {
       Sunflower: new Decimal(100),
     },
@@ -520,7 +515,7 @@ export const BASIC_DECORATIONS: () => Record<
   "Potted Potato": {
     name: "Potted Potato",
     description: translate("description.potted.potato"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {
       Potato: new Decimal(200),
     },
@@ -528,7 +523,7 @@ export const BASIC_DECORATIONS: () => Record<
   "Potted Pumpkin": {
     name: "Potted Pumpkin",
     description: translate("description.potted.pumpkin"),
-    sfl: new Decimal(2.5),
+    coins: 800,
     ingredients: {
       Pumpkin: new Decimal(200),
     },
@@ -536,20 +531,20 @@ export const BASIC_DECORATIONS: () => Record<
   Cactus: {
     name: "Cactus",
     description: translate("description.cactus"),
-    sfl: new Decimal(0.25),
+    coins: 80,
     ingredients: {},
   },
   "Basic Bear": {
     name: "Basic Bear",
     description: translate("description.basic.bear"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {},
   },
 
   "Bonnie's Tombstone": {
     name: "Bonnie's Tombstone",
     description: translate("description.bonnies.tombstone"),
-    sfl: marketRate(0),
+    coins: 0,
     ingredients: {
       Stone: new Decimal(10),
     },
@@ -558,7 +553,7 @@ export const BASIC_DECORATIONS: () => Record<
   "Grubnash's Tombstone": {
     name: "Grubnash's Tombstone",
     description: translate("description.grubnashs.tombstone"),
-    sfl: marketRate(0),
+    coins: 0,
     ingredients: {
       Stone: new Decimal(20),
       Iron: new Decimal(10),
@@ -567,7 +562,7 @@ export const BASIC_DECORATIONS: () => Record<
   "Town Sign": {
     name: "Town Sign",
     description: translate("description.town.sign"),
-    sfl: marketRate(0),
+    coins: 0,
     ingredients: {},
     limit: 1,
   },
@@ -580,13 +575,13 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Dirt Path": {
     name: "Dirt Path",
     description: translate("description.dirt.path"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {},
   },
   Bush: {
     name: "Bush",
     description: translate("description.bush"),
-    sfl: new Decimal(1.25),
+    coins: 400,
     ingredients: {
       Wood: new Decimal(5),
     },
@@ -594,7 +589,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   Fence: {
     name: "Fence",
     description: translate("description.fence"),
-    sfl: new Decimal(0.125),
+    coins: 40,
     ingredients: {
       Wood: new Decimal(5),
     },
@@ -602,7 +597,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Stone Fence": {
     name: "Stone Fence",
     description: translate("description.stone.fence"),
-    sfl: new Decimal(0.25),
+    sfl: 80,
     ingredients: {
       Stone: new Decimal(5),
     },
@@ -610,7 +605,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Pine Tree": {
     name: "Pine Tree",
     description: translate("description.pine.tree"),
-    sfl: new Decimal(1.25),
+    coins: 200,
     ingredients: {
       Wood: new Decimal(7),
     },
@@ -618,7 +613,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   Shrub: {
     name: "Shrub",
     description: translate("description.shrub"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {
       Wood: new Decimal(3),
     },
@@ -626,7 +621,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Field Maple": {
     name: "Field Maple",
     description: translate("description.field.maple"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {
       Wood: new Decimal(20),
     },
@@ -634,7 +629,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Red Maple": {
     name: "Red Maple",
     description: translate("description.red.maple"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {
       Wood: new Decimal(3),
       "Block Buck": new Decimal(1),
@@ -643,7 +638,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Golden Maple": {
     name: "Golden Maple",
     description: translate("description.golden.maple"),
-    sfl: new Decimal(0.625),
+    coins: 200,
     ingredients: {
       Wood: new Decimal(3),
       "Block Buck": new Decimal(1),
@@ -652,7 +647,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Crimson Cap": {
     name: "Crimson Cap",
     description: translate("description.crimson.cap"),
-    sfl: new Decimal(50),
+    coins: 16000,
     ingredients: {
       "Wild Mushroom": new Decimal(20),
     },
@@ -660,7 +655,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Toadstool Seat": {
     name: "Toadstool Seat",
     description: translate("description.toadstool.seat"),
-    sfl: new Decimal(0),
+    coins: 0,
     ingredients: {
       "Wild Mushroom": new Decimal(5),
     },
@@ -668,7 +663,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Chestnut Fungi Stool": {
     name: "Chestnut Fungi Stool",
     description: translate("description.chestnut.fungi.stool"),
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {
       "Toadstool Seat": new Decimal(1),
       Wood: new Decimal(10),
@@ -677,7 +672,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Mahogany Cap": {
     name: "Mahogany Cap",
     description: translate("description.mahogany.cap"),
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {
       "Crimson Cap": new Decimal(1),
       Wood: new Decimal(100),
@@ -692,7 +687,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
   "Magic Bean": {
     name: "Magic Bean",
     description: translate("description.magic.bean"),
-    sfl: new Decimal(0),
+    coins: 0,
     ingredients: {
       "Potion Ticket": new Decimal(2000),
     },
@@ -700,7 +695,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
   "Giant Potato": {
     name: "Giant Potato",
     description: translate("description.giant.potato"),
-    sfl: new Decimal(0),
+    coins: 0,
     ingredients: {
       "Potion Ticket": new Decimal(500),
     },
@@ -708,7 +703,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
   "Giant Pumpkin": {
     name: "Giant Pumpkin",
     description: translate("description.giant.pumpkin"),
-    sfl: new Decimal(0),
+    coins: 0,
     ingredients: {
       "Potion Ticket": new Decimal(750),
     },
@@ -716,9 +711,18 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
   "Giant Cabbage": {
     name: "Giant Cabbage",
     description: translate("description.giant.cabbage"),
-    sfl: new Decimal(0),
+    coins: 0,
     ingredients: {
       "Potion Ticket": new Decimal(1000),
     },
   },
 });
+
+export const DECORATIONS: Record<
+  ShopDecorationName | PotionHouseDecorationName,
+  Decoration
+> = {
+  ...BASIC_DECORATIONS(),
+  ...LANDSCAPING_DECORATIONS(),
+  ...POTION_HOUSE_DECORATIONS(),
+};

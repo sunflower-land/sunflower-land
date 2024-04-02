@@ -1,9 +1,9 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
-import { getCurrentSeason } from "./seasons";
+import { translate } from "lib/i18n/translate";
 import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
-import { translate } from "lib/i18n/translate";
+import { getCurrentSeason } from "./seasons";
 
 export type CollectibleLocation = "farm" | "home";
 
@@ -107,7 +107,7 @@ export type CraftableCollectible = {
   ingredients: Inventory;
   description: string;
   boost?: string;
-  sfl?: Decimal;
+  coins?: number;
   from?: Date;
   to?: Date;
 };
@@ -122,7 +122,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
     boost: translate("description.basic.scarecrow.boost"),
-    sfl: new Decimal(0),
+    coins: 0,
     ingredients: {
       Wood: new Decimal(2),
     },
@@ -130,7 +130,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   "Scary Mike": {
     description: translate("description.scary.mike"),
     boost: translate("description.scary.mike.boost"),
-    sfl: new Decimal(15),
+    coins: 4800,
     ingredients: {
       Wood: new Decimal(30),
       Carrot: new Decimal(50),
@@ -141,7 +141,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   "Laurie the Chuckle Crow": {
     description: translate("description.laurie.chuckle.crow"),
     boost: translate("description.laurie.chuckle.crow.boost"),
-    sfl: new Decimal(45),
+    coins: 14400,
     ingredients: {
       Wood: new Decimal(100),
       Radish: new Decimal(60),
@@ -152,7 +152,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   Bale: {
     description: translate("description.bale"),
     boost: translate("description.bale.boost"),
-    sfl: new Decimal(5),
+    coins: 1600,
     ingredients: {
       Egg: new Decimal(200),
       Wheat: new Decimal(200),
@@ -208,7 +208,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   "Emerald Turtle": {
     description: translate("description.emerald.turtle"),
     boost: translate("description.emerald.turtle.boost"),
-    sfl: new Decimal(100),
+    coins: 3200,
     supply: 100,
     ingredients: {
       "Iron Compass": new Decimal(30),
@@ -220,7 +220,7 @@ export const GOBLIN_PIRATE_ITEMS: Record<
   "Tin Turtle": {
     description: translate("description.tin.turtle"),
     boost: translate("description.tin.turtle.boost"),
-    sfl: new Decimal(40),
+    coins: 12800,
     supply: 3000,
     ingredients: {
       "Iron Compass": new Decimal(15),
@@ -289,7 +289,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       description: translate("description.maximus"),
       // 50 Team Supply + giveaways
       supply: 350 + 50,
-      sfl: SFLDiscount(state, marketRate(20000)),
+      coins: 20000,
       boost: translate("description.maximus.boost"),
       ingredients: {
         Eggplant: new Decimal(100),
@@ -333,7 +333,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
     "Lab Grown Carrot": {
       name: "Lab Grown Carrot",
       description: translate("description.lab.grown.carrot"),
-      sfl: new Decimal(0),
+      coins: 0,
       ingredients: {
         "Potion Ticket": new Decimal(6000),
       },
@@ -341,7 +341,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
     "Lab Grown Radish": {
       name: "Lab Grown Radish",
       description: translate("description.lab.grown.radish"),
-      sfl: new Decimal(0),
+      coins: 0,
       ingredients: {
         "Potion Ticket": new Decimal(8000),
       },
@@ -349,7 +349,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
     "Lab Grown Pumpkin": {
       name: "Lab Grown Pumpkin",
       description: translate("description.lab.grow.pumpkin"),
-      sfl: new Decimal(0),
+      coins: 0,
       ingredients: {
         "Potion Ticket": new Decimal(7000),
       },

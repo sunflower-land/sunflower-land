@@ -28,6 +28,7 @@ import { PlazaSettings } from "./PlazaSettingsModal";
 import { DEV_HoardingCheck } from "components/dev/DEV_HoardingCheck";
 import { Label } from "components/ui/Label";
 import { shortAddress } from "lib/utils/shortAddress";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
@@ -46,6 +47,10 @@ import {
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { InstallAppModal } from "./InstallAppModal";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { DepositModal } from "features/goblins/bank/components/Deposit";
+import { DepositArgs } from "lib/blockchain/Deposit";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -59,6 +64,10 @@ interface Props {
   onClose: () => void;
   isFarming: boolean;
 }
+
+const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
+const _xp = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
 
 export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const { t } = useAppTranslation();
@@ -78,6 +87,8 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showTimeMachine, setShowTimeMachine] = useState(false);
   const [showInstallAppModal, setShowInstallAppModal] = useState(false);
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const [showDepositModal, setShowDepositModal] = useState(false);
+  const [depositDataLoaded, setDepositDataLoaded] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const { openModal } = useContext(ModalContext);
   const isPWA = useIsPWA();
@@ -85,6 +96,9 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
 
   const pwaInstall = usePWAInstall();
+
+  const farmAddress = useSelector(gameService, _farmAddress);
+  const xp = useSelector(gameService, _xp);
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -107,6 +121,17 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
 
   const handleSwapSFL = () => {
     setShowAddSFLModal(true);
+    onClose();
+  };
+
+  const handleDeposit = (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => {
+    gameService.send("DEPOSIT", args);
+  };
+
+  const handleDepositModal = () => {
+    setShowDepositModal(true);
     onClose();
   };
 
@@ -244,6 +269,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </Button>
                 </li>
                 <li className="p-1">
+                  <Button onClick={handleDepositModal}>
+                    <span>{t("deposit")}</span>
+                  </Button>
+                </li>
+                <li className="p-1">
                   <Button onClick={storeOnChain}>
                     <span>{t("settingsMenu.storeOnChain")}</span>
                   </Button>
@@ -366,6 +396,14 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
       <InstallAppModal
         isOpen={showInstallAppModal}
         onClose={() => setShowInstallAppModal(false)}
+      />
+
+      <DepositModal
+        farmAddress={farmAddress}
+        canDeposit={getBumpkinLevel(xp) >= 3}
+        handleClose={() => setShowDepositModal(false)}
+        handleDeposit={handleDeposit}
+        showDepositModal={showDepositModal}
       />
 
       {showCaptcha && (

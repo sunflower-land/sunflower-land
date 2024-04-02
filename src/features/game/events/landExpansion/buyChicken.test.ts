@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { marketRate } from "features/game/lib/halvening";
 import { buyChicken } from "./buyChicken";
+import { ANIMALS } from "features/game/types/craftables";
 
 describe("buyChicken", () => {
   it("throws an error if no bumpkin exists", () => {
@@ -23,12 +23,12 @@ describe("buyChicken", () => {
     ).toThrow("You do not have a Bumpkin");
   });
 
-  it("requires SFL to purchase chicken", () => {
+  it("requires coins to purchase chicken", () => {
     expect(() =>
       buyChicken({
         state: {
           ...TEST_FARM,
-          balance: new Decimal(0.01),
+          coins: 0,
           buildings: {
             "Hen House": [
               {
@@ -52,14 +52,15 @@ describe("buyChicken", () => {
           type: "chicken.bought",
         },
       })
-    ).toThrow("Insufficient SFL");
+    ).toThrow("Insufficient Coins");
   });
 
-  it("burns SFL", () => {
+  it("burns coins", () => {
+    const coins = 1000;
     const state = buyChicken({
       state: {
         ...TEST_FARM,
-        balance: new Decimal(10),
+        coins,
         buildings: {
           "Hen House": [
             {
@@ -84,14 +85,15 @@ describe("buyChicken", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(10).sub(marketRate(200)));
+    expect(state.coins).toEqual(coins - (ANIMALS["Chicken"].price ?? 0));
   });
+
   it("places a chicken on land", () => {
     const state = buyChicken({
       state: {
         ...TEST_FARM,
         chickens: {},
-        balance: new Decimal(10),
+        coins: 1000,
         buildings: {
           "Hen House": [
             {
@@ -137,7 +139,7 @@ describe("buyChicken", () => {
           Chicken: new Decimal(10),
         },
         chickens: {},
-        balance: new Decimal(10),
+        coins: 1000,
         collectibles: {
           "Chicken Coop": [
             {
@@ -188,7 +190,7 @@ describe("buyChicken", () => {
       state: {
         ...TEST_FARM,
         chickens: {},
-        balance: new Decimal(10),
+        coins: 1000,
         buildings: {
           "Hen House": [
             {
@@ -251,12 +253,13 @@ describe("buyChicken", () => {
       },
     });
   });
-  it("increments spent SFL activity", () => {
+
+  it("increments spent coins activity", () => {
     const state = buyChicken({
       state: {
         ...TEST_FARM,
         chickens: {},
-        balance: new Decimal(10),
+        coins: 1000,
         buildings: {
           "Hen House": [
             {
@@ -281,8 +284,8 @@ describe("buyChicken", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      marketRate(200).toNumber()
+    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
+      ANIMALS.Chicken.price ?? 0
     );
   });
 
@@ -291,7 +294,7 @@ describe("buyChicken", () => {
       buyChicken({
         state: {
           ...TEST_FARM,
-          balance: new Decimal(10),
+          coins: 1000,
           inventory: {
             Chicken: new Decimal(10),
           },
@@ -320,12 +323,13 @@ describe("buyChicken", () => {
       })
     ).toThrow("Insufficient space for more chickens");
   });
+
   it("throws an error if not enough room for more chickens with chicken coop available", () => {
     expect(() =>
       buyChicken({
         state: {
           ...TEST_FARM,
-          balance: new Decimal(10),
+          coins: 1000,
           inventory: {
             Chicken: new Decimal(15),
             "Chicken Coop": new Decimal(1),
@@ -355,12 +359,13 @@ describe("buyChicken", () => {
       })
     ).toThrow("Insufficient space for more chickens");
   });
+
   it("increments bought chicken activity", () => {
     const state = buyChicken({
       state: {
         ...TEST_FARM,
         chickens: {},
-        balance: new Decimal(10),
+        coins: 1000,
         buildings: {
           "Hen House": [
             {
@@ -396,7 +401,7 @@ describe("buyChicken", () => {
         inventory: {
           Sunflower: new Decimal(100),
         },
-        balance: new Decimal(10),
+        coins: 1000,
         buildings: {
           "Hen House": [
             {

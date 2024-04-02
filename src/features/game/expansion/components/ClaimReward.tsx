@@ -3,6 +3,7 @@ import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
 import token from "src/assets/icons/token_2.png";
+import coins from "src/assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -62,6 +63,17 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <div>
                 <Label type="warning">
                   {setPrecision(new Decimal(airdrop.sfl)).toString()} {"SFL"}
+                </Label>
+                <p className="text-xs">{t("reward.spendWisely")}</p>
+              </div>
+            </div>
+          )}
+          {!!airdrop.coins && (
+            <div className="flex items-center">
+              <Box image={coins} />
+              <div>
+                <Label type="warning">
+                  {airdrop.coins} {airdrop.coins === 1 ? "Coin" : "Coins"}
                 </Label>
                 <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>

@@ -54,7 +54,7 @@ export function craftCollectible({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy: GameState = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
   const item = isPotionHouseItem(action.name)
@@ -81,10 +81,10 @@ export function craftCollectible({
     throw new Error(translate("error.tooLate"));
   }
 
-  const totalExpenses = item.sfl || new Decimal(0);
+  const price = item.coins ?? 0;
 
-  if (stateCopy.balance.lessThan(totalExpenses)) {
-    throw new Error(translate("error.insufficientSFL"));
+  if (stateCopy.coins < price) {
+    throw new Error(translate("error.insufficientCoins"));
   }
 
   const subtractedInventory = getKeys(item.ingredients).reduce(
@@ -143,16 +143,12 @@ export function craftCollectible({
     });
   }
 
-  return {
-    ...stateCopy,
-    balance: stateCopy.balance.sub(totalExpenses),
-    inventory: {
-      ...subtractedInventory,
-      [action.name]: oldAmount.add(1) as Decimal,
-    },
-    stock: {
-      ...stateCopy.stock,
-      [action.name]: stateCopy.stock[action.name]?.minus(1) as Decimal,
-    },
+  stateCopy.coins = stateCopy.coins - price;
+  stateCopy.inventory = {
+    ...subtractedInventory,
+    [action.name]: oldAmount.add(1) as Decimal,
   };
+  stateCopy.stock[action.name] = stateCopy.stock[action.name]?.minus(1);
+
+  return stateCopy;
 }

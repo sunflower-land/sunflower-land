@@ -28,6 +28,10 @@
     word-break: break-word;
   }
 
+  .text-stroke {
+    -webkit-text-stroke: 1px black;
+  }
+
   .img-shadow {
     filter: drop-shadow(0px 3px 0px rgba(0, 0, 0, 0.2));
   }
@@ -375,6 +379,34 @@ img {
   animation-name: pointing;
   animation-iteration-count: infinite;
   transition-timing-function: ease;
+}
+
+.coins-bb-hud-backdrop {
+  height: 19px;
+  width: 88%;
+  left: -1px;
+  top: 6px;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 22%
+  );
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 22%);
+  z-index: -1;
+}
+
+.sfl-hud-backdrop {
+  height: 21px;
+  width: 88%;
+  left: -1px;
+  top: 3px;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 22%
+  );
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 22%);
+  z-index: -1;
 }
 
 @keyframes pointing {

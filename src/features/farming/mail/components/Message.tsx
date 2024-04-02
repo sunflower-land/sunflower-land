@@ -53,6 +53,7 @@ export const Message: React.FC<Props> = ({
             items: conversation.reward.items,
             wearables: {},
             sfl: 0,
+            coins: 0,
           }}
         />
       );

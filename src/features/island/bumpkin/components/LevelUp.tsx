@@ -76,9 +76,9 @@ function generateUnlockLabels(): Record<
       .filter((name) => CROPS()[name].bumpkinLevel === level)
       .map((name) => ({ text: name, icon: ITEM_DETAILS[name].image }));
 
-    const buildings = getKeys(BUILDINGS())
+    const buildings = getKeys(BUILDINGS)
       .filter((name) =>
-        BUILDINGS()[name].find(
+        BUILDINGS[name].find(
           (b) =>
             EXPANSION_REQUIREMENTS[b.unlocksAtLevel as Land]?.bumpkinLevel ===
             level

@@ -205,7 +205,7 @@ describe("collectCropReward", () => {
               plantedAt: 0,
               amount: 1,
               reward: {
-                sfl: new Decimal(10),
+                coins: 100,
               },
             },
           },
@@ -221,6 +221,6 @@ describe("collectCropReward", () => {
     const { crops: plots } = state;
 
     expect(plots?.[0]?.crop?.reward).toBeUndefined();
-    expect(state.balance).toEqual(new Decimal(10));
+    expect(state.coins).toEqual(100);
   });
 });
