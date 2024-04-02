@@ -31,10 +31,12 @@ export const Balances: React.FC<Props> = ({
           className="flex cursor-pointer items-center space-x-3 relative"
           onClick={onClick}
         >
-          <div className="h-9 w-full bg-black opacity-25 absolute coins-bb-hud-backdrop" />
+          <div className="h-9 w-full bg-black opacity-30 absolute coins-bb-hud-backdrop" />
           {/* Coins */}
           <div className="flex items-center space-x-2">
-            <span>{coins % 1 !== 0 ? coins.toFixed(2) : coins}</span>
+            <span>
+              {coins % 1 !== 0 ? Math.floor(coins * 100) / 100 : coins}
+            </span>
             <img
               src={coinsIcon}
               alt="Coins"
