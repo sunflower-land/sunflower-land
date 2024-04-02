@@ -5,7 +5,7 @@ import { getKeys } from "features/game/types/craftables";
 import { TradeListing } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext, useEffect, useState } from "react";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";

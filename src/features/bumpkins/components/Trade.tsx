@@ -12,7 +12,7 @@ import {
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { ChangeEvent, useContext, useState } from "react";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";

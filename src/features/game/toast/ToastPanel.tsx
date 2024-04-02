@@ -6,7 +6,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";

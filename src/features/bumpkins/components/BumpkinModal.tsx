@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";

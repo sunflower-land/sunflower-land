@@ -5,7 +5,7 @@ import { Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import coins from "assets/icons/coins.webp";
 import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";

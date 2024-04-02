@@ -7,7 +7,7 @@ import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 
 import bg from "assets/ui/brown_background.png";
-import sflIcon from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";

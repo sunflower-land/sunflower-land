@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getSeasonalTicket } from "features/game/types/seasons";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";

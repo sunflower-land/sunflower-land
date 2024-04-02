@@ -8,7 +8,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";
 
 import goblinBalloon from "assets/npcs/goblin_balloon.png";
-import icon from "assets/icons/token_2.png";
+import icon from "assets/icons/sfl.webp";
 import { useActor } from "@xstate/react";
 import { TraderModal } from "features/goblins/trader/tradingPost/TraderModal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";

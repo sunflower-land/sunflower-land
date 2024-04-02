@@ -18,7 +18,7 @@ import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
-import sflIcon from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";

@@ -3,7 +3,7 @@ import React from "react";
 import { OuterPanel } from "components/ui/Panel";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import goblin from "assets/npcs/goblin_head.png";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

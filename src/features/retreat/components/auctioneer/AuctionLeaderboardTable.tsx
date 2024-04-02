@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { AuctionResults } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import sflIcon from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-122.php
