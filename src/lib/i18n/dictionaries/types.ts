@@ -777,7 +777,8 @@ export type GoblinTrade =
   | "goblinTrade.select"
   | "goblinTrade.bulk"
   | "goblinTrade.conversion"
-  | "goblinTrade.hoarding";
+  | "goblinTrade.hoarding"
+  | "goblinTrade.vipRequired";
 
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
