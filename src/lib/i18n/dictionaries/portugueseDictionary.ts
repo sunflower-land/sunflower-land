@@ -1057,7 +1057,7 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   "description.lumberjack": "Árvores rendem 10% a mais",
   "description.tree.hugger": "Árvores regeneram 20% mais rápido",
   "description.tough.tree": "Chance de obter 3x de madeira",
-  "description.money.tree": "Chance para SFL",
+  "description.money.tree": "Chance para coins",
   // Rocks
   "description.digger": "Pedras rendem 10% a mais",
   "description.coal.face": "Pedras recuperam 20% mais rápido",

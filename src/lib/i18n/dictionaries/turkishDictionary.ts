@@ -1044,7 +1044,7 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
   "description.lumberjack": "Ağaçlar %10 odun daha fazla veriyor",
   "description.tree.hugger": "Ağaçlar %20 daha hızlı büyüyor",
   "description.tough.tree": "3x Odun Düşürme Şansı",
-  "description.money.tree": "Ağaçlardan SFL düşürme şansı",
+  "description.money.tree": "Ağaçlardan coins düşürme şansı",
   // Rocks
   "description.digger": "%10 daha fazla taş",
   "description.coal.face": "Taşlar %20 daha hızlı geri döner",
