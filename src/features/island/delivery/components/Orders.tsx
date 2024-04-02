@@ -6,7 +6,7 @@ import Decimal from "decimal.js-light";
 
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import sfl from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
 import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
@@ -55,7 +55,7 @@ interface Props {
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _balance = (state: MachineState) => state.context.state.balance;
+const _sfl = (state: MachineState) => state.context.state.balance;
 const _coins = (state: MachineState) => state.context.state.coins;
 
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
@@ -63,7 +63,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
-  const balance = useSelector(gameService, _balance);
+  const sfl = useSelector(gameService, _sfl);
   const coins = useSelector(gameService, _coins);
 
   const [showSkipDialog, setShowSkipDialog] = useState(false);
@@ -99,7 +99,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
     return getKeys(order.items).every((name) => {
       if (name === "coins") return coins >= (order.items[name] ?? 0);
-      if (name === "sfl") return balance.gte(order.items[name] ?? 0);
+      if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
 
       const amount = order.items[name] || new Decimal(0);
       const count = inventory[name] || new Decimal(0);
@@ -131,6 +131,18 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
       },
     });
     setIsRevealing(true);
+  };
+
+  const makeRewardAmountForLabel = (order: Order) => {
+    if (order.reward.sfl !== undefined) {
+      const sfl = getOrderSellPrice<Decimal>(gameState, order);
+
+      return sfl.toFixed(2);
+    }
+
+    const coins = getOrderSellPrice<number>(gameState, order);
+
+    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
   };
 
   if (gameService.state.matches("revealing") && isRevealing) {
@@ -229,125 +241,123 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
         )}
 
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full scrollable overflow-y-auto pl-1">
-          {orders.map((order) => (
-            <div className="py-1 px-2" key={order.id}>
-              <OuterPanel
-                onClick={() => select(order.id)}
-                className={classNames(
-                  "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
-                  {
-                    "sm:!bg-brown-200 sm:img-highlight":
-                      order.id === previewOrder?.id,
-                  }
-                )}
-                style={{ paddingBottom: "20px" }}
-              >
-                {hasRequirements(order) && !order.completedAt && (
-                  <img
-                    src={SUNNYSIDE.icons.heart}
-                    className="absolute top-0.5 right-0.5 w-3 sm:w-4"
-                  />
-                )}
+          {orders.map((order) => {
+            return (
+              <div className="py-1 px-2" key={order.id}>
+                <OuterPanel
+                  onClick={() => select(order.id)}
+                  className={classNames(
+                    "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
+                    {
+                      "sm:!bg-brown-200 sm:img-highlight":
+                        order.id === previewOrder?.id,
+                    }
+                  )}
+                  style={{ paddingBottom: "20px" }}
+                >
+                  {hasRequirements(order) && !order.completedAt && (
+                    <img
+                      src={SUNNYSIDE.icons.heart}
+                      className="absolute top-0.5 right-0.5 w-3 sm:w-4"
+                    />
+                  )}
 
-                <div className="flex flex-col pb-2">
-                  <div className="flex items-center my-1">
-                    <div className="relative mb-2 mr-0.5 -ml-1">
-                      <NPCIcon parts={NPC_WEARABLES[order.from]} />
-                    </div>
-                    <div className="flex-1 flex justify-center h-8 items-center w-6 ">
-                      {getKeys(order.items).map((name) => {
-                        let img: string;
+                  <div className="flex flex-col pb-2">
+                    <div className="flex items-center my-1">
+                      <div className="relative mb-2 mr-0.5 -ml-1">
+                        <NPCIcon parts={NPC_WEARABLES[order.from]} />
+                      </div>
+                      <div className="flex-1 flex justify-center h-8 items-center w-6 ">
+                        {getKeys(order.items).map((name) => {
+                          let img: string;
 
-                        if (name === "coins") {
-                          img = coinsImg;
-                        } else if (name === "sfl") {
-                          img = sfl;
-                        } else {
-                          img = ITEM_DETAILS[name].image;
-                        }
+                          if (name === "coins") {
+                            img = coinsImg;
+                          } else if (name === "sfl") {
+                            img = sflIcon;
+                          } else {
+                            img = ITEM_DETAILS[name].image;
+                          }
 
-                        return (
-                          <img
-                            key={name}
-                            src={img}
-                            className="w-6 img-highlight"
-                          />
-                        );
-                      })}
+                          return (
+                            <img
+                              key={name}
+                              src={img}
+                              className="w-6 img-highlight"
+                            />
+                          );
+                        })}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {order.completedAt && (
-                  <Label
-                    type="success"
-                    className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                    style={{ width: "calc(100% + 15px)" }}
-                  >
-                    <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-                  </Label>
-                )}
-                {!order.completedAt && order.reward.sfl && (
-                  <Label
-                    type="warning"
-                    iconWidth={8}
-                    icon={sfl}
-                    className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                    style={{ width: "calc(100% + 15px)" }}
-                  >
-                    {`${getOrderSellPrice<Decimal>(gameState, order).toFixed(
-                      2
-                    )}`}
-                  </Label>
-                )}
-                {!order.completedAt && order.reward.coins && (
-                  <Label
-                    type="warning"
-                    icon={coinsImg}
-                    className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                    style={{ width: "calc(100% + 15px)" }}
-                  >
-                    {`${getOrderSellPrice<number>(gameState, order).toFixed(
-                      2
-                    )}`}
-                  </Label>
-                )}
-                {!order.completedAt && order.reward.tickets && (
-                  <Label
-                    icon={ITEM_DETAILS[getSeasonalTicket()].image}
-                    type="warning"
-                    className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                    style={{ width: "calc(100% + 15px)" }}
-                  >
-                    {order.reward.tickets}
-                  </Label>
-                )}
+                  {order.completedAt && (
+                    <Label
+                      type="success"
+                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
+                      style={{ width: "calc(100% + 15px)" }}
+                    >
+                      <img src={SUNNYSIDE.icons.confirm} className="h-4" />
+                    </Label>
+                  )}
+                  {!order.completedAt && order.reward.sfl !== undefined && (
+                    <Label
+                      type="warning"
+                      iconWidth={8}
+                      icon={sflIcon}
+                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
+                      style={{ width: "calc(100% + 15px)" }}
+                    >
+                      {`${`${makeRewardAmountForLabel(order)}`}`}
+                    </Label>
+                  )}
+                  {!order.completedAt && order.reward.coins && (
+                    <Label
+                      type="warning"
+                      icon={coinsImg}
+                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
+                      style={{ width: "calc(100% + 15px)" }}
+                    >
+                      {`${makeRewardAmountForLabel(order)}`}
+                    </Label>
+                  )}
+                  {!order.completedAt && order.reward.tickets && (
+                    <Label
+                      icon={ITEM_DETAILS[getSeasonalTicket()].image}
+                      type="warning"
+                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
+                      style={{ width: "calc(100% + 15px)" }}
+                    >
+                      {order.reward.tickets}
+                    </Label>
+                  )}
 
-                {order.id === previewOrder?.id && (
-                  <div id="select-box" className="hidden md:block">
-                    <img
-                      className="absolute pointer-events-none"
-                      src={selectBoxTL}
-                      style={{
-                        top: `${PIXEL_SCALE * -3}px`,
-                        left: `${PIXEL_SCALE * -3}px`,
-                        width: `${PIXEL_SCALE * 8}px`,
-                      }}
-                    />
-                    <img
-                      className="absolute pointer-events-none"
-                      src={selectBoxTR}
-                      style={{
-                        top: `${PIXEL_SCALE * -3}px`,
-                        right: `${PIXEL_SCALE * -3}px`,
-                        width: `${PIXEL_SCALE * 8}px`,
-                      }}
-                    />
-                  </div>
-                )}
-              </OuterPanel>
-            </div>
-          ))}
+                  {order.id === previewOrder?.id && (
+                    <div id="select-box" className="hidden md:block">
+                      <img
+                        className="absolute pointer-events-none"
+                        src={selectBoxTL}
+                        style={{
+                          top: `${PIXEL_SCALE * -3}px`,
+                          left: `${PIXEL_SCALE * -3}px`,
+                          width: `${PIXEL_SCALE * 8}px`,
+                        }}
+                      />
+                      <img
+                        className="absolute pointer-events-none"
+                        src={selectBoxTR}
+                        style={{
+                          top: `${PIXEL_SCALE * -3}px`,
+                          right: `${PIXEL_SCALE * -3}px`,
+                          width: `${PIXEL_SCALE * 8}px`,
+                        }}
+                      />
+                    </div>
+                  )}
+                </OuterPanel>
+              </div>
+            );
+          })}
         </div>
         {nextOrder && !skippedOrder && (
           <div className="w-1/2 sm:w-1/3 p-1">
@@ -392,7 +402,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
       {previewOrder && (
         <OuterPanel
           className={classNames(
-            "ml-1 md:flex md:flex-col items-center flex-1 relative h-full",
+            "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-full w-full",
             {
               hidden: !selectedId,
               "mt-[24px] md:mt-0": true,
@@ -472,7 +482,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </>
           )}
           {!showSkipDialog && (
-            <div className="flex-1 space-y-2 p-1">
+            <div className="flex-1 space-y-2 p-1 w-full">
               <div className="text-xs space-y-2">
                 <p>
                   {generateDeliveryMessage({
@@ -492,10 +502,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 )}
               </div>
               <div className="pt-1 pb-2">
-                {getKeys(previewOrder.items).map((itemName) => {
+                {getKeys(previewOrder.items).map((itemName, index) => {
                   if (itemName === "sfl") {
                     return (
                       <RequirementLabel
+                        key={`${itemName}-${index}-sfl`}
                         type="sfl"
                         balance={sfl}
                         requirement={
@@ -509,6 +520,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   if (itemName === "coins") {
                     return (
                       <RequirementLabel
+                        key={`${itemName}-${index}-coins`}
                         type="coins"
                         balance={coins}
                         requirement={previewOrder?.items[itemName] ?? 0}
@@ -519,7 +531,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
                   return (
                     <RequirementLabel
-                      key={itemName}
+                      key={`${itemName}-${index}-items`}
                       type="item"
                       item={itemName}
                       balance={inventory[itemName] ?? new Decimal(0)}
