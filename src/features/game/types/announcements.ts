@@ -12,6 +12,7 @@ export type Message = {
   }[];
   reward?: {
     items: Partial<Record<InventoryItemName, number>>;
+    coins?: number;
   };
   from: NPCName;
   link?: string;
