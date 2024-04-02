@@ -184,7 +184,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
           {PRICES.map((price) => (
             <OuterPanel
               key={JSON.stringify(price)}
-              className="flex flex-col items-center relative cursor-pointer"
+              className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
               onClick={() => setPrice(price)}
             >
               <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>

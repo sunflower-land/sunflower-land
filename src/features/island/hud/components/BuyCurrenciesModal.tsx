@@ -186,7 +186,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     return (
                       <OuterPanel
                         key={JSON.stringify(option)}
-                        className="flex relative flex-col flex-1 items-center p-2"
+                        className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
                         onClick={() => setExchangePackageId(Number(packageId))}
                       >
                         <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
