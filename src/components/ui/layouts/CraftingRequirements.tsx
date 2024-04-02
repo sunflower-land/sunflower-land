@@ -260,8 +260,8 @@ export const CraftingRequirements: React.FC<Props> = ({
           )}
 
         {/* Coin requirement */}
-        {!!requirements.coins &&
-          (requirements.coins > 0 || requirements.showSflIfFree) && (
+        {requirements.coins !== undefined &&
+          (requirements.coins > 0 || requirements.showCoinsIfFree) && (
             <RequirementLabel
               type="coins"
               balance={gameState.coins}
