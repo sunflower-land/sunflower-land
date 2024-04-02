@@ -3,6 +3,12 @@ import mapJSON from "assets/map/retreat.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
+import {
+  getCachedMarketPrices,
+  setCachedMarketPrices,
+} from "../ui/market/lib/marketCache";
+import { getMarketPrices } from "features/game/actions/getMarketPrices";
+import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -116,9 +122,11 @@ export class RetreatScene extends BaseScene {
 
     const exchange = this.add.sprite(114, 215, "exchange");
     // On click
-    exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      // TODO
-    });
+    if (hasFeatureAccess(this.gameState, "GOBLIN_EXCHANGE")) {
+      exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        interactableModalManager.open("goblin_market");
+      });
+    }
 
     const grabnab = this.add.sprite(90, 235, "grabnab");
     this.anims.create({
@@ -233,5 +241,15 @@ export class RetreatScene extends BaseScene {
     raffle.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("raffle");
     });
+
+    const twentyFourHours = 1000 * 60 * 60 * 24;
+    const marketPrices = getCachedMarketPrices();
+    if (!marketPrices || marketPrices.cachedAt < Date.now() - twentyFourHours) {
+      getMarketPrices(
+        this.gameService.state.context.farmId,
+        this.gameService.state.context.transactionId as string,
+        this.authService.state.context.user.rawToken as string
+      ).then(setCachedMarketPrices);
+    }
   }
 }

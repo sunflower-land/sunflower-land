@@ -772,6 +772,12 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings";
 
+export type GoblinTrade =
+  | "goblinTrade.select"
+  | "goblinTrade.bulk"
+  | "goblinTrade.conversion"
+  | "goblinTrade.hoarding";
+
 export type BuyFarmHand =
   | "buyFarmHand.howdyBumpkin"
   | "buyFarmHand.confirmBuyAdditional"
@@ -2907,7 +2913,8 @@ export type Statements =
   | "statements.minted.goToChest"
   | "statements.minted.withdrawAfterMint"
   | "statements.startgame"
-  | "statements.session.expired";
+  | "statements.session.expired"
+  | "statements.price.change";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"
@@ -3221,6 +3228,7 @@ export type TranslationKeys =
   | GetContent
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
+  | GoblinTrade
   | GoldPassModal
   | GoldTooth
   | GuideTerms

@@ -170,6 +170,7 @@ import {
   Trading,
   TimeUnits,
   PwaInstall,
+  GoblinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1081,6 +1082,13 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Cancel",
   "bumpkinTrade.list": "List",
   "bumpkinTrade.maxListings": "Max listings reached",
+};
+
+const goblinTrade: Record<GoblinTrade, string> = {
+  "goblinTrade.bulk": "Bulk Amount",
+  "goblinTrade.conversion": "Conversion",
+  "goblinTrade.select": "Select resource to sell",
+  "goblinTrade.hoarding": "Oh no! You've reached the max $SFL.",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -4242,6 +4250,8 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Please bear with us while we sync all of your data on chain.",
   "statements.tapCont": "Tap to continue",
+  "statements.price.change":
+    "Oh no! Looks like the price has changed, please try again!",
 
   "statements.tutorial.one":
     "The boat will take you between islands where you can discover new lands and exciting adventures.",
@@ -4680,6 +4690,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...getContent,
   ...getInputErrorMessage,
   ...goblin_messages,
+  ...goblinTrade,
   ...goldpassModal,
   ...goldTooth,
   ...guideCompost,

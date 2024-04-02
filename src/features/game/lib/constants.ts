@@ -451,6 +451,9 @@ export const TEST_FARM: GameState = {
     current: {},
     history: {},
   },
+  goblinMarket: {
+    resources: {},
+  },
 };
 
 export const EMPTY: GameState = {
@@ -544,6 +547,9 @@ export const EMPTY: GameState = {
   specialEvents: {
     current: {},
     history: {},
+  },
+  goblinMarket: {
+    resources: {},
   },
 };
 

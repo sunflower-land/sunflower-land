@@ -67,6 +67,7 @@ import { Withdrawn } from "../components/Withdrawn";
 import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { PriceChange } from "../components/PriceChange";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -111,6 +112,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   fulfillTradeListing: false,
   listed: true,
   sniped: true,
+  priceChanged: true,
   buds: false,
   mailbox: false,
   blacklisted: true,
@@ -119,6 +121,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   provingPersonhood: false,
   withdrawing: true,
   withdrawn: true,
+  sellMarketResource: false,
 };
 
 // State change selectors
@@ -136,6 +139,8 @@ const isListingDeleted = (state: MachineState) =>
 const isFulfillingTradeListing = (state: MachineState) =>
   state.matches("fulfillTradeListing");
 const isSniped = (state: MachineState) => state.matches("sniped");
+const hasMarketPriceChanged = (state: MachineState) =>
+  state.matches("priceChanged");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
@@ -272,6 +277,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const deletingListing = useSelector(gameService, isDeletingListing);
   const listingDeleted = useSelector(gameService, isListingDeleted);
   const sniped = useSelector(gameService, isSniped);
+  const marketPriceChanged = useSelector(gameService, hasMarketPriceChanged);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const error = useSelector(gameService, isError);
@@ -446,7 +452,6 @@ export const GameWrapper: React.FC = ({ children }) => {
               </Wallet>
             )}
             {weakBumpkin && <WeakBumpkin />}
-
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {transacting && <Transacting />}
@@ -458,6 +463,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {deletingListing && <Loading text="Deleting listing" />}
             {listingDeleted && <ListingDeleted />}
             {sniped && <Sniped />}
+            {marketPriceChanged && <PriceChange />}
             {minting && <Minting />}
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}

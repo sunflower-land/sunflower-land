@@ -171,6 +171,7 @@ import {
   TimeUnits,
   PwaInstall,
   Trading,
+  GoblinTrade,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1081,6 +1082,13 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "İptal",
   "bumpkinTrade.list": "Listele",
   "bumpkinTrade.maxListings": "Maksimum listelemeye ulaşıldı",
+};
+
+const goblinTrade: Record<GoblinTrade, string> = {
+  "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
+  "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
+  "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
+  "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -4268,6 +4276,7 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Zincirdeki tüm verilerinizi senkronize ederken lütfen sabırlı olun.",
   "statements.tapCont": "Devam etmek için dokunun",
+  "statements.price.change": ENGLISH_TERMS["statements.price.change"],
 
   "statements.tutorial.one":
     "Tekne sizi yeni topraklar ve heyecan verici maceralar keşfedebileceğiniz adalar arasında götürecek.",
@@ -4727,6 +4736,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...getContent,
   ...getInputErrorMessage,
   ...goblin_messages,
+  ...goblinTrade,
   ...goldpassModal,
   ...goldTooth,
   ...guideCompost,

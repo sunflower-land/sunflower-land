@@ -46,6 +46,7 @@ import { PortalName } from "./portals";
 import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
+import { TradeableName } from "../actions/sellMarketResource";
 
 export type Reward = {
   sfl?: Decimal;
@@ -980,6 +981,17 @@ export interface GameState {
   springBlossom: Record<number, SpringBlossom>;
   megastore: MegaStore;
   specialEvents: SpecialEvents;
+  goblinMarket: {
+    resources: Partial<
+      Record<
+        TradeableName,
+        {
+          bundlesSold: number;
+          date: number;
+        }
+      >
+    >;
+  };
 }
 
 export interface Context {

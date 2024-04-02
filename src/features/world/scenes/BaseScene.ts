@@ -32,6 +32,7 @@ import {
   getCachedAudioSetting,
 } from "../../game/lib/audio";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -479,6 +480,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
   public get gameService() {
     return this.registry.get("gameService") as MachineInterpreter;
+  }
+
+  public get authService() {
+    return this.registry.get("authService") as AuthMachineInterpreter;
   }
 
   public get username() {

@@ -24,6 +24,7 @@ import { FanArt } from "./FanArt";
 import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
+import { GoblinMarket } from "./market/GoblinMarket";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -77,7 +78,8 @@ type InteractableName =
   | "goblin_hammer"
   | "page_discovered"
   | "trading_board"
-  | "wishingWell";
+  | "wishingWell"
+  | "goblin_market";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -578,6 +580,13 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         dialogClassName="md:max-w-3xl"
       >
         <TradingBoard onClose={closeModal} />
+      </Modal>
+      <Modal
+        show={interactable === "goblin_market"}
+        dialogClassName="md:max-w-3xl"
+        onHide={closeModal}
+      >
+        <GoblinMarket onClose={closeModal} />
       </Modal>
     </>
   );
