@@ -37,7 +37,7 @@ export function startChore({
 
   let startCount = 0;
 
-  if (hayseedHank.chore.activity) {
+  if (hayseedHank.chore?.activity) {
     startCount = game.bumpkin.activity?.[hayseedHank.chore.activity] ?? 0;
   }
 
