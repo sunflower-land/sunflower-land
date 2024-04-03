@@ -172,6 +172,7 @@ import {
   PwaInstall,
   GoblinTrade,
   RestrictionReason,
+  RemoveHungryCaterpillar,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -3952,6 +3953,15 @@ const removeKuebiko: Record<RemoveKuebiko, string> = {
   "removeKuebiko.removeSeeds": "Remove seeds",
 };
 
+const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
+  "removeHungryCaterpillar.title": "Remove Hungry Catepillar?",
+  "removeHungryCaterpillar.description":
+    "This action will remove all your flower seeds from your inventory.",
+  "removeHungryCaterpillar.removeFlowerSeeds": "Remove flower seeds",
+  "removeHungryCaterpillar.confirmation":
+    "Are you sure you want to remove your Hungry Caterpillar?",
+};
+
 const resale: Record<Resale, string> = {
   "resale.actionText": "Resale",
 };
@@ -4767,6 +4777,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...reaction,
   ...reactionBud,
   ...refunded,
+  ...removeHungryCaterpillar,
   ...removeKuebiko,
   ...resale,
   ...resources,
