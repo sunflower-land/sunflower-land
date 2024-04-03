@@ -2376,8 +2376,8 @@ const goldpassModal: Record<GoldPassModal, string> = {
   "goldPass.withdrawTransferNFTs": "NFT'leri Çekme ve Aktarma",
   "goldPass.accessRestrictedAreas": "Kısıtlı alanlara erişim",
   "common.noThanks": "Hayır, teşekkürler",
-  "goldPass.buyNow": "Şimdi satın al $",
-  "goldPass.priceInMatic": "Fiyat $MATIC eşdeğeri olarak ödenir",
+  "goldPass.buyNow": "Şimdi satın al ${{price}}",
+  "goldPass.priceInMatic": "Fiyat $MATIC eşdeğeri olarak ödenir ${{price}} USD",
 };
 
 const goldTooth: Record<GoldTooth, string> = {
