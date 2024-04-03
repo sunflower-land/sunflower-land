@@ -2507,21 +2507,11 @@ export type NpcDialogues =
 export type NyeButton = "plaza.magicButton.query";
 
 export type ObsessionDialogue =
-  | "obsessionDialogue.line1.part1"
-  | "obsessionDialogue.line1.part2"
-  | "obsessionDialogue.line1.part3"
-  | "obsessionDialogue.line2.part1"
-  | "obsessionDialogue.line2.part2"
-  | "obsessionDialogue.line2.part3"
-  | "obsessionDialogue.line3.part1"
-  | "obsessionDialogue.line3.part2"
-  | "obsessionDialogue.line3.part3"
-  | "obsessionDialogue.line4.part1"
-  | "obsessionDialogue.line4.part2"
-  | "obsessionDialogue.line4.part3"
-  | "obsessionDialogue.line5.part1"
-  | "obsessionDialogue.line5.part2"
-  | "obsessionDialogue.line5.part3";
+  | "obsessionDialogue.line1"
+  | "obsessionDialogue.line2"
+  | "obsessionDialogue.line3"
+  | "obsessionDialogue.line4"
+  | "obsessionDialogue.line5";
 
 export type Offer =
   | "offer.okxOffer"

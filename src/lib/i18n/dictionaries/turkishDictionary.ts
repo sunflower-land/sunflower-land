@@ -3445,7 +3445,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Selam, gizemin taşıyıcısı! Sunflorea'da bazı eşyalar Teslimat gerektirir...",
   "npcDialogues.bert.intro4":
     "Merhaba, gizli arayıcısı! Sunflorea'nın büyüleri ikiye ayrılabilir...",
-  "bert.day": "Bu öğeyi talep ettikten sonra 3 gün boyunca çekemezsiniz",
+  "bert.day": ENGLISH_TERMS["bert.day"],
 
   // Bert Positive Delivery
   "npcDialogues.bert.positiveDelivery1":
@@ -3759,30 +3759,11 @@ const NYON_STATUE: Record<NyonStatue, string> = {
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
-  "obsessionDialogue.line1.part1": "Ah, ",
-  "obsessionDialogue.line1.part2":
-    "! Sadece görmek istiyorum, sahip olmak değil. Bana göster ve ",
-  "obsessionDialogue.line1.part3": "sizin ödülünüz olacak.",
-
-  "obsessionDialogue.line2.part1": "Sen ",
-  "obsessionDialogue.line2.part2":
-    "'i getirdin mi? Sadece ona bakmak istiyorum. Bana göster ve ",
-  "obsessionDialogue.line2.part3": "size ait olacak.",
-
-  "obsessionDialogue.line3.part1": "Bu mu ",
-  "obsessionDialogue.line3.part2":
-    "? Sadece bir göz atmak istiyorum. Bunun için, sen ",
-  "obsessionDialogue.line3.part3": "alacaksın.",
-
-  "obsessionDialogue.line4.part1": "Bu ",
-  "obsessionDialogue.line4.part2":
-    "! Onu saklamak istemiyorum, sadece görmek istiyorum. Bana göster ve ",
-  "obsessionDialogue.line4.part3": "size ait olacak.",
-
-  "obsessionDialogue.line5.part1": "Bir görünüm sunuyorsun ",
-  "obsessionDialogue.line5.part2":
-    "mi? Tek istediğim kısa bir süre görmek. Cömertliğiniz için, ",
-  "obsessionDialogue.line5.part3": "size verilecek.",
+  "obsessionDialogue.line1": ENGLISH_TERMS["obsessionDialogue.line1"],
+  "obsessionDialogue.line2": ENGLISH_TERMS["obsessionDialogue.line2"],
+  "obsessionDialogue.line3": ENGLISH_TERMS["obsessionDialogue.line3"],
+  "obsessionDialogue.line4": ENGLISH_TERMS["obsessionDialogue.line4"],
+  "obsessionDialogue.line5": ENGLISH_TERMS["obsessionDialogue.line5"],
 };
 
 const offer: Record<Offer, string> = {

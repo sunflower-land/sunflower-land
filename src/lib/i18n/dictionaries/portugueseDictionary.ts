@@ -3472,7 +3472,7 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Saudações, portador do misterioso! Em Sunflorea, alguns itens demandam Entrega...",
   "npcDialogues.bert.intro4":
     "Olá, buscador do oculto! Os encantos de Sunflorea podem ser categorizados em dois...",
-  "bert.day": "Você não pode retirar este item por 3 dias após reivindicá-lo",
+  "bert.day": ENGLISH_TERMS["bert.day"],
   // Bert Positive Delivery
   "npcDialogues.bert.positiveDelivery1":
     "Incrível! Você trouxe tudo o que eu preciso...",
@@ -3765,30 +3765,11 @@ const nyeButton: Record<NyeButton, string> = {
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
-  "obsessionDialogue.line1.part1": "Ah, o(a)",
-  "obsessionDialogue.line1.part2":
-    "Eu só quero vê-lo, não possuí-lo. Mostre-me, e",
-  "obsessionDialogue.line1.part3": "será sua recompensa.",
-
-  "obsessionDialogue.line2.part1": "Você trouxe o(a)",
-  "obsessionDialogue.line2.part2":
-    "? Eu só quero contemplá-lo. Deixe-me ver, e",
-  "obsessionDialogue.line2.part3": "será seu(sua).",
-
-  "obsessionDialogue.line3.part1": "É esse(a)",
-  "obsessionDialogue.line3.part2":
-    " que você tem? Um simples olhar é tudo que desejo. Por isso, você receberá",
-  "obsessionDialogue.line3.part3": "s.",
-
-  "obsessionDialogue.line4.part1": "O(a)",
-  "obsessionDialogue.line4.part2":
-    "! Eu não quero guardar, apenas admirar. Mostre-me, e",
-  "obsessionDialogue.line4.part3": "s serão seus(suas).",
-
-  "obsessionDialogue.line5.part1": "Você oferece uma visão do(a)",
-  "obsessionDialogue.line5.part2":
-    "? Tudo que peço é vê-lo brevemente. Por sua generosidade,",
-  "obsessionDialogue.line5.part3": "s serão concedidos a você.",
+  "obsessionDialogue.line1": ENGLISH_TERMS["obsessionDialogue.line1"],
+  "obsessionDialogue.line2": ENGLISH_TERMS["obsessionDialogue.line2"],
+  "obsessionDialogue.line3": ENGLISH_TERMS["obsessionDialogue.line3"],
+  "obsessionDialogue.line4": ENGLISH_TERMS["obsessionDialogue.line4"],
+  "obsessionDialogue.line5": ENGLISH_TERMS["obsessionDialogue.line5"],
 };
 
 const offer: Record<Offer, string> = {

@@ -3437,7 +3437,8 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Greetings, bearer of the mysterious! In Sunflorea, some items demand Delivery...",
   "npcDialogues.bert.intro4":
     "Hello, seeker of the concealed! Sunflorea's enchantments can be categorized into two...",
-  "bert.day": "You cannot withdraw this item for 3 days after claiming",
+  "bert.day":
+    "You cannot withdraw this item for 3 days after claiming {{seasonalTicket}}s.",
   //Bert Positive Delivery
   "npcDialogues.bert.positiveDelivery1":
     "Incredible! You've brought me everything I need...",
@@ -3736,30 +3737,16 @@ export const NYON_STATUE: Record<NyonStatue, string> = {
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
-  "obsessionDialogue.line1.part1": "Ah, the",
-  "obsessionDialogue.line1.part2":
-    "! I only wish to see it, not possess. Show it to me, and",
-  "obsessionDialogue.line1.part3": "s will be your reward.",
-
-  "obsessionDialogue.line2.part1": "You've brought the",
-  "obsessionDialogue.line2.part2":
-    "? I merely want to gaze upon it. Let me see, and",
-  "obsessionDialogue.line2.part3": "s shall be yours.",
-
-  "obsessionDialogue.line3.part1": "Is that the",
-  "obsessionDialogue.line3.part2":
-    " you have? A mere glance is all I desire. For this, you'll receive",
-  "obsessionDialogue.line3.part3": "s.",
-
-  "obsessionDialogue.line4.part1": "The",
-  "obsessionDialogue.line4.part2":
-    "! I don't want to keep it, just to behold it. Show it to me, and",
-  "obsessionDialogue.line4.part3": "s are yours.",
-
-  "obsessionDialogue.line5.part1": "You offer a view of the",
-  "obsessionDialogue.line5.part2":
-    "? All I ask is to see it briefly. For your generosity,",
-  "obsessionDialogue.line5.part3": "s will be granted to you.",
+  "obsessionDialogue.line1":
+    "Ah, the {{itemName}}! I only wish to see it, not possess. Show it to me, and {{seasonalTicket}}s will be your reward.",
+  "obsessionDialogue.line2":
+    "You've brought the {{itemName}}? I merely want to gaze upon it. Let me see, and {{seasonalTicket}}s shall be yours.",
+  "obsessionDialogue.line3":
+    "Is that the {{itemName}} you have? A mere glance is all I desire. Fore this, you'll receive {{seasonalTicket}}s.",
+  "obsessionDialogue.line4":
+    "The {{itemName}}! I don't want to keep it, just to behold it. Show it to me, and {{seasonalTicket}}s are yours.",
+  "obsessionDialogue.line5":
+    "You offer a view of the {{itemName}}? All I ask is to see it briefly. For your generosity, {{seasonalTicket}}s will be granted to you.",
 };
 
 const offer: Record<Offer, string> = {
