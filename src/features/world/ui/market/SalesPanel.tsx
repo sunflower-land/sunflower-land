@@ -101,8 +101,8 @@ export const SalesPanel: React.FC<{
     }
   }, [loadingNewPrices]);
 
-  const onSell = (item: TradeableName) => {
-    const isHoarding = checkHoard(item);
+  const onSell = (item: TradeableName, price: number) => {
+    const isHoarding = checkHoard(item, price);
 
     if (isHoarding) {
       setWarning("hoarding");
@@ -114,22 +114,22 @@ export const SalesPanel: React.FC<{
     setSelected(item);
   };
 
-  const confirmSell = () => {
+  const confirmSell = (pricePerUnit: number) => {
     setConfirm(false);
 
     gameService.send({
       type: "SELL_MARKET_RESOURCE",
       item: selected,
-      pricePerUnit: marketPrices!.prices.currentPrices[selected],
+      pricePerUnit: pricePerUnit,
     });
   };
 
-  const checkHoard = (item: TradeableName) => {
+  const checkHoard = (item: TradeableName, price: number) => {
     const auctionSFL = state.auctioneer.bid?.sfl ?? new Decimal(0);
 
     const progress = state.balance
       .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * marketPrices!.prices.currentPrices[item])
+      .add(MARKET_BUNDLES[item] * price)
       .sub(state.previousBalance ?? new Decimal(0));
 
     return progress.gt(MAX_SESSION_SFL);
@@ -149,6 +149,8 @@ export const SalesPanel: React.FC<{
   const canSell =
     state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) &&
     !(Number(unitPrice) === 0);
+
+  const hasPrices = !!marketPrices;
 
   if (warning === "hoarding") {
     return (
@@ -231,7 +233,13 @@ export const SalesPanel: React.FC<{
         </div>
         <div className="flex space-x-1">
           <Button onClick={() => setConfirm(false)}>{t("back")}</Button>
-          <Button onClick={() => confirmSell()} disabled={!canSell}>
+          <Button
+            onClick={() =>
+              hasPrices &&
+              confirmSell(marketPrices.prices.currentPrices[selected])
+            }
+            disabled={!canSell}
+          >
             {t("sell")}
           </Button>
         </div>
@@ -287,14 +295,19 @@ export const SalesPanel: React.FC<{
                       className={classNames(
                         "w-full relative flex flex-col items-center justify-center",
                         {
-                          "cursor-not-allowed opacity-75": !hasVIP,
-                          "cursor-pointer hover:bg-brown-200": hasVIP,
+                          "cursor-not-allowed opacity-75":
+                            !hasVIP || !hasPrices,
+                          "cursor-pointer hover:bg-brown-200":
+                            hasVIP && hasPrices,
                         }
                       )}
                       onClick={
-                        hasVIP
+                        hasPrices && hasVIP
                           ? () => {
-                              onSell(name);
+                              onSell(
+                                name,
+                                marketPrices.prices.currentPrices[name]
+                              );
                             }
                           : undefined
                       }

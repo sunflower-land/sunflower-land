@@ -268,6 +268,20 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
       y: 200,
     },
   ],
+  10: [
+    {
+      x: 400,
+      y: 420,
+    },
+    {
+      x: 800,
+      y: 300,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
 };
 
 const RABBIT_CORDS = [
