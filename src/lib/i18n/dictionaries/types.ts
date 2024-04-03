@@ -1850,7 +1850,6 @@ export type Islandupgrade =
   | "islandupgrade.welcomePetalParadise"
   | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
-  | "islandupgrade.notReadyExpandMore.two"
   | "islandupgrade.exoticResourcesDescription";
 
 export type InteractableModals =

@@ -2729,8 +2729,8 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.welcomePetalParadise": "Welcome to Petal Paradise!",
   "islandupgrade.itemsReturned":
     "Your items have been safely returned to your inventory.",
-  "islandupgrade.notReadyExpandMore": "You are not ready. Expand",
-  "islandupgrade.notReadyExpandMore.two": "more times",
+  "islandupgrade.notReadyExpandMore":
+    "You are not ready. Expand {{remainingExpansions}} more times",
   "islandupgrade.exoticResourcesDescription":
     "This area of Sunflower Land is known for its exotic resources. Expand your land to discover fruit, flowers, bee hives & rare minerals!",
 };
@@ -2755,7 +2755,7 @@ const letsGo: Record<LetsGo, string> = {
   "letsGo.title": "Time to play!",
   "letsGo.description":
     "Thanks for playing! We appreciate your support of Sunflower Land.",
-  "letsGo.readMore": "You can read more about the game in the ",
+  "letsGo.readMore": "You can read more about the game in the ", // To figure out how to interpolate links
   "letsGo.officialDocs": "official docs",
 };
 

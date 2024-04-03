@@ -2738,8 +2738,8 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.welcomePetalParadise": "Petal Paradise'a hoş geldiniz!",
   "islandupgrade.itemsReturned":
     "Öğeleriniz güvenli bir şekilde envanterinize iade edildi.",
-  "islandupgrade.notReadyExpandMore": "Hazır değilsin. Adanı Genişlet",
-  "islandupgrade.notReadyExpandMore.two": "daha fazla zaman",
+  "islandupgrade.notReadyExpandMore":
+    ENGLISH_TERMS["islandupgrade.notReadyExpandMore"],
   "islandupgrade.exoticResourcesDescription":
     "Sunflower Land bu bölgesi egzotik kaynaklarıyla tanınır. Meyveleri, çiçekleri, arı kovanlarını ve nadir mineralleri keşfetmek için topraklarınızı genişletin!",
 };

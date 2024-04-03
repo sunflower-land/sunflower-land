@@ -2649,8 +2649,8 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.welcomePetalParadise": "Bem-vindo ao Paraíso das Pétalas!",
   "islandupgrade.itemsReturned":
     "Seus itens foram devolvidos com segurança ao seu inventário.",
-  "islandupgrade.notReadyExpandMore": "Você não está pronto. Expanda",
-  "islandupgrade.notReadyExpandMore.two": "mais vezes",
+  "islandupgrade.notReadyExpandMore":
+    ENGLISH_TERMS["islandupgrade.notReadyExpandMore"],
   "islandupgrade.exoticResourcesDescription":
     "Esta área de Sunflower Land é conhecida por seus recursos exóticos. Expanda sua terra para descobrir frutas, flores, colmeias e minerais raros!",
 };
