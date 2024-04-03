@@ -674,21 +674,17 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 </Label>
               )}
               {isLocked && (
-                <Label className="my-2" type="danger" icon={lockIcon}>
+                <Label type="danger" icon={lockIcon}>
                   {t("locked")}
                 </Label>
               )}
               {missingVIPAccess && (
-                <Label className="my-2" type="danger" icon={lockIcon}>
+                <Label type="danger" icon={lockIcon}>
                   {t("goblinTrade.vipRequired")}
                 </Label>
               )}
               {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
-                <Label
-                  className="my-2"
-                  type="success"
-                  icon={SUNNYSIDE.icons.confirm}
-                >
+                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
                   {`VIP Access`}
                 </Label>
               )}
