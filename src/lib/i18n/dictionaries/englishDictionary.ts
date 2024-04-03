@@ -1196,7 +1196,8 @@ const composterDescription: Record<ComposterDescription, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops": "Are you sure you want to",
+  "confirmation.sellCrops":
+    "Are you sure you want to sell {{cropAmount}} {{cropName}} for {{coinAmount}} Coins?",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {

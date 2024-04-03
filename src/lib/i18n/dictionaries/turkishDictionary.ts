@@ -1196,7 +1196,7 @@ const composterDescription: Record<ComposterDescription, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops": "İstediğine emin misin",
+  "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {

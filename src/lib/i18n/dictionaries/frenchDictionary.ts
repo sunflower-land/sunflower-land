@@ -1237,7 +1237,7 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops": "Êtes-vous sûr de vouloir",
+  "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
 };
 
 const conversations: Record<Conversations, string> = {
