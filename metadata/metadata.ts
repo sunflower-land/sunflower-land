@@ -6746,7 +6746,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/492.png",
     attributes: [
-      { trait_type: "Purpose", value: "Boost" },
+      { trait_type: "Boost", value: "Flower" },
       {
         display_type: "boost_percentage",
         trait_type: "Flower Growth Time",
@@ -7116,10 +7116,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/938.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
-      { trait_type: "Fermented Carrot Boost", value: "XP" },
+      { trait_type: "Boost", value: "XP" },
       {
         display_type: "boost_percentage",
-        trait_type: "Experience",
+        trait_type: "Increase Fermented Carrots XP",
         value: 100,
       },
     ],
