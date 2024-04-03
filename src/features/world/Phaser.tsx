@@ -45,7 +45,6 @@ import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
-import { hasFeatureAccess } from "lib/flags";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -109,11 +108,8 @@ export const PhaserComponent: React.FC<Props> = ({
     new WoodlandsScene({ gameState: gameService.state.context.state }),
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),
+    RetreatScene,
   ];
-
-  if (hasFeatureAccess(gameService.state.context.state, "RETREAT")) {
-    scenes.push(RetreatScene);
-  }
 
   useEffect(() => {
     // Set up community APIs
