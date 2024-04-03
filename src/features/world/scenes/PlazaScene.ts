@@ -601,12 +601,16 @@ export class PlazaScene extends BaseScene {
 
     const basicChest = this.add.sprite(152, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("basic_chest");
+      if (this.checkDistanceToSprite(basicChest, 75)) {
+        interactableModalManager.open("basic_chest");
+      }
     });
 
     const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
     luxuryChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("luxury_chest");
+      if (this.checkDistanceToSprite(luxuryChest, 75)) {
+        interactableModalManager.open("luxury_chest");
+      }
     });
 
     if (this.gameState.inventory["Luxury Key"]) {
@@ -617,12 +621,16 @@ export class PlazaScene extends BaseScene {
 
     const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
     shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      npcModalManager.open("stella");
+      if (this.checkDistanceToSprite(shopIcon, 75)) {
+        npcModalManager.open("stella");
+      }
     });
 
     const auctionIcon = this.add.sprite(608, 220, "timer_icon");
     auctionIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      npcModalManager.open("hammerin harry");
+      if (this.checkDistanceToSprite(auctionIcon, 75)) {
+        npcModalManager.open("hammerin harry");
+      }
     });
     auctionIcon.setDepth(1000000);
 
