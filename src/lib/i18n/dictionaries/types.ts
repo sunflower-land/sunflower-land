@@ -1673,12 +1673,6 @@ export type GetContent =
   | "getContent.join";
 
 export type GetInputErrorMessage =
-  | "getInputErrorMessage.minimum"
-  | "getInputErrorMessage.sfl"
-  | "getInputErrorMessage.s"
-  | "getInputErrorMessage.no.sfl"
-  | "getInputErrorMessage.yes.sfl"
-  | "getInputErrorMessage.auction"
   | "getInputErrorMessage.place.bid"
   | "getInputErrorMessage.cannot.bid";
 

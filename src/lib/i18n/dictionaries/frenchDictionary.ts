@@ -2432,17 +2432,11 @@ const getContent: Record<GetContent, string> = {
     "Vous devez être connecté à Discord pour rejoindre un canal restreint.",
   "getContent.connect": "Se connecter",
   "getContent.getAccess": "Obtenez l'accès aux groupes restreints sur Discord",
-  "getContent.requires": "Nécessite un",
+  "getContent.requires": "Nécessite",
   "getContent.join": "Rejoindre",
 };
 
 const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
-  "getInputErrorMessage.minimum": "L'enchère minimum est de ",
-  "getInputErrorMessage.sfl": "SFL",
-  "getInputErrorMessage.s": "s",
-  "getInputErrorMessage.no.sfl": "Vous n'avez pas assez de SFL",
-  "getInputErrorMessage.yes.sfl": "Vous n'avez pas assez de",
-  "getInputErrorMessage.auction": "L'enchère est terminée",
   "getInputErrorMessage.place.bid":
     "Êtes-vous sûr de vouloir placer cette enchère?",
   "getInputErrorMessage.cannot.bid":

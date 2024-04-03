@@ -2344,12 +2344,6 @@ const getContent: Record<GetContent, string> = {
 };
 
 const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
-  "getInputErrorMessage.minimum": "Minimum teklif: ",
-  "getInputErrorMessage.sfl": "SFL",
-  "getInputErrorMessage.s": "s",
-  "getInputErrorMessage.no.sfl": "Yeterli SFL'niz yok",
-  "getInputErrorMessage.yes.sfl": "Yeterince yok",
-  "getInputErrorMessage.auction": "Açık artırma sona erdi",
   "getInputErrorMessage.place.bid":
     "Bu teklifi vermek istediğinizden emin misiniz?",
   "getInputErrorMessage.cannot.bid":

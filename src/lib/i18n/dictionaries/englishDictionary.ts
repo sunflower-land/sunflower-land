@@ -2334,17 +2334,11 @@ const getContent: Record<GetContent, string> = {
     "You must be connected to Discord to join a restricted channel.",
   "getContent.connect": "Connect",
   "getContent.getAccess": "Get access to restricted groups on Discord",
-  "getContent.requires": "Requires a",
+  "getContent.requires": "Requires",
   "getContent.join": "Join",
 };
 
 const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
-  "getInputErrorMessage.minimum": "Minimum bid is ",
-  "getInputErrorMessage.sfl": "SFL",
-  "getInputErrorMessage.s": "s",
-  "getInputErrorMessage.no.sfl": "You don't have enough SFL",
-  "getInputErrorMessage.yes.sfl": "You don't have enough",
-  "getInputErrorMessage.auction": "Auction has ended",
   "getInputErrorMessage.place.bid": "Are you sure you want to place this bid?",
   "getInputErrorMessage.cannot.bid":
     "Bids cannot be changed once they have been placed.",
