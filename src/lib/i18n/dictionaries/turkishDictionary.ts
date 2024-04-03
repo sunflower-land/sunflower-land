@@ -973,8 +973,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.thanks": "Vay Wizz teşekkürler Bumpkin!!!",
   "bumpkin.delivery.waiting":
     "Bunun için bekliyordum. Çok teşekkürler! Daha fazla teslimat için yakında tekrar gel.",
-  "bumpkin.delivery.proveYourself": "Değerli olduğunu kanıtla. Adanı genişlet",
-  "bumpkin.delivery.more.time": "Daha fazla zaman.",
+  "bumpkin.delivery.proveYourself":
+    ENGLISH_TERMS["bumpkin.delivery.proveYourself"],
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {

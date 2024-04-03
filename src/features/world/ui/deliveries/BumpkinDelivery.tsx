@@ -697,8 +697,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             {isLocked && (
               <>
                 <p className="text-xs mb-2">
-                  {t("bumpkin.delivery.proveYourself")} {missingExpansions}{" "}
-                  {t("bumpkin.delivery.more.time")}
+                  {t("bumpkin.delivery.proveYourself", {
+                    missingExpansions: missingExpansions,
+                  })}
                 </p>
               </>
             )}

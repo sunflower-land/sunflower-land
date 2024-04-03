@@ -699,7 +699,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.seasonQuests":
     "This season has exciting quests & rare collectibles you can earn.",
   "birdieplaza.craftItems":
-    "To craft these items, you must collect {{seasonalTicket}} and exchange them at the shops or bid at the Auction house.",
+    "To obtain these rare items, you must collect {{seasonalTicket}} and exchange them at Stella's Megastore or bid at the Auction house.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -977,8 +977,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.thanks": "Gee Wizz thanks Bumpkin!!!",
   "bumpkin.delivery.waiting":
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
-  "bumpkin.delivery.proveYourself": "Prove yourself worthy. Expand your island",
-  "bumpkin.delivery.more.time": "more times.",
+  "bumpkin.delivery.proveYourself":
+    "Prove yourself worthy. Expand your island {{missingExpansions}} more times.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {

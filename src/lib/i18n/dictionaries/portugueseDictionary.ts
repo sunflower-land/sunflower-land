@@ -985,8 +985,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.thanks": "Caramba, obrigado Bumpkin!!!",
   "bumpkin.delivery.waiting":
     "Eu estava esperando por isso. Obrigado! Volte logo para mais entregas.",
-  "bumpkin.delivery.proveYourself": "Prove-se digno. Expanda sua ilha",
-  "bumpkin.delivery.more.time": "mais vezes.",
+  "bumpkin.delivery.proveYourself":
+    ENGLISH_TERMS["bumpkin.delivery.proveYourself"],
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
