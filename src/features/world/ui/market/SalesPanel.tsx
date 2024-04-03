@@ -139,6 +139,9 @@ export const SalesPanel: React.FC<{
     state.inventory[getSeasonalBanner()] ?? new Decimal(0)
   ).gte(1);
 
+  const hasVIP =
+    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasBanner;
+
   const unitPrice =
     marketPrices?.prices?.currentPrices?.[selected]?.toFixed(4) || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
@@ -241,7 +244,7 @@ export const SalesPanel: React.FC<{
         <div className="relative w-full">
           <div className="p-2">
             <div className="flex flex-col justify-between space-y-1 sm:flex-row sm:space-y-0">
-              {!hasBanner ? (
+              {!hasVIP ? (
                 <Label
                   type="warning"
                   icon={lock}
@@ -277,12 +280,12 @@ export const SalesPanel: React.FC<{
                       className={classNames(
                         "w-full relative flex flex-col items-center justify-center",
                         {
-                          "cursor-not-allowed opacity-75": !hasBanner,
-                          "cursor-pointer hover:bg-brown-200": hasBanner,
+                          "cursor-not-allowed opacity-75": !hasVIP,
+                          "cursor-pointer hover:bg-brown-200": hasVIP,
                         }
                       )}
                       onClick={
-                        hasBanner
+                        hasVIP
                           ? () => {
                               onSell(name);
                             }

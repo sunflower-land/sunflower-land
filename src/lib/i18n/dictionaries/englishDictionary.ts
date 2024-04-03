@@ -1091,6 +1091,8 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.select": "Select resource to sell",
   "goblinTrade.hoarding": "Oh no! You've reached the max SFL.",
   "goblinTrade.vipRequired": "VIP Access Required",
+  "goblinTrade.vipDelivery":
+    "Hmmm, looks like you are a basic Bumpkin. I only trade with VIPs.",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {

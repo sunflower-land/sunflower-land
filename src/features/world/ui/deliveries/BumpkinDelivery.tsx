@@ -582,13 +582,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = noOrder;
   }
 
-  if (requiresSeasonPass && !hasSeasonPass) {
-    message = t("goblinTrade.vipRequired");
+  const hasVIP =
+    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasSeasonPass;
+
+  if (requiresSeasonPass && !hasVIP) {
+    message = t("goblinTrade.vipDelivery");
   }
 
   const missingExpansions =
     (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
-  const missingRequiredSeasonBanner = requiresSeasonPass && !hasSeasonPass;
+  const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingExpansions >= 1;
 
   const acceptGifts = !!getNextGift({ game, npc });
@@ -658,11 +661,27 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   {t("completed")}
                 </Label>
               )}
-              {(isLocked || missingRequiredSeasonBanner) && (
-                <Label className="my-2" type="danger" icon={lockIcon}>
-                  {t("locked")}
-                </Label>
-              )}
+              <div className="flex space-x-2">
+                {isLocked && (
+                  <Label className="my-2" type="danger" icon={lockIcon}>
+                    {t("locked")}
+                  </Label>
+                )}
+                {missingVIPAccess && (
+                  <Label className="my-2" type="danger" icon={lockIcon}>
+                    {t("goblinTrade.vipRequired")}
+                  </Label>
+                )}
+                {requiresSeasonPass && hasVIP && (
+                  <Label
+                    className="my-2"
+                    type="success"
+                    icon={SUNNYSIDE.icons.confirm}
+                  >
+                    {`VIP Access`}
+                  </Label>
+                )}
+              </div>
             </div>
 
             {!delivery && !isLocked && (
@@ -701,7 +720,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !hasDelivery ||
                 !!delivery?.completedAt ||
                 isLocked ||
-                missingRequiredSeasonBanner
+                missingVIPAccess
               }
               onClick={deliver}
             >

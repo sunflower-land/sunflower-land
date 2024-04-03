@@ -1107,6 +1107,7 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
   "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
   "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
+  "goblinTrade.vipDelivery": ENGLISH_TERMS["goblinTrade.vipDelivery"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
