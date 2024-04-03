@@ -79,13 +79,43 @@ describe("deliver", () => {
     ).toThrow("Insufficient ingredient: Sunflower");
   });
 
-  // SFL will be a potential requirement for quests
+  // SFL will be a potential requirement for quests (Legacy)
   it("requires player has the sfl", () => {
     expect(() =>
       deliverOrder({
         state: {
           ...TEST_FARM,
           balance: new Decimal(0),
+          delivery: {
+            ...TEST_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: Date.now(),
+                from: "tywin",
+                items: {
+                  sfl: 10,
+                },
+                reward: { tickets: 100 },
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+      })
+    ).toThrow("Insufficient ingredient: sfl");
+  });
+
+  it("requires player has the coins", () => {
+    expect(() =>
+      deliverOrder({
+        state: {
+          ...TEST_FARM,
+          coins: 0,
           delivery: {
             ...TEST_FARM.delivery,
             orders: [
@@ -106,10 +136,39 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
-        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-        createdAt: 1693526400000,
       })
     ).toThrow("Insufficient ingredient: coins");
+  });
+
+  it("takes sfl from player is required in delivery", () => {
+    const balance = new Decimal(100);
+    const game = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        balance,
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "tywin",
+              items: {
+                sfl: 50,
+              },
+              reward: { tickets: 100 },
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(game.balance).toEqual(balance.sub(50));
   });
 
   it("rewards sfl", () => {

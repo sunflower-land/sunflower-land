@@ -192,6 +192,8 @@ export function deliverOrder({
       if (sfl.lessThan(amount)) {
         throw new Error(`Insufficient ingredient: ${name}`);
       }
+
+      game.balance = sfl.sub(amount);
     } else {
       const count = game.inventory[name] || new Decimal(0);
       const amount = order.items[name] || new Decimal(0);
