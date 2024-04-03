@@ -193,7 +193,9 @@ export class BeachScene extends BaseScene {
 
     const chest = this.add.sprite(320, 600, "wooden_chest");
     chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("rare_chest");
+      if (this.checkDistanceToSprite(chest, 75)) {
+        interactableModalManager.open("rare_chest");
+      }
     });
   }
 
