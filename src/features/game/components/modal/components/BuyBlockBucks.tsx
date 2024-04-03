@@ -155,7 +155,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
             </OuterPanel>
             <OuterPanel
               onClick={() => setShowMaticConfirm(true)}
-              className="flex relative flex-col flex-1 items-center p-2"
+              className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
             >
               <span className="mb-2 text-xs">{"MATIC"}</span>
               <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
