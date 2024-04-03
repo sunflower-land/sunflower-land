@@ -222,7 +222,7 @@ export const SalesPanel: React.FC<{
               <span className="text-xs">{`${unitPrice}${t("unit")}`}</span>
             </div>
           </div>
-          <span className="pt-3 text-xs pb-2">
+          <span className="pt-3 text-xs px-1 pb-2">
             {`${t("sell")} ${MARKET_BUNDLES[selected]} ${selected} ${t(
               "for"
             )} ${bundlePrice} ${"SFL"}?`}
