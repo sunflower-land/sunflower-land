@@ -475,7 +475,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.failed": "Kopyalama Başarısız!",
   search: "Ara",
   searching: "Aranıyor",
-  unit: "/birim",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1063,10 +1062,6 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Fiyat sorma",
-  "bumpkinTrade.listingPurchased": "Tebrikler, ilanınız satın alındı!",
-  "bumpkinTrade.travelPlaza":
-    "Oyuncuların sizinle ticaret yapabilmesi için plazaya gidin",
   "bumpkinTrade.minLevel": "Ticaret yapmak için 10. seviyede olmanız gerekir",
   "bumpkinTrade.noTradeListed": "Listelenen herhangi bir işleminiz yok.",
   "bumpkinTrade.sell": "Kaynaklarınızı SFL için diğer oyunculara satın.",
@@ -1077,12 +1072,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.quantity": "Miktar",
   "bumpkinTrade.price": "Fiyat",
   "bumpkinTrade.listingPrice": "Listeleme fiyatı",
-  "bumpkinTrade.pricePerUnit": "Ürün başına fiyat",
+  "bumpkinTrade.pricePerUnit": ENGLISH_TERMS["bumpkinTrade.pricePerUnit"],
   "bumpkinTrade.tradingFee": "Takas ücreti",
   "bumpkinTrade.youWillReceive": "Alacağın miktar",
   "bumpkinTrade.cancel": "İptal",
   "bumpkinTrade.list": "Listele",
   "bumpkinTrade.maxListings": "Maksimum listelemeye ulaşıldı",
+  "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
+  "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
+  "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

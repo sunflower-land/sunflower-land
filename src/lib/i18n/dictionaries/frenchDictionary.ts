@@ -475,7 +475,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   yes: "Oui",
   "yes.please": "Oui, s'il vous plaît",
   "you.are.here": "Vous êtes ici",
-  unit: ENGLISH_TERMS.unit,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1083,11 +1082,6 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Prix demandé",
-  "bumpkinTrade.listingPurchased":
-    "Félicitations, votre annonce a été achetée!",
-  "bumpkinTrade.travelPlaza":
-    "Rendez-vous à la place du marché pour que d'autres joueurs puissent commercer avec vous",
   "bumpkinTrade.minLevel": "Vous devez être niveau 10 pour commercer",
   "bumpkinTrade.noTradeListed": "Vous n'avez aucune annonce en cours.",
   "bumpkinTrade.sell":
@@ -1100,12 +1094,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.quantity": "Quantité",
   "bumpkinTrade.price": "Prix",
   "bumpkinTrade.listingPrice": "Prix catalogue",
-  "bumpkinTrade.pricePerUnit": "Prix par unité",
+  "bumpkinTrade.pricePerUnit": "Prix par {{resource}}",
   "bumpkinTrade.tradingFee": "Frais de négociation",
   "bumpkinTrade.youWillReceive": "Vous recevrez",
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
+  "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
+  "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
+  "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

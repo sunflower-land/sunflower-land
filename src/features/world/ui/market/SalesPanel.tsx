@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
@@ -220,9 +221,11 @@ export const SalesPanel: React.FC<{
               <span
                 className={classNames("text-xs", { "text-red-500": !canSell })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-xs">{`${Number(unitPrice).toFixed(4)}${t(
-                "unit"
-              )}`}</span>
+              <span className="text-xs">
+                {t("bumpkinTrade.price/unit", {
+                  price: Number(unitPrice).toFixed(4),
+                })}
+              </span>
             </div>
           </div>
           <span className="pt-3 text-xs px-1 pb-2">
@@ -327,10 +330,12 @@ export const SalesPanel: React.FC<{
                         style={{ width: "calc(100% + 10px)" }}
                       >
                         <span className={classNames({ pulse: showPulse })}>
-                          {marketPrices?.prices?.currentPrices?.[name]?.toFixed(
-                            4
-                          ) || "0.0000"}
-                          {t("unit")}
+                          {t("bumpkinTrade.price/unit", {
+                            price:
+                              marketPrices?.prices?.currentPrices?.[
+                                name
+                              ]?.toFixed(4) || "0.0000",
+                          })}
                         </span>
                         {priceMovement === "up" && (
                           <img

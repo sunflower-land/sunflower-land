@@ -474,7 +474,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
-  unit: "/unit",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1061,11 +1060,6 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.askPrice": "Asking price:",
-  "bumpkinTrade.listingPurchased":
-    "Congratulations, your listing was purchased!",
-  "bumpkinTrade.travelPlaza":
-    "Travel to the plaza so players can trade with you",
   "bumpkinTrade.minLevel": "You must be level 10 to trade",
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
@@ -1077,12 +1071,15 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.quantity": "Quantity",
   "bumpkinTrade.price": "Price",
   "bumpkinTrade.listingPrice": "Listing price",
-  "bumpkinTrade.pricePerUnit": "Price per unit",
+  "bumpkinTrade.pricePerUnit": "Price per {{resource}}",
   "bumpkinTrade.tradingFee": "Trading fee",
   "bumpkinTrade.youWillReceive": "You will receive",
   "bumpkinTrade.cancel": "Cancel",
   "bumpkinTrade.list": "List",
   "bumpkinTrade.maxListings": "Max listings reached",
+  "bumpkinTrade.max": "Max: {{max}}",
+  "bumpkinTrade.floorPrice": "Floor Price: {{price}} SFL",
+  "bumpkinTrade.price/unit": "{{price}} / unit",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
