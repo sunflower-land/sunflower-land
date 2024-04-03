@@ -672,7 +672,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                     {t("goblinTrade.vipRequired")}
                   </Label>
                 )}
-                {requiresSeasonPass && hasVIP && (
+                {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
                   <Label
                     className="my-2"
                     type="success"

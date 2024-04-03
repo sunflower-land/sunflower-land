@@ -257,9 +257,15 @@ export const SalesPanel: React.FC<{
                   {t("goblinTrade.select")}
                 </Label>
               )}
+              {hasVIP && (
+                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                  {`VIP Access`}
+                </Label>
+              )}
+
               {marketPrices && (
                 <div className={classNames("", { "opacity-75": !hasVIP })}>
-                  <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                  {/* <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} /> */}
                 </div>
               )}
             </div>
