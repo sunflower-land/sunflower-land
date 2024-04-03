@@ -173,17 +173,15 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.info.one")}</p>
         <p className="mb-4 text-sm">
-          {t("wishingWell.info.two")}
-          {":"}{" "}
+          {t("wishingWell.info.two")}{" "}
           <a
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t("statements.wishing.well.info.four")}
+            {t("read.more")}
           </a>
-          {t("statements.wishing.well.info.five")}
         </p>
         <p className="mb-4 text-sm">
           {`${t("there.currently")} ${Number(
