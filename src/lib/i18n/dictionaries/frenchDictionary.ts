@@ -1782,7 +1782,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
   "deliveryHelp.axe":
     "Terminez vos tâches et trouvez Hank à la Plaza pour réclamer vos récompenses.",
   "deliveryHelp.chest":
-    "Établissez des relations avec les Bumpkins en effectuant plusieurs commandes pour débloquer des récompenses bonus. (Bientôt disponible)",
+    "Établissez des relations avec les Bumpkins en effectuant plusieurs commandes pour débloquer des récompenses bonus.",
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {

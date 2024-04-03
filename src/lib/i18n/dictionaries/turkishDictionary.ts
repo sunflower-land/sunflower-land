@@ -1721,7 +1721,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
   "deliveryHelp.axe":
     "Görevlerinizi tamamlayın ve ödüllerinizi almak için Plaza'da Hank'i bulun.",
   "deliveryHelp.chest":
-    "Bonus ödüllerin kilidini açmak için birden fazla siparişi tamamlayarak Bumpkinler ile ilişkiler kurun. (Yakında gelecek)",
+    "Bonus ödüllerin kilidini açmak için birden fazla siparişi tamamlayarak Bumpkinler ile ilişkiler kurun.",
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {

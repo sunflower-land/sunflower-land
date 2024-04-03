@@ -1753,7 +1753,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
   "deliveryHelp.axe":
     "Complete suas tarefas e encontre o Hank na Praça para reivindicar suas recompensas.",
   "deliveryHelp.chest":
-    "Construa relacionamentos com os Bumpkins completando vários pedidos para desbloquear recompensas extras. (Em breve)",
+    "Construa relacionamentos com os Bumpkins completando vários pedidos para desbloquear recompensas extras.",
 };
 
 const depositWallet: Record<DepositWallet, string> = {

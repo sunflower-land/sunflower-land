@@ -1708,7 +1708,7 @@ const deliveryHelp: Record<DeliveryHelp, string> = {
   "deliveryHelp.axe":
     "Complete your chores and find Hank at the Plaza to claim your rewards.",
   "deliveryHelp.chest":
-    "Build relationships with Bumpkins by completing multiple orders to unlock bonus rewards. (Coming soon)",
+    "Build relationships with Bumpkins by completing multiple orders to unlock bonus rewards.",
 };
 
 const deliveryitem: Record<DeliveryItem, string> = {
