@@ -583,7 +583,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   }
 
   if (requiresSeasonPass && !hasSeasonPass) {
-    message = t("bumpkin.delivery.requiresSeasonPass");
+    message = t("goblinTrade.vipRequired");
   }
 
   const missingExpansions =
