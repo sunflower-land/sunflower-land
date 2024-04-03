@@ -11,7 +11,7 @@ import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
 import { transferInventoryItem } from "./WithdrawItems";

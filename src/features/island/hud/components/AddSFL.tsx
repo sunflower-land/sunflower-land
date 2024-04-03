@@ -2,7 +2,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";

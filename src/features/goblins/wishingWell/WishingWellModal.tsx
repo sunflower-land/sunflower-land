@@ -5,7 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import wisingWell from "assets/buildings/wishing_well.png";
 import goblinHead from "assets/npcs/goblin_head.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";

@@ -11,7 +11,7 @@ import { Button } from "components/ui/Button";
 
 import { wallet } from "lib/blockchain/wallet";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
 
 import { getTax } from "lib/utils/tax";

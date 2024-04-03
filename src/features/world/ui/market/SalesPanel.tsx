@@ -18,12 +18,16 @@ import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 
-import sflIcon from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
+import {
+  getSeasonalBanner,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -97,8 +101,8 @@ export const SalesPanel: React.FC<{
     }
   }, [loadingNewPrices]);
 
-  const onSell = (item: TradeableName) => {
-    const isHoarding = checkHoard(item);
+  const onSell = (item: TradeableName, price: number) => {
+    const isHoarding = checkHoard(item, price);
 
     if (isHoarding) {
       setWarning("hoarding");
@@ -110,50 +114,43 @@ export const SalesPanel: React.FC<{
     setSelected(item);
   };
 
-  const confirmSell = () => {
+  const confirmSell = (pricePerUnit: number) => {
     setConfirm(false);
 
     gameService.send({
       type: "SELL_MARKET_RESOURCE",
       item: selected,
-      pricePerUnit: marketPrices!.prices.currentPrices[selected],
+      pricePerUnit: pricePerUnit,
     });
   };
 
-  const checkHoard = (item: TradeableName) => {
+  const checkHoard = (item: TradeableName, price: number) => {
     const auctionSFL = state.auctioneer.bid?.sfl ?? new Decimal(0);
 
     const progress = state.balance
       .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * marketPrices!.prices.currentPrices[item])
+      .add(MARKET_BUNDLES[item] * price)
       .sub(state.previousBalance ?? new Decimal(0));
 
     return progress.gt(MAX_SESSION_SFL);
   };
 
-  if (!state.inventory["Gold Pass"]) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={ITEM_DETAILS["Gold Pass"].image}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
-          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
-        </div>
-      </div>
-    );
-  }
+  const hasBanner = (
+    state.inventory[getSeasonalBanner()] ?? new Decimal(0)
+  ).gte(1);
 
-  const unitPrice =
-    marketPrices?.prices?.currentPrices?.[selected]?.toFixed(4) || "0.0000";
+  const hasVIP =
+    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasBanner;
+
+  const unitPrice = marketPrices?.prices?.currentPrices?.[selected] || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
     4
   );
   const canSell =
     state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) &&
     !(Number(unitPrice) === 0);
+
+  const hasPrices = !!marketPrices;
 
   if (warning === "hoarding") {
     return (
@@ -206,7 +203,7 @@ export const SalesPanel: React.FC<{
                   {t("bumpkinTrade.available")}
                 </Label>
                 <span className="text-sm mr-1">
-                  {state.inventory?.[selected]?.toFixed(0) ?? 0}
+                  {state.inventory?.[selected]?.toFixed(0, 1) ?? 0}
                 </span>
               </div>
             </div>
@@ -223,18 +220,26 @@ export const SalesPanel: React.FC<{
               <span
                 className={classNames("text-xs", { "text-red-500": !canSell })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-xs">{`${unitPrice}${t("unit")}`}</span>
+              <span className="text-xs">{`${Number(unitPrice).toFixed(4)}${t(
+                "unit"
+              )}`}</span>
             </div>
           </div>
-          <span className="pt-3 text-xs pb-2">
+          <span className="pt-3 text-xs px-1 pb-2">
             {`${t("sell")} ${MARKET_BUNDLES[selected]} ${selected} ${t(
               "for"
-            )} ${bundlePrice} ${"$SFL"}?`}
+            )} ${bundlePrice} ${"SFL"}?`}
           </span>
         </div>
         <div className="flex space-x-1">
           <Button onClick={() => setConfirm(false)}>{t("back")}</Button>
-          <Button onClick={() => confirmSell()} disabled={!canSell}>
+          <Button
+            onClick={() =>
+              hasPrices &&
+              confirmSell(marketPrices.prices.currentPrices[selected])
+            }
+            disabled={!canSell}
+          >
             {t("sell")}
           </Button>
         </div>
@@ -248,11 +253,29 @@ export const SalesPanel: React.FC<{
         <div className="relative w-full">
           <div className="p-2">
             <div className="flex flex-col justify-between space-y-1 sm:flex-row sm:space-y-0">
-              <Label type="default" icon={SUNNYSIDE.icons.basket}>
-                {t("goblinTrade.select")}
-              </Label>
+              {!hasVIP ? (
+                <Label
+                  type="warning"
+                  icon={lock}
+                  secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
+                >
+                  {t("goblinTrade.vipRequired")}
+                </Label>
+              ) : (
+                <Label type="default" icon={SUNNYSIDE.icons.basket}>
+                  {t("goblinTrade.select")}
+                </Label>
+              )}
+              {hasVIP && (
+                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                  {`VIP Access`}
+                </Label>
+              )}
+
               {marketPrices && (
-                <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                <div className={classNames("", { "opacity-75": !hasVIP })}>
+                  <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
+                </div>
               )}
             </div>
 
@@ -269,10 +292,25 @@ export const SalesPanel: React.FC<{
                     className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
                   >
                     <OuterPanel
-                      className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
-                      onClick={() => {
-                        onSell(name);
-                      }}
+                      className={classNames(
+                        "w-full relative flex flex-col items-center justify-center",
+                        {
+                          "cursor-not-allowed opacity-75":
+                            !hasVIP || !hasPrices,
+                          "cursor-pointer hover:bg-brown-200":
+                            hasVIP && hasPrices,
+                        }
+                      )}
+                      onClick={
+                        hasPrices && hasVIP
+                          ? () => {
+                              onSell(
+                                name,
+                                marketPrices.prices.currentPrices[name]
+                              );
+                            }
+                          : undefined
+                      }
                     >
                       <span className="text-xs mt-1">{name}</span>
                       <img

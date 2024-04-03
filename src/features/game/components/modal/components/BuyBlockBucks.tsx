@@ -9,6 +9,7 @@ import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export interface Price {
   amount: number;
@@ -84,6 +85,13 @@ export const BuyBlockBucks: React.FC<Props> = ({
         <Label icon={blockBucksIcon} type="default" className="ml-2">
           {`${t("transaction.buy.BlockBucks")}`}
         </Label>
+        <div className="py-2">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="h-6 w-6 ml-2 cursor-pointer"
+            onClick={() => setPrice(undefined)}
+          />
+        </div>
         <p className="text-xxs italic mt-1">{t("transaction.excludeFees")}</p>
         <div className="flex flex-col w-full items-center mb-2 px-2 text-sm">
           <div className="flex w-full py-3 items-center text-sm justify-between">
@@ -141,7 +149,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
                 <img src={creditCard} className="w-1/5 sm:w-1/5" />
                 {price.amount === 1 && (
                   <span className="text-[12px] italic">
-                    {`*${t("minimum")} 5 BB's`}
+                    {`*${t("minimum")} 5 Block Bucks`}
                   </span>
                 )}
               </div>
@@ -155,7 +163,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
             </OuterPanel>
             <OuterPanel
               onClick={() => setShowMaticConfirm(true)}
-              className="flex relative flex-col flex-1 items-center p-2"
+              className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
             >
               <span className="mb-2 text-xs">{"MATIC"}</span>
               <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
@@ -184,12 +192,10 @@ export const BuyBlockBucks: React.FC<Props> = ({
           {PRICES.map((price) => (
             <OuterPanel
               key={JSON.stringify(price)}
-              className="flex flex-col items-center relative cursor-pointer"
+              className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
               onClick={() => setPrice(price)}
             >
-              <span className="whitespace-nowrap mb-2">{`${price.amount} ${
-                price.amount > 1 ? "BB's" : "BB"
-              }`}</span>
+              <span className="whitespace-nowrap mb-2">{`${price.amount} x`}</span>
               <div className="flex flex-1 justify-center items-center mb-6 w-full">
                 <img src={blockBucksIcon} className="w-2/5 sm:w-1/4" />
               </div>

@@ -112,13 +112,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "betty",
     direction: "left",
   },
-
-  {
-    x: 834,
-    y: 335,
-    npc: "grubnuk",
-    direction: "left",
-  },
   {
     x: 90,
     y: 70,
@@ -269,6 +262,20 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
     {
       x: 300,
       y: 320,
+    },
+    {
+      x: 55,
+      y: 200,
+    },
+  ],
+  10: [
+    {
+      x: 400,
+      y: 420,
+    },
+    {
+      x: 800,
+      y: 300,
     },
     {
       x: 55,

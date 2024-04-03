@@ -13,7 +13,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -37,15 +36,6 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
     gameState.context.state.inventory["Prize Ticket"] ?? new Decimal(0);
 
   const monthName = new Date().toLocaleString("default", { month: "long" });
-
-  if (!hasFeatureAccess(gameState.context.state, "RAFFLE")) {
-    <CloseButtonPanel onClose={onClose}>
-      <div className="p-2">
-        <Label type="default">{t("coming.soon")}</Label>
-      </div>
-      <Button onClick={onClose}>{t("close")}</Button>
-    </CloseButtonPanel>;
-  }
 
   return (
     <CloseButtonPanel onClose={onClose}>

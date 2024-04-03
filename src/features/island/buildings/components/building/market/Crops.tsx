@@ -262,8 +262,8 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
               {t("confirmation.sellCrops")} <br className="hidden sm:block" />
               {`${t("sell")} ${cropAmount} ${selected.name} ${t("for")} `}
               <br className="hidden sm:block" />
-              {`${(displaySellPrice(selected) * Number(cropAmount)).toFixed(
-                4
+              {`${Math.floor(
+                displaySellPrice(selected) * Number(cropAmount)
               )} Coins?`}
             </span>
           </div>

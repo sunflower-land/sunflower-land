@@ -26,7 +26,6 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Island {
   name: string;
@@ -245,9 +244,7 @@ export const IslandList: React.FC<IslandListProps> = ({
       name: "Goblin Retreat",
       levelRequired: 5 as BumpkinLevel,
       image: goblin,
-      path: hasFeatureAccess(gameState, "RETREAT")
-        ? `/world/retreat`
-        : `/retreat/${farmId}`,
+      path: `/world/retreat`,
       labels: [
         <Label type="default" key="trading" icon={SUNNYSIDE.icons.player_small}>
           {t("trading")}
@@ -264,28 +261,6 @@ export const IslandList: React.FC<IslandListProps> = ({
         </Label>,
       ],
     },
-    ...(hasFeatureAccess(gameState, "RETREAT")
-      ? []
-      : [
-          {
-            name: "Helios",
-            levelRequired: 10 as BumpkinLevel,
-            image: SUNNYSIDE.icons.helios,
-            path: `/helios`,
-            labels: [
-              <Label
-                type="default"
-                key="shopping"
-                icon={SUNNYSIDE.icons.basket}
-              >
-                {t("shopping")}
-              </Label>,
-              <Label type="default" key="trash" icon={SUNNYSIDE.icons.cancel}>
-                {t("trash.collection")}
-              </Label>,
-            ],
-          },
-        ]),
   ];
 
   // NOTE: If you're visiting without a session then just show the form by default as there is no option to return to a farm

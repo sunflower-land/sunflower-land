@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import bank from "assets/buildings/goblin_bank.gif";
-import icon from "assets/icons/token_2.png";
+import icon from "assets/icons/sfl.webp";
 
 import { Action } from "components/ui/Action";
 import { PIXEL_SCALE } from "features/game/lib/constants";

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";

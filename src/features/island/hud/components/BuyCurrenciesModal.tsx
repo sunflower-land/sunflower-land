@@ -27,6 +27,7 @@ import {
   Price,
 } from "features/game/components/modal/components/BuyBlockBucks";
 import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
 
@@ -142,7 +143,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
           onClose={onClose}
           tabs={[
             { icon: blockBucksIcon, name: `Buy` },
-            { icon: exchangeIcon, name: `$SFL/Coins` },
+            { icon: exchangeIcon, name: `SFL/Coins` },
           ]}
         >
           {tab === 0 && (
@@ -186,7 +187,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     return (
                       <OuterPanel
                         key={JSON.stringify(option)}
-                        className="flex relative flex-col flex-1 items-center p-2"
+                        className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
                         onClick={() => setExchangePackageId(Number(packageId))}
                       >
                         <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
@@ -208,7 +209,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                             left: "-2px",
                           }}
                         >
-                          {`${option.sfl} $SFL`}
+                          {`${option.sfl} SFL`}
                         </Label>
                       </OuterPanel>
                     );
@@ -218,7 +219,14 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
               {/* Exchange confirmation */}
               {!!exchangePackageId && (
                 <div className="flex flex-col space-y-1">
-                  <div className="flex px-1 py-2 w-full items-center text-sm justify-between">
+                  <div className="py-1">
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="h-6 w-6 ml-2 cursor-pointer"
+                      onClick={() => setExchangePackageId(undefined)}
+                    />
+                  </div>
+                  <div className="flex px-1 pb-1 w-full items-center text-sm justify-between">
                     <div className="flex items-center space-x-2">
                       <span>
                         {t("item")}{" "}
@@ -229,20 +237,13 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     </div>
                     <span>{`${t("total")} ${
                       SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
-                    } $SFL`}</span>
+                    } SFL`}</span>
                   </div>
-                  <div className="flex space-x-1">
-                    <Button onClick={() => setExchangePackageId(undefined)}>
-                      {t("cancel")}
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        handleSFLtoCoinsExchange(exchangePackageId)
-                      }
-                    >
-                      {t("confirm")}
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={() => handleSFLtoCoinsExchange(exchangePackageId)}
+                  >
+                    {t("confirm")}
+                  </Button>
                 </div>
               )}
             </div>

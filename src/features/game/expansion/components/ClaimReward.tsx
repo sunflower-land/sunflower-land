@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
-import token from "src/assets/icons/token_2.png";
+import token from "src/assets/icons/sfl.webp";
 import coins from "src/assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import { getKeys } from "features/game/types/craftables";
@@ -68,7 +68,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               </div>
             </div>
           )}
-          {!!airdrop.coins && (
+          {airdrop.coins !== undefined && airdrop.coins > 0 && (
             <div className="flex items-center">
               <Box image={coins} />
               <div>

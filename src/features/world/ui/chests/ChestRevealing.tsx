@@ -7,7 +7,7 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useEffect } from "react";
 
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
 import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";

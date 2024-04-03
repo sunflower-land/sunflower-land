@@ -46,6 +46,10 @@ export function readMessage({
       const previous = game.inventory[name] ?? new Decimal(0);
       game.inventory[name] = previous.add(reward.items[name] ?? 0);
     });
+
+    if (reward.coins) {
+      game.coins = game.coins + reward.coins;
+    }
   }
 
   return game;
