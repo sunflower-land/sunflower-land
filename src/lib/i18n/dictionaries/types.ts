@@ -2519,8 +2519,6 @@ export type Offer =
   | "offer.getStarterPack"
   | "offer.newHere"
   | "offer.getStarted"
-  | "offer.NFT.include"
-  | "offer.free"
   | "offer.not.enough.BlockBucks";
 
 export type Onboarding =

@@ -3774,12 +3774,10 @@ const obsessionDialogue: Record<ObsessionDialogue, string> = {
 
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Olá Agricultor, tenho uma oferta exclusiva OKX para você!",
-  "offer.beginWithNFT": "Para começar, você precisará criar um ",
+  "offer.beginWithNFT": ENGLISH_TERMS["offer.beginWithNFT"],
   "offer.getStarterPack": "Obtenha o Pacote Inicial Agora",
   "offer.newHere": "Olá Agricultor, você parece novo por aqui!",
   "offer.getStarted": "Comece Agora",
-  "offer.NFT.include": "Farm NFT. Isso incluirá",
-  "offer.free": "grátis",
   "offer.not.enough.BlockBucks": ENGLISH_TERMS["offer.not.enough.BlockBucks"],
 };
 
@@ -3932,7 +3930,7 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Acessório Grátis para mintar",
   "quest.equipWearable": "Equipe este acessório em seu Bumpkin",
-  "quest.congrats": "Parabéns, você mintou um",
+  "quest.congrats": ENGLISH_TERMS["quest.congrats"],
 };
 
 const questions: Record<Questions, string> = {

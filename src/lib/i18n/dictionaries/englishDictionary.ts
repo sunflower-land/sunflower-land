@@ -3751,12 +3751,11 @@ const obsessionDialogue: Record<ObsessionDialogue, string> = {
 
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
-  "offer.beginWithNFT": "To begin you will need to mint a ",
+  "offer.beginWithNFT":
+    "To begin you will need to mint a free Farm NFT. This will include:",
   "offer.getStarterPack": "Get Starter Pack Now",
   "offer.newHere": "Howdy Farmer, you look new here!",
   "offer.getStarted": "Get Started Now",
-  "offer.NFT.include": "Farm NFT. This will include:",
-  "offer.free": "free",
   "offer.not.enough.BlockBucks": "You do not have enough Block Bucks!",
 };
 
@@ -3908,7 +3907,7 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint Free Wearable",
   "quest.equipWearable": "Equip this wearable on your Bumpkin",
-  "quest.congrats": "Congratulations, you have minted a",
+  "quest.congrats": "Congratulations, you have minted a {{wearable}}",
 };
 
 const questions: Record<Questions, string> = {

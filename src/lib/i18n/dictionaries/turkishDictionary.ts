@@ -3768,12 +3768,10 @@ const obsessionDialogue: Record<ObsessionDialogue, string> = {
 
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Merhaba Çiftçi, senin için özel bir OKX teklifim var!",
-  "offer.beginWithNFT": "Başlamak için bir ",
+  "offer.beginWithNFT": ENGLISH_TERMS["offer.beginWithNFT"],
   "offer.getStarterPack": "Başlangıç Paketini Al",
   "offer.newHere": "Merhaba Çiftçi, burada yenisin görünüyorsun!",
   "offer.getStarted": "Şimdi Başla",
-  "offer.NFT.include": "Çiftlik NFT'si. Bunu, içerecek",
-  "offer.free": "bedava",
   "offer.not.enough.BlockBucks": "Yeterince Block Bucks yok!",
 };
 
@@ -3928,7 +3926,7 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Ücretsiz Giyilebilir Ürünü Üret",
   "quest.equipWearable": "Bu giyilebilir ürünü Bumpkin'inize takın",
-  "quest.congrats": "Tebrikler, bir tane üretildi",
+  "quest.congrats": ENGLISH_TERMS["quest.congrats"],
 };
 
 const questions: Record<Questions, string> = {

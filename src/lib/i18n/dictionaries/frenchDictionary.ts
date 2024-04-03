@@ -3880,12 +3880,10 @@ const obsessionDialogue: Record<ObsessionDialogue, string> = {
 
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Salut fermier, j'ai une offre exclusive OKX pour toi!",
-  "offer.beginWithNFT": "Pour commencer, tu devras créer un ",
+  "offer.beginWithNFT": ENGLISH_TERMS["offer.beginWithNFT"],
   "offer.getStarterPack": "Obtiens le Pack de Démarrage Maintenant",
   "offer.newHere": "Salut fermier, tu sembles nouveau ici!",
   "offer.getStarted": "Commence Maintenant",
-  "offer.NFT.include": "NFT de la Ferme. Ceci inclura",
-  "offer.free": "gratuit",
   "offer.not.enough.BlockBucks": "Vous n'avez pas assez de Block Bucks!",
 };
 
@@ -4059,7 +4057,7 @@ const pwaInstall: Record<PwaInstall, string> = {
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint gratuit pour vêtement",
   "quest.equipWearable": "Équipez ce vêtement sur votre Bumpkin",
-  "quest.congrats": "Félicitations, vous avez minté un",
+  "quest.congrats": ENGLISH_TERMS["quest.congrats"],
 };
 
 const questions: Record<Questions, string> = {
