@@ -673,27 +673,25 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   {t("completed")}
                 </Label>
               )}
-              <div className="flex space-x-2">
-                {isLocked && (
-                  <Label className="my-2" type="danger" icon={lockIcon}>
-                    {t("locked")}
-                  </Label>
-                )}
-                {missingVIPAccess && (
-                  <Label className="my-2" type="danger" icon={lockIcon}>
-                    {t("goblinTrade.vipRequired")}
-                  </Label>
-                )}
-                {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
-                  <Label
-                    className="my-2"
-                    type="success"
-                    icon={SUNNYSIDE.icons.confirm}
-                  >
-                    {`VIP Access`}
-                  </Label>
-                )}
-              </div>
+              {isLocked && (
+                <Label className="my-2" type="danger" icon={lockIcon}>
+                  {t("locked")}
+                </Label>
+              )}
+              {missingVIPAccess && (
+                <Label className="my-2" type="danger" icon={lockIcon}>
+                  {t("goblinTrade.vipRequired")}
+                </Label>
+              )}
+              {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
+                <Label
+                  className="my-2"
+                  type="success"
+                  icon={SUNNYSIDE.icons.confirm}
+                >
+                  {`VIP Access`}
+                </Label>
+              )}
             </div>
 
             {!delivery && !isLocked && (
