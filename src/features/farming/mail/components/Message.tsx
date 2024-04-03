@@ -63,7 +63,7 @@ export const Message: React.FC<Props> = ({
         <div className="">
           {conversation.content.map((content, index) => (
             <div className="mb-2" key={index}>
-              <p className="text-sm mb-2">{content.text}</p>
+              <p className="text-sm px-1 mb-2">{content.text}</p>
               {content.image && (
                 <img
                   src={content.image}
