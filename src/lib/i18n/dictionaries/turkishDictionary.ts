@@ -2108,11 +2108,11 @@ const flowerbreed: Record<Flowerbreed, string> = {
   "flower.breed.whiteBalloonFlower": "Beyaz bir balon çiçeği. Bu nadir.",
   "flower.breed.blueBalloonFlower":
     "Balon çiçeklerinin en temeli. Övünecek bir şey yok.",
-  "flower.breed.redDaffodil": "",
-  "flower.breed.yellowDaffodil": "",
-  "flower.breed.purpleDaffodil": "",
-  "flower.breed.whiteDaffodil": "",
-  "flower.breed.blueDaffodil": "",
+  "flower.breed.redDaffodil": ENGLISH_TERMS["flower.breed.redDaffodil"],
+  "flower.breed.yellowDaffodil": ENGLISH_TERMS["flower.breed.yellowDaffodil"],
+  "flower.breed.purpleDaffodil": ENGLISH_TERMS["flower.breed.purpleDaffodil"],
+  "flower.breed.whiteDaffodil": ENGLISH_TERMS["flower.breed.whiteDaffodil"],
+  "flower.breed.blueDaffodil": ENGLISH_TERMS["flower.breed.blueDaffodil"],
   "flower.breed.celestialFrostbloom":
     "Son derece nadir bir mutasyon. Bunu melezlemek istediğinizden emin misiniz?",
   "flower.breed.redCarnation":
@@ -2124,21 +2124,22 @@ const flowerbreed: Record<Flowerbreed, string> = {
     "Bumpkins, sarı karanfilin sadeliğinden dolayı değer veriyor.",
   "flower.breed.blueCarnation":
     "Bumpkins, mavi karanfilin Bloom tohumlarıyla melezleme yeteneğinden dolayı değer veriyor.",
-  "flower.breed.redLotus": "",
-  "flower.breed.yellowLotus": "",
-  "flower.breed.purpleLotus": "",
-  "flower.breed.whiteLotus": "",
-  "flower.breed.blueLotus": "",
+  "flower.breed.redLotus": ENGLISH_TERMS["flower.breed.redLotus"],
+  "flower.breed.yellowLotus": ENGLISH_TERMS["flower.breed.yellowLotus"],
+  "flower.breed.purpleLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
+  "flower.breed.whiteLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
+  "flower.breed.blueLotus": ENGLISH_TERMS["flower.breed.blueLotus"],
   "flower.breed.primulaEnigma":
     "Son derece nadir bir mutasyon, bunu melezlemek istediğinden emin misin?",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming": "Ah, bir bitki yetiştirmeyi hayal ediyordum ",
-  "flowerShop.desired.delightful": "sahip olmak ne kadar keyifli olurdu ",
-  "flowerShop.desired.wonderful":
-    "Bir şeye sahip olmak ne kadar harika olurdu ",
-  "flowerShop.desired.setMyHeart": "Büyümeye kalbimi koydum",
+  "flowerShop.desired.dreaming": ENGLISH_TERMS["flowerShop.desired.dreaming"],
+  "flowerShop.desired.delightful":
+    ENGLISH_TERMS["flowerShop.desired.delightful"],
+  "flowerShop.desired.wonderful": ENGLISH_TERMS["flowerShop.desired.wonderful"],
+  "flowerShop.desired.setMyHeart":
+    ENGLISH_TERMS["flowerShop.desired.setMyHeart"],
   "flowerShop.missingPages.alas":
     "Ama ne yazık ki! Melezleme kitabımın sayfalarını kaybettim! Plazada bir yerlerde olmalılar.",
   "flowerShop.missingPages.cantBelieve":
@@ -2148,9 +2149,8 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
   "flowerShop.missingPages.sadly":
     "Ne yazık ki melezleme notlarım gitti! Eminim buralarda bir yerlerdedirler. Plazada bir yerlerde olmalılar.",
   "flowerShop.noFlowers.noTrade": "Üzgünüm, şu anda takas edecek çiçeğim yok.",
-  "flowerShop.do.have": "Sahip misin",
-  "flowerShop.do.have.trade": "benimle takas eder misin?",
-  "flowerShop.do.have.trade.one": "ticaret yapmaya istekli misin?",
+  "flowerShop.do.have.trade": ENGLISH_TERMS["flowerShop.do.have.trade"],
+  "flowerShop.do.have.trade.one": ENGLISH_TERMS["flowerShop.do.have.trade.one"],
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {

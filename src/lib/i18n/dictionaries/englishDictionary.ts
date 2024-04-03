@@ -2096,11 +2096,11 @@ const flowerbreed: Record<Flowerbreed, string> = {
   "flower.breed.whiteBalloonFlower": "A white balloon flower. This is rare.",
   "flower.breed.blueBalloonFlower":
     "The most basic of balloon flowers. Nothing to brag about.",
-  "flower.breed.redDaffodil": "",
-  "flower.breed.yellowDaffodil": "",
-  "flower.breed.purpleDaffodil": "",
-  "flower.breed.whiteDaffodil": "",
-  "flower.breed.blueDaffodil": "",
+  "flower.breed.redDaffodil": "A red daffoldil",
+  "flower.breed.yellowDaffodil": "A yellow daffoldil",
+  "flower.breed.purpleDaffodil": "A purple daffoldil",
+  "flower.breed.whiteDaffodil": "A white daffoldil",
+  "flower.breed.blueDaffodil": "A blue daffoldil",
   "flower.breed.celestialFrostbloom":
     "An extremely rare mutation. Are you sure you want to cross breed this?",
   "flower.breed.redCarnation":
@@ -2113,20 +2113,24 @@ const flowerbreed: Record<Flowerbreed, string> = {
     "Bumpkins value the yellow carnation for its simplicity.",
   "flower.breed.blueCarnation":
     "Bumpkins value the blue carnation for its ability to cross breed with Bloom seeds.",
-  "flower.breed.redLotus": "",
-  "flower.breed.yellowLotus": "",
-  "flower.breed.purpleLotus": "",
-  "flower.breed.whiteLotus": "",
-  "flower.breed.blueLotus": "",
+  "flower.breed.redLotus": "A red lotus",
+  "flower.breed.yellowLotus": "A yellow lotus",
+  "flower.breed.purpleLotus": "A purple lotus",
+  "flower.breed.whiteLotus": "A white lotus",
+  "flower.breed.blueLotus": "A blue lotus",
   "flower.breed.primulaEnigma":
     "An extremely rare mutation, are you sure you want to cross breed this?",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming": "Oh, I've been dreaming of cultivating a ",
-  "flowerShop.desired.delightful": "How delightful it would be to have a ",
-  "flowerShop.desired.wonderful": "How wonderful it would be to have a ",
-  "flowerShop.desired.setMyHeart": "I've set my heart on growing a ",
+  "flowerShop.desired.dreaming":
+    "Oh, I've been dreaming of cultivating a {{desiredFlowerName}}!",
+  "flowerShop.desired.delightful":
+    "How delightful it would be to have a {{desiredFlowerName}}.",
+  "flowerShop.desired.wonderful":
+    "How wonderful it would be to have a {{desiredFlowerName}}!",
+  "flowerShop.desired.setMyHeart":
+    "I've set my heart on growing a {{desiredFlowerName}}.",
   "flowerShop.missingPages.alas":
     "But alas! I've misplaced the pages of my cross-breeding book! They must be in the plaza somewhere.",
   "flowerShop.missingPages.cantBelieve":
@@ -2137,9 +2141,10 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
     "Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.",
   "flowerShop.noFlowers.noTrade":
     "I'm sorry, I don't have any flowers to trade right now.",
-  "flowerShop.do.have": "Do you have a",
-  "flowerShop.do.have.trade": "you would trade me?",
-  "flowerShop.do.have.trade.one": "you would be willing to trade?",
+  "flowerShop.do.have.trade":
+    "Do you have a {{desiredFlower}} you would trade me?",
+  "flowerShop.do.have.trade.one":
+    "Do you have a {{desiredFlower}} you would be willing to trade?",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {

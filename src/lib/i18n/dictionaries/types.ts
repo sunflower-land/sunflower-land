@@ -1514,7 +1514,6 @@ export type FlowerShopTerms =
   | "flowerShop.missingPages.inABind"
   | "flowerShop.missingPages.sadly"
   | "flowerShop.noFlowers.noTrade"
-  | "flowerShop.do.have"
   | "flowerShop.do.have.trade"
   | "flowerShop.do.have.trade.one";
 

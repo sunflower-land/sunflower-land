@@ -13,10 +13,18 @@ import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 
 const desiredFlowerDialogues = (desiredFlowerName: string) => [
-  `${translate("flowerShop.desired.dreaming")} ${desiredFlowerName}!`,
-  `${translate("flowerShop.desired.delightful")} ${desiredFlowerName}.`,
-  `${translate("flowerShop.desired.wonderful")} ${desiredFlowerName}!`,
-  `${translate("flowerShop.desired.setMyHeart")} ${desiredFlowerName}.`,
+  `${translate("flowerShop.desired.dreaming", {
+    desiredFlowerName: desiredFlowerName,
+  })}`,
+  `${translate("flowerShop.desired.delightful", {
+    desiredFlowerName: desiredFlowerName,
+  })}`,
+  `${translate("flowerShop.desired.wonderful", {
+    desiredFlowerName: desiredFlowerName,
+  })}`,
+  `${translate("flowerShop.desired.setMyHeart", {
+    desiredFlowerName: desiredFlowerName,
+  })}`,
 ];
 
 const lostPagesDialogues = [
@@ -81,9 +89,9 @@ export const FlowerShop: React.FC<Props> = ({ onClose }) => {
             text: lostPagesDialogue,
           },
           {
-            text: `${translate("flowerShop.do.have")} ${
-              springBlossom.weeklyFlower
-            } ${translate("flowerShop.do.have.trade")}`,
+            text: `${translate("flowerShop.do.have.trade", {
+              desiredFlower: springBlossom.weeklyFlower,
+            })}`,
 
             actions: [
               {

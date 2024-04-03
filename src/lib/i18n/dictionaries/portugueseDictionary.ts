@@ -2127,11 +2127,11 @@ const flowerbreed: Record<Flowerbreed, string> = {
   "flower.breed.whiteBalloonFlower": "Uma flor de balão branca. Isso é raro.",
   "flower.breed.blueBalloonFlower":
     "A mais básica das flores balão. Nada para se gabar.",
-  "flower.breed.redDaffodil": "",
-  "flower.breed.yellowDaffodil": "",
-  "flower.breed.purpleDaffodil": "",
-  "flower.breed.whiteDaffodil": "",
-  "flower.breed.blueDaffodil": "",
+  "flower.breed.redDaffodil": ENGLISH_TERMS["flower.breed.redDaffodil"],
+  "flower.breed.yellowDaffodil": ENGLISH_TERMS["flower.breed.yellowDaffodil"],
+  "flower.breed.purpleDaffodil": ENGLISH_TERMS["flower.breed.purpleDaffodil"],
+  "flower.breed.whiteDaffodil": ENGLISH_TERMS["flower.breed.whiteDaffodil"],
+  "flower.breed.blueDaffodil": ENGLISH_TERMS["flower.breed.blueDaffodil"],
   "flower.breed.celestialFrostbloom":
     "Uma mutação extremamente rara. Tem certeza de que quer cruzar isso?",
   "flower.breed.redCarnation":
@@ -2144,20 +2144,22 @@ const flowerbreed: Record<Flowerbreed, string> = {
     "Os Bumpkins valorizam o cravo amarelo por sua simplicidade.",
   "flower.breed.blueCarnation":
     "Os Bumpkins valorizam o cravo azul por sua capacidade de cruzar com sementes Noturnas.",
-  "flower.breed.redLotus": "",
-  "flower.breed.yellowLotus": "",
-  "flower.breed.purpleLotus": "",
-  "flower.breed.whiteLotus": "",
-  "flower.breed.blueLotus": "",
+  "flower.breed.redLotus": ENGLISH_TERMS["flower.breed.redLotus"],
+  "flower.breed.yellowLotus": ENGLISH_TERMS["flower.breed.yellowLotus"],
+  "flower.breed.purpleLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
+  "flower.breed.whiteLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
+  "flower.breed.blueLotus": ENGLISH_TERMS["flower.breed.blueLotus"],
   "flower.breed.primulaEnigma":
     "Uma mutação extremamente rara, tem certeza de que quer cruzar isso?",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming": "Ah, tenho sonhado em cultivar um(a) ",
-  "flowerShop.desired.delightful": "Como seria encantador ter um(a) ",
-  "flowerShop.desired.wonderful": "Como seria maravilhoso ter um(a) ",
-  "flowerShop.desired.setMyHeart": "Eu coloquei meu coração em crescer um(a) ",
+  "flowerShop.desired.dreaming": ENGLISH_TERMS["flowerShop.desired.dreaming"],
+  "flowerShop.desired.delightful":
+    ENGLISH_TERMS["flowerShop.desired.delightful"],
+  "flowerShop.desired.wonderful": ENGLISH_TERMS["flowerShop.desired.wonderful"],
+  "flowerShop.desired.setMyHeart":
+    ENGLISH_TERMS["flowerShop.desired.setMyHeart"],
   "flowerShop.missingPages.alas":
     "Mas aí eu perdi as páginas do meu livro de cruzamento! Elas devem estar na praça em algum lugar.",
   "flowerShop.missingPages.cantBelieve":
@@ -2168,9 +2170,8 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
     "Infelizmente, minhas notas de cruzamento desapareceram! Tenho certeza de que estão por aqui. Elas devem estar na praça em algum lugar.",
   "flowerShop.noFlowers.noTrade":
     "Desculpe, não tenho flores para trocar no momento.",
-  "flowerShop.do.have": "Você tem um(a)",
-  "flowerShop.do.have.trade": "que gostaria de me trocar?",
-  "flowerShop.do.have.trade.one": "que estaria disposto(a) a trocar?",
+  "flowerShop.do.have.trade": ENGLISH_TERMS["flowerShop.do.have.trade"],
+  "flowerShop.do.have.trade.one": ENGLISH_TERMS["flowerShop.do.have.trade.one"],
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
