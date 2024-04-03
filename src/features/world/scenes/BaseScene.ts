@@ -937,6 +937,19 @@ export abstract class BaseScene extends Phaser.Scene {
     this.renderPlayers();
   }
 
+  checkDistanceToSprite(
+    sprite: Phaser.GameObjects.Sprite,
+    maxDistance: number
+  ) {
+    const distance = Phaser.Math.Distance.BetweenPoints(
+      sprite,
+      this.currentPlayer as BumpkinContainer
+    );
+
+    if (distance > maxDistance) return false;
+    return true;
+  }
+
   initialiseNPCs(npcs: NPCBumpkin[]) {
     npcs.forEach((bumpkin, index) => {
       const defaultClick = () => {
