@@ -48,13 +48,14 @@ const ListTrade: React.FC<{
   if (!selected) {
     return (
       <div>
-        <Label
-          icon={SUNNYSIDE.icons.basket}
-          type="default"
-          className="m-1 ml-2 mb-3"
-        >
-          {t("bumpkinTrade.like.list")}
-        </Label>
+        <div className="flex items-center justify-between m-1 ml-2 mb-3">
+          <Label icon={SUNNYSIDE.icons.basket} type="default">
+            {t("bumpkinTrade.like.list")}
+          </Label>
+          <Label icon={SUNNYSIDE.icons.confirm} type="success">
+            {`VIP Access`}
+          </Label>
+        </div>
 
         <div className="flex flex-wrap ">
           {getKeys(TRADE_LIMITS)

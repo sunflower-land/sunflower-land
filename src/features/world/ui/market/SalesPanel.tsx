@@ -258,7 +258,7 @@ export const SalesPanel: React.FC<{
                 </Label>
               )}
               {marketPrices && (
-                <div className={classNames("", { "opacity-75": !hasBanner })}>
+                <div className={classNames("", { "opacity-75": !hasVIP })}>
                   <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
                 </div>
               )}
