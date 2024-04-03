@@ -23,7 +23,7 @@ export const Delivery: React.FC<Props> = ({ onWithdraw }) => {
             className="h-16 my-2 running relative left-1/4"
           />
           <div className="flex flex-col space-y-3">
-            <span className="text-sm">{t("delivery.ressource")}</span>
+            <span className="text-sm">{t("delivery.resource")}</span>
             <span className="text-sm">{t("delivery.feed")}</span>
             <span className="text-sm">
               {t("delivery.fee")}

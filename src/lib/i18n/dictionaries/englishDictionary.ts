@@ -1693,7 +1693,7 @@ const delivery: Record<Delivery, string> = {
   "delivery.panel.three": "Delivery: No order selected",
   "delivery.panel.four":
     "I am waiting for the new season to start. Come back to me then!",
-  "delivery.ressource": "Want me to deliver resources?",
+  "delivery.resource": "Want me to deliver resources?",
   "delivery.feed": "It ain't free, I've got a tribe to feed!",
   "delivery.fee": "I'll take 30% of the resources for the ",
   "delivery.goblin.comm.treasury": "Goblin Community Treasury",

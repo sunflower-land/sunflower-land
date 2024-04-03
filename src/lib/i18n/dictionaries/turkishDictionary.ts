@@ -1707,7 +1707,7 @@ const delivery: Record<Delivery, string> = {
   "delivery.panel.three": "Teslimat: Sipariş seçilmedi",
   "delivery.panel.four":
     "Yeni sezonun başlamasını bekliyorum. O zaman bana geri dön!",
-  "delivery.ressource": "Kaynakları teslim etmemi ister misin?",
+  "delivery.resource": "Kaynakları teslim etmemi ister misin?",
   "delivery.feed": "Bedava değil, beslemem gereken bir kabilem var!",
   "delivery.fee": "Kaynakların %30'unu alacağım ",
   "delivery.goblin.comm.treasury": "Goblin Topluluk Hazinesi",

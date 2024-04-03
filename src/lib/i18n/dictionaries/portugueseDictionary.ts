@@ -1739,7 +1739,7 @@ const delivery: Record<Delivery, string> = {
   "delivery.panel.three": "Entrega: Nenhum pedido selecionado",
   "delivery.panel.four":
     "Estou esperando o início da nova temporada. Volte para mim então!",
-  "delivery.ressource": "Quer que eu entregue recursos?",
+  "delivery.resource": "Quer que eu entregue recursos?",
   "delivery.feed": "Não é de graça, tenho uma tribo para alimentar!",
   "delivery.fee": "Vou levar 30% dos recursos para o ",
   "delivery.goblin.comm.treasury": "Tesouro da Comunidade Goblin",

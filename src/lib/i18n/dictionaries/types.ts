@@ -1213,7 +1213,7 @@ export type Delivery =
   | "delivery.panel.two"
   | "delivery.panel.three"
   | "delivery.panel.four"
-  | "delivery.ressource"
+  | "delivery.resource"
   | "delivery.feed"
   | "delivery.fee"
   | "delivery.goblin.comm.treasury";
