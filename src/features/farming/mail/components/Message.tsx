@@ -98,7 +98,7 @@ export const Message: React.FC<Props> = ({
   return (
     <div
       style={{ maxHeight: CONTENT_HEIGHT }}
-      className="overflow-y-auto divide-brown-600 p-2 pb-0 scrollable"
+      className="overflow-y-auto divide-brown-600 pb-0 scrollable"
     >
       <Content />
     </div>

@@ -46,6 +46,18 @@ export const OrderCard: React.FC<{
 }> = ({ order, game, hasRequirementsCheck }) => {
   const { balance, inventory, coins } = game;
 
+  const makeRewardAmountForLabel = (order: Order) => {
+    if (order.reward.sfl !== undefined) {
+      const sfl = getOrderSellPrice<Decimal>(game, order);
+
+      return sfl.toFixed(2);
+    }
+
+    const coins = getOrderSellPrice<number>(game, order);
+
+    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+  };
+
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
   return (
@@ -108,7 +120,7 @@ export const OrderCard: React.FC<{
                       fontSize: "13px",
                     }}
                   >
-                    {getOrderSellPrice<Decimal>(game, order).toFixed(2)}
+                    {makeRewardAmountForLabel(order)}
                   </span>
                 </div>
               )}
@@ -122,7 +134,7 @@ export const OrderCard: React.FC<{
                       fontSize: "13px",
                     }}
                   >
-                    {getOrderSellPrice<number>(game, order).toFixed(2)}
+                    {makeRewardAmountForLabel(order)}
                   </span>
                 </div>
               )}
