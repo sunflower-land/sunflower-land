@@ -142,8 +142,7 @@ export const SalesPanel: React.FC<{
   const hasVIP =
     Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasBanner;
 
-  const unitPrice =
-    marketPrices?.prices?.currentPrices?.[selected]?.toFixed(4) || "0.0000";
+  const unitPrice = marketPrices?.prices?.currentPrices?.[selected] || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
     4
   );
@@ -202,7 +201,7 @@ export const SalesPanel: React.FC<{
                   {t("bumpkinTrade.available")}
                 </Label>
                 <span className="text-sm mr-1">
-                  {state.inventory?.[selected]?.toFixed(0) ?? 0}
+                  {state.inventory?.[selected]?.toFixed(0, 1) ?? 0}
                 </span>
               </div>
             </div>
@@ -219,7 +218,9 @@ export const SalesPanel: React.FC<{
               <span
                 className={classNames("text-xs", { "text-red-500": !canSell })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-xs">{`${unitPrice}${t("unit")}`}</span>
+              <span className="text-xs">{`${Number(unitPrice).toFixed(4)}${t(
+                "unit"
+              )}`}</span>
             </div>
           </div>
           <span className="pt-3 text-xs pb-2">
