@@ -63,7 +63,7 @@ export const Message: React.FC<Props> = ({
         <div className="">
           {conversation.content.map((content, index) => (
             <div className="mb-2" key={index}>
-              <p className="text-sm mb-2">{content.text}</p>
+              <p className="text-sm px-1 mb-2">{content.text}</p>
               {content.image && (
                 <img
                   src={content.image}
@@ -98,7 +98,7 @@ export const Message: React.FC<Props> = ({
   return (
     <div
       style={{ maxHeight: CONTENT_HEIGHT }}
-      className="overflow-y-auto divide-brown-600 p-2 pb-0 scrollable"
+      className="overflow-y-auto divide-brown-600 pb-0 scrollable"
     >
       <Content />
     </div>

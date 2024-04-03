@@ -987,8 +987,6 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "Bunun için bekliyordum. Çok teşekkürler! Daha fazla teslimat için yakında tekrar gel.",
   "bumpkin.delivery.proveYourself": "Değerli olduğunu kanıtla. Adanı genişlet",
   "bumpkin.delivery.more.time": "Daha fazla zaman.",
-  "bumpkin.delivery.requiresSeasonPass":
-    "I will only accept deliveries from Season Pass holders.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -1093,6 +1091,7 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
   "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
   "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
+  "goblinTrade.vipDelivery": ENGLISH_TERMS["goblinTrade.vipDelivery"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -2427,18 +2426,18 @@ const guideTerms: Record<GuideTerms, string> = {
   "guide.intro":
     "Mütevazi başlangıçlardan uzman çiftçiliğe kadar bu kılavuz sizi her konuda bilgilendiriyor!",
   "gathering.guide.one":
-    "Sunflower Land’de gelişmek için kaynak toplama sanatında ustalaşmak şarttır. Farklı kaynakları toplamak için uygun araçları donatarak başlayın. Ağaçları kesmek ve odun elde etmek için güvenilir Baltayı kullanın. Araçlar oluşturmak için yerel tezgahı ziyaret edin ve SFL'nizi/kaynaklarınızı istediğiniz araçla değiştirin.",
+    "Sunflower Land’de gelişmek için kaynak toplama sanatında ustalaşmak şarttır. Farklı kaynakları toplamak için uygun araçları donatarak başlayın. Ağaçları kesmek ve odun elde etmek için güvenilir Baltayı kullanın. Araçlar oluşturmak için yerel tezgahı ziyaret edin ve Coins/kaynaklarınızı istediğiniz araçla değiştirin.",
   "gathering.guide.two":
     "İlerledikçe ve yeterli kaynak topladıkça bölgenizi genişletme yeteneğinin kilidini açacaksınız. Arazinizi genişletmek Sunflower Land’de yeni ufuklar açar. Arazi genişletmeleri, ürün yetiştirmek için verimli topraklar, görkemli ağaçlar, değerli taş yatakları, değerli demir damarları, parıldayan altın yatakları, enfes meyve tarlaları ve çok daha fazlasını içeren bir kaynak hazinesini ortaya çıkarıyor.",
   "gathering.guide.three":
     "Kaynak toplamanın ve arazi genişletmenin çiftçilik yolculuğunuzun omurgası olduğunu unutmayın. Her adımla birlikte gelen zorlukları ve ödülleri kucaklayın ve Sunflower Land’de bol kaynaklar ve sonsuz olanaklarla gelişmesini izleyin.",
 
   "crops.guide.one":
-    "Sunflower Land’de mahsuller refah yolculuğunuzda çok önemli bir rol oynar. Mahsul ekerek ve hasat ederek SFL (Ayçiçeği Jetonu) kazanabilir veya bunları oyun içinde değerli tarifler ve öğeler oluşturmak için kullanabilirsiniz.",
+    "Sunflower Land’de mahsuller refah yolculuğunuzda çok önemli bir rol oynar. Mahsul ekerek ve hasat ederek Coins kazanabilir veya bunları oyun içinde değerli tarifler ve öğeler oluşturmak için kullanabilirsiniz.",
   "crops.guide.two":
     "Mahsul yetiştirmek için ilgili tohumları oyun içi mağazadan satın almanız gerekir. Her mahsulün, Ayçiçekleri için sadece 1 dakikadan Kale için 36 saate kadar değişen farklı bir büyüme süresi vardır. Mahsuller tamamen büyüdüğünde, onları hasat edebilir ve ödülleri toplayabilirsiniz.",
   "crops.guide.three":
-    "Unutmayın, arazinizi genişlettikçe ve oyunda ilerledikçe, daha fazla mahsul elde edilebilecek, bu da SFL kazanmak için daha büyük fırsatlar sunacak ve Sunflower Land'in tarım ekonomisinin geniş potansiyelini keşfetmenizi sağlayacak. Öyleyse ellerinizi kirletin, tohumları ekin ve başarıya giden yolda hasat yaparken mahsullerinizin gelişmesini izleyin!",
+    "Unutmayın, arazinizi genişlettikçe ve oyunda ilerledikçe, daha fazla mahsul elde edilebilecek, bu da Coins kazanmak için daha büyük fırsatlar sunacak ve Sunflower Land'in tarım ekonomisinin geniş potansiyelini keşfetmenizi sağlayacak. Öyleyse ellerinizi kirletin, tohumları ekin ve başarıya giden yolda hasat yaparken mahsullerinizin gelişmesini izleyin!",
 
   "building.guide.one":
     "Sunflower Land’de  ilerledikçe mevcut çeşitli binaları keşfedin. Tavuk kümeslerinden atölyelere ve ötesine kadar her yapı, çiftliğinize benzersiz avantajlar getirir. Çiftçilik operasyonlarınızı kolaylaştırmak, verimliliği artırmak ve yeni olanakların kilidini açmak için bu binalardan yararlanın. Düzeninizi dikkatli bir şekilde planlayın ve Sunflower Land’de gelişen bir çiftlik kurmanın getirdiği ödüllerin tadını çıkarın.",
@@ -2464,7 +2463,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Tavuklarınızı beslemek ve yumurtalarını toplamak Sunflower Land’de çiftliğinize dinamik ve ödüllendirici bir unsur katar. Tariflerle deneyler yapın, zanaat çalışmalarınızda yumurtalardan yararlanın ve nadir mutant tavuklarla gelen sürprizlerin tadını çıkarın. Başarılı bir kümes hayvanı işletmesi kurun ve Sunflower Land’deki tavukların büyüleyici dünyasını kucaklarken sıkı çalışmanızın meyvelerinden yararlanın.",
 
   "crafting.guide.one":
-    "Sunflower Land’de NFT'ler üretmek, çiftçilik çıktınızı artırmanın ve ilerlemenizi hızlandırmanın çok önemli bir yönüdür. Bu özel öğeler, mahsul büyüme artışları, pişirme geliştirmeleri ve kaynak artışları gibi yolculuğunuzu büyük ölçüde hızlandırabilecek çeşitli bonuslar sağlar. SFL'nizi (Ayçiçeği Simgesi) en üst düzeye çıkararak: tarım imparatorluğunuzu daha da kurmak için aletler üretebilir, kaynak toplayabilir ve arazinizi genişletebilirsiniz.",
+    "Sunflower Land’de NFT'ler üretmek, çiftçilik çıktınızı artırmanın ve ilerlemenizi hızlandırmanın çok önemli bir yönüdür. Bu özel öğeler, mahsul büyüme artışları, pişirme geliştirmeleri ve kaynak artışları gibi yolculuğunuzu büyük ölçüde hızlandırabilecek çeşitli bonuslar sağlar. Coins en üst düzeye çıkararak: tarım imparatorluğunuzu daha da kurmak için aletler üretebilir, kaynak toplayabilir ve arazinizi genişletebilirsiniz.",
   "crafting.guide.two":
     "Eşya yapımına başlamak için Sunfloria'da yetenekli bir zanaatkar olan Igor'u ziyaret edeceğiz. Tekneye atlayıp Sunfloria'ya vardıktan sonra Igor ile sohbet etmek için adanın tepesine gidin. Şu anda Ayçiçeklerinin, Patateslerin ve Balkabaklarının hızını artıran Temel Korkuluk sunuyor. Bu, kaynaklarınızı korkulukla değiştirmenizi gerektiren mükemmel bir anlaşma. Elde ettiğinizde ana adanıza dönün ve oyunun sağ üst köşesindeki beyaz el simgesine tıklayarak tasarım moduna girin.",
   "crafting.guide.three":
@@ -2475,7 +2474,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "deliveries.guide.one":
     "Sunflower Land’deki teslimatlar, aç Goblinlere ve Bumpkins dostlarına yardım ederken ödüller kazanma konusunda heyecan verici bir fırsat sunuyor. Her gün ekranın sol alt kısmındaki teslimat panosuna tıklayarak sahip olduğunuz tüm siparişleri görebileceksiniz. Siparişler, Pumpkin Plaza civarında bulunabilen bazı yerel NPC'ler tarafından verilmiştir. Bir siparişi yerine getirmek için Pumpkin Plaza'ya tekneyle gitmeniz ve teslimatı bekleyen NPC'yi aramanız gerekecek. Onları bulduğunuzda, siparişi teslim etmek ve ödülünüzü almak için üzerlerine tıklayın.",
   "deliveries.guide.two":
-    "Yeni bir oyuncu olarak üç sipariş yuvasıyla başlarsınız, ancak çiftliğinizi genişlettikçe ek yuvaların kilidini açarak ileri düzey oyuncuların daha fazla sipariş almasına olanak tanıyacaksınız. Her 24 saatte bir yeni siparişler geliyor ve tarım ürünlerinden yemek pişirmeye ve kaynak toplamaya kadar çeşitli görevler sunuyor. Siparişleri tamamlamak size Block Bucks, SFL, lezzetli pastalar ve diğer ödüller dahil olmak üzere dönüm noktası bonusları kazandıracak. Ödül sistemi isteğin zorluğuna dayalıdır; bu nedenle kazancınızı en üst düzeye çıkarmak için daha büyük ödüller sunan siparişlere öncelik vermeyi düşünün. Tahtaya göz kulak olun ve çeşitli siparişlerle kendinize meydan okuyun, seviye atlayın ve daha zorlu istekleri yerine getirmek için gerektiğinde yeni binaların kilidini açın.",
+    "Yeni bir oyuncu olarak üç sipariş yuvasıyla başlarsınız, ancak çiftliğinizi genişlettikçe ek yuvaların kilidini açarak ileri düzey oyuncuların daha fazla sipariş almasına olanak tanıyacaksınız. Her 24 saatte bir yeni siparişler geliyor ve tarım ürünlerinden yemek pişirmeye ve kaynak toplamaya kadar çeşitli görevler sunuyor. Siparişleri tamamlamak size Block Bucks, SFL, Coins, lezzetli pastalar ve diğer ödüller dahil olmak üzere dönüm noktası bonusları kazandıracak. Ödül sistemi isteğin zorluğuna dayalıdır; bu nedenle kazancınızı en üst düzeye çıkarmak için daha büyük ödüller sunan siparişlere öncelik vermeyi düşünün. Tahtaya göz kulak olun ve çeşitli siparişlerle kendinize meydan okuyun, seviye atlayın ve daha zorlu istekleri yerine getirmek için gerektiğinde yeni binaların kilidini açın.",
   "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
   "deliveries.new": ENGLISH_TERMS["deliveries.new"],
   "chores.intro": ENGLISH_TERMS["chores.intro"],
@@ -2486,7 +2485,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Başka bir temizleme şekli, çiftliğinizde ve çevredeki adalarda kendiliğinden ortaya çıkan yabani mantarların toplanmasını içerir. Bu mantarlar ücretsiz olarak toplanabilir ve tariflerde, görevlerde ve işçilik öğelerinde kullanılabilir. Çiftliğinizde maksimum 5 mantar olacak şekilde her 16 saatte bir yenilenen bu mantarlara dikkat edin. Araziniz doluysa çevredeki adalarda mantarlar ortaya çıkacak ve bu değerli kaynakları kaçırmamanızı sağlayacak.",
 
   "fruit.guide.one":
-    "Meyve, SFL için satılabilen veya çeşitli tariflerde ve işçilikte kullanılabilen değerli bir kaynak olarak Sunflower Land’de önemli bir rol oynar. Mahsullerin aksine, meyve tarlaları her hasattan sonra birden çok kez yenilenebilme özelliğine sahiptir ve oyuncular için sürdürülebilir bir meyve kaynağı sağlar.",
+    "Meyve, Coins için satılabilen veya çeşitli tariflerde ve işçilikte kullanılabilen değerli bir kaynak olarak Sunflower Land’de önemli bir rol oynar. Mahsullerin aksine, meyve tarlaları her hasattan sonra birden çok kez yenilenebilme özelliğine sahiptir ve oyuncular için sürdürülebilir bir meyve kaynağı sağlar.",
   "fruit.guide.two":
     "Meyve yetiştirmek için çiftliğinizin 9-10'uncu genişlemesinde mevcut olacak daha büyük meyve tarlaları edinmeniz gerekir.",
   "fruit.guide.three":
@@ -2495,7 +2494,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "seasons.guide.one":
     "Sunflower Land’de sezonlar oyuna heyecan ve tazelik katarak oyunculara yeni zorluklar ve fırsatlar sunuyor. Her sezonun tanıtımıyla birlikte oyuncular çeşitli yeni işlenebilir öğeleri, sınırlı sayıda üretilen dekorasyonları, mutant hayvanları ve nadir hazineleri sabırsızlıkla bekleyebilirler. Bu sezonluk değişiklikler, dinamik ve gelişen bir oyun deneyimi yaratarak oyuncuları stratejilerini uyarlamaya ve çiftliklerinde yeni olasılıkları keşfetmeye teşvik ediyor. Buna ek olarak, sezonluk biletler oyuna stratejik bir unsur katıyor; çünkü oyuncuların, nadir öğeleri toplamak, daha yüksek tedarik dekorasyonlarını tercih etmek veya SFL için bilet alışverişi yapmak gibi biletlerini akıllıca nasıl dağıtacaklarına karar vermeleri gerekiyor. Sezonluk mekanik, oyunu ilgi çekici kılıyor ve Sunflower Land’de her zaman sabırsızlıkla beklenecek bir şeyler olmasını sağlıyor.",
   "seasons.guide.two":
-    "Goblin Demircisinde mevsimlik eşyaların mevcudiyeti başka bir heyecan katıyor. Oyuncular bu sınırlı tedarikli eşyaları üretmek için gerekli kaynakları ve sezonluk biletleri toplamalı, böylece rekabet ve aciliyet hissi yaratılmalıdır. Oyuncular arz tükenmeden önce istedikleri eşyaları güvence altına almayı amaçladıklarından, ileriyi planlamak ve strateji oluşturmak çok önemli hale geliyor. Dahası, sezonluk biletleri SFL ile değiştirme seçeneği esneklik sağlar ve oyuncuların kendi özel oyun hedeflerine uygun seçimler yapmalarına olanak tanır. Her sezonun benzersiz teklifleri ve sürpriz etkinlik beklentisiyle Sunflower Land, oyuncuları yıl boyunca meşgul edip eğlendirerek canlı ve sürekli gelişen bir çiftçilik deneyimini teşvik ediyor.",
+    "Goblin Demircisinde mevsimlik eşyaların mevcudiyeti başka bir heyecan katıyor. Oyuncular bu sınırlı tedarikli eşyaları üretmek için gerekli kaynakları ve sezonluk biletleri toplamalı, böylece rekabet ve aciliyet hissi yaratılmalıdır. Oyuncular arz tükenmeden önce istedikleri eşyaları güvence altına almayı amaçladıklarından, ileriyi planlamak ve strateji oluşturmak çok önemli hale geliyor. Dahası, sezonluk biletleri Coins ile değiştirme seçeneği esneklik sağlar ve oyuncuların kendi özel oyun hedeflerine uygun seçimler yapmalarına olanak tanır. Her sezonun benzersiz teklifleri ve sürpriz etkinlik beklentisiyle Sunflower Land, oyuncuları yıl boyunca meşgul edip eğlendirerek canlı ve sürekli gelişen bir çiftçilik deneyimini teşvik ediyor.",
   "pete.teaser.one": "Ağaçları Kesin",
   "pete.teaser.three": "Ayçiçeklerini Hasat Edin",
   "pete.teaser.four": "Ayçiçeklerini Sat",
@@ -2594,10 +2593,10 @@ const henHouseTerms: Record<HenHouseTerms, string> = {
 
 const howToFarm: Record<HowToFarm, string> = {
   "howToFarm.title": "Nasıl Tarım Yapılır?",
-  "howToFarm.stepOne": "1.Ürünleri hazır olduklarında hasat edin",
+  "howToFarm.stepOne": "1. Ürünleri hazır olduklarında hasat edin",
   "howToFarm.stepTwo": "2. Kasabayı ziyaret edin ve mağazaya tıklayın",
-  "howToFarm.stepThree": "3.SFL için mağazada mahsul satın",
-  "howToFarm.stepFour": "4. SFL'nizi kullanarak tohum satın alın",
+  "howToFarm.stepThree": "3. Coins için mağazada mahsul satın",
+  "howToFarm.stepFour": "4. Coins'nizi kullanarak tohum satın alın",
   "howToFarm.stepFive": "5. Tohum ekin ve bekleyin",
 };
 
@@ -4618,7 +4617,7 @@ const world: Record<World, string> = {
     "Plaza, yardımınıza ihtiyacı olan çok çeşitli aç Bumpkins ve Goblinlere ev sahipliği yapıyor!",
   "world.intro.three": "Maceranıza başlamadan önce birkaç kısa ipucu:",
   "world.intro.visit":
-    "SFL ve nadir ödüller kazanmak için NPC'leri ziyaret edin ve teslimatları tamamlayın.",
+    "NPC'leri ziyaret edin ve teslimatları tamamlayarak SFL, Coins ve nadir ödüller kazanın.",
   "world.intro.craft":
     "Farklı mağazalarda nadir koleksiyonlar, giyilebilir eşyalar ve dekorasyonlar üretin.",
   "world.intro.carf.limited":

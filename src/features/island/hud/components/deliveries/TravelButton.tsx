@@ -6,8 +6,6 @@ import world from "assets/icons/world.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
-import { hasFeatureAccess } from "lib/flags";
-import { TravelModal } from "./TravelModal";
 
 const _chores = (state: MachineState) => state.context.state.chores;
 
@@ -17,10 +15,6 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
   const { gameService, showAnimations } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
-  const showNewMap = hasFeatureAccess(
-    gameService.state?.context.state ?? {},
-    "WORLD_MAP"
-  );
   return (
     <>
       <div className="relative">
@@ -56,23 +50,13 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
         </div>
       </div>
 
-      {showNewMap && (
-        <Modal
-          show={showModal}
-          dialogClassName="md:max-w-3xl"
-          onHide={() => setShowModal(false)}
-        >
-          <WorldMap onClose={() => setShowModal(false)} />
-        </Modal>
-      )}
-
-      {!showNewMap && (
-        <TravelModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          isVisiting={isVisiting}
-        />
-      )}
+      <Modal
+        show={showModal}
+        dialogClassName="md:max-w-3xl"
+        onHide={() => setShowModal(false)}
+      >
+        <WorldMap onClose={() => setShowModal(false)} />
+      </Modal>
     </>
   );
 };

@@ -11,14 +11,14 @@ import {
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { Loading } from "features/auth/components";
-import { Context } from "features/game/GoblinProvider";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Context } from "features/game/GameProvider";
 
 export const PersonhoodContent: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const { goblinService } = useContext(Context);
+  const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
 
@@ -29,7 +29,7 @@ export const PersonhoodContent: React.FC = () => {
 
   const loadPersonhood = async () => {
     return await loadPersonhoodDetails(
-      Number(goblinService.state.context.farmId),
+      Number(gameService.state.context.farmId),
       authState.context.user.rawToken as string,
       authState.context.transactionId as string
     );
@@ -38,14 +38,14 @@ export const PersonhoodContent: React.FC = () => {
   const onFinish = async () => {
     setLoading(true);
     const personhoodDetails = await loadPersonhood();
-    goblinService.send("PERSONHOOD_FINISHED", {
+    gameService.send("PERSONHOOD_FINISHED", {
       verified: personhoodDetails.status === "APPROVED",
     });
   };
 
   const onBack = async () => {
     setLoading(true);
-    goblinService.send("PERSONHOOD_CANCELLED");
+    gameService.send("PERSONHOOD_CANCELLED");
   };
 
   const load = async () => {

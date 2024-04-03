@@ -999,8 +999,6 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "Eu estava esperando por isso. Obrigado! Volte logo para mais entregas.",
   "bumpkin.delivery.proveYourself": "Prove-se digno. Expanda sua ilha",
   "bumpkin.delivery.more.time": "mais vezes.",
-  "bumpkin.delivery.requiresSeasonPass":
-    "I will only accept deliveries from Season Pass holders.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -1109,6 +1107,7 @@ const goblinTrade: Record<GoblinTrade, string> = {
   "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
   "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
   "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
+  "goblinTrade.vipDelivery": ENGLISH_TERMS["goblinTrade.vipDelivery"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -2450,18 +2449,18 @@ const guideTerms: Record<GuideTerms, string> = {
   "guide.intro":
     "Desde humildes começos até a agricultura especializada, este guia tem tudo o que você precisa!",
   "gathering.guide.one":
-    "Para prosperar em Sunflower Land, dominar a arte da coleta de recursos é essencial. Comece equipando as ferramentas apropriadas para coletar diferentes recursos. Use o machado confiável para derrubar árvores e adquirir madeira. Para criar ferramentas, visite a bancada local do Ferreiro e troque seus SFL/recursos pela ferramenta desejada.",
+    "Para prosperar em Sunflower Land, dominar a arte da coleta de recursos é essencial. Comece equipando as ferramentas apropriadas para coletar diferentes recursos. Use o machado confiável para derrubar árvores e adquirir madeira. Para criar ferramentas, visite a bancada local do Ferreiro e troque seus Coins/recursos pela ferramenta desejada.",
   "gathering.guide.two":
     "Conforme você avança e reúne recursos suficientes, você desbloqueará a capacidade de expandir seu território. A expansão de sua terra abre novos horizontes em Sunflower Land. As expansões de terras revelam um tesouro de recursos, incluindo solo fértil para plantar culturas, árvores majestosas, depósitos de pedra valiosa, veias de ferro precioso, depósitos de ouro brilhante, patches de frutas encantadoras e muito mais.",
   "gathering.guide.three":
     "Lembre-se, a coleta de recursos e a expansão de terras são a espinha dorsal de sua jornada agrícola. Aceite os desafios e recompensas que vêm a cada passo, e observe seu Sunflower Land florescer com recursos abundantes e possibilidades infinitas.",
 
   "crops.guide.one":
-    "Em Sunflower Land, as plantações desempenham um papel crucial em sua jornada rumo à prosperidade. Plantando e colhendo, você pode ganhar SFL (Sunflower Token) ou usá-las para criar receitas e itens valiosos dentro do jogo.",
+    "Em Sunflower Land, as plantações desempenham um papel crucial em sua jornada rumo à prosperidade. Plantando e colhendo, você pode ganhar Coins ou usá-las para criar receitas e itens valiosos dentro do jogo.",
   "crops.guide.two":
     "Para cultivar, você precisa comprar as respectivas sementes na loja do jogo. Cada semente tem um tempo de crescimento diferente, variando de apenas 1 minuto para Girassóis a 36 horas para Couve. Quando as culturas estiverem totalmente crescidas, você pode colhê-las e colher as recompensas.",
   "crops.guide.three":
-    "Lembre-se, à medida que você expande sua terra e progride no jogo, mais sementes se tornarão disponíveis, oferecendo maiores oportunidades de ganhar SFL e explorar o vasto potencial da economia agrícola de Sunflower Land. Então suje as mãos, plante essas sementes e observe suas culturas florescerem enquanto você colhe seu caminho para o sucesso!",
+    "Lembre-se, à medida que você expande sua terra e progride no jogo, mais sementes se tornarão disponíveis, oferecendo maiores oportunidades de ganhar Coins e explorar o vasto potencial da economia agrícola de Sunflower Land. Então suje as mãos, plante essas sementes e observe suas culturas florescerem enquanto você colhe seu caminho para o sucesso!",
 
   "building.guide.one":
     "Explore a variedade diversificada de construções disponíveis à medida que você progride em Sunflower Land. De casas de galinha a oficinas e além, cada estrutura traz vantagens únicas para sua fazenda. Aproveite essas construções para otimizar suas operações agrícolas, aumentar a produtividade e desbloquear novas possibilidades. Planeje seu layout cuidadosamente e aproveite as recompensas que vêm com a construção de uma fazenda próspera em Sunflower Land.",
@@ -2487,7 +2486,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Cuidar de suas galinhas e coletar seus ovos adiciona um elemento dinâmico e gratificante à sua fazenda em Sunflower Land. Experimente receitas, use os ovos em seus empreendimentos de artesanato e aproveite as surpresas que vêm com as galinhas mutantes raras. Construa uma operação avícola próspera e colha os benefícios de seu trabalho árduo enquanto você abraça o mundo encantador das galinhas em Sunflower Land.",
 
   "crafting.guide.one":
-    "Em Sunflower Land, a criação de NFTs é um aspecto crucial para aumentar sua produção agrícola e acelerar seu progresso. Esses itens especiais fornecem vários bônus, como aumento no crescimento de culturas, melhorias na culinária e aumentos de recursos, que podem acelerar significativamente sua jornada. Ao maximizar seu SFL (Sunflower Token: você pode criar ferramentas, reunir recursos e expandir sua terra para estabelecer ainda mais seu império agrícola.",
+    "Em Sunflower Land, a criação de NFTs é um aspecto crucial para aumentar sua produção agrícola e acelerar seu progresso. Esses itens especiais fornecem vários bônus, como aumento no crescimento de culturas, melhorias na culinária e aumentos de recursos, que podem acelerar significativamente sua jornada. Ao maximizar suas Coins você pode criar ferramentas, reunir recursos e expandir sua terra para estabelecer ainda mais seu império agrícola.",
   "crafting.guide.two":
     "Para começar a criar itens, vamos visitar Igor, um artesão habilidoso em Sunfloria. Depois de pegar o barco e chegar a Sunfloria, vá até o topo da ilha para conversar com Igor. Ele está atualmente oferecendo um Espantalho Básico, que aumenta a velocidade de Girassóis, Batatas e Abóboras. Este é um excelente negócio que requer a troca de seus recursos pelo espantalho. Uma vez obtido, retorne à sua ilha principal e entre no modo de design clicando no ícone da mão branca no canto superior direito do jogo.",
   "crafting.guide.three":
@@ -2498,7 +2497,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "deliveries.guide.one":
     "As entregas em Sunflower Land oferecem uma oportunidade emocionante de ajudar Goblins famintos e companheiros Bumpkins enquanto ganha recompensas. Todos os dias, você poderá ver todos os pedidos que possui clicando no quadro de entregas na parte inferior esquerda da tela. Os pedidos foram feitos por alguns NPCs locais que podem ser encontrados em torno da Pumpkin Plaza. Para cumprir um pedido, você precisará fazer um passeio de barco até a Pumpkin Plaza e procurar pelo NPC que espera a entrega. Depois de encontrá-los, clique neles para entregar o pedido e receber sua recompensa.",
   "deliveries.guide.two":
-    "Como um novo jogador, você começa com três slots de pedidos, mas à medida que expande sua fazenda, desbloqueará slots adicionais, permitindo que jogadores avançados assumam mais pedidos. Novos pedidos chegam a cada 24 horas, oferecendo uma variedade de tarefas, desde cultivar produtos até cozinhar alimentos e reunir recursos. Completar pedidos lhe renderá bônus de marcos, incluindo Block Bucks, SFL, bolos deliciosos e outras recompensas. O sistema de recompensas é baseado na dificuldade do pedido, então considere priorizar pedidos que ofereçam maiores recompensas para maximizar seus ganhos. Fique de olho no quadro e desafie-se com uma variedade de pedidos, subindo de nível e desbloqueando novos prédios conforme necessário para cumprir pedidos mais exigentes.",
+    "Como um novo jogador, você começa com três slots de pedidos, mas à medida que expande sua fazenda, desbloqueará slots adicionais, permitindo que jogadores avançados assumam mais pedidos. Novos pedidos chegam a cada 24 horas, oferecendo uma variedade de tarefas, desde cultivar produtos até cozinhar alimentos e reunir recursos. Completar pedidos lhe renderá bônus de marcos, incluindo Block Bucks, SFL, Coins, bolos deliciosos e outras recompensas. O sistema de recompensas é baseado na dificuldade do pedido, então considere priorizar pedidos que ofereçam maiores recompensas para maximizar seus ganhos. Fique de olho no quadro e desafie-se com uma variedade de pedidos, subindo de nível e desbloqueando novos prédios conforme necessário para cumprir pedidos mais exigentes.",
   "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
   "deliveries.new": ENGLISH_TERMS["deliveries.new"],
   "chores.intro": ENGLISH_TERMS["chores.intro"],
@@ -2509,7 +2508,7 @@ const guideTerms: Record<GuideTerms, string> = {
     "Outra forma de coleta envolve reunir cogumelos selvagens que aparecem espontaneamente em sua fazenda e nas ilhas vizinhas. Esses cogumelos podem ser coletados gratuitamente e usados em receitas, missões e na criação de itens. Fique de olho nesses cogumelos, pois eles se renovam a cada 16 horas, com um limite máximo de 5 cogumelos em sua fazenda. Se sua terra estiver cheia, os cogumelos aparecerão nas ilhas vizinhas, garantindo que você não perca esses recursos valiosos.",
 
   "fruit.guide.one":
-    "As frutas desempenham um papel significativo em Sunflower Land como um recurso valioso que pode ser vendido por SFL ou utilizado em várias receitas e artesanatos. Ao contrário das plantações, as áreas de frutas têm a capacidade única de se regenerar várias vezes após cada colheita, fornecendo uma fonte sustentável de frutas para os jogadores.",
+    "As frutas desempenham um papel significativo em Sunflower Land como um recurso valioso que pode ser vendido por Coins ou utilizado em várias receitas e artesanatos. Ao contrário das plantações, as áreas de frutas têm a capacidade única de se regenerar várias vezes após cada colheita, fornecendo uma fonte sustentável de frutas para os jogadores.",
   "fruit.guide.two":
     "Para plantar frutas, você precisará adquirir áreas de frutas maiores, que se tornam disponíveis na 9ª-10ª expansão de sua fazenda.",
   "fruit.guide.three":
@@ -2518,7 +2517,7 @@ const guideTerms: Record<GuideTerms, string> = {
   "seasons.guide.one":
     "As Temporadas em Sunflower Land trazem excitação e frescor ao jogo, oferecendo aos jogadores novos desafios e oportunidades. Com a introdução de cada Temporada, os jogadores podem esperar uma variedade de novos itens craftáveis, decorações de edição limitada, animais mutantes e tesouros raros. Essas mudanças sazonais criam uma experiência de jogo dinâmica e evolutiva, incentivando os jogadores a adaptarem suas estratégias e explorarem novas possibilidades em suas fazendas. Além disso, os Tickets de Temporada adicionam um elemento estratégico ao jogo, pois os jogadores devem decidir como alocar seus ingressos sabiamente, seja coletando itens raros, optando por decorações de maior oferta ou trocando tickets por SFL. O mecanismo sazonal mantém o jogo envolvente e garante que sempre haja algo para esperar em Sunflower Land.",
   "seasons.guide.two":
-    "A disponibilidade de itens sazonais na Ferraria Goblin adiciona outra camada de emoção. Os jogadores devem reunir os recursos necessários e os ingressos sazonais para criar esses itens de oferta limitada, criando uma sensação de competição e urgência. Planejar com antecedência e estrategizar se tornam crucial, pois os jogadores visam garantir os itens desejados antes que o estoque acabe. Além disso, a opção de trocar tickets de temporada por SFL oferece flexibilidade e permite que os jogadores façam escolhas que estejam alinhadas com seus objetivos específicos de jogo. Com as ofertas únicas de cada Temporada e a antecipação de eventos surpresa, Sunflower Land mantém os jogadores engajados e entretidos durante todo o ano, promovendo uma experiência agrícola vibrante e sempre em evolução.",
+    "A disponibilidade de itens sazonais na Ferraria Goblin adiciona outra camada de emoção. Os jogadores devem reunir os recursos necessários e os ingressos sazonais para criar esses itens de oferta limitada, criando uma sensação de competição e urgência. Planejar com antecedência e estrategizar se tornam crucial, pois os jogadores visam garantir os itens desejados antes que o estoque acabe. Além disso, a opção de trocar tickets de temporada por Coins oferece flexibilidade e permite que os jogadores façam escolhas que estejam alinhadas com seus objetivos específicos de jogo. Com as ofertas únicas de cada Temporada e a antecipação de eventos surpresa, Sunflower Land mantém os jogadores engajados e entretidos durante todo o ano, promovendo uma experiência agrícola vibrante e sempre em evolução.",
   "pete.teaser.one": "Corte as árvores",
   "pete.teaser.three": "Colha os Girassóis",
   "pete.teaser.four": "Venda os Girassóis",
@@ -2631,8 +2630,8 @@ const howToFarm: Record<HowToFarm, string> = {
   "howToFarm.title": "Como Fazer Agricultura?",
   "howToFarm.stepOne": "1. Colha as plantações quando estiverem prontas",
   "howToFarm.stepTwo": "2. Visite a cidade e clique na loja",
-  "howToFarm.stepThree": "3. Venda suas colheitas na loja por SFL",
-  "howToFarm.stepFour": "4. Compre sementes usando seu SFL",
+  "howToFarm.stepThree": "3. Venda suas colheitas na loja por Coins",
+  "howToFarm.stepFour": "4. Compre sementes usando seu Coins",
   "howToFarm.stepFive": "5. Plante sementes e espere",
 };
 
@@ -4626,7 +4625,7 @@ const world: Record<World, string> = {
     "A praça é lar de um grupo diversificado de Bumpkins e Goblins famintos que precisam da sua ajuda!",
   "world.intro.three": "Algumas dicas rápidas antes de começar sua aventura:",
   "world.intro.visit":
-    "Visite NPCs e complete entregas para ganhar SFL e recompensas raras.",
+    "Visite NPCs e complete entregas para ganhar SFL, Coins e recompensas raras.",
   "world.intro.craft":
     "Crie colecionáveis raros, vestíveis e decorações nas diferentes lojas.",
   "world.intro.carf.limited":

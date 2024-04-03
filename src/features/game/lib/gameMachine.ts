@@ -1096,6 +1096,9 @@ export function startGame(authContext: AuthContext) {
                 state: event.state,
               })),
             },
+            PROVE_PERSONHOOD: {
+              target: "provingPersonhood",
+            },
           },
         },
         buyingSFL: {

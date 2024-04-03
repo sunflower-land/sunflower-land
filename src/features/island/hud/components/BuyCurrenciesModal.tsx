@@ -27,6 +27,7 @@ import {
   Price,
 } from "features/game/components/modal/components/BuyBlockBucks";
 import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
 
@@ -218,7 +219,14 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
               {/* Exchange confirmation */}
               {!!exchangePackageId && (
                 <div className="flex flex-col space-y-1">
-                  <div className="flex px-1 py-2 w-full items-center text-sm justify-between">
+                  <div className="py-1">
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="h-6 w-6 ml-2 cursor-pointer"
+                      onClick={() => setExchangePackageId(undefined)}
+                    />
+                  </div>
+                  <div className="flex px-1 pb-1 w-full items-center text-sm justify-between">
                     <div className="flex items-center space-x-2">
                       <span>
                         {t("item")}{" "}
@@ -231,18 +239,11 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                       SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
                     } SFL`}</span>
                   </div>
-                  <div className="flex space-x-1">
-                    <Button onClick={() => setExchangePackageId(undefined)}>
-                      {t("cancel")}
-                    </Button>
-                    <Button
-                      onClick={() =>
-                        handleSFLtoCoinsExchange(exchangePackageId)
-                      }
-                    >
-                      {t("confirm")}
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={() => handleSFLtoCoinsExchange(exchangePackageId)}
+                  >
+                    {t("confirm")}
+                  </Button>
                 </div>
               )}
             </div>

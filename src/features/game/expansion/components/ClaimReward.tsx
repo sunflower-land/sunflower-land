@@ -68,7 +68,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               </div>
             </div>
           )}
-          {!!airdrop.coins && (
+          {airdrop.coins !== undefined && airdrop.coins > 0 && (
             <div className="flex items-center">
               <Box image={coins} />
               <div>

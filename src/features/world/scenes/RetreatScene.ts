@@ -8,7 +8,6 @@ import {
   setCachedMarketPrices,
 } from "../ui/market/lib/marketCache";
 import { getMarketPrices } from "features/game/actions/getMarketPrices";
-import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -121,14 +120,11 @@ export class RetreatScene extends BaseScene {
     bigGoblin.play("big_goblin_animation", true);
 
     const exchange = this.add.sprite(114, 215, "exchange");
-    // On click
-    if (hasFeatureAccess(this.gameState, "GOBLIN_EXCHANGE")) {
-      exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        if (this.checkDistanceToSprite(exchange, 75)) {
-          interactableModalManager.open("goblin_market");
-        }
-      });
-    }
+    exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(exchange, 75)) {
+        interactableModalManager.open("goblin_market");
+      }
+    });
 
     const grabnab = this.add.sprite(90, 235, "grabnab");
     this.anims.create({

@@ -48,13 +48,14 @@ const ListTrade: React.FC<{
   if (!selected) {
     return (
       <div>
-        <Label
-          icon={SUNNYSIDE.icons.basket}
-          type="default"
-          className="m-1 ml-2 mb-3"
-        >
-          {t("bumpkinTrade.like.list")}
-        </Label>
+        <div className="flex items-center justify-between m-1 ml-2 mb-3">
+          <Label icon={SUNNYSIDE.icons.basket} type="default">
+            {t("bumpkinTrade.like.list")}
+          </Label>
+          <Label icon={SUNNYSIDE.icons.confirm} type="success">
+            {`VIP Access`}
+          </Label>
+        </div>
 
         <div className="flex flex-wrap ">
           {getKeys(TRADE_LIMITS)
@@ -72,7 +73,7 @@ const ListTrade: React.FC<{
                   }}
                 >
                   <Label type="default" className="absolute -top-3 -right-2">
-                    {inventory?.[name]?.toFixed(0)}
+                    {inventory?.[name]?.toFixed(0, 1)}
                   </Label>
                   <span className="text-xs mb-1">{name}</span>
                   <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
@@ -107,7 +108,7 @@ const ListTrade: React.FC<{
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
-            {inventory?.[selected]?.toFixed(0) ?? 0}
+            {inventory?.[selected]?.toFixed(0, 1) ?? 0}
           </span>
         </div>
       </div>
