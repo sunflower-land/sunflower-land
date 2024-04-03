@@ -3969,7 +3969,6 @@ const resale: Record<Resale, string> = {
 
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "Şurada iyileşir:",
-  "resources.required": "gereklidir.",
   "resources.boulder.rareMineFound": "Nadir bir maden buldunuz!",
   "resources.boulder.advancedMining": "Gelişmiş madencilik yolda.",
 };

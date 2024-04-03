@@ -2670,7 +2670,6 @@ export type RetreatTerms =
 
 export type Resources =
   | "resources.recoversIn"
-  | "resources.required"
   | "resources.boulder.rareMineFound"
   | "resources.boulder.advancedMining";
 
