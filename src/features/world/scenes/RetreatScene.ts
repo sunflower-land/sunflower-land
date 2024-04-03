@@ -124,7 +124,9 @@ export class RetreatScene extends BaseScene {
     // On click
     if (hasFeatureAccess(this.gameState, "GOBLIN_EXCHANGE")) {
       exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open("goblin_market");
+        if (this.checkDistanceToSprite(exchange, 75)) {
+          interactableModalManager.open("goblin_market");
+        }
       });
     }
 
@@ -156,7 +158,9 @@ export class RetreatScene extends BaseScene {
 
     const bank = this.add.sprite(422, 94, "bank");
     bank.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("bank");
+      if (this.checkDistanceToSprite(bank, 75)) {
+        interactableModalManager.open("bank");
+      }
     });
 
     this.add.sprite(532, 51, "raffle_disc").setDepth(1000000000);
@@ -165,7 +169,9 @@ export class RetreatScene extends BaseScene {
 
     const wishingWell = this.add.sprite(532, 71, "wishing_well");
     wishingWell.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("wishingWell");
+      if (this.checkDistanceToSprite(wishingWell, 75)) {
+        interactableModalManager.open("wishingWell");
+      }
     });
 
     this.add.sprite(513, 404, "balloon");
@@ -239,7 +245,9 @@ export class RetreatScene extends BaseScene {
     raffle.play("raffle_animation", true);
 
     raffle.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("raffle");
+      if (this.checkDistanceToSprite(raffle, 75)) {
+        interactableModalManager.open("raffle");
+      }
     });
 
     const twentyFourHours = 1000 * 60 * 60 * 24;
