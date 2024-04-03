@@ -1770,7 +1770,7 @@ const delivery: Record<Delivery, string> = {
     "J'attends que la nouvelle saison commence. Revenez me voir à ce moment-là!",
   "delivery.resource": "Voulez-vous que je livre des ressources?",
   "delivery.feed": "Ce n'est pas gratuit, j'ai une tribu à nourrir!",
-  "delivery.fee": "Je prendrai 30% des ressources pour le ",
+  "delivery.fee": ENGLISH_TERMS["delivery.fee"],
   "delivery.goblin.comm.treasury": "Trésor de la Communauté des Gobelins",
 };
 

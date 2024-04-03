@@ -1709,7 +1709,7 @@ const delivery: Record<Delivery, string> = {
     "Yeni sezonun başlamasını bekliyorum. O zaman bana geri dön!",
   "delivery.resource": "Kaynakları teslim etmemi ister misin?",
   "delivery.feed": "Bedava değil, beslemem gereken bir kabilem var!",
-  "delivery.fee": "Kaynakların %30'unu alacağım ",
+  "delivery.fee": ENGLISH_TERMS["delivery.fee"],
   "delivery.goblin.comm.treasury": "Goblin Topluluk Hazinesi",
 };
 
