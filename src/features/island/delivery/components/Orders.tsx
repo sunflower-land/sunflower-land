@@ -47,6 +47,13 @@ export const BEACH_BUMPKINS: NPCName[] = [
   "miranda",
 ];
 
+export const RETREAT_BUMPKINS: NPCName[] = [
+  "grubnuk",
+  "goblet",
+  "guria",
+  "gordo",
+];
+
 interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
@@ -443,7 +450,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   })}
                 </p>
 
-                {BEACH_BUMPKINS.includes(previewOrder.from) ? (
+                {RETREAT_BUMPKINS.includes(previewOrder.from) ? (
+                  <Label type="default" icon={worldIcon} className="ml-1">
+                    {t("island.goblin.retreat")}
+                  </Label>
+                ) : BEACH_BUMPKINS.includes(previewOrder.from) ? (
                   <Label type="default" icon={worldIcon} className="ml-1">
                     {t("island.beach")}
                   </Label>
