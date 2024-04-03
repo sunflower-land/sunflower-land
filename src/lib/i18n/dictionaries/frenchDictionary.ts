@@ -686,31 +686,20 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
     "Salut, je suis Birdie, le Bumpkin le plus beau de tous!",
   "birdieplaza.admiringOutfit":
     "J'ai remarqué que tu admirais ma tenue. N'est-elle pas fantastique ? !?",
-  "birdieplaza.currentSeason": "Nous sommes actuellement en",
-  "birdieplaza.currentSeason.two": "Saison et les Bumpkins en raffolent.",
-  "birdieplaza.collectTickets": "Collecte suffisamment de",
-  "birdieplaza.collectTickets.two":
-    "et tu pourras fabriquer des NFT rares. C'est ainsi que j'ai obtenu cette rareté!",
+  "birdieplaza.currentSeason": ENGLISH_TERMS["birdieplaza.currentSeason"],
+  "birdieplaza.collectTickets": ENGLISH_TERMS["birdieplaza.collectTickets"],
   "birdieplaza.whatIsSeason": "Qu'est-ce qu'une saison?",
-  "birdieplaza.howToEarnTickets": "Comment puis-je gagner des",
-  "birdieplaza.earnTicketsVariety": "Tu peux gagner des",
-  "birdieplaza.earnTicketsVariety.two": "de plusieurs manières différentes.",
-  "birdieplaza.commonMethod": "La méthode la plus courante pour gagner des",
-  "birdieplaza.commonMethod.two":
-    "est de collecter des ressources et de les livrer aux Bumpkins de la Plaza.",
-  "birdieplaza.choresAndRewards": "Tu peux également gagner des",
-  "birdieplaza.choresAndRewards.two":
-    "en accomplissant des corvées pour Hank et en réclamant des récompenses quotidiennes!",
-  "birdieplaza.gatherAndCraft": "Rassemble suffisamment de",
-  "birdieplaza.gatherAndCraft.two":
-    "et tu pourras fabriquer des objets rares comme moi.",
+  "birdieplaza.howToEarnTickets": ENGLISH_TERMS["birdieplaza.howToEarnTickets"],
+  "birdieplaza.earnTicketsVariety":
+    ENGLISH_TERMS["birdieplaza.earnTicketsVariety"],
+  "birdieplaza.commonMethod": ENGLISH_TERMS["birdieplaza.commonMethod"],
+  "birdieplaza.choresAndRewards": ENGLISH_TERMS["birdieplaza.choresAndRewards"],
+  "birdieplaza.gatherAndCraft": ENGLISH_TERMS["birdieplaza.gatherAndCraft"],
   "birdieplaza.newSeasonIntro":
     "Tous les 3 mois, une nouvelle saison est introduite à Sunflower Land.",
   "birdieplaza.seasonQuests":
     "Cette saison comporte des quêtes passionnantes et des objets de collection rares que tu peux obtenir.",
-  "birdieplaza.craftItems": "Pour fabriquer ces objets, tu dois collecter des",
-  "birdieplaza.craftItems.two":
-    "et les échanger dans les magasins ou à la maison des enchères.",
+  "birdieplaza.craftItems": ENGLISH_TERMS["birdieplaza.craftItems"],
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {

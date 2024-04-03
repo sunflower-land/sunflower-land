@@ -684,31 +684,20 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
     "Merhaba ben Birdie, çevredeki en güzel Bumpkin’im!",
   "birdieplaza.admiringOutfit":
     "Kıyafetime hayran olduğunu fark ettim. Harika değil mi?!?",
-  "birdieplaza.currentSeason": "Şu anda",
-  "birdieplaza.currentSeason.two": "Sezonundayız ve Bumpkinler çılgına dönüyor",
-  "birdieplaza.collectTickets": "Yeterince",
-  "birdieplaza.collectTickets.two":
-    "topla ve nadir NFT'ler üretebilirsin. Bu nadir kıyafeti bu şekilde elde ettim!",
+  "birdieplaza.currentSeason": ENGLISH_TERMS["birdieplaza.currentSeason"],
+  "birdieplaza.collectTickets": ENGLISH_TERMS["birdieplaza.collectTickets"],
   "birdieplaza.whatIsSeason": "Sezon nedir?",
-  "birdieplaza.howToEarnTickets": "Nasıl kazanabilirim?",
-  "birdieplaza.earnTicketsVariety": "Birçok yoldan.",
-  "birdieplaza.earnTicketsVariety.two": "kazanabilirsin",
-  "birdieplaza.commonMethod": "Kazanmanın en yaygın yöntemi ",
-  "birdieplaza.commonMethod.two":
-    "Kaynakları toplayıp Plazadaki Bumpkinlere teslim etmektir.",
-  "birdieplaza.choresAndRewards": "Ayrıca ",
-  "birdieplaza.choresAndRewards.two":
-    "Hank’in ev işlerini tamamlayarak ve günlük ödülleri alarak kazanabilirsin!",
-  "birdieplaza.gatherAndCraft": "Yeterince",
-  "birdieplaza.gatherAndCraft.two":
-    "topla ve sen de benim gibi nadir eşyalar üretebileceksin.",
+  "birdieplaza.howToEarnTickets": ENGLISH_TERMS["birdieplaza.howToEarnTickets"],
+  "birdieplaza.earnTicketsVariety":
+    ENGLISH_TERMS["birdieplaza.earnTicketsVariety"],
+  "birdieplaza.commonMethod": ENGLISH_TERMS["birdieplaza.commonMethod"],
+  "birdieplaza.choresAndRewards": ENGLISH_TERMS["birdieplaza.choresAndRewards"],
+  "birdieplaza.gatherAndCraft": ENGLISH_TERMS["birdieplaza.gatherAndCraft"],
   "birdieplaza.newSeasonIntro":
     "Sunflower Land’de her 3 ayda bir yeni sezon tanıtılıyor.",
   "birdieplaza.seasonQuests":
     "Bu sezon heyecan verici görevler ve kazanabileceğiniz nadir koleksiyon öğeleri içeriyor.",
-  "birdieplaza.craftItems": "Bu eşyaları üretmek için şunları toplamalısınız",
-  "birdieplaza.craftItems.two":
-    "ve bunları mağazalarda veya Müzayede evinde değiştirebilirsiniz.",
+  "birdieplaza.craftItems": ENGLISH_TERMS["birdieplaza.craftItems"],
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {

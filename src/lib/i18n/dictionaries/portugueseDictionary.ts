@@ -681,31 +681,20 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
     "Olá, eu sou Birdie, a Bumpkin mais bonita por aqui!",
   "birdieplaza.admiringOutfit":
     "Notei você admirando meu traje. Não é fantástico?!?",
-  "birdieplaza.currentSeason": "Atualmente estamos na",
-  "birdieplaza.currentSeason.two":
-    "Temporada e os Bumpkins estão enlouquecendo por ela.",
-  "birdieplaza.collectTickets": "Colete o suficiente",
-  "birdieplaza.collectTickets.two":
-    "e você pode criar NFTs raros. Foi assim que consegui esta Roupa rara!",
+  "birdieplaza.currentSeason": ENGLISH_TERMS["birdieplaza.currentSeason"],
+  "birdieplaza.collectTickets": ENGLISH_TERMS["birdieplaza.collectTickets"],
   "birdieplaza.whatIsSeason": "O que é uma Temporada?",
-  "birdieplaza.howToEarnTickets": "Como eu ganho",
-  "birdieplaza.earnTicketsVariety": "Você pode ganhar",
-  "birdieplaza.earnTicketsVariety.two": "de várias maneiras.",
-  "birdieplaza.commonMethod": "O método mais comum para ganhar ",
-  "birdieplaza.commonMethod.two":
-    "é coletando recursos e entregando-os aos Bumpkins na Praça.",
-  "birdieplaza.choresAndRewards": "Você também pode ganhar",
-  "birdieplaza.choresAndRewards.two":
-    "completando tarefas para o Hank & reivindicando recompensas diárias!",
-  "birdieplaza.gatherAndCraft": "Colete o suficiente",
-  "birdieplaza.gatherAndCraft.two":
-    "e você será capaz de criar alguns itens raros como eu.",
+  "birdieplaza.howToEarnTickets": ENGLISH_TERMS["birdieplaza.howToEarnTickets"],
+  "birdieplaza.earnTicketsVariety":
+    ENGLISH_TERMS["birdieplaza.earnTicketsVariety"],
+  "birdieplaza.commonMethod": ENGLISH_TERMS["birdieplaza.commonMethod"],
+  "birdieplaza.choresAndRewards": ENGLISH_TERMS["birdieplaza.choresAndRewards"],
+  "birdieplaza.gatherAndCraft": ENGLISH_TERMS["birdieplaza.gatherAndCraft"],
   "birdieplaza.newSeasonIntro":
     "A cada 3 meses, uma nova temporada é introduzida em Sunflower Land.",
   "birdieplaza.seasonQuests":
     "Esta temporada tem missões emocionantes e colecionáveis raros que você pode ganhar.",
-  "birdieplaza.craftItems": "Para criar esses itens, você deve coletar",
-  "birdieplaza.craftItems.two": "e trocá-los nas lojas ou na casa de leilões.",
+  "birdieplaza.craftItems": ENGLISH_TERMS["birdieplaza.craftItems"],
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {

@@ -447,23 +447,16 @@ export type BirdiePlaza =
   | "birdieplaza.birdieIntro"
   | "birdieplaza.admiringOutfit"
   | "birdieplaza.currentSeason"
-  | "birdieplaza.currentSeason.two"
   | "birdieplaza.collectTickets"
-  | "birdieplaza.collectTickets.two"
   | "birdieplaza.whatIsSeason"
   | "birdieplaza.howToEarnTickets"
   | "birdieplaza.earnTicketsVariety"
-  | "birdieplaza.earnTicketsVariety.two"
   | "birdieplaza.commonMethod"
-  | "birdieplaza.commonMethod.two"
   | "birdieplaza.choresAndRewards"
-  | "birdieplaza.choresAndRewards.two"
   | "birdieplaza.gatherAndCraft"
-  | "birdieplaza.gatherAndCraft.two"
   | "birdieplaza.newSeasonIntro"
   | "birdieplaza.seasonQuests"
-  | "birdieplaza.craftItems"
-  | "birdieplaza.craftItems.two";
+  | "birdieplaza.craftItems";
 
 export type BoostDescriptions =
   //Mutant Chickens

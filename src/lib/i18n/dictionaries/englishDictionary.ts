@@ -680,31 +680,26 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
     "Hey there, I'm Birdie, the most beautiful Bumpkin around!",
   "birdieplaza.admiringOutfit":
     "I noticed you admiring my outfit. Isn't it fantastic?!?",
-  "birdieplaza.currentSeason": "We are currently in",
-  "birdieplaza.currentSeason.two": "Season and Bumpkins are going crazy for",
-  "birdieplaza.collectTickets": "Collect enough",
-  "birdieplaza.collectTickets.two":
-    "and you can craft rare NFTs. That's how I got this rare outfit!",
+  "birdieplaza.currentSeason":
+    "We are currently in {{currentSeason}} Season and Bumpkins are going crazy for {{seasonalTicket}}.",
+  "birdieplaza.collectTickets":
+    "Collect enough {{seasonalTicket}} and you can craft rare NFTs. That's how I got this rare outfit!",
   "birdieplaza.whatIsSeason": "What is a season?",
-  "birdieplaza.howToEarnTickets": "How do I earn",
-  "birdieplaza.earnTicketsVariety": "You can earn",
-  "birdieplaza.earnTicketsVariety.two": "in a variety of ways.",
-  "birdieplaza.commonMethod": "The most common method to earn ",
-  "birdieplaza.commonMethod.two":
-    "is by gathering resources and delivering them to Bumpkins in the Plaza.",
-  "birdieplaza.choresAndRewards": "You can also earn",
-  "birdieplaza.choresAndRewards.two":
-    "by completing chores for Hank & claiming daily rewards!",
-  "birdieplaza.gatherAndCraft": "Gather enough",
-  "birdieplaza.gatherAndCraft.two":
-    "and you will be able to craft some rare items like me.",
+  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}?",
+  "birdieplaza.earnTicketsVariety":
+    "You can earn {{seasonalTicket}} in a variety of ways.",
+  "birdieplaza.commonMethod":
+    "The most common method to earn {{seasonalTicket}} is by gathering resources and delivering them to Bumpkins in the Plaza.",
+  "birdieplaza.choresAndRewards":
+    "You can also earn {{seasonalTicket}} by completing chores for Hank & claiming daily rewards!",
+  "birdieplaza.gatherAndCraft":
+    "Gather enough {{seasonalTicket}} and you will be able to buy some rare items like I did.",
   "birdieplaza.newSeasonIntro":
     "Every 3 months a new season is introduced at Sunflower Land.",
   "birdieplaza.seasonQuests":
     "This season has exciting quests & rare collectibles you can earn.",
-  "birdieplaza.craftItems": "To craft these items, you must collect",
-  "birdieplaza.craftItems.two":
-    "and exchange them at the shops or the Auction house.",
+  "birdieplaza.craftItems":
+    "To craft these items, you must collect {{seasonalTicket}} and exchange them at the shops or bid at the Auction house.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
