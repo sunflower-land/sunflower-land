@@ -13,7 +13,7 @@ export const SPAWNS: () => SpawnLocation = () => ({
   retreat: {
     // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 310 + randomXOffset,
+      x: 290 + randomXOffset,
       y: 420 - randomYOffset,
     },
   },
