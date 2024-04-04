@@ -134,10 +134,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="p-2 mb-2">
-        <h2 className="mb-1 text-sm">
-          {t("deliveryitem.inventory")}
-          {":"}
-        </h2>
+        <h2 className="mb-1 text-sm">{t("deliveryitem.inventory")}</h2>
         <div className="flex flex-wrap h-fit -ml-1.5 mb-2">
           {getKeys(inventory).map((itemName) => (
             <Box
@@ -149,10 +146,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
           ))}
         </div>
 
-        <h2 className="mb-1 text-sm">
-          {t("deliveryitem.itemsToDeliver")}
-          {":"}
-        </h2>
+        <h2 className="mb-1 text-sm">{t("deliveryitem.itemsToDeliver")}</h2>
         <div
           className="flex flex-col gap-2 min-h-[48px] scrollable overflow-y-auto"
           style={{ maxHeight: 158 }}

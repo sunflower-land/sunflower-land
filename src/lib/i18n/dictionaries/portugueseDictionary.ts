@@ -476,6 +476,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   upcoming: "Próximo",
   wearables: "Vestíveis",
   wish: "Desejo",
+  "sfl/coins": ENGLISH_TERMS["sfl/coins"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -836,7 +837,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.bale.boost": "+0,2 Ovo (AOE 4x4)",
   "description.immortal.pear.boost": "+1 Colheita Máxima de Frutas por semente",
   "description.treasure.map.boost":
-    "+20% SFL nas Vendas de Recompensa do Tesouro",
+    "+20% Coins nas Vendas de Recompensa do Tesouro",
   "description.poppy.boost": "+0,1 Milho",
   "description.kernaldo.boost": "-25% Tempo de Crescimento de Milho",
   "description.grain.grinder.boost": "+20% XP de Bolo",
@@ -1734,12 +1735,6 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, parece que sua fazenda não terá os recursos que eu preciso. Alcance ",
-  "delivery.panel.two": " expansões e volte para mim.",
-  "delivery.panel.three": "Entrega: Nenhum pedido selecionado",
-  "delivery.panel.four":
-    "Estou esperando o início da nova temporada. Volte para mim então!",
   "delivery.resource": "Quer que eu entregue recursos?",
   "delivery.feed": "Não é de graça, tenho uma tribo para alimentar!",
   "delivery.fee": ENGLISH_TERMS["delivery.fee"],
@@ -1764,7 +1759,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Depósito não chegou?",
   "deposit.goblinTaxInfo":
     "Quando os jogadores retiram qualquer SFL, um Imposto Goblin é aplicado.",
-  "deposit.applied": "é aplicado.",
   "deposit.sendToFarm": "Enviar para a fazenda",
   "deposit.toDepositLevelUp":
     "Para depositar itens, você deve primeiro subir de nível",
@@ -1867,7 +1861,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Vara ausente",
   "error.missingBait": "Isca ausente",
   "error.alreadyCasted": "Já lançado",
-  "error.unsupportedChum": " Não é uma isca suportada",
+  "error.unsupportedChum": ENGLISH_TERMS["error.unsupportedChum"],
   "error.insufficientChum": "Isca insuficiente:",
   "error.alr.composter": "Composteira já está compostando",
   "error.no.alr.composter": "Composteira não está pronta para produzir",
@@ -2553,8 +2547,7 @@ const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Bem, olá, jovens! Eu sou Hayseed Hank, um fazendeiro Bumpkin experiente, cuidando da terra como nos bons e velhos tempos.",
-  "hayseedHankv2.dialog2":
-    "No entanto, meus ossos não são mais como costumavam ser. Se você puder me ajudar com minhas tarefas diárias, eu vou te recompensar com ",
+  "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Vamos lá",
   "hayseedHankv2.title": "Tarefas Diárias",
   "hayseedHankv2.newChoresAvailable": "Novas tarefas disponíveis em ",

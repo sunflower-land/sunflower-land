@@ -210,6 +210,7 @@ export type GeneralTerms =
   | "session.expire"
   | "session.expired"
   | "settings"
+  | "sfl/coins"
   | "share"
   | "shopping"
   | "skillPts"
@@ -1209,10 +1210,6 @@ export type DecorationDescriptions =
   | "description.earnAllianceBanner";
 
 export type Delivery =
-  | "delivery.panel.one"
-  | "delivery.panel.two"
-  | "delivery.panel.three"
-  | "delivery.panel.four"
   | "delivery.resource"
   | "delivery.feed"
   | "delivery.fee"
@@ -1230,7 +1227,6 @@ export type DepositWallet =
   | "deposit.farmWillReceive"
   | "deposit.depositDidNotArrive"
   | "deposit.goblinTaxInfo"
-  | "deposit.applied"
   | "deposit.sendToFarm"
   | "deposit.toDepositLevelUp"
   | "deposit.level"
