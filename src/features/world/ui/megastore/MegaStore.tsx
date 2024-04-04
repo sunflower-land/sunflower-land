@@ -89,6 +89,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     megastore.available.from,
     getTotalSecondsAvailable()
   );
+
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
@@ -102,12 +103,12 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
             "megaStore.month.sale"
           )}`}</Label>
           <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
-            {secondsToString(timeRemaining, {
-              length: "medium",
-              removeTrailingZeros: true,
-            })}{" "}
-            {t("left")}
-            {"!"}
+            {t("megaStore.timeRemaining", {
+              timeRemaining: secondsToString(timeRemaining, {
+                length: "medium",
+                removeTrailingZeros: true,
+              }),
+            })}
           </Label>
         </div>
         <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">

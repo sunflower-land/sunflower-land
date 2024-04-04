@@ -298,8 +298,7 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations"
-  | "unit";
+  | "decorations";
 
 export type TimeUnits =
   // Singular
@@ -448,23 +447,16 @@ export type BirdiePlaza =
   | "birdieplaza.birdieIntro"
   | "birdieplaza.admiringOutfit"
   | "birdieplaza.currentSeason"
-  | "birdieplaza.currentSeason.two"
   | "birdieplaza.collectTickets"
-  | "birdieplaza.collectTickets.two"
   | "birdieplaza.whatIsSeason"
   | "birdieplaza.howToEarnTickets"
   | "birdieplaza.earnTicketsVariety"
-  | "birdieplaza.earnTicketsVariety.two"
   | "birdieplaza.commonMethod"
-  | "birdieplaza.commonMethod.two"
   | "birdieplaza.choresAndRewards"
-  | "birdieplaza.choresAndRewards.two"
   | "birdieplaza.gatherAndCraft"
-  | "birdieplaza.gatherAndCraft.two"
   | "birdieplaza.newSeasonIntro"
   | "birdieplaza.seasonQuests"
-  | "birdieplaza.craftItems"
-  | "birdieplaza.craftItems.two";
+  | "birdieplaza.craftItems";
 
 export type BoostDescriptions =
   //Mutant Chickens
@@ -674,8 +666,7 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.noFlowers"
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
-  | "bumpkin.delivery.proveYourself"
-  | "bumpkin.delivery.more.time";
+  | "bumpkin.delivery.proveYourself";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"
@@ -752,9 +743,6 @@ export type BumpkinSkillsDescription =
   | "description.buckaroo";
 
 export type BumpkinTrade =
-  | "bumpkinTrade.askPrice"
-  | "bumpkinTrade.listingPurchased"
-  | "bumpkinTrade.travelPlaza"
   | "bumpkinTrade.minLevel"
   | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
@@ -767,11 +755,14 @@ export type BumpkinTrade =
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.pricePerUnit"
+  | "bumpkinTrade.price/unit"
   | "bumpkinTrade.tradingFee"
   | "bumpkinTrade.youWillReceive"
   | "bumpkinTrade.cancel"
   | "bumpkinTrade.list"
-  | "bumpkinTrade.maxListings";
+  | "bumpkinTrade.maxListings"
+  | "bumpkinTrade.max"
+  | "bumpkinTrade.floorPrice";
 
 export type GoblinTrade =
   | "goblinTrade.select"
@@ -1222,7 +1213,7 @@ export type Delivery =
   | "delivery.panel.two"
   | "delivery.panel.three"
   | "delivery.panel.four"
-  | "delivery.ressource"
+  | "delivery.resource"
   | "delivery.feed"
   | "delivery.fee"
   | "delivery.goblin.comm.treasury";
@@ -1523,7 +1514,6 @@ export type FlowerShopTerms =
   | "flowerShop.missingPages.inABind"
   | "flowerShop.missingPages.sadly"
   | "flowerShop.noFlowers.noTrade"
-  | "flowerShop.do.have"
   | "flowerShop.do.have.trade"
   | "flowerShop.do.have.trade.one";
 
@@ -1683,12 +1673,6 @@ export type GetContent =
   | "getContent.join";
 
 export type GetInputErrorMessage =
-  | "getInputErrorMessage.minimum"
-  | "getInputErrorMessage.sfl"
-  | "getInputErrorMessage.s"
-  | "getInputErrorMessage.no.sfl"
-  | "getInputErrorMessage.yes.sfl"
-  | "getInputErrorMessage.auction"
   | "getInputErrorMessage.place.bid"
   | "getInputErrorMessage.cannot.bid";
 
@@ -1866,7 +1850,6 @@ export type Islandupgrade =
   | "islandupgrade.welcomePetalParadise"
   | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
-  | "islandupgrade.notReadyExpandMore.two"
   | "islandupgrade.exoticResourcesDescription";
 
 export type InteractableModals =
@@ -2039,7 +2022,8 @@ export type MegaStore =
   | "megaStore.message"
   | "megaStore.month.sale"
   | "megaStore.wearable"
-  | "megaStore.collectible";
+  | "megaStore.collectible"
+  | "megaStore.timeRemaining";
 
 export type MilestoneMessages =
   | "milestone.noviceAngler"
@@ -2523,21 +2507,11 @@ export type NpcDialogues =
 export type NyeButton = "plaza.magicButton.query";
 
 export type ObsessionDialogue =
-  | "obsessionDialogue.line1.part1"
-  | "obsessionDialogue.line1.part2"
-  | "obsessionDialogue.line1.part3"
-  | "obsessionDialogue.line2.part1"
-  | "obsessionDialogue.line2.part2"
-  | "obsessionDialogue.line2.part3"
-  | "obsessionDialogue.line3.part1"
-  | "obsessionDialogue.line3.part2"
-  | "obsessionDialogue.line3.part3"
-  | "obsessionDialogue.line4.part1"
-  | "obsessionDialogue.line4.part2"
-  | "obsessionDialogue.line4.part3"
-  | "obsessionDialogue.line5.part1"
-  | "obsessionDialogue.line5.part2"
-  | "obsessionDialogue.line5.part3";
+  | "obsessionDialogue.line1"
+  | "obsessionDialogue.line2"
+  | "obsessionDialogue.line3"
+  | "obsessionDialogue.line4"
+  | "obsessionDialogue.line5";
 
 export type Offer =
   | "offer.okxOffer"
@@ -2545,8 +2519,6 @@ export type Offer =
   | "offer.getStarterPack"
   | "offer.newHere"
   | "offer.getStarted"
-  | "offer.NFT.include"
-  | "offer.free"
   | "offer.not.enough.BlockBucks";
 
 export type Onboarding =
@@ -2698,7 +2670,6 @@ export type RetreatTerms =
 
 export type Resources =
   | "resources.recoversIn"
-  | "resources.required"
   | "resources.boulder.rareMineFound"
   | "resources.boulder.advancedMining";
 
@@ -3000,7 +2971,6 @@ export type TransactionTerms =
 export type Transfer =
   | "transfer.sure.adress"
   | "transfer.Account"
-  | "transfer.Account.Trans"
   | "transfer.Farm"
   | "transfer.Refresh"
   | "transfer.Taccount"
@@ -3051,6 +3021,8 @@ export type WarningTerms =
   | "warning.chat.noSpecialCharacters"
   | "warning.level.required"
   | "warning.hoarding.message"
+  | "warning.hoarding.indefiniteArticle.a"
+  | "warning.hoarding.indefiniteArticle.an"
   | "warning.hoarding.one"
   | "warning.hoarding.two"
   | "travelRequirement.notice";
@@ -3065,7 +3037,8 @@ export type WelcomeTerms =
   | "welcome.signIn.Message"
   | "welcome.email"
   | "welcome.takeover.ownership"
-  | "welcome.promo";
+  | "welcome.promo"
+  | "welcome.offline";
 
 export type Winner = "winner.mintTime" | "winner.mintTime.one";
 
@@ -3086,6 +3059,7 @@ export type WishingWell =
   | "wishingWell.info.one"
   | "wishingWell.info.two"
   | "wishingWell.info.three"
+  | "wishingWell.moreInfo"
   | "wishingWell.noLiquidity"
   | "wishingWell.rewardsInWell"
   | "wishingWell.luck";

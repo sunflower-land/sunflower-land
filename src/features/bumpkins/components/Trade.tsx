@@ -40,8 +40,8 @@ const ListTrade: React.FC<{
 }> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
-  const [quantity, setQuantity] = useState<number>(1);
-  const [sfl, setSFL] = useState(1);
+  const [quantity, setQuantity] = useState<number>(0);
+  const [sfl, setSFL] = useState(0);
 
   const maxSFL = sfl > MAX_SFL;
 
@@ -82,8 +82,9 @@ const ListTrade: React.FC<{
                     className="absolute -bottom-2 text-center mt-1 p-1"
                     style={{ width: "calc(100% + 10px)" }}
                   >
-                    {floorPrices[name]?.toFixed(4)}
-                    {t("unit")}
+                    {t("bumpkinTrade.price/unit", {
+                      price: floorPrices[name]?.toFixed(4) || "",
+                    })}
                   </Label>
                 </OuterPanel>
               </div>
@@ -96,9 +97,25 @@ const ListTrade: React.FC<{
   return (
     <>
       <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <Box image={ITEM_DETAILS[selected].image} disabled />
-          <span className="text-sm">{selected}</span>
+        <div className="flex flex-col items-start">
+          <div className="flex items-center">
+            <Box image={ITEM_DETAILS[selected].image} disabled />
+            <span className="text-sm">{selected}</span>
+          </div>
+          <Label
+            type={
+              sfl / quantity < (floorPrices[selected] ?? 0)
+                ? "danger"
+                : sfl / quantity > (floorPrices[selected] ?? 0)
+                ? "success"
+                : "warning"
+            }
+            className="my-1"
+          >
+            {t("bumpkinTrade.floorPrice", {
+              price: floorPrices[selected]?.toFixed(4) || "",
+            })}
+          </Label>
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
@@ -112,6 +129,7 @@ const ListTrade: React.FC<{
           </span>
         </div>
       </div>
+
       <div className="flex">
         <div className="w-1/2 mr-1">
           <div className="flex items-center">
@@ -124,7 +142,7 @@ const ListTrade: React.FC<{
             </Label>
             {quantity > (TRADE_LIMITS[selected] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {`Max: ${TRADE_LIMITS[selected] ?? 0}`}
+                {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
               </Label>
             )}
           </div>
@@ -145,7 +163,10 @@ const ListTrade: React.FC<{
               ) {
                 e.target.value = e.target.value.replace(/^0/, "");
               }
-              if (VALID_INTEGER.test(e.target.value)) {
+
+              if (e.target.value === "") {
+                setQuantity(0); // Reset to 0 if input is empty
+              } else if (VALID_INTEGER.test(e.target.value)) {
                 const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
                 setQuantity(amount);
               }
@@ -155,7 +176,8 @@ const ListTrade: React.FC<{
               {
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
-                  quantity > (TRADE_LIMITS[selected] ?? 0),
+                  quantity > (TRADE_LIMITS[selected] ?? 0) ||
+                  quantity === 0, // Add condition to change text color to red when quantity is 0
               }
             )}
           />
@@ -164,7 +186,7 @@ const ListTrade: React.FC<{
           <div className="flex items-center">
             {sfl > MAX_SFL && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {`Max: ${MAX_SFL}`}
+                {t("bumpkinTrade.max", { max: MAX_SFL })}
               </Label>
             )}
             <Label icon={token} type="default" className="my-1 ml-2 mr-1">
@@ -220,8 +242,12 @@ const ListTrade: React.FC<{
           padding: "5px 5px 5px 2px",
         }}
       >
-        <span className="text-xs"> {t("bumpkinTrade.pricePerUnit")}</span>
-        <p className="text-xs">{`${(sfl / quantity).toFixed(4)} SFL`}</p>
+        <span className="text-xs">
+          {t("bumpkinTrade.pricePerUnit", { resource: selected })}
+        </span>
+        <p className="text-xs">
+          {quantity === 0 ? "0.0000 SFL" : `${(sfl / quantity).toFixed(4)} SFL`}
+        </p>
       </div>
       <div
         className="flex justify-between"
@@ -251,8 +277,8 @@ const ListTrade: React.FC<{
           disabled={
             maxSFL ||
             (inventory[selected]?.lt(quantity) ?? false) ||
-            quantity > (TRADE_LIMITS[selected] ?? 0) ||
-            sfl === 0 ||
+            quantity === 0 || // Disable when quantity is 0
+            sfl === 0 || // Disable when sfl is 0
             isSaving
           }
           onClick={() => onList({ [selected]: quantity }, sfl)}
