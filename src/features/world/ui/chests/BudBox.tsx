@@ -131,21 +131,8 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  const days = new Array(7).fill(0);
-
-  // Get current UTC date
-  const currentDate = new Date();
-
-  // Get UTC date at midnight
-  const currentUTCMidnight = getUTCDateAtMidnight(currentDate);
-
-  // Get array of 7 consecutive dates starting from current date
-  let consecutiveDatesArray = getConsecutiveDatesArray(currentUTCMidnight, 7);
-
-  // Add timezone offset
-  consecutiveDatesArray = consecutiveDatesArray.map((date) => {
-    return new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
-  });
+  const days = new Array<number>(7).fill(0);
+  const now = Date.now();
 
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;
@@ -174,7 +161,8 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {consecutiveDatesArray.map((date, index) => {
+        {days.map((_, index) => {
+          const date = new Date(now + 24 * 60 * 60 * 1000 * index);
           const dailyBud = getDailyBudBoxType(date);
 
           const hasBud = buds.some((type) => playerBudTypes.includes(dailyBud));
