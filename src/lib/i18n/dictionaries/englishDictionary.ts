@@ -708,7 +708,7 @@ const beehive: Record<Beehive, string> = {
   "beehive.honeyProductionPaused": "Honey production paused",
   "beehive.rate": "Rate",
   "beehive.fullHivePerDay": "{{rate}} full hive / day",
-  "beehive.estimatedFull": "Estimated full",
+  "beehive.estimatedFull": "Estimated Full",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
