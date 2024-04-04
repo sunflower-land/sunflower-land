@@ -708,6 +708,10 @@ const beehive: Record<Beehive, string> = {
   "beehive.beeSwarm": "Arı sürüsü",
   "beehive.pollinationCelebration":
     "Tozlaşma kutlaması! Mahsulleriniz, dost canlısı bir arı sürüsü sayesinde 0,2'lik bir destekle ödüllendirilecek!",
+  "beehive.honeyProductionPaused":
+    ENGLISH_TERMS["beehive.honeyProductionPaused"],
+  "beehive.rateInfo": ENGLISH_TERMS["beehive.rateInfo"],
+  "beehive.estimatedFullIn": ENGLISH_TERMS["beehive.estimatedFullIn"],
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
