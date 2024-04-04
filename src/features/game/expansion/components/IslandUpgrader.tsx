@@ -54,7 +54,7 @@ const IslandUpgraderModal: React.FC<{
   const upgrade = ISLAND_UPGRADE[island.type];
   const { t } = useAppTranslation();
 
-  const remaindingExpansions =
+  const remainingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
 
   if (showConfirmation) {
@@ -109,7 +109,7 @@ const IslandUpgraderModal: React.FC<{
         {hasAccess && (
           <>
             <div className="flex items-center mt-2 mb-1">
-              {remaindingExpansions > 0 && (
+              {remainingExpansions > 0 && (
                 <Label icon={lockIcon} type="danger" className="mr-3">
                   {t("islandupgrade.locked")}
                 </Label>
@@ -127,10 +127,11 @@ const IslandUpgraderModal: React.FC<{
                 >{`${upgrade.items[name]} x ${name}`}</Label>
               ))}
             </div>
-            {remaindingExpansions > 0 && (
+            {remainingExpansions > 0 && (
               <p className="text-xs">
-                {t("islandupgrade.notReadyExpandMore")} {remaindingExpansions}{" "}
-                {t("islandupgrade.notReadyExpandMore.two")}
+                {t("islandupgrade.notReadyExpandMore", {
+                  remainingExpansions: remainingExpansions,
+                })}
               </p>
             )}
           </>
@@ -146,7 +147,7 @@ const IslandUpgraderModal: React.FC<{
         )}
       </div>
       <Button
-        disabled={!hasResources || !hasAccess || remaindingExpansions > 0}
+        disabled={!hasResources || !hasAccess || remainingExpansions > 0}
         onClick={() => setShowConfirmation(true)}
       >
         {t("continue")}

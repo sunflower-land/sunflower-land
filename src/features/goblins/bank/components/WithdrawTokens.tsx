@@ -48,7 +48,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
       }) / 10;
 
     setTax(_tax);
-  }, [amount, state.inventory]);
+  }, [amount, state, state.inventory]);
 
   // In order to be able to type into the input box amount needs to be able to be a string
   // for when the user deletes the 0. safeAmount is a getter that will return amount as a Decimal
@@ -167,11 +167,11 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
       <div className="flex items-center mt-4">
         <span className="">
-          {t("withdraw.receive")}
-          {":"}{" "}
-          {safeAmount(amount)
-            .mul((100 - tax) / 100)
-            .toFixed(3)}
+          {t("withdraw.receive", {
+            sflReceived: safeAmount(amount)
+              .mul((100 - tax) / 100)
+              .toFixed(3),
+          })}
         </span>
         <img src={token} className="w-4 ml-2 img-highlight" />
       </div>

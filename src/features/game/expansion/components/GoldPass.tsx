@@ -20,7 +20,11 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
     if (showConfirmation) {
       return (
         <GameWallet action="purchase">
-          <p className="p-2">{`${t("goldPass.buyNow")} ${price}`}</p>
+          <p className="p-2">
+            {t("goldPass.buyNow", {
+              price: price,
+            })}
+          </p>
           <Button
             onClick={() => {
               gameService.send("PURCHASE_ITEM", {
@@ -69,15 +73,14 @@ export const GoldPassModal: React.FC<Props> = ({ onClose }) => {
               setShowConfirmation(true);
             }}
           >
-            {t("goldPass.buyNow")}
-            {price}
+            {t("goldPass.buyNow", {
+              price: price,
+            })}
           </Button>
         </div>
         <div className="flex justify-center my-0.5">
           <span className="text-xxs italic">
-            {t("goldPass.priceInMatic")}
-            {price}
-            {"USD"}
+            {t("goldPass.priceInMatic", { price: price })}
           </span>
         </div>
       </>

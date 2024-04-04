@@ -139,10 +139,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         >
           <>
             <div className="flex flex-col items-center p-1">
-              <span>
-                {t("mayor.plaza.enterUsernamePrompt")}
-                {":"}
-              </span>
+              <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
               <div className="w-full py-3 relative">
                 <input
                   type="string"
