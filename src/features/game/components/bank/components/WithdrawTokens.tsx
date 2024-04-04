@@ -164,11 +164,11 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
       <div className="flex items-center mt-4">
         <span className="">
-          {t("withdraw.receive")}
-          {":"}{" "}
-          {safeAmount(amount)
-            .mul((100 - tax) / 100)
-            .toFixed(3)}
+          {t("withdraw.receive", {
+            sflReceived: safeAmount(amount)
+              .mul((100 - tax) / 100)
+              .toFixed(3),
+          })}
         </span>
         <img src={token} className="w-4 ml-2 img-highlight" />
       </div>
