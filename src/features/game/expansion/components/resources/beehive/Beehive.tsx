@@ -42,6 +42,7 @@ import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
 import { secondsToString } from "lib/utils/time";
 import { setPrecision } from "lib/utils/formatNumber";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   id: string;
@@ -353,27 +354,35 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               </div>
             </div>
             {currentRate > 0 && !!secondsLeftUntilFull && (
-              <div className="text-xs mx-1 mb-2">
-                {t("beehive.rateInfo", {
-                  rate: `${setPrecision(new Decimal(currentRate))}`,
-                })}
+              <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                <Label type="default" icon={lightning}>
+                  {t("beehive.rate")}
+                </Label>
+                <div className="text-xs mb-0.5">
+                  {t("beehive.fullHivePerDay", {
+                    rate: `${setPrecision(new Decimal(currentRate))}`,
+                  })}
+                </div>
               </div>
             )}
             {currentRate === 0 && (
-              <div className="text-xs mx-1 mb-2">
+              <Label type="warning" className="m-1 mb-2">
                 {t("beehive.honeyProductionPaused")}
-              </div>
+              </Label>
             )}
             {!!secondsLeftUntilFull && (
-              <div className="text-xs mx-1 mb-2">
-                {t("beehive.estimatedFullIn", {
-                  estimatedTime: secondsToString(secondsLeftUntilFull, {
+              <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+                  {t("beehive.estimatedFull")}
+                </Label>
+                <div className="text-xs mb-0.5">
+                  {secondsToString(secondsLeftUntilFull, {
                     length: "medium",
-                  }),
-                })}
+                  })}
+                </div>
               </div>
             )}
-            <Button onClick={handleHarvestHoney}>
+            <Button className="mt-1" onClick={handleHarvestHoney}>
               {t("beehive.harvestHoney")}
             </Button>
           </>

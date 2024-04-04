@@ -695,8 +695,9 @@ const beehive: Record<Beehive, string> = {
     "Tozlaşma kutlaması! Mahsulleriniz, dost canlısı bir arı sürüsü sayesinde 0,2'lik bir destekle ödüllendirilecek!",
   "beehive.honeyProductionPaused":
     ENGLISH_TERMS["beehive.honeyProductionPaused"],
-  "beehive.rateInfo": ENGLISH_TERMS["beehive.rateInfo"],
-  "beehive.estimatedFullIn": ENGLISH_TERMS["beehive.estimatedFullIn"],
+  "beehive.rate": ENGLISH_TERMS["beehive.rate"],
+  "beehive.fullHivePerDay": ENGLISH_TERMS["beehive.fullHivePerDay"],
+  "beehive.estimatedFull": ENGLISH_TERMS["beehive.estimatedFull"],
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {

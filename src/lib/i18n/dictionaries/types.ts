@@ -453,8 +453,9 @@ export type Beehive =
   | "beehive.beeSwarm"
   | "beehive.pollinationCelebration"
   | "beehive.honeyProductionPaused"
-  | "beehive.rateInfo"
-  | "beehive.estimatedFullIn";
+  | "beehive.rate"
+  | "beehive.fullHivePerDay"
+  | "beehive.estimatedFull";
 
 export type BeachLuck =
   | "beachLuck.tryLuck"
