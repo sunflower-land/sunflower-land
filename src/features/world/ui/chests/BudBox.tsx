@@ -19,24 +19,6 @@ import { Bud, TypeTrait } from "features/game/types/buds";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 
-// Function to get UTC date at 12:00 AM
-function getUTCDateAtMidnight(date: Date) {
-  return new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-  );
-}
-
-// Function to get an array of 7 consecutive dates starting from the given date
-function getConsecutiveDatesArray(startDate: Date, length: number) {
-  const datesArray = [startDate];
-  for (let i = 1; i < length; i++) {
-    const nextDate = new Date(startDate);
-    nextDate.setUTCDate(startDate.getUTCDate() + i);
-    datesArray.push(getUTCDateAtMidnight(nextDate));
-  }
-  return datesArray;
-}
-
 interface Props {
   onClose: () => void;
 }
@@ -131,21 +113,8 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
 
   const buds = getKeys(gameState.context.state.buds ?? {});
 
-  const days = new Array(7).fill(0);
-
-  // Get current UTC date
-  const currentDate = new Date();
-
-  // Get UTC date at midnight
-  const currentUTCMidnight = getUTCDateAtMidnight(currentDate);
-
-  // Get array of 7 consecutive dates starting from current date
-  let consecutiveDatesArray = getConsecutiveDatesArray(currentUTCMidnight, 7);
-
-  // Add timezone offset
-  consecutiveDatesArray = consecutiveDatesArray.map((date) => {
-    return new Date(date.getTime() + date.getTimezoneOffset() * 60 * 1000);
-  });
+  const days = new Array<number>(7).fill(0);
+  const now = Date.now();
 
   const playerBudTypes = buds.map((id) => {
     const bud = gameState.context.state.buds?.[id] as Bud;
@@ -174,10 +143,11 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("budBox.description")}</p>
-        {consecutiveDatesArray.map((date, index) => {
+        {days.map((_, index) => {
+          const date = new Date(now + 24 * 60 * 60 * 1000 * index);
           const dailyBud = getDailyBudBoxType(date);
 
-          const hasBud = buds.some((type) => playerBudTypes.includes(dailyBud));
+          const hasBud = playerBudTypes.includes(dailyBud);
 
           const dayOfWeek = date.toLocaleDateString("en-US", {
             weekday: "long",
