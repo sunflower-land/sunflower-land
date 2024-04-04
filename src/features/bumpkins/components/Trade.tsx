@@ -270,7 +270,6 @@ const ListTrade: React.FC<{
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
-          {" "}
           {t("bumpkinTrade.cancel")}
         </Button>
         <Button
