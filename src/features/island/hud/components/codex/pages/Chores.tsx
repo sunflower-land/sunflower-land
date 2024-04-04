@@ -38,7 +38,7 @@ export const Chores: React.FC = () => {
           </div>
         </div>
       </div>
-      <ChoreV2 isReadOnly />
+      <ChoreV2 isReadOnly isCodex />
     </>
   );
 };

@@ -29,8 +29,14 @@ interface Props {
   id: ChoreV2Name;
   chore: ChoreV2;
   isReadOnly?: boolean;
+  isCodex: boolean;
 }
-export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
+export const DailyChore: React.FC<Props> = ({
+  id,
+  chore,
+  isReadOnly,
+  isCodex,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -76,10 +82,16 @@ export const DailyChore: React.FC<Props> = ({ id, chore, isReadOnly }) => {
     id: gameService.state.context.farmId,
   });
 
+  const descriptionTextClass = isCodex
+    ? "text-xxs sm:text-xs"
+    : "text-xs sm:text-sm";
+
   return (
     <OuterPanel className="mb-2">
       <div className="flex justify-between">
-        <span className="text-xxs sm:text-xs mb-1 flex-1 whitespace-normal pr-2">
+        <span
+          className={`${descriptionTextClass} mb-1 flex-1 whitespace-normal pr-2`}
+        >
           {chore.description}
         </span>
         <div className="flex items-start mr-1">

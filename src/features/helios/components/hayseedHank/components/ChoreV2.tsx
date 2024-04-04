@@ -13,9 +13,14 @@ import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
+  /** Is used to identify whether the chores are displayed in the codex or not. The codex requires smaller text sizes. */
+  isCodex?: boolean;
   isReadOnly?: boolean;
 }
-export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
+export const ChoreV2: React.FC<Props> = ({
+  isReadOnly = false,
+  isCodex = false,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -75,6 +80,7 @@ export const ChoreV2: React.FC<Props> = ({ isReadOnly = false }) => {
             id={choreId}
             key={chore.createdAt + index}
             isReadOnly={isReadOnly}
+            isCodex={isCodex}
           />
         );
       })}
