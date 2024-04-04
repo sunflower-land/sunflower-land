@@ -165,7 +165,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
           const date = new Date(now + 24 * 60 * 60 * 1000 * index);
           const dailyBud = getDailyBudBoxType(date);
 
-          const hasBud = buds.some((type) => playerBudTypes.includes(dailyBud));
+          const hasBud = playerBudTypes.includes(dailyBud);
 
           const dayOfWeek = date.toLocaleDateString("en-US", {
             weekday: "long",
