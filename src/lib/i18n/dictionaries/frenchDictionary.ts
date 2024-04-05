@@ -607,7 +607,7 @@ const addSFL: Record<AddSFL, string> = {
 };
 
 const auction: Record<Auction, string> = {
-  "auction.title": "Auctions & Drops",
+  "auction.title": ENGLISH_TERMS["auction.title"],
   "auction.bid.message": "Vous avez placé votre enchère.",
   "auction.reveal": "Révéler les gagnants",
   "auction.live": "L'enchère est en cours!",

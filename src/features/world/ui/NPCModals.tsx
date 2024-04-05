@@ -66,11 +66,13 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
     setNpc(undefined);
   };
 
+  const isSeparateModal = npc === "Chun Long" || npc === "hammerin harry";
+
   return (
     <>
       <Modal
         // dialogClassName="npc-dialog"
-        show={!!npc}
+        show={!!npc && !isSeparateModal}
         onHide={closeModal}
       >
         {npc === "flopsy" && (
