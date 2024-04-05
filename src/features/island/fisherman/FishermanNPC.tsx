@@ -257,8 +257,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               src={SUNNYSIDE.icons.fish_icon}
               style={{
                 width: `${PIXEL_SCALE * 18}px`,
-                right: `${PIXEL_SCALE * 2}px`,
-                top: `${PIXEL_SCALE * 10}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+                top: `${PIXEL_SCALE * 9}px`,
               }}
             />
 
@@ -267,8 +267,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
               src={lockIcon}
               style={{
                 width: `${PIXEL_SCALE * 12}px`,
-                right: `${PIXEL_SCALE * 12}px`,
-                top: `${PIXEL_SCALE * 12}px`,
+                right: `${PIXEL_SCALE * 10}px`,
+                top: `${PIXEL_SCALE * 7}px`,
               }}
             />
           </>
