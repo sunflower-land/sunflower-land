@@ -69,7 +69,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.balance.lessThan(price.toString());
+    return state.coins < price;
   };
 
   const lessIngredients = () =>
