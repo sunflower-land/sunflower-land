@@ -23,6 +23,7 @@ import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { TRADE_LIMITS } from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -76,7 +77,7 @@ const ListTrade: React.FC<{
                   }}
                 >
                   <Label type="default" className="absolute -top-3 -right-2">
-                    {inventory?.[name]?.toFixed(0, 1)}
+                    {`${setPrecision(new Decimal(inventory?.[name] ?? 0), 0)}`}
                   </Label>
                   <span className="text-xs mb-1">{name}</span>
                   <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
@@ -86,7 +87,9 @@ const ListTrade: React.FC<{
                     style={{ width: "calc(100% + 10px)" }}
                   >
                     {t("bumpkinTrade.price/unit", {
-                      price: floorPrices[name]?.toFixed(4) || "",
+                      price: floorPrices[name]
+                        ? setPrecision(new Decimal(floorPrices[name] ?? 0))
+                        : "?",
                     })}
                   </Label>
                 </OuterPanel>
@@ -116,7 +119,9 @@ const ListTrade: React.FC<{
             className="my-1"
           >
             {t("bumpkinTrade.floorPrice", {
-              price: floorPrices[selected]?.toFixed(4) || "",
+              price: floorPrices[selected]
+                ? setPrecision(new Decimal(floorPrices[selected] ?? 0))
+                : "?",
             })}
           </Label>
         </div>
@@ -128,7 +133,7 @@ const ListTrade: React.FC<{
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
-            {inventory?.[selected]?.toFixed(0, 1) ?? 0}
+            {`${setPrecision(new Decimal(inventory?.[selected] ?? 0), 0)}`}
           </span>
         </div>
       </div>
@@ -240,7 +245,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-        <p className="text-xs">{`${sfl.toFixed(4)} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl))} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -253,7 +258,9 @@ const ListTrade: React.FC<{
           {t("bumpkinTrade.pricePerUnit", { resource: selected })}
         </span>
         <p className="text-xs">
-          {quantity === 0 ? "0.0000 SFL" : `${(sfl / quantity).toFixed(4)} SFL`}
+          {quantity === 0
+            ? "0.0000 SFL"
+            : `${setPrecision(new Decimal(sfl / quantity))} SFL`}
         </p>
       </div>
       <div
@@ -264,7 +271,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${(sfl * 0.1).toFixed(4)} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(
+          new Decimal(sfl * 0.1)
+        )} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -273,7 +282,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${(sfl * 0.9).toFixed(4)} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(
+          new Decimal(sfl * 0.9)
+        )} SFL`}</p>
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
