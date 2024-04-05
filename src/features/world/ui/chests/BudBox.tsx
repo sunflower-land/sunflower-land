@@ -19,24 +19,6 @@ import { Bud, TypeTrait } from "features/game/types/buds";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 
-// Function to get UTC date at 12:00 AM
-function getUTCDateAtMidnight(date: Date) {
-  return new Date(
-    Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
-  );
-}
-
-// Function to get an array of 7 consecutive dates starting from the given date
-function getConsecutiveDatesArray(startDate: Date, length: number) {
-  const datesArray = [startDate];
-  for (let i = 1; i < length; i++) {
-    const nextDate = new Date(startDate);
-    nextDate.setUTCDate(startDate.getUTCDate() + i);
-    datesArray.push(getUTCDateAtMidnight(nextDate));
-  }
-  return datesArray;
-}
-
 interface Props {
   onClose: () => void;
 }
