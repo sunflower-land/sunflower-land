@@ -29,9 +29,14 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
 
   const monthKey = new Date().toISOString().slice(0, 7);
 
-  const entries =
+  let entries =
     gameState.context.state.pumpkinPlaza?.raffle?.entries[monthKey] ?? 0;
 
+  // If it is April, show the entries from March as well
+  if (monthKey === "2024-04") {
+    entries +=
+      gameState.context.state.pumpkinPlaza?.raffle?.entries["2024-03"] ?? 0;
+  }
   const tickets =
     gameState.context.state.inventory["Prize Ticket"] ?? new Decimal(0);
 
