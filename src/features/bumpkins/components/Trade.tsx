@@ -245,7 +245,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl))} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl)).toFixed(
+          4
+        )} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -260,7 +262,7 @@ const ListTrade: React.FC<{
         <p className="text-xs">
           {quantity === 0
             ? "0.0000 SFL"
-            : `${setPrecision(new Decimal(sfl / quantity))} SFL`}
+            : `${setPrecision(new Decimal(sfl / quantity)).toFixed(4)} SFL`}
         </p>
       </div>
       <div
@@ -271,8 +273,8 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${setPrecision(
-          new Decimal(sfl * 0.1)
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.1)).toFixed(
+          4
         )} SFL`}</p>
       </div>
       <div
@@ -282,8 +284,8 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${setPrecision(
-          new Decimal(sfl * 0.9)
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.9)).toFixed(
+          4
         )} SFL`}</p>
       </div>
       <div className="flex mt-2">
