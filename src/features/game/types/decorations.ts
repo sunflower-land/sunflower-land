@@ -597,7 +597,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
   "Stone Fence": {
     name: "Stone Fence",
     description: translate("description.stone.fence"),
-    sfl: 80,
+    coins: 80,
     ingredients: {
       Stone: new Decimal(5),
     },
