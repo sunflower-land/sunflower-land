@@ -66,14 +66,14 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">
-          {t("wishingWell.sflRewardsReceived")}
-          {":"} {`${reward}`}
+          {t("wishingWell.sflRewardsReceived", { reward: reward })}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.newWish")}</p>
         {lockedTime && (
           <p className="mb-2 text-sm">
-            {t("wishingWell.wish.timeTillNextWish")}
-            {":"} {`${lockedTime}.`}
+            {t("wishingWell.wish.timeTillNextWish", {
+              nextWishTime: lockedTime,
+            })}
           </p>
         )}
       </div>
@@ -209,9 +209,8 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {t("statements.wishing.well.info.six")}
+              {t("wishingWell.moreInfo")}
             </a>
-            {` yet.`}
           </p>
         )}
       </div>
