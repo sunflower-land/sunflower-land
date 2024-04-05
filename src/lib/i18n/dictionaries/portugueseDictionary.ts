@@ -4617,6 +4617,7 @@ const world: Record<World, string> = {
   "world.plaza": ENGLISH_TERMS["world.plaza"],
   "world.beach": ENGLISH_TERMS["world.beach"],
   "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.woodlands": ENGLISH_TERMS["world.woodlands"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
 };
