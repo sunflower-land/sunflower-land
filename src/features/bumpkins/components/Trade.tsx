@@ -40,8 +40,11 @@ const ListTrade: React.FC<{
 }> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
-  const [quantity, setQuantity] = useState<number>(0);
-  const [sfl, setSFL] = useState(0);
+  const [quantityDisplay, setQuantityDisplay] = useState("");
+  const [sflDisplay, setSflDisplay] = useState("");
+
+  const quantity = Number(quantityDisplay);
+  const sfl = Number(sflDisplay);
 
   const maxSFL = sfl > MAX_SFL;
 
@@ -153,8 +156,9 @@ const ListTrade: React.FC<{
               border: "2px solid #ead4aa",
             }}
             type="number"
+            placeholder="0"
             min={1}
-            value={quantity}
+            value={quantityDisplay}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               // Strip the leading zero from numbers
               if (
@@ -165,14 +169,14 @@ const ListTrade: React.FC<{
               }
 
               if (e.target.value === "") {
-                setQuantity(0); // Reset to 0 if input is empty
+                setQuantityDisplay(""); // Reset to 0 if input is empty
               } else if (VALID_INTEGER.test(e.target.value)) {
                 const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-                setQuantity(amount);
+                setQuantityDisplay(`${amount}`);
               }
             }}
             className={classNames(
-              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
@@ -200,7 +204,8 @@ const ListTrade: React.FC<{
               textAlign: "right",
             }}
             type="number"
-            value={sfl}
+            placeholder="0"
+            value={sflDisplay}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               // Strip the leading zero from numbers
               if (
@@ -210,13 +215,15 @@ const ListTrade: React.FC<{
                 e.target.value = e.target.value.replace(/^0/, "");
               }
 
-              if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
+              if (e.target.value === "") {
+                setSflDisplay(""); // Reset to 0 if input is empty
+              } else if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
                 const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-                setSFL(amount);
+                setSflDisplay(`${amount}`);
               }
             }}
             className={classNames(
-              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
                 "text-error": maxSFL || sfl === 0,
               }
