@@ -171,6 +171,7 @@ import {
   TimeUnits,
   PwaInstall,
   GoblinTrade,
+  RestrictionReason,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4615,6 +4616,32 @@ const trading: Record<Trading, string> = {
   "trading.burned": "is burned.",
 };
 
+export const restrictionReason: Record<RestrictionReason, string> = {
+  "restrictionReason.isGrowing": "{{item}} is growing",
+  "restrictionReason.beanPlanted": "Magic Bean is planted",
+  "restrictionReason.cropsGrowing": "Crops are growing",
+  "restrictionReason.basicCropsGrowing": "Basic crops are growing",
+  "restrictionReason.mediumCropsGrowing": "Medium crops are growing",
+  "restrictionReason.advancedCropsGrowing": "Advanced crops are growing",
+  "restrictionReason.fruitsGrowing": "Fruits are growing",
+  "restrictionReason.treesChopped": "Trees are chopped",
+  "restrictionReason.stoneMined": "Stone is mined",
+  "restrictionReason.ironMined": "Iron is mined",
+  "restrictionReason.goldMined": "Gold is mined",
+  "restrictionReason.crimstoneMined": "Crimstone is mined",
+  "restrictionReason.chickensFed": "Chickens are fed",
+  "restrictionReason.treasuresDug": "Treasure holes are dug",
+  "restrictionReason.inUse": "In use",
+  "restrictionReason.recentlyUsed": "Recently used",
+  "restrictionReason.recentlyFished": "Recently fished",
+  "restrictionReason.flowersGrowing": "Flowers are growing",
+  "restrictionReason.beesBusy": "Bees are busy",
+  "restrictionReason.pawShaken": "Paw shaken",
+  "restrictionReason.festiveSeason": "Locked during festive season",
+  "restrictionReason.noRestriction": "No restriction",
+  "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4787,4 +4814,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...withdraw,
   ...world,
   ...wornDescription,
+  ...restrictionReason,
 };

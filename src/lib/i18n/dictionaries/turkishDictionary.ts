@@ -172,6 +172,7 @@ import {
   PwaInstall,
   Trading,
   GoblinTrade,
+  RestrictionReason,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4647,6 +4648,48 @@ const trading: Record<Trading, string> = {
   "trading.burned": "yakılan.",
 };
 
+const restrictionReason: Record<RestrictionReason, string> = {
+  "restrictionReason.isGrowing": ENGLISH_TERMS["restrictionReason.isGrowing"],
+  "restrictionReason.beanPlanted":
+    ENGLISH_TERMS["restrictionReason.beanPlanted"],
+  "restrictionReason.cropsGrowing":
+    ENGLISH_TERMS["restrictionReason.cropsGrowing"],
+  "restrictionReason.basicCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.basicCropsGrowing"],
+  "restrictionReason.mediumCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.mediumCropsGrowing"],
+  "restrictionReason.advancedCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.advancedCropsGrowing"],
+  "restrictionReason.fruitsGrowing":
+    ENGLISH_TERMS["restrictionReason.fruitsGrowing"],
+  "restrictionReason.treesChopped":
+    ENGLISH_TERMS["restrictionReason.treesChopped"],
+  "restrictionReason.stoneMined": ENGLISH_TERMS["restrictionReason.stoneMined"],
+  "restrictionReason.ironMined": ENGLISH_TERMS["restrictionReason.ironMined"],
+  "restrictionReason.goldMined": ENGLISH_TERMS["restrictionReason.goldMined"],
+  "restrictionReason.crimstoneMined":
+    ENGLISH_TERMS["restrictionReason.crimstoneMined"],
+  "restrictionReason.chickensFed":
+    ENGLISH_TERMS["restrictionReason.chickensFed"],
+  "restrictionReason.treasuresDug":
+    ENGLISH_TERMS["restrictionReason.treasuresDug"],
+  "restrictionReason.inUse": ENGLISH_TERMS["restrictionReason.inUse"],
+  "restrictionReason.recentlyUsed":
+    ENGLISH_TERMS["restrictionReason.recentlyUsed"],
+  "restrictionReason.recentlyFished":
+    ENGLISH_TERMS["restrictionReason.recentlyFished"],
+  "restrictionReason.flowersGrowing":
+    ENGLISH_TERMS["restrictionReason.flowersGrowing"],
+  "restrictionReason.beesBusy": ENGLISH_TERMS["restrictionReason.beesBusy"],
+  "restrictionReason.pawShaken": ENGLISH_TERMS["restrictionReason.pawShaken"],
+  "restrictionReason.festiveSeason":
+    ENGLISH_TERMS["restrictionReason.festiveSeason"],
+  "restrictionReason.noRestriction":
+    ENGLISH_TERMS["restrictionReason.noRestriction"],
+  "restrictionReason.genieLampRubbed":
+    ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
+};
+
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4819,4 +4862,5 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...withdraw,
   ...world,
   ...wornDescription,
+  ...restrictionReason,
 };
