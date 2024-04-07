@@ -704,7 +704,7 @@ const beehive: Record<Beehive, string> = {
     "Célébration de la pollinisation ! Vos cultures sont gâtées avec un bonus de 0,2 grâce à un essaim d'abeilles amical!",
   "beehive.honeyProductionPaused":
     ENGLISH_TERMS["beehive.honeyProductionPaused"],
-  "beehive.rate": ENGLISH_TERMS["beehive.rate"],
+  "beehive.speed": ENGLISH_TERMS["beehive.speed"],
   "beehive.fullHivePerDay": ENGLISH_TERMS["beehive.fullHivePerDay"],
   "beehive.estimatedFull": ENGLISH_TERMS["beehive.estimatedFull"],
 };
