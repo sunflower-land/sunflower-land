@@ -61,7 +61,8 @@ const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
   state.context.honeyProduced;
-const _currentSpeed = (state: BeehiveMachineState) => state.context.currentSpeed;
+const _currentSpeed = (state: BeehiveMachineState) =>
+  state.context.currentSpeed;
 const _currentFlowerId = (state: BeehiveMachineState) =>
   state.context.attachedFlower?.id;
 const _showBeeAnimation = (state: BeehiveMachineState) =>
