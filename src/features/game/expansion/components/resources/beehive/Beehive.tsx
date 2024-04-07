@@ -182,6 +182,11 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     .todp(4, Decimal.ROUND_DOWN)
     .toNumber();
 
+  const honeyPercentage = setPrecision(
+    new Decimal(honeyAmount * 100),
+    2
+  ).toFixed(2);
+
   const percentage = (honeyProduced / DEFAULT_HONEY_PRODUCTION_TIME) * 100;
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
@@ -291,7 +296,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
               <span>
                 {t("honey")}
-                {":"} {Number(honeyAmount) < 1 ? honeyAmount : t("full")}
+                {":"}{" "}
+                {Number(honeyAmount) < 1
+                  ? `${honeyPercentage}% ${t("full")}`
+                  : t("full")}
               </span>
             </div>
           </InfoPopover>
@@ -349,7 +357,9 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                       }
                     )}
                   >
-                    {Number(honeyAmount) < 1 ? honeyAmount : t("full")}
+                    {Number(honeyAmount) < 1
+                      ? `${honeyPercentage}%`
+                      : t("full")}
                   </p>
                 </div>
               </div>
