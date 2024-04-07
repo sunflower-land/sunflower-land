@@ -22,7 +22,7 @@ import {
   MachineInterpreter,
   beehiveMachine,
   getCurrentHoneyProduced,
-  getCurrentRate,
+  getCurrentSpeed,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
 import { Modal } from "components/ui/Modal";
@@ -61,7 +61,7 @@ const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
   state.context.honeyProduced;
-const _currentRate = (state: BeehiveMachineState) => state.context.currentRate;
+const _currentSpeed = (state: BeehiveMachineState) => state.context.currentSpeed;
 const _currentFlowerId = (state: BeehiveMachineState) =>
   state.context.attachedFlower?.id;
 const _showBeeAnimation = (state: BeehiveMachineState) =>
@@ -86,7 +86,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     gameState: gameState.context.state,
     hive,
     honeyProduced: getCurrentHoneyProduced(hive),
-    currentRate: getCurrentRate(hive),
+    currentSpeed: getCurrentSpeed(hive),
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
@@ -96,7 +96,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const honeyReady = useSelector(beehiveService, _honeyReady);
   const isProducing = useSelector(beehiveService, _isProducing);
   const honeyProduced = useSelector(beehiveService, _honeyProduced);
-  const currentRate = useSelector(beehiveService, _currentRate);
+  const currentSpeed = useSelector(beehiveService, _currentSpeed);
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
@@ -186,11 +186,11 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
   const secondsLeftUntilFull =
-    currentRate === 0
+    currentSpeed === 0
       ? undefined
       : Math.max(
           0,
-          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentRate / 1000
+          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000
         );
 
   return (
@@ -353,19 +353,19 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
             </div>
-            {currentRate > 0 && !!secondsLeftUntilFull && (
+            {currentSpeed > 0 && !!secondsLeftUntilFull && (
               <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
                 <Label type="default" icon={lightning}>
-                  {t("beehive.rate")}
+                  {t("beehive.speed")}
                 </Label>
                 <div className="text-xs mb-0.5">
                   {t("beehive.fullHivePerDay", {
-                    rate: `${setPrecision(new Decimal(currentRate))}`,
+                    speed: `${setPrecision(new Decimal(currentSpeed))}`,
                   })}
                 </div>
               </div>
             )}
-            {currentRate === 0 && (
+            {currentSpeed === 0 && (
               <Label type="warning" className="m-1 mb-2">
                 {t("beehive.honeyProductionPaused")}
               </Label>
