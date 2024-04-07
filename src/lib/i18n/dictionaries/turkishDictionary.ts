@@ -895,7 +895,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% Şans ile +2 Taş",
   "description.crimson.carp.boost": "+0.05 Kızıltaş",
   "description.crim.peckster.boost": "+0.1 Kızıltaş",
-  "description.queen.bee.boost": "Bal Üretim Hızını 2 Katına Çıkarır",
+  "description.queen.bee.boost": "+1 Bal Üretim Hızı",
   "description.humming.bird.boost": "20% Şans ile +1 Çiçek",
   "description.beehive.boost":
     "Arı kovanı dolduğunda +0.2 Mahsul için 10% Şans",
@@ -911,7 +911,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "Mahsul, Pişirme, Mineral ve Ağaç Yenilenme Sürelerinde 50% azalma",
   "description.radiant.ray.boost": "+0.1 Demir",
-  "description.beekeeper.hat.boost": "+20% Bal Üretim Hızı",
+  "description.beekeeper.hat.boost": "+0.2 Bal Üretim Hızı",
   "description.babyPanda.boost": "Başlangıç 2x XP Takviyesi",
   "description.flower.fox.boost": "-10% Çiçek Büyüme Hızı",
   "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
@@ -1003,12 +1003,13 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Muz",
   "bumpkinItemBuff.banana.boost": "-20% Muz Büyüme Süresi",
   "bumpkinItemBuff.deep.sea.helm": "Marine Seviyesi 3x Şans",
-  "bumpkinItemBuff.bee.suit": "+0.1 Bal",
+  "bumpkinItemBuff.bee.suit": ENGLISH_TERMS["bumpkinItemBuff.bee.suit"],
   "bumpkinItemBuff.crimstone.hammer": "5. Gün +2 Crimstone",
   "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Bekleme Süresi",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstone",
   "bumpkinItemBuff.hornet.mask": "Arı Sürüsü için 2x Şans",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Bal",
+  "bumpkinItemBuff.honeycomb.shield":
+    ENGLISH_TERMS["bumpkinItemBuff.honeycomb.shield"],
   "bumpkinItemBuff.flower.crown": "-50% Çiçek Büyüme süresi",
 };
 
