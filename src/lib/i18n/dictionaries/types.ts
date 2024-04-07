@@ -453,7 +453,7 @@ export type Beehive =
   | "beehive.beeSwarm"
   | "beehive.pollinationCelebration"
   | "beehive.honeyProductionPaused"
-  | "beehive.rate"
+  | "beehive.speed"
   | "beehive.fullHivePerDay"
   | "beehive.estimatedFull";
 
