@@ -3898,6 +3898,20 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
       "Great for catching rare fish ! ",
   };
 
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
+  "qr.code.not.working": "QR code not working?",
+};
+
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint Free Wearable",
   "quest.equipWearable": "Equip this wearable on your Bumpkin",
@@ -4017,20 +4031,6 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.gameNotFinancialProduct": "This is a game. Not a financial product.",
   "rules.noBots": "No botting or automation",
   "rules.termsOfService": "Terms of Service",
-};
-
-const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": "Install App",
-  "magic.link": "Magic Link",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
-  "install.app.desktop.description":
-    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
-  "install.app.mobile.metamask.description":
-    "Copy the magic link below and open it in {{browser}} on your device to install!",
-  "do.not.share.link": "Do not share this link!",
-  "do.not.share.code": "Do not share this code!",
-  "qr.code.not.working": "QR code not working?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {

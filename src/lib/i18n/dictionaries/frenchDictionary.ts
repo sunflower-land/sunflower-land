@@ -685,23 +685,30 @@ const beachLuck: Record<BeachLuck, string> = {
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.birdieIntro":
-    "Salut, je suis Birdie, le Bumpkin le plus beau de tous!",
+    "Salut, je suis Birdie, le Bumpkin le plus beau des environs !",
   "birdieplaza.admiringOutfit":
-    "J'ai remarqué que tu admirais ma tenue. N'est-elle pas fantastique ? !?",
-  "birdieplaza.currentSeason": ENGLISH_TERMS["birdieplaza.currentSeason"],
-  "birdieplaza.collectTickets": ENGLISH_TERMS["birdieplaza.collectTickets"],
-  "birdieplaza.whatIsSeason": "Qu'est-ce qu'une saison?",
-  "birdieplaza.howToEarnTickets": ENGLISH_TERMS["birdieplaza.howToEarnTickets"],
+    "J'ai remarqué que tu admirais ma tenue. N'est-elle pas fantastique ?!?",
+  "birdieplaza.currentSeason":
+    "Nous sommes actuellement dans la saison {{currentSeason}} et les Bumpkins sont fous de {{seasonalTicket}}.",
+  "birdieplaza.collectTickets":
+    "Collecte suffisamment de {{seasonalTicket}} et tu pourras fabriquer des NFT rares. C'est ainsi que j'ai obtenu cette tenue rare !",
+  "birdieplaza.whatIsSeason": "Qu'est-ce qu'une saison ?",
+  "birdieplaza.howToEarnTickets":
+    "Comment puis-je gagner des {{seasonalTicket}} ?",
   "birdieplaza.earnTicketsVariety":
-    ENGLISH_TERMS["birdieplaza.earnTicketsVariety"],
-  "birdieplaza.commonMethod": ENGLISH_TERMS["birdieplaza.commonMethod"],
-  "birdieplaza.choresAndRewards": ENGLISH_TERMS["birdieplaza.choresAndRewards"],
-  "birdieplaza.gatherAndCraft": ENGLISH_TERMS["birdieplaza.gatherAndCraft"],
+    "Tu peux gagner des {{seasonalTicket}} de plusieurs manières.",
+  "birdieplaza.commonMethod":
+    "La méthode la plus courante pour gagner des {{seasonalTicket}} est de rassembler des ressources et de les livrer aux Bumpkins sur la Plaza.",
+  "birdieplaza.choresAndRewards":
+    "Tu peux également gagner des {{seasonalTicket}} en accomplissant des tâches pour Hank et en réclamant des récompenses quotidiennes !",
+  "birdieplaza.gatherAndCraft":
+    "Rassemble assez de {{seasonalTicket}} et tu pourras acheter des objets rares comme je l'ai fait.",
   "birdieplaza.newSeasonIntro":
     "Tous les 3 mois, une nouvelle saison est introduite à Sunflower Land.",
   "birdieplaza.seasonQuests":
-    "Cette saison comporte des quêtes passionnantes et des objets de collection rares que tu peux obtenir.",
-  "birdieplaza.craftItems": ENGLISH_TERMS["birdieplaza.craftItems"],
+    "Cette saison offre des quêtes excitantes et des objets de collection rares que tu peux gagner.",
+  "birdieplaza.craftItems":
+    "Pour obtenir ces objets rares, tu dois collecter des {{seasonalTicket}} et les échanger chez Stella's Megastore ou faire une offre à la maison de vente aux enchères.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -924,7 +931,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
   "description.radiant.ray.boost": "+0.1 Fer",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
-  "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
+  "description.hungryHare.boost": "Fermented Carrots 2x XP",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -988,7 +995,7 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
   "bumpkin.delivery.waiting":
     "J'attendais ça. Merci beaucoup ! Reviens bientôt pour plus de livraisons.",
   "bumpkin.delivery.proveYourself":
-    ENGLISH_TERMS["bumpkin.delivery.proveYourself"],
+    "Prouve que tu es digne. Agrandis ton île {{missingExpansions}} fois de plus.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
@@ -1092,18 +1099,19 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.cancel": "Annuler",
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
-  "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
-  "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
-  "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
+  "bumpkinTrade.max": "Max : {{max}}",
+  "bumpkinTrade.floorPrice": "Prix minimum : {{price}} SFL",
+  "bumpkinTrade.price/unit": "{{price}} / unité",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
-  "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
-  "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
-  "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
-  "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
-  "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
-  "goblinTrade.vipDelivery": ENGLISH_TERMS["goblinTrade.vipDelivery"],
+  "goblinTrade.bulk": "Quantité en vrac",
+  "goblinTrade.conversion": "Conversion",
+  "goblinTrade.select": "Sélectionnez la ressource à vendre",
+  "goblinTrade.hoarding": "Oh non ! Vous avez atteint le maximum de SFL.",
+  "goblinTrade.vipRequired": "Accès VIP requis",
+  "goblinTrade.vipDelivery":
+    "Hmmm, on dirait que vous êtes un Bumpkin de base. Je ne commerce qu'avec les VIP.",
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -1240,7 +1248,8 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
-  "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
+  "confirmation.sellCrops":
+    "Êtes-vous sûr de vouloir vendre {{cropAmount}} {{cropName}} pour {{coinAmount}} pièces ?",
 };
 
 const conversations: Record<Conversations, string> = {
@@ -1767,7 +1776,8 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 const delivery: Record<Delivery, string> = {
   "delivery.resource": "Voulez-vous que je livre des ressources?",
   "delivery.feed": "Ce n'est pas gratuit, j'ai une tribu à nourrir!",
-  "delivery.fee": ENGLISH_TERMS["delivery.fee"],
+  "delivery.fee":
+    "Il me faudra 30 % des ressources pour la Trésorerie de la Communauté des Gobelins.",
   "delivery.goblin.comm.treasury": "Trésor de la Communauté des Gobelins",
 };
 
@@ -2180,11 +2190,11 @@ const flowerbreed: Record<Flowerbreed, string> = {
   "flower.breed.whiteBalloonFlower": "Une fleur de ballon blanche. C'est rare.",
   "flower.breed.blueBalloonFlower":
     "La plus basique des fleurs de ballon. Rien à en dire de spécial.",
-  "flower.breed.redDaffodil": ENGLISH_TERMS["flower.breed.redDaffodil"],
-  "flower.breed.yellowDaffodil": ENGLISH_TERMS["flower.breed.yellowDaffodil"],
-  "flower.breed.purpleDaffodil": ENGLISH_TERMS["flower.breed.purpleDaffodil"],
-  "flower.breed.whiteDaffodil": ENGLISH_TERMS["flower.breed.whiteDaffodil"],
-  "flower.breed.blueDaffodil": ENGLISH_TERMS["flower.breed.blueDaffodil"],
+  "flower.breed.redDaffodil": "Un red daffoldil",
+  "flower.breed.yellowDaffodil": "Un yellow daffoldil",
+  "flower.breed.purpleDaffodil": "Un purple daffoldil",
+  "flower.breed.whiteDaffodil": "Un white daffoldil",
+  "flower.breed.blueDaffodil": "Un blue daffoldil",
   "flower.breed.celestialFrostbloom":
     "Une mutation extrêmement rare. Êtes-vous sûr de vouloir la croiser?",
   "flower.breed.redCarnation":
@@ -2197,34 +2207,38 @@ const flowerbreed: Record<Flowerbreed, string> = {
     "Les Bumpkins apprécient la carnation blanche pour sa simplicité.",
   "flower.breed.blueCarnation":
     "Les Bumpkins apprécient la carnation bleue pour sa capacité à se croiser avec les graines Bloom.",
-  "flower.breed.redLotus": ENGLISH_TERMS["flower.breed.redLotus"],
-  "flower.breed.yellowLotus": ENGLISH_TERMS["flower.breed.yellowLotus"],
-  "flower.breed.purpleLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
-  "flower.breed.whiteLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
-  "flower.breed.blueLotus": ENGLISH_TERMS["flower.breed.blueLotus"],
+  "flower.breed.redLotus": "Un red lotus",
+  "flower.breed.yellowLotus": "Un yellow lotus",
+  "flower.breed.purpleLotus": "Un purple lotus",
+  "flower.breed.whiteLotus": "Un white lotus",
+  "flower.breed.blueLotus": "Un blue lotus",
   "flower.breed.primulaEnigma":
     "Une mutation extrêmement rare. Êtes-vous sûr de vouloir la croiser?",
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming": ENGLISH_TERMS["flowerShop.desired.dreaming"],
+  "flowerShop.desired.dreaming":
+    "Oh, j'ai rêvé de cultiver un {{desiredFlowerName}} !",
   "flowerShop.desired.delightful":
-    ENGLISH_TERMS["flowerShop.desired.delightful"],
-  "flowerShop.desired.wonderful": ENGLISH_TERMS["flowerShop.desired.wonderful"],
+    "Comme ce serait ravissant d'avoir un {{desiredFlowerName}}.",
+  "flowerShop.desired.wonderful":
+    "Comme ce serait merveilleux d'avoir un {{desiredFlowerName}} !",
   "flowerShop.desired.setMyHeart":
-    ENGLISH_TERMS["flowerShop.desired.setMyHeart"],
+    "J'ai mis mon cœur à cultiver un {{desiredFlowerName}}.",
   "flowerShop.missingPages.alas":
-    "Mais hélas ! J'ai égaré les pages de mon livre de croisement. Elles doivent être quelque part dans la place.",
+    "Mais hélas ! J'ai égaré les pages de mon livre de croisement ! Elles doivent être quelque part sur la place.",
   "flowerShop.missingPages.cantBelieve":
-    "Mais je n'arrive pas à y croire, les pages avec mes meilleures recettes de croisement de fleurs ont disparu. Elles doivent être quelque part dans la place.",
+    "Mais je n'arrive pas à y croire, les pages avec mes meilleures recettes de fleurs hybrides ont disparu. Elles doivent être quelque part sur la place.",
   "flowerShop.missingPages.inABind":
-    "Cependant, je suis dans une situation difficile - les pages contenant mes techniques de croisement semblent avoir disparu. Elles doivent être quelque part dans la place.",
+    "Cependant, je suis un peu dans l'embarras - les pages contenant mes techniques de croisement semblent avoir disparu. Elles doivent être quelque part sur la place.",
   "flowerShop.missingPages.sadly":
-    "Malheureusement, mes notes de croisement ont disparu ! Je suis sûr qu'elles sont quelque part par ici. Elles doivent être quelque part dans la place.",
+    "Malheureusement, mes notes de croisement ont disparu ! Je suis sûr qu'elles sont quelque part ici. Elles doivent être quelque part sur la place.",
   "flowerShop.noFlowers.noTrade":
-    "Je suis désolé, je n'ai pas de fleurs à échanger en ce moment.",
-  "flowerShop.do.have.trade": ENGLISH_TERMS["flowerShop.do.have.trade"],
-  "flowerShop.do.have.trade.one": ENGLISH_TERMS["flowerShop.do.have.trade.one"],
+    "Je suis désolé, je n'ai pas de fleurs à échanger pour le moment.",
+  "flowerShop.do.have.trade":
+    "As-tu un {{desiredFlower}} que tu voudrais échanger avec moi ?",
+  "flowerShop.do.have.trade.one":
+    "As-tu un {{desiredFlower}} que tu serais prêt à échanger ?",
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
@@ -2366,9 +2380,12 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.prizeTicket":
     "Un ticket pour participer au concours de fin de saison",
   "description.babyPanda": "Un adorable panda de l'événement Gas Hero.",
-  "description.baozi": ENGLISH_TERMS["description.baozi"],
-  "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
-  "description.hungryHare": ENGLISH_TERMS["description.hungryHare"],
+  "description.baozi":
+    "Une délicieuse friandise de l'événement du Nouvel An lunaire.",
+  "description.communityEgg":
+    "Wow, vous devez vraiment vous soucier de la communauté !",
+  "description.hungryHare":
+    "Ce lapin vorace saute dans votre ferme. Un objet spécial de l'événement de Pâques 2024.",
 
   // Objets de Pâques
   "description.egg.basket": "Événement de Pâques",
@@ -2394,7 +2411,7 @@ const gameTerms: Record<GameTerms, string> = {
   gobSwarm: "Nuée de Gobelins!",
   "granting.wish": "Exaucement de votre souhait",
   "new.delivery.in": "Nouvelles livraisons disponibles dans",
-  "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
+  "new.delivery.levelup": "Montez de niveau pour débloquer plus de livraisons.",
   "no.sfl": "Aucun jeton SFL trouvé",
   opensea: "OpenSea",
   polygonscan: "PolygonScan",
@@ -2551,9 +2568,11 @@ const guideTerms: Record<GuideTerms, string> = {
     "Les livraisons dans Sunflower Land offrent une opportunité excitante pour aider les Gobelins affamés et les camarades Bumpkins tout en gagnant des récompenses. Chaque jour, vous pourrez voir toutes les commandes que vous avez en cliquant sur le tableau des livraisons en bas à gauche de l'écran. Les commandes ont été passées par certains PNJ locaux que l'on peut trouver autour de Pumpkin Plaza. Pour remplir une commande, vous devrez prendre un bateau pour Pumpkin Plaza et chercher le PNJ qui attend la livraison. Une fois que vous les avez trouvés, cliquez sur eux pour livrer la commande et recevoir votre récompense.",
   "deliveries.guide.two":
     "En tant que nouveau joueur, vous commencez avec trois emplacements de commande, mais en étendant votre ferme, vous débloquerez des emplacements supplémentaires, permettant aux joueurs avancés de prendre plus de commandes. De nouvelles commandes arrivent toutes les 24 heures, offrant une gamme de tâches, de la production agricole à la cuisine et à la collecte de ressources. En remplissant des commandes, vous obtiendrez des bonus de palier, notamment des Block Bucks, des SFL, Coins, des gâteaux délicieux et d'autres récompenses. Le système de récompenses est basé sur la difficulté de la demande, alors envisagez de donner la priorité aux commandes offrant de plus grandes récompenses pour maximiser vos gains. Gardez un œil sur le tableau et challengez-vous avec diverses commandes, montez de niveau et débloquez de nouveaux bâtiments au besoin pour répondre à des demandes plus exigeantes.",
-  "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
-  "deliveries.new": ENGLISH_TERMS["deliveries.new"],
-  "chores.intro": ENGLISH_TERMS["chores.intro"],
+  "deliveries.intro":
+    "Voyagez vers différentes îles et livrez des marchandises pour gagner des récompenses.",
+  "deliveries.new": "Nouvelle livraison",
+  "chores.intro":
+    "Effectuez des tâches autour de la ferme pour gagner des récompenses des Bumpkins.",
   "scavenger.guide.one":
     "Le fouilleur dans Sunflower Land offre des opportunités passionnantes pour découvrir des trésors cachés et rassembler des ressources précieuses. Le premier aspect de la fouille consiste à chercher des trésors sur Treasure Island, où vous pouvez devenir un chasseur de trésors pirate. En fabriquant une pelle en sable et en vous aventurant sur Treasure Island, vous pouvez creuser dans les zones de sable sombre pour découvrir divers trésors, y compris des butins, des décorations et même d'anciens SFTs avec utilité.",
   "scavenger.guide.two":
@@ -2734,8 +2753,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "Les Bumpkins contrôlent ces îles, nous laissant, les gobelins, avec peu de travail et encore moins de nourriture.",
   "interactableModals.plazaGreenBook.message2":
     "Nous luttons pour l'égalité, un endroit que nous pouvons appeler chez nous, où nous pouvons vivre et prospérer.",
-  "interactableModals.fanArt.winner":
-    ENGLISH_TERMS["interactableModals.fanArt1.message"],
+  "interactableModals.fanArt.winner": "Gagnant Fan art ",
   "interactableModals.fanArt1.message":
     "Félicitations Palisman, le gagnant du premier concours de Fan Art",
   "interactableModals.fanArt2.message":
@@ -2844,7 +2862,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.itemsReturned":
     "Vos objets ont été renvoyés en toute sécurité dans votre inventaire.",
   "islandupgrade.notReadyExpandMore":
-    ENGLISH_TERMS["islandupgrade.notReadyExpandMore"],
+    "You are not ready. Expand {{remainingExpansions}} more times",
   "islandupgrade.exoticResourcesDescription":
     "Cette partie de Sunflower Land est connue pour ses ressources exotiques. Étendez votre île pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares!",
 };
@@ -2989,7 +3007,7 @@ const megaStore: Record<MegaStore, string> = {
     "Super achat ! Votre nouveau vêtement est en sécurité dans votre garde-robe. Vous pouvez l'équiper sur un Bumpkin à partir de là.",
   "megaStore.collectible":
     "Super achat ! Votre nouveau collectible est en sécurité dans votre inventaire.",
-  "megaStore.timeRemaining": ENGLISH_TERMS["megaStore.timeRemaining"],
+  "megaStore.timeRemaining": "{{timeRemaining}} restant(s) !",
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
@@ -3567,7 +3585,8 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Salutations, porteur du mystérieux ! À Sunflorea, certains objets demandent Livraison...",
   "npcDialogues.bert.intro4":
     "Bonjour, chercheur du caché ! Les enchantements de Sunflorea peuvent être catégorisés en deux...",
-  "bert.day": ENGLISH_TERMS["bert.day"],
+  "bert.day":
+    "Vous ne pouvez pas retirer cet objet pendant 3 jours après avoir réclamé {{seasonalTicket}}.",
   // Bert Positive Delivery
   "npcDialogues.bert.positiveDelivery1":
     "Incroyable ! Vous m'avez apporté tout ce dont j'ai besoin...",
@@ -3866,16 +3885,22 @@ export const NYON_STATUE: Record<NyonStatue, string> = {
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
-  "obsessionDialogue.line1": ENGLISH_TERMS["obsessionDialogue.line1"],
-  "obsessionDialogue.line2": ENGLISH_TERMS["obsessionDialogue.line2"],
-  "obsessionDialogue.line3": ENGLISH_TERMS["obsessionDialogue.line3"],
-  "obsessionDialogue.line4": ENGLISH_TERMS["obsessionDialogue.line4"],
-  "obsessionDialogue.line5": ENGLISH_TERMS["obsessionDialogue.line5"],
+  "obsessionDialogue.line1":
+    "Ah, le {{itemName}} ! Je souhaite seulement le voir, pas le posséder. Montrez-le moi, et vous recevrez {{seasonalTicket}} en récompense.",
+  "obsessionDialogue.line2":
+    "Vous avez apporté le {{itemName}} ? Je veux simplement le contempler. Laissez-moi le voir, et les {{seasonalTicket}} seront vôtres.",
+  "obsessionDialogue.line3":
+    "Est-ce le {{itemName}} que vous avez ? Un simple coup d'œil me suffit. Pour cela, vous recevrez {{seasonalTicket}}.",
+  "obsessionDialogue.line4":
+    "{{itemName}} ! Je ne veux pas le garder, juste le contempler. Montrez-le moi, et les {{seasonalTicket}} seront à vous.",
+  "obsessionDialogue.line5":
+    "Vous offrez une vue du {{itemName}} ? Tout ce que je demande, c'est de le voir brièvement. Pour votre générosité, des {{seasonalTicket}} vous seront accordés.",
 };
 
 const offer: Record<Offer, string> = {
   "offer.okxOffer": "Salut fermier, j'ai une offre exclusive OKX pour toi!",
-  "offer.beginWithNFT": ENGLISH_TERMS["offer.beginWithNFT"],
+  "offer.beginWithNFT":
+    "Pour commencer, vous devrez créer un NFT de ferme gratuit. Cela comprendra :",
   "offer.getStarterPack": "Obtiens le Pack de Démarrage Maintenant",
   "offer.newHere": "Salut fermier, tu sembles nouveau ici!",
   "offer.getStarted": "Commence Maintenant",
@@ -4034,25 +4059,23 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": ENGLISH_TERMS["install.app"], // "Install App",
-  "magic.link": ENGLISH_TERMS["magic.link"], // "Magic Link",
-  "generating.link": ENGLISH_TERMS["generating.link"], // "Generating Link",
-  "generating.code": ENGLISH_TERMS["generating.code"], // "Generating Code",
+  "install.app": "Installer l'application",
+  "magic.link": "Lien magique",
+  "generating.link": "Génération du lien",
+  "generating.code": "Génération du code",
   "install.app.desktop.description":
-    ENGLISH_TERMS["install.app.desktop.description"],
-  // "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+    "Scannez le code ci-dessous pour l'installer sur votre appareil. Veuillez vous assurer d'ouvrir dans le navigateur Safari ou Chrome.",
   "install.app.mobile.metamask.description":
-    ENGLISH_TERMS["install.app.mobile.metamask.description"],
-  // "Copy the magic link below and open it in {{browser}} on your device to install!",
-  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"], // "Do not share this link!",
-  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"], // "Do not share this code!",
-  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"], // "QR code not working?",
+    "Copiez le lien magique ci-dessous et ouvrez-le dans {{browser}} sur votre appareil pour l'installer !",
+  "do.not.share.link": "Ne partagez pas ce lien !",
+  "do.not.share.code": "Ne partagez pas ce code !",
+  "qr.code.not.working": "Le code QR ne fonctionne pas ?",
 };
 
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint gratuit pour vêtement",
   "quest.equipWearable": "Équipez ce vêtement sur votre Bumpkin",
-  "quest.congrats": ENGLISH_TERMS["quest.congrats"],
+  "quest.congrats": "Félicitations, vous avez créé un {{wearable}} !",
 };
 
 const questions: Record<Questions, string> = {
@@ -4283,8 +4306,9 @@ const somethingWentWrong: Record<SomethingWentWrong, string> = {
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
-  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
-  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
+  "special.event.easterIntro":
+    "Oh non, mes 6 lapins ont encore disparu.... ils doivent chercher de la nourriture. Pouvez-vous m'aider à les retrouver ? Ils ressemblent à d'autres lapins mais ont un éclat unique. Cliquez dessus pour les capturer.",
+  "special.event.rabbitsMissing": "Lapins disparus",
   "special.event.link": "Lien Airdrop",
   "special.event.claimForm":
     "Veuillez remplir le formulaire ci-dessous pour réclamer votre airdrop.",
@@ -4372,8 +4396,8 @@ const statements: Record<Statements, string> = {
   "statements.sync":
     "Veuillez patienter pendant que nous synchronisons toutes vos données sur la chaîne.",
   "statements.tapCont": "Appuyez pour continuer",
-  "statements.price.change": ENGLISH_TERMS["statements.price.change"],
-
+  "statements.price.change":
+    "Oh non ! Il semble que le prix ait changé. Veuillez réessayer !",
   "statements.tutorial.one":
     "Le bateau vous emmènera entre les îles où vous pourrez découvrir de nouveaux territoires et des aventures passionnantes.",
   "statements.tutorial.two":
@@ -4387,8 +4411,7 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.six": "Fournir de la liquidité",
   "statements.wishing.well.worthwell": "valeur des récompenses dans le puits!",
   "statements.wishing.well.look.like":
-    ENGLISH_TERMS["statements.wishing.well.look.like"],
-  //  "It doesn't look like you are providing liquidity yet.",
+    "Il semble que vous ne fournissiez pas encore de liquidité.",
   "statements.wishing.well.lucky": "Voyons à quel point vous êtes chanceux!",
   "statements.wrongChain.one": "Consultez ce guide pour vous connecter.",
   "statements.feed.bumpkin.one":
@@ -4560,8 +4583,8 @@ const transactionTerms: Record<TransactionTerms, string> = {
 const transfer: Record<Transfer, string> = {
   "transfer.sure.adress":
     "Veuillez vous assurer que l'adresse que vous avez fournie appartient à la Blockchain Polygon, qu'elle est correcte et qu'elle vous appartient. Il n'y a aucune récupération possible en cas d'adresse incorrecte.",
-  "transfer.Account": ENGLISH_TERMS["transfer.Account"],
-  // "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
+  "transfer.Account":
+    "Votre compte n°{{farmID}} a été transféré à {{receivingAddress}} !",
   "transfer.Farm": "Transfert de votre ferme!",
   "transfer.Refresh": "Ne rafraîchissez pas ce navigateur",
   "transfer.Taccount": "Transférer votre compte",
@@ -4631,13 +4654,12 @@ const warningTerms: Record<WarningTerms, string> = {
   "warning.chat.maxCharacters": "Max de caractères",
   "warning.chat.noSpecialCharacters": "Pas de caractères spéciaux",
   "warning.level.required": "Niveau {{lvl}} requis",
-  "warning.hoarding.message": ENGLISH_TERMS["warning.hoarding.message"],
+  "warning.hoarding.message":
+    "Êtes-vous {{indefiniteArticle}} collectionneur de {{itemName}} ?",
   // indefiniteArticle: 'a' or 'an' depending if first letter is vowel.
   // If this is not used in your language, leave the `{{indefiniteArticle}}` part out
-  "warning.hoarding.indefiniteArticle.a":
-    ENGLISH_TERMS["warning.hoarding.indefiniteArticle.a"], // Leave this blank if not needed
-  "warning.hoarding.indefiniteArticle.an":
-    ENGLISH_TERMS["warning.hoarding.indefiniteArticle.an"], // Leave this blank if not needed
+  "warning.hoarding.indefiniteArticle.a": "Un", // Leave this blank if not needed
+  "warning.hoarding.indefiniteArticle.an": "Une", // Leave this blank if not needed
   "warning.hoarding.one":
     "On dit que les Goblins sont connus pour attaquer les fermes qui regorgent de ressources.",
   "warning.hoarding.two":
@@ -4659,7 +4681,8 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
   "welcome.takeover.ownership":
     "Il semble que vous soyez nouveau dans Sunflower Land et que vous ayez revendiqué la propriété du compte d'un autre joueur.",
   "welcome.promo": "Ajouter un code promo",
-  "welcome.offline": ENGLISH_TERMS["welcome.offline"],
+  "welcome.offline":
+    "Salut Bumpkin, il semble que tu ne sois pas en ligne. Veuillez vérifier votre connexion réseau.",
 };
 
 const winner: Record<Winner, string> = {
@@ -4677,8 +4700,7 @@ const wishingWellTerms: Record<WishingWell, string> = {
     "Vous n'avez aucune récompense disponible ! La liquidité doit être détenue pendant 3 jours pour obtenir une récompense!",
   "wishingWell.wish.lucky":
     "Accordez un nouveau souhait et voyez à quel point vous êtes chanceux!",
-  "wishingWell.sflRewardsReceived":
-    ENGLISH_TERMS["wishingWell.sflRewardsReceived"], // "You received {{reward}} SFL!",
+  "wishingWell.sflRewardsReceived": "Tu as reçu {{reward}} SFL !",
   "wishingWell.wish.grantTime": "Il est temps d'exaucer votre vœu!",
   "wishingWell.wish.granted": "Votre vœu a été exaucé.",
   "wishingWell.wish.made": "Vous avez fait un vœu!",
@@ -4687,8 +4709,7 @@ const wishingWellTerms: Record<WishingWell, string> = {
   "wishingWell.wish.thanksForSupport":
     "Merci de soutenir le projet et de faire un vœu.",
   "wishingWell.wish.comeBackAfter":
-    ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
-  // "Come back in {{nextWishTime}} to see just how lucky you have been!",
+    "Reviens dans {{nextWishTime}} pour voir à quel point tu as été chanceux !",
   "wishingWell.wish.warning.one":
     "Sachez que seuls les jetons LP que vous déteniez au moment où le vœu a été fait seront pris en compte lorsque le vœu sera exaucé.",
   "wishingWell.wish.warning.two":
@@ -4722,7 +4743,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.select.item": "Sélectionnez les objets à retirer",
   "withdraw.opensea":
     "Une fois retirés, vous pourrez voir vos objets sur OpenSea.",
-  "withdraw.budRestricted": ENGLISH_TERMS["withdraw.budRestricted"],
+  "withdraw.budRestricted": "Utilisé dans la boîte à bud d'aujourd'hui.",
   "withdraw.restricted":
     "Certains objets ne peuvent pas être retirés. D'autres objets peuvent être restreints lorsque",
   "withdraw.bumpkin.wearing":
@@ -4758,12 +4779,12 @@ const world: Record<World, string> = {
     "Pour interagir avec un Bumpkin ou un objet, approchez-vous et cliquez dessus.",
   "world.intro.seven":
     "Aucun harcèlement, injure ou intimidation. Merci de respecter les autres.",
-  "world.plaza": ENGLISH_TERMS["world.plaza"],
-  "world.beach": ENGLISH_TERMS["world.beach"],
-  "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.plaza": "Plaza",
+  "world.beach": "Beach",
+  "world.retreat": "Retreat",
   "world.woodlands": ENGLISH_TERMS["world.woodlands"],
-  "world.home": ENGLISH_TERMS["world.home"],
-  "world.kingdom": ENGLISH_TERMS["world.kingdom"],
+  "world.home": "Home",
+  "world.kingdom": "Kingdom",
 };
 
 const wornDescription: Record<WornDescription, string> = {
