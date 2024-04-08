@@ -4592,6 +4592,7 @@ const world: Record<World, string> = {
     "No harrasment, swearing or bullying. Thank you for respecting others.",
   "world.plaza": "Plaza",
   "world.beach": "Beach",
+  "world.woodlands": "Woodlands",
   "world.retreat": "Retreat",
   "world.home": "Home",
   "world.kingdom": "Kingdom",

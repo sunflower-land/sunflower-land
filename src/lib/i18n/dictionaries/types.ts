@@ -3104,6 +3104,7 @@ export type World =
   | "world.plaza"
   | "world.beach"
   | "world.retreat"
+  | "world.woodlands"
   | "world.home"
   | "world.kingdom";
 
