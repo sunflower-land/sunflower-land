@@ -86,7 +86,7 @@ export const AuctioneerModal: React.FC<Props> = ({
     <Modal show={isOpen} onHide={closeModal}>
       <CloseButtonPanel
         onClose={onClose}
-        tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Auctions & Drops" }]}
+        tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: t("auction.title") }]}
         bumpkinParts={NPC_WEARABLES["hammerin harry"]}
         secondaryAction={
           <a
