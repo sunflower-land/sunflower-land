@@ -3141,6 +3141,31 @@ export type Trading =
   | "trading.you.receive"
   | "trading.burned";
 
+export type RestrictionReason =
+  | "restrictionReason.isGrowing"
+  | "restrictionReason.beanPlanted"
+  | "restrictionReason.cropsGrowing"
+  | "restrictionReason.basicCropsGrowing"
+  | "restrictionReason.mediumCropsGrowing"
+  | "restrictionReason.advancedCropsGrowing"
+  | "restrictionReason.fruitsGrowing"
+  | "restrictionReason.treesChopped"
+  | "restrictionReason.stoneMined"
+  | "restrictionReason.ironMined"
+  | "restrictionReason.goldMined"
+  | "restrictionReason.crimstoneMined"
+  | "restrictionReason.chickensFed"
+  | "restrictionReason.treasuresDug"
+  | "restrictionReason.inUse"
+  | "restrictionReason.recentlyUsed"
+  | "restrictionReason.recentlyFished"
+  | "restrictionReason.flowersGrowing"
+  | "restrictionReason.beesBusy"
+  | "restrictionReason.pawShaken"
+  | "restrictionReason.festiveSeason"
+  | "restrictionReason.noRestriction"
+  | "restrictionReason.genieLampRubbed";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3313,4 +3338,5 @@ export type TranslationKeys =
   | Promo
   | Trader
   | NyonStatue
-  | Trading;
+  | Trading
+  | RestrictionReason;
