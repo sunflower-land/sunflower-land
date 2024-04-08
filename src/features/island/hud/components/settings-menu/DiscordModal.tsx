@@ -20,8 +20,8 @@ const GROUPS: {
   items: InventoryItemName[];
 }[] = [
   {
-    channel: "#vip-farmers",
-    role: "vip-farmers",
+    channel: "#diamond-farmers",
+    role: "diamond-farmers",
     items: [
       "Foreman Beaver",
       "Kuebiko",
