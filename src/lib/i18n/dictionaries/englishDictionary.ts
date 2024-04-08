@@ -475,6 +475,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
+  "sfl/coins": "SFL/Coins",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -682,25 +683,25 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.admiringOutfit":
     "I noticed you admiring my outfit. Isn't it fantastic?!?",
   "birdieplaza.currentSeason":
-    "We are currently in {{currentSeason}} Season and Bumpkins are going crazy for {{seasonalTicket}}.",
+    "We are currently in {{currentSeason}} Season and Bumpkins are going crazy for {{seasonalTicket}}s.",
   "birdieplaza.collectTickets":
-    "Collect enough {{seasonalTicket}} and you can craft rare NFTs. That's how I got this rare outfit!",
+    "Collect enough {{seasonalTicket}}s and you can craft rare NFTs. That's how I got this rare outfit!",
   "birdieplaza.whatIsSeason": "What is a season?",
-  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}?",
+  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}s?",
   "birdieplaza.earnTicketsVariety":
     "You can earn {{seasonalTicket}} in a variety of ways.",
   "birdieplaza.commonMethod":
-    "The most common method to earn {{seasonalTicket}} is by gathering resources and delivering them to Bumpkins in the Plaza.",
+    "The most common method to earn {{seasonalTicket}}s is by gathering resources and delivering them to Bumpkins in the Plaza.",
   "birdieplaza.choresAndRewards":
-    "You can also earn {{seasonalTicket}} by completing chores for Hank & claiming daily rewards!",
+    "You can also earn {{seasonalTicket}}s by completing chores for Hank & claiming daily rewards!",
   "birdieplaza.gatherAndCraft":
-    "Gather enough {{seasonalTicket}} and you will be able to buy some rare items like I did.",
+    "Gather enough {{seasonalTicket}}s and you will be able to buy some rare items like I did.",
   "birdieplaza.newSeasonIntro":
     "Every 3 months a new season is introduced at Sunflower Land.",
   "birdieplaza.seasonQuests":
     "This season has exciting quests & rare collectibles you can earn.",
   "birdieplaza.craftItems":
-    "To obtain these rare items, you must collect {{seasonalTicket}} and exchange them at Stella's Megastore or bid at the Auction house.",
+    "To obtain these rare items, you must collect {{seasonalTicket}}s and exchange them at Stella's Megastore or bid at the Auction house.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -832,7 +833,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
   "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
-  "description.treasure.map.boost": "+20% SFL on Treasure Bounty Sales",
+  "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
   "description.grain.grinder.boost": "+20% Cake XP",
@@ -1688,12 +1689,6 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, it doesn't look like your farm will have the resources I need. Reach ",
-  "delivery.panel.two": "e expansions and come back to me.",
-  "delivery.panel.three": "Delivery: No order selected",
-  "delivery.panel.four":
-    "I am waiting for the new season to start. Come back to me then!",
   "delivery.resource": "Want me to deliver resources?",
   "delivery.feed": "It ain't free, I've got a tribe to feed!",
   "delivery.fee":
@@ -1728,7 +1723,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Deposit didn't arrive?",
   "deposit.goblinTaxInfo":
     "When players withdraw any SFL, a Goblin Tax is applied.",
-  "deposit.applied": "is applied.",
   "deposit.sendToFarm": "Send to farm",
   "deposit.toDepositLevelUp": "To deposit items you must first level up",
   "deposit.level": "Level 3",
@@ -1827,7 +1821,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Missing rod",
   "error.missingBait": "Missing ",
   "error.alreadyCasted": "Already casted",
-  "error.unsupportedChum": " is not a supported chum",
+  "error.unsupportedChum": "{{chum}} is not a supported chum",
   "error.insufficientChum": "Insufficient Chum",
   "error.alr.composter": "Composter is already composting",
   "error.no.alr.composter": "Composter is not ready for produce",
@@ -2510,10 +2504,10 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
   "hayseedHankv2.dialog2":
-    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ",
+    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores available in ",
+  "hayseedHankv2.newChoresAvailable": "New chores available in",
   "hayseedHankv2.skipChores": "You can skip chores each new day.",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",

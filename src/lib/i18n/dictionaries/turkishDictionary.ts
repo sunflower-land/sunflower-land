@@ -476,6 +476,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.failed": "Kopyalama Başarısız!",
   search: "Ara",
   searching: "Aranıyor",
+  "sfl/coins": ENGLISH_TERMS["sfl/coins"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -828,7 +829,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.bale.boost": "+0.2 Yumurta (Etki Alanı 4x4)",
   "description.immortal.pear.boost": "Tohum başına +1 Meyve Hasadı.",
-  "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% SFL",
+  "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% Coins",
   "description.poppy.boost": "+0.1 Mısır",
   "description.kernaldo.boost": "Mısır Büyüme Süresi -25%",
   "description.grain.grinder.boost": "+20% Pasta XP’si",
@@ -1703,12 +1704,6 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, çiftliğin ihtiyacım olan kaynaklara sahip olacak gibi görünmüyor. Ulaş ",
-  "delivery.panel.two": "Genişletmeler yapın ve bana geri dönün.",
-  "delivery.panel.three": "Teslimat: Sipariş seçilmedi",
-  "delivery.panel.four":
-    "Yeni sezonun başlamasını bekliyorum. O zaman bana geri dön!",
   "delivery.resource": "Kaynakları teslim etmemi ister misin?",
   "delivery.feed": "Bedava değil, beslemem gereken bir kabilem var!",
   "delivery.fee": ENGLISH_TERMS["delivery.fee"],
@@ -1742,7 +1737,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Depozito ulaşmadı mı?",
   "deposit.goblinTaxInfo":
     "Oyuncular herhangi bir SFL'yi geri çektiklerinde Goblin Vergisi uygulanır.",
-  "deposit.applied": "uygulanır.",
   "deposit.sendToFarm": "Çiftliğe gönder",
   "deposit.toDepositLevelUp": "Öğeleri yatırmak için önce seviye atlamalısınız",
   "deposit.level": "3. seviye",
@@ -1842,7 +1836,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Eksik çubuk",
   "error.missingBait": "Eksik ",
   "error.alreadyCasted": "Zaten yayınlandı",
-  "error.unsupportedChum": "desteklenen bir yem değil",
+  "error.unsupportedChum": ENGLISH_TERMS["error.unsupportedChum"],
   "error.insufficientChum": "Yetersiz Yem",
   "error.alr.composter": "Kompost makinesi zaten kompost yapıyor",
   "error.no.alr.composter": "Kompost makinesi üretime hazır değil",
@@ -2518,8 +2512,7 @@ const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Pekala, selamlar genç çılgınlar! Ben Hayseed Hank, tecrübeli bir Bumpkin çiftçisiyim ve eski günlerdeki gibi toprakla ilgileniyorum.",
-  "hayseedHankv2.dialog2":
-    "Ancak kemiklerim eskisi gibi değil. Eğer bana günlük işlerimde yardım edebilirsen, seni ödüllendireceğim.",
+  "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Hadi yapalım",
   "hayseedHankv2.title": "Günlük işler",
   "hayseedHankv2.newChoresAvailable": "Yeni işler mevcut ",

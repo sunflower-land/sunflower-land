@@ -476,6 +476,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   yes: "Oui",
   "yes.please": "Oui, s'il vous plaît",
   "you.are.here": "Vous êtes ici",
+  "sfl/coins": ENGLISH_TERMS["sfl/coins"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -835,7 +836,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "+0.2 Culture avancée: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
   "description.immortal.pear.boost": "+1 Récolte de fruits par graine",
-  "description.treasure.map.boost": "+20% SFL sur les ventes de trésors",
+  "description.treasure.map.boost": "+20% Coins sur les ventes de trésors",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Temps de croissance du Wheat",
   "description.grain.grinder.boost": "+20% XP de gâteau",
@@ -1764,12 +1765,6 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, il semble que votre ferme n'aura pas les ressources dont j'ai besoin. Atteignez ",
-  "delivery.panel.two": "e expansion et revenez vers moi.",
-  "delivery.panel.three": "Livraison : Aucune commande sélectionnée",
-  "delivery.panel.four":
-    "J'attends que la nouvelle saison commence. Revenez me voir à ce moment-là!",
   "delivery.resource": "Voulez-vous que je livre des ressources?",
   "delivery.feed": "Ce n'est pas gratuit, j'ai une tribu à nourrir!",
   "delivery.fee": ENGLISH_TERMS["delivery.fee"],
@@ -1804,7 +1799,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Le dépôt n'est pas arrivé?",
   "deposit.goblinTaxInfo":
     "Lorsque les joueurs retirent des SFL, une taxe des Gobelins est appliquée.",
-  "deposit.applied": "est appliquée.",
   "deposit.sendToFarm": "Envoyer à la ferme",
   "deposit.toDepositLevelUp":
     "Pour déposer des objets, vous devez d'abord monter de niveau",
@@ -1907,7 +1901,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Canne à pêche manquante",
   "error.missingBait": "Appât manquant",
   "error.alreadyCasted": "Déjà lancé",
-  "error.unsupportedChum": " n'est pas un appât pris en charge",
+  "error.unsupportedChum": ENGLISH_TERMS["error.unsupportedChum"],
   "error.insufficientChum": "Appât insuffisant",
   "error.alr.composter": "Le composteur est déjà en train de composter",
   "error.no.alr.composter": "Le composteur n'est pas prêt pour la production",
@@ -2618,8 +2612,7 @@ const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank, un vieux fermier expérimenté, travaillant la terre comme au bon vieux temps.",
-  "hayseedHankv2.dialog2":
-    "Cependant, mes os ne sont plus ce qu'ils étaient. Si vous pouvez m'aider avec mes corvées quotidiennes, je vous récompenserai avec ",
+  "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Allons-y",
   "hayseedHankv2.title": "Corvées quotidiennes",
   "hayseedHankv2.newChoresAvailable": "De nouvelles corvées disponibles dans ",

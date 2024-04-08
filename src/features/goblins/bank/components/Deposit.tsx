@@ -494,16 +494,17 @@ const DepositOptions: React.FC<Props> = ({
             </div>
             {sflDepositAmount > 0 && (
               <div className="mb-1 mt-2 text-xxs">
-                {t("deposit.goblinTaxInfo")}{" "}
-                <a
-                  target="_blank"
-                  className="underline text-xxs hover:text-blue-500"
-                  href={`https://docs.sunflower-land.com/economy/withdrawing`}
-                  rel="noreferrer"
-                >
-                  {`Goblin Tax`}
-                </a>{" "}
-                {t("deposit.applied")}
+                <span>{t("deposit.goblinTaxInfo")}</span>
+                <span>
+                  <a
+                    target="_blank"
+                    className="underline text-xxs hover:text-blue-500"
+                    href={`https://docs.sunflower-land.com/economy/withdrawing`}
+                    rel="noreferrer"
+                  >
+                    {t("read.more")}
+                  </a>
+                </span>
               </div>
             )}
           </div>
