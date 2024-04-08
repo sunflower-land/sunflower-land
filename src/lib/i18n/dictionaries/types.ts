@@ -2885,7 +2885,9 @@ export type Statements =
   | "statements.minted.withdrawAfterMint"
   | "statements.startgame"
   | "statements.session.expired"
-  | "statements.price.change";
+  | "statements.price.change"
+  | "statements.translation.contribution"
+  | "statements.translation.joinDiscord";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"
