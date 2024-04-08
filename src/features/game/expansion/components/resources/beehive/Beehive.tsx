@@ -202,7 +202,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   return (
     <>
       <div
-        className={"cursor-pointer"}
+        className="cursor-pointer"
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
         onClick={handleHiveClick}
@@ -244,7 +244,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 "animate-exit-hive": showProducingBee,
               })}
               style={{
-                width: `${PIXEL_SCALE * 10}px`,
+                width: `${PIXEL_SCALE * 7}px`,
               }}
             />
           )}
