@@ -4284,6 +4284,10 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Oturumunuzun süresi dolmuş gibi görünüyor. Oynamaya devam etmek için lütfen sayfayı yenileyin.",
+  "statements.translation.contribution":
+    ENGLISH_TERMS["statements.translation.contribution"],
+  "statements.translation.joinDiscord":
+    ENGLISH_TERMS["statements.translation.joinDiscord"],
 };
 
 const stopGoblin: Record<StopGoblin, string> = {

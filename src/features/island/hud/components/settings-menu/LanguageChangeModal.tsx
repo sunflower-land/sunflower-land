@@ -114,16 +114,17 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
               <CloseButtonPanel className="sm:w-4/5 m-auto">
                 <div className="flex flex-col p-2">
                   <span className="text-sm text-center">
-                    {`If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the `}
-                    <a
-                      className="underline hover:text-white"
-                      href="https://discord.gg/sunflowerland"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {`Sunflower Land Discord Server`}
-                    </a>
-                    {`.`}
+                    <p>{t("statements.translation.contribution")}</p>
+                    <p>
+                      <a
+                        className="underline hover:text-white"
+                        href="https://discord.gg/sunflowerland"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {t("statements.translation.joinDiscord")}
+                      </a>
+                    </p>
                   </span>
                 </div>
               </CloseButtonPanel>

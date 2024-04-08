@@ -4276,6 +4276,9 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
+  "statements.translation.contribution":
+    "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
+  "statements.translation.joinDiscord": "Join Discord",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
