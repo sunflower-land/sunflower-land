@@ -903,8 +903,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "Chance de 10% d'obtenir +2 Pierre",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
-  "description.queen.bee.boost": "Double la vitesse de production de Honey",
-  "description.beekeeper.hat.boost": "+20% de vitesse de production de Honey",
+  "description.queen.bee.boost": "+1 de vitesse de production de Honey",
+  "description.beekeeper.hat.boost": "+0.2 de vitesse de production de Honey",
   "description.flower.fox.boost": "-10% Temps de Croissance des Fleurs",
   "description.humming.bird.boost": "Chance de 20% d'obtenir +1 Fleur",
   "description.beehive.boost":
@@ -1020,12 +1020,13 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.boost": "+20 % de Vitesse de Banane",
   "bumpkinItemBuff.deep.sea.helm":
     "Chances x3 d'obtenir des Merveilles Marines",
-  "bumpkinItemBuff.bee.suit": "+0,1 Honey",
+  "bumpkinItemBuff.bee.suit": ENGLISH_TERMS["bumpkinItemBuff.bee.suit"],
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones à la 5e mine",
   "bumpkinItemBuff.crimstone.amulet": "20 % de vitesse de Crimstone",
   "bumpkinItemBuff.crimstone.armor": "+0,1 Crimstones",
   "bumpkinItemBuff.hornet.mask": "Chances x2 d'obtenir un Essaim d'Abeilles",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Honey",
+  "bumpkinItemBuff.honeycomb.shield":
+    ENGLISH_TERMS["bumpkinItemBuff.honeycomb.shield"],
   "bumpkinItemBuff.flower.crown": "Vitesse des fleurs x2",
 };
 

@@ -904,8 +904,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "Chance de 10% de +2 Pedra",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
-  "description.queen.bee.boost": "Dobra a Velocidade de Produção de Mel",
-  "description.beekeeper.hat.boost": "+20% na Velocidade de Produção de Mel",
+  "description.queen.bee.boost": "+1 na Velocidade de Produção de Mel",
+  "description.beekeeper.hat.boost": "+0.2 na Velocidade de Produção de Mel",
   "description.humming.bird.boost": "Chance de 20% de +1 Flor",
   "description.beehive.boost":
     "Chance de 10% de +0.2 Cultivo quando a Colmeia estiver cheia",
@@ -1016,12 +1016,13 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananas",
   "bumpkinItemBuff.banana.boost": "-20% Tempo de Crescimento de Banana",
   "bumpkinItemBuff.deep.sea.helm": "Chance 3x de Maravilhas Marinhas",
-  "bumpkinItemBuff.bee.suit": "+0.1 Mel",
+  "bumpkinItemBuff.bee.suit": ENGLISH_TERMS["bumpkinItemBuff.bee.suit"],
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones na 5ª coleta seguida",
   "bumpkinItemBuff.crimstone.amulet": "-20% Tempo de Recarga de Crimstones",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
   "bumpkinItemBuff.hornet.mask": "Chance 2x de Enxame de Abelhas",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Mel",
+  "bumpkinItemBuff.honeycomb.shield":
+    ENGLISH_TERMS["bumpkinItemBuff.honeycomb.shield"],
   "bumpkinItemBuff.flower.crown": "-50% Tempo de Crescimento de Flores",
 };
 
