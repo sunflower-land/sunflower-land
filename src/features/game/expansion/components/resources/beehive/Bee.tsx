@@ -44,7 +44,7 @@ const BeeComponent: React.FC<Props> = ({
     y: number;
     distance: number;
   } => {
-    const beeWidth = PIXEL_SCALE * 10;
+    const beeWidth = PIXEL_SCALE * 7;
     const xOffsetToFlowerPosition =
       (GRID_WIDTH_PX * RESOURCE_DIMENSIONS["Flower Bed"].width) / 2 -
       beeWidth / 2;
@@ -167,8 +167,8 @@ const BeeComponent: React.FC<Props> = ({
     <animated.div
       className="absolute z-50 pointer-events-none"
       style={{
-        width: `${PIXEL_SCALE * 10}px`,
-        height: `${PIXEL_SCALE * 10}px`,
+        width: `${PIXEL_SCALE * 7}px`,
+        height: `${PIXEL_SCALE * 7}px`,
         ...animation,
       }}
     >
@@ -177,7 +177,7 @@ const BeeComponent: React.FC<Props> = ({
         alt="Bee"
         className="bee-flight"
         style={{
-          width: `${PIXEL_SCALE * 10}px`,
+          width: `${PIXEL_SCALE * 7}px`,
         }}
       />
     </animated.div>
