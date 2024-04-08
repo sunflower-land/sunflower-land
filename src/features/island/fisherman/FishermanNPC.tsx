@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
-import classNames from "classnames";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import reel from "assets/ui/reel.png";
@@ -29,6 +28,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import classNames from "classnames";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -224,13 +224,143 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
     setShowCaughtModal(false);
   };
 
-  const totalFishCaught = getKeys(FISH).reduce(
-    (total, name) => total + (farmActivity[`${name} Caught`] ?? 0),
-    0
-  );
+  const handleClick = () => {
+    if (!canFish) {
+      setShowLockedModal(true);
+      return;
+    }
+
+    if (showReelLabel) {
+      reelIn();
+      return;
+    }
+
+    if (fishing.wharf.castedAt) {
+      return;
+    }
+
+    onClick();
+  };
 
   return (
     <>
+      <div
+        className={classNames("absolute w-full h-full", {
+          "cursor-pointer hover:img-highlight": !fishing.wharf.castedAt,
+        })}
+        onClick={handleClick}
+      >
+        {!canFish && (
+          <>
+            <img
+              className="absolute pointer-events-none z-50"
+              src={SUNNYSIDE.icons.fish_icon}
+              style={{
+                width: `${PIXEL_SCALE * 18}px`,
+                right: `${PIXEL_SCALE * 1}px`,
+                top: `${PIXEL_SCALE * 9}px`,
+              }}
+            />
+
+            <img
+              className="absolute pointer-events-none z-50"
+              src={lockIcon}
+              style={{
+                width: `${PIXEL_SCALE * 12}px`,
+                right: `${PIXEL_SCALE * 10}px`,
+                top: `${PIXEL_SCALE * 7}px`,
+              }}
+            />
+          </>
+        )}
+
+        {!showReelLabel && showFishFrenzy && canFish && (
+          <img
+            src={lightning}
+            style={{
+              width: `${PIXEL_SCALE * 8}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              top: `${PIXEL_SCALE * -17}px`,
+
+              imageRendering: "pixelated",
+            }}
+            className="absolute pointer-events-none"
+          />
+        )}
+
+        {showReelLabel && (
+          <React.Fragment>
+            <img
+              src={SUNNYSIDE.icons.expression_alerted}
+              style={{
+                width: `${PIXEL_SCALE * 4}px`,
+                left: `${PIXEL_SCALE * 7}px`,
+                top: `${PIXEL_SCALE * -15}px`,
+
+                imageRendering: "pixelated",
+              }}
+              className="absolute"
+            />
+            <img
+              src={reel}
+              style={{
+                width: `${PIXEL_SCALE * 39}px`,
+                left: `${PIXEL_SCALE * 16}px`,
+                top: `${PIXEL_SCALE * 36}px`,
+
+                imageRendering: "pixelated",
+              }}
+              className="absolute z-10 cursor-pointer"
+            />
+          </React.Fragment>
+        )}
+
+        {canFish && (
+          <Spritesheet
+            className="absolute z-50 pointer-events-none"
+            style={{
+              width: `${PIXEL_SCALE * 58}px`,
+              left: `${PIXEL_SCALE * -10}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+
+              imageRendering: "pixelated",
+            }}
+            getInstance={(spritesheet) => {
+              spriteRef.current = spritesheet;
+            }}
+            image={SUNNYSIDE.npcs.fishing_sheet}
+            widthFrame={58}
+            heightFrame={50}
+            zoomScale={scale}
+            fps={14}
+            steps={56}
+            startAt={FISHING_FRAMES[initialState].startAt}
+            endAt={FISHING_FRAMES[initialState].endAt}
+            direction={`forward`}
+            autoplay
+            loop
+            onEnterFrame={[
+              {
+                frame: FISHING_FRAMES.idle.endAt - 1,
+                callback: onIdleFinish,
+              },
+              {
+                frame: FISHING_FRAMES.casting.endAt - 1,
+                callback: onCastFinish,
+              },
+              {
+                frame: FISHING_FRAMES.waiting.endAt - 1,
+                callback: onWaitFinish,
+              },
+              {
+                frame: FISHING_FRAMES.caught.endAt - 1,
+                callback: onCaughtFinish,
+              },
+            ]}
+          />
+        )}
+      </div>
+
       <Modal show={showLockedModal} onHide={() => setShowLockedModal(false)}>
         <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
           <div className="flex flex-col items-center">
@@ -244,30 +374,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      {!canFish && (
-        <>
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-50"
-            src={SUNNYSIDE.icons.fish_icon}
-            onClick={() => setShowLockedModal(true)}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * 2}px`,
-              top: `${PIXEL_SCALE * 16}px`,
-            }}
-          />
-
-          <img
-            className="absolute pointer-events-none group-hover:img-highlight z-50"
-            src={lockIcon}
-            style={{
-              width: `${PIXEL_SCALE * 8}px`,
-              right: `${PIXEL_SCALE * 12}px`,
-              top: `${PIXEL_SCALE * 16}px`,
-            }}
-          />
-        </>
-      )}
 
       <Modal show={showCaughtModal} onHide={close} onExited={claim}>
         <CloseButtonPanel
@@ -292,100 +398,6 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           />
         </Panel>
       </Modal>
-
-      {!showReelLabel && showFishFrenzy && canFish && (
-        <img
-          src={lightning}
-          style={{
-            width: `${PIXEL_SCALE * 8}px`,
-            left: `${PIXEL_SCALE * 5}px`,
-            top: `${PIXEL_SCALE * -17}px`,
-
-            imageRendering: "pixelated",
-          }}
-          className="absolute"
-        />
-      )}
-
-      {showReelLabel && (
-        <React.Fragment>
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            style={{
-              width: `${PIXEL_SCALE * 4}px`,
-              left: `${PIXEL_SCALE * 7}px`,
-              top: `${PIXEL_SCALE * -15}px`,
-
-              imageRendering: "pixelated",
-            }}
-            className="absolute"
-          />
-          <img
-            src={reel}
-            onClick={reelIn}
-            style={{
-              width: `${PIXEL_SCALE * 39}px`,
-              left: `${PIXEL_SCALE * 16}px`,
-              top: `${PIXEL_SCALE * 36}px`,
-
-              imageRendering: "pixelated",
-            }}
-            className="absolute z-10 cursor-pointer"
-          />
-        </React.Fragment>
-      )}
-      {canFish && (
-        <Spritesheet
-          className={classNames("absolute  z-50", {
-            "hover:img-highlight cursor-pointer": !fishing.wharf.castedAt,
-          })}
-          style={{
-            width: `${PIXEL_SCALE * 58}px`,
-            left: `${PIXEL_SCALE * -10}px`,
-            top: `${PIXEL_SCALE * -14}px`,
-
-            imageRendering: "pixelated",
-          }}
-          onClick={() => {
-            if (fishing.wharf.castedAt) {
-              return;
-            }
-            onClick();
-          }}
-          getInstance={(spritesheet) => {
-            spriteRef.current = spritesheet;
-          }}
-          image={SUNNYSIDE.npcs.fishing_sheet}
-          widthFrame={58}
-          heightFrame={50}
-          zoomScale={scale}
-          fps={14}
-          steps={56}
-          startAt={FISHING_FRAMES[initialState].startAt}
-          endAt={FISHING_FRAMES[initialState].endAt}
-          direction={`forward`}
-          autoplay
-          loop
-          onEnterFrame={[
-            {
-              frame: FISHING_FRAMES.idle.endAt - 1,
-              callback: onIdleFinish,
-            },
-            {
-              frame: FISHING_FRAMES.casting.endAt - 1,
-              callback: onCastFinish,
-            },
-            {
-              frame: FISHING_FRAMES.waiting.endAt - 1,
-              callback: onWaitFinish,
-            },
-            {
-              frame: FISHING_FRAMES.caught.endAt - 1,
-              callback: onCaughtFinish,
-            },
-          ]}
-        />
-      )}
     </>
   );
 };
