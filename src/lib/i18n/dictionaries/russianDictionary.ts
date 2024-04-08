@@ -171,6 +171,7 @@ import {
   TimeUnits,
   PwaInstall,
   GoblinTrade,
+  RestrictionReason,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -474,6 +475,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
+  "sfl/coins": "SFL/Coins",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -837,7 +839,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "+0.2 продвинутых культур: Eggplant, Corn, Radish, Wheat, Kale (область 3x3)",
   "description.bale.boost": "+0.2 Egg (область 4x4)",
   "description.immortal.pear.boost": "+1 урожай фруктов за семя",
-  "description.treasure.map.boost": "+20% SFL за продажу сокровищ",
+  "description.treasure.map.boost": "+20% монет за продажу сокровищ",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% времени роста Corn",
   "description.grain.grinder.boost": "+20% опыта с торта",
@@ -1720,12 +1722,6 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Хмм, не похоже, что на твоей ферме есть нужные мне ресурсы. Достигни ",
-  "delivery.panel.two": "расширения и возвращайся ко мне.",
-  "delivery.panel.three": "Доставка: заказ не выбран",
-  "delivery.panel.four":
-    "Я жду начала нового сезона. Возвращайся ко мне, когда он начнется!",
   "delivery.resource": "Хочешь, чтобы я доставил ресурсы?",
   "delivery.feed": "Это не бесплатно, мне надо кормить целое племя!",
   "delivery.fee": "Я возьму с тебя 30% ресурсов для ",
@@ -1751,7 +1747,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Депозит не поступил?",
   "deposit.goblinTaxInfo":
     "Когда игроки выводят любое количество SFL, гоблинам платится налог.",
-  "deposit.applied": "применен.",
   "deposit.sendToFarm": "Отправить на ферму",
   "deposit.toDepositLevelUp":
     "Для отправки, тебе сначала нужно поднять свой уровень",
@@ -4255,6 +4250,9 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
+  "statements.translation.contribution":
+    "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
+  "statements.translation.joinDiscord": "Join Discord",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -4550,6 +4548,7 @@ const world: Record<World, string> = {
     "No harrasment, swearing or bullying. Thank you for respecting others.",
   "world.plaza": "Plaza",
   "world.beach": "Beach",
+  "world.woodlands": "Woodlands",
   "world.retreat": "Retreat",
   "world.home": "Home",
   "world.kingdom": "Kingdom",
@@ -4627,6 +4626,32 @@ const trading: Record<Trading, string> = {
   "trading.your.listing": "Your listing",
   "trading.you.receive": "You receive",
   "trading.burned": "is burned.",
+};
+
+export const restrictionReason: Record<RestrictionReason, string> = {
+  "restrictionReason.isGrowing": "{{item}} is growing",
+  "restrictionReason.beanPlanted": "Magic Bean is planted",
+  "restrictionReason.cropsGrowing": "Crops are growing",
+  "restrictionReason.basicCropsGrowing": "Basic crops are growing",
+  "restrictionReason.mediumCropsGrowing": "Medium crops are growing",
+  "restrictionReason.advancedCropsGrowing": "Advanced crops are growing",
+  "restrictionReason.fruitsGrowing": "Fruits are growing",
+  "restrictionReason.treesChopped": "Trees are chopped",
+  "restrictionReason.stoneMined": "Stone is mined",
+  "restrictionReason.ironMined": "Iron is mined",
+  "restrictionReason.goldMined": "Gold is mined",
+  "restrictionReason.crimstoneMined": "Crimstone is mined",
+  "restrictionReason.chickensFed": "Chickens are fed",
+  "restrictionReason.treasuresDug": "Treasure holes are dug",
+  "restrictionReason.inUse": "In use",
+  "restrictionReason.recentlyUsed": "Recently used",
+  "restrictionReason.recentlyFished": "Recently fished",
+  "restrictionReason.flowersGrowing": "Flowers are growing",
+  "restrictionReason.beesBusy": "Bees are busy",
+  "restrictionReason.pawShaken": "Paw shaken",
+  "restrictionReason.festiveSeason": "Locked during festive season",
+  "restrictionReason.noRestriction": "No restriction",
+  "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
 };
 
 export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
@@ -4802,4 +4827,5 @@ export const RUSSIAN_TERMS: Record<TranslationKeys, string> = {
   ...NYON_STATUE,
   ...trading,
   ...goblinTrade,
+  ...restrictionReason,
 };
