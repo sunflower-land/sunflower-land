@@ -36,6 +36,7 @@ interface GetFlowerDetail {
   beehives: Beehives;
   flowerBeds: FlowerBeds;
   createdAt: number;
+  state: GameState;
 }
 
 interface GetBeehiveDetail {
@@ -48,6 +49,7 @@ interface CalculateFlowerDetails {
   beehives: Beehives;
   flowerBeds: FlowerBeds;
   createdAt: number;
+  state: GameState;
 }
 
 interface CalculateHiveDetails {
@@ -80,7 +82,11 @@ type FlowerDetail = {
   availableTime: number;
 };
 
-const getFlowerReadyAt = (flowerId: string, flowerBeds: FlowerBeds) => {
+const getFlowerReadyAt = (
+  flowerId: string,
+  flowerBeds: FlowerBeds,
+  state: GameState
+) => {
   const plantedFlower = flowerBeds[flowerId].flower;
 
   if (!plantedFlower) {
@@ -156,6 +162,7 @@ const getFlowerDetail = ({
   flowerBeds,
   beehives,
   createdAt,
+  state,
 }: GetFlowerDetail): FlowerDetail => {
   const attachments = getKeys(beehives).flatMap((beehiveId) =>
     beehives[beehiveId].flowers.map((flower) => ({
@@ -170,7 +177,7 @@ const getFlowerDetail = ({
     .filter((attachment) => attachment.flowerId === flowerId)
     .sort((a, b) => b.attachedAt - a.attachedAt)[0];
 
-  const flowerReadyAt = getFlowerReadyAt(flowerId, flowerBeds);
+  const flowerReadyAt = getFlowerReadyAt(flowerId, flowerBeds, state);
 
   if (!flowerAttachment) {
     return {
@@ -189,6 +196,7 @@ const calculateFlowerDetails = ({
   flowerBeds,
   beehives,
   createdAt,
+  state,
 }: CalculateFlowerDetails): Record<string, FlowerDetail> => {
   return getKeys(flowerBeds).reduce(
     (flowerDetails, flowerId) => ({
@@ -198,6 +206,7 @@ const calculateFlowerDetails = ({
         flowerBeds,
         beehives,
         createdAt,
+        state,
       }),
     }),
     {}
@@ -255,6 +264,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
     beehives,
     flowerBeds: flowers.flowerBeds,
     createdAt,
+    state: stateCopy,
   });
   let hiveDetails = calculateHiveDetails({
     game: stateCopy,

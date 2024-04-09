@@ -142,8 +142,8 @@ export const portalMachine = createMachine({
               jwt: context.jwt,
               bumpkin: game?.bumpkin,
               farmId,
-              x: SPAWNS.crop_boom.default.x,
-              y: SPAWNS.crop_boom.default.y,
+              x: SPAWNS().crop_boom.default.x,
+              y: SPAWNS().crop_boom.default.y,
               sceneId: "crop_boom",
               experience: game.bumpkin?.experience ?? 0,
             });

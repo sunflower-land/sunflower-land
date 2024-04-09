@@ -8,9 +8,7 @@ import { Button } from "components/ui/Button";
 import { MachineInterpreter as TradingPostMachineInterpreter } from "../tradingPost/lib/tradingPostMachine";
 import { MachineInterpreter as SellingMachineInterpreter } from "./lib/sellingMachine";
 import { Idle } from "./components/Idle";
-import { Drafting } from "./components/Drafting";
 import { Cancelling } from "./components/Cancelling";
-import { Confirming } from "./components/Confirming";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -36,37 +34,9 @@ export const Selling: React.FC = () => {
         freeListings={tradingPostState.context.freeListings}
         remainingListings={tradingPostState.context.remainingListings}
         farmSlots={tradingPostState.context.farmSlots}
-        onDraft={(slotId) => sellingService.send("DRAFT_LISTING", { slotId })}
         onCancel={(listing) =>
           sellingService.send("CANCEL_LISTING", { listing })
         }
-      />
-    );
-  }
-
-  if (machine.matches("drafting")) {
-    return (
-      <Drafting
-        slotId={machine.context.draftingSlotId}
-        itemLimits={tradingPostState.context.itemLimits}
-        inventory={goblinState.context.state.inventory}
-        draft={machine.context.draft}
-        onBack={() => send("BACK")}
-        onUpdate={(slotId, draft) =>
-          sellingService.send("UPDATE_DRAFT", { slotId, draft })
-        }
-        onConfirm={() => send("CONFIRM")}
-      />
-    );
-  }
-
-  if (machine.matches("confirming")) {
-    return (
-      <Confirming
-        tax={TAX}
-        draft={machine.context.draft}
-        onBack={() => send("BACK")}
-        onConfirm={() => send("CONFIRM")}
       />
     );
   }

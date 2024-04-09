@@ -60,6 +60,7 @@ export interface Context {
   errorCode?: ErrorCode;
   transactionId?: string;
   visitingFarmId?: number;
+  showPWAInstallPrompt?: boolean;
 }
 
 type StartEvent = Farm & {
@@ -68,6 +69,10 @@ type StartEvent = Farm & {
 
 type ReturnEvent = {
   type: "RETURN";
+};
+
+type PWAInstallPromptShown = {
+  type: "PWA_INSTALL_PROMPT_SHOWN";
 };
 
 type CreateFarmEvent = {
@@ -98,6 +103,7 @@ export type BlockchainEvent =
   | CreateFarmEvent
   | LoadFarmEvent
   | ConnectedWalletEvent
+  | PWAInstallPromptShown
   | {
       type: "REFRESH";
     }
@@ -179,7 +185,11 @@ export const authMachine = createMachine(
           {
             target: "authorised",
             cond: () => !!getToken(),
-            actions: ["assignWeb2Token", "saveToken"],
+            actions: [
+              "assignWeb2Token",
+              "saveToken",
+              "setShowPWAInstallPrompt",
+            ],
           },
           {
             target: "welcome",
@@ -298,6 +308,9 @@ export const authMachine = createMachine(
           LOGOUT: {
             target: "#idle",
             actions: ["clearSession", "refreshFarm"],
+          },
+          PWA_INSTALL_PROMPT_SHOWN: {
+            actions: "unsetShowPWAInstallPrompt",
           },
         },
       },
@@ -440,9 +453,8 @@ export const authMachine = createMachine(
         // Save primary JWT
         saveJWT(event.data?.token ?? context.user.rawToken);
       },
-
       assignWeb2Token: assign<Context, any>({
-        user: (context, event) => ({
+        user: (context) => ({
           ...context.user,
           token: decodeToken(getToken() as string),
           rawToken: getToken() as string,
@@ -467,6 +479,14 @@ export const authMachine = createMachine(
       }),
       clearTransactionId: assign<Context, any>({
         transactionId: () => undefined,
+      }),
+      setShowPWAInstallPrompt: assign<Context, any>({
+        showPWAInstallPrompt: () =>
+          new URLSearchParams(window.location.search).get("pwaInstall") ===
+          "true",
+      }),
+      unsetShowPWAInstallPrompt: assign<Context, any>({
+        showPWAInstallPrompt: () => false,
       }),
     },
     guards: {

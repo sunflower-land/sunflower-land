@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState } from "features/game/types/game";
-import { GARBAGE, Garbage, GarbageName } from "features/game/types/garbage";
+import { GARBAGE, GarbageName } from "features/game/types/garbage";
 
 import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
@@ -18,21 +18,16 @@ type Options = {
   action: SellGarbageAction;
 };
 
-export const getGarbageSellPrice = (item: Garbage) => {
-  const price = item.sellPrice || new Decimal(0);
-
-  return price;
-};
-
 export function sellGarbage({ state, action }: Options) {
-  const statecopy = cloneDeep(state);
+  const game: GameState = cloneDeep(state);
   const { item, amount } = action;
 
-  const { bumpkin, inventory, balance } = statecopy;
+  const { bumpkin, inventory, coins } = game;
 
   if (!bumpkin) {
     throw new Error(translate("no.have.bumpkin"));
   }
+
   if (!(item in GARBAGE)) {
     throw new Error("Not for sale");
   }
@@ -47,22 +42,21 @@ export function sellGarbage({ state, action }: Options) {
     throw new Error("Insufficient quantity to sell");
   }
 
-  const price = getGarbageSellPrice(GARBAGE[item]);
-  const sflEarned = price.mul(amount);
-  bumpkin.activity = trackActivity("SFL Earned", bumpkin.activity, sflEarned);
+  const price = GARBAGE[item].sellPrice ?? 0;
+  const coinsEarned = price * amount;
+  bumpkin.activity = trackActivity(
+    "Coins Earned",
+    bumpkin.activity,
+    new Decimal(coinsEarned)
+  );
   bumpkin.activity = trackActivity(
     `${item} Sold`,
     bumpkin?.activity,
     new Decimal(amount)
   );
 
-  return {
-    ...statecopy,
-    bumpkin,
-    balance: balance.add(sflEarned),
-    inventory: {
-      ...inventory,
-      [item]: setPrecision(count.sub(amount)),
-    },
-  };
+  game.coins = coins + coinsEarned;
+  game.inventory[item] = setPrecision(count.sub(amount));
+
+  return game;
 }

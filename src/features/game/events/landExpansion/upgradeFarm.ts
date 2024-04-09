@@ -397,6 +397,7 @@ function springUpgrade(state: GameState) {
         Blossombeard: 1,
       },
       sfl: 0,
+      coins: 0,
       wearables: {},
       message: translate("islandupgrade.welcomePetalParadise"),
     },

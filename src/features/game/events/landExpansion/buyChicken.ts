@@ -21,17 +21,17 @@ type Options = {
 };
 
 export function buyChicken({ state, action }: Options): GameState {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin, inventory } = stateCopy;
+  const stateCopy: GameState = cloneDeep(state);
+  const { bumpkin, inventory, coins } = stateCopy;
 
   if (bumpkin === undefined) {
     throw new Error(translate("no.have.bumpkin"));
   }
 
-  const price = ANIMALS().Chicken.tokenAmount || new Decimal(0);
+  const price = ANIMALS.Chicken.price ?? 0;
 
-  if (stateCopy.balance.lessThan(price)) {
-    throw new Error(translate("error.insufficientSFL"));
+  if (coins < price) {
+    throw new Error(translate("error.insufficientCoins"));
   }
 
   const previousChickens = inventory.Chicken || new Decimal(0);
@@ -40,24 +40,19 @@ export function buyChicken({ state, action }: Options): GameState {
     throw new Error(translate("error.insufficientSpaceForChickens"));
   }
 
-  const chickens: GameState["chickens"] = {
-    ...stateCopy.chickens,
-    [action.id]: {
-      multiplier: 1,
-      coordinates: action.coordinates,
-    },
-  };
-
   bumpkin.activity = trackActivity("Chicken Bought", bumpkin.activity);
-  bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
+  bumpkin.activity = trackActivity(
+    "Coins Spent",
+    bumpkin.activity,
+    new Decimal(price)
+  );
 
-  return {
-    ...stateCopy,
-    balance: stateCopy.balance.sub(price),
-    inventory: {
-      ...stateCopy.inventory,
-      Chicken: previousChickens.add(1),
-    },
-    chickens,
+  stateCopy.chickens[action.id] = {
+    multiplier: 1,
+    coordinates: action.coordinates,
   };
+  stateCopy.coins = coins - price;
+  stateCopy.inventory.Chicken = previousChickens.add(1);
+
+  return stateCopy;
 }

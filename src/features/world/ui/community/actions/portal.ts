@@ -4,7 +4,6 @@ import { ERRORS } from "lib/errors";
 type Request = {
   portalId: string;
   token: string;
-  address: string;
   farmId: number;
 };
 
@@ -23,7 +22,6 @@ export async function portal(request: Request) {
         Authorization: `Bearer ${request.token}`,
       },
       body: JSON.stringify({
-        address: request.address,
         farmId: request.farmId,
       }),
     }

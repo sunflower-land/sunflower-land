@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { AuctionResults } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import sflIcon from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-122.php
@@ -33,18 +33,21 @@ export const AuctionLeaderboardTable: React.FC<{
           <thead>
             <tr>
               <th
-                style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-[20%]"
+                style={{ border: "1px solid #b96f50", textAlign: "left" }}
+                className="p-1.5 w-1/5"
               >
                 <p>{t("rank")}</p>
               </th>
               <th
-                style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-1/5"
+                style={{ border: "1px solid #b96f50", textAlign: "left" }}
+                className="p-1.5"
               >
                 <p>{t("farm")}</p>
               </th>
-              <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+              <th
+                style={{ border: "1px solid #b96f50", textAlign: "left" }}
+                className="p-1.5 w-2/5"
+              >
                 <p>{t("bid")}</p>
               </th>
             </tr>
@@ -63,19 +66,19 @@ export const AuctionLeaderboardTable: React.FC<{
             >
               <td
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-[20%] relative"
+                className="p-1.5 w-1/5 relative"
               >
                 {toOrdinalSuffix(result.rank)}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-1/5"
+                className="p-1.5 flex flex-wrap"
               >
                 {result.farmId}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 flex flex-wrap"
+                className="p-1.5 w-2/5"
               >
                 {result.sfl > 0 && (
                   <div className="flex w-16">

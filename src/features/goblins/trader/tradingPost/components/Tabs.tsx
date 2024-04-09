@@ -1,6 +1,6 @@
 import React from "react";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Tab } from "components/ui/Tab";
 import classNames from "classnames";

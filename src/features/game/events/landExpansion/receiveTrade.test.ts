@@ -42,7 +42,7 @@ describe("receiveTrade", () => {
     expect(state.trades.listings).toEqual({});
   });
 
-  it("adds sfl", () => {
+  it("deducts 10% SFL on new system", () => {
     const state = receiveTrade({
       action: {
         tradeId: "123",
@@ -66,6 +66,6 @@ describe("receiveTrade", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(5));
+    expect(state.balance).toEqual(new Decimal(5 * 0.9));
   });
 });

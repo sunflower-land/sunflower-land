@@ -7,7 +7,7 @@ import Decimal from "decimal.js-light";
 
 import { Tab } from "./ItemsModal";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import {
   BumpkinShopItem,
   loadCollection,

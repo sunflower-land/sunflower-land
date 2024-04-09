@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
-import { getKeys } from "features/game/types/craftables";
 import chefHat from "src/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {
+  BAKERY_COOKABLES,
   Cookable,
   CookableName,
-  COOKABLES,
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -29,17 +28,9 @@ export const BakeryModal: React.FC<Props> = ({
   itemInProgress,
   craftingService,
 }) => {
-  const cakeRecipes = getKeys(COOKABLES).reduce((acc, name) => {
-    if (COOKABLES[name]?.disabled) {
-      return acc;
-    }
-
-    if (COOKABLES[name].building !== "Bakery") {
-      return acc;
-    }
-
-    return [...acc, COOKABLES[name]];
-  }, [] as Cookable[]);
+  const cakeRecipes = Object.values(BAKERY_COOKABLES).sort(
+    (a, b) => a.cookingSeconds - b.cookingSeconds // Future proofing for future foods released
+  );
   const [selected, setSelected] = useState<Cookable>(
     cakeRecipes.find((recipe) => recipe.name === itemInProgress) ||
       cakeRecipes[0]

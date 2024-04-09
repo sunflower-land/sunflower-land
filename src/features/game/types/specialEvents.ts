@@ -3,7 +3,9 @@ import { InventoryItemName, Wardrobe } from "./game";
 export type SpecialEventName =
   | "Lunar New Year"
   | "Earn Alliance Banner"
-  | "One Planet Popper";
+  | "One Planet Popper"
+  | "Gas Hero"
+  | "Easter";
 
 export type Task = {
   requirements: {
@@ -16,6 +18,7 @@ export type Task = {
     sfl: number;
   };
   isAirdrop?: boolean;
+  airdropUrl?: string;
   completedAt?: number;
 };
 

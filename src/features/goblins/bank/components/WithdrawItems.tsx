@@ -16,7 +16,7 @@ import { toWei } from "web3-utils";
 import { wallet } from "lib/blockchain/wallet";
 
 import { getKeys } from "features/game/types/craftables";
-import { getBankItems } from "features/goblins/storageHouse/lib/storageItems";
+import { getBankItemsLegacy } from "features/goblins/storageHouse/lib/storageItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { WITHDRAWABLES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -69,7 +69,7 @@ export const WithdrawItems: React.FC<Props> = ({
   const [selected, setSelected] = useState<Inventory>({});
 
   useEffect(() => {
-    const bankItems = getBankItems(goblinState.context.state.inventory);
+    const bankItems = getBankItemsLegacy(goblinState.context.state);
     setInventory(bankItems);
     setSelected({});
   }, []);

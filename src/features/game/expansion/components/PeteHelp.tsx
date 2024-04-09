@@ -32,8 +32,7 @@ export const PeteHelp: React.FC = () => {
         <>
           <p className="text-xs mb-2">{t("pete.help.zero")}</p>
           <Label type="danger" className="mb-2 ml-1" icon={lockIcon}>
-            {t("warning.level.required")}
-            {": 3"}
+            {t("warning.level.required", { lvl: 3 })}
           </Label>
         </>
       )}

@@ -42,6 +42,7 @@ import { FISH, PURCHASEABLE_BAIT } from "features/game/types/fishing";
 import { Label } from "components/ui/Label";
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BUILDING_ORDER } from "features/island/bumpkin/components/NPCModal";
 
 interface Prop {
   gameState: GameState;
@@ -54,7 +55,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const { t } = useAppTranslation();
 
-  const { inventory, bumpkin, collectibles, buildings, buds } = gameState;
+  const { inventory, buds } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
@@ -126,14 +127,23 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const crops = getItems(CROPS());
   const fruits = getItems(FRUIT());
   const flowers = getItems(FLOWERS);
-  const workbenchTools = getItems(WORKBENCH_TOOLS());
+  const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
   const exotic = getItems(BEANS());
   const resources = getItems(COMMODITIES);
-  const foods = getItems(COOKABLES);
+
+  // Sort all foods by Cooking Time and Building
+  const foods = getItems(COOKABLES)
+    .sort((a, b) => COOKABLES[a].cookingSeconds - COOKABLES[b].cookingSeconds)
+    .sort(
+      (a, b) =>
+        BUILDING_ORDER.indexOf(COOKABLES[a].building) -
+        BUILDING_ORDER.indexOf(COOKABLES[b].building)
+    );
   const pirateCake = getItems(PIRATE_CAKE);
+
   const fertilisers = getItems(FERTILISERS);
-  const coupons = getItems(COUPONS);
+  const coupons = getItems(COUPONS).sort((a, b) => a.localeCompare(b));
   const easterEggs = getItems(EASTER_EGG);
   const bounty = getItems(SELLABLE_TREASURE);
   const exotics = getItems(EXOTIC_CROPS);
@@ -141,7 +151,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const fruitCompost = getItems(FRUIT_COMPOST);
   const worm = getItems(WORM);
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
-  const fish = getItems(FISH);
+  const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
 
   const allSeeds = [...seeds, ...fruitSeeds, ...flowerSeeds];
   const allTools = [...workbenchTools, ...treasureTools];

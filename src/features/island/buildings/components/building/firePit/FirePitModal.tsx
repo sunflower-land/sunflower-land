@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
-import { getKeys } from "features/game/types/craftables";
 
 import chefHat from "src/assets/icons/chef_hat.png";
 
@@ -9,11 +8,11 @@ import { Recipes } from "../../ui/Recipes";
 import {
   Cookable,
   CookableName,
-  COOKABLES,
+  FIRE_PIT_COOKABLES,
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ConversationName } from "features/game/types/conversations";
+import { ConversationName } from "features/game/types/announcements";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
@@ -46,17 +45,13 @@ export const FirePitModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
-  conversation,
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
-  const firePitRecipes = getKeys(COOKABLES).reduce((acc, name) => {
-    if (COOKABLES[name].building !== "Fire Pit") {
-      return acc;
-    }
+  const firePitRecipes = Object.values(FIRE_PIT_COOKABLES).sort(
+    (a, b) => a.cookingSeconds - b.cookingSeconds // Future proofing for future foods released
+  );
 
-    return [...acc, COOKABLES[name]];
-  }, [] as Cookable[]);
   const [selected, setSelected] = useState<Cookable>(
     firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||
       firePitRecipes[0]

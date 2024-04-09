@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import levelIcon from "assets/icons/level_up.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
@@ -27,6 +27,13 @@ import { AchievementBadges } from "./AchievementBadges";
 import { Trade } from "./Trade";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  FloorPrices,
+  getListingsFloorPrices,
+} from "features/game/actions/getListingsFloorPrices";
+import { Context as AuthContext } from "features/auth/lib/Provider";
+import { useActor } from "@xstate/react";
+import { Loading } from "features/auth/components";
 
 type ViewState = "home" | "achievements" | "skills";
 
@@ -88,7 +95,10 @@ export const BumpkinModal: React.FC<Props> = ({
   gameState,
 }) => {
   const { gameService } = useContext(Context);
-
+  const { authService } = useContext(AuthContext);
+  const [authState] = useActor(authService);
+  const [floorPrices, setFloorPrices] = useState<FloorPrices>({});
+  const [isLoading, setIsLoading] = useState(false);
   const [view, setView] = useState<ViewState>(initialView);
 
   const [tab, setTab] = useState(0);
@@ -110,6 +120,24 @@ export const BumpkinModal: React.FC<Props> = ({
 
     return `${baseUrl}/${bumpkin?.id}`;
   };
+
+  useEffect(() => {
+    if (tab === 2) {
+      const load = async () => {
+        setIsLoading(true);
+        const floorPrices = await getListingsFloorPrices(
+          authState.context.user.rawToken
+        );
+        setFloorPrices((prevFloorPrices) => ({
+          ...prevFloorPrices,
+          ...floorPrices,
+        }));
+
+        setIsLoading(false);
+      };
+      load();
+    }
+  }, [tab]);
 
   if (view === "achievements") {
     return (
@@ -161,16 +189,23 @@ export const BumpkinModal: React.FC<Props> = ({
           : []),
       ]}
     >
-      {tab === 0 && (
-        <div className="flex flex-wrap">
-          <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
-            <div className="w-full rounded-md overflow-hidden mb-1">
-              <DynamicNFT
-                showBackground
-                bumpkinParts={bumpkin?.equipped as BumpkinParts}
-              />
-            </div>
-            {/* {isFullUser && (
+      <div
+        style={{
+          maxHeight: "calc(100vh - 200px)",
+          overflowY: "auto",
+        }}
+        className="scrollable"
+      >
+        {tab === 0 && (
+          <div className="flex flex-wrap">
+            <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
+              <div className="w-full rounded-md overflow-hidden mb-1">
+                <DynamicNFT
+                  showBackground
+                  bumpkinParts={bumpkin?.equipped as BumpkinParts}
+                />
+              </div>
+              {/* {isFullUser && (
               <div className="ml-1">
                 <a
                   href={getVisitBumpkinUrl()}
@@ -182,83 +217,85 @@ export const BumpkinModal: React.FC<Props> = ({
                 </a>
               </div>
             )} */}
-          </div>
+            </div>
 
-          <div className="flex-1">
-            <div className="mb-3">
-              <div className="flex items-center ml-1 my-2">
-                <img
-                  src={levelIcon}
-                  style={{
-                    width: `${PIXEL_SCALE * 10}px`,
-                    marginRight: `${PIXEL_SCALE * 4}px`,
-                  }}
-                />
-                <div>
-                  <p className="text-base">
-                    {t("lvl")} {level}
-                    {maxLevel ? " (Max)" : ""}
-                  </p>
-                  {/* Progress bar */}
-                  <BumpkinLevel experience={bumpkin.experience} />
+            <div className="flex-1">
+              <div className="mb-3">
+                <div className="flex items-center ml-1 my-2">
+                  <img
+                    src={levelIcon}
+                    style={{
+                      width: `${PIXEL_SCALE * 10}px`,
+                      marginRight: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                  <div>
+                    <p className="text-base">
+                      {t("lvl")} {level}
+                      {maxLevel ? " (Max)" : ""}
+                    </p>
+                    {/* Progress bar */}
+                    <BumpkinLevel experience={bumpkin.experience} />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              className="mb-2 cursor-pointer"
-              onClick={() => setView("skills")}
-            >
-              <InnerPanel className="relative mt-1 !px-2 !py-1">
-                <div className="flex items-center mb-1 justify-between">
-                  <div className="flex items-center">
-                    <span className="text-xs">{t("skills")}</span>
-                    {hasAvailableSP && !readonly && (
-                      <img
-                        src={SUNNYSIDE.icons.expression_alerted}
-                        className="h-4 ml-2"
-                      />
-                    )}
+              <div
+                className="mb-2 cursor-pointer"
+                onClick={() => setView("skills")}
+              >
+                <InnerPanel className="relative mt-1 !px-2 !py-1">
+                  <div className="flex items-center mb-1 justify-between">
+                    <div className="flex items-center">
+                      <span className="text-xs">{t("skills")}</span>
+                      {hasAvailableSP && !readonly && (
+                        <img
+                          src={SUNNYSIDE.icons.expression_alerted}
+                          className="h-4 ml-2"
+                        />
+                      )}
+                    </div>
+                    <span className="text-xxs underline">{t("viewAll")}</span>
                   </div>
-                  <span className="text-xxs underline">{t("viewAll")}</span>
-                </div>
-                <SkillBadges
-                  inventory={inventory}
-                  bumpkin={bumpkin as Bumpkin}
-                />
-              </InnerPanel>
-            </div>
+                  <SkillBadges
+                    inventory={inventory}
+                    bumpkin={bumpkin as Bumpkin}
+                  />
+                </InnerPanel>
+              </div>
 
-            <div
-              className="mb-2 cursor-pointer"
-              onClick={() => setView("achievements")}
-            >
-              <InnerPanel className="relative mt-1 !px-2 !py-1">
-                <div className="flex items-center mb-1 justify-between">
-                  <div className="flex items-center">
-                    <span className="text-xs">{t("achievements")}</span>
+              <div
+                className="mb-2 cursor-pointer"
+                onClick={() => setView("achievements")}
+              >
+                <InnerPanel className="relative mt-1 !px-2 !py-1">
+                  <div className="flex items-center mb-1 justify-between">
+                    <div className="flex items-center">
+                      <span className="text-xs">{t("achievements")}</span>
+                    </div>
+                    <span className="text-xxs underline">{t("viewAll")}</span>
                   </div>
-                  <span className="text-xxs underline">{t("viewAll")}</span>
-                </div>
-                <AchievementBadges achievements={bumpkin?.achievements} />
-              </InnerPanel>
+                  <AchievementBadges achievements={bumpkin?.achievements} />
+                </InnerPanel>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      {tab === 1 && (
-        <BumpkinEquip
-          equipment={bumpkin.equipped}
-          game={gameState}
-          onEquip={(equipment) => {
-            gameService.send("bumpkin.equipped", {
-              equipment,
-            });
-            gameService.send("SAVE");
-          }}
-        />
-      )}
-      {tab === 2 && <Trade />}
+        )}
+        {tab === 1 && (
+          <BumpkinEquip
+            equipment={bumpkin.equipped}
+            game={gameState}
+            onEquip={(equipment) => {
+              gameService.send("bumpkin.equipped", {
+                equipment,
+              });
+              gameService.send("SAVE");
+            }}
+          />
+        )}
+        {tab === 2 && isLoading && <Loading />}
+        {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
+      </div>
     </CloseButtonPanel>
   );
 };

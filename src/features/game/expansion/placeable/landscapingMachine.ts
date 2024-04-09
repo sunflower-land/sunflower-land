@@ -8,7 +8,6 @@ import {
 import { CollectibleName } from "features/game/types/craftables";
 import { assign, createMachine, Interpreter, sendParent, State } from "xstate";
 import { Coordinates } from "../components/MapPlacement";
-import Decimal from "decimal.js-light";
 import { Inventory, InventoryItemName } from "features/game/types/game";
 import {
   Context as GameMachineContext,
@@ -61,7 +60,7 @@ export interface Context {
 
   origin?: Coordinates;
   requirements: {
-    sfl: Decimal;
+    coins: number;
     ingredients: Inventory;
   };
 
@@ -78,7 +77,7 @@ type SelectEvent = {
   placeable: BuildingName | CollectibleName;
   action: GameEventName<PlacementEvent>;
   requirements: {
-    sfl: Decimal;
+    coins: number;
     ingredients: Inventory;
   };
   collisionDetected: boolean;

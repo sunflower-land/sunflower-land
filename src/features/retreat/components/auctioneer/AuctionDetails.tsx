@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Button } from "components/ui/Button";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import bg from "assets/ui/brown_background.png";
 
 import { Label } from "components/ui/Label";

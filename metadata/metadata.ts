@@ -5135,7 +5135,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Yield",
         value: 0.1,
       },
-      { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/09/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Grain Grinder": {
@@ -5151,7 +5151,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Cake XP",
         value: 20,
       },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   Kernaldo: {
@@ -5166,7 +5166,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Corn Growth Time",
         value: -25,
       },
-      { trait_type: "Tradable", value: "Yes" }, //Tradable from 02/10/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Queen Cornelia": {
@@ -5183,7 +5183,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "Increase Corn Yield",
         value: 1,
       },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 14/10/2023
+      { trait_type: "Tradable", value: "Yes" },
       {
         display_type: "boost_number",
         trait_type: "Plots Affected",
@@ -5199,7 +5199,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1278.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Haunted Stump": {
@@ -5209,7 +5209,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1279.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/09/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Spooky Tree": {
@@ -5219,7 +5219,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1280.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/10/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   Observer: {
@@ -5230,7 +5230,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1285.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Crow Rock": {
@@ -5240,7 +5240,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1286.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Mini Corn Maze": {
@@ -5251,7 +5251,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1287.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Bumpkin ganoush": {
@@ -5498,7 +5498,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/1288.gif",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
-      { trait_type: "Tradable", value: "Yes" }, // Tradable from 02/11/2023
+      { trait_type: "Tradable", value: "Yes" },
     ],
   },
   "Compost Bin": {
@@ -6731,9 +6731,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Boost", value: "Resource" },
       {
-        display_type: "boost_percentage",
-        trait_type: "Honey Produce Time",
-        value: -50,
+        display_type: "boost_number",
+        trait_type: "Honey Production Speed",
+        value: 1,
       },
       { trait_type: "Tradable", value: "Yes" },
     ],
@@ -6746,7 +6746,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/492.png",
     attributes: [
-      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Boost", value: "Flower" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Flower Growth Time",
+        value: -10,
+      },
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
@@ -6785,6 +6790,24 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2011.png",
+    attributes: [],
+  },
+  "Tea Rug": {
+    name: "Tea Rug",
+    description:
+      "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2012.png",
+    attributes: [],
+  },
+  "Green Field Rug": {
+    name: "Green Field Rug",
+    description:
+      "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2013.png",
     attributes: [],
   },
   "Blossom Royale": {
@@ -7015,11 +7038,14 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   "Earn Alliance Banner": {
     name: "Earn Alliance Banner",
     description:
-      "A special event banner. Gives a starter bonus of 2x XP in February 2024 for players on the beginner island.",
+      "A special event banner. Gave a starter bonus of 2x XP in February 2024 for players on the beginner island.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/930.png",
-    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
   },
   "Treasure Key": {
     name: "Treasure Key",
@@ -7054,5 +7080,48 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Baby Panda": {
+    name: "Baby Panda",
+    description:
+      "A baby panda earned during the Gas Hero collaboration event. Gives new players double XP during March 2024.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/935.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  Baozi: {
+    name: "Bazoi",
+    description:
+      "A delicious steamed bun. A special event item from Lunar New Year 2024.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/936.gif",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Community Egg": {
+    name: "Community Egg",
+    description: "Wow, you must really care about the community",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/937.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Hungry Hare": {
+    name: "Hungry Hare",
+    description:
+      "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/938.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "XP" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Increase Fermented Carrots XP",
+        value: 100,
+      },
+    ],
   },
 };

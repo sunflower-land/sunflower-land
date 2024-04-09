@@ -14,12 +14,12 @@ type Options = {
   action: StartPotionAction;
 };
 
-const GAME_FEE = 1;
+export const GAME_FEE = 320;
 
 export function startPotion({ state }: Options): GameState {
   const stateCopy = cloneDeep<GameState>(state);
 
-  const { bumpkin } = stateCopy;
+  const { bumpkin, coins } = stateCopy;
 
   if (!bumpkin) {
     throw new Error("Bumpkin not found");
@@ -29,13 +29,13 @@ export function startPotion({ state }: Options): GameState {
     throw new Error("There is already a game in progress");
   }
 
-  if (stateCopy.balance.lt(GAME_FEE)) {
-    throw new Error("Insufficient funds to start a game");
+  if (stateCopy.coins < GAME_FEE) {
+    throw new Error("Insufficient coins to start a game");
   }
 
-  stateCopy.balance = stateCopy.balance.sub(GAME_FEE);
+  stateCopy.coins = coins - GAME_FEE;
   bumpkin.activity = trackActivity(
-    "SFL Spent",
+    "Coins Spent",
     bumpkin?.activity,
     new Decimal(GAME_FEE)
   );

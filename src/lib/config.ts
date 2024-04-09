@@ -76,7 +76,12 @@ const GAME_ANALYTICS_PUB_KEY = import.meta.env
 const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
 const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
+const DEQUIPPER_CONTRACT = import.meta.env.VITE_DEQUIPPER_CONTRACT as string;
+const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
+
 export const CONFIG = {
+  DEQUIPPER_CONTRACT,
+
   NETWORK,
   POLYGON_CHAIN_ID,
   DONATION_ADDRESS,
@@ -133,4 +138,5 @@ export const CONFIG = {
   GAME_ANALYTICS_PUB_KEY,
   PORTAL_APP,
   PORTAL_GAME_URL,
+  SEQUENCE_ACCESS_KEY,
 };

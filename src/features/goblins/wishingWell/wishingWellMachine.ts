@@ -29,7 +29,6 @@ export interface Context {
   farmId?: number;
   bumpkinTokenUri?: string;
   sessionId?: string;
-  farmAddress?: string;
   token?: string;
   wallet?: string;
   balance?: Decimal;

@@ -22,6 +22,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { translate } from "lib/i18n/translate";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 enum RarityOrder {
   "rare",
@@ -88,6 +89,7 @@ const bumpkin: Equipped = {
 };
 
 const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+  const { t } = useAppTranslation();
   // Refresh the countdown timer on the time limited treasure
   useUiRefresher();
 
@@ -146,10 +148,7 @@ const TreasureTroveModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         )}
 
         <div className="pt-2 space-y-3">
-          <p className="text-xs">
-            {translate("available.all.year")}
-            {":"}
-          </p>
+          <p className="text-xs">{t("available.all.year")}</p>
 
           {TREASURE_TROVE_ITEMS.map(([name, treasure]) => (
             <TreasureTroveItem

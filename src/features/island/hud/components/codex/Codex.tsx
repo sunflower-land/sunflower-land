@@ -3,17 +3,12 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Modal } from "components/ui/Modal";
-import { Tab } from "components/ui/Tab";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 // Section Icons
 import { Fish } from "./pages/Fish";
-import {
-  CodexCategory,
-  CodexCategoryName,
-  CodexTabIndex,
-} from "features/game/types/codex";
+import { CodexCategory } from "features/game/types/codex";
 import { MilestoneReached } from "./components/MilestoneReached";
 import { MilestoneName } from "features/game/types/milestones";
 import { Flowers } from "./pages/Flowers";
@@ -21,46 +16,14 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Deliveries } from "./pages/Deliveries";
+import { Chores } from "./pages/Chores";
+import { Label } from "components/ui/Label";
+import classNames from "classnames";
 
 interface Props {
   show: boolean;
   onHide: () => void;
-}
-
-export const categories: CodexCategory[] = [
-  {
-    name: "Fish",
-    icon: SUNNYSIDE.icons.fish,
-  },
-  {
-    name: "Flowers",
-    icon: ITEM_DETAILS["Red Pansy"].image,
-  },
-  {
-    name: "Bumpkins",
-    icon: SUNNYSIDE.icons.player,
-    disabled: true,
-  },
-  {
-    name: "Farming",
-    icon: SUNNYSIDE.icons.basket,
-    disabled: true,
-  },
-
-  {
-    name: "Treasures",
-    icon: SUNNYSIDE.decorations.treasure_chest,
-    disabled: true,
-  },
-  {
-    name: "Season",
-    icon: SUNNYSIDE.icons.stopwatch,
-    disabled: true,
-  },
-];
-
-export function getCodexCategoryIndex(category: CodexCategoryName) {
-  return categories.findIndex((c) => c.name === category);
 }
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
@@ -72,11 +35,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
-  const [currentTab, setCurrentTab] = useState<CodexTabIndex>(0);
+  const [currentTab, setCurrentTab] = useState<number>(0);
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
-  const handleTabClick = (index: CodexTabIndex) => {
+  const handleTabClick = (index: number) => {
     setCurrentTab(index);
   };
 
@@ -90,75 +53,104 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setMilestoneName(undefined);
   };
 
+  const incompleteDeliveries = state.delivery.orders.filter(
+    (order) => !order.completedAt
+  ).length;
+
+  const incompleteChores = Object.values(state.chores?.chores ?? {}).filter(
+    (chore) => !chore.completedAt
+  ).length;
+
+  const categories: CodexCategory[] = [
+    {
+      name: "Deliveries",
+      icon: SUNNYSIDE.icons.player,
+      count: incompleteDeliveries,
+    },
+    {
+      name: "Chores",
+      icon: SUNNYSIDE.icons.hammer,
+      count: incompleteChores,
+    },
+    {
+      name: "Fish",
+      icon: SUNNYSIDE.icons.fish,
+      count: 0,
+    },
+    {
+      name: "Flowers",
+      icon: ITEM_DETAILS["Red Pansy"].image,
+      count: 0,
+    },
+  ];
+
   return (
-    <div className="flex justify-center">
-      <Modal show={show} onHide={onHide}>
-        <div
-          className="h-[600px] transition-opacity"
-          style={
-            {
-              // opacity: showMilestoneReached ? 0.6 : 1,
-            }
-          }
-        >
-          {/* Header */}
-          <OuterPanel className="flex flex-col h-full">
-            <div className="flex items-center pl-1 mb-2">
-              <div className="flex items-center grow">
-                <img src={SUNNYSIDE.icons.search} className="h-6 mr-3 ml-1" />
-                <p>{t("sunflowerLandCodex")}</p>
-              </div>
-              <img
-                src={SUNNYSIDE.icons.close}
-                className="float-right cursor-pointer z-20 ml-3"
-                onClick={onHide}
-                style={{
-                  width: `${PIXEL_SCALE * 11}px`,
-                }}
-              />
+    <Modal show={show} onHide={onHide} dialogClassName="md:max-w-3xl">
+      <div className="h-[500px] relative">
+        {/* Header */}
+        <OuterPanel className="flex flex-col h-full">
+          <div className="flex items-center pl-1 mb-2">
+            <div className="flex items-center grow">
+              <img src={SUNNYSIDE.icons.search} className="h-6 mr-3 ml-1" />
+              <p>{t("sunflowerLandCodex")}</p>
             </div>
-            <div
-              className="relative h-full overflow-hidden"
+            <img
+              src={SUNNYSIDE.icons.close}
+              className="float-right cursor-pointer z-20 ml-3"
+              onClick={onHide}
               style={{
-                paddingLeft: `${PIXEL_SCALE * 15}px`,
+                width: `${PIXEL_SCALE * 11}px`,
               }}
-            >
-              {/* Tabs */}
-              <div className="absolute top-4 left-0">
-                <div className="flex flex-col">
-                  {categories.map((tab, index) => (
-                    <Tab
-                      key={`${tab}-${index}`}
-                      isFirstTab={index === 0}
-                      className="flex items-center relative"
-                      isActive={currentTab === index}
-                      onClick={() => handleTabClick(index)}
-                      vertical
-                      disabled={tab.disabled}
-                    >
-                      <SquareIcon icon={tab.icon} width={7} />
-                    </Tab>
-                  ))}
-                </div>
+            />
+          </div>
+
+          <div
+            className="relative h-full overflow-hidden"
+            style={{
+              paddingLeft: `${PIXEL_SCALE * 16.5}px`,
+            }}
+          >
+            {/* Tabs */}
+            <div className="absolute top-1.5 left-0">
+              <div className="flex flex-col">
+                {categories.map((tab, index) => (
+                  <OuterPanel
+                    key={`${tab}-${index}`}
+                    className={classNames(
+                      "flex items-center relative p-0.5 mb-1 cursor-pointer",
+                      {
+                        "bg-[#ead4aa]": currentTab === index,
+                      }
+                    )}
+                    onClick={() => handleTabClick(index)}
+                  >
+                    {!!tab.count && (
+                      <Label
+                        type="default"
+                        className="absolute -top-3 left-3 z-10"
+                      >
+                        {tab.count}
+                      </Label>
+                    )}
+
+                    <SquareIcon icon={tab.icon} width={9} />
+                  </OuterPanel>
+                ))}
               </div>
-              {/* Content */}
-              <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
-                {currentTab === 0 && (
-                  <Fish onMilestoneReached={handleMilestoneReached} />
-                )}
-                {currentTab === 1 && (
-                  <Flowers onMilestoneReached={handleMilestoneReached} />
-                )}
-              </InnerPanel>
             </div>
-          </OuterPanel>
-        </div>
-        <div
-          className="absolute h-full w-full bg-black transition-opacity pointer-events-none"
-          style={{
-            opacity: showMilestoneReached ? 0.4 : 0,
-          }}
-        />
+            {/* Content */}
+            <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
+              {currentTab === 0 && <Deliveries />}
+              {currentTab === 1 && <Chores />}
+              {currentTab === 2 && (
+                <Fish onMilestoneReached={handleMilestoneReached} />
+              )}
+              {currentTab === 3 && (
+                <Flowers onMilestoneReached={handleMilestoneReached} />
+              )}
+            </InnerPanel>
+          </div>
+        </OuterPanel>
         {showMilestoneReached && (
           <div className="absolute w-full sm:w-5/6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <MilestoneReached
@@ -167,13 +159,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             />
           </div>
         )}
-      </Modal>
-
-      {/* <Modal
-        show={showMilestoneReached}
-        
-        className="flex justify-center"
-      ></Modal> */}
-    </div>
+      </div>
+    </Modal>
   );
 };

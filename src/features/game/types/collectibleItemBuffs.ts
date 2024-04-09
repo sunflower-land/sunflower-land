@@ -522,9 +522,23 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostedItemIcon: ITEM_DETAILS.Gold.image,
   },
 
-  "Earn Alliance Banner": {
-    shortDescription: translate("description.earnAlliance.boost"),
+  "Baby Panda": {
+    shortDescription: translate("description.babyPanda.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
+  },
+
+  "Flower Fox": {
+    shortDescription: translate("description.flower.fox.boost"),
+    labelType: "vibrant",
+    boostTypeIcon: lightning,
+    boostedItemIcon: ITEM_DETAILS.Honey.image,
+  },
+
+  "Hungry Hare": {
+    shortDescription: translate("description.hungryHare.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    boostedItemIcon: ITEM_DETAILS["Fermented Carrots"].image,
   },
 };

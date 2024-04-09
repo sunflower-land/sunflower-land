@@ -238,7 +238,7 @@ function getOrdinalSuffix(day: number): string {
  * @returns Day of the calendar year eg: 182
  */
 export function getDayOfYear(date: Date): number {
-  const startOfYear = new Date(date.getFullYear(), 0, 0);
+  const startOfYear = new Date(Date.UTC(date.getUTCFullYear(), 0, 0));
   const diff = date.getTime() - startOfYear.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   return Math.floor(diff / oneDay);

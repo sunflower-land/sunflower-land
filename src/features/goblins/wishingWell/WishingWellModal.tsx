@@ -5,7 +5,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 import wisingWell from "assets/buildings/wishing_well.png";
 import goblinHead from "assets/npcs/goblin_head.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -58,14 +58,14 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">
-          {t("wishingWell.sflRewardsReceived")}
-          {":"} {`${reward}`}
+          {t("wishingWell.sflRewardsReceived", { reward: reward })}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.newWish")}</p>
         {lockedTime && (
           <p className="mb-2 text-sm">
-            {t("wishingWell.wish.timeTillNextWish")}
-            {":"} {`${lockedTime}.`}
+            {t("wishingWell.wish.timeTillNextWish", {
+              nextWishTime: lockedTime,
+            })}
           </p>
         )}
       </div>
@@ -136,13 +136,9 @@ const WaitingForWish = ({ lockedTime }: WaitingForWishArgs) => {
           <img src={SUNNYSIDE.icons.timer} alt="timer" className="w-8 mb-2" />
         </div>
         <p className="mb-4 text-sm">
-          {t("wishingWell.wish.comeBackAfter")}
-          {":"}
-        </p>
-        <p className="mb-4 text-sm">
-          {`${t("come.back")} ${lockedTime} ${t(
-            "statements.wishing.just.lucky"
-          )}`}
+          {t("wishingWell.wish.comeBackAfter", {
+            nextWishTime: lockedTime || "",
+          })}
         </p>
         <p className="mb-4 text-sm">{t("wishingWell.wish.warning.one")}</p>
         <div className="flex items-center border-2 rounded-md border-black p-2 mb-2 bg-[#f77621]">
@@ -170,16 +166,14 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
         <p className="mb-4 text-sm">{t("wishingWell.info.one")}</p>
         <p className="mb-4 text-sm">
           {t("wishingWell.info.two")}
-          {":"}{" "}
           <a
             className="underline"
             href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
             target="_blank"
             rel="noopener noreferrer"
           >
-            {t("statements.wishing.well.info.four")}
+            {t("wishingWell.moreInfo")}
           </a>
-          {t("statements.wishing.well.info.five")}
         </p>
         <p className="mb-4 text-sm">
           {`${t("there.currently")} ${Number(
@@ -201,15 +195,6 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
         ) : (
           <p className="mb-2 text-sm">
             {`${t("statements.wishing.well.look.like")}`}
-            <a
-              className="underline"
-              href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("statements.wishing.well.info.six")}
-            </a>
-            {` yet.`}
           </p>
         )}
       </div>

@@ -1,11 +1,11 @@
 import Decimal from "decimal.js-light";
-import { Inventory } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 
 /**
  * Returns the tax rate when withdrawing SFL
  * Smart contract uses a base rate of 1000 for decimal precision. 10% = 100
  */
-export function getTax(amount: Decimal, inventory: Inventory) {
+export function getTax({ amount, game }: { amount: Decimal; game: GameState }) {
   // 10%
   let tax = 100;
 
@@ -23,6 +23,14 @@ export function getTax(amount: Decimal, inventory: Inventory) {
     tax = 150;
   }
 
+  if (game.island.type !== "basic") {
+    tax -= 25; // 2.5% reduction
+  }
+
+  if (game.inventory["Liquidity Provider"]?.gte(1)) {
+    tax = tax / 2;
+  }
+
   // 50% reduced fee if LP badge exists
-  return inventory["Liquidity Provider"]?.gte(1) ? tax / 2 : tax;
+  return Math.floor(tax);
 }

@@ -12,6 +12,7 @@ import {
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -32,6 +33,11 @@ export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
   // If wearing Flower Crown 2x speed
   if (isWearableActive({ name: "Flower Crown", game })) {
     seconds *= 0.5;
+  }
+
+  // If Flower Fox is built gives 10% speed boost
+  if (isCollectibleBuilt({ name: "Flower Fox", game })) {
+    seconds *= 0.9;
   }
 
   return seconds;

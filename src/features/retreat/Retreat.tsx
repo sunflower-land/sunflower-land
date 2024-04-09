@@ -30,27 +30,27 @@ const GoblinRetreat: React.FC = () => {
   }
 
   return (
-    <Ocean>
-      <Wallet
-        action="withdraw"
-        id={gameState.context.farmId}
-        linkedAddress={gameState.context.linkedWallet}
-        wallet={gameState.context.wallet}
-        farmAddress={gameState.context.farmAddress}
-        wrapper={({ children }) => (
+    <Wallet
+      action="withdraw"
+      id={gameState.context.farmId}
+      linkedAddress={gameState.context.linkedWallet}
+      wallet={gameState.context.wallet}
+      farmAddress={gameState.context.farmAddress}
+      wrapper={({ children }) => (
+        <Ocean>
           <Modal show backdrop={false}>
             <Panel>{children}</Panel>
           </Modal>
-        )}
+        </Ocean>
+      )}
+    >
+      <GoblinProvider
+        farmAddress={gameState.context.farmAddress}
+        farmId={gameState.context.farmId}
       >
-        <GoblinProvider
-          farmAddress={gameState.context.farmAddress}
-          farmId={gameState.context.farmId}
-        >
-          <Game />
-        </GoblinProvider>
-      </Wallet>
-    </Ocean>
+        <Game />
+      </GoblinProvider>
+    </Wallet>
   );
 };
 

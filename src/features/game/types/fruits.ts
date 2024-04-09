@@ -2,8 +2,6 @@
  * Classic seeds can be found in crops.ts
  */
 
-import Decimal from "decimal.js-light";
-import { marketRate } from "../lib/halvening";
 import { getKeys } from "./craftables";
 import { translate } from "lib/i18n/translate";
 
@@ -16,7 +14,7 @@ export type FruitSeedName =
   | "Banana Plant";
 
 export type FruitSeed = {
-  sfl: Decimal;
+  price: number;
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
@@ -30,28 +28,28 @@ export function isFruitSeed(seed: FruitSeedName) {
 
 export const FRUIT_SEEDS: () => Record<FruitSeedName, FruitSeed> = () => ({
   "Blueberry Seed": {
-    sfl: marketRate(30),
+    price: 30,
     description: translate("description.blueberry"),
     plantSeconds: 6 * 60 * 60,
     bumpkinLevel: 13,
     yield: "Blueberry",
   },
   "Orange Seed": {
-    sfl: marketRate(50),
+    price: 50,
     description: translate("description.orange"),
     plantSeconds: 8 * 60 * 60,
     bumpkinLevel: 14,
     yield: "Orange",
   },
   "Apple Seed": {
-    sfl: marketRate(70),
+    price: 70,
     description: translate("description.apple"),
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 15,
     yield: "Apple",
   },
   "Banana Plant": {
-    sfl: marketRate(70),
+    price: 70,
     description: translate("description.banana"),
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 16,
@@ -63,7 +61,7 @@ export type Fruit = {
   description: string;
   name: FruitName;
   isBush?: boolean;
-  sellPrice: Decimal;
+  sellPrice: number;
   seed: FruitSeedName;
   bumpkinLevel: number;
   disabled?: boolean;
@@ -73,7 +71,7 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
   Blueberry: {
     description: translate("description.blueberry"),
     name: "Blueberry",
-    sellPrice: marketRate(12),
+    sellPrice: 12,
     isBush: true,
     seed: "Blueberry Seed",
     bumpkinLevel: 13,
@@ -81,21 +79,21 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
   Orange: {
     description: translate("description.orange"),
     name: "Orange",
-    sellPrice: marketRate(18),
+    sellPrice: 18,
     seed: "Orange Seed",
     bumpkinLevel: 14,
   },
   Apple: {
     description: translate("description.apple"),
     name: "Apple",
-    sellPrice: marketRate(25),
+    sellPrice: 25,
     seed: "Apple Seed",
     bumpkinLevel: 15,
   },
   Banana: {
     description: translate("description.banana"),
     name: "Banana",
-    sellPrice: marketRate(25),
+    sellPrice: 25,
     isBush: true,
     seed: "Banana Plant",
     bumpkinLevel: 16,

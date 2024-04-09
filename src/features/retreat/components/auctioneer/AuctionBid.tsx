@@ -2,7 +2,7 @@ import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import bg from "assets/ui/brown_background.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";

@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import { getEntries } from "features/game/types/craftables";
-
-import { CONSUMABLES } from "features/game/types/consumables";
+import {
+  COOKABLES,
+  PIRATE_CAKE,
+  FISH,
+  Consumable,
+} from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Feed } from "./Feed";
@@ -14,11 +18,21 @@ import { LevelUp } from "./LevelUp";
 import { Equipped } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BuildingName } from "features/game/types/buildings";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
+
+export const BUILDING_ORDER: BuildingName[] = [
+  "Fire Pit",
+  "Kitchen",
+  "Deli",
+  "Smoothie Shack",
+  "Bakery",
+];
+
 export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { gameService } = useContext(Context);
   const [
@@ -28,9 +42,22 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
   ] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
-  const availableFood = getEntries(CONSUMABLES)
-    .filter(([name, _]) => !!state.inventory[name]?.gt(0))
-    .map(([_, consumable]) => consumable);
+
+  const allFoods: Consumable[] = [
+    ...Object.values(COOKABLES)
+      .sort((a, b) => a.cookingSeconds - b.cookingSeconds)
+      .sort(
+        (a, b) =>
+          BUILDING_ORDER.indexOf(a.building) -
+          BUILDING_ORDER.indexOf(b.building)
+      ),
+    ...Object.values(PIRATE_CAKE),
+    ...Object.values(FISH).sort((a, b) => a.name.localeCompare(b.name)),
+  ];
+
+  const availableFood: Consumable[] = allFoods
+    .filter((consumable) => !!state.inventory[consumable.name]?.gt(0))
+    .map((consumable) => consumable);
 
   const [showLevelUp, setShowLevelUp] = useState(false);
 

@@ -60,7 +60,10 @@ export const CloseButtonPanel: React.FC<Props> = ({
 
   return (
     <Panel
-      className={classNames("relative", className)}
+      className={classNames(
+        "relative max-h-[90vh] overflow-y-auto scrollable",
+        className
+      )}
       bumpkinParts={bumpkinParts}
       hasTabs={!!tabs}
     >

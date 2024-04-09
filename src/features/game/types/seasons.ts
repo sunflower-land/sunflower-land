@@ -109,7 +109,5 @@ export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
 }
 
 export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
-  const season = banner.replace(" Banner", "") as SeasonName;
-
-  return season;
+  return BANNERS[banner];
 }

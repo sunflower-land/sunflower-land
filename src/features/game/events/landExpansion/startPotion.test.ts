@@ -1,11 +1,10 @@
-import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { startPotion } from "./startPotion";
+import { GAME_FEE, startPotion } from "./startPotion";
 
 describe("startPotion", () => {
   const GAME_STATE = {
     ...TEST_FARM,
-    balance: new Decimal(100),
+    coins: 1000,
   };
 
   it("starts the first game", () => {
@@ -44,35 +43,35 @@ describe("startPotion", () => {
       startPotion({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0),
+          coins: 0,
         },
         action: {
           type: "potion.started",
         },
       })
-    ).toThrow("Insufficient funds to start a game");
+    ).toThrow("Insufficient coins to start a game");
   });
 
   it("deducts the game fee", () => {
     const newState = startPotion({
-      state: { ...GAME_STATE, balance: new Decimal(100) },
+      state: { ...GAME_STATE },
       action: {
         type: "potion.started",
       },
     });
 
-    expect(newState.balance).toEqual(new Decimal(99));
+    expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE);
   });
 
-  it("increments the sfl spent activity", () => {
+  it("increments the coins spent activity", () => {
     const newState = startPotion({
-      state: { ...GAME_STATE, balance: new Decimal(100) },
+      state: { ...GAME_STATE },
       action: {
         type: "potion.started",
       },
     });
 
-    expect(newState.balance).toEqual(new Decimal(99));
-    expect(newState.bumpkin?.activity?.["SFL Spent"]).toEqual(1);
+    expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE);
+    expect(newState.bumpkin?.activity?.["Coins Spent"]).toEqual(GAME_FEE);
   });
 });

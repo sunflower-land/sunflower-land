@@ -6,6 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
+import { interactableModalManager } from "../ui/InteractableModals";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -56,6 +57,10 @@ export class BeachScene extends BaseScene {
     super.preload();
 
     this.load.image("heart", SUNNYSIDE.icons.heart);
+
+    this.load.image("wooden_chest", "world/wooden_chest.png");
+    this.load.image("locked_disc", "world/locked_disc.png");
+    this.load.image("rare_key_disc", "world/rare_key_disc.png");
 
     this.load.spritesheet("beach_bud", "world/turtle.png", {
       frameWidth: 15,
@@ -179,6 +184,17 @@ export class BeachScene extends BaseScene {
       frameRate: 5,
     });
     bird.play("bird_anim", true);
+
+    if (this.gameState.inventory["Rare Key"]) {
+      this.add.sprite(320, 580, "rare_key_disc").setDepth(1000000000);
+    } else {
+      this.add.sprite(320, 580, "locked_disc").setDepth(1000000000);
+    }
+
+    const chest = this.add.sprite(320, 600, "wooden_chest");
+    chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("rare_chest");
+    });
   }
 
   public loadKrakenHunger = (hunger: InventoryItemName) => {

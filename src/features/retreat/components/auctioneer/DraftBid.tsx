@@ -7,7 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Auction } from "features/game/lib/auctionMachine";
 
-import sflIcon from "assets/icons/token_2.png";
+import sflIcon from "assets/icons/sfl.webp";
 import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import classNames from "classnames";

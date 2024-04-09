@@ -231,7 +231,9 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
               {getKeys(FLOWER_CROSS_BREED_AMOUNTS)
                 .filter(
                   (name) =>
-                    !isFlower(name) || !!state.farmActivity[`${name} Harvested`]
+                    !isFlower(name) ||
+                    !!state.farmActivity[`${name} Harvested`] ||
+                    !!state.inventory[name]
                 )
                 .map((name) => (
                   <Box

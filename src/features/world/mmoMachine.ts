@@ -8,6 +8,7 @@ import { Bumpkin } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
 import { Moderation } from "features/game/lib/gameMachine";
+import { MAX_PLAYERS } from "./lib/availableRooms";
 
 export type Scenes = {
   plaza: Room<PlazaRoomState> | undefined;
@@ -19,8 +20,38 @@ export type Scenes = {
   beach: Room<PlazaRoomState> | undefined;
   crop_boom: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;
+  retreat: Room<PlazaRoomState> | undefined;
 };
+
 export type SceneId = keyof Scenes;
+
+function getDefaultServer(): ServerId | undefined {
+  return localStorage.getItem("mmo_server") as ServerId | undefined;
+}
+
+function saveDefaultServer(serverId: ServerId) {
+  localStorage.setItem("mmo_server", serverId);
+}
+
+function pickServer(servers: Server[]) {
+  const defaultServer = getDefaultServer();
+
+  if (defaultServer) {
+    const server = servers.find((server) => server.id === defaultServer);
+    if (server && server.population < MAX_PLAYERS) {
+      return server.id;
+    }
+  }
+
+  // They don't have a default - pick the first available
+  const available = servers.filter((server) => server.population < MAX_PLAYERS);
+
+  if (available.length > 0) {
+    return available[0].id;
+  }
+
+  return undefined;
+}
 
 export type ServerId =
   | "sunflorea_bliss"
@@ -121,6 +152,7 @@ export type MMOEvent =
   | { type: "CONTINUE" }
   | { type: "DISCONNECTED" }
   | { type: "RETRY" }
+  | { type: "CHANGE_SERVER" }
   | ConnectEvent
   | SwitchScene;
 
@@ -194,12 +226,24 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             return { ...server, population };
           });
 
-          return { client, servers, serverId: (event as any).serverId };
+          const server = pickServer(servers);
+
+          return { client, servers, serverId: server };
         },
         onDone: [
           {
             target: "joined",
             cond: (_) => !CONFIG.ROOM_URL,
+          },
+          // Try automatically join server
+          {
+            target: "joining",
+            cond: (_, event) => event.data.serverId,
+            actions: assign({
+              client: (_, event) => event.data.client,
+              availableServers: (_, event) => event.data.servers,
+              serverId: (_, event) => event.data.serverId,
+            }),
           },
           {
             target: "connected",
@@ -229,8 +273,8 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             jwt: context.jwt,
             bumpkin: context.bumpkin,
             farmId: context.farmId,
-            x: SPAWNS.plaza.default.x,
-            y: SPAWNS.plaza.default.y,
+            x: SPAWNS().plaza.default.x,
+            y: SPAWNS().plaza.default.y,
             sceneId: context.sceneId,
             experience: context.experience,
             moderation: context.moderation,
@@ -259,9 +303,12 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
       on: {
         PICK_SERVER: {
           target: "joining",
-          actions: assign({
-            serverId: (_, event) => event.serverId,
-          }),
+          actions: [
+            assign({
+              serverId: (_, event) => event.serverId,
+            }),
+            (_, event) => saveDefaultServer(event.serverId),
+          ],
         },
       },
     },
@@ -279,8 +326,8 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               bumpkin: context.bumpkin,
               farmId: context.farmId,
               username: context.username,
-              x: SPAWNS.plaza.default.x,
-              y: SPAWNS.plaza.default.y,
+              x: SPAWNS().plaza.default.x,
+              y: SPAWNS().plaza.default.y,
               sceneId: context.sceneId,
               experience: context.experience,
               moderation: context.moderation,
@@ -310,6 +357,11 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           cond: () => !localStorage.getItem("mmo_introduction.read"),
         },
       ],
+      on: {
+        CHANGE_SERVER: {
+          target: "connected",
+        },
+      },
     },
     introduction: {
       on: {

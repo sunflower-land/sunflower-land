@@ -1,6 +1,6 @@
 import React from "react";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import shop from "assets/buildings/shop_building.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";

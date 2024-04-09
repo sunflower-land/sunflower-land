@@ -57,11 +57,6 @@ export const DailyReward: React.FC = () => {
     setShowModal(true);
   };
 
-  const onUpgrade = () => {
-    gameService.send("UPGRADE");
-    setShowModal(true);
-  };
-
   const reveal = () => {
     gameService.send("REVEAL", {
       event: {

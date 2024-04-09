@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../lib/constants";
-import { UpcomingExpansionModal } from "./UpcomingExpansionModal";
 import { Coordinates, MapPlacement } from "./MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Pontoon } from "./Pontoon";
@@ -14,44 +13,31 @@ import lockIcon from "assets/skills/lock.png";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
-import { Revealing } from "features/game/components/Revealing";
-import { Panel } from "components/ui/Panel";
-import { Revealed } from "features/game/components/Revealed";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { NPC_WEARABLES } from "lib/npcs";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { craftingRequirementsMet } from "features/game/lib/craftingRequirement";
 import classNames from "classnames";
 import {
-  ExpansionRequirements,
+  ExpansionRequirements as IExpansionRequirements,
   GameState,
   Inventory,
+  Bumpkin,
 } from "features/game/types/game";
 import { expansionRequirements } from "features/game/events/landExpansion/revealLand";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-const host = window.location.host.replace(/^www\./, "");
-const LOCAL_STORAGE_KEY = `expansion-read.${host}-${window.location.pathname}`;
-
-function acknowledgeRead() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, new Date().toString());
-}
-
-function hasRead() {
-  return !!localStorage.getItem(LOCAL_STORAGE_KEY);
-}
+import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
+import { Button } from "components/ui/Button";
+import confetti from "canvas-confetti";
 
 interface ExpandIconProps {
   onOpen: () => void;
-  requirements: ExpansionRequirements;
+  requirements: IExpansionRequirements;
   position: Coordinates;
   isLocked: boolean;
   canExpand: boolean;
@@ -67,30 +53,11 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
   showHelper,
   inventory,
 }) => {
-  const [showLockedModal, setShowLockedModal] = useState(false);
-
   const showRequirements = inventory["Basic Land"]?.lte(5);
 
   const { t } = useAppTranslation();
   return (
     <>
-      <Modal show={showLockedModal} onHide={() => setShowLockedModal(false)}>
-        <CloseButtonPanel onClose={() => setShowLockedModal(false)}>
-          <div className="flex flex-col items-center">
-            <Label className="mt-2" icon={lockIcon} type="danger">
-              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
-            </Label>
-            <img
-              src={ITEM_DETAILS.Hammer.image}
-              className="w-10 mx-auto my-2"
-            />
-            <p className="text-sm text-center mb-2">
-              {t("statements.visit.firePit")}
-            </p>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-
       <MapPlacement
         x={position.x - LAND_SIZE / 2}
         y={position.y + LAND_SIZE / 2}
@@ -108,11 +75,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
               }
             )}
             onClick={() => {
-              if (isLocked) {
-                setShowLockedModal(true);
-              } else {
-                onOpen();
-              }
+              onOpen();
             }}
           />
           {showRequirements && (
@@ -249,24 +212,13 @@ export const UpcomingExpansion: React.FC = () => {
   const [_, setRender] = useState(0);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [showIntro, setShowIntro] = useState(!hasRead());
-  const { openModal } = useContext(ModalContext);
-  const [isRevealing, setIsRevealing] = useState(false);
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const state = gameState.context.state;
 
-  const playing = gameState.matches("playing");
-
   const requirements = expansionRequirements({ game: state });
 
   const { t } = useAppTranslation();
-
-  useEffect(() => {
-    if (isRevealing && playing) {
-      setIsRevealing(false);
-    }
-  }, [gameState.value]);
 
   const expansions =
     (gameState.context.state.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
@@ -293,15 +245,10 @@ export const UpcomingExpansion: React.FC = () => {
   };
 
   const onReveal = () => {
-    setIsRevealing(true);
-    const state = gameService.send("land.revealed");
+    gameService.send("land.revealed");
     gameService.send("SAVE");
 
-    if (state.context.state.inventory["Basic Land"]?.eq(4)) {
-      openModal("FIRST_EXPANSION");
-    } else {
-      openModal("NEXT_EXPANSION");
-    }
+    confetti();
   };
 
   const nextPosition =
@@ -341,58 +288,30 @@ export const UpcomingExpansion: React.FC = () => {
           isLocked={isLocked}
           onOpen={() => setShowBumpkinModal(true)}
           position={nextPosition}
-          requirements={requirements as ExpansionRequirements}
+          requirements={requirements as IExpansionRequirements}
           showHelper={showHelper ?? false}
         />
       )}
 
-      {gameState.matches("revealing") && isRevealing && (
-        <Modal show>
-          <CloseButtonPanel>
-            <Revealing icon={SUNNYSIDE.npcs.goblin_hammering} />
-          </CloseButtonPanel>
-        </Modal>
-      )}
-
-      {gameState.matches("revealed") && isRevealing && (
-        <Modal show>
-          <Panel>
-            <Revealed />
-          </Panel>
-        </Modal>
-      )}
       <Modal show={showBumpkinModal} onHide={() => setShowBumpkinModal(false)}>
-        {showIntro && (
-          <SpeakingModal
-            message={[
-              {
-                text: translate("grimbly.expansion.one"),
-              },
-              {
-                text: translate("grimbly.expansion.two"),
-              },
-            ]}
-            onClose={() => {
-              acknowledgeRead();
-              setShowIntro(false);
+        <CloseButtonPanel
+          bumpkinParts={NPC_WEARABLES.grimbly}
+          onClose={() => setShowBumpkinModal(false)}
+        >
+          <ExpansionRequirements
+            inventory={state.inventory}
+            bumpkin={state.bumpkin as Bumpkin}
+            details={{
+              description: translate("landscape.expansion.one"),
             }}
-            bumpkinParts={NPC_WEARABLES.grimbly}
+            requirements={requirements as IExpansionRequirements}
+            actionView={
+              <Button onClick={onExpand} disabled={!canExpand}>
+                {t("expand")}
+              </Button>
+            }
           />
-        )}
-
-        {!showIntro && (
-          <CloseButtonPanel
-            bumpkinParts={NPC_WEARABLES.grimbly}
-            title={t("expand.land")}
-            onClose={() => setShowBumpkinModal(false)}
-          >
-            <UpcomingExpansionModal
-              gameState={state}
-              onClose={() => setShowBumpkinModal(false)}
-              onExpand={onExpand}
-            />
-          </CloseButtonPanel>
-        )}
+        </CloseButtonPanel>
       </Modal>
     </>
   );

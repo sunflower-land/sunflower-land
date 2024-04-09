@@ -17,10 +17,24 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { Donations } from "./donations/Donations";
 import { SceneId } from "../mmoMachine";
+import { TradingBoard } from "./npcs/TradingBoard";
+import { BudBox } from "./chests/BudBox";
+import { Raffle } from "./chests/Raffle";
+import { FanArt } from "./FanArt";
+import { BankModal } from "features/game/components/bank/components/BankModal";
+import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
+import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
+import { GoblinMarket } from "./market/GoblinMarket";
+
+export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
 type InteractableName =
+  | FanArtNPC
   | "donations"
+  | "garbage_collector"
   | "basic_chest"
+  | "luxury_chest"
+  | "rare_chest"
   | "kraken"
   | "nye_button"
   | "portal"
@@ -32,6 +46,7 @@ type InteractableName =
   | "homeless_man"
   | "potion_table"
   | "dawn_book_1"
+  | "bank"
   | "dawn_book_2"
   | "dawn_book_3"
   | "dawn_book_4"
@@ -52,6 +67,7 @@ type InteractableName =
   | "plaza_green_book"
   | "potion_house"
   | "clubhouse_reward"
+  | "raffle"
   | "beach_green_book"
   | "beach_orange_book"
   | "beach_blue_book"
@@ -60,7 +76,10 @@ type InteractableName =
   | "crop_boom_finish"
   | "christmas_reward"
   | "goblin_hammer"
-  | "page_discovered";
+  | "page_discovered"
+  | "trading_board"
+  | "wishingWell"
+  | "goblin_market";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -196,7 +215,25 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "basic_chest"}>
-        <BasicTreasureChest onClose={closeModal} location={"plaza"} />
+        <BasicTreasureChest
+          type="Treasure Key"
+          onClose={closeModal}
+          location={"plaza"}
+        />
+      </Modal>
+      <Modal show={interactable === "rare_chest"}>
+        <BasicTreasureChest
+          type="Rare Key"
+          onClose={closeModal}
+          location={"plaza"}
+        />
+      </Modal>
+      <Modal show={interactable === "luxury_chest"}>
+        <BasicTreasureChest
+          type="Luxury Key"
+          onClose={closeModal}
+          location={"plaza"}
+        />
       </Modal>
       <Modal show={interactable === "plaza_orange_book"} onHide={closeModal}>
         <SpeakingModal
@@ -271,18 +308,26 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
-          <div className="p-2">
-            <p className="text-sm mb-2">
-              {t("interactableModals.clubhouseReward.message1")}
-            </p>
-            <p className="text-sm">
-              {t("interactableModals.clubhouseReward.message2")}
-            </p>
-          </div>
+      <Modal show={interactable === "clubhouse_reward"}>
+        <BudBox onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "raffle"} onHide={closeModal}>
+        <Raffle onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "bank"} onHide={closeModal}>
+        <BankModal onClose={closeModal} farmAddress="?" />
+      </Modal>
+      <Modal show={interactable === "garbage_collector"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.garbo}
+        >
+          <GarbageCollectorModal />
         </CloseButtonPanel>
       </Modal>
+      {interactable === "wishingWell" && (
+        <WishingWellModal onClose={closeModal} />
+      )}
       <Modal show={interactable === "plaza_statue"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -515,8 +560,33 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </Panel>
       </Modal>
 
+      <Modal
+        show={
+          interactable === "fan_npc_1" ||
+          interactable === "fan_npc_2" ||
+          interactable === "fan_npc_3" ||
+          interactable === "fan_npc_4"
+        }
+        onHide={closeModal}
+      >
+        <FanArt name={interactable as FanArtNPC} onClose={closeModal} />
+      </Modal>
+
       <Modal show={interactable === "page_discovered"} onHide={closeModal}>
         <PageFound onClose={closeModal} />
+      </Modal>
+      <Modal
+        show={interactable === "trading_board"}
+        dialogClassName="md:max-w-3xl"
+      >
+        <TradingBoard onClose={closeModal} />
+      </Modal>
+      <Modal
+        show={interactable === "goblin_market"}
+        dialogClassName="md:max-w-3xl"
+        onHide={closeModal}
+      >
+        <GoblinMarket onClose={closeModal} />
       </Modal>
     </>
   );

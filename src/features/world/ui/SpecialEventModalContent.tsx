@@ -1,6 +1,5 @@
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import React, { useContext, useEffect, useState } from "react";
+import { NPCName } from "lib/npcs";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -9,12 +8,13 @@ import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
+import chestIcon from "assets/icons/chest.png";
 import walletIcon from "assets/icons/wallet.png";
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
@@ -23,8 +23,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   SpecialEvent,
   SpecialEventName,
+  Task,
 } from "features/game/types/specialEvents";
 import { GameWallet } from "features/wallet/Wallet";
+import classNames from "classnames";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const Dialogue: React.FC<{
   message: string;
@@ -62,7 +65,7 @@ const RequiresWallet: React.FC<{
   const [acknowledged, setAcknowledged] = useState(false);
   const { t } = useAppTranslation();
 
-  if (!hasWallet && !acknowledged) {
+  if (requiresWallet && !hasWallet && !acknowledged) {
     return (
       <>
         <div className="p-2">
@@ -89,12 +92,14 @@ export const SpecialEventModalContent: React.FC<{
   npcName?: NPCName;
   event: SpecialEvent;
   eventName: SpecialEventName;
-}> = ({ onClose, npcName, event, eventName }) => {
+}> = ({ npcName, event, eventName }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const [reward, setReward] = useState<Airdrop & { day: number }>();
+  const task = useRef<Task>();
   const [showLink, setShowLink] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { t } = useAppTranslation();
   const {
@@ -103,20 +108,21 @@ export const SpecialEventModalContent: React.FC<{
   } = gameState.context;
 
   const claimReward = (day: number) => {
-    const task = event.tasks[day - 1];
+    task.current = event.tasks[day - 1];
 
     gameService.send("specialEvent.taskCompleted", {
       event: eventName,
       task: day,
     });
     setReward({
-      items: task.reward.items,
-      sfl: task.reward.sfl,
+      items: task.current.reward.items,
+      sfl: task.current.reward.sfl,
+      coins: 0,
       createdAt: Date.now(),
       id: `${eventName}-${day}`,
-      wearables: task.reward.wearables,
+      wearables: task.current.reward.wearables,
       day,
-      message: task.isAirdrop
+      message: task.current.isAirdrop
         ? "Airdrops are handled externally and may take a few days to arrive."
         : undefined,
     });
@@ -168,7 +174,7 @@ export const SpecialEventModalContent: React.FC<{
 
   if (showLink) {
     return (
-      <Panel>
+      <>
         <div className="p-2">
           <Label icon={giftIcon} type="warning" className="mb-2">
             {t("congrats")}
@@ -176,16 +182,51 @@ export const SpecialEventModalContent: React.FC<{
           <p className="text-sm mb-2">{t("special.event.claimForm")}</p>
           <p className="text-xs mb-2">{t("special.event.airdropHandling")}</p>
         </div>
-        <Button>{t("continue")}</Button>
-      </Panel>
+        <Button
+          onClick={() => {
+            window?.open(task.current?.airdropUrl as string, "_blank")?.focus();
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </>
     );
   }
 
   if (reward) {
     return (
-      <Panel>
-        <ClaimReward reward={reward} onClose={() => setReward(undefined)} />
-      </Panel>
+      <>
+        <ClaimReward
+          reward={reward}
+          onClose={() => {
+            setReward(undefined);
+
+            if (task.current?.airdropUrl) {
+              setShowLink(true);
+            }
+          }}
+        />
+      </>
+    );
+  }
+
+  if (event.endAt < Date.now()) {
+    return (
+      <div>
+        <div className="flex justify-between items-center p-2">
+          <Label
+            type="default"
+            className="capitalize"
+            icon={SUNNYSIDE.icons.player}
+          >
+            {npcName ?? t("special.event.finishedLabel")}
+          </Label>
+        </div>
+
+        <p className="text-sm mb-3 p-2">
+          <Dialogue trail={25} message={t("special.event.finished")} />
+        </p>
+      </div>
     );
   }
 
@@ -193,41 +234,30 @@ export const SpecialEventModalContent: React.FC<{
   // case it was missed, let's check it here as well
   if (!event.isEligible) {
     return (
-      <CloseButtonPanel
-        onClose={onClose}
-        bumpkinParts={npcName ? NPC_WEARABLES[npcName] : undefined}
-      >
-        <div>
-          {npcName && (
-            <div className="flex justify-between items-center p-2">
-              <Label
-                type="default"
-                className="capitalize"
-                icon={SUNNYSIDE.icons.player}
-              >
-                {npcName}
-              </Label>
-            </div>
-          )}
+      <div>
+        {npcName && (
+          <div className="flex justify-between items-center p-2">
+            <Label
+              type="default"
+              className="capitalize"
+              icon={SUNNYSIDE.icons.player}
+            >
+              {npcName}
+            </Label>
+          </div>
+        )}
 
-          <p className="text-sm mb-3 p-2">
-            <Dialogue
-              trail={25}
-              message={
-                "There is no work needing to be done right now, thanks for stopping by though!"
-              }
-            />
-          </p>
-        </div>
-      </CloseButtonPanel>
+        <p className="text-sm mb-3 p-2">
+          <Dialogue trail={25} message={t("special.event.ineligible")} />
+        </p>
+      </div>
     );
   }
 
+  const selected = event.tasks[selectedIndex];
+
   return (
-    <CloseButtonPanel
-      onClose={onClose}
-      bumpkinParts={npcName ? NPC_WEARABLES[npcName] : undefined}
-    >
+    <>
       <RequiresWallet
         requiresWallet={event.requiresWallet}
         hasWallet={!!linkedWallet}
@@ -248,90 +278,174 @@ export const SpecialEventModalContent: React.FC<{
               {secondsToString(Math.floor((event.endAt - Date.now()) / 1000), {
                 length: "medium",
                 removeTrailingZeros: true,
-              })}
+              })}{" "}
               {t("remaining")}
             </Label>
           </div>
           <div
             style={{ maxHeight: CONTENT_HEIGHT }}
-            className="overflow-y-auto scrollable pr-3 pl-2 "
+            className="overflow-y-auto scrollable "
           >
-            <div className="h-16">
+            <div className="h-16 px-1">
               <Dialogue trail={25} message={event.text} />
             </div>
-            {event?.tasks.map((task, index) => (
-              <>
-                <div className="flex justify-between items-center mb-2">
-                  <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
-                    {`${t("day")} ${index + 1}`}
-                  </Label>
-                  <div className="flex justify-end space-x-3">
-                    {getKeys(task.reward.items).map((itemName) => (
-                      <Label type="warning" icon={giftIcon} key={itemName}>
-                        {`${task.reward.items[itemName]} ${itemName}`}
-                      </Label>
-                    ))}
-                    {!!task.isAirdrop && (
-                      <Label type="warning" icon={giftIcon} key={"label"}>
-                        {t("special.event.airdrop")}
+            <div className="flex flex-row w-full flex-wrap scrollable overflow-y-auto pl-1">
+              {event?.tasks.map((task, index) => (
+                <div className="w-1/3 sm:w-1/4 py-1 px-2" key={index}>
+                  <OuterPanel
+                    className={classNames(
+                      "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
+                      {
+                        "!bg-brown-200": selectedIndex === index,
+                      }
+                    )}
+                    style={{ paddingBottom: "20px" }}
+                    onClick={() => {
+                      setSelectedIndex(index);
+                    }}
+                  >
+                    {index >= 1 && !event?.tasks[index - 1].completedAt && (
+                      <img
+                        src={lock}
+                        className="absolute top-[-8px] right-[-12px] w-5"
+                      />
+                    )}
+
+                    <div className="flex flex-col justify-center items-center">
+                      <span className="text-xs capitalize text-center mb-1">
+                        {t("day")} {index + 1}
+                      </span>
+                      <div className="flex justify-start ml-2 h-8 items-center w-6 mb-5">
+                        {getKeys(task.requirements.items).map((name) => (
+                          <div className="flex items-center" key={name}>
+                            <img
+                              key={name}
+                              src={ITEM_DETAILS[name].image}
+                              className="h-6 img-highlight"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {!!task.completedAt && (
+                      <Label
+                        type="success"
+                        className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
+                        style={{ width: "calc(100% + 16px)" }}
+                      >
+                        <img src={SUNNYSIDE.icons.confirm} className="h-4" />
                       </Label>
                     )}
-                    {getKeys(task.reward.wearables).map((wearableName) => (
-                      <Label type="warning" icon={giftIcon} key={wearableName}>
-                        {`${task.reward.wearables[wearableName]} ${wearableName}`}
-                      </Label>
-                    ))}
-                    {!!task.reward.sfl && (
-                      <Label type="warning" icon={sfl} className="">
+                    {!task.completedAt && !!task.reward.sfl && (
+                      <Label
+                        type="warning"
+                        icon={sfl}
+                        className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
+                        style={{ width: "calc(100% + 16px)" }}
+                      >
                         {`${task.reward.sfl} SFL`}
                       </Label>
                     )}
-                  </div>
-                </div>
 
-                <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 mb-3">
-                  {getKeys(task.requirements.items).map((itemName) => {
-                    return (
-                      <RequirementLabel
-                        key={itemName}
-                        type="item"
-                        item={itemName}
-                        balance={inventory[itemName] ?? new Decimal(0)}
-                        showLabel
-                        requirement={
-                          new Decimal(task.requirements.items[itemName] ?? 0)
-                        }
-                      />
-                    );
-                  })}
-                  <div className="flex justify-end">
-                    {task.completedAt ? (
-                      <div className="flex">
-                        <span className="text-xs mr-1">{t("completed")}</span>
-                        <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-                      </div>
-                    ) : getTaskStartDate(index + 1).getTime() < Date.now() ? (
-                      <Button
-                        onClick={() => claimReward(index + 1)}
-                        disabled={!hasRequirements(index + 1)}
-                        className="text-xs w-24 h-8"
+                    {!task.completedAt && !task.reward.sfl && (
+                      <Label
+                        type="warning"
+                        icon={giftIcon}
+                        className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
+                        style={{ width: "calc(100% + 16px)" }}
                       >
-                        {t("complete")}
-                      </Button>
-                    ) : index >= 1 && !!event?.tasks[index - 1].completedAt ? (
-                      <Label type="info" icon={lock}>
-                        {formatDateTime(
-                          getTaskStartDate(index + 1).toISOString()
-                        )}
+                        {t("gift")}
                       </Label>
-                    ) : null}
-                  </div>
-                </OuterPanel>
-              </>
-            ))}
+                    )}
+                  </OuterPanel>
+                </div>
+              ))}
+            </div>
+
+            <OuterPanel className="relative flex flex-col space-y-0.5 my-2">
+              <div className="flex justify-between items-center">
+                <Label type="default" className="capitalize">
+                  {t("day")} {selectedIndex + 1}
+                </Label>
+                {selected.completedAt && (
+                  <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                    {t("completed")}
+                  </Label>
+                )}
+                {selectedIndex >= 1 &&
+                  !!event?.tasks[selectedIndex - 1].completedAt && (
+                    <Label type="info" icon={lock}>
+                      {formatDateTime(
+                        getTaskStartDate(selectedIndex + 1).toISOString()
+                      )}
+                    </Label>
+                  )}
+              </div>
+              {getKeys(selected.requirements.items).map((itemName) => {
+                return (
+                  <RequirementLabel
+                    key={itemName}
+                    type="item"
+                    item={itemName}
+                    balance={inventory[itemName] ?? new Decimal(0)}
+                    showLabel
+                    requirement={
+                      new Decimal(selected.requirements.items[itemName] ?? 0)
+                    }
+                  />
+                );
+              })}
+              <div className="flex justify-between space-x-3 mt-2">
+                <div className="flex items-center">
+                  <img src={chestIcon} className="w-5 mr-1" />
+                  <span className="text-xs">{t("reward")}</span>
+                </div>
+                {getKeys(selected.reward.items).map((itemName) => (
+                  <Label type="warning" key={itemName}>
+                    {`${selected.reward.items[itemName]} ${itemName}`}
+                  </Label>
+                ))}
+
+                {getKeys(selected.reward.wearables).map((wearableName) => (
+                  <Label type="warning" key={wearableName}>
+                    {`${selected.reward.wearables[wearableName]} ${wearableName}`}
+                  </Label>
+                ))}
+                {!!selected.reward.sfl && (
+                  <Label type="warning" className="">
+                    {`${selected.reward.sfl} SFL`}
+                  </Label>
+                )}
+              </div>
+              <div className="flex justify-between items-center">
+                <div>
+                  {!!selected.completedAt && selected.airdropUrl && (
+                    <a
+                      href={selected.airdropUrl}
+                      className="underline text-xs ml-0.5"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {t("special.event.link")}
+                    </a>
+                  )}
+                </div>
+              </div>
+            </OuterPanel>
+            <Button
+              onClick={() => claimReward(selectedIndex + 1)}
+              disabled={
+                !!selected.completedAt ||
+                !hasRequirements(selectedIndex + 1) ||
+                getTaskStartDate(selectedIndex + 1).getTime() > Date.now()
+              }
+            >
+              {t("complete")}
+            </Button>
           </div>
         </div>
       </RequiresWallet>
-    </CloseButtonPanel>
+    </>
   );
 };

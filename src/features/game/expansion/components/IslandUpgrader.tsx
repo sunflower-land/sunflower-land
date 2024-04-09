@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 
 import springRaft from "assets/land/prestige_raft.png";
 import desertRaft from "assets/land/desert_prestige_raft.png";
@@ -22,12 +22,12 @@ import { Panel } from "components/ui/Panel";
 import { useActor } from "@xstate/react";
 import { ISLAND_UPGRADE } from "features/game/events/landExpansion/upgradeFarm";
 import { getKeys } from "features/game/types/craftables";
-import classNames from "classnames";
 import { createPortal } from "react-dom";
 import confetti from "canvas-confetti";
 import { GameState, IslandType } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Transition } from "@headlessui/react";
 
 const UPGRADE_RAFTS: Record<IslandType, string> = {
   basic: springRaft,
@@ -54,7 +54,7 @@ const IslandUpgraderModal: React.FC<{
   const upgrade = ISLAND_UPGRADE[island.type];
   const { t } = useAppTranslation();
 
-  const remaindingExpansions =
+  const remainingExpansions =
     upgrade.expansions - (inventory["Basic Land"]?.toNumber() ?? 0);
 
   if (showConfirmation) {
@@ -109,7 +109,7 @@ const IslandUpgraderModal: React.FC<{
         {hasAccess && (
           <>
             <div className="flex items-center mt-2 mb-1">
-              {remaindingExpansions > 0 && (
+              {remainingExpansions > 0 && (
                 <Label icon={lockIcon} type="danger" className="mr-3">
                   {t("islandupgrade.locked")}
                 </Label>
@@ -127,10 +127,11 @@ const IslandUpgraderModal: React.FC<{
                 >{`${upgrade.items[name]} x ${name}`}</Label>
               ))}
             </div>
-            {remaindingExpansions > 0 && (
+            {remainingExpansions > 0 && (
               <p className="text-xs">
-                {t("islandupgrade.notReadyExpandMore")} {remaindingExpansions}{" "}
-                {t("islandupgrade.notReadyExpandMore.two")}
+                {t("islandupgrade.notReadyExpandMore", {
+                  remainingExpansions: remainingExpansions,
+                })}
               </p>
             )}
           </>
@@ -146,7 +147,7 @@ const IslandUpgraderModal: React.FC<{
         )}
       </div>
       <Button
-        disabled={!hasResources || !hasAccess || remaindingExpansions > 0}
+        disabled={!hasResources || !hasAccess || remainingExpansions > 0}
         onClick={() => setShowConfirmation(true)}
       >
         {t("continue")}
@@ -219,22 +220,26 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
   return (
     <>
       {createPortal(
-        <div
-          style={{
-            zIndex: 9999999,
-            transition: "opacity 1.25s ease-in-out",
-          }}
-          className={classNames(
-            "bg-black absolute z-10 inset-0  opacity-0 pointer-events-none flex justify-center items-center",
-            {
-              "opacity-100": showTravelAnimation,
-            }
-          )}
+        <Transition
+          show={showTravelAnimation}
+          enter="transform transition-opacity duration-1000"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transform transition-opacity duration-1000"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          as={Fragment}
         >
-          <span className="loading">{t("islandupgrade.exploring")}</span>
-        </div>,
+          <div
+            style={{ zIndex: 9999999 }}
+            className="bg-black absolute z-10 inset-0 pointer-events-none flex justify-center items-center"
+          >
+            <span className="loading">{t("islandupgrade.exploring")}</span>
+          </div>
+        </Transition>,
         document.body
       )}
+
       <Modal show={showModal} onHide={onClose}>
         <IslandUpgraderModal onUpgrade={onUpgrade} onClose={onClose} />
       </Modal>

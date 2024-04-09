@@ -166,7 +166,7 @@ describe("Construct building", () => {
           },
         },
       })
-    ).toThrow(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_SFL);
+    ).toThrow(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
   });
 
   it("does not construct if not enough ingredients", () => {
@@ -183,7 +183,7 @@ describe("Construct building", () => {
             Stone: new Decimal(0.1),
             "Basic Land": new Decimal(10),
           },
-          balance: new Decimal(100),
+          coins: 1000,
         },
         action: {
           id: "123",
@@ -199,10 +199,10 @@ describe("Construct building", () => {
   });
 
   it("constructs building", () => {
-    const waterWell = BUILDINGS()["Water Well"][0];
+    const waterWell = BUILDINGS["Water Well"][0];
     const initialWood = new Decimal(100);
     const initialStone = new Decimal(101);
-    const initialSFL = new Decimal(42);
+    const initialCoins = 1000;
 
     const state = constructBuilding({
       state: {
@@ -216,7 +216,7 @@ describe("Construct building", () => {
           Stone: initialStone,
           "Basic Land": new Decimal(10),
         },
-        balance: initialSFL,
+        coins: initialCoins,
       },
       action: {
         id: "123",
@@ -244,7 +244,7 @@ describe("Construct building", () => {
 
     expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequired));
     expect(state.inventory.Stone).toEqual(initialStone.minus(stoneRequired));
-    expect(state.balance).toEqual(initialSFL.minus(waterWell.sfl));
+    expect(state.coins).toEqual(initialCoins - waterWell.coins);
   });
 
   it("does not affect existing inventory", () => {
@@ -261,7 +261,7 @@ describe("Construct building", () => {
           ...INITIAL_BUMPKIN,
           experience: 1000000,
         },
-        balance: new Decimal(100),
+        coins: 1000,
       },
       action: {
         id: "123",
@@ -282,7 +282,7 @@ describe("Construct building", () => {
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(100),
+        coins: 1000,
         buildings: {},
         inventory: {
           Wood: new Decimal(20),
@@ -319,7 +319,7 @@ describe("Construct building", () => {
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(100),
+        coins: 1000,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[20],
@@ -375,13 +375,13 @@ describe("Construct building", () => {
       ],
     };
 
-    const waterWell = BUILDINGS()["Water Well"][0];
+    const waterWell = BUILDINGS["Water Well"][0];
     const createdAt = Date.now();
 
     const state = constructBuilding({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(100),
+        coins: 1000,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: LEVEL_EXPERIENCE[20],
@@ -438,12 +438,12 @@ describe("Construct building", () => {
 
   it("constructs second building using the correct requirements", () => {
     // Second Hen House
-    const building = BUILDINGS()["Hen House"][1];
+    const building = BUILDINGS["Hen House"][1];
     const initialWood = new Decimal(200);
     const initialIron = new Decimal(20);
     const initialGold = new Decimal(20);
     const initialEggs = new Decimal(400);
-    const initialSFL = new Decimal(1000);
+    const initialCoins = 1000;
 
     const state = {
       ...GAME_STATE,
@@ -469,7 +469,7 @@ describe("Construct building", () => {
         "Hen House": new Decimal(1),
         "Basic Land": new Decimal(20),
       },
-      balance: initialSFL,
+      coins: initialCoins,
     };
 
     const newState = constructBuilding({
@@ -511,6 +511,6 @@ describe("Construct building", () => {
     expect(newState.inventory.Iron).toEqual(initialIron.minus(ironRequired));
     expect(newState.inventory.Gold).toEqual(initialGold.minus(goldRequired));
     expect(newState.inventory.Egg).toEqual(initialEggs.minus(eggsRequired));
-    expect(newState.balance).toEqual(initialSFL.minus(building.sfl));
+    expect(newState.coins).toEqual(initialCoins - building.coins);
   });
 });

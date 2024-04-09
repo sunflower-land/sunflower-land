@@ -8,7 +8,6 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { Context } from "features/game/GameProvider";
 
 import { MapPlacement } from "./MapPlacement";
-import { PromotingModal } from "./SpecialOffer";
 import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
@@ -22,7 +21,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
 
   return (
     <>
-      <PromotingModal
+      {/* <PromotingModal
         hasPurchased={
           !!gameState.context.state.inventory["Spring Blossom Banner"]
         }
@@ -31,7 +30,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         }
         isOpen={showModal}
         onClose={() => setShowModal(false)}
-      />
+      /> */}
       <MapPlacement x={0} y={-6 - offset} width={6}>
         <img
           src={island}
@@ -49,7 +48,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
         >
           <NPC
             parts={NPC_WEARABLES.grubnuk}
-            onClick={() => setShowModal(true)}
+            // onClick={() => setShowModal(true)}
           />
         </div>
       </MapPlacement>

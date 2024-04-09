@@ -87,7 +87,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const [touchCount, setTouchCount] = useState(0);
   const [showMissingSeeds, setShowMissingSeeds] = useState(false);
   const [showSeedNotSelected, setShowSeedNotSelected] = useState(false);
-  const [reward, setReward] = useState<Reward>();
+  const [reward, setReward] = useState<Omit<Reward, "sfl">>();
   const [showMissingShovel, setShowMissingShovel] = useState(false);
   const clickedAt = useRef<number>(0);
 
@@ -109,7 +109,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
     },
   ] = useActor(gameService);
   const inventory = state.inventory;
-  const collectibles = state.collectibles;
   const bumpkin = state.bumpkin;
   const buds = state.buds;
   const plot = crops[id];
@@ -330,6 +329,9 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
               src={ITEM_DETAILS.Shovel.image}
               className="w-10 mx-auto my-2"
             />
+            <p className="text-sm mb-2 text-center">
+              {t("onCollectReward.Missing.Shovel.description")}
+            </p>
           </div>
         </CloseButtonPanel>
       </Modal>

@@ -14,7 +14,7 @@ import { WithdrawWearables } from "./WithdrawWearables";
 import { WithdrawBumpkin } from "./WithdrawBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

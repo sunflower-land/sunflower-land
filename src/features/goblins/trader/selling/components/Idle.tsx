@@ -9,7 +9,6 @@ import {
 } from "lib/blockchain/Trader";
 
 import { Listing } from "./Listing";
-import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface IdleProps {
@@ -17,7 +16,6 @@ interface IdleProps {
   freeListings: number;
   remainingListings: number;
   farmSlots: FarmSlot[];
-  onDraft: (slotId: number) => void;
   onCancel: (listing: ListingType) => void;
 }
 
@@ -26,7 +24,6 @@ export const Idle: React.FC<IdleProps> = ({
   freeListings,
   remainingListings,
   farmSlots,
-  onDraft,
   onCancel,
 }) => {
   const { t } = useAppTranslation();
@@ -36,13 +33,11 @@ export const Idle: React.FC<IdleProps> = ({
         <div className="flex items-center mb-1">
           <img src={ticket} className="w-6 mr-2" />
           <p className="text-xxs sm:text-xs whitespace-nowrap">
-            {t("free.trade")}
-            {":"} {freeListings}
+            {t("free.trade", { freeTrades: freeListings })}
           </p>
         </div>
         <p className="text-xxs sm:text-xs w-auto px-2 py-1 bg-blue-600 text-shadow border rounded-md whitespace-nowrap">
-          {t("remaining.trades")}
-          {":"} {remainingListings}
+          {t("remaining.trades", { remainingTrades: remainingListings })}
         </p>
       </div>
       <h2 className="text-sm mb-2">{`Land #${farmId} Listings`}</h2>
@@ -54,25 +49,7 @@ export const Idle: React.FC<IdleProps> = ({
             !farmSlot.listing ||
             farmSlot.listing?.status !== ListingStatus.LISTED
           ) {
-            return (
-              <div
-                key={farmSlot.slotId}
-                className="border-4 border-dashed border-brown-600 p-3 flex items-center justify-center"
-              >
-                <span
-                  className={classNames("text-sm cursor-pointer", {
-                    "cursor-not-allowed opacity-50": remainingListings === 0,
-                  })}
-                  onClick={
-                    remainingListings !== 0
-                      ? () => onDraft(farmSlot.slotId)
-                      : undefined
-                  }
-                >
-                  {t("list.trade")}
-                </span>
-              </div>
-            );
+            return <></>;
           }
 
           // if listed, return a listing UI

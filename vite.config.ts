@@ -40,9 +40,10 @@ export default defineConfig({
         name: "Sunflower Land",
         id: "com.sunflower-land",
         description:
-          "Plant, Chop, Mine, Craft & Collect at Sunflower Land. The MetaVerse game with endless resources.",
+          "🧑‍🌾 Install our app for a more seamless farming experience. Enjoy full-screen action, easy access, and exclusive features!",
         short_name: "Sunflower Land",
-        start_url: "/play/",
+        start_url:
+          process.env.VITE_NETWORK === "mainnet" ? "/play/" : "/testnet/",
         theme_color: "#303443",
         display: "standalone",
         background_color: "#0099dc",
@@ -65,7 +66,7 @@ export default defineConfig({
             type: "image/png",
           },
           {
-            src: "pwa/icons/maskable-icon-512x512.png",
+            src: "pwa/icons/pwa-512x512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "maskable",
@@ -73,19 +74,16 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: "pwa/screenshots/logo.webp",
-            sizes: "780x350",
-            type: "image/webp",
+            src: "pwa/screenshots/1.jpg",
+            sizes: "900x1680",
+            type: "image/jpg",
+            form_factor: "narrow",
           },
           {
-            src: "pwa/screenshots/welcome.webp",
-            sizes: "780x349",
-            type: "image/webp",
-          },
-          {
-            src: "pwa/screenshots/fishing.webp",
-            sizes: "780x348",
-            type: "image/webp",
+            src: "pwa/screenshots/2.jpg",
+            sizes: "900x1680",
+            type: "image/jpg",
+            form_factor: "narrow",
           },
         ],
       },

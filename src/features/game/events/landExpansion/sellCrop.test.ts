@@ -27,7 +27,7 @@ describe("sell", () => {
     ).toThrow("Not for sale");
   });
 
-  it("does not sell  an unusual amount", () => {
+  it("does not sell an unusual amount", () => {
     expect(() =>
       sellCrop({
         state: {
@@ -45,7 +45,7 @@ describe("sell", () => {
     ).toThrow("Invalid amount");
   });
 
-  it("does not sell a missing item", () => {
+  it("does not sell an item that the player doesn't have", () => {
     expect(() =>
       sellCrop({
         state: GAME_STATE,
@@ -75,9 +75,7 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(4));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(CROPS().Sunflower.sellPrice ?? 0)
-    );
+    expect(state.coins).toEqual(GAME_STATE.coins + CROPS().Sunflower.sellPrice);
   });
 
   it("sell an item in bulk given sufficient quantity", () => {
@@ -97,14 +95,12 @@ describe("sell", () => {
     });
 
     expect(state.inventory.Sunflower).toEqual(new Decimal(1));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(
-        (CROPS().Sunflower.sellPrice ?? new Decimal(0)).mul(10)
-      )
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + CROPS().Sunflower.sellPrice * 10
     );
   });
 
-  it("does not sell an item in bulk given insufficient quantity", () => {
+  it("does not sell an item in bulk if the player does not have enough", () => {
     expect(() =>
       sellCrop({
         state: {
@@ -126,6 +122,7 @@ describe("sell", () => {
     const state = sellCrop({
       state: {
         ...GAME_STATE,
+        coins: 0,
         inventory: {
           Cauliflower: new Decimal(1),
         },
@@ -137,12 +134,10 @@ describe("sell", () => {
       },
     });
 
-    expect(state.balance).toEqual(
-      new Decimal(CROPS().Cauliflower.sellPrice ?? 0)
-    );
+    expect(state.coins).toEqual(CROPS().Cauliflower.sellPrice);
   });
 
-  it("increments SFL earned when cauliflower is sold", () => {
+  it("increments coins earned when cauliflower is sold", () => {
     const state = sellCrop({
       state: {
         ...GAME_STATE,
@@ -157,8 +152,8 @@ describe("sell", () => {
       },
     });
 
-    expect(state.bumpkin?.activity?.["SFL Earned"]).toEqual(
-      new Decimal(CROPS().Cauliflower.sellPrice ?? 0).toNumber()
+    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+      CROPS().Cauliflower.sellPrice
     );
   });
 
@@ -177,7 +172,7 @@ describe("sell", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(FRUIT().Apple.sellPrice));
+    expect(state.coins).toEqual(FRUIT().Apple.sellPrice);
   });
 
   it("increments the crop sold activity ", () => {

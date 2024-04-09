@@ -12,6 +12,7 @@ import sunstone_7 from "assets/resources/sunstone/sunstone_rock_7.webp";
 import sunstone_8 from "assets/resources/sunstone/sunstone_rock_8.webp";
 import sunstone_9 from "assets/resources/sunstone/sunstone_rock_9.webp";
 import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   timeLeft: number;
@@ -22,6 +23,7 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
   timeLeft,
   minesLeft,
 }) => {
+  const { t } = useAppTranslation();
   const [showTimeLeft, setShowTimeLeft] = useState(false);
 
   const sunstoneImage = [
@@ -60,7 +62,7 @@ const DepletedSunstoneComponent: React.FC<Props> = ({
           }}
         >
           <TimeLeftPanel
-            text="Recovers in:"
+            text={t("resources.recoversIn")}
             timeLeft={timeLeft}
             showTimeLeft={showTimeLeft}
           />

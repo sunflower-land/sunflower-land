@@ -9,7 +9,24 @@ describe("buyFarmHand", () => {
         action: {
           type: "farmHand.bought",
         },
-        state: TEST_FARM,
+        state: {
+          ...TEST_FARM,
+          farmHands: {
+            bumpkins: {
+              1: {
+                equipped: {
+                  background: "Farm Background",
+                  body: "Beige Farmer Potion",
+                  hair: "Basic Hair",
+                  shoes: "Black Farmer Boots",
+                  tool: "Farmer Pitchfork",
+                  shirt: "Yellow Farmer Shirt",
+                  pants: "Farmer Overalls",
+                },
+              },
+            },
+          },
+        },
       })
     ).toThrow("No space for a farm hand");
   });

@@ -80,15 +80,6 @@ export const HeliosBlacksmithItems: React.FC = () => {
       });
     }
 
-    if (selectedItem.sfl) {
-      gameAnalytics.trackSink({
-        currency: "SFL",
-        amount: selectedItem.sfl.toNumber(),
-        item: selectedName,
-        type: "Collectible",
-      });
-    }
-
     shortcutItem(selectedName);
   };
 
@@ -117,7 +108,7 @@ export const HeliosBlacksmithItems: React.FC = () => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
-            sfl: selectedItem.sfl,
+            coins: selectedItem.coins,
           }}
           actionView={
             isAlreadyCrafted ? (

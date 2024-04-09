@@ -42,7 +42,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
     const bumpkinAchievements = state.bumpkin?.achievements || {};
     const achievementKeys = getKeys(achievements).filter((achievement) => {
       const item = ACHIEVEMENTS()[achievement];
-      return item.rewards || item.sfl.greaterThan(0);
+      return item.rewards || item.coins > 0;
     });
 
     const firstUnclaimedAchievementName = achievementKeys.find((name) => {
@@ -89,7 +89,7 @@ export const Achievements: React.FC<Props> = ({ onBack, readonly }) => {
           {getKeys(achievements)
             .filter((achievement) => {
               const item = ACHIEVEMENTS()[achievement];
-              return item.rewards || item.sfl.greaterThan(0);
+              return item.rewards || item.coins > 0;
             })
             .map((name) => {
               const achievement = achievements[name];

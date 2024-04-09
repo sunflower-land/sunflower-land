@@ -25,7 +25,7 @@ describe("seedBought", () => {
     ).toThrow("This item is not a seed");
   });
 
-  it("does not craft seed if required level is not reached", () => {
+  it("does not buy seed if required level is not reached", () => {
     expect(() =>
       seedBought({
         state: {
@@ -44,7 +44,7 @@ describe("seedBought", () => {
     ).toThrow("Inadequate level");
   });
 
-  it("does not craft an item with an unusual amount", () => {
+  it("does not buy a seed with an unusual amount", () => {
     expect(() =>
       seedBought({
         state: {
@@ -60,7 +60,7 @@ describe("seedBought", () => {
     ).toThrow("Invalid amount");
   });
 
-  it("does not craft an item that is not in stock", () => {
+  it("does not buy a seed that is not in stock", () => {
     expect(() =>
       seedBought({
         state: {
@@ -78,12 +78,12 @@ describe("seedBought", () => {
     ).toThrow("Not enough stock");
   });
 
-  it("does not craft seed if there is not enough funds", () => {
+  it("does not buy a seed if there is not enough funds", () => {
     expect(() =>
       seedBought({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0),
+          coins: 0,
         },
         action: {
           type: "seed.bought",
@@ -94,12 +94,14 @@ describe("seedBought", () => {
     ).toThrow("Insufficient tokens");
   });
 
-  it("burns the SFL on purchase", () => {
+  it("subtracts the coins on purchase", () => {
+    const coins = 1;
     const balance = new Decimal(1);
     const state = seedBought({
       state: {
         ...GAME_STATE,
         balance,
+        coins,
       },
       action: {
         type: "seed.bought",
@@ -108,19 +110,18 @@ describe("seedBought", () => {
       },
     });
 
-    expect(state.balance).toEqual(
-      balance.minus(CROP_SEEDS()["Sunflower Seed"].tokenAmount as Decimal)
-    );
+    expect(state.balance).toEqual(balance);
+    expect(state.coins).toEqual(coins - CROP_SEEDS()["Sunflower Seed"].price);
   });
 
-  it("mints the newly bought seed", () => {
-    const balance = new Decimal(1);
+  it("adds the newly bought seed to a players inventory", () => {
+    const coins = 1;
     const item = "Sunflower Seed";
     const amount = 1;
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
       },
       action: {
         item,
@@ -135,13 +136,13 @@ describe("seedBought", () => {
   });
 
   it("purchases a seed that requires level 2", () => {
-    const balance = new Decimal(1);
+    const coins = 1;
     const item = "Pumpkin Seed";
     const amount = 1;
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: 200,
@@ -156,20 +157,18 @@ describe("seedBought", () => {
 
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
-    expect(state.balance).toEqual(
-      balance.minus(CROP_SEEDS()[item].tokenAmount as Decimal)
-    );
+    expect(state.coins).toEqual(coins - CROP_SEEDS()[item].price);
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
-  it("crafts seed in bulk given sufficient balance", () => {
-    const balance = new Decimal(1);
+  it("buys seed in bulk given sufficient balance", () => {
+    const coins = 100;
     const item = "Pumpkin Seed";
     const amount = 10;
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         bumpkin: {
           ...INITIAL_BUMPKIN,
           experience: 200,
@@ -184,9 +183,7 @@ describe("seedBought", () => {
 
     const oldAmount = GAME_STATE.inventory[item] ?? new Decimal(0);
 
-    expect(state.balance).toEqual(
-      balance.minus(CROP_SEEDS()[item].tokenAmount?.mul(amount) as Decimal)
-    );
+    expect(state.coins).toEqual(coins - CROP_SEEDS()[item].price * amount);
     expect(state.inventory[item]).toEqual(oldAmount.add(amount));
   });
 
@@ -206,11 +203,11 @@ describe("seedBought", () => {
     ).toThrow("Bumpkin not found");
   });
 
-  it("increments the sfl spent activity ", () => {
+  it("increments the coin spent activity ", () => {
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1,
       },
       action: {
         type: "seed.bought",
@@ -218,8 +215,8 @@ describe("seedBought", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(
-      CROP_SEEDS()["Sunflower Seed"].tokenAmount?.toNumber()
+    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
+      CROP_SEEDS()["Sunflower Seed"].price
     );
   });
 
@@ -228,7 +225,7 @@ describe("seedBought", () => {
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1,
       },
       action: {
         type: "seed.bought",
@@ -243,7 +240,7 @@ describe("seedBought", () => {
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1,
         inventory: {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
@@ -267,9 +264,10 @@ describe("seedBought", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(1));
+    expect(state.coins).toEqual(1);
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
+
   it("purchases sunflower seeds for free when Sunflower Shield is equipped", () => {
     const SHIELD_STATE: GameState = {
       ...TEST_FARM,
@@ -285,7 +283,7 @@ describe("seedBought", () => {
     const state = seedBought({
       state: {
         ...SHIELD_STATE,
-        balance: new Decimal(1),
+        coins: 1,
         inventory: {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
@@ -299,7 +297,7 @@ describe("seedBought", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(1));
+    expect(state.coins).toEqual(1);
     expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(1));
   });
 
@@ -307,7 +305,7 @@ describe("seedBought", () => {
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 1,
         inventory: {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
@@ -321,17 +319,17 @@ describe("seedBought", () => {
       },
     });
 
-    expect(state.balance).not.toEqual(new Decimal(1));
+    expect(state.coins).not.toEqual(1);
   });
 
-  it("mints a fruit seee", () => {
-    const balance = new Decimal(1);
+  it("buys a fruit seed", () => {
+    const coins = 100;
     const item = "Blueberry Seed";
     const amount = 1;
     const state = seedBought({
       state: {
         ...GAME_STATE,
-        balance,
+        coins,
         bumpkin: {
           ...INITIAL_BUMPKIN,
 
@@ -358,7 +356,7 @@ describe("seedBought", () => {
           ...INITIAL_BUMPKIN,
           experience: 100000000,
         },
-        balance: new Decimal(1),
+        coins: 100,
         inventory: {
           ...GAME_STATE.inventory,
           "Sunflower Seed": new Decimal(0),
@@ -382,7 +380,7 @@ describe("seedBought", () => {
       },
     });
 
-    expect(state.balance).toEqual(new Decimal(1));
+    expect(state.coins).toEqual(100);
     expect(state.inventory["Lily Seed"]).toEqual(new Decimal(1));
   });
 });

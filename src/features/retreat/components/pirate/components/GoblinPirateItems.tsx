@@ -69,10 +69,10 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
       selectedItem.ingredients[name]?.greaterThan(inventory[name] || 0)
     );
 
-    const balance = goblinService.machine.context.state.balance || 0;
-    const missingSFL = selectedItem.sfl?.lessThan(balance);
+    const coins = goblinService.machine.context.state.coins;
+    const missingCoins = (selectedItem.coins ?? 0) > coins;
 
-    return !missingResources && !missingSFL;
+    return !missingResources && !missingCoins;
   };
 
   const craft = async () => {
@@ -141,7 +141,7 @@ export const GoblinPirateItems: React.FC<Props> = ({ onClose }) => {
           boost={selectedItem.boost}
           requirements={{
             resources: selectedItem.ingredients,
-            sfl: selectedItem.sfl,
+            coins: selectedItem.coins,
           }}
           actionView={Action()}
         />

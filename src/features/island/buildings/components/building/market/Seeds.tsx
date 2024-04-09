@@ -6,7 +6,7 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { CropName } from "features/game/types/crops";
+import { CROP_SEEDS, CropName } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
@@ -14,7 +14,7 @@ import { getCropTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { CROP_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
+import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
 import { FRUIT, FRUIT_SEEDS, FruitSeedName } from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
@@ -48,13 +48,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const { inventory } = state;
 
-  const price = getBuyPrice(
-    selectedName,
-    selected,
-    inventory,
-    state,
-    state.bumpkin as Bumpkin
-  );
+  const price = getBuyPrice(selectedName, selected, inventory, state);
 
   const onSeedClick = (seedName: SeedName) => {
     setSelectedName(seedName);
@@ -79,7 +73,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const lessFunds = (amount = 1) => {
-    return state.balance.lessThan(price.mul(amount));
+    return state.coins < price * amount;
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
@@ -176,8 +170,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             item: selectedName,
           }}
           requirements={{
-            sfl: price,
-            showSflIfFree: true,
+            coins: price,
+            showCoinsIfFree: true,
             level: isSeedLocked(selectedName)
               ? selected.bumpkinLevel
               : undefined,

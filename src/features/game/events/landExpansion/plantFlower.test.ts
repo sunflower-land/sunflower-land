@@ -279,4 +279,84 @@ describe("plantFlower", () => {
       dateNow - (FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000) / 2
     );
   });
+
+  it("reduces flower harvest time in 10% if Flower Fox is built ", () => {
+    const seedAmount = new Decimal(5);
+
+    const bedIndex = "1";
+
+    const state = plantFlower({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunpetal Seed": seedAmount,
+          Sunflower: new Decimal(100),
+        },
+        collectibles: {
+          "Flower Fox": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: bedIndex,
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+
+    expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
+    expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
+      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.1
+    );
+  });
+
+  it("reduces 55% flower harvest time if both Flower Fox and Flower Crown are present", () => {
+    const seedAmount = new Decimal(5);
+
+    const bedIndex = "1";
+
+    const state = plantFlower({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Flower Crown" },
+        },
+        inventory: {
+          "Sunpetal Seed": seedAmount,
+          Sunflower: new Decimal(100),
+        },
+        collectibles: {
+          "Flower Fox": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "flower.planted",
+        id: bedIndex,
+        seed: "Sunpetal Seed",
+        crossbreed: "Sunflower",
+      },
+    });
+
+    expect(state.inventory["Sunpetal Seed"]).toEqual(seedAmount.minus(1));
+    expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
+      dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.55
+    );
+  });
 });

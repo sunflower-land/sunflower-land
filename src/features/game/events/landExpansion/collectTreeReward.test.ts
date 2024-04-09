@@ -1,4 +1,3 @@
-import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { collectTreeReward } from "features/game/events/landExpansion/collectTreeReward";
 
@@ -60,7 +59,7 @@ describe("collectTreeReward", () => {
                 choppedAt: dateNow,
                 amount: 1,
                 reward: {
-                  sfl: new Decimal(3),
+                  coins: 100,
                 },
               },
             },
@@ -74,7 +73,8 @@ describe("collectTreeReward", () => {
       })
     ).toThrow("Tree is still growing");
   });
-  it("provides sfl rewards", () => {
+
+  it("provides coin rewards", () => {
     const state = collectTreeReward({
       state: {
         ...TEST_FARM,
@@ -88,7 +88,7 @@ describe("collectTreeReward", () => {
               choppedAt: 0,
               amount: 1,
               reward: {
-                sfl: new Decimal(10),
+                coins: 100,
               },
             },
           },
@@ -104,6 +104,6 @@ describe("collectTreeReward", () => {
     const { trees } = state;
 
     expect(trees?.[0]?.wood?.reward).toBeUndefined();
-    expect(state.balance).toEqual(new Decimal(10));
+    expect(state.coins).toEqual(100);
   });
 });

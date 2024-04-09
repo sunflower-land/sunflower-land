@@ -67,6 +67,8 @@ export function mineSunstone({
 
   if (stateCopy.sunstones[index].minesLeft === 0) {
     delete stateCopy.sunstones[index];
+    stateCopy.inventory["Sunstone Rock"] =
+      stateCopy.inventory["Sunstone Rock"]?.sub(1);
   }
 
   bumpkin.activity = trackActivity("Sunstone Mined", bumpkin.activity);

@@ -39,7 +39,7 @@ describe("garbageSold", () => {
     ).toThrow("Not for sale");
   });
 
-  it("does not sell  an unusual amount", () => {
+  it("does not sell an unusual amount", () => {
     expect(() =>
       sellGarbage({
         state: {
@@ -86,8 +86,8 @@ describe("garbageSold", () => {
     });
 
     expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(4));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(GARBAGE["Solar Flare Ticket"].sellPrice ?? 0)
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + GARBAGE["Solar Flare Ticket"].sellPrice
     );
   });
 
@@ -107,10 +107,8 @@ describe("garbageSold", () => {
     });
 
     expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(1));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(
-        (GARBAGE["Solar Flare Ticket"].sellPrice ?? 0).mul(4)
-      )
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + GARBAGE["Solar Flare Ticket"].sellPrice * 4
     );
   });
 
@@ -132,7 +130,7 @@ describe("garbageSold", () => {
     ).toThrow("Insufficient quantity to sell");
   });
 
-  it("increments the sfl earned activity ", () => {
+  it("increments the coins earned activity ", () => {
     const state = sellGarbage({
       state: {
         ...GAME_STATE,
@@ -146,8 +144,8 @@ describe("garbageSold", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["SFL Earned"]).toEqual(
-      (GARBAGE["Solar Flare Ticket"].sellPrice ?? 0).toNumber()
+    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+      GARBAGE["Solar Flare Ticket"].sellPrice
     );
   });
 

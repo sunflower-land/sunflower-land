@@ -12,7 +12,6 @@ import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { removeJWT } from "../actions/social";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const NoAccount: React.FC = () => {
@@ -115,18 +114,9 @@ export const NoAccount: React.FC = () => {
           </div>
         )}
       </div>
-      <div className="flex">
-        <Button
-          className="mr-1"
-          onClick={() => {
-            removeJWT();
-            authService.send("BACK");
-          }}
-        >
-          {t("back")}
-        </Button>
+      <div className="flex mt-1">
         <Button onClick={() => authService.send("CREATE_FARM")}>
-          {t("noaccount.createFarm")}
+          {t("start")}
         </Button>
       </div>
     </>

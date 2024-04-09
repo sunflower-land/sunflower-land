@@ -42,7 +42,7 @@ export function collectTreeReward({
   }
 
   const {
-    reward: { items, sfl },
+    reward: { items, coins },
   } = wood;
 
   if (items?.length) {
@@ -53,8 +53,8 @@ export function collectTreeReward({
     });
   }
 
-  if (sfl) {
-    stateCopy.balance = stateCopy.balance.add(sfl);
+  if (coins) {
+    stateCopy.coins = stateCopy.coins + coins;
   }
 
   delete wood.reward;

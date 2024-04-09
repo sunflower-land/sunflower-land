@@ -726,6 +726,10 @@ const beachBounty: Record<BeachBountyTreasure, () => boolean> = {
 };
 
 const eventDecoration: Record<EventDecorationName, () => boolean> = {
+  "Hungry Hare": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
+  "Community Egg": () => true,
+  "Baby Panda": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
+  Baozi: () => true,
   "Valentine Bear": () => true,
   "Easter Bear": () => true,
   "Easter Bush": () => true,
@@ -851,7 +855,9 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Flower Fox": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
   "Sunrise Bloom Rug": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Flower Rug": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
+  "Green Field Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Flower Cart": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
+  "Tea Rug": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -1051,8 +1057,6 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Mushroom Sweater": () => false, // Not Launched
   "Rash Vest": () => false, // Not Launched
   "Squid Hat": () => true,
-  "Striped Red Shirt": () => false, // Not Launched
-  "Striped Yellow Shirt": () => false, // Not Launched
   "Summer Top": () => true,
   "Sunburst Potion": () => true,
   "Water Gun": () => false, // Not Launched
@@ -1232,4 +1236,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Love's Topper": () => canWithdrawTimebasedItem(new Date("2024-02-15")),
   "Valentine's Field Background": () =>
     canWithdrawTimebasedItem(new Date("2024-02-15")),
+
+  "Striped Red Shirt": () => canWithdrawTimebasedItem(new Date("2023-04-04")),
+  "Striped Yellow Shirt": () =>
+    canWithdrawTimebasedItem(new Date("2023-04-04")),
 };

@@ -28,7 +28,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
-  const wearable = STYLIST_WEARABLES(state)[name] as StylistWearable;
+  const wearable = STYLIST_WEARABLES[name] as StylistWearable;
 
   if (wearable.hoursPlayed) {
     const hoursPlayed = (Date.now() - state.createdAt) / 1000 / 60 / 60;
@@ -57,14 +57,14 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
   ] = useActor(gameService);
   const inventory = state.inventory;
 
-  const wearable = STYLIST_WEARABLES(state)[selected] as StylistWearable;
+  const wearable = STYLIST_WEARABLES[selected] as StylistWearable; // Add type assertion to StylistWearable
 
-  const price = wearable.sfl;
+  const price = wearable.coins;
 
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.balance.lessThan(price.toString());
+    return state.coins < price;
   };
 
   const lessIngredients = () =>
@@ -94,15 +94,6 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         type: "Wearable",
       });
     }
-
-    if (wearable.sfl) {
-      gameAnalytics.trackSink({
-        currency: "SFL",
-        amount: wearable.sfl.toNumber(),
-        item: selected,
-        type: "Wearable",
-      });
-    }
   };
 
   const [isConfirmBuyModalOpen, showConfirmBuyModal] = useState(false);
@@ -119,17 +110,6 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
 
   const { t } = useAppTranslation();
   const Action = () => {
-    if (state.wardrobe[selected])
-      return (
-        <div className="flex justify-center items-center">
-          <span className="text-xs">
-            {t("alr.bought")}
-            {"!"}
-          </span>
-          <img src={SUNNYSIDE.icons.confirm} className="h-4 ml-1" />
-        </div>
-      );
-
     if (wearable.requiresItem && !state.inventory[wearable.requiresItem]) {
       return (
         <div className="flex items-center justify-center">
@@ -194,7 +174,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
           // boost={selectedItem.boost}
           requirements={{
             resources: wearable.ingredients,
-            sfl: wearable.sfl,
+            coins: price,
           }}
           actionView={Action()}
         />

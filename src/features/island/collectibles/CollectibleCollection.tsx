@@ -237,6 +237,12 @@ import { Blossombeard } from "./components/Blossombeard";
 import { CrimPeckster } from "./components/CrimPeckster";
 import { FlowerRug } from "./components/FlowerRug";
 import { EarnAllianceBanner } from "./components/EarnAllianceBanner";
+import { GreenFieldRug } from "./components/GreenFieldRug";
+import { TeaRug } from "./components/TeaRug";
+import { BabyPanda } from "./components/BabyPanda";
+import { Baozi } from "./components/Baozi";
+import { CommunityEgg } from "./components/CommunityEgg";
+import { HungryHare } from "./components/HungryHare";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -244,6 +250,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Hungry Hare": HungryHare,
+  "Community Egg": CommunityEgg,
+  Baozi: Baozi,
+  "Baby Panda": BabyPanda,
   "Earn Alliance Banner": EarnAllianceBanner,
   Wardrobe: Wardrobe,
   "White Festive Fox": WhiteFestiveFox,
@@ -515,6 +525,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Flower Cart": FlowerCart,
   Capybara: Capybara,
   "Flower Rug": FlowerRug,
+  "Tea Rug": TeaRug,
+  "Green Field Rug": GreenFieldRug,
   // Flowers
   "Prism Petal": PrismPetal,
   "Celestial Frostbloom": CelestialFrostbloom,

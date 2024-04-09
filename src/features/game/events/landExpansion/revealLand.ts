@@ -323,6 +323,7 @@ export function getRewards({
           "Block Buck": 1,
         },
         sfl: 0,
+        coins: 0,
         wearables: {},
         coordinates: {
           x: 0,
@@ -341,10 +342,10 @@ export function getRewards({
         id: "expansion-fifth-airdrop",
         items: {
           "Time Warp Totem": 1,
-          "Pumpkin Soup": 1,
           "Block Buck": 1,
         },
         sfl: 0,
+        coins: 0,
         wearables: {},
         coordinates: {
           x: -7,
@@ -360,6 +361,7 @@ export function getRewards({
       "Block Buck": 1,
     },
     sfl: 0,
+    coins: 0,
     wearables: {},
   };
 
@@ -432,6 +434,7 @@ export function getRewards({
           id: `expansion-refund-${expectedLand.toNumber()}`,
           items: refund.resources,
           sfl: 0,
+          coins: 0,
           wearables: {},
           message: "You are on OG expander, here's a reward!",
           coordinates: position && {

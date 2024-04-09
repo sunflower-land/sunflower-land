@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import ocean from "assets/decorations/ocean.webp";
 import sandIslandOne from "assets/brand/sand_island_one.webp";
@@ -10,63 +10,10 @@ import cossies from "assets/decorations/cossies.png";
 import goblinSwimming from "assets/npcs/goblin_farting.gif";
 import shadow from "assets/npcs/shadow.png";
 
-import { CONFIG } from "lib/config";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import i18n from "lib/i18n";
-import { Button } from "components/ui/Button";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { hasFeatureAccess } from "lib/flags";
-import { GameState } from "features/game/types/game";
-
-const releaseVersion = CONFIG.RELEASE_VERSION as string;
-
-const Languages = () => {
-  // Determine the initial language from localStorage or default to 'en'
-  const initialLanguage = localStorage.getItem("language") || "en";
-  const [language, setLanguage] = useState(initialLanguage);
-
-  const toggleLanguage = () => {
-    const newLanguage =
-      language === "en" ? "pt" : language === "pt" ? "fr" : "en";
-    localStorage.setItem("language", newLanguage);
-    i18n.changeLanguage(newLanguage);
-    setLanguage(newLanguage);
-  };
-
-  const flagImage =
-    language === "en"
-      ? ITEM_DETAILS["American Flag"].image
-      : language === "pt"
-      ? ITEM_DETAILS["Brazilian Flag"].image
-      : language === "fr"
-      ? ITEM_DETAILS["French Flag"].image
-      : null;
-
-  const languageLabel =
-    language === "en"
-      ? "English"
-      : language === "pt"
-      ? "Português Brasileiro"
-      : language === "fr"
-      ? "Français"
-      : null;
-
-  return (
-    <Button className="py-1 text-xs relative" onClick={toggleLanguage}>
-      <div className="px-8 pr-1">
-        <img
-          src={flagImage}
-          alt={languageLabel || ""}
-          className="h-5 mobile:h-4 ml-2.5 mr-4 absolute left-0 rounded-sm"
-        />
-        {languageLabel}
-      </div>
-    </Button>
-  );
-};
 
 export const Splash: React.FC = ({ children }) => {
   return (
@@ -175,12 +122,6 @@ export const Splash: React.FC = ({ children }) => {
           <Panel>{children}</Panel>
         </Modal>
       )}
-      <div
-        className="absolute bottom-2 mx-auto pointer-events-auto safe-mb"
-        style={{ zIndex: 1100 }}
-      >
-        {hasFeatureAccess({} as GameState, "LOCALISATION") && <Languages />}
-      </div>
     </div>
   );
 };

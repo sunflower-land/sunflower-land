@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // CROPS
 import magicBean from "assets/crops/magic_bean.png";
 import appleSeed from "assets/fruit/apple/apple_seed.png";
@@ -7,6 +8,9 @@ import bananaPlant from "assets/fruit/banana/banana_plant.png";
 import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
 import bloomSeed from "assets/flowers/bloom_seed.webp";
 import lilySeed from "assets/flowers/lily_seed.webp";
+
+import communityEgg from "assets/sfts/easter_donation_egg.webp";
+import hungryHare from "assets/sfts/hungryHare.png";
 
 // NFTs
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
@@ -82,6 +86,8 @@ import enchantedRose from "assets/sfts/enchanted_rose.webp";
 import flowerCart from "assets/sfts/flower_cart.webp";
 import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
+import teaRug from "assets/sfts/tea_rug.webp";
+import greenFieldRug from "assets/sfts/green_field_rug.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -95,7 +101,7 @@ import queenCornelia from "assets/sfts/aoe/queen_cornelia.png";
 // Mutant Chickens
 import speedChicken from "assets/animals/chickens/speed_chicken.gif";
 import fatChicken from "assets/animals/chickens/fat_chicken.gif";
-import richChicken from "assets/animals/chickens/rich_chicken.gif";
+import richChicken from "assets/animals/chickens/rich_chicken.webp";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
@@ -236,6 +242,7 @@ import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import budTicket from "assets/icons/bud_ticket.png";
+import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
 
@@ -318,6 +325,8 @@ import bananaBlast from "assets/food/banana_blast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
+import rareKey from "src/assets/sfts/quest/rare_key.png";
+import luxuryKey from "src/assets/sfts/quest/luxury_key.png";
 import ancientGoblinSword from "src/assets/sfts/quest/ancient_goblin_sword.png";
 import ancientHumanWarhammer from "src/assets/sfts/quest/ancient_human_warhammer.png";
 
@@ -327,7 +336,7 @@ import rapidGrowth from "src/assets/fertilisers/rapidGrowth.png";
 // Buildings
 import firePit from "src/assets/buildings/fire_pit.png";
 import kitchen from "src/assets/buildings/kitchen.png";
-import market from "src/assets/buildings/market.png";
+import market from "src/assets/buildings/bettys_market.png";
 import townCenter from "src/assets/buildings/town_center.png";
 import workbench from "src/assets/buildings/workbench.png";
 import tent from "src/assets/buildings/tent.png";
@@ -587,6 +596,9 @@ import yellowLotus from "assets/flowers/yellow_lotus.webp";
 import blueLotus from "assets/flowers/blue_lotus.webp";
 import whiteLotus from "assets/flowers/white_lotus.webp";
 import purpleLotus from "assets/flowers/purple_lotus.webp";
+
+import babyPanda from "assets/sfts/baby_panda.png";
+import baozi from "assets/sfts/baozi.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -3136,6 +3148,16 @@ export const ITEM_DETAILS: Items = {
     description: "Add a touch of nature's elegance to your home.",
     image: flowerRug,
   },
+  "Tea Rug": {
+    description:
+      "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
+    image: teaRug,
+  },
+  "Green Field Rug": {
+    description:
+      "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
+    image: greenFieldRug,
+  },
   "Blossom Royale": {
     description: translate("description.blossom.royale"),
     image: blossomRoyale,
@@ -3206,22 +3228,38 @@ export const ITEM_DETAILS: Items = {
   },
   "Blue Lotus": {
     image: blueLotus,
-    description: translate("description.blue.lotu"),
+    description: translate("description.blue.lotus"),
   },
   "Earn Alliance Banner": {
     image: earnAllianceBanner,
     description: translate("description.earnAllianceBanner"),
   },
   "Luxury Key": {
-    image: sunflowerKey,
-    description: translate("description.treasure.key"),
+    image: luxuryKey,
+    description: translate("description.luxury.key"),
   },
   "Rare Key": {
-    image: sunflowerKey,
-    description: translate("description.treasure.key"),
+    image: rareKey,
+    description: translate("description.rare.key"),
   },
   "Prize Ticket": {
-    image: sunflowerKey,
+    image: prizeTicket,
     description: translate("description.prizeTicket"),
+  },
+  "Baby Panda": {
+    image: babyPanda,
+    description: translate("description.babyPanda"),
+  },
+  Baozi: {
+    image: baozi,
+    description: translate("description.baozi"),
+  },
+  "Community Egg": {
+    image: communityEgg,
+    description: translate("description.communityEgg"),
+  },
+  "Hungry Hare": {
+    image: hungryHare,
+    description: translate("description.hungryHare"),
   },
 };

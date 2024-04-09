@@ -1,14 +1,16 @@
 import { Button } from "components/ui/Button";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../lib/Provider";
 
 import walletIcon from "src/assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { LanguageSwitcher } from "features/island/hud/components/settings-menu/LanguageChangeModal";
 
 export const Welcome: React.FC = () => {
   const { authService } = useContext(Context);
   const { t } = useAppTranslation();
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
 
   return (
     <div className="p-2">
@@ -36,6 +38,18 @@ export const Welcome: React.FC = () => {
           {t("welcome.createAccount")}
         </div>
       </Button>
+      <Button
+        className="mb-2 py-2 text-sm relative"
+        onClick={() => setShowLanguageModal(true)}
+      >
+        <div className="px-8">
+          <img
+            src={SUNNYSIDE.icons.expression_chat}
+            className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
+          />
+          {t("change.Language")}
+        </div>
+      </Button>
       <div className="flex justify-between">
         <a href="https://discord.gg/sunflowerland" className="mr-4">
           <img
@@ -52,6 +66,10 @@ export const Welcome: React.FC = () => {
           {t("welcome.needHelp")}
         </a>
       </div>
+      <LanguageSwitcher
+        isOpen={showLanguageModal}
+        onClose={() => setShowLanguageModal(false)}
+      />
     </div>
   );
 };

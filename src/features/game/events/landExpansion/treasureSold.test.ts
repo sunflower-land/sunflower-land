@@ -89,8 +89,8 @@ describe("treasureSold", () => {
     });
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(SELLABLE_TREASURE["Clam Shell"].sellPrice ?? 0)
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice
     );
   });
 
@@ -110,8 +110,8 @@ describe("treasureSold", () => {
     });
 
     expect(state.inventory["Wooden Compass"]).toEqual(new Decimal(4));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(SELLABLE_TREASURE["Wooden Compass"].sellPrice ?? 0)
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + SELLABLE_TREASURE["Wooden Compass"].sellPrice
     );
   });
 
@@ -141,10 +141,8 @@ describe("treasureSold", () => {
     });
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(4));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(
-        SELLABLE_TREASURE["Clam Shell"].sellPrice.mul(1.2) ?? 0
-      )
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 1.2
     );
   });
 
@@ -164,10 +162,8 @@ describe("treasureSold", () => {
     });
 
     expect(state.inventory["Clam Shell"]).toEqual(new Decimal(1));
-    expect(state.balance).toEqual(
-      GAME_STATE.balance.add(
-        (SELLABLE_TREASURE["Clam Shell"].sellPrice ?? 0).mul(4)
-      )
+    expect(state.coins).toEqual(
+      GAME_STATE.coins + SELLABLE_TREASURE["Clam Shell"].sellPrice * 4
     );
   });
 
@@ -203,8 +199,8 @@ describe("treasureSold", () => {
         amount: 1,
       },
     });
-    expect(state.bumpkin?.activity?.["SFL Earned"]).toEqual(
-      (SELLABLE_TREASURE["Clam Shell"].sellPrice ?? 0).toNumber()
+    expect(state.bumpkin?.activity?.["Coins Earned"]).toEqual(
+      SELLABLE_TREASURE["Clam Shell"].sellPrice
     );
   });
 

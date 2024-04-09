@@ -1,5 +1,5 @@
 import chest from "assets/icons/chest.png";
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext } from "react";
@@ -77,13 +77,7 @@ export const Offer: React.FC = () => {
       <>
         <div className="p-2">
           <p className="mb-2">{t("offer.okxOffer")}</p>
-
-          <p className="mb-2">
-            {t("offer.beginWithNFT")}{" "}
-            <span className="underline">{t("offer.free")}</span>
-            {t("offer.NFT.include")}
-          </p>
-
+          <p className="mb-2">{t("offer.beginWithNFT")}</p>
           <OfferItems />
         </div>
         <Button onClick={() => authService.send("CONTINUE")}>
@@ -97,11 +91,7 @@ export const Offer: React.FC = () => {
       <div className="p-2">
         <p className="mb-2">{t("offer.newHere")}</p>
 
-        <p className="mb-3">
-          {t("offer.beginWithNFT")}
-          <span className="underline">{t("offer.free")}</span>
-          {t("offer.NFT.include")}
-        </p>
+        <p className="mb-3">{t("offer.beginWithNFT")}</p>
 
         <OfferItems />
       </div>

@@ -29,7 +29,7 @@ export type CraftToolAction = {
 };
 
 export const CRAFTABLE_TOOLS: Record<CraftableToolName, Tool> = {
-  ...WORKBENCH_TOOLS(),
+  ...WORKBENCH_TOOLS,
   ...TREASURE_TOOLS,
   ...PURCHASEABLE_BAIT,
 };
@@ -40,7 +40,7 @@ type Options = {
 };
 
 export function craftTool({ state, action }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy: GameState = cloneDeep(state);
   const bumpkin = stateCopy.bumpkin;
 
   const tool = CRAFTABLE_TOOLS[action.tool];
@@ -57,10 +57,10 @@ export function craftTool({ state, action }: Options) {
   if (bumpkin === undefined) {
     throw new Error(translate("no.have.bumpkin"));
   }
-  const price = tool.sfl.mul(amount);
+  const price = tool.price * amount;
 
-  if (stateCopy.balance.lessThan(price)) {
-    throw new Error("Insufficient tokens");
+  if (stateCopy.coins < price) {
+    throw new Error("Insufficient Coins");
   }
 
   const subtractedInventory = getKeys(tool.ingredients).reduce(
@@ -88,18 +88,18 @@ export function craftTool({ state, action }: Options) {
     bumpkin.activity,
     new Decimal(amount)
   );
-  bumpkin.activity = trackActivity("SFL Spent", bumpkin.activity, price);
+  bumpkin.activity = trackActivity(
+    "Coins Spent",
+    bumpkin.activity,
+    new Decimal(price)
+  );
 
-  return {
-    ...stateCopy,
-    balance: stateCopy.balance.sub(price),
-    inventory: {
-      ...subtractedInventory,
-      [action.tool]: oldAmount.add(amount) as Decimal,
-    },
-    stock: {
-      ...stateCopy.stock,
-      [action.tool]: stateCopy.stock[action.tool]?.minus(amount) as Decimal,
-    },
+  stateCopy.coins = stateCopy.coins - price;
+  stateCopy.inventory = {
+    ...subtractedInventory,
+    [action.tool]: oldAmount.add(amount) as Decimal,
   };
+  stateCopy.stock[action.tool] = stateCopy.stock[action.tool]?.minus(amount);
+
+  return stateCopy;
 }

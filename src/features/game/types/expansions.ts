@@ -1429,7 +1429,7 @@ const LAND_4_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 3,
   },
-  seconds: 10,
+  seconds: 5,
   bumpkinLevel: 1,
 };
 
@@ -1437,14 +1437,14 @@ const LAND_5_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 5,
   },
-  seconds: 3,
+  seconds: 5,
   bumpkinLevel: 2,
 };
 
 const LAND_6_REQUIREMENTS: Requirements = {
   resources: {
     Wood: 5,
-    Stone: 3,
+    Stone: 1,
   },
   seconds: 60,
   bumpkinLevel: 4,
@@ -1454,7 +1454,6 @@ const LAND_7_REQUIREMENTS: Requirements = {
   resources: {
     Stone: 5,
     Iron: 1,
-    Gold: 1,
   },
   seconds: 30 * 60,
   bumpkinLevel: 6,
@@ -1462,7 +1461,6 @@ const LAND_7_REQUIREMENTS: Requirements = {
 
 const LAND_8_REQUIREMENTS: Requirements = {
   resources: {
-    Stone: 10,
     Iron: 3,
     Gold: 1,
   },

@@ -5,9 +5,10 @@ import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";
 import { Inventory } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CROP_SEEDS, SEEDS, SeedName } from "features/game/types/seeds";
+import { SEEDS, SeedName } from "features/game/types/seeds";
 import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CROP_SEEDS } from "features/game/types/crops";
 
 interface Props {
   onPlant: (seed: SeedName) => void;

@@ -10,7 +10,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -30,6 +30,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
         setTrade(trade);
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { gameService } = useContext(Context);
@@ -81,7 +82,7 @@ export const TradeCompleted: React.FC<Props> = ({ mmoService, farmId }) => {
 
                 <div className="flex items-center mt-3 mr-0.5">
                   <img src={token} className="h-6 mr-1" />
-                  <p className="text-xs">{`${sold.sfl} SFL`}</p>
+                  <p className="text-xs">{(sold.sfl * 0.9).toFixed(2)}</p>
                 </div>
               </div>
             </div>

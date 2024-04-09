@@ -54,6 +54,8 @@ interface HarvestsRequirementProps {
 /**
  * The props for the crafting requirements.
  * @param resources The item resources requirements.
+ * @param coins The Coins requirements.
+ * @param showCoinsIfFree Whether to show free Coins requirement if cost is 0. Defaults to false.
  * @param sfl The SFL requirements.
  * @param showSflIfFree Whether to show free SFL requirement if SFL cost is 0. Defaults to false.
  * @param harvests The min/max harvests for the item.
@@ -64,6 +66,8 @@ interface HarvestsRequirementProps {
 interface RequirementsProps {
   resources?: Partial<Record<InventoryItemName, Decimal>>;
   sfl?: Decimal;
+  coins?: number;
+  showCoinsIfFree?: boolean;
   showSflIfFree?: boolean;
   harvests?: HarvestsRequirementProps;
   xp?: Decimal;
@@ -252,6 +256,16 @@ export const CraftingRequirements: React.FC<Props> = ({
               type="sfl"
               balance={gameState.balance}
               requirement={requirements.sfl}
+            />
+          )}
+
+        {/* Coin requirement */}
+        {requirements.coins !== undefined &&
+          (requirements.coins > 0 || requirements.showCoinsIfFree) && (
+            <RequirementLabel
+              type="coins"
+              balance={gameState.coins}
+              requirement={requirements.coins}
             />
           )}
 

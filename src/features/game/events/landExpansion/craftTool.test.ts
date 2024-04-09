@@ -19,27 +19,27 @@ describe("craftTool", () => {
     ).toThrow("Tool does not exist");
   });
 
-  it("does not craft item if there is not enough funds", () => {
+  it("does not craft tool if there is not enough funds", () => {
     expect(() =>
       craftTool({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(0.0000005),
+          coins: 1,
         },
         action: {
           type: "tool.crafted",
           tool: "Axe",
         },
       })
-    ).toThrow("Insufficient tokens");
+    ).toThrow("Insufficient Coins");
   });
 
-  it("does not craft item if there is insufficient ingredients", () => {
+  it("does not craft tool if there is insufficient ingredients", () => {
     expect(() =>
       craftTool({
         state: {
           ...GAME_STATE,
-          balance: new Decimal(10),
+          coins: 100,
           inventory: {},
         },
         action: {
@@ -50,11 +50,12 @@ describe("craftTool", () => {
     ).toThrow("Insufficient ingredient: Wood");
   });
 
-  it("crafts item with sufficient balance", () => {
+  it("crafts tool with sufficient balance", () => {
+    const coins = 100;
     const state = craftTool({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins,
         inventory: {},
       },
       action: {
@@ -63,17 +64,15 @@ describe("craftTool", () => {
       },
     });
 
-    expect(state.balance).toEqual(
-      new Decimal(1).minus(WORKBENCH_TOOLS()["Axe"].sfl)
-    );
+    expect(state.coins).toEqual(coins - WORKBENCH_TOOLS["Axe"].price);
     expect(state.inventory["Axe"]).toEqual(new Decimal(1));
   });
 
-  it("crafts item with sufficient ingredients", () => {
+  it("crafts tool with sufficient ingredients", () => {
     const state = craftTool({
       state: {
         ...GAME_STATE,
-        balance: new Decimal(1),
+        coins: 100,
         inventory: { Wood: new Decimal(10) },
       },
       action: {
@@ -86,7 +85,7 @@ describe("craftTool", () => {
     expect(state.inventory["Wood"]).toEqual(new Decimal(7));
   });
 
-  it("does not craft an item that is not in stock", () => {
+  it("does not craft a tool that is not in stock", () => {
     expect(() =>
       craftTool({
         state: {
@@ -94,7 +93,7 @@ describe("craftTool", () => {
           stock: {
             Axe: new Decimal(0),
           },
-          balance: new Decimal(10),
+          coins: 100,
         },
         action: {
           type: "tool.crafted",
@@ -109,7 +108,7 @@ it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
   const state = craftTool({
     state: {
       ...GAME_STATE,
-      balance: new Decimal(1),
+      coins: 100,
       inventory: {},
     },
     action: {
@@ -121,11 +120,11 @@ it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
   expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
 });
 
-it("increments SFL spent when axe is crafted", () => {
+it("increments Coins spent when axe is crafted", () => {
   const state = craftTool({
     state: {
       ...GAME_STATE,
-      balance: new Decimal(1),
+      coins: 100,
       inventory: {},
     },
     action: {
@@ -134,5 +133,5 @@ it("increments SFL spent when axe is crafted", () => {
     },
   });
 
-  expect(state.bumpkin?.activity?.["SFL Spent"]).toEqual(0.0625);
+  expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(20);
 });

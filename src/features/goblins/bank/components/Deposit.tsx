@@ -11,7 +11,7 @@ import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
 import { transferInventoryItem } from "./WithdrawItems";
@@ -35,6 +35,8 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -492,16 +494,17 @@ const DepositOptions: React.FC<Props> = ({
             </div>
             {sflDepositAmount > 0 && (
               <div className="mb-1 mt-2 text-xxs">
-                {t("deposit.goblinTaxInfo")}{" "}
-                <a
-                  target="_blank"
-                  className="underline text-xxs hover:text-blue-500"
-                  href={`https://docs.sunflower-land.com/economy/withdrawing`}
-                  rel="noreferrer"
-                >
-                  {`Goblin Tax`}
-                </a>{" "}
-                {t("deposit.applied")}
+                <span>{t("deposit.goblinTaxInfo")}</span>
+                <span>
+                  <a
+                    target="_blank"
+                    className="underline text-xxs hover:text-blue-500"
+                    href={`https://docs.sunflower-land.com/economy/withdrawing`}
+                    rel="noreferrer"
+                  >
+                    {t("read.more")}
+                  </a>
+                </span>
               </div>
             )}
           </div>
@@ -521,5 +524,36 @@ const DepositOptions: React.FC<Props> = ({
         </>
       )}
     </>
+  );
+};
+
+interface DepositModalProps {
+  farmAddress: string;
+  canDeposit: boolean;
+  showDepositModal: boolean;
+  handleDeposit: (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => void;
+  handleClose: () => void;
+}
+
+export const DepositModal: React.FC<DepositModalProps> = ({
+  farmAddress,
+  canDeposit,
+  showDepositModal,
+  handleDeposit,
+  handleClose,
+}) => {
+  return (
+    <Modal show={showDepositModal} onHide={handleClose}>
+      <CloseButtonPanel onClose={canDeposit ? handleClose : undefined}>
+        <Deposit
+          farmAddress={farmAddress}
+          onDeposit={handleDeposit}
+          onClose={handleClose}
+          canDeposit={canDeposit}
+        />
+      </CloseButtonPanel>
+    </Modal>
   );
 };

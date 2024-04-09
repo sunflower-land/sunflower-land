@@ -127,7 +127,8 @@ describe("claimBumpkinGift", () => {
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
   });
 
-  it("claims a gift of sfl", () => {
+  it("claims a gift of coins", () => {
+    const coins = 0;
     const state = claimGift({
       action: {
         bumpkin: "pumpkin' pete",
@@ -135,6 +136,7 @@ describe("claimBumpkinGift", () => {
       },
       state: {
         ...TEST_FARM,
+        coins,
         npcs: {
           "pumpkin' pete": {
             deliveryCount: 0,
@@ -151,10 +153,11 @@ describe("claimBumpkinGift", () => {
     expect(
       state.npcs?.["pumpkin' pete"]?.friendship?.giftClaimedAtPoints
     ).toEqual(100);
-    expect(state.balance).toEqual(new Decimal(2));
+    expect(state.coins).toEqual(640);
   });
 
   it("claims multiple gifts", () => {
+    const coins = 0;
     // Items
     let state = claimGift({
       action: {
@@ -163,6 +166,7 @@ describe("claimBumpkinGift", () => {
       },
       state: {
         ...TEST_FARM,
+        coins,
         npcs: {
           "pumpkin' pete": {
             deliveryCount: 0,
@@ -218,7 +222,7 @@ describe("claimBumpkinGift", () => {
 
     expect(state.inventory["Block Buck"]).toEqual(new Decimal(1));
     expect(state.wardrobe["Pumpkin Hat"]).toEqual(1);
-    expect(state.balance).toEqual(new Decimal(4));
+    expect(state.coins).toEqual(1280);
   });
 
   it("requires player has points for bonus gift", () => {

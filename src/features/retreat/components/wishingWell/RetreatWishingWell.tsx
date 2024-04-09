@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import wishingWell from "assets/buildings/wishing_well.png";
-import icon from "assets/icons/token_2.png";
+import icon from "assets/icons/sfl.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";

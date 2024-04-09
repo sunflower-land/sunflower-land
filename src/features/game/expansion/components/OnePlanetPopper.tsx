@@ -8,6 +8,7 @@ import shadow from "assets/npcs/shadow.png";
 import bob from "assets/decorations/one_planet_bob.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 export const OnePlanetPopper: React.FC<{ event: SpecialEvent | undefined }> = ({
   event,
@@ -48,11 +49,13 @@ export const OnePlanetPopper: React.FC<{ event: SpecialEvent | undefined }> = ({
         }}
       />
       <Modal show={showSpecialEvent} onHide={() => setShowSpecialEvent(false)}>
-        <SpecialEventModalContent
-          event={event}
-          eventName="One Planet Popper"
-          onClose={() => setShowSpecialEvent(false)}
-        />
+        <CloseButtonPanel onClose={() => setShowSpecialEvent(false)}>
+          <SpecialEventModalContent
+            event={event}
+            eventName="One Planet Popper"
+            onClose={() => setShowSpecialEvent(false)}
+          />
+        </CloseButtonPanel>
       </Modal>
     </>
   );

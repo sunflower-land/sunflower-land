@@ -271,6 +271,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
 };
 
 export const TEST_FARM: GameState = {
+  coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
   inventory: {
@@ -312,6 +313,7 @@ export const TEST_FARM: GameState = {
     weeklyCatches: {},
   },
   wardrobe: {},
+  previousWardrobe: {},
   createdAt: new Date().getTime(),
   conversations: [],
   mailbox: {
@@ -394,6 +396,7 @@ export const TEST_FARM: GameState = {
       },
       wearables: {},
       sfl: 3,
+      coins: 0,
       message: "You are a legend!",
     },
   ],
@@ -450,9 +453,13 @@ export const TEST_FARM: GameState = {
     current: {},
     history: {},
   },
+  goblinMarket: {
+    resources: {},
+  },
 };
 
 export const EMPTY: GameState = {
+  coins: 0,
   balance: new Decimal(fromWei("0")),
   previousBalance: new Decimal(fromWei("0")),
   createdAt: new Date().getTime(),
@@ -467,6 +474,7 @@ export const EMPTY: GameState = {
   stock: {},
   stockExpiry: {},
   wardrobe: {},
+  previousWardrobe: {},
   conversations: [],
   farmHands: {
     bumpkins: {},
@@ -542,6 +550,9 @@ export const EMPTY: GameState = {
   specialEvents: {
     current: {},
     history: {},
+  },
+  goblinMarket: {
+    resources: {},
   },
 };
 

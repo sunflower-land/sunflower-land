@@ -4,6 +4,7 @@ import { CONFIG } from "lib/config";
 
 type Request = {
   farmId: number;
+  nftId: number;
   token: string;
   receiver: string;
   account: string;
@@ -32,7 +33,7 @@ export async function transferAccount(request: Request) {
     web3: wallet.web3Provider,
     account: request.account,
     to: request.receiver,
-    tokenId: request.farmId,
+    tokenId: request.nftId,
   });
 
   return data;

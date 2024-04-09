@@ -19,10 +19,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const TreasureShopSell: React.FC = () => {
   const { t } = useAppTranslation();
-  const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort((a, b) =>
-    SELLABLE_TREASURE[a].sellPrice
-      .sub(SELLABLE_TREASURE[b].sellPrice)
-      .toNumber()
+  const beachBountyTreasure = getKeys(SELLABLE_TREASURE).sort(
+    (a, b) => SELLABLE_TREASURE[a].sellPrice - SELLABLE_TREASURE[b].sellPrice
   );
 
   const [selectedName, setSelectedName] = useState<BeachBountyTreasure>(
@@ -57,7 +55,7 @@ export const TreasureShopSell: React.FC = () => {
             item: selectedName,
           }}
           properties={{
-            sfl: price,
+            coins: price,
           }}
           actionView={
             <Button disabled={amount.lt(1)} onClick={() => sell(1)}>

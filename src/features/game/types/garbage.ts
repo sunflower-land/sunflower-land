@@ -1,7 +1,3 @@
-import Decimal from "decimal.js-light";
-
-import { marketRate } from "../lib/halvening";
-
 export type GarbageName =
   | "Solar Flare Ticket"
   | "Dawn Breaker Ticket"
@@ -25,77 +21,77 @@ export type GarbageName =
   | "Red Wiggler";
 
 export type Garbage = {
-  sellPrice: Decimal;
+  sellPrice: number;
 };
 
 export const GARBAGE: Record<GarbageName, Garbage> = {
   // Seasonal Tickets
   "Solar Flare Ticket": {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
   "Dawn Breaker Ticket": {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
   "Crow Feather": {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
   "Mermaid Scale": {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
 
   // Old event tickets
   "Jack-o-lantern": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Love Letter": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Red Envelope": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "War Bond": {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
 
   // Easter Eggs
   "Blue Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Green Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Orange Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Pink Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Purple Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Red Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
   "Yellow Egg": {
-    sellPrice: marketRate(1),
+    sellPrice: 1,
   },
 
   // Others
   "Rapid Growth": {
-    sellPrice: marketRate(160),
+    sellPrice: 160,
   },
   Tent: {
-    sellPrice: new Decimal(1),
+    sellPrice: 20,
   },
 
   // Worms
   Earthworm: {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
   Grub: {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
   "Red Wiggler": {
-    sellPrice: marketRate(0.1),
+    sellPrice: 0.1,
   },
 };

@@ -4,7 +4,7 @@ import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState } from "../types/game";
-import { Announcements } from "../types/conversations";
+import { Announcements } from "../types/announcements";
 import {
   getReferrerId,
   getSignupMethod,

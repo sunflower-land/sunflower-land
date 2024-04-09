@@ -6,7 +6,8 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory, Order } from "features/game/types/game";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import sfl from "assets/icons/token_2.png";
+import sfl from "assets/icons/sfl.webp";
+import coinsImg from "assets/icons/coins.webp";
 
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
@@ -47,6 +48,18 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
     }
   }, [orders.length]);
 
+  const makeRewardAmountForLabel = (order: Order) => {
+    if (order.reward.sfl !== undefined) {
+      const sfl = getOrderSellPrice<Decimal>(game, order);
+
+      return sfl.toFixed(2);
+    }
+
+    const coins = getOrderSellPrice<number>(game, order);
+
+    return coins % 1 === 0 ? coins.toString() : coins.toFixed(2);
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
@@ -73,11 +86,22 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
               }
             >
               {getKeys(order.items).map((itemName) => {
+                if (itemName === "coins") {
+                  return (
+                    <RequirementLabel
+                      type="coins"
+                      balance={game.coins}
+                      requirement={order?.items[itemName] ?? 0}
+                      showLabel
+                    />
+                  );
+                }
+
                 if (itemName === "sfl") {
                   return (
                     <RequirementLabel
                       type="sfl"
-                      balance={balance}
+                      balance={game.balance}
                       requirement={new Decimal(order?.items[itemName] ?? 0)}
                       showLabel
                     />
@@ -96,11 +120,19 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                 );
               })}
               <div className="flex flex-col justify-center">
-                {order.reward.sfl && (
+                {order.reward.sfl !== undefined && (
                   <div className="flex items-center mt-1">
                     <img src={sfl} className="h-5 mr-1" />
                     <span className="text-xs">
-                      {getOrderSellPrice(game, order).toFixed(2)}
+                      {makeRewardAmountForLabel(order)}
+                    </span>
+                  </div>
+                )}
+                {order.reward.coins !== undefined && (
+                  <div className="flex items-center mt-1">
+                    <img src={coinsImg} className="h-5 mr-1" />
+                    <span className="text-xs">
+                      {makeRewardAmountForLabel(order)}
                     </span>
                   </div>
                 )}

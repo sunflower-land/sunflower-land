@@ -23,9 +23,9 @@ export function buyWearable({
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
+  const stateCopy: GameState = cloneDeep(state);
   const { name } = action;
-  const wearable = STYLIST_WEARABLES(state)[name];
+  const wearable = STYLIST_WEARABLES[name];
 
   if (!wearable) {
     throw new Error("This item is not available");
@@ -53,10 +53,10 @@ export function buyWearable({
     }
   }
 
-  const totalExpenses = new Decimal(wearable.sfl);
+  const price = wearable.coins ?? 0;
 
-  if (totalExpenses && stateCopy.balance.lessThan(totalExpenses)) {
-    throw new Error("Insufficient tokens");
+  if (price && stateCopy.coins < price) {
+    throw new Error("Insufficient coins");
   }
 
   const subtractedInventory = getKeys(wearable.ingredients)?.reduce(
@@ -77,24 +77,16 @@ export function buyWearable({
   );
 
   bumpkin.activity = trackActivity(
-    "SFL Spent",
+    "Coins Spent",
     bumpkin?.activity,
-    totalExpenses ?? new Decimal(0)
+    new Decimal(price)
   );
 
   const oldAmount = stateCopy.wardrobe[name] ?? 0;
 
-  return {
-    ...stateCopy,
-    balance: totalExpenses
-      ? stateCopy.balance.sub(totalExpenses)
-      : stateCopy.balance,
-    wardrobe: {
-      ...stateCopy.wardrobe,
-      [name]: oldAmount + 1,
-    },
-    inventory: {
-      ...subtractedInventory,
-    },
-  };
+  stateCopy.coins = stateCopy.coins - price;
+  stateCopy.wardrobe[name] = oldAmount + 1;
+  stateCopy.inventory = subtractedInventory;
+
+  return stateCopy;
 }

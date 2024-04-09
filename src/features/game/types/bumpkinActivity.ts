@@ -75,6 +75,8 @@ export type BumpkinActivityName =
   | "Sunstone Mined"
   | "Egg Collected"
   // Misc
+  | "Coins Spent"
+  | "Coins Earned"
   | "SFL Spent"
   | "SFL Earned"
   | "Mutant Chicken Found"

@@ -3,6 +3,7 @@ import { Modal } from "components/ui/Modal";
 import { useSelector } from "@xstate/react";
 
 import { useInterval } from "lib/utils/hooks/useInterval";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
@@ -18,6 +19,7 @@ import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
 import logo from "assets/brand/logo_v2.png";
+import easterlogo from "assets/brand/easterlogo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 import ocean from "assets/decorations/ocean.webp";
 
@@ -47,7 +49,7 @@ import { Sniped } from "../components/Sniped";
 import { NewMail } from "./components/NewMail";
 import { Blacklisted } from "../components/Blacklisted";
 import { AirdropPopup } from "./components/Airdrop";
-import { PIXEL_SCALE } from "../lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
@@ -55,6 +57,17 @@ import { Home } from "features/home/Home";
 import { Wallet } from "features/wallet/Wallet";
 import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Listed } from "../components/Listed";
+import { ListingDeleted } from "../components/listingDeleted";
+import { AuthMachineState } from "features/auth/lib/authMachine";
+import { usePWAInstall } from "features/pwa/PWAInstallProvider";
+import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
+import { Withdrawing } from "../components/Withdrawing";
+import { Withdrawn } from "../components/Withdrawn";
+import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
+import { hasFeatureAccess } from "lib/flags";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PriceChange } from "../components/PriceChange";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -93,13 +106,22 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   refundAuction: false,
   promo: true,
   trading: true,
+  listing: true,
+  deleteTradeListing: true,
+  tradeListingDeleted: true,
+  fulfillTradeListing: false,
+  listed: true,
   sniped: true,
-  traded: true,
+  priceChanged: true,
   buds: false,
   mailbox: false,
   blacklisted: true,
   airdrop: true,
   portalling: true,
+  provingPersonhood: false,
+  withdrawing: true,
+  withdrawn: true,
+  sellMarketResource: false,
 };
 
 // State change selectors
@@ -108,7 +130,17 @@ const isLoading = (state: MachineState) =>
 const isPortalling = (state: MachineState) => state.matches("portalling");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
+const isListing = (state: MachineState) => state.matches("listing");
+const isListed = (state: MachineState) => state.matches("listed");
+const isDeletingListing = (state: MachineState) =>
+  state.matches("deleteTradeListing");
+const isListingDeleted = (state: MachineState) =>
+  state.matches("tradeListingDeleted");
+const isFulfillingTradeListing = (state: MachineState) =>
+  state.matches("fulfillTradeListing");
 const isSniped = (state: MachineState) => state.matches("sniped");
+const hasMarketPriceChanged = (state: MachineState) =>
+  state.matches("priceChanged");
 const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
@@ -136,6 +168,8 @@ const currentState = (state: MachineState) => state.value;
 const getErrorCode = (state: MachineState) => state.context.errorCode;
 const getActions = (state: MachineState) => state.context.actions;
 
+const isWithdrawing = (state: MachineState) => state.matches("withdrawing");
+const isWithdrawn = (state: MachineState) => state.matches("withdrawn");
 const isTransacting = (state: MachineState) => state.matches("transacting");
 const isClaimAuction = (state: MachineState) => state.matches("claimAuction");
 const isRefundingAuction = (state: MachineState) =>
@@ -144,6 +178,9 @@ const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
+const isPlaying = (state: MachineState) => state.matches("playing");
+const isProvingPersonhood = (state: MachineState) =>
+  state.matches("provingPersonhood");
 
 const GameContent = () => {
   const { gameService } = useContext(Context);
@@ -220,14 +257,27 @@ export const Game: React.FC = () => {
   );
 };
 
+const _showPWAInstallPrompt = (state: AuthMachineState) =>
+  state.context.showPWAInstallPrompt;
+
 export const GameWrapper: React.FC = ({ children }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
+  const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
+  const provingPersonhood = useSelector(gameService, isProvingPersonhood);
+  const withdrawing = useSelector(gameService, isWithdrawing);
+  const withdrawn = useSelector(gameService, isWithdrawn);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
+  const listing = useSelector(gameService, isListing);
+  const listed = useSelector(gameService, isListed);
+  const deletingListing = useSelector(gameService, isDeletingListing);
+  const listingDeleted = useSelector(gameService, isListingDeleted);
   const sniped = useSelector(gameService, isSniped);
+  const marketPriceChanged = useSelector(gameService, hasMarketPriceChanged);
   const refreshing = useSelector(gameService, isRefreshing);
   const buyingSFL = useSelector(gameService, isBuyingSFL);
   const error = useSelector(gameService, isError);
@@ -254,6 +304,9 @@ export const GameWrapper: React.FC = ({ children }) => {
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
   const specialOffer = useSelector(gameService, hasSpecialOffer);
+  const playing = useSelector(gameService, isPlaying);
+
+  const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
   const { t } = useAppTranslation();
   useInterval(() => {
@@ -292,6 +345,16 @@ export const GameWrapper: React.FC = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (playing && showPWAInstallPrompt) {
+      pwaInstallRef.current?.showDialog();
+
+      authService.send("PWA_INSTALL_PROMPT_SHOWN");
+
+      fixInstallPromptTextStyles();
+    }
+  }, [playing, pwaInstallRef, showPWAInstallPrompt]);
+
   if (loadingSession || loadingLandToVisit || portalling) {
     return (
       <>
@@ -322,11 +385,24 @@ export const GameWrapper: React.FC = ({ children }) => {
                   }}
                 />
                 <>
-                  <img id="logo" src={logo} className="w-full" />
+                  {hasFeatureAccess(TEST_FARM, "EASTER") ? (
+                    <img id="logo" src={easterlogo} className="w-full" />
+                  ) : (
+                    <img id="logo" src={logo} className="w-full" />
+                  )}
                   <div className="flex justify-center">
                     <Label type="default">
                       {CONFIG.RELEASE_VERSION?.split("-")[0]}
                     </Label>
+                    {hasFeatureAccess(TEST_FARM, "EASTER") && (
+                      <Label
+                        secondaryIcon={SUNNYSIDE.icons.stopwatch}
+                        type="vibrant"
+                        className="ml-2"
+                      >
+                        {t("event.Easter")}
+                      </Label>
+                    )}
                   </div>
                 </>
               </div>
@@ -355,49 +431,68 @@ export const GameWrapper: React.FC = ({ children }) => {
   const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
 
   return (
-    <ToastProvider>
-      <ToastPanel />
+    <>
+      <ToastProvider>
+        <ToastPanel />
 
-      <Modal show={SHOW_MODAL[stateValue as StateValues]}>
-        <Panel>
-          {loading && <Loading />}
-          {refreshing && <Refreshing />}
-          {buyingSFL && <AddingSFL />}
-          {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
-          {synced && <Success />}
-          {syncing && <Syncing />}
-          {purchasing && <Purchasing />}
-          {hoarding && <Hoarding />}
-          {swarming && <Swarming />}
-          {noBumpkinFound && (
-            <Wallet action="deposit">
-              <NoBumpkin />
-            </Wallet>
-          )}
-          {weakBumpkin && <WeakBumpkin />}
+        <Modal show={SHOW_MODAL[stateValue as StateValues]}>
+          <Panel>
+            {loading && <Loading />}
+            {refreshing && <Refreshing />}
+            {buyingSFL && <AddingSFL />}
+            {error && <ErrorMessage errorCode={errorCode as ErrorCode} />}
+            {synced && <Success />}
+            {syncing && <Syncing />}
+            {purchasing && <Purchasing />}
+            {hoarding && <Hoarding />}
+            {swarming && <Swarming />}
+            {noBumpkinFound && (
+              <Wallet action="deposit">
+                <NoBumpkin />
+              </Wallet>
+            )}
+            {weakBumpkin && <WeakBumpkin />}
+            {coolingDown && <Cooldown />}
+            {gameRules && <Rules />}
+            {transacting && <Transacting />}
+            {depositing && <Loading text="Depositing" />}
+            {trading && <Loading text="Trading" />}
+            {traded && <Traded />}
+            {listing && <Loading text="Listing" />}
+            {listed && <Listed />}
+            {deletingListing && <Loading text="Deleting listing" />}
+            {listingDeleted && <ListingDeleted />}
+            {sniped && <Sniped />}
+            {marketPriceChanged && <PriceChange />}
+            {minting && <Minting />}
+            {promo && <Promo />}
+            {airdrop && <AirdropPopup />}
+            {specialOffer && <SpecialOffer />}
+            {withdrawing && <Withdrawing />}
+            {withdrawn && <Withdrawn />}
+          </Panel>
+        </Modal>
 
-          {coolingDown && <Cooldown />}
-          {gameRules && <Rules />}
-          {transacting && <Transacting />}
-          {depositing && <Loading text="Depositing" />}
-          {trading && <Loading text="Trading" />}
-          {traded && <Traded />}
-          {sniped && <Sniped />}
-          {minting && <Minting />}
-          {promo && <Promo />}
-          {airdrop && <AirdropPopup />}
-          {specialOffer && <SpecialOffer />}
-        </Panel>
-      </Modal>
+        {claimingAuction && <ClaimAuction />}
+        {refundAuction && <RefundAuction />}
 
-      {claimingAuction && <ClaimAuction />}
-      {refundAuction && <RefundAuction />}
+        <SpecialOffer />
+        <Introduction />
+        <NewMail />
 
-      <SpecialOffer />
-      <Introduction />
-      <NewMail />
+        {provingPersonhood && (
+          <Modal
+            show={true}
+            onHide={() => gameService.send("PERSONHOOD_CANCELLED")}
+          >
+            <Panel className="text-shadow">
+              <PersonhoodContent />
+            </Panel>
+          </Modal>
+        )}
 
-      {children}
-    </ToastProvider>
+        {children}
+      </ToastProvider>
+    </>
   );
 };

@@ -24,7 +24,7 @@ export const StorageModal: React.FC<Props> = ({ onClose }) => {
         className="absolute flex"
         style={{
           top: `${PIXEL_SCALE * 1}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          left: `${PIXEL_SCALE * 0}px`,
           right: `${PIXEL_SCALE * 1}px`,
         }}
       >

@@ -3,7 +3,9 @@ export type PortalName =
   | "bumpkin-fight-club"
   | "bumpkin-board-game"
   | "sfl-world"
-  | "maze-run";
+  | "maze-run"
+  | "board-game"
+  | "chicken-rescue";
 
 export const SUPPORTED_PORTALS: PortalName[] = [
   "crop-boom",
@@ -11,6 +13,8 @@ export const SUPPORTED_PORTALS: PortalName[] = [
   "bumpkin-board-game",
   "sfl-world",
   "maze-run",
+  "board-game",
+  "chicken-rescue",
 ];
 
 export const MAX_TOTAL_ARCADE_TOKENS = 50;
@@ -21,4 +25,7 @@ export const DAILY_ARCADE_TOKENS: Record<PortalName, number> = {
   "bumpkin-board-game": 1,
   "sfl-world": 1,
   "maze-run": 1,
+
+  "board-game": 0,
+  "chicken-rescue": 0,
 };

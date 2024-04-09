@@ -25,7 +25,6 @@ import { DepletedTree } from "./components/DepletedTree";
 import { DepletingTree } from "./components/DepletingTree";
 import { RecoveredTree } from "./components/RecoveredTree";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { getBumpkinLevel } from "features/game/lib/level";
 
 const HITS = 3;
 const tool = "Axe";
@@ -56,15 +55,12 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
-const _bumpkinLevel = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
-
 interface Props {
   id: string;
   index: number;
 }
 
-export const Tree: React.FC<Props> = ({ id, index }) => {
+export const Tree: React.FC<Props> = ({ id }) => {
   const { gameService, shortcutItem } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);

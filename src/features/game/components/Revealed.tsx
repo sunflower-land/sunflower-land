@@ -26,6 +26,7 @@ export const Revealed: React.FC<{
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
   const wearables = getKeys(gameState.context.revealed?.wardrobe ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
+  const coins = gameState.context.revealed?.coins ?? 0;
 
   const currentStreaks = gameState.context.state.dailyRewards?.streaks ?? 1;
   const streakBonus = currentStreaks % 5 == 0;
@@ -45,6 +46,7 @@ export const Revealed: React.FC<{
           ),
           wearables: gameState.context.revealed?.wardrobe ?? {},
           sfl,
+          coins,
         }}
       />
       {streaks && streakBonus && (

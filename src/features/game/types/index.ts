@@ -415,6 +415,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Luxury Key": 932,
   "Rare Key": 933,
   "Prize Ticket": 934,
+  "Baby Panda": 935,
+  Baozi: 936,
+  "Community Egg": 937,
+  "Hungry Hare": 938,
 
   // Buildings
   Market: 1001,
@@ -624,6 +628,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Capybara: 2009,
   Blossombeard: 2010,
   "Flower Rug": 2011,
+  "Tea Rug": 2012,
+  "Green Field Rug": 2013,
 };
 
 // The reverse of above

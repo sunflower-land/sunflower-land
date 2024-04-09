@@ -80,12 +80,8 @@ export const GoblinDigging: React.FC = () => {
             <p className="mb-3">{t("beachLuck.uncleFound")}</p>
             <p className="mb-3">{t("beachLuck.grabShovel")}</p>
             <div className="flex flex-wrap gap-y-1 justify-center mt-4 items-center">
-              <p className="text-xxs mr-2">
-                {t("beachLuck.refreshesIn")}
-                {":"}
-              </p>
+              <p className="text-xxs mr-2">{t("beachLuck.refreshesIn")}</p>
               <CountdownLabel timeLeft={secondsLeft} />
-              {"s"}
             </div>
           </div>
         </CloseButtonPanel>

@@ -407,7 +407,7 @@ describe("feedBumpkin", () => {
     );
   });
 
-  it("provides 2x experience with Earn Alliance Banner in February", () => {
+  it("provides 2x experience for Fermented Carrots with the Hungry Hare", () => {
     const result = feedBumpkin({
       state: {
         ...TEST_FARM,
@@ -415,10 +415,10 @@ describe("feedBumpkin", () => {
           ...INITIAL_BUMPKIN,
         },
         inventory: {
-          Gumbo: new Decimal(1),
+          "Fermented Carrots": new Decimal(1),
         },
         collectibles: {
-          "Earn Alliance Banner": [
+          "Hungry Hare": [
             {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
@@ -430,14 +430,13 @@ describe("feedBumpkin", () => {
       },
       action: {
         type: "bumpkin.feed",
-        food: "Gumbo",
+        food: "Fermented Carrots",
         amount: 1,
       },
-      createdAt: new Date("2024-02-04").getTime(),
     });
 
     expect(result.bumpkin?.experience).toBe(
-      CONSUMABLES["Gumbo"].experience * 2
+      CONSUMABLES["Fermented Carrots"].experience * 2
     );
   });
 });

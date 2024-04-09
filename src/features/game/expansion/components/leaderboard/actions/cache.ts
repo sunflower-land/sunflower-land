@@ -10,20 +10,29 @@ export type Leaderboards = {
 };
 
 export function cacheLeaderboardData(data: Leaderboards): void {
-  localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+  }
 }
 
 export function getCachedLeaderboardData(): Leaderboards | null {
-  const cachedData = localStorage.getItem(CACHE_KEY);
-  if (!cachedData) return null;
+  try {
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (!cachedData) return null;
 
-  const parsedData = JSON.parse(cachedData);
-  const now = Date.now();
+    const parsedData = JSON.parse(cachedData);
+    const now = Date.now();
 
-  if (now - parsedData.lastUpdated > CACHE_DURATION_IN_MS) {
-    localStorage.removeItem(CACHE_KEY);
+    if (now - parsedData.lastUpdated > CACHE_DURATION_IN_MS) {
+      localStorage.removeItem(CACHE_KEY);
+      return null;
+    }
+
+    return parsedData;
+  } catch {
     return null;
   }
-
-  return parsedData;
 }

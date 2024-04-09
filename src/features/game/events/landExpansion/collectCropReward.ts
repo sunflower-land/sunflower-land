@@ -44,7 +44,7 @@ export function collectCropReward({
   }
 
   const {
-    reward: { items, sfl },
+    reward: { items, coins },
   } = plantedCrop;
 
   if (items?.length) {
@@ -55,8 +55,8 @@ export function collectCropReward({
     });
   }
 
-  if (sfl) {
-    stateCopy.balance = stateCopy.balance.add(sfl);
+  if (coins) {
+    stateCopy.coins = stateCopy.coins + coins;
   }
 
   delete plantedCrop.reward;

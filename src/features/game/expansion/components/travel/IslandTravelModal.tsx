@@ -62,8 +62,7 @@ export const IslandTravelModal: React.FC<IslandTravelModalProps> = ({
       <CloseButtonPanel onClose={onClose}>
         <div className="flex flex-col items-center">
           <Label className="mt-2" icon={lockIcon} type="danger">
-            {t("warning.level.required")}
-            {": 3"}
+            {t("warning.level.required", { lvl: 3 })}
           </Label>
           <img src={worldIcon} className="w-10 mx-auto my-2" />
           <p className="text-sm text-center mb-2">

@@ -134,7 +134,7 @@ export const Quest: React.FC<Props> = ({
               className="w-1/3 my-2 rounded-lg"
             />
             <p className="text-sm mb-3">
-              {t("quest.congrats")} {`${quest.wearable}`}
+              {t("quest.congrats", { wearable: quest.wearable })}
             </p>
             <p className="text-sm mb-3">{t("quest.equipWearable")}</p>
           </div>

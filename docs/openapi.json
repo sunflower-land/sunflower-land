@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sunflower Land",
+    "version": "0.1.0",
+    "description": "The Sunflower Land API is available for developers to build on Sunflower Land.\n\nDid you know you can now build tools that can be accessed directly by players in game? Consider building your next tool inside of Sunflower Land as part of the Creator Economy!\nLearn more <a href='https://docs.sunflower-land.com/contributing/portals/portal-development'>here</a>.\n\nThank you for joining our journey and helping us build the #1 Community Metaverse game."
+  },
+  "servers": [
+    {
+      "url": "https://api.sunflower-land.com",
+      "description": "Sunflower Land API"
+    },
+    {
+      "url": "https://api-dev.sunflower-land.com",
+      "description": "Sunflower Land Testnet API"
+    }
+  ],
+  "paths": {
+    "/community/farms/{id}": {
+      "get": {
+        "description": "Gets a player's farm.",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "description": "The ID of the farm. Can be a Farm ID or NFT ID.",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Farm Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "nft_id": {
+                      "type": "integer",
+                      "description": "The NFT ID of the farm. Will be <b>undefined</b> if the farm does not have a linked NFT."
+                    },
+                    "farm": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Farm Not Found"
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    },
+    "/community/farms": {
+      "get": {
+        "description": "Gets player's farms. The cursor parameter can be used to get the next page.",
+        "parameters": [
+          {
+            "name": "cursor",
+            "description": "The cursor is returned in the <b>next_cursor</b> field of the response body.",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "description": "The maximum number of farms to return. The maximum value is <b>500</b>. Due to data transfer limitations, when faced with errors such as <b>429 Too Many Requests</b>, consider reducing the limit.",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 100,
+              "maximum": 500
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A List of Farms",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "next_cursor": {
+                      "type": "string"
+                    },
+                    "farms": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "nft_id": {
+                            "type": "integer",
+                            "description": "The NFT ID of the farm. Will be <b>undefined</b> if the farm does not have a linked NFT."
+                          },
+                          "farm": {
+                            "type": "object"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests"
+          }
+        }
+      }
+    }
+  },
+  "components": {},
+  "tags": []
+}

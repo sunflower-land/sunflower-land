@@ -2,7 +2,7 @@ import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import token from "assets/icons/token_2.png";
+import token from "assets/icons/sfl.webp";
 
 import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
@@ -69,6 +69,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
       }
 
       setSFLAmount(sfl);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       // eslint-disable-next-line no-console
       console.error(error.message);
@@ -152,7 +153,6 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
                 />
                 <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
                   {t("balance")}
-                  {":"}
                   {formattedMaticBalance}
                 </span>
               </div>
@@ -186,7 +186,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
               {!!amountOutMin && (
                 <p className="text-xxs">
                   {t("addSFL.minimumReceived")}
-                  {":"} {setPrecision(new Decimal(amountOutMin)).toNumber()}
+                  {setPrecision(new Decimal(amountOutMin)).toNumber()}
                 </p>
               )}
             </div>

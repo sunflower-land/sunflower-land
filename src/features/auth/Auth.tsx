@@ -3,6 +3,7 @@ import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 
 import logo from "assets/brand/logo_v2.png";
+import easterlogo from "assets/brand/easterlogo.png";
 import sparkle from "assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -12,7 +13,7 @@ import { Panel } from "components/ui/Panel";
 import { Loading } from "./components";
 
 import { ErrorCode } from "lib/errors";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { Verifying } from "./components/Verifying";
 import { Welcome } from "./components/Welcome";
 import classNames from "classnames";
@@ -22,6 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 type Props = {
   showOfflineModal: boolean;
@@ -54,29 +56,37 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
               }}
             />
             <>
-              <img id="logo" src={logo} className="w-full" />
+              {hasFeatureAccess(TEST_FARM, "EASTER") ? (
+                <img id="logo" src={easterlogo} className="w-full" />
+              ) : (
+                <img id="logo" src={logo} className="w-full" />
+              )}
 
               <div className="flex justify-center">
                 <Label type="default">
                   {CONFIG.RELEASE_VERSION?.split("-")[0]}
                 </Label>
 
-                {Date.now() > new Date("2024-02-09").getTime() &&
-                  Date.now() < new Date("2024-02-16").getTime() && (
-                    <Label
-                      secondaryIcon={SUNNYSIDE.icons.stopwatch}
-                      type="vibrant"
-                      className="ml-2"
-                    >
-                      {t("event.LunarNewYear")}
-                    </Label>
-                  )}
+                {hasFeatureAccess(TEST_FARM, "EASTER") && (
+                  <Label
+                    secondaryIcon={SUNNYSIDE.icons.stopwatch}
+                    type="vibrant"
+                    className="ml-2"
+                  >
+                    {t("event.Easter")}
+                  </Label>
+                )}
               </div>
             </>
           </div>
         </div>
         {!showOfflineModal ? (
-          <Panel className="pb-1 relative">
+          <Panel
+            className="pb-1 relative"
+            style={{
+              minHeight: "70px",
+            }}
+          >
             {authState.matches("welcome") && <Welcome />}
             {authState.matches("noAccount") && <NoAccount />}
             {authState.matches("authorising") && <Loading />}
@@ -96,7 +106,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           </Panel>
         ) : (
           <Panel>
-            <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+            <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
           </Panel>
         )}
       </Modal>

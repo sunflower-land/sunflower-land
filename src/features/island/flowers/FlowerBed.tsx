@@ -10,6 +10,7 @@ import { useActor } from "@xstate/react";
 import {
   FLOWERS,
   FLOWER_LIFECYCLE,
+  FLOWER_SEEDS,
   FlowerName,
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
@@ -22,7 +23,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 
@@ -57,11 +57,10 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const { showTimers, gameService } = useContext(Context);
   const [
     {
-      context: {
-        state: { flowers, farmActivity },
-      },
+      context: { state },
     },
   ] = useActor(gameService);
+  const { flowers, farmActivity } = state;
 
   const flowerBed = flowers.flowerBeds[id];
 
@@ -99,8 +98,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const flower = flowerBed.flower;
 
   const growTime =
-    getFlowerTime(FLOWERS[flower.name].seed, gameService.state.context.state) *
-    1000;
+    FLOWER_SEEDS()[FLOWERS[flower.name].seed].plantSeconds * 1000;
   const timeLeft = (flowerBed.flower?.plantedAt ?? 0) + growTime - Date.now();
   const timeLeftSeconds = Math.round(timeLeft / 1000);
 

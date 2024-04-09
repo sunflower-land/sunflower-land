@@ -25,21 +25,26 @@ interface Props {
 }
 
 const obsessionDialogues = (itemName: string) => [
-  `${translate("obsessionDialogue.line1.part1")} ${itemName}${translate(
-    "obsessionDialogue.line1.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line1.part3")}`,
-  `${translate("obsessionDialogue.line2.part1")} ${itemName}${translate(
-    "obsessionDialogue.line2.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line2.part3")}`,
-  `${translate("obsessionDialogue.line3.part1")} ${itemName}${translate(
-    "obsessionDialogue.line3.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line3.part3")}`,
-  `${translate("obsessionDialogue.line4.part1")} ${itemName}${translate(
-    "obsessionDialogue.line4.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line4.part3")}`,
-  `${translate("obsessionDialogue.line5.part1")} ${itemName}${translate(
-    "obsessionDialogue.line5.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line5.part3")}`,
+  `${translate("obsessionDialogue.line1", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line2", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line3", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line4", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line5", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
@@ -109,8 +114,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           }`}
         </Button>
         <span className="text-xs">
-          {t("bert.day")} {getSeasonalTicket()}
-          {"."}
+          {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
         </span>
       </>
     );

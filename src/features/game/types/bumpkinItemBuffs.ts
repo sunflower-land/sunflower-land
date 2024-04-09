@@ -166,8 +166,8 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     },
     "Crimstone Amulet": {
       shortDescription: translate("bumpkinItemBuff.crimstone.amulet"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS.Crimstone.image,
     },
     "Crimstone Armor": {
@@ -190,13 +190,14 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
     },
     "Flower Crown": {
       shortDescription: translate("bumpkinItemBuff.flower.crown"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
     },
     "Beekeeper Hat": {
       shortDescription: translate("description.beekeeper.hat.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS.Honey.image,
     },
   };

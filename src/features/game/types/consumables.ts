@@ -1,9 +1,51 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Decimal from "decimal.js-light";
 import { BuildingName } from "./buildings";
-import { Cake, getKeys } from "./craftables";
+import { Cake } from "./craftables";
 import { Inventory } from "./game";
 import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
+
+type FirePitCookableName =
+  | "Mashed Potato"
+  | "Pumpkin Soup"
+  | "Bumpkin Broth"
+  | "Boiled Eggs"
+  | "Kale Stew"
+  | "Mushroom Soup"
+  | "Reindeer Carrot"
+  | "Kale Omelette"
+  | "Cabbers n Mash"
+  | "Popcorn"
+  | "Gumbo";
+
+type KitchenCookableName =
+  | "Roast Veggies"
+  | "Bumpkin Salad"
+  | "Goblin's Treat"
+  | "Cauliflower Burger"
+  | "Pancakes"
+  | "Club Sandwich"
+  | "Mushroom Jacket Potatoes"
+  | "Sunflower Crunch"
+  | "Bumpkin Roast"
+  | "Goblin Brunch"
+  | "Fruit Salad"
+  | "Bumpkin ganoush"
+  | "Chowder";
+
+type BakeryCookableName =
+  | CakeName
+  | "Apple Pie"
+  | "Kale & Mushroom Pie"
+  | "Cornbread";
+
+type DeliCookableName =
+  | "Blueberry Jam"
+  | "Fermented Carrots"
+  | "Sauerkraut"
+  | "Fancy Fries"
+  | "Fermented Fish";
 
 type JuiceName =
   | "Apple Juice"
@@ -15,42 +57,14 @@ type JuiceName =
 
 type FishCookableName = "Chowder" | "Gumbo" | "Fermented Fish";
 
+type CakeName = Cake | "Orange Cake" | "Eggplant Cake" | "Honey Cake";
+
 export type CookableName =
-  | "Mashed Potato"
-  | "Pumpkin Soup"
-  | "Bumpkin Broth"
-  | "Boiled Eggs"
-  | "Mushroom Soup"
-  | "Roast Veggies"
-  | "Bumpkin Salad"
-  | "Cauliflower Burger"
-  | "Mushroom Jacket Potatoes"
-  | "Goblin's Treat"
-  | "Club Sandwich"
-  | "Kale Stew"
-  | "Pancakes"
-  | "Kale & Mushroom Pie"
-  | "Fermented Carrots"
-  | "Sauerkraut"
-  | "Blueberry Jam"
-  | "Apple Pie"
-  | "Orange Cake"
-  | "Honey Cake"
-  | "Sunflower Crunch"
-  | "Reindeer Carrot"
-  | Cake
-  | JuiceName
-  | "Bumpkin Roast"
-  | "Goblin Brunch"
-  | "Fruit Salad"
-  | "Kale Omelette"
-  | "Cabbers n Mash"
-  | "Fancy Fries"
-  | "Bumpkin ganoush"
-  | "Eggplant Cake"
-  | "Cornbread"
-  | "Popcorn"
-  | FishCookableName;
+  | FirePitCookableName
+  | KitchenCookableName
+  | BakeryCookableName
+  | DeliCookableName
+  | JuiceName;
 
 export type ConsumableName = CookableName | "Pirate Cake" | FishName;
 
@@ -71,9 +85,342 @@ export type Consumable = Omit<
   "name" | "ingredients" | "cookingSeconds" | "building" | "marketRate"
 > & { name: ConsumableName };
 
-type CakeName = Cake | "Orange Cake" | "Eggplant Cake" | "Honey Cake";
+export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
+  "Mashed Potato": {
+    name: "Mashed Potato",
+    description: translate("description.mashed.potato"),
+    building: "Fire Pit",
+    experience: 3,
+    cookingSeconds: 30,
+    ingredients: {
+      Potato: new Decimal(8),
+    },
+    marketRate: 10,
+  },
+  "Pumpkin Soup": {
+    name: "Pumpkin Soup",
+    description: translate("description.pumpkin.soup"),
+    building: "Fire Pit",
+    experience: 24,
+    cookingSeconds: 60 * 3,
+    ingredients: {
+      Pumpkin: new Decimal(10),
+    },
+    marketRate: 16,
+  },
+  "Reindeer Carrot": {
+    name: "Reindeer Carrot",
+    description: translate("description.reindeer.carrot"),
+    building: "Fire Pit",
+    experience: 10,
+    cookingSeconds: 60 * 5,
+    ingredients: {
+      Carrot: new Decimal(5),
+    },
+    marketRate: 0,
+  },
+  "Mushroom Soup": {
+    name: "Mushroom Soup",
+    description: translate("description.mushroom.soup"),
+    building: "Fire Pit",
+    experience: 56,
+    cookingSeconds: 10 * 60,
+    ingredients: {
+      "Wild Mushroom": new Decimal(5),
+    },
+    marketRate: 240,
+  },
+  Popcorn: {
+    name: "Popcorn",
+    description: translate("description.popcorn"),
+    building: "Fire Pit",
+    experience: 200,
+    cookingSeconds: 12 * 60,
+    ingredients: {
+      Sunflower: new Decimal(100),
+      Corn: new Decimal(5),
+    },
+    marketRate: 120,
+  },
+  "Bumpkin Broth": {
+    name: "Bumpkin Broth",
+    description: translate("description.bumpkin.broth"),
+    building: "Fire Pit",
+    experience: 96,
+    cookingSeconds: 60 * 20,
+    ingredients: {
+      Carrot: new Decimal(10),
+      Cabbage: new Decimal(5),
+    },
+    marketRate: 64,
+  },
+  "Cabbers n Mash": {
+    name: "Cabbers n Mash",
+    description: translate("description.cabbers.mash"),
+    building: "Fire Pit",
+    experience: 250,
+    cookingSeconds: 60 * 40,
+    ingredients: {
+      "Mashed Potato": new Decimal(10),
+      Cabbage: new Decimal(20),
+    },
+    marketRate: 160,
+  },
+  "Boiled Eggs": {
+    name: "Boiled Eggs",
+    description: translate("description.boiled.eggs"),
+    building: "Fire Pit",
+    experience: 90,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Egg: new Decimal(5),
+    },
+    marketRate: 160,
+  },
+  "Kale Stew": {
+    name: "Kale Stew",
+    description: translate("description.kale.stew"),
+    building: "Fire Pit",
+    experience: 400,
+    cookingSeconds: 60 * 60 * 2,
+    ingredients: {
+      Kale: new Decimal(10),
+    },
+    marketRate: 400,
+  },
+  "Kale Omelette": {
+    name: "Kale Omelette",
+    description: translate("description.kale.omelette"),
+    building: "Fire Pit",
+    experience: 1250,
+    cookingSeconds: 60 * 60 * 3.5,
+    ingredients: {
+      Egg: new Decimal(20),
+      Kale: new Decimal(5),
+    },
+    marketRate: 640,
+  },
+  Gumbo: {
+    name: "Gumbo",
+    description: translate("description.gumbo"),
+    building: "Fire Pit",
+    experience: 600,
+    cookingSeconds: 60 * 60 * 4,
+    ingredients: {
+      Potato: new Decimal(50),
+      Pumpkin: new Decimal(30),
+      Carrot: new Decimal(20),
+      "Red Snapper": new Decimal(3),
+    },
+    marketRate: 0,
+  },
+};
 
-export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
+export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
+  "Sunflower Crunch": {
+    name: "Sunflower Crunch",
+    description: translate("description.sunflower.crunch"),
+    building: "Kitchen",
+    experience: 50,
+    cookingSeconds: 10 * 60,
+    ingredients: {
+      Sunflower: new Decimal(300),
+    },
+    marketRate: 40,
+  },
+  "Mushroom Jacket Potatoes": {
+    name: "Mushroom Jacket Potatoes",
+    description: translate("description.mushroom.jacket.potatoes"),
+    building: "Kitchen",
+    experience: 240,
+    cookingSeconds: 10 * 60,
+    ingredients: {
+      "Wild Mushroom": new Decimal(10),
+      Potato: new Decimal(5),
+    },
+    marketRate: 240,
+  },
+  "Fruit Salad": {
+    name: "Fruit Salad",
+    description: translate("description.fruit.salad"),
+    building: "Kitchen",
+    experience: 225,
+    cookingSeconds: 60 * 30,
+    ingredients: {
+      Apple: new Decimal(1),
+      Orange: new Decimal(1),
+      Blueberry: new Decimal(1),
+    },
+    marketRate: 200,
+  },
+  Pancakes: {
+    name: "Pancakes",
+    description: translate("description.pancakes"),
+    building: "Kitchen",
+    experience: 1000,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Wheat: new Decimal(10),
+      Egg: new Decimal(5),
+      Honey: new Decimal(6),
+    },
+    marketRate: 10,
+  },
+  "Roast Veggies": {
+    name: "Roast Veggies",
+    description: translate("description.roast.veggies"),
+    building: "Kitchen",
+    experience: 170,
+    cookingSeconds: 60 * 60 * 2,
+    ingredients: {
+      Cauliflower: new Decimal(15),
+      Carrot: new Decimal(10),
+    },
+    marketRate: 240,
+  },
+  "Cauliflower Burger": {
+    name: "Cauliflower Burger",
+    description: translate("description.cauliflower.burger"),
+    building: "Kitchen",
+    experience: 255,
+    cookingSeconds: 60 * 60 * 3,
+    ingredients: {
+      Cauliflower: new Decimal(15),
+      Wheat: new Decimal(5),
+    },
+    marketRate: 304,
+  },
+  "Club Sandwich": {
+    name: "Club Sandwich",
+    description: translate("description.club.sandwich"),
+    building: "Kitchen",
+    experience: 170,
+    cookingSeconds: 60 * 60 * 3,
+    ingredients: {
+      Sunflower: new Decimal(100),
+      Carrot: new Decimal(25),
+      Wheat: new Decimal(5),
+    },
+    marketRate: 184,
+  },
+  "Bumpkin Salad": {
+    name: "Bumpkin Salad",
+    description: translate("description.bumpkin.salad"),
+    building: "Kitchen",
+    experience: 290,
+    cookingSeconds: 60 * 60 * 3.5,
+    ingredients: {
+      Beetroot: new Decimal(20),
+      Parsnip: new Decimal(10),
+    },
+    marketRate: 400,
+  },
+  "Bumpkin ganoush": {
+    name: "Bumpkin ganoush",
+    description: translate("description.bumpkin.ganoush"),
+    building: "Kitchen",
+    experience: 1000,
+    cookingSeconds: 60 * 60 * 5,
+    ingredients: {
+      Eggplant: new Decimal(30),
+      Potato: new Decimal(50),
+      Parsnip: new Decimal(10),
+    },
+    marketRate: 800,
+  },
+  "Goblin's Treat": {
+    name: "Goblin's Treat",
+    description: translate("description.goblins.treat"),
+    building: "Kitchen",
+    experience: 500,
+    cookingSeconds: 60 * 60 * 6,
+    ingredients: {
+      Pumpkin: new Decimal(10),
+      Radish: new Decimal(20),
+      Cabbage: new Decimal(10),
+    },
+    marketRate: 800,
+  },
+  Chowder: {
+    name: "Chowder",
+    description: translate("description.chowder"),
+    building: "Kitchen",
+    experience: 1000,
+    cookingSeconds: 60 * 60 * 8,
+    ingredients: {
+      Beetroot: new Decimal(10),
+      Wheat: new Decimal(10),
+      Parsnip: new Decimal(5),
+      Anchovy: new Decimal(3),
+    },
+    marketRate: 0,
+  },
+  "Bumpkin Roast": {
+    name: "Bumpkin Roast",
+    description: translate("description.bumpkin.roast"),
+    building: "Kitchen",
+    experience: 2500,
+    cookingSeconds: 60 * 60 * 12,
+    ingredients: {
+      "Mashed Potato": new Decimal(20),
+      "Roast Veggies": new Decimal(5),
+    },
+    marketRate: 1100,
+  },
+  "Goblin Brunch": {
+    name: "Goblin Brunch",
+    description: translate("description.goblin.brunch"),
+    building: "Kitchen",
+    experience: 2500,
+    cookingSeconds: 60 * 60 * 12,
+    ingredients: {
+      "Boiled Eggs": new Decimal(5),
+      "Goblin's Treat": new Decimal(1),
+    },
+    marketRate: 1100,
+  },
+};
+
+export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
+  "Apple Pie": {
+    name: "Apple Pie",
+    description: translate("description.apple.pie"),
+    building: "Bakery",
+    experience: 720,
+    cookingSeconds: 60 * 240,
+    ingredients: {
+      Apple: new Decimal(5),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(10),
+    },
+    marketRate: 550,
+  },
+  "Orange Cake": {
+    name: "Orange Cake",
+    description: translate("description.orange.cake"),
+    building: "Bakery",
+    experience: 730,
+    cookingSeconds: 240 * 60,
+    ingredients: {
+      Orange: new Decimal(5),
+      Egg: new Decimal(15),
+      Wheat: new Decimal(10),
+    },
+    marketRate: 600,
+  },
+  "Kale & Mushroom Pie": {
+    name: "Kale & Mushroom Pie",
+    description: translate("description.kale.mushroom.pie"),
+    building: "Bakery",
+    experience: 720,
+    cookingSeconds: 60 * 240,
+    ingredients: {
+      "Wild Mushroom": new Decimal(10),
+      Kale: new Decimal(5),
+      Wheat: new Decimal(5),
+    },
+    marketRate: 550,
+  },
   "Sunflower Cake": {
     name: "Sunflower Cake",
     description: translate("description.sunflower.cake"),
@@ -86,6 +433,19 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
       Egg: new Decimal(15),
     },
     marketRate: 440,
+  },
+  "Honey Cake": {
+    name: "Honey Cake",
+    description: translate("description.honey.cake"),
+    building: "Bakery",
+    experience: 4000,
+    cookingSeconds: 60 * 60 * 8,
+    ingredients: {
+      Honey: new Decimal(10),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(10),
+    },
+    marketRate: 550,
   },
   "Potato Cake": {
     name: "Potato Cake",
@@ -112,6 +472,19 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
       Egg: new Decimal(15),
     },
     marketRate: 520,
+  },
+  Cornbread: {
+    name: "Cornbread",
+    description: translate("description.cornbread"),
+    building: "Bakery",
+    experience: 600,
+    cookingSeconds: 60 * 60 * 12,
+    ingredients: {
+      Corn: new Decimal(15),
+      Wheat: new Decimal(5),
+      Egg: new Decimal(5),
+    },
+    marketRate: 1200,
   },
   "Carrot Cake": {
     name: "Carrot Cake",
@@ -178,6 +551,19 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
     },
     marketRate: 960,
   },
+  "Eggplant Cake": {
+    name: "Eggplant Cake",
+    description: translate("description.eggplant.cake"),
+    building: "Bakery",
+    experience: 1400,
+    cookingSeconds: 60 * 60 * 24,
+    ingredients: {
+      Eggplant: new Decimal(30),
+      Wheat: new Decimal(10),
+      Egg: new Decimal(15),
+    },
+    marketRate: 1200,
+  },
   "Radish Cake": {
     name: "Radish Cake",
     description: translate("description.radish.cake"),
@@ -203,245 +589,9 @@ export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
     },
     marketRate: 800,
   },
-  "Eggplant Cake": {
-    name: "Eggplant Cake",
-    description: translate("description.eggplant.cake"),
-    building: "Bakery",
-    experience: 1400,
-    cookingSeconds: 60 * 60 * 24,
-    ingredients: {
-      Eggplant: new Decimal(30),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(15),
-    },
-    marketRate: 1200,
-  },
-  "Orange Cake": {
-    name: "Orange Cake",
-    description: translate("description.orange.cake"),
-    building: "Bakery",
-    experience: 730,
-    cookingSeconds: 240 * 60,
-    ingredients: {
-      Orange: new Decimal(5),
-      Egg: new Decimal(15),
-      Wheat: new Decimal(10),
-    },
-    marketRate: 600,
-  },
-  "Honey Cake": {
-    name: "Honey Cake",
-    description: translate("description.honey.cake"),
-    building: "Bakery",
-    experience: 4000,
-    cookingSeconds: 60 * 60 * 8,
-    ingredients: {
-      Honey: new Decimal(10),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(10),
-    },
-    marketRate: 550,
-  },
 };
 
-export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
-  Chowder: {
-    name: "Chowder",
-    description: translate("description.chowder"),
-    building: "Kitchen",
-    experience: 1000,
-    cookingSeconds: 60 * 60 * 8,
-    ingredients: {
-      Beetroot: new Decimal(10),
-      Wheat: new Decimal(10),
-      Parsnip: new Decimal(5),
-      Anchovy: new Decimal(3),
-    },
-    marketRate: 0,
-  },
-  Gumbo: {
-    name: "Gumbo",
-    description: translate("description.gumbo"),
-    building: "Fire Pit",
-    experience: 600,
-    cookingSeconds: 60 * 60 * 4,
-    ingredients: {
-      Potato: new Decimal(50),
-      Pumpkin: new Decimal(30),
-      Carrot: new Decimal(20),
-      "Red Snapper": new Decimal(3),
-    },
-    marketRate: 0,
-  },
-  "Fermented Fish": {
-    name: "Fermented Fish",
-    description: translate("description.fermented.fish"),
-    building: "Deli",
-    experience: 3000,
-    cookingSeconds: 60 * 60 * 24,
-    ingredients: {
-      Tuna: new Decimal(6),
-    },
-    marketRate: 0,
-  },
-};
-
-export const COOKABLES: Record<CookableName, Cookable> = {
-  "Mashed Potato": {
-    name: "Mashed Potato",
-    description: translate("description.mashed.potato"),
-    building: "Fire Pit",
-    experience: 3,
-    cookingSeconds: 30,
-    ingredients: {
-      Potato: new Decimal(8),
-    },
-    marketRate: 10,
-  },
-  "Pumpkin Soup": {
-    name: "Pumpkin Soup",
-    description: translate("description.pumpkin.soup"),
-    building: "Fire Pit",
-    experience: 24,
-    cookingSeconds: 60 * 3,
-    ingredients: {
-      Pumpkin: new Decimal(10),
-    },
-    marketRate: 16,
-  },
-
-  "Bumpkin Broth": {
-    name: "Bumpkin Broth",
-    description: translate("description.bumpkin.broth"),
-    building: "Fire Pit",
-    experience: 96,
-    cookingSeconds: 60 * 20,
-    ingredients: {
-      Carrot: new Decimal(10),
-      Cabbage: new Decimal(5),
-    },
-    marketRate: 64,
-  },
-
-  "Boiled Eggs": {
-    name: "Boiled Eggs",
-    description: translate("description.boiled.eggs"),
-    building: "Fire Pit",
-    experience: 90,
-    cookingSeconds: 60 * 60,
-    ingredients: {
-      Egg: new Decimal(5),
-    },
-    marketRate: 160,
-  },
-
-  "Kale Stew": {
-    name: "Kale Stew",
-    description: translate("description.kale.stew"),
-    building: "Fire Pit",
-    experience: 400,
-    cookingSeconds: 60 * 60 * 2,
-    ingredients: {
-      Kale: new Decimal(10),
-    },
-    marketRate: 400,
-  },
-
-  "Roast Veggies": {
-    name: "Roast Veggies",
-    description: translate("description.roast.veggies"),
-    building: "Kitchen",
-    experience: 170,
-    cookingSeconds: 60 * 60 * 2,
-    ingredients: {
-      Cauliflower: new Decimal(15),
-      Carrot: new Decimal(10),
-    },
-    marketRate: 240,
-  },
-
-  "Bumpkin Salad": {
-    name: "Bumpkin Salad",
-    description: translate("description.bumpkin.salad"),
-    building: "Kitchen",
-    experience: 290,
-    cookingSeconds: 60 * 60 * 3.5,
-    ingredients: {
-      Beetroot: new Decimal(20),
-      Parsnip: new Decimal(10),
-    },
-    marketRate: 400,
-  },
-
-  "Goblin's Treat": {
-    name: "Goblin's Treat",
-    description: translate("description.goblins.treat"),
-    building: "Kitchen",
-    experience: 500,
-    cookingSeconds: 60 * 60 * 6,
-    ingredients: {
-      Pumpkin: new Decimal(10),
-      Radish: new Decimal(20),
-      Cabbage: new Decimal(10),
-    },
-    marketRate: 800,
-  },
-
-  "Cauliflower Burger": {
-    name: "Cauliflower Burger",
-    description: translate("description.cauliflower.burger"),
-    building: "Kitchen",
-    experience: 255,
-    cookingSeconds: 60 * 60 * 3,
-    ingredients: {
-      Cauliflower: new Decimal(15),
-      Wheat: new Decimal(5),
-    },
-    marketRate: 304,
-  },
-
-  Pancakes: {
-    name: "Pancakes",
-    description: translate("description.pancakes"),
-    building: "Kitchen",
-    experience: 1000,
-    cookingSeconds: 60 * 60,
-    ingredients: {
-      Wheat: new Decimal(10),
-      Egg: new Decimal(5),
-      Honey: new Decimal(6),
-    },
-    marketRate: 10,
-    disabled: false,
-  },
-
-  "Club Sandwich": {
-    name: "Club Sandwich",
-    description: translate("description.club.sandwich"),
-    building: "Kitchen",
-    experience: 170,
-    cookingSeconds: 60 * 60 * 3,
-    ingredients: {
-      Sunflower: new Decimal(100),
-      Carrot: new Decimal(25),
-      Wheat: new Decimal(5),
-    },
-    marketRate: 184,
-  },
-
-  "Apple Pie": {
-    name: "Apple Pie",
-    description: translate("description.apple.pie"),
-    building: "Bakery",
-    experience: 720,
-    cookingSeconds: 60 * 240,
-    ingredients: {
-      Apple: new Decimal(5),
-      Wheat: new Decimal(10),
-      Egg: new Decimal(10),
-    },
-    marketRate: 550,
-  },
+export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
   "Blueberry Jam": {
     name: "Blueberry Jam",
     description: translate("description.blueberry.jam"),
@@ -464,54 +614,6 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 112,
   },
-  "Kale & Mushroom Pie": {
-    name: "Kale & Mushroom Pie",
-    description: translate("description.kale.mushroom.pie"),
-    building: "Bakery",
-    experience: 720,
-    cookingSeconds: 60 * 240,
-    ingredients: {
-      "Wild Mushroom": new Decimal(10),
-      Kale: new Decimal(5),
-      Wheat: new Decimal(5),
-    },
-    marketRate: 550,
-  },
-
-  "Mushroom Jacket Potatoes": {
-    name: "Mushroom Jacket Potatoes",
-    description: translate("description.mushroom.jacket.potatoes"),
-    building: "Kitchen",
-    experience: 240,
-    cookingSeconds: 10 * 60,
-    ingredients: {
-      "Wild Mushroom": new Decimal(10),
-      Potato: new Decimal(5),
-    },
-    marketRate: 240,
-  },
-  "Mushroom Soup": {
-    name: "Mushroom Soup",
-    description: translate("description.mushroom.soup"),
-    building: "Fire Pit",
-    experience: 56,
-    cookingSeconds: 10 * 60,
-    ingredients: {
-      "Wild Mushroom": new Decimal(5),
-    },
-    marketRate: 240,
-  },
-  "Sunflower Crunch": {
-    name: "Sunflower Crunch",
-    description: translate("description.sunflower.crunch"),
-    building: "Kitchen",
-    experience: 50,
-    cookingSeconds: 10 * 60,
-    ingredients: {
-      Sunflower: new Decimal(300),
-    },
-    marketRate: 40,
-  },
   Sauerkraut: {
     name: "Sauerkraut",
     description: translate("description.sauerkraut"),
@@ -522,143 +624,6 @@ export const COOKABLES: Record<CookableName, Cookable> = {
       Cabbage: new Decimal(20),
     },
     marketRate: 224,
-  },
-  "Reindeer Carrot": {
-    name: "Reindeer Carrot",
-    description: translate("description.reindeer.carrot"),
-    building: "Fire Pit",
-    experience: 10,
-    cookingSeconds: 60 * 5,
-    ingredients: {
-      Carrot: new Decimal(5),
-    },
-    marketRate: 0,
-  },
-
-  "Apple Juice": {
-    name: "Apple Juice",
-    description: translate("description.apple.juice"),
-    building: "Smoothie Shack",
-    experience: 500,
-    cookingSeconds: 60 * 60,
-    ingredients: {
-      Apple: new Decimal(5),
-    },
-    marketRate: 336,
-  },
-
-  "Orange Juice": {
-    name: "Orange Juice",
-    description: translate("description.orange.juice"),
-    building: "Smoothie Shack",
-    experience: 375,
-    cookingSeconds: 60 * 45,
-    ingredients: {
-      Orange: new Decimal(5),
-    },
-    marketRate: 256,
-  },
-
-  "Purple Smoothie": {
-    name: "Purple Smoothie",
-    description: translate("description.purple.smoothie"),
-    building: "Smoothie Shack",
-    experience: 310,
-    cookingSeconds: 60 * 30,
-    ingredients: {
-      Blueberry: new Decimal(5),
-      Cabbage: new Decimal(10),
-    },
-    marketRate: 200,
-  },
-
-  "Power Smoothie": {
-    name: "Power Smoothie",
-    description: translate("description.power.smoothie"),
-    building: "Smoothie Shack",
-    experience: 775,
-    cookingSeconds: 60 * 60 * 1.5,
-    ingredients: {
-      Blueberry: new Decimal(10),
-      Kale: new Decimal(5),
-    },
-    marketRate: 496,
-  },
-
-  "Bumpkin Detox": {
-    name: "Bumpkin Detox",
-    description: translate("description.bumpkin.detox"),
-    building: "Smoothie Shack",
-    experience: 975,
-    cookingSeconds: 60 * 60 * 2,
-    ingredients: {
-      Apple: new Decimal(5),
-      Orange: new Decimal(5),
-      Carrot: new Decimal(10),
-    },
-    marketRate: 640,
-  },
-
-  "Bumpkin Roast": {
-    name: "Bumpkin Roast",
-    description: translate("description.bumpkin.roast"),
-    building: "Kitchen",
-    experience: 2500,
-    cookingSeconds: 60 * 60 * 12,
-    ingredients: {
-      "Mashed Potato": new Decimal(20),
-      "Roast Veggies": new Decimal(5),
-    },
-    marketRate: 1100,
-  },
-  "Goblin Brunch": {
-    name: "Goblin Brunch",
-    description: translate("description.goblin.brunch"),
-    building: "Kitchen",
-    experience: 2500,
-    cookingSeconds: 60 * 60 * 12,
-    ingredients: {
-      "Boiled Eggs": new Decimal(5),
-      "Goblin's Treat": new Decimal(1),
-    },
-    marketRate: 1100,
-  },
-  "Fruit Salad": {
-    name: "Fruit Salad",
-    description: translate("description.fruit.salad"),
-    building: "Kitchen",
-    experience: 225,
-    cookingSeconds: 60 * 30,
-    ingredients: {
-      Apple: new Decimal(1),
-      Orange: new Decimal(1),
-      Blueberry: new Decimal(1),
-    },
-    marketRate: 200,
-  },
-  "Kale Omelette": {
-    name: "Kale Omelette",
-    description: translate("description.kale.omelette"),
-    building: "Fire Pit",
-    experience: 1250,
-    cookingSeconds: 60 * 60 * 3.5,
-    ingredients: {
-      Egg: new Decimal(20),
-      Kale: new Decimal(5),
-    },
-    marketRate: 640,
-  },
-  "Cabbers n Mash": {
-    name: "Cabbers n Mash",
-    description: translate("description.cabbers.mash"),
-    building: "Fire Pit",
-    experience: 250,
-    cookingSeconds: 60 * 40,
-    ingredients: {
-      "Mashed Potato": new Decimal(10),
-      Cabbage: new Decimal(20),
-    },
-    marketRate: 160,
   },
   "Fancy Fries": {
     name: "Fancy Fries",
@@ -672,43 +637,78 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 400,
   },
-  "Bumpkin ganoush": {
-    name: "Bumpkin ganoush",
-    description: translate("description.bumpkin.ganoush"),
-    building: "Kitchen",
-    experience: 1000,
-    cookingSeconds: 60 * 60 * 5,
+  "Fermented Fish": {
+    name: "Fermented Fish",
+    description: translate("description.fermented.fish"),
+    building: "Deli",
+    experience: 3000,
+    cookingSeconds: 60 * 60 * 24,
     ingredients: {
-      Eggplant: new Decimal(30),
-      Potato: new Decimal(50),
-      Parsnip: new Decimal(10),
+      Tuna: new Decimal(6),
     },
-    marketRate: 800,
+    marketRate: 0,
   },
-  Cornbread: {
-    name: "Cornbread",
-    description: translate("description.cornbread"),
-    building: "Bakery",
-    experience: 600,
-    cookingSeconds: 60 * 60 * 12,
+};
+
+export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
+  "Purple Smoothie": {
+    name: "Purple Smoothie",
+    description: translate("description.purple.smoothie"),
+    building: "Smoothie Shack",
+    experience: 310,
+    cookingSeconds: 60 * 30,
     ingredients: {
-      Corn: new Decimal(15),
-      Wheat: new Decimal(5),
-      Egg: new Decimal(5),
+      Blueberry: new Decimal(5),
+      Cabbage: new Decimal(10),
     },
-    marketRate: 1200,
+    marketRate: 200,
   },
-  Popcorn: {
-    name: "Popcorn",
-    description: translate("description.popcorn"),
-    building: "Fire Pit",
-    experience: 200,
-    cookingSeconds: 12 * 60,
+  "Orange Juice": {
+    name: "Orange Juice",
+    description: translate("description.orange.juice"),
+    building: "Smoothie Shack",
+    experience: 375,
+    cookingSeconds: 60 * 45,
     ingredients: {
-      Sunflower: new Decimal(100),
-      Corn: new Decimal(5),
+      Orange: new Decimal(5),
     },
-    marketRate: 120,
+    marketRate: 256,
+  },
+  "Apple Juice": {
+    name: "Apple Juice",
+    description: translate("description.apple.juice"),
+    building: "Smoothie Shack",
+    experience: 500,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Apple: new Decimal(5),
+    },
+    marketRate: 336,
+  },
+  "Power Smoothie": {
+    name: "Power Smoothie",
+    description: translate("description.power.smoothie"),
+    building: "Smoothie Shack",
+    experience: 775,
+    cookingSeconds: 60 * 60 * 1.5,
+    ingredients: {
+      Blueberry: new Decimal(10),
+      Kale: new Decimal(5),
+    },
+    marketRate: 496,
+  },
+  "Bumpkin Detox": {
+    name: "Bumpkin Detox",
+    description: translate("description.bumpkin.detox"),
+    building: "Smoothie Shack",
+    experience: 975,
+    cookingSeconds: 60 * 60 * 2,
+    ingredients: {
+      Apple: new Decimal(5),
+      Orange: new Decimal(5),
+      Carrot: new Decimal(10),
+    },
+    marketRate: 640,
   },
   "Banana Blast": {
     name: "Banana Blast",
@@ -722,8 +722,36 @@ export const COOKABLES: Record<CookableName, Cookable> = {
     },
     marketRate: 560,
   },
-  ...COOKABLE_CAKES,
-  ...FISH_COOKABLES,
+};
+
+export const COOKABLES: Record<CookableName, Cookable> = {
+  ...FIRE_PIT_COOKABLES,
+  ...KITCHEN_COOKABLES,
+  ...BAKERY_COOKABLES,
+  ...DELI_COOKABLES,
+  ...JUICE_COOKABLES,
+};
+
+export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
+  Chowder: KITCHEN_COOKABLES.Chowder,
+  Gumbo: FIRE_PIT_COOKABLES.Gumbo,
+  "Fermented Fish": DELI_COOKABLES["Fermented Fish"],
+};
+
+export const COOKABLE_CAKES: Record<CakeName, Cookable> = {
+  "Sunflower Cake": BAKERY_COOKABLES["Sunflower Cake"],
+  "Potato Cake": BAKERY_COOKABLES["Potato Cake"],
+  "Pumpkin Cake": BAKERY_COOKABLES["Pumpkin Cake"],
+  "Carrot Cake": BAKERY_COOKABLES["Carrot Cake"],
+  "Cabbage Cake": BAKERY_COOKABLES["Cabbage Cake"],
+  "Beetroot Cake": BAKERY_COOKABLES["Beetroot Cake"],
+  "Cauliflower Cake": BAKERY_COOKABLES["Cauliflower Cake"],
+  "Parsnip Cake": BAKERY_COOKABLES["Parsnip Cake"],
+  "Radish Cake": BAKERY_COOKABLES["Radish Cake"],
+  "Wheat Cake": BAKERY_COOKABLES["Wheat Cake"],
+  "Eggplant Cake": BAKERY_COOKABLES["Eggplant Cake"],
+  "Orange Cake": BAKERY_COOKABLES["Orange Cake"],
+  "Honey Cake": BAKERY_COOKABLES["Honey Cake"],
 };
 
 export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
@@ -734,7 +762,7 @@ export const PIRATE_CAKE: Record<"Pirate Cake", Consumable> = {
   },
 };
 
-const FISH: Record<FishName, Consumable> = {
+export const FISH: Record<FishName, Consumable> = {
   Anchovy: {
     name: "Anchovy",
     description: translate("description.anchovy.two"),
@@ -889,8 +917,8 @@ const FISH: Record<FishName, Consumable> = {
 
 export const CONSUMABLES: Record<ConsumableName, Consumable> = {
   ...COOKABLES,
-  ...FISH,
   ...PIRATE_CAKE,
+  ...FISH,
 };
 
 export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
@@ -899,9 +927,7 @@ export const FISH_CONSUMABLES: Record<FishName | FishCookableName, Consumable> =
     ...FISH,
   };
 
-const Juices = getKeys(COOKABLES).filter(
-  (name) => COOKABLES[name].building === "Smoothie Shack"
-);
+const Juices = Object.keys(JUICE_COOKABLES);
 
 export function isJuice(item: any) {
   return Juices.includes(item);

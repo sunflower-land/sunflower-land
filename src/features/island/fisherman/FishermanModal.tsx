@@ -10,7 +10,7 @@ import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import {
@@ -32,6 +32,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  getBasketItems,
+  getChestItems,
+} from "../hud/components/inventory/utils/inventory";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -44,35 +48,51 @@ function hasRead() {
   return !!localStorage.getItem(LOCAL_STORAGE_KEY);
 }
 
+const RARE_CHUM: InventoryItemName[] = [
+  "Rich Chicken",
+  "Speed Chicken",
+  "Fat Chicken",
+];
+
 const ChumSelection: React.FC<{
-  inventory: Inventory;
+  state: GameState;
+  bait: FishingBait;
   onList: (item: Chum) => void;
   onCancel: () => void;
   initial?: Chum;
-}> = ({ inventory, onList, onCancel, initial }) => {
+}> = ({ state, bait, onList, onCancel, initial }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Chum | undefined>(initial);
   const select = (name: Chum) => {
     setSelected(name);
   };
 
+  const items = {
+    ...getBasketItems(state.inventory),
+    ...getChestItems(state),
+  };
+
   const hasRequirements =
-    selected && inventory[selected]?.gte(CHUM_AMOUNTS[selected] ?? 0);
+    selected && items[selected]?.gte(CHUM_AMOUNTS[selected] ?? 0);
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">
-        {t("select.resource")}
-        {":"}{" "}
-      </p>
+      <p className="mb-1 p-1 text-xs">{t("select.resource")}</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
-          .filter((name) => !!inventory[name]?.gte(1))
+          .filter((name) => !!items[name]?.gte(1))
+          .filter((name) => {
+            if (bait !== "Red Wiggler" && RARE_CHUM.includes(name)) {
+              return false;
+            }
+
+            return true;
+          })
           .map((name) => (
             <Box
               image={ITEM_DETAILS[name].image}
-              count={inventory[name]}
+              count={items[name]}
               onClick={() => select(name)}
               key={name}
               isSelected={selected === name}
@@ -133,6 +153,11 @@ const BaitSelection: React.FC<{
     },
   ] = useActor(gameService);
 
+  const items = {
+    ...getBasketItems(state.inventory),
+    ...getChestItems(state),
+  };
+
   useEffect(() => {
     const lastSelectedBait = localStorage.getItem("lastSelectedBait");
     if (lastSelectedBait) {
@@ -142,7 +167,7 @@ const BaitSelection: React.FC<{
 
     const hasRequirements =
       lastSelectedChum &&
-      state.inventory[lastSelectedChum as InventoryItemName]?.gte(
+      items[lastSelectedChum as InventoryItemName]?.gte(
         CHUM_AMOUNTS[lastSelectedChum as Chum] ?? 0
       );
 
@@ -160,7 +185,8 @@ const BaitSelection: React.FC<{
   if (showChum) {
     return (
       <ChumSelection
-        inventory={state.inventory}
+        bait={bait}
+        state={state}
         onCancel={() => setShowChum(false)}
         initial={chum}
         onList={(selected) => {
@@ -218,7 +244,7 @@ const BaitSelection: React.FC<{
 
           <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
             {t("statements.daily.limit")}
-            {":"} {dailyFishingCount}
+            {dailyFishingCount}
             {"/"}
             {dailyFishingMax}
           </Label>
@@ -230,7 +256,7 @@ const BaitSelection: React.FC<{
             <Box
               image={ITEM_DETAILS[name].image}
               isSelected={bait === name}
-              count={state.inventory[name]}
+              count={items[name]}
               onClick={() => {
                 setBait(name);
                 localStorage.setItem("lastSelectedBait", name);
@@ -245,19 +271,19 @@ const BaitSelection: React.FC<{
             <div>
               <p className="text-sm">{bait}</p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
-              {!state.inventory[bait] && bait !== "Fishing Lure" && (
+              {!items[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-1" type="default">
                   {t("statements.craft.composter")}
                 </Label>
               )}
-              {!state.inventory[bait] && bait === "Fishing Lure" && (
+              {!items[bait] && bait === "Fishing Lure" && (
                 <Label className="mt-1" type="default">
                   {t("fishermanModal.craft.beach")}
                 </Label>
               )}
             </div>
           </div>
-          {!state.inventory[bait] && (
+          {!items[bait] && (
             <Label className="absolute -top-3 right-0" type={"danger"}>
               {t("fishermanModal.zero.available")}
             </Label>
@@ -302,7 +328,7 @@ const BaitSelection: React.FC<{
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
-          {t("fishermanModal.dailyLimitReached")} {dailyFishingMax}
+          {t("fishermanModal.dailyLimitReached", { limit: dailyFishingMax })}
         </Label>
       )}
 
@@ -317,7 +343,7 @@ const BaitSelection: React.FC<{
         disabled={
           fishingLimitReached ||
           missingRod ||
-          !state.inventory[bait as InventoryItemName]?.gte(1)
+          !items[bait as InventoryItemName]?.gte(1)
         }
       >
         <div className="flex items-center">
@@ -370,11 +396,9 @@ export const FishermanModal: React.FC<Props> = ({
         <SpeakingText
           message={[
             {
-              text: `${t(
-                "fishermanmodal.greetingPart1"
-              )} ${capitalizeFirstLetters(npc)} ${t(
-                "fishermanmodal.greetingPart2"
-              )}`,
+              text: t("fishermanmodal.greeting", {
+                name: capitalizeFirstLetters(npc),
+              }),
             },
             {
               text: translate("fishermanModal.fishBenefits"),

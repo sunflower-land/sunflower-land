@@ -12,7 +12,7 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "mumbai";
  *
  * Do not delete JEST_TEST.
  */
-type FeatureName = "JEST_TEST" | "LOCALISATION" | "PORTALS";
+type FeatureName = "JEST_TEST" | "PORTALS" | "EASTER";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -25,7 +25,14 @@ type FeatureFlag = (game: GameState) => boolean;
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
-  LOCALISATION: testnetFeatureFlag,
+  EASTER: (game) => {
+    // Event ended
+    if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;
+
+    if (defaultFeatureFlag(game)) return true;
+
+    return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
+  },
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

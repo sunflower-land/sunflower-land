@@ -44,7 +44,9 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             text: translate("hayseedHankv2.greeting"),
           },
           {
-            text: `${t("hayseedHankv2.dialog2")} ${getSeasonalTicket()}.`,
+            text: translate("hayseedHankv2.dialog2", {
+              seasonalTicket: getSeasonalTicket,
+            }),
             actions: [
               {
                 text: translate("hayseedHankv2.action"),
@@ -80,7 +82,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
               "hayseedHankv2.newChoresAvailable"
             )} ${secondsToString(secondsTillReset(), {
               length: "full",
-            })}.`}</span>
+            })}`}</span>
           </div>
           <div className="flex items-center ">
             <div className="w-6">
