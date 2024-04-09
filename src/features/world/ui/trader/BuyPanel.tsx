@@ -287,7 +287,7 @@ export const BuyPanel: React.FC<{
 
     if (loading) {
       if (gameService.state.matches("fulfillTradeListing")) {
-        return <Loading text="Trading" />;
+        return <Loading text={t("trading")} />;
       }
 
       if (selectedListing) {
@@ -320,7 +320,9 @@ export const BuyPanel: React.FC<{
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
-                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                        <p className="text-xxs ">
+                          {t("bumpkinTrade.price/unit", { price: unitPrice })}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -394,7 +396,9 @@ export const BuyPanel: React.FC<{
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${listing.sfl} SFL`}</p>
                         </div>
-                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                        <p className="text-xxs ">
+                          {t("bumpkinTrade.price/unit", { price: unitPrice })}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -443,7 +447,7 @@ export const BuyPanel: React.FC<{
                 : `${t("remaining.free.purchases", {
                     purchasesRemaining: hasPurchasesRemaining
                       ? remainingFreePurchases
-                      : "No",
+                      : t("no"),
                   })}`}
             </Label>
           )}

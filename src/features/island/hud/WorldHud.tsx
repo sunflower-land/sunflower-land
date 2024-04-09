@@ -20,12 +20,14 @@ import { CodexButton } from "./components/codex/CodexButton";
 import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasFeatureAccess } from "lib/flags";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
 const HudComponent: React.FC = () => {
+  const { t } = useAppTranslation();
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
@@ -140,7 +142,7 @@ const HudComponent: React.FC = () => {
           onHide={() => setShowDepositModal(false)}
         >
           <CloseButtonPanel
-            title={depositDataLoaded ? "Deposit" : undefined}
+            title={depositDataLoaded ? t("deposit") : undefined}
             onClose={depositDataLoaded ? handleDepositModal : undefined}
           >
             <Deposit

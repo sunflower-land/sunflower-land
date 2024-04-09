@@ -23,6 +23,7 @@ export type GeneralTerms =
   | "back"
   | "bait"
   | "balance"
+  | "balance.short"
   | "banner"
   | "banners"
   | "basket"
@@ -32,6 +33,7 @@ export type GeneralTerms =
   | "bounty"
   | "build"
   | "buy"
+  | "bought"
   | "cancel"
   | "card.cash"
   | "caught"
@@ -205,6 +207,7 @@ export type GeneralTerms =
   | "reqSkills"
   | "required"
   | "requires"
+  | "requirements"
   | "resale"
   | "resources"
   | "restock"
@@ -248,7 +251,6 @@ export type GeneralTerms =
   | "terms.condition"
   | "test"
   | "thank.you"
-  | "there.currently"
   | "time"
   | "tools"
   | "total"
@@ -821,7 +823,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
   | "bumpkinTrade.max"
-  | "bumpkinTrade.floorPrice";
+  | "bumpkinTrade.floorPrice"
+  | "bumpkinTrade.sellConfirmation";
 
 export type GoblinTrade =
   | "goblinTrade.select"
@@ -920,6 +923,7 @@ export type Conversations =
   | "hank.crafting.scarecrow"
   | "hank-crafting.one"
   | "hank-crafting.two"
+  | "hank.choresFrozen"
   | "betty-intro.headline"
   | "betty-intro.one"
   | "betty-intro.two"
@@ -1826,6 +1830,8 @@ export type GameTerms =
   | "farm.banned"
   | "gobSwarm"
   | "granting.wish"
+  | "harvest.number"
+  | "level.number"
   | "new.delivery.in"
   | "new.delivery.levelup"
   | "no.sfl"
@@ -1837,7 +1843,8 @@ export type GameTerms =
   | "in.progress"
   | "compost.complete"
   | "aoe.locked"
-  | "sunflowerLandCodex";
+  | "sunflowerLandCodex"
+  | "visiting.farmId";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -3060,6 +3067,7 @@ export type Statements =
   | "statements.startgame"
   | "statements.session.expired"
   | "statements.price.change"
+  | "statements.translation.want2contribute"
   | "statements.translation.contribution"
   | "statements.translation.joinDiscord";
 
@@ -3157,6 +3165,12 @@ export type TutorialPage =
   | "tutorial.pageOne.text2"
   | "tutorial.pageTwo.text1"
   | "tutorial.pageTwo.text2";
+
+export type Username =
+  | "username.tooShort"
+  | "username.tooLong"
+  | "username.invalidChar"
+  | "username.startWithLetter";
 
 export type VisitislandEnter =
   | "visitIsland.enterIslandId"
@@ -3548,6 +3562,7 @@ export type TranslationKeys =
   | Transfer
   | TreasureModal
   | TutorialPage
+  | Username
   | VisitislandEnter
   | VisitislandNotFound
   | Wallet
