@@ -109,21 +109,16 @@ const BeeComponent: React.FC<Props> = ({
   const initialBeeDirection = getBeeDirection();
   const finalBeeDirection = -initialBeeDirection;
 
-  const initialPosition = {
-    x: PIXEL_SCALE * 3,
-    y: PIXEL_SCALE * -3,
-  };
-
   // React Spring animation
   const animation = useSpring({
     from: {
-      transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(0) scaleX(${initialBeeDirection})`,
+      transform: `translate(13px, -13px) scale(0) scaleX(${initialBeeDirection})`,
     },
     to: async (next) => {
       const flightDuration = getFlightDuration(flowerPosition.distance);
 
       await next({
-        transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(1) scaleX(${initialBeeDirection})`,
+        transform: `translate(13px, -13px) scale(1) scaleX(${initialBeeDirection})`,
         config: {
           duration: 500,
         },
@@ -147,7 +142,7 @@ const BeeComponent: React.FC<Props> = ({
       });
       // Phase 4: Move back to the hive
       await next({
-        transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(1) scaleX(${finalBeeDirection})`,
+        transform: `translate(13px, -13px) scale(1) scaleX(${finalBeeDirection})`,
         config: {
           ...config.slow,
           duration: flightDuration,
@@ -155,7 +150,7 @@ const BeeComponent: React.FC<Props> = ({
       });
       // Phase 5: Scale back into the hive
       await next({
-        transform: `translate(${initialPosition.x}px, ${initialPosition.y}px) scale(0) scaleX(${finalBeeDirection})`,
+        transform: `translate(13px, -1px) scale(0) scaleX(${finalBeeDirection})`,
         transformOrigin: "center bottom",
         config: { duration: 500 },
       });
