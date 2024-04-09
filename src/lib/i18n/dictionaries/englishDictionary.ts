@@ -657,7 +657,9 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.noTicket": "Missing Prize Ticket",
   "raffle.how":
     "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",
-  "raffle.enter": "Enter",
+  "raffle.confirmationMessage":
+    "Are you sure you want to use 1 Prize Ticket to enter the Raffle?",
+  "raffle.enter": "Enter Raffle",
 };
 
 const beach: Record<Beach, string> = {

@@ -661,7 +661,8 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.noTicket": "Eksik Ödül Bileti",
   "raffle.how":
     "Özel etkinlikler ve Bumpkin teslimatları aracılığıyla Ödül Biletlerini ücretsiz olarak toplayabilirsiniz.",
-  "raffle.enter": "Giriş",
+  "raffle.confirmationMessage": ENGLISH_TERMS["raffle.confirmationMessage"],
+  "raffle.enter": ENGLISH_TERMS["raffle.enter"],
 };
 
 const beach: Record<Beach, string> = {

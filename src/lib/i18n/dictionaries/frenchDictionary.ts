@@ -663,7 +663,8 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.noTicket": "Billet gagnant manquant",
   "raffle.how":
     "Vous pouvez collecter des tickets de récompense gratuitement grâce à des événements spéciaux et des livraisons de Bumpkin.",
-  "raffle.enter": "Entrer",
+  "raffle.confirmationMessage": ENGLISH_TERMS["raffle.confirmationMessage"],
+  "raffle.enter": ENGLISH_TERMS["raffle.enter"],
 };
 
 const beach: Record<Beach, string> = {

@@ -5,7 +5,7 @@ import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import chestIcon from "assets/icons/gift.png";
 
@@ -13,6 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Modal } from "components/ui/Modal";
 
 interface Props {
   onClose: () => void;
@@ -21,6 +22,7 @@ interface Props {
 export const Raffle: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const { t } = useAppTranslation();
 
   const enterRaffle = async () => {
@@ -41,6 +43,13 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
     gameState.context.state.inventory["Prize Ticket"] ?? new Decimal(0);
 
   const monthName = new Date().toLocaleString("default", { month: "long" });
+
+  const openConfirmationModal = () => {
+    setShowConfirmationModal(true);
+  };
+  const closeConfirmationModal = () => {
+    setShowConfirmationModal(false);
+  };
 
   return (
     <CloseButtonPanel onClose={onClose}>
@@ -82,9 +91,28 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
           </div>
         </div>
       </div>
-      <Button onClick={enterRaffle} disabled={!tickets.gte(1)} className="mt-2">
+      <Button
+        onClick={openConfirmationModal}
+        disabled={!tickets.gte(1)}
+        className="mt-2"
+      >
         {t("raffle.enter")}
       </Button>
+      <Modal show={showConfirmationModal} onHide={closeConfirmationModal}>
+        <CloseButtonPanel className="sm:w-4/5 m-auto">
+          <div className="flex flex-col p-2">
+            <span className="text-sm text-center">
+              {t("raffle.confirmationMessage")}
+            </span>
+          </div>
+          <div className="flex justify-content-around mt-2 space-x-1">
+            <Button onClick={enterRaffle} disabled={!tickets.gte(1)}>
+              {t("raffle.enter")}
+            </Button>
+            <Button onClick={closeConfirmationModal}>{t("close")}</Button>
+          </div>
+        </CloseButtonPanel>
+      </Modal>
     </CloseButtonPanel>
   );
 };

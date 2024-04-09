@@ -430,6 +430,7 @@ export type BasicTreasure =
   | "raffle.entries"
   | "raffle.noTicket"
   | "raffle.how"
+  | "raffle.confirmationMessage"
   | "raffle.enter";
 
 export type Beach = "beach.party" | "beach.ready";

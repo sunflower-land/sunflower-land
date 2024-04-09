@@ -657,6 +657,7 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.entries": ENGLISH_TERMS["raffle.entries"],
   "raffle.noTicket": ENGLISH_TERMS["raffle.noTicket"],
   "raffle.how": ENGLISH_TERMS["raffle.how"],
+  "raffle.confirmationMessage": ENGLISH_TERMS["raffle.confirmationMessage"],
   "raffle.enter": ENGLISH_TERMS["raffle.enter"],
 };
 
