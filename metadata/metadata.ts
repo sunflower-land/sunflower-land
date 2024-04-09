@@ -4243,6 +4243,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  Scroll: {
+    description: "A ticket used during the Faction Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/739.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -4593,6 +4604,26 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "XP increase during Spring Blossom Season",
         value: 10,
       },
+    ],
+  },
+  "Faction Season Banner": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/738.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+      // {
+      //   display_type: "boost_number",
+      //   trait_type: "Extra Tulip from Deliveries",
+      //   value: 2,
+      // },
+      // {
+      //   display_type: "boost_percentage",
+      //   trait_type: "XP increase during Spring Blossom Season",
+      //   value: 10,
+      // },
     ],
   },
   "Luminous Lantern": {

@@ -2313,6 +2313,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.treasure.key":
     "Ödülünüzün kilidini açmak için Plazayı ziyaret edin",
   "description.prizeTicket": "Ödül çekilişlerine katılmak için bir bilet",
+  "description.scroll": ENGLISH_TERMS["description.scroll"],
 
   // Easter Items
   "description.egg.basket": "Paskalya Etkinliği",

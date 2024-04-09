@@ -236,12 +236,14 @@ import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import mermaidScale from "assets/icons/mermaid_scale.webp";
 import tulipBulb from "assets/icons/tulip_bulb.png";
+import scroll from "assets/icons/mermaid_scale.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
+import factionSeasonBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
@@ -2358,6 +2360,10 @@ export const ITEM_DETAILS: Items = {
     image: tulipBulb,
     description: translate("description.tulip.bulb"),
   },
+  Scroll: {
+    image: scroll,
+    description: translate("description.scroll"),
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2492,6 +2498,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Spring Blossom Banner": {
     image: springBlossomBanner,
+    description: "",
+  },
+  "Faction Season Banner": {
+    image: factionSeasonBanner,
     description: "",
   },
   "Luminous Lantern": {

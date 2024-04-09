@@ -2326,13 +2326,12 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.red.envelope": "Uau, você tem sorte!",
   "description.love.letter": "Expressar sentimentos de amor",
   "description.solar.flare.ticket":
-    "Um ingresso usado durante a Temporada de Chama Solar",
+    "Um ticket usado durante a Temporada de Solar Flare",
   "description.dawn.breaker.ticket":
-    "Um ingresso usado durante a Temporada Nascer da Aurora",
-  "description.crow.feather":
-    "Um ingresso usado durante a Temporada das Bruxas",
+    "Um ticket usado durante a Temporada Danw Breaker",
+  "description.crow.feather": "Um ticket usado durante Whiches' Eve",
   "description.mermaid.scale":
-    "Um ingresso usado durante a Temporada de Pegue o Kraken",
+    "Um ticket usado durante a Temporada de Catch the Kraken",
   "description.sunflower.supporter":
     "A marca de um verdadeiro apoiador do jogo!",
   "description.arcade.coin":
@@ -2340,8 +2339,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand.coupon":
     "Um cupom para trocar por um ajudante de fazenda de sua escolha.",
   "description.farmhand": "Um Bumpkin adotado em sua fazenda",
-  "description.tulip.bulb": "Um ingresso usado durante a Florada da Primavera",
-  "description.prizeTicket": "Um ingresso para entrar nos sorteios de prêmios",
+  "description.tulip.bulb": "Um ticket usado durante a ",
+  "description.prizeTicket": "Um ticket para entrar nos sorteios de prêmios",
   "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
   "description.baozi": ENGLISH_TERMS["description.baozi"],
   "description.hungryHare": ENGLISH_TERMS["description.hungryHare"],
@@ -2350,6 +2349,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",
   "description.luxury.key":
     "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
+  "description.scroll": "Um ticket usado durante a Faction Season",
 
   // Easter Items
   "description.egg.basket": "Evento de Páscoa",

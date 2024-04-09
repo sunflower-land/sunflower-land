@@ -3,7 +3,8 @@ export type SeasonName =
   | "Dawn Breaker"
   | "Witches' Eve"
   | "Catch the Kraken"
-  | "Spring Blossom";
+  | "Spring Blossom"
+  | "Faction Season";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -28,6 +29,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2024-02-01T00:00:00.000Z"),
     endDate: new Date("2024-05-01T00:00:00.000Z"),
   },
+  "Faction Season": {
+    startDate: new Date("2024-05-01T00:00:00.000Z"),
+    endDate: new Date("2024-08-01T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
@@ -37,14 +42,16 @@ export type SeasonalTicket =
   | "Dawn Breaker Ticket"
   | "Crow Feather"
   | "Mermaid Scale"
-  | "Tulip Bulb";
+  | "Tulip Bulb"
+  | "Scroll";
 
 export type SeasonalBanner =
   | "Solar Flare Banner"
   | "Dawn Breaker Banner"
   | "Witches' Eve Banner"
   | "Catch the Kraken Banner"
-  | "Spring Blossom Banner";
+  | "Spring Blossom Banner"
+  | "Faction Season Banner";
 
 export const BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Solar Flare Banner": "Solar Flare",
@@ -52,6 +59,7 @@ export const BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Witches' Eve Banner": "Witches' Eve",
   "Catch the Kraken Banner": "Catch the Kraken",
   "Spring Blossom Banner": "Spring Blossom",
+  "Faction Season Banner": "Faction Season",
 };
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
@@ -60,6 +68,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Witches' Eve": "Crow Feather",
   "Catch the Kraken": "Mermaid Scale",
   "Spring Blossom": "Tulip Bulb",
+  "Faction Season": "Scroll",
 };
 
 export function getCurrentSeason(now = new Date()): SeasonName {

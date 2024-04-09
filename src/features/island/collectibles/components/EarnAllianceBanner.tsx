@@ -18,7 +18,7 @@ export const EarnAllianceBanner: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 18}px`,
         }}
-        alt="Spring Blossom Banner"
+        alt="Earn Alliance Banner"
       />
     </div>
   );
