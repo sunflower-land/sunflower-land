@@ -15,7 +15,7 @@ The goal of this project is to create a decentralized and community driven MetaV
 
 This repo includes the front-end game in which users can play and interact with the game on the Polygon Network and off chain data.
 
-Looking to help out? Read our [contributing docs](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md)
+Looking to help out? Read our [contributing docs](CODE_CONTRIBUTING.md)
 
 By contributing you agree to our [terms and services](https://docs.sunflower-land.com/support/terms-of-service)
 
@@ -57,12 +57,7 @@ These raw assets/tiles are not in this repo. You must purchase the asset pack if
 
 # 👶 Getting Started
 
-Firstly, you will need to clone the repo locally. Once you have it ready navigate into the directory and run the following commands:
-
-1. `npm install --global yarn` (if you don't have yarn installed)
-2. `yarn install`
-3. `cp .env.sample .env`
-4. `yarn dev`
+You can take a look at the instructions in [CODE_CONTRIBUTING.md](CODE_CONTRIBUTING.md) to get started on open source contribution for Sunflower Land
 
 # 🧪 Testing
 
@@ -121,7 +116,7 @@ To add new item:
 
 # 🤝 Contributing Guidelines
 
-👨‍💻 Developers - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CONTRIBUTING.md
+👨‍💻 Developers - https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md
 
 🧑‍🎨 Artists - https://github.com/sunflower-land/sunflower-land/blob/main/docs/ART_CONTRIBUTING.md
 
