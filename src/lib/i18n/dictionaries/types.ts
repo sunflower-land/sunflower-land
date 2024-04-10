@@ -2790,7 +2790,8 @@ export type SettingsMenu =
   | "settingsMenu.howToPlay"
   | "settingsMenu.swapMaticForSFL"
   | "settingsMenu.share"
-  | "settingsMenu.confirmLogout";
+  | "settingsMenu.confirmLogout"
+  | "settingsMenu.refreshChain";
 
 export type Share =
   | "share.TweetText"

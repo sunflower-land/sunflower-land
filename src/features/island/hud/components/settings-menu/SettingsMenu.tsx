@@ -23,7 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PokoOnRamp } from "../PokoOnRamp";
 import { createPortal } from "react-dom";
-import { DEV_TimeMachine } from "./DEV_TimeMachine";
+import { DEV_TimeMachine } from "./amoy-actions/DEV_TimeMachine";
 import { PlazaSettings } from "./PlazaSettingsModal";
 import { DEV_HoardingCheck } from "components/dev/DEV_HoardingCheck";
 import { Label } from "components/ui/Label";
@@ -87,6 +87,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showTimeMachine, setShowTimeMachine] = useState(false);
   const [showInstallAppModal, setShowInstallAppModal] = useState(false);
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+  const [showRefreshMenu, setShowRefreshMenu] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
@@ -202,10 +203,20 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
     showConfirmLogoutModal(false);
   };
 
+  const refreshSession = () => {
+    onClose();
+    gameService.send("RESET");
+  };
+  const openRefreshMenu = () => {
+    setShowRefreshMenu(true);
+  };
+  const closeRefreshMenu = () => {
+    setShowRefreshMenu(false);
+  };
   return (
     <>
       <Modal show={show} onHide={onHide}>
-        <Panel>
+        <CloseButtonPanel title={t("settings")}>
           <ul className="list-none">
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
@@ -264,9 +275,23 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   </li>
                 )}
                 <li className="p-1">
-                  <Button onClick={changeLanguage}>
-                    <span>{t("change.Language")}</span>
+                  <Button onClick={openRefreshMenu}>
+                    <span>{t("settingsMenu.refreshChain")}</span>
                   </Button>
+                  <Modal show={showRefreshMenu} onHide={closeRefreshMenu}>
+                    <CloseButtonPanel className="sm:w-4/5 m-auto">
+                      <div className="flex flex-col p-2">
+                        <span className="text-sm text-center">
+                          {t("subSettings.refreshDescription")}
+                        </span>
+                      </div>
+                      <div className="flex justify-content-around mt-2 space-x-1">
+                        <Button onClick={refreshSession}>
+                          {t("settingsMenu.refreshChain")}
+                        </Button>
+                      </div>
+                    </CloseButtonPanel>
+                  </Modal>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleDepositModal}>
@@ -311,6 +336,11 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 <li className="p-1">
                   <Button onClick={handlePlazaSettingsClick}>
                     <span>{t("plazaSettings.title.main")}</span>
+                  </Button>
+                </li>
+                <li className="p-1">
+                  <Button onClick={changeLanguage}>
+                    <span>{t("change.Language")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
@@ -360,7 +390,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           <p className="mx-1 text-xxs">
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
           </p>
-        </Panel>
+        </CloseButtonPanel>
       </Modal>
       <Share
         isOpen={showShareModal}

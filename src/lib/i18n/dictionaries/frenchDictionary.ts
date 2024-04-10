@@ -4297,6 +4297,7 @@ const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.swapMaticForSFL": "Échanger du MATIC contre du SFL",
   "settingsMenu.share": "Partager",
   "settingsMenu.confirmLogout": "Êtes-vous sûr de vouloir vous déconnecter?",
+  "settingsMenu.refreshChain": ENGLISH_TERMS["settingsMenu.refreshChain"],
 };
 
 const share: Record<Share, string> = {

@@ -9,7 +9,6 @@ import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { TransferAccount } from "./TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -44,11 +43,6 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const onToggleAnimations = () => {
     toggleAnimations();
-  };
-
-  const refreshSession = () => {
-    onClose();
-    gameService.send("RESET");
   };
 
   const Content = () => {
@@ -97,20 +91,6 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
             >
               {t("subSettings.transferOwnership")}
             </Button>
-
-            <Button className="col p-1 mt-2" onClick={refreshSession}>
-              {t("refresh")}
-            </Button>
-
-            <div className="flex items-start">
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="w-12 pt-2 pr-2"
-              />
-              <span className="text-xs mt-2">
-                {t("subSettings.refreshDescription")}
-              </span>
-            </div>
           </>
         )}
       </CloseButtonPanel>
