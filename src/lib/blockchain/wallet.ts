@@ -206,7 +206,7 @@ export class Wallet {
     } else {
       return {
         chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-        chainName: "Polygon Testnet Mumbai",
+        chainName: "Polygon Testnet Amoy",
         nativeCurrency: {
           name: "MATIC",
           symbol: "MATIC",
