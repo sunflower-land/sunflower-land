@@ -16,7 +16,6 @@ import { Page } from "../containers/Page";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
-import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
 import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
@@ -613,6 +612,7 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(152, 140, "locked_disc").setDepth(1000000000);
     }
 
+    // Sprites
     const basicChest = this.add.sprite(152, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(basicChest, 75)) {
@@ -627,25 +627,15 @@ export class PlazaScene extends BaseScene {
       }
     });
 
+    this.add.sprite(321.5, 230, "shop_icon");
+    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
+
     if (this.gameState.inventory["Luxury Key"]) {
       this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
     } else {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
-    const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
-    shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(shopIcon, 75)) {
-        npcModalManager.open("stella");
-      }
-    });
-
-    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
-    auctionIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(auctionIcon, 75)) {
-        npcModalManager.open("hammerin harry");
-      }
-    });
     auctionIcon.setDepth(1000000);
 
     const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");

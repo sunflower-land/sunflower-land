@@ -119,13 +119,6 @@ export class RetreatScene extends BaseScene {
     });
     bigGoblin.play("big_goblin_animation", true);
 
-    const exchange = this.add.sprite(114, 215, "exchange");
-    exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(exchange, 75)) {
-        interactableModalManager.open("goblin_market");
-      }
-    });
-
     const grabnab = this.add.sprite(90, 235, "grabnab");
     this.anims.create({
       key: "grabnab_animation",
@@ -137,8 +130,6 @@ export class RetreatScene extends BaseScene {
       frameRate: 10,
     });
     grabnab.play("grabnab_animation", true);
-
-    this.add.sprite(422, 84, "withdraw_disc").setDepth(1000000000);
 
     const greedclaw = this.add.sprite(422, 100, "greedclaw");
     this.anims.create({
@@ -152,25 +143,13 @@ export class RetreatScene extends BaseScene {
     });
     greedclaw.play("greedclaw_animation", true);
 
-    const bank = this.add.sprite(422, 94, "bank");
-    bank.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(bank, 75)) {
-        interactableModalManager.open("bank");
-      }
-    });
-
+    this.add.sprite(422, 94, "bank");
     this.add.sprite(532, 51, "raffle_disc").setDepth(1000000000);
-
     this.add.sprite(147, 200, "exchange_disc").setDepth(1000000000);
-
-    const wishingWell = this.add.sprite(532, 71, "wishing_well");
-    wishingWell.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(wishingWell, 75)) {
-        interactableModalManager.open("wishingWell");
-      }
-    });
-
+    this.add.sprite(422, 84, "withdraw_disc").setDepth(1000000000);
+    this.add.sprite(532, 71, "wishing_well");
     this.add.sprite(513, 404, "balloon");
+    this.add.sprite(114, 215, "exchange");
 
     const blacksmith = this.add.sprite(193, 77, "blacksmith");
     this.anims.create({

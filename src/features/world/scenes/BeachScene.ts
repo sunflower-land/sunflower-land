@@ -6,7 +6,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
-import { interactableModalManager } from "../ui/InteractableModals";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -191,12 +190,8 @@ export class BeachScene extends BaseScene {
       this.add.sprite(320, 580, "locked_disc").setDepth(1000000000);
     }
 
-    const chest = this.add.sprite(320, 600, "wooden_chest");
-    chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(chest, 75)) {
-        interactableModalManager.open("rare_chest");
-      }
-    });
+    // Sprites
+    this.add.sprite(320, 600, "wooden_chest");
   }
 
   public loadKrakenHunger = (hunger: InventoryItemName) => {
