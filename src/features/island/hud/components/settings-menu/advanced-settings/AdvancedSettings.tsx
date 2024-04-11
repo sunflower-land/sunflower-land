@@ -58,7 +58,7 @@ export const AdvancedSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       return (
         <Panel className="p-0">
           <GameWallet action="dequip">
-            <DequipBumpkin onClose={closeAndResetView} />
+            <DequipBumpkin isOpen={true} onClose={closeAndResetView} />
           </GameWallet>
         </Panel>
       );

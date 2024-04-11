@@ -113,7 +113,8 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
                   )}
                 </div>
                 <li className="p-1">
-                  <Button onClick={handleHowToPlay}>
+                  <Button>
+                    {/* onClick={handleHowToPlay} */}
                     <div className="flex items-center justify-center">
                       <span>{t("settingsMenu.howToPlay")}</span>
                       <img
