@@ -20,7 +20,7 @@ export class Wallet {
   private web3: Web3 = new Web3(
     CONFIG.NETWORK === "mainnet"
       ? "https://rpc-mainnet.maticvigil.com"
-      : "https://rpc-mumbai.maticvigil.com"
+      : "https://rpc-amoy.polygon.technology"
   );
 
   private account: string | null = null;
@@ -212,7 +212,7 @@ export class Wallet {
           symbol: "MATIC",
           decimals: 18,
         },
-        rpcUrls: ["https://rpc.ankr.com/polygon_mumbai"],
+        rpcUrls: ["https://rpc-amoy.polygon.technology"],
         blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
       };
     }
