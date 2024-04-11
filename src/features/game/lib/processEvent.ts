@@ -168,8 +168,8 @@ export const maxItems: Inventory = {
   "Rapid Root": new Decimal(500),
 
   // Bait
-  Earthworm: new Decimal(100),
-  Grub: new Decimal(100),
+  Earthworm: new Decimal(200),
+  Grub: new Decimal(150),
   "Red Wiggler": new Decimal(100),
   "Fishing Lure": new Decimal(100),
 
