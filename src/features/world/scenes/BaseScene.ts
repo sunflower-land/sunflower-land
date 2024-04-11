@@ -259,7 +259,15 @@ export abstract class BaseScene extends Phaser.Scene {
           .on("pointerdown", (p: Phaser.Input.Pointer) => {
             if (p.downElement.nodeName === "CANVAS") {
               const id = polygon.data.list.id;
-              interactableModalManager.open(id);
+
+              const distance = Phaser.Math.Distance.BetweenPoints(
+                this.currentPlayer as BumpkinContainer,
+                polygon as Phaser.GameObjects.Polygon
+              );
+
+              if (distance < 50) {
+                interactableModalManager.open(id);
+              }
             }
           });
       });
