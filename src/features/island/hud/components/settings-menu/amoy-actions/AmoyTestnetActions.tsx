@@ -20,7 +20,10 @@ export const AmoyTestnetActions: React.FC<Props> = ({ isOpen, onClose }) => {
   const Content = () => {
     return (
       <>
-        <CloseButtonPanel title={`Amoy Testnet Actions`} onClose={onClose}>
+        <CloseButtonPanel
+          title={t("gameOptions.amoyActions")}
+          onClose={onClose}
+        >
           <ul className="list-none">
             <li className="p-1">
               <Button

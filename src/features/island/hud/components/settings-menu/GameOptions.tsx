@@ -94,7 +94,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
   return (
     <>
       <Modal show={show} onHide={onHide}>
-        <CloseButtonPanel title={`Game Options`}>
+        <CloseButtonPanel title={t("gameOptions.title")}>
           <ul className="list-none">
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
@@ -144,23 +144,23 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 {CONFIG.NETWORK === "amoy" && (
                   <li className="p-1">
                     <Button onClick={handleAmoySettings}>
-                      <span>{`Amoy Testnet Actions`}</span>
+                      <span>{t("gameOptions.amoyActions")}</span>
                     </Button>
                   </li>
                 )}
                 <li className="p-1">
                   <Button onClick={handleBlockchainSettings}>
-                    <span>{`Blockchain Settings`}</span>
+                    <span>{t("gameOptions.blockchainSettings")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handleGeneralSettings}>
-                    <span>{`General Settings`}</span>
+                    <span>{t("gameOptions.generalSettings")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettings}>
-                    <span>{`Plaza Settings`}</span>
+                    <span>{t("plazaSettings.title.main")}</span>
                   </Button>
                 </li>
                 <li className="p-1">

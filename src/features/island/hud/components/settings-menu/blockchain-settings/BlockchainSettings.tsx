@@ -17,6 +17,9 @@ import { DequipBumpkin } from "../blockchain-settings/DequipBumpkin";
 import { Panel } from "components/ui/Panel";
 import { GameWallet } from "features/wallet/Wallet";
 import { TransferAccount } from "../blockchain-settings/TransferAccount";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   isOpen: boolean;
@@ -34,6 +37,7 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showRefreshMenu, setShowRefreshMenu] = useState(false);
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
+  const [showCaptcha, setShowCaptcha] = useState(false);
 
   const [view, setView] = useState<"settings" | "transfer" | "dequip">(
     "settings"
@@ -75,6 +79,14 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     setShowAddSFLModal(true);
   };
 
+  const onCaptchaSolved = async (captcha: string | null) => {
+    await new Promise((res) => setTimeout(res, 1000));
+
+    gameService.send("SYNC", { captcha, blockBucks: 0 });
+    onClose();
+    setShowCaptcha(false);
+  };
+
   const Content = () => {
     if (view === "dequip") {
       return (
@@ -89,39 +101,27 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     if (view === "transfer") {
       return (
         <Panel className="p-0">
-          <TransferAccount isOpen={true} onClose={closeAndResetView} />
+          <GameWallet action="transferAccount">
+            <TransferAccount isOpen={true} onClose={closeAndResetView} />
+          </GameWallet>
         </Panel>
       );
     }
 
     return (
       <>
-        <CloseButtonPanel title={`Blockchain Settings`} onClose={onClose}>
+        <CloseButtonPanel
+          title={t("gameOptions.blockchainSettings")}
+          onClose={onClose}
+        >
           <Button onClick={handleDepositModal} className="mb-2">
             <span>{t("deposit")}</span>
           </Button>
-          <Button onClick={openRefreshMenu} className="mb-2">
-            <span>{t("settingsMenu.refreshChain")}</span>
-          </Button>
-          <Modal show={showRefreshMenu} onHide={closeRefreshMenu}>
-            <CloseButtonPanel className="sm:w-4/5 m-auto">
-              <div className="flex flex-col p-2">
-                <span className="text-sm text-center">
-                  {t("advancedSettings.refreshDescription")}
-                </span>
-              </div>
-              <div className="flex justify-content-around mt-2 space-x-1">
-                <Button onClick={refreshSession} className="mb-2">
-                  {t("settingsMenu.refreshChain")}
-                </Button>
-              </div>
-            </CloseButtonPanel>
-          </Modal>
           <Button onClick={storeOnChain} className="mb-2">
-            <span>{t("settingsMenu.storeOnChain")}</span>
+            <span>{t("gameOptions.blockchainSettings.storeOnChain")}</span>
           </Button>
           <Button onClick={handleSwapSFL} className="mb-2">
-            <span>{t("settingsMenu.swapMaticForSFL")}</span>
+            <span>{t("gameOptions.blockchainSettings.swapMaticForSFL")}</span>
           </Button>
           <Button className="mb-2 capitalize" onClick={() => setView("dequip")}>
             {t("dequipper.dequip")}
@@ -129,7 +129,7 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
           {isFullUser && (
             <>
               <Button className="mb-2" onClick={() => setView("transfer")}>
-                {t("advancedSettings.transferOwnership")}
+                {t("gameOptions.blockchainSettings.transferOwnership")}
               </Button>
             </>
           )}
@@ -148,6 +148,28 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       </>
     );
   };
+
+  {
+    showCaptcha && (
+      <Modal show={showCaptcha} onHide={() => setShowCaptcha(false)}>
+        <Panel>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="absolute cursor-pointer z-20"
+            alt="Close Logout Confirmation Modal"
+            onClick={() => setShowCaptcha(false)}
+            style={{
+              top: `${PIXEL_SCALE * 6}px`,
+              right: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
+
+          <CloudFlareCaptcha onDone={onCaptchaSolved} action="sync" />
+        </Panel>
+      </Modal>
+    );
+  }
 
   const closeAndResetView = () => {
     onClose();

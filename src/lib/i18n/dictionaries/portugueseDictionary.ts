@@ -175,6 +175,7 @@ import {
   RemoveHungryCaterpillar,
   Factions,
   Leaderboard,
+  GameOptions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4796,6 +4797,15 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.yourPosition": ENGLISH_TERMS["leaderboard.yourPosition"],
 };
 
+const gameOptions: Record<GameOptions, string> = {
+  "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
+  "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"],
+  "gameOptions.blockchainSettings":
+    ENGLISH_TERMS["gameOptions.blockchainSettings"],
+  "gameOptions.generalSettings": ENGLISH_TERMS["gameOptions.generalSettings"],
+  "gameOptions.connectDiscord": ENGLISH_TERMS["gameOptions.connectDiscord"],
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -4857,6 +4867,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...foodDescriptions,
   ...garbageCollector,
   ...gameDescriptions,
+  ...gameOptions,
   ...gameTerms,
   ...generalTerms,
   ...genieLamp,

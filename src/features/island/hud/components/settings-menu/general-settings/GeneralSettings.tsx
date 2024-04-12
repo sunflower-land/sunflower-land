@@ -83,14 +83,17 @@ export const GeneralSettings: React.FC<Props> = ({
   const Content = () => {
     return (
       <>
-        <CloseButtonPanel title={`General Settings`} onClose={onClose}>
+        <CloseButtonPanel
+          title={t("gameOptions.generalSettings")}
+          onClose={onClose}
+        >
           {!isPWA && (
             <Button onClick={handleInstallApp} className="mb-2">
               <span>{t("install.app")}</span>
             </Button>
           )}
           <Button onClick={handleDiscordClick} className="mb-2">
-            <span>{"Connect to Discord"}</span>
+            <span>{t("gameOptions.connectDiscord")}</span>
           </Button>
           <Button onClick={changeLanguage} className="mb-2">
             <span>{t("change.Language")}</span>

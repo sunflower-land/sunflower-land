@@ -174,6 +174,7 @@ import {
   RestrictionReason,
   RemoveHungryCaterpillar,
   Leaderboard,
+  GameOptions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4722,6 +4723,14 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.yourPosition": "Your position",
 };
 
+const gameOptions: Record<GameOptions, string> = {
+  "gameOptions.title": "Game Options",
+  "gameOptions.amoyActions": "Amoy Testnet Actions",
+  "gameOptions.blockchainSettings": "Blockchain Settings",
+  "gameOptions.generalSettings": "General Settings",
+  "gameOptions.connectDiscord": "Connect to Discord",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4783,6 +4792,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...flowerShopTerms,
   ...foodDescriptions,
   ...gameDescriptions,
+  ...gameOptions,
   ...gameTerms,
   ...garbageCollector,
   ...generalTerms,

@@ -3224,6 +3224,13 @@ export type Leaderboard =
   | "leaderboard.topTen"
   | "leaderboard.yourPosition";
 
+export type GameOptions =
+  | "gameOptions.title"
+  | "gameOptions.amoyActions"
+  | "gameOptions.blockchainSettings"
+  | "gameOptions.generalSettings"
+  | "gameOptions.connectDiscord";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3283,6 +3290,7 @@ export type TranslationKeys =
   | FlowerShopTerms
   | FoodDescriptions
   | GameDescriptions
+  | GameOptions
   | GameTerms
   | GarbageCollector
   | GeneralTerms
