@@ -22,6 +22,8 @@ import { PokoOnRamp } from "../PokoOnRamp";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
+import { GeneralSettings } from "./general-settings/GeneralSettings";
+import { PlazaSettings } from "./PlazaSettingsModal";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -36,7 +38,7 @@ interface Props {
   isFarming: boolean;
 }
 
-export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
+export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const { t } = useAppTranslation();
 
   const { authService } = useContext(Auth.Context);
@@ -48,6 +50,9 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [showBlockchainSettings, setShowBlockchainSettings] = useState(false);
   const [showAmoySettings, setShowAmoySettings] = useState(false);
+  const [showGeneralSettings, setShowGeneralSettings] = useState(false);
+  const [showPlazaSettings, setShowPlazaSettings] = useState(false);
+
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
   };
@@ -69,6 +74,14 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
 
   const handleBlockchainSettings = () => {
     setShowBlockchainSettings(true);
+  };
+
+  const handleGeneralSettings = () => {
+    setShowGeneralSettings(true);
+  };
+
+  const handlePlazaSettings = () => {
+    setShowPlazaSettings(true);
   };
 
   const openConfirmLogoutModal = () => {
@@ -141,13 +154,13 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button>
+                  <Button onClick={handleGeneralSettings}>
                     <span>{`General Settings`}</span>
                   </Button>
                 </li>
                 <li className="p-1">
-                  <Button>
-                    <span>{`Advanced Settings`}</span>
+                  <Button onClick={handlePlazaSettings}>
+                    <span>{`Plaza Settings`}</span>
                   </Button>
                 </li>
                 <li className="p-1">
@@ -205,6 +218,15 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
       <BlockchainSettings
         isOpen={showBlockchainSettings}
         onClose={() => setShowBlockchainSettings(false)}
+      />
+      <GeneralSettings
+        isOpen={showGeneralSettings}
+        onClose={() => setShowGeneralSettings(false)}
+        isFarming={isFarming}
+      />
+      <PlazaSettings
+        isOpen={showPlazaSettings}
+        onClose={() => setShowPlazaSettings(false)}
       />
     </>
   );
