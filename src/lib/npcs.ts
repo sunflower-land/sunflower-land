@@ -68,7 +68,10 @@ export type NPCName =
   | "garbo"
   | "guria"
   | "grabnab"
-  | "greedclaw";
+  | "greedclaw"
+  | "grommy" // faction spruiker;
+  | "lady day" // faction spruiker;
+  | "robert"; // faction spruiker;
 
 // Ol Salty
 
@@ -739,12 +742,41 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "Chun Long": {
     body: "Light Brown Farmer Potion",
     hair: "Explorer Hair",
-    hat: "Lucky Red Hat",
+    at: "Lucky Red Hat",
     shirt: "Red Farmer Shirt",
     suit: "Lucky Red Suit",
     background: "China Town Background",
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
+  },
+  "lady day": {
+    body: "Beige Farmer Potion",
+    hair: "Brown Long Hair",
+    shirt: "Maiden Top",
+    pants: "Farmer Pants",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    hat: "Flower Crown",
+    dress: "Orange Monarch Dress",
+  },
+  robert: {
+    body: "Light Brown Farmer Potion",
+    hair: "Explorer Hair",
+    shirt: "Striped Red Shirt",
+    pants: "Blue Suspenders",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
+  grommy: {
+    body: "Goblin Potion",
+    hair: "Sun Spots",
+    shirt: "Crimstone Armor",
+    pants: "Crimstone Pants",
+    tool: "Hammer",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
   },
 };
 

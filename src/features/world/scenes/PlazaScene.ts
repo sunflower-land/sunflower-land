@@ -1,6 +1,5 @@
 import mapJson from "assets/map/plaza.json";
-import rabbitJson from "assets/map/rabbit_plaza.json";
-import rabbitTileset from "assets/map/rabbit-tileset.json";
+import factionMapJson from "assets/map/plaza_faction_pledge.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -19,9 +18,8 @@ import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import { npcModalManager } from "../ui/NPCModals";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
-import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
 import { GameState } from "features/game/types/game";
-import shuffle from "lodash.shuffle";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -45,6 +43,31 @@ const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
     y: 137,
   },
 ];
+
+const FACTION_NPCS: {
+  npc: NPCName;
+  x: number;
+  y: number;
+  direction?: "left" | "right";
+}[] = [
+  {
+    x: 20,
+    y: 65,
+    npc: "lady day",
+  },
+  {
+    x: 57,
+    y: 23,
+    npc: "robert",
+  },
+  {
+    x: 114,
+    y: 26,
+    npc: "grommy",
+    direction: "left",
+  },
+];
+
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 600,
@@ -113,8 +136,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 90,
-    y: 70,
+    x: 50,
+    y: 93,
     npc: "tywin",
   },
   {
@@ -326,32 +349,6 @@ const PAGE_POSITIONS: Record<number, Coordinates[]> = {
   ],
 };
 
-const RABBIT_CORDS = [
-  [144, 413],
-  [232, 391],
-  [6, 168],
-  [249, 260],
-  [23, 89],
-  [120, 23],
-  [256, 127],
-  [330, 46],
-  [296, 104],
-  [433, 150],
-  [584, 73],
-  [585, 373],
-  [710, 432],
-  [792, 214],
-  [728, 174],
-  [776, 39],
-  [872, 86],
-  [329, 215],
-  [330, 361],
-];
-
-const randomiseList = shuffle(RABBIT_CORDS);
-// Pick 6 random coords
-const CURRENT_RABBIT_CORDS = randomiseList.slice(0, 6);
-
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
@@ -362,13 +359,12 @@ export class PlazaScene extends BaseScene {
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
-    const IS_EASTER = hasFeatureAccess(gameState, "EASTER");
+    const IS_FACTIONS = hasFeatureAccess(gameState, "FACTIONS");
     super({
       name: "plaza",
       map: {
-        json: IS_EASTER ? rabbitJson : mapJson,
-        imageKey: IS_EASTER ? "easter-tileset" : "tileset",
-        defaultTilesetConfig: IS_EASTER ? rabbitTileset : undefined,
+        json: IS_FACTIONS ? factionMapJson : mapJson,
+        imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -390,11 +386,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
-
-    this.load.spritesheet("easter_egg", "world/easter_donation.png", {
-      frameWidth: 16,
-      frameHeight: 19,
-    });
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -461,6 +452,17 @@ export class PlazaScene extends BaseScene {
       frameHeight: 7,
     });
 
+    // Factions
+    this.load.image("goblin_banner", "world/goblin_banner.webp");
+    this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
+    this.load.image("nightshades_banner", "world/nightshades_banner.webp");
+    this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
+
+    this.load.spritesheet("maximus", "world/maximus.png", {
+      frameWidth: 23,
+      frameHeight: 26,
+    });
+
     super.preload();
 
     const audioMuted = getCachedAudioSetting<boolean>(
@@ -484,101 +486,76 @@ export class PlazaScene extends BaseScene {
     });
   }
 
+  setUpFactionBanners() {
+    // Add banners
+    const bumpkins = this.add
+      .image(40, 16, "bumpkins_banner")
+      .setDepth(1000000);
+    const goblins = this.add.image(100, 16, "goblin_banner").setDepth(1000000);
+    const nightshades = this.add
+      .image(90, 55, "nightshades_banner")
+      .setDepth(1000000);
+    const sunflorians = this.add
+      .image(35, 60, "sunflorians_banner")
+      .setDepth(1000000);
+
+    // Characters
+    const maximus = this.add.sprite(110, 61, "maximus").setDepth(1000000);
+    this.anims.create({
+      key: "maximus_animation",
+      frames: this.anims.generateFrameNumbers("maximus", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    maximus.play("maximus_animation", true);
+    const shadow = this.add.sprite(110, 73, "shadow");
+    shadow.setSize(23, 10);
+    FACTION_NPCS.forEach(({ npc, x, y, direction = "right" }) => {
+      const container = new BumpkinContainer({
+        scene: this,
+        x,
+        y,
+        clothing: {
+          ...NPC_WEARABLES[npc],
+          updatedAt: 0,
+        },
+        direction,
+      });
+
+      container.setDepth(y);
+      (container.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+
+      this.physics.world.enable(container);
+      this.colliders?.add(container);
+      this.triggerColliders?.add(container);
+    });
+
+    // Make banners interactive
+    bumpkins.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("trading_board");
+    });
+    goblins.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("trading_board");
+    });
+    nightshades.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("trading_board");
+    });
+    sunflorians.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("trading_board");
+    });
+  }
+
   async create() {
     super.create();
 
-    const IS_EASTER = hasFeatureAccess(this.gameState, "EASTER");
-
-    if (IS_EASTER) {
-      this.anims.create({
-        key: `glint_anim`,
-        frames: this.anims.generateFrameNumbers("glint", {
-          start: 0,
-          end: 6,
-        }),
-        repeat: -1,
-        frameRate: 6,
-        repeatDelay: 800,
-      });
-
-      PLAZA_BUMPKINS.push({
-        npc: "hopper",
-        x: 434,
-        y: 340,
-      });
-
-      PLAZA_BUMPKINS.push({
-        npc: "flopsy",
-        x: 380,
-        y: 245,
-      });
-
-      const rabbitPositions = CURRENT_RABBIT_CORDS.slice(
-        rabbitsCaught(),
-        RABBITS
-      );
-      rabbitPositions.forEach((coords, index) => {
-        const rabbit = this.add.sprite(
-          coords[0],
-          coords[1],
-          `rabbit_${index + 1}`
-        );
-
-        const glint = this.add
-          .sprite(coords[0] + 4, coords[1] - 4, "glint")
-          .setOrigin(0.5);
-
-        glint.play(`glint_anim`, true);
-
-        rabbit.setDepth(100000000);
-        glint.setDepth(100000000);
-
-        rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-          rabbit.destroy();
-          glint.destroy();
-
-          collectRabbit();
-
-          // Show poof at position
-          const poof = this.add
-            .sprite(coords[0], coords[1], "poof")
-            .setOrigin(0.5);
-
-          this.anims.create({
-            key: `poof_anim`,
-            frames: this.anims.generateFrameNumbers("poof", {
-              start: 0,
-              end: 8,
-            }),
-            repeat: 0,
-            frameRate: 10,
-          });
-
-          poof.play(`poof_anim`, true);
-
-          // Listen for the animation complete event
-          poof.on("animationcomplete", function (animation: { key: string }) {
-            if (animation.key === "poof_anim") {
-              poof.destroy();
-            }
-          });
-        });
-      });
-
-      const easterEgg = this.add
-        .sprite(395, 245, "easter_egg")
-        .setDepth(1000000000000);
-      this.anims.create({
-        key: "egg_animation",
-        frames: this.anims.generateFrameNumbers("easter_egg", {
-          start: 0,
-          end: 6,
-        }),
-        repeat: -1,
-        frameRate: 4,
-      });
-      easterEgg.play("egg_animation", true);
-    }
+    this.setUpFactionBanners();
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
