@@ -7,12 +7,12 @@ import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
 
 import { Context } from "features/game/GameProvider";
-import { TransferAccount } from "./TransferAccount";
+import { TransferAccount } from "../blockchain-settings/TransferAccount";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { DequipBumpkin } from "./DequipBumpkin";
+import { DequipBumpkin } from "../blockchain-settings/DequipBumpkin";
 import { GameWallet } from "features/wallet/Wallet";
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
+export const AdvancedSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
 
   const { authService } = useContext(Auth.Context);
@@ -70,8 +70,8 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       <CloseButtonPanel title={t("advanced")} onClose={onClose}>
         <Button className="col p-1" onClick={onToggleAnimations}>
           {showAnimations
-            ? t("subSettings.disableAnimations")
-            : t("subSettings.enableAnimations")}
+            ? t("advancedSettings.disableAnimations")
+            : t("advancedSettings.enableAnimations")}
         </Button>
 
         {showDequipper && (
@@ -89,7 +89,7 @@ export const SubSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               className="col p-1 mt-2"
               onClick={() => setView("transfer")}
             >
-              {t("subSettings.transferOwnership")}
+              {t("advancedSettings.transferOwnership")}
             </Button>
           </>
         )}

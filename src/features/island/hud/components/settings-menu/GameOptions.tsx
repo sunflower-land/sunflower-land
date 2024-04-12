@@ -127,7 +127,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
                 {CONFIG.NETWORK === "amoy" && (
                   <li className="p-1">
                     <Button>
-                      <span>{`Amoy Actions`}</span>
+                      <span>{`Amoy Testnet Actions`}</span>
                     </Button>
                   </li>
                 )}

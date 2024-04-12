@@ -2948,12 +2948,12 @@ export type StopGoblin =
   | "stopGoblin.tap.two"
   | "stopGoblin.left";
 
-export type SubSettings =
-  | "subSettings.disableAnimations"
-  | "subSettings.enableAnimations"
-  | "subSettings.logout"
-  | "subSettings.transferOwnership"
-  | "subSettings.refreshDescription";
+export type AdvancedSettings =
+  | "advancedSettings.disableAnimations"
+  | "advancedSettings.enableAnimations"
+  | "advancedSettings.logout"
+  | "advancedSettings.transferOwnership"
+  | "advancedSettings.refreshDescription";
 
 export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";
 
@@ -3374,7 +3374,7 @@ export type TranslationKeys =
   | SpecialEvent
   | Statements
   | StopGoblin
-  | SubSettings
+  | AdvancedSettings
   | Swarming
   | TieBreaker
   | TimeUnits

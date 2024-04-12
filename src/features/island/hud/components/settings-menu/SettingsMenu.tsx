@@ -11,20 +11,20 @@ import * as Auth from "features/auth/lib/Provider";
 
 import { Context as GameContext } from "features/game/GameProvider";
 
-import { Share } from "features/island/hud/components/settings-menu/Share";
+import { Share } from "features/island/hud/components/settings-menu/advanced-settings/Share";
 
 import { HowToPlay } from "./howToPlay/HowToPlay";
-import { SubSettings } from "./sub-settings/SubSettings";
+import { AdvancedSettings } from "./advanced-settings/AdvancedSettings";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Discord } from "./DiscordModal";
+import { Discord } from "./advanced-settings/DiscordModal";
 import { AddSFL } from "../AddSFL";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { PokoOnRamp } from "../PokoOnRamp";
 import { createPortal } from "react-dom";
 import { DEV_TimeMachine } from "./amoy-actions/DEV_TimeMachine";
-import { PlazaSettings } from "./PlazaSettingsModal";
+import { PlazaSettings } from "./general-settings/PlazaSettingsModal";
 import { DEV_HoardingCheck } from "components/dev/DEV_HoardingCheck";
 import { Label } from "components/ui/Label";
 import { shortAddress } from "lib/utils/shortAddress";
@@ -35,7 +35,7 @@ import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { LanguageSwitcher } from "./LanguageChangeModal";
+import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import {
   isMobile,
@@ -45,7 +45,7 @@ import {
   isChrome,
 } from "mobile-device-detect";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
-import { InstallAppModal } from "./InstallAppModal";
+import { InstallAppModal } from "./advanced-settings/InstallAppModal";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -282,7 +282,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <CloseButtonPanel className="sm:w-4/5 m-auto">
                       <div className="flex flex-col p-2">
                         <span className="text-sm text-center">
-                          {t("subSettings.refreshDescription")}
+                          {t("advancedSettings.refreshDescription")}
                         </span>
                       </div>
                       <div className="flex justify-content-around mt-2 space-x-1">
@@ -407,7 +407,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
           onClose={() => setShowDiscordModal(false)}
         />
       )}
-      <SubSettings
+      <AdvancedSettings
         isOpen={showSettingsModal}
         onClose={() => setShowSettingsModal(false)}
       />

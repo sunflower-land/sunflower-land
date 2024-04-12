@@ -143,7 +143,7 @@ import {
   SpecialEvent,
   Statements,
   StopGoblin,
-  SubSettings,
+  AdvancedSettings,
   Swarming,
   TieBreaker,
   ToolDescriptions,
@@ -4362,12 +4362,12 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.left": "Attempts left: {{attemptsLeft}}",
 };
 
-const subSettings: Record<SubSettings, string> = {
-  "subSettings.disableAnimations": "Disable Animations",
-  "subSettings.enableAnimations": "Enable Animations",
-  "subSettings.logout": "Logout",
-  "subSettings.transferOwnership": "Transfer Ownership",
-  "subSettings.refreshDescription":
+const advancedSettings: Record<AdvancedSettings, string> = {
+  "advancedSettings.disableAnimations": "Disable Animations",
+  "advancedSettings.enableAnimations": "Enable Animations",
+  "advancedSettings.logout": "Logout",
+  "advancedSettings.transferOwnership": "Transfer Ownership",
+  "advancedSettings.refreshDescription":
     "Refresh your session to grab the latest changes from the Blockchain. This is useful if you deposited items to your farm.",
 };
 
@@ -4875,7 +4875,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...specialEvent,
   ...statements,
   ...stopGoblin,
-  ...subSettings,
+  ...advancedSettings,
   ...swarming,
   ...tieBreaker,
   ...timeUnits,

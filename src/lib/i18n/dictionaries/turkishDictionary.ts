@@ -144,7 +144,7 @@ import {
   SpecialEvent,
   Statements,
   StopGoblin,
-  SubSettings,
+  AdvancedSettings,
   Swarming,
   TieBreaker,
   ToolDescriptions,
@@ -4371,12 +4371,12 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.left": "Kalan deneme sayısı: {{attemptsLeft}}",
 };
 
-const subSettings: Record<SubSettings, string> = {
-  "subSettings.disableAnimations": "Animasyonları Kapat",
-  "subSettings.enableAnimations": "Animasyonları Etkinleştir",
-  "subSettings.logout": "Çıkış Yap",
-  "subSettings.transferOwnership": "Sahipliği Aktar",
-  "subSettings.refreshDescription":
+const advancedSettings: Record<AdvancedSettings, string> = {
+  "advancedSettings.disableAnimations": "Animasyonları Kapat",
+  "advancedSettings.enableAnimations": "Animasyonları Etkinleştir",
+  "advancedSettings.logout": "Çıkış Yap",
+  "advancedSettings.transferOwnership": "Sahipliği Aktar",
+  "advancedSettings.refreshDescription":
     "Blockchaindeki en son değişiklikleri almak için oturumunuzu yenileyin. Bu, çiftliğinize öğe bıraktığınızda kullanışlıdır.",
 };
 
@@ -4923,7 +4923,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...specialEvent,
   ...statements,
   ...stopGoblin,
-  ...subSettings,
+  ...advancedSettings,
   ...swarming,
   ...tieBreaker,
   ...timeUnits,
