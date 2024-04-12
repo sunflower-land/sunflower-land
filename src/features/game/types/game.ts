@@ -866,6 +866,18 @@ export type Beehive = {
 
 export type Beehives = Record<string, Beehive>;
 
+export type FactionName =
+  | "sunflorians"
+  | "bumpkins"
+  | "goblins"
+  | "nightshades";
+
+export type Faction = {
+  name: FactionName;
+  pledgedAt: number;
+  points: number;
+};
+
 export interface GameState {
   home: Home;
 
@@ -996,6 +1008,7 @@ export interface GameState {
       >
     >;
   };
+  faction?: Faction;
 }
 
 export interface Context {

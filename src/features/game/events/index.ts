@@ -269,6 +269,10 @@ import {
   exchangeSFLtoCoins,
   ExchangeSFLtoCoinsAction,
 } from "./landExpansion/exchangeSFLtoCoins";
+import {
+  pledgeFaction,
+  PledgeFactionAction,
+} from "./landExpansion/pledgeFaction";
 
 export type PlayingEvent =
   | TradeAction
@@ -351,7 +355,8 @@ export type PlayingEvent =
   | GiftFlowersAction
   | ClaimGiftAction
   | EnterRaffleAction
-  | ExchangeSFLtoCoinsAction;
+  | ExchangeSFLtoCoinsAction
+  | PledgeFactionAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -497,6 +502,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "gift.claimed": claimGift,
   "raffle.entered": enterRaffle,
   "sfl.exchanged": exchangeSFLtoCoins,
+  "faction.pledged": pledgeFaction,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

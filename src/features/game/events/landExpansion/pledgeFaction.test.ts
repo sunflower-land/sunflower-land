@@ -1,0 +1,51 @@
+import { TEST_FARM } from "features/game/lib/constants";
+import { pledgeFaction } from "./pledgeFaction";
+import { FactionName } from "features/game/types/game";
+
+describe("pledgeFaction", () => {
+  it("throws an error if the faction is invalid", () => {
+    expect(() =>
+      pledgeFaction({
+        state: TEST_FARM,
+        action: {
+          type: "faction.pledged",
+          faction: "invalid" as FactionName,
+        },
+      })
+    ).toThrow("Invalid faction");
+  });
+
+  it("throws an error the player already pledged a faction", () => {
+    expect(() =>
+      pledgeFaction({
+        state: {
+          ...TEST_FARM,
+          faction: {
+            name: "bumpkins",
+            pledgedAt: Date.now() - 1000,
+            points: 0,
+          },
+        },
+        action: {
+          type: "faction.pledged",
+          faction: "sunflorians",
+        },
+      })
+    ).toThrow("You already pledged a faction");
+  });
+
+  it("pledges a faction", () => {
+    const state = pledgeFaction({
+      state: TEST_FARM,
+      action: {
+        type: "faction.pledged",
+        faction: "sunflorians",
+      },
+    });
+
+    expect(state.faction).toBeDefined();
+    expect(state.faction?.name).toBe("sunflorians");
+    expect(state.faction?.pledgedAt).toBeGreaterThan(0);
+    expect(state.faction?.points).toEqual(0);
+  });
+});
