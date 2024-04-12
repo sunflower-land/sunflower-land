@@ -627,6 +627,7 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 const base: Record<Base, string> = {
   "base.missing": "Yapılandırmada eksik ad",
   "base.far.away": "Çok uzaktasın",
+  "base.iam.far.away": "Çok uzaktasın",
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {

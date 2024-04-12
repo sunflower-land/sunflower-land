@@ -407,7 +407,7 @@ export type AvailableSeeds =
   | "availableSeeds.select"
   | "availableSeeds.select.plant";
 
-export type Base = "base.missing" | "base.far.away";
+export type Base = "base.missing" | "base.far.away" | "base.iam.far.away";
 
 export type BasicTreasure =
   | "basic.treasure.missingKey"
