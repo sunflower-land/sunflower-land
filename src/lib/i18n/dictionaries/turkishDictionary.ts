@@ -4136,7 +4136,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
 const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.timeMachine": "Zaman Makinesi",
   "settingsMenu.storeOnChain": "Zincirde Mağaza",
-  "settingsMenu.howToPlay": "Nasıl oynanır?",
+  "settingsMenu.howToPlay": "Nasıl oynanır? (Tadilatta)",
   "settingsMenu.swapMaticForSFL": "MATIC'i SFL ile değiştirin",
   "settingsMenu.share": "Paylaş",
   "settingsMenu.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",

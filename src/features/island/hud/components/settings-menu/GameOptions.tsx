@@ -165,9 +165,8 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </Button>
                   </li>
                 )}
-                <li className="p-1">
-                  <Button>
-                    {/* onClick={handleHowToPlay} */}
+                {/* <li className="p-1">
+                  <Button disabled={true} onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">
                       <span>{t("settingsMenu.howToPlay")}</span>
                       <img
@@ -177,7 +176,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       />
                     </div>
                   </Button>
-                </li>
+                </li> */}
                 {CONFIG.NETWORK === "amoy" && (
                   <li className="p-1">
                     <Button onClick={handleAmoySettings}>

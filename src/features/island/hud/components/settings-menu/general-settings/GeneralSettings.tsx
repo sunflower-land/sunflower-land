@@ -65,9 +65,11 @@ export const GeneralSettings: React.FC<Props> = ({
             <span>{t("change.Language")}</span>
           </Button>
           <Button className="mb-2" onClick={onToggleAnimations}>
-            {showAnimations
-              ? t("advancedSettings.disableAnimations")
-              : t("advancedSettings.enableAnimations")}
+            <span>
+              {showAnimations
+                ? t("advancedSettings.disableAnimations")
+                : t("advancedSettings.enableAnimations")}
+            </span>
           </Button>
           <Button onClick={handleShareClick} className="mb-2">
             <span>{t("settingsMenu.share")}</span>

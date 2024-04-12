@@ -4129,7 +4129,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
 const settingsMenu: Record<SettingsMenu, string> = {
   "settingsMenu.timeMachine": "Time Machine",
   "settingsMenu.storeOnChain": "Store on Chain",
-  "settingsMenu.howToPlay": "How to Play?",
+  "settingsMenu.howToPlay": "How to Play? (Under Reconstruction)",
   "settingsMenu.swapMaticForSFL": "Swap MATIC for SFL",
   "settingsMenu.share": "Share",
   "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
