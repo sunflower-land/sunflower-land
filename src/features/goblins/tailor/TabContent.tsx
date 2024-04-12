@@ -87,7 +87,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
 
   const goToUpcomingDrops = () => {
     window.open(
-      CONFIG.NETWORK === "mumbai"
+      CONFIG.NETWORK === "amoy"
         ? "https://testnet.bumpkins.io/#/upcoming-drops"
         : "https://bumpkins.io/#/upcoming-drops",
       "_blank"
@@ -96,7 +96,7 @@ export const TabContent: React.FC<Props> = ({ tab }) => {
 
   const goToCollectionItem = () => {
     window.open(
-      CONFIG.NETWORK === "mumbai"
+      CONFIG.NETWORK === "amoy"
         ? `https://testnet.bumpkins.io/#/collection/${selected?.tokenId}`
         : `https://bumpkins.io/#/collection/${selected?.tokenId}`,
       "_blank"

@@ -91,7 +91,7 @@ export async function getRecipes(
 
     // For UI purposes, do not show the wei values
     const ethBasedRecipes = recipesWithIds.map((recipe) => {
-      if (CONFIG.NETWORK === "mumbai") {
+      if (CONFIG.NETWORK === "amoy") {
         return {
           ...recipe,
           cooldownSeconds: Number(recipe.cooldownSeconds),

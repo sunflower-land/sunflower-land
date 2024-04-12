@@ -10,7 +10,7 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
-  network: "mainnet" | "mumbai";
+  network: "mainnet" | "amoy";
 }
 
 const HoarderCheck: React.FC<Props> = ({ network }) => {

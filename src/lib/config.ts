@@ -1,4 +1,4 @@
-const NETWORK = import.meta.env.VITE_NETWORK as "mainnet" | "mumbai";
+const NETWORK = import.meta.env.VITE_NETWORK as "mainnet" | "amoy";
 const DONATION_ADDRESS = import.meta.env.VITE_DONATION_ADDRESS;
 const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 
