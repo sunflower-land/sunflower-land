@@ -21,6 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { PokoOnRamp } from "../PokoOnRamp";
 import { HowToPlay } from "./howToPlay/HowToPlay";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
+import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -46,9 +47,9 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [showHowToPlay, setShowHowToPlay] = useState(false);
   const [showBlockchainSettings, setShowBlockchainSettings] = useState(false);
+  const [showAmoySettings, setShowAmoySettings] = useState(false);
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
-    onClose();
   };
 
   const onHide = () => {
@@ -62,10 +63,12 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
     walletService.send("RESET");
     onClose();
   };
+  const handleAmoySettings = () => {
+    setShowAmoySettings(true);
+  };
 
   const handleBlockchainSettings = () => {
     setShowBlockchainSettings(true);
-    onClose();
   };
 
   const openConfirmLogoutModal = () => {
@@ -127,7 +130,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
                 </li>
                 {CONFIG.NETWORK === "amoy" && (
                   <li className="p-1">
-                    <Button>
+                    <Button onClick={handleAmoySettings}>
                       <span>{`Amoy Testnet Actions`}</span>
                     </Button>
                   </li>
@@ -194,6 +197,10 @@ export const GameOptions: React.FC<Props> = ({ show, onClose }) => {
       <HowToPlay
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
+      />
+      <AmoyTestnetActions
+        isOpen={showAmoySettings}
+        onClose={() => setShowAmoySettings(false)}
       />
       <BlockchainSettings
         isOpen={showBlockchainSettings}
