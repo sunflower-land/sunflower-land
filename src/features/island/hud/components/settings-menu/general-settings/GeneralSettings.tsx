@@ -6,18 +6,7 @@ import { LanguageSwitcher } from "./LanguageChangeModal";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Discord } from "./DiscordModal";
-import { InstallAppModal } from "./InstallAppModal";
 import { Share } from "./Share";
-import { useIsPWA } from "lib/utils/hooks/useIsPWA";
-import { usePWAInstall } from "features/pwa/PWAInstallProvider";
-import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
-import {
-  isMobile,
-  isIOS,
-  isSafari,
-  isAndroid,
-  isChrome,
-} from "mobile-device-detect";
 import { Context as GameContext } from "features/game/GameProvider";
 
 enum MENU_LEVELS {
@@ -41,30 +30,12 @@ export const GeneralSettings: React.FC<Props> = ({
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
-  const [showInstallAppModal, setShowInstallAppModal] = useState(false);
 
   const [view, setView] = useState<"settings">("settings");
   const { showAnimations, toggleAnimations } = useContext(Context);
-  const isPWA = useIsPWA();
-  const isWeb3MobileBrowser = isMobile && !!window.ethereum;
-  const pwaInstall = usePWAInstall();
 
   const handleDiscordClick = () => {
     setShowDiscordModal(true);
-  };
-
-  const handleInstallApp = () => {
-    if (isMobile && !isWeb3MobileBrowser) {
-      if (isIOS && isSafari) {
-        pwaInstall.current?.showDialog();
-      } else if (isAndroid && isChrome) {
-        pwaInstall.current?.install();
-      }
-
-      fixInstallPromptTextStyles();
-    } else {
-      setShowInstallAppModal(true);
-    }
   };
 
   const handleShareClick = () => {
@@ -87,11 +58,6 @@ export const GeneralSettings: React.FC<Props> = ({
           title={t("gameOptions.generalSettings")}
           onClose={onClose}
         >
-          {!isPWA && (
-            <Button onClick={handleInstallApp} className="mb-2">
-              <span>{t("install.app")}</span>
-            </Button>
-          )}
           <Button onClick={handleDiscordClick} className="mb-2">
             <span>{t("gameOptions.connectDiscord")}</span>
           </Button>
@@ -117,10 +83,6 @@ export const GeneralSettings: React.FC<Props> = ({
             onClose={() => setShowDiscordModal(false)}
           />
         )}
-        <InstallAppModal
-          isOpen={showInstallAppModal}
-          onClose={() => setShowInstallAppModal(false)}
-        />
         <Share
           isOpen={showShareModal}
           onClose={() => setShowShareModal(false)}

@@ -24,6 +24,17 @@ import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { PlazaSettings } from "./PlazaSettingsModal";
+import { usePWAInstall } from "features/pwa/PWAInstallProvider";
+import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
+import { useIsPWA } from "lib/utils/hooks/useIsPWA";
+import {
+  isMobile,
+  isIOS,
+  isSafari,
+  isAndroid,
+  isChrome,
+} from "mobile-device-detect";
+import { InstallAppModal } from "./general-settings/InstallAppModal";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -52,6 +63,25 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
   const [showAmoySettings, setShowAmoySettings] = useState(false);
   const [showGeneralSettings, setShowGeneralSettings] = useState(false);
   const [showPlazaSettings, setShowPlazaSettings] = useState(false);
+  const [showInstallAppModal, setShowInstallAppModal] = useState(false);
+
+  const isPWA = useIsPWA();
+  const isWeb3MobileBrowser = isMobile && !!window.ethereum;
+  const pwaInstall = usePWAInstall();
+
+  const handleInstallApp = () => {
+    if (isMobile && !isWeb3MobileBrowser) {
+      if (isIOS && isSafari) {
+        pwaInstall.current?.showDialog();
+      } else if (isAndroid && isChrome) {
+        pwaInstall.current?.install();
+      }
+
+      fixInstallPromptTextStyles();
+    } else {
+      setShowInstallAppModal(true);
+    }
+  };
 
   const handleHowToPlay = () => {
     setShowHowToPlay(true);
@@ -128,6 +158,13 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </Label>
                   )}
                 </div>
+                {!isPWA && (
+                  <li className="p-1">
+                    <Button onClick={handleInstallApp}>
+                      <span>{t("install.app")}</span>
+                    </Button>
+                  </li>
+                )}
                 <li className="p-1">
                   <Button>
                     {/* onClick={handleHowToPlay} */}
@@ -207,6 +244,10 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
           </p>
         </CloseButtonPanel>
       </Modal>
+      <InstallAppModal
+        isOpen={showInstallAppModal}
+        onClose={() => setShowInstallAppModal(false)}
+      />
       <HowToPlay
         isOpen={showHowToPlay}
         onClose={() => setShowHowToPlay(false)}
