@@ -21,6 +21,7 @@ export type GeneralTerms =
   | "back"
   | "bait"
   | "balance"
+  | "banner"
   | "basket"
   | "beach.bounty"
   | "beta"
@@ -1331,6 +1332,15 @@ export type ExoticShopItems =
   | "exoticShopItems.line2"
   | "exoticShopItems.line3"
   | "exoticShopItems.line4";
+
+export type Factions =
+  | "faction.join"
+  | "faction.description.sunflorians"
+  | "faction.description.bumpkins"
+  | "faction.description.goblins"
+  | "faction.description.nightshades"
+  | "faction.countdown"
+  | "faction.join.confirm";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
@@ -3237,6 +3247,7 @@ export type TranslationKeys =
   | GuideTerms
   | GuideCompost
   | GuideCompost
+  | Factions
   | HalveningCountdown
   | Harvestflower
   | HarvestBeeHive

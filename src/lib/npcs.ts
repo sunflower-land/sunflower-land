@@ -742,7 +742,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "Chun Long": {
     body: "Light Brown Farmer Potion",
     hair: "Explorer Hair",
-    at: "Lucky Red Hat",
+    hat: "Lucky Red Hat",
     shirt: "Red Farmer Shirt",
     suit: "Lucky Red Suit",
     background: "China Town Background",

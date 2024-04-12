@@ -25,6 +25,7 @@ import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 import { GoblinMarket } from "./market/GoblinMarket";
+import { PledgeFaction } from "./factions/PledgeFaction";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -79,7 +80,11 @@ type InteractableName =
   | "page_discovered"
   | "trading_board"
   | "wishingWell"
-  | "goblin_market";
+  | "goblin_market"
+  | "pledge_bumpkin"
+  | "pledge_goblin"
+  | "pledge_nightshade"
+  | "pledge_sunflorian";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -587,6 +592,18 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         onHide={closeModal}
       >
         <GoblinMarket onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "pledge_sunflorian"} onHide={closeModal}>
+        <PledgeFaction faction="Sunflorians" />
+      </Modal>
+      <Modal show={interactable === "pledge_bumpkin"} onHide={closeModal}>
+        <PledgeFaction faction="Bumpkins" />
+      </Modal>
+      <Modal show={interactable === "pledge_goblin"} onHide={closeModal}>
+        <PledgeFaction faction="Goblins" />
+      </Modal>
+      <Modal show={interactable === "pledge_nightshade"} onHide={closeModal}>
+        <PledgeFaction faction="Nightshades" />
       </Modal>
     </>
   );

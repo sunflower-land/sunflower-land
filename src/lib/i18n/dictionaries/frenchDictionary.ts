@@ -46,6 +46,7 @@ import {
   ErrorAndAccess,
   ErrorTerms,
   ExoticShopItems,
+  Factions,
   FestiveTree,
   FishDescriptions,
   FishermanModal,
@@ -198,6 +199,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Retour",
   bait: "Appât",
   balance: "Solde: ",
+  banner: "Bannière",
   basket: "Panier",
   "beach.bounty": "Prime de plage",
   beta: "Bêta",
@@ -1953,6 +1955,18 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
     "Merci d'avoir fait partie de notre communauté d'amateurs de légumes secs.",
   "exoticShopItems.line3": "Cordialement,",
   "exoticShopItems.line4": "L'équipe des haricots",
+};
+
+const factions: Record<Factions, string> = {
+  "faction.join": ENGLISH_TERMS["faction.join"],
+  "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
+  "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
+  "faction.description.sunflorians":
+    ENGLISH_TERMS["faction.description.sunflorians"],
+  "faction.description.nightshades":
+    ENGLISH_TERMS["faction.description.nightshades"],
+  "faction.countdown": ENGLISH_TERMS["faction.countdown"],
+  "faction.join.confirm": ENGLISH_TERMS["faction.join.confirm"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4896,6 +4910,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...errorTerms,
   ...event,
   ...exoticShopItems,
+  ...factions,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,

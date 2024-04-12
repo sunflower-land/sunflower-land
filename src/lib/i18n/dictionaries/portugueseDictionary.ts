@@ -173,6 +173,7 @@ import {
   PwaInstall,
   GoblinTrade,
   RestrictionReason,
+  Factions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -198,6 +199,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Voltar",
   bait: "Isca",
   balance: "Saldo: ",
+  banner: "Banner",
   basket: "Cesta",
   "beach.bounty": "Recompensa da Praia",
   beta: "Beta",
@@ -1896,6 +1898,18 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
     "Obrigado por fazer parte de nossa comunidade amante de legumes.",
   "exoticShopItems.line3": "Melhores cumprimentos,",
   "exoticShopItems.line4": "A Equipe do Feijão",
+};
+
+const factions: Record<Factions, string> = {
+  "faction.join": ENGLISH_TERMS["faction.join"],
+  "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
+  "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
+  "faction.description.sunflorians":
+    ENGLISH_TERMS["faction.description.sunflorians"],
+  "faction.description.nightshades":
+    ENGLISH_TERMS["faction.description.nightshades"],
+  "faction.countdown": ENGLISH_TERMS["faction.countdown"],
+  "faction.join.confirm": ENGLISH_TERMS["faction.join.confirm"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4764,6 +4778,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...errorAndAccess,
   ...errorTerms,
   ...exoticShopItems,
+  ...factions,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,

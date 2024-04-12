@@ -513,6 +513,7 @@ export class PlazaScene extends BaseScene {
     maximus.play("maximus_animation", true);
     const shadow = this.add.sprite(110, 73, "shadow");
     shadow.setSize(23, 10);
+
     FACTION_NPCS.forEach(({ npc, x, y, direction = "right" }) => {
       const container = new BumpkinContainer({
         scene: this,
@@ -539,16 +540,16 @@ export class PlazaScene extends BaseScene {
 
     // Make banners interactive
     bumpkins.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("trading_board");
+      interactableModalManager.open("pledge_bumpkin");
     });
     goblins.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("trading_board");
+      interactableModalManager.open("pledge_goblin");
     });
     nightshades.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("trading_board");
+      interactableModalManager.open("pledge_nightshade");
     });
     sunflorians.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("trading_board");
+      interactableModalManager.open("pledge_sunflorian");
     });
   }
 

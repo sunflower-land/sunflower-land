@@ -46,6 +46,7 @@ import {
   ErrorTerms,
   ExoticShopItems,
   FestiveTree,
+  Factions,
   FishDescriptions,
   FishermanModal,
   FishermanQuest,
@@ -197,6 +198,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Back",
   bait: "Bait",
   balance: "Balance: ",
+  banner: "Banner",
   basket: "Basket",
   "beach.bounty": "Beach Bounty",
   beta: "Beta",
@@ -1863,6 +1865,20 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
     "Thank you for being part of our legume-loving community.",
   "exoticShopItems.line3": "Best regards,",
   "exoticShopItems.line4": "The Bean Team",
+};
+
+const factions: Record<Factions, string> = {
+  "faction.join": "Join {{faction}}",
+  "faction.description.sunflorians":
+    "The Sunflorians are the royals that rule over Sunflower Land. Do you believe in power and rules?",
+  "faction.description.bumpkins":
+    "The Bumpkins are the farmers and all round lifeblood of Sunflower Land. Do you believe in hard work and community?",
+  "faction.description.goblins":
+    "The Goblins are the mischievous industrialists of Sunflower Land. Do you believe in progress and innovation?",
+  "faction.description.nightshades":
+    "The Nightshades are the mysterious and magical beings of Sunflower Land. Do you believe in magic and secrets?",
+  "faction.countdown": "In {{days}} days  the faction battle begins.",
+  "faction.join.confirm": "Do you want to join the {{faction}}?",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4689,6 +4705,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...errorTerms,
   ...event,
   ...exoticShopItems,
+  ...factions,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,
