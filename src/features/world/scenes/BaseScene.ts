@@ -265,9 +265,12 @@ export abstract class BaseScene extends Phaser.Scene {
                 polygon as Phaser.GameObjects.Polygon
               );
 
-              if (distance < 50) {
-                interactableModalManager.open(id);
+              if (distance > 50) {
+                this.currentPlayer?.speak(translate("base.iam.far.away"));
+                return;
               }
+
+              interactableModalManager.open(id);
             }
           });
       });
