@@ -140,8 +140,24 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       );
                     }}
                   >
-                    {`ID #${gameService.state?.context?.farmId}`}{" "}
+                    {`Farm ID #${gameService.state?.context?.farmId}`}
                   </Label>
+                  {gameService.state?.context?.nftId !== undefined && (
+                    <Label
+                      type="default"
+                      icon={SUNNYSIDE.icons.search}
+                      className="mb-1"
+                      onClick={() => {
+                        clipboard.copy(
+                          gameService.state?.context?.nftId?.toString() || ""
+                        );
+                      }}
+                    >
+                      {`NFT ID #${gameService.state?.context?.nftId}`}
+                    </Label>
+                  )}
+                </div>
+                <div className="flex flex-wrap items-center justify-between mx-2">
                   {gameService.state?.context?.linkedWallet && (
                     <Label
                       type="formula"
@@ -158,6 +174,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </Label>
                   )}
                 </div>
+                <div className="flex flex-wrap items-center justify-between mx-2"></div>
                 {!isPWA && (
                   <li className="p-1">
                     <Button onClick={handleInstallApp}>
