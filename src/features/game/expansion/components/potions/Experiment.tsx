@@ -236,7 +236,7 @@ export const Experiment: React.FC<Props> = ({
           <Button onClick={onClose}>{t("close")}</Button>
           <Button
             onClick={handleStart}
-            disabled={gameService.state.context.state.balance.lessThan(1)}
+            disabled={(gameService.state.context.state.coins ?? 0) < 320}
           >{`${t("statements.startgame")} (320 coins)`}</Button>
         </div>
       )}

@@ -16,7 +16,7 @@ export const AuctionHouseModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
-    context: { state, farmId, linkedWallet },
+    context: { state, linkedWallet },
   } = gameState;
 
   return (

@@ -1,7 +1,7 @@
 const NETWORK = process.env.VITE_NETWORK as "mainnet" | "mumbai";
 const DONATION_ADDRESS = process.env.VITE_DONATION_ADDRESS;
 
-const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80001;
+const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80002;
 
 const WISHING_WELL_CONTRACT = process.env.VITE_WISHING_WELL_CONTRACT;
 const ACCOUNT_MINTER_CONTRACT = process.env.ACCOUNT_MINTER_CONTRACT;

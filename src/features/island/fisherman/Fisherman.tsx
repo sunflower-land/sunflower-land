@@ -27,17 +27,17 @@ export const Fisherman: React.FC = () => {
 
   const wharfCoords = () => {
     if (expansionCount < 7) {
-      return { x: -1, y: -3.5 };
+      return { x: -1, y: -3 };
     }
     if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: -8, y: -9.5 };
+      return { x: -8, y: -9 };
     } else {
-      return { x: -14, y: -15.5 };
+      return { x: -14, y: -15 };
     }
   };
 
   const cast = (bait: FishingBait, chum?: InventoryItemName) => {
-    const state = gameService.send("rod.casted", {
+    gameService.send("rod.casted", {
       bait,
       chum,
       location: "wharf",
@@ -47,38 +47,39 @@ export const Fisherman: React.FC = () => {
   };
 
   return (
-    <div className={classNames({ "pointer-events-none": isVisiting })}>
+    <>
+      <div className={classNames({ "pointer-events-none": isVisiting })}>
+        <MapPlacement
+          x={wharfCoords().x}
+          y={wharfCoords().y}
+          width={3}
+          height={3}
+        >
+          <FishermanNPC onClick={() => setShowModal(true)} />
+
+          <img
+            src={bubbles}
+            className="absolute z-0 skew-animation pointer-events-none"
+            style={{
+              width: `${37 * PIXEL_SCALE}px`,
+              right: `${-6 * PIXEL_SCALE}px`,
+              bottom: `${-7 * PIXEL_SCALE}px`,
+            }}
+          />
+          <img
+            src={fishSilhoutte}
+            className="absolute z-0 fish-swimming pointer-events-none"
+            style={{
+              width: `${11 * PIXEL_SCALE}px`,
+              right: `${0 * PIXEL_SCALE}px`,
+              bottom: `${-20 * PIXEL_SCALE}px`,
+            }}
+          />
+        </MapPlacement>
+      </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <FishermanModal onCast={cast} onClose={() => setShowModal(false)} />
       </Modal>
-
-      <MapPlacement
-        x={wharfCoords().x}
-        y={wharfCoords().y}
-        width={3}
-        height={3}
-      >
-        <FishermanNPC onClick={() => setShowModal(true)} />
-
-        <img
-          src={bubbles}
-          className="absolute z-0 skew-animation cursor-pointer"
-          style={{
-            width: `${37 * PIXEL_SCALE}px`,
-            right: `${-6 * PIXEL_SCALE}px`,
-            bottom: `${-6 * PIXEL_SCALE}px`,
-          }}
-        />
-        <img
-          src={fishSilhoutte}
-          className="absolute z-0 fish-swimming"
-          style={{
-            width: `${11 * PIXEL_SCALE}px`,
-            right: `${0 * PIXEL_SCALE}px`,
-            bottom: `${-20 * PIXEL_SCALE}px`,
-          }}
-        />
-      </MapPlacement>
-    </div>
+    </>
   );
 };

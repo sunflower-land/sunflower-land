@@ -142,7 +142,7 @@ const IslandUpgraderModal: React.FC<{
             {t("coming.soon") +
               (gameState.context.state.island.type === "basic"
                 ? " - February 1st"
-                : " - May 1st")}
+                : " - May 14th")}
           </Label>
         )}
       </div>

@@ -9,7 +9,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { GUIDE_PATHS, GuidePath } from "../lib/guide";
 import { GuideTask } from "./Task";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   selected?: GuidePath;
@@ -19,7 +19,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const state = gameState.context.state;
 

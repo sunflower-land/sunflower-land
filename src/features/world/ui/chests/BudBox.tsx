@@ -40,14 +40,7 @@ const BUD_ORDER: TypeTrait[] = [
  * Based on day of year + year to get a consistent order of buds
  */
 export function getDailyBudBoxType(date: Date): TypeTrait {
-  const offset = date.getTimezoneOffset();
-
-  let dateToUse = date;
-
-  if (offset > 0) {
-    dateToUse = new Date(date.getTime() + offset * 60 * 1000);
-  }
-  const dayOfYear = getDayOfYear(dateToUse);
+  const dayOfYear = getDayOfYear(date);
 
   const index = dayOfYear % BUD_ORDER.length;
   return BUD_ORDER[index];

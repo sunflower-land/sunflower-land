@@ -172,6 +172,7 @@ import {
   PwaInstall,
   Trading,
   GoblinTrade,
+  RestrictionReason,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -475,6 +476,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.failed": "Kopyalama Başarısız!",
   search: "Ara",
   searching: "Aranıyor",
+  "sfl/coins": ENGLISH_TERMS["sfl/coins"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -827,7 +829,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.bale.boost": "+0.2 Yumurta (Etki Alanı 4x4)",
   "description.immortal.pear.boost": "Tohum başına +1 Meyve Hasadı.",
-  "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% SFL",
+  "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% Coins",
   "description.poppy.boost": "+0.1 Mısır",
   "description.kernaldo.boost": "Mısır Büyüme Süresi -25%",
   "description.grain.grinder.boost": "+20% Pasta XP’si",
@@ -895,7 +897,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% Şans ile +2 Taş",
   "description.crimson.carp.boost": "+0.05 Kızıltaş",
   "description.crim.peckster.boost": "+0.1 Kızıltaş",
-  "description.queen.bee.boost": "Bal Üretim Hızını 2 Katına Çıkarır",
+  "description.queen.bee.boost": "+1 Bal Üretim Hızı",
   "description.humming.bird.boost": "20% Şans ile +1 Çiçek",
   "description.beehive.boost":
     "Arı kovanı dolduğunda +0.2 Mahsul için 10% Şans",
@@ -911,7 +913,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.time.warp.totem.boost":
     "Mahsul, Pişirme, Mineral ve Ağaç Yenilenme Sürelerinde 50% azalma",
   "description.radiant.ray.boost": "+0.1 Demir",
-  "description.beekeeper.hat.boost": "+20% Bal Üretim Hızı",
+  "description.beekeeper.hat.boost": "+0.2 Bal Üretim Hızı",
   "description.babyPanda.boost": "Başlangıç 2x XP Takviyesi",
   "description.flower.fox.boost": "-10% Çiçek Büyüme Hızı",
   "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
@@ -1003,12 +1005,13 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Muz",
   "bumpkinItemBuff.banana.boost": "-20% Muz Büyüme Süresi",
   "bumpkinItemBuff.deep.sea.helm": "Marine Seviyesi 3x Şans",
-  "bumpkinItemBuff.bee.suit": "+0.1 Bal",
+  "bumpkinItemBuff.bee.suit": ENGLISH_TERMS["bumpkinItemBuff.bee.suit"],
   "bumpkinItemBuff.crimstone.hammer": "5. Gün +2 Crimstone",
   "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Bekleme Süresi",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstone",
   "bumpkinItemBuff.hornet.mask": "Arı Sürüsü için 2x Şans",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Bal",
+  "bumpkinItemBuff.honeycomb.shield":
+    ENGLISH_TERMS["bumpkinItemBuff.honeycomb.shield"],
   "bumpkinItemBuff.flower.crown": "-50% Çiçek Büyüme süresi",
 };
 
@@ -1701,12 +1704,6 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, çiftliğin ihtiyacım olan kaynaklara sahip olacak gibi görünmüyor. Ulaş ",
-  "delivery.panel.two": "Genişletmeler yapın ve bana geri dönün.",
-  "delivery.panel.three": "Teslimat: Sipariş seçilmedi",
-  "delivery.panel.four":
-    "Yeni sezonun başlamasını bekliyorum. O zaman bana geri dön!",
   "delivery.resource": "Kaynakları teslim etmemi ister misin?",
   "delivery.feed": "Bedava değil, beslemem gereken bir kabilem var!",
   "delivery.fee": ENGLISH_TERMS["delivery.fee"],
@@ -1740,7 +1737,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Depozito ulaşmadı mı?",
   "deposit.goblinTaxInfo":
     "Oyuncular herhangi bir SFL'yi geri çektiklerinde Goblin Vergisi uygulanır.",
-  "deposit.applied": "uygulanır.",
   "deposit.sendToFarm": "Çiftliğe gönder",
   "deposit.toDepositLevelUp": "Öğeleri yatırmak için önce seviye atlamalısınız",
   "deposit.level": "3. seviye",
@@ -1840,7 +1836,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Eksik çubuk",
   "error.missingBait": "Eksik ",
   "error.alreadyCasted": "Zaten yayınlandı",
-  "error.unsupportedChum": "desteklenen bir yem değil",
+  "error.unsupportedChum": ENGLISH_TERMS["error.unsupportedChum"],
   "error.insufficientChum": "Yetersiz Yem",
   "error.alr.composter": "Kompost makinesi zaten kompost yapıyor",
   "error.no.alr.composter": "Kompost makinesi üretime hazır değil",
@@ -2516,8 +2512,7 @@ const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Pekala, selamlar genç çılgınlar! Ben Hayseed Hank, tecrübeli bir Bumpkin çiftçisiyim ve eski günlerdeki gibi toprakla ilgileniyorum.",
-  "hayseedHankv2.dialog2":
-    "Ancak kemiklerim eskisi gibi değil. Eğer bana günlük işlerimde yardım edebilirsen, seni ödüllendireceğim.",
+  "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Hadi yapalım",
   "hayseedHankv2.title": "Günlük işler",
   "hayseedHankv2.newChoresAvailable": "Yeni işler mevcut ",
@@ -4289,6 +4284,10 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Oturumunuzun süresi dolmuş gibi görünüyor. Oynamaya devam etmek için lütfen sayfayı yenileyin.",
+  "statements.translation.contribution":
+    ENGLISH_TERMS["statements.translation.contribution"],
+  "statements.translation.joinDiscord":
+    ENGLISH_TERMS["statements.translation.joinDiscord"],
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -4610,6 +4609,7 @@ const world: Record<World, string> = {
   "world.plaza": ENGLISH_TERMS["world.plaza"],
   "world.beach": ENGLISH_TERMS["world.beach"],
   "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.woodlands": ENGLISH_TERMS["world.woodlands"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
 };
@@ -4645,6 +4645,48 @@ const trading: Record<Trading, string> = {
   "trading.your.listing": "Listelemeniz",
   "trading.you.receive": "Aldığın",
   "trading.burned": "yakılan.",
+};
+
+const restrictionReason: Record<RestrictionReason, string> = {
+  "restrictionReason.isGrowing": ENGLISH_TERMS["restrictionReason.isGrowing"],
+  "restrictionReason.beanPlanted":
+    ENGLISH_TERMS["restrictionReason.beanPlanted"],
+  "restrictionReason.cropsGrowing":
+    ENGLISH_TERMS["restrictionReason.cropsGrowing"],
+  "restrictionReason.basicCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.basicCropsGrowing"],
+  "restrictionReason.mediumCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.mediumCropsGrowing"],
+  "restrictionReason.advancedCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.advancedCropsGrowing"],
+  "restrictionReason.fruitsGrowing":
+    ENGLISH_TERMS["restrictionReason.fruitsGrowing"],
+  "restrictionReason.treesChopped":
+    ENGLISH_TERMS["restrictionReason.treesChopped"],
+  "restrictionReason.stoneMined": ENGLISH_TERMS["restrictionReason.stoneMined"],
+  "restrictionReason.ironMined": ENGLISH_TERMS["restrictionReason.ironMined"],
+  "restrictionReason.goldMined": ENGLISH_TERMS["restrictionReason.goldMined"],
+  "restrictionReason.crimstoneMined":
+    ENGLISH_TERMS["restrictionReason.crimstoneMined"],
+  "restrictionReason.chickensFed":
+    ENGLISH_TERMS["restrictionReason.chickensFed"],
+  "restrictionReason.treasuresDug":
+    ENGLISH_TERMS["restrictionReason.treasuresDug"],
+  "restrictionReason.inUse": ENGLISH_TERMS["restrictionReason.inUse"],
+  "restrictionReason.recentlyUsed":
+    ENGLISH_TERMS["restrictionReason.recentlyUsed"],
+  "restrictionReason.recentlyFished":
+    ENGLISH_TERMS["restrictionReason.recentlyFished"],
+  "restrictionReason.flowersGrowing":
+    ENGLISH_TERMS["restrictionReason.flowersGrowing"],
+  "restrictionReason.beesBusy": ENGLISH_TERMS["restrictionReason.beesBusy"],
+  "restrictionReason.pawShaken": ENGLISH_TERMS["restrictionReason.pawShaken"],
+  "restrictionReason.festiveSeason":
+    ENGLISH_TERMS["restrictionReason.festiveSeason"],
+  "restrictionReason.noRestriction":
+    ENGLISH_TERMS["restrictionReason.noRestriction"],
+  "restrictionReason.genieLampRubbed":
+    ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
 };
 
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {
@@ -4819,4 +4861,5 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...withdraw,
   ...world,
   ...wornDescription,
+  ...restrictionReason,
 };

@@ -27,7 +27,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   JEST_TEST: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended
-    if (Date.now() > new Date("2024-04-05T00:00:00Z").getTime()) return false;
+    if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;
 
     if (defaultFeatureFlag(game)) return true;
 

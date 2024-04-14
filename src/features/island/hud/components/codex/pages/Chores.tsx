@@ -28,7 +28,7 @@ export const Chores: React.FC = () => {
               "hayseedHankv2.newChoresAvailable"
             )} ${secondsToString(secondsTillReset(), {
               length: "full",
-            })}.`}</span>
+            })}`}</span>
           </div>
           <div className="flex items-center">
             <div className="w-7">
