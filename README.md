@@ -57,7 +57,7 @@ These raw assets/tiles are not in this repo. You must purchase the asset pack if
 
 # 👶 Getting Started
 
-You can take a look at the instructions in [CODE_CONTRIBUTING.MD](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open source contribution for Sunflower Land
+You can take a look at the instructions in [CODE_CONTRIBUTING.md](https://github.com/sunflower-land/sunflower-land/blob/main/docs/CODE_CONTRIBUTING.md) to get started on open source contribution for Sunflower Land
 
 # 🧪 Testing
 
