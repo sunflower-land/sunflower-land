@@ -29,6 +29,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
