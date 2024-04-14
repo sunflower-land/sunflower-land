@@ -594,16 +594,16 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <GoblinMarket onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "pledge_sunflorian"} onHide={closeModal}>
-        <PledgeFaction faction="Sunflorians" />
+        <PledgeFaction faction="Sunflorians" onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "pledge_bumpkin"} onHide={closeModal}>
-        <PledgeFaction faction="Bumpkins" />
+        <PledgeFaction faction="Bumpkins" onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "pledge_goblin"} onHide={closeModal}>
-        <PledgeFaction faction="Goblins" />
+        <PledgeFaction faction="Goblins" onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "pledge_nightshade"} onHide={closeModal}>
-        <PledgeFaction faction="Nightshades" />
+        <PledgeFaction faction="Nightshades" onClose={closeModal} />
       </Modal>
     </>
   );
