@@ -172,6 +172,7 @@ import {
   TimeUnits,
   PwaInstall,
   GoblinTrade,
+  RestrictionReason,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -475,6 +476,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   upcoming: "Próximo",
   wearables: "Vestíveis",
   wish: "Desejo",
+  "sfl/coins": ENGLISH_TERMS["sfl/coins"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -835,7 +837,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.bale.boost": "+0,2 Ovo (AOE 4x4)",
   "description.immortal.pear.boost": "+1 Colheita Máxima de Frutas por semente",
   "description.treasure.map.boost":
-    "+20% SFL nas Vendas de Recompensa do Tesouro",
+    "+20% Coins nas Vendas de Recompensa do Tesouro",
   "description.poppy.boost": "+0,1 Milho",
   "description.kernaldo.boost": "-25% Tempo de Crescimento de Milho",
   "description.grain.grinder.boost": "+20% XP de Bolo",
@@ -903,8 +905,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "Chance de 10% de +2 Pedra",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
-  "description.queen.bee.boost": "Dobra a Velocidade de Produção de Mel",
-  "description.beekeeper.hat.boost": "+20% na Velocidade de Produção de Mel",
+  "description.queen.bee.boost": "+1 na Velocidade de Produção de Mel",
+  "description.beekeeper.hat.boost": "+0.2 na Velocidade de Produção de Mel",
   "description.humming.bird.boost": "Chance de 20% de +1 Flor",
   "description.beehive.boost":
     "Chance de 10% de +0.2 Cultivo quando a Colmeia estiver cheia",
@@ -1015,12 +1017,13 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananas",
   "bumpkinItemBuff.banana.boost": "-20% Tempo de Crescimento de Banana",
   "bumpkinItemBuff.deep.sea.helm": "Chance 3x de Maravilhas Marinhas",
-  "bumpkinItemBuff.bee.suit": "+0.1 Mel",
+  "bumpkinItemBuff.bee.suit": ENGLISH_TERMS["bumpkinItemBuff.bee.suit"],
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones na 5ª coleta seguida",
   "bumpkinItemBuff.crimstone.amulet": "-20% Tempo de Recarga de Crimstones",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
   "bumpkinItemBuff.hornet.mask": "Chance 2x de Enxame de Abelhas",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Mel",
+  "bumpkinItemBuff.honeycomb.shield":
+    ENGLISH_TERMS["bumpkinItemBuff.honeycomb.shield"],
   "bumpkinItemBuff.flower.crown": "-50% Tempo de Crescimento de Flores",
 };
 
@@ -1733,12 +1736,6 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, parece que sua fazenda não terá os recursos que eu preciso. Alcance ",
-  "delivery.panel.two": " expansões e volte para mim.",
-  "delivery.panel.three": "Entrega: Nenhum pedido selecionado",
-  "delivery.panel.four":
-    "Estou esperando o início da nova temporada. Volte para mim então!",
   "delivery.resource": "Quer que eu entregue recursos?",
   "delivery.feed": "Não é de graça, tenho uma tribo para alimentar!",
   "delivery.fee": ENGLISH_TERMS["delivery.fee"],
@@ -1763,7 +1760,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Depósito não chegou?",
   "deposit.goblinTaxInfo":
     "Quando os jogadores retiram qualquer SFL, um Imposto Goblin é aplicado.",
-  "deposit.applied": "é aplicado.",
   "deposit.sendToFarm": "Enviar para a fazenda",
   "deposit.toDepositLevelUp":
     "Para depositar itens, você deve primeiro subir de nível",
@@ -1866,7 +1862,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Vara ausente",
   "error.missingBait": "Isca ausente",
   "error.alreadyCasted": "Já lançado",
-  "error.unsupportedChum": " Não é uma isca suportada",
+  "error.unsupportedChum": ENGLISH_TERMS["error.unsupportedChum"],
   "error.insufficientChum": "Isca insuficiente:",
   "error.alr.composter": "Composteira já está compostando",
   "error.no.alr.composter": "Composteira não está pronta para produzir",
@@ -2552,8 +2548,7 @@ const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
 const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Bem, olá, jovens! Eu sou Hayseed Hank, um fazendeiro Bumpkin experiente, cuidando da terra como nos bons e velhos tempos.",
-  "hayseedHankv2.dialog2":
-    "No entanto, meus ossos não são mais como costumavam ser. Se você puder me ajudar com minhas tarefas diárias, eu vou te recompensar com ",
+  "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Vamos lá",
   "hayseedHankv2.title": "Tarefas Diárias",
   "hayseedHankv2.newChoresAvailable": "Novas tarefas disponíveis em ",
@@ -4300,6 +4295,10 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Parece que sua sessão expirou. Atualize a página para continuar jogando.",
+  "statements.translation.contribution":
+    ENGLISH_TERMS["statements.translation.contribution"],
+  "statements.translation.joinDiscord":
+    ENGLISH_TERMS["statements.translation.joinDiscord"],
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -4617,6 +4616,7 @@ const world: Record<World, string> = {
   "world.plaza": ENGLISH_TERMS["world.plaza"],
   "world.beach": ENGLISH_TERMS["world.beach"],
   "world.retreat": ENGLISH_TERMS["world.retreat"],
+  "world.woodlands": ENGLISH_TERMS["world.woodlands"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
 };
@@ -4673,6 +4673,48 @@ const trading: Record<Trading, string> = {
   "trading.your.listing": "Sua listagem",
   "trading.you.receive": "Você recebe",
   "trading.burned": "será queimado.",
+};
+
+const restrictionReason: Record<RestrictionReason, string> = {
+  "restrictionReason.isGrowing": ENGLISH_TERMS["restrictionReason.isGrowing"],
+  "restrictionReason.beanPlanted":
+    ENGLISH_TERMS["restrictionReason.beanPlanted"],
+  "restrictionReason.cropsGrowing":
+    ENGLISH_TERMS["restrictionReason.cropsGrowing"],
+  "restrictionReason.basicCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.basicCropsGrowing"],
+  "restrictionReason.mediumCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.mediumCropsGrowing"],
+  "restrictionReason.advancedCropsGrowing":
+    ENGLISH_TERMS["restrictionReason.advancedCropsGrowing"],
+  "restrictionReason.fruitsGrowing":
+    ENGLISH_TERMS["restrictionReason.fruitsGrowing"],
+  "restrictionReason.treesChopped":
+    ENGLISH_TERMS["restrictionReason.treesChopped"],
+  "restrictionReason.stoneMined": ENGLISH_TERMS["restrictionReason.stoneMined"],
+  "restrictionReason.ironMined": ENGLISH_TERMS["restrictionReason.ironMined"],
+  "restrictionReason.goldMined": ENGLISH_TERMS["restrictionReason.goldMined"],
+  "restrictionReason.crimstoneMined":
+    ENGLISH_TERMS["restrictionReason.crimstoneMined"],
+  "restrictionReason.chickensFed":
+    ENGLISH_TERMS["restrictionReason.chickensFed"],
+  "restrictionReason.treasuresDug":
+    ENGLISH_TERMS["restrictionReason.treasuresDug"],
+  "restrictionReason.inUse": ENGLISH_TERMS["restrictionReason.inUse"],
+  "restrictionReason.recentlyUsed":
+    ENGLISH_TERMS["restrictionReason.recentlyUsed"],
+  "restrictionReason.recentlyFished":
+    ENGLISH_TERMS["restrictionReason.recentlyFished"],
+  "restrictionReason.flowersGrowing":
+    ENGLISH_TERMS["restrictionReason.flowersGrowing"],
+  "restrictionReason.beesBusy": ENGLISH_TERMS["restrictionReason.beesBusy"],
+  "restrictionReason.pawShaken": ENGLISH_TERMS["restrictionReason.pawShaken"],
+  "restrictionReason.festiveSeason":
+    ENGLISH_TERMS["restrictionReason.festiveSeason"],
+  "restrictionReason.noRestriction":
+    ENGLISH_TERMS["restrictionReason.noRestriction"],
+  "restrictionReason.genieLampRubbed":
+    ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
@@ -4847,4 +4889,5 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...promo,
   ...trader,
   ...NYON_STATUE,
+  ...restrictionReason,
 };

@@ -168,7 +168,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "coins":
       case "sellForCoins":
-        return `${props.requirement}`;
+        return `${setPrecision(new Decimal(props.requirement))}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
       case "sellForSfl": {

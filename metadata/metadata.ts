@@ -6731,9 +6731,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Boost", value: "Resource" },
       {
-        display_type: "boost_percentage",
-        trait_type: "Honey Produce Time",
-        value: -50,
+        display_type: "boost_number",
+        trait_type: "Honey Production Speed",
+        value: 1,
       },
       { trait_type: "Tradable", value: "Yes" },
     ],

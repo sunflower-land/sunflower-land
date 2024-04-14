@@ -210,6 +210,7 @@ export type GeneralTerms =
   | "session.expire"
   | "session.expired"
   | "settings"
+  | "sfl/coins"
   | "share"
   | "shopping"
   | "skillPts"
@@ -1209,10 +1210,6 @@ export type DecorationDescriptions =
   | "description.earnAllianceBanner";
 
 export type Delivery =
-  | "delivery.panel.one"
-  | "delivery.panel.two"
-  | "delivery.panel.three"
-  | "delivery.panel.four"
   | "delivery.resource"
   | "delivery.feed"
   | "delivery.fee"
@@ -1230,7 +1227,6 @@ export type DepositWallet =
   | "deposit.farmWillReceive"
   | "deposit.depositDidNotArrive"
   | "deposit.goblinTaxInfo"
-  | "deposit.applied"
   | "deposit.sendToFarm"
   | "deposit.toDepositLevelUp"
   | "deposit.level"
@@ -2889,7 +2885,9 @@ export type Statements =
   | "statements.minted.withdrawAfterMint"
   | "statements.startgame"
   | "statements.session.expired"
-  | "statements.price.change";
+  | "statements.price.change"
+  | "statements.translation.contribution"
+  | "statements.translation.joinDiscord";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"
@@ -3104,6 +3102,7 @@ export type World =
   | "world.plaza"
   | "world.beach"
   | "world.retreat"
+  | "world.woodlands"
   | "world.home"
   | "world.kingdom";
 
@@ -3139,6 +3138,31 @@ export type Trading =
   | "trading.your.listing"
   | "trading.you.receive"
   | "trading.burned";
+
+export type RestrictionReason =
+  | "restrictionReason.isGrowing"
+  | "restrictionReason.beanPlanted"
+  | "restrictionReason.cropsGrowing"
+  | "restrictionReason.basicCropsGrowing"
+  | "restrictionReason.mediumCropsGrowing"
+  | "restrictionReason.advancedCropsGrowing"
+  | "restrictionReason.fruitsGrowing"
+  | "restrictionReason.treesChopped"
+  | "restrictionReason.stoneMined"
+  | "restrictionReason.ironMined"
+  | "restrictionReason.goldMined"
+  | "restrictionReason.crimstoneMined"
+  | "restrictionReason.chickensFed"
+  | "restrictionReason.treasuresDug"
+  | "restrictionReason.inUse"
+  | "restrictionReason.recentlyUsed"
+  | "restrictionReason.recentlyFished"
+  | "restrictionReason.flowersGrowing"
+  | "restrictionReason.beesBusy"
+  | "restrictionReason.pawShaken"
+  | "restrictionReason.festiveSeason"
+  | "restrictionReason.noRestriction"
+  | "restrictionReason.genieLampRubbed";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3312,4 +3336,5 @@ export type TranslationKeys =
   | Promo
   | Trader
   | NyonStatue
-  | Trading;
+  | Trading
+  | RestrictionReason;

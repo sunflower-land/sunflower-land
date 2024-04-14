@@ -171,6 +171,7 @@ import {
   TimeUnits,
   PwaInstall,
   GoblinTrade,
+  RestrictionReason,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -474,6 +475,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Buildings",
   boosts: "Boosts",
   decorations: "Decorations",
+  "sfl/coins": "SFL/Coins",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -681,25 +683,25 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.admiringOutfit":
     "I noticed you admiring my outfit. Isn't it fantastic?!?",
   "birdieplaza.currentSeason":
-    "We are currently in {{currentSeason}} Season and Bumpkins are going crazy for {{seasonalTicket}}.",
+    "We are currently in {{currentSeason}} Season and Bumpkins are going crazy for {{seasonalTicket}}s.",
   "birdieplaza.collectTickets":
-    "Collect enough {{seasonalTicket}} and you can craft rare NFTs. That's how I got this rare outfit!",
+    "Collect enough {{seasonalTicket}}s and you can craft rare NFTs. That's how I got this rare outfit!",
   "birdieplaza.whatIsSeason": "What is a season?",
-  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}?",
+  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}s?",
   "birdieplaza.earnTicketsVariety":
     "You can earn {{seasonalTicket}} in a variety of ways.",
   "birdieplaza.commonMethod":
-    "The most common method to earn {{seasonalTicket}} is by gathering resources and delivering them to Bumpkins in the Plaza.",
+    "The most common method to earn {{seasonalTicket}}s is by gathering resources and delivering them to Bumpkins in the Plaza.",
   "birdieplaza.choresAndRewards":
-    "You can also earn {{seasonalTicket}} by completing chores for Hank & claiming daily rewards!",
+    "You can also earn {{seasonalTicket}}s by completing chores for Hank & claiming daily rewards!",
   "birdieplaza.gatherAndCraft":
-    "Gather enough {{seasonalTicket}} and you will be able to buy some rare items like I did.",
+    "Gather enough {{seasonalTicket}}s and you will be able to buy some rare items like I did.",
   "birdieplaza.newSeasonIntro":
     "Every 3 months a new season is introduced at Sunflower Land.",
   "birdieplaza.seasonQuests":
     "This season has exciting quests & rare collectibles you can earn.",
   "birdieplaza.craftItems":
-    "To obtain these rare items, you must collect {{seasonalTicket}} and exchange them at Stella's Megastore or bid at the Auction house.",
+    "To obtain these rare items, you must collect {{seasonalTicket}}s and exchange them at Stella's Megastore or bid at the Auction house.",
 };
 
 const boostDescriptions: Record<BoostDescriptions, string> = {
@@ -831,7 +833,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
   "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
-  "description.treasure.map.boost": "+20% SFL on Treasure Bounty Sales",
+  "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
   "description.grain.grinder.boost": "+20% Cake XP",
@@ -897,8 +899,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% Chance of +2 Stone",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
-  "description.queen.bee.boost": "Doubles Honey Production Speed",
-  "description.beekeeper.hat.boost": "+20% Honey Production Speed",
+  "description.queen.bee.boost": "+1 Honey Production Speed",
+  "description.beekeeper.hat.boost": "+0.2 Honey Production Speed",
   "description.flower.fox.boost": "-10% Flower Growth Time",
   "description.humming.bird.boost": "20% Chance for +1 Flower",
   "description.beehive.boost": "10% Chance for +0.2 Crop when Beehive is full",
@@ -1007,12 +1009,12 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.banana.amulet.boost": "+0.5 Bananas",
   "bumpkinItemBuff.banana.boost": "-20% Banana Growth Time",
   "bumpkinItemBuff.deep.sea.helm": "3x chance Marine Marvels",
-  "bumpkinItemBuff.bee.suit": "+0.1 Honey",
+  "bumpkinItemBuff.bee.suit": "+0.1 Honey per Full Beehive",
   "bumpkinItemBuff.crimstone.hammer": "+2 Crimstones on 5th mine",
   "bumpkinItemBuff.crimstone.amulet": "-20% Crimstone Cooldown Time",
   "bumpkinItemBuff.crimstone.armor": "+0.1 Crimstones",
   "bumpkinItemBuff.hornet.mask": "2x chance Bee Swarm",
-  "bumpkinItemBuff.honeycomb.shield": "+1 Honey",
+  "bumpkinItemBuff.honeycomb.shield": "+1 Honey per Full Beehive",
   "bumpkinItemBuff.flower.crown": "-50% Flower Growth Time",
 };
 
@@ -1687,12 +1689,6 @@ const defaultDialogue: Record<DefaultDialogue, string> = {
 };
 
 const delivery: Record<Delivery, string> = {
-  "delivery.panel.one":
-    "Hmm, it doesn't look like your farm will have the resources I need. Reach ",
-  "delivery.panel.two": "e expansions and come back to me.",
-  "delivery.panel.three": "Delivery: No order selected",
-  "delivery.panel.four":
-    "I am waiting for the new season to start. Come back to me then!",
   "delivery.resource": "Want me to deliver resources?",
   "delivery.feed": "It ain't free, I've got a tribe to feed!",
   "delivery.fee":
@@ -1727,7 +1723,6 @@ const depositWallet: Record<DepositWallet, string> = {
   "deposit.depositDidNotArrive": "Deposit didn't arrive?",
   "deposit.goblinTaxInfo":
     "When players withdraw any SFL, a Goblin Tax is applied.",
-  "deposit.applied": "is applied.",
   "deposit.sendToFarm": "Send to farm",
   "deposit.toDepositLevelUp": "To deposit items you must first level up",
   "deposit.level": "Level 3",
@@ -1826,7 +1821,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.missingRod": "Missing rod",
   "error.missingBait": "Missing ",
   "error.alreadyCasted": "Already casted",
-  "error.unsupportedChum": " is not a supported chum",
+  "error.unsupportedChum": "{{chum}} is not a supported chum",
   "error.insufficientChum": "Insufficient Chum",
   "error.alr.composter": "Composter is already composting",
   "error.no.alr.composter": "Composter is not ready for produce",
@@ -2509,10 +2504,10 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog1":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
   "hayseedHankv2.dialog2":
-    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ",
+    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores available in ",
+  "hayseedHankv2.newChoresAvailable": "New chores available in",
   "hayseedHankv2.skipChores": "You can skip chores each new day.",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
@@ -3903,6 +3898,20 @@ const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
       "Great for catching rare fish ! ",
   };
 
+const pwaInstall: Record<PwaInstall, string> = {
+  "install.app": "Install App",
+  "magic.link": "Magic Link",
+  "generating.link": "Generating Link",
+  "generating.code": "Generating Code",
+  "install.app.desktop.description":
+    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+  "install.app.mobile.metamask.description":
+    "Copy the magic link below and open it in {{browser}} on your device to install!",
+  "do.not.share.link": "Do not share this link!",
+  "do.not.share.code": "Do not share this code!",
+  "qr.code.not.working": "QR code not working?",
+};
+
 const quest: Record<Quest, string> = {
   "quest.mint.free": "Mint Free Wearable",
   "quest.equipWearable": "Equip this wearable on your Bumpkin",
@@ -4022,20 +4031,6 @@ const rulesTerms: Record<RulesTerms, string> = {
   "rules.gameNotFinancialProduct": "This is a game. Not a financial product.",
   "rules.noBots": "No botting or automation",
   "rules.termsOfService": "Terms of Service",
-};
-
-const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": "Install App",
-  "magic.link": "Magic Link",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
-  "install.app.desktop.description":
-    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
-  "install.app.mobile.metamask.description":
-    "Copy the magic link below and open it in {{browser}} on your device to install!",
-  "do.not.share.link": "Do not share this link!",
-  "do.not.share.code": "Do not share this code!",
-  "qr.code.not.working": "QR code not working?",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
@@ -4281,6 +4276,9 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
+  "statements.translation.contribution":
+    "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
+  "statements.translation.joinDiscord": "Join Discord",
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -4592,6 +4590,7 @@ const world: Record<World, string> = {
     "No harrasment, swearing or bullying. Thank you for respecting others.",
   "world.plaza": "Plaza",
   "world.beach": "Beach",
+  "world.woodlands": "Woodlands",
   "world.retreat": "Retreat",
   "world.home": "Home",
   "world.kingdom": "Kingdom",
@@ -4613,6 +4612,32 @@ const trading: Record<Trading, string> = {
   "trading.your.listing": "Your listing",
   "trading.you.receive": "You receive",
   "trading.burned": "is burned.",
+};
+
+export const restrictionReason: Record<RestrictionReason, string> = {
+  "restrictionReason.isGrowing": "{{item}} is growing",
+  "restrictionReason.beanPlanted": "Magic Bean is planted",
+  "restrictionReason.cropsGrowing": "Crops are growing",
+  "restrictionReason.basicCropsGrowing": "Basic crops are growing",
+  "restrictionReason.mediumCropsGrowing": "Medium crops are growing",
+  "restrictionReason.advancedCropsGrowing": "Advanced crops are growing",
+  "restrictionReason.fruitsGrowing": "Fruits are growing",
+  "restrictionReason.treesChopped": "Trees are chopped",
+  "restrictionReason.stoneMined": "Stone is mined",
+  "restrictionReason.ironMined": "Iron is mined",
+  "restrictionReason.goldMined": "Gold is mined",
+  "restrictionReason.crimstoneMined": "Crimstone is mined",
+  "restrictionReason.chickensFed": "Chickens are fed",
+  "restrictionReason.treasuresDug": "Treasure holes are dug",
+  "restrictionReason.inUse": "In use",
+  "restrictionReason.recentlyUsed": "Recently used",
+  "restrictionReason.recentlyFished": "Recently fished",
+  "restrictionReason.flowersGrowing": "Flowers are growing",
+  "restrictionReason.beesBusy": "Bees are busy",
+  "restrictionReason.pawShaken": "Paw shaken",
+  "restrictionReason.festiveSeason": "Locked during festive season",
+  "restrictionReason.noRestriction": "No restriction",
+  "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
@@ -4787,4 +4812,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...withdraw,
   ...world,
   ...wornDescription,
+  ...restrictionReason,
 };

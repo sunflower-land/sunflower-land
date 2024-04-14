@@ -32,6 +32,16 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  const [showContributeLanguage, setShowContributeLanguage] = useState(false);
+
+  const openContributeLanguageModal = () => {
+    setShowContributeLanguage(true);
+  };
+
+  const closeContributeLanguageModal = () => {
+    setShowContributeLanguage(false);
+  };
+
   const Content = () => {
     return (
       <CloseButtonPanel title={t("change.Language")} onClose={onClose}>
@@ -90,6 +100,36 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
             />
             {"Türkçe"}
           </Button>
+          <span>
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-white text-xs cursor-pointer"
+              onClick={openContributeLanguageModal}
+            >{`Want to contribute your Language?`}</a>
+            <Modal
+              show={showContributeLanguage}
+              onHide={closeContributeLanguageModal}
+            >
+              <CloseButtonPanel className="sm:w-4/5 m-auto">
+                <div className="flex flex-col p-2">
+                  <span className="text-sm text-center">
+                    <p>{t("statements.translation.contribution")}</p>
+                    <p>
+                      <a
+                        className="underline hover:text-white"
+                        href="https://discord.gg/sunflowerland"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {t("statements.translation.joinDiscord")}
+                      </a>
+                    </p>
+                  </span>
+                </div>
+              </CloseButtonPanel>
+            </Modal>
+          </span>
         </div>
       </CloseButtonPanel>
     );

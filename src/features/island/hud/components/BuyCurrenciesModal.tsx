@@ -11,7 +11,6 @@ import coinsScattered from "assets/icons/coins_scattered.webp";
 import sflIcon from "assets/icons/sfl.webp";
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
 import { OuterPanel } from "components/ui/Panel";
-import { useTranslation } from "react-i18next";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
@@ -28,6 +27,7 @@ import {
 } from "features/game/components/modal/components/BuyBlockBucks";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
 
@@ -46,7 +46,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
   // Block bucks
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
@@ -142,8 +142,8 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
           }}
           onClose={onClose}
           tabs={[
-            { icon: blockBucksIcon, name: `Buy` },
-            { icon: exchangeIcon, name: `SFL/Coins` },
+            { icon: blockBucksIcon, name: `Block Bucks` },
+            { icon: exchangeIcon, name: `${t("sfl/coins")}` },
           ]}
         >
           {tab === 0 && (

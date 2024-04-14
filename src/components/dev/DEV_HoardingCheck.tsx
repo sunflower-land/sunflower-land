@@ -57,7 +57,7 @@ const HoarderCheck: React.FC<Props> = ({ network }) => {
       const rpc =
         network === "mainnet"
           ? "https://polygon-rpc.com/"
-          : "https://rpc.ankr.com/polygon_mumbai";
+          : "https://rpc.ankr.com/polygon_amoy";
 
       const gameContract =
         network === "mainnet"
