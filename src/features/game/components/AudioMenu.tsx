@@ -52,6 +52,8 @@ export const AudioMenu: React.FC<Props> = ({
   useEffect(() => {
     if (!musicPlayer.current) return;
 
+    musicPlayer.current.volume = 0.1;
+
     if (musicPaused) {
       musicPlayer.current.pause();
     } else {

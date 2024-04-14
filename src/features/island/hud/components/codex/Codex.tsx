@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -20,6 +20,12 @@ import { Deliveries } from "./pages/Deliveries";
 import { Chores } from "./pages/Chores";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { closeButton, tab } from "lib/utils/sfx";
+
+import trophy from "assets/icons/trophy.png";
+import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
+import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
+import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 
 interface Props {
   show: boolean;
@@ -39,8 +45,30 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
+  const [data, setData] = useState<Leaderboards | null>(null);
+
+  useEffect(() => {
+    const fetchLeaderboards = async () => {
+      try {
+        const data = await fetchLeaderboardData(farmId);
+        setData(data);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Error loading leaderboards", e);
+      }
+    };
+
+    fetchLeaderboards();
+  }, []);
+
   const handleTabClick = (index: number) => {
+    tab.play();
     setCurrentTab(index);
+  };
+
+  const handleHide = () => {
+    closeButton.play();
+    onHide();
   };
 
   const handleMilestoneReached = (milestoneName: MilestoneName) => {
@@ -82,10 +110,20 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
+    {
+      name: "Leaderboard",
+      icon: trophy,
+      count: 0,
+    },
+    {
+      name: "Factions",
+      icon: trophy,
+      count: 0,
+    },
   ];
 
   return (
-    <Modal show={show} onHide={onHide} dialogClassName="md:max-w-3xl">
+    <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
       <div className="h-[500px] relative">
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">
@@ -97,7 +135,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             <img
               src={SUNNYSIDE.icons.close}
               className="float-right cursor-pointer z-20 ml-3"
-              onClick={onHide}
+              onClick={handleHide}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
               }}
@@ -147,6 +185,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               )}
               {currentTab === 3 && (
                 <Flowers onMilestoneReached={handleMilestoneReached} />
+              )}
+              {currentTab === 4 && (
+                <TicketsLeaderboard farmId={farmId} data={data?.tickets} />
+              )}
+              {currentTab === 5 && (
+                <TicketsLeaderboard farmId={farmId} data={undefined} />
               )}
             </InnerPanel>
           </div>

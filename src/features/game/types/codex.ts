@@ -9,7 +9,9 @@ export type CodexCategoryName =
   | "Chores"
   | "Bumpkins"
   | "Farming"
-  | "Treasures";
+  | "Treasures"
+  | "Leaderboard"
+  | "Factions";
 
 export type CollectionGroup = "fish";
 

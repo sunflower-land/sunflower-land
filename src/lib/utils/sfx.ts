@@ -150,6 +150,22 @@ export const warChant = new Howl({
   volume: 0.2,
 });
 
+export const hud = new Howl({
+  src: [SOUNDS.ui.hud],
+  preload: true,
+  volume: 0.1,
+});
+export const tab = new Howl({
+  src: [SOUNDS.ui.tab],
+  preload: true,
+  volume: 0.1,
+});
+export const closeButton = new Howl({
+  src: [SOUNDS.ui.close],
+  preload: true,
+  volume: 0.1,
+});
+
 // Arcade - Greedy Goblin
 export const greedyGoblinAudio = {
   greedyGoblinIntroAudio: new Howl({
