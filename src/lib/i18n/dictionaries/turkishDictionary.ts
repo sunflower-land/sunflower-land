@@ -192,6 +192,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.completed": "Çoktan Tamamlandı",
   "alr.crafted": "Zaten Üretildi!",
   "alr.minted": "Zaten Mintlendi!",
+  "are.you.sure": ENGLISH_TERMS["are.you.sure"],
   auction: "Açık Artırma",
   auctions: "Açık Artırmalar",
   "available.all.year": "Tüm yıl boyunca mevcut: ",
@@ -1894,6 +1895,7 @@ const factions: Record<Factions, string> = {
     ENGLISH_TERMS["faction.description.nightshades"],
   "faction.countdown": ENGLISH_TERMS["faction.countdown"],
   "faction.join.confirm": ENGLISH_TERMS["faction.join.confirm"],
+  "faction.cannot.change": ENGLISH_TERMS["faction.cannot.change"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {

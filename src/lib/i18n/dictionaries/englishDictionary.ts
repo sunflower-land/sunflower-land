@@ -191,6 +191,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.completed": "Already Completed",
   "alr.crafted": "Already Crafted!",
   "alr.minted": "Already minted!",
+  "are.you.sure": "Are you sure?",
   auction: "Auction",
   auctions: "Auctions",
   "available.all.year": "Available all year round: ",
@@ -1877,8 +1878,9 @@ const factions: Record<Factions, string> = {
     "The Goblins are the mischievous industrialists of Sunflower Land. Do you believe in progress and innovation?",
   "faction.description.nightshades":
     "The Nightshades are the mysterious and magical beings of Sunflower Land. Do you believe in magic and secrets?",
-  "faction.countdown": "In {{days}} days  the faction battle begins.",
+  "faction.countdown": "In {{timeUntil}} the faction battle begins.",
   "faction.join.confirm": "Do you want to join the {{faction}}?",
+  "faction.cannot.change": "You cannot change factions once you have chosen.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {

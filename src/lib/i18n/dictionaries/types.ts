@@ -5,6 +5,7 @@ export type GeneralTerms =
   | "accepting.terms"
   | "advanced"
   | "amount.matic"
+  | "are.you.sure"
   | "deposit"
   | "add.liquidity"
   | "add"
@@ -1340,7 +1341,8 @@ export type Factions =
   | "faction.description.goblins"
   | "faction.description.nightshades"
   | "faction.countdown"
-  | "faction.join.confirm";
+  | "faction.join.confirm"
+  | "faction.cannot.change";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
