@@ -5,7 +5,7 @@ import { Player } from "../ModerationTools";
 import { mutePlayer } from "features/world/lib/moderationAction";
 
 interface Props {
-  player?: Player;
+  player?: Partial<Player>;
   authState: any;
   moderatorFarmId: number;
   scene: any;

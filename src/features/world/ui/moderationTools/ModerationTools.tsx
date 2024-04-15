@@ -23,6 +23,7 @@ export type Message = {
   text: string;
   sceneId: SceneId;
   sentAt: number;
+  username: string;
 };
 
 export type Player = {
@@ -107,7 +108,14 @@ export const ModerationTools: React.FC<Props> = ({
               moderatorFarmId={moderatorFarmId}
             />
           )}
-          {tab === 1 && <ChatHistory messages={messages} />}
+          {tab === 1 && (
+            <ChatHistory
+              messages={messages}
+              authState={authState.context.user}
+              moderatorFarmId={moderatorFarmId}
+              scene={scene}
+            />
+          )}
           {tab === 2 && (
             <Actions
               scene={scene}

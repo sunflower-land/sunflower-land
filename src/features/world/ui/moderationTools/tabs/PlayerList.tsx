@@ -163,9 +163,7 @@ export const PlayerList: React.FC<Props> = ({
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <span className="text-xs">
-              {players.length + " / 150 Players Online"}
-            </span>
+            <span className="text-xs">{players.length + " / 150 Players"}</span>
           </div>
         </>
       )}
