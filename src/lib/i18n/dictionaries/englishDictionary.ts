@@ -1679,6 +1679,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "A display of allegiance to the Goblin cause",
   "description.human.war.banner": "A display of allegiance to the Human cause",
   "description.earnAllianceBanner": "A special event banner",
+  "description.sunflorian.faction.banner":
+    "A display of allegiance to the Sunflorian Faction",
+  "description.goblin.faction.banner":
+    "A display of allegiance to the Goblin Faction",
+  "description.nightshade.faction.banner":
+    "A display of allegiance to the Nightshade Faction",
+  "description.bumpkin.faction.banner":
+    "A display of allegiance to the Bumpkin Faction",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

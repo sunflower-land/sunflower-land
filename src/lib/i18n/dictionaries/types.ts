@@ -1209,7 +1209,11 @@ export type DecorationDescriptions =
   //Banners
   | "description.goblin.war.banner"
   | "description.human.war.banner"
-  | "description.earnAllianceBanner";
+  | "description.earnAllianceBanner"
+  | "description.sunflorian.faction.banner"
+  | "description.nightshade.faction.banner"
+  | "description.bumpkin.faction.banner"
+  | "description.goblin.faction.banner";
 
 export type Delivery =
   | "delivery.resource"

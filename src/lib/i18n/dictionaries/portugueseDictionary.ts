@@ -1736,6 +1736,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Uma exibição de lealdade à causa dos Goblins",
   "description.human.war.banner": "Uma exibição de lealdade à causa humana",
   "description.earnAllianceBanner": "Um banner de evento especial",
+  "description.sunflorian.faction.banner":
+    ENGLISH_TERMS["description.sunflorian.faction.banner"],
+  "description.goblin.faction.banner":
+    ENGLISH_TERMS["description.goblin.faction.banner"],
+  "description.bumpkin.faction.banner":
+    ENGLISH_TERMS["description.bumpkin.faction.banner"],
+  "description.nightshade.faction.banner":
+    ENGLISH_TERMS["description.nightshade.faction.banner"],
 };
 
 const delivery: Record<Delivery, string> = {
@@ -1923,6 +1931,7 @@ const factions: Record<Factions, string> = {
   "faction.earn.emblems.time.left":
     ENGLISH_TERMS["faction.earn.emblems.time.left"],
   "faction.emblems.tasks": ENGLISH_TERMS["faction.emblems.tasks"],
+  "faction.view.leaderboard": ENGLISH_TERMS["faction.view.leaderboard"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {

@@ -1693,6 +1693,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner": "Goblin davasına bağlılığın bir göstergesi",
   "description.human.war.banner": "İnsan davasına bağlılığın bir göstergesi",
   "description.earnAllianceBanner": "Özel bir etkinlik bayrağı",
+  "description.sunflorian.faction.banner":
+    ENGLISH_TERMS["description.sunflorian.faction.banner"],
+  "description.goblin.faction.banner":
+    ENGLISH_TERMS["description.goblin.faction.banner"],
+  "description.bumpkin.faction.banner":
+    ENGLISH_TERMS["description.bumpkin.faction.banner"],
+  "description.nightshade.faction.banner":
+    ENGLISH_TERMS["description.nightshade.faction.banner"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
@@ -1907,6 +1915,7 @@ const factions: Record<Factions, string> = {
   "faction.earn.emblems.time.left":
     ENGLISH_TERMS["faction.earn.emblems.time.left"],
   "faction.emblems.tasks": ENGLISH_TERMS["faction.emblems.tasks"],
+  "faction.view.leaderboard": ENGLISH_TERMS["faction.view.leaderboard"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
