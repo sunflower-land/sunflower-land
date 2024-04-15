@@ -4578,8 +4578,8 @@ const withdraw: Record<Withdraw, string> = {
     "Bumpkin'iniz şu anda geri alınamayan aşağıdaki öğeleri giyiyor. Geri çekilmeden önce bunları donanımdan çıkarmanız gerekecek.",
   "withdraw.bumpkin.sure.withdraw":
     "Bumpkin'inizi geri çekmek istediğinizden emin misiniz?",
-  "withdraw.bumpkin.play":
-    "Oyunu oynamak için çiftliğinizde her zaman bir Bumpkin'e ihtiyacınız vardır.",
+  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
+  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
   "withdraw.buds": "Çekilecek Tomurcukları seçin",
   "withdraw.budRestricted": "Bugünkü tomurcuk kutusunda kullanıldı",
 };

@@ -4560,8 +4560,9 @@ const withdraw: Record<Withdraw, string> = {
     "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.bumpkin.sure.withdraw":
     "Are you sure you want to withdraw your Bumpkin?",
-  "withdraw.bumpkin.play":
-    "To play the game, you always need a Bumpkin on your farm.",
+  "withdraw.bumpkin.closed": "Bumpkin withdrawal has been permanently disabled",
+  "withdraw.bumpkin.closing":
+    "Bumpkins are moving off chain. Bumpkin withdrawal will be permanently disabled, {{timeRemaining}}",
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.budRestricted": "Used in today's bud box",
 };

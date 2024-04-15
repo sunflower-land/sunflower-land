@@ -62,8 +62,8 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="p-2">
-        <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
-          <span className="text-xs">{t("withdraw.bumpkin.play")}</span>
+        <div className="flex items-center border-2 rounded-md border-black p-2 bg-red-background mb-3">
+          <span className="text-xs">{t("withdraw.bumpkin.closing")}</span>
         </div>
         {getText()}
         <div className="flex justify-center items-center mb-4">
