@@ -6,13 +6,19 @@ import { KickModal } from "../components/Kick";
 import { MuteModal } from "../components/Mute";
 import { UnMuteModal } from "../components/Unmute";
 
-import HaloIcon from "assets/sfts/halo.png";
 import { calculateMuteTime } from "../components/Muted";
 
 import { mutePlayer } from "features/world/lib/moderationAction";
 
+import { NPCRelative } from "features/island/bumpkin/components/NPC";
+import { OuterPanel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { Label } from "components/ui/Label";
+
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scene?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   authState: any;
   moderatorFarmId: number;
   players: Player[];
@@ -78,89 +84,75 @@ export const PlayerList: React.FC<Props> = ({
     <>
       {step === "MAIN" && (
         <>
-          <div className="flex items-start gap-2 ml-1 mt-2 h-96 overflow-y-scroll scrollable">
-            <table className="w-full text-xs table-fixed">
-              <thead className="text-sm">
-                <tr>
-                  <th className="w-1/4">{"Farm ID"}</th>
-                  <th className="w-1/4">{"Username"}</th>
-                  <th className="w-1/4">{"Status"}</th>
-                  <th className="w-1/2">{"Actions"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {Players.map((player) => {
-                  const latestMute = player.moderation?.muted.sort(
-                    (a, b) => a.mutedUntil - b.mutedUntil
-                  )[0];
+          <div className="flex flex-col items-start gap-2 ml-1 mt-2 h-96 overflow-y-auto scrollable">
+            {Players.map((player) => {
+              const latestMute = player.moderation?.muted.sort(
+                (a, b) => a.mutedUntil - b.mutedUntil
+              )[0];
 
-                  const isMuted =
-                    latestMute && latestMute.mutedUntil > Date.now();
+              const isMuted = latestMute && latestMute.mutedUntil > Date.now();
 
-                  return (
-                    <tr key={player.playerId}>
-                      <td className="w-1/4">
-                        <span>{player.farmId}</span>
-
-                        {isModerator(player) && (
-                          <img src={HaloIcon} className="h-4" />
-                        )}
-                      </td>
-                      <td className="w-1/4">{player.username}</td>
-                      <td className="w-1/4">
-                        {!isMuted ? (
-                          <span>{"OK"}</span>
-                        ) : (
-                          <span
-                            title={`Reason: ${latestMute.reason} - By: ${latestMute.mutedBy}`}
-                          >
-                            {"Muted for "}
-                            {calculateMuteTime(
-                              latestMute.mutedUntil,
-                              "remaining"
-                            )}
-                          </span>
-                        )}
-                      </td>
-                      {/* TODO: Once Mute is out, display if a player in the is muted and their time left */}
-                      <td className="w-1/2">
-                        <div className="flex gap-2">
-                          <Button
-                            onClick={() => {
-                              scene.teleportModerator(player.x, player.y);
-                            }}
-                          >
-                            {"TP"}
-                          </Button>
-                          <Button
-                            disabled={isModerator(player)}
-                            onClick={() => {
-                              setStep("KICK");
-                              setSelectedPlayer(player);
-                            }}
-                          >
-                            {"Kick"}
-                          </Button>
-                          <Button
-                            disabled={isModerator(player)}
-                            onClick={() => {
-                              if (isMuted) {
-                                unMutePlayer(player);
-                              } else {
-                                setStep("MUTE");
-                                setSelectedPlayer(player);
-                              }
-                            }}
-                          >
-                            {isMuted ? "Unmute" : "Mute"}
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+              return (
+                <OuterPanel className="w-full" key={player.playerId}>
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 w-full">
+                      <div className="flex items-center w-[45px] h-[50px]">
+                        <NPCRelative parts={player.clothing} />
+                      </div>
+                      <div className="flex flex-col items-start">
+                        <span className="flex items-center gap-3 text-sm">
+                          {player.username || "No Username"}
+                          {isModerator(player) && (
+                            <Label type="warning">{"Moderator"}</Label>
+                          )}
+                          {isMuted && (
+                            <Label type="danger" icon={SUNNYSIDE.icons.timer}>
+                              {"Muted for "}
+                              {calculateMuteTime(
+                                latestMute.mutedUntil,
+                                "remaining"
+                              )}
+                            </Label>
+                          )}
+                        </span>
+                        <span className="text-xs">{"#" + player.farmId}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-row items-center gap-2 justify-end w-full">
+                      <Button
+                        onClick={() => {
+                          scene.teleportModerator(player.x, player.y);
+                        }}
+                      >
+                        {"TP"}
+                      </Button>
+                      <Button
+                        disabled={isModerator(player)}
+                        onClick={() => {
+                          setStep("KICK");
+                          setSelectedPlayer(player);
+                        }}
+                      >
+                        {"Kick"}
+                      </Button>
+                      <Button
+                        disabled={isModerator(player)}
+                        onClick={() => {
+                          if (isMuted) {
+                            unMutePlayer(player);
+                          } else {
+                            setStep("MUTE");
+                            setSelectedPlayer(player);
+                          }
+                        }}
+                      >
+                        {isMuted ? "Unmute" : "Mute"}
+                      </Button>
+                    </div>
+                  </div>
+                </OuterPanel>
+              );
+            })}
           </div>
           <div className="flex items-center justify-between m-1">
             <div className="flex items-center gap-1">
