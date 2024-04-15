@@ -419,6 +419,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Baozi: 936,
   "Community Egg": 937,
   "Hungry Hare": 938,
+  "Bumpkin Faction Banner": 939,
+  "Nightshade Faction Banner": 940,
+  "Sunflorian Faction Banner": 941,
+  "Goblin Faction Banner": 942,
 
   // Buildings
   Market: 1001,

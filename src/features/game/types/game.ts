@@ -254,6 +254,12 @@ export type Points = "Human War Point" | "Goblin War Point";
 
 export type WarBanner = "Human War Banner" | "Goblin War Banner";
 
+export type FactionBanner =
+  | "Sunflorian Faction Banner"
+  | "Bumpkin Faction Banner"
+  | "Goblin Faction Banner"
+  | "Nightshade Faction Banner";
+
 export type GoldenCropEventItem = "Golden Crop";
 
 export type Bumpkin = {
@@ -318,7 +324,8 @@ export type InventoryItemName =
   | FishName
   | MarineMarvelName
   | FlowerName
-  | MegaStoreCollectibleName;
+  | MegaStoreCollectibleName
+  | FactionBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
