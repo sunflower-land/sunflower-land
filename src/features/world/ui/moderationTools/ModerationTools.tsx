@@ -87,11 +87,11 @@ export const ModerationTools: React.FC<Props> = ({
           tabs={[
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Players List",
+              name: "Players",
             },
             {
               icon: SUNNYSIDE.icons.expression_chat,
-              name: "Chat History",
+              name: "Chat",
             },
             {
               icon: SUNNYSIDE.icons.hammer,
