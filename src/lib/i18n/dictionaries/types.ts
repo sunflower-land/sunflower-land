@@ -3078,7 +3078,8 @@ export type Withdraw =
   | "withdraw.budRestricted"
   | "withdraw.bumpkin.wearing"
   | "withdraw.bumpkin.sure.withdraw"
-  | "withdraw.bumpkin.play"
+  | "withdraw.bumpkin.closed"
+  | "withdraw.bumpkin.closing"
   | "withdraw.buds";
 
 export type WornDescription =

@@ -4587,8 +4587,8 @@ const withdraw: Record<Withdraw, string> = {
     "Seu Bumpkin está atualmente usando o(s) seguinte(s) item(ns) que não podem ser retirados. Você precisará desequipá-los antes de poder retirar.",
   "withdraw.bumpkin.sure.withdraw":
     "Tem certeza de que deseja retirar seu Bumpkin?",
-  "withdraw.bumpkin.play":
-    "Para jogar o jogo, você sempre precisa de um Bumpkin em sua fazenda.",
+  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
+  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
   "withdraw.buds": "Selecione Buds para retirar",
 };
 
