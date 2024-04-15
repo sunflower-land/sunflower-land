@@ -19,6 +19,7 @@ import { AuctionCountdown } from "features/retreat/components/auctioneer/Auction
 import { CodexButton } from "./components/codex/CodexButton";
 import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -86,10 +87,25 @@ const HudComponent: React.FC = () => {
           left: `${PIXEL_SCALE * 3}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
           width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          height: hasFeatureAccess(
+            gameState.context.state,
+            "FACTION_LEADERBOARD"
+          )
+            ? `${PIXEL_SCALE * 23 * 2 + 8}px`
+            : `${PIXEL_SCALE * 23 * 2 + 8}px`,
         }}
       >
-        <CodexButton />
+        {hasFeatureAccess(gameState.context.state, "FACTION_LEADERBOARD") ? (
+          <>
+            <CodexButton />
+          </>
+        ) : (
+          <>
+            <Leaderboard farmId={farmId} />
+            <CodexButton />
+          </>
+        )}
+
         <TravelButton />
       </div>
       <div

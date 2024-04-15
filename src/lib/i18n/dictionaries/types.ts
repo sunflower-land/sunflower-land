@@ -3198,6 +3198,8 @@ export type RestrictionReason =
   | "restrictionReason.noRestriction"
   | "restrictionReason.genieLampRubbed";
 
+export type Leaderboard = "leaderboard.leaderboard";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3373,4 +3375,5 @@ export type TranslationKeys =
   | Trader
   | NyonStatue
   | Trading
-  | RestrictionReason;
+  | RestrictionReason
+  | Leaderboard;

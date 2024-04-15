@@ -175,6 +175,7 @@ import {
   GoblinTrade,
   RestrictionReason,
   RemoveHungryCaterpillar,
+  Leaderboard,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4740,6 +4741,10 @@ const restrictionReason: Record<RestrictionReason, string> = {
     ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
 };
 
+export const leaderboardTerms: Record<Leaderboard, string> = {
+  "leaderboard.leaderboard": ENGLISH_TERMS["leaderboard.leaderboard"],
+};
+
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4830,6 +4835,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...islandNotFound,
   ...islandupgrade,
   ...landscapeTerms,
+  ...leaderboardTerms,
   ...letsGo,
   ...levelUpMessages,
   ...loser,

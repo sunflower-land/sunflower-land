@@ -26,6 +26,8 @@ import trophy from "assets/icons/trophy.png";
 import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { hasFeatureAccess } from "lib/flags";
+import { FactionsLeaderboard } from "./pages/FactionsLeaderboard";
 
 interface Props {
   show: boolean;
@@ -48,6 +50,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [data, setData] = useState<Leaderboards | null>(null);
 
   useEffect(() => {
+    if (!show) return;
+
     const fetchLeaderboards = async () => {
       try {
         const data = await fetchLeaderboardData(farmId);
@@ -59,7 +63,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     };
 
     fetchLeaderboards();
-  }, []);
+  }, [show]);
 
   const handleTabClick = (index: number) => {
     tab.play();
@@ -110,16 +114,20 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
-    {
-      name: "Leaderboard",
-      icon: trophy,
-      count: 0,
-    },
-    {
-      name: "Factions",
-      icon: trophy,
-      count: 0,
-    },
+    ...(hasFeatureAccess(state, "FACTION_LEADERBOARD")
+      ? [
+          {
+            name: "Leaderboard" as const,
+            icon: trophy,
+            count: 0,
+          },
+          {
+            name: "Factions" as const,
+            icon: trophy,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -190,7 +198,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 <TicketsLeaderboard farmId={farmId} data={data?.tickets} />
               )}
               {currentTab === 5 && (
-                <TicketsLeaderboard farmId={farmId} data={undefined} />
+                <FactionsLeaderboard farmId={farmId} data={data?.factions} />
               )}
             </InnerPanel>
           </div>

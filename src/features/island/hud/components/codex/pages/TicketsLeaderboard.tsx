@@ -1,14 +1,11 @@
+import React from "react";
+
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
-import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
-import {
-  TicketLeaderboard,
-  fetchLeaderboardData,
-} from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { TicketLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
-import { useEffect, useState } from "react";
 
 interface LeaderboardProps {
   farmId: number;
