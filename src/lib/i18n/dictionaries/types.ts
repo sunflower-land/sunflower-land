@@ -1342,7 +1342,15 @@ export type Factions =
   | "faction.description.nightshades"
   | "faction.countdown"
   | "faction.join.confirm"
-  | "faction.cannot.change";
+  | "faction.cannot.change"
+  | "faction.joined.sunflorians.intro"
+  | "faction.joined.bumpkins.intro"
+  | "faction.joined.goblins.intro"
+  | "faction.joined.nightshades.intro"
+  | "faction.earn.emblems"
+  | "faction.earn.emblems.time.left"
+  | "faction.emblems.tasks"
+  | "faction.view.leaderboard";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

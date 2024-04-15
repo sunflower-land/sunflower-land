@@ -1881,6 +1881,19 @@ const factions: Record<Factions, string> = {
   "faction.countdown": "In {{timeUntil}} the faction battle begins.",
   "faction.join.confirm": "Do you want to join the {{faction}}?",
   "faction.cannot.change": "You cannot change factions once you have chosen.",
+  "faction.joined.sunflorians.intro":
+    "Greetings, noble Sunflorian! Join us as we rally our forces to claim supremacy and uphold the honor of our kingdom.",
+  "faction.joined.bumpkins.intro":
+    "Hey there, fellow Bumpkin! It's time to unite our farming brethren and show the other factions the power of hard work and unity.",
+  "faction.joined.goblins.intro":
+    "Salutations, crafty Goblin! With our minds sharp and our schemes devious, victory shall be ours in the battles ahead.",
+  "faction.joined.nightshades.intro":
+    "Greetings, enigmatic Nightshade! Together, we shall navigate the shadows and unveil the secrets that will lead us to victory in the battles ahead.",
+  "faction.earn.emblems": "Earn Emblems",
+  "faction.earn.emblems.time.left": "{{timeLeft}} left",
+  "faction.emblems.tasks":
+    "Complete deliveries now to be eligible for the faction emblems airdrop.",
+  "faction.view.leaderboard": "View Leaderboard",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
