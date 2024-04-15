@@ -108,7 +108,7 @@ export const BumpkinModal: React.FC<Props> = ({
       const baseUrl =
         CONFIG.NETWORK === "mainnet"
           ? `https://opensea.io/assets/matic`
-          : `https://testnets.opensea.io/assets/mumbai`;
+          : `https://testnets.opensea.io/assets/amoy`;
 
       return `${baseUrl}/${CONFIG.BUMPKIN_CONTRACT}/${bumpkin?.id}`;
     }
