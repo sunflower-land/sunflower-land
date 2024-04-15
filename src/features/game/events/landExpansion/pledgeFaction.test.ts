@@ -1,6 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { pledgeFaction } from "./pledgeFaction";
 import { FactionName } from "features/game/types/game";
+import Decimal from "decimal.js-light";
 
 describe("pledgeFaction", () => {
   it("throws an error if the faction is invalid", () => {
@@ -47,5 +48,19 @@ describe("pledgeFaction", () => {
     expect(state.faction?.name).toBe("sunflorians");
     expect(state.faction?.pledgedAt).toBeGreaterThan(0);
     expect(state.faction?.points).toEqual(0);
+  });
+
+  it("adds the faction banner to the players inventory", () => {
+    const state = pledgeFaction({
+      state: TEST_FARM,
+      action: {
+        type: "faction.pledged",
+        faction: "sunflorians",
+      },
+    });
+
+    expect(state.inventory["Sunflorian Faction Banner"]).toEqual(
+      new Decimal(1)
+    );
   });
 });

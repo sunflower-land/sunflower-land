@@ -1,4 +1,9 @@
-import { FactionName, GameState } from "features/game/types/game";
+import Decimal from "decimal.js-light";
+import {
+  FactionBanner,
+  FactionName,
+  GameState,
+} from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export const FACTIONS: FactionName[] = [
@@ -17,6 +22,13 @@ type Options = {
   state: Readonly<GameState>;
   action: PledgeFactionAction;
   createdAt?: number;
+};
+
+const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
+  bumpkins: "Bumpkin Faction Banner",
+  sunflorians: "Sunflorian Faction Banner",
+  goblins: "Goblin Faction Banner",
+  nightshades: "Nightshade Faction Banner",
 };
 
 export function pledgeFaction({
@@ -39,6 +51,12 @@ export function pledgeFaction({
     pledgedAt: createdAt,
     points: 0,
   };
+
+  const banner = FACTION_BANNERS[action.faction];
+
+  stateCopy.inventory[banner] = (
+    stateCopy.inventory[banner] ?? new Decimal(0)
+  ).add(1);
 
   return stateCopy;
 }
