@@ -79,8 +79,6 @@ import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
 import { portal } from "features/world/ui/community/actions/portal";
-import { BUMPKIN_EXPANSIONS_LEVEL } from "../types/expansions";
-import { getBumpkinLevel } from "./level";
 import { listRequest } from "../actions/listTrade";
 import { deleteListingRequest } from "../actions/deleteListing";
 import { fulfillTradeListingRequest } from "../actions/fulfillTradeListing";
@@ -782,21 +780,6 @@ export function startGame(authContext: AuthContext) {
               target: "noBumpkinFound",
               cond: (context: Context, event: any) =>
                 !event.data?.state.bumpkin && !context.state.bumpkin,
-            },
-            {
-              target: "weakBumpkin",
-              cond: (context: Context) => {
-                const requiredLevel =
-                  BUMPKIN_EXPANSIONS_LEVEL[context.state.island.type][
-                    context.state.inventory["Basic Land"]?.toNumber() ?? 3
-                  ];
-
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0
-                );
-
-                return requiredLevel > level;
-              },
             },
             {
               target: "introduction",
