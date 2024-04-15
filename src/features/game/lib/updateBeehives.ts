@@ -16,17 +16,17 @@ import { isWearableActive } from "./wearables";
  * autonomously switch beehives and continue producing while the player is offline.
  */
 
-const getHoneyProductionRate = (game: GameState) => {
-  let rate = 1;
+const getHoneyProductionSpeed = (game: GameState) => {
+  let speed = 1;
 
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
-    rate += 1;
+    speed += 1;
   }
 
   if (isWearableActive({ name: "Beekeeper Hat", game })) {
-    rate += 0.2;
+    speed += 0.2;
   }
-  return rate;
+  return speed;
 };
 
 export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
@@ -97,7 +97,8 @@ const getFlowerReadyAt = (
   }
 
   const plantMilliseconds =
-    FLOWER_SEEDS()[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000;
+    (FLOWER_SEEDS()[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000) /
+    getHoneyProductionSpeed(state);
 
   return plantedFlower.plantedAt + plantMilliseconds;
 };
@@ -234,7 +235,7 @@ const getBeehiveDetail = ({
       ? lastAttachment.attachedUntil
       : createdAt,
     availableTime: Math.ceil(
-      (DEFAULT_HONEY_PRODUCTION_TIME - produced) / getHoneyProductionRate(game)
+      (DEFAULT_HONEY_PRODUCTION_TIME - produced) / getHoneyProductionSpeed(game)
     ),
   };
 };
@@ -311,7 +312,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       attachedAt,
       attachedUntil,
       id: flowerId,
-      rate: getHoneyProductionRate(stateCopy),
+      rate: getHoneyProductionSpeed(stateCopy),
     });
 
     // Update flowerDetails
