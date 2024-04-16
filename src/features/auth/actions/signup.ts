@@ -26,8 +26,12 @@ export async function signUp(request: Request) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
+  if (response.status == 400) {
+    throw new Error(ERRORS.SIGN_UP_FARM_EXISTS_ERROR);
+  }
+
   if (response.status >= 400) {
-    throw new Error(ERRORS.CREATE_ACCOUNT_SERVER_ERROR);
+    throw new Error(ERRORS.SIGN_UP_SERVER_ERROR);
   }
 
   return await response.json();
