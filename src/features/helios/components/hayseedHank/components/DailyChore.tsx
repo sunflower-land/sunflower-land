@@ -35,7 +35,7 @@ export const DailyChore: React.FC<Props> = ({
   id,
   chore,
   isReadOnly,
-  isCodex,
+  isCodex = false,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);

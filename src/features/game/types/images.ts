@@ -601,10 +601,10 @@ import babyPanda from "assets/sfts/baby_panda.png";
 import baozi from "assets/sfts/baozi.webp";
 
 // Faction Banners
-import sunflorianFactionBanner from "assets/decorations/banners/sunflorians_banner.webp";
-import nightshadeFactionBanner from "assets/decorations/banners/nightshades_banner.webp";
-import bumpkinFactionBanner from "assets/decorations/banners/bumpkins_banner.webp";
-import goblinFactionBanner from "assets/decorations/banners/goblins_banner.webp";
+import sunflorianFactionBanner from "assets/decorations/banners/factions/sunflorians_banner.webp";
+import nightshadeFactionBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
+import bumpkinFactionBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
+import goblinFactionBanner from "assets/decorations/banners/factions/goblin_banner.png";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
