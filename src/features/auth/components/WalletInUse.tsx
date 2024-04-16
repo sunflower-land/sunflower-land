@@ -64,27 +64,4 @@ export const WalletInUse: React.FC = () => {
       </div>
     </>
   );
-
-  // return (
-  //   <>
-  //     <div className="flex flex-col p-1">
-  //       <div className="flex mb-3 justify-center">
-  //         <img
-  //           src={SUNNYSIDE.icons.expression_alerted}
-  //           alt="Warning"
-  //           className="w-3 mr-3"
-  //         />
-  //       </div>
-  //       <p className="text-center mb-3">{t("error.walletInUse.one")}</p>
-  //       <p className="mb-2 text-xs">{t("error.walletInUse.two")}</p>
-  //     </div>
-
-  //     <Button
-  //       onClick={() => authService.send("RETURN")}
-  //       className="overflow-hidden"
-  //     >
-  //       <span>Try another log in Method</span>
-  //     </Button>
-  //   </>
-  // );
 };
