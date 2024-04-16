@@ -176,8 +176,8 @@ const ListTrade: React.FC<{
               if (e.target.value === "") {
                 setQuantityDisplay(""); // Reset to 0 if input is empty
               } else if (VALID_INTEGER.test(e.target.value)) {
-                const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-                setQuantityDisplay(`${amount}`);
+                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
+                setQuantityDisplay(amount);
               }
             }}
             className={classNames(
@@ -223,8 +223,8 @@ const ListTrade: React.FC<{
               if (e.target.value === "") {
                 setSflDisplay(""); // Reset to 0 if input is empty
               } else if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
-                const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-                setSflDisplay(`${amount}`);
+                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
+                setSflDisplay(amount);
               }
             }}
             className={classNames(
