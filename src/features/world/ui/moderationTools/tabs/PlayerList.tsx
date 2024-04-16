@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { Player } from "../ModerationTools";
+import { Message, Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
-
-import { KickModal } from "../components/Kick";
-import { MuteModal } from "../components/Mute";
-import { UnMuteModal } from "../components/Unmute";
+import { PlayerModal } from "../components/Player";
 
 import { calculateMuteTime } from "../components/Muted";
-
-import { mutePlayer } from "features/world/lib/moderationAction";
 
 import { NPCRelative } from "features/island/bumpkin/components/NPC";
 import { OuterPanel } from "components/ui/Panel";
@@ -22,30 +17,28 @@ type Props = {
   authState: any;
   moderatorFarmId: number;
   players: Player[];
+  messages: Message[];
+};
+
+export const isModerator = (player: Player) => {
+  if (player.clothing.hat === "Halo") {
+    return true;
+  } else {
+    return false;
+  }
 };
 
 export const PlayerList: React.FC<Props> = ({
   scene,
   players,
+  messages,
   authState,
   moderatorFarmId,
 }) => {
-  const [step, setStep] = useState<"MAIN" | "MUTE" | "KICK" | "UNMUTE">("MAIN");
-
-  const [unMuteStatus, setUnMuteStatus] = useState<
-    "loading" | "success" | "error"
-  >("loading");
+  const [step, setStep] = useState<"MAIN" | "PLAYER">("MAIN");
 
   const [selectedPlayer, setSelectedPlayer] = useState<Player | undefined>();
   const [search, setSearch] = useState("");
-
-  const isModerator = (player: Player) => {
-    if (player.clothing.hat === "Halo") {
-      return true;
-    } else {
-      return false;
-    }
-  };
 
   const Players = players.filter((player) => {
     if (!player.username) player.username = "";
@@ -60,24 +53,12 @@ export const PlayerList: React.FC<Props> = ({
     }
   });
 
-  const unMutePlayer = async (player: Player) => {
-    setStep("UNMUTE");
-    await mutePlayer({
-      token: authState.rawToken as string,
-      farmId: moderatorFarmId,
-      mutedId: player.farmId,
-      mutedUntil: new Date().getTime() + 1000,
-      reason: "UNMUTE",
-    }).then((r) => {
-      if (r.success) {
-        setSelectedPlayer(player);
-        setUnMuteStatus("success");
-      } else {
-        setUnMuteStatus("error");
-        // eslint-disable-next-line no-console
-        console.log(r);
-      }
-    });
+  const PlayerMessages = () => {
+    if (!selectedPlayer) return [];
+
+    return messages.filter(
+      (message) => message.farmId === selectedPlayer.farmId
+    );
   };
 
   return (
@@ -115,38 +96,33 @@ export const PlayerList: React.FC<Props> = ({
                             </Label>
                           )}
                         </span>
-                        <span className="text-xs">{"#" + player.farmId}</span>
+                        <span className="text-xs">
+                          {"#" + player.farmId + " - In " + player.sceneId}
+                        </span>
                       </div>
                     </div>
-                    <div className="flex flex-row items-center gap-2 justify-end w-full">
+                    <div className="flex flex-row items-center gap-2 justify-end w-full sm:w-min">
                       <Button
+                        disabled={player.farmId === moderatorFarmId}
+                        className="px-2"
                         onClick={() => {
-                          scene.teleportModerator(player.x, player.y);
+                          scene.teleportModerator(
+                            player.x,
+                            player.y,
+                            player.sceneId
+                          );
                         }}
                       >
                         {"TP"}
                       </Button>
                       <Button
-                        disabled={isModerator(player)}
+                        className="px-2"
                         onClick={() => {
-                          setStep("KICK");
+                          setStep("PLAYER");
                           setSelectedPlayer(player);
                         }}
                       >
-                        {"Kick"}
-                      </Button>
-                      <Button
-                        disabled={isModerator(player)}
-                        onClick={() => {
-                          if (isMuted) {
-                            unMutePlayer(player);
-                          } else {
-                            setStep("MUTE");
-                            setSelectedPlayer(player);
-                          }
-                        }}
-                      >
-                        {isMuted ? "Unmute" : "Mute"}
+                        {"View"}
                       </Button>
                     </div>
                   </div>
@@ -168,34 +144,14 @@ export const PlayerList: React.FC<Props> = ({
         </>
       )}
 
-      {step === "KICK" && (
-        <KickModal
-          onClose={() => setStep("MAIN")}
+      {step === "PLAYER" && (
+        <PlayerModal
           player={selectedPlayer}
+          messages={PlayerMessages()}
           authState={authState}
           moderatorFarmId={moderatorFarmId}
           scene={scene}
-        />
-      )}
-
-      {step === "MUTE" && (
-        <MuteModal
           onClose={() => setStep("MAIN")}
-          player={selectedPlayer}
-          authState={authState}
-          moderatorFarmId={moderatorFarmId}
-          scene={scene}
-        />
-      )}
-
-      {step === "UNMUTE" && (
-        <UnMuteModal
-          onClose={() => {
-            setStep("MAIN");
-            setUnMuteStatus("loading");
-          }}
-          player={selectedPlayer}
-          status={unMuteStatus}
         />
       )}
     </>

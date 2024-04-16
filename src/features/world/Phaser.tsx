@@ -57,6 +57,8 @@ type Player = {
   x: number;
   y: number;
   moderation?: Moderation;
+  experience: number;
+  sceneId: SceneId;
 };
 
 export type ModerationEvent = {
@@ -125,7 +127,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
     bumpkin?.equipped?.hat === "Halo" && hasBetaPass
       ? setIsModerator(true)
-      : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
+      : setIsModerator(true); // I know i know this is a bit useless but useful for debugging rofl
 
     // Check if user is muted and if so, apply mute details to isMuted state
     const userModLogs = gameService.state.context.moderation;
@@ -301,6 +303,7 @@ export const PhaserComponent: React.FC<Props> = ({
                 y: player.y,
                 clothing: player.clothing,
                 moderation: player.moderation,
+                sceneId: player.sceneId,
               });
             } else {
               // Add new player
@@ -312,6 +315,8 @@ export const PhaserComponent: React.FC<Props> = ({
                 y: player.y,
                 clothing: player.clothing,
                 moderation: player.moderation,
+                experience: player.experience,
+                sceneId: player.sceneId,
               });
             }
           });

@@ -54,16 +54,20 @@ export const MuteModal: React.FC<Props> = ({
       mutedUntil: until,
     })
       .then((r) => {
-        r.success ? setMuteStatus("success") : setMuteStatus("error");
+        if (r.success) {
+          setMuteStatus("success");
 
-        scene.mmoService.state.context.server?.send("moderation_event", {
-          type: "mute",
-          farmId: farmId as number,
-          reason: reason,
-          mutedUntil: until,
-        });
+          scene.mmoService.state.context.server?.send("moderation_event", {
+            type: "mute",
+            farmId: farmId as number,
+            reason: reason,
+            mutedUntil: until,
+          });
+        } else {
+          setMuteStatus("error");
+        }
       })
-      .catch((e) => setMuteStatus("error"));
+      .catch(() => setMuteStatus("error"));
   };
 
   const handleClose = () => {

@@ -34,6 +34,8 @@ export type Player = {
   y: number;
   clothing: BumpkinParts;
   moderation?: Moderation;
+  experience: number;
+  sceneId: SceneId;
 };
 
 interface Props {
@@ -104,6 +106,7 @@ export const ModerationTools: React.FC<Props> = ({
             <PlayerList
               scene={scene}
               players={players}
+              messages={messages}
               authState={authState.context.user}
               moderatorFarmId={moderatorFarmId}
             />
