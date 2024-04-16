@@ -4619,11 +4619,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       //   trait_type: "Extra Tulip from Deliveries",
       //   value: 2,
       // },
-      // {
-      //   display_type: "boost_percentage",
-      //   trait_type: "XP increase during Spring Blossom Season",
-      //   value: 10,
-      // },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Spring Blossom Season",
+        value: 10,
+      },
+    ],
+  },
+  "Lifetime Farmer Banner": {
+    description: "Gives you lifetime access to all seasons and VIP access.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/740.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Luminous Lantern": {

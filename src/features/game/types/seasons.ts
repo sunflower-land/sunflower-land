@@ -1,3 +1,11 @@
+// banners
+import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
+import factionSeasonBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+
 export type SeasonName =
   | "Solar Flare"
   | "Dawn Breaker"
@@ -119,4 +127,39 @@ export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
 
 export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
   return BANNERS[banner];
+}
+
+export function getSeasonalBannerImage() {
+  const banners: Record<SeasonalBanner, string> = {
+    "Solar Flare Banner": solarFlareBanner,
+    "Dawn Breaker Banner": dawnBreakerBanner,
+    "Witches' Eve Banner": witchesEveBanner,
+    "Catch the Kraken Banner": catchTheKrakenBanner,
+    "Spring Blossom Banner": springBlossomBanner,
+    "Faction Season Banner": factionSeasonBanner,
+  };
+  return banners[getSeasonalBanner()];
+}
+
+function getPreviousSeason(now = new Date()): SeasonName {
+  const currentSeason = getCurrentSeason(now);
+  const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
+
+  // Find the season where the end date matches the start date of the current season
+  const previousSeason = Object.entries(SEASONS).find(
+    ([_, { endDate }]) =>
+      endDate.getTime() === startDateOfCurrentSeason.getTime()
+  );
+
+  if (!previousSeason) {
+    throw new Error("No previous banner found");
+  }
+
+  return previousSeason[0] as SeasonName;
+}
+
+export function getPreviousSeasonalBanner(now = new Date()): SeasonalBanner {
+  const previousSeason = getPreviousSeason(now);
+
+  return `${previousSeason} Banner`;
 }

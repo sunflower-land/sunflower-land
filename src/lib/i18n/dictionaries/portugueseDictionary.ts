@@ -483,6 +483,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   wish: "Desejo",
   "sfl/coins": ENGLISH_TERMS["sfl/coins"],
   player: ENGLISH_TERMS["player"],
+  "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
+  "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
+  "p2p.trading": ENGLISH_TERMS["p2p.trading"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -4125,6 +4128,15 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": " Somente por tempo limitado!",
   "season.wearableAirdrop": "Airdrop deVestíveis",
   "season.place.land": "Você deve colocá-lo em sua terra",
+  "season.free.season.passes": ENGLISH_TERMS["season.free.season.passes"],
+  "season.free.season.passes.description":
+    ENGLISH_TERMS["season.free.season.passes.description"],
+  "season.megastore.discount": ENGLISH_TERMS["season.megastore.discount"],
+  "season.mystery.gift": ENGLISH_TERMS["season.mystery.gift"],
+  "season.supporter.gift": ENGLISH_TERMS["season.supporter.gift"],
+  "season.vip.access": ENGLISH_TERMS["season.vip.access"],
+  "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
+  "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {

@@ -777,6 +777,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Catch the Kraken Banner": () => false,
   "Spring Blossom Banner": () => false,
   "Faction Season Banner": () => false,
+  "Lifetime Farmer Banner": () => false,
 };
 
 const potionHouse: Record<

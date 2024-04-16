@@ -244,6 +244,7 @@ import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import factionSeasonBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import lifetimeFarmerBanner from "assets/decorations/banners/solar_flare_banner.png";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
@@ -2502,6 +2503,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Faction Season Banner": {
     image: factionSeasonBanner,
+    description: "",
+  },
+  "Lifetime Farmer Banner": {
+    image: lifetimeFarmerBanner,
     description: "",
   },
   "Luminous Lantern": {
