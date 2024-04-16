@@ -3,6 +3,7 @@ import { Button } from "components/ui/Button";
 import { Message, Player } from "../ModerationTools";
 import { isModerator } from "../tabs/PlayerList";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
+import { isMobile } from "mobile-device-detect";
 
 import {
   getBumpkinLevel,
@@ -103,11 +104,13 @@ export const PlayerModal: React.FC<Props> = ({
   return (
     <>
       {step === "MAIN" && (
-        <div className="flex flex-wrap h-96">
-          <div className="w-full sm:w-1/3 z-10 mr-0 sm:mr-2">
-            <div className="w-full rounded-md overflow-hidden mb-1">
-              <DynamicNFT showBackground bumpkinParts={player.clothing} />
-            </div>
+        <div className="flex flex-col-reverse sm:flex-row gap-4 sm:gap-0 sm:h-96">
+          <div className="w-full sm:w-1/3 z-10">
+            {!isMobile && (
+              <div className="w-full rounded-md overflow-hidden mb-1">
+                <DynamicNFT showBackground bumpkinParts={player.clothing} />
+              </div>
+            )}
 
             <div className="flex flex-col items-center justify-center gap-1">
               <Button
@@ -175,21 +178,21 @@ export const PlayerModal: React.FC<Props> = ({
             <InnerPanel className="flex flex-col h-36 items-center ml-1 mt-2">
               <h2 className="text-sm w-full mb-2">{"Moderation Events"}</h2>
 
-              <div className="flex flex-col px-1 overflow-y-scroll scrollable h-full w-full gap-4">
+              <div className="flex flex-col overflow-y-scroll scrollable h-full w-full gap-4">
                 {getModerationEvents().map((event, index) => (
                   <>
                     <div
                       key={index}
-                      className="flex flex-col w-full items-start gap-2"
+                      className="flex flex-col w-full items-start"
                     >
-                      <div className="flex justify-between w-full items-center">
+                      <div className="flex justify-between w-full items-center mb-1 pr-1">
                         <Label type="danger">{event.type.toUpperCase()}</Label>
                         <p className="text-xs">
                           {new Date(event.at).toLocaleString()}
                         </p>
                       </div>
-                      <p className="text-xs">{`By: ${event.by}`}</p>
-                      <p className="text-xs">{`Reason: ${event.reason}`}</p>
+                      <p className="text-xs px-1">{`By: ${event.by}`}</p>
+                      <p className="text-xs px-1">{`Reason: ${event.reason}`}</p>
                     </div>
 
                     {index < getModerationEvents().length - 1 && (
