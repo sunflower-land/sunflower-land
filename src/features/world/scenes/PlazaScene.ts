@@ -2,7 +2,7 @@ import mapJson from "assets/map/plaza.json";
 import factionMapJson from "assets/map/plaza_faction_pledge.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { BaseScene, FACTION_NAME_COLORS, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { FanArtNPC, interactableModalManager } from "../ui/InteractableModals";
 import {
@@ -600,6 +600,16 @@ export class PlazaScene extends BaseScene {
     this.makeChosenFactionBannerInteractive(chosenFaction);
   }
 
+  updatePlayerNameColor(faction: string) {
+    const nameTag = this.currentPlayer?.getByName(
+      "nameTag"
+    ) as Phaser.GameObjects.Text;
+    if (!nameTag) return;
+
+    nameTag.setStyle({ color: FACTION_NAME_COLORS[faction as FactionName] });
+    // const color = FACTION_NAME_COLORS[faction as FactionName];
+  }
+
   async create() {
     super.create();
 
@@ -979,6 +989,7 @@ export class PlazaScene extends BaseScene {
     if (!!faction && !this.chosenFaction) {
       this.chosenFaction = faction;
       this.updateFactionBannerInteractionsOnPledge(faction);
+      this.updatePlayerNameColor(faction);
     }
   }
 }

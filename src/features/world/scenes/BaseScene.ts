@@ -21,7 +21,7 @@ import {
 } from "../mmoMachine";
 import { Player, PlazaRoomState } from "../types/Room";
 import { playerModalManager } from "../ui/PlayerModals";
-import { GameState } from "features/game/types/game";
+import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
 
@@ -77,6 +77,13 @@ type BaseSceneOptions = {
   player?: {
     spawn: Coordinates;
   };
+};
+
+export const FACTION_NAME_COLORS: Record<FactionName, string> = {
+  sunflorians: "#feae34",
+  bumpkins: "#124e89",
+  goblins: "#265c42",
+  nightshades: "#68386c",
 };
 
 export abstract class BaseScene extends Phaser.Scene {
@@ -545,10 +552,12 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     if (!npc) {
+      const faction = this.gameService.state.context.state.faction?.name;
       const nameTag = this.createPlayerText({
         x: 0,
         y: 0,
         text: username ? username : `#${farmId}`,
+        ...(faction && { color: FACTION_NAME_COLORS[faction] }),
       });
       nameTag.name = "nameTag";
       entity.add(nameTag);
@@ -630,13 +639,25 @@ export abstract class BaseScene extends Phaser.Scene {
     return entity;
   }
 
-  createPlayerText({ x, y, text }: { x: number; y: number; text: string }) {
+  createPlayerText({
+    x,
+    y,
+    text,
+    color,
+  }: {
+    x: number;
+    y: number;
+    text: string;
+    color?: string;
+  }) {
     const textObject = this.add.text(x, y + NAME_TAG_OFFSET_PX, text, {
       fontSize: "4px",
       fontFamily: "monospace",
       resolution: 4,
       padding: { x: 2, y: 2 },
+      color: color ?? "#ffffff",
     });
+
     textObject.setOrigin(0.5);
 
     this.physics.add.existing(textObject);
