@@ -20,6 +20,7 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
+import { capitalize } from "lib/utils/capitalize";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -600,14 +601,25 @@ export class PlazaScene extends BaseScene {
     this.makeChosenFactionBannerInteractive(chosenFaction);
   }
 
-  updatePlayerNameColor(faction: string) {
+  addFactionNameToPlayer(faction: string) {
+    const color = FACTION_NAME_COLORS[faction as FactionName];
+    const factionTag = this.createPlayerText({
+      x: 0,
+      y: 0,
+      text: `<${capitalize(faction)}>`,
+      color,
+    });
+
+    factionTag.name = "factionTag";
+    this.currentPlayer?.add(factionTag);
+
     const nameTag = this.currentPlayer?.getByName(
       "nameTag"
     ) as Phaser.GameObjects.Text;
+
     if (!nameTag) return;
 
-    nameTag.setStyle({ color: FACTION_NAME_COLORS[faction as FactionName] });
-    // const color = FACTION_NAME_COLORS[faction as FactionName];
+    nameTag.setPosition(0, 16);
   }
 
   async create() {
@@ -989,7 +1001,7 @@ export class PlazaScene extends BaseScene {
     if (!!faction && !this.chosenFaction) {
       this.chosenFaction = faction;
       this.updateFactionBannerInteractionsOnPledge(faction);
-      this.updatePlayerNameColor(faction);
+      this.addFactionNameToPlayer(faction);
     }
   }
 }

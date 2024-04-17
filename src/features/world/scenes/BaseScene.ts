@@ -33,6 +33,7 @@ import {
 } from "../../game/lib/audio";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { MachineInterpreter as AuthMachineInterpreter } from "features/auth/lib/authMachine";
+import { capitalize } from "lib/utils/capitalize";
 
 type SceneTransitionData = {
   previousSceneId: SceneId;
@@ -80,8 +81,8 @@ type BaseSceneOptions = {
 };
 
 export const FACTION_NAME_COLORS: Record<FactionName, string> = {
-  sunflorians: "#feae34",
-  bumpkins: "#124e89",
+  sunflorians: "#fee761",
+  bumpkins: "#0095e9",
   goblins: "#265c42",
   nightshades: "#68386c",
 };
@@ -553,11 +554,28 @@ export abstract class BaseScene extends Phaser.Scene {
 
     if (!npc) {
       const faction = this.gameService.state.context.state.faction?.name;
+      let nameTagYPosition = 0;
+
+      if (faction) {
+        const color = FACTION_NAME_COLORS[faction as FactionName];
+        const factionTag = this.createPlayerText({
+          x: 0,
+          y: 0,
+          text: `<${capitalize(faction)}>`,
+          color,
+        });
+
+        // Move name tag down
+        nameTagYPosition = 4;
+
+        factionTag.name = "factionTag";
+        entity.add(factionTag);
+      }
+
       const nameTag = this.createPlayerText({
         x: 0,
-        y: 0,
+        y: nameTagYPosition,
         text: username ? username : `#${farmId}`,
-        ...(faction && { color: FACTION_NAME_COLORS[faction] }),
       });
       nameTag.name = "nameTag";
       entity.add(nameTag);
