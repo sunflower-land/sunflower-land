@@ -362,7 +362,6 @@ export class PlazaScene extends BaseScene {
   private bumpkinsBanner: Phaser.GameObjects.Image | undefined;
   private goblinsBanner: Phaser.GameObjects.Image | undefined;
   private nightshadesBanner: Phaser.GameObjects.Image | undefined;
-  private nightshadesBannerTop: Phaser.GameObjects.Image | undefined;
   private sunfloriansBanner: Phaser.GameObjects.Image | undefined;
 
   private chosenFaction: FactionName | undefined;
@@ -466,10 +465,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
     this.load.image("nightshades_banner", "world/nightshades_banner.webp");
     this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
-    this.load.image(
-      "nightshades_banner_top",
-      "world/nightshades_banner_top.webp"
-    );
 
     this.load.spritesheet("maximus", "world/maximus.png", {
       frameWidth: 23,
@@ -504,12 +499,9 @@ export class PlazaScene extends BaseScene {
     this.bumpkinsBanner = this.add
       .image(40, 17, "bumpkins_banner")
       .setDepth(17);
-    this.goblinsBanner = this.add
-      .image(100, 17, "goblins_banner")
-      .setDepth(17);
-    this.nightshadesBanner = this.add.image(90, 60, "nightshades_banner");
-    this.nightshadesBannerTop = this.add
-      .image(90, 56, "nightshades_banner_top")
+    this.goblinsBanner = this.add.image(100, 17, "goblins_banner").setDepth(17);
+    this.nightshadesBanner = this.add
+      .image(90, 60, "nightshades_banner")
       .setDepth(56);
     this.sunfloriansBanner = this.add
       .image(35, 60, "sunflorians_banner")
