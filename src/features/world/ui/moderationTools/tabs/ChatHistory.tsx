@@ -104,7 +104,7 @@ export const ChatHistory: React.FC<Props> = ({
                 </div>
                 <div className="flex flex-col gap-1 mt-1">
                   {message.messages.map((msg, index) => (
-                    <span key={index} className="text-xs">
+                    <span key={index} className="text-xs break-words">
                       {msg}
                     </span>
                   ))}
