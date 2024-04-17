@@ -280,6 +280,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             experience: context.experience,
             moderation: context.moderation,
             username: context.username,
+            faction: context.faction,
           });
 
           return { server, client, serverId };

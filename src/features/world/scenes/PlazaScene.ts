@@ -581,16 +581,32 @@ export class PlazaScene extends BaseScene {
   makeChosenFactionBannerInteractive(chosenFaction: string) {
     switch (chosenFaction) {
       case "bumpkins":
-        this.bumpkinsBanner?.setInteractive();
+        this.bumpkinsBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("pledge_bumpkin");
+          });
         break;
       case "goblins":
-        this.goblinsBanner?.setInteractive();
+        this.goblinsBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("pledge_goblin");
+          });
         break;
       case "nightshades":
-        this.nightshadesBanner?.setInteractive();
+        this.nightshadesBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("pledge_nightshade");
+          });
         break;
       case "sunflorians":
-        this.sunfloriansBanner?.setInteractive();
+        this.sunfloriansBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("pledge_sunflorian");
+          });
         break;
     }
   }
