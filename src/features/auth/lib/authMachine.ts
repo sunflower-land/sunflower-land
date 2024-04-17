@@ -1,6 +1,6 @@
 import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-import { ErrorCode } from "lib/errors";
+import { ERRORS, ErrorCode } from "lib/errors";
 
 import { saveReferrerId } from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
@@ -134,6 +134,7 @@ export type BlockchainState = {
     | "authorised"
     | "connected"
     | "noAccount"
+    | "walletInUse"
     | "creating"
     | "claiming";
   context: Context;
@@ -346,7 +347,16 @@ export const authMachine = createMachine(
           },
         },
       },
-
+      walletInUse: {
+        on: {
+          CLAIM: {
+            target: "claiming",
+          },
+          BACK: {
+            target: "idle",
+          },
+        },
+      },
       creating: {
         entry: "setTransactionId",
         invoke: {
@@ -368,10 +378,17 @@ export const authMachine = createMachine(
               actions: ["assignToken", "saveToken"],
             },
           ],
-          onError: {
-            target: "unauthorised",
-            actions: "assignErrorMessage",
-          },
+          onError: [
+            {
+              target: "walletInUse",
+              cond: (_, event: any) =>
+                event.data.message === ERRORS.SIGN_UP_FARM_EXISTS_ERROR,
+            },
+            {
+              target: "unauthorised",
+              actions: "assignErrorMessage",
+            },
+          ],
         },
       },
 

@@ -1324,7 +1324,10 @@ export type ErrorTerms =
   | "error.insufficientSFL"
   | "error.decorationCollides"
   | "error.idAlreadyExists"
-  | "error.ClientRPC";
+  | "error.ClientRPC"
+  | "error.walletInUse.one"
+  | "error.walletInUse.two"
+  | "error.walletInUse.three";
 
 export type ExoticShopItems =
   | "exoticShopItems.line1"

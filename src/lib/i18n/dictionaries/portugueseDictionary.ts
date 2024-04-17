@@ -1887,6 +1887,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.decorationCollides": "Decoração em colisão",
   "error.idAlreadyExists": "ID já existe",
   "error.ClientRPC": "Erro de RPC",
+  "error.walletInUse.one": ENGLISH_TERMS["error.walletInUse.one"],
+  "error.walletInUse.two": ENGLISH_TERMS["error.walletInUse.two"],
+  "error.walletInUse.three": ENGLISH_TERMS["error.walletInUse.three"],
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {

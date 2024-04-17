@@ -24,6 +24,7 @@ import { NoAccount } from "./components/NoAccount";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { WalletInUse } from "./components/WalletInUse";
 
 type Props = {
   showOfflineModal: boolean;
@@ -89,6 +90,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           >
             {authState.matches("welcome") && <Welcome />}
             {authState.matches("noAccount") && <NoAccount />}
+            {authState.matches("walletInUse") && <WalletInUse />}
             {authState.matches("authorising") && <Loading />}
             {authState.matches("verifying") && <Verifying />}
             {(authState.matches("idle") || authState.matches("signIn")) && (

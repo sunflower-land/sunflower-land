@@ -1936,6 +1936,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.decorationCollides": "La décoration entre en collision",
   "error.idAlreadyExists": "L'ID existe déjà",
   "error.ClientRPC": "Client RPC Erreur",
+  "error.walletInUse.one": ENGLISH_TERMS["error.walletInUse.one"],
+  "error.walletInUse.two": ENGLISH_TERMS["error.walletInUse.two"],
+  "error.walletInUse.three": ENGLISH_TERMS["error.walletInUse.three"],
 };
 
 const event: Record<Event, string> = {

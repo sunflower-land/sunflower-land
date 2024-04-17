@@ -25,7 +25,7 @@ export async function claimFarm(request: Request) {
   }
 
   if (response.status >= 400) {
-    throw new Error(ERRORS.CREATE_ACCOUNT_SERVER_ERROR);
+    throw new Error(ERRORS.CLAIM_FARM_SERVER_ERROR);
   }
 
   return await response.json();
