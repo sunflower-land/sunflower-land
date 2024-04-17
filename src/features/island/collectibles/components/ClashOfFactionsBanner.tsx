@@ -3,7 +3,7 @@ import React from "react";
 import banner from "assets/decorations/banners/dawn_breaker_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const FactionSeasonBanner: React.FC = () => {
+export const ClashOfFactionsBanner: React.FC = () => {
   return (
     <>
       <img
@@ -14,7 +14,7 @@ export const FactionSeasonBanner: React.FC = () => {
           left: `${PIXEL_SCALE * 0}px`,
         }}
         className="absolute"
-        alt="Faction Season Banner"
+        alt="Clash of Factions Banner"
       />
     </>
   );

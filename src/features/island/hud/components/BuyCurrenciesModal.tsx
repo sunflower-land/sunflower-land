@@ -147,7 +147,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
 
   const previousBanner = getPreviousSeasonalBanner();
   const hasPreviousBanner = !!state.inventory[previousBanner];
-
+  const seasonalBanner = getSeasonalBanner();
   const bannerPrice = getBannerPrice(banner, hasPreviousBanner).toNumber();
 
   const hasDiscount = bannerPrice < originalBannerPrice;
@@ -168,6 +168,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
         price={bannerPrice}
         blockBuckBalance={state.inventory["Block Buck"] || new Decimal(0)}
         bannerImage={bannerImage}
+        hasBanner={!!state.inventory[banner]}
       />
     );
   }
@@ -353,7 +354,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     right: "2px",
                   }}
                 >
-                  {bannerPrice}
+                  {getBannerPrice("Lifetime Farmer Banner", false).toNumber()}
                 </Label>
               </OuterPanel>
               {/* Season Banner */}
@@ -361,7 +362,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                 className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
                 onClick={() => {
                   setShowConfirmation(true);
-                  setBanner(getSeasonalBanner());
+                  setBanner(seasonalBanner);
                 }}
               >
                 <Label
@@ -375,7 +376,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     left: "0px",
                   }}
                 >
-                  {banner}
+                  {seasonalBanner}
                 </Label>
 
                 <div className="flex mt-10 w-full relative">
@@ -416,7 +417,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                     right: "2px",
                   }}
                 >
-                  {bannerPrice}
+                  {getBannerPrice(seasonalBanner, hasPreviousBanner).toNumber()}
                 </Label>
               </OuterPanel>
             </div>
@@ -434,6 +435,7 @@ type ConfirmationProps = {
   price: number;
   blockBuckBalance: Decimal;
   bannerImage: string;
+  hasBanner: boolean;
 };
 
 const ConfirmationModal: React.FC<ConfirmationProps> = ({
@@ -443,6 +445,7 @@ const ConfirmationModal: React.FC<ConfirmationProps> = ({
   price,
   blockBuckBalance,
   bannerImage,
+  hasBanner,
 }) => {
   const { t } = useAppTranslation();
   const isLifeTime = banner === "Lifetime Farmer Banner";
@@ -487,19 +490,49 @@ const ConfirmationModal: React.FC<ConfirmationProps> = ({
           <p className="text-sm ml-2">{t("season.xp.boost")}</p>
         </div>
 
-        <p className="text-sm my-4">{`Are you sure you want to purchase the ${banner} for ${price} Block Bucks?`}</p>
-
-        <div className="flex">
-          <Button className="mr-1" onClick={onClose}>
-            {t("no.thanks")}
-          </Button>
-          <Button
-            onClick={() => onConfirm(banner)}
-            disabled={blockBuckBalance.lt(price)}
-          >
-            {t("season.buyNow")}
-          </Button>
-        </div>
+        {!hasBanner && (
+          <>
+            {blockBuckBalance.lt(price) ? (
+              <>
+                <p className="text-sm my-4">
+                  {t("offer.not.enough.BlockBucks")}
+                </p>
+                <div className="flex">
+                  <Button className="mr-1" onClick={onClose}>
+                    {t("back")}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-sm my-4">
+                  {`Are you sure you want to purchase the ${banner} for ${price} Block Bucks?`}
+                </p>
+                <div className="flex">
+                  <Button className="mr-1" onClick={onClose}>
+                    {t("no.thanks")}
+                  </Button>
+                  <Button
+                    onClick={() => onConfirm(banner)}
+                    disabled={blockBuckBalance.lt(price) || hasBanner}
+                  >
+                    {t("season.buyNow")}
+                  </Button>
+                </div>
+              </>
+            )}
+          </>
+        )}
+        {hasBanner && (
+          <>
+            <p className="text-sm my-4">{`You already own a ${banner}.`}</p>
+            <div className="flex">
+              <Button className="mr-1" onClick={onClose}>
+                {t("back")}
+              </Button>
+            </div>
+          </>
+        )}
       </CloseButtonPanel>
     </Modal>
   );

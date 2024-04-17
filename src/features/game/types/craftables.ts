@@ -1194,7 +1194,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Bumpkin Faction Banner": { height: 2, width: 1 },
   "Goblin Faction Banner": { height: 2, width: 1 },
   "Nightshade Faction Banner": { height: 2, width: 1 },
-  "Faction Season Banner": { width: 1, height: 2 },
+  "Clash of Factions Banner": { width: 1, height: 2 },
   "Lifetime Farmer Banner": { width: 1, height: 2 },
 
   // Dawn Breaker SFTs

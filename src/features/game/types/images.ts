@@ -243,7 +243,7 @@ import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.pn
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
-import factionSeasonBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import clashOfFactionsBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import lifetimeFarmerBanner from "assets/decorations/banners/solar_flare_banner.png";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
@@ -2501,8 +2501,8 @@ export const ITEM_DETAILS: Items = {
     image: springBlossomBanner,
     description: "",
   },
-  "Faction Season Banner": {
-    image: factionSeasonBanner,
+  "Clash of Factions Banner": {
+    image: clashOfFactionsBanner,
     description: "",
   },
   "Lifetime Farmer Banner": {

@@ -2321,7 +2321,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.communityEgg": "Wow, you must really care about the community!",
   "description.hungryHare":
     "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
-  "description.scroll": "A ticket used during the Faction Season",
+  "description.scroll": "A ticket used during the Clash of Factions Season",
 
   // Easter Items
   "description.egg.basket": "Easter Event",

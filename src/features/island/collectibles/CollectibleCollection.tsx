@@ -247,7 +247,7 @@ import { SunflorianFactionBanner } from "./components/SunflorianFactionBanner";
 import { GoblinFactionBanner } from "./components/GoblinFactionBanner";
 import { NightshadeFactionBanner } from "./components/NightshadeFactionBanner";
 import { BumpkinFactionBanner } from "./components/BumpkinFactionBanner";
-import { FactionSeasonBanner } from "./components/FactionSeasonBanner";
+import { ClashOfFactionsBanner } from "./components/ClashOfFactionsBanner";
 import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
@@ -438,7 +438,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin War Banner": GoblinBanner,
   "Catch the Kraken Banner": CatchTheKrakenBanner,
   "Spring Blossom Banner": SpringBlossomBanner,
-  "Faction Season Banner": FactionSeasonBanner,
+  "Clash of Factions Banner": ClashOfFactionsBanner,
   "Lifetime Farmer Banner": LifetimeFarmerBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,

@@ -776,7 +776,7 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Gold Pass": () => false,
   "Catch the Kraken Banner": () => false,
   "Spring Blossom Banner": () => false,
-  "Faction Season Banner": () => false,
+  "Clash of Factions Banner": () => false,
   "Lifetime Farmer Banner": () => false,
 };
 

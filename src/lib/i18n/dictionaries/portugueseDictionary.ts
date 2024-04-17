@@ -2352,7 +2352,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.rare.key": "Visite a praia para desbloquear sua recompensa",
   "description.luxury.key":
     "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
-  "description.scroll": "Um ticket usado durante a Faction Season",
+  "description.scroll": "Um ticket usado durante a temporada Clash of Factions",
 
   // Easter Items
   "description.egg.basket": "Evento de Páscoa",

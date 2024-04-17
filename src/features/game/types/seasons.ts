@@ -4,7 +4,7 @@ import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.pn
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
-import factionSeasonBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import clashOfFactionsBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 
 export type SeasonName =
   | "Solar Flare"
@@ -12,7 +12,7 @@ export type SeasonName =
   | "Witches' Eve"
   | "Catch the Kraken"
   | "Spring Blossom"
-  | "Faction Season";
+  | "Clash of Factions";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -37,7 +37,7 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2024-02-01T00:00:00.000Z"),
     endDate: new Date("2024-05-01T00:00:00.000Z"),
   },
-  "Faction Season": {
+  "Clash of Factions": {
     startDate: new Date("2024-05-01T00:00:00.000Z"),
     endDate: new Date("2024-08-01T00:00:00.000Z"),
   },
@@ -59,7 +59,7 @@ export type SeasonalBanner =
   | "Witches' Eve Banner"
   | "Catch the Kraken Banner"
   | "Spring Blossom Banner"
-  | "Faction Season Banner";
+  | "Clash of Factions Banner";
 
 export const BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Solar Flare Banner": "Solar Flare",
@@ -67,7 +67,7 @@ export const BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Witches' Eve Banner": "Witches' Eve",
   "Catch the Kraken Banner": "Catch the Kraken",
   "Spring Blossom Banner": "Spring Blossom",
-  "Faction Season Banner": "Faction Season",
+  "Clash of Factions Banner": "Clash of Factions",
 };
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
@@ -76,7 +76,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Witches' Eve": "Crow Feather",
   "Catch the Kraken": "Mermaid Scale",
   "Spring Blossom": "Tulip Bulb",
-  "Faction Season": "Scroll",
+  "Clash of Factions": "Scroll",
 };
 
 export function getCurrentSeason(now = new Date()): SeasonName {
@@ -136,7 +136,7 @@ export function getSeasonalBannerImage() {
     "Witches' Eve Banner": witchesEveBanner,
     "Catch the Kraken Banner": catchTheKrakenBanner,
     "Spring Blossom Banner": springBlossomBanner,
-    "Faction Season Banner": factionSeasonBanner,
+    "Clash of Factions Banner": clashOfFactionsBanner,
   };
   return banners[getSeasonalBanner()];
 }

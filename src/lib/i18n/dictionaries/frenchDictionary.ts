@@ -2446,6 +2446,8 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   // Accueil
   "description.homeOwnerPainting":
     "Un tableau du propriétaire de cette maison.",
+
+  "description.scroll": ENGLISH_TERMS["description.scroll"],
 };
 
 const gameTerms: Record<GameTerms, string> = {

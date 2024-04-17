@@ -4244,7 +4244,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   Scroll: {
-    description: "A ticket used during the Faction Season",
+    description: "A ticket used during the Clash of Factions Season",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/739.png",
@@ -4606,7 +4606,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
-  "Faction Season Banner": {
+  "Clash of Factions Banner": {
     description: "",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
