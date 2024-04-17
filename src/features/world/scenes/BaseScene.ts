@@ -925,11 +925,7 @@ export abstract class BaseScene extends Phaser.Scene {
           "factionTag"
         ) as Phaser.GameObjects.Text | undefined;
 
-        if (
-          nameTag &&
-          factionTag &&
-          factionTag.text !== `<${capitalize(player.faction)}>`
-        ) {
+        if (nameTag && factionTag?.text !== `<${capitalize(player.faction)}>`) {
           const color = FACTION_NAME_COLORS[player.faction as FactionName];
           factionTag = this.createPlayerText({
             x: 0,
@@ -943,35 +939,6 @@ export abstract class BaseScene extends Phaser.Scene {
 
           factionTag.name = "factionTag";
           this.playerEntities[sessionId].add(factionTag);
-        }
-      } else if (sessionId === server.sessionId) {
-        if (!player.faction) return;
-
-        const nameTag = this.currentPlayer?.getByName("nameTag") as
-          | Phaser.GameObjects.Text
-          | undefined;
-        let factionTag = this.currentPlayer?.getByName("factionTag") as
-          | Phaser.GameObjects.Text
-          | undefined;
-
-        if (
-          nameTag &&
-          factionTag &&
-          factionTag.text !== `<${capitalize(player.faction)}>`
-        ) {
-          const color = FACTION_NAME_COLORS[player.faction as FactionName];
-          factionTag = this.createPlayerText({
-            x: 0,
-            y: 0,
-            text: `<${capitalize(player.faction)}>`,
-            color,
-          });
-
-          // Move name tag down
-          nameTag.setPosition(0, 16);
-
-          factionTag.name = "factionTag";
-          this.currentPlayer?.add(factionTag);
         }
       }
     });
