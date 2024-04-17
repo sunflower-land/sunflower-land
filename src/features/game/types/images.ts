@@ -604,7 +604,7 @@ import baozi from "assets/sfts/baozi.webp";
 import sunflorianFactionBanner from "assets/decorations/banners/factions/sunflorians_banner.webp";
 import nightshadeFactionBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
 import bumpkinFactionBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
-import goblinFactionBanner from "assets/decorations/banners/factions/goblin_banner.png";
+import goblinFactionBanner from "assets/decorations/banners/factions/goblins_banner.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {

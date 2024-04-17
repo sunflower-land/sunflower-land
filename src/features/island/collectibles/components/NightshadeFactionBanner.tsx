@@ -6,9 +6,10 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 export const NightshadeFactionBanner: React.FC = () => {
   return (
     <div
-      className="flex justify-center"
+      className="absolute"
       style={{
         width: `${PIXEL_SCALE * 20}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
       }}
     >
       <img
@@ -16,6 +17,7 @@ export const NightshadeFactionBanner: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 20}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
+          left: -5,
         }}
         className="absolute"
         alt="Nightshades Faction Banner"
