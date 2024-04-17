@@ -503,17 +503,17 @@ export class PlazaScene extends BaseScene {
     // Add banners
     this.bumpkinsBanner = this.add
       .image(40, 17, "bumpkins_banner")
-      .setDepth(1000000);
+      .setDepth(17);
     this.goblinsBanner = this.add
       .image(100, 17, "goblins_banner")
-      .setDepth(1000000);
+      .setDepth(17);
     this.nightshadesBanner = this.add.image(90, 60, "nightshades_banner");
     this.nightshadesBannerTop = this.add
       .image(90, 56, "nightshades_banner_top")
-      .setDepth(1000000);
+      .setDepth(56);
     this.sunfloriansBanner = this.add
       .image(35, 60, "sunflorians_banner")
-      .setDepth(1000000);
+      .setDepth(60);
 
     // Characters
     const maximus = this.add.sprite(110, 65, "maximus");
