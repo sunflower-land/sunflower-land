@@ -701,6 +701,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updatePlayer();
     this.updateOtherPlayers();
     this.updateUsernames();
+    this.updateFactions();
   }
 
   keysToAngle(
@@ -904,6 +905,73 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (nameTag && player.username && nameTag.text !== player.username) {
           nameTag.setText(player.username);
+        }
+      }
+    });
+  }
+
+  updateFactions() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    server.state.players.forEach((player, sessionId) => {
+      if (!player.faction) return;
+
+      if (this.playerEntities[sessionId]) {
+        const nameTag = this.playerEntities[sessionId].getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+        let factionTag = this.playerEntities[sessionId].getByName(
+          "factionTag"
+        ) as Phaser.GameObjects.Text | undefined;
+
+        if (
+          nameTag &&
+          factionTag &&
+          factionTag.text !== `<${capitalize(player.faction)}>`
+        ) {
+          const color = FACTION_NAME_COLORS[player.faction as FactionName];
+          factionTag = this.createPlayerText({
+            x: 0,
+            y: 0,
+            text: `<${capitalize(player.faction)}>`,
+            color,
+          });
+
+          // Move name tag down
+          nameTag.setPosition(0, 16);
+
+          factionTag.name = "factionTag";
+          this.playerEntities[sessionId].add(factionTag);
+        }
+      } else if (sessionId === server.sessionId) {
+        if (!player.faction) return;
+
+        const nameTag = this.currentPlayer?.getByName("nameTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+        let factionTag = this.currentPlayer?.getByName("factionTag") as
+          | Phaser.GameObjects.Text
+          | undefined;
+
+        if (
+          nameTag &&
+          factionTag &&
+          factionTag.text !== `<${capitalize(player.faction)}>`
+        ) {
+          const color = FACTION_NAME_COLORS[player.faction as FactionName];
+          factionTag = this.createPlayerText({
+            x: 0,
+            y: 0,
+            text: `<${capitalize(player.faction)}>`,
+            color,
+          });
+
+          // Move name tag down
+          nameTag.setPosition(0, 16);
+
+          factionTag.name = "factionTag";
+          this.currentPlayer?.add(factionTag);
         }
       }
     });
