@@ -127,7 +127,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
     bumpkin?.equipped?.hat === "Halo" && hasBetaPass
       ? setIsModerator(true)
-      : setIsModerator(true); // I know i know this is a bit useless but useful for debugging rofl
+      : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
 
     // Check if user is muted and if so, apply mute details to isMuted state
     const userModLogs = gameService.state.context.moderation;
