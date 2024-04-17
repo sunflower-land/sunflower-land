@@ -362,6 +362,7 @@ export class PlazaScene extends BaseScene {
   private bumpkinsBanner: Phaser.GameObjects.Image | undefined;
   private goblinsBanner: Phaser.GameObjects.Image | undefined;
   private nightshadesBanner: Phaser.GameObjects.Image | undefined;
+  private nightshadesBannerTop: Phaser.GameObjects.Image | undefined;
   private sunfloriansBanner: Phaser.GameObjects.Image | undefined;
 
   private chosenFaction: FactionName | undefined;
@@ -461,10 +462,14 @@ export class PlazaScene extends BaseScene {
     });
 
     // Factions
-    this.load.image("goblin_banner", "world/goblin_banner.webp");
+    this.load.image("goblins_banner", "world/goblins_banner.webp");
     this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
     this.load.image("nightshades_banner", "world/nightshades_banner.webp");
     this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
+    this.load.image(
+      "nightshades_banner_top",
+      "world/nightshades_banner_top.webp"
+    );
 
     this.load.spritesheet("maximus", "world/maximus.png", {
       frameWidth: 23,
@@ -500,17 +505,23 @@ export class PlazaScene extends BaseScene {
       .image(40, 17, "bumpkins_banner")
       .setDepth(1000000);
     this.goblinsBanner = this.add
-      .image(100, 17, "goblin_banner")
+      .image(100, 17, "goblins_banner")
       .setDepth(1000000);
-    this.nightshadesBanner = this.add
-      .image(90, 60, "nightshades_banner")
+    this.nightshadesBanner = this.add.image(90, 60, "nightshades_banner");
+    this.nightshadesBannerTop = this.add
+      .image(90, 56, "nightshades_banner_top")
       .setDepth(1000000);
     this.sunfloriansBanner = this.add
       .image(35, 60, "sunflorians_banner")
       .setDepth(1000000);
 
     // Characters
-    const maximus = this.add.sprite(110, 65, "maximus").setDepth(1000000);
+    const maximus = this.add.sprite(110, 65, "maximus");
+    maximus.setSize(23, 26);
+    this.physics.world.enable(maximus);
+    (maximus.body as Phaser.Physics.Arcade.Body).setImmovable(true);
+    this.colliders?.add(maximus);
+    // make maximus immoveable
     this.anims.create({
       key: "maximus_animation",
       frames: this.anims.generateFrameNumbers("maximus", {
@@ -521,7 +532,7 @@ export class PlazaScene extends BaseScene {
       frameRate: 10,
     });
     maximus.play("maximus_animation", true);
-    const shadow = this.add.sprite(110, 73, "shadow");
+    const shadow = this.add.sprite(110, 78, "shadow");
     shadow.setSize(23, 10);
 
     FACTION_NPCS.forEach(({ npc, x, y, direction = "right" }) => {
