@@ -23,7 +23,7 @@ export const Actions: React.FC<Props> = ({
 
   return (
     <>
-      <div className="flex flex-col justify-between items-start gap-2 ml-1 mt-2 overflow-y-scroll scrollable">
+      <div className="flex flex-col justify-between items-start gap-2 ml-1 mt-2 overflow-y-auto scrollable">
         {step === "MAIN" && (
           <div className="flex flex-col gap-2 h-96">
             <div className="flex items-center gap-2">
