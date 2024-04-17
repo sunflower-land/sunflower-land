@@ -633,6 +633,12 @@ export class PlazaScene extends BaseScene {
     nameTag.setPosition(0, 16);
   }
 
+  updateColyseus(faction: string) {
+    this.mmoService?.state.context.server?.send(0, {
+      faction,
+    });
+  }
+
   async create() {
     super.create();
 
@@ -1013,6 +1019,7 @@ export class PlazaScene extends BaseScene {
       this.chosenFaction = faction;
       this.updateFactionBannerInteractionsOnPledge(faction);
       this.addFactionNameToPlayer(faction);
+      this.updateColyseus(faction);
     }
   }
 }

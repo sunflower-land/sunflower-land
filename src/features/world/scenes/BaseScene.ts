@@ -206,6 +206,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: spawn.y ?? 0,
         // gameService
         farmId: Number(this.id),
+        faction: this.gameService.state.context.state.faction?.name,
         username: this.username,
         isCurrentPlayer: true,
         // gameService
@@ -503,6 +504,7 @@ export abstract class BaseScene extends Phaser.Scene {
     y,
     farmId,
     username,
+    faction,
     isCurrentPlayer,
     clothing,
     npc,
@@ -513,6 +515,7 @@ export abstract class BaseScene extends Phaser.Scene {
     y: number;
     farmId: number;
     username?: string;
+    faction?: FactionName;
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
@@ -553,7 +556,6 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     if (!npc) {
-      const faction = this.gameService.state.context.state.faction?.name;
       let nameTagYPosition = 0;
 
       if (faction) {
@@ -858,6 +860,7 @@ export abstract class BaseScene extends Phaser.Scene {
           y: player.y,
           farmId: player.farmId,
           username: player.username,
+          faction: player.faction,
           clothing: player.clothing,
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
