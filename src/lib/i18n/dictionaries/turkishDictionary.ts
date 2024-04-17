@@ -46,6 +46,7 @@ import {
   ErrorAndAccess,
   ErrorTerms,
   ExoticShopItems,
+  Factions,
   FestiveTree,
   FishDescriptions,
   FishermanModal,
@@ -191,6 +192,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.completed": "Çoktan Tamamlandı",
   "alr.crafted": "Zaten Üretildi!",
   "alr.minted": "Zaten Mintlendi!",
+  "are.you.sure": ENGLISH_TERMS["are.you.sure"],
   auction: "Açık Artırma",
   auctions: "Açık Artırmalar",
   "available.all.year": "Tüm yıl boyunca mevcut: ",
@@ -198,6 +200,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Geri",
   bait: "Yem",
   balance: "Bakiye: ",
+  banner: "Bayrak",
   basket: "Sepet",
   "beach.bounty": "Plaj Ödülü",
   beta: "Beta",
@@ -1690,6 +1693,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner": "Goblin davasına bağlılığın bir göstergesi",
   "description.human.war.banner": "İnsan davasına bağlılığın bir göstergesi",
   "description.earnAllianceBanner": "Özel bir etkinlik bayrağı",
+  "description.sunflorian.faction.banner":
+    ENGLISH_TERMS["description.sunflorian.faction.banner"],
+  "description.goblin.faction.banner":
+    ENGLISH_TERMS["description.goblin.faction.banner"],
+  "description.bumpkin.faction.banner":
+    ENGLISH_TERMS["description.bumpkin.faction.banner"],
+  "description.nightshade.faction.banner":
+    ENGLISH_TERMS["description.nightshade.faction.banner"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
@@ -1883,6 +1894,31 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
     "Baklagilleri seven topluluğumuzun bir parçası olduğunuz için teşekkür ederiz.",
   "exoticShopItems.line3": "Saygılarımla,",
   "exoticShopItems.line4": "Fasulye Takımı",
+};
+
+const factions: Record<Factions, string> = {
+  "faction.join": ENGLISH_TERMS["faction.join"],
+  "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
+  "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
+  "faction.description.sunflorians":
+    ENGLISH_TERMS["faction.description.sunflorians"],
+  "faction.description.nightshades":
+    ENGLISH_TERMS["faction.description.nightshades"],
+  "faction.countdown": ENGLISH_TERMS["faction.countdown"],
+  "faction.join.confirm": ENGLISH_TERMS["faction.join.confirm"],
+  "faction.cannot.change": ENGLISH_TERMS["faction.cannot.change"],
+  "faction.joined.sunflorians.intro":
+    ENGLISH_TERMS["faction.joined.sunflorians.intro"],
+  "faction.joined.bumpkins.intro":
+    ENGLISH_TERMS["faction.joined.bumpkins.intro"],
+  "faction.joined.goblins.intro": ENGLISH_TERMS["faction.joined.goblins.intro"],
+  "faction.joined.nightshades.intro":
+    ENGLISH_TERMS["faction.joined.nightshades.intro"],
+  "faction.earn.emblems": ENGLISH_TERMS["faction.earn.emblems"],
+  "faction.earn.emblems.time.left":
+    ENGLISH_TERMS["faction.earn.emblems.time.left"],
+  "faction.emblems.tasks": ENGLISH_TERMS["faction.emblems.tasks"],
+  "faction.view.leaderboard": ENGLISH_TERMS["faction.view.leaderboard"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4740,6 +4776,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...errorTerms,
   ...event,
   ...exoticShopItems,
+  ...factions,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,

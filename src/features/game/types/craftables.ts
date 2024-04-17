@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { CropSeedName } from "./crops";
-import { InventoryItemName, LanternName } from "./game";
+import { FactionBanner, InventoryItemName, LanternName } from "./game";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { Flag, FLAGS } from "./flags";
 import { LimitedItemType } from ".";
@@ -207,7 +207,8 @@ export type CollectibleName =
   | PotionHouseItemName
   | MarineMarvelName
   | MegaStoreCollectibleName
-  | EpicFlowerName;
+  | EpicFlowerName
+  | FactionBanner;
 
 export type ToolName =
   | "Axe"
@@ -1188,6 +1189,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Goblin War Banner": { width: 1, height: 2 },
   "Catch the Kraken Banner": { width: 1, height: 2 },
   "Spring Blossom Banner": { width: 1, height: 2 },
+  "Sunflorian Faction Banner": { height: 2, width: 1 },
+  "Bumpkin Faction Banner": { height: 2, width: 1 },
+  "Goblin Faction Banner": { height: 2, width: 1 },
+  "Nightshade Faction Banner": { height: 2, width: 1 },
 
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },

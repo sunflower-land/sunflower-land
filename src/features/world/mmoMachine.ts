@@ -4,7 +4,7 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
 
 import { CONFIG } from "lib/config";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, FactionName } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
 import { Moderation } from "features/game/lib/gameMachine";
@@ -109,6 +109,7 @@ export interface MMOContext {
   farmId: number;
   bumpkin: Bumpkin;
   client?: Client;
+  faction?: FactionName;
   availableServers: Server[];
   server?: Room<PlazaRoomState> | undefined;
   serverId: ServerId;
@@ -279,6 +280,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             experience: context.experience,
             moderation: context.moderation,
             username: context.username,
+            faction: context.faction,
           });
 
           return { server, client, serverId };
@@ -326,6 +328,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               bumpkin: context.bumpkin,
               farmId: context.farmId,
               username: context.username,
+              faction: context.faction,
               x: SPAWNS().plaza.default.x,
               y: SPAWNS().plaza.default.y,
               sceneId: context.sceneId,

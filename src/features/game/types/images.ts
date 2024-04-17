@@ -600,6 +600,12 @@ import purpleLotus from "assets/flowers/purple_lotus.webp";
 import babyPanda from "assets/sfts/baby_panda.png";
 import baozi from "assets/sfts/baozi.webp";
 
+// Faction Banners
+import sunflorianFactionBanner from "assets/decorations/banners/factions/sunflorians_banner.webp";
+import nightshadeFactionBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
+import bumpkinFactionBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
+import goblinFactionBanner from "assets/decorations/banners/factions/goblins_banner.webp";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -1295,6 +1301,22 @@ export const ITEM_DETAILS: Items = {
   "Goblin War Banner": {
     description: translate("description.goblin.war.banner"),
     image: goblinBanner,
+  },
+  "Sunflorian Faction Banner": {
+    description: translate("description.sunflorian.faction.banner"),
+    image: sunflorianFactionBanner,
+  },
+  "Nightshade Faction Banner": {
+    description: translate("description.nightshade.faction.banner"),
+    image: nightshadeFactionBanner,
+  },
+  "Bumpkin Faction Banner": {
+    description: translate("description.bumpkin.faction.banner"),
+    image: bumpkinFactionBanner,
+  },
+  "Goblin Faction Banner": {
+    description: translate("description.goblin.faction.banner"),
+    image: goblinFactionBanner,
   },
 
   /**

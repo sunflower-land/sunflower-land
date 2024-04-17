@@ -173,6 +173,7 @@ import {
   PwaInstall,
   GoblinTrade,
   RestrictionReason,
+  Factions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -191,6 +192,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.completed": "Já Feito",
   "alr.crafted": "Já Criado",
   "alr.minted": "Já Mintado",
+  "are.you.sure": ENGLISH_TERMS["are.you.sure"],
   auction: "Leilão",
   auctions: "Leilões",
   "available.all.year": "Disponível o ano todo: ",
@@ -198,6 +200,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Voltar",
   bait: "Isca",
   balance: "Saldo: ",
+  banner: "Banner",
   basket: "Cesta",
   "beach.bounty": "Recompensa da Praia",
   beta: "Beta",
@@ -1733,6 +1736,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Uma exibição de lealdade à causa dos Goblins",
   "description.human.war.banner": "Uma exibição de lealdade à causa humana",
   "description.earnAllianceBanner": "Um banner de evento especial",
+  "description.sunflorian.faction.banner":
+    ENGLISH_TERMS["description.sunflorian.faction.banner"],
+  "description.goblin.faction.banner":
+    ENGLISH_TERMS["description.goblin.faction.banner"],
+  "description.bumpkin.faction.banner":
+    ENGLISH_TERMS["description.bumpkin.faction.banner"],
+  "description.nightshade.faction.banner":
+    ENGLISH_TERMS["description.nightshade.faction.banner"],
 };
 
 const delivery: Record<Delivery, string> = {
@@ -1899,6 +1910,31 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
     "Obrigado por fazer parte de nossa comunidade amante de legumes.",
   "exoticShopItems.line3": "Melhores cumprimentos,",
   "exoticShopItems.line4": "A Equipe do Feijão",
+};
+
+const factions: Record<Factions, string> = {
+  "faction.join": ENGLISH_TERMS["faction.join"],
+  "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
+  "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
+  "faction.description.sunflorians":
+    ENGLISH_TERMS["faction.description.sunflorians"],
+  "faction.description.nightshades":
+    ENGLISH_TERMS["faction.description.nightshades"],
+  "faction.countdown": ENGLISH_TERMS["faction.countdown"],
+  "faction.join.confirm": ENGLISH_TERMS["faction.join.confirm"],
+  "faction.cannot.change": ENGLISH_TERMS["faction.cannot.change"],
+  "faction.joined.sunflorians.intro":
+    ENGLISH_TERMS["faction.joined.sunflorians.intro"],
+  "faction.joined.bumpkins.intro":
+    ENGLISH_TERMS["faction.joined.bumpkins.intro"],
+  "faction.joined.goblins.intro": ENGLISH_TERMS["faction.joined.goblins.intro"],
+  "faction.joined.nightshades.intro":
+    ENGLISH_TERMS["faction.joined.nightshades.intro"],
+  "faction.earn.emblems": ENGLISH_TERMS["faction.earn.emblems"],
+  "faction.earn.emblems.time.left":
+    ENGLISH_TERMS["faction.earn.emblems.time.left"],
+  "faction.emblems.tasks": ENGLISH_TERMS["faction.emblems.tasks"],
+  "faction.view.leaderboard": ENGLISH_TERMS["faction.view.leaderboard"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4767,6 +4803,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...errorAndAccess,
   ...errorTerms,
   ...exoticShopItems,
+  ...factions,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,
