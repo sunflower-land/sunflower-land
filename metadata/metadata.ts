@@ -7124,4 +7124,38 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+  "Sunflorian Faction Banner": {
+    name: "Sunflorian Faction Banner",
+    description:
+      "A banner that shows your allegiance to the Sunflorian Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/941.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Goblin Faction Banner": {
+    name: "Goblin Faction Banner",
+    description: "A banner that shows your allegiance to the Goblin Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/942.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Nightshade Faction Banner": {
+    name: "Nightshades Faction Banner",
+    description:
+      "A banner that shows your allegiance to the Nightshade Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/940.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Bumpkin Faction Banner": {
+    name: "Bumpkin Faction Banner",
+    description: "A banner that shows your allegiance to the Bumpkin Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/939.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
 };
