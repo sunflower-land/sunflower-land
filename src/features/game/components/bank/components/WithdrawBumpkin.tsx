@@ -14,13 +14,17 @@ import { BASIC_WEARABLES } from "features/game/types/stylist";
 import { isCurrentObsession } from "./WithdrawWearables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { formatDateTime } from "lib/utils/time";
 
+const WITHDRAWAL_CLOSE_DATE = new Date("2024-05-01T00:00:00Z");
 interface Props {
   onWithdraw: () => void;
 }
 export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const isClosed = new Date() > WITHDRAWAL_CLOSE_DATE;
 
   const bumpkin = gameState.context.state.bumpkin!;
   const { equipped } = bumpkin;
@@ -57,11 +61,43 @@ export const WithdrawBumpkin: React.FC<Props> = ({ onWithdraw }) => {
     );
   };
 
+  if (isClosed) {
+    return (
+      <div className="p-2">
+        <div className="flex flex-col border-2 rounded-md border-black p-2 bg-red-background mb-3 text-xs">
+          <span>{t("withdraw.bumpkin.closed")}</span>
+          <a
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.sunflower-land.com/player-guides/island-upgrade#bumpkin-migration"
+          >
+            {t("read.more")}
+          </a>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="p-2">
-        <div className="flex items-center border-2 rounded-md border-black p-2 bg-green-background mb-3">
-          <span className="text-xs">{t("withdraw.bumpkin.play")}</span>
+        <div className="flex flex-col border-2 rounded-md border-black p-2 bg-red-background mb-3 text-xs">
+          <span>
+            {t("withdraw.bumpkin.closing", {
+              timeRemaining: formatDateTime(
+                WITHDRAWAL_CLOSE_DATE.toISOString()
+              ),
+            })}
+          </span>
+          <a
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://docs.sunflower-land.com/player-guides/island-upgrade#bumpkin-migration"
+          >
+            {t("read.more")}
+          </a>
         </div>
         {getText()}
         <div className="flex justify-center items-center mb-4">

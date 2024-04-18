@@ -208,6 +208,13 @@ const warBanners = {
   "Goblin War Banner": () => false,
 };
 
+const factionBanners = {
+  "Bumpkin Faction Banner": () => false,
+  "Goblin Faction Banner": () => false,
+  "Nightshade Faction Banner": () => false,
+  "Sunflorian Faction Banner": () => false,
+};
+
 const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Immortal Pear": () => false,
   "Treasure Map": () => false,
@@ -915,6 +922,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...compost,
   ...fish,
   ...interiors,
+  ...factionBanners,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<

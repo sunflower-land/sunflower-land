@@ -46,6 +46,7 @@ import {
   ErrorTerms,
   ExoticShopItems,
   FestiveTree,
+  Factions,
   FishDescriptions,
   FishermanModal,
   FishermanQuest,
@@ -191,6 +192,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "alr.completed": "Already Completed",
   "alr.crafted": "Already Crafted!",
   "alr.minted": "Already minted!",
+  "are.you.sure": "Are you sure?",
   auction: "Auction",
   auctions: "Auctions",
   "available.all.year": "Available all year round: ",
@@ -198,6 +200,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   back: "Back",
   bait: "Bait",
   balance: "Balance: ",
+  banner: "Banner",
   basket: "Basket",
   "beach.bounty": "Beach Bounty",
   beta: "Beta",
@@ -1677,6 +1680,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "A display of allegiance to the Goblin cause",
   "description.human.war.banner": "A display of allegiance to the Human cause",
   "description.earnAllianceBanner": "A special event banner",
+  "description.sunflorian.faction.banner":
+    "A display of allegiance to the Sunflorian Faction",
+  "description.goblin.faction.banner":
+    "A display of allegiance to the Goblin Faction",
+  "description.nightshade.faction.banner":
+    "A display of allegiance to the Nightshade Faction",
+  "description.bumpkin.faction.banner":
+    "A display of allegiance to the Bumpkin Faction",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
@@ -1801,7 +1812,7 @@ const errorTerms: Record<ErrorTerms, string> = {
     "Please close any other browser tabs or devices that you are operating on.",
   "error.multipleWallets.one": "Multiple Wallets",
   "error.multipleWallets.two":
-    "It looks like you have multiple wallets installed. This can cause unexpected behaviour.Try to disable all but one wallet.",
+    "It looks like you have multiple wallets installed. This can cause unexpected behaviour. Try to disable all but one wallet.",
   "error.polygonRPC": "Please try again or check your Polygon RPC settings.",
   "error.toManyRequest.one": "Too many requests!",
   "error.toManyRequest.two":
@@ -1847,6 +1858,10 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.decorationCollides": "Decoration collides",
   "error.idAlreadyExists": "ID already exists",
   "error.ClientRPC": "Client RPC Error",
+  "error.walletInUse.one": "Wallet in Use",
+  "error.walletInUse.two":
+    "This wallet is already linked to a farm. Please use social login or another wallet.",
+  "error.walletInUse.three": "Try another login method",
 };
 
 const event: Record<Event, string> = {
@@ -1864,6 +1879,34 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
     "Thank you for being part of our legume-loving community.",
   "exoticShopItems.line3": "Best regards,",
   "exoticShopItems.line4": "The Bean Team",
+};
+
+const factions: Record<Factions, string> = {
+  "faction.join": "Join {{faction}}",
+  "faction.description.sunflorians":
+    "The Sunflorians are the royals that rule over Sunflower Land. Do you believe in power and rules?",
+  "faction.description.bumpkins":
+    "The Bumpkins are the farmers and all round lifeblood of Sunflower Land. Do you believe in hard work and community?",
+  "faction.description.goblins":
+    "The Goblins are the mischievous industrialists of Sunflower Land. Do you believe in progress and innovation?",
+  "faction.description.nightshades":
+    "The Nightshades are the mysterious and magical beings of Sunflower Land. Do you believe in magic and secrets?",
+  "faction.countdown": "In {{timeUntil}} the faction battle begins.",
+  "faction.join.confirm": "Do you want to join the {{faction}}?",
+  "faction.cannot.change": "You cannot change factions once you have chosen.",
+  "faction.joined.sunflorians.intro":
+    "Greetings, noble Sunflorian! Join us as we rally our forces to claim supremacy and uphold the honor of our kingdom.",
+  "faction.joined.bumpkins.intro":
+    "Hey there, fellow Bumpkin! It's time to unite our farming brethren and show the other factions the power of hard work and unity.",
+  "faction.joined.goblins.intro":
+    "Salutations, crafty Goblin! With our minds sharp and our schemes devious, victory shall be ours in the battles ahead.",
+  "faction.joined.nightshades.intro":
+    "Greetings, enigmatic Nightshade! Together, we shall navigate the shadows and unveil the secrets that will lead us to victory in the battles ahead.",
+  "faction.earn.emblems": "Earn Emblems",
+  "faction.earn.emblems.time.left": "{{timeLeft}} left",
+  "faction.emblems.tasks":
+    "Complete deliveries now to be eligible for the faction emblems airdrop.",
+  "faction.view.leaderboard": "View Leaderboard",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4570,8 +4613,9 @@ const withdraw: Record<Withdraw, string> = {
     "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.bumpkin.sure.withdraw":
     "Are you sure you want to withdraw your Bumpkin?",
-  "withdraw.bumpkin.play":
-    "To play the game, you always need a Bumpkin on your farm.",
+  "withdraw.bumpkin.closed": "Bumpkin withdrawal has been permanently disabled",
+  "withdraw.bumpkin.closing":
+    "Bumpkins are moving off chain. Bumpkin withdrawal will be permanently disabled, {{timeRemaining}}",
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.budRestricted": "Used in today's bud box",
 };
@@ -4698,6 +4742,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...errorTerms,
   ...event,
   ...exoticShopItems,
+  ...factions,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,

@@ -64,8 +64,8 @@ export const CodexButton: React.FC = () => {
             className="absolute "
             style={{
               width: `${PIXEL_SCALE * 68}px`,
-              left: `${PIXEL_SCALE * 11}px`,
-              top: `${PIXEL_SCALE * 3}px`,
+              left: `${PIXEL_SCALE * 13}px`,
+              top: `${PIXEL_SCALE * 5}px`,
             }}
           >
             <div

@@ -243,6 +243,10 @@ import { BabyPanda } from "./components/BabyPanda";
 import { Baozi } from "./components/Baozi";
 import { CommunityEgg } from "./components/CommunityEgg";
 import { HungryHare } from "./components/HungryHare";
+import { SunflorianFactionBanner } from "./components/SunflorianFactionBanner";
+import { GoblinFactionBanner } from "./components/GoblinFactionBanner";
+import { NightshadeFactionBanner } from "./components/NightshadeFactionBanner";
+import { BumpkinFactionBanner } from "./components/BumpkinFactionBanner";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -531,6 +535,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Prism Petal": PrismPetal,
   "Celestial Frostbloom": CelestialFrostbloom,
   "Primula Enigma": PrimulaEnigma,
+
+  "Sunflorian Faction Banner": SunflorianFactionBanner,
+  "Goblin Faction Banner": GoblinFactionBanner,
+  "Nightshade Faction Banner": NightshadeFactionBanner,
+  "Bumpkin Faction Banner": BumpkinFactionBanner,
 };
 // Need readonly versions for some troublesome components while in design mode
 

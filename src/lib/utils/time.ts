@@ -243,3 +243,34 @@ export function getDayOfYear(date: Date): number {
   const oneDay = 1000 * 60 * 60 * 24;
   return Math.floor(diff / oneDay);
 }
+
+/**
+ * A function that gives you the time until a given date.
+ * @param timestamp Date object
+ * @returns Time until the given date eg: 2 days
+ */
+export function getTimeUntil(timestamp: Date) {
+  const now = new Date();
+  const diff = timestamp.getTime() - now.getTime();
+
+  if (diff < 0) return "now";
+
+  const seconds = Math.floor(diff / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) {
+    return `${days} ${days === 1 ? "day" : "days"}`;
+  }
+
+  if (hours > 0) {
+    return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+  }
+
+  if (minutes > 0) {
+    return `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+  }
+
+  return `${seconds} ${seconds === 1 ? "second" : "seconds"}`;
+}
