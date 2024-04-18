@@ -252,4 +252,22 @@ describe("purchaseBanner", () => {
       },
     });
   });
+
+  it("throws an error if when trying to buy seasonal banner but already has Lifetime Banner", () => {
+    expect(() =>
+      purchaseBanner({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            "Block Buck": new Decimal(100),
+            "Lifetime Farmer Banner": new Decimal(1),
+          },
+        },
+        action: {
+          type: "banner.purchased",
+          name: "Spring Blossom Banner",
+        },
+      })
+    ).toThrow("You already have the Lifetime Farmer Banner");
+  });
 });

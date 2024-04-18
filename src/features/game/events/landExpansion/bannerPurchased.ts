@@ -101,6 +101,10 @@ export function purchaseBanner({
     throw new Error("You already have this banner");
   }
 
+  if (inventory["Lifetime Farmer Banner"] !== undefined) {
+    throw new Error("You already have the Lifetime Farmer Banner");
+  }
+
   const previousBanner = getPreviousSeasonalBanner();
   const hasPreviousBanner = !!inventory[previousBanner];
 
