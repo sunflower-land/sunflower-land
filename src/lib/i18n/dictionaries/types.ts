@@ -2629,7 +2629,12 @@ export type PlazaSettings =
   | "plazaSettings.title.keybinds"
   | "plazaSettings.mutedPlayers.description"
   | "plazaSettings.keybinds.description"
-  | "plazaSettings.noMutedPlayers";
+  | "plazaSettings.noMutedPlayers"
+  | "plazaSettings.noMutedPlayers.description"
+  | "plazaSettings.refreshNotice"
+  | "plazaSettings.frameRate"
+  | "plazaSettings.idleAnimation"
+  | "plazaSettings.walkAnimation";
 
 export type PlayerTrade =
   | "playerTrade.no.trade"

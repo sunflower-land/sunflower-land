@@ -3923,7 +3923,14 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Need to know what keybinds are available? Check them out here.",
   "plazaSettings.noMutedPlayers": "You have no muted players.",
+  "plazaSettings.noMutedPlayers.description":
+    "You can mute players using the /mute FARM_ID command in the chat.",
   "plazaSettings.changeServer": "Change server",
+  "plazaSettings.refreshNotice":
+    "Updating these settings will require a page refresh.",
+  "plazaSettings.idleAnimation": "Idle Animations",
+  "plazaSettings.walkAnimation": "Walk Animations",
+  "plazaSettings.frameRate": "Frame Rate",
 };
 
 const portal: Record<Portal, string> = {

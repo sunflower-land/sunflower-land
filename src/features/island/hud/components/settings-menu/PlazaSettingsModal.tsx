@@ -2,23 +2,26 @@ import React, { useState, useEffect } from "react";
 
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
+import { Select } from "components/ui/Select";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
-
-import SoundOffIcon from "assets/icons/sound_off.png";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Switch } from "components/ui/Switch";
+import { usePlazaSettings } from "lib/utils/hooks/usePlazaSettings";
 
 export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useAppTranslation();
+  const [plazaSettings, setPlazaSettings] = usePlazaSettings();
 
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
     "MAIN"
   );
+  const [switchValue, setSwitchValue] = useState<boolean>(true);
 
   const [mutedPlayers, setMutedPlayers] = useState<string[]>([]);
 
@@ -27,10 +30,6 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
       JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") || "[]")
     );
   }, [isOpen]);
-
-  const mmoLocalSettings = JSON.parse(
-    localStorage.getItem("mmo_settings") ?? "{}"
-  );
 
   const removeMutedPlayer = (farmId: string) => {
     const muted = mutedPlayers;
@@ -59,17 +58,41 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     <Modal show={isOpen} onHide={onClose}>
       <CloseButtonPanel title={getTitle()} onClose={onClose}>
         {step === "MAIN" && (
-          <div className="flex flex-col items-start gap-2 max-h-96 overflow-y-auto scrollable">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2 px-1">
-                <img src={SoundOffIcon} className="h-8" />
-                <p className="text-sm">
-                  {t("plazaSettings.title.mutedPlayers")}
-                </p>
-              </div>
-              <p className="text-xs px-1">
-                {t("plazaSettings.mutedPlayers.description")}
-              </p>
+          <div className="flex flex-col items-start gap-2 px-1 py-2 h-min overflow-y-auto scrollable">
+            <div className="flex justify-between items-center w-full mb-1">
+              <p className="text-sm">{t("plazaSettings.walkAnimation")}</p>
+              <Switch
+                value={plazaSettings.walkAnimation}
+                onChange={(value) => setPlazaSettings("walkAnimation", value)}
+              />
+            </div>
+            <div className="flex justify-between items-center w-full">
+              <p className="text-sm">{t("plazaSettings.idleAnimation")}</p>
+              <Switch
+                value={plazaSettings.idleAnimation}
+                onChange={(value) => setPlazaSettings("idleAnimation", value)}
+              />
+            </div>
+            <div className="flex justify-between items-center w-full">
+              <p className="text-sm">{t("plazaSettings.frameRate")}</p>
+              <Select
+                options={[
+                  { value: "30", label: "30" },
+                  { value: "60", label: "60" },
+                  { value: "90", label: "90" },
+                  { value: "120", label: "120" },
+                  { value: "0", label: "Unlimited" },
+                ]}
+                value={plazaSettings.framerate.toString()}
+                onChange={(value) =>
+                  setPlazaSettings("framerate", parseInt(value))
+                }
+              />
+            </div>
+            <div className="flex flex-col w-full border-2 mt-2 rounded-md border-black p-2 bg-orange-400 mb-3 text-xs">
+              <span>{t("plazaSettings.refreshNotice")}</span>
+            </div>
+            <div className="flex w-full gap-2">
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
                 {t("plazaSettings.title.mutedPlayers")}
               </Button>
@@ -82,22 +105,12 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 {t("plazaSettings.changeServer")}
               </Button>
             </div>
-            {/* <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <img src={SUNNYSIDE.ui.cursor} className="h-8" />
-                <p className="text-sm">Keybinds</p>
-              </div>
-              <p className="text-xs">
-                {t"plazaSettings.title.keybinds")}
-              </p>
-              <Button onClick={() => setStep("KEYBINDS")}>Keybinds</Button>
-            </div> */}
           </div>
         )}
 
         {step === "MUTED_PLAYERS" && (
           <div className="flex flex-col gap-2 mt-2 max-h-96">
-            <div className="overflow-y-auto scrollable min-h-[5vh] px-2">
+            <div className="overflow-y-auto scrollable min-h-[10vh] px-2">
               {mutedPlayers.length > 0 ? (
                 <>
                   {mutedPlayers.map((farmId: string) => (
@@ -116,9 +129,14 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                   ))}
                 </>
               ) : (
-                <p className="text-sm text-center">
-                  {t("plazaSettings.noMutedPlayers")}
-                </p>
+                <div className="flex flex-col gap-2 items-center">
+                  <p className="text-sm text-center">
+                    {t("plazaSettings.noMutedPlayers")}
+                  </p>
+                  <p className="text-xs text-center">
+                    {t("plazaSettings.noMutedPlayers.description")}
+                  </p>
+                </div>
               )}
             </div>
 

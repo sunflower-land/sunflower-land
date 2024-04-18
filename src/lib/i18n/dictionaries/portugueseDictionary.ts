@@ -3943,7 +3943,13 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Precisa saber quais atalhos de teclado estão disponíveis? Confira-os aqui.",
   "plazaSettings.noMutedPlayers": "Você não tem jogadores silenciados.",
+  "plazaSettings.noMutedPlayers.description":
+    ENGLISH_TERMS["plazaSettings.noMutedPlayers.description"],
   "plazaSettings.changeServer": ENGLISH_TERMS["plazaSettings.changeServer"],
+  "plazaSettings.refreshNotice": ENGLISH_TERMS["plazaSettings.refreshNotice"],
+  "plazaSettings.idleAnimation": ENGLISH_TERMS["plazaSettings.idleAnimation"],
+  "plazaSettings.walkAnimation": ENGLISH_TERMS["plazaSettings.walkAnimation"],
+  "plazaSettings.frameRate": ENGLISH_TERMS["plazaSettings.frameRate"],
 };
 
 const portal: Record<Portal, string> = {

@@ -4079,7 +4079,14 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
   "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
+  "plazaSettings.noMutedPlayers.description":
+    "Vous pouvez muter un joueur avec la commande /mute FARM_ID dans le chat.",
   "plazaSettings.changeServer": "Changer de serveur",
+  "plazaSettings.refreshNotice":
+    "Modifier les paramètres nécessite un rafraîchissement de la page.",
+  "plazaSettings.idleAnimation": "Animations Idle",
+  "plazaSettings.walkAnimation": "Animations Marche",
+  "plazaSettings.frameRate": "Images par seconde",
 };
 
 const portal: Record<Portal, string> = {

@@ -13,6 +13,7 @@ import {
   Muted,
   calculateMuteTime,
 } from "./ui/moderationTools/components/Muted";
+import { usePlazaSettings } from "lib/utils/hooks/usePlazaSettings";
 
 import { PlazaScene } from "./scenes/PlazaScene";
 
@@ -86,6 +87,7 @@ export const PhaserComponent: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [authState] = useActor(authService);
+  const [plazaSettings] = usePlazaSettings();
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -152,7 +154,8 @@ export const PhaserComponent: React.FC<Props> = ({
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,
       fps: {
-        target: 30,
+        target: plazaSettings.framerate,
+        forceSetTimeOut: true,
         smoothStep: true,
       },
       backgroundColor: "#000000",

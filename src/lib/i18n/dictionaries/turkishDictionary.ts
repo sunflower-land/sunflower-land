@@ -3939,7 +3939,13 @@ const plazaSettings: Record<PlazaSettings, string> = {
   "plazaSettings.keybinds.description":
     "Kullanılabilir tuş atamalarını mı öğrenmek istiyorsunuz? Buradan kontrol edin.",
   "plazaSettings.noMutedPlayers": "Sessize alınan oyuncunuz yok.",
+  "plazaSettings.noMutedPlayers.description":
+    ENGLISH_TERMS["plazaSettings.noMutedPlayers.description"],
   "plazaSettings.changeServer": "Sunucuyu Değiştirin",
+  "plazaSettings.refreshNotice": ENGLISH_TERMS["plazaSettings.refreshNotice"],
+  "plazaSettings.idleAnimation": ENGLISH_TERMS["plazaSettings.idleAnimation"],
+  "plazaSettings.walkAnimation": ENGLISH_TERMS["plazaSettings.walkAnimation"],
+  "plazaSettings.frameRate": ENGLISH_TERMS["plazaSettings.frameRate"],
 };
 
 const portal: Record<Portal, string> = {
