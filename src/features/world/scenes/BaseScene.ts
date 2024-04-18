@@ -1055,7 +1055,11 @@ export abstract class BaseScene extends Phaser.Scene {
     });
   }
 
-  teleportModerator(x: number, y: number) {
-    this.currentPlayer?.setPosition(x, y);
+  teleportModerator(x: number, y: number, sceneId: SceneId) {
+    if (sceneId === this.sceneId) {
+      this.currentPlayer?.setPosition(x, y);
+    } else {
+      this.switchToScene = sceneId;
+    }
   }
 }

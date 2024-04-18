@@ -23,6 +23,7 @@ export type Message = {
   text: string;
   sceneId: SceneId;
   sentAt: number;
+  username: string;
 };
 
 export type Player = {
@@ -33,6 +34,8 @@ export type Player = {
   y: number;
   clothing: BumpkinParts;
   moderation?: Moderation;
+  experience: number;
+  sceneId: SceneId;
 };
 
 interface Props {
@@ -87,11 +90,11 @@ export const ModerationTools: React.FC<Props> = ({
           tabs={[
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Players List",
+              name: "Players",
             },
             {
               icon: SUNNYSIDE.icons.expression_chat,
-              name: "Chat History",
+              name: "Chat",
             },
             {
               icon: SUNNYSIDE.icons.hammer,
@@ -103,11 +106,19 @@ export const ModerationTools: React.FC<Props> = ({
             <PlayerList
               scene={scene}
               players={players}
+              messages={messages}
               authState={authState.context.user}
               moderatorFarmId={moderatorFarmId}
             />
           )}
-          {tab === 1 && <ChatHistory messages={messages} />}
+          {tab === 1 && (
+            <ChatHistory
+              messages={messages}
+              authState={authState.context.user}
+              moderatorFarmId={moderatorFarmId}
+              scene={scene}
+            />
+          )}
           {tab === 2 && (
             <Actions
               scene={scene}
