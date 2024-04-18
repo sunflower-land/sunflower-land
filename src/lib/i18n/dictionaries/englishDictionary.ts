@@ -707,8 +707,10 @@ const beehive: Record<Beehive, string> = {
     "Pollination celebration! Your crops are in for a treat with a 0.2 boost from a friendly bee swarm!",
   "beehive.honeyProductionPaused": "Honey production paused",
   "beehive.speed": "Speed",
-  "beehive.fullHivePerDay": "{{speed}} full hive / day",
+  "beehive.fullHivePerDay": "{{speed}} full {{hive}} / day",
   "beehive.estimatedFull": "Estimated full",
+  "beehive.hive.singular": "hive",
+  "beehive.hives.plural": "hives",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {

@@ -464,7 +464,9 @@ export type Beehive =
   | "beehive.honeyProductionPaused"
   | "beehive.speed"
   | "beehive.fullHivePerDay"
-  | "beehive.estimatedFull";
+  | "beehive.estimatedFull"
+  | "beehive.hive.singular"
+  | "beehive.hives.plural";
 
 export type BeachLuck =
   | "beachLuck.tryLuck"

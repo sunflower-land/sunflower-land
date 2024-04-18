@@ -713,6 +713,8 @@ const beehive: Record<Beehive, string> = {
   "beehive.speed": ENGLISH_TERMS["beehive.speed"],
   "beehive.fullHivePerDay": ENGLISH_TERMS["beehive.fullHivePerDay"],
   "beehive.estimatedFull": ENGLISH_TERMS["beehive.estimatedFull"],
+  "beehive.hive.singular": ENGLISH_TERMS["beehive.hive.singular"],
+  "beehive.hives.plural": ENGLISH_TERMS["beehive.hives.plural"],
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
