@@ -4627,7 +4627,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     ],
   },
   "Lifetime Farmer Banner": {
-    description: "Gives you lifetime access to all seasons and VIP access.",
+    description: "Gives lifetime access to all seasons and VIP access.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/740.png",

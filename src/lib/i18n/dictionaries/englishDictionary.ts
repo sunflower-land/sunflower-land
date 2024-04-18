@@ -4113,8 +4113,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.megastore.discount": "Megastore SFL discount",
   "season.supporter.gift": "Supporter Gift",
   "season.free.season.passes": "Free Season Passes",
-  "season.free.season.passes.description":
-    "You'll receive banners for every Season",
+  "season.free.season.passes.description": "Receive banners for every Season",
   "season.vip.access": "VIP Access",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
