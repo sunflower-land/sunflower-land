@@ -9,6 +9,8 @@ import {
   REMOVE_COLLECTIBLE_ERRORS,
 } from "./removeCollectible";
 import { SEEDS } from "features/game/types/seeds";
+import { FRUIT_SEEDS } from "features/game/types/fruits";
+import { FLOWER_SEEDS } from "features/game/types/flowers";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -352,6 +354,18 @@ describe("removeCollectible", () => {
           ...Object.fromEntries(
             Object.entries(SEEDS()).map(([name]) => [name, new Decimal(1)])
           ),
+          ...Object.fromEntries(
+            Object.entries(FRUIT_SEEDS()).map(([name]) => [
+              name,
+              new Decimal(1),
+            ])
+          ),
+          ...Object.fromEntries(
+            Object.entries(FLOWER_SEEDS()).map(([name]) => [
+              name,
+              new Decimal(1),
+            ])
+          ),
         },
         collectibles: {
           Kuebiko: [
@@ -373,5 +387,49 @@ describe("removeCollectible", () => {
     });
 
     expect(gameState.inventory).toStrictEqual({ Kuebiko: new Decimal(1) });
+  });
+
+  it("burns all flower seeds if a Hungry Caterpillar is removed", () => {
+    const fruitSeeds = Object.fromEntries(
+      Object.entries(FRUIT_SEEDS()).map(([name]) => [name, new Decimal(1)])
+    );
+
+    const gameState = removeCollectible({
+      state: {
+        ...GAME_STATE,
+        crops: {},
+        inventory: {
+          "Hungry Caterpillar": new Decimal(1),
+          ...Object.fromEntries(
+            Object.entries(FLOWER_SEEDS()).map(([name]) => [
+              name,
+              new Decimal(1),
+            ])
+          ),
+          ...fruitSeeds,
+        },
+        collectibles: {
+          "Hungry Caterpillar": [
+            {
+              id: "123",
+              createdAt: 0,
+              coordinates: { x: 1, y: 1 },
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        location: "farm",
+        type: "collectible.removed",
+        name: "Hungry Caterpillar",
+        id: "123",
+      },
+    });
+
+    expect(gameState.inventory).toStrictEqual({
+      "Hungry Caterpillar": new Decimal(1),
+      ...fruitSeeds,
+    });
   });
 });
