@@ -213,7 +213,7 @@ export class Wallet {
           decimals: 18,
         },
         rpcUrls: ["https://rpc-amoy.polygon.technology"],
-        blockExplorerUrls: ["https://www.oklink.com/amoy/"],
+        blockExplorerUrls: ["https://amoy.polygonscan.com/"],
       };
     }
   }

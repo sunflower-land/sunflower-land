@@ -30,8 +30,8 @@ describe("hasFeatureAccess", () => {
     expect(hasFeatureAccess(TEST_FARM, "JEST_TEST")).toBe(false);
   });
 
-  it("returns true if on mumbai and does not have a beta pass", () => {
-    spy.mockReturnValue({ NETWORK: "mumbai" });
+  it("returns true if on amoy and does not have a beta pass", () => {
+    spy.mockReturnValue({ NETWORK: "amoy" });
     expect(hasFeatureAccess(TEST_FARM, "JEST_TEST")).toBe(true);
   });
 });

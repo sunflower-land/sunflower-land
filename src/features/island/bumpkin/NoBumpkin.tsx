@@ -115,7 +115,7 @@ export const NoBumpkin: React.FC = () => {
             <a
               className="underline"
               href={
-                CONFIG.NETWORK === "mumbai"
+                CONFIG.NETWORK === "amoy"
                   ? "https://testnets.opensea.io/collection/bumpkin-vptgvexdat"
                   : "https://opensea.io/collection/bumpkins"
               }

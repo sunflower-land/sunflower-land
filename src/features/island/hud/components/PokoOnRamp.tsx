@@ -12,7 +12,7 @@ interface Props {
 
 export const PokoOnRamp: React.FC<Props> = ({ onClose, crypto }) => {
   const pokoUrl =
-    CONFIG.NETWORK === "mumbai"
+    CONFIG.NETWORK === "amoy"
       ? "https://stg.onramp.pokoapp.xyz"
       : "https://onramp.pokoapp.xyz";
   const cryptoAmount = crypto === "MATIC-polygon" ? 10 : 100;

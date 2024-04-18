@@ -1,4 +1,4 @@
-const NETWORK = process.env.VITE_NETWORK as "mainnet" | "mumbai";
+const NETWORK = process.env.VITE_NETWORK as "mainnet" | "amoy";
 const DONATION_ADDRESS = process.env.VITE_DONATION_ADDRESS;
 
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80002;

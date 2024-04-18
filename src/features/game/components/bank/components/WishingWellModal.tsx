@@ -222,7 +222,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           {hasLPTokens ? translate("make.wish") : translate("add.liquidity")}
         </Button>
       </div>
-      {CONFIG.NETWORK === "mumbai" && (
+      {CONFIG.NETWORK === "amoy" && (
         <div>
           <Button
             className="text-xs mt-2"

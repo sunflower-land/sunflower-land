@@ -151,7 +151,7 @@ export const Navigation: React.FC = () => {
                     path="/community/:name"
                     element={<World key="community" isCommunity />}
                   />
-                  {CONFIG.NETWORK === "mumbai" && (
+                  {CONFIG.NETWORK === "amoy" && (
                     <Route
                       path="/community-tools"
                       element={<CommunityTools key="community-tools" />}
@@ -167,7 +167,7 @@ export const Navigation: React.FC = () => {
                     <Route index element={<TraderDeeplinkHandler />} />
                     <Route path=":id" element={<Retreat key="retreat" />} />
                   </Route>
-                  {CONFIG.NETWORK === "mumbai" && (
+                  {CONFIG.NETWORK === "amoy" && (
                     <Route
                       path="/builder"
                       element={<Builder key="builder" />}

@@ -239,7 +239,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </Label>
                   )}
                 </div>
-                {CONFIG.NETWORK === "mumbai" && (
+                {CONFIG.NETWORK === "amoy" && (
                   <>
                     <li className="p-1">
                       <Button
@@ -252,7 +252,7 @@ export const SettingsMenu: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       <DEV_HoardingCheck network="mainnet" />
                     </li>
                     <li className="p-1">
-                      <DEV_HoardingCheck network="mumbai" />
+                      <DEV_HoardingCheck network="amoy" />
                     </li>
                   </>
                 )}
