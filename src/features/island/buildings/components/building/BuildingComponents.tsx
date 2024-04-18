@@ -179,6 +179,7 @@ export const BUILDING_COMPONENTS: Record<
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
   Greenhouse: Greenhouse,
+  "Crop Machine": () => <div />,
 };
 
 export const READONLY_BUILDINGS: (

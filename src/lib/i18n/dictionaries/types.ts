@@ -695,7 +695,8 @@ export type BuildingDescriptions =
   | "description.fire.pit"
   | "description.workbench"
   | "description.tent"
-  | "description.house";
+  | "description.house"
+  | "description.crop.machine";
 
 export type BumpkinDelivery =
   | "bumpkin.delivery.haveFlower"
