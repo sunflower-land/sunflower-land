@@ -371,7 +371,11 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                 </Label>
                 <div className="text-xs mb-0.5">
                   {t("beehive.fullHivePerDay", {
-                    speed: `${setPrecision(new Decimal(currentSpeed))}`,
+                    speed: setPrecision(new Decimal(currentSpeed)),
+                    hive:
+                      new Decimal(currentSpeed).toNumber() > 1
+                        ? t("beehive.hives.plural")
+                        : t("beehive.hive.singular"),
                   })}
                 </div>
               </div>
