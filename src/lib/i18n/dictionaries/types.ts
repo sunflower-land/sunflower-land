@@ -2670,6 +2670,12 @@ export type ReactionBud =
 
 export type Refunded = "refunded.itemsReturned" | "refunded.goodLuck";
 
+export type RemoveHungryCaterpillar =
+  | "removeHungryCaterpillar.title"
+  | "removeHungryCaterpillar.description"
+  | "removeHungryCaterpillar.confirmation"
+  | "removeHungryCaterpillar.removeFlowerSeeds";
+
 export type RemoveKuebiko =
   | "removeKuebiko.title"
   | "removeKuebiko.description"
@@ -3318,6 +3324,7 @@ export type TranslationKeys =
   | Reaction
   | ReactionBud
   | Refunded
+  | RemoveHungryCaterpillar
   | RemoveKuebiko
   | Resale
   | ResourceTerms

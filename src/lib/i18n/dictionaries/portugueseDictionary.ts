@@ -173,6 +173,7 @@ import {
   PwaInstall,
   GoblinTrade,
   RestrictionReason,
+  RemoveHungryCaterpillar,
   Factions,
 } from "./types";
 
@@ -3994,6 +3995,17 @@ const refunded: Record<Refunded, string> = {
   "refunded.goodLuck": "Boa sorte na próxima vez!",
 };
 
+const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
+  "removeHungryCaterpillar.title":
+    ENGLISH_TERMS["removeHungryCaterpillar.title"],
+  "removeHungryCaterpillar.description":
+    ENGLISH_TERMS["removeHungryCaterpillar.description"],
+  "removeHungryCaterpillar.removeFlowerSeeds":
+    ENGLISH_TERMS["removeHungryCaterpillar.removeFlowerSeeds"],
+  "removeHungryCaterpillar.confirmation":
+    ENGLISH_TERMS["removeHungryCaterpillar.confirmation"],
+};
+
 const removeKuebiko: Record<RemoveKuebiko, string> = {
   "removeKuebiko.title": "Remover Kuebiko",
   "removeKuebiko.description":
@@ -4881,6 +4893,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...reaction,
   ...reactionBud,
   ...refunded,
+  ...removeHungryCaterpillar,
   ...removeKuebiko,
   ...resale,
   ...restock,

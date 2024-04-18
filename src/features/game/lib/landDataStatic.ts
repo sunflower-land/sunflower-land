@@ -383,7 +383,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Hungry Hare": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),
     "Farmhand Coupon": new Decimal(1),
-    "Sunpetal Seed": new Decimal(100),
     "White Festive Fox": new Decimal(3),
     "Red Pansy": new Decimal(3),
     "White Pansy": new Decimal(3),
@@ -446,6 +445,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Flower Cart": new Decimal(1),
     Capybara: new Decimal(1),
     "Golden Cauliflower": new Decimal(1),
+
+    "Sunpetal Seed": new Decimal(20),
+    "Bloom Seed": new Decimal(10),
+    "Lily Seed": new Decimal(5),
+    "Sunflower Seed": new Decimal(1000),
 
     // Foods
     "Pumpkin Soup": new Decimal(1),

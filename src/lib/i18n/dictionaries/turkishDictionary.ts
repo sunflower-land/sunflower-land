@@ -174,6 +174,7 @@ import {
   Trading,
   GoblinTrade,
   RestrictionReason,
+  RemoveHungryCaterpillar,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -3990,6 +3991,17 @@ const refunded: Record<Refunded, string> = {
   "refunded.goodLuck": "Bir dahaki sefere iyi şanslar!",
 };
 
+const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
+  "removeHungryCaterpillar.title":
+    ENGLISH_TERMS["removeHungryCaterpillar.title"],
+  "removeHungryCaterpillar.description":
+    ENGLISH_TERMS["removeHungryCaterpillar.description"],
+  "removeHungryCaterpillar.removeFlowerSeeds":
+    ENGLISH_TERMS["removeHungryCaterpillar.removeFlowerSeeds"],
+  "removeHungryCaterpillar.confirmation":
+    ENGLISH_TERMS["removeHungryCaterpillar.confirmation"],
+};
+
 const removeKuebiko: Record<RemoveKuebiko, string> = {
   "removeKuebiko.title": "Kuebiko'yı Kaldır",
   "removeKuebiko.description":
@@ -4856,6 +4868,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...reaction,
   ...reactionBud,
   ...refunded,
+  ...removeHungryCaterpillar,
   ...removeKuebiko,
   ...resale,
   ...resources,
