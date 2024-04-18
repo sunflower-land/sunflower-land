@@ -27,9 +27,10 @@ import {
 } from "features/game/components/modal/components/BuyBlockBucks";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SquareIcon } from "components/ui/SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
+const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
 type Props = {
   show: boolean;
@@ -192,11 +193,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                       >
                         <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
                         <div className="flex flex-1 justify-center items-center mb-6 w-full relative">
-                          <img
-                            src={COIN_IMAGES[index]}
-                            alt="Coins"
-                            className="w-2/5 sm:w-1/4"
-                          />
+                          <SquareIcon width={24} icon={COIN_IMAGES[index]} />
                         </div>
                         <Label
                           icon={sflIcon}
