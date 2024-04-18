@@ -117,6 +117,23 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
           <Button onClick={handleDepositModal} className="mb-2">
             <span>{t("deposit")}</span>
           </Button>
+          <Button onClick={openRefreshMenu} className="mb-2">
+            <span>{t("gameOptions.blockchainSettings.refreshChain")}</span>
+          </Button>
+          <Modal show={showRefreshMenu} onHide={closeRefreshMenu}>
+            <CloseButtonPanel className="sm:w-4/5 m-auto">
+              <div className="flex flex-col p-2">
+                <span className="text-sm text-center">
+                  {t("gameOptions.blockchainSettings.refreshDescription")}
+                </span>
+              </div>
+              <div className="flex justify-content-around mt-2 space-x-1">
+                <Button onClick={refreshSession} className="mb-2">
+                  {t("gameOptions.blockchainSettings.refreshChain")}
+                </Button>
+              </div>
+            </CloseButtonPanel>
+          </Modal>
           <Button onClick={storeOnChain} className="mb-2">
             <span>{t("gameOptions.blockchainSettings.storeOnChain")}</span>
           </Button>

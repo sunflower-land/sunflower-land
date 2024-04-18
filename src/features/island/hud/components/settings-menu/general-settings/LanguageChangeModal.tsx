@@ -44,7 +44,10 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const Content = () => {
     return (
-      <CloseButtonPanel title={t("change.Language")} onClose={onClose}>
+      <CloseButtonPanel
+        title={t("gameOptions.generalSettings.changeLanguage")}
+        onClose={onClose}
+      >
         <div className="p-1 space-y-2">
           <Button
             onClick={() => handleChangeLanguage("en")}

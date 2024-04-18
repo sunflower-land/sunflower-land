@@ -47,11 +47,11 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   const getTitle = () => {
     switch (step) {
       case "MAIN":
-        return translate("plazaSettings.title.main");
+        return translate("gameOptions.plazaSettings");
       case "MUTED_PLAYERS":
-        return translate("plazaSettings.title.mutedPlayers");
+        return translate("gameOptions.plazaSettings.title.mutedPlayers");
       case "KEYBINDS":
-        return translate("plazaSettings.title.keybinds");
+        return translate("gameOptions.plazaSettings.title.keybinds");
     }
   };
 
@@ -64,14 +64,14 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
               <div className="flex items-center gap-2 px-1">
                 <img src={SoundOffIcon} className="h-8" />
                 <p className="text-sm">
-                  {t("plazaSettings.title.mutedPlayers")}
+                  {t("gameOptions.plazaSettings.title.mutedPlayers")}
                 </p>
               </div>
               <p className="text-xs px-1">
-                {t("plazaSettings.mutedPlayers.description")}
+                {t("gameOptions.plazaSettings.mutedPlayers.description")}
               </p>
               <Button onClick={() => setStep("MUTED_PLAYERS")}>
-                {t("plazaSettings.title.mutedPlayers")}
+                {t("gameOptions.plazaSettings.title.mutedPlayers")}
               </Button>
               <Button
                 onClick={() => {
@@ -79,7 +79,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                   onClose();
                 }}
               >
-                {t("plazaSettings.changeServer")}
+                {t("gameOptions.plazaSettings.changeServer")}
               </Button>
             </div>
             {/* <div className="flex flex-col gap-2">
@@ -88,7 +88,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 <p className="text-sm">Keybinds</p>
               </div>
               <p className="text-xs">
-                {t"plazaSettings.title.keybinds")}
+                {t"gameOptions.plazaSettings.title.keybinds")}
               </p>
               <Button onClick={() => setStep("KEYBINDS")}>Keybinds</Button>
             </div> */}
@@ -117,7 +117,7 @@ export const PlazaSettings: React.FC<Props> = ({ isOpen, onClose }) => {
                 </>
               ) : (
                 <p className="text-sm text-center">
-                  {t("plazaSettings.noMutedPlayers")}
+                  {t("gameOptions.plazaSettings.noMutedPlayers")}
                 </p>
               )}
             </div>

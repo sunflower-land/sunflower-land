@@ -112,7 +112,6 @@ import {
   PirateChest,
   PirateQuest,
   Pickserver,
-  PlazaSettings,
   PlayerTrade,
   Portal,
   PurchaseableBaitTranslation,
@@ -132,7 +131,6 @@ import {
   RulesTerms,
   SceneDialogueKey,
   SeasonTerms,
-  SettingsMenu,
   Share,
   SharkBumpkinDialogues,
   Shelly,
@@ -144,7 +142,6 @@ import {
   SpecialEvent,
   Statements,
   StopGoblin,
-  AdvancedSettings,
   Swarming,
   TieBreaker,
   ToolDescriptions,
@@ -315,7 +312,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "list.trade": "Takası Listele",
   loading: "Yükleniyor",
   locked: "Kilitli",
-  logout: "Çıkış Yap",
   "loser.refund": "Kaynakları iade et",
   lvl: "Seviye",
   maintenance: "Bakım",
@@ -482,7 +478,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "Binalar",
   boosts: "Takviyeler",
   decorations: "Dekorasyonlar",
-  "change.Language": "Dili değiştir",
   "copy.link": "Bağlantıyı kopyala",
   "copy.failed": "Kopyalama Başarısız!",
   search: "Ara",
@@ -3944,18 +3939,6 @@ const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.title.congrat": "Tebrikler, listelemeniz satın alındı",
 };
 
-const plazaSettings: Record<PlazaSettings, string> = {
-  "plazaSettings.title.main": "Plaza Ayarları",
-  "plazaSettings.title.mutedPlayers": "Sessize Alınan Oyuncular",
-  "plazaSettings.title.keybinds": "Tuş Atamaları",
-  "plazaSettings.mutedPlayers.description":
-    "Eğer /mute komutunu kullanarak bazı oyuncuları sessize aldıysanız, burada görebilir ve isterseniz onları seslerini açabilirsiniz.",
-  "plazaSettings.keybinds.description":
-    "Kullanılabilir tuş atamalarını mı öğrenmek istiyorsunuz? Buradan kontrol edin.",
-  "plazaSettings.noMutedPlayers": "Sessize alınan oyuncunuz yok.",
-  "plazaSettings.changeServer": "Sunucuyu Değiştirin",
-};
-
 const portal: Record<Portal, string> = {
   "portal.wrong": "Bir şeyler yanlış gitti",
   "portal.unauthorised": "Yetkisiz",
@@ -4131,16 +4114,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
   "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
-};
-
-const settingsMenu: Record<SettingsMenu, string> = {
-  "settingsMenu.timeMachine": "Zaman Makinesi",
-  "settingsMenu.storeOnChain": "Zincirde Mağaza",
-  "settingsMenu.howToPlay": "Nasıl oynanır? (Tadilatta)",
-  "settingsMenu.swapMaticForSFL": "MATIC'i SFL ile değiştirin",
-  "settingsMenu.share": "Paylaş",
-  "settingsMenu.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
-  "settingsMenu.refreshChain": ENGLISH_TERMS["settingsMenu.refreshChain"],
 };
 
 const share: Record<Share, string> = {
@@ -4370,15 +4343,6 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.tap.one": "Kaynaklarınızı çalmadan önce Ay Arayanlara dokunun",
   "stopGoblin.tap.two": "Yemeğinizi yemeden önce Goblinlere dokunun",
   "stopGoblin.left": "Kalan deneme sayısı: {{attemptsLeft}}",
-};
-
-const advancedSettings: Record<AdvancedSettings, string> = {
-  "advancedSettings.disableAnimations": "Animasyonları Kapat",
-  "advancedSettings.enableAnimations": "Animasyonları Etkinleştir",
-  "advancedSettings.logout": "Çıkış Yap",
-  "advancedSettings.transferOwnership": "Sahipliği Aktar",
-  "advancedSettings.refreshDescription":
-    "Blockchaindeki en son değişiklikleri almak için oturumunuzu yenileyin. Bu, çiftliğinize öğe bıraktığınızda kullanışlıdır.",
 };
 
 const swarming: Record<Swarming, string> = {
@@ -4773,11 +4737,46 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
+  "gameOptions.howToPlay": "Nasıl oynanır? (Tadilatta)",
+  "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
+  "gameOptions.logout": "Çıkış Yap",
+  "gameOptions.confirmLogout": "Oturumu kapatmak istediğinizden emin misiniz?",
+
+  // Amoy Actions
   "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"],
+  "gameOptions.amoyActions.timeMachine": "Zaman Makinesi",
+
+  // Blockchain Settings
   "gameOptions.blockchainSettings":
     ENGLISH_TERMS["gameOptions.blockchainSettings"],
+  "gameOptions.blockchainSettings.refreshChain":
+    ENGLISH_TERMS["gameOptions.blockchainSettings.refreshChain"],
+  "gameOptions.blockchainSettings.refreshDescription":
+    "Blockchaindeki en son değişiklikleri almak için oturumunuzu yenileyin. Bu, çiftliğinize öğe bıraktığınızda kullanışlıdır.",
+  "gameOptions.blockchainSettings.storeOnChain": "Zincirde Mağaza",
+  "gameOptions.blockchainSettings.swapMaticForSFL":
+    "MATIC'i SFL ile değiştirin",
+  "gameOptions.blockchainSettings.transferOwnership": "Sahipliği Aktar",
+
+  // General Settings
   "gameOptions.generalSettings": ENGLISH_TERMS["gameOptions.generalSettings"],
-  "gameOptions.connectDiscord": ENGLISH_TERMS["gameOptions.connectDiscord"],
+  "gameOptions.generalSettings.connectDiscord":
+    ENGLISH_TERMS["gameOptions.generalSettings.connectDiscord"],
+  "gameOptions.generalSettings.changeLanguage": "Dili değiştir",
+  "gameOptions.generalSettings.disableAnimations": "Animasyonları Kapat",
+  "gameOptions.generalSettings.enableAnimations": "Animasyonları Etkinleştir",
+  "gameOptions.generalSettings.share": "Paylaş",
+
+  // Plaza Settings
+  "gameOptions.plazaSettings": "Plaza Ayarları",
+  "gameOptions.plazaSettings.title.mutedPlayers": "Sessize Alınan Oyuncular",
+  "gameOptions.plazaSettings.title.keybinds": "Tuş Atamaları",
+  "gameOptions.plazaSettings.mutedPlayers.description":
+    "Eğer /mute komutunu kullanarak bazı oyuncuları sessize aldıysanız, burada görebilir ve isterseniz onları seslerini açabilirsiniz.",
+  "gameOptions.plazaSettings.keybinds.description":
+    "Kullanılabilir tuş atamalarını mı öğrenmek istiyorsunuz? Buradan kontrol edin.",
+  "gameOptions.plazaSettings.noMutedPlayers": "Sessize alınan oyuncunuz yok.",
+  "gameOptions.plazaSettings.changeServer": "Sunucuyu Değiştirin",
 };
 
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {
@@ -4900,7 +4899,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...piratechest,
   ...pirateQuest,
   ...playerTrade,
-  ...plazaSettings,
   ...portal,
   ...promo,
   ...purchaseableBaitTranslation,
@@ -4922,7 +4920,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
-  ...settingsMenu,
   ...share,
   ...sharkBumpkinDialogues,
   ...shelly,
@@ -4934,7 +4931,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...specialEvent,
   ...statements,
   ...stopGoblin,
-  ...advancedSettings,
   ...swarming,
   ...tieBreaker,
   ...timeUnits,

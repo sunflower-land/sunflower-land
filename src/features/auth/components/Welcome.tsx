@@ -47,7 +47,7 @@ export const Welcome: React.FC = () => {
             src={SUNNYSIDE.icons.expression_chat}
             className="h-7 mobile:h-6 ml-2.5 mr-6 absolute left-0 top-1"
           />
-          {t("change.Language")}
+          {t("gameOptions.generalSettings.changeLanguage")}
         </div>
       </Button>
       <div className="flex justify-between">

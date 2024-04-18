@@ -59,20 +59,20 @@ export const GeneralSettings: React.FC<Props> = ({
           onClose={onClose}
         >
           <Button onClick={handleDiscordClick} className="mb-2">
-            <span>{t("gameOptions.connectDiscord")}</span>
+            <span>{t("gameOptions.generalSettings.connectDiscord")}</span>
           </Button>
           <Button onClick={changeLanguage} className="mb-2">
-            <span>{t("change.Language")}</span>
+            <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
           </Button>
           <Button className="mb-2" onClick={onToggleAnimations}>
             <span>
               {showAnimations
-                ? t("advancedSettings.disableAnimations")
-                : t("advancedSettings.enableAnimations")}
+                ? t("gameOptions.generalSettings.disableAnimations")
+                : t("gameOptions.generalSettings.enableAnimations")}
             </span>
           </Button>
           <Button onClick={handleShareClick} className="mb-2">
-            <span>{t("settingsMenu.share")}</span>
+            <span>{t("gameOptions.generalSettings.share")}</span>
           </Button>
         </CloseButtonPanel>
         <LanguageSwitcher

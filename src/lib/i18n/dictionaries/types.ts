@@ -35,7 +35,6 @@ export type GeneralTerms =
   | "cancel"
   | "card.cash"
   | "caught"
-  | "change.Language"
   | "check"
   | "chest"
   | "chores"
@@ -139,7 +138,6 @@ export type GeneralTerms =
   | "list"
   | "loading"
   | "locked"
-  | "logout"
   | "loser.refund"
   | "lvl"
   | "maintenance"
@@ -2632,15 +2630,6 @@ export type Pickserver =
   | "pickserver.explore"
   | "pickserver.built";
 
-export type PlazaSettings =
-  | "plazaSettings.changeServer"
-  | "plazaSettings.title.main"
-  | "plazaSettings.title.mutedPlayers"
-  | "plazaSettings.title.keybinds"
-  | "plazaSettings.mutedPlayers.description"
-  | "plazaSettings.keybinds.description"
-  | "plazaSettings.noMutedPlayers";
-
 export type PlayerTrade =
   | "playerTrade.no.trade"
   | "playerTrade.max.item"
@@ -2783,15 +2772,6 @@ export type SeasonTerms =
   | "season.free.season.passes.description"
   | "season.lifetime.farmer"
   | "season.free.with.lifetime";
-
-export type SettingsMenu =
-  | "settingsMenu.timeMachine"
-  | "settingsMenu.storeOnChain"
-  | "settingsMenu.howToPlay"
-  | "settingsMenu.swapMaticForSFL"
-  | "settingsMenu.share"
-  | "settingsMenu.confirmLogout"
-  | "settingsMenu.refreshChain";
 
 export type Share =
   | "share.TweetText"
@@ -2947,13 +2927,6 @@ export type StopGoblin =
   | "stopGoblin.tap.one"
   | "stopGoblin.tap.two"
   | "stopGoblin.left";
-
-export type AdvancedSettings =
-  | "advancedSettings.disableAnimations"
-  | "advancedSettings.enableAnimations"
-  | "advancedSettings.logout"
-  | "advancedSettings.transferOwnership"
-  | "advancedSettings.refreshDescription";
 
 export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";
 
@@ -3226,10 +3199,31 @@ export type Leaderboard =
 
 export type GameOptions =
   | "gameOptions.title"
+  | "gameOptions.howToPlay"
   | "gameOptions.amoyActions"
+  | "gameOptions.amoyActions.timeMachine"
   | "gameOptions.blockchainSettings"
+  | "gameOptions.blockchainSettings.refreshChain"
+  | "gameOptions.blockchainSettings.refreshDescription"
+  | "gameOptions.blockchainSettings.storeOnChain"
+  | "gameOptions.blockchainSettings.swapMaticForSFL"
+  | "gameOptions.blockchainSettings.transferOwnership"
   | "gameOptions.generalSettings"
-  | "gameOptions.connectDiscord";
+  | "gameOptions.generalSettings.connectDiscord"
+  | "gameOptions.generalSettings.changeLanguage"
+  | "gameOptions.generalSettings.disableAnimations"
+  | "gameOptions.generalSettings.enableAnimations"
+  | "gameOptions.generalSettings.share"
+  | "gameOptions.plazaSettings"
+  | "gameOptions.plazaSettings.changeServer"
+  | "gameOptions.plazaSettings.title.mutedPlayers"
+  | "gameOptions.plazaSettings.title.keybinds"
+  | "gameOptions.plazaSettings.mutedPlayers.description"
+  | "gameOptions.plazaSettings.keybinds.description"
+  | "gameOptions.plazaSettings.noMutedPlayers"
+  | "gameOptions.farmId"
+  | "gameOptions.logout"
+  | "gameOptions.confirmLogout";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3348,7 +3342,6 @@ export type TranslationKeys =
   | PirateChest
   | PirateQuest
   | Pickserver
-  | PlazaSettings
   | PlayerTrade
   | Portal
   | PurchaseableBaitTranslation
@@ -3370,7 +3363,6 @@ export type TranslationKeys =
   | PwaInstall
   | SceneDialogueKey
   | SeasonTerms
-  | SettingsMenu
   | Share
   | SharkBumpkinDialogues
   | Shelly
@@ -3382,7 +3374,6 @@ export type TranslationKeys =
   | SpecialEvent
   | Statements
   | StopGoblin
-  | AdvancedSettings
   | Swarming
   | TieBreaker
   | TimeUnits

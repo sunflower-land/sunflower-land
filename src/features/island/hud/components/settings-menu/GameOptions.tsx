@@ -140,7 +140,9 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                       );
                     }}
                   >
-                    {`Farm ID #${gameService.state?.context?.farmId}`}
+                    {t("gameOptions.farmId", {
+                      farmId: gameService.state?.context?.farmId,
+                    })}
                   </Label>
                   {gameService.state?.context?.nftId !== undefined && (
                     <Label
@@ -185,7 +187,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 {/* <li className="p-1">
                   <Button disabled={true} onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">
-                      <span>{t("settingsMenu.howToPlay")}</span>
+                      <span>{t("gameOptions.howToPlay")}</span>
                       <img
                         src={SUNNYSIDE.icons.expression_confused}
                         className="w-3 ml-2"
@@ -213,12 +215,12 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                 </li>
                 <li className="p-1">
                   <Button onClick={handlePlazaSettings}>
-                    <span>{t("plazaSettings.title.main")}</span>
+                    <span>{t("gameOptions.plazaSettings")}</span>
                   </Button>
                 </li>
                 <li className="p-1">
                   <Button onClick={openConfirmLogoutModal}>
-                    {t("logout")}
+                    {t("gameOptions.logout")}
                   </Button>
                   <Modal
                     show={isConfirmLogoutModalOpen}
@@ -227,11 +229,13 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <CloseButtonPanel className="sm:w-4/5 m-auto">
                       <div className="flex flex-col p-2">
                         <span className="text-sm text-center">
-                          {t("settingsMenu.confirmLogout")}
+                          {t("gameOptions.confirmLogout")}
                         </span>
                       </div>
                       <div className="flex justify-content-around mt-2 space-x-1">
-                        <Button onClick={onLogout}>{t("logout")}</Button>
+                        <Button onClick={onLogout}>
+                          {t("gameOptions.logout")}
+                        </Button>
                         <Button onClick={closeConfirmLogoutModal}>
                           {t("cancel")}
                         </Button>

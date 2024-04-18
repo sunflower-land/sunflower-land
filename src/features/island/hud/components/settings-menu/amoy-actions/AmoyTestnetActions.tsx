@@ -30,7 +30,7 @@ export const AmoyTestnetActions: React.FC<Props> = ({ isOpen, onClose }) => {
                 onClick={() => setShowTimeMachine(!showTimeMachine)}
                 className="p-1"
               >
-                {t("settingsMenu.timeMachine")}
+                {t("gameOptions.amoyActions.timeMachine")}
               </Button>
             </li>
             <li className="p-1">

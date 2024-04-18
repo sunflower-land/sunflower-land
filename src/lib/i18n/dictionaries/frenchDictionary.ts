@@ -112,7 +112,6 @@ import {
   PirateChest,
   PirateQuest,
   Pickserver,
-  PlazaSettings,
   PlayerTrade,
   Portal,
   PurchaseableBaitTranslation,
@@ -132,7 +131,6 @@ import {
   RulesTerms,
   SceneDialogueKey,
   SeasonTerms,
-  SettingsMenu,
   Share,
   SharkBumpkinDialogues,
   Shelly,
@@ -144,7 +142,6 @@ import {
   SpecialEvent,
   Statements,
   StopGoblin,
-  AdvancedSettings,
   Swarming,
   TieBreaker,
   ToolDescriptions,
@@ -220,7 +217,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   cancel: "Annuler",
   cancelling: "Annulation",
   "card.cash": "Carte / Espèces",
-  "change.Language": "Changer de Langue",
   caught: "Attrapé",
   check: "Vérifier",
   chest: "Coffre",
@@ -339,7 +335,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "list.trade": "Lister un article",
   loading: "Chargement",
   locked: "Verrouillé",
-  logout: "Déconnexion",
   "loser.refund": "Rembourser les ressources",
   lvl: "Niveau",
   maintenance: "Maintenance",
@@ -4084,18 +4079,6 @@ const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.title.congrat": "Félicitations, votre annonce a été achetée",
 };
 
-const plazaSettings: Record<PlazaSettings, string> = {
-  "plazaSettings.title.main": "Paramètres de la Place",
-  "plazaSettings.title.mutedPlayers": "Joueurs Muettes",
-  "plazaSettings.title.keybinds": "Raccourcis",
-  "plazaSettings.mutedPlayers.description":
-    "Au cas où vous auriez muet certains joueurs en utilisant la commande /mute, vous pouvez les voir ici et les démuter si vous le souhaitez.",
-  "plazaSettings.keybinds.description":
-    "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
-  "plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
-  "plazaSettings.changeServer": "Changer de serveur",
-};
-
 const portal: Record<Portal, string> = {
   "portal.wrong": "Quelque chose s'est mal passé",
   "portal.unauthorised": "non autorisé",
@@ -4289,16 +4272,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
   "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
-};
-
-const settingsMenu: Record<SettingsMenu, string> = {
-  "settingsMenu.timeMachine": "Machine à remonter le temps",
-  "settingsMenu.storeOnChain": "Stockage sur la chaîne",
-  "settingsMenu.howToPlay": "Comment jouer? (En reconstruction)",
-  "settingsMenu.swapMaticForSFL": "Échanger du MATIC contre du SFL",
-  "settingsMenu.share": "Partager",
-  "settingsMenu.confirmLogout": "Êtes-vous sûr de vouloir vous déconnecter?",
-  "settingsMenu.refreshChain": ENGLISH_TERMS["settingsMenu.refreshChain"],
 };
 
 const share: Record<Share, string> = {
@@ -4537,15 +4510,6 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.tap.two":
     "Touchez les Gobelins avant qu'ils ne mangent votre nourriture",
   "stopGoblin.left": "Tentatives restantes: {{attemptsLeft}}",
-};
-
-const advancedSettings: Record<AdvancedSettings, string> = {
-  "advancedSettings.disableAnimations": "Désactiver les animations",
-  "advancedSettings.enableAnimations": "Activer les animations",
-  "advancedSettings.logout": "Déconnexion",
-  "advancedSettings.transferOwnership": "Transfert de propriété",
-  "advancedSettings.refreshDescription":
-    "Actualisez votre session pour obtenir les dernières modifications de la Blockchain. Cela est utile si vous avez déposé des objets sur votre ferme.",
 };
 
 const swarming: Record<Swarming, string> = {
@@ -4932,11 +4896,46 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
 
 const gameOptions: Record<GameOptions, string> = {
   "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
+  "gameOptions.howToPlay": "Comment jouer? (En reconstruction)",
+  "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
+  "gameOptions.logout": "Déconnexion",
+  "gameOptions.confirmLogout": "Êtes-vous sûr de vouloir vous déconnecter?",
+
+  // Amoy Actions
   "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"],
+  "gameOptions.amoyActions.timeMachine": "Machine à remonter le temps",
+
+  // Blockchain Settings
   "gameOptions.blockchainSettings":
     ENGLISH_TERMS["gameOptions.blockchainSettings"],
+  "gameOptions.blockchainSettings.refreshChain":
+    ENGLISH_TERMS["gameOptions.blockchainSettings.refreshChain"],
+  "gameOptions.blockchainSettings.refreshDescription":
+    "Actualisez votre session pour obtenir les dernières modifications de la Blockchain. Cela est utile si vous avez déposé des objets sur votre ferme.",
+  "gameOptions.blockchainSettings.storeOnChain": "Stockage sur la chaîne",
+  "gameOptions.blockchainSettings.swapMaticForSFL":
+    "Échanger du MATIC contre du SFL",
+  "gameOptions.blockchainSettings.transferOwnership": "Transfert de propriété",
+
+  // General Settings
   "gameOptions.generalSettings": ENGLISH_TERMS["gameOptions.generalSettings"],
-  "gameOptions.connectDiscord": ENGLISH_TERMS["gameOptions.connectDiscord"],
+  "gameOptions.generalSettings.connectDiscord":
+    ENGLISH_TERMS["gameOptions.generalSettings.connectDiscord"],
+  "gameOptions.generalSettings.changeLanguage": "Changer de Langue",
+  "gameOptions.generalSettings.disableAnimations": "Désactiver les animations",
+  "gameOptions.generalSettings.enableAnimations": "Activer les animations",
+  "gameOptions.generalSettings.share": "Partager",
+
+  // Plaza Settings
+  "gameOptions.plazaSettings": "Paramètres de la Place",
+  "gameOptions.plazaSettings.title.mutedPlayers": "Joueurs Muettes",
+  "gameOptions.plazaSettings.title.keybinds": "Raccourcis",
+  "gameOptions.plazaSettings.mutedPlayers.description":
+    "Au cas où vous auriez muet certains joueurs en utilisant la commande /mute, vous pouvez les voir ici et les démuter si vous le souhaitez.",
+  "gameOptions.plazaSettings.keybinds.description":
+    "Besoin de savoir quels raccourcis sont disponibles ? Consultez-les ici.",
+  "gameOptions.plazaSettings.noMutedPlayers": "Vous n'avez aucun joueur muet.",
+  "gameOptions.plazaSettings.changeServer": "Changer de serveur",
 };
 
 export const FRENCH_TERMS: Record<TranslationKeys, string> = {
@@ -5059,7 +5058,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...piratechest,
   ...pirateQuest,
   ...playerTrade,
-  ...plazaSettings,
   ...portal,
   ...promo,
   ...purchaseableBaitTranslation,
@@ -5081,7 +5079,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
-  ...settingsMenu,
   ...share,
   ...sharkBumpkinDialogues,
   ...shelly,
@@ -5093,7 +5090,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...specialEvent,
   ...statements,
   ...stopGoblin,
-  ...advancedSettings,
   ...swarming,
   ...tieBreaker,
   ...timeUnits,
