@@ -24,7 +24,7 @@ type Options = {
   createdAt?: number;
 };
 
-const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
+export const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
   bumpkins: "Bumpkin Faction Banner",
   sunflorians: "Sunflorian Faction Banner",
   goblins: "Goblin Faction Banner",

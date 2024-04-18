@@ -4697,6 +4697,7 @@ export const restrictionReason: Record<RestrictionReason, string> = {
 
 export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.leaderboard": "Leaderboard",
+  "leaderboard.error": "Error loading leaderboard. Please try again later.",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

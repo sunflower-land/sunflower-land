@@ -3198,7 +3198,7 @@ export type RestrictionReason =
   | "restrictionReason.noRestriction"
   | "restrictionReason.genieLampRubbed";
 
-export type Leaderboard = "leaderboard.leaderboard";
+export type Leaderboard = "leaderboard.leaderboard" | "leaderboard.error";
 
 export type TranslationKeys =
   | AchievementsTerms

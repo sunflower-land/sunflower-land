@@ -14,6 +14,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { hud } from "lib/utils/sfx";
+import { hasFeatureAccess } from "lib/flags";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -42,7 +43,8 @@ export const CodexButton: React.FC = () => {
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          hud.play();
+          hasFeatureAccess(gameService.state.context.state, "SOUND") &&
+            hud.play();
           setIsOpen(true);
         }}
       >

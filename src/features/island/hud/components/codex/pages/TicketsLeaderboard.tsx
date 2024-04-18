@@ -6,19 +6,31 @@ import { TicketLeaderboard } from "features/game/expansion/components/leaderboar
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
+import { Label } from "components/ui/Label";
 
 interface LeaderboardProps {
   farmId: number;
-  data: TicketLeaderboard | undefined;
+  isLoading: boolean;
+  data: TicketLeaderboard | null;
 }
 export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
   farmId,
+  isLoading,
   data,
 }) => {
   const { t } = useAppTranslation();
   const seasonTicket = getSeasonalTicket();
 
-  return data ? (
+  if (isLoading && !data) return <Loading />;
+
+  if (!data)
+    return (
+      <div className="p-1">
+        <Label type="danger">{t("leaderboard.error")}</Label>
+      </div>
+    );
+
+  return (
     <div>
       <div className="p-1 mb-1 space-y-1">
         <p className="text-sm">{`${seasonTicket} Leaderboard`}</p>
@@ -42,7 +54,5 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
         </>
       )}
     </div>
-  ) : (
-    <Loading />
   );
 };

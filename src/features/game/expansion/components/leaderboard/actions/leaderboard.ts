@@ -5,7 +5,7 @@ import {
   cacheLeaderboardData,
   getCachedLeaderboardData,
 } from "./cache";
-import { MazeAttempt } from "features/game/types/game";
+import { FactionName, MazeAttempt } from "features/game/types/game";
 
 const API_URL = CONFIG.API_URL;
 
@@ -31,13 +31,9 @@ export type TicketLeaderboard = {
   farmRankingDetails?: RankData[] | null;
 };
 
-export type FactionName =
-  | "bumpkins"
-  | "goblins"
-  | "sunflorians"
-  | "nightshades";
 export type FactionLeaderboard = {
   topTens: Record<FactionName, RankData[]>;
+  totalTickets: Record<FactionName, number>;
   lastUpdated: number;
   farmRankingDetails?: RankData[] | null;
 };

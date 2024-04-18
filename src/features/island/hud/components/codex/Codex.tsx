@@ -47,7 +47,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
-  const [data, setData] = useState<Leaderboards | null>(null);
+  const [data, setData] = useState<Leaderboards | null | undefined>(undefined);
 
   useEffect(() => {
     if (!show) return;
@@ -59,6 +59,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       } catch (e) {
         // eslint-disable-next-line no-console
         console.error("Error loading leaderboards", e);
+
+        if (!data) setData(null);
       }
     };
 
@@ -66,7 +68,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   }, [show]);
 
   const handleTabClick = (index: number) => {
-    tab.play();
+    hasFeatureAccess(gameService.state.context.state, "SOUND") && tab.play();
     setCurrentTab(index);
   };
 
@@ -121,11 +123,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             icon: trophy,
             count: 0,
           },
-          {
-            name: "Factions" as const,
-            icon: trophy,
-            count: 0,
-          },
+          ...(state.faction
+            ? [
+                {
+                  name: "Factions" as const,
+                  icon: trophy,
+                  count: 0,
+                },
+              ]
+            : []),
         ]
       : []),
   ];
@@ -195,10 +201,19 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 <Flowers onMilestoneReached={handleMilestoneReached} />
               )}
               {currentTab === 4 && (
-                <TicketsLeaderboard farmId={farmId} data={data?.tickets} />
+                <TicketsLeaderboard
+                  farmId={farmId}
+                  isLoading={data === undefined}
+                  data={data?.tickets ?? null}
+                />
               )}
-              {currentTab === 5 && (
-                <FactionsLeaderboard farmId={farmId} data={data?.factions} />
+              {currentTab === 5 && state.faction && (
+                <FactionsLeaderboard
+                  farmId={farmId}
+                  faction={state.faction.name}
+                  isLoading={data === undefined}
+                  data={data?.factions ?? null}
+                />
               )}
             </InnerPanel>
           </div>
