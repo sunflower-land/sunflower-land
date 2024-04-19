@@ -9,7 +9,6 @@ import { DynamicNFT } from "./DynamicNFT";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { OuterPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/types/craftables";
 
@@ -20,6 +19,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { GameState } from "features/game/types/game";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 const REQUIRED: BumpkinPart[] = [
   "background",

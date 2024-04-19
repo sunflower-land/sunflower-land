@@ -8,11 +8,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useEffect } from "react";
 
 import sfl from "assets/icons/sfl.webp";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   type: "Treasure Key" | "Rare Key" | "Luxury Key" | "Bud Box";

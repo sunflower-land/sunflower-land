@@ -8,19 +8,19 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getReturnValues, useCountdown } from "lib/utils/hooks/useCountdown";
 import Decimal from "decimal.js-light";
-import { GoblinState } from "features/game/lib/goblinMachine";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Auction } from "features/game/lib/auctionMachine";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameState } from "features/game/types/game";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 type Props = {
   item: Auction;
-  game: GoblinState;
+  game: GameState;
   isUpcomingItem?: boolean;
   onDraftBid: () => void;
   onBack: () => void;

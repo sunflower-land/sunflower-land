@@ -1,6 +1,5 @@
 import { getKeys } from "../types/craftables";
 import { ExpansionRequirements, GameState } from "../types/game";
-import { GoblinState } from "./goblinMachine";
 import { getBumpkinLevel } from "./level";
 
 /**
@@ -9,7 +8,7 @@ import { getBumpkinLevel } from "./level";
  * @param requirements The crafting requirements.
  */
 export const craftingRequirementsMet = (
-  gameState: Readonly<GameState | GoblinState>,
+  gameState: Readonly<GameState>,
   requirements?: ExpansionRequirements
 ) => {
   if (!requirements) {

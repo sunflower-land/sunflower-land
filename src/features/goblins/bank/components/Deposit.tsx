@@ -14,7 +14,6 @@ import { fromWei, toBN, toWei } from "web3-utils";
 import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
-import { transferInventoryItem } from "./WithdrawItems";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
@@ -26,7 +25,6 @@ import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
 import { getItemUnit } from "features/game/lib/conversion";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
@@ -37,8 +35,39 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+
+export function transferInventoryItem(
+  itemName: InventoryItemName,
+  setFrom: React.Dispatch<
+    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
+  >,
+  setTo: React.Dispatch<
+    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
+  >
+) {
+  let amount = new Decimal(1);
+
+  // Subtract 1 or remaining
+  setFrom((prev) => {
+    const remaining = prev[itemName] ?? new Decimal(0);
+    if (remaining.lessThan(1)) {
+      amount = remaining;
+    }
+    return {
+      ...prev,
+      [itemName]: prev[itemName]?.minus(amount),
+    };
+  });
+
+  // Add 1 or remaining
+  setTo((prev) => ({
+    ...prev,
+    [itemName]: (prev[itemName] ?? new Decimal(0)).add(amount),
+  }));
+}
 
 type Status = "loading" | "loaded" | "error";
 

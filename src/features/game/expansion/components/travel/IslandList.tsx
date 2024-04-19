@@ -23,7 +23,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { GoblinState } from "features/game/lib/goblinMachine";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -48,7 +47,7 @@ interface IslandProps extends Island {
 interface IslandListProps {
   bumpkin: Bumpkin | undefined;
   showVisitList: boolean;
-  gameState: GameState | GoblinState;
+  gameState: GameState;
   travelAllowed: boolean;
   hasBetaAccess?: boolean;
   onClose: () => void;

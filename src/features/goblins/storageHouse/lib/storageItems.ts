@@ -13,33 +13,6 @@ import {
   getChestItems,
 } from "features/island/hud/components/inventory/utils/inventory";
 
-/**
- * Items for the storage house
- */
-export function getDeliverableItemsLegacy(inventory: Inventory) {
-  return (Object.keys(inventory) as InventoryItemName[]).reduce(
-    (acc, itemName) => {
-      const isDeliverable =
-        itemName in CROPS() ||
-        itemName in FRUIT() ||
-        (itemName in COMMODITIES &&
-          itemName !== "Chicken" &&
-          itemName !== "Crimstone" &&
-          itemName !== "Sunstone");
-
-      if (isDeliverable && WITHDRAWABLES[itemName]()) {
-        return {
-          ...acc,
-          [itemName]: inventory[itemName],
-        };
-      }
-
-      return acc;
-    },
-    {} as Inventory
-  );
-}
-
 export function getDeliverableItems({ game }: { game: GameState }) {
   const { previousInventory } = game;
 
@@ -71,30 +44,6 @@ export function getDeliverableItems({ game }: { game: GameState }) {
       }
 
       return acc;
-    },
-    {} as Inventory
-  );
-}
-
-/**
- * TODO - remove Items for the bank
- */
-export function getBankItemsLegacy(game: GameState) {
-  const { inventory, previousInventory } = game;
-  return (Object.keys(inventory) as InventoryItemName[]).reduce(
-    (acc, itemName) => {
-      if (
-        itemName in CROPS() ||
-        itemName in FRUIT() ||
-        (itemName in COMMODITIES && itemName !== "Chicken")
-      ) {
-        return acc;
-      }
-
-      return {
-        ...acc,
-        [itemName]: inventory[itemName],
-      };
     },
     {} as Inventory
   );

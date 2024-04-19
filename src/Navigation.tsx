@@ -7,14 +7,7 @@ import React, {
   useState,
 } from "react";
 import { useSelector } from "@xstate/react";
-import {
-  Routes,
-  Route,
-  HashRouter,
-  Navigate,
-  useSearchParams,
-  createSearchParams,
-} from "react-router-dom";
+import { Routes, Route, HashRouter } from "react-router-dom";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -42,20 +35,6 @@ const CommunityTools = lazy(() =>
     default: m.CommunityTools,
   }))
 );
-const Retreat = lazy(() =>
-  import("features/retreat/Retreat").then((m) => ({ default: m.Retreat }))
-);
-
-/**
- * FarmID must always be passed to the /retreat/:id route.
- * The problem is that when deep-linking to goblin trader, the FarmID will not be present.
- * This reacter-router helper component will compute correct route and navigate to retreat.
- */
-const TraderDeeplinkHandler: React.FC = () => {
-  const [params] = useSearchParams();
-
-  return <Navigate to={`/retreat/0?${createSearchParams(params)}`} replace />;
-};
 
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
@@ -163,10 +142,6 @@ export const Navigation: React.FC = () => {
                     element={<LandExpansion key="visit" />}
                   />
 
-                  <Route path="/retreat">
-                    <Route index element={<TraderDeeplinkHandler />} />
-                    <Route path=":id" element={<Retreat key="retreat" />} />
-                  </Route>
                   {CONFIG.NETWORK === "amoy" && (
                     <Route
                       path="/builder"
