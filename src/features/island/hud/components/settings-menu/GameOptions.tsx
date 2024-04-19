@@ -23,7 +23,7 @@ import { HowToPlay } from "./howToPlay/HowToPlay";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
-import { PlazaSettings } from "./PlazaSettingsModal";
+import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
