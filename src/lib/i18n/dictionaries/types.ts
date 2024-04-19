@@ -3204,7 +3204,6 @@ export type GameOptions =
   | "gameOptions.amoyActions.timeMachine"
   | "gameOptions.blockchainSettings"
   | "gameOptions.blockchainSettings.refreshChain"
-  | "gameOptions.blockchainSettings.refreshDescription"
   | "gameOptions.blockchainSettings.storeOnChain"
   | "gameOptions.blockchainSettings.swapMaticForSFL"
   | "gameOptions.blockchainSettings.transferOwnership"

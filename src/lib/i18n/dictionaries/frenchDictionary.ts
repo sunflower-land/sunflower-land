@@ -4910,8 +4910,6 @@ const gameOptions: Record<GameOptions, string> = {
     ENGLISH_TERMS["gameOptions.blockchainSettings"],
   "gameOptions.blockchainSettings.refreshChain":
     ENGLISH_TERMS["gameOptions.blockchainSettings.refreshChain"],
-  "gameOptions.blockchainSettings.refreshDescription":
-    "Actualisez votre session pour obtenir les dernières modifications de la Blockchain. Cela est utile si vous avez déposé des objets sur votre ferme.",
   "gameOptions.blockchainSettings.storeOnChain": "Stockage sur la chaîne",
   "gameOptions.blockchainSettings.swapMaticForSFL":
     "Échanger du MATIC contre du SFL",

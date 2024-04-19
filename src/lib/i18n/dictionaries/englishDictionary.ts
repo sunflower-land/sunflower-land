@@ -4701,8 +4701,6 @@ const gameOptions: Record<GameOptions, string> = {
   // Blockchain Settings
   "gameOptions.blockchainSettings": "Blockchain Settings",
   "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
-  "gameOptions.blockchainSettings.refreshDescription":
-    "Refresh your session to grab the latest changes from the Blockchain. This is useful if you deposited items to your farm.",
   "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
   "gameOptions.blockchainSettings.swapMaticForSFL": "Swap MATIC for SFL",
   "gameOptions.blockchainSettings.transferOwnership": "Transfer Ownership",

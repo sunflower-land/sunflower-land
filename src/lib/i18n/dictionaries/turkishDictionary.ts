@@ -4751,8 +4751,6 @@ const gameOptions: Record<GameOptions, string> = {
     ENGLISH_TERMS["gameOptions.blockchainSettings"],
   "gameOptions.blockchainSettings.refreshChain":
     ENGLISH_TERMS["gameOptions.blockchainSettings.refreshChain"],
-  "gameOptions.blockchainSettings.refreshDescription":
-    "Blockchaindeki en son değişiklikleri almak için oturumunuzu yenileyin. Bu, çiftliğinize öğe bıraktığınızda kullanışlıdır.",
   "gameOptions.blockchainSettings.storeOnChain": "Zincirde Mağaza",
   "gameOptions.blockchainSettings.swapMaticForSFL":
     "MATIC'i SFL ile değiştirin",

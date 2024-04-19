@@ -87,6 +87,11 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
     setShowHowToPlay(true);
   };
 
+  const refreshSession = () => {
+    onClose();
+    gameService.send("RESET");
+  };
+
   const onHide = () => {
     onClose();
     setMenuLevel(MENU_LEVELS.ROOT);
@@ -203,6 +208,11 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     </Button>
                   </li>
                 )}
+                <li className="p-1">
+                  <Button onClick={refreshSession}>
+                    {t("gameOptions.blockchainSettings.refreshChain")}
+                  </Button>
+                </li>
                 <li className="p-1">
                   <Button onClick={handleBlockchainSettings}>
                     <span>{t("gameOptions.blockchainSettings")}</span>
