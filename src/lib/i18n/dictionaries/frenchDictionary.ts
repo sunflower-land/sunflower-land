@@ -482,6 +482,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "yes.please": "Oui, s'il vous plaît",
   "you.are.here": "Vous êtes ici",
   "sfl/coins": ENGLISH_TERMS["sfl/coins"],
+  player: ENGLISH_TERMS["player"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {

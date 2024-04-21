@@ -482,6 +482,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   search: "Ara",
   searching: "Aranıyor",
   "sfl/coins": ENGLISH_TERMS["sfl/coins"],
+  player: ENGLISH_TERMS["player"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
