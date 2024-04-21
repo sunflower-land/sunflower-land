@@ -348,6 +348,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "place.bid": "Place your bid",
   "placing.bid": "Placing bid",
   plant: "Plant",
+  player: "Player",
   "play.again": "Play again",
   "please.try.again": "Please try again later.",
   "please.wait": "Please wait",
@@ -4698,6 +4699,8 @@ export const restrictionReason: Record<RestrictionReason, string> = {
 export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.leaderboard": "Leaderboard",
   "leaderboard.error": "Error loading leaderboard. Please try again later.",
+  "leaderboard.topTen": "Top ten",
+  "leaderboard.yourPosition": "Your position",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {

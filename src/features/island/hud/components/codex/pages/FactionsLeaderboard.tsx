@@ -22,18 +22,22 @@ import { isMobile } from "mobile-device-detect";
 
 import maximus from "assets/sfts/maximus.gif";
 import trophy from "assets/icons/trophy.png";
+import shadow from "assets/npcs/shadow.png";
+
+import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
 interface LeaderboardProps {
-  farmId: number;
+  id: string;
   faction: FactionName;
   isLoading: boolean;
   data: FactionLeaderboard | null;
 }
 
 export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
-  farmId,
+  id,
   faction,
   isLoading,
   data,
@@ -42,9 +46,17 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
 
   // TODO FACTION - get faction from game state
   const [selected, setSelected] = React.useState<FactionName>(faction);
+  const [mobileFullScreen, setMobileFullScreen] =
+    React.useState<boolean>(false);
+
+  const back = () => {
+    setSelected(faction);
+    setMobileFullScreen(false);
+  };
 
   const select = (faction: FactionName) => {
     setSelected(faction);
+    setMobileFullScreen(true);
     hasFeatureAccess(TEST_FARM, "SOUND") && tab.play();
   };
 
@@ -64,44 +76,86 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
     .map(([key], i) => [key, POSITION_LABELS[i]]);
 
   return (
-    <div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 w-full scrollable overflow-y-auto pl-1">
-        {sortedFactions.map(([faction, position]) => (
-          <Faction
-            name={faction as FactionName}
-            position={position}
-            isSelected={selected === faction}
-            onClick={() => select(faction as FactionName)}
-          />
-        ))}
-      </div>
-
-      {!isMobile && (
-        <div className="p-1 mb-1 space-y-1">
-          <p className="text-sm capitalize">{`${selected.slice(0, -1)} ${t(
-            "leaderboard.leaderboard"
-          )}`}</p>
-          <p className="text-[12px]">
-            {t("last.updated")} {getRelativeTime(data.lastUpdated)}
-          </p>
+    <>
+      {(!isMobile || !mobileFullScreen) && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 w-full justify-between pl-1">
+          {sortedFactions.map(([faction, position]) => (
+            <Faction
+              key={faction}
+              name={faction as FactionName}
+              position={position}
+              isSelected={selected === faction}
+              onClick={() => select(faction as FactionName)}
+            />
+          ))}
         </div>
       )}
-      {!isMobile && topTen && (
-        <TicketTable rankings={topTen} farmId={Number(farmId)} />
+
+      <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
+        <div className="flex items-center">
+          {isMobile && mobileFullScreen && (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="cursor-pointer mr-2"
+              onClick={back}
+              style={{
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+          )}
+          <Label type="default" className="capitalize">{`${selected.slice(
+            0,
+            -1
+          )} ${t("leaderboard.leaderboard")}`}</Label>
+        </div>
+        <p className="text-[12px]">
+          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+        </p>
+      </div>
+
+      {(!isMobile || mobileFullScreen) && (
+        <div className="scrollable overflow-y-auto max-h-full p-1">
+          {selected === faction && data.farmRankingDetails && (
+            <div className="mb-3">
+              <Label type="info" className="mb-1">
+                {t("leaderboard.yourPosition")}
+              </Label>
+              <TicketTable
+                showHeader={true}
+                rankings={data.farmRankingDetails}
+                id={id}
+              />
+            </div>
+          )}
+
+          {topTen && (
+            <>
+              <Label type="info" className="mb-1">
+                {t("leaderboard.topTen")}
+              </Label>
+              <TicketTable rankings={topTen} id={id} />
+            </>
+          )}
+        </div>
       )}
-      {!isMobile && data.farmRankingDetails && (
+
+      {isMobile && !mobileFullScreen && (
         <>
-          <div className="flex justify-center items-center">
-            <p className="mb-[13px]">{"..."}</p>
+          {data.farmRankingDetails && (
+            <TicketTable
+              showHeader={true}
+              rankings={data.farmRankingDetails}
+              id={id}
+            />
+          )}
+          <div className="flex flex-col h-full justify-end">
+            <Button onClick={() => setMobileFullScreen(true)}>
+              {t("leaderboard.topTen")}
+            </Button>
           </div>
-          <TicketTable
-            showHeader={false}
-            rankings={data.farmRankingDetails}
-            farmId={Number(farmId)}
-          />
         </>
       )}
-    </div>
+    </>
   );
 };
 
@@ -128,7 +182,7 @@ const Faction: React.FC<FactionProps> = ({
       <OuterPanel
         onClick={onClick}
         className={classNames(
-          "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
+          "w-full cursor-pointer hover:bg-brown-200 pt-2 relative",
           {
             "bg-brown-200 img-highlight": isSelected,
           }
@@ -137,15 +191,31 @@ const Faction: React.FC<FactionProps> = ({
       >
         <div className="flex flex-col items-center space-y-1">
           <span className="text-xs capitalize">{name}</span>
-          <div className="relative h-[3.25rem]">
+          <div className="h-11">
             {name === "nightshades" ? (
-              <img
-                src={maximus}
-                className="-scale-x-100"
-                style={{ width: 14 * PIXEL_SCALE }}
-              />
+              <div>
+                <img
+                  src={maximus}
+                  className="-scale-x-100"
+                  style={{ width: 14 * PIXEL_SCALE }}
+                />
+                <div className="relative flex justify-center -z-10">
+                  <img
+                    src={shadow}
+                    style={{
+                      width: `${PIXEL_SCALE * 12}px`,
+                      bottom: `${PIXEL_SCALE * -2}px`,
+                    }}
+                    className="absolute pointer-events-none"
+                  />
+                </div>
+              </div>
             ) : (
-              <NPCIcon parts={NPC_WEARABLES[npcs[name]]} />
+              <div className="flex h-full items-center">
+                <div className="relative">
+                  <NPCIcon parts={NPC_WEARABLES[npcs[name]]} />
+                </div>
+              </div>
             )}
           </div>
         </div>

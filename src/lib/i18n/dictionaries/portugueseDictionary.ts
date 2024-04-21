@@ -4771,6 +4771,9 @@ const restrictionReason: Record<RestrictionReason, string> = {
 
 export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.leaderboard": ENGLISH_TERMS["leaderboard.leaderboard"],
+  "leaderboard.error": ENGLISH_TERMS["leaderboard.error"],
+  "leaderboard.topTen": ENGLISH_TERMS["leaderboard.topTen"],
+  "leaderboard.yourPosition": ENGLISH_TERMS["leaderboard.yourPosition"],
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {

@@ -23,6 +23,7 @@ import classNames from "classnames";
 import { closeButton, tab } from "lib/utils/sfx";
 
 import trophy from "assets/icons/trophy.png";
+import factions from "assets/icons/factions.webp";
 import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -87,6 +88,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setMilestoneName(undefined);
   };
 
+  const id =
+    gameService.state.context.state.username ??
+    String(gameService.state.context.farmId);
+
   const incompleteDeliveries = state.delivery.orders.filter(
     (order) => !order.completedAt
   ).length;
@@ -127,7 +132,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             ? [
                 {
                   name: "Factions" as const,
-                  icon: trophy,
+                  icon: factions,
                   count: 0,
                 },
               ]
@@ -191,7 +196,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               </div>
             </div>
             {/* Content */}
-            <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
+            <InnerPanel
+              className={classNames("flex flex-col h-full overflow-hidden", {
+                "overflow-y-auto scrollable": currentTab !== 5,
+              })}
+            >
               {currentTab === 0 && <Deliveries />}
               {currentTab === 1 && <Chores />}
               {currentTab === 2 && (
@@ -202,14 +211,14 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               )}
               {currentTab === 4 && (
                 <TicketsLeaderboard
-                  farmId={farmId}
+                  id={id}
                   isLoading={data === undefined}
                   data={data?.tickets ?? null}
                 />
               )}
               {currentTab === 5 && state.faction && (
                 <FactionsLeaderboard
-                  farmId={farmId}
+                  id={id}
                   faction={state.faction.name}
                   isLoading={data === undefined}
                   data={data?.factions ?? null}

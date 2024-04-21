@@ -5,6 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import coins from "assets/ui/coins.png";
 import speechBubble from "assets/ui/speech_border.png";
+import codex from "assets/icons/codex.webp";
 
 import { Codex } from "./Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
@@ -56,10 +57,10 @@ export const CodexButton: React.FC = () => {
           }}
         />
         <img
-          src={SUNNYSIDE.icons.search}
+          src={codex}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 12}px`,
+            width: `${PIXEL_SCALE * 16}px`,
           }}
         />
 

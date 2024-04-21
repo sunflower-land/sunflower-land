@@ -34,6 +34,7 @@ const HudComponent: React.FC = () => {
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
   const farmId = Number(gameState.context.farmId);
+  const username = gameState.context.state.username;
 
   const autosaving = gameState.matches("autosaving");
 
@@ -92,7 +93,7 @@ const HudComponent: React.FC = () => {
             "FACTION_LEADERBOARD"
           )
             ? `${PIXEL_SCALE * 23 * 2 + 8}px`
-            : `${PIXEL_SCALE * 23 * 2 + 8}px`,
+            : `${PIXEL_SCALE * 23 * 3 + 12}px`,
         }}
       >
         {hasFeatureAccess(gameState.context.state, "FACTION_LEADERBOARD") ? (
@@ -101,7 +102,7 @@ const HudComponent: React.FC = () => {
           </>
         ) : (
           <>
-            <Leaderboard farmId={farmId} />
+            <Leaderboard farmId={farmId} username={username} />
             <CodexButton />
           </>
         )}

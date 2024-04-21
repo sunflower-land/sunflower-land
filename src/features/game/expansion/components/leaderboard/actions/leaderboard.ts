@@ -15,7 +15,7 @@ type Options = {
 };
 
 export type RankData = {
-  id: number;
+  id: string;
   count: number;
   rank?: number;
 };

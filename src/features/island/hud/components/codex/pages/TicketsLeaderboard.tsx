@@ -9,12 +9,12 @@ import { getRelativeTime } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 
 interface LeaderboardProps {
-  farmId: number;
+  id: string;
   isLoading: boolean;
   data: TicketLeaderboard | null;
 }
 export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
-  farmId,
+  id,
   isLoading,
   data,
 }) => {
@@ -32,15 +32,15 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
 
   return (
     <div>
-      <div className="p-1 mb-1 space-y-1">
-        <p className="text-sm">{`${seasonTicket} Leaderboard`}</p>
+      <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
+        <Label type="default">{`${seasonTicket} ${t(
+          "leaderboard.leaderboard"
+        )}`}</Label>
         <p className="text-[12px]">
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
         </p>
       </div>
-      {data.topTen && (
-        <TicketTable rankings={data.topTen} farmId={Number(farmId)} />
-      )}
+      {data.topTen && <TicketTable rankings={data.topTen} id={id} />}
       {data.farmRankingDetails && (
         <>
           <div className="flex justify-center items-center">
@@ -49,7 +49,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
           <TicketTable
             showHeader={false}
             rankings={data.farmRankingDetails}
-            farmId={Number(farmId)}
+            id={id}
           />
         </>
       )}

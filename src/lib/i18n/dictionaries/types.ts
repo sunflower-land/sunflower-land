@@ -170,6 +170,7 @@ export type GeneralTerms =
   | "placing.bid"
   | "place.bid"
   | "plant"
+  | "player"
   | "play.again"
   | "please.wait"
   | "please.try.again"
@@ -3198,7 +3199,11 @@ export type RestrictionReason =
   | "restrictionReason.noRestriction"
   | "restrictionReason.genieLampRubbed";
 
-export type Leaderboard = "leaderboard.leaderboard" | "leaderboard.error";
+export type Leaderboard =
+  | "leaderboard.leaderboard"
+  | "leaderboard.error"
+  | "leaderboard.topTen"
+  | "leaderboard.yourPosition";
 
 export type TranslationKeys =
   | AchievementsTerms
