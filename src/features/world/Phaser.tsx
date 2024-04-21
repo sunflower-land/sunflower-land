@@ -153,7 +153,7 @@ export const PhaserComponent: React.FC<Props> = ({
       type: AUTO,
       fps: {
         target: 30,
-        // smoothStep: true,
+        smoothStep: true,
       },
       backgroundColor: "#000000",
       parent: "phaser-example",
@@ -180,7 +180,6 @@ export const PhaserComponent: React.FC<Props> = ({
         arcade: {
           debug: true,
           gravity: { y: 0 },
-          fps: 60,
         },
       },
       scene: scenes,
