@@ -20,6 +20,7 @@ export const INITIAL_RESOURCES: Pick<
   | "fruitPatches"
   | "sunstones"
   | "beehives"
+  | "oil"
 > = {
   crops: {
     1: {
@@ -146,6 +147,7 @@ export const INITIAL_RESOURCES: Pick<
     },
   },
   crimstones: {},
+  oil: {},
   fruitPatches: {
     1: {
       x: 7,

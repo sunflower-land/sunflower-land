@@ -1621,6 +1621,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Une roche exploitable pour collecter de la pierre.",
   "description.crimstone.rock":
     "Une roche exploitable pour collecter du crimstone.",
+  "description.oil.reserve": ENGLISH_TERMS["description.oil.reserve"],
   "description.flower.bed": "Une parcelle vide pour planter des fleurs.",
   "description.tree":
     "Un arbre que vous pouvez abattre pour collecter du Wood.",

@@ -53,6 +53,7 @@ export const RESOURCE_MOVE_EVENTS: Record<
   Beehive: "beehive.moved",
   "Flower Bed": "flowerBed.moved",
   "Sunstone Rock": "sunstone.moved",
+  "Oil Reserve": "oilReserve.moved",
 };
 
 function getMoveAction(

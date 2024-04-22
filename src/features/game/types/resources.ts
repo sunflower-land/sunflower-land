@@ -13,7 +13,8 @@ export type CommodityName =
   | "Chicken"
   | "Wild Mushroom"
   | "Magic Mushroom"
-  | "Sunstone";
+  | "Sunstone"
+  | "Oil";
 
 export type MushroomName = Extract<
   CommodityName,
@@ -61,6 +62,9 @@ export const COMMODITIES: Record<CommodityName, Commodity> = {
   Sunstone: {
     description: translate("use.craft"),
   },
+  Oil: {
+    description: translate("use.craft"),
+  },
 };
 
 export type ResourceName =
@@ -74,7 +78,8 @@ export type ResourceName =
   | "Boulder"
   | "Beehive"
   | "Sunstone Rock"
-  | "Flower Bed";
+  | "Flower Bed"
+  | "Oil Reserve";
 
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
@@ -88,6 +93,7 @@ export const RESOURCES: Record<ResourceName, string> = {
   Beehive: "Collect honey",
   "Flower Bed": "Plant flowers",
   "Sunstone Rock": "Mine sunstone",
+  "Oil Reserve": "Drill oil",
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -132,6 +138,10 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     height: 1,
   },
   "Sunstone Rock": {
+    width: 2,
+    height: 2,
+  },
+  "Oil Reserve": {
     width: 2,
     height: 2,
   },

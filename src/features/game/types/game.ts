@@ -932,6 +932,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crimstones: Record<string, FiniteResource>;
   sunstones: Record<string, FiniteResource>;
+  oil: Record<string, FiniteResource>;
 
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;

@@ -1117,6 +1117,7 @@ export type DecorationDescriptions =
   | "description.iron.rock"
   | "description.stone.rock"
   | "description.crimstone.rock"
+  | "description.oil.reserve"
   | "description.flower.bed"
   | "description.tree"
   | "description.fruit.patch"

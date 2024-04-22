@@ -1555,6 +1555,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.iron.rock": "Demir toplamak için kazılabilen bir kaya",
   "description.stone.rock": "Taş toplamak için kazılabilen bir kaya",
   "description.crimstone.rock": "Kızıltaş toplamak için kazılabilen bir kaya",
+  "description.oil.reserve": ENGLISH_TERMS["description.oil.reserve"],
   "description.flower.bed": "Çiçek dikmek için boş bir arsa",
   "description.tree": "Odun toplamak için kesilebilir bir ağaç",
   "description.fruit.patch": "Meyve dikmek için boş bir arsa",
