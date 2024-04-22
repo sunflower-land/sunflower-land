@@ -2,6 +2,8 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
+import { useActor } from "@xstate/react";
+import * as Auth from "features/auth/lib/Provider";
 import { LanguageSwitcher } from "./LanguageChangeModal";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
@@ -25,11 +27,13 @@ export const GeneralSettings: React.FC<Props> = ({
   isFarming,
 }) => {
   const { t } = useAppTranslation();
+  const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(GameContext);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
+  const [authState] = useActor(authService);
 
   const [view, setView] = useState<"settings">("settings");
   const { showAnimations, toggleAnimations } = useContext(Context);
@@ -59,7 +63,11 @@ export const GeneralSettings: React.FC<Props> = ({
           onClose={onClose}
         >
           <Button onClick={handleDiscordClick} className="mb-2">
-            <span>{t("gameOptions.generalSettings.connectDiscord")}</span>
+            <span>
+              {authState.context.user.token?.discordId
+                ? t("gameOptions.generalSettings.assignRole")
+                : t("gameOptions.generalSettings.connectDiscord")}
+            </span>
           </Button>
           <Button onClick={changeLanguage} className="mb-2">
             <span>{t("gameOptions.generalSettings.changeLanguage")}</span>

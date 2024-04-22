@@ -4708,6 +4708,7 @@ const gameOptions: Record<GameOptions, string> = {
   // General Settings
   "gameOptions.generalSettings": "General Settings",
   "gameOptions.generalSettings.connectDiscord": "Connect to Discord",
+  "gameOptions.generalSettings.assignRole": "Assign Discord Role",
   "gameOptions.generalSettings.changeLanguage": "Change Language",
   "gameOptions.generalSettings.disableAnimations": "Disable Animations",
   "gameOptions.generalSettings.enableAnimations": "Enable Animations",

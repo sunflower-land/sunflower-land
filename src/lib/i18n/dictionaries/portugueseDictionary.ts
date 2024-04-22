@@ -4785,6 +4785,8 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.generalSettings": ENGLISH_TERMS["gameOptions.generalSettings"],
   "gameOptions.generalSettings.connectDiscord":
     ENGLISH_TERMS["gameOptions.generalSettings.connectDiscord"],
+  "gameOptions.generalSettings.assignRole":
+    ENGLISH_TERMS["gameOptions.generalSettings.assignRole"],
   "gameOptions.generalSettings.changeLanguage": "Alterar Idioma",
   "gameOptions.generalSettings.disableAnimations": "Desativar Animações",
   "gameOptions.generalSettings.enableAnimations": "Ativar Animações",

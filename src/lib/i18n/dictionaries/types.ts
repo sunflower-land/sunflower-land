@@ -3209,6 +3209,7 @@ export type GameOptions =
   | "gameOptions.blockchainSettings.transferOwnership"
   | "gameOptions.generalSettings"
   | "gameOptions.generalSettings.connectDiscord"
+  | "gameOptions.generalSettings.assignRole"
   | "gameOptions.generalSettings.changeLanguage"
   | "gameOptions.generalSettings.disableAnimations"
   | "gameOptions.generalSettings.enableAnimations"
