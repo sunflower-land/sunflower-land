@@ -117,7 +117,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
         <div className="scrollable overflow-y-auto max-h-full p-1">
           {selected === faction && data.farmRankingDetails && (
             <div className="mb-3">
-              <Label type="info" className="mb-1">
+              <Label type="info" className="my-2">
                 {t("leaderboard.yourPosition")}
               </Label>
               <TicketTable
@@ -130,7 +130,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
 
           {topTen && (
             <>
-              <Label type="info" className="mb-1">
+              <Label type="info" className="my-2">
                 {t("leaderboard.topTen")}
               </Label>
               <TicketTable rankings={topTen} id={id} />
