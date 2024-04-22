@@ -105,18 +105,22 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
   };
   const handleAmoySettings = () => {
     setShowAmoySettings(true);
+    onClose();
   };
 
   const handleBlockchainSettings = () => {
     setShowBlockchainSettings(true);
+    onClose();
   };
 
   const handleGeneralSettings = () => {
     setShowGeneralSettings(true);
+    onClose();
   };
 
   const handlePlazaSettings = () => {
     setShowPlazaSettings(true);
+    onClose();
   };
 
   const openConfirmLogoutModal = () => {
