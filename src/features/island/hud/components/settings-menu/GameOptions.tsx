@@ -138,11 +138,11 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
             {/* Root menu */}
             {menuLevel === MENU_LEVELS.ROOT && (
               <>
-                <div className="flex flex-wrap items-center justify-between mx-2">
+                <div className="flex flex-wrap items-center justify-start mx-2">
                   <Label
                     type="default"
                     icon={SUNNYSIDE.icons.search}
-                    className="mb-1"
+                    className="mb-1 mr-4"
                     onClick={() => {
                       clipboard.copy(
                         gameService.state?.context?.farmId.toString() as string
@@ -157,7 +157,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                     <Label
                       type="default"
                       icon={SUNNYSIDE.icons.search}
-                      className="mb-1"
+                      className="mb-1 mr-4"
                       onClick={() => {
                         clipboard.copy(
                           gameService.state?.context?.nftId?.toString() || ""
@@ -172,7 +172,7 @@ export const GameOptions: React.FC<Props> = ({ show, onClose, isFarming }) => {
                   {gameService.state?.context?.linkedWallet && (
                     <Label
                       type="formula"
-                      className="mb-1"
+                      className="mb-1 mr-4"
                       icon={walletIcon}
                       onClick={() => {
                         clipboard.copy(
