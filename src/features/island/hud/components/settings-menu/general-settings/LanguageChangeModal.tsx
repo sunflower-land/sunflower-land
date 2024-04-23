@@ -14,6 +14,8 @@ import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
 import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
+import hongkongFlag from "assets/sfts/flags/hongkong_flag.gif";
+import taiwanFlag from "assets/sfts/flags/taiwan_flag.gif";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
@@ -95,6 +97,22 @@ export const LanguageSwitcher: React.FC = () => {
             alt="Chinese Flag"
           />
           {"简体中文"}
+        </Button>
+        <Button
+          onClick={() => handleChangeLanguage("zh-TW")}
+          disabled={language === "zh-TW"}
+        >
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={taiwanFlag}
+            alt="Taiwanese Flag"
+          />
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={hongkongFlag}
+            alt="Hong Kong Flag"
+          />
+          {"繁體中文"}
         </Button>
         <span>
           <a
