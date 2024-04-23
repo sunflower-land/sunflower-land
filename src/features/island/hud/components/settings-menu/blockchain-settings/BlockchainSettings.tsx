@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,21 +20,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 const _xp = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
 
-export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
+export const BlockchainSettings: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(GameContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
-  const [showRefreshMenu, setShowRefreshMenu] = useState(false);
   const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
@@ -58,19 +52,6 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     setShowDepositModal(true);
   };
 
-  const refreshSession = () => {
-    onClose();
-    gameService.send("RESET");
-  };
-
-  const openRefreshMenu = () => {
-    setShowRefreshMenu(true);
-  };
-
-  const closeRefreshMenu = () => {
-    setShowRefreshMenu(false);
-  };
-
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
   };
@@ -83,57 +64,47 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
     await new Promise((res) => setTimeout(res, 1000));
 
     gameService.send("SYNC", { captcha, blockBucks: 0 });
-    onClose();
     setShowCaptcha(false);
   };
 
   const Content = () => {
     if (view === "dequip") {
       return (
-        <Panel className="p-0">
-          <GameWallet action="dequip">
-            <DequipBumpkin onClose={closeAndResetView} />
-          </GameWallet>
-        </Panel>
+        <GameWallet action="dequip">
+          <DequipBumpkin onClose={closeAndResetView} />
+        </GameWallet>
       );
     }
 
     if (view === "transfer") {
       return (
-        <Panel className="p-0">
-          <GameWallet action="transferAccount">
-            <TransferAccount isOpen={true} onClose={closeAndResetView} />
-          </GameWallet>
-        </Panel>
+        <GameWallet action="transferAccount">
+          <TransferAccount isOpen={true} onClose={closeAndResetView} />
+        </GameWallet>
       );
     }
 
     return (
       <>
-        <CloseButtonPanel
-          title={t("gameOptions.blockchainSettings")}
-          onClose={onClose}
-        >
-          <Button onClick={handleDepositModal} className="mb-2">
-            <span>{t("deposit")}</span>
-          </Button>
-          <Button onClick={storeOnChain} className="mb-2">
-            <span>{t("gameOptions.blockchainSettings.storeOnChain")}</span>
-          </Button>
-          <Button onClick={handleSwapSFL} className="mb-2">
-            <span>{t("gameOptions.blockchainSettings.swapMaticForSFL")}</span>
-          </Button>
-          <Button className="mb-2 capitalize" onClick={() => setView("dequip")}>
-            {t("dequipper.dequip")}
-          </Button>
-          {isFullUser && (
-            <>
-              <Button className="mb-2" onClick={() => setView("transfer")}>
-                {t("gameOptions.blockchainSettings.transferOwnership")}
-              </Button>
-            </>
-          )}
-        </CloseButtonPanel>
+        <Button onClick={handleDepositModal} className="mb-2">
+          <span>{t("deposit")}</span>
+        </Button>
+        <Button onClick={storeOnChain} className="mb-2">
+          <span>{t("gameOptions.blockchainSettings.storeOnChain")}</span>
+        </Button>
+        <Button onClick={handleSwapSFL} className="mb-2">
+          <span>{t("gameOptions.blockchainSettings.swapMaticForSFL")}</span>
+        </Button>
+        <Button className="mb-2 capitalize" onClick={() => setView("dequip")}>
+          {t("dequipper.dequip")}
+        </Button>
+        {isFullUser && (
+          <>
+            <Button className="mb-2" onClick={() => setView("transfer")}>
+              {t("gameOptions.blockchainSettings.transferOwnership")}
+            </Button>
+          </>
+        )}
         <DepositModal
           farmAddress={farmAddress}
           canDeposit={getBumpkinLevel(xp) >= 3}
@@ -172,13 +143,8 @@ export const BlockchainSettings: React.FC<Props> = ({ isOpen, onClose }) => {
   }
 
   const closeAndResetView = () => {
-    onClose();
     setView("settings");
   };
 
-  return (
-    <Modal show={isOpen} onHide={closeAndResetView}>
-      {Content()}
-    </Modal>
-  );
+  return Content();
 };

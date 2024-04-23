@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import { isAddress } from "web3-utils";
-import { Modal } from "components/ui/Modal";
 
 import transferring from "assets/npcs/minting.gif";
 import farmImg from "assets/brand/nft.png";
@@ -11,7 +10,6 @@ import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong"
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { transferAccount } from "features/farming/hud/actions/transfer";
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
@@ -142,9 +140,5 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
       </div>
     );
   };
-  return (
-    <Modal show={isOpen} onHide={onClose}>
-      <Panel className="p-0">{Content()}</Panel>
-    </Modal>
-  );
+  return Content();
 };
