@@ -32,6 +32,7 @@ import {
 } from "mobile-device-detect";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
+import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -40,13 +41,6 @@ enum MENU_LEVELS {
 interface GameOptionsProps {
   onSelect: (id: number) => void;
 }
-
-type SettingsType =
-  | "Game Options"
-  | "Amoy Testnet Actions"
-  | "Blockchain Settings"
-  | "General Settings"
-  | "Plaza Settings";
 
 export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
   const { gameService } = useContext(GameContext);
@@ -208,6 +202,13 @@ interface GameOptionsModalProps {
   onClose: () => void;
 }
 
+type SettingsType =
+  | "Game Options"
+  | "Amoy Testnet Actions"
+  | "Blockchain Settings"
+  | "General Settings"
+  | "Plaza Settings";
+
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
@@ -239,6 +240,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
           {selected === 1 && <AmoyTestnetActions />}
           {selected === 2 && <BlockchainSettings />}
           {selected === 3 && <GeneralSettings />}
+          {selected === 4 && <PlazaSettings />}
           <p className="mx-1 text-xxs">
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
           </p>
