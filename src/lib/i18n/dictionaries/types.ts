@@ -1363,7 +1363,13 @@ export type Factions =
   | "faction.earn.emblems.time.left"
   | "faction.emblems.tasks"
   | "faction.view.leaderboard"
-  | "faction.donation.request.message";
+  | "faction.donation.request.message"
+  | "faction.donation.label"
+  | "faction.donation.sfl"
+  | "faction.donation.sfl.max.per.day"
+  | "faction.donation.bulk.resources"
+  | "faction.donation.bulk.resources.unlimited.per.day"
+  | "faction.donation.confirm";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

@@ -1915,6 +1915,14 @@ const factions: Record<Factions, string> = {
   "faction.view.leaderboard": "View Leaderboard",
   "faction.donation.request.message":
     "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewards faction points in return for your generosity.",
+  "faction.donation.label": "{{faction}} Faction Donation",
+  "faction.donation.sfl": "SFL donations min(10)",
+  "faction.donation.sfl.max.per.day": "{{donatedToday}}/500 max per day",
+  "faction.donation.bulk.resources": "Bulk resource donations (min {{min}})",
+  "faction.donation.bulk.resources.unlimited.per.day":
+    "{{donatedToday}}/Unlimited per day",
+  "faction.donation.confirm":
+    "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
