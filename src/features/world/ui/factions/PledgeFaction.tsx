@@ -17,30 +17,22 @@ import {
   fetchLeaderboardData,
 } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
-import { FactionName } from "features/game/types/game";
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
+import { FactionName } from "features/game/types/game";
+import { FactionDetailsPanel } from "./FactionDetailsPanel";
 
-type Faction = "sunflorians" | "bumpkins" | "goblins" | "nightshades";
-
-const FACTION_DESCRIPTIONS: Record<Faction, FactionTranslations> = {
+const FACTION_DESCRIPTIONS: Record<FactionName, FactionTranslations> = {
   sunflorians: "faction.description.sunflorians",
   bumpkins: "faction.description.bumpkins",
   goblins: "faction.description.goblins",
   nightshades: "faction.description.nightshades",
 };
 
-const FACTION_JOINED_INTROS: Record<Faction, FactionTranslations> = {
-  sunflorians: "faction.joined.sunflorians.intro",
-  bumpkins: "faction.joined.bumpkins.intro",
-  goblins: "faction.joined.goblins.intro",
-  nightshades: "faction.joined.nightshades.intro",
-};
-
-const FACTIONS_START_TIME = new Date(Date.UTC(2024, 6, 1));
+export const FACTIONS_START_TIME = new Date(Date.UTC(2024, 6, 1));
 
 interface Props {
-  faction: Faction;
+  faction: FactionName;
   onClose: () => void;
 }
 
@@ -157,6 +149,9 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
             {t("faction.view.leaderboard")}
           </Button>
         </>
+      )}
+      {joinedFaction && (
+        <FactionDetailsPanel faction={faction} onClose={onClose} />
       )}
       {showLeaderboard && joinedFaction && (
         <MiniFactionLeaderboard
