@@ -202,25 +202,21 @@ interface GameOptionsModalProps {
   onClose: () => void;
 }
 
-type SettingsType =
-  | "Game Options"
-  | "Amoy Testnet Actions"
-  | "Blockchain Settings"
-  | "General Settings"
-  | "Plaza Settings";
+type SettingsType = string;
 
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const settingsOptions: SettingsType[] = [
-    "Game Options",
-    "Amoy Testnet Actions",
-    "Blockchain Settings",
-    "General Settings",
-    "Plaza Settings",
+    t("gameOptions.title"),
+    t("gameOptions.amoyActions"),
+    t("gameOptions.blockchainSettings"),
+    t("gameOptions.generalSettings"),
+    t("gameOptions.plazaSettings"),
   ];
   const [selected, setSelected] = useState(0);
 
