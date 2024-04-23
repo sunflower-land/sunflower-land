@@ -18,6 +18,7 @@ import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
@@ -234,6 +235,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
           onBack={selected ? () => setSelected(0) : undefined}
         >
           {selected === 0 && <GameOptions onSelect={setSelected} />}
+          {selected === 1 && <AmoyTestnetActions />}
           {selected === 2 && <BlockchainSettings />}
           <p className="mx-1 text-xxs">
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
