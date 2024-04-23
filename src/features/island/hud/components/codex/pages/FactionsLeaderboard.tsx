@@ -75,6 +75,8 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
     .sort((a, b) => b[1] - a[1])
     .map(([key], i) => [key, POSITION_LABELS[i]]);
 
+  const showLabel = !isMobile || mobileFullScreen || data.farmRankingDetails;
+
   return (
     <>
       {(!isMobile || !mobileFullScreen) && (
@@ -91,27 +93,34 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
         </div>
       )}
 
-      <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
-        <div className="flex items-center">
-          {isMobile && mobileFullScreen && (
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              className="cursor-pointer mr-2"
-              onClick={back}
-              style={{
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-          )}
-          <Label type="default" className="capitalize">{`${selected.slice(
-            0,
-            -1
-          )} ${t("leaderboard.leaderboard")}`}</Label>
+      {showLabel ? (
+        <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
+          <div className="flex items-center">
+            {/** Show Back Button on Mobile  */}
+            {isMobile && mobileFullScreen && (
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="cursor-pointer mr-2"
+                onClick={back}
+                style={{
+                  width: `${PIXEL_SCALE * 8}px`,
+                }}
+              />
+            )}
+            <Label type="default" className="capitalize">{`${selected.slice(
+              0,
+              -1
+            )} ${t("leaderboard.leaderboard")}`}</Label>
+          </div>
+          <p className="text-[12px]">
+            {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+          </p>
         </div>
-        <p className="text-[12px]">
-          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
-        </p>
-      </div>
+      ) : (
+        <div className="p-1 pt-2">
+          <Label type="info">{t("leaderboard.initialising")}</Label>
+        </div>
+      )}
 
       {(!isMobile || mobileFullScreen) && (
         <div className="scrollable overflow-y-auto max-h-full p-1">

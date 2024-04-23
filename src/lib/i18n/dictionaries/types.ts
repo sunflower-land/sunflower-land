@@ -3202,6 +3202,7 @@ export type RestrictionReason =
 export type Leaderboard =
   | "leaderboard.leaderboard"
   | "leaderboard.error"
+  | "leaderboard.initialising"
   | "leaderboard.topTen"
   | "leaderboard.yourPosition";
 

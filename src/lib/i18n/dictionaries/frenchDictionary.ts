@@ -4904,6 +4904,7 @@ const restrictionReason: Record<RestrictionReason, string> = {
 export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.leaderboard": ENGLISH_TERMS["leaderboard.leaderboard"],
   "leaderboard.error": ENGLISH_TERMS["leaderboard.error"],
+  "leaderboard.initialising": ENGLISH_TERMS["leaderboard.initialising"],
   "leaderboard.topTen": ENGLISH_TERMS["leaderboard.topTen"],
   "leaderboard.yourPosition": ENGLISH_TERMS["leaderboard.yourPosition"],
 };
