@@ -1,5 +1,4 @@
 import { BumpkinItem } from "./bumpkin";
-import { GoblinState } from "../lib/goblinMachine";
 import { getDailyFishingCount } from "./fishing";
 import {
   areAnyChickensFed,
@@ -8,10 +7,11 @@ import {
   areFruitsGrowing,
   cropIsGrowing,
 } from "./removeables";
+import { GameState } from "./game";
 
 export const canWithdrawBoostedWearable = (
   name: BumpkinItem,
-  state?: GoblinState
+  state?: GameState
 ) => {
   if (!state) return false;
 

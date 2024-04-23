@@ -9,7 +9,6 @@ import { defaultDialogue, npcDialogues } from "../deliveries/dialogues";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import bg from "assets/ui/brown_background.png";
@@ -19,6 +18,7 @@ import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   onClose: () => void;

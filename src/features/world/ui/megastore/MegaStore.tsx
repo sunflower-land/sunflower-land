@@ -9,7 +9,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Transition } from "@headlessui/react";
 import { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
@@ -22,6 +21,7 @@ import { useSelector } from "@xstate/react";
 import lightning from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   onClose: () => void;

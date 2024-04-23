@@ -17,6 +17,7 @@ import {
   Coupons,
   EasterEgg,
   FertiliserName,
+  GameState,
   InventoryItemName,
   LanternName,
   Points,
@@ -55,7 +56,6 @@ import {
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
-import { GoblinState } from "../lib/goblinMachine";
 import { CompostName } from "./composters";
 import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
@@ -929,7 +929,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
 
 export const BUMPKIN_WITHDRAWABLES: Record<
   BumpkinItem,
-  (state?: GoblinState) => boolean
+  (state?: GameState) => boolean
 > = {
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,

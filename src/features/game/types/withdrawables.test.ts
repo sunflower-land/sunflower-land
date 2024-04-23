@@ -1,8 +1,8 @@
 import "lib/__mocks__/configMock";
 
 import { TEST_FARM } from "../lib/constants";
-import { GoblinState } from "../lib/goblinMachine";
 import { BUMPKIN_WITHDRAWABLES, WITHDRAWABLES } from "./withdrawables";
+import { GameState } from "./game";
 
 describe("withdrawables", () => {
   const dateNow = Date.now();
@@ -79,7 +79,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Fruit Picker Apron when fruit trees are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         fruitPatches: {
           1: {
@@ -103,7 +103,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Eggplant Onesie when eggplants are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -127,7 +127,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Parsnip when parsnips are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -151,7 +151,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Sunflower Amulet when Sunflowers are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -175,7 +175,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Carrot Amulet when Carrots are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -199,7 +199,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Beetroot Amulet when Beetroots are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -223,7 +223,7 @@ describe("withdrawables", () => {
     });
 
     it("prevents withdrawal of Green Amulet when any crops are planted", () => {
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -266,7 +266,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu October 7 2023 10:01:00 GMT+1000"));
 
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         chickens: {
           1: {
@@ -288,7 +288,7 @@ describe("withdrawables", () => {
       const timers = jest.useFakeTimers();
       timers.setSystemTime(new Date("Thu October 30 2023 10:01:00 GMT+1000"));
 
-      const state: GoblinState = {
+      const state: GameState = {
         ...TEST_FARM,
         crops: {
           "1": {
@@ -339,7 +339,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Fruit Picker Apron when fruit trees are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       fruitPatches: {
         1: {
@@ -356,7 +356,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Eggplant Onesie when eggplants are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {
         "1": {
@@ -380,7 +380,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Parsnip when parsnips are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {},
     };
@@ -390,7 +390,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Sunflower Amulet when Sunflowers are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {
         "1": {
@@ -435,7 +435,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Carrot Amulet when Carrots are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {
         "1": {
@@ -459,7 +459,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Beetroot Amulet when Beetroots are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {
         "1": {
@@ -483,7 +483,7 @@ describe("withdrawables", () => {
   });
 
   it("enables withdrawal of Green Amulet when no crops are planted", () => {
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {
         "1": {
@@ -504,7 +504,7 @@ describe("withdrawables", () => {
     const timers = jest.useFakeTimers();
     timers.setSystemTime(new Date("Thu October 7 2023 10:01:00 GMT+1000"));
 
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       chickens: {
         1: {
@@ -525,7 +525,7 @@ describe("withdrawables", () => {
     const timers = jest.useFakeTimers();
     timers.setSystemTime(new Date("Thu October 30 2023 10:01:00 GMT+1000"));
 
-    const state: GoblinState = {
+    const state: GameState = {
       ...TEST_FARM,
       crops: {
         "1": {

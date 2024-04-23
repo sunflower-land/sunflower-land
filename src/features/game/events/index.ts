@@ -34,7 +34,6 @@ import {
 } from "./landExpansion/feedChicken";
 
 import { GameState } from "../types/game";
-import { trade, TradeAction } from "./trade";
 import { claimAirdrop, ClaimAirdropAction } from "./claimAirdrop";
 import {
   placeBuilding,
@@ -283,7 +282,6 @@ import {
 } from "./landExpansion/placeOilReserve";
 
 export type PlayingEvent =
-  | TradeAction
   | LandExpansionPlantAction
   | LandExpansionFertiliseCropAction
   | LandExpansionRemoveCropAction
@@ -430,7 +428,6 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
-  "item.traded": trade,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,

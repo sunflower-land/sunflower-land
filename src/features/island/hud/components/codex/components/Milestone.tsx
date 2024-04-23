@@ -7,7 +7,6 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 
 import chest from "assets/icons/chest.png";
 import { Collapse } from "components/ui/Collapse";
@@ -16,6 +15,7 @@ import { Milestone as MilestoneDetail } from "features/game/types/milestones";
 import { getKeys } from "features/game/types/craftables";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 export const MilestonePanel: React.FC<{
   milestone: MilestoneDetail;

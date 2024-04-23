@@ -7,9 +7,9 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useContext } from "react";
 import { Loser } from "features/retreat/components/auctioneer/Loser";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 export const RefundAuction: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);

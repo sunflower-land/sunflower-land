@@ -15,7 +15,6 @@ import {
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
-import { GoblinState } from "features/game/lib/goblinMachine";
 import { FLOWERS, FLOWER_SEEDS } from "./flowers";
 import { getCurrentHoneyProduced } from "../expansion/components/resources/beehive/beehiveMachine";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
@@ -43,7 +42,7 @@ function beanIsPlanted(game: GameState): Restriction {
 }
 
 export function areFruitsGrowing(
-  game: GoblinState,
+  game: GameState,
   fruit: FruitName
 ): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some(
@@ -56,7 +55,7 @@ export function areFruitsGrowing(
   ];
 }
 
-export function areAnyFruitsGrowing(game: GoblinState): Restriction {
+export function areAnyFruitsGrowing(game: GameState): Restriction {
   const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
     isFruitGrowing(patch)
   );
@@ -64,7 +63,7 @@ export function areAnyFruitsGrowing(game: GoblinState): Restriction {
   return [fruitGrowing, translate("restrictionReason.fruitsGrowing")];
 }
 
-export function areAnyCropsGrowing(game: GoblinState): Restriction {
+export function areAnyCropsGrowing(game: GameState): Restriction {
   const cropsGrowing = Object.values(game.crops ?? {}).some((plot) =>
     isCropGrowing(plot)
   );
@@ -158,7 +157,7 @@ function areAnyMineralsMined(game: GameState): Restriction {
   return areGoldsMined;
 }
 
-export function areAnyChickensFed(game: GoblinState): Restriction {
+export function areAnyChickensFed(game: GameState): Restriction {
   const chickensAreFed = Object.values(game.chickens).some(
     (chicken) =>
       chicken.fedAt && Date.now() - chicken.fedAt < CHICKEN_TIME_TO_EGG

@@ -3,7 +3,6 @@ import { MachineInterpreter } from "features/game/lib/auctionMachine";
 import { useActor } from "@xstate/react";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 
 import bg from "assets/ui/brown_background.png";
@@ -14,6 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   auctionService: MachineInterpreter;

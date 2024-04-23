@@ -14,7 +14,6 @@ import {
   ShopWearables,
   StylistWearable,
 } from "features/game/types/stylist";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -26,6 +25,7 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
   const wearable = STYLIST_WEARABLES[name] as StylistWearable;

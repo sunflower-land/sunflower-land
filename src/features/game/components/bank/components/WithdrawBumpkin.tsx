@@ -7,7 +7,6 @@ import React, { useContext } from "react";
 
 import wallet from "assets/icons/wallet.png";
 import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
 import { BASIC_WEARABLES } from "features/game/types/stylist";
@@ -15,6 +14,7 @@ import { isCurrentObsession } from "./WithdrawWearables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { formatDateTime } from "lib/utils/time";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 const WITHDRAWAL_CLOSE_DATE = new Date("2024-05-01T00:00:00Z");
 interface Props {

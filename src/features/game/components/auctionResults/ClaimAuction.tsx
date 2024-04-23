@@ -6,9 +6,9 @@ import { Winner } from "features/retreat/components/auctioneer/Winner";
 import { Context as GameContext } from "features/game/GameProvider";
 import { useContext } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 export const ClaimAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
