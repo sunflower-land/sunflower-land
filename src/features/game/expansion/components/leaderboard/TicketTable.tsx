@@ -6,27 +6,27 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   rankings: RankData[];
   showHeader?: boolean;
-  farmId: number;
+  id: string;
 }
 
 export const TicketTable: React.FC<Props> = ({
   rankings,
-  farmId,
+  id: playerId,
   showHeader = true,
 }) => {
   const { t } = useAppTranslation();
   return (
-    <table className="w-full text-xs table-fixed border-collapse p-">
+    <table className="w-full text-xs table-fixed border-collapse">
       {showHeader && (
         <thead>
           <tr>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 ">
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
               <p>{t("rank")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>{t("farm")}</p>
+              <p>{t("player")}</p>
             </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
               <p>{t("total")}</p>
             </th>
           </tr>
@@ -36,12 +36,15 @@ export const TicketTable: React.FC<Props> = ({
         {rankings.map(({ id, count, rank }, index) => (
           <tr
             key={index}
-            className={classNames({ "text-green-400": id === farmId })}
+            className={classNames({ "text-green-400": id === playerId })}
           >
             <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
               {rank ?? index + 1}
             </td>
-            <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+            <td
+              style={{ border: "1px solid #b96f50" }}
+              className="p-1.5 truncate"
+            >
               {id}
             </td>
             <td style={{ border: "1px solid #b96f50" }} className="p-1.5">

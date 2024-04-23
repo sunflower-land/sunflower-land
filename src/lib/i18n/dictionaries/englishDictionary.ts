@@ -174,6 +174,7 @@ import {
   GoblinTrade,
   RestrictionReason,
   RemoveHungryCaterpillar,
+  Leaderboard,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -347,6 +348,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "place.bid": "Place your bid",
   "placing.bid": "Placing bid",
   plant: "Plant",
+  player: "Player",
   "play.again": "Play again",
   "please.try.again": "Please try again later.",
   "please.wait": "Please wait",
@@ -4694,6 +4696,14 @@ export const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
 };
 
+export const leaderboardTerms: Record<Leaderboard, string> = {
+  "leaderboard.leaderboard": "Leaderboard",
+  "leaderboard.error": "Error loading leaderboard. Please try again later.",
+  "leaderboard.initialising": "Calculating your rank. Please try again later.",
+  "leaderboard.topTen": "Top ten",
+  "leaderboard.yourPosition": "Your position",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4784,6 +4794,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...islandNotFound,
   ...islandupgrade,
   ...landscapeTerms,
+  ...leaderboardTerms,
   ...letsGo,
   ...levelUpMessages,
   ...loser,

@@ -145,15 +145,22 @@ export const NPCIcon: React.FC<NPCProps> = ({ parts, hideShadow }) => {
     <>
       <div>
         {!sheetSrc && (
-          <img
-            src={silhouette}
+          <div
             style={{
-              width: `${PIXEL_SCALE * 12}px`,
-              top: `${PIXEL_SCALE * 8}px`,
-              left: `${PIXEL_SCALE * 1}px`,
+              width: `${PIXEL_SCALE * 14}px`,
+              height: `${PIXEL_SCALE * 19 * (14 / 20)}px`,
             }}
-            className="absolute pointer-events-none npc-loading"
-          />
+          >
+            <img
+              src={silhouette}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+                top: `${PIXEL_SCALE * 3}px`,
+                left: `${PIXEL_SCALE * 1}px`,
+              }}
+              className="absolute pointer-events-none npc-loading pl-1"
+            />
+          </div>
         )}
 
         {sheetSrc && (

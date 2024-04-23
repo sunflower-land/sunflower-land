@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -20,6 +20,15 @@ import { Deliveries } from "./pages/Deliveries";
 import { Chores } from "./pages/Chores";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
+import { closeButton, tab } from "lib/utils/sfx";
+
+import trophy from "assets/icons/trophy.png";
+import factions from "assets/icons/factions.webp";
+import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
+import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
+import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { hasFeatureAccess } from "lib/flags";
+import { FactionsLeaderboard } from "./pages/FactionsLeaderboard";
 
 interface Props {
   show: boolean;
@@ -39,8 +48,34 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
+  const [data, setData] = useState<Leaderboards | null | undefined>(undefined);
+
+  useEffect(() => {
+    if (!show) return;
+
+    const fetchLeaderboards = async () => {
+      try {
+        const data = await fetchLeaderboardData(farmId);
+        setData(data);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Error loading leaderboards", e);
+
+        if (!data) setData(null);
+      }
+    };
+
+    fetchLeaderboards();
+  }, [show]);
+
   const handleTabClick = (index: number) => {
+    hasFeatureAccess(gameService.state.context.state, "SOUND") && tab.play();
     setCurrentTab(index);
+  };
+
+  const handleHide = () => {
+    closeButton.play();
+    onHide();
   };
 
   const handleMilestoneReached = (milestoneName: MilestoneName) => {
@@ -52,6 +87,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     setShowMilestoneReached(false);
     setMilestoneName(undefined);
   };
+
+  const id =
+    gameService.state.context.state.username ??
+    String(gameService.state.context.farmId);
 
   const incompleteDeliveries = state.delivery.orders.filter(
     (order) => !order.completedAt
@@ -82,10 +121,28 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
+    ...(hasFeatureAccess(state, "FACTION_LEADERBOARD")
+      ? [
+          {
+            name: "Leaderboard" as const,
+            icon: trophy,
+            count: 0,
+          },
+          ...(state.faction
+            ? [
+                {
+                  name: "Factions" as const,
+                  icon: factions,
+                  count: 0,
+                },
+              ]
+            : []),
+        ]
+      : []),
   ];
 
   return (
-    <Modal show={show} onHide={onHide} dialogClassName="md:max-w-3xl">
+    <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
       <div className="h-[500px] relative">
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">
@@ -97,7 +154,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             <img
               src={SUNNYSIDE.icons.close}
               className="float-right cursor-pointer z-20 ml-3"
-              onClick={onHide}
+              onClick={handleHide}
               style={{
                 width: `${PIXEL_SCALE * 11}px`,
               }}
@@ -139,7 +196,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               </div>
             </div>
             {/* Content */}
-            <InnerPanel className="flex flex-col h-full overflow-y-auto scrollable">
+            <InnerPanel
+              className={classNames("flex flex-col h-full overflow-hidden", {
+                "overflow-y-auto scrollable": currentTab !== 5,
+              })}
+            >
               {currentTab === 0 && <Deliveries />}
               {currentTab === 1 && <Chores />}
               {currentTab === 2 && (
@@ -147,6 +208,21 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               )}
               {currentTab === 3 && (
                 <Flowers onMilestoneReached={handleMilestoneReached} />
+              )}
+              {currentTab === 4 && (
+                <TicketsLeaderboard
+                  id={id}
+                  isLoading={data === undefined}
+                  data={data?.tickets ?? null}
+                />
+              )}
+              {currentTab === 5 && state.faction && (
+                <FactionsLeaderboard
+                  id={id}
+                  faction={state.faction.name}
+                  isLoading={data === undefined}
+                  data={data?.factions ?? null}
+                />
               )}
             </InnerPanel>
           </div>

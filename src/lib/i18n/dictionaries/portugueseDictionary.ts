@@ -175,6 +175,7 @@ import {
   RestrictionReason,
   RemoveHungryCaterpillar,
   Factions,
+  Leaderboard,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -481,6 +482,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   wearables: "Vestíveis",
   wish: "Desejo",
   "sfl/coins": ENGLISH_TERMS["sfl/coins"],
+  player: ENGLISH_TERMS["player"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -4768,6 +4770,14 @@ const restrictionReason: Record<RestrictionReason, string> = {
     ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
 };
 
+export const leaderboardTerms: Record<Leaderboard, string> = {
+  "leaderboard.leaderboard": ENGLISH_TERMS["leaderboard.leaderboard"],
+  "leaderboard.error": ENGLISH_TERMS["leaderboard.error"],
+  "leaderboard.initialising": ENGLISH_TERMS["leaderboard.initialising"],
+  "leaderboard.topTen": ENGLISH_TERMS["leaderboard.topTen"],
+  "leaderboard.yourPosition": ENGLISH_TERMS["leaderboard.yourPosition"],
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -4857,6 +4867,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...islandName,
   ...islandNotFound,
   ...landscapeTerms,
+  ...leaderboardTerms,
   ...letsGo,
   ...levelUpMessages,
   ...loser,

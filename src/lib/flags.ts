@@ -12,7 +12,13 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
  *
  * Do not delete JEST_TEST.
  */
-type FeatureName = "JEST_TEST" | "PORTALS" | "EASTER" | "FACTIONS";
+type FeatureName =
+  | "JEST_TEST"
+  | "PORTALS"
+  | "EASTER"
+  | "FACTIONS"
+  | "FACTION_LEADERBOARD"
+  | "SOUND";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -34,6 +40,8 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
   },
   FACTIONS: testnetFeatureFlag,
+  FACTION_LEADERBOARD: testnetFeatureFlag,
+  SOUND: testnetFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

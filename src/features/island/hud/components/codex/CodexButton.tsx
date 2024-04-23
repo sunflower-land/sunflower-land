@@ -5,6 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import coins from "assets/ui/coins.png";
 import speechBubble from "assets/ui/speech_border.png";
+import codex from "assets/icons/codex.webp";
 
 import { Codex } from "./Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";
@@ -13,6 +14,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
+import { hud } from "lib/utils/sfx";
+import { hasFeatureAccess } from "lib/flags";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -41,6 +44,8 @@ export const CodexButton: React.FC = () => {
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
+          hasFeatureAccess(gameService.state.context.state, "SOUND") &&
+            hud.play();
           setIsOpen(true);
         }}
       >
@@ -52,10 +57,10 @@ export const CodexButton: React.FC = () => {
           }}
         />
         <img
-          src={SUNNYSIDE.icons.search}
+          src={codex}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 12}px`,
+            width: `${PIXEL_SCALE * 16}px`,
           }}
         />
 
