@@ -206,7 +206,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: spawn.y ?? 0,
         // gameService
         farmId: Number(this.id),
-        faction: this.gameService.state.context.state.faction?.name,
+        faction: this.gameState.faction?.name,
         username: this.username,
         isCurrentPlayer: true,
         // gameService
