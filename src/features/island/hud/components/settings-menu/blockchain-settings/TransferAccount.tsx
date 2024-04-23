@@ -7,7 +7,6 @@ import farmImg from "assets/brand/nft.png";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { transferAccount } from "features/farming/hud/actions/transfer";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -15,12 +14,7 @@ import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
+export const TransferAccount: React.FC = () => {
   const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
@@ -127,16 +121,6 @@ export const TransferAccount: React.FC<Props> = ({ isOpen, onClose }) => {
         >
           {t("read.more")}
         </a>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="absolute cursor-pointer z-20"
-          onClick={onClose}
-          style={{
-            top: `${PIXEL_SCALE * 6}px`,
-            right: `${PIXEL_SCALE * 6}px`,
-            width: `${PIXEL_SCALE * 11}px`,
-          }}
-        />
       </div>
     );
   };

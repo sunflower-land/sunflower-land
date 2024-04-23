@@ -34,10 +34,6 @@ import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 
-enum MENU_LEVELS {
-  ROOT = "root",
-}
-
 interface GameOptionsProps {
   onSelect: (id: number) => void;
 }
@@ -49,7 +45,6 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
 
   const { t } = useAppTranslation();
 
-  const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [showInstallAppModal, setShowInstallAppModal] = useState(false);
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
 
@@ -83,57 +78,55 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
   return (
     <>
       {/* Root menu */}
-      {menuLevel === MENU_LEVELS.ROOT && (
-        <>
-          <div className="flex flex-wrap items-center justify-start mx-2">
+      <>
+        <div className="flex flex-wrap items-center justify-start mx-2">
+          <Label
+            type="default"
+            icon={SUNNYSIDE.icons.search}
+            className="mb-1 mr-4"
+            onClick={() => {
+              clipboard.copy(
+                gameService.state?.context?.farmId.toString() as string
+              );
+            }}
+          >
+            {t("gameOptions.farmId", {
+              farmId: gameService.state?.context?.farmId,
+            })}
+          </Label>
+          {gameService.state?.context?.nftId !== undefined && (
             <Label
               type="default"
               icon={SUNNYSIDE.icons.search}
               className="mb-1 mr-4"
               onClick={() => {
                 clipboard.copy(
-                  gameService.state?.context?.farmId.toString() as string
+                  gameService.state?.context?.nftId?.toString() || ""
                 );
               }}
             >
-              {t("gameOptions.farmId", {
-                farmId: gameService.state?.context?.farmId,
-              })}
+              {`NFT ID #${gameService.state?.context?.nftId}`}
             </Label>
-            {gameService.state?.context?.nftId !== undefined && (
-              <Label
-                type="default"
-                icon={SUNNYSIDE.icons.search}
-                className="mb-1 mr-4"
-                onClick={() => {
-                  clipboard.copy(
-                    gameService.state?.context?.nftId?.toString() || ""
-                  );
-                }}
-              >
-                {`NFT ID #${gameService.state?.context?.nftId}`}
-              </Label>
-            )}
-          </div>
-          <div className="flex flex-wrap items-center justify-between mx-2">
-            {gameService.state?.context?.linkedWallet && (
-              <Label
-                type="formula"
-                className="mb-1 mr-4"
-                icon={walletIcon}
-                onClick={() => {
-                  clipboard.copy(
-                    gameService.state?.context?.linkedWallet as string
-                  );
-                }}
-              >
-                {t("linked.wallet")} {"-"}{" "}
-                {shortAddress(gameService.state.context.linkedWallet)}
-              </Label>
-            )}
-          </div>
-        </>
-      )}
+          )}
+        </div>
+        <div className="flex flex-wrap items-center justify-between mx-2">
+          {gameService.state?.context?.linkedWallet && (
+            <Label
+              type="formula"
+              className="mb-1 mr-4"
+              icon={walletIcon}
+              onClick={() => {
+                clipboard.copy(
+                  gameService.state?.context?.linkedWallet as string
+                );
+              }}
+            >
+              {t("linked.wallet")} {"-"}{" "}
+              {shortAddress(gameService.state.context.linkedWallet)}
+            </Label>
+          )}
+        </div>
+      </>
       {!isPWA && (
         <Button className="p-1 mb-2" onClick={handleInstallApp}>
           <span>{t("install.app")}</span>

@@ -71,7 +71,13 @@ export const BlockchainSettings: React.FC = () => {
     if (view === "dequip") {
       return (
         <GameWallet action="dequip">
-          <DequipBumpkin onClose={closeAndResetView} />
+          <div
+            className="grow mb-3 text-lg"
+            style={{ margin: "0 auto", display: "table" }}
+          >
+            {t("dequipper.dequip")}
+          </div>
+          <DequipBumpkin />
         </GameWallet>
       );
     }
@@ -79,7 +85,7 @@ export const BlockchainSettings: React.FC = () => {
     if (view === "transfer") {
       return (
         <GameWallet action="transferAccount">
-          <TransferAccount isOpen={true} onClose={closeAndResetView} />
+          <TransferAccount />
         </GameWallet>
       );
     }
