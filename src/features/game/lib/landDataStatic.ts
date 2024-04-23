@@ -1178,6 +1178,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   dailyFactionDonationRequest: {
     resource: "Sunflower",
-    amount: new Decimal(10),
+    amount: new Decimal(1000),
   },
 };
