@@ -23,15 +23,16 @@ describe("moveOilReserve", () => {
       moveOilReserve({
         state: {
           ...TEST_FARM,
-          gold: {
-            1: {
+          oil: {
+            "1": {
               height: 1,
               width: 1,
+              drillsLeft: 1,
               x: 1,
               y: 1,
-              stone: {
+              oil: {
                 amount: 1,
-                minedAt: 0,
+                drilledAt: 0,
               },
             },
           },
@@ -55,33 +56,33 @@ describe("moveOilReserve", () => {
             width: 1,
             x: 1,
             y: 1,
-            stone: {
+            oil: {
               amount: 1,
-              minedAt: 0,
+              drilledAt: 0,
             },
-            minesLeft: 1,
+            drillsLeft: 1,
           },
           "456": {
             height: 1,
             width: 1,
             x: 4,
             y: 4,
-            stone: {
+            oil: {
               amount: 1,
-              minedAt: 0,
+              drilledAt: 0,
             },
-            minesLeft: 1,
+            drillsLeft: 1,
           },
           "789": {
             height: 1,
             width: 1,
             x: 8,
             y: 8,
-            stone: {
+            oil: {
               amount: 1,
-              minedAt: 0,
+              drilledAt: 0,
             },
-            minesLeft: 1,
+            drillsLeft: 1,
           },
         },
       },
@@ -98,33 +99,33 @@ describe("moveOilReserve", () => {
         width: 1,
         x: 2,
         y: 2,
-        stone: {
+        oil: {
           amount: 1,
-          minedAt: 0,
+          drilledAt: 0,
         },
-        minesLeft: 1,
+        drillsLeft: 1,
       },
       "456": {
         height: 1,
         width: 1,
         x: 4,
         y: 4,
-        stone: {
+        oil: {
           amount: 1,
-          minedAt: 0,
+          drilledAt: 0,
         },
-        minesLeft: 1,
+        drillsLeft: 1,
       },
       "789": {
         height: 1,
         width: 1,
         x: 8,
         y: 8,
-        stone: {
+        oil: {
           amount: 1,
-          minedAt: 0,
+          drilledAt: 0,
         },
-        minesLeft: 1,
+        drillsLeft: 1,
       },
     });
   });
