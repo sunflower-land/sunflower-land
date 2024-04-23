@@ -119,6 +119,7 @@ export function makeGame(farm: any): GameState {
     },
     goblinMarket: farm.goblinMarket,
     faction: farm.faction,
+    dailyFactionDonationRequest: farm.dailyFactionDonationRequest,
   };
 }
 

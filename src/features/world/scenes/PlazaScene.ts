@@ -537,6 +537,9 @@ export class PlazaScene extends BaseScene {
           updatedAt: 0,
         },
         direction,
+        onClick: () => {
+          npcModalManager.open(npc);
+        },
       });
 
       container.setDepth(y);

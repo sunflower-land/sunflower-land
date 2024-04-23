@@ -749,6 +749,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
   },
+  // Faction Spruikers
   "lady day": {
     body: "Beige Farmer Potion",
     hair: "Brown Long Hair",

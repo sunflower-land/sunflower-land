@@ -1913,6 +1913,8 @@ const factions: Record<Factions, string> = {
   "faction.emblems.tasks":
     "Complete deliveries now to be eligible for the faction emblems airdrop.",
   "faction.view.leaderboard": "View Leaderboard",
+  "faction.donation.request.message":
+    "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewards faction points in return for your generosity.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {

@@ -1362,7 +1362,8 @@ export type Factions =
   | "faction.earn.emblems"
   | "faction.earn.emblems.time.left"
   | "faction.emblems.tasks"
-  | "faction.view.leaderboard";
+  | "faction.view.leaderboard"
+  | "faction.donation.request.message";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

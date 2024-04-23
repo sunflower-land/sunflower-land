@@ -32,7 +32,12 @@ import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
-import { CompostName, CropCompostName, FruitCompostName } from "./composters";
+import {
+  CompostName,
+  CropCompostName,
+  FruitCompostName,
+  Worm,
+} from "./composters";
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
 import {
@@ -897,7 +902,27 @@ export type Faction = {
   name: FactionName;
   pledgedAt: number;
   points: number;
+  donated: {
+    daily: {
+      sfl: {
+        day?: number;
+        amount?: number;
+      };
+      resources: {
+        day?: number;
+        amount?: number;
+      };
+    };
+    totalItems: Partial<Record<InventoryItemName | "sfl", number>>;
+  };
 };
+
+export type DonationItemName =
+  | CropName
+  | FishName
+  | FruitName
+  | CommodityName
+  | Worm;
 
 export interface GameState {
   home: Home;
@@ -1031,6 +1056,10 @@ export interface GameState {
     >;
   };
   faction?: Faction;
+  dailyFactionDonationRequest?: {
+    resource: DonationItemName;
+    amount: Decimal;
+  };
 }
 
 export interface Context {
