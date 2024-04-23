@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import classNames from "classnames";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Modal } from "components/ui/Modal";
 import token from "assets/icons/sfl.webp";
 
 import matic from "assets/icons/polygon-token.png";
@@ -11,31 +9,12 @@ import { fromWei, toBN, toWei } from "web3-utils";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
-import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 export const INPUT_MAX_CHAR = 10;
 
-export const AddSFL: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { t } = useAppTranslation();
-  return (
-    <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel title={t("addSFL")} onClose={onClose}>
-        <GameWallet action="purchase">
-          <AddSFLOptions isOpen={isOpen} onClose={onClose} />
-        </GameWallet>
-      </CloseButtonPanel>
-    </Modal>
-  );
-};
-
-const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
+export const AddSFLOptions: React.FC = () => {
   const { gameService } = useContext(Context);
   const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
   const [isLoading, setIsLoading] = useState(true);
@@ -55,10 +34,10 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
       setIsLoading(false);
     };
 
-    if (isOpen) {
-      fetchMaticBalance();
-    }
-  }, [isOpen]);
+    fetchMaticBalance(); // Call the function immediately
+
+    // No dependencies, so an empty dependency array []
+  }, []);
 
   const getSFLForMaticAmount = async (amount: number) => {
     try {
@@ -101,7 +80,6 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
       maticAmount: toWei(maticAmount.toString()),
       amountOutMin: toWei(amountOutMin.toString()),
     });
-    onClose();
   };
 
   const maticBalString = fromWei(toBN(maticBalance.toString()));
@@ -121,18 +99,7 @@ const AddSFLOptions: React.FC<Props> = ({ isOpen, onClose }) => {
     return (
       <>
         <div className="p-2 pt-1 mb-2">
-          <p className="mb-2 text-xs sm:text-sm">
-            {t("addSFL.swapDetails")}
-            <a
-              className="underline hover:text-white"
-              href="https://quickswap.exchange/#/swap?swapIndex=0&currency0=ETH&currency1=0xD1f9c58e33933a993A3891F8acFe05a68E1afC05"
-              target="_blank"
-              rel="noreferrer"
-            >
-              {"Quickswap"}
-            </a>
-            {"."}
-          </p>
+          <p className="mb-2 text-xs sm:text-sm">{t("addSFL.swapDetails")}</p>
           <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>
           <div className="flex flex-col mt-3">
             <h1 className="mb-2">{t("addSFL.swapTitle")}</h1>

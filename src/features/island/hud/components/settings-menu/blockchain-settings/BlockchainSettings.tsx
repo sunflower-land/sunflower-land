@@ -11,7 +11,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { AddSFL } from "../../AddSFL";
+import { AddSFLOptions } from "../../AddSFL";
 import { DequipBumpkin } from "./DequipBumpkin";
 import { Panel } from "components/ui/Panel";
 import { GameWallet } from "features/wallet/Wallet";
@@ -30,12 +30,11 @@ export const BlockchainSettings: React.FC = () => {
   const { gameService } = useContext(GameContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
-  const [showAddSFLModal, setShowAddSFLModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
-  const [view, setView] = useState<"settings" | "transfer" | "dequip">(
-    "settings"
-  );
+  const [view, setView] = useState<
+    "settings" | "transfer" | "dequip" | "swapSFL"
+  >("settings");
   const { openModal } = useContext(ModalContext);
 
   const farmAddress = useSelector(gameService, _farmAddress);
@@ -54,10 +53,6 @@ export const BlockchainSettings: React.FC = () => {
 
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
-  };
-
-  const handleSwapSFL = () => {
-    setShowAddSFLModal(true);
   };
 
   const onCaptchaSolved = async (captcha: string | null) => {
@@ -90,6 +85,14 @@ export const BlockchainSettings: React.FC = () => {
       );
     }
 
+    if (view === "swapSFL") {
+      return (
+        <GameWallet action="purchase">
+          <AddSFLOptions />
+        </GameWallet>
+      );
+    }
+
     return (
       <>
         <Button onClick={handleDepositModal} className="mb-2">
@@ -98,7 +101,7 @@ export const BlockchainSettings: React.FC = () => {
         <Button onClick={storeOnChain} className="mb-2">
           <span>{t("gameOptions.blockchainSettings.storeOnChain")}</span>
         </Button>
-        <Button onClick={handleSwapSFL} className="mb-2">
+        <Button onClick={() => setView("swapSFL")} className="mb-2">
           <span>{t("gameOptions.blockchainSettings.swapMaticForSFL")}</span>
         </Button>
         <Button className="mb-2 capitalize" onClick={() => setView("dequip")}>
@@ -117,10 +120,6 @@ export const BlockchainSettings: React.FC = () => {
           handleClose={() => setShowDepositModal(false)}
           handleDeposit={handleDeposit}
           showDepositModal={showDepositModal}
-        />
-        <AddSFL
-          isOpen={showAddSFLModal}
-          onClose={() => setShowAddSFLModal(false)}
         />
       </>
     );
@@ -147,10 +146,6 @@ export const BlockchainSettings: React.FC = () => {
       </Modal>
     );
   }
-
-  const closeAndResetView = () => {
-    setView("settings");
-  };
 
   return Content();
 };
