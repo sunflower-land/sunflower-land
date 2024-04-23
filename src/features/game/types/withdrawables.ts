@@ -243,6 +243,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Crimstone: () => false,
   Sunstone: () => false,
   Diamond: () => false,
+  Oil: () => false,
 
   Honey: () => false,
   Egg: () => true,
@@ -260,6 +261,7 @@ const resources: Record<ResourceName, () => boolean> = {
   Beehive: () => false,
   "Flower Bed": () => false,
   "Sunstone Rock": () => false,
+  "Oil Reserve": () => false,
 };
 
 const mutantChickens: Record<MutantChicken, () => boolean> = {

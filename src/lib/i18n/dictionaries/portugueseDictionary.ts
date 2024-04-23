@@ -1598,6 +1598,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.iron.rock": "Uma rocha minerável para coletar ferro",
   "description.stone.rock": "Uma rocha minerável para coletar pedra",
   "description.crimstone.rock": "Uma rocha minerável para coletar Crimstone",
+  "description.oil.reserve": "Uma reserva para coletar petróleo",
   "description.flower.bed": "Um terreno vazio para plantar flores",
   "description.tree": "Uma árvore cortável para coletar madeira",
   "description.fruit.patch": "Um terreno vazio para plantar frutas",

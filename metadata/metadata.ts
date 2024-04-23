@@ -1295,6 +1295,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Oil: {
+    name: "Oil",
+    description:
+      "A resource collected by mining oil mines.\n\nIt is used to power machinery.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/639.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
   Egg: {
     name: "Egg",
     description:
@@ -4367,6 +4379,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/637.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource Node" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Oil Reserve": {
+    description: "A valuable resource used to mine oil",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/640.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource Node" },
       { trait_type: "Tradable", value: "No" },

@@ -421,6 +421,17 @@ export type Rock = {
   stone: Stone;
 } & Position;
 
+export type Oil = {
+  amount: number;
+  // Epoch time in milliseconds
+  drilledAt: number;
+};
+
+export type OilReserve = {
+  oil: Oil;
+  drillsLeft: number;
+} & Position;
+
 export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
@@ -932,6 +943,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crimstones: Record<string, FiniteResource>;
   sunstones: Record<string, FiniteResource>;
+  oil: Record<string, OilReserve>;
 
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;

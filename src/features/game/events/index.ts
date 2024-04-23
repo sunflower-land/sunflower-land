@@ -273,6 +273,14 @@ import {
   pledgeFaction,
   PledgeFactionAction,
 } from "./landExpansion/pledgeFaction";
+import {
+  moveOilReserve,
+  MoveOilReserveAction,
+} from "./landExpansion/moveOilReserve";
+import {
+  placeOilReserve,
+  PlaceOilReserveAction,
+} from "./landExpansion/placeOilReserve";
 
 export type PlayingEvent =
   | TradeAction
@@ -394,7 +402,9 @@ export type PlacementEvent =
   | MoveBeehiveAction
   | PlaceBeehiveAction
   | MoveFlowerBedAction
-  | PlaceFlowerBedAction;
+  | PlaceFlowerBedAction
+  | MoveOilReserveAction
+  | PlaceOilReserveAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -542,6 +552,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "flowerBed.placed": placeFlowerBed,
   "sunstone.placed": placeSunstone,
   "sunstone.moved": moveSunstone,
+  "oilReserve.moved": moveOilReserve,
+  "oilReserve.placed": placeOilReserve,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

@@ -1541,6 +1541,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.iron.rock": "A mineable rock to collect iron",
   "description.stone.rock": "A mineable rock to collect stone",
   "description.crimstone.rock": "A mineable rock to collect crimstone",
+  "description.oil.reserve": "A source of oil",
   "description.flower.bed": "An empty plot to plant flowers on",
   "description.tree": "A choppable tree to collect wood",
   "description.fruit.patch": "An empty plot to plant fruit on",

@@ -165,6 +165,7 @@ import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
 import banana from "assets/resources/banana.png";
+import oil from "assets/resources/oil.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -497,6 +498,7 @@ import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
+import oilReserve from "assets/resources/oil_reserve.png";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -955,6 +957,10 @@ export const ITEM_DETAILS: Items = {
   Sunstone: {
     ...COMMODITIES["Sunstone"],
     image: sunstone,
+  },
+  Oil: {
+    ...COMMODITIES["Oil"],
+    image: oil,
   },
   Egg: {
     ...COMMODITIES["Egg"],
@@ -2411,6 +2417,10 @@ export const ITEM_DETAILS: Items = {
   "Crimstone Rock": {
     image: crimstoneRock,
     description: translate("description.crimstone.rock"),
+  },
+  "Oil Reserve": {
+    image: oilReserve,
+    description: translate("description.oil.reserve"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
