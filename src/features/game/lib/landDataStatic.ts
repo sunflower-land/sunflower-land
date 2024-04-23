@@ -394,7 +394,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Yellow Daffodil": new Decimal(3),
     "White Daffodil": new Decimal(3),
     "Red Daffodil": new Decimal(3),
-    Sunflower: new Decimal(5),
+    Sunflower: new Decimal(5000),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
     Carrot: new Decimal(500),
