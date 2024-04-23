@@ -4614,14 +4614,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "No" },
-      // {
-      //   display_type: "boost_number",
-      //   trait_type: "Extra Tulip from Deliveries",
-      //   value: 2,
-      // },
       {
         display_type: "boost_percentage",
-        trait_type: "XP increase during Spring Blossom Season",
+        trait_type: "XP increase during Clash of Factions Season",
         value: 10,
       },
     ],
