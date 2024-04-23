@@ -55,7 +55,7 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
 
-  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
+  const [npc, setNpc] = useState<NPCName | undefined>("lady day");
 
   useEffect(() => {
     npcModalManager.listen((npc) => {
