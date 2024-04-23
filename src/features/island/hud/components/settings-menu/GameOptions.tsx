@@ -31,6 +31,7 @@ import {
   isChrome,
 } from "mobile-device-detect";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
+import { GeneralSettings } from "./general-settings/GeneralSettings";
 
 enum MENU_LEVELS {
   ROOT = "root",
@@ -237,6 +238,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
           {selected === 0 && <GameOptions onSelect={setSelected} />}
           {selected === 1 && <AmoyTestnetActions />}
           {selected === 2 && <BlockchainSettings />}
+          {selected === 3 && <GeneralSettings />}
           <p className="mx-1 text-xxs">
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
           </p>
