@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
@@ -39,6 +40,7 @@ import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
+import { Discord } from "./general-settings/DiscordModal";
 
 export const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -46,6 +48,7 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
+  const [authState] = useActor(authService);
 
   const { t } = useAppTranslation();
 
@@ -65,7 +68,7 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
 
       fixInstallPromptTextStyles();
     } else {
-      onSubMenuClick("main");
+      onSubMenuClick("installApp");
     }
   };
 
@@ -131,10 +134,7 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
       </>
       {!isPWA && (
-        <Button
-          className="p-1 mb-2"
-          onClick={() => onSubMenuClick("installApp")}
-        >
+        <Button className="p-1 mb-2" onClick={handleInstallApp}>
           <span>{t("install.app")}</span>
         </Button>
       )}
@@ -202,14 +202,6 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
-  // const settingsOptions: SettingsType[] = [
-  //   t("gameOptions.title"),
-  //   t("gameOptions.amoyActions"),
-  //   t("gameOptions.blockchainSettings"),
-  //   t("gameOptions.generalSettings"),
-  //   t("gameOptions.plazaSettings"),
-  //   t("install.app"),
-  // ];
   const [selected, setSelected] = useState<SettingMenuId>("main");
 
   const onHide = () => {
@@ -232,12 +224,6 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
           onClose={onHide}
         >
           <SelectedComponent onSubMenuClick={setSelected} />
-          {/* {selected === "m" && <GameOptions onSelect={setSelected} />}
-          {selected === 1 && <AmoyTestnetActions />}
-          {selected === 2 && <BlockchainSettings />}
-          {selected === 3 && <GeneralSettings />}
-          {selected === 4 && <PlazaSettings />}
-          {selected === 5 && <InstallAppModal />} */}
         </CloseButtonPanel>
       </Modal>
     </>
@@ -335,9 +321,13 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
 
   // General Settings
   discord: {
-    title: "todo",
-    parent: "main",
-    content: () => <></>,
+    title: "Discord",
+    // authState.context.user.token?.discordId
+    // ? translate("gameOptions.generalSettings.assignRole")
+    // :
+    // translate("gameOptions.generalSettings.connectDiscord"),
+    parent: "general",
+    content: Discord,
   },
   changeLanguage: {
     title: translate("gameOptions.generalSettings.changeLanguage"),

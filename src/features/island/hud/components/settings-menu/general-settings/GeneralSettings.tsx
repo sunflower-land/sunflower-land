@@ -1,11 +1,9 @@
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import * as Auth from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { Discord } from "./DiscordModal";
-import { Context as GameContext } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
@@ -13,15 +11,9 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
-  const { gameService } = useContext(GameContext);
-  const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [authState] = useActor(authService);
 
   const { showAnimations, toggleAnimations } = useContext(Context);
-
-  const handleDiscordClick = () => {
-    setShowDiscordModal(true);
-  };
 
   const onToggleAnimations = () => {
     toggleAnimations();
@@ -30,11 +22,12 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
   const Content = () => {
     return (
       <>
-        <Button onClick={handleDiscordClick} className="mb-2">
+        <Button onClick={() => onSubMenuClick("discord")} className="mb-2">
           <span>
-            {authState.context.user.token?.discordId
+            {`Discord`}
+            {/* authState.context.user.token?.discordId
               ? t("gameOptions.generalSettings.assignRole")
-              : t("gameOptions.generalSettings.connectDiscord")}
+              : t("gameOptions.generalSettings.connectDiscord") */}
           </span>
         </Button>
         <Button
@@ -53,10 +46,6 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         <Button onClick={() => onSubMenuClick("share")} className="mb-2">
           <span>{t("gameOptions.generalSettings.share")}</span>
         </Button>
-        <Discord
-          isOpen={showDiscordModal}
-          onClose={() => setShowDiscordModal(false)}
-        />
       </>
     );
   };
