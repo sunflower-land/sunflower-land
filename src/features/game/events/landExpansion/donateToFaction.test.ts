@@ -487,4 +487,32 @@ describe("donateToFaction", () => {
 
     expect(state.faction?.points).toBe(5);
   });
+
+  it("increments faction points by 5 for each resource donated", () => {
+    const state = donateToFaction({
+      state: {
+        ...GAME_STATE,
+        faction: {
+          ...(GAME_STATE.faction as Faction),
+          points: 20,
+        },
+        inventory: {
+          Apple: new Decimal(40),
+        },
+        dailyFactionDonationRequest: {
+          resource: "Apple",
+          amount: new Decimal(40),
+        },
+      },
+      action: {
+        type: "faction.donated",
+        faction: "sunflorians",
+        donation: {
+          resources: 40,
+        },
+      },
+    });
+
+    expect(state.faction?.points).toBe(25);
+  });
 });

@@ -701,7 +701,7 @@ export class PlazaScene extends BaseScene {
     this.sunfloriansFactionNPC?.disableInteractive();
     this.nightshadesFactionNPC?.disableInteractive();
 
-    // this.makeChosenFactionNPCInteractive(chosenFaction);
+    this.makeChosenFactionNPCInteractive(chosenFaction);
   }
 
   addFactionNameToPlayer(faction: string) {
