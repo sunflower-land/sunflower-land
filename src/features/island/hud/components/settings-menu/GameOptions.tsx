@@ -37,6 +37,8 @@ import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
 import { Share } from "./general-settings/Share";
+import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
+import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 
 export const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -148,26 +150,27 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
                     </div>
                   </Button>
                   </li> */}
-      {CONFIG.NETWORK === "amoy" && (
-        <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
-          <span>{t("gameOptions.amoyActions")}</span>
-        </Button>
-      )}
       <Button className="p-1 mb-2" onClick={refreshSession}>
         {t("gameOptions.blockchainSettings.refreshChain")}
       </Button>
+      {CONFIG.NETWORK === "amoy" && (
+        <Button className="p-1 mb-2" onClick={() => onSubMenuClick("amoy")}>
+          <span>{t("gameOptions.amoyActions")}</span>
+        </Button>
+      )}
       <Button className="p-1 mb-2" onClick={() => onSubMenuClick("blockchain")}>
         <span>{t("gameOptions.blockchainSettings")}</span>
       </Button>
       <Button className="p-1 mb-2" onClick={() => onSubMenuClick("general")}>
         <span>{t("gameOptions.generalSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
+      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("plaza")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
       <Button className="p-1 mb-2" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
+      <p className="mx-1 text-xxs">{CONFIG.RELEASE_VERSION?.split("-")[0]}</p>
       <Modal
         show={isConfirmLogoutModalOpen}
         onHide={() => showConfirmLogoutModal(false)}
@@ -184,9 +187,6 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
               {t("cancel")}
             </Button>
           </div>
-          <p className="mx-1 text-xxs">
-            {CONFIG.RELEASE_VERSION?.split("-")[0]}
-          </p>
         </CloseButtonPanel>
       </Modal>
     </>
@@ -245,15 +245,20 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
 };
 
 export type SettingMenuId =
+  // Game Options
   | "main"
   | "installApp"
+  | "amoy"
   | "blockchain"
   | "general"
+  | "plaza"
+  // Blockchain Settings
   | "deposit"
   | "swapSFL"
   | "storeChain"
   | "dequip"
   | "transfer"
+  // General Settings
   | "discord"
   | "changeLanguage"
   | "share";
@@ -280,6 +285,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: InstallAppModal,
   },
+  amoy: {
+    title: translate("gameOptions.amoyActions"),
+    parent: "main",
+    content: AmoyTestnetActions,
+  },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
     parent: "main",
@@ -289,6 +299,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings"),
     parent: "main",
     content: GeneralSettings,
+  },
+  plaza: {
+    title: translate("gameOptions.plazaSettings"),
+    parent: "main",
+    content: PlazaSettings,
   },
 
   // Blockchain Settings
