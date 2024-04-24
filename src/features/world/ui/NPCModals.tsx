@@ -24,7 +24,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpecialEventModal } from "./SpecialEventModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
-import { FactionDonationPanel } from "./factions/FactionDonationPanel";
+import { FactionModalContent } from "./factions/FactionModalContent";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -55,7 +55,7 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
 
-  const [npc, setNpc] = useState<NPCName | undefined>("lady day");
+  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
   useEffect(() => {
     npcModalManager.listen((npc) => {
@@ -202,9 +202,9 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
 
         {/* faction npcs */}
-        {npc === "lady day" && (
-          <FactionDonationPanel npc={npc} onClose={closeModal} />
-        )}
+        {npc === "lady day" && <FactionModalContent onClose={closeModal} />}
+        {npc === "robert" && <FactionModalContent onClose={closeModal} />}
+        {npc === "grommy" && <FactionModalContent onClose={closeModal} />}
       </Modal>
       {npc === "Chun Long" && (
         <SpecialEventModal

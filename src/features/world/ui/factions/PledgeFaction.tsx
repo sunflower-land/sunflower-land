@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Factions as FactionTranslations } from "lib/i18n/dictionaries/types";
 
@@ -20,7 +19,6 @@ import { Leaderboards } from "features/game/expansion/components/leaderboard/act
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import { FactionName } from "features/game/types/game";
-import { FactionDetailsPanel } from "./FactionDetailsPanel";
 
 const FACTION_DESCRIPTIONS: Record<FactionName, FactionTranslations> = {
   sunflorians: "faction.description.sunflorians",
@@ -36,7 +34,8 @@ interface Props {
   onClose: () => void;
 }
 
-const _faction = (state: MachineState) => state.context.state.faction?.name;
+const _joinedFaction = (state: MachineState) =>
+  state.context.state.faction?.name;
 
 export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { gameService } = useContext(Context);
@@ -44,7 +43,7 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
 
-  const joinedFaction = useSelector(gameService, _faction);
+  const joinedFaction = useSelector(gameService, _joinedFaction);
 
   const [data, setData] = useState<Leaderboards | null | undefined>(undefined);
 
@@ -85,10 +84,10 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
     String(gameService.state.context.farmId);
 
   return (
-    <Panel>
+    <>
       {!showConfirm && !joinedFaction && (
         <>
-          <div className="flex flex-col p-2 space-y-2">
+          <div className="flex flex-col px-2 py-1 space-y-2">
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction)}</Label>
               <Label type="default" icon={giftIcon}>

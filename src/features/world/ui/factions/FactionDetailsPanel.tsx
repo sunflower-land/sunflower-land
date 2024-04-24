@@ -31,7 +31,7 @@ export const FactionDetailsPanel: React.FC<Props> = ({ faction, onClose }) => {
 
   return (
     <>
-      <div className="flex flex-col p-2 space-y-3">
+      <div className="flex flex-col px-2 py-1 space-y-2">
         <Label type="success">{capitalize(faction)}</Label>
         <span className="text-xs sm:text-sm">
           {t(FACTION_JOINED_INTROS[faction])}
