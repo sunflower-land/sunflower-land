@@ -252,6 +252,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   details: "Details:",
   donate: "Donate",
   donating: "Donating",
+  donation: "Donation",
+  donations: "Donations",
   "drafting.noitem": "No items available to list",
   "drafting.select": "Select an item to list",
   "drafting.trade.detail": "Trade Details",
@@ -268,6 +270,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "expand.land": "Expand your Land",
   expand: "Expand",
   explore: "Explore",
+  faction: "Faction",
   farm: "Farm",
   "farm.storage": "Farm Storage",
   featured: "Featured",
@@ -1920,7 +1923,7 @@ const factions: Record<Factions, string> = {
   "faction.donation.sfl.max.per.day": "{{donatedToday}}/500 max per day",
   "faction.donation.bulk.resources": "Bulk resource donations (min {{min}})",
   "faction.donation.bulk.resources.unlimited.per.day":
-    "{{donatedToday}}/Unlimited per day",
+    "{{donatedToday}}/unlimited per day",
   "faction.donation.confirm":
     "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
 };
