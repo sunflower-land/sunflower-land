@@ -113,7 +113,7 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
       )}
       {showConfirm && !joinedFaction && (
         <>
-          <div className="flex flex-col p-2 space-y-2">
+          <div className="flex flex-col px-2 py-1 space-y-2">
             <Label type="danger">{t("are.you.sure")}</Label>
             <span className="text-xs sm:text-sm">
               {t("faction.cannot.change")}

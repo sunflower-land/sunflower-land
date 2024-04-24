@@ -17,7 +17,7 @@ interface Props {
   onClose: () => void;
 }
 
-const _faction = (state: MachineState) => state.context.state.faction?.name;
+const _faction = (state: MachineState) => state.context.state.faction;
 
 export const FactionModalContent: React.FC<Props> = ({
   representativeFaction,
@@ -42,7 +42,7 @@ export const FactionModalContent: React.FC<Props> = ({
           ? [
               {
                 name: t("donations"),
-                icon: POINT_ICONS[joinedFaction],
+                icon: POINT_ICONS[joinedFaction.name],
               },
             ]
           : []),

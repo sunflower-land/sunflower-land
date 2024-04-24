@@ -333,7 +333,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
           </>
         )}
         <div className="my-3 w-full flex px-2">
-          <span className="text-xs">{`You will receive ${getTotalPointsDue()}`}</span>
+          <span className="text-xs sm:text-sm">{`You will receive ${getTotalPointsDue()}`}</span>
           <img src={POINT_ICONS[faction.name]} className="w-4 ml-1 mt-0.5" />
         </div>
         <Button
@@ -353,7 +353,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
             >
               {t("faction.donation.label", { faction: faction.name })}
             </Label>
-            <span className="text-xs">
+            <span className="text-xs sm:text-sm">
               {t("faction.donation.confirm", {
                 factionPoints: getTotalPointsDue(),
               })}
@@ -363,9 +363,9 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
                 <div className="flex justify-between">
                   <div className="flex items-center">
                     <SquareIcon icon={sflIcon} width={7} />
-                    <span className="text-xs ml-1">{"SFL"}</span>
+                    <span className="text-xs sm:text-sm ml-1">{"SFL"}</span>
                   </div>
-                  <span className="text-xs">{`${sflTotal}`}</span>
+                  <span className="text-xs sm:text-sm">{`${sflTotal}`}</span>
                 </div>
               )}
               {!!donationRequest && resourceTotal > 0 && (
@@ -375,7 +375,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
                       icon={ITEM_DETAILS[donationRequest.resource].image}
                       width={7}
                     />
-                    <span className="text-xs ml-1">
+                    <span className="text-xs sm:text-sm ml-1">
                       {donationRequest.resource}
                     </span>
                   </div>
