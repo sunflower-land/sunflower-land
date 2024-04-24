@@ -339,7 +339,7 @@ export const ToastProvider: FC = ({ children }) => {
     // set toast if points difference is not zero
     const difference = points - (oldFactionPoints.current ?? 0);
 
-    if (difference !== 0) {
+    if (difference > 0) {
       addToast({ item: "faction_points" });
     }
 

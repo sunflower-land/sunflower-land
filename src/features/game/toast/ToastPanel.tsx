@@ -118,7 +118,7 @@ export const ToastPanel: React.FC = () => {
 
     // faction points is set and changed
     if (
-      newFactionPoints.current !== undefined &&
+      !!newFactionPoints.current &&
       oldFactionPoints.current !== newFactionPoints.current
     ) {
       setFactionPoints(newFactionPoints.current);
