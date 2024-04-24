@@ -1164,18 +1164,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   goblinMarket: {
     resources: {},
   },
-  faction: {
-    name: "goblins",
-    pledgedAt: 0,
-    points: 0,
-    donated: {
-      daily: {
-        sfl: {},
-        resources: {},
-      },
-      totalItems: {},
-    },
-  },
   dailyFactionDonationRequest: {
     resource: "Sunflower",
     amount: new Decimal(1000),
