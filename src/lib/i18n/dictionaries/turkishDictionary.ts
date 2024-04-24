@@ -1940,6 +1940,9 @@ const factions: Record<Factions, string> = {
   "faction.donation.sfl": ENGLISH_TERMS["faction.donation.sfl"],
   "faction.donation.sfl.max.per.day":
     ENGLISH_TERMS["faction.donation.sfl.max.per.day"],
+  "faction.seasonal.delivery.start.at":
+    ENGLISH_TERMS["faction.seasonal.delivery.start.at"],
+  "faction.points": ENGLISH_TERMS["faction.points"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
