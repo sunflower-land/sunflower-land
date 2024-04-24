@@ -44,7 +44,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTION_LEADERBOARD: testnetFeatureFlag,
   SOUND: testnetFeatureFlag,
   BANNER_SALES: (game) => {
-    if (defaultFeatureFlag(game)) return true;
+    if (testnetFeatureFlag()) return true;
 
     return Date.now() > new Date("2024-05-01T00:00:00Z").getTime();
   },
