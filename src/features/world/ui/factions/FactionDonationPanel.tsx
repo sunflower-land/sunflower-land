@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
@@ -21,7 +20,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import { getDayOfYear } from "lib/utils/time";
 import { Faction, FactionName } from "features/game/types/game";
-import { Modal } from "components/ui/Modal";
 
 interface Props {
   onClose: () => void;
@@ -173,178 +171,180 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
 
   return (
     <>
-      <>
-        <div className="p-2 space-y-2">
-          <Label
-            type="default"
-            icon={POINT_ICONS[faction.name]}
-            className="capitalize"
-          >
-            {t("faction.donation.label", { faction: faction.name })}
-          </Label>
-          <div className="text-xs sm:text-sm">
-            {t("faction.donation.request.message", {
-              faction: faction.name,
-            })}
-          </div>
-        </div>
-        {/* SFL DONATIONS */}
-        <div className="flex flex-col space-y-1 justify-start sm:space-y-0 sm:flex-row sm:justify-between mt-3 mb-2">
-          <Label icon={sflIcon} type="default" className="ml-2">
-            {t("faction.donation.sfl")}
-          </Label>
-          <Label type="info" className="ml-2">
-            {t("faction.donation.sfl.max.per.day", {
-              donatedToday: getSFLDonatedToday(),
-            })}
-          </Label>
-        </div>
-        <OuterPanel className="flex flex-col space-y-1">
-          <div className="flex justify-between">
-            <div className="flex items-center">
-              <SquareIcon icon={sflIcon} width={7} />
-              <span className="text-xs ml-1">{"SFL"}</span>
-            </div>
+      {!showConfirm && (
+        <>
+          <div className="p-2 space-y-2">
             <Label
-              className={classNames("whitespace-nowrap", {
-                "ml-1": !getHasEnoughSFL(),
-              })}
-              type={getHasEnoughSFL() ? "transparent" : "danger"}
+              type="default"
+              icon={POINT_ICONS[faction.name]}
+              className="capitalize"
             >
-              {`${MIN_SFL}/${setPrecision(balance, 1)}`}
+              {t("faction.donation.label", { faction: faction.name })}
             </Label>
-          </div>
-          <div className="flex justify-between">
-            <Label icon={chest} type="warning" className="ml-1.5">
-              {t("reward")}
-            </Label>
-            <div className="flex items-center">
-              <img
-                src={POINT_ICONS[faction.name]}
-                className="w-4 h-auto mr-1"
-              />
-              <span className="text-xxs">{`${SFL_POINTS_PER_DONATION}`}</span>
-            </div>
-          </div>
-        </OuterPanel>
-        <div className="flex my-1">
-          <div className="flex flex-1 justify-end mr-2 space-x-1">
-            <Button
-              disabled={!getHasEnoughSFL(10)}
-              className="h-8 w-16"
-              onClick={incrementSFL}
-            >{`+10`}</Button>
-            <Button
-              disabled={sflTotal === 0}
-              className="h-8 w-16"
-              onClick={decrementSFL}
-            >{`-10`}</Button>
-          </div>
-          <div className="flex items-center">
-            <span
-              className={classNames("min-w-[80px] flex justify-end text-sm", {
-                "text-red-500": !getHasEnoughSFL(),
-                "text-white": getHasEnoughSFL(),
+            <div className="text-xs sm:text-sm">
+              {t("faction.donation.request.message", {
+                faction: faction.name,
               })}
-            >{`${sflTotal}`}</span>
-            <SquareIcon icon={sflIcon} width={7} className="ml-1 mt-0.5" />
+            </div>
           </div>
-        </div>
-        {/* BULK RESOURCE DONATIONS */}
-        {!!donationRequest && (
-          <>
-            <div className="flex flex-col space-y-1 justify-start sm:space-y-0 sm:flex-row sm:justify-between mt-3 mb-2">
+          {/* SFL DONATIONS */}
+          <div className="flex flex-col space-y-1 justify-start sm:space-y-0 sm:flex-row sm:justify-between mt-3 mb-2">
+            <Label icon={sflIcon} type="default" className="ml-2">
+              {t("faction.donation.sfl")}
+            </Label>
+            <Label type="info" className="ml-2">
+              {t("faction.donation.sfl.max.per.day", {
+                donatedToday: getSFLDonatedToday(),
+              })}
+            </Label>
+          </div>
+          <OuterPanel className="flex flex-col space-y-1">
+            <div className="flex justify-between">
+              <div className="flex items-center">
+                <SquareIcon icon={sflIcon} width={7} />
+                <span className="text-xs ml-1">{"SFL"}</span>
+              </div>
               <Label
-                icon={ITEM_DETAILS[donationRequest.resource].image}
-                type="default"
-                className="ml-2"
+                className={classNames("whitespace-nowrap", {
+                  "ml-1": !getHasEnoughSFL(),
+                })}
+                type={getHasEnoughSFL() ? "transparent" : "danger"}
               >
-                {t("faction.donation.bulk.resources", {
-                  min: requestedResourceAmount,
-                })}
-              </Label>
-              <Label type="info" className="ml-2">
-                {t("faction.donation.bulk.resources.unlimited.per.day", {
-                  donatedToday: getResourcesDonatedToday(),
-                })}
+                {`${MIN_SFL}/${setPrecision(balance, 1)}`}
               </Label>
             </div>
-            <OuterPanel className="flex flex-col space-y-1">
-              <div className="flex justify-between">
+            <div className="flex justify-between">
+              <Label icon={chest} type="warning" className="ml-1.5">
+                {t("reward")}
+              </Label>
+              <div className="flex items-center">
+                <img
+                  src={POINT_ICONS[faction.name]}
+                  className="w-4 h-auto mr-1"
+                />
+                <span className="text-xxs">{`${SFL_POINTS_PER_DONATION}`}</span>
+              </div>
+            </div>
+          </OuterPanel>
+          <div className="flex my-1">
+            <div className="flex flex-1 justify-end mr-2 space-x-1">
+              <Button
+                disabled={!getHasEnoughSFL(10)}
+                className="h-8 w-16"
+                onClick={incrementSFL}
+              >{`+10`}</Button>
+              <Button
+                disabled={sflTotal === 0}
+                className="h-8 w-16"
+                onClick={decrementSFL}
+              >{`-10`}</Button>
+            </div>
+            <div className="flex items-center">
+              <span
+                className={classNames("min-w-[80px] flex justify-end text-sm", {
+                  "text-red-500": !getHasEnoughSFL(),
+                  "text-white": getHasEnoughSFL(),
+                })}
+              >{`${sflTotal}`}</span>
+              <SquareIcon icon={sflIcon} width={7} className="ml-1 mt-0.5" />
+            </div>
+          </div>
+          {/* BULK RESOURCE DONATIONS */}
+          {!!donationRequest && (
+            <>
+              <div className="flex flex-col space-y-1 justify-start sm:space-y-0 sm:flex-row sm:justify-between mt-3 mb-2">
+                <Label
+                  icon={ITEM_DETAILS[donationRequest.resource].image}
+                  type="default"
+                  className="ml-2"
+                >
+                  {t("faction.donation.bulk.resources", {
+                    min: requestedResourceAmount,
+                  })}
+                </Label>
+                <Label type="info" className="ml-2">
+                  {t("faction.donation.bulk.resources.unlimited.per.day", {
+                    donatedToday: getResourcesDonatedToday(),
+                  })}
+                </Label>
+              </div>
+              <OuterPanel className="flex flex-col space-y-1">
+                <div className="flex justify-between">
+                  <div className="flex items-center">
+                    <SquareIcon
+                      icon={ITEM_DETAILS[donationRequest.resource].image}
+                      width={7}
+                    />
+                    <span className="text-xs ml-1">
+                      {donationRequest.resource}
+                    </span>
+                  </div>
+                  <Label
+                    className={classNames("whitespace-nowrap", {
+                      "ml-1": !getHasEnoughResources(),
+                    })}
+                    type={getHasEnoughResources() ? "transparent" : "danger"}
+                  >
+                    {`${donationRequest.amount}/${setPrecision(
+                      resourceBalance,
+                      1
+                    )}`}
+                  </Label>
+                </div>
+                <div className="flex justify-between">
+                  <Label icon={chest} type="warning" className="ml-1.5">
+                    {t("reward")}
+                  </Label>
+                  <div className="flex items-center">
+                    <img
+                      src={POINT_ICONS[faction.name]}
+                      className="w-4 h-auto mr-1"
+                    />
+                    <span className="text-xxs">{`${RESOURCE_POINTS_PER_DONATION}`}</span>
+                  </div>
+                </div>
+              </OuterPanel>
+              {/* Donation Buttons */}
+              <div className="flex my-1">
+                <div className="flex flex-1 justify-end mr-2 space-x-1">
+                  <Button
+                    disabled={!getHasEnoughResources(requestedResourceAmount)}
+                    className="h-8 w-16"
+                    onClick={incrementResource}
+                  >{`+${requestedResourceAmount}`}</Button>
+                  <Button
+                    disabled={resourceTotal === 0}
+                    className="h-8 w-16"
+                    onClick={decrementResource}
+                  >{`-${requestedResourceAmount}`}</Button>
+                </div>
                 <div className="flex items-center">
+                  <span
+                    className={"min-w-[80px] flex justify-end text-sm"}
+                  >{`${resourceTotal}`}</span>
                   <SquareIcon
                     icon={ITEM_DETAILS[donationRequest.resource].image}
                     width={7}
+                    className="ml-1 mt-0.5"
                   />
-                  <span className="text-xs ml-1">
-                    {donationRequest.resource}
-                  </span>
-                </div>
-                <Label
-                  className={classNames("whitespace-nowrap", {
-                    "ml-1": !getHasEnoughResources(),
-                  })}
-                  type={getHasEnoughResources() ? "transparent" : "danger"}
-                >
-                  {`${donationRequest.amount}/${setPrecision(
-                    resourceBalance,
-                    1
-                  )}`}
-                </Label>
-              </div>
-              <div className="flex justify-between">
-                <Label icon={chest} type="warning" className="ml-1.5">
-                  {t("reward")}
-                </Label>
-                <div className="flex items-center">
-                  <img
-                    src={POINT_ICONS[faction.name]}
-                    className="w-4 h-auto mr-1"
-                  />
-                  <span className="text-xxs">{`${RESOURCE_POINTS_PER_DONATION}`}</span>
                 </div>
               </div>
-            </OuterPanel>
-            {/* Donation Buttons */}
-            <div className="flex my-1">
-              <div className="flex flex-1 justify-end mr-2 space-x-1">
-                <Button
-                  disabled={!getHasEnoughResources(requestedResourceAmount)}
-                  className="h-8 w-16"
-                  onClick={incrementResource}
-                >{`+${requestedResourceAmount}`}</Button>
-                <Button
-                  disabled={resourceTotal === 0}
-                  className="h-8 w-16"
-                  onClick={decrementResource}
-                >{`-${requestedResourceAmount}`}</Button>
-              </div>
-              <div className="flex items-center">
-                <span
-                  className={"min-w-[80px] flex justify-end text-sm"}
-                >{`${resourceTotal}`}</span>
-                <SquareIcon
-                  icon={ITEM_DETAILS[donationRequest.resource].image}
-                  width={7}
-                  className="ml-1 mt-0.5"
-                />
-              </div>
-            </div>
-          </>
-        )}
-        <div className="my-3 w-full flex px-2">
-          <span className="text-xs sm:text-sm">{`You will receive ${getTotalPointsDue()}`}</span>
-          <img src={POINT_ICONS[faction.name]} className="w-4 ml-1 mt-0.5" />
-        </div>
-        <Button
-          disabled={sflTotal === 0 && resourceTotal === 0}
-          onClick={() => setShowConfirm(true)}
-        >
-          {t("donate")}
-        </Button>
-      </>
-      <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-        <CloseButtonPanel onClose={() => setShowConfirm(false)}>
+            </>
+          )}
+          <div className="my-3 w-full flex px-2">
+            <span className="text-xs sm:text-sm">{`You will receive ${getTotalPointsDue()}`}</span>
+            <img src={POINT_ICONS[faction.name]} className="w-4 ml-1 mt-0.5" />
+          </div>
+          <Button
+            disabled={sflTotal === 0 && resourceTotal === 0}
+            onClick={() => setShowConfirm(true)}
+          >
+            {t("donate")}
+          </Button>
+        </>
+      )}
+      {showConfirm && (
+        <>
           <div className="p-2 space-y-3">
             <Label
               type="default"
@@ -388,8 +388,8 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
             <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
             <Button onClick={onDonate}>{t("confirm")}</Button>
           </div>
-        </CloseButtonPanel>
-      </Modal>
+        </>
+      )}
     </>
   );
 };

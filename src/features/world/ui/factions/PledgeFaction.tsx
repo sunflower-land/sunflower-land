@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -6,18 +6,12 @@ import { Factions as FactionTranslations } from "lib/i18n/dictionaries/types";
 
 import giftIcon from "assets/icons/gift.png";
 import { Context } from "features/game/GameProvider";
-import { getRelativeTime, getTimeUntil } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
-import {
-  FactionLeaderboard,
-  fetchLeaderboardData,
-} from "features/game/expansion/components/leaderboard/actions/leaderboard";
-import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
-import { Loading } from "features/auth/components";
-import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
+import { getTimeUntil } from "lib/utils/time";
+import { FactionDetailsPanel } from "./FactionDetailsPanel";
 import { FactionName } from "features/game/types/game";
 
 const FACTION_DESCRIPTIONS: Record<FactionName, FactionTranslations> = {
@@ -34,38 +28,14 @@ interface Props {
   onClose: () => void;
 }
 
-const _joinedFaction = (state: MachineState) =>
-  state.context.state.faction?.name;
+const _joinedFaction = (state: MachineState) => state.context.state.faction;
 
 export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [showConfirm, setShowConfirm] = useState(false);
-  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   const joinedFaction = useSelector(gameService, _joinedFaction);
-
-  const [data, setData] = useState<Leaderboards | null | undefined>(undefined);
-
-  useEffect(() => {
-    if (!joinedFaction) return;
-
-    const fetchLeaderboards = async () => {
-      try {
-        const data = await fetchLeaderboardData(
-          gameService.state.context.farmId
-        );
-        setData(data);
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error("Error loading leaderboards", e);
-
-        if (!data) setData(null);
-      }
-    };
-
-    fetchLeaderboards();
-  }, [joinedFaction]);
 
   useUiRefresher({
     active: getTimeUntil(FACTIONS_START_TIME).includes("second"),
@@ -74,14 +44,6 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
   const handlePledge = () => {
     gameService.send("faction.pledged", { faction });
   };
-
-  const handleViewLeaderboard = () => {
-    setShowLeaderboard(true);
-  };
-
-  const id =
-    gameService.state.context.state.username ??
-    String(gameService.state.context.farmId);
 
   return (
     <>
@@ -113,7 +75,7 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
       )}
       {showConfirm && !joinedFaction && (
         <>
-          <div className="flex flex-col px-2 py-1 space-y-2">
+          <div className="flex flex-col p-2 pt-1 space-y-2">
             <Label type="danger">{t("are.you.sure")}</Label>
             <span className="text-xs sm:text-sm">
               {t("faction.cannot.change")}
@@ -125,106 +87,9 @@ export const PledgeFaction: React.FC<Props> = ({ faction, onClose }) => {
           </div>
         </>
       )}
-      {!showLeaderboard && joinedFaction && (
-        <>
-          <div className="flex flex-col p-2 space-y-3">
-            <Label type="success">{capitalize(faction)}</Label>
-            <span className="text-xs sm:text-sm">
-              {t(FACTION_JOINED_INTROS[faction])}
-            </span>
-            <div className="flex justify-between">
-              <Label type="default">{t("faction.earn.emblems")}</Label>
-              <Label type="info">
-                {t("faction.earn.emblems.time.left", {
-                  timeLeft: getTimeUntil(FACTIONS_START_TIME),
-                })}
-              </Label>
-            </div>
-            <span className="text-xs sm:text-sm">
-              {t(`faction.emblems.tasks`)}
-            </span>
-          </div>
-          <Button className="mt-2" onClick={handleViewLeaderboard}>
-            {t("faction.view.leaderboard")}
-          </Button>
-        </>
-      )}
       {joinedFaction && (
-        <FactionDetailsPanel faction={faction} onClose={onClose} />
+        <FactionDetailsPanel faction={joinedFaction} onClose={onClose} />
       )}
-      {showLeaderboard && joinedFaction && (
-        <MiniFactionLeaderboard
-          id={id}
-          faction={faction}
-          isLoading={data === undefined}
-          data={data?.factions ?? null}
-        />
-      )}
-    </Panel>
-  );
-};
-
-interface LeaderboardProps {
-  id: string;
-  faction: FactionName;
-  isLoading: boolean;
-  data: FactionLeaderboard | null | undefined;
-}
-
-const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
-  id,
-  faction,
-  isLoading,
-  data,
-}) => {
-  const { t } = useAppTranslation();
-
-  if (isLoading && !data) return <Loading />;
-
-  if (!data)
-    return (
-      <div className="p-1">
-        <Label type="danger">{t("leaderboard.error")}</Label>
-      </div>
-    );
-
-  const topTen = data.topTens[faction];
-
-  return (
-    <>
-      <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
-        <Label type="default" className="capitalize">{`${faction.slice(
-          0,
-          -1
-        )} ${t("leaderboard.leaderboard")}`}</Label>
-        <p className="text-[12px]">
-          {t("last.updated")} {getRelativeTime(data.lastUpdated)}
-        </p>
-      </div>
-
-      <div className="scrollable overflow-y-auto max-h-full p-1">
-        {data.farmRankingDetails && (
-          <div className="mb-3">
-            <Label type="info" className="mb-1">
-              {t("leaderboard.yourPosition")}
-            </Label>
-            <TicketTable
-              showHeader={true}
-              rankings={data.farmRankingDetails}
-              id={id}
-            />
-          </div>
-        )}
-
-        {topTen && (
-          <>
-            <Label type="info" className="mb-1">
-              {t("leaderboard.topTen")}
-            </Label>
-            <TicketTable rankings={topTen} id={id} />
-          </>
-        )}
-      </div>
     </>
   );
 };

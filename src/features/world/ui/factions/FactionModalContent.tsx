@@ -50,6 +50,7 @@ export const FactionModalContent: React.FC<Props> = ({
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
+      className="max-h-[92vh]"
     >
       {tab === 0 && showPledge && (
         <PledgeFaction faction={representativeFaction} onClose={onClose} />
