@@ -2985,8 +2985,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.deposit": "Deposit",
   "noBumpkin.advancedIsland":
     "Burası gelişmiş bir ada. Güçlü bir Bumpkin gerekli:",
-  "weakBumpkin.notStrong":
-    "Oh hayır! Bumpkin'in bu ada için yeterince güçlü değil.",
   "dequipper.noBumpkins": "Bumpkin’in yok",
   "dequipper.missingBumpkins": "Cüzdanın herhangi bir Bumpking NFT’si yok.",
   "dequipper.intro": "Bumpkininden cüzdanına giyilebilir gönder.",

@@ -2979,8 +2979,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.deposit": "Deposit",
   "noBumpkin.advancedIsland":
     "This is an advanced island. A strong Bumpkin is required:",
-  "weakBumpkin.notStrong":
-    "Oh no! Your Bumpkin is not strong enough for this island.",
   "dequipper.noBumpkins": "No Bumpkins",
   "dequipper.missingBumpkins":
     "You do not have any Bumpkin NFTs in your wallet.",

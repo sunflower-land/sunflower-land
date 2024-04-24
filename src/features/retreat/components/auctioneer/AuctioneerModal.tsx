@@ -18,6 +18,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { Label } from "components/ui/Label";
 
 interface Props {
   gameState: GameState;
@@ -113,25 +115,25 @@ export const AuctioneerModal: React.FC<Props> = ({
           }}
         >
           <div className="flex flex-col">
-            {!gameState.inventory["Gold Pass"] && (
+            {!hasVipAccess(gameState.inventory) && (
               <div className="flex items-center justify-between px-1">
                 <div className="flex items-center">
-                  <img
-                    src={ITEM_DETAILS["Gold Pass"].image}
-                    className="h-4 mr-1"
-                  />
-                  <span className="text-xs">
-                    {t("statements.gold.pass.required")}
-                  </span>
+                  <Label
+                    icon={SUNNYSIDE.icons.cancel}
+                    className="ml-1"
+                    type="warning"
+                  >
+                    VIP Access Required
+                  </Label>
                 </div>
                 <Button
                   onClick={() => {
                     onClose();
                     openModal("BUY_BANNER");
                   }}
-                  className="text-xxs w-16 p-0 h-8"
+                  className="text-xxs w-32 p-0 h-8"
                 >
-                  {t("buy")}
+                  Upgrade to VIP
                 </Button>
               </div>
             )}

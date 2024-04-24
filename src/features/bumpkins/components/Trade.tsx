@@ -24,6 +24,7 @@ import { Label } from "components/ui/Label";
 import { TRADE_LIMITS } from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { setPrecision } from "lib/utils/formatNumber";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -396,6 +397,8 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
 
   const [showListing, setShowListing] = useState(false);
 
+  const isVIP = hasVipAccess(gameState.context.state.inventory);
+
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
@@ -437,21 +440,6 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
     );
   }
 
-  if (!gameState.context.state.inventory["Gold Pass"]) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={ITEM_DETAILS["Gold Pass"].image}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
-          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
-        </div>
-      </div>
-    );
-  }
-
   if (showListing) {
     return (
       <ListTrade
@@ -467,6 +455,12 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   if (getKeys(trades).length === 0) {
     return (
       <div className="relative">
+        <VIPAccess
+          isVIP={isVIP}
+          onUpgrade={() => {
+            openModal("BUY_BANNER");
+          }}
+        />
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
@@ -482,6 +476,12 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
 
   return (
     <div>
+      <VIPAccess
+        isVIP={isVIP}
+        onUpgrade={() => {
+          openModal("BUY_BANNER");
+        }}
+      />
       {getKeys(trades).map((listingId, index) => {
         return (
           <div className="mt-2" key={index}>
@@ -503,7 +503,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
       })}
       {getKeys(trades).length < 3 && (
         <div className="relative mt-2">
-          <Button onClick={() => setShowListing(true)}>
+          <Button onClick={() => setShowListing(true)} disabled={!isVip}>
             {t("list.trade")}
           </Button>
         </div>
@@ -518,3 +518,24 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
     </div>
   );
 };
+
+interface VIPAccessProps {
+  isVIP: boolean;
+  onUpgrade: () => void;
+}
+
+const VIPAccess: React.FC<VIPAccessProps> = ({ onUpgrade, isVIP }) =>
+  isVIP ? (
+    <></>
+  ) : (
+    <div className="flex items-center justify-between px-1">
+      <div className="flex items-center">
+        <Label icon={SUNNYSIDE.icons.cancel} className="ml-1" type="warning">
+          VIP Access Required
+        </Label>
+      </div>
+      <Button onClick={onUpgrade} className="text-xxs w-32 p-0 h-8">
+        Upgrade to VIP
+      </Button>
+    </div>
+  );

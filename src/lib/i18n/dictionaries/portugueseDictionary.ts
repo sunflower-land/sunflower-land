@@ -3005,8 +3005,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.deposit": "Depositar",
   "noBumpkin.advancedIsland":
     "Esta é uma ilha avançada. Um Bumpkin forte é necessário:",
-  "weakBumpkin.notStrong":
-    "Oh não! Seu Bumpkin não é forte o suficiente para esta ilha.",
 
   "dequipper.noBumpkins": ENGLISH_TERMS["dequipper.noBumpkins"],
   "dequipper.missingBumpkins": ENGLISH_TERMS["dequipper.missingBumpkins"],

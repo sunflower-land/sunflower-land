@@ -2097,7 +2097,6 @@ export type NoBumpkin =
   | "noBumpkin.deposit"
   | "noBumpkin.advancedIsland"
   | "noBumpkin.nude"
-  | "weakBumpkin.notStrong"
   | "dequipper.noBumpkins"
   | "dequipper.missingBumpkins"
   | "dequipper.intro"
