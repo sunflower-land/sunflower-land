@@ -8,6 +8,8 @@ import { Context } from "features/game/GameProvider";
 import { Discord } from "./DiscordModal";
 import { Share } from "./Share";
 import { Context as GameContext } from "features/game/GameProvider";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GeneralSettings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -29,10 +31,24 @@ export const GeneralSettings: React.FC = () => {
     toggleAnimations();
   };
 
+  const BackButton = () => {
+    return (
+      <img
+        src={SUNNYSIDE.icons.arrow_left}
+        className="cursor-pointer"
+        onClick={() => setView("settings")}
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+      />
+    );
+  };
+
   const Content = () => {
     if (view === "language") {
       return (
         <>
+          <BackButton />
           <div
             className="grow mb-3 text-lg"
             style={{ margin: "0 auto", display: "table" }}
@@ -46,9 +62,12 @@ export const GeneralSettings: React.FC = () => {
 
     if (view === "share") {
       return (
-        <Share
-          farmId={gameService.state?.context?.farmId.toString() as string}
-        />
+        <>
+          <BackButton />
+          <Share
+            farmId={gameService.state?.context?.farmId.toString() as string}
+          />
+        </>
       );
     }
 
