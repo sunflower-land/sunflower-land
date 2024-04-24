@@ -628,17 +628,18 @@ export class PlazaScene extends BaseScene {
     switch (chosenFaction) {
       case "bumpkins":
         this.bumpkinsFactionNPC?.addOnClick(() =>
-          npcModalManager.open("robert")
+          interactableModalManager.open("bumpkins_faction")
         );
+
         break;
       case "goblins":
         this.goblinsFactionNPC?.addOnClick(() =>
-          npcModalManager.open("grommy")
+          interactableModalManager.open("goblins_faction")
         );
         break;
       case "sunflorians":
         this.sunfloriansFactionNPC?.addOnClick(() =>
-          npcModalManager.open("lady day")
+          interactableModalManager.open("sunflorians_faction")
         );
         break;
       case "nightshades":
@@ -646,7 +647,7 @@ export class PlazaScene extends BaseScene {
           ?.setInteractive({ cursor: "pointer" })
           .on("pointerdown", (p: Phaser.Input.Pointer) => {
             if (p.downElement.nodeName === "CANVAS") {
-              npcModalManager.open("maximus");
+              interactableModalManager.open("nightshades_faction");
             }
           });
         break;
@@ -738,6 +739,7 @@ export class PlazaScene extends BaseScene {
     if (hasFeatureAccess(this.gameState, "FACTIONS")) {
       this.chosenFaction = this.gameService.state.context.state?.faction?.name;
       this.setUpFactionBanners();
+      this.setUpFactionNPCS();
 
       if (this.chosenFaction) {
         this.makeChosenFactionNPCInteractive(this.chosenFaction);

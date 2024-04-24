@@ -1372,7 +1372,9 @@ export type Factions =
   | "faction.donation.sfl.max.per.day"
   | "faction.donation.bulk.resources"
   | "faction.donation.bulk.resources.unlimited.per.day"
-  | "faction.donation.confirm";
+  | "faction.donation.confirm"
+  | "faction.seasonal.delivery.start.at"
+  | "faction.points";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

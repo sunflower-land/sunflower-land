@@ -1914,7 +1914,7 @@ const factions: Record<Factions, string> = {
   "faction.earn.emblems": "Earn Emblems",
   "faction.earn.emblems.time.left": "{{timeLeft}} left",
   "faction.emblems.tasks":
-    "Complete deliveries now to be eligible for the faction emblems airdrop.",
+    "Earn faction points by making donations or completing seasonal deliveries to become eligible for the faction emblems airdrop.",
   "faction.view.leaderboard": "View Leaderboard",
   "faction.donation.request.message":
     "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewards faction points in return for your generosity.",
@@ -1926,6 +1926,8 @@ const factions: Record<Factions, string> = {
     "{{donatedToday}}/unlimited per day",
   "faction.donation.confirm":
     "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
+  "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
+  "faction.points": "Faction points: {{points}}",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
