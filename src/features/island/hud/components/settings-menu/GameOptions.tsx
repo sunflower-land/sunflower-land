@@ -45,7 +45,6 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
 
   const { t } = useAppTranslation();
 
-  const [showInstallAppModal, setShowInstallAppModal] = useState(false);
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
 
   const isPWA = useIsPWA();
@@ -62,7 +61,7 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
 
       fixInstallPromptTextStyles();
     } else {
-      setShowInstallAppModal(true);
+      onSelect(5);
     }
   };
 
@@ -182,10 +181,6 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
           </div>
         </CloseButtonPanel>
       </Modal>
-      <InstallAppModal
-        isOpen={showInstallAppModal}
-        onClose={() => setShowInstallAppModal(false)}
-      />
     </>
   );
 };
@@ -209,6 +204,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
     t("gameOptions.blockchainSettings"),
     t("gameOptions.generalSettings"),
     t("gameOptions.plazaSettings"),
+    t("install.app"),
   ];
   const [selected, setSelected] = useState(0);
 
@@ -229,6 +225,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
           {selected === 2 && <BlockchainSettings />}
           {selected === 3 && <GeneralSettings />}
           {selected === 4 && <PlazaSettings />}
+          {selected === 5 && <InstallAppModal />}
           <p className="mx-1 text-xxs">
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
           </p>

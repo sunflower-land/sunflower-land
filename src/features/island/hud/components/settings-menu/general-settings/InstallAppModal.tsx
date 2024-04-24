@@ -1,7 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from "react";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
   isMobile,
   isIOS,
@@ -35,7 +33,7 @@ const _farmId = (state: MachineState) => state.context.farmId;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
-export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
+export const InstallAppModal: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
@@ -67,24 +65,18 @@ export const InstallAppModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
-    if (magicLink || !isOpen) return;
+    if (magicLink) return;
 
     if (showMagicLinkFlow || showQRCodeFlow) {
       fetchMagicLink();
     }
-  }, [isOpen]);
+  }, []);
 
   return (
-    <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel title={t("install.app")} onClose={onClose}>
-        <div className="p-1">
-          {isMobile && showMagicLinkFlow && (
-            <MagicLinkFlow magicLink={magicLink} />
-          )}
-          {showQRCodeFlow && <QRCodeFlow magicLink={magicLink} />}
-        </div>
-      </CloseButtonPanel>
-    </Modal>
+    <div className="p-1">
+      {isMobile && showMagicLinkFlow && <MagicLinkFlow magicLink={magicLink} />}
+      {showQRCodeFlow && <QRCodeFlow magicLink={magicLink} />}
+    </div>
   );
 };
 
