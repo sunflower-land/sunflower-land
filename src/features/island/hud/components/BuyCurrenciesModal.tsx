@@ -205,7 +205,9 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
           tabs={[
             { icon: blockBuckIcon, name: `Block Bucks` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
-            { icon: SUNNYSIDE.icons.basket, name: `Banner` },
+            ...(hasFeatureAccess(state, "BANNER_SALES")
+              ? [{ icon: SUNNYSIDE.icons.basket, name: `Banner` }]
+              : []),
           ]}
         >
           {tab === 0 && (
