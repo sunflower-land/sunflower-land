@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 
@@ -6,13 +6,12 @@ import farmImg from "assets/brand/nft.png";
 import { CopyField } from "components/ui/CopyField";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
+import { Context as GameContext } from "features/game/GameProvider";
 
-interface Props {
-  farmId: string;
-}
-
-export const Share: React.FC<Props> = ({ farmId }) => {
+export const Share: React.FC = () => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(GameContext);
+  const farmId = gameService.state?.context?.farmId.toString() as string;
   const farmUrl =
     CONFIG.NETWORK === "amoy"
       ? `https://sunflower-land.com/testnet/#/visit/${farmId}`
@@ -29,12 +28,6 @@ export const Share: React.FC<Props> = ({ farmId }) => {
 
   return (
     <>
-      <div
-        className="grow mb-3 text-lg"
-        style={{ margin: "0 auto", display: "table" }}
-      >
-        {t("share.ShareYourFarmLink")}
-      </div>
       <div className="p-2">
         <div className="row justify-content-center align-items-center">
           <div className="flex d-none d-sm-block col-sm col justify-content-center align-items-center">

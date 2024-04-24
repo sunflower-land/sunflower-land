@@ -35,6 +35,8 @@ import { TransferAccountWrap } from "./blockchain-settings/TransferAccount";
 import { AddSFL } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
+import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
+import { Share } from "./general-settings/Share";
 
 export const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -157,7 +159,7 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-2" onClick={() => onSubMenuClick("blockchain")}>
         <span>{t("gameOptions.blockchainSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
+      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("general")}>
         <span>{t("gameOptions.generalSettings")}</span>
       </Button>
       <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
@@ -252,7 +254,9 @@ export type SettingMenuId =
   | "storeChain"
   | "dequip"
   | "transfer"
-  | "discord";
+  | "discord"
+  | "changeLanguage"
+  | "share";
 
 interface SettingMenu {
   title: string;
@@ -265,6 +269,7 @@ export interface ContentComponentProps {
 }
 
 export const settingMenus: Record<SettingMenuId, SettingMenu> = {
+  // Game Options
   main: {
     title: translate("gameOptions.title"),
     parent: "main",
@@ -282,9 +287,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
   general: {
     title: translate("gameOptions.generalSettings"),
-    parent: "general",
+    parent: "main",
     content: GeneralSettings,
   },
+
+  // Blockchain Settings
   storeChain: {
     title: translate("transaction.storeProgress"),
     parent: "blockchain",
@@ -310,9 +317,21 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: () => <></>,
   },
+
+  // General Settings
   discord: {
     title: "todo",
     parent: "main",
     content: () => <></>,
+  },
+  changeLanguage: {
+    title: translate("gameOptions.generalSettings.changeLanguage"),
+    parent: "general",
+    content: LanguageSwitcher,
+  },
+  share: {
+    title: translate("share.ShareYourFarmLink"),
+    parent: "general",
+    content: Share,
   },
 };
