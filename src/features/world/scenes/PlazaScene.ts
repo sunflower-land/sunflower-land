@@ -651,8 +651,10 @@ export class PlazaScene extends BaseScene {
     super.create();
 
     // Faction setup
-    this.chosenFaction = this.gameService.state.context.state?.faction?.name;
-    this.setUpFactionBanners();
+    if (hasFeatureAccess(this.gameState, "FACTIONS")) {
+      this.chosenFaction = this.gameService.state.context.state?.faction?.name;
+      this.setUpFactionBanners();
+    }
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
