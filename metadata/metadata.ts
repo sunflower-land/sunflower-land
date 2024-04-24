@@ -4243,6 +4243,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  Scroll: {
+    description: "A ticket used during the Clash of Factions Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/739.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -4593,6 +4604,31 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "XP increase during Spring Blossom Season",
         value: 10,
       },
+    ],
+  },
+  "Clash of Factions Banner": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/738.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Clash of Factions Season",
+        value: 10,
+      },
+    ],
+  },
+  "Lifetime Farmer Banner": {
+    description: "Gives lifetime access to all seasons and VIP access.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/740.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Luminous Lantern": {

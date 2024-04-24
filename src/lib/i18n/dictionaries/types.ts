@@ -110,6 +110,7 @@ export type GeneralTerms =
   | "gift"
   | "go.home"
   | "goblin.delivery"
+  | "goblin.exchange"
   | "gotIt"
   | "goto"
   | "grant.wish"
@@ -163,6 +164,7 @@ export type GeneralTerms =
   | "on"
   | "open"
   | "open.gift"
+  | "p2p.trading"
   | "pass.required"
   | "pay.attention.feedback"
   | "place"
@@ -302,7 +304,8 @@ export type GeneralTerms =
   | "new.species"
   | "buildings"
   | "boosts"
-  | "decorations";
+  | "decorations"
+  | "goblin.deliveries";
 
 export type TimeUnits =
   // Singular
@@ -1648,6 +1651,7 @@ export type GameDescriptions =
   | "description.baozi"
   | "description.communityEgg"
   | "description.hungryHare"
+  | "description.scroll"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
@@ -2765,7 +2769,15 @@ export type SeasonTerms =
   | "season.includes"
   | "season.limitedOffer"
   | "season.wearableAirdrop"
-  | "season.place.land";
+  | "season.place.land"
+  | "season.megastore.discount"
+  | "season.supporter.gift"
+  | "season.free.season.passes"
+  | "season.vip.access"
+  | "season.mystery.gift"
+  | "season.xp.boost"
+  | "season.free.season.passes.description"
+  | "season.lifetime.farmer";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"

@@ -3,12 +3,15 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import blockBucksIcon from "assets/icons/block_buck.png";
+import blockBuckIcon from "assets/icons/block_buck.png";
 import exchangeIcon from "assets/icons/exchange.png";
+import giftIcon from "assets/icons/gift.png";
+import increaseIcon from "assets/icons/increase_arrow.png";
 import coinsIcon from "assets/icons/coins.webp";
 import coinsStack from "assets/icons/coins_stack.webp";
 import coinsScattered from "assets/icons/coins_scattered.webp";
 import sflIcon from "assets/icons/sfl.webp";
+import lifeTimeFarmerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
 import { OuterPanel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -17,7 +20,7 @@ import { XsollaIFrame } from "features/game/components/modal/components/XsollaIF
 import { Context } from "features/game/GameProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { randomID } from "lib/utils/random";
 import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
@@ -29,6 +32,17 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import {
+  SeasonalBanner,
+  getPreviousSeasonalBanner,
+  getSeasonalBanner,
+  getSeasonalBannerImage,
+} from "features/game/types/seasons";
+import { hasFeatureAccess } from "lib/flags";
+import { getBannerPrice } from "features/game/events/landExpansion/bannerPurchased";
+import Decimal from "decimal.js-light";
+import classNames from "classnames";
+import { Inventory } from "./inventory/InventoryItemsModal";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -47,7 +61,14 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
   const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
 
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
   const { t } = useAppTranslation();
+
   // Block bucks
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
@@ -56,6 +77,14 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
 
   // SFL to Coins
   const [exchangePackageId, setExchangePackageId] = useState<number>();
+
+  // Banners
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [banner, setBanner] = useState<
+    SeasonalBanner | "Lifetime Farmer Banner"
+  >("Lifetime Farmer Banner");
+
+  // const [showPurchased, setShowPurchased] = useState(hasPurchased);
 
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
@@ -114,6 +143,37 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
     onClose();
   };
 
+  const seasonalBannerImage = getSeasonalBannerImage();
+
+  const originalBannerPrice = 90;
+
+  const previousBanner = getPreviousSeasonalBanner();
+  const hasPreviousBanner = !!state.inventory[previousBanner];
+  const seasonalBanner = getSeasonalBanner();
+  const bannerPrice = getBannerPrice(banner, hasPreviousBanner).toNumber();
+
+  const hasDiscount = bannerPrice < originalBannerPrice;
+
+  const onConfirm = (banner: SeasonalBanner | "Lifetime Farmer Banner") => {
+    gameService.send("banner.purchased", {
+      name: banner,
+    });
+    setShowConfirmation(false);
+  };
+
+  if (showConfirmation) {
+    return (
+      <ConfirmationModal
+        onClose={() => setShowConfirmation(false)}
+        onConfirm={onConfirm}
+        banner={banner}
+        price={bannerPrice}
+        seasonalBannerImage={seasonalBannerImage}
+        inventory={state.inventory}
+      />
+    );
+  }
+
   return (
     <Modal
       show={show}
@@ -143,15 +203,18 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
           }}
           onClose={onClose}
           tabs={[
-            { icon: blockBucksIcon, name: `Block Bucks` },
+            { icon: blockBuckIcon, name: `Block Bucks` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
+            ...(hasFeatureAccess(state, "BANNER_SALES")
+              ? [{ icon: SUNNYSIDE.icons.basket, name: `Banner` }]
+              : []),
           ]}
         >
           {tab === 0 && (
             <div className="flex flex-col space-y-1">
               {!hideBuyBBLabel && (
                 <div className="flex justify-between pt-2 px-1">
-                  <Label icon={blockBucksIcon} type="default" className="ml-2">
+                  <Label icon={blockBuckIcon} type="default" className="ml-2">
                     {`${t("transaction.buy.BlockBucks")}`}
                   </Label>
                   <a
@@ -245,8 +308,264 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
               )}
             </div>
           )}
+          {tab === 2 && hasFeatureAccess(state, "BANNER_SALES") && (
+            <div className="flex flex-col space-y-2">
+              {/* Lifetime Farmer */}
+              <OuterPanel
+                className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
+                onClick={() => {
+                  setShowConfirmation(true);
+                  setBanner("Lifetime Farmer Banner");
+                }}
+              >
+                <Label
+                  type="default"
+                  className="absolute h-7"
+                  icon={lifeTimeFarmerBanner}
+                  iconWidth={16}
+                  style={{
+                    width: "40%",
+                    top: "4px",
+                    left: "0px",
+                  }}
+                >
+                  {t("season.lifetime.farmer")}
+                </Label>
+
+                <div className="flex mt-10 w-full relative">
+                  <img src={giftIcon} alt="Coins" className="w-5" />
+                  <p className="text-sm ml-2">{t("season.supporter.gift")}</p>
+                </div>
+
+                <div className="flex mt-2 w-full relative">
+                  <img
+                    src={seasonalBannerImage}
+                    alt="Seasonal Banner"
+                    className="w-4 ml-[0.5px]"
+                  />
+                  <p className="text-sm ml-2">
+                    {t("season.free.season.passes")}
+                  </p>
+                </div>
+
+                <Label
+                  icon={blockBuckIcon}
+                  type="warning"
+                  iconWidth={16}
+                  className="absolute h-7"
+                  style={{
+                    width: "20%",
+                    bottom: "2px",
+                    right: "2px",
+                  }}
+                >
+                  {getBannerPrice("Lifetime Farmer Banner", false).toNumber()}
+                </Label>
+              </OuterPanel>
+              {/* Season Banner */}
+              <OuterPanel
+                className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
+                onClick={() => {
+                  setShowConfirmation(true);
+                  setBanner(seasonalBanner);
+                }}
+              >
+                <Label
+                  icon={seasonalBannerImage}
+                  type="default"
+                  iconWidth={16}
+                  className="absolute h-7"
+                  style={{
+                    width: "50%",
+                    top: "4px",
+                    left: "0px",
+                  }}
+                >
+                  {seasonalBanner}
+                </Label>
+
+                <div className="flex mt-10 w-full relative">
+                  <img src={giftIcon} alt="Coins" className="w-5" />
+                  <p className="text-sm ml-2">{t("season.mystery.gift")}</p>
+                </div>
+
+                <div className="flex mt-2 w-full relative">
+                  <img
+                    src={SUNNYSIDE.icons.confirm}
+                    alt="Coins"
+                    className="w-5 mt-1"
+                  />
+                  <p className="text-sm ml-2">{t("season.vip.access")}</p>
+                </div>
+
+                <div className="flex mt-2 w-full relative">
+                  <img
+                    src={increaseIcon}
+                    alt="Coins"
+                    className="w-3 mt-1 ml-1"
+                  />
+                  <p className="text-sm ml-2">{t("season.xp.boost")}</p>
+                </div>
+
+                {hasDiscount && (
+                  <p
+                    className="absolute text-xxs line-through bottom-2 right-[34px] bottom-9"
+                    style={{}}
+                  >
+                    {originalBannerPrice}
+                  </p>
+                )}
+                <Label
+                  icon={blockBuckIcon}
+                  type="warning"
+                  iconWidth={16}
+                  className="absolute h-7"
+                  style={{
+                    width: "20%",
+                    bottom: "2px",
+                    right: "2px",
+                  }}
+                >
+                  {getBannerPrice(seasonalBanner, hasPreviousBanner).toNumber()}
+                </Label>
+              </OuterPanel>
+            </div>
+          )}
         </CloseButtonPanel>
       )}
+    </Modal>
+  );
+};
+
+type ConfirmationProps = {
+  onClose: () => void;
+  onConfirm: (banner: SeasonalBanner | "Lifetime Farmer Banner") => void;
+  banner: SeasonalBanner | "Lifetime Farmer Banner";
+  price: number;
+  seasonalBannerImage: string;
+  inventory: Inventory;
+};
+
+const ConfirmationModal: React.FC<ConfirmationProps> = ({
+  onClose,
+  onConfirm,
+  banner,
+  price,
+  seasonalBannerImage,
+  inventory,
+}) => {
+  const { t } = useAppTranslation();
+  const isLifeTime = banner === "Lifetime Farmer Banner";
+  const hasBanner = !!inventory[banner];
+  const blockBuckBalance = inventory["Block Buck"] || new Decimal(0);
+  const hasLifeTime = !!inventory["Lifetime Farmer Banner"];
+
+  return (
+    <Modal show onHide={onClose} onExited={onClose}>
+      <CloseButtonPanel className="m-2">
+        <Label
+          icon={isLifeTime ? lifeTimeFarmerBanner : seasonalBannerImage}
+          type="default"
+          iconWidth={16}
+          className="absolute h-7"
+          style={{
+            width: "50%",
+            top: "14px",
+            left: "10px",
+          }}
+        >
+          {banner}
+        </Label>
+
+        {isLifeTime && (
+          <div className="flex mt-12 w-full relative">
+            <img src={giftIcon} alt="Coins" className="w-5" />
+            <p className="text-sm ml-2">{t("season.supporter.gift")}</p>
+          </div>
+        )}
+
+        <div
+          className={classNames("flex w-full mt-2 relative", {
+            "mt-12": !isLifeTime,
+          })}
+        >
+          <img src={SUNNYSIDE.icons.confirm} alt="Coins" className="w-5" />
+          <p className="text-sm ml-2">{t("season.vip.access")}</p>
+        </div>
+        <p className="text-xxs ml-6">{t("goblin.exchange")}</p>
+        <p className="text-xxs ml-6">{t("p2p.trading")}</p>
+        <p className="text-xxs ml-6">{t("goblin.deliveries")}</p>
+        <p className="text-xxs ml-6">{t("season.bonusTickets")}</p>
+        <p className="text-xxs ml-6">{t("season.megastore.discount")}</p>
+
+        <div className="flex mt-2 w-full relative">
+          <img
+            src={seasonalBannerImage}
+            alt="Coins"
+            className="w-4 ml-[0.5px]"
+          />
+          <p className="text-sm ml-2">{t("season.banner")}</p>
+        </div>
+        {isLifeTime && (
+          <p className="text-xxs ml-6">
+            {t("season.free.season.passes.description")}
+          </p>
+        )}
+        <div className="flex mt-2 w-full relative">
+          <img src={giftIcon} alt="Coins" className="w-5" />
+          <p className="text-sm ml-2">{t("season.mystery.gift")}</p>
+        </div>
+
+        <div className="flex mt-2 mb-4 w-full relative">
+          <img src={increaseIcon} alt="Coins" className="w-3 mt-1 ml-1" />
+          <p className="text-sm ml-2">{t("season.xp.boost")}</p>
+        </div>
+
+        {!hasBanner && !hasLifeTime && (
+          <>
+            {blockBuckBalance.lt(price) ? (
+              <>
+                <p className="text-sm my-4">
+                  {t("offer.not.enough.BlockBucks")}
+                </p>
+                <div className=" flex">
+                  <Button onClick={onClose}>{t("back")}</Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-sm my-4">
+                  {`Are you sure you want to purchase the ${banner} for ${price} Block Bucks?`}
+                </p>
+                <div className="flex">
+                  <Button className="mr-1" onClick={onClose}>
+                    {t("no.thanks")}
+                  </Button>
+                  <Button
+                    onClick={() => onConfirm(banner)}
+                    disabled={blockBuckBalance.lt(price) || hasBanner}
+                  >
+                    {t("season.buyNow")}
+                  </Button>
+                </div>
+              </>
+            )}
+          </>
+        )}
+        {/* if has Banner or lifetime */}
+        {(hasBanner || hasLifeTime) && (
+          <>
+            <p className="text-sm my-4">{`You already own a ${
+              hasLifeTime ? "Lifetime Farmer Banner" : banner
+            }.`}</p>
+            <div className="flex">
+              <Button className="mr-1" onClick={onClose}>
+                {t("back")}
+              </Button>
+            </div>
+          </>
+        )}
+      </CloseButtonPanel>
     </Modal>
   );
 };

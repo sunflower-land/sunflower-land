@@ -18,7 +18,8 @@ type FeatureName =
   | "EASTER"
   | "FACTIONS"
   | "FACTION_LEADERBOARD"
-  | "SOUND";
+  | "SOUND"
+  | "BANNER_SALES";
 
 // Used for testing production features
 export const ADMIN_IDS = [
@@ -42,6 +43,11 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTIONS: testnetFeatureFlag,
   FACTION_LEADERBOARD: testnetFeatureFlag,
   SOUND: testnetFeatureFlag,
+  BANNER_SALES: (game) => {
+    if (defaultFeatureFlag(game)) return true;
+
+    return Date.now() > new Date("2024-05-01T00:00:00Z").getTime();
+  },
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

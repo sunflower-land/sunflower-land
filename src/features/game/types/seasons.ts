@@ -1,9 +1,18 @@
+// banners
+import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
+import clashOfFactionsBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+
 export type SeasonName =
   | "Solar Flare"
   | "Dawn Breaker"
   | "Witches' Eve"
   | "Catch the Kraken"
-  | "Spring Blossom";
+  | "Spring Blossom"
+  | "Clash of Factions";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -28,6 +37,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2024-02-01T00:00:00.000Z"),
     endDate: new Date("2024-05-01T00:00:00.000Z"),
   },
+  "Clash of Factions": {
+    startDate: new Date("2024-05-01T00:00:00.000Z"),
+    endDate: new Date("2024-08-01T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
@@ -37,14 +50,16 @@ export type SeasonalTicket =
   | "Dawn Breaker Ticket"
   | "Crow Feather"
   | "Mermaid Scale"
-  | "Tulip Bulb";
+  | "Tulip Bulb"
+  | "Scroll";
 
 export type SeasonalBanner =
   | "Solar Flare Banner"
   | "Dawn Breaker Banner"
   | "Witches' Eve Banner"
   | "Catch the Kraken Banner"
-  | "Spring Blossom Banner";
+  | "Spring Blossom Banner"
+  | "Clash of Factions Banner";
 
 export const BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Solar Flare Banner": "Solar Flare",
@@ -52,6 +67,7 @@ export const BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Witches' Eve Banner": "Witches' Eve",
   "Catch the Kraken Banner": "Catch the Kraken",
   "Spring Blossom Banner": "Spring Blossom",
+  "Clash of Factions Banner": "Clash of Factions",
 };
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
@@ -60,6 +76,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Witches' Eve": "Crow Feather",
   "Catch the Kraken": "Mermaid Scale",
   "Spring Blossom": "Tulip Bulb",
+  "Clash of Factions": "Scroll",
 };
 
 export function getCurrentSeason(now = new Date()): SeasonName {
@@ -110,4 +127,39 @@ export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
 
 export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
   return BANNERS[banner];
+}
+
+export function getSeasonalBannerImage() {
+  const banners: Record<SeasonalBanner, string> = {
+    "Solar Flare Banner": solarFlareBanner,
+    "Dawn Breaker Banner": dawnBreakerBanner,
+    "Witches' Eve Banner": witchesEveBanner,
+    "Catch the Kraken Banner": catchTheKrakenBanner,
+    "Spring Blossom Banner": springBlossomBanner,
+    "Clash of Factions Banner": clashOfFactionsBanner,
+  };
+  return banners[getSeasonalBanner()];
+}
+
+function getPreviousSeason(now = new Date()): SeasonName {
+  const currentSeason = getCurrentSeason(now);
+  const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
+
+  // Find the season where the end date matches the start date of the current season
+  const previousSeason = Object.entries(SEASONS).find(
+    ([_, { endDate }]) =>
+      endDate.getTime() === startDateOfCurrentSeason.getTime()
+  );
+
+  if (!previousSeason) {
+    throw new Error("No previous banner found");
+  }
+
+  return previousSeason[0] as SeasonName;
+}
+
+export function getPreviousSeasonalBanner(now = new Date()): SeasonalBanner {
+  const previousSeason = getPreviousSeason(now);
+
+  return `${previousSeason} Banner`;
 }

@@ -338,6 +338,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Farmhand: 735,
   "Spring Blossom Banner": 736,
   "Tulip Bulb": 737,
+  "Clash of Factions Banner": 738,
+  Scroll: 739,
+  "Lifetime Farmer Banner": 740,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

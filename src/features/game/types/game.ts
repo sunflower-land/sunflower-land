@@ -248,6 +248,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Prize Ticket": {
     description: translate("description.prizeTicket"),
   },
+  Scroll: {
+    description: translate("description.scroll"),
+  },
 };
 
 export type Points = "Human War Point" | "Goblin War Point";

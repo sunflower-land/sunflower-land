@@ -342,6 +342,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   on: "On",
   open: "Open",
   "open.gift": "Open Gift",
+  "p2p.trading": "P2P Trading",
   "pass.required": "Pass Required",
   place: "Place",
   "place.map": "Place on map",
@@ -482,6 +483,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   boosts: "Boosts",
   decorations: "Decorations",
   "sfl/coins": "SFL/Coins",
+  "goblin.exchange": "Goblin Exchange",
+  "goblin.deliveries": "Goblin Deliveries",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -2318,6 +2321,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.communityEgg": "Wow, you must really care about the community!",
   "description.hungryHare":
     "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
+  "description.scroll": "A ticket used during the Clash of Factions Season",
 
   // Easter Items
   "description.egg.basket": "Easter Event",
@@ -4106,6 +4110,14 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": " Limited time only!",
   "season.wearableAirdrop": "Seasonal Wearable Airdrop",
   "season.place.land": "You must place it on your land",
+  "season.megastore.discount": "Megastore SFL discount",
+  "season.supporter.gift": "Supporter Gift",
+  "season.free.season.passes": "Free Season Passes",
+  "season.free.season.passes.description": "Receive banners for every Season",
+  "season.vip.access": "VIP Access",
+  "season.mystery.gift": "Mystery Gift",
+  "season.xp.boost": "10% XP boost",
+  "season.lifetime.farmer": "Lifetime Farmer",
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {
@@ -4671,7 +4683,7 @@ const trading: Record<Trading, string> = {
   "trading.burned": "is burned.",
 };
 
-export const restrictionReason: Record<RestrictionReason, string> = {
+const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.isGrowing": "{{item}} is growing",
   "restrictionReason.beanPlanted": "Magic Bean is planted",
   "restrictionReason.cropsGrowing": "Crops are growing",
@@ -4829,6 +4841,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...portal,
   ...promo,
   ...purchaseableBaitTranslation,
+  ...pwaInstall,
   ...quest,
   ...questions,
   ...reaction,
@@ -4844,7 +4857,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...rewardTerms,
   ...rulesGameStart,
   ...rulesTerms,
-  ...pwaInstall,
   ...sceneDialogueKey,
   ...seasonTerms,
   ...settingsMenu,
