@@ -5,7 +5,7 @@ import { Context } from "../lib/Provider";
 import walletIcon from "src/assets/icons/wallet.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { LanguageSwitcher } from "features/island/hud/components/settings-menu/general-settings/LanguageChangeModal";
+import { LanguageChangeModal } from "features/island/hud/components/settings-menu/general-settings/LanguageChangeModal";
 
 export const Welcome: React.FC = () => {
   const { authService } = useContext(Context);
@@ -66,7 +66,7 @@ export const Welcome: React.FC = () => {
           {t("welcome.needHelp")}
         </a>
       </div>
-      <LanguageSwitcher
+      <LanguageChangeModal
         isOpen={showLanguageModal}
         onClose={() => setShowLanguageModal(false)}
       />

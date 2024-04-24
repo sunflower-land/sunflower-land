@@ -14,40 +14,22 @@ import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
 import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
+export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
 
   const initialLanguage = localStorage.getItem("language") || "en";
   const [language, setLanguage] = useState(initialLanguage);
+  const [showContributeLanguage, setShowContributeLanguage] = useState(false);
 
   const handleChangeLanguage = (languageCode: string) => {
     localStorage.setItem("language", languageCode);
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
-    onClose();
-  };
-
-  const [showContributeLanguage, setShowContributeLanguage] = useState(false);
-
-  const openContributeLanguageModal = () => {
-    setShowContributeLanguage(true);
-  };
-
-  const closeContributeLanguageModal = () => {
-    setShowContributeLanguage(false);
   };
 
   const Content = () => {
     return (
-      <CloseButtonPanel
-        title={t("gameOptions.generalSettings.changeLanguage")}
-        onClose={onClose}
-      >
+      <>
         <div className="p-1 space-y-2">
           <Button
             onClick={() => handleChangeLanguage("en")}
@@ -108,11 +90,11 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-white text-xs cursor-pointer"
-              onClick={openContributeLanguageModal}
+              onClick={() => setShowContributeLanguage(true)}
             >{`Want to contribute your Language?`}</a>
             <Modal
               show={showContributeLanguage}
-              onHide={closeContributeLanguageModal}
+              onHide={() => setShowContributeLanguage(false)}
             >
               <CloseButtonPanel className="sm:w-4/5 m-auto">
                 <div className="flex flex-col p-2">
@@ -134,22 +116,31 @@ export const LanguageSwitcher: React.FC<Props> = ({ isOpen, onClose }) => {
             </Modal>
           </span>
         </div>
-      </CloseButtonPanel>
+      </>
     );
   };
 
-  // Close Modal on Hide
-  // eslint-disable-next-line unused-imports/no-unused-vars, @typescript-eslint/no-unused-vars
-  const [view, setView] = useState<"settings">("settings");
+  return Content();
+};
 
-  const closeAndResetView = () => {
-    onClose();
-    setView("settings");
-  };
+interface LanguageChangeModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
+export const LanguageChangeModal: React.FC<LanguageChangeModalProps> = ({
+  isOpen,
+  onClose,
+}) => {
+  const { t } = useAppTranslation();
   return (
-    <Modal show={isOpen} onHide={closeAndResetView}>
-      {Content()}
+    <Modal show={isOpen} onHide={onClose}>
+      <CloseButtonPanel
+        title={t("gameOptions.generalSettings.changeLanguage")}
+        onClose={onClose}
+      >
+        <LanguageSwitcher />
+      </CloseButtonPanel>
     </Modal>
   );
 };

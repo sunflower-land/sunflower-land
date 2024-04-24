@@ -215,7 +215,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
 
   const onHide = () => {
     onClose();
-    setMenuLevel(MENU_LEVELS.ROOT);
+    setSelected(0);
   };
 
   return (

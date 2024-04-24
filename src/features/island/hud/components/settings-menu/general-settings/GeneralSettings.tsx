@@ -17,11 +17,11 @@ export const GeneralSettings: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(GameContext);
-  const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [authState] = useActor(authService);
+  const [view, setView] = useState<"settings" | "language">("settings");
 
   const { showAnimations, toggleAnimations } = useContext(Context);
 
@@ -34,15 +34,25 @@ export const GeneralSettings: React.FC = () => {
     setMenuLevel(MENU_LEVELS.ROOT);
   };
 
-  const changeLanguage = () => {
-    setShowLanguageModal(true);
-  };
-
   const onToggleAnimations = () => {
     toggleAnimations();
   };
 
   const Content = () => {
+    if (view === "language") {
+      return (
+        <>
+          <div
+            className="grow mb-3 text-lg"
+            style={{ margin: "0 auto", display: "table" }}
+          >
+            {t("gameOptions.generalSettings.changeLanguage")}
+          </div>
+          <LanguageSwitcher />
+        </>
+      );
+    }
+
     return (
       <>
         <Button onClick={handleDiscordClick} className="mb-2">
@@ -52,7 +62,7 @@ export const GeneralSettings: React.FC = () => {
               : t("gameOptions.generalSettings.connectDiscord")}
           </span>
         </Button>
-        <Button onClick={changeLanguage} className="mb-2">
+        <Button onClick={() => setView("language")} className="mb-2">
           <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
         </Button>
         <Button className="mb-2" onClick={onToggleAnimations}>
@@ -65,10 +75,6 @@ export const GeneralSettings: React.FC = () => {
         <Button onClick={handleShareClick} className="mb-2">
           <span>{t("gameOptions.generalSettings.share")}</span>
         </Button>
-        <LanguageSwitcher
-          isOpen={showLanguageModal}
-          onClose={() => setShowLanguageModal(false)}
-        />
         <Discord
           isOpen={showDiscordModal}
           onClose={() => setShowDiscordModal(false)}
