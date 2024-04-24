@@ -50,6 +50,13 @@ export function pledgeFaction({
     name: action.faction,
     pledgedAt: createdAt,
     points: 0,
+    donated: {
+      daily: {
+        resources: {},
+        sfl: {},
+      },
+      totalItems: {},
+    },
   };
 
   const banner = FACTION_BANNERS[action.faction];
