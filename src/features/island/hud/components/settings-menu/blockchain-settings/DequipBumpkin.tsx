@@ -16,8 +16,9 @@ import { dequipBumpkin } from "lib/blockchain/Dequipper";
 import { loadWearablesBalanceBatch } from "lib/blockchain/BumpkinItems";
 import { shortAddress } from "lib/utils/shortAddress";
 import { Loading } from "features/auth/components";
+import { ContentComponentProps } from "../GameOptions";
 
-export const DequipBumpkin: React.FC = () => {
+export const DequipBumpkin: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();

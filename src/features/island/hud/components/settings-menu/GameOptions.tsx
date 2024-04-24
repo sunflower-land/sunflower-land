@@ -11,6 +11,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { shortAddress } from "lib/utils/shortAddress";
+import { translate } from "lib/i18n/translate";
 
 import walletIcon from "assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
@@ -18,7 +19,6 @@ import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
@@ -30,15 +30,11 @@ import {
   isAndroid,
   isChrome,
 } from "mobile-device-detect";
-import { InstallAppModal } from "./general-settings/InstallAppModal";
-import { GeneralSettings } from "./general-settings/GeneralSettings";
-import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
+import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
 
-interface GameOptionsProps {
-  onSelect: (id: number) => void;
-}
-
-export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
+export const GameOptions: React.FC<ContentComponentProps> = ({
+  onSubMenuClick,
+}) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
@@ -61,7 +57,7 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
 
       fixInstallPromptTextStyles();
     } else {
-      onSelect(5);
+      onSubMenuClick("main");
     }
   };
 
@@ -144,20 +140,20 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
                   </Button>
                   </li> */}
       {CONFIG.NETWORK === "amoy" && (
-        <Button className="p-1 mb-2" onClick={() => onSelect(1)}>
+        <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
           <span>{t("gameOptions.amoyActions")}</span>
         </Button>
       )}
       <Button className="p-1 mb-2" onClick={refreshSession}>
         {t("gameOptions.blockchainSettings.refreshChain")}
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSelect(2)}>
+      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("blockchain")}>
         <span>{t("gameOptions.blockchainSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSelect(3)}>
+      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
         <span>{t("gameOptions.generalSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSelect(4)}>
+      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("main")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
       <Button className="p-1 mb-2" onClick={() => showConfirmLogoutModal(true)}>
@@ -179,6 +175,9 @@ export const GameOptions: React.FC<GameOptionsProps> = ({ onSelect }) => {
               {t("cancel")}
             </Button>
           </div>
+          <p className="mx-1 text-xxs">
+            {CONFIG.RELEASE_VERSION?.split("-")[0]}
+          </p>
         </CloseButtonPanel>
       </Modal>
     </>
@@ -190,47 +189,99 @@ interface GameOptionsModalProps {
   onClose: () => void;
 }
 
-type SettingsType = string;
-
 export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   show,
   onClose,
 }) => {
-  const { t } = useAppTranslation();
-
-  const settingsOptions: SettingsType[] = [
-    t("gameOptions.title"),
-    t("gameOptions.amoyActions"),
-    t("gameOptions.blockchainSettings"),
-    t("gameOptions.generalSettings"),
-    t("gameOptions.plazaSettings"),
-    t("install.app"),
-  ];
-  const [selected, setSelected] = useState(0);
+  // const settingsOptions: SettingsType[] = [
+  //   t("gameOptions.title"),
+  //   t("gameOptions.amoyActions"),
+  //   t("gameOptions.blockchainSettings"),
+  //   t("gameOptions.generalSettings"),
+  //   t("gameOptions.plazaSettings"),
+  //   t("install.app"),
+  // ];
+  const [selected, setSelected] = useState<SettingMenuId>("main");
 
   const onHide = () => {
     onClose();
-    setSelected(0);
+    setSelected("main");
   };
+
+  const SelectedComponent = settingMenus[selected].content;
 
   return (
     <>
       <Modal show={show} onHide={onHide}>
         <CloseButtonPanel
-          title={settingsOptions[selected]}
-          onBack={selected ? () => setSelected(0) : undefined}
+          title={settingMenus[selected].title}
+          onBack={
+            selected !== "main"
+              ? () => setSelected(settingMenus[selected].parent)
+              : undefined
+          }
+          onClose={onHide}
         >
-          {selected === 0 && <GameOptions onSelect={setSelected} />}
+          <SelectedComponent onSubMenuClick={setSelected} />
+          {/* {selected === "m" && <GameOptions onSelect={setSelected} />}
           {selected === 1 && <AmoyTestnetActions />}
           {selected === 2 && <BlockchainSettings />}
           {selected === 3 && <GeneralSettings />}
           {selected === 4 && <PlazaSettings />}
-          {selected === 5 && <InstallAppModal />}
-          <p className="mx-1 text-xxs">
-            {CONFIG.RELEASE_VERSION?.split("-")[0]}
-          </p>
+          {selected === 5 && <InstallAppModal />} */}
         </CloseButtonPanel>
       </Modal>
     </>
   );
+};
+
+export type SettingMenuId =
+  | "main"
+  | "blockchain"
+  | "dequip"
+  | "transfer"
+  | "deposit"
+  | "swapSFL";
+
+interface SettingMenu {
+  title: string;
+  parent: SettingMenuId;
+  content: React.FC<ContentComponentProps>;
+}
+
+export interface ContentComponentProps {
+  onSubMenuClick: (id: SettingMenuId) => void;
+}
+
+export const settingMenus: Record<SettingMenuId, SettingMenu> = {
+  main: {
+    title: translate("gameOptions.title"),
+    parent: "main",
+    content: GameOptions,
+  },
+  blockchain: {
+    title: translate("gameOptions.blockchainSettings"),
+    parent: "main",
+    content: BlockchainSettings,
+  },
+  dequip: {
+    title: "todo",
+    parent: "blockchain",
+    content: DequipBumpkin,
+  },
+  transfer: {
+    title: "todo",
+    parent: "blockchain",
+    content: () => <></>,
+  },
+  swapSFL: {
+    title: "todo",
+    parent: "blockchain",
+    content: () => <></>,
+  },
+  deposit: {
+    title: "todo",
+    parent: "main",
+    content: () => <></>,
+  },
 };

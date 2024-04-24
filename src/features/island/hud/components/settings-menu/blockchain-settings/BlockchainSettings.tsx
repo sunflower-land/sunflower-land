@@ -11,20 +11,19 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { AddSFLOptions } from "../../AddSFL";
-import { DequipBumpkin } from "./DequipBumpkin";
 import { Panel } from "components/ui/Panel";
-import { GameWallet } from "features/wallet/Wallet";
-import { TransferAccount } from "./TransferAccount";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloudFlareCaptcha } from "components/ui/CloudFlareCaptcha";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ContentComponentProps } from "../GameOptions";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 const _xp = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
 
-export const BlockchainSettings: React.FC = () => {
+export const BlockchainSettings: React.FC<ContentComponentProps> = ({
+  onSubMenuClick,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(GameContext);
@@ -32,9 +31,9 @@ export const BlockchainSettings: React.FC = () => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showCaptcha, setShowCaptcha] = useState(false);
 
-  const [view, setView] = useState<
-    "settings" | "transfer" | "dequip" | "swapSFL"
-  >("settings");
+  // const [view, setView] = useState<
+  //   "settings" | "transfer" | "dequip" | "swapSFL"
+  // >("settings");
   const { openModal } = useContext(ModalContext);
 
   const farmAddress = useSelector(gameService, _farmAddress);
@@ -62,52 +61,52 @@ export const BlockchainSettings: React.FC = () => {
     setShowCaptcha(false);
   };
 
-  const BackButton = () => {
-    return (
-      <img
-        src={SUNNYSIDE.icons.arrow_left}
-        className="cursor-pointer"
-        onClick={() => setView("settings")}
-        style={{
-          width: `${PIXEL_SCALE * 11}px`,
-        }}
-      />
-    );
-  };
+  // const BackButton = () => {
+  //   return (
+  //     <img
+  //       src={SUNNYSIDE.icons.arrow_left}
+  //       className="cursor-pointer"
+  //       onClick={() => setView("settings")}
+  //       style={{
+  //         width: `${PIXEL_SCALE * 11}px`,
+  //       }}
+  //     />
+  //   );
+  // };
 
   const Content = () => {
-    if (view === "dequip") {
-      return (
-        <GameWallet action="dequip">
-          <BackButton />
-          <div
-            className="grow mb-3 text-lg"
-            style={{ margin: "0 auto", display: "table" }}
-          >
-            {t("dequipper.dequip")}
-          </div>
-          <DequipBumpkin />
-        </GameWallet>
-      );
-    }
+    // if (view === "dequip") {
+    //   return (
+    //     <GameWallet action="dequip">
+    //       <BackButton />
+    //       <div
+    //         className="grow mb-3 text-lg"
+    //         style={{ margin: "0 auto", display: "table" }}
+    //       >
+    //         {t("dequipper.dequip")}
+    //       </div>
+    //       <DequipBumpkin />
+    //     </GameWallet>
+    //   );
+    // }
 
-    if (view === "transfer") {
-      return (
-        <GameWallet action="transferAccount">
-          <BackButton />
-          <TransferAccount />
-        </GameWallet>
-      );
-    }
+    // if (view === "transfer") {
+    //   return (
+    //     <GameWallet action="transferAccount">
+    //       <BackButton />
+    //       <TransferAccount />
+    //     </GameWallet>
+    //   );
+    // }
 
-    if (view === "swapSFL") {
-      return (
-        <GameWallet action="purchase">
-          <BackButton />
-          <AddSFLOptions />
-        </GameWallet>
-      );
-    }
+    // if (view === "swapSFL") {
+    //   return (
+    //     <GameWallet action="purchase">
+    //       <BackButton />
+    //       <AddSFLOptions />
+    //     </GameWallet>
+    //   );
+    // }
 
     return (
       <>
@@ -117,15 +116,18 @@ export const BlockchainSettings: React.FC = () => {
         <Button onClick={storeOnChain} className="mb-2">
           <span>{t("gameOptions.blockchainSettings.storeOnChain")}</span>
         </Button>
-        <Button onClick={() => setView("swapSFL")} className="mb-2">
+        <Button onClick={() => onSubMenuClick("swapSFL")} className="mb-2">
           <span>{t("gameOptions.blockchainSettings.swapMaticForSFL")}</span>
         </Button>
-        <Button className="mb-2 capitalize" onClick={() => setView("dequip")}>
+        <Button
+          className="mb-2 capitalize"
+          onClick={() => onSubMenuClick("dequip")}
+        >
           {t("dequipper.dequip")}
         </Button>
         {isFullUser && (
           <>
-            <Button className="mb-2" onClick={() => setView("transfer")}>
+            <Button className="mb-2" onClick={() => onSubMenuClick("transfer")}>
               {t("gameOptions.blockchainSettings.transferOwnership")}
             </Button>
           </>
