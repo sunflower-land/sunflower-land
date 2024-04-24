@@ -62,10 +62,24 @@ export const BlockchainSettings: React.FC = () => {
     setShowCaptcha(false);
   };
 
+  const BackButton = () => {
+    return (
+      <img
+        src={SUNNYSIDE.icons.arrow_left}
+        className="cursor-pointer"
+        onClick={() => setView("settings")}
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+        }}
+      />
+    );
+  };
+
   const Content = () => {
     if (view === "dequip") {
       return (
         <GameWallet action="dequip">
+          <BackButton />
           <div
             className="grow mb-3 text-lg"
             style={{ margin: "0 auto", display: "table" }}
@@ -80,6 +94,7 @@ export const BlockchainSettings: React.FC = () => {
     if (view === "transfer") {
       return (
         <GameWallet action="transferAccount">
+          <BackButton />
           <TransferAccount />
         </GameWallet>
       );
@@ -88,6 +103,7 @@ export const BlockchainSettings: React.FC = () => {
     if (view === "swapSFL") {
       return (
         <GameWallet action="purchase">
+          <BackButton />
           <AddSFLOptions />
         </GameWallet>
       );

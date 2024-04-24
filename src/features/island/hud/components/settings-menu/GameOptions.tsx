@@ -202,7 +202,6 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
-  const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
 
   const settingsOptions: SettingsType[] = [
     t("gameOptions.title"),
