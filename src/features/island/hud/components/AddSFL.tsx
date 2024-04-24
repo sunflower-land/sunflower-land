@@ -10,6 +10,7 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameWallet } from "features/wallet/Wallet";
 
 export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 export const INPUT_MAX_CHAR = 10;
@@ -98,12 +99,6 @@ export const AddSFLOptions: React.FC = () => {
 
     return (
       <>
-        <div
-          className="grow mb-3 text-lg"
-          style={{ margin: "0 auto", display: "table" }}
-        >
-          {t("gameOptions.blockchainSettings.swapMaticForSFL")}
-        </div>
         <div className="p-2 pt-1 mb-2">
           <p className="mb-2 text-xs sm:text-sm">{t("addSFL.swapDetails")}</p>
           <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>
@@ -178,4 +173,12 @@ export const AddSFLOptions: React.FC = () => {
     );
   };
   return <>{Content()}</>;
+};
+
+export const AddSFL = () => {
+  return (
+    <GameWallet action="purchase">
+      <AddSFLOptions />
+    </GameWallet>
+  );
 };

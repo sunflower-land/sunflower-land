@@ -30,7 +30,11 @@ import {
   isAndroid,
   isChrome,
 } from "mobile-device-detect";
-import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
+import { DequipBumpkinWrapper } from "./blockchain-settings/DequipBumpkin";
+import { TransferAccountWrap } from "./blockchain-settings/TransferAccount";
+import { AddSFL } from "../AddSFL";
+import { GeneralSettings } from "./general-settings/GeneralSettings";
+import { InstallAppModal } from "./general-settings/InstallAppModal";
 
 export const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -123,7 +127,10 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
       </>
       {!isPWA && (
-        <Button className="p-1 mb-2" onClick={handleInstallApp}>
+        <Button
+          className="p-1 mb-2"
+          onClick={() => onSubMenuClick("installApp")}
+        >
           <span>{t("install.app")}</span>
         </Button>
       )}
@@ -237,11 +244,15 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
 
 export type SettingMenuId =
   | "main"
+  | "installApp"
   | "blockchain"
+  | "general"
+  | "deposit"
+  | "swapSFL"
+  | "storeChain"
   | "dequip"
   | "transfer"
-  | "deposit"
-  | "swapSFL";
+  | "discord";
 
 interface SettingMenu {
   title: string;
@@ -259,27 +270,47 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: GameOptions,
   },
+  installApp: {
+    title: translate("install.app"),
+    parent: "main",
+    content: InstallAppModal,
+  },
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
     parent: "main",
     content: BlockchainSettings,
   },
-  dequip: {
-    title: "todo",
+  general: {
+    title: translate("gameOptions.generalSettings"),
+    parent: "general",
+    content: GeneralSettings,
+  },
+  storeChain: {
+    title: translate("transaction.storeProgress"),
     parent: "blockchain",
-    content: DequipBumpkin,
+    content: () => <></>,
+  },
+  dequip: {
+    title: translate("dequipper.dequip"),
+    parent: "blockchain",
+    content: DequipBumpkinWrapper,
   },
   transfer: {
-    title: "todo",
+    title: translate("gameOptions.blockchainSettings.transferOwnership"),
     parent: "blockchain",
-    content: () => <></>,
+    content: TransferAccountWrap,
   },
   swapSFL: {
-    title: "todo",
+    title: translate("gameOptions.blockchainSettings.swapMaticForSFL"),
     parent: "blockchain",
-    content: () => <></>,
+    content: AddSFL,
   },
   deposit: {
+    title: "todo",
+    parent: "main",
+    content: () => <></>,
+  },
+  discord: {
     title: "todo",
     parent: "main",
     content: () => <></>,
