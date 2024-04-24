@@ -2,22 +2,21 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 
-import { Modal } from "components/ui/Modal";
-
 import farmImg from "assets/brand/nft.png";
 import { CopyField } from "components/ui/CopyField";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { CONFIG } from "lib/config";
 
 interface Props {
   farmId: string;
-  isOpen: boolean;
-  onClose: () => void;
 }
 
-export const Share: React.FC<Props> = ({ isOpen, onClose, farmId }) => {
+export const Share: React.FC<Props> = ({ farmId }) => {
   const { t } = useAppTranslation();
-  const farmUrl = `https://sunflower-land.com/play/#/visit/${farmId}`;
+  const farmUrl =
+    CONFIG.NETWORK === "amoy"
+      ? `https://sunflower-land.com/testnet/#/visit/${farmId}`
+      : `https://sunflower-land.com/play/#/visit/${farmId}`;
 
   const handleTweetClick = () => {
     window.open(
@@ -29,32 +28,36 @@ export const Share: React.FC<Props> = ({ isOpen, onClose, farmId }) => {
   };
 
   return (
-    <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel onClose={onClose} title={t("share.ShareYourFarmLink")}>
-        <div className="p-2">
-          <div className="row justify-content-center align-items-center">
-            <div className="flex d-none d-sm-block col-sm col justify-content-center align-items-center">
-              <p className="text-sm whitespace-normal">
-                {t("share.ShowOffToFarmers")}
-              </p>
-            </div>
-            <div className="flex col-sm-12 col justify-content-center md-px-4 lg-px-4 align-items-center">
-              <img
-                src={farmImg}
-                className="w-64 md-mt-2"
-                alt={t("share.FarmNFTImageAlt")}
-              />
-            </div>
+    <>
+      <div
+        className="grow mb-3 text-lg"
+        style={{ margin: "0 auto", display: "table" }}
+      >
+        {t("share.ShareYourFarmLink")}
+      </div>
+      <div className="p-2">
+        <div className="row justify-content-center align-items-center">
+          <div className="flex d-none d-sm-block col-sm col justify-content-center align-items-center">
+            <p className="text-sm whitespace-normal">
+              {t("share.ShowOffToFarmers")}
+            </p>
           </div>
-          <CopyField text={farmUrl} copyFieldMessage={t("share.CopyFarmURL")} />
+          <div className="flex col-sm-12 col justify-content-center md-px-4 lg-px-4 align-items-center">
+            <img
+              src={farmImg}
+              className="w-64 md-mt-2"
+              alt={t("share.FarmNFTImageAlt")}
+            />
+          </div>
         </div>
-        <div className="flex space-x-1 text-sm">
-          <Button onClick={handleTweetClick}>{"Tweet"}</Button>
-          <Button onClick={() => window.open(farmUrl, "_blank")}>
-            {t("visit")}
-          </Button>
-        </div>
-      </CloseButtonPanel>
-    </Modal>
+        <CopyField text={farmUrl} copyFieldMessage={t("share.CopyFarmURL")} />
+      </div>
+      <div className="flex space-x-1 text-sm">
+        <Button onClick={handleTweetClick}>{"Tweet"}</Button>
+        <Button onClick={() => window.open(farmUrl, "_blank")}>
+          {t("visit")}
+        </Button>
+      </div>
+    </>
   );
 };

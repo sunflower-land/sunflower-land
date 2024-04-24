@@ -98,6 +98,12 @@ export const AddSFLOptions: React.FC = () => {
 
     return (
       <>
+        <div
+          className="grow mb-3 text-lg"
+          style={{ margin: "0 auto", display: "table" }}
+        >
+          {t("gameOptions.blockchainSettings.swapMaticForSFL")}
+        </div>
         <div className="p-2 pt-1 mb-2">
           <p className="mb-2 text-xs sm:text-sm">{t("addSFL.swapDetails")}</p>
           <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>

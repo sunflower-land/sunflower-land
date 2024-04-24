@@ -9,29 +9,20 @@ import { Discord } from "./DiscordModal";
 import { Share } from "./Share";
 import { Context as GameContext } from "features/game/GameProvider";
 
-enum MENU_LEVELS {
-  ROOT = "root",
-}
-
 export const GeneralSettings: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Auth.Context);
   const { gameService } = useContext(GameContext);
   const [showDiscordModal, setShowDiscordModal] = useState(false);
-  const [showShareModal, setShowShareModal] = useState(false);
-  const [menuLevel, setMenuLevel] = useState(MENU_LEVELS.ROOT);
   const [authState] = useActor(authService);
-  const [view, setView] = useState<"settings" | "language">("settings");
+  const [view, setView] = useState<"settings" | "language" | "share">(
+    "settings"
+  );
 
   const { showAnimations, toggleAnimations } = useContext(Context);
 
   const handleDiscordClick = () => {
     setShowDiscordModal(true);
-  };
-
-  const handleShareClick = () => {
-    setShowShareModal(true);
-    setMenuLevel(MENU_LEVELS.ROOT);
   };
 
   const onToggleAnimations = () => {
@@ -50,6 +41,14 @@ export const GeneralSettings: React.FC = () => {
           </div>
           <LanguageSwitcher />
         </>
+      );
+    }
+
+    if (view === "share") {
+      return (
+        <Share
+          farmId={gameService.state?.context?.farmId.toString() as string}
+        />
       );
     }
 
@@ -72,17 +71,12 @@ export const GeneralSettings: React.FC = () => {
               : t("gameOptions.generalSettings.enableAnimations")}
           </span>
         </Button>
-        <Button onClick={handleShareClick} className="mb-2">
+        <Button onClick={() => setView("share")} className="mb-2">
           <span>{t("gameOptions.generalSettings.share")}</span>
         </Button>
         <Discord
           isOpen={showDiscordModal}
           onClose={() => setShowDiscordModal(false)}
-        />
-        <Share
-          isOpen={showShareModal}
-          onClose={() => setShowShareModal(false)}
-          farmId={gameService.state?.context?.farmId.toString() as string}
         />
       </>
     );
