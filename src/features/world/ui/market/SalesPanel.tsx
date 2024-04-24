@@ -271,7 +271,7 @@ export const SalesPanel: React.FC<{
               )}
               {hasVIP && (
                 <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {`VIP Access`}
+                  {t("vipAccess")}
                 </Label>
               )}
 

@@ -4489,8 +4489,6 @@ const statements: Record<Statements, string> = {
   "statements.empty.chest":
     "Votre coffre est vide, découvrez des objets rares aujourd'hui!",
   "statements.chest.captcha": "Appuyez sur le coffre pour l'ouvrir",
-  "statements.gold.pass.required":
-    "Un laissez-passer Gold est requis pour mint des NFTs rares.",
   "statements.frankie.plaza":
     "Rendez-vous à la place pour fabriquer des décorations rares!",
   "statements.blacksmith.plaza":

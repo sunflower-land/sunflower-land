@@ -19,7 +19,8 @@ type FeatureName =
   | "FACTIONS"
   | "FACTION_LEADERBOARD"
   | "SOUND"
-  | "BANNER_SALES";
+  | "BANNER_SALES"
+  | "VIP_PASS";
 
 // Used for testing production features
 export const ADMIN_IDS = [

@@ -485,6 +485,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sfl/coins": "SFL/Coins",
   "goblin.exchange": "Goblin Exchange",
   "goblin.deliveries": "Goblin Deliveries",
+  vipAccess: "VIP Access",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1070,7 +1071,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "You have no trades listed.",
   "bumpkinTrade.sell": "Sell your resources to other players for SFL.",
   "bumpkinTrade.like.list": "What would you like to list?",
-  "bumpkinTrade.goldpass.required": "Gold Pass is required",
   "bumpkinTrade.purchase": "Purchase at Goblin Retreat",
 
   "bumpkinTrade.available": "Available",
@@ -4322,7 +4322,6 @@ const statements: Record<Statements, string> = {
     "You will need to cook food in order to feed your Bumpkin.",
   "statements.empty.chest": "Your chest is empty, discover rare items today!",
   "statements.chest.captcha": "Tap the chest to open it",
-  "statements.gold.pass.required": "A Gold Pass is required to mint rare NFTs.",
   "statements.frankie.plaza": "Travel to the plaza to craft rare decorations!",
   "statements.blacksmith.plaza": "Travel to the Plaza for more rare items.",
   "statements.water.well.needed.one": "Additional Water Well required.",

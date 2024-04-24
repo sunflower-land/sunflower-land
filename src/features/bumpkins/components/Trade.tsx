@@ -57,7 +57,7 @@ const ListTrade: React.FC<{
             {t("bumpkinTrade.like.list")}
           </Label>
           <Label icon={SUNNYSIDE.icons.confirm} type="success">
-            {`VIP Access`}
+            {t("vipAccess")}
           </Label>
         </div>
 

@@ -3,7 +3,6 @@ import React, { FC, useState } from "react";
 import { createContext } from "react";
 import { Modal } from "components/ui/Modal";
 import { StoreOnChainModal } from "./components/StoreOnChainModal";
-import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
@@ -11,8 +10,8 @@ import { BuyCurrenciesModal } from "features/island/hud/components/BuyCurrencies
 
 type GlobalModal =
   | "BUY_BLOCK_BUCKS"
+  | "BUY_BANNER"
   | "STORE_ON_CHAIN"
-  | "GOLD_PASS"
   | "FIRST_EXPANSION"
   | "NEXT_EXPANSION"
   | "THIRD_LEVEL"
@@ -47,12 +46,13 @@ export const ModalProvider: FC = ({ children }) => {
         onClose={handleClose}
       />
 
+      <BuyCurrenciesModal
+        show={opened === "BUY_BANNER"}
+        onClose={handleClose}
+      />
+
       <Modal show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>
         <StoreOnChainModal onClose={handleClose} />
-      </Modal>
-
-      <Modal show={opened === "GOLD_PASS"} onHide={handleClose}>
-        <GoldPassModal onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "FIRST_EXPANSION"}>

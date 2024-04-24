@@ -4338,8 +4338,6 @@ const statements: Record<Statements, string> = {
     "Você precisará cozinhar comida para alimentar seu Bumpkin.",
   "statements.empty.chest": "Seu baú está vazio, descubra itens raros hoje!",
   "statements.chest.captcha": "Toque no baú para abri-lo",
-  "statements.gold.pass.required":
-    "Um Gold Pass é necessário para mintar NFTs raros.",
   "statements.frankie.plaza": "Viaje para a praça para criar decorações raras!",
   "statements.blacksmith.plaza": "Viaje para a Praça para mais itens raros.",
   "statements.water.well.needed.one": "Poço de água adicional necessário.",

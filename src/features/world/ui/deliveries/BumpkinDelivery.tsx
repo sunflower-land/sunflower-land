@@ -685,7 +685,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               )}
               {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
                 <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {`VIP Access`}
+                  {t("vipAccess")}
                 </Label>
               )}
             </div>

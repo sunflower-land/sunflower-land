@@ -305,7 +305,8 @@ export type GeneralTerms =
   | "buildings"
   | "boosts"
   | "decorations"
-  | "goblin.deliveries";
+  | "goblin.deliveries"
+  | "vipAccess";
 
 export type TimeUnits =
   // Singular
@@ -2872,7 +2873,6 @@ export type Statements =
   | "statements.dontRefresh"
   | "statements.feed.bumpkin.one"
   | "statements.feed.bumpkin.two"
-  | "statements.gold.pass.required"
   | "statements.guide.one"
   | "statements.guide.two"
   | "statements.jigger.one"

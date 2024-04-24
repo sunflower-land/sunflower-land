@@ -127,7 +127,7 @@ export const AuctioneerModal: React.FC<Props> = ({
                 <Button
                   onClick={() => {
                     onClose();
-                    openModal("GOLD_PASS");
+                    openModal("BUY_BANNER");
                   }}
                   className="text-xxs w-16 p-0 h-8"
                 >

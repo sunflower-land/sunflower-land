@@ -4327,8 +4327,6 @@ const statements: Record<Statements, string> = {
     "Bumpkin'inizi beslemek için yemek pişirmeniz gerekecek.",
   "statements.empty.chest": "Sandığınız boş, bugün nadir eşyaları keşfedin!",
   "statements.chest.captcha": "Açmak için sandığa dokunun",
-  "statements.gold.pass.required":
-    "Nadir NFT'leri basmak için Gold Pass gereklidir.",
   "statements.frankie.plaza":
     "Nadir dekorasyonlar yapmak için plazaya seyahat edin!",
   "statements.blacksmith.plaza": "Daha nadir eşyalar için Plaza'ya gidin.",
