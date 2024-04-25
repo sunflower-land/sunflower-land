@@ -66,7 +66,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -486,6 +485,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
+  vipAccess: ENGLISH_TERMS["vipAccess"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1067,7 +1067,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "Listelenen herhangi bir işleminiz yok.",
   "bumpkinTrade.sell": "Kaynaklarınızı SFL için diğer oyunculara satın.",
   "bumpkinTrade.like.list": "Neleri listelemek istersiniz?",
-  "bumpkinTrade.goldpass.required": "Altın Bilet gerekli",
   "bumpkinTrade.purchase": "Goblin Retreat’den satın alın",
   "bumpkinTrade.available": "Mevcut",
   "bumpkinTrade.quantity": "Miktar",
@@ -2409,18 +2408,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg9":
     "Hey, yedek atıştırmalıkların var mı? Söz veriyorum onları çalmayacağım... belki.",
   "goblinMessages.msg10": "Ne olduğu umurumda değil, sadece bana yiyecek ver!",
-};
-
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Altın Bilet gücünün kilidini açın",
-  "goldPass.craftNFTs": "Nadir NFT'ler üretin",
-  "goldPass.trade": "Diğer oyuncularla ticaret yapın",
-  "goldPass.participateAuction": "Açık Arttırmalara Katılın",
-  "goldPass.withdrawTransferNFTs": "NFT'leri Çekme ve Aktarma",
-  "goldPass.accessRestrictedAreas": "Kısıtlı alanlara erişim",
-  "common.noThanks": "Hayır, teşekkürler",
-  "goldPass.buyNow": "Şimdi satın al ${{price}}",
-  "goldPass.priceInMatic": "Fiyat $MATIC eşdeğeri olarak ödenir ${{price}} USD",
 };
 
 const goldTooth: Record<GoldTooth, string> = {
@@ -4829,7 +4816,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goblinTrade,
-  ...goldpassModal,
   ...goldTooth,
   ...guideCompost,
   ...guideTerms,

@@ -755,7 +755,6 @@ export type BumpkinTrade =
   | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
   | "bumpkinTrade.like.list"
-  | "bumpkinTrade.goldpass.required"
   | "bumpkinTrade.purchase"
   | "bumpkinTrade.available"
   | "bumpkinTrade.quantity"
@@ -1718,17 +1717,6 @@ export type GOBLIN_MESSAGES =
   | "goblinMessages.msg8"
   | "goblinMessages.msg9"
   | "goblinMessages.msg10";
-
-export type GoldPassModal =
-  | "goldPass.unlockPower"
-  | "goldPass.craftNFTs"
-  | "goldPass.trade"
-  | "goldPass.participateAuction"
-  | "goldPass.withdrawTransferNFTs"
-  | "goldPass.accessRestrictedAreas"
-  | "common.noThanks"
-  | "goldPass.buyNow"
-  | "goldPass.priceInMatic";
 
 export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
 
@@ -3285,7 +3273,6 @@ export type TranslationKeys =
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
   | GoblinTrade
-  | GoldPassModal
   | GoldTooth
   | GuideTerms
   | GuideCompost

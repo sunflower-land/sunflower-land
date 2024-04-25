@@ -18,6 +18,9 @@ import { WithdrawBuds } from "./WithdrawBuds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "../../VipAccess";
+import { ModalContext } from "../../modal/ModalProvider";
 
 interface Props {
   onClose: () => void;
@@ -27,6 +30,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const { openModal } = useContext(ModalContext);
+
+  const isVIP = hasVipAccess(gameState.context.state.inventory);
 
   const [page, setPage] = useState<
     "tokens" | "items" | "wearables" | "bumpkin" | "buds" | "resources"
@@ -155,15 +162,22 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="p-2 flex flex-col justify-center space-y-1">
+        <VIPAccess
+          isVIP={isVIP}
+          onUpgrade={() => {
+            onClose();
+            openModal("BUY_BANNER");
+          }}
+        />
         <span className="text-shadow text-sm mb-1">{t("withdraw.sync")}</span>
         <div className="flex space-x-1">
-          <Button onClick={() => setPage("tokens")}>
+          <Button onClick={() => setPage("tokens")} disabled={!isVIP}>
             <div className="flex">
               <img src={token} className="h-4 mr-1" />
               {"SFL"}
             </div>
           </Button>
-          <Button onClick={() => setPage("resources")}>
+          <Button onClick={() => setPage("resources")} disabled={!isVIP}>
             <div className="flex">
               <img src={SUNNYSIDE.resource.wood} className="h-4 mr-1" />
               {t("resources")}
@@ -171,13 +185,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           </Button>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={() => setPage("items")}>
+          <Button onClick={() => setPage("items")} disabled={!isVIP}>
             <div className="flex">
               <img src={chest} className="h-4 mr-1" />
               {t("collectibles")}
             </div>
           </Button>
-          <Button onClick={() => setPage("wearables")}>
+          <Button onClick={() => setPage("wearables")} disabled={!isVIP}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
               {t("wearables")}
@@ -185,13 +199,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           </Button>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={() => setPage("bumpkin")}>
+          <Button onClick={() => setPage("bumpkin")} disabled={!isVIP}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
               {t("bumpkin")}
             </div>
           </Button>
-          <Button onClick={() => setPage("buds")}>
+          <Button onClick={() => setPage("buds")} disabled={!isVIP}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.plant} className="h-4 mr-1" />
               {t("buds")}

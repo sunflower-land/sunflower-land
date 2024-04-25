@@ -66,7 +66,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -486,6 +485,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
+  vipAccess: ENGLISH_TERMS["vipAccess"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1095,7 +1095,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.sell":
     "Vendez vos ressources à d'autres joueurs contre des SFL.",
   "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
-  "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
 
   "bumpkinTrade.available": "Disponible",
@@ -2525,19 +2524,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
     "Salut, as-tu des collations à épargner ? Je te promets de ne pas les voler... peut-être.",
   "goblinMessages.msg10":
     "Peu m'importe ce que c'est, donne-moi de la nourriture!",
-};
-
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Débloquez le pouvoir du Gold Pass",
-  "goldPass.craftNFTs": "Fabriquez des NFTs rares",
-  "goldPass.trade": "Échangez avec d'autres joueurs",
-  "goldPass.participateAuction": "Participez aux enchères",
-  "goldPass.withdrawTransferNFTs": "Retirez et transférez des NFTs",
-  "goldPass.accessRestrictedAreas": "Accès aux zones restreintes",
-  "common.noThanks": "Non, merci",
-  "goldPass.buyNow": "Acheter maintenant ${{price}}",
-  "goldPass.priceInMatic":
-    "Le prix est payé en $MATIC équivalent à ${{price}} USD",
 };
 
 const goldTooth: Record<GoldTooth, string> = {
@@ -4989,7 +4975,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goblinTrade,
-  ...goldpassModal,
   ...goldTooth,
   ...guideCompost,
   ...guideTerms,

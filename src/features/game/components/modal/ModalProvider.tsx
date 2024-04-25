@@ -44,11 +44,13 @@ export const ModalProvider: FC = ({ children }) => {
       <BuyCurrenciesModal
         show={opened === "BUY_BLOCK_BUCKS"}
         onClose={handleClose}
+        initialTab={0}
       />
 
       <BuyCurrenciesModal
         show={opened === "BUY_BANNER"}
         onClose={handleClose}
+        initialTab={2}
       />
 
       <Modal show={opened === "STORE_ON_CHAIN"} onHide={handleClose}>

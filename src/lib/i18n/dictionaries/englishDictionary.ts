@@ -65,7 +65,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -2404,18 +2403,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg9":
     "Hey there, got any snacks to spare? I promise I won't steal them...maybe.",
   "goblinMessages.msg10": "I don't care what it is, just give me food!",
-};
-
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Unlock the power of the Gold Pass:",
-  "goldPass.craftNFTs": "Craft rare NFTs",
-  "goldPass.trade": "Trade with other players",
-  "goldPass.participateAuction": "Participate in Auction Drops",
-  "goldPass.withdrawTransferNFTs": "Withdraw & Transfer NFTs",
-  "goldPass.accessRestrictedAreas": "Access to restricted areas",
-  "common.noThanks": "No, thanks",
-  "goldPass.buyNow": "Buy now US${{price}}",
-  "goldPass.priceInMatic": "Price is paid in $MATIC equivalent of US${{price}}",
 };
 
 const goldTooth: Record<GoldTooth, string> = {
@@ -4783,7 +4770,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goblinTrade,
-  ...goldpassModal,
   ...goldTooth,
   ...guideCompost,
   ...guideTerms,

@@ -26,6 +26,10 @@ import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
+import classNames from "classnames";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -60,6 +64,8 @@ export const BuyPanel: React.FC<{
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
+  const { openModal } = useContext(ModalContext);
+
   const [view, setView] = useState<"search" | "list">("search");
   const selected = useRef<InventoryItemName>();
   const [listings, setListings] = useState<Listing[]>([]);
@@ -79,6 +85,8 @@ export const BuyPanel: React.FC<{
     setFloor(floorPrices);
   }, [floorPrices]);
 
+  const isVIP = hasVipAccess(state.inventory);
+
   const searchView = () => {
     if (floor.Sunflower == undefined) {
       return <Loading />;
@@ -86,9 +94,11 @@ export const BuyPanel: React.FC<{
 
     return (
       <div className="p-2">
-        <Label type="default" icon={SUNNYSIDE.icons.basket}>
-          {t("trading.select.resources")}
-        </Label>
+        {isVIP && (
+          <Label type="default" icon={SUNNYSIDE.icons.basket}>
+            {t("trading.select.resources")}
+          </Label>
+        )}
 
         <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
@@ -97,10 +107,11 @@ export const BuyPanel: React.FC<{
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
             >
               <OuterPanel
-                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
-                onClick={() => {
-                  onSearch(name);
-                }}
+                className={classNames(
+                  "w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200",
+                  { "opacity-75 cursor-not-allowed": !isVIP }
+                )}
+                onClick={() => isVIP && onSearch(name)}
               >
                 <span className="text-xs mt-1">{name}</span>
                 <img
@@ -109,7 +120,7 @@ export const BuyPanel: React.FC<{
                 />
                 <Label
                   type="warning"
-                  className="absolute -bottom-2 text-center mt-1 p-1"
+                  className={"absolute -bottom-2 text-center mt-1 p-1"}
                   style={{ width: "calc(100% + 10px)" }}
                 >
                   {t("bumpkinTrade.price/unit", {
@@ -398,32 +409,27 @@ export const BuyPanel: React.FC<{
     setView("list");
   };
 
-  if (!state.inventory["Gold Pass"]) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={ITEM_DETAILS["Gold Pass"].image}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
+  return (
+    <>
+      <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+        <div className="pl-2 pt-2">
+          <VIPAccess
+            isVIP={isVIP}
+            onUpgrade={() => {
+              openModal("BUY_BANNER");
+            }}
           />
-          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
-          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
+        </div>
+        <div className="flex items-start justify-between mb-2">
+          {isSearching && <p className="loading">{t("searching")}</p>}
+          {!isSearching && (
+            <div className="relative w-full">
+              {view === "search" && searchView()}
+              {view === "list" && listView(listings)}
+            </div>
+          )}
         </div>
       </div>
-    );
-  }
-
-  return (
-    <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
-      <div className="flex items-start justify-between mb-2">
-        {isSearching && <p className="loading">{t("searching")}</p>}
-        {!isSearching && (
-          <div className="relative w-full">
-            {view === "search" && searchView()}
-            {view === "list" && listView(listings)}
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 };

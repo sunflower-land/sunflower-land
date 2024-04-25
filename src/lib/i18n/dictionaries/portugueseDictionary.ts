@@ -65,7 +65,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -486,6 +485,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
+  vipAccess: ENGLISH_TERMS["vipAccess"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1083,7 +1083,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "Você não tem negociações listadas.",
   "bumpkinTrade.sell": "Venda seus recursos para outros jogadores por SFL.",
   "bumpkinTrade.like.list": "O que você gostaria de listar?",
-  "bumpkinTrade.goldpass.required": "Você precisa de um Gold Pass",
   "bumpkinTrade.purchase": "Comprar no Goblin Retreat",
   "bumpkinTrade.available": ENGLISH_TERMS["bumpkinTrade.available"],
   "bumpkinTrade.quantity": ENGLISH_TERMS["bumpkinTrade.quantity"],
@@ -2432,19 +2431,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg9":
     "Olá, tem algum lanche para me dar? Prometo que não vou roubar eles... talvez.",
   "goblinMessages.msg10": "Não me importo com o que é, apenas me dê comida!",
-};
-
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Desbloqueie o poder do Gold Pass",
-  "goldPass.craftNFTs": "Crie NFTs raros",
-  "goldPass.trade": "Negocie com outros jogadores",
-  "goldPass.participateAuction": "Participe dos Leilões",
-  "goldPass.withdrawTransferNFTs": "Retire & Transfira NFTs",
-  "goldPass.accessRestrictedAreas": "Acesso a áreas restritas",
-  "common.noThanks": "Não, obrigado",
-  "goldPass.buyNow": "Compre agora ${{price}}",
-  "goldPass.priceInMatic":
-    "O preço é pago em $MATIC equivalente a ${{price}} USD",
 };
 
 const goldTooth: Record<GoldTooth, string> = {
@@ -4856,7 +4842,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...goblin_messages,
   ...goblinTrade,
   ...goldTooth,
-  ...goldpassModal,
   ...guideTerms,
   ...guideCompost,
   ...halveningCountdown,
