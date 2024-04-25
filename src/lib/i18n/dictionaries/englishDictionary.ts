@@ -1917,7 +1917,7 @@ const factions: Record<Factions, string> = {
     "Earn faction points by making donations or completing seasonal deliveries to become eligible for the faction emblems airdrop.",
   "faction.view.leaderboard": "View Leaderboard",
   "faction.donation.request.message":
-    "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewards faction points in return for your generosity.",
+    "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewarded faction points in return for your generosity.",
   "faction.donation.label": "{{faction}} Faction Donation",
   "faction.donation.sfl": "SFL donations min(10)",
   "faction.donation.sfl.max.per.day": "{{donatedToday}}/500 max per day",
