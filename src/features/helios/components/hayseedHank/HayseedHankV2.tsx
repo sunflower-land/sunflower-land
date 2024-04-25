@@ -45,7 +45,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
           },
           {
             text: translate("hayseedHankv2.dialog2", {
-              seasonalTicket: getSeasonalTicket,
+              seasonalTicket: getSeasonalTicket(),
             }),
             actions: [
               {
