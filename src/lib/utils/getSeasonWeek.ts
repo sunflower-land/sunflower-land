@@ -37,9 +37,12 @@ export function getSeasonChangeover({
   const season = getCurrentSeason(new Date(now));
   const incomingSeason = getCurrentSeason(new Date(now + 24 * 60 * 60 * 1000));
 
+  // 24 hours before the season ends
   const tasksCloseAt = SEASONS[season].endDate.getTime() - 24 * 60 * 60 * 1000;
+
+  // 7 days after the season starts
   const tasksStartAt =
-    SEASONS[incomingSeason].startDate.getTime() + 3 * 60 * 60 * 1000;
+    SEASONS[incomingSeason].startDate.getTime() + 7 * 24 * 60 * 60 * 1000;
 
   const isAdmin = ADMIN_IDS.includes(id);
 
