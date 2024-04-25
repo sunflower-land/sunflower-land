@@ -232,6 +232,11 @@ export function deliverOrder({
     const amount = order.reward.tickets || new Decimal(0);
 
     game.inventory[seasonalTicket] = count.add(amount);
+
+    if (game.faction) {
+      game.faction.points =
+        game.faction.points + new Decimal(amount).toNumber();
+    }
   }
 
   const rewardItems = order.reward.items ?? {};

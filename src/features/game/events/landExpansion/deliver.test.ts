@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { deliverOrder } from "./deliver";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
+import { Quest } from "features/game/types/game";
 
 describe("deliver", () => {
   it("requires the order exists", () => {
@@ -518,5 +519,83 @@ describe("deliver", () => {
       updatedAt: now,
       giftClaimedAtPoints: 0,
     });
+  });
+
+  it("rewards faction points", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Gold: new Decimal(60),
+        },
+        faction: {
+          name: "goblins",
+          donated: { daily: { resources: {}, sfl: {} }, totalItems: {} },
+          points: 0,
+          pledgedAt: 0,
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "raven",
+              items: {
+                Gold: 50,
+              },
+              reward: { tickets: 5 },
+            } as Quest,
+          ],
+        },
+        bumpkin: INITIAL_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    const seasonTicket = getSeasonalTicket();
+
+    expect(state.faction?.points).toEqual(5);
+  });
+
+  it("does not reward faction points if no faction selected", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Gold: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 0,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "raven",
+              items: {
+                Gold: 50,
+              },
+              reward: { tickets: 5 },
+            } as Quest,
+          ],
+        },
+        bumpkin: INITIAL_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    const seasonTicket = getSeasonalTicket();
+
+    expect(state.faction).toBeUndefined();
   });
 });
