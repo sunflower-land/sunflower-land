@@ -1,74 +1,39 @@
 import "lib/__mocks__/configMock";
 import { getSeasonChangeover } from "./getSeasonWeek";
 
-describe("seasonChangeover", () => {
-  it("provides changeover period for Witches Eve", () => {
-    const changeover = getSeasonChangeover({
-      id: 123,
-      now: new Date("2023-10-25").getTime(),
-    });
+describe("getSeasonChangeover", () => {
+  it("delays tasks for one week", () => {
+    const now = new Date("2024-04-31");
+    const result = getSeasonChangeover({ id: 100, now: now.getTime() });
 
-    expect(changeover).toEqual({
-      tasksCloseAt: new Date("2023-10-31").getTime(),
-      tasksStartAt: new Date("2023-08-01T03:00:00Z").getTime(),
-      tasksAreClosing: false,
-      tasksAreFrozen: false,
-    });
+    expect(result.tasksStartAt).toEqual(new Date("2024-05-08").getTime());
   });
 
-  it("sets warning mode when tasks are about to freeze", () => {
-    const changeover = getSeasonChangeover({
-      now: new Date("2023-10-30T02:00:00Z").getTime(),
-      id: 123,
-    });
+  it("tasks end one day before seasons finishes", () => {
+    const now = new Date("2024-04-25");
+    const result = getSeasonChangeover({ id: 100, now: now.getTime() });
 
-    expect(changeover).toEqual({
-      tasksCloseAt: new Date("2023-10-31").getTime(),
-      tasksStartAt: new Date("2023-08-01T03:00:00Z").getTime(),
-      tasksAreClosing: true,
-      tasksAreFrozen: false,
-    });
+    expect(result.tasksCloseAt).toEqual(new Date("2024-04-30").getTime());
   });
 
-  it("freezes tasks", () => {
-    const changeover = getSeasonChangeover({
-      id: 123,
-      now: new Date("2023-10-31T02:00:00Z").getTime(),
-    });
+  it("tasks end one day before seasons finishes", () => {
+    const now = new Date("2024-04-25");
+    const result = getSeasonChangeover({ id: 100, now: now.getTime() });
 
-    expect(changeover).toEqual({
-      tasksCloseAt: new Date("2023-10-31").getTime(),
-      tasksStartAt: new Date("2023-11-01T03:00:00Z").getTime(),
-      tasksAreClosing: false,
-      tasksAreFrozen: true,
-    });
+    expect(result.tasksCloseAt).toEqual(new Date("2024-04-30").getTime());
   });
 
-  it("freezes tasks during testing period", () => {
-    const changeover = getSeasonChangeover({
-      id: 123,
-      now: new Date("2023-11-01T02:00:00Z").getTime(),
-    });
+  it("tasks are frozen for non-admins", () => {
+    const now = new Date("2024-05-07");
+    const result = getSeasonChangeover({ id: 100, now: now.getTime() });
 
-    expect(changeover).toEqual({
-      tasksCloseAt: new Date("2024-01-31").getTime(),
-      tasksStartAt: new Date("2023-11-01T03:00:00Z").getTime(),
-      tasksAreClosing: false,
-      tasksAreFrozen: true,
-    });
+    expect(result.tasksAreFrozen).toBeTruthy();
   });
 
-  it("starts tasks once season is in flight", () => {
-    const changeover = getSeasonChangeover({
-      id: 123,
-      now: new Date("2023-11-01T03:01:00Z").getTime(),
-    });
+  it("tasks are not frozen for admins", () => {
+    const now = new Date("2024-05-07");
+    const result = getSeasonChangeover({ id: 1, now: now.getTime() });
 
-    expect(changeover).toEqual({
-      tasksCloseAt: new Date("2024-01-31").getTime(),
-      tasksStartAt: new Date("2023-11-01T03:00:00Z").getTime(),
-      tasksAreClosing: false,
-      tasksAreFrozen: false,
-    });
+    expect(result.tasksAreFrozen).toBeFalsy();
   });
 });
