@@ -66,7 +66,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -489,6 +488,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
+  vipAccess: ENGLISH_TERMS["vipAccess"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1070,7 +1070,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "Listelenen herhangi bir işleminiz yok.",
   "bumpkinTrade.sell": "Kaynaklarınızı SFL için diğer oyunculara satın.",
   "bumpkinTrade.like.list": "Neleri listelemek istersiniz?",
-  "bumpkinTrade.goldpass.required": "Altın Bilet gerekli",
   "bumpkinTrade.purchase": "Goblin Retreat’den satın alın",
   "bumpkinTrade.available": "Mevcut",
   "bumpkinTrade.quantity": "Miktar",
@@ -2428,18 +2427,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg10": "Ne olduğu umurumda değil, sadece bana yiyecek ver!",
 };
 
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Altın Bilet gücünün kilidini açın",
-  "goldPass.craftNFTs": "Nadir NFT'ler üretin",
-  "goldPass.trade": "Diğer oyuncularla ticaret yapın",
-  "goldPass.participateAuction": "Açık Arttırmalara Katılın",
-  "goldPass.withdrawTransferNFTs": "NFT'leri Çekme ve Aktarma",
-  "goldPass.accessRestrictedAreas": "Kısıtlı alanlara erişim",
-  "common.noThanks": "Hayır, teşekkürler",
-  "goldPass.buyNow": "Şimdi satın al ${{price}}",
-  "goldPass.priceInMatic": "Fiyat $MATIC eşdeğeri olarak ödenir ${{price}} USD",
-};
-
 const goldTooth: Record<GoldTooth, string> = {
   "goldTooth.intro.part1":
     "Arrr, canlarım! Hazine kazma alanı zenginlik ve macerayla dolup taşıyor ve yakında siz cesur çiftçiler için kapılarını açacak!",
@@ -3002,8 +2989,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.deposit": "Deposit",
   "noBumpkin.advancedIsland":
     "Burası gelişmiş bir ada. Güçlü bir Bumpkin gerekli:",
-  "weakBumpkin.notStrong":
-    "Oh hayır! Bumpkin'in bu ada için yeterince güçlü değil.",
   "dequipper.noBumpkins": "Bumpkin’in yok",
   "dequipper.missingBumpkins": "Cüzdanın herhangi bir Bumpking NFT’si yok.",
   "dequipper.intro": "Bumpkininden cüzdanına giyilebilir gönder.",
@@ -4344,8 +4329,6 @@ const statements: Record<Statements, string> = {
     "Bumpkin'inizi beslemek için yemek pişirmeniz gerekecek.",
   "statements.empty.chest": "Sandığınız boş, bugün nadir eşyaları keşfedin!",
   "statements.chest.captcha": "Açmak için sandığa dokunun",
-  "statements.gold.pass.required":
-    "Nadir NFT'leri basmak için Gold Pass gereklidir.",
   "statements.frankie.plaza":
     "Nadir dekorasyonlar yapmak için plazaya seyahat edin!",
   "statements.blacksmith.plaza": "Daha nadir eşyalar için Plaza'ya gidin.",
@@ -4850,7 +4833,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goblinTrade,
-  ...goldpassModal,
   ...goldTooth,
   ...guideCompost,
   ...guideTerms,

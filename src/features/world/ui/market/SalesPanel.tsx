@@ -25,10 +25,10 @@ import increase_arrow from "assets/icons/increase_arrow.png";
 import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
-import {
-  getSeasonalBanner,
-  getSeasonalTicket,
-} from "features/game/types/seasons";
+
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -83,6 +83,8 @@ export const SalesPanel: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
+  const { openModal } = useContext(ModalContext);
+
   const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
   const [showPulse, setShowPulse] = useState(false);
   const [confirm, setConfirm] = useState(false);
@@ -136,12 +138,9 @@ export const SalesPanel: React.FC<{
     return progress.gt(MAX_SESSION_SFL);
   };
 
-  const hasBanner = (
-    state.inventory[getSeasonalBanner()] ?? new Decimal(0)
-  ).gte(1);
-
   const hasVIP =
-    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasBanner;
+    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() ||
+    hasVipAccess(state.inventory);
 
   const unitPrice = marketPrices?.prices?.currentPrices?.[selected] || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
@@ -221,7 +220,7 @@ export const SalesPanel: React.FC<{
               <span
                 className={classNames("text-xs", { "text-red-500": !canSell })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-xs">
+              <span className="text-[12px]">
                 {t("bumpkinTrade.price/unit", {
                   price: Number(unitPrice).toFixed(4),
                 })}
@@ -256,25 +255,15 @@ export const SalesPanel: React.FC<{
         <div className="relative w-full">
           <div className="p-2">
             <div className="flex flex-col justify-between space-y-1 sm:flex-row sm:space-y-0">
-              {!hasVIP ? (
-                <Label
-                  type="warning"
-                  icon={lock}
-                  secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
-                >
-                  {t("goblinTrade.vipRequired")}
-                </Label>
-              ) : (
+              {hasVIP && (
                 <Label type="default" icon={SUNNYSIDE.icons.basket}>
                   {t("goblinTrade.select")}
                 </Label>
               )}
-              {hasVIP && (
-                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {`VIP Access`}
-                </Label>
-              )}
-
+              <VIPAccess
+                isVIP={hasVIP}
+                onUpgrade={() => openModal("BUY_BANNER")}
+              />
               {marketPrices && (
                 <div className={classNames("", { "opacity-75": !hasVIP })}>
                   <LastUpdated cachedAt={marketPrices.cachedAt ?? 0} />
@@ -329,7 +318,11 @@ export const SalesPanel: React.FC<{
                         className="absolute -bottom-2 text-center mt-1 p-1"
                         style={{ width: "calc(100% + 10px)" }}
                       >
-                        <span className={classNames({ pulse: showPulse })}>
+                        <span
+                          className={classNames("text-[12px]", {
+                            pulse: showPulse,
+                          })}
+                        >
                           {t("bumpkinTrade.price/unit", {
                             price:
                               marketPrices?.prices?.currentPrices?.[

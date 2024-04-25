@@ -66,7 +66,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -489,6 +488,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
+  vipAccess: ENGLISH_TERMS["vipAccess"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1098,7 +1098,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.sell":
     "Vendez vos ressources à d'autres joueurs contre des SFL.",
   "bumpkinTrade.like.list": "Que souhaitez-vous mettre en annonce?",
-  "bumpkinTrade.goldpass.required": "Le Gold Pass est requis",
   "bumpkinTrade.purchase": "Acheter aux Goblin Retreat",
 
   "bumpkinTrade.available": "Disponible",
@@ -2544,19 +2543,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
     "Peu m'importe ce que c'est, donne-moi de la nourriture!",
 };
 
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Débloquez le pouvoir du Gold Pass",
-  "goldPass.craftNFTs": "Fabriquez des NFTs rares",
-  "goldPass.trade": "Échangez avec d'autres joueurs",
-  "goldPass.participateAuction": "Participez aux enchères",
-  "goldPass.withdrawTransferNFTs": "Retirez et transférez des NFTs",
-  "goldPass.accessRestrictedAreas": "Accès aux zones restreintes",
-  "common.noThanks": "Non, merci",
-  "goldPass.buyNow": "Acheter maintenant ${{price}}",
-  "goldPass.priceInMatic":
-    "Le prix est payé en $MATIC équivalent à ${{price}} USD",
-};
-
 const goldTooth: Record<GoldTooth, string> = {
   "goldTooth.intro.part1":
     "Arrr, mes matelots ! La zone de recherche de trésors regorge de richesses et d'aventures, et elle ouvrira bientôt ses portes aux intrépides fermiers!",
@@ -3145,8 +3131,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.deposit": "Déposer",
   "noBumpkin.advancedIsland":
     "Ceci est une île avancée. Un Bumpkin fort est requis:",
-  "weakBumpkin.notStrong":
-    "Oh non ! Votre Bumpkin n'est pas assez fort pour cette île.",
   "dequipper.noBumpkins": "Pas de Bumpkins",
   "dequipper.missingBumpkins":
     "Vous n’avez aucun NFT Bumpkin dans votre portefeuille.",
@@ -4506,8 +4490,6 @@ const statements: Record<Statements, string> = {
   "statements.empty.chest":
     "Votre coffre est vide, découvrez des objets rares aujourd'hui!",
   "statements.chest.captcha": "Appuyez sur le coffre pour l'ouvrir",
-  "statements.gold.pass.required":
-    "Un laissez-passer Gold est requis pour mint des NFTs rares.",
   "statements.frankie.plaza":
     "Rendez-vous à la place pour fabriquer des décorations rares!",
   "statements.blacksmith.plaza":
@@ -5010,7 +4992,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...getInputErrorMessage,
   ...goblin_messages,
   ...goblinTrade,
-  ...goldpassModal,
   ...goldTooth,
   ...guideCompost,
   ...guideTerms,

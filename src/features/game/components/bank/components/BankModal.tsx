@@ -11,7 +11,6 @@ import { Label } from "components/ui/Label";
 import withdrawIcon from "assets/icons/withdraw.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
-import { GoldPassModal } from "features/game/expansion/components/GoldPass";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -24,10 +23,6 @@ export const BankModal: React.FC<Props> = ({ onClose }) => {
   const [gameState] = useActor(gameService);
 
   const { t } = useAppTranslation();
-
-  if (!gameState.context.state.inventory["Gold Pass"]) {
-    return <GoldPassModal onClose={onClose} />;
-  }
 
   return (
     <Panel className="relative">

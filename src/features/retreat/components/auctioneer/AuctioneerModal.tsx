@@ -14,10 +14,10 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { Button } from "components/ui/Button";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
 
 interface Props {
   gameState: GameState;
@@ -113,36 +113,20 @@ export const AuctioneerModal: React.FC<Props> = ({
           }}
         >
           <div className="flex flex-col">
-            {!gameState.inventory["Gold Pass"] && (
-              <div className="flex items-center justify-between px-1">
-                <div className="flex items-center">
-                  <img
-                    src={ITEM_DETAILS["Gold Pass"].image}
-                    className="h-4 mr-1"
-                  />
-                  <span className="text-xs">
-                    {t("statements.gold.pass.required")}
-                  </span>
-                </div>
-                <Button
-                  onClick={() => {
-                    onClose();
-                    openModal("GOLD_PASS");
-                  }}
-                  className="text-xxs w-16 p-0 h-8"
-                >
-                  {t("buy")}
-                </Button>
-              </div>
-            )}
-
-            <>
-              <AuctioneerContent
-                auctionService={auctionService}
-                gameState={gameState}
-                onMint={onMint}
+            <div className="pt-2 pl-2">
+              <VIPAccess
+                isVIP={hasVipAccess(gameState.inventory)}
+                onUpgrade={() => {
+                  onClose();
+                  openModal("BUY_BANNER");
+                }}
               />
-            </>
+            </div>
+            <AuctioneerContent
+              auctionService={auctionService}
+              gameState={gameState}
+              onMint={onMint}
+            />
           </div>
         </div>
       </CloseButtonPanel>

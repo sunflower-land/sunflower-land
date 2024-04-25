@@ -1,9 +1,6 @@
 import Decimal from "decimal.js-light";
-import {
-  getBasketItems,
-  getChestItems,
-} from "features/island/hud/components/inventory/utils/inventory";
-import { GameState, Inventory, InventoryItemName } from "../types/game";
+
+import { GameState, InventoryItemName } from "../types/game";
 
 /**
  * Converts API response into a game state
@@ -125,76 +122,5 @@ export function makeGame(farm: any): GameState {
           amount: new Decimal(farm.dailyFactionDonationRequest.amount),
         }
       : undefined,
-  };
-}
-
-/**
- * Returns the lowest values out of 2 game states
- */
-export function getAvailableGameState({
-  onChain,
-  offChain,
-}: {
-  onChain: GameState;
-  offChain: GameState;
-}) {
-  // Grab items that are available in inventory(not placed)
-  const chestItems = getChestItems(offChain);
-  const basketItems = getBasketItems(offChain.inventory);
-  const availableItems = {
-    ...chestItems,
-    ...basketItems,
-    // This is necessary because the season banner is a requirement for some items in Goblin Retreat so we need to see that you have one even if it's placed.
-    ...(offChain.inventory["Dawn Breaker Banner"] && {
-      "Dawn Breaker Banner": offChain.inventory["Dawn Breaker Banner"],
-    }),
-    ...(offChain.inventory["Witches' Eve Banner"] && {
-      "Witches' Eve Banner": offChain.inventory["Witches' Eve Banner"],
-    }),
-    ...(offChain.inventory["Catch the Kraken Banner"] && {
-      "Catch the Kraken Banner": offChain.inventory["Catch the Kraken Banner"],
-    }),
-    ...(offChain.inventory["Gold Pass"] && {
-      "Gold Pass": offChain.inventory["Gold Pass"],
-    }),
-  };
-
-  const balance = onChain.balance.lt(offChain.balance)
-    ? onChain.balance
-    : offChain.balance;
-
-  const items = [
-    ...new Set([
-      ...(Object.keys(onChain.inventory) as InventoryItemName[]),
-      ...(Object.keys(availableItems) as InventoryItemName[]),
-    ]),
-  ];
-
-  const inventory: Inventory = items.reduce((inv, name) => {
-    const firstAmount = onChain.inventory[name] || new Decimal(0);
-    const secondAmount = availableItems[name] || new Decimal(0);
-
-    let amount: Decimal;
-
-    // Gold Pass was airdropped to all farms created prior to the pass release. This is a large number of farms. We will prefer the off chain balance in this case.
-    if (name === "Gold Pass") {
-      amount = secondAmount;
-    } else {
-      amount = firstAmount.lt(secondAmount) ? firstAmount : secondAmount;
-    }
-
-    if (amount.eq(0)) {
-      return inv;
-    }
-
-    return {
-      ...inv,
-      [name]: amount,
-    };
-  }, {});
-
-  return {
-    balance,
-    inventory,
   };
 }

@@ -468,7 +468,6 @@ export type BlockchainState = {
     | "buds"
     | "airdrop"
     | "noBumpkinFound"
-    | "weakBumpkin"
     | "coolingDown"
     | "buyingBlockBucks"
     | "auctionResults"
@@ -851,7 +850,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-        weakBumpkin: {},
         specialOffer: {
           on: {
             "banner.purchased": (GAME_EVENT_HANDLERS as any)[

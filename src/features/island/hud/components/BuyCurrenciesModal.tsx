@@ -47,6 +47,7 @@ import { Inventory } from "./inventory/InventoryItemsModal";
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
 type Props = {
+  initialTab?: number;
   show: boolean;
   onClose: () => void;
 };
@@ -56,10 +57,14 @@ const _token = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 
-export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
+export const BuyCurrenciesModal: React.FC<Props> = ({
+  show,
+  onClose,
+  initialTab = 0,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(initialTab);
 
   const [
     {

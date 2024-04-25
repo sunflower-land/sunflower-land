@@ -37,6 +37,9 @@ import { NpcDialogues } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
 import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -530,6 +533,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { openModal } = useContext(ModalContext);
+
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
 
@@ -595,7 +600,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   }
 
   const hasVIP =
-    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasSeasonPass;
+    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() ||
+    hasVipAccess(game.inventory);
 
   if (requiresSeasonPass && !hasVIP) {
     message = t("goblinTrade.vipDelivery");
@@ -683,10 +689,14 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   {t("goblinTrade.vipRequired")}
                 </Label>
               )}
-              {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
-                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {`VIP Access`}
-                </Label>
+              {!delivery?.completedAt && requiresSeasonPass && (
+                <VIPAccess
+                  isVIP={hasVIP}
+                  onUpgrade={() => {
+                    onClose();
+                    openModal("BUY_BANNER");
+                  }}
+                />
               )}
             </div>
 

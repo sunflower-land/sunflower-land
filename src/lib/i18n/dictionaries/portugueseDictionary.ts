@@ -65,7 +65,6 @@ import {
   GetContent,
   GetInputErrorMessage,
   GOBLIN_MESSAGES,
-  GoldPassModal,
   GoldTooth,
   GuideCompost,
   GuideTerms,
@@ -489,6 +488,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": ENGLISH_TERMS["goblin.deliveries"],
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
+  vipAccess: ENGLISH_TERMS["vipAccess"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1086,7 +1086,6 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.noTradeListed": "Você não tem negociações listadas.",
   "bumpkinTrade.sell": "Venda seus recursos para outros jogadores por SFL.",
   "bumpkinTrade.like.list": "O que você gostaria de listar?",
-  "bumpkinTrade.goldpass.required": "Você precisa de um Gold Pass",
   "bumpkinTrade.purchase": "Comprar no Goblin Retreat",
   "bumpkinTrade.available": ENGLISH_TERMS["bumpkinTrade.available"],
   "bumpkinTrade.quantity": ENGLISH_TERMS["bumpkinTrade.quantity"],
@@ -2451,19 +2450,6 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
   "goblinMessages.msg10": "Não me importo com o que é, apenas me dê comida!",
 };
 
-const goldpassModal: Record<GoldPassModal, string> = {
-  "goldPass.unlockPower": "Desbloqueie o poder do Gold Pass",
-  "goldPass.craftNFTs": "Crie NFTs raros",
-  "goldPass.trade": "Negocie com outros jogadores",
-  "goldPass.participateAuction": "Participe dos Leilões",
-  "goldPass.withdrawTransferNFTs": "Retire & Transfira NFTs",
-  "goldPass.accessRestrictedAreas": "Acesso a áreas restritas",
-  "common.noThanks": "Não, obrigado",
-  "goldPass.buyNow": "Compre agora ${{price}}",
-  "goldPass.priceInMatic":
-    "O preço é pago em $MATIC equivalente a ${{price}} USD",
-};
-
 const goldTooth: Record<GoldTooth, string> = {
   "goldTooth.intro.part1":
     "Arrr, marujos! A área de escavação do tesouro está cheia de riquezas e aventuras, e em breve abrirá suas portas para vocês, fazendeiros destemidos!",
@@ -3022,8 +3008,6 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.deposit": "Depositar",
   "noBumpkin.advancedIsland":
     "Esta é uma ilha avançada. Um Bumpkin forte é necessário:",
-  "weakBumpkin.notStrong":
-    "Oh não! Seu Bumpkin não é forte o suficiente para esta ilha.",
 
   "dequipper.noBumpkins": ENGLISH_TERMS["dequipper.noBumpkins"],
   "dequipper.missingBumpkins": ENGLISH_TERMS["dequipper.missingBumpkins"],
@@ -4355,8 +4339,6 @@ const statements: Record<Statements, string> = {
     "Você precisará cozinhar comida para alimentar seu Bumpkin.",
   "statements.empty.chest": "Seu baú está vazio, descubra itens raros hoje!",
   "statements.chest.captcha": "Toque no baú para abri-lo",
-  "statements.gold.pass.required":
-    "Um Gold Pass é necessário para mintar NFTs raros.",
   "statements.frankie.plaza": "Viaje para a praça para criar decorações raras!",
   "statements.blacksmith.plaza": "Viaje para a Praça para mais itens raros.",
   "statements.water.well.needed.one": "Poço de água adicional necessário.",
@@ -4877,7 +4859,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...goblin_messages,
   ...goblinTrade,
   ...goldTooth,
-  ...goldpassModal,
   ...guideTerms,
   ...guideCompost,
   ...halveningCountdown,
