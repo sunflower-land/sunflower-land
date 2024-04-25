@@ -24,6 +24,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpecialEventModal } from "./SpecialEventModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
+import { FactionModalContent } from "./factions/FactionModalContent";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -199,6 +200,11 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "goblet" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+
+        {/* faction npcs */}
+        {npc === "lady day" && <FactionModalContent onClose={closeModal} />}
+        {npc === "robert" && <FactionModalContent onClose={closeModal} />}
+        {npc === "grommy" && <FactionModalContent onClose={closeModal} />}
       </Modal>
       {npc === "Chun Long" && (
         <SpecialEventModal

@@ -267,6 +267,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   docs: "Documents",
   donate: "Donner",
   donating: "Donation",
+  donation: "Donation",
+  donations: "Donations",
   "drafting.noitem": "Aucun objet disponible à lister",
   "drafting.select": "Sélectionner un objet à lister",
   "drafting.trade.detail": "Détails de l'échange",
@@ -284,6 +286,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "expand.land": "Étendre votre île",
   expand: "Étendre",
   explore: "Explorer",
+  faction: "Faction",
   farm: "Ferme",
   "farm.storage": "Stockage de la Ferme",
   featured: "En vedette",
@@ -1999,6 +2002,20 @@ const factions: Record<Factions, string> = {
     ENGLISH_TERMS["faction.earn.emblems.time.left"],
   "faction.emblems.tasks": ENGLISH_TERMS["faction.emblems.tasks"],
   "faction.view.leaderboard": ENGLISH_TERMS["faction.view.leaderboard"],
+  "faction.donation.bulk.resources":
+    ENGLISH_TERMS["faction.donation.bulk.resources"],
+  "faction.donation.bulk.resources.unlimited.per.day":
+    ENGLISH_TERMS["faction.donation.bulk.resources.unlimited.per.day"],
+  "faction.donation.confirm": ENGLISH_TERMS["faction.donation.confirm"],
+  "faction.donation.label": ENGLISH_TERMS["faction.donation.label"],
+  "faction.donation.request.message":
+    ENGLISH_TERMS["faction.donation.request.message"],
+  "faction.donation.sfl": ENGLISH_TERMS["faction.donation.sfl"],
+  "faction.donation.sfl.max.per.day":
+    ENGLISH_TERMS["faction.donation.sfl.max.per.day"],
+  "faction.seasonal.delivery.start.at":
+    ENGLISH_TERMS["faction.seasonal.delivery.start.at"],
+  "faction.points": ENGLISH_TERMS["faction.points"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {

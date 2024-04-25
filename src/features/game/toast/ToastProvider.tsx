@@ -8,7 +8,12 @@ import { InventoryItemName } from "../types/game";
 /**
  * The type of the toast.
  */
-export type ToastItem = InventoryItemName | "SFL" | "XP" | "coins";
+export type ToastItem =
+  | InventoryItemName
+  | "SFL"
+  | "XP"
+  | "coins"
+  | "faction_points";
 
 /**
  * The toast props.
@@ -31,6 +36,7 @@ export interface Toast {
  * @param setSflBalance Sets the sfl balance state of the toast provider.
  * @param setCoinBalance Sets the coin balance state of the toast provider.
  * @param setExperience Sets the experience state of the toast provider.
+ * @param setFactionPoinst Sets the faction points state of the toast provider.
  */
 export const ToastContext = createContext<{
   toastsList: Toast[];
@@ -40,6 +46,7 @@ export const ToastContext = createContext<{
   setSflBalance: (balance: Decimal) => void;
   setCoinBalance: (balance: number) => void;
   setExperience: (experience: Decimal) => void;
+  setFactionPoints: (points: number) => void;
 }>({
   toastsList: [],
   // eslint-disable-next-line no-console
@@ -50,6 +57,8 @@ export const ToastContext = createContext<{
   setCoinBalance: console.log,
   // eslint-disable-next-line no-console
   setExperience: console.log,
+  // eslint-disable-next-line no-console
+  setFactionPoints: console.log,
 });
 
 /**
@@ -72,6 +81,8 @@ export const ToastProvider: FC = ({ children }) => {
   const newExperience = useRef<Decimal>();
   const oldCoinBalance = useRef<number>();
   const newCoinBalance = useRef<number>();
+  const oldFactionPoints = useRef<number>();
+  const newFactionPoints = useRef<number>();
 
   const timeout = useRef<NodeJS.Timeout>();
 
@@ -87,15 +98,23 @@ export const ToastProvider: FC = ({ children }) => {
       );
     }
 
-    if (item === "SFL")
+    if (item === "SFL") {
       return (newSflBalance.current ?? new Decimal(0))?.minus(
         oldSflBalance.current ?? new Decimal(0)
       );
+    }
 
-    if (item === "XP")
+    if (item === "XP") {
       return (newExperience.current ?? new Decimal(0))?.minus(
         oldExperience.current ?? new Decimal(0)
       );
+    }
+
+    if (item === "faction_points") {
+      return new Decimal(
+        (newFactionPoints.current ?? 0) - (oldFactionPoints.current ?? 0)
+      );
+    }
 
     return (newInventory.current?.[item] ?? new Decimal(0))?.minus(
       oldInventory.current?.[item] ?? new Decimal(0)
@@ -130,6 +149,7 @@ export const ToastProvider: FC = ({ children }) => {
         difference,
         hidden: false,
       };
+
       const toasts = [
         newToast,
         ...toastList.filter((toast) => toast.item !== newToast.item),
@@ -171,6 +191,7 @@ export const ToastProvider: FC = ({ children }) => {
     oldSflBalance.current = newSflBalance.current;
     oldCoinBalance.current = newCoinBalance.current;
     oldExperience.current = newExperience.current;
+    oldFactionPoints.current = newFactionPoints.current;
     setToastsList([]);
   };
 
@@ -301,6 +322,31 @@ export const ToastProvider: FC = ({ children }) => {
     debouncedSetOldStates();
   };
 
+  /**
+   * Sets the new faction points state and add toast if there is a quantity difference.
+   * @param points The new faction points state.
+   */
+  const setFactionPoints = (points: number) => {
+    // set the new state
+    newFactionPoints.current = points;
+
+    // if old state is not set, skip the toast logic because it is the first time setting the state
+    if (oldFactionPoints.current === undefined) {
+      oldFactionPoints.current = points;
+      return;
+    }
+
+    // set toast if points difference is not zero
+    const difference = points - (oldFactionPoints.current ?? 0);
+
+    if (difference > 0) {
+      addToast({ item: "faction_points" });
+    }
+
+    // clear all toasts after debounced timeout
+    debouncedSetOldStates();
+  };
+
   return (
     <ToastContext.Provider
       value={{
@@ -309,6 +355,7 @@ export const ToastProvider: FC = ({ children }) => {
         setSflBalance,
         setExperience,
         setCoinBalance,
+        setFactionPoints,
       }}
     >
       {children}

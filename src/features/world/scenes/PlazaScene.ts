@@ -45,27 +45,32 @@ const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   },
 ];
 
-const FACTION_NPCS: {
+type FactionNPC = {
   npc: NPCName;
   x: number;
   y: number;
   direction?: "left" | "right";
-}[] = [
+  faction: Omit<FactionName, "nightshades">;
+};
+
+const FACTION_NPCS: FactionNPC[] = [
   {
-    x: 20,
-    y: 65,
+    x: 32,
+    y: 166,
     npc: "lady day",
+    faction: "sunflorians",
   },
   {
-    x: 57,
-    y: 23,
+    x: 32,
+    y: 132,
     npc: "robert",
+    faction: "bumpkins",
   },
   {
-    x: 114,
-    y: 30,
+    x: 32,
+    y: 98,
     npc: "grommy",
-    direction: "left",
+    faction: "goblins",
   },
 ];
 
@@ -137,8 +142,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 50,
-    y: 93,
+    x: 90,
+    y: 70,
     npc: "tywin",
   },
   {
@@ -364,6 +369,11 @@ export class PlazaScene extends BaseScene {
   private nightshadesBanner: Phaser.GameObjects.Image | undefined;
   private sunfloriansBanner: Phaser.GameObjects.Image | undefined;
 
+  private bumpkinsFactionNPC: BumpkinContainer | undefined;
+  private goblinsFactionNPC: BumpkinContainer | undefined;
+  private nightshadesFactionNPC: Phaser.GameObjects.Sprite | undefined;
+  private sunfloriansFactionNPC: BumpkinContainer | undefined;
+
   private chosenFaction: FactionName | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
@@ -494,22 +504,11 @@ export class PlazaScene extends BaseScene {
     });
   }
 
-  setUpFactionBanners() {
-    // Add banners
-    this.bumpkinsBanner = this.add
-      .image(40, 17, "bumpkins_banner")
-      .setDepth(17);
-    this.goblinsBanner = this.add.image(100, 17, "goblins_banner").setDepth(17);
-    this.nightshadesBanner = this.add
-      .image(90, 60, "nightshades_banner")
-      .setDepth(56);
-    this.sunfloriansBanner = this.add
-      .image(35, 60, "sunflorians_banner")
-      .setDepth(60);
-
-    // Characters
-    const maximus = this.add.sprite(110, 65, "maximus");
+  setUpFactionNPCS() {
+    const maximus = this.add.sprite(33, 200, "maximus");
+    maximus.flipX = true;
     maximus.setSize(23, 26);
+    maximus.setDepth(200);
     this.physics.world.enable(maximus);
     (maximus.body as Phaser.Physics.Arcade.Body).setImmovable(true);
     this.colliders?.add(maximus);
@@ -524,10 +523,12 @@ export class PlazaScene extends BaseScene {
       frameRate: 10,
     });
     maximus.play("maximus_animation", true);
-    const shadow = this.add.sprite(110, 78, "shadow");
+    const shadow = this.add.sprite(33, 212, "shadow");
     shadow.setSize(23, 10);
 
-    FACTION_NPCS.forEach(({ npc, x, y, direction = "right" }) => {
+    this.nightshadesFactionNPC = maximus;
+
+    FACTION_NPCS.forEach(({ npc, x, y, direction = "right", faction }) => {
       const container = new BumpkinContainer({
         scene: this,
         x,
@@ -549,7 +550,33 @@ export class PlazaScene extends BaseScene {
       this.physics.world.enable(container);
       this.colliders?.add(container);
       this.triggerColliders?.add(container);
+
+      switch (faction) {
+        case "bumpkins":
+          this.bumpkinsFactionNPC = container;
+          break;
+        case "goblins":
+          this.goblinsFactionNPC = container;
+          break;
+        case "sunflorians":
+          this.sunfloriansFactionNPC = container;
+          break;
+      }
     });
+  }
+
+  setUpFactionBanners() {
+    // Add banners
+    this.bumpkinsBanner = this.add
+      .image(15, 125, "bumpkins_banner")
+      .setDepth(125);
+    this.goblinsBanner = this.add.image(15, 90, "goblins_banner").setDepth(90);
+    this.nightshadesBanner = this.add
+      .image(15, 197, "nightshades_banner")
+      .setDepth(190);
+    this.sunfloriansBanner = this.add
+      .image(15, 160, "sunflorians_banner")
+      .setDepth(160);
 
     if (!this.chosenFaction) {
       // Make banners interactive
@@ -578,34 +605,83 @@ export class PlazaScene extends BaseScene {
     }
   }
 
+  makeAllFactionNPCsInteractive() {
+    this.bumpkinsFactionNPC?.addOnClick(() =>
+      interactableModalManager.open("pledge_bumpkin")
+    );
+    this.goblinsFactionNPC?.addOnClick(() =>
+      interactableModalManager.open("pledge_goblin")
+    );
+    this.sunfloriansFactionNPC?.addOnClick(() =>
+      interactableModalManager.open("pledge_sunflorian")
+    );
+    this.nightshadesFactionNPC
+      ?.setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          interactableModalManager.open("pledge_nightshade");
+        }
+      });
+  }
+
+  makeChosenFactionNPCInteractive(chosenFaction: string) {
+    switch (chosenFaction) {
+      case "bumpkins":
+        this.bumpkinsFactionNPC?.addOnClick(() =>
+          interactableModalManager.open("bumpkins_faction")
+        );
+
+        break;
+      case "goblins":
+        this.goblinsFactionNPC?.addOnClick(() =>
+          interactableModalManager.open("goblins_faction")
+        );
+        break;
+      case "sunflorians":
+        this.sunfloriansFactionNPC?.addOnClick(() =>
+          interactableModalManager.open("sunflorians_faction")
+        );
+        break;
+      case "nightshades":
+        this.nightshadesFactionNPC
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", (p: Phaser.Input.Pointer) => {
+            if (p.downElement.nodeName === "CANVAS") {
+              interactableModalManager.open("nightshades_faction");
+            }
+          });
+        break;
+    }
+  }
+
   makeChosenFactionBannerInteractive(chosenFaction: string) {
     switch (chosenFaction) {
       case "bumpkins":
         this.bumpkinsBanner
           ?.setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
-            interactableModalManager.open("pledge_bumpkin");
+            interactableModalManager.open("bumpkins_faction");
           });
         break;
       case "goblins":
         this.goblinsBanner
           ?.setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
-            interactableModalManager.open("pledge_goblin");
+            interactableModalManager.open("goblins_faction");
           });
         break;
       case "nightshades":
         this.nightshadesBanner
           ?.setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
-            interactableModalManager.open("pledge_nightshade");
+            interactableModalManager.open("nightshades_faction");
           });
         break;
       case "sunflorians":
         this.sunfloriansBanner
           ?.setInteractive({ cursor: "pointer" })
           .on("pointerdown", () => {
-            interactableModalManager.open("pledge_sunflorian");
+            interactableModalManager.open("sunflorians_faction");
           });
         break;
     }
@@ -618,6 +694,15 @@ export class PlazaScene extends BaseScene {
     this.sunfloriansBanner?.disableInteractive();
 
     this.makeChosenFactionBannerInteractive(chosenFaction);
+  }
+
+  updateFactionNPCInteractionsOnPledge(chosenFaction: string) {
+    this.bumpkinsFactionNPC?.disableInteractive();
+    this.goblinsFactionNPC?.disableInteractive();
+    this.sunfloriansFactionNPC?.disableInteractive();
+    this.nightshadesFactionNPC?.disableInteractive();
+
+    this.makeChosenFactionNPCInteractive(chosenFaction);
   }
 
   addFactionNameToPlayer(faction: string) {
@@ -654,6 +739,13 @@ export class PlazaScene extends BaseScene {
     if (hasFeatureAccess(this.gameState, "FACTIONS")) {
       this.chosenFaction = this.gameService.state.context.state?.faction?.name;
       this.setUpFactionBanners();
+      this.setUpFactionNPCS();
+
+      if (this.chosenFaction) {
+        this.makeChosenFactionNPCInteractive(this.chosenFaction);
+      } else {
+        this.makeAllFactionNPCsInteractive();
+      }
     }
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
@@ -1028,6 +1120,7 @@ export class PlazaScene extends BaseScene {
     if (!!faction && !this.chosenFaction) {
       this.chosenFaction = faction;
       this.updateFactionBannerInteractionsOnPledge(faction);
+      this.updateFactionNPCInteractionsOnPledge(faction);
       this.addFactionNameToPlayer(faction);
       this.updateColyseus(faction);
     }

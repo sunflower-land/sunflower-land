@@ -280,6 +280,10 @@ import {
   placeOilReserve,
   PlaceOilReserveAction,
 } from "./landExpansion/placeOilReserve";
+import {
+  donateToFaction,
+  DonateToFactionAction,
+} from "./landExpansion/donateToFaction";
 
 export type PlayingEvent =
   | LandExpansionPlantAction
@@ -362,7 +366,8 @@ export type PlayingEvent =
   | ClaimGiftAction
   | EnterRaffleAction
   | ExchangeSFLtoCoinsAction
-  | PledgeFactionAction;
+  | PledgeFactionAction
+  | DonateToFactionAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -510,6 +515,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "raffle.entered": enterRaffle,
   "sfl.exchanged": exchangeSFLtoCoins,
   "faction.pledged": pledgeFaction,
+  "faction.donated": donateToFaction,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

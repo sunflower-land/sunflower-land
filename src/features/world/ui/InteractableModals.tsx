@@ -25,7 +25,7 @@ import { BankModal } from "features/game/components/bank/components/BankModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 import { GoblinMarket } from "./market/GoblinMarket";
-import { PledgeFaction } from "./factions/PledgeFaction";
+import { FactionModalContent } from "./factions/FactionModalContent";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -84,7 +84,11 @@ type InteractableName =
   | "pledge_bumpkin"
   | "pledge_goblin"
   | "pledge_nightshade"
-  | "pledge_sunflorian";
+  | "pledge_sunflorian"
+  | "bumpkins_faction"
+  | "goblins_faction"
+  | "nightshades_faction"
+  | "sunflorians_faction";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -595,16 +599,43 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <GoblinMarket onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "pledge_sunflorian"} onHide={closeModal}>
-        <PledgeFaction faction="sunflorians" onClose={closeModal} />
+        <FactionModalContent
+          representativeFaction="sunflorians"
+          onClose={closeModal}
+        />
       </Modal>
       <Modal show={interactable === "pledge_bumpkin"} onHide={closeModal}>
-        <PledgeFaction faction="bumpkins" onClose={closeModal} />
+        <FactionModalContent
+          representativeFaction="bumpkins"
+          onClose={closeModal}
+        />
       </Modal>
       <Modal show={interactable === "pledge_goblin"} onHide={closeModal}>
-        <PledgeFaction faction="goblins" onClose={closeModal} />
+        <FactionModalContent
+          representativeFaction="goblins"
+          onClose={closeModal}
+        />
       </Modal>
       <Modal show={interactable === "pledge_nightshade"} onHide={closeModal}>
-        <PledgeFaction faction="nightshades" onClose={closeModal} />
+        <FactionModalContent
+          representativeFaction="nightshades"
+          onClose={closeModal}
+        />
+      </Modal>
+      <Modal show={interactable === "sunflorians_faction"} onHide={closeModal}>
+        <FactionModalContent
+          representativeFaction="sunflorians"
+          onClose={closeModal}
+        />
+      </Modal>
+      <Modal show={interactable === "bumpkins_faction"} onHide={closeModal}>
+        <FactionModalContent onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "nightshades_faction"} onHide={closeModal}>
+        <FactionModalContent onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "goblins_faction"} onHide={closeModal}>
+        <FactionModalContent onClose={closeModal} />
       </Modal>
     </>
   );

@@ -74,6 +74,8 @@ export type GeneralTerms =
   | "details"
   | "donate"
   | "donating"
+  | "donation"
+  | "donations"
   | "drafting.noitem"
   | "drafting.select"
   | "drafting.trade.detail"
@@ -90,6 +92,7 @@ export type GeneralTerms =
   | "expand.land"
   | "expand"
   | "explore"
+  | "faction"
   | "farm.storage"
   | "farm"
   | "featured"
@@ -1362,7 +1365,16 @@ export type Factions =
   | "faction.earn.emblems"
   | "faction.earn.emblems.time.left"
   | "faction.emblems.tasks"
-  | "faction.view.leaderboard";
+  | "faction.view.leaderboard"
+  | "faction.donation.request.message"
+  | "faction.donation.label"
+  | "faction.donation.sfl"
+  | "faction.donation.sfl.max.per.day"
+  | "faction.donation.bulk.resources"
+  | "faction.donation.bulk.resources.unlimited.per.day"
+  | "faction.donation.confirm"
+  | "faction.seasonal.delivery.start.at"
+  | "faction.points";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

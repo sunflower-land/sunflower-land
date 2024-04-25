@@ -71,7 +71,8 @@ export type NPCName =
   | "greedclaw"
   | "grommy" // faction spruiker;
   | "lady day" // faction spruiker;
-  | "robert"; // faction spruiker;
+  | "robert" // faction spruiker;
+  | "maximus"; // faction spruiker;
 
 // Ol Salty
 
@@ -749,6 +750,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Black Farmer Boots",
     tool: "Farmer Pitchfork",
   },
+  // Faction Spruikers
   "lady day": {
     body: "Beige Farmer Potion",
     hair: "Brown Long Hair",
@@ -778,10 +780,20 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
+  maximus: {
+    // Placeholder values. Using the gif of maximus
+    body: "Beige Farmer Potion",
+    hair: "Explorer Hair",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Overalls",
+    tool: "Farmer Pitchfork",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+  },
 };
 
 type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
-export function acknowedlgedNPCs(): AcknowledgedNPCs {
+export function acknowledgedNPCs(): AcknowledgedNPCs {
   const item = localStorage.getItem("acknowledgedNPCs");
 
   if (!item) {
@@ -792,7 +804,7 @@ export function acknowedlgedNPCs(): AcknowledgedNPCs {
 }
 
 export function acknowledgeNPC(npcName: NPCName) {
-  const previous = acknowedlgedNPCs();
+  const previous = acknowledgedNPCs();
 
   localStorage.setItem(
     "acknowledgedNPCs",
@@ -804,7 +816,7 @@ export function acknowledgeNPC(npcName: NPCName) {
 }
 
 export function isNPCAcknowledged(npcName: NPCName) {
-  const acknowledged = acknowedlgedNPCs();
+  const acknowledged = acknowledgedNPCs();
 
   return acknowledged[npcName] != null;
 }

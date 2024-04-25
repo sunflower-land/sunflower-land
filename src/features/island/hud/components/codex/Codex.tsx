@@ -89,8 +89,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   };
 
   const id =
-    gameService.state.context.state.username ??
-    String(gameService.state.context.farmId);
+    gameService.state?.context?.state?.username ??
+    String(gameService?.state?.context?.farmId);
 
   const incompleteDeliveries = state.delivery.orders.filter(
     (order) => !order.completedAt

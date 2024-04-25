@@ -119,6 +119,10 @@ export function makeGame(farm: any): GameState {
     },
     goblinMarket: farm.goblinMarket,
     faction: farm.faction,
+    dailyFactionDonationRequest: {
+      resource: farm.dailyFactionDonationRequest.resource,
+      amount: new Decimal(farm.dailyFactionDonationRequest.amount),
+    },
   };
 }
 

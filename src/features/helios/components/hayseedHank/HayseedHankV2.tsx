@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { NPC_WEARABLES, acknowedlgedNPCs, acknowledgeNPC } from "lib/npcs";
+import { NPC_WEARABLES, acknowledgedNPCs, acknowledgeNPC } from "lib/npcs";
 import { ChoreV2 } from "./components/ChoreV2";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -29,7 +29,7 @@ interface Props {
 }
 export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [introDone, setIntroDone] = useState(!!acknowedlgedNPCs()["hank"]);
+  const [introDone, setIntroDone] = useState(!!acknowledgedNPCs()["hank"]);
 
   const close = () => {
     onClose();
