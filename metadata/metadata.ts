@@ -7233,4 +7233,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+
+  Soybliss: {
+    name: "Soybliss",
+    description: "A unique soy creature that gives +1 Soybean yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/496.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Soybean Yield",
+        value: 1,
+      },
+    ],
+  },
 };

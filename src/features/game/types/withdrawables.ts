@@ -657,6 +657,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Hungry Caterpillar": () => canWithdrawTimebasedItem(new Date("2024-03-31")), // Last Auction 2024/03/30 5pm UTC
   "Queen Bee": () => canWithdrawTimebasedItem(new Date("2024-03-19")), // Last Auction 2024/03/18 5pm UTC
   "Turbo Sprout": () => canWithdrawTimebasedItem(new Date("2024-07-12")), // Last Auction 2024/07/11
+  Soybliss: () => canWithdrawTimebasedItem(new Date("2024-06-24")), // Last Auction 2024/06/23
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =

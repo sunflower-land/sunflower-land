@@ -1713,6 +1713,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 
   // Clash of Factions
   "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
+  "description.soybliss": ENGLISH_TERMS["description.soybliss"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

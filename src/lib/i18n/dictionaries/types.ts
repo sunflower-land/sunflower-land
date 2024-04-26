@@ -1224,7 +1224,8 @@ export type DecorationDescriptions =
   | "description.goblin.faction.banner"
 
   // Clash of Factions
-  | "description.turbo.sprout";
+  | "description.turbo.sprout"
+  | "description.soybliss";
 
 export type Delivery =
   | "delivery.resource"

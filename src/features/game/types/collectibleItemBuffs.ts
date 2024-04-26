@@ -168,10 +168,18 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "vibrant",
     boostTypeIcon: lightning,
   },
+
+  // Clash of Factions
   "Turbo Sprout": {
     shortDescription: translate("description.turbo.sprout"),
     labelType: "info",
     boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+  Soybliss: {
+    shortDescription: translate("description.soybliss"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
   },
 
   // Fruit Boosts

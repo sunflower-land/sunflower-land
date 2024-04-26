@@ -1700,6 +1700,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   // Clash of Factions
   "description.turbo.sprout":
     "An engine that boosts the Green House's growth speed by 50%.",
+  "description.soybliss": "A unique soy creature that gives +1 Soybean yield.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

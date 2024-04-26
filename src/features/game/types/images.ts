@@ -90,6 +90,7 @@ import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
 // Clash of Factions
 import turboSprout from "assets/sfts/flower_cart.webp";
+import soybliss from "assets/sfts/soybliss.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3316,5 +3317,9 @@ export const ITEM_DETAILS: Items = {
   "Turbo Sprout": {
     image: turboSprout,
     description: translate("description.turbo.sprout"),
+  },
+  Soybliss: {
+    image: soybliss,
+    description: translate("description.soybliss"),
   },
 };
