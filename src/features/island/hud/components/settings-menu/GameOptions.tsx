@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import clipboard from "clipboard";
 import { CONFIG } from "lib/config";
@@ -41,6 +40,7 @@ import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { Discord } from "./general-settings/DiscordModal";
+import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 
 export const GameOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -48,7 +48,6 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
-  const [authState] = useActor(authService);
 
   const { t } = useAppTranslation();
 
@@ -212,21 +211,19 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
   const SelectedComponent = settingMenus[selected].content;
 
   return (
-    <>
-      <Modal show={show} onHide={onHide}>
-        <CloseButtonPanel
-          title={settingMenus[selected].title}
-          onBack={
-            selected !== "main"
-              ? () => setSelected(settingMenus[selected].parent)
-              : undefined
-          }
-          onClose={onHide}
-        >
-          <SelectedComponent onSubMenuClick={setSelected} />
-        </CloseButtonPanel>
-      </Modal>
-    </>
+    <Modal show={show} onHide={onHide}>
+      <CloseButtonPanel
+        title={settingMenus[selected].title}
+        onBack={
+          selected !== "main"
+            ? () => setSelected(settingMenus[selected].parent)
+            : undefined
+        }
+        onClose={onHide}
+      >
+        <SelectedComponent onSubMenuClick={setSelected} />
+      </CloseButtonPanel>
+    </Modal>
   );
 };
 
@@ -314,9 +311,9 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     content: AddSFL,
   },
   deposit: {
-    title: "todo",
-    parent: "main",
-    content: () => <></>,
+    title: translate("deposit"),
+    parent: "blockchain",
+    content: DepositWrapper,
   },
 
   // General Settings
