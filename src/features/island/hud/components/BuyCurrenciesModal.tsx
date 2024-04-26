@@ -11,7 +11,7 @@ import coinsIcon from "assets/icons/coins.webp";
 import coinsStack from "assets/icons/coins_stack.webp";
 import coinsScattered from "assets/icons/coins_scattered.webp";
 import sflIcon from "assets/icons/sfl.webp";
-import lifeTimeFarmerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import lifeTimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
 import { OuterPanel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
