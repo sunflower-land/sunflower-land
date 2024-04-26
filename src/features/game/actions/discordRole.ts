@@ -3,7 +3,13 @@ import { ERRORS } from "lib/errors";
 
 const API_URL = CONFIG.API_URL;
 
-export type DiscordRole = "diamond-farmers" | "bud-clubhouse";
+export type DiscordRole =
+  | "diamond-farmers"
+  | "bud-clubhouse"
+  | "goblins"
+  | "sunflorians"
+  | "nightshades"
+  | "bumpkins";
 
 type Options = {
   farmId: number;

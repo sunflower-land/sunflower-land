@@ -4,9 +4,15 @@ import { redirectOAuth } from "features/auth/actions/oauth";
 import * as Auth from "features/auth/lib/Provider";
 import budIcon from "src/assets/icons/bud.png";
 
+// faction banners
+import bumpkinBanner from "src/assets/decorations/banners/factions/bumpkins_banner.webp";
+import sunflorianBanner from "src/assets/decorations/banners/factions/sunflorians_banner.webp";
+import goblinBanner from "src/assets/decorations/banners/factions/goblins_banner.webp";
+import nightshadeBanner from "src/assets/decorations/banners/factions/nightshades_banner.webp";
+
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
-import { InventoryItemName } from "features/game/types/game";
+import { FactionName, InventoryItemName } from "features/game/types/game";
 import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
@@ -32,6 +38,20 @@ const GROUPS: {
   },
 ];
 
+function getFactionImage(faction: FactionName) {
+  switch (faction) {
+    case "bumpkins":
+      return bumpkinBanner;
+    case "sunflorians":
+      return sunflorianBanner;
+    case "goblins":
+      return goblinBanner;
+    case "nightshades":
+      return nightshadeBanner;
+    default:
+      return "";
+  }
+}
 interface Props {
   isOpen: boolean;
   onClose: () => void;
@@ -50,6 +70,8 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
   >(authState.context.user.token?.discordId ? "idle" : "noDiscord");
 
   const inventory = gameState.context.state.inventory;
+  const faction = gameState.context.state.faction?.name;
+
   const buds = gameState.context.state.buds;
   const oauth = () => {
     redirectOAuth();
@@ -155,6 +177,24 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
             {t("getContent.join")}
           </Button>
         </div>
+
+        {faction && (
+          <div key="faction" className="flex justify-between w-full mt-4">
+            <div>
+              <span className="flex-1">{`#${faction}`}</span>
+              <div className="flex items-center flex-wrap">
+                <img src={getFactionImage(faction)} className="h-6 mr-2" />
+              </div>
+            </div>
+            <Button
+              className="text-xs h-8 w-20"
+              onClick={() => addRole(faction)}
+              disabled={faction === undefined}
+            >
+              {t("getContent.join")}
+            </Button>
+          </div>
+        )}
       </span>
     );
   };
