@@ -244,7 +244,7 @@ import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
 import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.png";
-import lifetimeFarmerBanner from "assets/decorations/banners/solar_flare_banner.png";
+import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
