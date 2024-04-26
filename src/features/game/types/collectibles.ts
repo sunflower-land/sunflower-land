@@ -76,7 +76,8 @@ export type SoldOutCollectibleName =
   | "Turbo Sprout"
   | "Soybliss"
   | "Grape Granny"
-  | "Royal Throne";
+  | "Royal Throne"
+  | "Lily Egg";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

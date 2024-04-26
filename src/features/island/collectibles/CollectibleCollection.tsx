@@ -253,6 +253,7 @@ import { TurboSprout } from "./components/TurboSprout";
 import { Soybliss } from "./components/Soybliss";
 import { GrapeGranny } from "./components/GrapeGranny";
 import { RoyalThrone } from "./components/RoyalThrone";
+import { LilyEgg } from "./components/LilyEgg";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -554,6 +555,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Soybliss: Soybliss,
   "Grape Granny": GrapeGranny,
   "Royal Throne": RoyalThrone,
+  "Lily Egg": LilyEgg,
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -1764,6 +1764,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.soybliss": ENGLISH_TERMS["description.soybliss"],
   "description.grape.granny": ENGLISH_TERMS["description.grape.granny"],
   "description.royal.throne": ENGLISH_TERMS["description.royal.throne"],
+  "description.lily.egg": ENGLISH_TERMS["description.lily.egg"],
 };
 
 const delivery: Record<Delivery, string> = {

@@ -1707,6 +1707,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.grape.granny":
     "Wise matriarch nurturing grapes to flourish with +1 yield.",
   "description.royal.throne": "A throne fit for the highest ranking farmer.",
+  "description.lily.egg": "Tiny delight, grand beauty, endless wonder.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

@@ -1230,7 +1230,8 @@ export type DecorationDescriptions =
   | "description.turbo.sprout"
   | "description.soybliss"
   | "description.grape.granny"
-  | "description.royal.throne";
+  | "description.royal.throne"
+  | "description.lily.egg";
 
 export type Delivery =
   | "delivery.resource"
