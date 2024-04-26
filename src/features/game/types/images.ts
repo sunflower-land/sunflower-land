@@ -88,6 +88,8 @@ import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
+// Clash of Factions
+import turboSprout from "assets/sfts/flower_cart.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3308,5 +3310,11 @@ export const ITEM_DETAILS: Items = {
   "Hungry Hare": {
     image: hungryHare,
     description: translate("description.hungryHare"),
+  },
+
+  // Clash of Factions
+  "Turbo Sprout": {
+    image: turboSprout,
+    description: translate("description.turbo.sprout"),
   },
 };

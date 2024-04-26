@@ -1221,7 +1221,10 @@ export type DecorationDescriptions =
   | "description.sunflorian.faction.banner"
   | "description.nightshade.faction.banner"
   | "description.bumpkin.faction.banner"
-  | "description.goblin.faction.banner";
+  | "description.goblin.faction.banner"
+
+  // Clash of Factions
+  | "description.turbo.sprout";
 
 export type Delivery =
   | "delivery.resource"

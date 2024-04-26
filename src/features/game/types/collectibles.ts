@@ -72,7 +72,8 @@ export type SoldOutCollectibleName =
   | "Humming Bird"
   | "Queen Bee"
   | "Blossom Royale"
-  | "Hungry Caterpillar";
+  | "Hungry Caterpillar"
+  | "Turbo Sprout";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

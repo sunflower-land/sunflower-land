@@ -249,6 +249,7 @@ import { NightshadeFactionBanner } from "./components/NightshadeFactionBanner";
 import { BumpkinFactionBanner } from "./components/BumpkinFactionBanner";
 import { ClashOfFactionsBanner } from "./components/ClashOfFactionsBanner";
 import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
+import { TurboSprout } from "./components/TurboSprout";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -544,6 +545,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Banner": GoblinFactionBanner,
   "Nightshade Faction Banner": NightshadeFactionBanner,
   "Bumpkin Faction Banner": BumpkinFactionBanner,
+
+  // Clash of Factions
+  "Turbo Sprout": TurboSprout,
 };
 // Need readonly versions for some troublesome components while in design mode
 

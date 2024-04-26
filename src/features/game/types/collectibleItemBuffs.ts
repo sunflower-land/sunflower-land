@@ -168,6 +168,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     labelType: "vibrant",
     boostTypeIcon: lightning,
   },
+  "Turbo Sprout": {
+    shortDescription: translate("description.turbo.sprout"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
 
   // Fruit Boosts
   "Immortal Pear": {

@@ -1696,6 +1696,10 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "A display of allegiance to the Nightshade Faction",
   "description.bumpkin.faction.banner":
     "A display of allegiance to the Bumpkin Faction",
+
+  // Clash of Factions
+  "description.turbo.sprout":
+    "An engine that boosts the Green House's growth speed by 50%.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

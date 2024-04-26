@@ -7216,4 +7216,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/939.png",
     attributes: [{ trait_type: "Tradable", value: "No" }],
   },
+
+  "Turbo Sprout": {
+    name: "Turbo Sprout",
+    description: "An engine that boosts the Green House's growth speed by 50%.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/495.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Green House" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Green House Growth Speed",
+        value: 50,
+      },
+    ],
+  },
 };
