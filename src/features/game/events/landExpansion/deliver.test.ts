@@ -558,9 +558,7 @@ describe("deliver", () => {
       },
     });
 
-    const seasonTicket = getSeasonalTicket();
-
-    expect(state.faction?.points).toEqual(5);
+    expect(state.faction?.points).toEqual(25);
   });
 
   it("does not reward faction points if no faction selected", () => {
