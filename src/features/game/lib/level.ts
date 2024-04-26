@@ -63,7 +63,17 @@ export type BumpkinLevel =
   | 62
   | 63
   | 64
-  | 65;
+  | 65
+  | 66
+  | 67
+  | 68
+  | 69
+  | 70
+  | 71
+  | 72
+  | 73
+  | 74
+  | 75;
 
 export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   1: 0,
@@ -131,9 +141,19 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   63: 4015500,
   64: 4340500,
   65: 4680500,
+  66: 5035500,
+  67: 5405500,
+  68: 5790500,
+  69: 6190500,
+  70: 6610500,
+  71: 7050500,
+  72: 7510500,
+  73: 7990500,
+  74: 8490500,
+  75: 9015500,
 };
 
-const MAX_BUMPKIN_LEVEL: BumpkinLevel = 65;
+const MAX_BUMPKIN_LEVEL: BumpkinLevel = 75;
 
 export const isMaxLevel = (experience: number): boolean => {
   return experience >= LEVEL_EXPERIENCE[MAX_BUMPKIN_LEVEL];
@@ -219,6 +239,16 @@ export const SKILL_POINTS: Record<BumpkinLevel, number> = {
   63: 38,
   64: 39,
   65: 39,
+  66: 40,
+  67: 40,
+  68: 41,
+  69: 41,
+  70: 42,
+  71: 42,
+  72: 43,
+  73: 43,
+  74: 44,
+  75: 44,
 };
 
 export const findLevelRequiredForNextSkillPoint = (
