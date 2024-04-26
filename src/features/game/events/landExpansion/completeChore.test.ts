@@ -644,4 +644,104 @@ describe("chore.completed", () => {
       expect(state.chores?.choresCompleted).toBe(1);
     });
   });
+
+  it("does not reward faction points if the faction does not exist", () => {
+    const now = Date.now();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+      tickets: 1,
+    };
+
+    const state = completeChore({
+      createdAt: now,
+      action: {
+        type: "chore.completed",
+        id: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.faction?.points).toBeUndefined();
+  });
+
+  it("rewards 5 faction points for every ticket rewarded", () => {
+    const now = Date.now();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+      tickets: 1,
+    };
+
+    const state = completeChore({
+      createdAt: now,
+      action: {
+        type: "chore.completed",
+        id: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          donated: {
+            daily: {
+              sfl: {},
+              resources: {},
+            },
+            totalItems: {},
+          },
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.faction?.points).toBe(5);
+  });
 });

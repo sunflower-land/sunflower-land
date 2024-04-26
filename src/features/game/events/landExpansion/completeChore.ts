@@ -10,6 +10,7 @@ import cloneDeep from "lodash.clonedeep";
 import { startChore } from "./startChore";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { FACTION_POINT_MULTIPLIER } from "./deliver";
 
 export type CompleteChoreAction = {
   type: "chore.completed";
@@ -179,6 +180,11 @@ function completeWitchesEveChore({
   const ticket = getSeasonalTicket();
   const previous = game.inventory[ticket] ?? new Decimal(0);
   game.inventory[ticket] = previous.add(chore.tickets);
+
+  if (game.faction) {
+    game.faction.points =
+      game.faction.points + chore.tickets * FACTION_POINT_MULTIPLIER;
+  }
 
   chore.completedAt = createdAt;
   chores.choresCompleted += 1;

@@ -78,7 +78,7 @@ export type QuestNPCName =
 const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
 
 const DELIVERY_FRIENDSHIP_POINTS = 3;
-const FACTION_POINT_MULTIPLIER = 5;
+export const FACTION_POINT_MULTIPLIER = 5;
 
 export function isOfQuestNPCType(value: string): value is QuestNPCName {
   return (QUEST_NPC_NAMES as string[]).includes(value);
