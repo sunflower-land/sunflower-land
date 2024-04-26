@@ -1229,7 +1229,8 @@ export type DecorationDescriptions =
   // Clash of Factions
   | "description.turbo.sprout"
   | "description.soybliss"
-  | "description.grape.granny";
+  | "description.grape.granny"
+  | "description.royal.throne";
 
 export type Delivery =
   | "delivery.resource"

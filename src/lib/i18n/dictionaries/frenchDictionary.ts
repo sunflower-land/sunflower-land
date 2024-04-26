@@ -1791,6 +1791,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
   "description.soybliss": ENGLISH_TERMS["description.soybliss"],
   "description.grape.granny": ENGLISH_TERMS["description.grape.granny"],
+  "description.royal.throne": ENGLISH_TERMS["description.royal.throne"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

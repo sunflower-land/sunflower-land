@@ -1706,6 +1706,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.soybliss": "A unique soy creature that gives +1 Soybean yield.",
   "description.grape.granny":
     "Wise matriarch nurturing grapes to flourish with +1 yield.",
+  "description.royal.throne": "A throne fit for the highest ranking farmer.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

@@ -92,6 +92,7 @@ import greenFieldRug from "assets/sfts/green_field_rug.webp";
 import turboSprout from "assets/sfts/flower_cart.webp";
 import soybliss from "assets/sfts/soybliss.webp";
 import grapeGranny from "assets/sfts/grape_granny.webp";
+import royalThrone from "assets/sfts/royal_throne.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3326,5 +3327,9 @@ export const ITEM_DETAILS: Items = {
   "Grape Granny": {
     image: grapeGranny,
     description: translate("description.grape.granny"),
+  },
+  "Royal Throne": {
+    image: royalThrone,
+    description: translate("description.royal.throne"),
   },
 };

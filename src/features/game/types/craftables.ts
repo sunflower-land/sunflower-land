@@ -1277,6 +1277,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Turbo Sprout": { width: 2, height: 2 },
   Soybliss: { width: 1, height: 2 },
   "Grape Granny": { width: 1, height: 1 },
+  "Royal Throne": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

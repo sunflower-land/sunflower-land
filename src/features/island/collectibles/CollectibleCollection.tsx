@@ -252,6 +252,7 @@ import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
 import { TurboSprout } from "./components/TurboSprout";
 import { Soybliss } from "./components/Soybliss";
 import { GrapeGranny } from "./components/GrapeGranny";
+import { RoyalThrone } from "./components/RoyalThrone";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -552,6 +553,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Turbo Sprout": TurboSprout,
   Soybliss: Soybliss,
   "Grape Granny": GrapeGranny,
+  "Royal Throne": RoyalThrone,
 };
 // Need readonly versions for some troublesome components while in design mode
 
