@@ -930,6 +930,9 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.radiant.ray.boost": "+0.1 Iron",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
   "description.hungryHare.boost": "Fermented Carrots 2x XP",
+  "description.turbo.sprout.boost": "50% Green House Crop speed",
+  "description.soybliss.boost": "+1 Soybean",
+  "description.grape.granny.boost": "+1 Grape",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1701,6 +1704,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.turbo.sprout":
     "An engine that boosts the Green House's growth speed by 50%.",
   "description.soybliss": "A unique soy creature that gives +1 Soybean yield.",
+  "description.grape.granny":
+    "Wise matriarch nurturing grapes to flourish with +1 yield.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

@@ -376,7 +376,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     Baozi: new Decimal(10),
-    Soybliss: new Decimal(1),
+    "Grape Granny": new Decimal(1),
     "Prize Ticket": new Decimal(10),
     "Rich Chicken": new Decimal(1),
     "Fat Chicken": new Decimal(2),

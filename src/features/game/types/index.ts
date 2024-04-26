@@ -206,6 +206,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Crim Peckster": 494,
   "Turbo Sprout": 495,
   Soybliss: 496,
+  "Grape Granny": 497,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,

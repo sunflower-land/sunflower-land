@@ -251,6 +251,7 @@ import { ClashOfFactionsBanner } from "./components/ClashOfFactionsBanner";
 import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
 import { TurboSprout } from "./components/TurboSprout";
 import { Soybliss } from "./components/Soybliss";
+import { GrapeGranny } from "./components/GrapeGranny";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -550,6 +551,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Clash of Factions
   "Turbo Sprout": TurboSprout,
   Soybliss: Soybliss,
+  "Grape Granny": GrapeGranny,
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -631,7 +631,10 @@ export type BoostEffectDescriptions =
   | "description.time.warp.totem.boost"
   | "description.radiant.ray.boost"
   | "description.beekeeper.hat.boost"
-  | "description.flower.fox.boost";
+  | "description.flower.fox.boost"
+  | "description.turbo.sprout.boost"
+  | "description.soybliss.boost"
+  | "description.grape.granny.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -1225,7 +1228,8 @@ export type DecorationDescriptions =
 
   // Clash of Factions
   | "description.turbo.sprout"
-  | "description.soybliss";
+  | "description.soybliss"
+  | "description.grape.granny";
 
 export type Delivery =
   | "delivery.resource"

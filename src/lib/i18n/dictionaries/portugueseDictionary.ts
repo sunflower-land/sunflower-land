@@ -938,6 +938,11 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.babyPanda.boost": "2x XP Mar 2024",
   "description.flower.fox.boost": "-10% Tempo de Crescimento de Flores",
   "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
+  "description.grape.granny.boost":
+    ENGLISH_TERMS["description.grape.granny.boost"],
+  "description.soybliss.boost": ENGLISH_TERMS["description.soybliss.boost"],
+  "description.turbo.sprout.boost":
+    ENGLISH_TERMS["description.turbo.sprout.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1757,6 +1762,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   // Clash of Factions
   "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
   "description.soybliss": ENGLISH_TERMS["description.soybliss"],
+  "description.grape.granny": ENGLISH_TERMS["description.grape.granny"],
 };
 
 const delivery: Record<Delivery, string> = {

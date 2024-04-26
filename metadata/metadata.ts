@@ -7250,4 +7250,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+
+  "Grape Granny": {
+    name: "Soybliss",
+    description: "Wise matriarch nurturing grapes to flourish with +1 yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/497.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Grape Yield",
+        value: 1,
+      },
+    ],
+  },
 };

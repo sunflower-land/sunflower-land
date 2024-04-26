@@ -944,6 +944,11 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.radiant.ray.boost": "+0.1 Fer",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
   "description.hungryHare.boost": "Fermented Carrots 2x XP",
+  "description.grape.granny.boost":
+    ENGLISH_TERMS["description.grape.granny.boost"],
+  "description.soybliss.boost": ENGLISH_TERMS["description.soybliss.boost"],
+  "description.turbo.sprout.boost":
+    ENGLISH_TERMS["description.turbo.sprout.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1785,6 +1790,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   // Clash of Factions
   "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
   "description.soybliss": ENGLISH_TERMS["description.soybliss"],
+  "description.grape.granny": ENGLISH_TERMS["description.grape.granny"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

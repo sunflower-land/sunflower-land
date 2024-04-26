@@ -91,6 +91,7 @@ import greenFieldRug from "assets/sfts/green_field_rug.webp";
 // Clash of Factions
 import turboSprout from "assets/sfts/flower_cart.webp";
 import soybliss from "assets/sfts/soybliss.webp";
+import grapeGranny from "assets/sfts/grape_granny.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3321,5 +3322,9 @@ export const ITEM_DETAILS: Items = {
   Soybliss: {
     image: soybliss,
     description: translate("description.soybliss"),
+  },
+  "Grape Granny": {
+    image: grapeGranny,
+    description: translate("description.grape.granny"),
   },
 };
