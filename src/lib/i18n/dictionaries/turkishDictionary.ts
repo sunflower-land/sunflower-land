@@ -202,6 +202,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   bait: "Yem",
   balance: "Bakiye: ",
   banner: "Bayrak",
+  banners: "Banners",
   basket: "Sepet",
   "beach.bounty": "Plaj Ödülü",
   beta: "Beta",
@@ -489,6 +490,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
+  vip: ENGLISH_TERMS["vip"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {

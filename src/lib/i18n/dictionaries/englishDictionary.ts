@@ -201,6 +201,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   bait: "Bait",
   balance: "Balance: ",
   banner: "Banner",
+  banners: "Banners",
   basket: "Basket",
   "beach.bounty": "Beach Bounty",
   beta: "Beta",
@@ -488,6 +489,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.exchange": "Goblin Exchange",
   "goblin.deliveries": "Goblin Deliveries",
   vipAccess: "VIP Access",
+  vip: "VIP",
 };
 
 const timeUnits: Record<TimeUnits, string> = {

@@ -23,6 +23,7 @@ export type GeneralTerms =
   | "bait"
   | "balance"
   | "banner"
+  | "banners"
   | "basket"
   | "beach.bounty"
   | "beta"
@@ -309,7 +310,8 @@ export type GeneralTerms =
   | "boosts"
   | "decorations"
   | "goblin.deliveries"
-  | "vipAccess";
+  | "vipAccess"
+  | "vip";
 
 export type TimeUnits =
   // Singular
