@@ -10,12 +10,12 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameWallet } from "features/wallet/Wallet";
+// import { GameWallet } from "features/wallet/Wallet";
 
 export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 export const INPUT_MAX_CHAR = 10;
 
-export const AddSFLOptions: React.FC = () => {
+export const AddSFL: React.FC = () => {
   const { gameService } = useContext(Context);
   const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
   const [isLoading, setIsLoading] = useState(true);
@@ -172,13 +172,15 @@ export const AddSFLOptions: React.FC = () => {
       </>
     );
   };
-  return <>{Content()}</>;
+  return Content();
 };
 
-export const AddSFL = () => {
+{
+  /*export const AddSFLWrapper = () => {
   return (
     <GameWallet action="purchase">
-      <AddSFLOptions />
+      <AddSFL />
     </GameWallet>
   );
-};
+}; */
+}

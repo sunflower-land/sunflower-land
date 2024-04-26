@@ -8,6 +8,7 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ContentComponentProps } from "../GameOptions";
+import { GameWallet } from "features/wallet/Wallet";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 
@@ -44,5 +45,15 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
         </Button>
       )}
     </div>
+  );
+};
+
+export const BlockchainSettingsModal: React.FC<ContentComponentProps> = ({
+  onSubMenuClick,
+}) => {
+  return (
+    <GameWallet action="connectWallet">
+      <BlockchainSettings onSubMenuClick={onSubMenuClick} />
+    </GameWallet>
   );
 };

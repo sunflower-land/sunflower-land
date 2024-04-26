@@ -19,7 +19,8 @@ import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
+import { BlockchainSettingsModal } from "./blockchain-settings/BlockchainSettings";
+// import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
@@ -30,9 +31,12 @@ import {
   isAndroid,
   isChrome,
 } from "mobile-device-detect";
-import { DequipBumpkinWrapper } from "./blockchain-settings/DequipBumpkin";
-import { TransferAccountWrap } from "./blockchain-settings/TransferAccount";
+import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
+import { TransferAccount } from "./blockchain-settings/TransferAccount";
+// import { DequipBumpkinWrapper } from "./blockchain-settings/DequipBumpkin";
+// import { TransferAccountWrap } from "./blockchain-settings/TransferAccount";
 import { AddSFL } from "../AddSFL";
+// import { AddSFLWrapper } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
@@ -278,7 +282,8 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   blockchain: {
     title: translate("gameOptions.blockchainSettings"),
     parent: "main",
-    content: BlockchainSettings,
+    content: BlockchainSettingsModal,
+    // content: BlockchainSettings,
   },
   general: {
     title: translate("gameOptions.generalSettings"),
@@ -292,6 +297,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
 
   // Blockchain Settings
+  deposit: {
+    title: translate("deposit"),
+    parent: "blockchain",
+    content: DepositWrapper,
+  },
   storeChain: {
     title: translate("transaction.storeProgress"),
     parent: "blockchain",
@@ -300,22 +310,20 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   dequip: {
     title: translate("dequipper.dequip"),
     parent: "blockchain",
-    content: DequipBumpkinWrapper,
+    content: DequipBumpkin,
+    // content: DequipBumpkinWrapper,
   },
   transfer: {
     title: translate("gameOptions.blockchainSettings.transferOwnership"),
     parent: "blockchain",
-    content: TransferAccountWrap,
+    content: TransferAccount,
+    // content: TransferAccountWrap,
   },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapMaticForSFL"),
     parent: "blockchain",
     content: AddSFL,
-  },
-  deposit: {
-    title: translate("deposit"),
-    parent: "blockchain",
-    content: DepositWrapper,
+    // content: AddSFLWrapper,
   },
 
   // General Settings

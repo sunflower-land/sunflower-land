@@ -13,7 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameWallet } from "features/wallet/Wallet";
+// import { GameWallet } from "features/wallet/Wallet";
 
 export const TransferAccount: React.FC = () => {
   const { t } = useAppTranslation();
@@ -128,10 +128,12 @@ export const TransferAccount: React.FC = () => {
   return Content();
 };
 
-export const TransferAccountWrap = () => {
+{
+  /*export const TransferAccountWrap = () => {
   return (
     <GameWallet action="transferAccount">
       <TransferAccount />
     </GameWallet>
   );
-};
+}; */
+}
