@@ -235,12 +235,14 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+
   // Blockchain Settings
   | "deposit"
   | "swapSFL"
   | "storeChain"
   | "dequip"
   | "transfer"
+
   // General Settings
   | "discord"
   | "changeLanguage"
