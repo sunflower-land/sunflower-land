@@ -4,6 +4,7 @@ export type GeneralTerms =
   | "accept"
   | "accepting.terms"
   | "advanced"
+  | "already.own.item"
   | "amount.matic"
   | "are.you.sure"
   | "deposit"

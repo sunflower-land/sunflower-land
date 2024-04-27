@@ -19,6 +19,9 @@ import giftIcon from "assets/icons/gift.png";
 import blockBucksIcon from "assets/icons/block_buck.png";
 import xpIcon from "assets/icons/xp.png";
 import vipIcon from "assets/icons/vip.webp";
+import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
+import Decimal from "decimal.js-light";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
@@ -26,13 +29,18 @@ const ORIGINAL_SEASONAL_BANNER_PRICE = 90;
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-export const VIPItems: React.FC = () => {
+type Props = {
+  onClose: () => void;
+};
+
+export const VIPItems: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const { t } = useTranslation();
   const [selected, setSelected] = useState<VIPItem>();
+  const { t } = useTranslation();
 
   const inventory = useSelector(gameService, _inventory);
 
+  const blockBuckBalance = inventory["Block Buck"] ?? new Decimal(0);
   const seasonBannerImage = getSeasonalBannerImage();
   const previousBanner = getPreviousSeasonalBanner();
   const hasPreviousBanner = !!inventory[previousBanner];
@@ -42,11 +50,76 @@ export const VIPItems: React.FC = () => {
     hasPreviousBanner
   ).toNumber();
   const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
+  const canAfford = blockBuckBalance.gte(actualSeasonBannerPrice);
+  const hasLifeTimeBanner = inventory["Lifetime Farmer Banner"] !== undefined;
+
+  const handlePurchase = () => {
+    gameService.send("banner.purchased", {
+      name: selected,
+    });
+    onClose();
+  };
+
+  const getSelectedImage = () => {
+    switch (selected) {
+      case "Lifetime Farmer Banner":
+        return lifeTimeFarmerBannerIcon;
+      case getSeasonalBanner():
+        return getSeasonalBannerImage();
+      default:
+        return "";
+    }
+  };
+
+  const getCanPurchaseItem = () => {
+    if (selected === "Lifetime Farmer Banner") {
+      return !hasLifeTimeBanner;
+    }
+
+    if (selected === seasonBanner) {
+      return !inventory[seasonBanner] && !hasLifeTimeBanner;
+    }
+
+    return canAfford;
+  };
+
+  const getErrorLabel = () => {
+    if (hasLifeTimeBanner && selected === "Lifetime Farmer Banner") {
+      return <Label type="danger">{t("already.own.item")}</Label>;
+    }
+
+    if (inventory[seasonBanner] && selected === seasonBanner) {
+      return <Label type="danger">{t("already.own.item")}</Label>;
+    }
+
+    if (hasLifeTimeBanner && selected === seasonBanner) {
+      return <Label type="danger">{t("already.own.item")}</Label>;
+    }
+
+    if (!canAfford) {
+      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
+    }
+  };
 
   return (
     <>
       {!selected && (
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 pt-2">
+          <div className="flex justify-between px-1">
+            <Label
+              icon={vipIcon}
+              type="default"
+              className="ml-1"
+            >{`Purchase VIP Items`}</Label>
+            <a
+              href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+              className="text-xxs underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("read.more")}
+            </a>
+          </div>
           <OuterPanel
             className="flex flex-col px-1 cursor-pointer relative"
             onClick={() => setSelected("Lifetime Farmer Banner")}
@@ -110,16 +183,39 @@ export const VIPItems: React.FC = () => {
                 icon={blockBucksIcon}
                 className="absolute right-1 bottom-1"
               >
-                {getBannerPrice(
-                  "Lifetime Farmer Banner",
-                  hasPreviousBanner
-                ).toNumber()}
+                {getBannerPrice(seasonBanner, hasPreviousBanner).toNumber()}
               </Label>
             </div>
           </OuterPanel>
         </div>
       )}
-      {selected && <div className="flex flex-col space-y-1">{`Hey there`}</div>}
+      {selected && (
+        <div className="flex flex-col space-y-2 relative">
+          <Label
+            type="default"
+            icon={getSelectedImage()}
+          >{`Purchase ${selected}`}</Label>
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="h-6 w-6 ml-2 cursor-pointer absolute top-6 -left-[6px]"
+            onClick={() => setSelected(undefined)}
+          />
+          <div className="flex flex-col px-1 pt-1 w-full space-y-2 items-center text-sm justify-between">
+            <img src={getSelectedImage()} className="w-12 sm:w-16" />
+            <div className="flex items-center space-x-2">
+              <span>{`${t("total")} ${getBannerPrice(
+                selected,
+                hasPreviousBanner
+              ).toNumber()}`}</span>
+              <img src={blockBucksIcon} className="w-6" />
+            </div>
+            {!getCanPurchaseItem() && getErrorLabel()}
+          </div>
+          <Button disabled={!getCanPurchaseItem()} onClick={handlePurchase}>
+            {t("confirm")}
+          </Button>
+        </div>
+      )}
     </>
   );
 };

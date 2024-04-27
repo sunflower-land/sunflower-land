@@ -189,6 +189,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   addSFL: "SFL Ekle",
   "add.liquidity": "Likidite Ekle",
   "alr.bought": "Zaten Satın Alındı!",
+  "already.own.item": ENGLISH_TERMS["already.own.item"],
   "alr.claim": "Zaten Talep Edildi!",
   "alr.completed": "Çoktan Tamamlandı",
   "alr.crafted": "Zaten Üretildi!",

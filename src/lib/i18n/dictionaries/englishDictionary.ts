@@ -182,6 +182,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   achievements: "Achievements",
   accept: "Accept:",
   "accepting.terms": "Accepting terms...",
+  "already.own.item": "You already own this item",
   "amount.matic": "Amount in MATIC",
   deposit: "Deposit",
   add: "Add",

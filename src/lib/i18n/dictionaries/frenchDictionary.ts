@@ -189,6 +189,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   addSFL: "Ajouter SFL",
   "add.liquidity": "Ajouter de la liquidité",
   "alr.bought": "Déjà acheté",
+  "already.own.item": ENGLISH_TERMS["already.own.item"],
   "alr.claim": "Déjà réclamé!",
   "alr.completed": "Déjà terminé",
   "alr.crafted": "Déjà fabriqué!",
