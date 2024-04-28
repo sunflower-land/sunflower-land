@@ -286,6 +286,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   for: "for",
   "for.info.wearable": "for more info about this wearable",
   forbidden: "Forbidden",
+  free: "Free",
   "free.trade": "Free Trades: {{freeTrades}}",
   fruit: "Fruit",
   fruits: "Fruits",
@@ -4121,6 +4122,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",
+  "season.free.with.lifetime": "Free with Lifetime Farmer",
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {

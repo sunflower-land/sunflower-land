@@ -109,6 +109,7 @@ export type GeneralTerms =
   | "for"
   | "for.info.wearable"
   | "forbidden"
+  | "free"
   | "free.trade"
   | "fruit"
   | "fruits"
@@ -2780,7 +2781,8 @@ export type SeasonTerms =
   | "season.mystery.gift"
   | "season.xp.boost"
   | "season.free.season.passes.description"
-  | "season.lifetime.farmer";
+  | "season.lifetime.farmer"
+  | "season.free.with.lifetime";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"

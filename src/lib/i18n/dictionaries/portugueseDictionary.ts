@@ -278,6 +278,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   for: "para",
   "for.info.wearable": "mais informações sobre este item vestível",
   forbidden: "Proibido",
+  free: "Grátis",
   "free.trade": "Comércio Livre: {{freeTrades}}",
   fruit: "Fruta",
   fruits: "Frutas",
@@ -4141,6 +4142,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
+  "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {
