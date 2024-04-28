@@ -181,9 +181,9 @@ const Faction: React.FC<FactionProps> = ({
   position,
 }) => {
   const npcs: Record<Exclude<FactionName, "nightshades">, NPCName> = {
-    bumpkins: "lady day",
+    bumpkins: "robert",
     goblins: "grommy",
-    sunflorians: "robert",
+    sunflorians: "lady day",
   };
 
   return (
