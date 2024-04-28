@@ -25,7 +25,8 @@ import Decimal from "decimal.js-light";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
-const ORIGINAL_SEASONAL_BANNER_PRICE = 90;
+export const ORIGINAL_SEASONAL_BANNER_PRICE = 90;
+export const LIFETIME_FARMER_BANNER_PRICE = 540;
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
@@ -50,14 +51,34 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
     hasPreviousBanner
   ).toNumber();
   const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
-  const canAfford = blockBuckBalance.gte(actualSeasonBannerPrice);
+  const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
+  const canAffordLifetimeBanner = blockBuckBalance.gte(
+    LIFETIME_FARMER_BANNER_PRICE
+  );
   const hasLifeTimeBanner = inventory["Lifetime Farmer Banner"] !== undefined;
+  const hasSeasonBanner = !!inventory[seasonBanner];
 
   const handlePurchase = () => {
-    gameService.send("banner.purchased", {
+    const state = gameService.send("banner.purchased", {
       name: selected,
     });
-    onClose();
+
+    const { inventory } = state.context.state;
+
+    // TODO: Update this if more vip items are added
+    if (!!inventory["Lifetime Farmer Banner"] && !!inventory[seasonBanner]) {
+      onClose();
+    } else {
+      setSelected(undefined);
+    }
+  };
+
+  const handleClick = (item: VIPItem) => {
+    if (item === "Lifetime Farmer Banner" && hasLifeTimeBanner) return;
+
+    if (item === seasonBanner && hasSeasonBanner) return;
+
+    setSelected(item);
   };
 
   const getSelectedImage = () => {
@@ -73,32 +94,73 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
 
   const getCanPurchaseItem = () => {
     if (selected === "Lifetime Farmer Banner") {
-      return !hasLifeTimeBanner;
+      return canAffordLifetimeBanner;
     }
 
     if (selected === seasonBanner) {
-      return !inventory[seasonBanner] && !hasLifeTimeBanner;
+      return canAffordSeasonBanner;
     }
 
-    return canAfford;
+    return false;
   };
 
   const getErrorLabel = () => {
-    if (hasLifeTimeBanner && selected === "Lifetime Farmer Banner") {
-      return <Label type="danger">{t("already.own.item")}</Label>;
-    }
-
-    if (inventory[seasonBanner] && selected === seasonBanner) {
-      return <Label type="danger">{t("already.own.item")}</Label>;
-    }
-
-    if (hasLifeTimeBanner && selected === seasonBanner) {
-      return <Label type="danger">{t("already.own.item")}</Label>;
-    }
-
-    if (!canAfford) {
+    if (selected === "Lifetime Farmer Banner" && !canAffordLifetimeBanner) {
       return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
     }
+
+    if (selected === seasonBanner && !canAffordSeasonBanner) {
+      return <Label type="danger">{t("offer.not.enough.BlockBucks")}</Label>;
+    }
+  };
+
+  const getSeasonalBannerPriceLabel = () => {
+    if (hasSeasonBanner) {
+      return (
+        <SquareIcon
+          className="absolute right-1 bottom-1"
+          icon={SUNNYSIDE.icons.confirm}
+          width={7}
+        />
+      );
+    }
+
+    if (!hasSeasonBanner && hasLifeTimeBanner) {
+      return (
+        <Label type="success" className="absolute right-1 bottom-1">
+          {t("free")}
+        </Label>
+      );
+    }
+
+    return (
+      <Label
+        type="warning"
+        icon={blockBucksIcon}
+        className="absolute right-1 bottom-1"
+      >
+        {getItemPrice(seasonBanner)}
+      </Label>
+    );
+  };
+
+  const getItemPrice = (item?: VIPItem) => {
+    if (item === "Lifetime Farmer Banner") {
+      return getBannerPrice(
+        "Lifetime Farmer Banner",
+        hasPreviousBanner
+      ).toNumber();
+    }
+
+    if (item === seasonBanner) {
+      return getBannerPrice(
+        seasonBanner,
+        hasPreviousBanner,
+        hasLifeTimeBanner
+      ).toNumber();
+    }
+
+    return 0;
   };
 
   return (
@@ -122,7 +184,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
           </div>
           <OuterPanel
             className="flex flex-col px-1 cursor-pointer relative"
-            onClick={() => setSelected("Lifetime Farmer Banner")}
+            onClick={() => handleClick("Lifetime Farmer Banner")}
           >
             <Label
               type="default"
@@ -140,21 +202,26 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
                 <SquareIcon icon={seasonBannerImage} width={7} />
                 <span>{t("season.free.season.passes")}</span>
               </div>
-              <Label
-                type="warning"
-                icon={blockBucksIcon}
-                className="absolute right-1 bottom-1"
-              >
-                {getBannerPrice(
-                  "Lifetime Farmer Banner",
-                  hasPreviousBanner
-                ).toNumber()}
-              </Label>
+              {!hasLifeTimeBanner ? (
+                <Label
+                  type="warning"
+                  icon={blockBucksIcon}
+                  className="absolute right-1 bottom-1"
+                >
+                  {getItemPrice("Lifetime Farmer Banner")}
+                </Label>
+              ) : (
+                <SquareIcon
+                  className="absolute right-1 bottom-1"
+                  icon={SUNNYSIDE.icons.confirm}
+                  width={7}
+                />
+              )}
             </div>
           </OuterPanel>
           <OuterPanel
             className="flex flex-col px-1 cursor-pointer relative"
-            onClick={() => setSelected(seasonBanner)}
+            onClick={() => handleClick(seasonBanner)}
           >
             <Label type="default" className="mb-2" icon={seasonBannerImage}>
               {getSeasonalBanner()}
@@ -172,19 +239,13 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
                 <SquareIcon icon={xpIcon} width={7} />
                 <span>{t("season.xp.boost")}</span>
               </div>
-              {hasDiscount && (
+              {hasDiscount && !hasSeasonBanner && (
                 <span
                   className="absolute right-2 bottom-8 text-xs discounted"
                   style={{}}
-                >{` ${ORIGINAL_SEASONAL_BANNER_PRICE} `}</span>
+                >{`${ORIGINAL_SEASONAL_BANNER_PRICE} `}</span>
               )}
-              <Label
-                type="warning"
-                icon={blockBucksIcon}
-                className="absolute right-1 bottom-1"
-              >
-                {getBannerPrice(seasonBanner, hasPreviousBanner).toNumber()}
-              </Label>
+              {getSeasonalBannerPriceLabel()}
             </div>
           </OuterPanel>
         </div>
@@ -202,13 +263,16 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
           />
           <div className="flex flex-col px-1 pt-1 w-full space-y-2 items-center text-sm justify-between">
             <img src={getSelectedImage()} className="w-12 sm:w-16" />
-            <div className="flex items-center space-x-2">
-              <span>{`${t("total")} ${getBannerPrice(
-                selected,
-                hasPreviousBanner
-              ).toNumber()}`}</span>
-              <img src={blockBucksIcon} className="w-6" />
-            </div>
+            {getItemPrice(selected as VIPItem) > 0 ? (
+              <div className="flex items-center space-x-2">
+                <span>{`${t("total")} ${getItemPrice(
+                  selected as VIPItem
+                )}`}</span>
+                <img src={blockBucksIcon} className="w-6" />
+              </div>
+            ) : (
+              <Label type="success">{t("season.free.with.lifetime")}</Label>
+            )}
             {!getCanPurchaseItem() && getErrorLabel()}
           </div>
           <Button disabled={!getCanPurchaseItem()} onClick={handlePurchase}>
