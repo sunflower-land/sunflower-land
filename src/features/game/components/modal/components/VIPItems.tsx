@@ -22,6 +22,7 @@ import vipIcon from "assets/icons/vip.webp";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
+import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
@@ -227,10 +228,13 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               {getSeasonalBanner()}
             </Label>
             <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
-              <div className="flex items-center space-x-2">
-                <SquareIcon icon={giftIcon} width={7} />
-                <span>{t("season.mystery.gift")}</span>
-              </div>
+              {/* Weeks 9-12 will not include the mystery airdrop item */}
+              {getSeasonWeek() < 9 && (
+                <div className="flex items-center space-x-2">
+                  <SquareIcon icon={giftIcon} width={7} />
+                  <span>{t("season.mystery.gift")}</span>
+                </div>
+              )}
               <div className="flex items-center space-x-2">
                 <SquareIcon icon={vipIcon} width={7} />
                 <span>{t("season.vip.access")}</span>
