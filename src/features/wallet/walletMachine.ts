@@ -39,7 +39,6 @@ export type WalletAction =
   | "sync"
   | "dequip"
   | "wishingWell"
-  | "transferAccount"
   | "connectWallet";
 
 // Certain actions do not require an NFT to perform
