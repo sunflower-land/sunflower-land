@@ -949,6 +949,12 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.soybliss.boost": ENGLISH_TERMS["description.soybliss.boost"],
   "description.turbo.sprout.boost":
     ENGLISH_TERMS["description.turbo.sprout.boost"],
+  "description.non.la.hat.boost": ENGLISH_TERMS["description.non.la.hat.boost"],
+  "description.oil.can.boost": ENGLISH_TERMS["description.oil.can.boost"],
+  "description.olive.shield.boost":
+    ENGLISH_TERMS["description.olive.shield.boost"],
+  "description.pan.boost": ENGLISH_TERMS["description.pan.boost"],
+  "description.paw.shield.boost": ENGLISH_TERMS["description.paw.shield.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

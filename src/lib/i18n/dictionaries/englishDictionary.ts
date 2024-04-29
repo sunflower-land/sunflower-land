@@ -933,6 +933,11 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.turbo.sprout.boost": "50% Green House Crop speed",
   "description.soybliss.boost": "+1 Soybean",
   "description.grape.granny.boost": "+1 Grape",
+  "description.non.la.hat.boost": "+1 Rice",
+  "description.oil.can.boost": "+2 Oil",
+  "description.olive.shield.boost": "+1 Olive",
+  "description.pan.boost": "+25% XP",
+  "description.paw.shield.boost": "+25% Faction Ped feeding XP",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

@@ -634,7 +634,12 @@ export type BoostEffectDescriptions =
   | "description.flower.fox.boost"
   | "description.turbo.sprout.boost"
   | "description.soybliss.boost"
-  | "description.grape.granny.boost";
+  | "description.grape.granny.boost"
+  | "description.non.la.hat.boost"
+  | "description.oil.can.boost"
+  | "description.paw.shield.boost"
+  | "description.olive.shield.boost"
+  | "description.pan.boost";
 
 export type BountyDescription =
   | "description.clam.shell"

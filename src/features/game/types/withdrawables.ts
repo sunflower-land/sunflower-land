@@ -1259,4 +1259,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Striped Red Shirt": () => canWithdrawTimebasedItem(new Date("2023-04-04")),
   "Striped Yellow Shirt": () =>
     canWithdrawTimebasedItem(new Date("2023-04-04")),
+
+  // Clash of Factions Auction
+  "Non La Hat": () => canWithdrawTimebasedItem(new Date("2024-06-27")), // Last Auction 2024/06/26
+  "Oil Can": () => canWithdrawTimebasedItem(new Date("2024-07-07")), // Last Auction 2024/07/06
+  "Olive Shield": () => canWithdrawTimebasedItem(new Date("2024-07-06")), // Last Auction 2024/07/05
+  "Paw Shield": () => canWithdrawTimebasedItem(new Date("2024-07-24")), // Last Auction 2024/07/23
+  Pan: () => canWithdrawTimebasedItem(new Date("2024-07-21")), // Last Auction 2024/07/20
+  // Clash of Factions Megastore
+  "Royal Robe": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
+  Crown: () => canWithdrawTimebasedItem(new Date("2024-04-04")),
 };
