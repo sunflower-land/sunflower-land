@@ -1231,7 +1231,8 @@ export type DecorationDescriptions =
   | "description.soybliss"
   | "description.grape.granny"
   | "description.royal.throne"
-  | "description.lily.egg";
+  | "description.lily.egg"
+  | "description.goblet";
 
 export type Delivery =
   | "delivery.resource"

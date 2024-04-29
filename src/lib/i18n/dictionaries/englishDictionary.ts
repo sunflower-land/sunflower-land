@@ -1702,12 +1702,13 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
 
   // Clash of Factions
   "description.turbo.sprout":
-    "An engine that boosts the Green House's growth speed by 50%.",
+    "An engine that reduces the Green House's growth time by 50%.",
   "description.soybliss": "A unique soy creature that gives +1 Soybean yield.",
   "description.grape.granny":
     "Wise matriarch nurturing grapes to flourish with +1 yield.",
   "description.royal.throne": "A throne fit for the highest ranking farmer.",
   "description.lily.egg": "Tiny delight, grand beauty, endless wonder.",
+  "description.goblet": "A goblet that holds the finest of wines.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

@@ -661,6 +661,7 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Grape Granny": () => canWithdrawTimebasedItem(new Date("2024-06-30")), // Last Auction 2024/06/29
   "Royal Throne": () => canWithdrawTimebasedItem(new Date("2024-07-09")), // Last Auction 2024/07/08,
   "Lily Egg": () => canWithdrawTimebasedItem(new Date("2024-06-21")), // Last Auction 2024/06/20
+  Goblet: () => canWithdrawTimebasedItem(new Date("2024-07-15")), // Last Auction 2024/07/14
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =

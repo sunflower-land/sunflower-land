@@ -94,6 +94,7 @@ import soybliss from "assets/sfts/soybliss.webp";
 import grapeGranny from "assets/sfts/grape_granny.webp";
 import royalThrone from "assets/sfts/royal_throne.webp";
 import lilyEgg from "assets/sfts/lily_egg.webp";
+import goblet from "assets/sfts/goblet.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3336,5 +3337,9 @@ export const ITEM_DETAILS: Items = {
   "Lily Egg": {
     image: lilyEgg,
     description: translate("description.lily.egg"),
+  },
+  Goblet: {
+    image: goblet,
+    description: translate("description.goblet"),
   },
 };

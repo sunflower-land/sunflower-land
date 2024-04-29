@@ -7228,8 +7228,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Green House" },
       {
         display_type: "boost_percentage",
-        trait_type: "Green House Growth Speed",
-        value: 50,
+        trait_type: "Green House Growth Time",
+        value: -50,
       },
     ],
   },
@@ -7252,7 +7252,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
 
   "Grape Granny": {
-    name: "Soybliss",
+    name: "Grape Granny",
     description: "Wise matriarch nurturing grapes to flourish with +1 yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7286,6 +7286,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/499.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+
+  Goblet: {
+    name: "Goblet",
+    description: "A goblet that holds the finest of wines.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/482.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },

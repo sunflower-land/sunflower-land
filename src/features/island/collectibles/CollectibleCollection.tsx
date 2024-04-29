@@ -254,6 +254,7 @@ import { Soybliss } from "./components/Soybliss";
 import { GrapeGranny } from "./components/GrapeGranny";
 import { RoyalThrone } from "./components/RoyalThrone";
 import { LilyEgg } from "./components/LilyEgg";
+import { Goblet } from "./components/Goblet";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -556,6 +557,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Grape Granny": GrapeGranny,
   "Royal Throne": RoyalThrone,
   "Lily Egg": LilyEgg,
+  Goblet: Goblet,
 };
 // Need readonly versions for some troublesome components while in design mode
 
