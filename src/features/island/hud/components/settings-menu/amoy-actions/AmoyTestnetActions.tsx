@@ -3,7 +3,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { DEV_TimeMachine } from "./DEV_TimeMachine";
 import { createPortal } from "react-dom";
-import { DEV_HoardingCheck } from "components/dev/DEV_HoardingCheck";
+import { DEV_HoardingCheck } from "./DEV_HoardingCheck";
 
 export const AmoyTestnetActions: React.FC = () => {
   const { t } = useAppTranslation();
