@@ -25,7 +25,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const POINT_ICONS: Record<FactionName, string> = {
+export const FACTION_POINT_ICONS: Record<FactionName, string> = {
   sunflorians: sunflorianPointIcon,
   goblins: goblinsPointIcon,
   nightshades: nightshadesPointIcon,
@@ -176,7 +176,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
           <div className="p-2 space-y-2">
             <Label
               type="default"
-              icon={POINT_ICONS[faction.name]}
+              icon={FACTION_POINT_ICONS[faction.name]}
               className="capitalize"
             >
               {t("faction.donation.label", { faction: faction.name })}
@@ -219,7 +219,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
               </Label>
               <div className="flex items-center">
                 <img
-                  src={POINT_ICONS[faction.name]}
+                  src={FACTION_POINT_ICONS[faction.name]}
                   className="w-4 h-auto mr-1"
                 />
                 <span className="text-xxs">{`${SFL_POINTS_PER_DONATION}`}</span>
@@ -297,7 +297,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
                   </Label>
                   <div className="flex items-center">
                     <img
-                      src={POINT_ICONS[faction.name]}
+                      src={FACTION_POINT_ICONS[faction.name]}
                       className="w-4 h-auto mr-1"
                     />
                     <span className="text-xxs">{`${RESOURCE_POINTS_PER_DONATION}`}</span>
@@ -333,7 +333,10 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
           )}
           <div className="my-3 w-full flex px-2">
             <span className="text-xs sm:text-sm">{`You will receive ${getTotalPointsDue()}`}</span>
-            <img src={POINT_ICONS[faction.name]} className="w-4 ml-1 mt-0.5" />
+            <img
+              src={FACTION_POINT_ICONS[faction.name]}
+              className="w-4 ml-1 mt-0.5"
+            />
           </div>
           <Button
             disabled={sflTotal === 0 && resourceTotal === 0}
@@ -348,7 +351,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
           <div className="p-2 space-y-3">
             <Label
               type="default"
-              icon={POINT_ICONS[faction.name]}
+              icon={FACTION_POINT_ICONS[faction.name]}
               className="capitalize"
             >
               {t("faction.donation.label", { faction: faction.name })}
