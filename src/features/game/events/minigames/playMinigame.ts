@@ -31,8 +31,10 @@ export function playMinigame({
 
   const minigames = (game.minigames?.games ??
     {}) as Required<GameState>["minigames"];
+
   const minigame = minigames.games[action.id] ?? {
     history: {},
+    highscore: 0,
   };
 
   const todayKey = new Date(createdAt).toISOString().slice(0, 10);
@@ -40,7 +42,6 @@ export function playMinigame({
   const daily = minigame.history[todayKey] ?? {
     attempts: 0,
     highscore: 0,
-    sflBurned: 0,
   };
 
   minigames.games[action.id] = {
@@ -53,6 +54,7 @@ export function playMinigame({
         highscore: Math.max(daily.highscore, action.score),
       },
     },
+    highscore: Math.max(daily.highscore, action.score),
   };
 
   return game;

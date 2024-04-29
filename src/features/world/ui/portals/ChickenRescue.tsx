@@ -14,9 +14,12 @@ import { OuterPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
 import chickenRescueBanner from "assets/portals/chicken_rescue_preview.png";
+import coins from "assets/icons/coins.webp";
+import flagIcon from "assets/icons/faction_point.webp";
 
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   onClose: () => void;
@@ -34,29 +37,40 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   };
 
   if (isPlaying) {
-    return <Portal portalName="chicken-rescue" onClose={onClose} />;
+    return (
+      <div>
+        <Portal portalName="chicken-rescue" onClose={onClose} />
+        <span className="loading  z-10 left-0 top-0">{t("loading")}</span>
+      </div>
+    );
   }
 
   return (
     <>
       <div className="mb-1">
         <Label type="default" className="mb-1">
-          Chicken Rescue
+          Minigame - Chicken Rescue
         </Label>
         <div className="h-6">
           <InlineDialogue message="Can you help me rescue the chickens?" />
         </div>
-        <img
-          src={chickenRescueBanner}
-          className="w-full rounded-md my-1"
-          alt=""
-        />
 
         <OuterPanel>
-          <span className="text-xs mb-1">Mission: Rescue 50 chickens</span>
-          <div className="flex justify-between">
-            <Label type="info">3 Hrs Left</Label>
-            <Label type="warning">2.2</Label>
+          <div className="px-1">
+            <span className="text-xs mb-2">Mission: Rescue 50 chickens</span>
+            <div className="flex justify-between mt-2 flex-wrap">
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                3 Hrs Left
+              </Label>
+              <div className="flex items-center space-x-2">
+                <Label icon={flagIcon} type="warning">
+                  10 Points
+                </Label>
+                <Label icon={coins} type="warning">
+                  220
+                </Label>
+              </div>
+            </div>
           </div>
         </OuterPanel>
       </div>

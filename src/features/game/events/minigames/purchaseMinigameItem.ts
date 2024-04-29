@@ -31,26 +31,25 @@ export function purchaseMinigameItem({
   const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
   const minigame = minigames.games[action.id] ?? {
     history: {},
-  };
-
-  const todayKey = new Date(createdAt).toISOString().slice(0, 10);
-
-  const daily = minigame.history[todayKey] ?? {
-    attempts: 0,
+    purchases: [],
     highscore: 0,
-    sflBurned: 0,
   };
+
+  const purchases = minigame.purchases ?? [];
 
   minigames.games[action.id] = {
     ...minigame,
-    history: {
-      ...minigame.history,
-      [todayKey]: {
-        ...daily,
-        sflBurned: daily.sflBurned + action.sfl,
+    purchases: [
+      ...purchases,
+      {
+        purchasedAt: createdAt,
+        sfl: action.sfl,
       },
-    },
+    ],
   };
+
+  // Burn the SFL
+  game.balance = game.balance.sub(action.sfl);
 
   return game;
 }

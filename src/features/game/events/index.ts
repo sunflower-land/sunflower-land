@@ -295,15 +295,16 @@ import {
   oilGreenhouse,
   OilGreenhouseAction,
 } from "./landExpansion/oilGreenHouse";
-import {
-  claimMinigamePrize,
-  ClaimMinigamePrizeAction,
-} from "./minigames/claimMinigamePrize";
+
 import {
   PurchaseMinigameAction,
   purchaseMinigameItem,
 } from "./minigames/purchaseMinigameItem";
 import { PlayMinigameAction, playMinigame } from "./minigames/playMinigame";
+import {
+  claimMinigamePrize,
+  ClaimMinigamePrizeAction,
+} from "./minigames/claimMinigamePrize";
 
 export type PlayingEvent =
   | OilGreenhouseAction

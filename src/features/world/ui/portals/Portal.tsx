@@ -1,5 +1,5 @@
 import { createPortal } from "react-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
@@ -10,6 +10,7 @@ import { MinigameName } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
+import { Label } from "components/ui/Label";
 
 interface Props {
   portalName: MinigameName;
@@ -17,6 +18,8 @@ interface Props {
 }
 
 export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -79,11 +82,23 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   }, []);
 
   const confirmPurchase = () => {
-    console.log("Confirming purchase of", purchase);
+    console.log("Confirm purchase");
     gameService.send("minigame.itemPurchased", {
       id: portalName,
       sfl: purchase,
     });
+
+    console.log("iframe purchase", { iframeRef });
+    if (iframeRef.current) {
+      console.log("SEND IT OFF!", iframeRef.current.contentWindow);
+      iframeRef.current.contentWindow.postMessage(
+        {
+          event: "purchased",
+          sfl: url,
+        },
+        "*"
+      );
+    }
   };
 
   if (loading) {
@@ -100,7 +115,8 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         >
           <iframe
             src={url}
-            className="w-full h-full rounded-lg shadow-md absolute"
+            className="w-full h-full rounded-lg shadow-md absolute z-10"
+            ref={iframeRef} // Set ref to the iframe
           />
         </div>,
         document.body
@@ -110,12 +126,17 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           <div
             data-html2canvas-ignore="true"
             aria-label="Hud"
-            className="fixed inset-safe-area z-[60]"
+            className="fixed inset-safe-area z-[60] flex items-center justify-center"
           >
             <CloseButtonPanel onClose={() => setPurchase(undefined)}>
-              <p className="text-sm">
-                Are you sure you want to spend {purchase} SFL?
-              </p>
+              <div className="p-1">
+                <Label type="default" className="mb-2">
+                  Purchase
+                </Label>
+                <p className="text-sm">
+                  Are you sure you want to spend {purchase} SFL?
+                </p>
+              </div>
               <Button onClick={confirmPurchase}>Confirm</Button>
             </CloseButtonPanel>
           </div>,

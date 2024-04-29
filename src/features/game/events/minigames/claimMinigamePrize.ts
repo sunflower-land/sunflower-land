@@ -40,7 +40,8 @@ export function claimMinigamePrize({
     throw new Error(`No prize found for ${action.id}`);
   }
 
-  const history = games[action.id]?.history[todayKey];
+  const minigame = games[action.id];
+  const history = minigame?.history[todayKey];
 
   // has not played
   if (!history) {
@@ -53,13 +54,13 @@ export function claimMinigamePrize({
   }
 
   // Has already claimed
-  const claimedAt = games[action.id]?.history?.prizeClaimedAt ?? 0;
+  const claimedAt = games[action.id]?.prizeClaimedAt ?? 0;
   if (!!claimedAt) {
     throw new Error(`Already claimed ${action.id} prize`);
   }
 
   // Claim prize
-  history.prizeClaimedAt = createdAt;
+  minigame.prizeClaimedAt = createdAt;
 
   if (prize.sfl) {
     game.balance = game.balance.add(prize.sfl);

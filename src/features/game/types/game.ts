@@ -793,13 +793,14 @@ export type MinigamePrize = {
 };
 
 export type Minigame = {
+  highscore: number;
+  prizeClaimedAt?: number;
+  purchases?: { sfl: number; purchasedAt: number }[];
   history: Record<
     string,
     {
       highscore: number;
       attempts: number;
-      sflBurned: number;
-      prizeClaimedAt: number;
     }
   >;
 };
