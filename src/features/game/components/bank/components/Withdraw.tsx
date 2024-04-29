@@ -3,12 +3,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
-import * as AuthProvider from "features/auth/lib/Provider";
-
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
-
 import { WithdrawWearables } from "./WithdrawWearables";
 import { WithdrawBumpkin } from "./WithdrawBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -18,22 +15,14 @@ import { WithdrawBuds } from "./WithdrawBuds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { VIPAccess } from "../../VipAccess";
-import { ModalContext } from "../../modal/ModalProvider";
 
 interface Props {
   onClose: () => void;
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
-  const { openModal } = useContext(ModalContext);
-
-  const isVIP = hasVipAccess(gameState.context.state.inventory);
 
   const [page, setPage] = useState<
     "tokens" | "items" | "wearables" | "bumpkin" | "buds" | "resources"
@@ -129,7 +118,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const proovePersonhood = async () => {
+  const provePersonhood = async () => {
     gameService.send("PROVE_PERSONHOOD");
     onClose();
   };
@@ -138,7 +127,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <p className="text-sm p-1 m-1">{t("withdraw.proof")}</p>
-        <Button className="mr-1" onClick={proovePersonhood}>
+        <Button className="mr-1" onClick={provePersonhood}>
           {t("withdraw.verification")}
         </Button>
       </>
@@ -162,22 +151,15 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="p-2 flex flex-col justify-center space-y-1">
-        <VIPAccess
-          isVIP={isVIP}
-          onUpgrade={() => {
-            onClose();
-            openModal("BUY_BANNER");
-          }}
-        />
         <span className="text-shadow text-sm mb-1">{t("withdraw.sync")}</span>
         <div className="flex space-x-1">
-          <Button onClick={() => setPage("tokens")} disabled={!isVIP}>
+          <Button onClick={() => setPage("tokens")}>
             <div className="flex">
               <img src={token} className="h-4 mr-1" />
               {"SFL"}
             </div>
           </Button>
-          <Button onClick={() => setPage("resources")} disabled={!isVIP}>
+          <Button onClick={() => setPage("resources")}>
             <div className="flex">
               <img src={SUNNYSIDE.resource.wood} className="h-4 mr-1" />
               {t("resources")}
@@ -185,13 +167,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           </Button>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={() => setPage("items")} disabled={!isVIP}>
+          <Button onClick={() => setPage("items")}>
             <div className="flex">
               <img src={chest} className="h-4 mr-1" />
               {t("collectibles")}
             </div>
           </Button>
-          <Button onClick={() => setPage("wearables")} disabled={!isVIP}>
+          <Button onClick={() => setPage("wearables")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.wardrobe} className="h-4 mr-1" />
               {t("wearables")}
@@ -199,13 +181,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
           </Button>
         </div>
         <div className="flex space-x-1">
-          <Button onClick={() => setPage("bumpkin")} disabled={!isVIP}>
+          <Button onClick={() => setPage("bumpkin")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.player} className="h-4 mr-1" />
               {t("bumpkin")}
             </div>
           </Button>
-          <Button onClick={() => setPage("buds")} disabled={!isVIP}>
+          <Button onClick={() => setPage("buds")}>
             <div className="flex">
               <img src={SUNNYSIDE.icons.plant} className="h-4 mr-1" />
               {t("buds")}
