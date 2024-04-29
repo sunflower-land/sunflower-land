@@ -22,57 +22,6 @@ export const INITIAL_RESOURCES: Pick<
   | "beehives"
   | "oil"
 > = {
-  chores: {
-    choresCompleted: 628,
-    choresSkipped: 9,
-    chores: {
-      "1": {
-        createdAt: 1714109095737,
-        bumpkinId: 1,
-        startCount: 14,
-        tickets: 1,
-        activity: "Sunflower Harvested",
-        description: "Harvest 80 Sunflowers",
-        requirement: 80,
-      },
-      "2": {
-        createdAt: 1714109095737,
-        bumpkinId: 1,
-        startCount: 0,
-        tickets: 5,
-        activity: "Reindeer Carrot Fed",
-        description: "Eat 5 Reindeer Carrot",
-        requirement: 5,
-      },
-      "3": {
-        createdAt: 1714109095737,
-        bumpkinId: 1,
-        startCount: 36,
-        tickets: 2,
-        activity: "Tree Chopped",
-        description: "Chop 20 Trees",
-        requirement: 20,
-      },
-      "4": {
-        createdAt: 1714109095737,
-        bumpkinId: 1,
-        startCount: 0,
-        tickets: 1,
-        activity: "Stone Pickaxe Crafted",
-        description: "Craft 3 Stone Pickaxes",
-        requirement: 3,
-      },
-      "5": {
-        createdAt: 1714109095737,
-        bumpkinId: 1,
-        startCount: 0,
-        tickets: 6,
-        activity: "Gold Mined",
-        description: "Mine 10 Gold",
-        requirement: 10,
-      },
-    },
-  },
   crops: {
     1: {
       createdAt: Date.now(),
