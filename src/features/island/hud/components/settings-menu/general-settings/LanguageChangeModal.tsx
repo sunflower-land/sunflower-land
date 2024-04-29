@@ -27,100 +27,96 @@ export const LanguageSwitcher: React.FC = () => {
     setLanguage(languageCode);
   };
 
-  const Content = () => {
-    return (
-      <>
-        <div className="p-1 space-y-2">
-          <Button
-            onClick={() => handleChangeLanguage("en")}
-            disabled={language === "en"}
+  return (
+    <>
+      <div className="p-1 space-y-2">
+        <Button
+          onClick={() => handleChangeLanguage("en")}
+          disabled={language === "en"}
+        >
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={british_flag}
+            alt="British Flag"
+          />
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={usaFlag}
+            alt="American Flag"
+          />
+          {"English"}
+        </Button>
+        <Button
+          onClick={() => handleChangeLanguage("fr")}
+          disabled={language === "fr"}
+        >
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={franceFlag}
+            alt="French Flag"
+          />
+          {"Français"}
+        </Button>
+        <Button
+          onClick={() => handleChangeLanguage("pt")}
+          disabled={language === "pt"}
+        >
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={brazilFlag}
+            alt="Brazillian Flag"
+          />
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={portugalFlag}
+            alt="Portuguese Flag"
+          />
+          {"Português"}
+        </Button>
+        <Button
+          onClick={() => handleChangeLanguage("tk")}
+          disabled={language === "tk"}
+        >
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={turkeyFlag}
+            alt="Turkish Flag"
+          />
+          {"Türkçe"}
+        </Button>
+        <span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-white text-xs cursor-pointer"
+            onClick={() => setShowContributeLanguage(true)}
+          >{`Want to contribute your Language?`}</a>
+          <Modal
+            show={showContributeLanguage}
+            onHide={() => setShowContributeLanguage(false)}
           >
-            <img
-              style={{ display: "inline-block", marginRight: "5px" }}
-              src={british_flag}
-              alt="British Flag"
-            />
-            <img
-              style={{ display: "inline-block", marginRight: "5px" }}
-              src={usaFlag}
-              alt="American Flag"
-            />
-            {"English"}
-          </Button>
-          <Button
-            onClick={() => handleChangeLanguage("fr")}
-            disabled={language === "fr"}
-          >
-            <img
-              style={{ display: "inline-block", marginRight: "5px" }}
-              src={franceFlag}
-              alt="French Flag"
-            />
-            {"Français"}
-          </Button>
-          <Button
-            onClick={() => handleChangeLanguage("pt")}
-            disabled={language === "pt"}
-          >
-            <img
-              style={{ display: "inline-block", marginRight: "5px" }}
-              src={brazilFlag}
-              alt="Brazillian Flag"
-            />
-            <img
-              style={{ display: "inline-block", marginRight: "5px" }}
-              src={portugalFlag}
-              alt="Portuguese Flag"
-            />
-            {"Português"}
-          </Button>
-          <Button
-            onClick={() => handleChangeLanguage("tk")}
-            disabled={language === "tk"}
-          >
-            <img
-              style={{ display: "inline-block", marginRight: "5px" }}
-              src={turkeyFlag}
-              alt="Turkish Flag"
-            />
-            {"Türkçe"}
-          </Button>
-          <span>
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-white text-xs cursor-pointer"
-              onClick={() => setShowContributeLanguage(true)}
-            >{`Want to contribute your Language?`}</a>
-            <Modal
-              show={showContributeLanguage}
-              onHide={() => setShowContributeLanguage(false)}
-            >
-              <CloseButtonPanel className="sm:w-4/5 m-auto">
-                <div className="flex flex-col p-2">
-                  <span className="text-sm text-center">
-                    <p>{t("statements.translation.contribution")}</p>
-                    <p>
-                      <a
-                        className="underline hover:text-white"
-                        href="https://discord.gg/sunflowerland"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {t("statements.translation.joinDiscord")}
-                      </a>
-                    </p>
-                  </span>
-                </div>
-              </CloseButtonPanel>
-            </Modal>
-          </span>
-        </div>
-      </>
-    );
-  };
-
-  return Content();
+            <CloseButtonPanel className="sm:w-4/5 m-auto">
+              <div className="flex flex-col p-2">
+                <span className="text-sm text-center">
+                  <p>{t("statements.translation.contribution")}</p>
+                  <p>
+                    <a
+                      className="underline hover:text-white"
+                      href="https://discord.gg/sunflowerland"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {t("statements.translation.joinDiscord")}
+                    </a>
+                  </p>
+                </span>
+              </div>
+            </CloseButtonPanel>
+          </Modal>
+        </span>
+      </div>
+    </>
+  );
 };
 
 interface LanguageChangeModalProps {

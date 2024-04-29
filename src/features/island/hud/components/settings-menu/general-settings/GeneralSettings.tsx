@@ -19,36 +19,29 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
     toggleAnimations();
   };
 
-  const Content = () => {
-    return (
-      <>
-        <Button onClick={() => onSubMenuClick("discord")} className="mb-2">
-          <span>
-            {`Discord`}
-            {/* authState.context.user.token?.discordId
+  return (
+    <>
+      <Button onClick={() => onSubMenuClick("discord")} className="mb-2">
+        <span>
+          {`Discord`}
+          {/* authState.context.user.token?.discordId
               ? t("gameOptions.generalSettings.assignRole")
               : t("gameOptions.generalSettings.connectDiscord") */}
-          </span>
-        </Button>
-        <Button
-          onClick={() => onSubMenuClick("changeLanguage")}
-          className="mb-2"
-        >
-          <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
-        </Button>
-        <Button className="mb-2" onClick={onToggleAnimations}>
-          <span>
-            {showAnimations
-              ? t("gameOptions.generalSettings.disableAnimations")
-              : t("gameOptions.generalSettings.enableAnimations")}
-          </span>
-        </Button>
-        <Button onClick={() => onSubMenuClick("share")} className="mb-2">
-          <span>{t("gameOptions.generalSettings.share")}</span>
-        </Button>
-      </>
-    );
-  };
-
-  return Content();
+        </span>
+      </Button>
+      <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-2">
+        <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
+      </Button>
+      <Button className="mb-2" onClick={onToggleAnimations}>
+        <span>
+          {showAnimations
+            ? t("gameOptions.generalSettings.disableAnimations")
+            : t("gameOptions.generalSettings.enableAnimations")}
+        </span>
+      </Button>
+      <Button onClick={() => onSubMenuClick("share")} className="mb-2">
+        <span>{t("gameOptions.generalSettings.share")}</span>
+      </Button>
+    </>
+  );
 };

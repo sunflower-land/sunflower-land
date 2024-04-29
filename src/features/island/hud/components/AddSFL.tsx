@@ -92,87 +92,84 @@ export const AddSFL: React.FC = () => {
     toBN(maticBalance.toString())
   );
 
-  const Content = () => {
-    if (isLoading) {
-      return <span className="loading">{t("loading")}</span>;
-    }
+  if (isLoading) {
+    return <span className="loading">{t("loading")}</span>;
+  }
 
-    return (
-      <>
-        <div className="p-2 pt-1 mb-2">
-          <p className="mb-2 text-xs sm:text-sm">{t("addSFL.swapDetails")}</p>
-          <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>
-          <div className="flex flex-col mt-3">
-            <h1 className="mb-2">{t("addSFL.swapTitle")}</h1>
-            <div className="flex items-start justify-between mb-2">
-              <div className="relative w-full mr-4">
-                <input
-                  type="number"
-                  name="resourceAmount"
-                  value={maticAmount}
-                  disabled={false}
-                  onInput={handleMaticAmountChange}
-                  className={classNames(
-                    "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
-                    {
-                      "text-error": amountGreaterThanBalance,
-                    }
-                  )}
-                />
-                <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
-                  {t("balance")}
-                  {formattedMaticBalance}
-                </span>
-              </div>
-              <div className="w-[10%] flex self-center justify-center">
-                <img src={matic} alt="selected item" className="w-6" />
-              </div>
+  return (
+    <>
+      <div className="p-2 pt-1 mb-2">
+        <p className="mb-2 text-xs sm:text-sm">{t("addSFL.swapDetails")}</p>
+        <p className="mb-2 text-xs sm:text-sm">{t("addSFL.referralFee")}</p>
+        <div className="flex flex-col mt-3">
+          <h1 className="mb-2">{t("addSFL.swapTitle")}</h1>
+          <div className="flex items-start justify-between mb-2">
+            <div className="relative w-full mr-4">
+              <input
+                type="number"
+                name="resourceAmount"
+                value={maticAmount}
+                disabled={false}
+                onInput={handleMaticAmountChange}
+                className={classNames(
+                  "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
+                  {
+                    "text-error": amountGreaterThanBalance,
+                  }
+                )}
+              />
+              <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
+                {t("balance")}
+                {formattedMaticBalance}
+              </span>
             </div>
-            <div className="relative">
-              {maticInputError && (
-                <p className="absolute -top-1 text-error text-[11px] font-error">
-                  {t("error.wentWrong")}
-                </p>
-              )}
-              <div className="text-left w-full mt-3 mb-4">{t("for")}</div>
-            </div>
-            <div className="flex items-center justify-between mb-2">
-              <div className="relative w-full mr-4">
-                <input
-                  type="number"
-                  name="sflAmount"
-                  value={SFLAmount}
-                  readOnly
-                  className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2"
-                />
-              </div>
-              <div className="w-[10%] flex self-center justify-center">
-                <img className="w-6" src={token} alt="sfl token" />
-              </div>
-            </div>
-            <div className="relative h-3">
-              {!!amountOutMin && (
-                <p className="text-xxs">
-                  {t("addSFL.minimumReceived")}
-                  {setPrecision(new Decimal(amountOutMin)).toNumber()}
-                </p>
-              )}
+            <div className="w-[10%] flex self-center justify-center">
+              <img src={matic} alt="selected item" className="w-6" />
             </div>
           </div>
+          <div className="relative">
+            {maticInputError && (
+              <p className="absolute -top-1 text-error text-[11px] font-error">
+                {t("error.wentWrong")}
+              </p>
+            )}
+            <div className="text-left w-full mt-3 mb-4">{t("for")}</div>
+          </div>
+          <div className="flex items-center justify-between mb-2">
+            <div className="relative w-full mr-4">
+              <input
+                type="number"
+                name="sflAmount"
+                value={SFLAmount}
+                readOnly
+                className="text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2"
+              />
+            </div>
+            <div className="w-[10%] flex self-center justify-center">
+              <img className="w-6" src={token} alt="sfl token" />
+            </div>
+          </div>
+          <div className="relative h-3">
+            {!!amountOutMin && (
+              <p className="text-xxs">
+                {t("addSFL.minimumReceived")}
+                {setPrecision(new Decimal(amountOutMin)).toNumber()}
+              </p>
+            )}
+          </div>
         </div>
-        <div className="flex space-x-2 w-full">
-          <Button
-            onClick={handleAddSFL}
-            disabled={amountGreaterThanBalance || !!maticInputError}
-            className="whitespace-nowrap"
-          >
-            {t("addSFL")}
-          </Button>
-        </div>
-      </>
-    );
-  };
-  return Content();
+      </div>
+      <div className="flex space-x-2 w-full">
+        <Button
+          onClick={handleAddSFL}
+          disabled={amountGreaterThanBalance || !!maticInputError}
+          className="whitespace-nowrap"
+        >
+          {t("addSFL")}
+        </Button>
+      </div>
+    </>
+  );
 };
 
 {

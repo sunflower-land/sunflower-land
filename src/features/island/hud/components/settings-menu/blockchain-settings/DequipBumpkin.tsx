@@ -16,7 +16,6 @@ import { dequipBumpkin } from "lib/blockchain/Dequipper";
 import { loadWearablesBalanceBatch } from "lib/blockchain/BumpkinItems";
 import { shortAddress } from "lib/utils/shortAddress";
 import { Loading } from "features/auth/components";
-// import { GameWallet } from "features/wallet/Wallet";
 
 export const DequipBumpkin: React.FC = () => {
   const { t } = useAppTranslation();
@@ -170,13 +169,3 @@ export const DequipBumpkin: React.FC = () => {
     </>
   );
 };
-
-{
-  /*export const DequipBumpkinWrapper = () => {
-  return (
-    <GameWallet action="dequip">
-      <DequipBumpkin />
-    </GameWallet>
-  );
-};*/
-}

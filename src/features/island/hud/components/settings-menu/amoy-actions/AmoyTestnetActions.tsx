@@ -9,29 +9,25 @@ export const AmoyTestnetActions: React.FC = () => {
   const { t } = useAppTranslation();
   const [showTimeMachine, setShowTimeMachine] = useState(false);
 
-  const Content = () => {
-    return (
-      <>
-        <ul className="list-none">
-          <li className="p-1">
-            <Button
-              onClick={() => setShowTimeMachine(!showTimeMachine)}
-              className="p-1"
-            >
-              {t("gameOptions.amoyActions.timeMachine")}
-            </Button>
-          </li>
-          <li className="p-1">
-            <DEV_HoardingCheck network="mainnet" />
-          </li>
-          <li className="p-1">
-            <DEV_HoardingCheck network="amoy" />
-          </li>
-        </ul>
-        {showTimeMachine && createPortal(<DEV_TimeMachine />, document.body)}
-      </>
-    );
-  };
-
-  return Content();
+  return (
+    <>
+      <ul className="list-none">
+        <li className="p-1">
+          <Button
+            onClick={() => setShowTimeMachine(!showTimeMachine)}
+            className="p-1"
+          >
+            {t("gameOptions.amoyActions.timeMachine")}
+          </Button>
+        </li>
+        <li className="p-1">
+          <DEV_HoardingCheck network="mainnet" />
+        </li>
+        <li className="p-1">
+          <DEV_HoardingCheck network="amoy" />
+        </li>
+      </ul>
+      {showTimeMachine && createPortal(<DEV_TimeMachine />, document.body)}
+    </>
+  );
 };
