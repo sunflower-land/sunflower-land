@@ -24,6 +24,7 @@ import { closeButton, tab } from "lib/utils/sfx";
 
 import trophy from "assets/icons/trophy.png";
 import factions from "assets/icons/factions.webp";
+import chores from "assets/icons/chores.webp";
 import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -108,7 +109,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
     {
       name: "Chores",
-      icon: SUNNYSIDE.icons.hammer,
+      icon: chores,
       count: incompleteChores,
     },
     {

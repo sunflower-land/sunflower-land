@@ -14,6 +14,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 // UTC
 export function secondsTillReset() {
@@ -74,11 +75,10 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <CloseButtonPanel
-      title={t("hayseedHankv2.title")}
-      bumpkinParts={NPC_WEARABLES.hank}
-      onClose={onClose}
-    >
+    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.hank} onClose={onClose}>
+      <div className="px-1.5 mb-1 flex w-full h-8 items-center">
+        <p>{t("hayseedHankv2.title")}</p>
+      </div>
       <div
         style={{ maxHeight: "300px" }}
         className="overflow-y-auto pr-1 divide-brown-600 scrollable"
@@ -98,30 +98,32 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
           </div>
         )}
         {!ticketTasksAreFrozen && (
-          <>
-            <div className="flex items-center mb-1">
-              <div className="w-6">
-                <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
-              </div>
+          <div className="space-y-1 mb-2">
+            <div className="flex items-center space-x-1 px-1.5">
+              <SquareIcon
+                icon={SUNNYSIDE.icons.timer}
+                width={5}
+                className="mt-0.5"
+              />
               <span className="text-xs">{`${t(
                 "hayseedHankv2.newChoresAvailable"
               )} ${secondsToString(secondsTillReset(), {
                 length: "full",
               })}`}</span>
             </div>
-            <div className="flex items-center ">
-              <div className="w-6">
-                <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
-              </div>
+            <div className="flex items-center space-x-1 px-1.5">
+              <SquareIcon
+                icon={SUNNYSIDE.icons.heart}
+                width={5}
+                className="mt-0.5"
+              />
               <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
             </div>
-          </>
+          </div>
         )}
 
         <ChoreV2 />
       </div>
-
-      {/* {!(isSaving && isSkipping) && !!chore && Content()} */}
     </CloseButtonPanel>
   );
 };
