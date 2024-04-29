@@ -460,10 +460,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("flower_cart", "world/flower_cart.png");
     this.load.image("queen_bee", "world/queen_bee.png");
 
-    this.load.spritesheet("banner", "world/spring_banner.png", {
-      frameWidth: 22,
-      frameHeight: 36,
-    });
+    this.load.image("banner", "world/clash_of_factions_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -917,46 +914,17 @@ export class PlazaScene extends BaseScene {
     });
 
     // Banner
-    const banner = this.add.sprite(400, 220, "banner");
-    this.anims.create({
-      key: "banner_animation",
-      frames: this.anims.generateFrameNumbers("banner", {
-        start: 0,
-        end: 1,
-      }),
-      repeat: -1,
-      frameRate: 7,
-    });
-    banner.play("banner_animation", true);
-    // .setInteractive({ cursor: "pointer" });
-    // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
-    // });
-    banner.setDepth(100000000000);
-
-    const banner2 = this.add.sprite(464, 220, "banner");
-    banner2.play("banner_animation", true);
+    this.add.image(400, 225, "banner");
+    // .setDepth(100000000000)
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open("banner");
     // });
-    banner2.setDepth(100000000000);
+    this.add.image(464, 225, "banner").setDepth(100000000000);
 
-    const banner3 = this.add.sprite(480, 382, "banner");
-    banner3.play("banner_animation", true);
-    // .setInteractive({ cursor: "pointer" })
-    // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
-    // });
-    banner3.setDepth(100000000000);
+    this.add.image(480, 386, "banner").setDepth(100000000000);
 
-    const banner4 = this.add.sprite(385, 382, "banner");
-    banner4.play("banner_animation", true);
-    // .setInteractive({ cursor: "pointer" })
-    // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
-    // });
-    banner4.setDepth(100000000000);
+    this.add.sprite(385, 386, "banner").setDepth(100000000000);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
