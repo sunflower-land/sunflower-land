@@ -20,7 +20,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { BlockchainSettingsModal } from "./blockchain-settings/BlockchainSettings";
-// import { BlockchainSettings } from "./blockchain-settings/BlockchainSettings";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
@@ -33,10 +32,7 @@ import {
 } from "mobile-device-detect";
 import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
 import { TransferAccount } from "./blockchain-settings/TransferAccount";
-// import { DequipBumpkinWrapper } from "./blockchain-settings/DequipBumpkin";
-// import { TransferAccountWrap } from "./blockchain-settings/TransferAccount";
 import { AddSFL } from "../AddSFL";
-// import { AddSFLWrapper } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
 import { LanguageSwitcher } from "./general-settings/LanguageChangeModal";
@@ -46,9 +42,11 @@ import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 
-export const GameOptions: React.FC<ContentComponentProps> = ({
-  onSubMenuClick,
-}) => {
+export interface ContentComponentProps {
+  onSubMenuClick: (id: SettingMenuId) => void;
+}
+
+const GameOptions: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
@@ -141,6 +139,7 @@ export const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
+      {/* To revamp and add back later*/}
       {/* <li className="p-1">
                   <Button disabled={true} onClick={handleHowToPlay}>
                     <div className="flex items-center justify-center">
@@ -258,10 +257,6 @@ interface SettingMenu {
   content: React.FC<ContentComponentProps>;
 }
 
-export interface ContentComponentProps {
-  onSubMenuClick: (id: SettingMenuId) => void;
-}
-
 export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   // Game Options
   main: {
@@ -283,7 +278,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.blockchainSettings"),
     parent: "main",
     content: BlockchainSettingsModal,
-    // content: BlockchainSettings,
   },
   general: {
     title: translate("gameOptions.generalSettings"),
@@ -305,34 +299,27 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   storeChain: {
     title: translate("transaction.storeProgress"),
     parent: "blockchain",
-    content: () => <></>,
+    content: () => <></>, // To add later
   },
   dequip: {
     title: translate("dequipper.dequip"),
     parent: "blockchain",
     content: DequipBumpkin,
-    // content: DequipBumpkinWrapper,
   },
   transfer: {
     title: translate("gameOptions.blockchainSettings.transferOwnership"),
     parent: "blockchain",
     content: TransferAccount,
-    // content: TransferAccountWrap,
   },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapMaticForSFL"),
     parent: "blockchain",
     content: AddSFL,
-    // content: AddSFLWrapper,
   },
 
   // General Settings
   discord: {
     title: "Discord",
-    // authState.context.user.token?.discordId
-    // ? translate("gameOptions.generalSettings.assignRole")
-    // :
-    // translate("gameOptions.generalSettings.connectDiscord"),
     parent: "general",
     content: Discord,
   },

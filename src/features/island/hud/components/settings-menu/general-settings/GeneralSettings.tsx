@@ -22,12 +22,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
   return (
     <>
       <Button onClick={() => onSubMenuClick("discord")} className="mb-2">
-        <span>
-          {`Discord`}
-          {/* authState.context.user.token?.discordId
-              ? t("gameOptions.generalSettings.assignRole")
-              : t("gameOptions.generalSettings.connectDiscord") */}
-        </span>
+        <span>{`Discord`}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-2">
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>

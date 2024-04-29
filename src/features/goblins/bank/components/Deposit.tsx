@@ -29,7 +29,6 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
-// import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

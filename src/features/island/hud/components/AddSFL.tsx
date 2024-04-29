@@ -10,7 +10,6 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-// import { GameWallet } from "features/wallet/Wallet";
 
 export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 export const INPUT_MAX_CHAR = 10;
@@ -35,9 +34,7 @@ export const AddSFL: React.FC = () => {
       setIsLoading(false);
     };
 
-    fetchMaticBalance(); // Call the function immediately
-
-    // No dependencies, so an empty dependency array []
+    fetchMaticBalance();
   }, []);
 
   const getSFLForMaticAmount = async (amount: number) => {
@@ -171,13 +168,3 @@ export const AddSFL: React.FC = () => {
     </>
   );
 };
-
-{
-  /*export const AddSFLWrapper = () => {
-  return (
-    <GameWallet action="purchase">
-      <AddSFL />
-    </GameWallet>
-  );
-}; */
-}
