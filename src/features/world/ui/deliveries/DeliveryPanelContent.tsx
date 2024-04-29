@@ -214,14 +214,8 @@ export function getTotalExpansions({
 interface Props {
   onClose: () => void;
   npc: NPCName;
-  // Skip intro if the npc has two potential actions ie. Craft/Delivery. The intro would have already happened.
-  skipIntro?: boolean;
 }
 
-export const DeliveryPanelContent: React.FC<Props> = ({
-  npc,
-  skipIntro,
-  onClose,
-}) => {
+export const DeliveryPanelContent: React.FC<Props> = ({ npc, onClose }) => {
   return <BumpkinDelivery npc={npc} onClose={onClose} />;
 };

@@ -39,16 +39,20 @@ export const ChoreV2: React.FC<Props> = ({
     );
   }
 
-  const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
-    getSeasonChangeover({ id: gameService.state.context.farmId });
+  const {
+    ticketTasksAreClosing,
+    tasksStartAt,
+    tasksCloseAt,
+    ticketTasksAreFrozen,
+  } = getSeasonChangeover({ id: gameService.state.context.farmId });
   return (
     <>
       {
         // Give 24 hours heads up before tasks close
-        tasksAreClosing && (
-          <div className="flex flex-col items-center mb-2">
-            <p className="text-xs text-center">{t("chores.newSeason")}</p>
-            <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
+        ticketTasksAreClosing && (
+          <div className="flex flex-col mx-1.5 space-y-2 my-1">
+            <p className="text-xxs">{t("chores.newSeason")}</p>
+            <Label type="info" icon={SUNNYSIDE.icons.timer}>
               {secondsToString((tasksCloseAt - Date.now()) / 1000, {
                 length: "full",
               })}
@@ -56,34 +60,31 @@ export const ChoreV2: React.FC<Props> = ({
           </div>
         )
       }
-      {tasksAreFrozen && (
-        <div className="flex flex-col items-center mb-2">
-          <p className="text-xs text-center">{t("chores.choresFrozen")}</p>
-          <Label
-            type="danger"
-            icon={SUNNYSIDE.icons.stopwatch}
-            className="mt-1"
-          >
+      {ticketTasksAreFrozen && (
+        <div className="flex flex-col mx-1.5 space-y-2 my-1">
+          <p className="text-xxs">{t("chores.choresFrozen")}</p>
+          <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
             {secondsToString((tasksStartAt - Date.now()) / 1000, {
               length: "full",
             })}
           </Label>
         </div>
       )}
-      {getKeys(chores.chores).map((choreId, index) => {
-        const chore = chores.chores[choreId];
+      {!ticketTasksAreFrozen &&
+        getKeys(chores.chores).map((choreId, index) => {
+          const chore = chores.chores[choreId];
 
-        // Use createdAt key, so a skip will render a new chore
-        return (
-          <DailyChore
-            chore={chore}
-            id={choreId}
-            key={chore.createdAt + index}
-            isReadOnly={isReadOnly}
-            isCodex={isCodex}
-          />
-        );
-      })}
+          // Use createdAt key, so a skip will render a new chore
+          return (
+            <DailyChore
+              chore={chore}
+              id={choreId}
+              key={chore.createdAt + index}
+              isReadOnly={isReadOnly}
+              isCodex={isCodex}
+            />
+          );
+        })}
     </>
   );
 };

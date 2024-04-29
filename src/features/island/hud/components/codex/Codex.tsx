@@ -202,7 +202,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               })}
             >
               {currentTab === 0 && <Deliveries />}
-              {currentTab === 1 && <Chores />}
+              {currentTab === 1 && <Chores farmId={farmId} />}
               {currentTab === 2 && (
                 <Fish onMilestoneReached={handleMilestoneReached} />
               )}

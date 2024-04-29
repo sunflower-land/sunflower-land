@@ -78,7 +78,7 @@ export const DailyChore: React.FC<Props> = ({
 
   const isTaskComplete = progress >= chore.requirement;
 
-  const { tasksAreFrozen } = getSeasonChangeover({
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
     id: gameService.state.context.farmId,
   });
 
@@ -87,7 +87,7 @@ export const DailyChore: React.FC<Props> = ({
     : "text-xs sm:text-sm";
 
   return (
-    <OuterPanel className="mb-2">
+    <OuterPanel className="mb-2 p-1">
       <div className="flex justify-between">
         <span
           className={`${descriptionTextClass} mb-1 flex-1 whitespace-normal pr-2`}
@@ -131,14 +131,14 @@ export const DailyChore: React.FC<Props> = ({
                 <Button
                   className="text-sm w-24 h-8 mr-2"
                   onClick={() => skip(id)}
-                  disabled={tasksAreFrozen}
+                  disabled={ticketTasksAreFrozen}
                 >
                   {t("skip")}
                 </Button>
               )}
 
               <Button
-                disabled={!isTaskComplete || tasksAreFrozen}
+                disabled={!isTaskComplete || ticketTasksAreFrozen}
                 className="text-sm w-24 h-8"
                 onClick={() => complete(id)}
               >

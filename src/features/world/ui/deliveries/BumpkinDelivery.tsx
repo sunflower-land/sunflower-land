@@ -40,6 +40,7 @@ import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -532,15 +533,17 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
   const { openModal } = useContext(ModalContext);
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
-
   const [gift, setGift] = useState<Airdrop>();
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
+
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
+    id: gameService.state.context.farmId,
+  });
 
   const deliver = () => {
     gameService.send("order.delivered", {
@@ -595,7 +598,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("bumpkin.delivery.waiting");
   }
 
-  if (!delivery) {
+  if (!delivery || (!!delivery.reward.tickets && ticketTasksAreFrozen)) {
     message = noOrder;
   }
 
@@ -611,6 +614,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingExpansions >= 1;
+  const showTicketDelivery =
+    !ticketTasksAreFrozen && !!delivery?.reward.tickets;
 
   const acceptGifts = !!getNextGift({ game, npc });
 
@@ -714,13 +719,18 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               </>
             )}
 
-            {delivery && (
+            {delivery && showTicketDelivery && (
               <OrderCard
                 game={gameState.context.state}
                 order={delivery as Order}
                 hasRequirementsCheck={() => true}
                 onDeliver={deliver}
               />
+            )}
+            {ticketTasksAreFrozen && (
+              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("orderhelp.ticket.deliveries.closed")}
+              </Label>
             )}
           </div>
 

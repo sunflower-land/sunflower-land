@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES, acknowledgedNPCs, acknowledgeNPC } from "lib/npcs";
@@ -9,6 +9,11 @@ import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { InlineDialogue } from "features/world/ui/TypingMessage";
 
 // UTC
 export function secondsTillReset() {
@@ -24,16 +29,21 @@ export function secondsTillReset() {
 
   return secondsUntilNextDay;
 }
+
 interface Props {
   onClose: () => void;
 }
+
+const _farmId = (state: MachineState) => state.context.farmId;
+
 export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [introDone, setIntroDone] = useState(!!acknowledgedNPCs()["hank"]);
-
-  const close = () => {
-    onClose();
-  };
+  const farmId = useSelector(gameService, _farmId);
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
+    id: farmId,
+  });
 
   if (!introDone) {
     return (
@@ -67,30 +77,46 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       title={t("hayseedHankv2.title")}
       bumpkinParts={NPC_WEARABLES.hank}
-      onClose={close}
+      onClose={onClose}
     >
       <div
         style={{ maxHeight: "300px" }}
-        className="overflow-y-auto pr-1  divide-brown-600 scrollable"
+        className="overflow-y-auto pr-1 divide-brown-600 scrollable"
       >
-        <div className="p-1 mb-2">
-          <div className="flex items-center mb-1">
-            <div className="w-6">
-              <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
-            </div>
-            <span className="text-xs">{`${t(
-              "hayseedHankv2.newChoresAvailable"
-            )} ${secondsToString(secondsTillReset(), {
-              length: "full",
-            })}`}</span>
+        {ticketTasksAreFrozen && (
+          <div
+            style={{
+              minHeight: "65px",
+            }}
+            className="px-1.5 mb-2"
+          >
+            <InlineDialogue
+              trail={25}
+              // key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
+              message={`Well shucks, looks like we're all caught up for today. Take yourself a little breather and enjoy the rest of the day!`}
+            />
           </div>
-          <div className="flex items-center ">
-            <div className="w-6">
-              <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
+        )}
+        {!ticketTasksAreFrozen && (
+          <>
+            <div className="flex items-center mb-1">
+              <div className="w-6">
+                <img src={SUNNYSIDE.icons.timer} className="h-4 mx-auto" />
+              </div>
+              <span className="text-xs">{`${t(
+                "hayseedHankv2.newChoresAvailable"
+              )} ${secondsToString(secondsTillReset(), {
+                length: "full",
+              })}`}</span>
             </div>
-            <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
-          </div>
-        </div>
+            <div className="flex items-center ">
+              <div className="w-6">
+                <img src={SUNNYSIDE.icons.heart} className="h-4 mx-auto" />
+              </div>
+              <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
+            </div>
+          </>
+        )}
 
         <ChoreV2 />
       </div>

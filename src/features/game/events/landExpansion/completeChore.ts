@@ -52,12 +52,12 @@ function completeDawnBreakerChore({
     throw new Error("Not the same Bumpkin");
   }
 
-  const { tasksAreFrozen } = getSeasonChangeover({
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
     id: farmId,
     now: createdAt,
   });
 
-  if (tasksAreFrozen) {
+  if (ticketTasksAreFrozen) {
     throw new Error("Chores are frozen");
   }
 
