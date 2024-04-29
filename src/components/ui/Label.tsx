@@ -117,7 +117,6 @@ export const Label: React.FC<Props> = ({
         paddingLeft: icon ? "14px" : "3px",
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
-        minWidth: "23px",
         ...style,
 
         // Normal font styles
