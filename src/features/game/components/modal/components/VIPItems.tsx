@@ -23,6 +23,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import classNames from "classnames";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
@@ -184,8 +185,18 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
             </a>
           </div>
           <OuterPanel
-            className="flex flex-col px-1 cursor-pointer relative"
-            onClick={() => handleClick("Lifetime Farmer Banner")}
+            className={classNames(
+              "flex flex-col px-1 cursor-pointer relative",
+              {
+                "cursor-not-allowed": hasLifeTimeBanner,
+                "hover:bg-brown-300": !hasLifeTimeBanner,
+              }
+            )}
+            onClick={
+              hasLifeTimeBanner
+                ? () => handleClick("Lifetime Farmer Banner")
+                : undefined
+            }
           >
             <Label
               type="default"
@@ -221,8 +232,18 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
             </div>
           </OuterPanel>
           <OuterPanel
-            className="flex flex-col px-1 cursor-pointer relative"
-            onClick={() => handleClick(seasonBanner)}
+            className={classNames(
+              "flex flex-col px-1 cursor-pointer relative",
+              {
+                "cursor-not-allowed": hasSeasonBanner,
+                "hover:bg-brown-300": !hasSeasonBanner,
+              }
+            )}
+            onClick={
+              hasSeasonBanner
+                ? () => handleClick(seasonBanner)
+                : hasSeasonBanner
+            }
           >
             <Label type="default" className="mb-2" icon={seasonBannerImage}>
               {getSeasonalBanner()}
