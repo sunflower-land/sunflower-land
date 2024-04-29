@@ -2,10 +2,17 @@ import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { deliverOrder } from "./deliver";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 import { Quest } from "features/game/types/game";
 
+const LAST_DAY_OF_SEASON = new Date("2023-10-31T16:00:00Z").getTime();
+const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
+
 describe("deliver", () => {
+  beforeEach(() => {
+    jest.useRealTimers();
+  });
+
   it("requires the order exists", () => {
     expect(() =>
       deliverOrder({
@@ -31,7 +38,7 @@ describe("deliver", () => {
               {
                 id: "123",
                 createdAt: 0,
-                readyAt: Date.now() + 5000,
+                readyAt: MID_SEASON + 5000,
                 from: "betty",
                 items: {
                   Sunflower: 50,
@@ -45,6 +52,7 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
+        createdAt: MID_SEASON,
       })
     ).toThrow("Order has not started");
   });
@@ -60,7 +68,7 @@ describe("deliver", () => {
               {
                 id: "123",
                 createdAt: 0,
-                readyAt: Date.now(),
+                readyAt: MID_SEASON,
                 from: "betty",
                 items: {
                   Sunflower: 50,
@@ -74,8 +82,7 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
-        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-        createdAt: 1693526400000,
+        createdAt: MID_SEASON,
       })
     ).toThrow("Insufficient ingredient: Sunflower");
   });
@@ -93,7 +100,7 @@ describe("deliver", () => {
               {
                 id: "123",
                 createdAt: 0,
-                readyAt: Date.now(),
+                readyAt: new Date("2023-10-15T15:00:00Z").getTime(),
                 from: "tywin",
                 items: {
                   sfl: 10,
@@ -123,7 +130,7 @@ describe("deliver", () => {
               {
                 id: "123",
                 createdAt: 0,
-                readyAt: Date.now(),
+                readyAt: MID_SEASON,
                 from: "betty",
                 items: {
                   coins: 50,
@@ -137,6 +144,7 @@ describe("deliver", () => {
           id: "123",
           type: "order.delivered",
         },
+        createdAt: MID_SEASON,
       })
     ).toThrow("Insufficient ingredient: coins");
   });
@@ -153,7 +161,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "tywin",
               items: {
                 sfl: 50,
@@ -167,6 +175,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: MID_SEASON,
     });
 
     expect(game.balance).toEqual(balance.sub(50));
@@ -186,7 +195,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 Sunflower: 50,
@@ -200,8 +209,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
+      createdAt: MID_SEASON,
     });
 
     expect(state.balance).toEqual(new Decimal(0.1));
@@ -228,7 +236,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 "Sunflower Cake": 1,
@@ -242,8 +250,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
+      createdAt: MID_SEASON,
     });
 
     expect(state.coins).toEqual(384);
@@ -270,7 +277,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 "Eggplant Cake": 1,
@@ -284,8 +291,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
+      createdAt: MID_SEASON,
     });
 
     expect(state.coins).toEqual(384);
@@ -312,7 +318,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 "Orange Cake": 1,
@@ -326,8 +332,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
+      createdAt: MID_SEASON,
     });
 
     expect(state.coins).toEqual(384);
@@ -353,7 +358,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 "Sunflower Cake": 1,
@@ -367,8 +372,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
+      createdAt: MID_SEASON,
     });
 
     expect(state.coins).toEqual(336);
@@ -388,7 +392,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 Gold: 50,
@@ -402,8 +406,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
+      createdAt: MID_SEASON,
     });
 
     const seasonTicket = getSeasonalTicket();
@@ -425,7 +428,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: MID_SEASON,
               from: "betty",
               items: {
                 Sunflower: 50,
@@ -439,6 +442,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
+      createdAt: MID_SEASON,
     });
 
     expect(state.inventory["Carrot"]).toEqual(new Decimal(1));
@@ -562,6 +566,13 @@ describe("deliver", () => {
   });
 
   it("does not reward faction points if no faction selected", () => {
+    const timers = jest.useFakeTimers();
+
+    const seasonTime = new Date(
+      SEASONS["Witches' Eve"].startDate.getTime() + 8 * 24 * 60 * 60 * 1000
+    );
+
+    timers.setSystemTime(seasonTime);
     const state = deliverOrder({
       state: {
         ...TEST_FARM,
@@ -592,8 +603,77 @@ describe("deliver", () => {
       },
     });
 
-    const seasonTicket = getSeasonalTicket();
-
     expect(state.faction).toBeUndefined();
+  });
+
+  it("does not complete order with ticket rewards when frozen", () => {
+    expect(() =>
+      deliverOrder({
+        state: {
+          ...TEST_FARM,
+          inventory: {
+            Sunflower: new Decimal(60),
+          },
+          delivery: {
+            ...TEST_FARM.delivery,
+            fulfilledCount: 3,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: LAST_DAY_OF_SEASON,
+                from: "betty",
+                items: {
+                  Sunflower: 50,
+                },
+                reward: { tickets: 10 },
+              },
+            ],
+          },
+          bumpkin: INITIAL_BUMPKIN,
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: LAST_DAY_OF_SEASON,
+      })
+    ).toThrow("Ticket tasks are frozen");
+  });
+
+  it("completes coin and sfl deliveries when tasks are frozen", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Sunflower: new Decimal(60),
+        },
+        delivery: {
+          ...TEST_FARM.delivery,
+          fulfilledCount: 3,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: LAST_DAY_OF_SEASON,
+              from: "betty",
+              items: {
+                Sunflower: 50,
+              },
+              reward: { sfl: 10 },
+            },
+          ],
+        },
+        bumpkin: INITIAL_BUMPKIN,
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+      createdAt: LAST_DAY_OF_SEASON,
+    });
+
+    expect(state.balance).toEqual(new Decimal(10));
+    expect(state.inventory.Sunflower).toEqual(new Decimal(10));
   });
 });

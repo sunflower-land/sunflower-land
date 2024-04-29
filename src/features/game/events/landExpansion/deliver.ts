@@ -160,7 +160,7 @@ export function deliverOrder({
     throw new Error("Order does not exist");
   }
 
-  if (order.readyAt > Date.now()) {
+  if (order.readyAt > createdAt) {
     throw new Error("Order has not started");
   }
 
@@ -168,12 +168,15 @@ export function deliverOrder({
     throw new Error("Order is already completed");
   }
 
-  const { tasksAreFrozen } = getSeasonChangeover({
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
     id: farmId,
     now: createdAt,
   });
-  if (tasksAreFrozen) {
-    throw new Error("Tasks are frozen");
+
+  const isTicketOrder = !!order.reward?.tickets;
+
+  if (isTicketOrder && ticketTasksAreFrozen) {
+    throw new Error("Ticket tasks are frozen");
   }
 
   getKeys(order.items).forEach((name) => {
