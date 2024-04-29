@@ -50,10 +50,11 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
 
 export const BlockchainSettingsModal: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
+  onClose,
 }) => {
   return (
     <GameWallet action="connectWallet">
-      <BlockchainSettings onSubMenuClick={onSubMenuClick} />
+      <BlockchainSettings onSubMenuClick={onSubMenuClick} onClose={onClose} />
     </GameWallet>
   );
 };
