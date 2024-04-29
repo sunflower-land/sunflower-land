@@ -1139,8 +1139,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.noChore": "Üzgünüm, şu anda yapman gereken herhangi bir iş yok.",
   "chores.newSeason":
     "Yeni bir sezon yaklaşıyor, işler geçici olarak kapanacak.",
-  "chores.choresFrozen":
-    "Yeni Sezonluk İşler yakında açılıyor. Önceki sezonun işleri ve ilerlemesi sıfırlanacak.",
+  "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -3868,10 +3867,12 @@ const orderhelp: Record<OrderHelp, string> = {
     "Bir siparişi yalnızca 24 saat sonra atlayabilirsiniz!",
   "orderhelp.New.Season":
     "Yeni sezon yaklaşıyor, teslimatlar geçici olarak kapanacak.",
-  "orderhelp.New.Season.arrival": "Yeni Sezonluk Teslimatlar yakında açılıyor.",
+  "orderhelp.New.Season.arrival": "Yeni sezonluk teslimatlar yakında açılıyor.",
   "orderhelp.Wisely": "Akıllıca seç!",
   "orderhelp.SkipIn": "Atla",
   "orderhelp.NoRight": "Şimdi olmaz",
+  "orderhelp.ticket.deliveries.closed":
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pageFounds: Record<PageFounds, string> = {

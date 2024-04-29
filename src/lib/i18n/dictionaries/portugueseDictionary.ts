@@ -1157,8 +1157,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.chopTrees": "Corte 3 Árvores",
   "chores.helpWithTrees":
     "Meus velhos ossos não são mais como costumavam ser, acho que você poderia me dar uma mão com essas malditas árvores que precisam ser cortadas? Nosso Ferreiro local irá ajudá-lo a fabricar algumas ferramentas.",
-  "chores.choresFrozen":
-    "Novas tarefas de temporada serão abertas em breve. As tarefas e progressos da temporada anterior serão reiniciados.",
+  "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
   "chores.newSeason":
     "Uma nova temporada se aproxima, as tarefas serão temporariamente encerradas.",
   "chores.noChore": "Desculpe, não tenho tarefas para fazer agora.",
@@ -3875,6 +3874,8 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Wisely": "Escolha sabiamente!",
   "orderhelp.SkipIn": "Pular em",
   "orderhelp.NoRight": "Não Agora",
+  "orderhelp.ticket.deliveries.closed":
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pageFounds: Record<PageFounds, string> = {

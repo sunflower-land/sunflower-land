@@ -1169,8 +1169,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.noChore": "Désolé, je n'ai pas de tâches à faire pour le moment.",
   "chores.newSeason":
     "Une nouvelle saison approche, les tâches seront temporairement fermées.",
-  "chores.choresFrozen":
-    "De nouvelles tâches saisonnières ouvriront bientôt. Les tâches et les progrès de la saison précédente seront réinitialisés.",
+  "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -4012,6 +4011,8 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Wisely": "Choisissez judicieusement!",
   "orderhelp.SkipIn": "Sauter dans",
   "orderhelp.NoRight": "Pas maintenant",
+  "orderhelp.ticket.deliveries.closed":
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pageFounds: Record<PageFounds, string> = {

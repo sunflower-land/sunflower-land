@@ -2590,7 +2590,8 @@ export type OrderHelp =
   | "orderhelp.New.Season.arrival"
   | "orderhelp.Wisely"
   | "orderhelp.SkipIn"
-  | "orderhelp.NoRight";
+  | "orderhelp.NoRight"
+  | "orderhelp.ticket.deliveries.closed";
 
 export type PageFounds =
   | "pageFounds.title"

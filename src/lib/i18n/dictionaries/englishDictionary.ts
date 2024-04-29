@@ -1143,8 +1143,7 @@ const choresStart: Record<ChoresStart, string> = {
     "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
   "chores.noChore": "Sorry, I don't have any chores that need doing right now.",
   "chores.newSeason": "A new season approaches, chores will temporarily close.",
-  "chores.choresFrozen":
-    "New Seasonal Chores opening soon. Previous season chores & progress will be reset.",
+  "chores.choresFrozen": "New seasonal chores will be available soon.",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -3851,11 +3850,13 @@ const onCollectReward: Record<OnCollectReward, string> = {
 const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Skip.hour": "You're only able to skip an order after 24 hours!",
   "orderhelp.New.Season":
-    "A new season approaches, deliveries will temporarily close.",
-  "orderhelp.New.Season.arrival": "New Seasonal Deliveries opening soon.",
+    "A new season approaches, ticket deliveries will temporarily close.",
+  "orderhelp.New.Season.arrival": "New seasonal deliveries opening soon.",
   "orderhelp.Wisely": "Choose wisely!",
   "orderhelp.SkipIn": "Skip in",
   "orderhelp.NoRight": "Not Right Now",
+  "orderhelp.ticket.deliveries.closed":
+    "Ticket deliveries are currently closed",
 };
 
 const pageFounds: Record<PageFounds, string> = {
