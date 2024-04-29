@@ -89,7 +89,7 @@ import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
 // Clash of Factions
-import turboSprout from "assets/sfts/flower_cart.webp";
+import turboSprout from "assets/sfts/turbo_sprout.webp";
 import soybliss from "assets/sfts/soybliss.webp";
 import grapeGranny from "assets/sfts/grape_granny.webp";
 import royalThrone from "assets/sfts/royal_throne.webp";

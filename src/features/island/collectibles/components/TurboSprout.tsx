@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import turboSprout from "assets/sfts/flower_cart.webp";
+import turboSprout from "assets/sfts/turbo_sprout.webp";
 
 export const TurboSprout: React.FC = () => {
   return (
