@@ -17,11 +17,7 @@ import { loadWearablesBalanceBatch } from "lib/blockchain/BumpkinItems";
 import { shortAddress } from "lib/utils/shortAddress";
 import { Loading } from "features/auth/components";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const DequipBumpkin: React.FC<Props> = ({ onClose }) => {
+export const DequipBumpkin: React.FC = () => {
   const { t } = useAppTranslation();
 
   const [selectedBumpkinId, setSelectedBumpkinId] = useState<number>();

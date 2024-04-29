@@ -16,8 +16,6 @@ import { FactionName, InventoryItemName } from "features/game/types/game";
 import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const GROUPS: {
@@ -52,12 +50,7 @@ function getFactionImage(faction: FactionName) {
       return "";
   }
 }
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
+export const Discord: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
   const [authState] = useActor(authService);
@@ -199,11 +192,5 @@ export const Discord: React.FC<Props> = ({ isOpen, onClose }) => {
     );
   };
 
-  return (
-    <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel title="Discord" onClose={onClose}>
-        {getContent()}
-      </CloseButtonPanel>
-    </Modal>
-  );
+  return getContent();
 };

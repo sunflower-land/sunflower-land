@@ -111,7 +111,6 @@ import {
   PirateChest,
   PirateQuest,
   Pickserver,
-  PlazaSettings,
   PlayerTrade,
   Portal,
   PurchaseableBaitTranslation,
@@ -131,7 +130,6 @@ import {
   RulesTerms,
   SceneDialogueKey,
   SeasonTerms,
-  SettingsMenu,
   Share,
   SharkBumpkinDialogues,
   Shelly,
@@ -143,7 +141,6 @@ import {
   SpecialEvent,
   Statements,
   StopGoblin,
-  SubSettings,
   Swarming,
   TieBreaker,
   ToolDescriptions,
@@ -174,6 +171,7 @@ import {
   RestrictionReason,
   RemoveHungryCaterpillar,
   Leaderboard,
+  GameOptions,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -213,7 +211,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   cancel: "Cancel",
   "card.cash": "Card / Cash",
   caught: "Caught",
-  "change.Language": "Change Language",
   check: "Check",
   chest: "Chest",
   chores: "Chores",
@@ -316,7 +313,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "list.trade": "List trade",
   loading: "Loading",
   locked: "Locked",
-  logout: "Logout",
   "loser.refund": "Refund resources",
   lvl: "Level",
   maintenance: "Maintenance",
@@ -3925,18 +3921,6 @@ const playerTrade: Record<PlayerTrade, string> = {
   "playerTrade.title.congrat": "Congratulations, your listing was purchased!",
 };
 
-const plazaSettings: Record<PlazaSettings, string> = {
-  "plazaSettings.title.main": "Plaza Settings",
-  "plazaSettings.title.mutedPlayers": "Muted Players",
-  "plazaSettings.title.keybinds": "Keybinds",
-  "plazaSettings.mutedPlayers.description":
-    "In case you have muted some players using the /mute command, you can see them here and unmute them if you want.",
-  "plazaSettings.keybinds.description":
-    "Need to know what keybinds are available? Check them out here.",
-  "plazaSettings.noMutedPlayers": "You have no muted players.",
-  "plazaSettings.changeServer": "Change server",
-};
-
 const portal: Record<Portal, string> = {
   "portal.wrong": "Something went wrong",
   "portal.unauthorised": "unauthorised",
@@ -4123,15 +4107,6 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
-};
-
-const settingsMenu: Record<SettingsMenu, string> = {
-  "settingsMenu.timeMachine": "Time Machine",
-  "settingsMenu.storeOnChain": "Store on Chain",
-  "settingsMenu.howToPlay": "How to Play?",
-  "settingsMenu.swapMaticForSFL": "Swap MATIC for SFL",
-  "settingsMenu.share": "Share",
-  "settingsMenu.confirmLogout": "Are you sure you want to Logout?",
 };
 
 const share: Record<Share, string> = {
@@ -4359,15 +4334,6 @@ const stopGoblin: Record<StopGoblin, string> = {
   "stopGoblin.tap.one": "Tap the Moon Seekers before they steal your resources",
   "stopGoblin.tap.two": "Tap the Goblins before they eat your food",
   "stopGoblin.left": "Attempts left: {{attemptsLeft}}",
-};
-
-const subSettings: Record<SubSettings, string> = {
-  "subSettings.disableAnimations": "Disable Animations",
-  "subSettings.enableAnimations": "Enable Animations",
-  "subSettings.logout": "Logout",
-  "subSettings.transferOwnership": "Transfer Ownership",
-  "subSettings.refreshDescription":
-    "Refresh your session to grab the latest changes from the Blockchain. This is useful if you deposited items to your farm.",
 };
 
 const swarming: Record<Swarming, string> = {
@@ -4721,6 +4687,45 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.yourPosition": "Your position",
 };
 
+const gameOptions: Record<GameOptions, string> = {
+  "gameOptions.title": "Game Options",
+  "gameOptions.howToPlay": "How to Play? (Under Reconstruction)",
+  "gameOptions.farmId": "Farm ID #{{farmId}}",
+  "gameOptions.logout": "Logout",
+  "gameOptions.confirmLogout": "Are you sure you want to Logout?",
+
+  // Amoy Actions
+  "gameOptions.amoyActions": "Amoy Testnet Actions",
+  "gameOptions.amoyActions.timeMachine": "Time Machine",
+
+  // Blockchain Settings
+  "gameOptions.blockchainSettings": "Blockchain Settings",
+  "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
+  "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
+  "gameOptions.blockchainSettings.swapMaticForSFL": "Swap MATIC for SFL",
+  "gameOptions.blockchainSettings.transferOwnership": "Transfer Ownership",
+
+  // General Settings
+  "gameOptions.generalSettings": "General Settings",
+  "gameOptions.generalSettings.connectDiscord": "Connect to Discord",
+  "gameOptions.generalSettings.assignRole": "Assign Discord Role",
+  "gameOptions.generalSettings.changeLanguage": "Change Language",
+  "gameOptions.generalSettings.disableAnimations": "Disable Animations",
+  "gameOptions.generalSettings.enableAnimations": "Enable Animations",
+  "gameOptions.generalSettings.share": "Share",
+
+  // Plaza Settings
+  "gameOptions.plazaSettings": "Plaza Settings",
+  "gameOptions.plazaSettings.title.mutedPlayers": "Muted Players",
+  "gameOptions.plazaSettings.title.keybinds": "Keybinds",
+  "gameOptions.plazaSettings.mutedPlayers.description":
+    "In case you have muted some players using the /mute command, you can see them here and unmute them if you want.",
+  "gameOptions.plazaSettings.keybinds.description":
+    "Need to know what keybinds are available? Check them out here.",
+  "gameOptions.plazaSettings.noMutedPlayers": "You have no muted players.",
+  "gameOptions.plazaSettings.changeServer": "Change server",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4782,6 +4787,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...flowerShopTerms,
   ...foodDescriptions,
   ...gameDescriptions,
+  ...gameOptions,
   ...gameTerms,
   ...garbageCollector,
   ...generalTerms,
@@ -4840,7 +4846,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...piratechest,
   ...pirateQuest,
   ...playerTrade,
-  ...plazaSettings,
   ...portal,
   ...promo,
   ...purchaseableBaitTranslation,
@@ -4862,7 +4867,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...rulesTerms,
   ...sceneDialogueKey,
   ...seasonTerms,
-  ...settingsMenu,
   ...share,
   ...sharkBumpkinDialogues,
   ...shelly,
@@ -4874,7 +4878,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...specialEvent,
   ...statements,
   ...stopGoblin,
-  ...subSettings,
   ...swarming,
   ...tieBreaker,
   ...timeUnits,

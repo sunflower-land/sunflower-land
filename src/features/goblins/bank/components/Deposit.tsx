@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import {
   Inventory,
@@ -28,7 +29,6 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
-import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -36,6 +36,9 @@ import { isMobile } from "mobile-device-detect";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context as GameContext } from "features/game/GameProvider";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -84,7 +87,7 @@ interface Props {
       | "budIds"
     >
   ) => void;
-  onClose: () => void;
+  onClose?: () => void;
   onLoaded?: (loaded: boolean) => void;
   canDeposit?: boolean;
 }
@@ -97,46 +100,10 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
-  canDeposit = true,
 }) => {
-  const [showIntro, setShowIntro] = useState(true);
   const { t } = useAppTranslation();
-  if (showIntro) {
-    return (
-      <>
-        <div className="p-2">
-          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
-            {t("deposit")}
-          </Label>
-          <p className="my-2 text-sm">{t("question.depositSFLItems")}</p>
-        </div>
-        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
-      </>
-    );
-  }
 
-  return (
-    <GameWallet action="deposit">
-      <DepositOptions
-        onClose={onClose}
-        onDeposit={onDeposit}
-        onLoaded={onLoaded}
-        farmAddress={farmAddress}
-        canDeposit={canDeposit}
-      />
-    </GameWallet>
-  );
-};
-
-const DepositOptions: React.FC<Props> = ({
-  onClose,
-  onDeposit,
-  onLoaded,
-  farmAddress,
-}) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
-  const [hasWeb3, setHasWeb3] = useState(false);
-
+  const [showIntro, setShowIntro] = useState(true);
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
@@ -147,8 +114,6 @@ const DepositOptions: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
-
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (status !== "loading") return;
@@ -296,7 +261,7 @@ const DepositOptions: React.FC<Props> = ({
       budIds: budsToDeposit,
     });
 
-    onClose();
+    onClose && onClose();
   };
 
   const amountGreaterThanBalance = toBN(toWei(sflDepositAmount.toString())).gt(
@@ -348,6 +313,20 @@ const DepositOptions: React.FC<Props> = ({
   //     </div>
   //   );
   // }
+  if (showIntro) {
+    return (
+      <>
+        <div className="p-2">
+          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+            {t("deposit")}
+          </Label>
+          <p className="my-2 text-sm">{t("question.depositSFLItems")}</p>
+        </div>
+        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
+      </>
+    );
+  }
+
   return (
     <>
       {status === "loading" && <Loading />}
@@ -584,5 +563,29 @@ export const DepositModal: React.FC<DepositModalProps> = ({
         />
       </CloseButtonPanel>
     </Modal>
+  );
+};
+
+const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
+const _xp = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
+
+export const DepositWrapper: React.FC = () => {
+  const { gameService } = useContext(GameContext);
+  const farmAddress = useSelector(gameService, _farmAddress);
+  const xp = useSelector(gameService, _xp);
+
+  const handleDeposit = (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => {
+    gameService.send("DEPOSIT", args);
+  };
+
+  return (
+    <Deposit
+      farmAddress={farmAddress}
+      onDeposit={handleDeposit}
+      canDeposit={getBumpkinLevel(xp) >= 3}
+    />
   );
 };
