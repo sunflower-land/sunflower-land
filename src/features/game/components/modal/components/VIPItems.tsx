@@ -193,7 +193,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               }
             )}
             onClick={
-              hasLifeTimeBanner
+              !hasLifeTimeBanner
                 ? () => handleClick("Lifetime Farmer Banner")
                 : undefined
             }
@@ -240,9 +240,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               }
             )}
             onClick={
-              hasSeasonBanner
-                ? () => handleClick(seasonBanner)
-                : hasSeasonBanner
+              !hasSeasonBanner ? () => handleClick(seasonBanner) : undefined
             }
           >
             <Label type="default" className="mb-2" icon={seasonBannerImage}>
