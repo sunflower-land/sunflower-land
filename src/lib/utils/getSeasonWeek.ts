@@ -49,9 +49,9 @@ export function getSeasonChangeover({
   return {
     tasksCloseAt,
     tasksStartAt,
-    tasksAreClosing:
+    ticketTasksAreClosing:
       now < tasksCloseAt && now >= tasksCloseAt - 24 * 60 * 60 * 1000,
-    tasksAreFrozen: !isAdmin && now <= tasksStartAt,
+    ticketTasksAreFrozen: !isAdmin && now <= tasksStartAt,
   };
 }
 

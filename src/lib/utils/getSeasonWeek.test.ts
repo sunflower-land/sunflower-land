@@ -27,13 +27,13 @@ describe("getSeasonChangeover", () => {
     const now = new Date("2024-05-07");
     const result = getSeasonChangeover({ id: 100, now: now.getTime() });
 
-    expect(result.tasksAreFrozen).toBeTruthy();
+    expect(result.ticketTasksAreFrozen).toBeTruthy();
   });
 
   it("tasks are not frozen for admins", () => {
     const now = new Date("2024-05-07");
     const result = getSeasonChangeover({ id: 1, now: now.getTime() });
 
-    expect(result.tasksAreFrozen).toBeFalsy();
+    expect(result.ticketTasksAreFrozen).toBeFalsy();
   });
 });
