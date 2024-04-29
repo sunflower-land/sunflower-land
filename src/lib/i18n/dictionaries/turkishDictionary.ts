@@ -189,6 +189,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   addSFL: "SFL Ekle",
   "add.liquidity": "Likidite Ekle",
   "alr.bought": "Zaten Satın Alındı!",
+  "already.own.item": ENGLISH_TERMS["already.own.item"],
   "alr.claim": "Zaten Talep Edildi!",
   "alr.completed": "Çoktan Tamamlandı",
   "alr.crafted": "Zaten Üretildi!",
@@ -202,6 +203,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   bait: "Yem",
   balance: "Bakiye: ",
   banner: "Bayrak",
+  banners: "Banners",
   basket: "Sepet",
   "beach.bounty": "Plaj Ödülü",
   beta: "Beta",
@@ -282,6 +284,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   for: "için",
   "for.info.wearable": "bu giyilebilir hakkında daha fazla bilgi için",
   forbidden: "Yasaklı",
+  free: ENGLISH_TERMS["free"],
   "free.trade": "Bedava Takas: {{freeTrades}}",
   fruit: "Meyve",
   fruits: "Meyveler",
@@ -489,6 +492,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
+  vip: ENGLISH_TERMS["vip"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -4125,6 +4129,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
+  "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {

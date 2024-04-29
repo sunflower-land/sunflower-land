@@ -60,7 +60,7 @@ export const CodexButton: React.FC = () => {
           src={codex}
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 16}px`,
+            width: `${PIXEL_SCALE * 14.5}px`,
           }}
         />
 

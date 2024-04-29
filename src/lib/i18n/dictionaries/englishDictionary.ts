@@ -182,6 +182,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   achievements: "Achievements",
   accept: "Accept:",
   "accepting.terms": "Accepting terms...",
+  "already.own.item": "You already own this item",
   "amount.matic": "Amount in MATIC",
   deposit: "Deposit",
   add: "Add",
@@ -201,6 +202,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   bait: "Bait",
   balance: "Balance: ",
   banner: "Banner",
+  banners: "Banners",
   basket: "Basket",
   "beach.bounty": "Beach Bounty",
   beta: "Beta",
@@ -284,6 +286,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   for: "for",
   "for.info.wearable": "for more info about this wearable",
   forbidden: "Forbidden",
+  free: "Free",
   "free.trade": "Free Trades: {{freeTrades}}",
   fruit: "Fruit",
   fruits: "Fruits",
@@ -488,6 +491,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.exchange": "Goblin Exchange",
   "goblin.deliveries": "Goblin Deliveries",
   vipAccess: "VIP Access",
+  vip: "VIP",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -4118,6 +4122,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",
+  "season.free.with.lifetime": "Free with Lifetime Farmer",
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {

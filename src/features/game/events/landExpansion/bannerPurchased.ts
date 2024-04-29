@@ -24,11 +24,14 @@ type Options = {
 export function getBannerPrice(
   banner: SeasonalBanner | "Lifetime Farmer Banner",
   hasPreviousBanner: boolean,
+  hasLifetimeBanner?: boolean,
   createdAt: number = Date.now()
 ): Decimal {
   if (banner === "Lifetime Farmer Banner") {
     return new Decimal(540);
   }
+
+  if (hasLifetimeBanner) return new Decimal(0);
 
   const season = getSeasonByBanner(banner);
   const seasonStartDate = SEASONS[season].startDate;
@@ -39,40 +42,13 @@ export function getBannerPrice(
     (createdAt - seasonStartDate.getTime()) / WEEK
   );
 
-  if (weeksElapsed < 2) {
-    return new Decimal(hasPreviousBanner ? 50 : 65);
-  }
-  if (weeksElapsed < 4) {
-    return new Decimal(90);
-  }
-  if (weeksElapsed < 8) {
-    return new Decimal(70);
-  }
+  if (weeksElapsed < 2) return new Decimal(hasPreviousBanner ? 50 : 65);
+
+  if (weeksElapsed < 4) return new Decimal(90);
+
+  if (weeksElapsed < 8) return new Decimal(70);
+
   return new Decimal(50);
-}
-
-function purchaseLifeTimeFarmer(
-  state: GameState,
-  currentBlockBucks: Decimal
-): GameState {
-  const { inventory } = state;
-
-  if (inventory["Lifetime Farmer Banner"] !== undefined) {
-    throw new Error("You already have this banner");
-  }
-
-  if (currentBlockBucks.lessThan(540)) {
-    throw new Error("Insufficient Block Bucks");
-  }
-
-  return {
-    ...state,
-    inventory: {
-      ...inventory,
-      "Block Buck": currentBlockBucks.sub(540),
-      "Lifetime Farmer Banner": new Decimal(1),
-    },
-  };
 }
 
 export function purchaseBanner({
@@ -87,10 +63,21 @@ export function purchaseBanner({
     throw new Error(translate("no.have.bumpkin"));
   }
 
-  const currentBlockBucks = inventory["Block Buck"] || new Decimal(0);
+  const currentBlockBucks = inventory["Block Buck"] ?? new Decimal(0);
 
-  if (action.name == "Lifetime Farmer Banner") {
-    return purchaseLifeTimeFarmer(stateCopy, currentBlockBucks);
+  if (action.name === "Lifetime Farmer Banner") {
+    if (inventory["Lifetime Farmer Banner"] !== undefined) {
+      throw new Error("You already have this banner");
+    }
+
+    if (currentBlockBucks.lessThan(540)) {
+      throw new Error("Insufficient Block Bucks");
+    }
+
+    stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(540);
+    stateCopy.inventory[action.name] = new Decimal(1);
+
+    return stateCopy;
   }
 
   if (!(action.name in BANNERS)) {
@@ -101,25 +88,23 @@ export function purchaseBanner({
     throw new Error("You already have this banner");
   }
 
-  if (inventory["Lifetime Farmer Banner"] !== undefined) {
-    throw new Error("You already have the Lifetime Farmer Banner");
-  }
-
   const previousBanner = getPreviousSeasonalBanner();
   const hasPreviousBanner = !!inventory[previousBanner];
+  const hasLifetimeBanner = !!inventory["Lifetime Farmer Banner"];
 
-  const price = getBannerPrice(action.name, hasPreviousBanner, createdAt);
+  const price = getBannerPrice(
+    action.name,
+    hasPreviousBanner,
+    hasLifetimeBanner,
+    createdAt
+  );
 
   if (currentBlockBucks.lessThan(price)) {
     throw new Error("Insufficient Block Bucks");
   }
 
-  return {
-    ...stateCopy,
-    inventory: {
-      ...stateCopy.inventory,
-      "Block Buck": currentBlockBucks.sub(price),
-      [action.name]: new Decimal(1),
-    },
-  };
+  stateCopy.inventory["Block Buck"] = currentBlockBucks.sub(price);
+  stateCopy.inventory[action.name] = new Decimal(1);
+
+  return stateCopy;
 }

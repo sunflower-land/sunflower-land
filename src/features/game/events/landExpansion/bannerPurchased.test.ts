@@ -14,6 +14,7 @@ describe("purchaseBanner", () => {
   beforeEach(() => {
     jest.useRealTimers();
   });
+
   it("throws an error if no bumpkin exists", () => {
     expect(() =>
       purchaseBanner({
@@ -253,21 +254,22 @@ describe("purchaseBanner", () => {
     });
   });
 
-  it("throws an error if when trying to buy seasonal banner but already has Lifetime Banner", () => {
-    expect(() =>
-      purchaseBanner({
-        state: {
-          ...TEST_FARM,
-          inventory: {
-            "Block Buck": new Decimal(100),
-            "Lifetime Farmer Banner": new Decimal(1),
-          },
+  it("does not charge for a seasonal banner if a Lifetime Banner is owned", () => {
+    const result = purchaseBanner({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Block Buck": new Decimal(100),
+          "Lifetime Farmer Banner": new Decimal(1),
         },
-        action: {
-          type: "banner.purchased",
-          name: "Spring Blossom Banner",
-        },
-      })
-    ).toThrow("You already have the Lifetime Farmer Banner");
+      },
+      action: {
+        type: "banner.purchased",
+        name: "Spring Blossom Banner",
+      },
+    });
+
+    expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
+    expect(result.inventory["Spring Blossom Banner"]).toEqual(new Decimal(1));
   });
 });

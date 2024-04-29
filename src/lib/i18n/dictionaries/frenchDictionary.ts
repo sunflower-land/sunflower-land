@@ -189,6 +189,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   addSFL: "Ajouter SFL",
   "add.liquidity": "Ajouter de la liquidité",
   "alr.bought": "Déjà acheté",
+  "already.own.item": ENGLISH_TERMS["already.own.item"],
   "alr.claim": "Déjà réclamé!",
   "alr.completed": "Déjà terminé",
   "alr.crafted": "Déjà fabriqué!",
@@ -202,6 +203,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   bait: "Appât",
   balance: "Solde: ",
   banner: "Bannière",
+  banners: "Banners",
   basket: "Panier",
   "beach.bounty": "Prime de plage",
   beta: "Bêta",
@@ -301,6 +303,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "for.info.wearable": "pour plus d'informations sur cet accessoire portable",
   forbidden: "Interdit",
   formula: "Formule",
+  free: "Gratuit",
   "free.trade": "Échange gratuit: {{freeTrades}}",
   fruit: "Fruit",
   fruits: "Fruits",
@@ -489,6 +492,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.exchange": ENGLISH_TERMS["goblin.exchange"],
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
+  vip: ENGLISH_TERMS["vip"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -4283,6 +4287,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.vip.access": ENGLISH_TERMS["season.vip.access"],
   "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
   "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
+  "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
 };
 
 const settingsMenu: Record<SettingsMenu, string> = {

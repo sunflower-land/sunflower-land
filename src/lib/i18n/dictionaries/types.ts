@@ -4,6 +4,7 @@ export type GeneralTerms =
   | "accept"
   | "accepting.terms"
   | "advanced"
+  | "already.own.item"
   | "amount.matic"
   | "are.you.sure"
   | "deposit"
@@ -23,6 +24,7 @@ export type GeneralTerms =
   | "bait"
   | "balance"
   | "banner"
+  | "banners"
   | "basket"
   | "beach.bounty"
   | "beta"
@@ -107,6 +109,7 @@ export type GeneralTerms =
   | "for"
   | "for.info.wearable"
   | "forbidden"
+  | "free"
   | "free.trade"
   | "fruit"
   | "fruits"
@@ -309,7 +312,8 @@ export type GeneralTerms =
   | "boosts"
   | "decorations"
   | "goblin.deliveries"
-  | "vipAccess";
+  | "vipAccess"
+  | "vip";
 
 export type TimeUnits =
   // Singular
@@ -2777,7 +2781,8 @@ export type SeasonTerms =
   | "season.mystery.gift"
   | "season.xp.boost"
   | "season.free.season.passes.description"
-  | "season.lifetime.farmer";
+  | "season.lifetime.farmer"
+  | "season.free.with.lifetime";
 
 export type SettingsMenu =
   | "settingsMenu.timeMachine"
