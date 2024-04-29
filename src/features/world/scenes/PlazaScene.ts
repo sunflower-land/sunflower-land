@@ -914,8 +914,7 @@ export class PlazaScene extends BaseScene {
     });
 
     // Banner
-    this.add.image(400, 225, "banner");
-    // .setDepth(100000000000)
+    this.add.image(400, 225, "banner").setDepth(100000000000);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open("banner");
