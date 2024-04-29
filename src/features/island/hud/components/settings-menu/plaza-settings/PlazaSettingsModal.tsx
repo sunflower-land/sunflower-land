@@ -5,8 +5,12 @@ import { Button } from "components/ui/Button";
 import SoundOffIcon from "assets/icons/sound_off.png";
 // import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ContentComponentProps } from "../GameOptions";
 
-export const PlazaSettings: React.FC = () => {
+export const PlazaSettings: React.FC<ContentComponentProps> = ({
+  onSubMenuClick,
+  onClose,
+}) => {
   const { t } = useAppTranslation();
 
   const [step, setStep] = useState<"MAIN" | "MUTED_PLAYERS" | "KEYBINDS">(
@@ -35,6 +39,12 @@ export const PlazaSettings: React.FC = () => {
     localStorage.setItem("plaza-settings.mutedFarmIds", JSON.stringify(muted));
 
     setMutedPlayers([...muted]);
+  };
+
+  const changeServer = () => {
+    PubSub.publish("CHANGE_SERVER");
+    onSubMenuClick("main");
+    onClose();
   };
 
   {
@@ -67,11 +77,7 @@ export const PlazaSettings: React.FC = () => {
             <Button onClick={() => setStep("MUTED_PLAYERS")}>
               {t("gameOptions.plazaSettings.title.mutedPlayers")}
             </Button>
-            <Button
-              onClick={() => {
-                PubSub.publish("CHANGE_SERVER");
-              }}
-            >
+            <Button onClick={changeServer}>
               {t("gameOptions.plazaSettings.changeServer")}
             </Button>
           </div>

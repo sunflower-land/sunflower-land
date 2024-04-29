@@ -44,9 +44,13 @@ import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
+  onClose: () => void;
 }
 
-const GameOptions: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
+const GameOptions: React.FC<ContentComponentProps> = ({
+  onSubMenuClick,
+  onClose,
+}) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
@@ -75,6 +79,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
 
   const refreshSession = () => {
     gameService.send("RESET");
+    onClose();
   };
 
   const onLogout = () => {
@@ -82,6 +87,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({ onSubMenuClick }) => {
     authService.send("LOGOUT");
     walletService.send("RESET");
   };
+
   return (
     <>
       {/* Root menu */}
@@ -224,7 +230,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
         }
         onClose={onHide}
       >
-        <SelectedComponent onSubMenuClick={setSelected} />
+        <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
     </Modal>
   );
