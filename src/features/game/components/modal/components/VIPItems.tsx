@@ -176,7 +176,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               className="ml-1"
             >{`Purchase VIP Items`}</Label>
             <a
-              href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+              href="https://docs.sunflower-land.com/player-guides/seasons/season-6-clash-of-factions#season-banners"
               className="text-xxs underline"
               target="_blank"
               rel="noreferrer"
