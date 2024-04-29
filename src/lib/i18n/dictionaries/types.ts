@@ -1378,7 +1378,9 @@ export type Factions =
   | "faction.donation.bulk.resources.unlimited.per.day"
   | "faction.donation.confirm"
   | "faction.seasonal.delivery.start.at"
-  | "faction.points";
+  | "faction.points.with.number"
+  | "faction.points.title"
+  | "faction.points.pledge.warning";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

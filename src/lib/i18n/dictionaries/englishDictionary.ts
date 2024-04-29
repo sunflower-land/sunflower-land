@@ -1929,7 +1929,10 @@ const factions: Record<Factions, string> = {
   "faction.donation.confirm":
     "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
   "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
-  "faction.points": "Faction points: {{points}}",
+  "faction.points.with.number": "Faction points: {{points}}",
+  "faction.points.title": "Faction Points",
+  "faction.points.pledge.warning":
+    "Pledge a faction to receive faction points!",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
