@@ -20,7 +20,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 import factions from "assets/icons/factions.webp";
 import { FACTION_POINT_MULTIPLIER } from "features/game/events/landExpansion/deliver";
-import { Label } from "components/ui/Label";
 import classNames from "classnames";
 
 const isDateOnSameDayAsToday = (date: Date) => {
@@ -121,36 +120,37 @@ export const DailyChore: React.FC<Props> = ({
             )}/${chore.requirement}`}</span>
           </div>
         </div>
-        <div className="flex flex-col text-xs space-y-1">
-          <div className="flex items-center justify-end space-x-1">
-            <span className="mb-0.5">{chore.tickets}</span>
-            <SquareIcon
-              icon={ITEM_DETAILS[getSeasonalTicket()].image}
-              width={6}
-            />
+        {/* Rewards */}
+        {!chore.completedAt && (
+          <div className="flex flex-col text-xs space-y-1">
+            <div className="flex items-center justify-end space-x-1">
+              <span className="mb-0.5">{chore.tickets}</span>
+              <SquareIcon
+                icon={ITEM_DETAILS[getSeasonalTicket()].image}
+                width={6}
+              />
+            </div>
+            <div className="flex items-center justify-end space-x-1">
+              <span
+                className={classNames("mb-0.5 text-white", {
+                  "text-error": !faction,
+                })}
+              >
+                {chore.tickets * FACTION_POINT_MULTIPLIER}
+              </span>
+              <SquareIcon
+                icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
+                width={6}
+              />
+            </div>
           </div>
-          <div className="flex items-center justify-end space-x-1">
-            <span
-              className={classNames("mb-0.5 text-white", {
-                "text-error": !faction,
-              })}
-            >
-              {chore.tickets * FACTION_POINT_MULTIPLIER}
-            </span>
-            <SquareIcon
-              icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
-              width={6}
-            />
+        )}
+        {chore.completedAt && (
+          <div className="flex items-center">
+            <SquareIcon icon={SUNNYSIDE.icons.confirm} width={8} />
           </div>
-        </div>
+        )}
       </div>
-      {chore.completedAt && (
-        <div className="flex justify-end">
-          <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-            {t("completed")}
-          </Label>
-        </div>
-      )}
       {!isReadOnly && !chore.completedAt && (
         <div className="flex space-x-1 w-full sm:w-2/3">
           {!isDateOnSameDayAsToday(new Date(chore.createdAt)) && (
