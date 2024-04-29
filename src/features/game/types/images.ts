@@ -95,6 +95,9 @@ import grapeGranny from "assets/sfts/grape_granny.webp";
 import royalThrone from "assets/sfts/royal_throne.webp";
 import lilyEgg from "assets/sfts/lily_egg.webp";
 import goblet from "assets/sfts/goblet.webp";
+import fancyRug from "assets/sfts/fancy_rug.webp";
+import grapey from "assets/sfts/grapey.webp";
+import clock from "assets/sfts/clock.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3341,5 +3344,17 @@ export const ITEM_DETAILS: Items = {
   Goblet: {
     image: goblet,
     description: translate("description.goblet"),
+  },
+  "Fancy Rug": {
+    image: fancyRug,
+    description: translate("description.fancy.rug"),
+  },
+  Clock: {
+    image: clock,
+    description: translate("description.clock"),
+  },
+  Grapey: {
+    image: grapey,
+    description: translate("description.grapey"),
   },
 };

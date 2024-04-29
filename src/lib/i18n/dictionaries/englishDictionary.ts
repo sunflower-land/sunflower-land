@@ -930,7 +930,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.radiant.ray.boost": "+0.1 Iron",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
   "description.hungryHare.boost": "Fermented Carrots 2x XP",
-  "description.turbo.sprout.boost": "50% Green House Crop speed",
+  "description.turbo.sprout.boost": "-50% Green House Crop time",
   "description.soybliss.boost": "+1 Soybean",
   "description.grape.granny.boost": "+1 Grape",
   "description.non.la.hat.boost": "+1 Rice",
@@ -938,6 +938,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.olive.shield.boost": "+1 Olive",
   "description.pan.boost": "+25% XP",
   "description.paw.shield.boost": "+25% Faction Ped feeding XP",
+  "description.grapey.boost": "+0.25 Grape",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1714,6 +1715,11 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.royal.throne": "A throne fit for the highest ranking farmer.",
   "description.lily.egg": "Tiny delight, grand beauty, endless wonder.",
   "description.goblet": "A goblet that holds the finest of wines.",
+  "description.clock":
+    "A Clock that keeps time with the gentle ticking of the seasons.",
+  "description.fancy.rug": "A rug that brings a touch of elegance to any room.",
+  "description.grapey":
+    "Grapey, a friendly grapevine, is always ready for a chat.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

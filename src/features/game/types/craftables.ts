@@ -1280,6 +1280,9 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Royal Throne": { width: 2, height: 2 },
   "Lily Egg": { width: 1, height: 2 },
   Goblet: { width: 1, height: 1 },
+  Grapey: { width: 1, height: 1 },
+  Clock: { width: 1, height: 1 },
+  "Fancy Rug": { width: 3, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

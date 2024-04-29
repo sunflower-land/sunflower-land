@@ -189,6 +189,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
+  Grapey: {
+    shortDescription: translate("description.grapey.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
+  },
 
   // Fruit Boosts
   "Immortal Pear": {

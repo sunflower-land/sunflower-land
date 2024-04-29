@@ -639,7 +639,8 @@ export type BoostEffectDescriptions =
   | "description.oil.can.boost"
   | "description.paw.shield.boost"
   | "description.olive.shield.boost"
-  | "description.pan.boost";
+  | "description.pan.boost"
+  | "description.grapey.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -1237,7 +1238,10 @@ export type DecorationDescriptions =
   | "description.grape.granny"
   | "description.royal.throne"
   | "description.lily.egg"
-  | "description.goblet";
+  | "description.goblet"
+  | "description.fancy.rug"
+  | "description.clock"
+  | "description.grapey";
 
 export type Delivery =
   | "delivery.resource"

@@ -7303,4 +7303,44 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+
+  "Fancy Rug": {
+    name: "Fancy Rug",
+    description: "A rug that adds a touch of elegance to any room.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/483.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Clock: {
+    name: "Clock",
+    description:
+      "A Clock that keeps time with the gentle ticking of the seasons.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/484.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Grapey: {
+    name: "Grapey",
+    description: "Grapey, a friendly grapevine, is always ready for a chat.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/485.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Grape Yield",
+        value: 1,
+      },
+    ],
+  },
 };
