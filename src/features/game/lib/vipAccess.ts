@@ -12,8 +12,12 @@ export const hasVipAccess = (inventory: Inventory): boolean => {
     return hasGoldPass;
   }
 
-  const bannerQuantity = inventory[getSeasonalBanner()] ?? new Decimal(0);
-  const hasSeasonPass = bannerQuantity.gt(0);
+  const seasonBannerQuantity = inventory[getSeasonalBanner()] ?? new Decimal(0);
+  const hasSeasonPass = seasonBannerQuantity.gt(0);
 
-  return hasSeasonPass;
+  const lifetimeBannerQuantity =
+    inventory["Lifetime Farmer Banner"] ?? new Decimal(0);
+  const hasLifetimePass = lifetimeBannerQuantity.gt(0);
+
+  return hasSeasonPass || hasLifetimePass;
 };
