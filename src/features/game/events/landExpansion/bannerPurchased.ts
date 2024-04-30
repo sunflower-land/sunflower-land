@@ -20,6 +20,7 @@ type Options = {
   state: Readonly<GameState>;
   action: PurchaseBannerAction;
   createdAt?: number;
+  farmId?: number;
 };
 
 export function getBannerPrice(
@@ -27,13 +28,21 @@ export function getBannerPrice(
   hasPreviousBanner: boolean,
   hasLifetimeBanner: boolean,
   hasGoldPass: boolean,
-  createdAt: number = Date.now()
+  createdAt: number = Date.now(),
+  farmId?: number
 ): Decimal {
   if (banner === "Lifetime Farmer Banner") {
     return new Decimal(540);
   }
 
-  if (hasLifetimeBanner) return new Decimal(0);
+  const goldPassRetired =
+    Date.now() > new Date("2024-09-01T00:00:00Z").getTime();
+  const getsFreeBanner =
+    !goldPassRetired &&
+    farmId &&
+    GOLD_PASS_LESS_THAN_THREE_MONTHS.includes(farmId);
+
+  if (hasLifetimeBanner || getsFreeBanner) return new Decimal(0);
 
   const season = getSeasonByBanner(banner);
   const seasonStartDate = SEASONS[season].startDate;
@@ -44,7 +53,7 @@ export function getBannerPrice(
     (createdAt - seasonStartDate.getTime()) / WEEK
   );
 
-  const goldPassDiscount = hasGoldPass ? 15 : 0;
+  const goldPassDiscount = hasGoldPass && !goldPassRetired ? 15 : 0;
 
   if (weeksElapsed < 2) {
     const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
@@ -63,6 +72,7 @@ export function purchaseBanner({
   state,
   action,
   createdAt = Date.now(),
+  farmId,
 }: Options): GameState {
   const stateCopy = cloneDeep(state);
   const { bumpkin, inventory } = stateCopy;
@@ -115,7 +125,8 @@ export function purchaseBanner({
     hasPreviousBanner,
     hasLifetimeBanner,
     hasGoldPass,
-    createdAt
+    createdAt,
+    farmId
   );
 
   if (currentBlockBucks.lessThan(price)) {
@@ -127,3 +138,5 @@ export function purchaseBanner({
 
   return stateCopy;
 }
+
+const GOLD_PASS_LESS_THAN_THREE_MONTHS = [0];
