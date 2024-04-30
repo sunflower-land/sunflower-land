@@ -378,7 +378,7 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: "Spring Blossom Banner",
       },
-      farmId: 218989,
+      farmId: 25,
     });
 
     expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
