@@ -25,11 +25,13 @@ import { GarbageCollectorModal } from "features/helios/components/garbageCollect
 import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 import { GoblinMarket } from "./market/GoblinMarket";
 import { FactionModalContent } from "./factions/FactionModalContent";
+import { VIPChest } from "./VIPChest";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
 type InteractableName =
   | FanArtNPC
+  | "vip_chest"
   | "donations"
   | "garbage_collector"
   | "basic_chest"
@@ -110,7 +112,8 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] =
+    useState<InteractableName>("vip_chest");
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -126,6 +129,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
   return (
     <>
+      <Modal show={interactable === "vip_chest"} onHide={closeModal}>
+        <VIPChest onClose={closeModal} />
+      </Modal>
+
       {/* TODO - make smoother opening */}
       {interactable === "auction_item" && (
         <AuctionHouseModal

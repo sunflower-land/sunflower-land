@@ -1027,6 +1027,9 @@ export interface GameState {
     raffle?: {
       entries: Record<string, number>;
     };
+    vipChest?: {
+      openedAt: number;
+    };
   };
   conversations: ConversationName[];
   mailbox: {
