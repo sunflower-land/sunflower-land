@@ -729,6 +729,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
   "description.banana.chicken":
     "Um frango que impulsiona bananas. Em que mundo vivemos?!",
+  "description.knight.chicken": ENGLISH_TERMS["description.knight.chicken"],
 
   // Boosts
   "description.lab.grow.pumpkin": "+0,3 Rendimento de Abóbora",

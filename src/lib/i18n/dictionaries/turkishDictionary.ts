@@ -733,6 +733,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Şu yumurtaları bana ver,çabuk! Yumurtlamada 4 saatlik hız artışı.",
   "description.banana.chicken":
     "Muzları artıran bir tavuk. Nasıl bir dünyada yaşıyoruz.",
+  "description.knight.chicken": ENGLISH_TERMS["description.knight.chicken"],
 
   // Boosts
   "description.lab.grow.pumpkin": "+0.3 Kabak Verimi",
