@@ -8,6 +8,7 @@ import {
   STYLIST_WEARABLES,
   StylistWearable,
 } from "features/game/types/stylist";
+import { getSeasonalBanner } from "features/game/types/seasons";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -197,5 +198,27 @@ describe("buyWearable", () => {
     const shirt = STYLIST_WEARABLES["Red Farmer Shirt"] as StylistWearable;
 
     expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(shirt.coins ?? 0);
+  });
+
+  it("gives a 25% discount if Seasonal Banner is placed", () => {
+    const coins = 10000;
+    const state = buyWearable({
+      state: {
+        ...GAME_STATE,
+        coins,
+        inventory: {
+          Sunflower: new Decimal(150),
+          [getSeasonalBanner()]: new Decimal(1),
+        },
+      },
+      action: {
+        type: "wearable.bought",
+        name: "Red Farmer Shirt",
+      },
+    });
+
+    const shirt = STYLIST_WEARABLES["Red Farmer Shirt"] as StylistWearable;
+
+    expect(state.coins).toEqual(coins - shirt.coins * 0.75);
   });
 });
