@@ -36,7 +36,7 @@ export function getBannerPrice(
   }
 
   const goldPassRetired =
-    Date.now() > new Date("2024-09-01T00:00:00Z").getTime();
+    Date.now() > new Date("2024-08-01T00:00:00Z").getTime();
   const getsFreeBanner =
     !goldPassRetired &&
     farmId &&
