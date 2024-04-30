@@ -40,7 +40,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             bottom: `${PIXEL_SCALE * 10}px`,
-            right: `${PIXEL_SCALE * 56}px`,
+            right: `${PIXEL_SCALE * 57}px`,
           }}
         />
       </MapPlacement>
