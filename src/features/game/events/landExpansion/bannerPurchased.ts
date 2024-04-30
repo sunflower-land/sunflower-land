@@ -7,6 +7,7 @@ import {
   SeasonalBanner,
   getPreviousSeasonalBanner,
   getSeasonByBanner,
+  getSeasonalBanner,
 } from "features/game/types/seasons";
 import { translate } from "lib/i18n/translate";
 
@@ -24,7 +25,8 @@ type Options = {
 export function getBannerPrice(
   banner: SeasonalBanner | "Lifetime Farmer Banner",
   hasPreviousBanner: boolean,
-  hasLifetimeBanner?: boolean,
+  hasLifetimeBanner: boolean,
+  hasGoldPass: boolean,
   createdAt: number = Date.now()
 ): Decimal {
   if (banner === "Lifetime Farmer Banner") {
@@ -42,13 +44,19 @@ export function getBannerPrice(
     (createdAt - seasonStartDate.getTime()) / WEEK
   );
 
-  if (weeksElapsed < 2) return new Decimal(hasPreviousBanner ? 50 : 65);
+  const goldPassDiscount = hasGoldPass ? 15 : 0;
 
-  if (weeksElapsed < 4) return new Decimal(90);
-
-  if (weeksElapsed < 8) return new Decimal(70);
-
-  return new Decimal(50);
+  if (weeksElapsed < 2) {
+    const previousBannerDiscount = hasPreviousBanner ? 15 : 0;
+    return new Decimal(65).sub(previousBannerDiscount).sub(goldPassDiscount);
+  }
+  if (weeksElapsed < 4) {
+    return new Decimal(90).sub(goldPassDiscount);
+  }
+  if (weeksElapsed < 8) {
+    return new Decimal(70).sub(goldPassDiscount);
+  }
+  return new Decimal(50).sub(goldPassDiscount);
 }
 
 export function purchaseBanner({
@@ -88,14 +96,29 @@ export function purchaseBanner({
     throw new Error("You already have this banner");
   }
 
+  if (inventory["Lifetime Farmer Banner"] !== undefined) {
+    throw new Error("You already have the Lifetime Farmer Banner");
+  }
+
+  const seasonBanner = getSeasonalBanner();
+  if (action.name !== seasonBanner) {
+    throw new Error(
+      `Attempt to purchase ${action.name} in ${seasonBanner} Season`
+    );
+  }
+
   const previousBanner = getPreviousSeasonalBanner();
-  const hasPreviousBanner = !!inventory[previousBanner];
-  const hasLifetimeBanner = !!inventory["Lifetime Farmer Banner"];
+  const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(0);
+  const hasLifetimeBanner = (
+    inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
+  ).gt(0);
+  const hasGoldPass = (inventory["Gold Pass"] ?? new Decimal(0)).gt(0);
 
   const price = getBannerPrice(
     action.name,
     hasPreviousBanner,
     hasLifetimeBanner,
+    hasGoldPass,
     createdAt
   );
 
