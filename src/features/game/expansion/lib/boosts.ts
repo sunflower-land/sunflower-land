@@ -177,7 +177,10 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.2);
   }
 
-  if (isCollectibleBuilt({ name: getSeasonalBanner(), game })) {
+  if (
+    isCollectibleBuilt({ name: getSeasonalBanner(), game }) ||
+    isCollectibleBuilt({ name: "Lifetime Farmer Banner", game })
+  ) {
     boostedExp = boostedExp.mul(1.1);
   }
 

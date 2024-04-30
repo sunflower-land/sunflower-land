@@ -7,7 +7,10 @@ export function SFLDiscount(state: GameState | undefined, sfl: Decimal) {
 
   const currentSeasonBanner = getSeasonalBanner();
 
-  if (state.inventory[currentSeasonBanner]) {
+  if (
+    state.inventory[currentSeasonBanner] ||
+    state.inventory["Lifetime Farmer Banner"]
+  ) {
     // 25% discount
     return sfl.times(0.75);
   }
