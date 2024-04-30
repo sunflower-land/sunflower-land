@@ -1,4 +1,5 @@
 import Decimal from "decimal.js-light";
+import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
@@ -53,7 +54,8 @@ export function buyWearable({
     }
   }
 
-  const price = wearable.coins ?? 0;
+  const price =
+    SFLDiscount(stateCopy, new Decimal(wearable.coins)).toNumber() ?? 0;
 
   if (price && stateCopy.coins < price) {
     throw new Error("Insufficient coins");
