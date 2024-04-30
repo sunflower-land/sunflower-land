@@ -631,6 +631,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Halibut: 1535,
   Parrotfish: 1536,
   "Crimson Carp": 1537,
+  "Battle Fish": 1538,
 
   "White Festive Fox": 2001,
   Rug: 2002,

@@ -1249,6 +1249,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Gilded Swordfish": { width: 2, height: 1 },
   "Kraken Tentacle": { width: 1, height: 1 },
   "Crimson Carp": { width: 2, height: 1 },
+  "Battle Fish": { width: 2, height: 1 },
 
   // Catch the Kraken SFTs
   Walrus: { width: 2, height: 2 },

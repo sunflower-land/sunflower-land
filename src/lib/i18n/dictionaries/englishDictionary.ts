@@ -912,6 +912,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.nugget.boost": "+0.25 Gold",
   "description.rock.golem.boost": "10% Chance of +2 Stone",
   "description.crimson.carp.boost": "+0.05 Crimstone",
+  "description.battle.fish.boost": "+0.05 Oil",
   "description.crim.peckster.boost": "+0.1 Crimstone",
   "description.knight.chicken.boost": "+0.1 Oil",
   "description.queen.bee.boost": "+1 Honey Production Speed",
@@ -2066,6 +2067,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
   "description.gilded.swordfish":
     "A swordfish with scales that sparkle like gold, the ultimate catch!",
   "description.crimson.carp": "A rare, vibrant jewel of the Spring waters.",
+  "description.battle.fish": "The rare armored swimmer of faction season!",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {

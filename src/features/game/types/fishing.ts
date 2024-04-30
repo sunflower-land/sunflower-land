@@ -51,7 +51,8 @@ export type MarineMarvelName =
   | "Phantom Barracuda"
   | "Gilded Swordfish"
   | "Kraken Tentacle"
-  | "Crimson Carp";
+  | "Crimson Carp"
+  | "Battle Fish";
 
 export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
   "Fishing Lure": {
@@ -365,6 +366,11 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
     baits: ["Grub", "Fishing Lure"],
     type: "marine marvel",
     locations: ["wharf"],
+  },
+  "Battle Fish": {
+    baits: ["Earthworm", "Grub", "Fishing Lure"],
+    type: "marine marvel",
+    locations: ["wharf", "beach"],
   },
 };
 

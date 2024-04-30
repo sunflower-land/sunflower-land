@@ -259,6 +259,7 @@ import { FancyRug } from "./components/FancyRug";
 import { Clock } from "./components/Clock";
 import { Vinny } from "./components/Vinny";
 import { KnightChicken } from "./components/KnightChicken";
+import { BattleFish } from "./components/BattleFish";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -508,6 +509,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Gilded Swordfish": GildedSwordfish,
   "Kraken Tentacle": KrakenTentacle,
   "Crimson Carp": CrimsonCarp,
+  "Battle Fish": BattleFish,
 
   // Catch the Kraken
   "Lifeguard Ring": LifeguardRing,

@@ -568,6 +568,7 @@ import crimsonCarp from "assets/fish/crimson_carp.png";
 import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
+import battleFish from "assets/fish/battle_fish.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -2948,14 +2949,18 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
-
   "Crimson Carp": {
     image: crimsonCarp,
     description: translate("description.crimson.carp"),
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
-
+  "Battle Fish": {
+    image: battleFish,
+    description: translate("description.battle.fish"),
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+  },
   "Kraken Tentacle": {
     image: krakenTentacle,
     description: translate("description.kraken.tentacle"),

@@ -618,6 +618,7 @@ export type BoostEffectDescriptions =
   | "description.nugget.boost"
   | "description.rock.golem.boost"
   | "description.crimson.carp.boost"
+  | "description.battle.fish.boost"
   | "description.crim.peckster.boost"
   | "description.knight.chicken.boost"
   | "description.queen.bee.boost"
@@ -1470,7 +1471,8 @@ export type FishDescriptions =
   | "description.radiant.ray"
   | "description.phantom.barracuda"
   | "description.gilded.swordfish"
-  | "description.crimson.carp";
+  | "description.crimson.carp"
+  | "description.battle.fish";
 
 export type FishermanModal =
   | "fishermanModal.attractFish"

@@ -413,6 +413,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Crimstone.image,
   },
+  "Battle Fish": {
+    labelType: "success",
+    shortDescription: translate("description.battle.fish.boost"),
+    boostTypeIcon: powerup,
+    // boostedItemIcon: ITEM_DETAILS.Oil.image,
+  },
   "Crim Peckster": {
     shortDescription: translate("description.crim.peckster.boost"),
     labelType: "success",

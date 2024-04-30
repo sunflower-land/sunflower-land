@@ -860,6 +860,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   Halibut: () => false,
   Parrotfish: () => false,
   "Crimson Carp": () => false,
+  "Battle Fish": () => false,
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
