@@ -728,7 +728,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   onDeliver={deliver}
                 />
                 {isTicketOrder &&
-                  hasFeatureAccess({} as GameState, "BANNER_SALES") && (
+                  hasFeatureAccess({} as GameState, "FACTIONS") && (
                     <div className="flex items-center justify-between my-1 mt-2">
                       <Label
                         type={game.faction ? "warning" : "danger"}
@@ -758,7 +758,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   )}
                 {isTicketOrder &&
                   !game.faction &&
-                  hasFeatureAccess({} as GameState, "BANNER_SALES") && (
+                  hasFeatureAccess({} as GameState, "FACTIONS") && (
                     <Label type="danger" icon={factions}>
                       {t("faction.points.pledge.warning")}
                     </Label>

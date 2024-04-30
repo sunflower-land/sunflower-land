@@ -85,7 +85,7 @@ export const ChoreV2: React.FC<Props> = ({
       )}
       {!ticketTasksAreFrozen && (
         <div className="flex flex-col space-y-1">
-          {hasFeatureAccess({} as GameState, "BANNER_SALES") && !faction && (
+          {hasFeatureAccess({} as GameState, "FACTIONS") && !faction && (
             <div className="p-0.2 bg-brown-300 sticky z-10 -top-1">
               <Label type="danger" className="ml-3 my-1" icon={factions}>
                 {t("faction.points.pledge.warning")}
