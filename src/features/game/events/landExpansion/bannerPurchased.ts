@@ -28,7 +28,7 @@ export function getBannerPrice(
   hasPreviousBanner: boolean,
   hasLifetimeBanner: boolean,
   hasGoldPass: boolean,
-  createdAt: number = Date.now(),
+  createdAt: number,
   farmId?: number
 ): Decimal {
   if (banner === "Lifetime Farmer Banner") {
