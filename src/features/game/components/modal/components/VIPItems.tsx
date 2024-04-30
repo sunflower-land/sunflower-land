@@ -45,20 +45,28 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
 
   const blockBuckBalance = inventory["Block Buck"] ?? new Decimal(0);
   const seasonBannerImage = getSeasonalBannerImage();
-  const previousBanner = getPreviousSeasonalBanner();
-  const hasPreviousBanner = !!inventory[previousBanner];
   const seasonBanner = getSeasonalBanner();
+  const previousBanner = getPreviousSeasonalBanner();
+
+  const hasSeasonBanner = (inventory[seasonBanner] ?? new Decimal(0)).gt(0);
+  const hasPreviousBanner = (inventory[previousBanner] ?? new Decimal(0)).gt(0);
+  const hasLifeTimeBanner = (
+    inventory["Lifetime Farmer Banner"] ?? new Decimal(0)
+  ).gt(0);
+  const hasGoldPass = (inventory["Gold Pass"] ?? new Decimal(0)).gt(0);
+
   const actualSeasonBannerPrice = getBannerPrice(
     seasonBanner,
-    hasPreviousBanner
+    hasPreviousBanner,
+    hasLifeTimeBanner,
+    hasGoldPass
   ).toNumber();
+
   const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
   const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
   const canAffordLifetimeBanner = blockBuckBalance.gte(
     LIFETIME_FARMER_BANNER_PRICE
   );
-  const hasLifeTimeBanner = inventory["Lifetime Farmer Banner"] !== undefined;
-  const hasSeasonBanner = !!inventory[seasonBanner];
 
   const handlePurchase = () => {
     const state = gameService.send("banner.purchased", {
@@ -150,7 +158,9 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
     if (item === "Lifetime Farmer Banner") {
       return getBannerPrice(
         "Lifetime Farmer Banner",
-        hasPreviousBanner
+        hasPreviousBanner,
+        hasLifeTimeBanner,
+        hasGoldPass
       ).toNumber();
     }
 
@@ -158,7 +168,8 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
       return getBannerPrice(
         seasonBanner,
         hasPreviousBanner,
-        hasLifeTimeBanner
+        hasLifeTimeBanner,
+        hasGoldPass
       ).toNumber();
     }
 
