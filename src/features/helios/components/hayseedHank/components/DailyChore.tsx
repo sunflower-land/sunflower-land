@@ -131,7 +131,7 @@ export const DailyChore: React.FC<Props> = ({
                 width={6}
               />
             </div>
-            {hasFeatureAccess({} as GameState, "BANNER_SALES") && (
+            {hasFeatureAccess({} as GameState, "FACTIONS") && (
               <div className="flex items-center justify-end space-x-1">
                 <span
                   className={classNames("mb-0.5 text-white", {
