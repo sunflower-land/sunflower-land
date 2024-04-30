@@ -88,6 +88,16 @@ import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
+// Clash of Factions
+import turboSprout from "assets/sfts/turbo_sprout.webp";
+import soybliss from "assets/sfts/soybliss.webp";
+import grapeGranny from "assets/sfts/grape_granny.webp";
+import royalThrone from "assets/sfts/royal_throne.webp";
+import lilyEgg from "assets/sfts/lily_egg.webp";
+import goblet from "assets/sfts/goblet.webp";
+import fancyRug from "assets/sfts/fancy_rug.webp";
+import grapey from "assets/sfts/grapey.webp";
+import clock from "assets/sfts/clock.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -3308,5 +3318,43 @@ export const ITEM_DETAILS: Items = {
   "Hungry Hare": {
     image: hungryHare,
     description: translate("description.hungryHare"),
+  },
+
+  // Clash of Factions
+  "Turbo Sprout": {
+    image: turboSprout,
+    description: translate("description.turbo.sprout"),
+  },
+  Soybliss: {
+    image: soybliss,
+    description: translate("description.soybliss"),
+  },
+  "Grape Granny": {
+    image: grapeGranny,
+    description: translate("description.grape.granny"),
+  },
+  "Royal Throne": {
+    image: royalThrone,
+    description: translate("description.royal.throne"),
+  },
+  "Lily Egg": {
+    image: lilyEgg,
+    description: translate("description.lily.egg"),
+  },
+  Goblet: {
+    image: goblet,
+    description: translate("description.goblet"),
+  },
+  "Fancy Rug": {
+    image: fancyRug,
+    description: translate("description.fancy.rug"),
+  },
+  Clock: {
+    image: clock,
+    description: translate("description.clock"),
+  },
+  Grapey: {
+    image: grapey,
+    description: translate("description.grapey"),
   },
 };

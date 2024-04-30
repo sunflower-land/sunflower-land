@@ -656,6 +656,12 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Humming Bird": () => canWithdrawTimebasedItem(new Date("2024-04-22")), // Last Auction 2024/04/21 5pm UTC
   "Hungry Caterpillar": () => canWithdrawTimebasedItem(new Date("2024-03-31")), // Last Auction 2024/03/30 5pm UTC
   "Queen Bee": () => canWithdrawTimebasedItem(new Date("2024-03-19")), // Last Auction 2024/03/18 5pm UTC
+  "Turbo Sprout": () => canWithdrawTimebasedItem(new Date("2024-07-12")), // Last Auction 2024/07/11
+  Soybliss: () => canWithdrawTimebasedItem(new Date("2024-06-24")), // Last Auction 2024/06/23
+  "Grape Granny": () => canWithdrawTimebasedItem(new Date("2024-06-30")), // Last Auction 2024/06/29
+  "Royal Throne": () => canWithdrawTimebasedItem(new Date("2024-07-09")), // Last Auction 2024/07/08,
+  "Lily Egg": () => canWithdrawTimebasedItem(new Date("2024-06-21")), // Last Auction 2024/06/20
+  Goblet: () => canWithdrawTimebasedItem(new Date("2024-07-15")), // Last Auction 2024/07/14
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -870,6 +876,9 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Green Field Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Flower Cart": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Tea Rug": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
+  "Fancy Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
+  Clock: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
+  Grapey: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -1253,4 +1262,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Striped Red Shirt": () => canWithdrawTimebasedItem(new Date("2023-04-04")),
   "Striped Yellow Shirt": () =>
     canWithdrawTimebasedItem(new Date("2023-04-04")),
+
+  // Clash of Factions Auction
+  "Non La Hat": () => canWithdrawTimebasedItem(new Date("2024-06-27")), // Last Auction 2024/06/26
+  "Oil Can": () => canWithdrawTimebasedItem(new Date("2024-07-07")), // Last Auction 2024/07/06
+  "Olive Shield": () => canWithdrawTimebasedItem(new Date("2024-07-06")), // Last Auction 2024/07/05
+  "Paw Shield": () => canWithdrawTimebasedItem(new Date("2024-07-24")), // Last Auction 2024/07/23
+  Pan: () => canWithdrawTimebasedItem(new Date("2024-07-21")), // Last Auction 2024/07/20
+  // Clash of Factions Megastore
+  "Royal Robe": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
+  Crown: () => canWithdrawTimebasedItem(new Date("2024-04-04")),
 };

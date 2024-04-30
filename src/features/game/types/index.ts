@@ -191,7 +191,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Alba: 479,
   "Knowledge Crab": 480,
   Anchor: 481,
-  // AVAILABLE = 482,
   "Rubber Ducky": 483,
   "Kraken Head": 484,
   "Skill Shrimpy": 485,
@@ -204,6 +203,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Flower Fox": 492,
   "Hungry Caterpillar": 493,
   "Crim Peckster": 494,
+  "Turbo Sprout": 495,
+  Soybliss: 496,
+  "Grape Granny": 497,
+  "Royal Throne": 498,
+  "Lily Egg": 499,
+  Goblet: 482,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -639,6 +644,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Flower Rug": 2011,
   "Tea Rug": 2012,
   "Green Field Rug": 2013,
+  "Fancy Rug": 2014,
+  Clock: 2015,
+  Grapey: 2016,
 };
 
 // The reverse of above

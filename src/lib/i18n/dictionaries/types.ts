@@ -633,7 +633,16 @@ export type BoostEffectDescriptions =
   | "description.time.warp.totem.boost"
   | "description.radiant.ray.boost"
   | "description.beekeeper.hat.boost"
-  | "description.flower.fox.boost";
+  | "description.flower.fox.boost"
+  | "description.turbo.sprout.boost"
+  | "description.soybliss.boost"
+  | "description.grape.granny.boost"
+  | "description.non.la.hat.boost"
+  | "description.oil.can.boost"
+  | "description.paw.shield.boost"
+  | "description.olive.shield.boost"
+  | "description.pan.boost"
+  | "description.grapey.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -1223,7 +1232,18 @@ export type DecorationDescriptions =
   | "description.sunflorian.faction.banner"
   | "description.nightshade.faction.banner"
   | "description.bumpkin.faction.banner"
-  | "description.goblin.faction.banner";
+  | "description.goblin.faction.banner"
+
+  // Clash of Factions
+  | "description.turbo.sprout"
+  | "description.soybliss"
+  | "description.grape.granny"
+  | "description.royal.throne"
+  | "description.lily.egg"
+  | "description.goblet"
+  | "description.fancy.rug"
+  | "description.clock"
+  | "description.grapey";
 
 export type Delivery =
   | "delivery.resource"

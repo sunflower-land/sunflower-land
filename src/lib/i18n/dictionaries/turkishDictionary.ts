@@ -929,6 +929,18 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.babyPanda.boost": "Başlangıç 2x XP Takviyesi",
   "description.flower.fox.boost": "-10% Çiçek Büyüme Hızı",
   "description.hungryHare.boost": ENGLISH_TERMS["description.hungryHare.boost"],
+  "description.grape.granny.boost":
+    ENGLISH_TERMS["description.grape.granny.boost"],
+  "description.soybliss.boost": ENGLISH_TERMS["description.soybliss.boost"],
+  "description.turbo.sprout.boost":
+    ENGLISH_TERMS["description.turbo.sprout.boost"],
+  "description.non.la.hat.boost": ENGLISH_TERMS["description.non.la.hat.boost"],
+  "description.oil.can.boost": ENGLISH_TERMS["description.oil.can.boost"],
+  "description.olive.shield.boost":
+    ENGLISH_TERMS["description.olive.shield.boost"],
+  "description.pan.boost": ENGLISH_TERMS["description.pan.boost"],
+  "description.paw.shield.boost": ENGLISH_TERMS["description.paw.shield.boost"],
+  "description.grapey.boost": ENGLISH_TERMS["description.grapey.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1709,6 +1721,17 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     ENGLISH_TERMS["description.bumpkin.faction.banner"],
   "description.nightshade.faction.banner":
     ENGLISH_TERMS["description.nightshade.faction.banner"],
+
+  // Clash of Factions
+  "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
+  "description.soybliss": ENGLISH_TERMS["description.soybliss"],
+  "description.grape.granny": ENGLISH_TERMS["description.grape.granny"],
+  "description.royal.throne": ENGLISH_TERMS["description.royal.throne"],
+  "description.lily.egg": ENGLISH_TERMS["description.lily.egg"],
+  "description.goblet": ENGLISH_TERMS["description.goblet"],
+  "description.clock": ENGLISH_TERMS["description.clock"],
+  "description.fancy.rug": ENGLISH_TERMS["description.fancy.rug"],
+  "description.grapey": ENGLISH_TERMS["description.grapey"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

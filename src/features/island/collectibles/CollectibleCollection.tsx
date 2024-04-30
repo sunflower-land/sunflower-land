@@ -249,6 +249,15 @@ import { NightshadeFactionBanner } from "./components/NightshadeFactionBanner";
 import { BumpkinFactionBanner } from "./components/BumpkinFactionBanner";
 import { ClashOfFactionsBanner } from "./components/ClashOfFactionsBanner";
 import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
+import { TurboSprout } from "./components/TurboSprout";
+import { Soybliss } from "./components/Soybliss";
+import { GrapeGranny } from "./components/GrapeGranny";
+import { RoyalThrone } from "./components/RoyalThrone";
+import { LilyEgg } from "./components/LilyEgg";
+import { Goblet } from "./components/Goblet";
+import { FancyRug } from "./components/FancyRug";
+import { Clock } from "./components/Clock";
+import { Grapey } from "./components/Grapey";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -544,6 +553,17 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin Faction Banner": GoblinFactionBanner,
   "Nightshade Faction Banner": NightshadeFactionBanner,
   "Bumpkin Faction Banner": BumpkinFactionBanner,
+
+  // Clash of Factions
+  "Turbo Sprout": TurboSprout,
+  Soybliss: Soybliss,
+  "Grape Granny": GrapeGranny,
+  "Royal Throne": RoyalThrone,
+  "Lily Egg": LilyEgg,
+  Goblet: Goblet,
+  "Fancy Rug": FancyRug,
+  Clock: Clock,
+  Grapey: Grapey,
 };
 // Need readonly versions for some troublesome components while in design mode
 
