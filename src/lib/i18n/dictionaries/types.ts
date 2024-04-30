@@ -2794,6 +2794,7 @@ export type SeasonTerms =
   | "season.supporter.gift"
   | "season.free.season.passes"
   | "season.vip.access"
+  | "season.vip.description"
   | "season.mystery.gift"
   | "season.xp.boost"
   | "season.free.season.passes.description"
