@@ -5,6 +5,12 @@ const defaultFeatureFlag = ({ inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" || !!inventory["Beta Pass"]?.gt(0);
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
+
+const clashOfFactionsFeatureFlag = () => {
+  if (testnetFeatureFlag()) return true;
+
+  return Date.now() > new Date("2024-05-01T00:00:00Z").getTime();
+};
 /*
  * How to Use:
  * Add the feature name to this list when working on a new feature.
@@ -40,14 +46,10 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
   },
-  FACTIONS: testnetFeatureFlag,
-  FACTION_LEADERBOARD: testnetFeatureFlag,
+  FACTIONS: clashOfFactionsFeatureFlag,
+  FACTION_LEADERBOARD: clashOfFactionsFeatureFlag,
   SOUND: testnetFeatureFlag,
-  BANNER_SALES: (game) => {
-    if (testnetFeatureFlag()) return true;
-
-    return Date.now() > new Date("2024-05-01T00:00:00Z").getTime();
-  },
+  BANNER_SALES: clashOfFactionsFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
