@@ -11,17 +11,17 @@ interface Props {
   onClose: () => void;
 }
 export const Birdie: React.FC<Props> = ({ onClose }) => {
-  const [showFeatherHelp, setShowFeatherHelp] = useState(false);
+  const [showTicketHelp, setShowTicketHelp] = useState(false);
   const [showSeasonHelp, setShowSeasonHelp] = useState(false);
 
   useEffect(() => {
     acknowledgeNPC("birdie");
   }, []);
 
-  if (showFeatherHelp) {
+  if (showTicketHelp) {
     return (
       <SpeakingModal
-        key="feathers"
+        key="tickets"
         onClose={() => {
           onClose();
         }}
@@ -76,7 +76,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
                 text: translate("birdieplaza.howToEarnTickets", {
                   seasonalTicket: getSeasonalTicket(),
                 }),
-                cb: () => setShowFeatherHelp(true),
+                cb: () => setShowTicketHelp(true),
               },
             ],
           },
@@ -118,7 +118,7 @@ export const Birdie: React.FC<Props> = ({ onClose }) => {
               text: translate("birdieplaza.howToEarnTickets", {
                 seasonalTicket: getSeasonalTicket(),
               }),
-              cb: () => setShowFeatherHelp(true),
+              cb: () => setShowTicketHelp(true),
             },
           ],
         },
