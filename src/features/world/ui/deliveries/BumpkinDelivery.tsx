@@ -576,9 +576,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   };
 
   const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
-  const hasSeasonPass = (
-    game.inventory[getSeasonalBanner()] ?? new Decimal(0)
-  )?.gte(1);
+  const hasSeasonPass =
+    (game.inventory[getSeasonalBanner()] ?? new Decimal(0))?.gte(1) ||
+    (game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0))?.gte(1);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);

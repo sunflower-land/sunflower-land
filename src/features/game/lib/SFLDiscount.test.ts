@@ -81,4 +81,14 @@ describe("SFLDiscount", () => {
     const result = SFLDiscount(state, sfl);
     expect(result).toEqual(new Decimal(1));
   });
+
+  it("should return 0.75 when inventory has Lifetime Farmer Banner", () => {
+    const state = {
+      ...TEST_FARM,
+      inventory: { "Lifetime Farmer Banner": new Decimal(1) },
+    };
+    const sfl = new Decimal(1);
+    const result = SFLDiscount(state, sfl);
+    expect(result).toEqual(new Decimal(0.75));
+  });
 });
