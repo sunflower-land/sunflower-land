@@ -11,10 +11,6 @@ import {
 } from "features/game/types/seasons";
 
 describe("purchaseBanner", () => {
-  beforeEach(() => {
-    jest.useRealTimers();
-  });
-
   it("throws an error if no bumpkin exists", () => {
     expect(() =>
       purchaseBanner({
@@ -364,6 +360,25 @@ describe("purchaseBanner", () => {
         type: "banner.purchased",
         name: "Spring Blossom Banner",
       },
+    });
+
+    expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
+    expect(result.inventory["Spring Blossom Banner"]).toEqual(new Decimal(1));
+  });
+
+  it("does not charge for a banner if a gold pass was purchased in last three months", () => {
+    const result = purchaseBanner({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Block Buck": new Decimal(100),
+        },
+      },
+      action: {
+        type: "banner.purchased",
+        name: "Spring Blossom Banner",
+      },
+      farmId: 25,
     });
 
     expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));

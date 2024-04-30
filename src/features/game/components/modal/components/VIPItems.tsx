@@ -33,6 +33,7 @@ type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 export const ORIGINAL_SEASONAL_BANNER_PRICE = 90;
 export const LIFETIME_FARMER_BANNER_PRICE = 540;
 
+const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
 type Props = {
@@ -75,6 +76,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
   const { t } = useTranslation();
 
   const inventory = useSelector(gameService, _inventory);
+  const farmId = useSelector(gameService, _farmId);
 
   const blockBuckBalance = inventory["Block Buck"] ?? new Decimal(0);
   const seasonBannerImage = getSeasonalBannerImage();
@@ -92,10 +94,13 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
     seasonBanner,
     hasPreviousBanner,
     hasLifeTimeBanner,
-    hasGoldPass
+    hasGoldPass,
+    Date.now(),
+    farmId
   ).toNumber();
 
   const hasDiscount = actualSeasonBannerPrice < ORIGINAL_SEASONAL_BANNER_PRICE;
+  const isFree = actualSeasonBannerPrice === 0;
   const canAffordSeasonBanner = blockBuckBalance.gte(actualSeasonBannerPrice);
   const canAffordLifetimeBanner = blockBuckBalance.gte(
     LIFETIME_FARMER_BANNER_PRICE
@@ -168,7 +173,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
       );
     }
 
-    if (!hasSeasonBanner && hasLifeTimeBanner) {
+    if ((!hasSeasonBanner && hasLifeTimeBanner) || isFree) {
       return (
         <Label type="success" className="absolute right-1 bottom-1">
           {t("free")}
@@ -193,7 +198,9 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
         "Lifetime Farmer Banner",
         hasPreviousBanner,
         hasLifeTimeBanner,
-        hasGoldPass
+        hasGoldPass,
+        Date.now(),
+        farmId
       ).toNumber();
     }
 
@@ -202,7 +209,9 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
         seasonBanner,
         hasPreviousBanner,
         hasLifeTimeBanner,
-        hasGoldPass
+        hasGoldPass,
+        Date.now(),
+        farmId
       ).toNumber();
     }
 
@@ -338,8 +347,10 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
                 )}`}</span>
                 <img src={blockBucksIcon} className="w-6" />
               </div>
-            ) : (
+            ) : hasLifeTimeBanner ? (
               <Label type="success">{t("season.free.with.lifetime")}</Label>
+            ) : (
+              <Label type="success">{t("free")}</Label>
             )}
             {!getCanPurchaseItem() && getErrorLabel()}
           </div>
