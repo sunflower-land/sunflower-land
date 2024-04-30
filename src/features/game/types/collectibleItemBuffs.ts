@@ -189,8 +189,8 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
-  Grapey: {
-    shortDescription: translate("description.grapey.boost"),
+  Vinny: {
+    shortDescription: translate("description.Vinny.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,

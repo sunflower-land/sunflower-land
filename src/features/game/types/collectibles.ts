@@ -90,7 +90,7 @@ export type MegaStoreCollectibleName =
   | "Flower Rug"
   | "Tea Rug"
   | "Green Field Rug"
-  | "Grapey"
+  | "Vinny"
   | "Clock"
   | "Fancy Rug";
 

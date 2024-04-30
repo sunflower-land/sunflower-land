@@ -257,7 +257,7 @@ import { LilyEgg } from "./components/LilyEgg";
 import { Goblet } from "./components/Goblet";
 import { FancyRug } from "./components/FancyRug";
 import { Clock } from "./components/Clock";
-import { Grapey } from "./components/Grapey";
+import { Vinny } from "./components/Vinny";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -563,7 +563,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Goblet: Goblet,
   "Fancy Rug": FancyRug,
   Clock: Clock,
-  Grapey: Grapey,
+  Vinny: Vinny,
 };
 // Need readonly versions for some troublesome components while in design mode
 

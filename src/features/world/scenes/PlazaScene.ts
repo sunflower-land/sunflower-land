@@ -457,7 +457,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("grapey", "world/grapey.webp");
+    this.load.image("vinny", "world/vinny.webp");
     this.load.image("non_la", "world/non_la.webp");
 
     this.load.image("banner", "world/clash_of_factions_banner.webp");
@@ -982,7 +982,7 @@ export class PlazaScene extends BaseScene {
       });
 
     // Stella Collectible of the Month
-    this.add.image(248, 244, "grapey");
+    this.add.image(248, 244, "vinny");
     this.add.image(288.5, 248, "non_la");
 
     const door = this.colliders
