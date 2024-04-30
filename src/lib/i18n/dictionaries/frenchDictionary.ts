@@ -923,6 +923,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "Chance de 10% d'obtenir +2 Pierre",
   "description.crimson.carp.boost": "+0.05 Crimstone",
   "description.crim.peckster.boost": "+0.1 Crimstone",
+  "description.knight.chicken.boost":
+    ENGLISH_TERMS["description.knight.chicken.boost"],
   "description.queen.bee.boost": "+1 de vitesse de production de Honey",
   "description.beekeeper.hat.boost": "+0.2 de vitesse de production de Honey",
   "description.flower.fox.boost": "-10% Temps de Croissance des Fleurs",

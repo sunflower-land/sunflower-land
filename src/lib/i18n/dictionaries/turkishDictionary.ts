@@ -909,6 +909,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rock.golem.boost": "10% Şans ile +2 Taş",
   "description.crimson.carp.boost": "+0.05 Kızıltaş",
   "description.crim.peckster.boost": "+0.1 Kızıltaş",
+  "description.knight.chicken.boost":
+    ENGLISH_TERMS["description.knight.chicken.boost"],
   "description.queen.bee.boost": "+1 Bal Üretim Hızı",
   "description.humming.bird.boost": "20% Şans ile +1 Çiçek",
   "description.beehive.boost":

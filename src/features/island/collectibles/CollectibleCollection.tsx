@@ -258,6 +258,7 @@ import { Goblet } from "./components/Goblet";
 import { FancyRug } from "./components/FancyRug";
 import { Clock } from "./components/Clock";
 import { Vinny } from "./components/Vinny";
+import { KnightChicken } from "./components/KnightChicken";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -526,6 +527,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Soil Krabby": SoilKrabby,
   Nana: Nana,
   "Crim Peckster": CrimPeckster,
+  "Knight Chicken": KnightChicken,
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,

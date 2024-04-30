@@ -10,6 +10,7 @@ import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
 import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
+import knightChicken from "assets/animals/chickens/knight_chicken.png";
 
 import { Button } from "components/ui/Button";
 import { translate } from "lib/i18n/translate";
@@ -43,6 +44,10 @@ const mutants: Record<MutantChicken, Record<string, string>> = {
   "Crim Peckster": {
     description: translate("description.crim.peckster"),
     image: crimPeckster,
+  },
+  "Knight Chicken": {
+    description: translate("description.knight.chicken"),
+    image: knightChicken,
   },
 };
 

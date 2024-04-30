@@ -93,7 +93,8 @@ export type MutantChicken =
   | "Ayam Cemani"
   | "El Pollo Veloz"
   | "Banana Chicken"
-  | "Crim Peckster";
+  | "Crim Peckster"
+  | "Knight Chicken";
 
 export interface LimitedItem extends CraftableItem {
   maxSupply?: number;
@@ -777,6 +778,11 @@ export const MUTANT_CHICKENS: Record<MutantChicken, LimitedItem> = {
     description: translate("description.crim.peckster"),
     type: LimitedItemType.MutantChicken,
   },
+  "Knight Chicken": {
+    name: "Knight Chicken",
+    description: translate("description.knight.chicken"),
+    type: LimitedItemType.MutantChicken,
+  },
 };
 
 export const WAR_BANNERS: Record<WarBanner, CraftableItem> = {
@@ -1122,6 +1128,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "El Pollo Veloz": { width: 1, height: 1 },
   "Banana Chicken": { width: 1, height: 2 },
   "Crim Peckster": { width: 1, height: 1 },
+  "Knight Chicken": { width: 1, height: 1 },
   // War Tent Items
   "War Skull": { width: 1, height: 1 },
   "War Tombstone": { width: 1, height: 1 },

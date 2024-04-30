@@ -419,6 +419,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Crimstone.image,
   },
+  "Knight Chicken": {
+    shortDescription: translate("description.knight.chicken.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: ITEM_DETAILS.Oil.image,
+  },
   "Mushroom House": {
     shortDescription: translate("description.mushroom.house.boost"),
     labelType: "success",

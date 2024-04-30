@@ -116,6 +116,7 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
+import knightChicken from "assets/animals/chickens/knight_chicken.webp";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -3023,6 +3024,10 @@ export const ITEM_DETAILS: Items = {
   "Crim Peckster": {
     image: crimPeckster,
     description: translate("description.crim.peckster"),
+  },
+  "Knight Chicken": {
+    image: knightChicken,
+    description: translate("description.knight.chicken"),
   },
   "Skill Shrimpy": {
     image: skillShrimpy,

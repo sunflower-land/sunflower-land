@@ -272,6 +272,7 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "El Pollo Veloz": () => true,
   "Banana Chicken": () => true,
   "Crim Peckster": () => true,
+  "Knight Chicken": () => true,
 };
 
 const flags: Record<Flag, () => boolean> = {
