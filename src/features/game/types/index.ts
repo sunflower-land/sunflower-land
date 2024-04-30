@@ -191,6 +191,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Alba: 479,
   "Knowledge Crab": 480,
   Anchor: 481,
+  Goblet: 482,
   "Rubber Ducky": 483,
   "Kraken Head": 484,
   "Skill Shrimpy": 485,
@@ -208,7 +209,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Grape Granny": 497,
   "Royal Throne": 498,
   "Lily Egg": 499,
-  Goblet: 482,
+  "Knight Chicken": 500,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -630,6 +631,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Halibut: 1535,
   Parrotfish: 1536,
   "Crimson Carp": 1537,
+  "Battle Fish": 1538,
 
   "White Festive Fox": 2001,
   Rug: 2002,

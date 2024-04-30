@@ -116,6 +116,7 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
+import knightChicken from "assets/animals/chickens/knight_chicken.webp";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -567,6 +568,7 @@ import crimsonCarp from "assets/fish/crimson_carp.png";
 import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
+import battleFish from "assets/fish/battle_fish.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -2947,14 +2949,18 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
-
   "Crimson Carp": {
     image: crimsonCarp,
     description: translate("description.crimson.carp"),
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
-
+  "Battle Fish": {
+    image: battleFish,
+    description: translate("description.battle.fish"),
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+  },
   "Kraken Tentacle": {
     image: krakenTentacle,
     description: translate("description.kraken.tentacle"),
@@ -3023,6 +3029,10 @@ export const ITEM_DETAILS: Items = {
   "Crim Peckster": {
     image: crimPeckster,
     description: translate("description.crim.peckster"),
+  },
+  "Knight Chicken": {
+    image: knightChicken,
+    description: translate("description.knight.chicken"),
   },
   "Skill Shrimpy": {
     image: skillShrimpy,

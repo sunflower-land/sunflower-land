@@ -729,6 +729,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
   "description.banana.chicken":
     "Um frango que impulsiona bananas. Em que mundo vivemos?!",
+  "description.knight.chicken": ENGLISH_TERMS["description.knight.chicken"],
 
   // Boosts
   "description.lab.grow.pumpkin": "+0,3 Rendimento de Abóbora",
@@ -916,7 +917,11 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.nugget.boost": "+0.25 Ouro",
   "description.rock.golem.boost": "Chance de 10% de +2 Pedra",
   "description.crimson.carp.boost": "+0.05 Crimstone",
+  "description.battle.fish.boost":
+    ENGLISH_TERMS["description.battle.fish.boost"],
   "description.crim.peckster.boost": "+0.1 Crimstone",
+  "description.knight.chicken.boost":
+    ENGLISH_TERMS["description.knight.chicken.boost"],
   "description.queen.bee.boost": "+1 na Velocidade de Produção de Mel",
   "description.beekeeper.hat.boost": "+0.2 na Velocidade de Produção de Mel",
   "description.humming.bird.boost": "Chance de 20% de +1 Flor",
@@ -2092,6 +2097,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "Um peixe-espada com escamas que brilham como ouro, a captura definitiva!",
   "description.crimson.carp":
     "Uma joia rara e vibrante das águas da primavera.",
+  "description.battle.fish": ENGLISH_TERMS["description.battle.fish"],
 };
 
 const fishermanModal: Record<FishermanModal, string> = {

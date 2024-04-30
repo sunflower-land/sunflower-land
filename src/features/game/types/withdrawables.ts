@@ -272,6 +272,7 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "El Pollo Veloz": () => true,
   "Banana Chicken": () => true,
   "Crim Peckster": () => true,
+  "Knight Chicken": () => true,
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -859,6 +860,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   Halibut: () => false,
   Parrotfish: () => false,
   "Crimson Carp": () => false,
+  "Battle Fish": () => false,
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
