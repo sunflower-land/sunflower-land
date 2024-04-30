@@ -7222,7 +7222,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "An engine that boosts the Green House's growth speed by 50%.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/495.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Boost", value: "Green House" },
@@ -7239,7 +7239,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A unique soy creature that gives +1 Soybean yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/496.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Boost", value: "Crop" },
@@ -7256,7 +7256,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Wise matriarch nurturing grapes to flourish with +1 yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/497.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Boost", value: "Crop" },
@@ -7273,7 +7273,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A throne fit for the highest ranking farmer.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/498.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
@@ -7285,7 +7285,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Tiny delight, grand beauty, endless wonder.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/499.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
@@ -7297,7 +7297,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A goblet that holds the finest of wines.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/482.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
@@ -7309,7 +7309,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A rug that adds a touch of elegance to any room.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/483.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
@@ -7321,7 +7321,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "A Clock that keeps time with the gentle ticking of the seasons.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/484.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
       { trait_type: "Tradable", value: "Yes" },
@@ -7332,7 +7332,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "Grapey, a friendly grapevine, is always ready for a chat.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/485.png",
+    image: "../public/erc1155/images/question_mark.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       { trait_type: "Tradable", value: "Yes" },
