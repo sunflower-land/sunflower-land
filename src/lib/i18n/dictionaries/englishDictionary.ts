@@ -4133,9 +4133,11 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.place.land": "You must place it on your land",
   "season.megastore.discount": "Megastore SFL discount",
   "season.supporter.gift": "Supporter Gift",
-  "season.free.season.passes": "Free Season Passes",
+  "season.free.season.passes": "Free Season Banners",
   "season.free.season.passes.description": "Receive banners for every Season",
-  "season.vip.access": "VIP Access",
+  "season.vip.access": "Season VIP Access",
+  "season.vip.description":
+    "Unlock perks, discounts, bonus tickets, airdrops and more!",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
   "season.lifetime.farmer": "Lifetime Farmer",

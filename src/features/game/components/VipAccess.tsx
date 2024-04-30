@@ -39,7 +39,7 @@ export const VIPAccess: React.FC<VIPAccessProps> = ({ onUpgrade, isVIP }) => {
     <Label
       type="warning"
       icon={vipIcon}
-      secondaryIcon={lock}
+      secondaryIcon={SUNNYSIDE.ui.add_button}
       onClick={onUpgrade}
       className="whitespace-nowrap"
     >

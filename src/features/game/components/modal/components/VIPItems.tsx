@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import {
+  SEASONS,
   SeasonalBanner,
+  getCurrentSeason,
   getPreviousSeasonalBanner,
   getSeasonalBanner,
   getSeasonalBannerImage,
@@ -24,6 +26,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
+import { secondsToString } from "lib/utils/time";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
@@ -34,6 +37,36 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 
 type Props = {
   onClose: () => void;
+};
+
+const SeasonVIPDiscountTime: React.FC = () => {
+  const season = getCurrentSeason();
+  const seasonStartDate = SEASONS[season].startDate;
+  const seasonEndDate = SEASONS[season].endDate;
+
+  const WEEK = 1000 * 60 * 60 * 24 * 7;
+
+  const discountDates = [
+    seasonStartDate.getTime() + 2 * WEEK, // 2 weeks
+    seasonStartDate.getTime() + 4 * WEEK, // 4 weeks
+    seasonStartDate.getTime() + 8 * WEEK, // 8 weeks
+    seasonEndDate.getTime(), // End of season
+  ];
+
+  const upcomingDiscountEnd = discountDates.find((date) => date > Date.now());
+
+  if (!upcomingDiscountEnd) {
+    return null;
+  }
+
+  const secondsLeft = (upcomingDiscountEnd - Date.now()) / 1000;
+
+  // Discounts change at week 2
+  return (
+    <Label type="info" icon={SUNNYSIDE.icons.timer}>
+      {secondsToString(secondsLeft, { length: "medium" })}
+    </Label>
+  );
 };
 
 export const VIPItems: React.FC<Props> = ({ onClose }) => {
@@ -195,6 +228,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               {t("read.more")}
             </a>
           </div>
+          <p className="text-xs px-1">{t("season.vip.description")}</p>
           <OuterPanel
             className={classNames(
               "flex flex-col px-1 cursor-pointer relative",
@@ -219,10 +253,6 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
             <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
               <div className="flex items-center space-x-2">
                 <SquareIcon icon={giftIcon} width={7} />
-                <span>{t("season.supporter.gift")}</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <SquareIcon icon={seasonBannerImage} width={7} />
                 <span>{t("season.free.season.passes")}</span>
               </div>
               {!hasLifeTimeBanner ? (
@@ -254,9 +284,13 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               !hasSeasonBanner ? () => handleClick(seasonBanner) : undefined
             }
           >
-            <Label type="default" className="mb-2" icon={seasonBannerImage}>
-              {getSeasonalBanner()}
-            </Label>
+            <div className="flex justify-between items-center mb-2">
+              <Label type="default" icon={seasonBannerImage}>
+                {getSeasonalBanner()}
+              </Label>
+              {!hasSeasonBanner && <SeasonVIPDiscountTime />}
+            </div>
+
             <div className="flex flex-col space-y-1 sm:space-y-2 text-xs sm:text-sm pb-1">
               {/* Weeks 9-12 will not include the mystery airdrop item */}
               {getSeasonWeek() < 9 && (
