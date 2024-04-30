@@ -208,6 +208,7 @@ export class PlazaScene extends BaseScene {
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
+    this.load.image("vip_gift", "world/vip_gift.png");
     this.load.image("rabbit_1", "world/rabbit_1.png");
     this.load.image("rabbit_2", "world/rabbit_2.png");
     this.load.image("rabbit_3", "world/rabbit_3.png");
@@ -588,6 +589,13 @@ export class PlazaScene extends BaseScene {
           "arrows_to_move"
         )
         .setDepth(1000000000000);
+    }
+
+    if (hasFeatureAccess(this.gameState, "VIP_GIFT")) {
+      const vipGift = this.add.sprite(379, 240, "vip_gift");
+      vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        interactableModalManager.open("vip_chest");
+      });
     }
 
     if (this.gameState.inventory["Treasure Key"]) {

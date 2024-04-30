@@ -18,6 +18,7 @@ import { DiscordBoat } from "./DiscordBoat";
 import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 import { CONFIG } from "lib/config";
 
@@ -99,8 +100,9 @@ export const WaterComponent: React.FC<Props> = ({
         />
       </MapPlacement>
 
-      {/* Bottom island */}
-      <SeasonTeaser offset={offset} />
+      {hasFeatureAccess(gameState, "VIP_GIFT") && (
+        <SeasonTeaser offset={offset} />
+      )}
 
       <TravelTeaser />
 

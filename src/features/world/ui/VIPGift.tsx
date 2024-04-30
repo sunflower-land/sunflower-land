@@ -16,7 +16,7 @@ interface Props {
   onClose: () => void;
 }
 
-export const VIPChest: React.FC<Props> = ({ onClose }) => {
+export const VIPGift: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -36,7 +36,7 @@ export const VIPChest: React.FC<Props> = ({ onClose }) => {
 
     gameService.send("REVEAL", {
       event: {
-        type: "budBox.opened",
+        type: "vipChest.opened",
         createdAt: new Date(),
       },
     });
@@ -59,7 +59,7 @@ export const VIPChest: React.FC<Props> = ({ onClose }) => {
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
     return (
       <Panel>
-        <p className="loading text-sm">Claiming</p>
+        <p className="loading text-sm">{t("loading")}</p>
       </Panel>
     );
   }
@@ -79,7 +79,7 @@ export const VIPChest: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel onClose={onClose}>
       <div className="p-2">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center pr-8">
           <VIPAccess
             isVIP={hasVipAccess(inventory)}
             onUpgrade={() => {
@@ -94,9 +94,9 @@ export const VIPChest: React.FC<Props> = ({ onClose }) => {
           )}
         </div>
       </div>
-      <p className="text-xs mb-2 pl-1">Claim your monthly seasonal airdrop.</p>
+      <p className="text-xs mb-2 pl-1">{t("season.vip.claim")}</p>
       <Button onClick={open} disabled={!hasVip || hasOpened}>
-        Claim
+        {t("claim")}
       </Button>
     </CloseButtonPanel>
   );
