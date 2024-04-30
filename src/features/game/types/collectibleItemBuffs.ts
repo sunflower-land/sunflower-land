@@ -190,7 +190,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
   Vinny: {
-    shortDescription: translate("description.Vinny.boost"),
+    shortDescription: translate("description.vinny.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,

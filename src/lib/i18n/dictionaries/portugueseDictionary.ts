@@ -949,7 +949,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     ENGLISH_TERMS["description.olive.shield.boost"],
   "description.pan.boost": ENGLISH_TERMS["description.pan.boost"],
   "description.paw.shield.boost": ENGLISH_TERMS["description.paw.shield.boost"],
-  "description.Vinny.boost": ENGLISH_TERMS["description.Vinny.boost"],
+  "description.vinny.boost": ENGLISH_TERMS["description.vinny.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1774,7 +1774,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblet": ENGLISH_TERMS["description.goblet"],
   "description.clock": ENGLISH_TERMS["description.clock"],
   "description.fancy.rug": ENGLISH_TERMS["description.fancy.rug"],
-  "description.Vinny": ENGLISH_TERMS["description.Vinny"],
+  "description.vinny": ENGLISH_TERMS["description.vinny"],
 };
 
 const delivery: Record<Delivery, string> = {

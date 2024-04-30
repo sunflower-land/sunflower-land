@@ -96,7 +96,7 @@ import royalThrone from "assets/sfts/royal_throne.webp";
 import lilyEgg from "assets/sfts/lily_egg.webp";
 import goblet from "assets/sfts/goblet.webp";
 import fancyRug from "assets/sfts/fancy_rug.webp";
-import Vinny from "assets/sfts/Vinny.webp";
+import vinny from "assets/sfts/vinny.webp";
 import clock from "assets/sfts/clock.webp";
 
 // AoE items
@@ -3354,7 +3354,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.clock"),
   },
   Vinny: {
-    image: Vinny,
-    description: translate("description.Vinny"),
+    image: vinny,
+    description: translate("description.vinny"),
   },
 };
