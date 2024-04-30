@@ -46,6 +46,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
+import { hasFeatureAccess } from "lib/flags";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -726,39 +727,42 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   hasRequirementsCheck={() => true}
                   onDeliver={deliver}
                 />
-                {isTicketOrder && (
-                  <div className="flex items-center justify-between my-1 mt-2">
-                    <Label
-                      type={game.faction ? "warning" : "danger"}
-                      icon={factions}
-                    >
-                      {t("faction.points.title")}
-                    </Label>
-                    <div className="flex items-center">
-                      <img
-                        src={
-                          game.faction
-                            ? FACTION_POINT_ICONS[game.faction.name]
-                            : factions
-                        }
-                        className="w-4 h-auto mr-1"
-                      />
-                      <span
-                        className={classNames("text-xs", {
-                          "text-error": isTicketOrder && !game.faction,
-                        })}
+                {isTicketOrder &&
+                  hasFeatureAccess({} as GameState, "BANNER_SALES") && (
+                    <div className="flex items-center justify-between my-1 mt-2">
+                      <Label
+                        type={game.faction ? "warning" : "danger"}
+                        icon={factions}
                       >
-                        {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
-                        {delivery.reward.tickets! * FACTION_POINT_MULTIPLIER}
-                      </span>
+                        {t("faction.points.title")}
+                      </Label>
+                      <div className="flex items-center">
+                        <img
+                          src={
+                            game.faction
+                              ? FACTION_POINT_ICONS[game.faction.name]
+                              : factions
+                          }
+                          className="w-4 h-auto mr-1"
+                        />
+                        <span
+                          className={classNames("text-xs", {
+                            "text-error": isTicketOrder && !game.faction,
+                          })}
+                        >
+                          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
+                          {delivery.reward.tickets! * FACTION_POINT_MULTIPLIER}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                )}
-                {isTicketOrder && !game.faction && (
-                  <Label type="danger" icon={factions}>
-                    {t("faction.points.pledge.warning")}
-                  </Label>
-                )}
+                  )}
+                {isTicketOrder &&
+                  !game.faction &&
+                  hasFeatureAccess({} as GameState, "BANNER_SALES") && (
+                    <Label type="danger" icon={factions}>
+                      {t("faction.points.pledge.warning")}
+                    </Label>
+                  )}
               </>
             )}
             {isTicketOrder && ticketTasksAreFrozen && (

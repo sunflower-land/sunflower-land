@@ -414,7 +414,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "yes.please": "Sim, por favor",
   "you.are.here": "You are here",
   "choose.wisely": "Escolha com sabedoria",
-  "deliveries.closed": "Entregas fechadas",
+  "deliveries.closed": ENGLISH_TERMS["deliveries.closed"],
   "enjoying.event": "Gostando desse evento?",
   "flowers.found": "Flores encontradas",
   "hoarding.check": "Verifique seu armazenamento",

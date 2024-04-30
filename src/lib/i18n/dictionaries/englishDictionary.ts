@@ -245,7 +245,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   decoration: "Decoration",
   deliver: "Deliver",
   deliveries: "Deliveries",
-  "deliveries.closed": "Deliveries closed",
+  "deliveries.closed": "Ticket deliveries closed",
   delivery: "Delivery",
   details: "Details:",
   donate: "Donate",

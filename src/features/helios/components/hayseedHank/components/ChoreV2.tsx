@@ -12,9 +12,10 @@ import { secondsToString } from "lib/utils/time";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
-import { FACTIONS_START_TIME } from "features/world/ui/factions/PledgeFaction";
 
 import factions from "assets/icons/factions.webp";
+import { hasFeatureAccess } from "lib/flags";
+import { GameState } from "features/game/types/game";
 
 interface Props {
   /** Is used to identify whether the chores are displayed in the codex or not. The codex requires smaller text sizes. */
@@ -84,7 +85,7 @@ export const ChoreV2: React.FC<Props> = ({
       )}
       {!ticketTasksAreFrozen && (
         <div className="flex flex-col space-y-1">
-          {FACTIONS_START_TIME.getTime() > Date.now() && !faction && (
+          {hasFeatureAccess({} as GameState, "BANNER_SALES") && !faction && (
             <div className="p-0.2 bg-brown-300 sticky z-10 -top-1">
               <Label type="danger" className="ml-3 my-1" icon={factions}>
                 {t("faction.points.pledge.warning")}

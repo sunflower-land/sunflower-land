@@ -17,7 +17,7 @@ import classNames from "classnames";
 import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BumpkinDelivery } from "./BumpkinDelivery";
+import { BumpkinDelivery } from "./BumpkinDelivery.1";
 
 interface OrderCardsProps {
   orders: Order[];

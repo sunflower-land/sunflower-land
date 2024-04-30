@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { ChoreV2, ChoreV2Name } from "features/game/types/game";
+import { ChoreV2, ChoreV2Name, GameState } from "features/game/types/game";
 
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
@@ -21,6 +21,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import factions from "assets/icons/factions.webp";
 import { FACTION_POINT_MULTIPLIER } from "features/game/events/landExpansion/deliver";
 import classNames from "classnames";
+import { hasFeatureAccess } from "lib/flags";
 
 const isDateOnSameDayAsToday = (date: Date) => {
   const today = new Date();
@@ -130,19 +131,21 @@ export const DailyChore: React.FC<Props> = ({
                 width={6}
               />
             </div>
-            <div className="flex items-center justify-end space-x-1">
-              <span
-                className={classNames("mb-0.5 text-white", {
-                  "text-error": !faction,
-                })}
-              >
-                {chore.tickets * FACTION_POINT_MULTIPLIER}
-              </span>
-              <SquareIcon
-                icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
-                width={6}
-              />
-            </div>
+            {hasFeatureAccess({} as GameState, "BANNER_SALES") && (
+              <div className="flex items-center justify-end space-x-1">
+                <span
+                  className={classNames("mb-0.5 text-white", {
+                    "text-error": !faction,
+                  })}
+                >
+                  {chore.tickets * FACTION_POINT_MULTIPLIER}
+                </span>
+                <SquareIcon
+                  icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
+                  width={6}
+                />
+              </div>
+            )}
           </div>
         )}
         {chore.completedAt && (
