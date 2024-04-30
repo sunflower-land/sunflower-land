@@ -244,7 +244,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   decoration: "Dekorasyon",
   deliver: "Teslim Et",
   deliveries: "Teslimatlar",
-  "deliveries.closed": "Teslimatlar kapandı",
+  "deliveries.closed": ENGLISH_TERMS["deliveries.closed"],
   delivery: "Teslimat",
   details: "Detaylar",
   donate: "Bağış Yap",

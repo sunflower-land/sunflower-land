@@ -526,7 +526,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
             </div>
           )}
-          {ticketTasksAreFrozen && (
+          {ticketTasksAreFrozen && previewOrder.reward.tickets && (
             <Label
               type="danger"
               className="mb-1"

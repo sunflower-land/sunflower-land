@@ -259,7 +259,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   default: "Par défaut",
   deliver: "Livrer",
   deliveries: "Livraisons",
-  "deliveries.closed": "Livraisons fermées",
+  "deliveries.closed": ENGLISH_TERMS["deliveries.closed"],
   delivery: "Livraison",
   details: "Détails",
   docs: "Documents",
