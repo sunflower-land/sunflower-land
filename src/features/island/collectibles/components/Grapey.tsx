@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import grapey from "assets/sfts/Grapey.webp";
+import grapey from "assets/sfts/grapey.webp";
 
 export const Grapey: React.FC = () => {
   return (
