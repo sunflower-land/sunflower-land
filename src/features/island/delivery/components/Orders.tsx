@@ -176,8 +176,8 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
         {
           // Give 24 hours heads up before tasks close
           ticketTasksAreClosing && (
-            <div className="flex flex-col items-center">
-              <p className="text-xs text-center">{t("orderhelp.New.Season")}</p>
+            <div className="flex flex-col mx-2 mb-1 space-y-1.5">
+              <p className="text-xxs">{t("orderhelp.New.Season")}</p>
               <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
                 {secondsToString((tasksCloseAt - Date.now()) / 1000, {
                   length: "full",
@@ -187,10 +187,8 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
           )
         }
         {ticketTasksAreFrozen && (
-          <div className="flex flex-col items-center">
-            <p className="text-xs text-center">
-              {t("orderhelp.New.Season.arrival")}
-            </p>
+          <div className="flex flex-col mx-2 mb-1 space-y-1.5">
+            <p className="text-xxs">{t("orderhelp.New.Season.arrival")}</p>
             <Label
               type="info"
               icon={SUNNYSIDE.icons.stopwatch}
