@@ -692,7 +692,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         from: "pumpkin' pete",
         reward: {
           items: {},
-          sfl: 0.12,
+          tickets: 5,
         },
         id: "1",
         items: {
@@ -1167,5 +1167,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   dailyFactionDonationRequest: {
     resource: "Sunflower",
     amount: new Decimal(1000),
+  },
+  faction: {
+    name: "goblins",
+    pledgedAt: 0,
+    points: 0,
+    donated: {
+      daily: {
+        sfl: {},
+        resources: {},
+      },
+      totalItems: {},
+    },
   },
 };

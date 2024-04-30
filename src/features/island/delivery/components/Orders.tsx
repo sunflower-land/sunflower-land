@@ -159,8 +159,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
-  const { tasksAreClosing, tasksStartAt, tasksCloseAt, tasksAreFrozen } =
-    getSeasonChangeover({ id: gameService.state.context.farmId });
+  const {
+    ticketTasksAreClosing,
+    tasksStartAt,
+    tasksCloseAt,
+    ticketTasksAreFrozen,
+  } = getSeasonChangeover({ id: gameService.state.context.farmId });
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
@@ -171,7 +175,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
       >
         {
           // Give 24 hours heads up before tasks close
-          tasksAreClosing && (
+          ticketTasksAreClosing && (
             <div className="flex flex-col items-center">
               <p className="text-xs text-center">{t("orderhelp.New.Season")}</p>
               <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
@@ -182,7 +186,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </div>
           )
         }
-        {tasksAreFrozen && (
+        {ticketTasksAreFrozen && (
           <div className="flex flex-col items-center">
             <p className="text-xs text-center">
               {t("orderhelp.New.Season.arrival")}
@@ -522,7 +526,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
             </div>
           )}
-          {tasksAreFrozen && (
+          {ticketTasksAreFrozen && (
             <Label
               type="danger"
               className="mb-1"

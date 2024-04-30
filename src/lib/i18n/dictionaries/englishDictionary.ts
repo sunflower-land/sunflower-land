@@ -1139,8 +1139,7 @@ const choresStart: Record<ChoresStart, string> = {
     "My old bones ain't what they used to be, reckon you could lend me a hand with these darn trees needin' choppin? Our local Blacksmith will help you craft some tools.",
   "chores.noChore": "Sorry, I don't have any chores that need doing right now.",
   "chores.newSeason": "A new season approaches, chores will temporarily close.",
-  "chores.choresFrozen":
-    "New Seasonal Chores opening soon. Previous season chores & progress will be reset.",
+  "chores.choresFrozen": "New seasonal chores will be available soon.",
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1926,7 +1925,10 @@ const factions: Record<Factions, string> = {
   "faction.donation.confirm":
     "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
   "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
-  "faction.points": "Faction points: {{points}}",
+  "faction.points.with.number": "Faction points: {{points}}",
+  "faction.points.title": "Faction Points",
+  "faction.points.pledge.warning":
+    "Pledge a faction to receive faction points!",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -2559,9 +2561,9 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
   "hayseedHankv2.dialog2":
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
-  "hayseedHankv2.title": "Daily Chores",
+  "hayseedHankv2.title": "Hank's Daily Chores",
   "hayseedHankv2.newChoresAvailable": "New chores available in",
-  "hayseedHankv2.skipChores": "You can skip chores each new day.",
+  "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
 };
@@ -3847,11 +3849,13 @@ const onCollectReward: Record<OnCollectReward, string> = {
 const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Skip.hour": "You're only able to skip an order after 24 hours!",
   "orderhelp.New.Season":
-    "A new season approaches, deliveries will temporarily close.",
-  "orderhelp.New.Season.arrival": "New Seasonal Deliveries opening soon.",
+    "A new season approaches, ticket deliveries will temporarily close.",
+  "orderhelp.New.Season.arrival": "New seasonal deliveries opening soon.",
   "orderhelp.Wisely": "Choose wisely!",
   "orderhelp.SkipIn": "Skip in",
   "orderhelp.NoRight": "Not Right Now",
+  "orderhelp.ticket.deliveries.closed":
+    "Ticket deliveries are currently closed",
 };
 
 const pageFounds: Record<PageFounds, string> = {

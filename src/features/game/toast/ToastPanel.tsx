@@ -11,7 +11,7 @@ import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";
 import coins from "assets/icons/coins.webp";
-import { POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
+import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "../lib/gameMachine";
 import { useSelector } from "@xstate/react";
 
@@ -27,7 +27,7 @@ const getToastIcon = (item: ToastItem, faction?: FactionName) => {
   if (item === "faction_points") {
     if (!faction) return;
 
-    return POINT_ICONS[faction];
+    return FACTION_POINT_ICONS[faction];
   }
 
   return ITEM_DETAILS[item]?.image;

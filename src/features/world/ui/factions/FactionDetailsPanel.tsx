@@ -75,7 +75,7 @@ export const FactionDetailsPanel: React.FC<Props> = ({ faction, onClose }) => {
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction.name)}</Label>
               <Label type="default">
-                {t("faction.points", { points: faction.points })}
+                {t("faction.points.with.number", { points: faction.points })}
               </Label>
             </div>
             <span className="text-xs sm:text-sm">

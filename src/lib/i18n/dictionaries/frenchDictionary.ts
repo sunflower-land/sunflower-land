@@ -1165,8 +1165,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.noChore": "Désolé, je n'ai pas de tâches à faire pour le moment.",
   "chores.newSeason":
     "Une nouvelle saison approche, les tâches seront temporairement fermées.",
-  "chores.choresFrozen":
-    "De nouvelles tâches saisonnières ouvriront bientôt. Les tâches et les progrès de la saison précédente seront réinitialisés.",
+  "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2014,7 +2013,10 @@ const factions: Record<Factions, string> = {
     ENGLISH_TERMS["faction.donation.sfl.max.per.day"],
   "faction.seasonal.delivery.start.at":
     ENGLISH_TERMS["faction.seasonal.delivery.start.at"],
-  "faction.points": ENGLISH_TERMS["faction.points"],
+  "faction.points.with.number": ENGLISH_TERMS["faction.points.with.number"],
+  "faction.points.title": ENGLISH_TERMS["faction.points.title"],
+  "faction.points.pledge.warning":
+    ENGLISH_TERMS["faction.points.pledge.warning"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -2684,7 +2686,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Eh bien, bonjour à vous, jeunes froussards ! Je suis Hayseed Hank, un vieux fermier expérimenté, travaillant la terre comme au bon vieux temps.",
   "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Allons-y",
-  "hayseedHankv2.title": "Corvées quotidiennes",
+  "hayseedHankv2.title": "Les corvées quotidiennes de Hank",
   "hayseedHankv2.newChoresAvailable": "De nouvelles corvées disponibles dans ",
   "hayseedHankv2.skipChores":
     "Vous pouvez sauter des corvées chaque nouveau jour.",
@@ -4008,6 +4010,8 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Wisely": "Choisissez judicieusement!",
   "orderhelp.SkipIn": "Sauter dans",
   "orderhelp.NoRight": "Pas maintenant",
+  "orderhelp.ticket.deliveries.closed":
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pageFounds: Record<PageFounds, string> = {

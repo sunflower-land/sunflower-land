@@ -78,6 +78,7 @@ export type QuestNPCName =
 const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
 
 const DELIVERY_FRIENDSHIP_POINTS = 3;
+export const FACTION_POINT_MULTIPLIER = 5;
 
 export function isOfQuestNPCType(value: string): value is QuestNPCName {
   return (QUEST_NPC_NAMES as string[]).includes(value);
@@ -159,7 +160,7 @@ export function deliverOrder({
     throw new Error("Order does not exist");
   }
 
-  if (order.readyAt > Date.now()) {
+  if (order.readyAt > createdAt) {
     throw new Error("Order has not started");
   }
 
@@ -167,12 +168,15 @@ export function deliverOrder({
     throw new Error("Order is already completed");
   }
 
-  const { tasksAreFrozen } = getSeasonChangeover({
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
     id: farmId,
     now: createdAt,
   });
-  if (tasksAreFrozen) {
-    throw new Error("Tasks are frozen");
+
+  const isTicketOrder = !!order.reward?.tickets;
+
+  if (isTicketOrder && ticketTasksAreFrozen) {
+    throw new Error("Ticket tasks are frozen");
   }
 
   getKeys(order.items).forEach((name) => {
@@ -232,6 +236,12 @@ export function deliverOrder({
     const amount = order.reward.tickets || new Decimal(0);
 
     game.inventory[seasonalTicket] = count.add(amount);
+
+    if (game.faction) {
+      game.faction.points =
+        game.faction.points +
+        new Decimal(amount).mul(FACTION_POINT_MULTIPLIER).toNumber();
+    }
   }
 
   const rewardItems = order.reward.items ?? {};

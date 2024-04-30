@@ -1153,8 +1153,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.chopTrees": "Corte 3 Árvores",
   "chores.helpWithTrees":
     "Meus velhos ossos não são mais como costumavam ser, acho que você poderia me dar uma mão com essas malditas árvores que precisam ser cortadas? Nosso Ferreiro local irá ajudá-lo a fabricar algumas ferramentas.",
-  "chores.choresFrozen":
-    "Novas tarefas de temporada serão abertas em breve. As tarefas e progressos da temporada anterior serão reiniciados.",
+  "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
   "chores.newSeason":
     "Uma nova temporada se aproxima, as tarefas serão temporariamente encerradas.",
   "chores.noChore": "Desculpe, não tenho tarefas para fazer agora.",
@@ -1957,7 +1956,10 @@ const factions: Record<Factions, string> = {
     ENGLISH_TERMS["faction.donation.sfl.max.per.day"],
   "faction.seasonal.delivery.start.at":
     ENGLISH_TERMS["faction.seasonal.delivery.start.at"],
-  "faction.points": ENGLISH_TERMS["faction.points"],
+  "faction.points.with.number": ENGLISH_TERMS["faction.points.with.number"],
+  "faction.points.title": ENGLISH_TERMS["faction.points.title"],
+  "faction.points.pledge.warning":
+    ENGLISH_TERMS["faction.points.pledge.warning"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -2599,7 +2601,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Bem, olá, jovens! Eu sou Hayseed Hank, um fazendeiro Bumpkin experiente, cuidando da terra como nos bons e velhos tempos.",
   "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Vamos lá",
-  "hayseedHankv2.title": "Tarefas Diárias",
+  "hayseedHankv2.title": "As Tarefas Diárias de Hank",
   "hayseedHankv2.newChoresAvailable": "Novas tarefas disponíveis em ",
   "hayseedHankv2.skipChores": "Você pode pular tarefas a cada novo dia.",
   "hayseedHankv2.greeting": "Bem, olá, jovens! Eu sou Hayseed Hank...",
@@ -3871,6 +3873,8 @@ const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Wisely": "Escolha sabiamente!",
   "orderhelp.SkipIn": "Pular em",
   "orderhelp.NoRight": "Não Agora",
+  "orderhelp.ticket.deliveries.closed":
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pageFounds: Record<PageFounds, string> = {

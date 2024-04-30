@@ -2,11 +2,10 @@ import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { getSeasonalTicket } from "features/game/types/seasons";
-import { ITEM_DETAILS } from "../types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import lock from "assets/skills/lock.png";
+import vipIcon from "assets/icons/vip.webp";
 import { hasFeatureAccess } from "lib/flags";
 import { TEST_FARM } from "../lib/constants";
 
@@ -20,11 +19,7 @@ export const VIPAccess: React.FC<VIPAccessProps> = ({ onUpgrade, isVIP }) => {
 
   if (!isVIP && !hasFeatureAccess(TEST_FARM, "BANNER_SALES")) {
     return (
-      <Label
-        type="warning"
-        icon={lock}
-        secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
-      >
+      <Label type="warning" icon={vipIcon} secondaryIcon={lock}>
         {/** This string will disappear May 1st */}
         {`VIP Access available May 1st`}
       </Label>
@@ -32,15 +27,21 @@ export const VIPAccess: React.FC<VIPAccessProps> = ({ onUpgrade, isVIP }) => {
   }
 
   return isVIP ? (
-    <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+    <Label
+      type="success"
+      icon={vipIcon}
+      secondaryIcon={SUNNYSIDE.icons.confirm}
+      className="whitespace-nowrap"
+    >
       {t("vipAccess")}
     </Label>
   ) : (
     <Label
       type="warning"
-      icon={lock}
-      secondaryIcon={ITEM_DETAILS[getSeasonalTicket()].image}
+      icon={vipIcon}
+      secondaryIcon={lock}
       onClick={onUpgrade}
+      className="whitespace-nowrap"
     >
       {t("goblinTrade.vipRequired")}
     </Label>

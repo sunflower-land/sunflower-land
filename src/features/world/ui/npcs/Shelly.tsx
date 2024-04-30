@@ -3,7 +3,7 @@ import { NPC_WEARABLES, acknowledgeNPC, isNPCAcknowledged } from "lib/npcs";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -22,6 +22,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { translate } from "lib/i18n/translate";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface OrderCardsProps {
   tentaclesAvailable: Decimal;
@@ -115,6 +116,8 @@ interface ContentProps {
   rewardQty: number;
 }
 
+const _farmId = (state: MachineState) => state.context.farmId;
+
 export const ShellyPanelContent: React.FC<ContentProps> = ({
   onClose,
   canTrade,
@@ -123,12 +126,13 @@ export const ShellyPanelContent: React.FC<ContentProps> = ({
   rewardQty,
 }) => {
   const { gameService } = useContext(Context);
+  const farmId = useSelector(gameService, _farmId);
 
-  const { tasksAreFrozen } = getSeasonChangeover({
-    id: gameService.state.context.farmId,
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
+    id: farmId,
   });
 
-  if (tasksAreFrozen) {
+  if (ticketTasksAreFrozen) {
     return (
       <SpeakingText
         onClose={onClose}

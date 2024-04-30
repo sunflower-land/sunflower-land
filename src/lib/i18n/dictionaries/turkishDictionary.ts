@@ -1135,8 +1135,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.noChore": "Üzgünüm, şu anda yapman gereken herhangi bir iş yok.",
   "chores.newSeason":
     "Yeni bir sezon yaklaşıyor, işler geçici olarak kapanacak.",
-  "chores.choresFrozen":
-    "Yeni Sezonluk İşler yakında açılıyor. Önceki sezonun işleri ve ilerlemesi sıfırlanacak.",
+  "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1941,7 +1940,10 @@ const factions: Record<Factions, string> = {
     ENGLISH_TERMS["faction.donation.sfl.max.per.day"],
   "faction.seasonal.delivery.start.at":
     ENGLISH_TERMS["faction.seasonal.delivery.start.at"],
-  "faction.points": ENGLISH_TERMS["faction.points"],
+  "faction.points.with.number": ENGLISH_TERMS["faction.points.with.number"],
+  "faction.points.title": ENGLISH_TERMS["faction.points.title"],
+  "faction.points.pledge.warning":
+    ENGLISH_TERMS["faction.points.pledge.warning"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -2565,7 +2567,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "Pekala, selamlar genç çılgınlar! Ben Hayseed Hank, tecrübeli bir Bumpkin çiftçisiyim ve eski günlerdeki gibi toprakla ilgileniyorum.",
   "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
   "hayseedHankv2.action": "Hadi yapalım",
-  "hayseedHankv2.title": "Günlük işler",
+  "hayseedHankv2.title": "Hank'ın Günlük İşleri",
   "hayseedHankv2.newChoresAvailable": "Yeni işler mevcut ",
   "hayseedHankv2.skipChores": "Her yeni günde ev işlerini atlayabilirsiniz.",
   "hayseedHankv2.greeting":
@@ -3864,10 +3866,12 @@ const orderhelp: Record<OrderHelp, string> = {
     "Bir siparişi yalnızca 24 saat sonra atlayabilirsiniz!",
   "orderhelp.New.Season":
     "Yeni sezon yaklaşıyor, teslimatlar geçici olarak kapanacak.",
-  "orderhelp.New.Season.arrival": "Yeni Sezonluk Teslimatlar yakında açılıyor.",
+  "orderhelp.New.Season.arrival": "Yeni sezonluk teslimatlar yakında açılıyor.",
   "orderhelp.Wisely": "Akıllıca seç!",
   "orderhelp.SkipIn": "Atla",
   "orderhelp.NoRight": "Şimdi olmaz",
+  "orderhelp.ticket.deliveries.closed":
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pageFounds: Record<PageFounds, string> = {

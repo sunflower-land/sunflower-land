@@ -2,7 +2,10 @@ import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FactionDetailsPanel } from "./FactionDetailsPanel";
-import { FactionDonationPanel, POINT_ICONS } from "./FactionDonationPanel";
+import {
+  FactionDonationPanel,
+  FACTION_POINT_ICONS,
+} from "./FactionDonationPanel";
 import { FactionName } from "features/game/types/game";
 
 import factionsIcon from "assets/icons/factions.webp";
@@ -42,7 +45,7 @@ export const FactionModalContent: React.FC<Props> = ({
           ? [
               {
                 name: t("donations"),
-                icon: POINT_ICONS[joinedFaction.name],
+                icon: FACTION_POINT_ICONS[joinedFaction.name],
               },
             ]
           : []),
