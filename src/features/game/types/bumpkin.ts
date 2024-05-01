@@ -115,7 +115,8 @@ export type BumpkinShirt =
 export type BumpkinCoat =
   | "Chef Apron"
   | "Fruit Picker Apron"
-  | "Pirate General Coat";
+  | "Pirate General Coat"
+  | "Royal Robe";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -323,8 +324,7 @@ export type BumpkinSuit =
   | "Elf Suit"
   | "Bee Suit"
   | "Beekeeper Suit"
-  | "Lucky Red Suit"
-  | "Royal Robe";
+  | "Lucky Red Suit";
 
 export type BumpkinWings =
   | "Angel Wings"
@@ -1036,7 +1036,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Oil Can": "tool",
   "Olive Shield": "secondaryTool",
   "Paw Shield": "secondaryTool",
-  "Royal Robe": "suit",
+  "Royal Robe": "coat",
   Crown: "hat",
   Pan: "tool",
 };
