@@ -144,6 +144,8 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
     return faction.donated.daily.sfl.amount ?? 0;
   };
 
+  const sflRemainingDonation = 500 - getSFLDonatedToday();
+
   const getResourcesDonatedToday = () => {
     const today = getDayOfYear(new Date());
     const donatedResourcesToday = faction.donated.daily.resources.day === today;
@@ -229,7 +231,9 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
           <div className="flex my-1">
             <div className="flex flex-1 justify-end mr-2 space-x-1">
               <Button
-                disabled={!getHasEnoughSFL(10)}
+                disabled={
+                  sflTotal >= sflRemainingDonation || !getHasEnoughSFL(10)
+                }
                 className="h-8 w-16"
                 onClick={incrementSFL}
               >{`+10`}</Button>
