@@ -432,7 +432,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Banana: new Decimal(12),
     Wood: new Decimal(500),
     Crimstone: new Decimal(20),
-    "Block Buck": new Decimal(20),
+    "Block Buck": new Decimal(200),
     Stone: new Decimal(100),
     Iron: new Decimal(100),
     "Mermaid Scale": new Decimal(1000),
