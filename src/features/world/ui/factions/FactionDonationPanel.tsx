@@ -128,11 +128,11 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
   };
 
   const getHasEnoughResources = (amountToAdd = 0) => {
-    const requestAmount = donationRequest?.amount.toNumber() ?? 0;
-    const amountToCompare =
-      requestAmount > resourceTotal ? requestAmount : resourceTotal;
+    if (resourceBalance.lt(requestedResourceAmount)) return false;
 
-    return resourceBalance.gte(amountToCompare + amountToAdd);
+    if (resourceBalance.lt(resourceTotal + amountToAdd)) return false;
+
+    return true;
   };
 
   const getSFLDonatedToday = () => {
