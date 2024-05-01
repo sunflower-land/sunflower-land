@@ -37,7 +37,6 @@ import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
-import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
 import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
@@ -67,6 +66,7 @@ import { PersonhoodContent } from "features/retreat/components/personhood/Person
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
+import { VIPOffer } from "../components/modal/components/VIPItems";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -96,7 +96,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buyingSFL: true,
   depositing: true,
   introduction: false,
-  specialOffer: false,
+  specialOffer: true,
   transacting: true,
   minting: true,
   auctionResults: false,
@@ -462,7 +462,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {minting && <Minting />}
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
-            {specialOffer && <SpecialOffer />}
+            {specialOffer && <VIPOffer />}
             {withdrawing && <Withdrawing />}
             {withdrawn && <Withdrawn />}
           </Panel>
@@ -471,7 +471,6 @@ export const GameWrapper: React.FC = ({ children }) => {
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
 
-        <SpecialOffer />
         <Introduction />
         <NewMail />
 

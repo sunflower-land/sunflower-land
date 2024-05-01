@@ -27,6 +27,7 @@ import Decimal from "decimal.js-light";
 import { getSeasonWeek } from "lib/utils/getSeasonWeek";
 import classNames from "classnames";
 import { secondsToString } from "lib/utils/time";
+import { acknowledgeSeasonPass } from "features/announcements/announcementsStorage";
 
 type VIPItem = SeasonalBanner | "Lifetime Farmer Banner";
 
@@ -38,6 +39,7 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 
 type Props = {
   onClose: () => void;
+  onSkip?: () => void;
 };
 
 const SeasonVIPDiscountTime: React.FC = () => {
@@ -70,7 +72,7 @@ const SeasonVIPDiscountTime: React.FC = () => {
   );
 };
 
-export const VIPItems: React.FC<Props> = ({ onClose }) => {
+export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const { gameService } = useContext(Context);
   const [selected, setSelected] = useState<VIPItem>();
   const { t } = useTranslation();
@@ -325,6 +327,7 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
               {getSeasonalBannerPriceLabel()}
             </div>
           </OuterPanel>
+          {onSkip && <Button onClick={onSkip}>{t("close")}</Button>}
         </div>
       )}
       {selected && (
@@ -359,6 +362,21 @@ export const VIPItems: React.FC<Props> = ({ onClose }) => {
           </Button>
         </div>
       )}
+    </>
+  );
+};
+
+export const VIPOffer: React.FC = () => {
+  const { gameService } = useContext(Context);
+
+  const onClose = () => {
+    acknowledgeSeasonPass();
+    gameService.send("ACKNOWLEDGE");
+  };
+
+  return (
+    <>
+      <VIPItems onClose={onClose} onSkip={onClose} />
     </>
   );
 };
