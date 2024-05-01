@@ -28,10 +28,7 @@ type FeatureName =
   | "BANNER_SALES";
 
 // Used for testing production features
-export const ADMIN_IDS = [
-  1, 2, 3, 39488, 1011, 45, 130170, 29, 7841, 51, 56, 73795, 21303, 2253,
-  128015,
-];
+export const ADMIN_IDS = [1, 2, 3, 39488];
 
 type FeatureFlag = (game: GameState) => boolean;
 
