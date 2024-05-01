@@ -17,6 +17,7 @@ import { addDiscordRole, DiscordRole } from "features/game/actions/discordRole";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CONFIG } from "lib/config";
 
 const GROUPS: {
   channel: string;
@@ -90,107 +91,105 @@ export const Discord: React.FC = () => {
     }
   };
 
-  const getContent = (): JSX.Element => {
-    if (state === "error") {
-      return <span className="text-shadow">{t("getContent.error")}</span>;
-    }
+  if (CONFIG.NETWORK === "amoy") {
+    return null;
+  }
 
-    if (state === "joining") {
-      return (
-        <span className="text-shadow loading">{t("getContent.joining")}</span>
-      );
-    }
+  if (state === "error") {
+    return <span className="text-shadow">{t("getContent.error")}</span>;
+  }
 
-    if (state === "joined") {
-      return (
-        <>
-          <span className="text-shadow mt-2 block text-center">
-            {t("congrats")}
-          </span>
-          <span className="text-shadow my-2 block text-center">
-            {t("getContent.accessGranted")}
-          </span>
-        </>
-      );
-    }
-
-    if (state === "noDiscord") {
-      return (
-        <>
-          <span className="text-shadow my-2 block text-sm p-2">
-            {t("getContent.connectToDiscord")}
-          </span>
-          <Button onClick={oauth}>{t("getContent.connect")}</Button>
-        </>
-      );
-    }
-
+  if (state === "joining") {
     return (
-      <span className="text-shadow my-2 block text-sm">
-        {t("getContent.getAccess")}
-        {GROUPS.map((group) => (
-          <div key={group.channel} className="flex justify-between w-full mt-4">
-            <div>
-              <span className="flex-1">{group.channel}</span>
-              <div className="flex items-center flex-wrap">
-                <span className="text-xs mr-2">
-                  {t("getContent.requires")}{" "}
-                </span>
-                {group.items.map((name) => (
-                  <img
-                    key={name}
-                    src={ITEM_DETAILS[name].image}
-                    className="h-6 mr-2"
-                  />
-                ))}
-              </div>
-            </div>
-            <Button
-              className="text-xs h-8 w-20"
-              onClick={() => addRole(group.role)}
-              disabled={!group.items.some((name) => inventory[name])}
-            >
-              {t("getContent.join")}
-            </Button>
-          </div>
-        ))}
-        <div key="buds" className="flex justify-between w-full mt-4">
+      <span className="text-shadow loading">{t("getContent.joining")}</span>
+    );
+  }
+
+  if (state === "joined") {
+    return (
+      <>
+        <span className="text-shadow mt-2 block text-center">
+          {t("congrats")}
+        </span>
+        <span className="text-shadow my-2 block text-center">
+          {t("getContent.accessGranted")}
+        </span>
+      </>
+    );
+  }
+
+  if (state === "noDiscord") {
+    return (
+      <>
+        <span className="text-shadow my-2 block text-sm p-2">
+          {t("getContent.connectToDiscord")}
+        </span>
+        <Button onClick={oauth}>{t("getContent.connect")}</Button>
+      </>
+    );
+  }
+
+  return (
+    <span className="text-shadow my-2 block text-sm">
+      {t("getContent.getAccess")}
+      {GROUPS.map((group) => (
+        <div key={group.channel} className="flex justify-between w-full mt-4">
           <div>
-            <span className="flex-1">{"#bud-clubhouse"}</span>
+            <span className="flex-1">{group.channel}</span>
             <div className="flex items-center flex-wrap">
-              <span className="text-xs mr-2">{t("getContent.requires")}</span>
-              <img src={budIcon} className="h-6 mr-2" />
+              <span className="text-xs mr-2">{t("getContent.requires")} </span>
+              {group.items.map((name) => (
+                <img
+                  key={name}
+                  src={ITEM_DETAILS[name].image}
+                  className="h-6 mr-2"
+                />
+              ))}
             </div>
           </div>
           <Button
             className="text-xs h-8 w-20"
-            onClick={() => addRole("bud-clubhouse")}
-            disabled={Object.keys(buds ?? {}).length === 0}
+            onClick={() => addRole(group.role)}
+            disabled={!group.items.some((name) => inventory[name])}
           >
             {t("getContent.join")}
           </Button>
         </div>
-
-        {faction && (
-          <div key="faction" className="flex justify-between w-full mt-4">
-            <div>
-              <span className="flex-1">{`#${faction}`}</span>
-              <div className="flex items-center flex-wrap">
-                <img src={getFactionImage(faction)} className="h-6 mr-2" />
-              </div>
-            </div>
-            <Button
-              className="text-xs h-8 w-20"
-              onClick={() => addRole(faction)}
-              disabled={faction === undefined}
-            >
-              {t("getContent.join")}
-            </Button>
+      ))}
+      <div key="buds" className="flex justify-between w-full mt-4">
+        <div>
+          <span className="flex-1">{"#bud-clubhouse"}</span>
+          <div className="flex items-center flex-wrap">
+            <span className="text-xs mr-2">{t("getContent.requires")}</span>
+            <img src={budIcon} className="h-6 mr-2" />
           </div>
-        )}
-      </span>
-    );
-  };
+        </div>
+        <Button
+          className="text-xs h-8 w-20"
+          onClick={() => addRole("bud-clubhouse")}
+          disabled={Object.keys(buds ?? {}).length === 0}
+        >
+          {t("getContent.join")}
+        </Button>
+      </div>
 
-  return getContent();
+      {faction && (
+        <div key="faction" className="flex justify-between w-full mt-4">
+          <div>
+            <span className="flex-1">{`#${faction}`}</span>
+            <div className="flex items-center flex-wrap">
+              <img src={getFactionImage(faction)} className="h-6 mr-2" />
+            </div>
+          </div>
+          <Button
+            className="text-xs h-8 w-20"
+            onClick={() => addRole(faction)}
+            disabled={faction === undefined}
+          >
+            {t("getContent.join")}
+          </Button>
+        </div>
+      )}
+    </span>
+  );
 };
