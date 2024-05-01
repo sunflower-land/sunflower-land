@@ -62,7 +62,9 @@ export function donateToFaction({
       (action.donation.resources / requestedAmount.toNumber()) *
       POINTS_PER_TYPE["resources"];
 
-    game.inventory[request.resource] = playerBalance.minus(request.amount);
+    game.inventory[request.resource] = playerBalance.minus(
+      action.donation.resources
+    );
     game.faction.points = game.faction.points + totalPointsReward;
 
     // Update total items donated
