@@ -515,4 +515,52 @@ describe("donateToFaction", () => {
 
     expect(state.faction?.points).toBe(25);
   });
+
+  it("throws an error if the player tries to donate more bulk resources than they have", () => {
+    expect(() =>
+      donateToFaction({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Apple: new Decimal(40),
+          },
+          dailyFactionDonationRequest: {
+            resource: "Apple",
+            amount: new Decimal(40),
+          },
+        },
+        action: {
+          type: "faction.donated",
+          faction: "sunflorians",
+          donation: {
+            resources: 80,
+          },
+        },
+      })
+    ).toThrow("You do not have enough resources to donate");
+  });
+
+  it("donates multiple bulk amounts of requested item", () => {
+    const state = donateToFaction({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Apple: new Decimal(120),
+        },
+        dailyFactionDonationRequest: {
+          resource: "Apple",
+          amount: new Decimal(40),
+        },
+      },
+      action: {
+        type: "faction.donated",
+        faction: "sunflorians",
+        donation: {
+          resources: 120,
+        },
+      },
+    });
+
+    expect(state.faction?.points).toBe(15);
+  });
 });
