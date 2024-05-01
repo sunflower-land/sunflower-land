@@ -246,10 +246,6 @@ import {
 import { moveSunstone, MoveSunstoneAction } from "./landExpansion/moveSunstone";
 import { mineSunstone, MineSunstoneAction } from "./landExpansion/mineSunstone";
 import {
-  discoverFlowerPage,
-  FlowerPageDiscoveredAction,
-} from "./landExpansion/discoverFlowerPage";
-import {
   FlowerShopTradedAction,
   tradeFlowerShop,
 } from "./landExpansion/tradeFlowerShop";
@@ -358,7 +354,6 @@ export type PlayingEvent =
   | HarvestFlowerAction
   | UpgradeFarmAction
   | PurchaseBannerAction
-  | FlowerPageDiscoveredAction
   | FlowerShopTradedAction
   | BuyMegaStoreItemAction
   | CompleteSpecialEventTaskAction
@@ -506,7 +501,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "flower.harvested": harvestFlower,
   "farm.upgraded": upgrade,
   "banner.purchased": purchaseBanner,
-  "flowerPage.discovered": discoverFlowerPage,
   "flowerShop.traded": tradeFlowerShop,
   "megastoreItem.bought": buyMegaStoreItem,
   "specialEvent.taskCompleted": completeSpecialEventTask,
