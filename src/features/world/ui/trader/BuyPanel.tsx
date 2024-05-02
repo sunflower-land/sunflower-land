@@ -55,9 +55,6 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Gold: 100,
   Egg: 500,
   Honey: 100,
-  Anchovy: 100,
-  Tuna: 100,
-  "Red Snapper": 100,
   Crimstone: 20,
 };
 
