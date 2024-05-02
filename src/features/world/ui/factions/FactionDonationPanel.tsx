@@ -169,6 +169,8 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
     return total;
   };
 
+  const remainingSFLDonationAllowed = MAX_SFL - getSFLDonatedToday();
+
   return (
     <>
       {!showConfirm && (
@@ -229,7 +231,10 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
           <div className="flex my-1">
             <div className="flex flex-1 justify-end mr-2 space-x-1">
               <Button
-                disabled={!getHasEnoughSFL(10)}
+                disabled={
+                  !getHasEnoughSFL(10) ||
+                  sflTotal >= remainingSFLDonationAllowed
+                }
                 className="h-8 w-16"
                 onClick={incrementSFL}
               >{`+10`}</Button>
