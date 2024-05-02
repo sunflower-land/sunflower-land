@@ -39,6 +39,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { GameWallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -100,10 +101,47 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
+  canDeposit = true,
+}) => {
+  const [showIntro, setShowIntro] = useState(true);
+  const { t } = useAppTranslation();
+  if (showIntro) {
+    return (
+      <>
+        <div className="p-2">
+          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+            {t("deposit")}
+          </Label>
+          <p className="my-2 text-sm">{t("question.depositSFLItems")}</p>
+        </div>
+        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
+      </>
+    );
+  }
+
+  return (
+    <GameWallet action="deposit">
+      <DepositOptions
+        onClose={onClose}
+        onDeposit={onDeposit}
+        onLoaded={onLoaded}
+        farmAddress={farmAddress}
+        canDeposit={canDeposit}
+      />
+    </GameWallet>
+  );
+};
+
+const DepositOptions: React.FC<Props> = ({
+  onClose,
+  onDeposit,
+  onLoaded,
+  farmAddress,
 }) => {
   const { t } = useAppTranslation();
 
-  const [showIntro, setShowIntro] = useState(true);
+  const [hasWeb3, setHasWeb3] = useState(false);
+
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
@@ -313,19 +351,6 @@ export const Deposit: React.FC<Props> = ({
   //     </div>
   //   );
   // }
-  if (showIntro) {
-    return (
-      <>
-        <div className="p-2">
-          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
-            {t("deposit")}
-          </Label>
-          <p className="my-2 text-sm">{t("question.depositSFLItems")}</p>
-        </div>
-        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
-      </>
-    );
-  }
 
   return (
     <>
