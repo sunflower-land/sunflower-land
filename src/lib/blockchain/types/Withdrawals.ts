@@ -124,18 +124,6 @@ export interface Withdrawals extends BaseContract {
       budIds: (number | string | BN)[]
     ): NonPayableTransactionObject<boolean>;
 
-    withdrawBumpkin(
-      signature: string | number[],
-      sessionId: string | number[],
-      nextSessionId: string | number[],
-      deadline: number | string | BN,
-      farmId: number | string | BN,
-      bumpkinId: number | string | BN,
-      wearableIds: (number | string | BN)[],
-      wearableAmounts: (number | string | BN)[],
-      tokenUri: string
-    ): NonPayableTransactionObject<boolean>;
-
     withdrawItems(
       signature: string | number[],
       sessionId: string | number[],

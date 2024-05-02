@@ -85,7 +85,6 @@ import { deleteListingRequest } from "../actions/deleteListing";
 import { fulfillTradeListingRequest } from "../actions/fulfillTradeListing";
 import {
   withdrawBuds,
-  withdrawBumpkin,
   withdrawItems,
   withdrawSFL,
   withdrawWearables,
@@ -1946,19 +1945,6 @@ export function startGame(authContext: AuthContext) {
                   ids: wearableIds,
                   captcha,
                   transactionId: context.transactionId as string,
-                });
-
-                return {
-                  sessionId,
-                };
-              }
-
-              if (bumpkinId) {
-                const { sessionId } = await withdrawBumpkin({
-                  farmId: Number(context.farmId),
-                  token: authContext.user.rawToken as string,
-                  transactionId: context.transactionId as string,
-                  bumpkinId: bumpkinId,
                 });
 
                 return {
