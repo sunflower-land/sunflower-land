@@ -54,7 +54,7 @@ describe("purchaseBanner", () => {
         },
         action: {
           type: "banner.purchased",
-          name: "Spring Blossom Banner",
+          name: getSeasonalBanner(),
         },
       })
     ).toThrow("Insufficient Block Bucks");
@@ -358,12 +358,12 @@ describe("purchaseBanner", () => {
       },
       action: {
         type: "banner.purchased",
-        name: "Spring Blossom Banner",
+        name: getSeasonalBanner(),
       },
     });
 
     expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
-    expect(result.inventory["Spring Blossom Banner"]).toEqual(new Decimal(1));
+    expect(result.inventory[getSeasonalBanner()]).toEqual(new Decimal(1));
   });
 
   it("does not charge for a banner if a gold pass was purchased in last three months", () => {
@@ -376,13 +376,13 @@ describe("purchaseBanner", () => {
       },
       action: {
         type: "banner.purchased",
-        name: "Spring Blossom Banner",
+        name: getSeasonalBanner(),
       },
       farmId: 25,
     });
 
     expect(result.inventory["Block Buck"]).toEqual(new Decimal(100));
-    expect(result.inventory["Spring Blossom Banner"]).toEqual(new Decimal(1));
+    expect(result.inventory[getSeasonalBanner()]).toEqual(new Decimal(1));
   });
 
   it("throws an error if buying a banner out of season", () => {
