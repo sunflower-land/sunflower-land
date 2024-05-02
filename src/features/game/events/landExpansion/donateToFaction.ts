@@ -70,7 +70,7 @@ export function donateToFaction({
     // Update total items donated
     game.faction.donated.totalItems[request.resource] =
       (game.faction.donated.totalItems[request.resource] ?? 0) +
-      request.amount.toNumber();
+      action.donation.resources;
 
     const donatedResourcesToday =
       game.faction.donated?.daily.resources.day === today;
@@ -79,11 +79,11 @@ export function donateToFaction({
       // Today's Donation record
       const alreadyDonated = game.faction.donated?.daily.resources.amount ?? 0;
       game.faction.donated.daily.resources.amount =
-        alreadyDonated + request.amount.toNumber();
+        alreadyDonated + action.donation.resources;
     } else {
       // New day, reset the daily donation record
       game.faction.donated.daily.resources.day = today;
-      game.faction.donated.daily.resources.amount = request.amount.toNumber();
+      game.faction.donated.daily.resources.amount = action.donation.resources;
     }
   }
 
