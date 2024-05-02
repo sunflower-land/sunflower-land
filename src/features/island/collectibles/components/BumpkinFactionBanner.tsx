@@ -16,7 +16,7 @@ export const BumpkinFactionBanner: React.FC = () => {
         src={banner}
         style={{
           width: `${PIXEL_SCALE * 16}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
         }}
         className="absolute"
         alt="Bumpkin Faction Banner"

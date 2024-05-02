@@ -16,7 +16,7 @@ export const GoblinFactionBanner: React.FC = () => {
         src={banner}
         style={{
           width: `${PIXEL_SCALE * 20}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
+          bottom: `${PIXEL_SCALE * 2}px`,
           left: -5,
         }}
         className="absolute"
