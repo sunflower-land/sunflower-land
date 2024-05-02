@@ -54,6 +54,8 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Iron: 200,
   Gold: 100,
   Egg: 500,
+  Honey: 100,
+  Crimstone: 20,
 };
 
 export const BuyPanel: React.FC<{
