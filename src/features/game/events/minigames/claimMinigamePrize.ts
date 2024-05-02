@@ -8,7 +8,6 @@ import cloneDeep from "lodash.clonedeep";
 export type ClaimMinigamePrizeAction = {
   type: "minigame.prizeClaimed";
   id: MinigameName;
-  score: number;
 };
 
 type Options = {
@@ -49,8 +48,8 @@ export function claimMinigamePrize({
   }
 
   // Has reached score
-  if (history.highscore < action.score) {
-    throw new Error(`Score ${action.score} is less than ${history.highscore}`);
+  if (history.highscore < prize.score) {
+    throw new Error(`Score ${prize.score} is less than ${history.highscore}`);
   }
 
   // Has already claimed

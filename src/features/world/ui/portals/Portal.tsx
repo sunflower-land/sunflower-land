@@ -11,6 +11,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 interface Props {
   portalName: MinigameName;
@@ -25,9 +26,12 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState<string>();
+
+  const [loading, setLoading] = useState(true);
+  const [isComplete, setIsComplete] = useState(false);
   const [purchase, setPurchase] = useState<number | undefined>(undefined);
+
   const { t } = useAppTranslation();
 
   useEffect(() => {
@@ -48,6 +52,8 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       setUrl(`http://localhost:3001?jwt=${token}`);
 
       setLoading(false);
+
+      // TODO - check if they have an unclaimed prize?
     };
 
     load();
@@ -62,6 +68,12 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       setLoading(false);
       setUrl("");
       onClose();
+    }
+
+    if (event.data?.event === "claimPrize") {
+      // Close the modal when the message is received
+      setLoading(false);
+      setIsComplete(true);
     }
 
     if (event.data.event === "purchase") {
@@ -99,10 +111,36 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         "*"
       );
     }
+
+    setPurchase(undefined);
+  };
+
+  const onClaim = () => {
+    gameService.send("minigame.prizeClaimed", {
+      id: portalName,
+    });
+
+    onClose();
   };
 
   if (loading) {
     return <span className="loading">{t("loading")}</span>;
+  }
+
+  if (isComplete) {
+    return (
+      <ClaimReward
+        onClaim={onClaim}
+        reward={{
+          createdAt: Date.now(),
+          id: "discord-bonus",
+          items: {},
+          wearables: {},
+          sfl: 0,
+          coins: 0,
+        }}
+      />
+    );
   }
 
   return (
