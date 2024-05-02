@@ -5,17 +5,21 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ClashOfFactionsBanner: React.FC = () => {
   return (
-    <>
+    <div
+      className="absolute pointer-events-none"
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        top: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+    >
       <img
         src={banner}
         style={{
           width: `${PIXEL_SCALE * 18}px`,
-          bottom: `${PIXEL_SCALE * 2}px`,
-          left: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute"
         alt="Clash of Factions Banner"
       />
-    </>
+    </div>
   );
 };
