@@ -2295,6 +2295,10 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.chowder":
     "Delícia de marinheiro em uma tigela! Mergulhe, há tesouro dentro!",
   "description.pancakes": "Um ótimo começo para o dia de um Bumpkin",
+  "description.rapidRoast": ENGLISH_TERMS["description.rapidRoast"],
+  "description.beetrootBlaze": ENGLISH_TERMS["description.beetrootBlaze"],
+  "description.fermented.shroomSyrup":
+    ENGLISH_TERMS["description.fermented.shroomSyrup"],
 
   // Bakery
   "description.apple.pie": "Receita famosa de Bumpkin Betty",

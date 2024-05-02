@@ -7,6 +7,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 import { ZoomContext } from "components/ZoomProvider";
+import { MushroomName } from "features/game/types/resources";
 
 const FIFTEEN_SECONDS = 15000;
 const getDelay = () => Math.random() * FIFTEEN_SECONDS;
@@ -14,14 +15,31 @@ const getDelay = () => Math.random() * FIFTEEN_SECONDS;
 interface Props {
   id: string;
   isFirstRender: boolean;
+  name: MushroomName;
 }
 
-export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
+const MUSHROOM_STYLES: Record<
+  MushroomName,
+  {
+    image: string;
+  }
+> = {
+  "Wild Mushroom": {
+    image: SUNNYSIDE.resource.wild_mushroom_sheet,
+  },
+  "Magic Mushroom": {
+    image: SUNNYSIDE.resource.magic_mushroom_sheet,
+  },
+};
+
+export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService } = useContext(Context);
   const [grow, setGrow] = useState(false);
 
   const mushroomGif = useRef<SpriteSheetInstance>();
+
+  const { image } = MUSHROOM_STYLES[name];
 
   const pickMushroom = () => {
     gameService.send("mushroom.picked", { id });
@@ -47,7 +65,7 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender }) => {
             getInstance={(spritesheet) => {
               mushroomGif.current = spritesheet;
             }}
-            image={SUNNYSIDE.resource.wild_mushroom_sheet}
+            image={image}
             widthFrame={10}
             heightFrame={12}
             zoomScale={scale}

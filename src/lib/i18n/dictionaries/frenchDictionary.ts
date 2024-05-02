@@ -2351,6 +2351,10 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
     "Une collation croustillante classique cultivée à la maison.",
   "description.gumbo":
     "Une marmite pleine de magie ! Chaque cuillerée est une parade de Mardi Gras!",
+  "description.rapidRoast": ENGLISH_TERMS["description.rapidRoast"],
+  "description.beetrootBlaze": ENGLISH_TERMS["description.beetrootBlaze"],
+  "description.fermented.shroomSyrup":
+    ENGLISH_TERMS["description.fermented.shroomSyrup"],
 
   // Kitchen
   "description.roast.veggies":

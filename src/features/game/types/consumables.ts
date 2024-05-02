@@ -7,6 +7,7 @@ import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
 
 type FirePitCookableName =
+  | "Rapid Roast"
   | "Mashed Potato"
   | "Pumpkin Soup"
   | "Bumpkin Broth"
@@ -20,6 +21,7 @@ type FirePitCookableName =
   | "Gumbo";
 
 type KitchenCookableName =
+  | "Beetroot Blaze"
   | "Roast Veggies"
   | "Bumpkin Salad"
   | "Goblin's Treat"
@@ -41,6 +43,7 @@ type BakeryCookableName =
   | "Cornbread";
 
 type DeliCookableName =
+  | "Shroom Syrup"
   | "Blueberry Jam"
   | "Fermented Carrots"
   | "Sauerkraut"
@@ -86,6 +89,19 @@ export type Consumable = Omit<
 > & { name: ConsumableName };
 
 export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
+  "Rapid Roast": {
+    name: "Rapid Roast",
+    description: "For Bumpkins in a hurry...",
+    experience: 300,
+    building: "Fire Pit",
+    cookingSeconds: 10,
+    ingredients: {
+      "Magic Mushroom": new Decimal(1),
+      Pumpkin: new Decimal(40),
+    },
+    marketRate: 10, // TODO
+  },
+
   "Mashed Potato": {
     name: "Mashed Potato",
     description: translate("description.mashed.potato"),
@@ -217,6 +233,19 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
 };
 
 export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
+  "Beetroot Blaze": {
+    name: "Beetroot Blaze",
+    description: "A spicy beetroot-infused magic mushroom dish",
+    experience: 2000,
+    building: "Kitchen",
+    cookingSeconds: 30,
+    ingredients: {
+      "Magic Mushroom": new Decimal(2),
+      Beetroot: new Decimal(50),
+    },
+    marketRate: 10, // TODO
+  },
+
   "Sunflower Crunch": {
     name: "Sunflower Crunch",
     description: translate("description.sunflower.crunch"),
@@ -592,6 +621,18 @@ export const BAKERY_COOKABLES: Record<BakeryCookableName, Cookable> = {
 };
 
 export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
+  "Shroom Syrup": {
+    name: "Mashed Potato",
+    description: "The essence of bees and enchanted fungi",
+    experience: 10000,
+    building: "Deli",
+    cookingSeconds: 10,
+    ingredients: {
+      "Magic Mushroom": new Decimal(3),
+      Honey: new Decimal(20),
+    },
+    marketRate: 10, // TODO
+  },
   "Blueberry Jam": {
     name: "Blueberry Jam",
     description: translate("description.blueberry.jam"),
