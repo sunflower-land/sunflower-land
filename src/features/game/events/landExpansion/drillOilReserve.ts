@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { GameState, OilReserve } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export type DrillOilReserveAction = {
@@ -14,7 +14,14 @@ type Options = {
 };
 
 export const BASE_OIL_DROP_AMOUNT = 10;
-export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60 * 1000;
+export const OIL_RESERVE_RECOVERY_TIME = 20;
+
+export function canDrillOilReserve(
+  reserve: OilReserve,
+  now: number = Date.now()
+) {
+  return now - reserve.oil.drilledAt > OIL_RESERVE_RECOVERY_TIME * 1000;
+}
 
 export function drillOilReserve({
   state,
@@ -34,7 +41,7 @@ export function drillOilReserve({
     throw new Error("No oil drills available");
   }
 
-  if (oilReserve.oil.drilledAt + OIL_RESERVE_RECOVERY_TIME > createdAt) {
+  if (!canDrillOilReserve(oilReserve, createdAt)) {
     throw new Error("Oil reserve is still recovering");
   }
 

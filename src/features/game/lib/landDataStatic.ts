@@ -147,7 +147,20 @@ export const INITIAL_RESOURCES: Pick<
     },
   },
   crimstones: {},
-  oilReserves: {},
+  oilReserves: {
+    1: {
+      createdAt: 0,
+      drilled: 0,
+      oil: {
+        amount: 10,
+        drilledAt: 0,
+      },
+      x: -3,
+      y: 6,
+      height: 2,
+      width: 2,
+    },
+  },
   fruitPatches: {
     1: {
       x: 7,
@@ -393,7 +406,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Potato: new Decimal(200),
     Pumpkin: new Decimal(200),
     "Oil Reserve": new Decimal(1),
-    "Oil Drill": new Decimal(1),
+    "Oil Drill": new Decimal(5),
     "Battle Fish": new Decimal(1),
     "Knight Chicken": new Decimal(1),
     Baozi: new Decimal(10),
