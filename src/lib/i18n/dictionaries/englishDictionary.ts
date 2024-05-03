@@ -2253,8 +2253,10 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.popcorn": "Classic homegrown crunchy snack.",
   "description.gumbo":
     "A pot full of magic! Every spoonful's a Mardi Gras parade!",
+  "description.rapidRoast": "For Bumpkins in a hurry...",
 
   // Kitchen
+  "description.beetrootBlaze": "A spicy beetroot-infused magic mushroom dish",
   "description.roast.veggies": "Even Goblins need to eat their veggies!",
   "description.bumpkin.salad": "Gotta keep your Bumpkin healthy!",
   "description.goblins.treat": "Goblins go crazy for this stuff!",
@@ -2291,6 +2293,8 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.pirate.cake": "Great for Pirate themed birthday parties.",
 
   // Deli
+  "description.fermented.shroomSyrup":
+    "The essence of bees and enchanted fungi",
   "description.blueberry.jam": "Goblins will do anything for this jam",
   "description.fermented.carrots": "Got a surplus of carrots?",
   "description.sauerkraut": "No more boring Cabbage!",

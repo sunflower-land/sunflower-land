@@ -1600,6 +1600,7 @@ export type FoodDescriptions =
   | "description.cabbers.mash"
   | "description.popcorn"
   | "description.gumbo"
+  | "description.rapidRoast"
 
   //Kitchen
   | "description.roast.veggies"
@@ -1615,6 +1616,7 @@ export type FoodDescriptions =
   | "description.bumpkin.ganoush"
   | "description.chowder"
   | "description.pancakes"
+  | "description.beetrootBlaze"
 
   //Bakery
   | "description.apple.pie"
@@ -1641,6 +1643,7 @@ export type FoodDescriptions =
   | "description.sauerkraut"
   | "description.fancy.fries"
   | "description.fermented.fish"
+  | "description.fermented.shroomSyrup"
 
   //Smoothie Shack
   | "description.apple.juice"

@@ -337,6 +337,9 @@ import chowder from "assets/food/chowder.png";
 import gumbo from "assets/food/gumbo.png";
 import fermentedFish from "assets/food/fermented_fish.png";
 import bananaBlast from "assets/food/banana_blast.png";
+import beetrootBlaze from "assets/food/beetroot_blaze.png";
+import shroomSyrup from "assets/food/shroom_syrup.png";
+import rapidRoast from "assets/food/rapid_roast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -3366,5 +3369,18 @@ export const ITEM_DETAILS: Items = {
   Vinny: {
     image: vinny,
     description: translate("description.vinny"),
+  },
+
+  "Beetroot Blaze": {
+    image: beetrootBlaze,
+    description: translate("description.beetrootBlaze"),
+  },
+  "Rapid Roast": {
+    image: rapidRoast,
+    description: translate("description.rapidRoast"),
+  },
+  "Shroom Syrup": {
+    image: shroomSyrup,
+    description: translate("description.fermented.shroomSyrup"),
   },
 };

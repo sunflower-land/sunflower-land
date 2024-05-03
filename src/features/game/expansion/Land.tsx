@@ -436,7 +436,7 @@ const getIslandElements = ({
     mushrooms &&
       mapPlacements.push(
         ...getKeys(mushrooms).flatMap((id) => {
-          const { x, y } = mushrooms[id]!;
+          const { x, y, name } = mushrooms[id]!;
 
           return (
             <MapPlacement
@@ -450,6 +450,7 @@ const getIslandElements = ({
                 key={`mushroom-${id}`}
                 id={id}
                 isFirstRender={isFirstRender}
+                name={name}
               />
             </MapPlacement>
           );

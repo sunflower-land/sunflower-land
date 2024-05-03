@@ -265,6 +265,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Gumbo: 552,
   "Fermented Fish": 553,
   "Banana Blast": 554,
+  "Beetroot Blaze": 555,
+  "Rapid Roast": 556,
+  "Shroom Syrup": 557,
 
   Wood: 601,
   Stone: 602,
