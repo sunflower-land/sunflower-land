@@ -555,6 +555,21 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
       },
     ],
   },
+  "Oil Drill": {
+    name: "Oil Drill",
+    description: translate("description.oil.drill"),
+    price: 2240,
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(25),
+      },
+      {
+        item: "Iron",
+        amount: new Decimal(10),
+      },
+    ],
+  },
   Hammer: {
     name: "Hammer",
     description: translate("coming.soon"),

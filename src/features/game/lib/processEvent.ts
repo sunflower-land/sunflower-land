@@ -121,6 +121,7 @@ export const maxItems: Inventory = {
   "Stone Pickaxe": new Decimal("150"),
   "Iron Pickaxe": new Decimal("50"),
   "Gold Pickaxe": new Decimal("50"),
+  "Oil Drill": new Decimal("50"),
   "Rusty Shovel": new Decimal("100"),
   "Sand Shovel": new Decimal(50),
   "Sand Drill": new Decimal(30),

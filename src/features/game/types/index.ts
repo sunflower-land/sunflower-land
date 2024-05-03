@@ -109,6 +109,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sand Shovel": 310,
   "Sand Drill": 311,
   "Gold Pickaxe": 312,
+  "Oil Drill": 313,
 
   "Sunflower Statue": 401,
   "Potato Statue": 402,

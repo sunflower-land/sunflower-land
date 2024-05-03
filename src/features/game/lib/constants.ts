@@ -54,6 +54,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Stone Pickaxe": new Decimal(20),
     "Iron Pickaxe": new Decimal(5),
     "Gold Pickaxe": new Decimal(5),
+    "Oil Drill": new Decimal(5),
     Rod: new Decimal(50),
   };
 
@@ -68,6 +69,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Stone Pickaxe": new Decimal(30),
       "Iron Pickaxe": new Decimal(8),
       "Gold Pickaxe": new Decimal(8),
+      "Oil Drill": new Decimal(8),
       Rod: new Decimal(75),
     };
   }

@@ -45,6 +45,7 @@ export const RARE_REWARDS: ChestReward[] = [
   { items: { "Block Buck": 50 }, weighting: 5 },
   { items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 }, weighting: 50 },
   { items: { "Gold Pickaxe": 3 }, weighting: 50 },
+  { items: { "Oil Drill": 3 }, weighting: 25 },
   { items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 }, weighting: 50 },
   { items: { "Fishing Lure": 25 }, weighting: 25 },
   { items: { "Pirate Cake": 5 }, weighting: 30 },
@@ -69,6 +70,7 @@ export const LUXURY_REWARDS: ChestReward[] = [
   { items: { "Block Buck": 25 }, weighting: 25 },
   { items: { "Block Buck": 50 }, weighting: 10 },
   { items: { "Gold Pickaxe": 10 }, weighting: 75 },
+  { items: { "Oil Drill": 5 }, weighting: 50 },
   {
     items: { Rod: 10, Earthworm: 10, "Red Wiggler": 10, Grub: 10 },
     weighting: 50,
@@ -95,6 +97,7 @@ export const BUD_BOX_REWARDS: ChestReward[] = [
   { items: { "Red Pansy": 2 }, weighting: 10 },
   { items: { "Purple Cosmos": 2 }, weighting: 10 },
   { items: { "Time Warp Totem": 1 }, weighting: 10 },
-  { items: { "Prize Ticket": 1 }, weighting: 10 },
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
+  { items: { "Prize Ticket": 1 }, weighting: 10 },
+  { items: { "Oil Drill": 2 }, weighting: 5 },
 ];
