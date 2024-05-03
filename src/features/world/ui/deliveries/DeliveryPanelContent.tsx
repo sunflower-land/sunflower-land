@@ -141,7 +141,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                     </span>
                   </div>
                 )}
-                {tickets && (
+                {!!tickets && (
                   <div
                     className="flex items-center mt-1"
                     key={getSeasonalTicket()}

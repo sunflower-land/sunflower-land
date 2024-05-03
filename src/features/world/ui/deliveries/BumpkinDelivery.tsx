@@ -152,7 +152,7 @@ export const OrderCard: React.FC<{
                   </span>
                 </div>
               )}
-              {tickets && (
+              {!!tickets && (
                 <div className="flex items-center">
                   <img
                     src={ITEM_DETAILS[getSeasonalTicket()].image}

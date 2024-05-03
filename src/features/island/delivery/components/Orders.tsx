@@ -290,7 +290,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       {`${makeRewardAmountForLabel(order)}`}
                     </Label>
                   )}
-                  {!order.completedAt && tickets && (
+                  {!order.completedAt && !!tickets && (
                     <Label
                       icon={ITEM_DETAILS[getSeasonalTicket()].image}
                       type="warning"
