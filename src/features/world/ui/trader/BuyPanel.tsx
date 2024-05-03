@@ -29,7 +29,7 @@ import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
-import classNames from "classnames";
+import { getDayOfYear } from "lib/utils/time";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -57,6 +57,18 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Honey: 100,
   Crimstone: 20,
 };
+
+const MAX_NON_VIP_PURCHASES = 3;
+
+function getRemainingFreePurchases(dailyPurchases: {
+  count: number;
+  date: number;
+}) {
+  if (dailyPurchases.date != getDayOfYear(new Date())) {
+    return MAX_NON_VIP_PURCHASES;
+  }
+  return MAX_NON_VIP_PURCHASES - dailyPurchases.count;
+}
 
 export const BuyPanel: React.FC<{
   floorPrices: FloorPrices;
@@ -88,6 +100,9 @@ export const BuyPanel: React.FC<{
   }, [floorPrices]);
 
   const isVIP = hasVipAccess(state.inventory);
+  const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
+  const remainingFreePurchases = getRemainingFreePurchases(dailyPurchases);
+  const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
 
   const searchView = () => {
     if (floor.Sunflower == undefined) {
@@ -96,12 +111,11 @@ export const BuyPanel: React.FC<{
 
     return (
       <div className="p-2">
-        {isVIP && (
-          <Label type="default" icon={SUNNYSIDE.icons.basket}>
+        {hasPurchasesRemaining && (
+          <Label type="default" icon={SUNNYSIDE.icons.basket} className="ml-2">
             {t("trading.select.resources")}
           </Label>
         )}
-
         <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
@@ -109,11 +123,8 @@ export const BuyPanel: React.FC<{
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
             >
               <OuterPanel
-                className={classNames(
-                  "w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200",
-                  { "opacity-75 cursor-not-allowed": !isVIP }
-                )}
-                onClick={() => isVIP && onSearch(name)}
+                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                onClick={() => onSearch(name)}
               >
                 <span className="text-xs mt-1">{name}</span>
                 <img
@@ -164,8 +175,8 @@ export const BuyPanel: React.FC<{
               {selected.current}
             </Label>
           </div>
-          <div className="flex flex-col items-center justify-center py-4">
-            <img src={SUNNYSIDE.icons.search} className="w-1/5 mx-auto my-2" />
+          <div className="flex flex-col items-center justify-center pb-4">
+            <img src={SUNNYSIDE.icons.search} className="w-16 mx-auto my-2" />
             <p className="text-sm">{t("trading.no.listings")}</p>
           </div>
         </div>
@@ -233,7 +244,7 @@ export const BuyPanel: React.FC<{
       }
 
       const hasSFL = state.balance.gte(listing.sfl);
-      const disabled = !hasSFL;
+      const disabled = !hasSFL || !hasPurchasesRemaining;
 
       return (
         <Button
@@ -291,7 +302,7 @@ export const BuyPanel: React.FC<{
               <p className="text-sm mb-2 text-center">
                 {t("trading.listing.fulfilled")}
               </p>
-              <OuterPanel className="mb-2">
+              <OuterPanel>
                 <div className="flex justify-between">
                   <div>
                     <div className="flex flex-wrap w-52">
@@ -413,17 +424,31 @@ export const BuyPanel: React.FC<{
 
   return (
     <>
-      <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
-        <div className="pl-2 pt-2">
+      <div className="max-h-[400px] min-h-[150px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
           <VIPAccess
             isVIP={isVIP}
             onUpgrade={() => {
               openModal("BUY_BANNER");
             }}
           />
+          {!isVIP && (
+            <Label
+              type={hasPurchasesRemaining ? "success" : "danger"}
+              className="-ml-2"
+            >
+              {remainingFreePurchases == 0
+                ? `${t("remaining.free.purchase")}`
+                : `${t("remaining.free.purchases", {
+                    listingsRemaining: hasPurchasesRemaining
+                      ? remainingFreePurchases
+                      : "No",
+                  })}`}
+            </Label>
+          )}
         </div>
         <div className="flex items-start justify-between mb-2">
-          {isSearching && <p className="loading">{t("searching")}</p>}
+          {isSearching && <p className="loading mt-1">{t("searching")}</p>}
           {!isSearching && (
             <div className="relative w-full">
               {view === "search" && searchView()}

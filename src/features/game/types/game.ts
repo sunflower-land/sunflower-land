@@ -1038,6 +1038,8 @@ export interface GameState {
 
   trades: {
     listings?: Record<string, TradeListing>;
+    dailyListings?: { date: number; count: number };
+    dailyPurchases?: { date: number; count: number };
   };
   buds?: Record<number, Bud>;
 
