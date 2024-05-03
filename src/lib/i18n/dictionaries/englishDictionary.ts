@@ -4405,6 +4405,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.shovel": "Plant and harvest crops.",
   "description.sand.shovel": "Used for digging treasure",
   "description.sand.drill": "Drill deep for uncommon or rare treasure",
+  "description.oil.drill": "Drill for oil",
 };
 
 const trader: Record<Trader, string> = {
