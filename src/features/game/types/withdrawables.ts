@@ -191,6 +191,7 @@ const tools: Record<ToolName | WorkbenchToolName | Shovel, () => boolean> = {
   "Gold Pickaxe": () => false,
   Rod: () => false,
   Shovel: () => false,
+  "Oil Drill": () => false,
 };
 
 const treasureTools: Record<TreasureToolName, () => boolean> = {

@@ -13,12 +13,7 @@ import {
 } from "../types/craftables";
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
-import {
-  Bumpkin,
-  GameState,
-  ExpansionConstruction,
-  PlacedItem,
-} from "../types/game";
+import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
 import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { Collectible } from "features/island/collectibles/Collectible";
@@ -45,39 +40,14 @@ import { DynamicClouds } from "./components/DynamicClouds";
 import { StaticClouds } from "./components/StaticClouds";
 import { BackgroundIslands } from "./components/BackgroundIslands";
 
-const IMAGE_GRID_WIDTH = 36;
-
 export const LAND_WIDTH = 6;
 
-const getIslandElements = ({
-  game,
-  buildings,
-  collectibles,
-  chickens,
-  bumpkin,
-  trees,
-  stones,
-  iron,
-  gold,
-  crimstones,
-  sunstones,
-  fruitPatches,
-  flowerBeds,
-  crops,
-  showTimers,
-  grid,
-  mushrooms,
-  isFirstRender,
-  buds,
-  airdrops,
-  beehives,
-}: {
+type IslandElementArgs = {
   game: GameState;
   expansionConstruction?: ExpansionConstruction;
   buildings: Partial<Record<BuildingName, PlacedItem[]>>;
   collectibles: Partial<Record<CollectibleName, PlacedItem[]>>;
   chickens: Partial<Record<string, Chicken>>;
-  bumpkin?: Bumpkin;
   trees: GameState["trees"];
   stones: GameState["stones"];
   iron: GameState["iron"];
@@ -94,7 +64,32 @@ const getIslandElements = ({
   isFirstRender: boolean;
   buds: GameState["buds"];
   beehives: GameState["beehives"];
-}) => {
+  oil: GameState["oil"];
+};
+
+const getIslandElements = ({
+  game,
+  buildings,
+  collectibles,
+  chickens,
+  trees,
+  stones,
+  iron,
+  gold,
+  crimstones,
+  sunstones,
+  fruitPatches,
+  flowerBeds,
+  crops,
+  showTimers,
+  grid,
+  mushrooms,
+  isFirstRender,
+  buds,
+  airdrops,
+  beehives,
+  oil,
+}: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
   mapPlacements.push(
@@ -355,6 +350,32 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
+    ...getKeys(oil).map((id, index) => {
+      const { x, y, width, height } = oil[id];
+
+      return (
+        <MapPlacement
+          key={`oil-reserve-${id}`}
+          x={x}
+          y={y}
+          height={height}
+          width={width}
+        >
+          <Resource
+            name="Oil Reserve"
+            createdAt={0}
+            readyAt={0}
+            id={id}
+            index={index}
+            x={x}
+            y={y}
+          />
+        </MapPlacement>
+      );
+    })
+  );
+
+  mapPlacements.push(
     ...getKeys(fruitPatches).map((id, index) => {
       const { x, y, width, height } = fruitPatches[id];
 
@@ -548,7 +569,6 @@ export const Land: React.FC = () => {
     collectibles,
     chickens,
     inventory,
-    bumpkin,
     trees,
     stones,
     iron,
@@ -561,8 +581,8 @@ export const Land: React.FC = () => {
     mushrooms,
     buds,
     airdrops,
-    island,
     beehives,
+    oil,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -663,7 +683,6 @@ export const Land: React.FC = () => {
                 buildings,
                 collectibles,
                 chickens,
-                bumpkin,
                 trees,
                 stones,
                 iron,
@@ -680,6 +699,7 @@ export const Land: React.FC = () => {
                 buds,
                 airdrops,
                 beehives,
+                oil,
               }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 

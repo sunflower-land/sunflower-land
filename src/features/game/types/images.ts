@@ -516,7 +516,7 @@ import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
-import oilReserve from "assets/resources/oil_reserve.png";
+import oilReserve from "assets/resources/oil/oil_reserve_half.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";

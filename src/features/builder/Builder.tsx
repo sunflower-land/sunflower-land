@@ -38,6 +38,7 @@ export const Builder: React.FC = () => {
     boulder: [],
     flowers: [],
     beehives: [],
+    oilReserves: [],
   });
 
   const [layouts, setLayouts] = useState<Layout[]>(
@@ -137,6 +138,7 @@ export const Builder: React.FC = () => {
                 boulder: [],
                 beehives: [],
                 flowers: [],
+                oilReserves: [],
               })
             }
           >

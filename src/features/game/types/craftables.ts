@@ -219,7 +219,8 @@ export type ToolName =
   | "Iron Pickaxe"
   | "Gold Pickaxe"
   | "Hammer"
-  | "Rod";
+  | "Rod"
+  | "Oil Drill";
 
 export type Shovel = "Rusty Shovel" | "Shovel";
 

@@ -32,6 +32,7 @@ export const RESOURCE_PLACE_EVENTS: Partial<
   Beehive: "beehive.placed",
   "Flower Bed": "flowerBed.placed",
   "Sunstone Rock": "sunstone.placed",
+  "Oil Reserve": "oilReserve.placed",
 };
 
 export function placeEvent(
