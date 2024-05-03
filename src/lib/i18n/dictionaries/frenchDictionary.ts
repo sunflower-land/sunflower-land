@@ -393,6 +393,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   remaining: "restante",
   "remaining.free.listings": ENGLISH_TERMS["remaining.free.listings"],
   "remaining.free.purchases": ENGLISH_TERMS["remaining.free.purchases"],
+  "remaining.free.listing": ENGLISH_TERMS["remaining.free.listing"],
+  "remaining.free.purchase": ENGLISH_TERMS["remaining.free.purchase"],
   remove: "Retirer",
   reqSkillPts: "Points de compétence requis",
   reqSkills: "Compétences requises",

@@ -193,6 +193,8 @@ export type GeneralTerms =
   | "remaining"
   | "remaining.free.listings"
   | "remaining.free.purchases"
+  | "remaining.free.listing"
+  | "remaining.free.purchase"
   | "remove"
   | "reqSkillPts"
   | "reqSkills"

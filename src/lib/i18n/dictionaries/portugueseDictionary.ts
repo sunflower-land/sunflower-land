@@ -343,6 +343,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   refreshing: "Atualizando",
   "remaining.free.listings": "{{listingsRemaining}} listagens grátis restantes",
   "remaining.free.purchases": "{{purchasesRemaining}} compras grátis restantes",
+  "remaining.free.listing": "1 listagem grátis restante",
+  "remaining.free.purchase": "1 compra grátis restante",
   remove: "Remover",
   reqSkillPts: "Pontos de Habilidade Necessários",
   reqSkills: "Habilidades Necessárias",

@@ -101,8 +101,8 @@ export const BuyPanel: React.FC<{
 
   const isVIP = hasVipAccess(state.inventory);
   const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
-  const hasPurchasesRemaining =
-    isVIP || getRemainingFreePurchases(dailyPurchases) > 0;
+  const remainingFreePurchases = getRemainingFreePurchases(dailyPurchases);
+  const hasPurchasesRemaining = isVIP || remainingFreePurchases > 0;
 
   const searchView = () => {
     if (floor.Sunflower == undefined) {
@@ -437,11 +437,13 @@ export const BuyPanel: React.FC<{
               type={hasPurchasesRemaining ? "success" : "danger"}
               className="-ml-2"
             >
-              {`${t("remaining.free.purchases", {
-                purchasesRemaining: hasPurchasesRemaining
-                  ? getRemainingFreePurchases(dailyPurchases)
-                  : "No",
-              })}`}
+              {remainingFreePurchases == 0
+                ? `${t("remaining.free.purchase")}`
+                : `${t("remaining.free.purchases", {
+                    listingsRemaining: hasPurchasesRemaining
+                      ? remainingFreePurchases
+                      : "No",
+                  })}`}
             </Label>
           )}
         </div>

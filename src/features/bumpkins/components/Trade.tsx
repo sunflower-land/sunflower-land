@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
-  GameState,
+  Inventory,
   InventoryItemName,
   TradeListing,
 } from "features/game/types/game";
@@ -47,27 +47,21 @@ function getRemainingFreeListings(dailyListings: {
 
 type Items = Partial<Record<InventoryItemName, number>>;
 const ListTrade: React.FC<{
-  gameState: GameState;
+  inventory: Inventory;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
   isSaving: boolean;
   floorPrices: FloorPrices;
-}> = ({ gameState, onList, onCancel, isSaving, floorPrices }) => {
+}> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
   const [quantityDisplay, setQuantityDisplay] = useState("");
   const [sflDisplay, setSflDisplay] = useState("");
-  const { inventory, trades } = gameState;
-  const dailyListings = trades.dailyListings ?? { count: 0, date: 0 };
-  const isVIP = hasVipAccess(gameState.inventory);
 
   const quantity = Number(quantityDisplay);
   const sfl = Number(sflDisplay);
 
   const maxSFL = sfl > MAX_SFL;
-
-  const hasListingsRemaining =
-    isVIP || getRemainingFreeListings(dailyListings) > 0;
 
   if (!selected) {
     return (
@@ -76,19 +70,6 @@ const ListTrade: React.FC<{
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
-
-          {!isVIP && (
-            <Label
-              type={hasListingsRemaining ? "success" : "danger"}
-              className="-ml-2"
-            >
-              {`${t("remaining.free.purchases", {
-                purchasesRemaining: hasListingsRemaining
-                  ? getRemainingFreeListings(dailyListings)
-                  : "No",
-              })}`}
-            </Label>
-          )}
         </div>
 
         <div className="flex flex-wrap ">
@@ -433,8 +414,8 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
     count: 0,
     date: 0,
   };
-  const hasListingsRemaining =
-    isVIP || getRemainingFreeListings(dailyListings) > 0;
+  const remainingListings = getRemainingFreeListings(dailyListings);
+  const hasListingsRemaining = isVIP || remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
@@ -479,7 +460,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   if (showListing) {
     return (
       <ListTrade
-        gameState={gameState.context.state}
+        inventory={gameState.context.state.inventory}
         onCancel={() => setShowListing(false)}
         onList={onList}
         isSaving={gameState.matches("autosaving")}
@@ -503,11 +484,13 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
               type={hasListingsRemaining ? "success" : "danger"}
               className="-ml-2"
             >
-              {`${t("remaining.free.purchases", {
-                purchasesRemaining: hasListingsRemaining
-                  ? getRemainingFreeListings(dailyListings)
-                  : "No",
-              })}`}
+              {remainingListings == 1
+                ? `${t("remaining.free.listing")}`
+                : `${t("remaining.free.listings", {
+                    listingsRemaining: hasListingsRemaining
+                      ? remainingListings
+                      : "No",
+                  })}`}
             </Label>
           )}
         </div>
@@ -544,11 +527,13 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
             type={hasListingsRemaining ? "success" : "danger"}
             className="-ml-2"
           >
-            {`${t("remaining.free.purchases", {
-              purchasesRemaining: hasListingsRemaining
-                ? getRemainingFreeListings(dailyListings)
-                : "No",
-            })}`}
+            {remainingListings == 1
+              ? `${t("remaining.free.listing")}`
+              : `${t("remaining.free.listings", {
+                  listingsRemaining: hasListingsRemaining
+                    ? remainingListings
+                    : "No",
+                })}`}
           </Label>
         )}
       </div>

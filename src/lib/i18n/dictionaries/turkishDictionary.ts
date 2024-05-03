@@ -365,6 +365,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   remaining: "geriye kalan",
   "remaining.free.listings": ENGLISH_TERMS["remaining.free.listings"],
   "remaining.free.purchases": ENGLISH_TERMS["remaining.free.purchases"],
+  "remaining.free.listing": ENGLISH_TERMS["remaining.free.listing"],
+  "remaining.free.purchase": ENGLISH_TERMS["remaining.free.purchase"],
   remove: "Kaldır",
   reqSkillPts: "Gerekli Yetenek Puanları",
   reqSkills: "Gerekli Yetenekler",
