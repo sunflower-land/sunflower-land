@@ -5,8 +5,12 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeChore } from "./completeChore";
 import { ChoreV2 } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
+import cloneDeep from "lodash.clonedeep";
 
 describe("chore.completed", () => {
+  beforeEach(() => {
+    jest.useRealTimers();
+  });
   it("throws an error if the chore number doesn't exits", () => {
     const { startDate } = SEASONS["Witches' Eve"];
 
@@ -513,7 +517,8 @@ describe("chore.completed", () => {
         id: 1,
       },
       state: {
-        ...TEST_FARM,
+        ...cloneDeep(TEST_FARM),
+
         faction: {
           name: "bumpkins",
           pledgedAt: 0,
@@ -568,7 +573,8 @@ describe("chore.completed", () => {
         id: 5,
       },
       state: {
-        ...TEST_FARM,
+        ...cloneDeep(TEST_FARM),
+
         faction: {
           name: "bumpkins",
           pledgedAt: 0,
@@ -623,7 +629,8 @@ describe("chore.completed", () => {
         id: 4,
       },
       state: {
-        ...TEST_FARM,
+        ...cloneDeep(TEST_FARM),
+
         inventory: {
           "Clash of Factions Banner": new Decimal(1),
         },
@@ -681,7 +688,7 @@ describe("chore.completed", () => {
         id: 4,
       },
       state: {
-        ...TEST_FARM,
+        ...cloneDeep(TEST_FARM),
         inventory: {
           "Lifetime Farmer Banner": new Decimal(1),
         },
