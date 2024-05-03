@@ -367,7 +367,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   refreshing: "Refreshing",
   remaining: "remaining",
   "remaining.free.listings": "{{listingsRemaining}} free listings remaining",
-  "remaining.free.listing": "{{listingsRemaining}} free listing remaining",
+  "remaining.free.listing": "1 free listing remaining",
   "remaining.free.purchases": "{{purchasesRemaining}} free purchases remaining",
   "remaining.free.purchase": "1 free purchase remaining",
   remove: "Remove",

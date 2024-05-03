@@ -46,6 +46,7 @@ function getRemainingFreeListings(dailyListings: {
 }
 
 type Items = Partial<Record<InventoryItemName, number>>;
+
 const ListTrade: React.FC<{
   inventory: Inventory;
   onList: (items: Items, sfl: number) => void;
@@ -65,8 +66,8 @@ const ListTrade: React.FC<{
 
   if (!selected) {
     return (
-      <div>
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
+      <div className="space-y-2">
+        <div className="pl-2 pt-2">
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
@@ -327,6 +328,7 @@ const TradeDetails: React.FC<{
   onClaim: () => void;
 }> = ({ trade, onCancel, onClaim, isOldListing }) => {
   const { t } = useAppTranslation();
+
   if (trade.boughtAt) {
     return (
       <div>
@@ -366,11 +368,10 @@ const TradeDetails: React.FC<{
     );
   }
 
-  const text = "Cancel Old";
   return (
     <>
       <OuterPanel>
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
@@ -390,7 +391,7 @@ const TradeDetails: React.FC<{
           </div>
           <div className="flex flex-col justify-between h-full">
             <Button className="mb-1" onClick={onCancel}>
-              {isOldListing ? text : t("cancel")}
+              {isOldListing ? "Cancel old" : t("cancel")}
             </Button>
           </div>
         </div>
@@ -472,7 +473,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   if (getKeys(trades).length === 0) {
     return (
       <div className="relative">
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
           <VIPAccess
             isVIP={isVIP}
             onUpgrade={() => {
@@ -484,7 +485,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
               type={hasListingsRemaining ? "success" : "danger"}
               className="-ml-2"
             >
-              {remainingListings == 1
+              {remainingListings === 1
                 ? `${t("remaining.free.listing")}`
                 : `${t("remaining.free.listings", {
                     listingsRemaining: hasListingsRemaining
@@ -515,7 +516,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
 
   return (
     <div>
-      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
         <VIPAccess
           isVIP={isVIP}
           onUpgrade={() => {
@@ -527,7 +528,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
             type={hasListingsRemaining ? "success" : "danger"}
             className="-ml-2"
           >
-            {remainingListings == 1
+            {remainingListings === 1
               ? `${t("remaining.free.listing")}`
               : `${t("remaining.free.listings", {
                   listingsRemaining: hasListingsRemaining

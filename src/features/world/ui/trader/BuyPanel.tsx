@@ -175,8 +175,8 @@ export const BuyPanel: React.FC<{
               {selected.current}
             </Label>
           </div>
-          <div className="flex flex-col items-center justify-center py-4">
-            <img src={SUNNYSIDE.icons.search} className="w-1/5 mx-auto my-2" />
+          <div className="flex flex-col items-center justify-center pb-4">
+            <img src={SUNNYSIDE.icons.search} className="w-16 mx-auto my-2" />
             <p className="text-sm">{t("trading.no.listings")}</p>
           </div>
         </div>
@@ -302,7 +302,7 @@ export const BuyPanel: React.FC<{
               <p className="text-sm mb-2 text-center">
                 {t("trading.listing.fulfilled")}
               </p>
-              <OuterPanel className="mb-2">
+              <OuterPanel>
                 <div className="flex justify-between">
                   <div>
                     <div className="flex flex-wrap w-52">
@@ -424,8 +424,8 @@ export const BuyPanel: React.FC<{
 
   return (
     <>
-      <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
-        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
+      <div className="max-h-[400px] min-h-[150px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
           <VIPAccess
             isVIP={isVIP}
             onUpgrade={() => {
@@ -448,7 +448,7 @@ export const BuyPanel: React.FC<{
           )}
         </div>
         <div className="flex items-start justify-between mb-2">
-          {isSearching && <p className="loading">{t("searching")}</p>}
+          {isSearching && <p className="loading mt-1">{t("searching")}</p>}
           {!isSearching && (
             <div className="relative w-full">
               {view === "search" && searchView()}
