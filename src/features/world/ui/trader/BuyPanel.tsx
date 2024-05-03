@@ -30,6 +30,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import classNames from "classnames";
+import { getDayOfYear } from "lib/utils/time";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -57,6 +58,18 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Honey: 100,
   Crimstone: 20,
 };
+
+const MAX_NON_VIP_PURCHASES = 3;
+
+function getRemainingFreePurchases(dailyPurchases: {
+  count: number;
+  date: number;
+}) {
+  if (dailyPurchases.date != getDayOfYear(new Date())) {
+    return MAX_NON_VIP_PURCHASES;
+  }
+  return MAX_NON_VIP_PURCHASES - dailyPurchases.count;
+}
 
 export const BuyPanel: React.FC<{
   floorPrices: FloorPrices;
@@ -88,6 +101,9 @@ export const BuyPanel: React.FC<{
   }, [floorPrices]);
 
   const isVIP = hasVipAccess(state.inventory);
+  const dailyPurchases = state.trades.dailyPurchases ?? { count: 0, date: 0 };
+  const hasPurchasesRemaining =
+    isVIP || getRemainingFreePurchases(dailyPurchases) > 0;
 
   const searchView = () => {
     if (floor.Sunflower == undefined) {
@@ -96,12 +112,11 @@ export const BuyPanel: React.FC<{
 
     return (
       <div className="p-2">
-        {isVIP && (
-          <Label type="default" icon={SUNNYSIDE.icons.basket}>
+        {hasPurchasesRemaining && (
+          <Label type="default" icon={SUNNYSIDE.icons.basket} className="ml-2">
             {t("trading.select.resources")}
           </Label>
         )}
-
         <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
@@ -111,9 +126,9 @@ export const BuyPanel: React.FC<{
               <OuterPanel
                 className={classNames(
                   "w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200",
-                  { "opacity-75 cursor-not-allowed": !isVIP }
+                  { "opacity-75 cursor-not-allowed": !hasPurchasesRemaining }
                 )}
-                onClick={() => isVIP && onSearch(name)}
+                onClick={() => hasPurchasesRemaining && onSearch(name)}
               >
                 <span className="text-xs mt-1">{name}</span>
                 <img
@@ -233,7 +248,7 @@ export const BuyPanel: React.FC<{
       }
 
       const hasSFL = state.balance.gte(listing.sfl);
-      const disabled = !hasSFL;
+      const disabled = !hasSFL || !hasPurchasesRemaining;
 
       return (
         <Button
@@ -414,13 +429,25 @@ export const BuyPanel: React.FC<{
   return (
     <>
       <div className="max-h-[400px] min-h-[400px] overflow-y-auto pr-1 divide-brown-600 scrollable">
-        <div className="pl-2 pt-2">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
           <VIPAccess
             isVIP={isVIP}
             onUpgrade={() => {
               openModal("BUY_BANNER");
             }}
           />
+          {!isVIP && (
+            <Label
+              type={hasPurchasesRemaining ? "success" : "danger"}
+              className="-ml-2"
+            >
+              {`${t("remaining.free.purchases", {
+                purchasesRemaining: hasPurchasesRemaining
+                  ? getRemainingFreePurchases(dailyPurchases)
+                  : "No",
+              })}`}
+            </Label>
+          )}
         </div>
         <div className="flex items-start justify-between mb-2">
           {isSearching && <p className="loading">{t("searching")}</p>}

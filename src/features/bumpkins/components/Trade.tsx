@@ -6,7 +6,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
-  Inventory,
+  GameState,
   InventoryItemName,
   TradeListing,
 } from "features/game/types/game";
@@ -27,41 +27,68 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
+import { getDayOfYear } from "lib/utils/time";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
 const INPUT_MAX_CHAR = 10;
-
+const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
+
+function getRemainingFreeListings(dailyListings: {
+  count: number;
+  date: number;
+}) {
+  if (dailyListings.date !== getDayOfYear(new Date())) {
+    return MAX_NON_VIP_LISTINGS;
+  }
+  return MAX_NON_VIP_LISTINGS - dailyListings.count;
+}
 
 type Items = Partial<Record<InventoryItemName, number>>;
 const ListTrade: React.FC<{
-  inventory: Inventory;
+  gameState: GameState;
   onList: (items: Items, sfl: number) => void;
   onCancel: () => void;
   isSaving: boolean;
   floorPrices: FloorPrices;
-}> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
+}> = ({ gameState, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
   const [quantityDisplay, setQuantityDisplay] = useState("");
   const [sflDisplay, setSflDisplay] = useState("");
+  const { inventory, trades } = gameState;
+  const dailyListings = trades.dailyListings ?? { count: 0, date: 0 };
+  const isVIP = hasVipAccess(gameState.inventory);
 
   const quantity = Number(quantityDisplay);
   const sfl = Number(sflDisplay);
 
   const maxSFL = sfl > MAX_SFL;
 
+  const hasListingsRemaining =
+    isVIP || getRemainingFreeListings(dailyListings) > 0;
+
   if (!selected) {
     return (
       <div>
-        <div className="flex items-center justify-between m-1 ml-2 mb-3">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
           </Label>
-          <Label icon={SUNNYSIDE.icons.confirm} type="success">
-            {t("vipAccess")}
-          </Label>
+
+          {!isVIP && (
+            <Label
+              type={hasListingsRemaining ? "success" : "danger"}
+              className="-ml-2"
+            >
+              {`${t("remaining.free.purchases", {
+                purchasesRemaining: hasListingsRemaining
+                  ? getRemainingFreeListings(dailyListings)
+                  : "No",
+              })}`}
+            </Label>
+          )}
         </div>
 
         <div className="flex flex-wrap ">
@@ -402,7 +429,12 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   const [showListing, setShowListing] = useState(false);
 
   const isVIP = hasVipAccess(gameState.context.state.inventory);
-
+  const dailyListings = gameState.context.state.trades.dailyListings ?? {
+    count: 0,
+    date: 0,
+  };
+  const hasListingsRemaining =
+    isVIP || getRemainingFreeListings(dailyListings) > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
@@ -447,7 +479,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   if (showListing) {
     return (
       <ListTrade
-        inventory={gameState.context.state.inventory}
+        gameState={gameState.context.state}
         onCancel={() => setShowListing(false)}
         onList={onList}
         isSaving={gameState.matches("autosaving")}
@@ -459,13 +491,23 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   if (getKeys(trades).length === 0) {
     return (
       <div className="relative">
-        <div className="pl-2 pt-2">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
           <VIPAccess
             isVIP={isVIP}
             onUpgrade={() => {
               openModal("BUY_BANNER");
             }}
           />
+          <Label
+            type={hasListingsRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {`${t("remaining.free.purchases", {
+              purchasesRemaining: hasListingsRemaining
+                ? getRemainingFreeListings(dailyListings)
+                : "No",
+            })}`}
+          </Label>
         </div>
         <div className="p-1 flex flex-col items-center">
           <img
@@ -476,7 +518,10 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>
 
-        <Button onClick={() => setShowListing(true)} disabled={!isVIP}>
+        <Button
+          onClick={() => setShowListing(true)}
+          disabled={!hasListingsRemaining}
+        >
           {t("list.trade")}
         </Button>
       </div>
@@ -485,13 +530,25 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
 
   return (
     <div>
-      <div className="pl-2 pt-2">
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between m-1 ml-2 mb-3">
         <VIPAccess
           isVIP={isVIP}
           onUpgrade={() => {
             openModal("BUY_BANNER");
           }}
         />
+        {!isVIP && (
+          <Label
+            type={hasListingsRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {`${t("remaining.free.purchases", {
+              purchasesRemaining: hasListingsRemaining
+                ? getRemainingFreeListings(dailyListings)
+                : "No",
+            })}`}
+          </Label>
+        )}
       </div>
       {getKeys(trades).map((listingId, index) => {
         return (
@@ -514,7 +571,10 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
       })}
       {getKeys(trades).length < 3 && (
         <div className="relative mt-2">
-          <Button onClick={() => setShowListing(true)} disabled={!isVIP}>
+          <Button
+            onClick={() => setShowListing(true)}
+            disabled={!hasListingsRemaining}
+          >
             {t("list.trade")}
           </Button>
         </div>
