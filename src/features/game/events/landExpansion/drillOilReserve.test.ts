@@ -12,7 +12,7 @@ describe("drillOilReserve", () => {
         },
         state: {
           ...TEST_FARM,
-          oil: {
+          oilReserves: {
             "1": {
               x: 1,
               y: 1,
@@ -40,7 +40,7 @@ describe("drillOilReserve", () => {
         },
         state: {
           ...TEST_FARM,
-          oil: {
+          oilReserves: {
             "1": {
               x: 1,
               y: 1,
@@ -74,7 +74,7 @@ describe("drillOilReserve", () => {
           inventory: {
             "Oil Drill": new Decimal(1),
           },
-          oil: {
+          oilReserves: {
             "1": {
               x: 1,
               y: 1,
@@ -106,7 +106,7 @@ describe("drillOilReserve", () => {
         inventory: {
           "Oil Drill": new Decimal(2),
         },
-        oil: {
+        oilReserves: {
           "1": {
             x: 1,
             y: 1,
@@ -123,7 +123,7 @@ describe("drillOilReserve", () => {
       },
     });
 
-    const reserve = game.oil["1"];
+    const reserve = game.oilReserves["1"];
 
     expect(reserve.oil.drilledAt).toBe(now);
     expect(reserve.drilled).toBe(1);

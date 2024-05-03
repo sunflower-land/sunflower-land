@@ -31,26 +31,23 @@ export function placeOilReserve({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
-    Object.keys(game.oil).length
+    Object.keys(game.oilReserves).length
   );
 
   if (available.lt(1)) {
     throw new Error("No oil reserve available");
   }
 
-  game.oil = {
-    ...game.oil,
-    [action.id as unknown as number]: {
-      createdAt: createdAt,
-      x: action.coordinates.x,
-      y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Oil Reserve"],
-      stone: {
-        amount: 0,
-        minedAt: 0,
-      },
-      minesLeft: 5,
+  game.oilReserves[action.id as unknown as number] = {
+    createdAt: createdAt,
+    x: action.coordinates.x,
+    y: action.coordinates.y,
+    ...RESOURCE_DIMENSIONS["Oil Reserve"],
+    oil: {
+      amount: 0,
+      drilledAt: 0,
     },
+    drilled: 5,
   };
 
   return game;

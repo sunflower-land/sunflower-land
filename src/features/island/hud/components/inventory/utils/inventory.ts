@@ -154,7 +154,7 @@ export const getChestItems = (state: GameState) => {
         ...acc,
         "Oil Reserve": new Decimal(
           state.inventory["Oil Reserve"]?.minus(
-            Object.keys(state.oil).length
+            Object.keys(state.oilReserves).length
           ) ?? 0
         ),
       };

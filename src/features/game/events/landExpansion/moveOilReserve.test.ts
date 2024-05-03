@@ -23,7 +23,7 @@ describe("moveOilReserve", () => {
       moveOilReserve({
         state: {
           ...TEST_FARM,
-          oil: {
+          oilReserves: {
             "1": {
               height: 1,
               width: 1,
@@ -51,7 +51,7 @@ describe("moveOilReserve", () => {
     const gameState = moveOilReserve({
       state: {
         ...TEST_FARM,
-        oil: {
+        oilReserves: {
           "123": {
             height: 1,
             width: 1,
@@ -97,7 +97,7 @@ describe("moveOilReserve", () => {
       },
     });
 
-    expect(gameState.oil).toEqual({
+    expect(gameState.oilReserves).toEqual({
       "123": {
         height: 1,
         width: 1,

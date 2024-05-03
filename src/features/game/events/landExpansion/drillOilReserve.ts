@@ -23,7 +23,7 @@ export function drillOilReserve({
 }: Options): GameState {
   const game: GameState = cloneDeep(state);
 
-  const oilReserve = game.oil[action.id];
+  const oilReserve = game.oilReserves[action.id];
   const drills = game.inventory["Oil Drill"] ?? new Decimal(0);
 
   if (!oilReserve) {

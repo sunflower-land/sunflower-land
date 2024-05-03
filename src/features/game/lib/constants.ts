@@ -426,7 +426,7 @@ export const TEST_FARM: GameState = {
   iron: {},
   stones: {},
   crimstones: {},
-  oil: {},
+  oilReserves: {},
   trees: {},
   sunstones: {},
   mushrooms: {
@@ -502,7 +502,7 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   crimstones: {},
-  oil: {},
+  oilReserves: {},
   trees: {},
   sunstones: {},
   farmActivity: {},

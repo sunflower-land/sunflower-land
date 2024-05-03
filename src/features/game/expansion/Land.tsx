@@ -64,7 +64,7 @@ type IslandElementArgs = {
   isFirstRender: boolean;
   buds: GameState["buds"];
   beehives: GameState["beehives"];
-  oil: GameState["oil"];
+  oil: GameState["oilReserves"];
 };
 
 const getIslandElements = ({
@@ -582,7 +582,7 @@ export const Land: React.FC = () => {
     buds,
     airdrops,
     beehives,
-    oil,
+    oilReserves: oil,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
