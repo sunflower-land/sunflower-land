@@ -29,7 +29,6 @@ import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
-import classNames from "classnames";
 import { getDayOfYear } from "lib/utils/time";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
@@ -124,11 +123,8 @@ export const BuyPanel: React.FC<{
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
             >
               <OuterPanel
-                className={classNames(
-                  "w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200",
-                  { "opacity-75 cursor-not-allowed": !hasPurchasesRemaining }
-                )}
-                onClick={() => hasPurchasesRemaining && onSearch(name)}
+                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                onClick={() => onSearch(name)}
               >
                 <span className="text-xs mt-1">{name}</span>
                 <img

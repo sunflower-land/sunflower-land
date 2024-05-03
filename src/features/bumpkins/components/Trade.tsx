@@ -498,16 +498,18 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
               openModal("BUY_BANNER");
             }}
           />
-          <Label
-            type={hasListingsRemaining ? "success" : "danger"}
-            className="-ml-2"
-          >
-            {`${t("remaining.free.purchases", {
-              purchasesRemaining: hasListingsRemaining
-                ? getRemainingFreeListings(dailyListings)
-                : "No",
-            })}`}
-          </Label>
+          {!isVIP && (
+            <Label
+              type={hasListingsRemaining ? "success" : "danger"}
+              className="-ml-2"
+            >
+              {`${t("remaining.free.purchases", {
+                purchasesRemaining: hasListingsRemaining
+                  ? getRemainingFreeListings(dailyListings)
+                  : "No",
+              })}`}
+            </Label>
+          )}
         </div>
         <div className="p-1 flex flex-col items-center">
           <img
