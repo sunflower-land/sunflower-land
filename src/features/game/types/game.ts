@@ -26,7 +26,7 @@ import {
   PurchasableItems,
   SoldOutCollectibleName,
 } from "./collectibles";
-import { TreasureToolName } from "./tools";
+import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
@@ -333,7 +333,8 @@ export type InventoryItemName =
   | MarineMarvelName
   | FlowerName
   | MegaStoreCollectibleName
-  | FactionBanner;
+  | FactionBanner
+  | WorkbenchToolName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -437,7 +438,8 @@ export type Oil = {
 
 export type OilReserve = {
   oil: Oil;
-  drillsLeft: number;
+  drilled: number;
+  createdAt: number;
 } & Position;
 
 export type CropPlot = {
