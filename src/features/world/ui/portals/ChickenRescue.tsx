@@ -40,7 +40,6 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
     return (
       <div>
         <Portal portalName="chicken-rescue" onClose={onClose} />
-        <span className="loading  z-10 left-0 top-0">{t("loading")}</span>
       </div>
     );
   }

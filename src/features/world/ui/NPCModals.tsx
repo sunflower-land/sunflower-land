@@ -16,7 +16,6 @@ import {
 } from "./donations/Donations";
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
-import { Luna } from "./npcs/Luna";
 import { Mayor } from "./npcs/Mayor";
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
@@ -206,7 +205,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "luna" && <Luna onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
 
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}

@@ -10,7 +10,6 @@ import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
-import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
@@ -40,7 +39,6 @@ type InteractableName =
   | "rare_chest"
   | "kraken"
   | "nye_button"
-  | "portal"
   | "welcome_sign"
   | "bud"
   | "plaza_statue"
@@ -370,9 +368,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
           ]}
         />
-      </Modal>
-      <Modal show={interactable === "portal"} onHide={closeModal}>
-        <Luna onClose={closeModal} />
       </Modal>
 
       <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>

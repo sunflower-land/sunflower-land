@@ -559,6 +559,7 @@ export type Airdrop = {
   coins: number;
   message?: string;
   coordinates?: Coordinates;
+  factionPoints?: number;
 };
 
 // Mystery Prize reveals

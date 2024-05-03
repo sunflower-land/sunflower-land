@@ -35,6 +35,8 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const { t } = useAppTranslation();
 
   useEffect(() => {
+    // TODO - check if already complete = transition straight into complete state;
+    
     const load = async () => {
       setLoading(true);
 
@@ -127,12 +129,16 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
     return <span className="loading">{t("loading")}</span>;
   }
 
+  console.log({ isComplete });
   if (isComplete) {
     return (
       <ClaimReward
         onClaim={onClaim}
         reward={{
+          message:
+            "Congratulations, you rescued the chickens! Here is your reward.",
           createdAt: Date.now(),
+          factionPoints: 10,
           id: "discord-bonus",
           items: {},
           wearables: {},
@@ -180,6 +186,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           </div>,
           document.body
         )}
+      <span className="loading  z-10 left-0 top-0">{t("loading")}</span>
     </>
   );
 };
