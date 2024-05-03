@@ -4,12 +4,52 @@ import { COOKABLE_CAKES } from "features/game/types/consumables";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory, NPCData, Order } from "features/game/types/game";
 import { BUMPKIN_GIFTS } from "features/game/types/gifts";
-import { getSeasonalTicket } from "features/game/types/seasons";
+import {
+  getSeasonalBanner,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
 import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
+
+export const TICKET_REWARDS: Record<QuestNPCName, number> = {
+  "pumpkin' pete": 1,
+  bert: 2,
+  miranda: 2,
+  finley: 2,
+  raven: 3,
+  finn: 3,
+  timmy: 4,
+  cornwell: 4,
+  tywin: 5,
+};
+
+export function generateDeliveryTickets({
+  game,
+  npc,
+  now = new Date(),
+}: {
+  game: GameState;
+  npc: NPCName;
+  now?: Date;
+}) {
+  let amount = TICKET_REWARDS[npc as QuestNPCName];
+
+  if (!amount) {
+    return 0;
+  }
+
+  if (
+    !!game.inventory[getSeasonalBanner(now)] ||
+    !!game.inventory["Lifetime Farmer Banner"]
+  ) {
+    amount += 2;
+  }
+
+  return amount;
+}
 
 export type DeliverOrderAction = {
   type: "order.delivered";
@@ -73,16 +113,26 @@ export type QuestNPCName =
   | "raven"
   | "timmy"
   | "tywin"
-  | "cornwell";
+  | "cornwell"
+  | "finn"
+  | "finley"
+  | "miranda";
 
-const QUEST_NPC_NAMES = ["pumpkin' pete", "raven", "bert", "timmy", "tywin"];
+// All available quest npcs
+export const QUEST_NPC_NAMES: QuestNPCName[] = [
+  "pumpkin' pete",
+  "bert",
+  "raven",
+  "timmy",
+  "tywin",
+  "cornwell",
+  "finn",
+  "finley",
+  "miranda",
+];
 
 const DELIVERY_FRIENDSHIP_POINTS = 3;
 export const FACTION_POINT_MULTIPLIER = 5;
-
-export function isOfQuestNPCType(value: string): value is QuestNPCName {
-  return (QUEST_NPC_NAMES as string[]).includes(value);
-}
 
 export function populateOrders(
   game: GameState,
@@ -173,7 +223,12 @@ export function deliverOrder({
     now: createdAt,
   });
 
-  const isTicketOrder = !!order.reward?.tickets;
+  const tickets = generateDeliveryTickets({
+    game,
+    npc: order.from,
+    now: new Date(createdAt),
+  });
+  const isTicketOrder = tickets > 0;
 
   if (isTicketOrder && ticketTasksAreFrozen) {
     throw new Error("Ticket tasks are frozen");
@@ -229,11 +284,11 @@ export function deliverOrder({
     );
   }
 
-  if (order.reward.tickets) {
+  if (tickets > 0) {
     const seasonalTicket = getSeasonalTicket();
 
     const count = game.inventory[seasonalTicket] || new Decimal(0);
-    const amount = order.reward.tickets || new Decimal(0);
+    const amount = tickets || new Decimal(0);
 
     game.inventory[seasonalTicket] = count.add(amount);
 

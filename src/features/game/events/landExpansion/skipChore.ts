@@ -1,8 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
-import { startChore } from "./startChore";
 import { GameState } from "features/game/types/game";
-import { getProgress } from "features/helios/components/hayseedHank/lib/HayseedHankTask";
-import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isChoreId } from "./completeChore";
 
 export type SkipChoreAction = {
@@ -23,7 +20,7 @@ function getDayOfYear(date: Date): number {
   return Math.floor(diff / oneDay);
 }
 
-export function skipWitchesEveChore({
+export function skipChore({
   state,
   action,
   createdAt = Date.now(),
@@ -67,75 +64,4 @@ export function skipWitchesEveChore({
   // Skip chore
 
   return game;
-}
-
-export function skipDawnBreakerChore({
-  state,
-  createdAt = Date.now(),
-}: Options): GameState {
-  let game = cloneDeep(state);
-  const { hayseedHank } = game;
-
-  if (!game.bumpkin) {
-    throw new Error("No Bumpkin Found");
-  }
-
-  if (!hayseedHank) {
-    throw new Error("No Hayseed Hank Found");
-  }
-
-  if (!hayseedHank.progress) {
-    throw new Error("Chore has not started");
-  }
-
-  if (game.bumpkin.id !== hayseedHank.progress?.bumpkinId) {
-    throw new Error("Not the same Bumpkin");
-  }
-
-  const progress = getProgress(game);
-
-  if (progress > hayseedHank.chore.requirement) {
-    throw new Error("Chore is completed");
-  }
-
-  const twentyFourHoursAgo = createdAt - 86400000;
-
-  //return game if chore has started less than 24hrs from createdAt
-  if (hayseedHank.progress.startedAt > twentyFourHoursAgo) {
-    return game;
-  }
-
-  hayseedHank.dawnBreakerChoresSkipped =
-    hayseedHank.dawnBreakerChoresSkipped || 0;
-
-  hayseedHank.dawnBreakerChoresSkipped += 1;
-
-  // Remove the progress object from Hayseed Hank as the chore has been skipped
-  delete hayseedHank.progress;
-
-  // Increment activity
-  game.bumpkin.activity = trackActivity("Chore Skipped", game.bumpkin.activity);
-
-  // Automatically start next chore
-  game = startChore({
-    state: game,
-    action: {
-      type: "chore.started",
-    },
-    createdAt,
-  });
-
-  return game;
-}
-
-export function skipChore({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
-  if (state.chores) {
-    return skipWitchesEveChore({ state, createdAt, action });
-  }
-
-  return skipDawnBreakerChore({ state, createdAt, action });
 }

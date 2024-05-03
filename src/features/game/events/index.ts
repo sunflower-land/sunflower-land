@@ -112,7 +112,6 @@ import {
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
 import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
-import { startChore, StartChoreAction } from "./landExpansion/startChore";
 import {
   completeChore,
   CompleteChoreAction,
@@ -315,7 +314,6 @@ export type PlayingEvent =
   | RestockAction
   | SellGarbageAction
   // Chores
-  | StartChoreAction
   | CompleteChoreAction
   | SkipChoreAction
   | ExpandLandAction
@@ -463,7 +461,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shops.restocked": restock,
   "garbage.sold": sellGarbage,
   "chore.completed": completeChore,
-  "chore.started": startChore,
   "chore.skipped": skipChore,
   "land.expanded": expandLand,
   "message.read": readMessage,

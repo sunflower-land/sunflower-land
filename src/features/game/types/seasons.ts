@@ -101,8 +101,8 @@ export function getSeasonalTicket(): SeasonalTicket {
   return SEASON_TICKET_NAME[currentSeason];
 }
 
-export function getSeasonalBanner(): SeasonalBanner {
-  const currentSeason = getCurrentSeason();
+export function getSeasonalBanner(now = new Date()): SeasonalBanner {
+  const currentSeason = getCurrentSeason(now);
 
   return `${currentSeason} Banner`;
 }

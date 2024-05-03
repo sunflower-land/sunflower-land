@@ -695,7 +695,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         from: "pumpkin' pete",
         reward: {
           items: {},
-          tickets: 5,
         },
         id: "1",
         items: {
