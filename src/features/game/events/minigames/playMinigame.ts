@@ -26,7 +26,7 @@ export function playMinigame({
   const game = cloneDeep<GameState>(state);
 
   if (!SUPPORTED_MINIGAMES.includes(action.id)) {
-    throw new Error(`${action.id} is not a valid portal`);
+    throw new Error(`${action.id} is not a valid minigame`);
   }
 
   const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];

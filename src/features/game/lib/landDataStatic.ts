@@ -312,7 +312,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     games: {},
     prizes: {
       "chicken-rescue": {
-        coins: 100,
+        coins: 0,
         startAt: new Date("2023-01-01").getTime(),
         endAt: new Date("2025-01-01").getTime(),
         score: 2,

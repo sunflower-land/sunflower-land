@@ -63,7 +63,7 @@ export const MinigamePrizeUI: React.FC<{
                 {`${prize.factionPoints} Faction Points`}
               </Label>
             )}
-            {prize.coins && (
+            {!!prize.coins && (
               <Label icon={coins} type="warning">
                 {prize.coins}
               </Label>

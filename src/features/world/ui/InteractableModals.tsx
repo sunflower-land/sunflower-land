@@ -371,7 +371,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
 
       <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.chicken}
+        >
           <ChickenRescue onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>

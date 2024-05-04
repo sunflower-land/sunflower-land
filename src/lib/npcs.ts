@@ -73,7 +73,8 @@ export type NPCName =
   | "grommy" // faction spruiker;
   | "lady day" // faction spruiker;
   | "robert" // faction spruiker;
-  | "maximus"; // faction spruiker;
+  | "maximus" // faction spruiker;
+  | "chicken";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   gaucho: {
@@ -86,6 +87,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Brown Boots",
     hat: "Boater Hat",
+  },
+  chicken: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Farmer Overalls",
+    shirt: "Blue Farmer Shirt",
+    hat: "Chicken Hat",
   },
   flopsy: {
     body: "Dark Brown Farmer Potion",

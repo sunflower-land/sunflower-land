@@ -24,7 +24,7 @@ export function claimMinigamePrize({
   const game = cloneDeep<GameState>(state);
 
   if (!SUPPORTED_MINIGAMES.includes(action.id)) {
-    throw new Error(`${action.id} is not a valid portal`);
+    throw new Error(`${action.id} is not a valid minigame`);
   }
 
   const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
@@ -37,6 +37,10 @@ export function claimMinigamePrize({
 
   if (!prize) {
     throw new Error(`No prize found for ${action.id}`);
+  }
+
+  if (createdAt < prize.startAt || createdAt > prize.endAt) {
+    throw new Error("Prize is no longer available");
   }
 
   const minigame = games[action.id];
@@ -54,14 +58,24 @@ export function claimMinigamePrize({
 
   // Has already claimed
   const claimedAt = games[action.id]?.prizeClaimedAt ?? 0;
-  if (!!claimedAt) {
+  const claimedDay = new Date(claimedAt).toISOString().substring(0, 10);
+
+  if (claimedDay === new Date(createdAt).toISOString().substring(0, 10)) {
     throw new Error(`Already claimed ${action.id} prize`);
   }
 
   // Claim prize
   minigame.prizeClaimedAt = createdAt;
 
+  // Claim coins
+  if (!!prize.coins) {
+    game.coins += prize.coins;
+  }
+
   // Claim points
+  if (!!prize.factionPoints && game.faction) {
+    game.faction.points += prize.factionPoints;
+  }
 
   return game;
 }
