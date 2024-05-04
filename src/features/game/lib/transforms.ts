@@ -57,9 +57,6 @@ export function makeGame(farm: any): GameState {
     expandedAt: farm.expandedAt,
     greenhouse: farm.greenhouse,
 
-    islands: farm.islands,
-    portals: farm.portals,
-
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     fishing: farm.fishing ?? { wharf: {}, beach: {} },
@@ -73,6 +70,7 @@ export function makeGame(farm: any): GameState {
     pumpkinPlaza: farm.pumpkinPlaza,
     dailyRewards: farm.dailyRewards,
     auctioneer: farm.auctioneer ?? {},
+    minigames: farm.minigames,
     chores: farm.chores,
     tradedAt: farm.tradedAt,
     trees: farm.trees ?? {},
