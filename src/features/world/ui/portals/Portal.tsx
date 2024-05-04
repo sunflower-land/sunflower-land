@@ -36,7 +36,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
   useEffect(() => {
     // TODO - check if already complete = transition straight into complete state;
-    
+
     const load = async () => {
       setLoading(true);
 
@@ -83,6 +83,15 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       console.log("Purchasing item", event.data.sfl);
       setPurchase(event.data.sfl);
     }
+
+    if (event.data.event === "played") {
+      // Purchase the item
+      console.log("Score", event.data.score);
+      gameService.send("minigame.played", {
+        score: event.data.score,
+        id: portalName,
+      });
+    }
   };
 
   useEffect(() => {
@@ -101,6 +110,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       id: portalName,
       sfl: purchase,
     });
+    gameService.send("SAVE");
 
     console.log("iframe purchase", { iframeRef });
     if (iframeRef.current) {

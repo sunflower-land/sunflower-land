@@ -790,20 +790,20 @@ export type MinigamePrize = {
   startAt: number;
   endAt: number;
   score: number;
-  sfl: number;
+  coins: number;
+  factionPoints: number;
+};
+
+export type MinigameHistory = {
+  highscore: number;
+  attempts: number;
 };
 
 export type Minigame = {
   highscore: number;
   prizeClaimedAt?: number;
   purchases?: { sfl: number; purchasedAt: number }[];
-  history: Record<
-    string,
-    {
-      highscore: number;
-      attempts: number;
-    }
-  >;
+  history: Record<string, MinigameHistory>;
 };
 
 export type TradeListing = {

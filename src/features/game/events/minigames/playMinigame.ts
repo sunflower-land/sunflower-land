@@ -29,8 +29,7 @@ export function playMinigame({
     throw new Error(`${action.id} is not a valid portal`);
   }
 
-  const minigames = (game.minigames?.games ??
-    {}) as Required<GameState>["minigames"];
+  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
 
   const minigame = minigames.games[action.id] ?? {
     history: {},

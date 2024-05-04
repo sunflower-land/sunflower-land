@@ -49,7 +49,7 @@ export function claimMinigamePrize({
 
   // Has reached score
   if (history.highscore < prize.score) {
-    throw new Error(`Score ${prize.score} is less than ${history.highscore}`);
+    throw new Error(`Score ${history.highscore} is less than ${prize.score}`);
   }
 
   // Has already claimed
@@ -61,9 +61,7 @@ export function claimMinigamePrize({
   // Claim prize
   minigame.prizeClaimedAt = createdAt;
 
-  if (prize.sfl) {
-    game.balance = game.balance.add(prize.sfl);
-  }
+  // Claim points
 
   return game;
 }
