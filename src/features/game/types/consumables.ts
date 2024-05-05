@@ -219,7 +219,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
   },
   "Rapid Roast": {
     name: "Rapid Roast",
-    description: "For Bumpkins in a hurry...",
+    description: translate("description.rapidRoast"),
     experience: 300,
     building: "Fire Pit",
     cookingSeconds: 10,
@@ -396,7 +396,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
   },
   "Beetroot Blaze": {
     name: "Beetroot Blaze",
-    description: "A spicy beetroot-infused magic mushroom dish",
+    description: translate("description.beetrootBlaze"),
     experience: 2000,
     building: "Kitchen",
     cookingSeconds: 30,
@@ -677,7 +677,7 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
   },
   "Shroom Syrup": {
     name: "Shroom Syrup",
-    description: "The essence of bees and enchanted fungi",
+    description: translate("description.fermented.shroomSyrup"),
     experience: 10000,
     building: "Deli",
     cookingSeconds: 10,
