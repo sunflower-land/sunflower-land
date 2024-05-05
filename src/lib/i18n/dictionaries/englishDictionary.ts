@@ -1947,7 +1947,7 @@ const factions: Record<Factions, string> = {
   "faction.donation.request.message":
     "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewarded faction points in return for your generosity.",
   "faction.donation.label": "{{faction}} Faction Donation",
-  "faction.donation.sfl": "SFL donations min(10)",
+  "faction.donation.sfl": "SFL donations (min 10)",
   "faction.donation.sfl.max.per.day": "{{donatedToday}}/500 max per day",
   "faction.donation.bulk.resources": "Bulk resource donations (min {{min}})",
   "faction.donation.bulk.resources.unlimited.per.day":
