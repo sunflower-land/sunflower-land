@@ -29,7 +29,7 @@ export const SmoothieShackModal: React.FC<Props> = ({
   craftingService,
 }) => {
   const JuiceRecipes = Object.values(JUICE_COOKABLES).sort(
-    (a, b) => a.cookingSeconds - b.cookingSeconds // Future proofing for future foods released
+    (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
   );
   const [selected, setSelected] = useState<Cookable>(
     JuiceRecipes.find((recipe) => recipe.name === itemInProgress) ||

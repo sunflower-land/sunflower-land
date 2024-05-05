@@ -676,7 +676,7 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
     marketRate: 0,
   },
   "Shroom Syrup": {
-    name: "Mashed Potato",
+    name: "Shroom Syrup",
     description: "The essence of bees and enchanted fungi",
     experience: 10000,
     building: "Deli",
