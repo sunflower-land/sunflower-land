@@ -249,8 +249,7 @@ export function getDayOfYear(date: Date): number {
  * @param timestamp Date object
  * @returns Time until the given date eg: 2 days
  */
-export function getTimeUntil(timestamp: Date) {
-  const now = new Date();
+export function getTimeUntil(timestamp: Date, now = new Date()) {
   const diff = timestamp.getTime() - now.getTime();
 
   if (diff < 0) return "now";
