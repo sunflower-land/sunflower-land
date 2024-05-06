@@ -14,7 +14,7 @@ type Options = {
 };
 
 export const BASE_OIL_DROP_AMOUNT = 10;
-export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60 * 1000;
+export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60;
 
 export function canDrillOilReserve(
   reserve: OilReserve,
