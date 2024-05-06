@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -29,6 +29,8 @@ const compareResource = (prev: IOilReserve, next: IOilReserve) => {
 
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
+  const [drilling, setDrilling] = useState(false);
+  const [oiledAmount, setOilAmount] = useState<number>();
 
   const reserve = useSelector(gameService, _reserve(id), compareResource);
   const drills = useSelector(gameService, _drills);
@@ -41,13 +43,22 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
 
   useUiRefresher({ active: !ready });
 
-  const handleDrill = () => {
+  const handleDrill = async () => {
     if (!ready || drills.lessThan(1)) return;
 
-    gameService.send({
+    const newState = gameService.send({
       type: "oilReserve.drilled",
       id,
     });
+
+    if (!newState.matches("hoarding")) {
+      setDrilling(true);
+      setOilAmount(reserve.oil.amount);
+      //  TODO: Implement audio
+
+      await new Promise((res) => setTimeout(res, 2000));
+      setDrilling(false);
+    }
   };
 
   return (
@@ -55,8 +66,15 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
       {ready && (
         <RecoveredOilReserve hasDrill={drills.gte(1)} onDrill={handleDrill} />
       )}
-      {halfReady && <RecoveringOilReserve />}
-      {!ready && !halfReady && <DepletedOilReserve timeLeft={timeLeft} />}
+      {halfReady && <RecoveringOilReserve timeLeft={timeLeft} />}
+      {!ready && !halfReady && (
+        <DepletedOilReserve
+          drilling={drilling}
+          oilAmount={oiledAmount}
+          timeLeft={timeLeft}
+          onOilTransitionEnd={() => setOilAmount(undefined)}
+        />
+      )}
     </div>
   );
 };

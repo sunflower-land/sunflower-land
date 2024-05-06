@@ -64,7 +64,7 @@ type IslandElementArgs = {
   isFirstRender: boolean;
   buds: GameState["buds"];
   beehives: GameState["beehives"];
-  oil: GameState["oilReserves"];
+  oilReserves: GameState["oilReserves"];
 };
 
 const getIslandElements = ({
@@ -88,7 +88,7 @@ const getIslandElements = ({
   buds,
   airdrops,
   beehives,
-  oil,
+  oilReserves,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -350,8 +350,8 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(oil).map((id, index) => {
-      const { x, y, width, height } = oil[id];
+    ...getKeys(oilReserves).map((id, index) => {
+      const { x, y, width, height } = oilReserves[id];
 
       return (
         <MapPlacement
@@ -582,7 +582,7 @@ export const Land: React.FC = () => {
     buds,
     airdrops,
     beehives,
-    oilReserves: oil,
+    oilReserves,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -699,7 +699,7 @@ export const Land: React.FC = () => {
                 buds,
                 airdrops,
                 beehives,
-                oil,
+                oilReserves,
               }).sort((a, b) => b.props.y - a.props.y)}
           </div>
 

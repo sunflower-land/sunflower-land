@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-
-import fullOilReserve from "assets/resources/oil/oil_reserve_full.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
+import fullOilReserve from "assets/resources/oil/oil_reserve_full.webp";
 
 interface Props {
   hasDrill: boolean;
