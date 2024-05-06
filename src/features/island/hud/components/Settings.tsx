@@ -8,7 +8,6 @@ import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { SettingsMenu } from "./settings-menu/SettingsMenu";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
   getFarmingSong,
@@ -18,6 +17,7 @@ import {
 } from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useLocation } from "react-router-dom";
+import { GameOptionsModal } from "./settings-menu/GameOptions";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -212,10 +212,9 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
         muted={true}
         controls
       />
-      <SettingsMenu
+      <GameOptionsModal
         show={openSettingsMenu}
         onClose={handleCloseSettingsMenu}
-        isFarming={isFarming}
       />
       <AudioMenu
         musicPlayer={musicPlayer}

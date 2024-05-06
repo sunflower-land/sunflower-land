@@ -191,7 +191,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Alba: 479,
   "Knowledge Crab": 480,
   Anchor: 481,
-  // AVAILABLE = 482,
+  Goblet: 482,
   "Rubber Ducky": 483,
   "Kraken Head": 484,
   "Skill Shrimpy": 485,
@@ -204,6 +204,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Flower Fox": 492,
   "Hungry Caterpillar": 493,
   "Crim Peckster": 494,
+  "Turbo Sprout": 495,
+  Soybliss: 496,
+  "Grape Granny": 497,
+  "Royal Throne": 498,
+  "Lily Egg": 499,
+  "Knight Chicken": 500,
 
   "Pumpkin Soup": 501,
   "Roasted Cauliflower": 502,
@@ -259,6 +265,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Gumbo: 552,
   "Fermented Fish": 553,
   "Banana Blast": 554,
+  "Beetroot Blaze": 555,
+  "Rapid Roast": 556,
+  "Shroom Syrup": 557,
 
   Wood: 601,
   Stone: 602,
@@ -298,6 +307,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Crimstone: 636,
   "Sunstone Rock": 637,
   Sunstone: 638,
+  Oil: 639,
+  "Oil Reserve": 640,
 
   "Green Thumb": 701,
   "Barn Manager": 702,
@@ -336,6 +347,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Farmhand: 735,
   "Spring Blossom Banner": 736,
   "Tulip Bulb": 737,
+  "Clash of Factions Banner": 738,
+  Scroll: 739,
+  "Lifetime Farmer Banner": 740,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -419,6 +433,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Baozi: 936,
   "Community Egg": 937,
   "Hungry Hare": 938,
+  "Bumpkin Faction Banner": 939,
+  "Nightshade Faction Banner": 940,
+  "Sunflorian Faction Banner": 941,
+  "Goblin Faction Banner": 942,
 
   // Buildings
   Market: 1001,
@@ -616,6 +634,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Halibut: 1535,
   Parrotfish: 1536,
   "Crimson Carp": 1537,
+  "Battle Fish": 1538,
 
   "White Festive Fox": 2001,
   Rug: 2002,
@@ -630,6 +649,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Flower Rug": 2011,
   "Tea Rug": 2012,
   "Green Field Rug": 2013,
+  "Fancy Rug": 2014,
+  Clock: 2015,
+  Vinny: 2016,
 };
 
 // The reverse of above

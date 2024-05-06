@@ -8,7 +8,6 @@ import powerup from "assets/icons/level_up.png";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { Airdrop as IAirdrop } from "features/game/types/game";
 import { Label } from "components/ui/Label";
@@ -20,6 +19,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface ClaimRewardProps {
   reward: IAirdrop;

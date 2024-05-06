@@ -190,10 +190,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-1">
-        <p className="text-xs mb-1 ml-0.5">
-          {t("playerTrade.sale")}
-          {":"}
-        </p>
+        <p className="text-xs mb-1 ml-0.5">{t("playerTrade.sale")}</p>
         <Label type="info">{t("beta")}</Label>
       </div>
       {getKeys(listings).map((listingId, index) => {

@@ -115,7 +115,8 @@ export type BumpkinShirt =
 export type BumpkinCoat =
   | "Chef Apron"
   | "Fruit Picker Apron"
-  | "Pirate General Coat";
+  | "Pirate General Coat"
+  | "Royal Robe";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -150,7 +151,9 @@ export type BumpkinTool =
   | "Candy Cane"
   | "Beehive Staff"
   | "Bee Smoker"
-  | "Crimstone Hammer";
+  | "Crimstone Hammer"
+  | "Oil Can"
+  | "Pan";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -238,7 +241,9 @@ export type BumpkinHat =
   | "Queen Bee Crown"
   | "Lucky Red Hat"
   | "Chicken Hat"
-  | "Love's Topper";
+  | "Love's Topper"
+  | "Non La Hat"
+  | "Crown";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -292,7 +297,9 @@ export type BumpkinSecondaryTool =
   | "Fish Trap"
   | "Saw Fish"
   | "Tackle Box"
-  | "Honeycomb Shield";
+  | "Honeycomb Shield"
+  | "Olive Shield"
+  | "Paw Shield";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -652,6 +659,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Lucky Red Suit": 305,
   "Valentine's Field Background": 306,
   "Love's Topper": 307,
+  "Oil Can": 308,
+  "Non La Hat": 309,
+  "Olive Shield": 310,
+  "Paw Shield": 311,
+  "Royal Robe": 312,
+  Crown: 313,
+  Pan: 314,
 };
 
 // The reverse of above
@@ -1018,4 +1032,11 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Lucky Red Suit": "suit",
   "Love's Topper": "hat",
   "Valentine's Field Background": "background",
+  "Non La Hat": "hat",
+  "Oil Can": "tool",
+  "Olive Shield": "secondaryTool",
+  "Paw Shield": "secondaryTool",
+  "Royal Robe": "coat",
+  Crown: "hat",
+  Pan: "tool",
 };

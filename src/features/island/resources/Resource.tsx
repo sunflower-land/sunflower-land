@@ -112,6 +112,17 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
+  "Oil Reserve": () => (
+    <img
+      src={ITEM_DETAILS["Oil Reserve"].image}
+      className="relative"
+      style={{
+        width: `${PIXEL_SCALE * 30}px`,
+        top: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
+    />
+  ),
   Tree: () => (
     <img
       src={SUNNYSIDE.resource.tree}
@@ -190,6 +201,7 @@ export const RESOURCE_COMPONENTS: Record<
   Beehive: Beehive,
   "Flower Bed": FlowerBed,
   "Sunstone Rock": Sunstone,
+  "Oil Reserve": () => null,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

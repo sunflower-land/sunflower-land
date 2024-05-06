@@ -29,7 +29,7 @@ export const BakeryModal: React.FC<Props> = ({
   craftingService,
 }) => {
   const cakeRecipes = Object.values(BAKERY_COOKABLES).sort(
-    (a, b) => a.cookingSeconds - b.cookingSeconds // Future proofing for future foods released
+    (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
   );
   const [selected, setSelected] = useState<Cookable>(
     cakeRecipes.find((recipe) => recipe.name === itemInProgress) ||

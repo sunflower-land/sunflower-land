@@ -2,8 +2,8 @@ import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "../lib/level";
 import { GameState, Inventory } from "./game";
 import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
-import { COOKABLES } from "./consumables";
-import { CAKES, getKeys, TOOLS } from "./craftables";
+import { COOKABLES, COOKABLE_CAKES } from "./consumables";
+import { getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
 import { FRUIT } from "./fruits";
 import { getSeasonalTicket } from "./seasons";
@@ -253,7 +253,7 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Bakers Dozen": {
     description: translate("bakersDozen.description"),
     progress: (gameState: GameState) => {
-      const cakeEvents = getKeys(CAKES()).map(
+      const cakeEvents = getKeys(COOKABLE_CAKES).map(
         (name) => `${name} Cooked` as CookEvent
       );
 

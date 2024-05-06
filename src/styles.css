@@ -28,6 +28,18 @@
     word-break: break-word;
   }
 
+  /* create a horizontal line original price */
+  .discounted:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 -5px;
+    border-top: 1px solid white;
+    z-index: 1;
+  }
+
   .text-stroke {
     -webkit-text-stroke: 1px black;
   }

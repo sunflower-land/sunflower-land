@@ -1295,6 +1295,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
   },
+  Oil: {
+    name: "Oil",
+    description:
+      "A resource collected by mining oil mines.\n\nIt is used to power machinery.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/639.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
   Egg: {
     name: "Egg",
     description:
@@ -4231,6 +4243,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  Scroll: {
+    description: "A ticket used during the Clash of Factions Season",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/739.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+
   "Sunflower Supporter": {
     description: "A true supporter of the project",
     decimals: 0,
@@ -4367,6 +4390,16 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/637.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Resource Node" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Oil Reserve": {
+    description: "A valuable resource used to mine oil",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/640.png",
     attributes: [
       { trait_type: "Purpose", value: "Resource Node" },
       { trait_type: "Tradable", value: "No" },
@@ -4571,6 +4604,31 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         trait_type: "XP increase during Spring Blossom Season",
         value: 10,
       },
+    ],
+  },
+  "Clash of Factions Banner": {
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/738.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "XP increase during Clash of Factions Season",
+        value: 10,
+      },
+    ],
+  },
+  "Lifetime Farmer Banner": {
+    description: "Gives lifetime access to all seasons and VIP access.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/740.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   "Luminous Lantern": {
@@ -5973,6 +6031,22 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+  "Battle Fish": {
+    description: "The rare armored swimmer of faction season!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1538.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Fish" },
+      { trait_type: "Tradable", value: "No" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Oil Yield",
+        value: 0.05,
+      },
+    ],
+  },
   Chowder: {
     description:
       "Sailor's delight in a bowl! Dive in, there's treasure inside!",
@@ -6202,6 +6276,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       {
         display_type: "boost_number",
         trait_type: "Increase Crimstone yield",
+        value: 0.1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  "Knight Chicken": {
+    description: "A strong and noble chicken boosting your oil yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/495.gif",
+    attributes: [
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Oil yield",
         value: 0.1,
       },
       { trait_type: "Tradable", value: "Yes" },
@@ -6731,9 +6820,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Boost", value: "Resource" },
       {
-        display_type: "boost_percentage",
-        trait_type: "Honey Produce Time",
-        value: -50,
+        display_type: "boost_number",
+        trait_type: "Honey Production Speed",
+        value: 1,
       },
       { trait_type: "Tradable", value: "Yes" },
     ],
@@ -7123,5 +7212,190 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
         value: 100,
       },
     ],
+  },
+  "Sunflorian Faction Banner": {
+    name: "Sunflorian Faction Banner",
+    description:
+      "A banner that shows your allegiance to the Sunflorian Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/941.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Goblin Faction Banner": {
+    name: "Goblin Faction Banner",
+    description: "A banner that shows your allegiance to the Goblin Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/942.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Nightshade Faction Banner": {
+    name: "Nightshades Faction Banner",
+    description:
+      "A banner that shows your allegiance to the Nightshade Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/940.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+  "Bumpkin Faction Banner": {
+    name: "Bumpkin Faction Banner",
+    description: "A banner that shows your allegiance to the Bumpkin Faction.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/939.png",
+    attributes: [{ trait_type: "Tradable", value: "No" }],
+  },
+
+  "Turbo Sprout": {
+    name: "Turbo Sprout",
+    description: "An engine that boosts the Green House's growth speed by 50%.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Green House" },
+      {
+        display_type: "boost_percentage",
+        trait_type: "Green House Growth Time",
+        value: -50,
+      },
+    ],
+  },
+
+  Soybliss: {
+    name: "Soybliss",
+    description: "A unique soy creature that gives +1 Soybean yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Soybean Yield",
+        value: 1,
+      },
+    ],
+  },
+
+  "Grape Granny": {
+    name: "Grape Granny",
+    description: "Wise matriarch nurturing grapes to flourish with +1 yield.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Crop" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Grape Yield",
+        value: 1,
+      },
+    ],
+  },
+
+  "Royal Throne": {
+    name: "Royal Throne",
+    description: "A throne fit for the highest ranking farmer.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+
+  "Lily Egg": {
+    name: "Lily Egg",
+    description: "Tiny delight, grand beauty, endless wonder.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+
+  Goblet: {
+    name: "Goblet",
+    description: "A goblet that holds the finest of wines.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+
+  "Fancy Rug": {
+    name: "Fancy Rug",
+    description: "A rug that adds a touch of elegance to any room.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Clock: {
+    name: "Clock",
+    description:
+      "A Clock that keeps time with the gentle ticking of the seasons.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Vinny: {
+    name: "Vinny",
+    description: "Vinny, a friendly grapevine, is always ready for a chat.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Grape Yield",
+        value: 1,
+      },
+    ],
+  },
+  "Beetroot Blaze": {
+    name: "Beetroot Blaze",
+    description: "A spicy beetroot-infused magic mushroom dish",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/555.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  "Rapid Roast": {
+    name: "Rapid Roast",
+    description: "When you are in a hurry",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/556.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+  },
+  "Shroom Syrup": {
+    name: "Shroom Syrup",
+    description: "The essence of bees and enchanted fungi",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/557.png",
+    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
 };

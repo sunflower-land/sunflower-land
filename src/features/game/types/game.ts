@@ -27,12 +27,16 @@ import {
   SoldOutCollectibleName,
 } from "./collectibles";
 import { TreasureToolName } from "./tools";
-import { Chore } from "./chores";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
 import { Bud } from "./buds";
-import { CompostName, CropCompostName, FruitCompostName } from "./composters";
+import {
+  CompostName,
+  CropCompostName,
+  FruitCompostName,
+  Worm,
+} from "./composters";
 import { FarmActivityName } from "./farmActivity";
 import { MilestoneName } from "./milestones";
 import {
@@ -143,7 +147,8 @@ export type MutantChicken =
   | "Ayam Cemani"
   | "El Pollo Veloz"
   | "Banana Chicken"
-  | "Crim Peckster";
+  | "Crim Peckster"
+  | "Knight Chicken";
 
 export type Coupons =
   | "Gold Pass"
@@ -248,11 +253,20 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Prize Ticket": {
     description: translate("description.prizeTicket"),
   },
+  Scroll: {
+    description: translate("description.scroll"),
+  },
 };
 
 export type Points = "Human War Point" | "Goblin War Point";
 
 export type WarBanner = "Human War Banner" | "Goblin War Banner";
+
+export type FactionBanner =
+  | "Sunflorian Faction Banner"
+  | "Bumpkin Faction Banner"
+  | "Goblin Faction Banner"
+  | "Nightshade Faction Banner";
 
 export type GoldenCropEventItem = "Golden Crop";
 
@@ -318,7 +332,8 @@ export type InventoryItemName =
   | FishName
   | MarineMarvelName
   | FlowerName
-  | MegaStoreCollectibleName;
+  | MegaStoreCollectibleName
+  | FactionBanner;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -412,6 +427,17 @@ export type FiniteResource = {
 
 export type Rock = {
   stone: Stone;
+} & Position;
+
+export type Oil = {
+  amount: number;
+  // Epoch time in milliseconds
+  drilledAt: number;
+};
+
+export type OilReserve = {
+  oil: Oil;
+  drillsLeft: number;
 } & Position;
 
 export type CropPlot = {
@@ -530,18 +556,6 @@ export type Bid = {
   tickets: number;
 };
 
-export type HayseedHank = {
-  choresCompleted: number;
-  dawnBreakerChoresCompleted?: number;
-  dawnBreakerChoresSkipped?: number;
-  chore: Chore;
-  progress?: {
-    bumpkinId: number;
-    startedAt: number;
-    startCount: number;
-  };
-};
-
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 
 export type WitchesEve = {
@@ -602,7 +616,6 @@ export type Order = {
   from: NPCName;
   items: Partial<Record<InventoryItemName | "coins" | "sfl", number>>;
   reward: {
-    tickets?: number;
     sfl?: number;
     coins?: number;
     items?: Partial<Record<InventoryItemName, number>>;
@@ -697,7 +710,6 @@ export type ChoreV2 = {
   requirement: number;
   bumpkinId: number;
   startCount: number;
-  tickets: number;
 };
 
 export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
@@ -866,6 +878,38 @@ export type Beehive = {
 
 export type Beehives = Record<string, Beehive>;
 
+export type FactionName =
+  | "sunflorians"
+  | "bumpkins"
+  | "goblins"
+  | "nightshades";
+
+export type Faction = {
+  name: FactionName;
+  pledgedAt: number;
+  points: number;
+  donated: {
+    daily: {
+      sfl: {
+        day?: number;
+        amount?: number;
+      };
+      resources: {
+        day?: number;
+        amount?: number;
+      };
+    };
+    totalItems: Partial<Record<InventoryItemName | "sfl", number>>;
+  };
+};
+
+export type DonationItemName =
+  | CropName
+  | FishName
+  | FruitName
+  | CommodityName
+  | Worm;
+
 export interface GameState {
   home: Home;
 
@@ -913,6 +957,7 @@ export interface GameState {
   iron: Record<string, Rock>;
   crimstones: Record<string, FiniteResource>;
   sunstones: Record<string, FiniteResource>;
+  oil: Record<string, OilReserve>;
 
   crops: Record<string, CropPlot>;
   fruitPatches: Record<string, FruitPatch>;
@@ -970,7 +1015,6 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
-  hayseedHank?: HayseedHank;
   chores?: ChoresV2;
   mushrooms: Mushrooms;
   catchTheKraken: CatchTheKraken;
@@ -978,6 +1022,8 @@ export interface GameState {
 
   trades: {
     listings?: Record<string, TradeListing>;
+    dailyListings?: { date: number; count: number };
+    dailyPurchases?: { date: number; count: number };
   };
   buds?: Record<number, Bud>;
 
@@ -995,6 +1041,11 @@ export interface GameState {
         }
       >
     >;
+  };
+  faction?: Faction;
+  dailyFactionDonationRequest?: {
+    resource: DonationItemName;
+    amount: Decimal;
   };
 }
 

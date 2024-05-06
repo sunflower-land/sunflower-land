@@ -7,13 +7,13 @@ import token from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";
 
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { Auction, MachineInterpreter } from "features/game/lib/auctionMachine";
 import { getKeys } from "features/game/types/craftables";
 import { TimerDisplay } from "./AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 const AUCTION_BUFFER_SECONDS = 30;
 

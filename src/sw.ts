@@ -11,7 +11,7 @@ import { CONFIG } from "./lib/config";
 
 declare let self: ServiceWorkerGlobalScope;
 
-const isTestnet = CONFIG.NETWORK === "mumbai";
+const isTestnet = CONFIG.NETWORK === "amoy";
 const GAME_ASSETS_PATH = isTestnet ? "/testnet-assets" : "/game-assets";
 const gameAssetsCacheName = `${isTestnet ? "testnet" : "game"}-assets`;
 

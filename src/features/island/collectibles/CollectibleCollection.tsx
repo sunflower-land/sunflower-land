@@ -243,6 +243,23 @@ import { BabyPanda } from "./components/BabyPanda";
 import { Baozi } from "./components/Baozi";
 import { CommunityEgg } from "./components/CommunityEgg";
 import { HungryHare } from "./components/HungryHare";
+import { SunflorianFactionBanner } from "./components/SunflorianFactionBanner";
+import { GoblinFactionBanner } from "./components/GoblinFactionBanner";
+import { NightshadeFactionBanner } from "./components/NightshadeFactionBanner";
+import { BumpkinFactionBanner } from "./components/BumpkinFactionBanner";
+import { ClashOfFactionsBanner } from "./components/ClashOfFactionsBanner";
+import { LifetimeFarmerBanner } from "./components/LifetimeFarmerBanner";
+import { TurboSprout } from "./components/TurboSprout";
+import { Soybliss } from "./components/Soybliss";
+import { GrapeGranny } from "./components/GrapeGranny";
+import { RoyalThrone } from "./components/RoyalThrone";
+import { LilyEgg } from "./components/LilyEgg";
+import { Goblet } from "./components/Goblet";
+import { FancyRug } from "./components/FancyRug";
+import { Clock } from "./components/Clock";
+import { Vinny } from "./components/Vinny";
+import { KnightChicken } from "./components/KnightChicken";
+import { BattleFish } from "./components/BattleFish";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -432,6 +449,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Goblin War Banner": GoblinBanner,
   "Catch the Kraken Banner": CatchTheKrakenBanner,
   "Spring Blossom Banner": SpringBlossomBanner,
+  "Clash of Factions Banner": ClashOfFactionsBanner,
+  "Lifetime Farmer Banner": LifetimeFarmerBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,
@@ -490,6 +509,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Gilded Swordfish": GildedSwordfish,
   "Kraken Tentacle": KrakenTentacle,
   "Crimson Carp": CrimsonCarp,
+  "Battle Fish": BattleFish,
 
   // Catch the Kraken
   "Lifeguard Ring": LifeguardRing,
@@ -509,6 +529,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Soil Krabby": SoilKrabby,
   Nana: Nana,
   "Crim Peckster": CrimPeckster,
+  "Knight Chicken": KnightChicken,
 
   "Bumpkin Nutcracker": Nutcracker,
   "Festive Tree": FestiveTree,
@@ -531,6 +552,22 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Prism Petal": PrismPetal,
   "Celestial Frostbloom": CelestialFrostbloom,
   "Primula Enigma": PrimulaEnigma,
+
+  "Sunflorian Faction Banner": SunflorianFactionBanner,
+  "Goblin Faction Banner": GoblinFactionBanner,
+  "Nightshade Faction Banner": NightshadeFactionBanner,
+  "Bumpkin Faction Banner": BumpkinFactionBanner,
+
+  // Clash of Factions
+  "Turbo Sprout": TurboSprout,
+  Soybliss: Soybliss,
+  "Grape Granny": GrapeGranny,
+  "Royal Throne": RoyalThrone,
+  "Lily Egg": LilyEgg,
+  Goblet: Goblet,
+  "Fancy Rug": FancyRug,
+  Clock: Clock,
+  Vinny: Vinny,
 };
 // Need readonly versions for some troublesome components while in design mode
 

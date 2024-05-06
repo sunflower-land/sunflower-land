@@ -9,7 +9,6 @@ import { defaultDialogue, npcDialogues } from "../deliveries/dialogues";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import bg from "assets/ui/brown_background.png";
@@ -19,27 +18,33 @@ import { secondsToString } from "lib/utils/time";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   onClose: () => void;
 }
 
 const obsessionDialogues = (itemName: string) => [
-  `${translate("obsessionDialogue.line1.part1")} ${itemName}${translate(
-    "obsessionDialogue.line1.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line1.part3")}`,
-  `${translate("obsessionDialogue.line2.part1")} ${itemName}${translate(
-    "obsessionDialogue.line2.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line2.part3")}`,
-  `${translate("obsessionDialogue.line3.part1")} ${itemName}${translate(
-    "obsessionDialogue.line3.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line3.part3")}`,
-  `${translate("obsessionDialogue.line4.part1")} ${itemName}${translate(
-    "obsessionDialogue.line4.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line4.part3")}`,
-  `${translate("obsessionDialogue.line5.part1")} ${itemName}${translate(
-    "obsessionDialogue.line5.part2"
-  )} ${getSeasonalTicket()}${translate("obsessionDialogue.line5.part3")}`,
+  `${translate("obsessionDialogue.line1", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line2", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line3", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line4", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
+  `${translate("obsessionDialogue.line5", {
+    itemName: itemName,
+    seasonalTicket: getSeasonalTicket(),
+  })}`,
 ];
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
@@ -109,8 +114,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
           }`}
         </Button>
         <span className="text-xs">
-          {t("bert.day")} {getSeasonalTicket()}
-          {"."}
+          {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
         </span>
       </>
     );

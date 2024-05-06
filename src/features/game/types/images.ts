@@ -88,6 +88,16 @@ import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
+// Clash of Factions
+import turboSprout from "assets/sfts/turbo_sprout.webp";
+import soybliss from "assets/sfts/soybliss.webp";
+import grapeGranny from "assets/sfts/grape_granny.webp";
+import royalThrone from "assets/sfts/royal_throne.webp";
+import lilyEgg from "assets/sfts/lily_egg.webp";
+import goblet from "assets/sfts/goblet.webp";
+import fancyRug from "assets/sfts/fancy_rug.webp";
+import vinny from "assets/sfts/vinny.webp";
+import clock from "assets/sfts/clock.webp";
 
 // AoE items
 import basicScarecrow from "assets/sfts/aoe/basic_scarecrow.png";
@@ -106,6 +116,7 @@ import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import ayamCemani from "assets/animals/chickens/ayam_cemani.gif";
 import bananaChicken from "assets/animals/chickens/banana_chicken.png";
 import crimPeckster from "assets/animals/chickens/crim_peckster.png";
+import knightChicken from "assets/animals/chickens/knight_chicken.webp";
 
 // Foods
 import roastedCauliflower from "assets/food/roasted_cauliflower.png";
@@ -165,6 +176,7 @@ import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
 import banana from "assets/resources/banana.png";
+import oil from "assets/resources/oil.png";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -235,12 +247,15 @@ import potionPoint from "assets/icons/potion_point.png";
 import crowFeather from "assets/icons/crow_feather.webp";
 import mermaidScale from "assets/icons/mermaid_scale.webp";
 import tulipBulb from "assets/icons/tulip_bulb.png";
+import scroll from "assets/icons/scroll.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
 import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
 import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
+import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
+import lifetimeFarmerBanner from "assets/decorations/banners/lifetime_farmer_banner.png";
 import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
@@ -322,6 +337,9 @@ import chowder from "assets/food/chowder.png";
 import gumbo from "assets/food/gumbo.png";
 import fermentedFish from "assets/food/fermented_fish.png";
 import bananaBlast from "assets/food/banana_blast.png";
+import beetrootBlaze from "assets/food/beetroot_blaze.png";
+import shroomSyrup from "assets/food/shroom_syrup.png";
+import rapidRoast from "assets/food/rapid_roast.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -497,6 +515,7 @@ import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
+import oilReserve from "assets/resources/oil_reserve.png";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -552,6 +571,7 @@ import crimsonCarp from "assets/fish/crimson_carp.png";
 import halibut from "assets/fish/halibut.png";
 import angelFish from "assets/fish/angel_fish.png";
 import parrotFish from "assets/fish/parrot_fish.png";
+import battleFish from "assets/fish/battle_fish.webp";
 
 import festiveTree from "assets/sfts/festive_tree.png";
 import nutcracker from "assets/sfts/bumpkin_nutcracker.png";
@@ -599,6 +619,12 @@ import purpleLotus from "assets/flowers/purple_lotus.webp";
 
 import babyPanda from "assets/sfts/baby_panda.png";
 import baozi from "assets/sfts/baozi.webp";
+
+// Faction Banners
+import sunflorianFactionBanner from "assets/decorations/banners/factions/sunflorians_banner.webp";
+import nightshadeFactionBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
+import bumpkinFactionBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
+import goblinFactionBanner from "assets/decorations/banners/factions/goblins_banner.webp";
 
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
@@ -950,6 +976,10 @@ export const ITEM_DETAILS: Items = {
     ...COMMODITIES["Sunstone"],
     image: sunstone,
   },
+  Oil: {
+    ...COMMODITIES["Oil"],
+    image: oil,
+  },
   Egg: {
     ...COMMODITIES["Egg"],
     image: SUNNYSIDE.resource.egg,
@@ -1295,6 +1325,22 @@ export const ITEM_DETAILS: Items = {
   "Goblin War Banner": {
     description: translate("description.goblin.war.banner"),
     image: goblinBanner,
+  },
+  "Sunflorian Faction Banner": {
+    description: translate("description.sunflorian.faction.banner"),
+    image: sunflorianFactionBanner,
+  },
+  "Nightshade Faction Banner": {
+    description: translate("description.nightshade.faction.banner"),
+    image: nightshadeFactionBanner,
+  },
+  "Bumpkin Faction Banner": {
+    description: translate("description.bumpkin.faction.banner"),
+    image: bumpkinFactionBanner,
+  },
+  "Goblin Faction Banner": {
+    description: translate("description.goblin.faction.banner"),
+    image: goblinFactionBanner,
   },
 
   /**
@@ -2330,6 +2376,10 @@ export const ITEM_DETAILS: Items = {
     image: tulipBulb,
     description: translate("description.tulip.bulb"),
   },
+  Scroll: {
+    image: scroll,
+    description: translate("description.scroll"),
+  },
 
   "Sunflower Supporter": {
     image: supporterTicket,
@@ -2389,6 +2439,10 @@ export const ITEM_DETAILS: Items = {
   "Crimstone Rock": {
     image: crimstoneRock,
     description: translate("description.crimstone.rock"),
+  },
+  "Oil Reserve": {
+    image: oilReserve,
+    description: translate("description.oil.reserve"),
   },
   Tree: {
     image: SUNNYSIDE.resource.tree,
@@ -2460,6 +2514,14 @@ export const ITEM_DETAILS: Items = {
   },
   "Spring Blossom Banner": {
     image: springBlossomBanner,
+    description: "",
+  },
+  "Clash of Factions Banner": {
+    image: clashOfFactionsBanner,
+    description: "",
+  },
+  "Lifetime Farmer Banner": {
+    image: lifetimeFarmerBanner,
     description: "",
   },
   "Luminous Lantern": {
@@ -2890,14 +2952,18 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
-
   "Crimson Carp": {
     image: crimsonCarp,
     description: translate("description.crimson.carp"),
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
   },
-
+  "Battle Fish": {
+    image: battleFish,
+    description: translate("description.battle.fish"),
+    howToGetItem: [translate("ocean.fishing")],
+    itemType: "collectible",
+  },
   "Kraken Tentacle": {
     image: krakenTentacle,
     description: translate("description.kraken.tentacle"),
@@ -2966,6 +3032,10 @@ export const ITEM_DETAILS: Items = {
   "Crim Peckster": {
     image: crimPeckster,
     description: translate("description.crim.peckster"),
+  },
+  "Knight Chicken": {
+    image: knightChicken,
+    description: translate("description.knight.chicken"),
   },
   "Skill Shrimpy": {
     image: skillShrimpy,
@@ -3261,5 +3331,56 @@ export const ITEM_DETAILS: Items = {
   "Hungry Hare": {
     image: hungryHare,
     description: translate("description.hungryHare"),
+  },
+
+  // Clash of Factions
+  "Turbo Sprout": {
+    image: turboSprout,
+    description: translate("description.turbo.sprout"),
+  },
+  Soybliss: {
+    image: soybliss,
+    description: translate("description.soybliss"),
+  },
+  "Grape Granny": {
+    image: grapeGranny,
+    description: translate("description.grape.granny"),
+  },
+  "Royal Throne": {
+    image: royalThrone,
+    description: translate("description.royal.throne"),
+  },
+  "Lily Egg": {
+    image: lilyEgg,
+    description: translate("description.lily.egg"),
+  },
+  Goblet: {
+    image: goblet,
+    description: translate("description.goblet"),
+  },
+  "Fancy Rug": {
+    image: fancyRug,
+    description: translate("description.fancy.rug"),
+  },
+  Clock: {
+    image: clock,
+    description: translate("description.clock"),
+  },
+  Vinny: {
+    image: vinny,
+    description: translate("description.vinny"),
+  },
+
+  "Beetroot Blaze": {
+    image: beetrootBlaze,
+    description: translate("description.beetrootBlaze"),
+  },
+  "Rapid Roast": {
+    image: rapidRoast,
+    description: translate("description.rapidRoast"),
+  },
+  "Shroom Syrup": {
+    image: shroomSyrup,
+    description: translate("description.fermented.shroomSyrup"),
   },
 };

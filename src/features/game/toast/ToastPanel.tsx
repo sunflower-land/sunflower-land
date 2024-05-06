@@ -3,7 +3,7 @@ import { Toast, ToastContext, ToastItem } from "./ToastProvider";
 import { Context } from "../GameProvider";
 import { PIXEL_SCALE } from "../lib/constants";
 import { InnerPanel } from "components/ui/Panel";
-import { InventoryItemName } from "../types/game";
+import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import token from "assets/icons/sfl.webp";
@@ -11,18 +11,29 @@ import levelup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "../types/images";
 import { HudContainer } from "components/ui/HudContainer";
 import coins from "assets/icons/coins.webp";
+import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
+import { MachineState } from "../lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 const MAX_TOAST = 6;
 
-const getToastIcon = (item: ToastItem) => {
+const getToastIcon = (item: ToastItem, faction?: FactionName) => {
   if (item === "SFL") return token;
 
   if (item === "XP") return levelup;
 
   if (item === "coins") return coins;
 
+  if (item === "faction_points") {
+    if (!faction) return;
+
+    return FACTION_POINT_ICONS[faction];
+  }
+
   return ITEM_DETAILS[item]?.image;
 };
+
+const _faction = (state: MachineState) => state.context.state.faction;
 
 /**
  * The panel that shows temporary inventory/balance/experience state changes.
@@ -35,9 +46,12 @@ export const ToastPanel: React.FC = () => {
     setSflBalance,
     setCoinBalance,
     setExperience,
+    setFactionPoints,
   } = useContext(ToastContext);
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
+
+  const faction = useSelector(gameService, _faction);
 
   const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
   const newInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
@@ -47,6 +61,8 @@ export const ToastPanel: React.FC = () => {
   const newExperience = useRef<Decimal>();
   const oldCoinBalance = useRef<number>();
   const newCoinBalance = useRef<number>();
+  const oldFactionPoints = useRef<number>();
+  const newFactionPoints = useRef<number>();
 
   /**
    * Listens to game state transitions.
@@ -65,6 +81,8 @@ export const ToastPanel: React.FC = () => {
     newExperience.current = experience ? new Decimal(experience) : undefined;
     oldCoinBalance.current = newCoinBalance.current;
     newCoinBalance.current = state.context.state.coins;
+    oldFactionPoints.current = newFactionPoints.current;
+    newFactionPoints.current = faction?.points;
 
     // inventory is set and changed
     if (
@@ -96,6 +114,14 @@ export const ToastPanel: React.FC = () => {
       oldExperience.current?.equals(newExperience.current) !== true
     ) {
       setExperience(newExperience.current);
+    }
+
+    // faction points is set and changed
+    if (
+      !!newFactionPoints.current &&
+      oldFactionPoints.current !== newFactionPoints.current
+    ) {
+      setFactionPoints(newFactionPoints.current);
     }
   });
 
@@ -129,7 +155,10 @@ export const ToastPanel: React.FC = () => {
 
                 return (
                   <div className="flex items-center justify-center" key={id}>
-                    <img className="h-6" src={getToastIcon(item)} />
+                    <img
+                      className="h-6"
+                      src={getToastIcon(item, faction?.name)}
+                    />
                     <span className="text-sm mx-1 mb-0.5">{`${
                       difference.greaterThan(0) ? "+" : ""
                     }${diff}`}</span>

@@ -37,7 +37,6 @@ import land from "assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";
-import { SpecialOffer } from "./components/SpecialOffer";
 import { Purchasing } from "../components/Purchasing";
 import { Transacting } from "../components/Transacting";
 import { Minting } from "../components/Minting";
@@ -55,7 +54,6 @@ import { Label } from "components/ui/Label";
 import { CONFIG } from "lib/config";
 import { Home } from "features/home/Home";
 import { Wallet } from "features/wallet/Wallet";
-import { WeakBumpkin } from "features/island/bumpkin/WeakBumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Listed } from "../components/Listed";
 import { ListingDeleted } from "../components/listingDeleted";
@@ -68,6 +66,7 @@ import { PersonhoodContent } from "features/retreat/components/personhood/Person
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
+import { VIPOffer } from "../components/modal/components/VIPItems";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -83,7 +82,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   hoarding: true,
   landscaping: false,
   noBumpkinFound: true,
-  weakBumpkin: true,
   swarming: true,
   coolingDown: true,
   gameRules: true,
@@ -98,7 +96,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   buyingSFL: true,
   depositing: true,
   introduction: false,
-  specialOffer: false,
+  specialOffer: true,
   transacting: true,
   minting: true,
   auctionResults: false,
@@ -153,7 +151,6 @@ const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
 const isNoBumpkinFound = (state: MachineState) =>
   state.matches("noBumpkinFound");
-const isWeakBumpkin = (state: MachineState) => state.matches("weakBumpkin");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isDepositing = (state: MachineState) => state.matches("depositing");
@@ -287,7 +284,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const hoarding = useSelector(gameService, isHoarding);
   const swarming = useSelector(gameService, isSwarming);
   const noBumpkinFound = useSelector(gameService, isNoBumpkinFound);
-  const weakBumpkin = useSelector(gameService, isWeakBumpkin);
   const coolingDown = useSelector(gameService, isCoolingDown);
   const gameRules = useSelector(gameService, isGameRules);
   const depositing = useSelector(gameService, isDepositing);
@@ -451,7 +447,6 @@ export const GameWrapper: React.FC = ({ children }) => {
                 <NoBumpkin />
               </Wallet>
             )}
-            {weakBumpkin && <WeakBumpkin />}
             {coolingDown && <Cooldown />}
             {gameRules && <Rules />}
             {transacting && <Transacting />}
@@ -467,7 +462,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {minting && <Minting />}
             {promo && <Promo />}
             {airdrop && <AirdropPopup />}
-            {specialOffer && <SpecialOffer />}
+            {specialOffer && <VIPOffer />}
             {withdrawing && <Withdrawing />}
             {withdrawn && <Withdrawn />}
           </Panel>
@@ -476,7 +471,6 @@ export const GameWrapper: React.FC = ({ children }) => {
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}
 
-        <SpecialOffer />
         <Introduction />
         <NewMail />
 

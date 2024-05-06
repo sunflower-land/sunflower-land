@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { fromWei } from "web3-utils";
-import { translate } from "lib/i18n/translate";
 import {
   Bumpkin,
   GameState,
@@ -413,17 +412,6 @@ export const TEST_FARM: GameState = {
     ],
   },
   bumpkin: INITIAL_BUMPKIN,
-  hayseedHank: {
-    choresCompleted: 0,
-    chore: {
-      activity: "Sunflower Harvested",
-      requirement: 10,
-      reward: {
-        items: { "Solar Flare Ticket": 1 },
-      },
-      description: translate("task.harvestSunflowers"),
-    },
-  },
 
   dailyRewards: { streaks: 0 },
 
@@ -436,6 +424,7 @@ export const TEST_FARM: GameState = {
   iron: {},
   stones: {},
   crimstones: {},
+  oil: {},
   trees: {},
   sunstones: {},
   mushrooms: {
@@ -498,19 +487,7 @@ export const EMPTY: GameState = {
   pumpkinPlaza: {},
   dailyRewards: { streaks: 0 },
   auctioneer: {},
-  hayseedHank: {
-    choresCompleted: 0,
-    dawnBreakerChoresCompleted: 0,
-    dawnBreakerChoresSkipped: 0,
-    chore: {
-      activity: "Sunflower Harvested",
-      requirement: 10,
-      reward: {
-        items: { "Solar Flare Ticket": 1 },
-      },
-      description: translate("task.harvestSunflowers"),
-    },
-  },
+
   trades: {},
   fruitPatches: {},
   beehives: {},
@@ -523,6 +500,7 @@ export const EMPTY: GameState = {
   crops: {},
   stones: {},
   crimstones: {},
+  oil: {},
   trees: {},
   sunstones: {},
   farmActivity: {},

@@ -20,7 +20,7 @@ import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptSty
 import {
   MagicLinkFlow,
   QRCodeFlow,
-} from "features/island/hud/components/settings-menu/InstallAppModal";
+} from "features/island/hud/components/settings-menu/general-settings/InstallAppModal";
 
 interface Props {
   conversationId: string;

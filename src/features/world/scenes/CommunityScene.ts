@@ -61,7 +61,7 @@ export abstract class CommunityScene extends Phaser.Scene {
       const sceneName = this.registry.get("initialScene");
       let island = COMMUNITY_ISLANDS.find((island) => island.id === sceneName);
 
-      if (CONFIG.NETWORK === "mumbai" && sceneName === COMMUNITY_TEST_ISLAND) {
+      if (CONFIG.NETWORK === "amoy" && sceneName === COMMUNITY_TEST_ISLAND) {
         island = {
           id: "local",
           name: "Test Island",

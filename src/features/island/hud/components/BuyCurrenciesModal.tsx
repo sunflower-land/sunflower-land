@@ -3,7 +3,8 @@ import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import blockBucksIcon from "assets/icons/block_buck.png";
+import blockBuckIcon from "assets/icons/block_buck.png";
+import vipIcon from "assets/icons/vip.webp";
 import exchangeIcon from "assets/icons/exchange.png";
 import coinsIcon from "assets/icons/coins.webp";
 import coinsStack from "assets/icons/coins_stack.webp";
@@ -11,14 +12,13 @@ import coinsScattered from "assets/icons/coins_scattered.webp";
 import sflIcon from "assets/icons/sfl.webp";
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
 import { OuterPanel } from "components/ui/Panel";
-import { useTranslation } from "react-i18next";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
 import { Context } from "features/game/GameProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { randomID } from "lib/utils/random";
 import { buyBlockBucksXsolla } from "features/game/actions/buyBlockBucks";
@@ -28,10 +28,15 @@ import {
 } from "features/game/components/modal/components/BuyBlockBucks";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
+import { VIPItems } from "../../../game/components/modal/components/VIPItems";
 
-const COIN_IMAGES = [coinsIcon, coinsScattered, coinsStack];
+const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
 type Props = {
+  initialTab?: number;
   show: boolean;
   onClose: () => void;
 };
@@ -41,12 +46,23 @@ const _token = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 
-export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
+export const BuyCurrenciesModal: React.FC<Props> = ({
+  show,
+  onClose,
+  initialTab = 0,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(initialTab);
 
-  const { t } = useTranslation();
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+
+  const { t } = useAppTranslation();
+
   // Block bucks
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
@@ -142,15 +158,18 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
           }}
           onClose={onClose}
           tabs={[
-            { icon: blockBucksIcon, name: `Buy` },
-            { icon: exchangeIcon, name: `SFL/Coins` },
+            { icon: blockBuckIcon, name: `Block Bucks` },
+            { icon: exchangeIcon, name: `${t("sfl/coins")}` },
+            ...(hasFeatureAccess(state, "BANNER_SALES")
+              ? [{ icon: vipIcon, name: t("vip") }]
+              : []),
           ]}
         >
           {tab === 0 && (
             <div className="flex flex-col space-y-1">
               {!hideBuyBBLabel && (
                 <div className="flex justify-between pt-2 px-1">
-                  <Label icon={blockBucksIcon} type="default" className="ml-2">
+                  <Label icon={blockBuckIcon} type="default" className="ml-2">
                     {`${t("transaction.buy.BlockBucks")}`}
                   </Label>
                   <a
@@ -192,11 +211,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                       >
                         <span className="whitespace-nowrap mb-2">{`${option.coins} coins`}</span>
                         <div className="flex flex-1 justify-center items-center mb-6 w-full relative">
-                          <img
-                            src={COIN_IMAGES[index]}
-                            alt="Coins"
-                            className="w-2/5 sm:w-1/4"
-                          />
+                          <SquareIcon width={24} icon={COIN_IMAGES[index]} />
                         </div>
                         <Label
                           icon={sflIcon}
@@ -247,6 +262,9 @@ export const BuyCurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                 </div>
               )}
             </div>
+          )}
+          {tab === 2 && hasFeatureAccess(state, "BANNER_SALES") && (
+            <VIPItems onClose={onClose} />
           )}
         </CloseButtonPanel>
       )}

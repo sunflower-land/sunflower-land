@@ -56,7 +56,7 @@ describe("skipOrder", () => {
   });
 
   it("prevents skipping an within 24 hours", () => {
-    const createdAt = new Date("2023-08-08T21:00:00").getTime();
+    const createdAt = new Date("2023-08-08T21:00:00Z").getTime();
 
     const id1 = "ORDER1";
 

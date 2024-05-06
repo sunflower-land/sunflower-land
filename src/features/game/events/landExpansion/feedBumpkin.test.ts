@@ -4,6 +4,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
+import { getSeasonalBanner } from "features/game/types/seasons";
 
 describe("feedBumpkin", () => {
   it("throws error if no bumpkin is found", () => {
@@ -437,6 +438,71 @@ describe("feedBumpkin", () => {
 
     expect(result.bumpkin?.experience).toBe(
       CONSUMABLES["Fermented Carrots"].experience * 2
+    );
+  });
+  it("provides 10% more experience when Seasonal Banner is placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        collectibles: {
+          [getSeasonalBanner()]: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
+    );
+  });
+
+  it("provides 10% more experience when Lifetime Farmer Banner is placed", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        inventory: {
+          "Boiled Eggs": new Decimal(2),
+        },
+        collectibles: {
+          "Lifetime Farmer Banner": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "123",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber()
     );
   });
 });

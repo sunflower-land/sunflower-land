@@ -23,14 +23,30 @@ import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
 import { TRADE_LIMITS } from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
+import { setPrecision } from "lib/utils/formatNumber";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { getDayOfYear } from "lib/utils/time";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
 const INPUT_MAX_CHAR = 10;
-
+const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
 
+function getRemainingFreeListings(dailyListings: {
+  count: number;
+  date: number;
+}) {
+  if (dailyListings.date !== getDayOfYear(new Date())) {
+    return MAX_NON_VIP_LISTINGS;
+  }
+  return MAX_NON_VIP_LISTINGS - dailyListings.count;
+}
+
 type Items = Partial<Record<InventoryItemName, number>>;
+
 const ListTrade: React.FC<{
   inventory: Inventory;
   onList: (items: Items, sfl: number) => void;
@@ -40,20 +56,20 @@ const ListTrade: React.FC<{
 }> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
-  const [quantity, setQuantity] = useState<number>(1);
-  const [sfl, setSFL] = useState(1);
+  const [quantityDisplay, setQuantityDisplay] = useState("");
+  const [sflDisplay, setSflDisplay] = useState("");
+
+  const quantity = Number(quantityDisplay);
+  const sfl = Number(sflDisplay);
 
   const maxSFL = sfl > MAX_SFL;
 
   if (!selected) {
     return (
-      <div>
-        <div className="flex items-center justify-between m-1 ml-2 mb-3">
+      <div className="space-y-2">
+        <div className="pl-2 pt-2">
           <Label icon={SUNNYSIDE.icons.basket} type="default">
             {t("bumpkinTrade.like.list")}
-          </Label>
-          <Label icon={SUNNYSIDE.icons.confirm} type="success">
-            {`VIP Access`}
           </Label>
         </div>
 
@@ -73,7 +89,7 @@ const ListTrade: React.FC<{
                   }}
                 >
                   <Label type="default" className="absolute -top-3 -right-2">
-                    {inventory?.[name]?.toFixed(0, 1)}
+                    {`${setPrecision(new Decimal(inventory?.[name] ?? 0), 0)}`}
                   </Label>
                   <span className="text-xs mb-1">{name}</span>
                   <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
@@ -82,8 +98,11 @@ const ListTrade: React.FC<{
                     className="absolute -bottom-2 text-center mt-1 p-1"
                     style={{ width: "calc(100% + 10px)" }}
                   >
-                    {floorPrices[name]?.toFixed(4)}
-                    {t("unit")}
+                    {t("bumpkinTrade.price/unit", {
+                      price: floorPrices[name]
+                        ? setPrecision(new Decimal(floorPrices[name] ?? 0))
+                        : "?",
+                    })}
                   </Label>
                 </OuterPanel>
               </div>
@@ -96,9 +115,27 @@ const ListTrade: React.FC<{
   return (
     <>
       <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <Box image={ITEM_DETAILS[selected].image} disabled />
-          <span className="text-sm">{selected}</span>
+        <div className="flex flex-col items-start">
+          <div className="flex items-center">
+            <Box image={ITEM_DETAILS[selected].image} disabled />
+            <span className="text-sm">{selected}</span>
+          </div>
+          <Label
+            type={
+              sfl / quantity < (floorPrices[selected] ?? 0)
+                ? "danger"
+                : sfl / quantity > (floorPrices[selected] ?? 0)
+                ? "success"
+                : "warning"
+            }
+            className="my-1"
+          >
+            {t("bumpkinTrade.floorPrice", {
+              price: floorPrices[selected]
+                ? setPrecision(new Decimal(floorPrices[selected] ?? 0))
+                : "?",
+            })}
+          </Label>
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
@@ -108,10 +145,11 @@ const ListTrade: React.FC<{
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
-            {inventory?.[selected]?.toFixed(0, 1) ?? 0}
+            {`${setPrecision(new Decimal(inventory?.[selected] ?? 0), 0)}`}
           </span>
         </div>
       </div>
+
       <div className="flex">
         <div className="w-1/2 mr-1">
           <div className="flex items-center">
@@ -124,7 +162,7 @@ const ListTrade: React.FC<{
             </Label>
             {quantity > (TRADE_LIMITS[selected] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {`Max: ${TRADE_LIMITS[selected] ?? 0}`}
+                {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
               </Label>
             )}
           </div>
@@ -135,8 +173,9 @@ const ListTrade: React.FC<{
               border: "2px solid #ead4aa",
             }}
             type="number"
+            placeholder="0"
             min={1}
-            value={quantity}
+            value={quantityDisplay}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               // Strip the leading zero from numbers
               if (
@@ -145,17 +184,21 @@ const ListTrade: React.FC<{
               ) {
                 e.target.value = e.target.value.replace(/^0/, "");
               }
-              if (VALID_INTEGER.test(e.target.value)) {
-                const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-                setQuantity(amount);
+
+              if (e.target.value === "") {
+                setQuantityDisplay(""); // Reset to 0 if input is empty
+              } else if (VALID_INTEGER.test(e.target.value)) {
+                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
+                setQuantityDisplay(amount);
               }
             }}
             className={classNames(
-              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
-                  quantity > (TRADE_LIMITS[selected] ?? 0),
+                  quantity > (TRADE_LIMITS[selected] ?? 0) ||
+                  quantity === 0, // Add condition to change text color to red when quantity is 0
               }
             )}
           />
@@ -164,7 +207,7 @@ const ListTrade: React.FC<{
           <div className="flex items-center">
             {sfl > MAX_SFL && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {`Max: ${MAX_SFL}`}
+                {t("bumpkinTrade.max", { max: MAX_SFL })}
               </Label>
             )}
             <Label icon={token} type="default" className="my-1 ml-2 mr-1">
@@ -178,7 +221,8 @@ const ListTrade: React.FC<{
               textAlign: "right",
             }}
             type="number"
-            value={sfl}
+            placeholder="0"
+            value={sflDisplay}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
               // Strip the leading zero from numbers
               if (
@@ -188,13 +232,15 @@ const ListTrade: React.FC<{
                 e.target.value = e.target.value.replace(/^0/, "");
               }
 
-              if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
-                const amount = Number(e.target.value.slice(0, INPUT_MAX_CHAR));
-                setSFL(amount);
+              if (e.target.value === "") {
+                setSflDisplay(""); // Reset to 0 if input is empty
+              } else if (VALID_FOUR_DECIMAL_NUMBER.test(e.target.value)) {
+                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
+                setSflDisplay(amount);
               }
             }}
             className={classNames(
-              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10",
+              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
                 "text-error": maxSFL || sfl === 0,
               }
@@ -211,7 +257,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-        <p className="text-xs">{`${sfl.toFixed(4)} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl)).toFixed(
+          4
+        )} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -220,8 +268,14 @@ const ListTrade: React.FC<{
           padding: "5px 5px 5px 2px",
         }}
       >
-        <span className="text-xs"> {t("bumpkinTrade.pricePerUnit")}</span>
-        <p className="text-xs">{`${(sfl / quantity).toFixed(4)} SFL`}</p>
+        <span className="text-xs">
+          {t("bumpkinTrade.pricePerUnit", { resource: selected })}
+        </span>
+        <p className="text-xs">
+          {quantity === 0
+            ? "0.0000 SFL"
+            : `${setPrecision(new Decimal(sfl / quantity)).toFixed(4)} SFL`}
+        </p>
       </div>
       <div
         className="flex justify-between"
@@ -231,7 +285,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${(sfl * 0.1).toFixed(4)} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.1)).toFixed(
+          4
+        )} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -240,19 +296,20 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${(sfl * 0.9).toFixed(4)} SFL`}</p>
+        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.9)).toFixed(
+          4
+        )} SFL`}</p>
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
-          {" "}
           {t("bumpkinTrade.cancel")}
         </Button>
         <Button
           disabled={
             maxSFL ||
             (inventory[selected]?.lt(quantity) ?? false) ||
-            quantity > (TRADE_LIMITS[selected] ?? 0) ||
-            sfl === 0 ||
+            quantity === 0 || // Disable when quantity is 0
+            sfl === 0 || // Disable when sfl is 0
             isSaving
           }
           onClick={() => onList({ [selected]: quantity }, sfl)}
@@ -271,6 +328,7 @@ const TradeDetails: React.FC<{
   onClaim: () => void;
 }> = ({ trade, onCancel, onClaim, isOldListing }) => {
   const { t } = useAppTranslation();
+
   if (trade.boughtAt) {
     return (
       <div>
@@ -310,11 +368,10 @@ const TradeDetails: React.FC<{
     );
   }
 
-  const text = "Cancel Old";
   return (
     <>
       <OuterPanel>
-        <div className="flex justify-between ">
+        <div className="flex justify-between">
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
               <Box
@@ -334,7 +391,7 @@ const TradeDetails: React.FC<{
           </div>
           <div className="flex flex-col justify-between h-full">
             <Button className="mb-1" onClick={onCancel}>
-              {isOldListing ? text : t("cancel")}
+              {isOldListing ? "Cancel old" : t("cancel")}
             </Button>
           </div>
         </div>
@@ -349,8 +406,17 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { openModal } = useContext(ModalContext);
+
   const [showListing, setShowListing] = useState(false);
 
+  const isVIP = hasVipAccess(gameState.context.state.inventory);
+  const dailyListings = gameState.context.state.trades.dailyListings ?? {
+    count: 0,
+    date: 0,
+  };
+  const remainingListings = getRemainingFreeListings(dailyListings);
+  const hasListingsRemaining = isVIP || remainingListings > 0;
   // Show listings
   const trades = gameState.context.state.trades?.listings ?? {};
   const { t } = useAppTranslation();
@@ -392,21 +458,6 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
     );
   }
 
-  if (!gameState.context.state.inventory["Gold Pass"]) {
-    return (
-      <div className="relative">
-        <div className="p-1 flex flex-col items-center">
-          <img
-            src={ITEM_DETAILS["Gold Pass"].image}
-            className="w-1/5 mx-auto my-2 img-highlight-heavy"
-          />
-          <p className="text-sm">{t("bumpkinTrade.goldpass.required")}</p>
-          <p className="text-xs mb-2">{t("bumpkinTrade.purchase")}</p>
-        </div>
-      </div>
-    );
-  }
-
   if (showListing) {
     return (
       <ListTrade
@@ -422,6 +473,28 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
   if (getKeys(trades).length === 0) {
     return (
       <div className="relative">
+        <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+          <VIPAccess
+            isVIP={isVIP}
+            onUpgrade={() => {
+              openModal("BUY_BANNER");
+            }}
+          />
+          {!isVIP && (
+            <Label
+              type={hasListingsRemaining ? "success" : "danger"}
+              className="-ml-2"
+            >
+              {remainingListings === 1
+                ? `${t("remaining.free.listing")}`
+                : `${t("remaining.free.listings", {
+                    listingsRemaining: hasListingsRemaining
+                      ? remainingListings
+                      : "No",
+                  })}`}
+            </Label>
+          )}
+        </div>
         <div className="p-1 flex flex-col items-center">
           <img
             src={tradeIcon}
@@ -430,13 +503,41 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
           <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>
-        <Button onClick={() => setShowListing(true)}>{t("list.trade")}</Button>
+
+        <Button
+          onClick={() => setShowListing(true)}
+          disabled={!hasListingsRemaining}
+        >
+          {t("list.trade")}
+        </Button>
       </div>
     );
   }
 
   return (
     <div>
+      <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
+        <VIPAccess
+          isVIP={isVIP}
+          onUpgrade={() => {
+            openModal("BUY_BANNER");
+          }}
+        />
+        {!isVIP && (
+          <Label
+            type={hasListingsRemaining ? "success" : "danger"}
+            className="-ml-2"
+          >
+            {remainingListings === 1
+              ? `${t("remaining.free.listing")}`
+              : `${t("remaining.free.listings", {
+                  listingsRemaining: hasListingsRemaining
+                    ? remainingListings
+                    : "No",
+                })}`}
+          </Label>
+        )}
+      </div>
       {getKeys(trades).map((listingId, index) => {
         return (
           <div className="mt-2" key={index}>
@@ -458,7 +559,10 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
       })}
       {getKeys(trades).length < 3 && (
         <div className="relative mt-2">
-          <Button onClick={() => setShowListing(true)}>
+          <Button
+            onClick={() => setShowListing(true)}
+            disabled={!hasListingsRemaining}
+          >
             {t("list.trade")}
           </Button>
         </div>

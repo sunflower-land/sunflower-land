@@ -10,6 +10,7 @@ import {
 import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
 import { SEEDS } from "features/game/types/seeds";
 import { CollectibleLocation } from "features/game/types/collectibles";
+import { FLOWER_SEEDS } from "features/game/types/flowers";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -113,6 +114,14 @@ export function removeCollectible({ state, action }: Options) {
 
   if (action.name === "Kuebiko") {
     getKeys(SEEDS()).forEach((seed) => {
+      if (stateCopy.inventory[seed]) {
+        delete stateCopy.inventory[seed];
+      }
+    });
+  }
+
+  if (action.name === "Hungry Caterpillar") {
+    getKeys(FLOWER_SEEDS()).forEach((seed) => {
       if (stateCopy.inventory[seed]) {
         delete stateCopy.inventory[seed];
       }

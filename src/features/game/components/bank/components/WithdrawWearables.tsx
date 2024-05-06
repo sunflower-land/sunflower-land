@@ -13,11 +13,11 @@ import { wallet } from "lib/blockchain/wallet";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { BUMPKIN_WITHDRAWABLES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
   const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;

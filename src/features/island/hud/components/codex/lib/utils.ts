@@ -25,9 +25,9 @@ const CONTRACTS: Record<AssetType, string> = {
 };
 
 export const getOpenSeaLink = (id: number, type: AssetType) => {
-  const network = CONFIG.NETWORK === "mainnet" ? "matic" : "mumbai";
+  const network = CONFIG.NETWORK === "mainnet" ? "matic" : "amoy";
   const base =
-    network === "mumbai" ? `https://testnets.opensea.io` : `https://opensea.io`;
+    network === "amoy" ? `https://testnets.opensea.io` : `https://opensea.io`;
 
   return `${base}/assets/${network}/${CONTRACTS[type]}/${id}`;
 };

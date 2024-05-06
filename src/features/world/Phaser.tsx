@@ -57,6 +57,8 @@ type Player = {
   x: number;
   y: number;
   moderation?: Moderation;
+  experience: number;
+  sceneId: SceneId;
 };
 
 export type ModerationEvent = {
@@ -301,6 +303,7 @@ export const PhaserComponent: React.FC<Props> = ({
                 y: player.y,
                 clothing: player.clothing,
                 moderation: player.moderation,
+                sceneId: player.sceneId,
               });
             } else {
               // Add new player
@@ -312,6 +315,8 @@ export const PhaserComponent: React.FC<Props> = ({
                 y: player.y,
                 clothing: player.clothing,
                 moderation: player.moderation,
+                experience: player.experience,
+                sceneId: player.sceneId,
               });
             }
           });

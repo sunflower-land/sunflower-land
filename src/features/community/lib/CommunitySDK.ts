@@ -112,7 +112,7 @@ export function prepareAPI({
     }
 
     public async reset() {
-      if (CONFIG.NETWORK !== "mumbai") return;
+      if (CONFIG.NETWORK !== "amoy") return;
 
       await resetIsland({
         apiKey: this.apiKey,

@@ -3,12 +3,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 
-import * as AuthProvider from "features/auth/lib/Provider";
-
 import { Button } from "components/ui/Button";
 import { WithdrawTokens } from "./WithdrawTokens";
 import { WithdrawItems } from "./WithdrawItems";
-
 import { WithdrawWearables } from "./WithdrawWearables";
 import { WithdrawBumpkin } from "./WithdrawBumpkin";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -24,7 +21,6 @@ interface Props {
 }
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -122,7 +118,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const proovePersonhood = async () => {
+  const provePersonhood = async () => {
     gameService.send("PROVE_PERSONHOOD");
     onClose();
   };
@@ -131,7 +127,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     return (
       <>
         <p className="text-sm p-1 m-1">{t("withdraw.proof")}</p>
-        <Button className="mr-1" onClick={proovePersonhood}>
+        <Button className="mr-1" onClick={provePersonhood}>
           {t("withdraw.verification")}
         </Button>
       </>

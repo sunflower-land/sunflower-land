@@ -17,7 +17,6 @@ import { randomInt } from "lib/utils/random";
 import { Hud } from "features/island/hud/Hud";
 import { GarbageCollector } from "./components/garbageCollector/GarbageCollector";
 import { HeliosAuction } from "./components/heliosAuction/HeliosAuction";
-import { HayseedHank } from "./components/hayseedHank/HayseedHankPlaza";
 
 const spawn = [
   [30, 15],
@@ -69,8 +68,6 @@ export const Helios: React.FC = () => {
         <HeliosSunflower />
         <LostSunflorian />
         <HeliosAuction />
-
-        {gameState.context.state.hayseedHank && <HayseedHank />}
       </div>
       <Hud isFarming={false} location="farm" />
     </>

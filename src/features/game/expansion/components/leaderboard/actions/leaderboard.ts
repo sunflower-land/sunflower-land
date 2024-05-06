@@ -5,17 +5,17 @@ import {
   cacheLeaderboardData,
   getCachedLeaderboardData,
 } from "./cache";
-import { MazeAttempt } from "features/game/types/game";
+import { FactionName, MazeAttempt } from "features/game/types/game";
 
 const API_URL = CONFIG.API_URL;
 
 type Options = {
   farmId: number;
-  leaderboardName: "maze" | "tickets";
+  leaderboardName: "maze" | "tickets" | "factions";
 };
 
 export type RankData = {
-  id: number;
+  id: string;
   count: number;
   rank?: number;
 };
@@ -31,10 +31,11 @@ export type TicketLeaderboard = {
   farmRankingDetails?: RankData[] | null;
 };
 
-export type MazeLeaderboard = {
-  topRanks: MazeAttemptStat[];
-  weeklySflBurned: number;
+export type FactionLeaderboard = {
+  topTens: Record<FactionName, RankData[]>;
+  totalTickets: Record<FactionName, number>;
   lastUpdated: number;
+  farmRankingDetails?: RankData[] | null;
 };
 
 export async function getLeaderboard<T>({
@@ -70,24 +71,32 @@ export async function fetchLeaderboardData(
   if (cachedLeaderboardData) return cachedLeaderboardData;
 
   try {
-    const ticketLeaderboard = await getLeaderboard<TicketLeaderboard>({
-      farmId: Number(farmId),
-      leaderboardName: "tickets",
-    });
+    const [ticketLeaderboard, factionsLeaderboard] = await Promise.all([
+      getLeaderboard<TicketLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "tickets",
+      }),
+      getLeaderboard<FactionLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "factions",
+      }),
+    ]);
 
     // Leaderboard are created at the same time, so if one is missing, the other is too
-    if (!ticketLeaderboard) return null;
+    if (!ticketLeaderboard || !factionsLeaderboard) return null;
 
     // Likewise, their lastUpdated timestamps should be the same
     const lastUpdated = ticketLeaderboard.lastUpdated;
 
     cacheLeaderboardData({
       tickets: ticketLeaderboard,
+      factions: factionsLeaderboard,
       lastUpdated,
     });
 
     return {
       tickets: ticketLeaderboard,
+      factions: factionsLeaderboard,
       lastUpdated,
     };
   } catch (error) {

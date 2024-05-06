@@ -30,5 +30,6 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   achievements: {},
   activity: {
     "Reindeer Carrot Fed": 50,
+    "Sunflower Planted": 5,
   },
 };

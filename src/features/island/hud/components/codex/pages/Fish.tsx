@@ -113,7 +113,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
         <div className="flex flex-col space-y-2">
           <Label type="formula" className="ml-1.5">
             {t("fish.caught")}
-            {":"} {caughtFishCount}
+            {caughtFishCount}
           </Label>
           {/* Claimed Milestones */}
           <div className="flex flex-wrap gap-1 px-1.5">

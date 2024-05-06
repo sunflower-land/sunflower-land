@@ -259,12 +259,13 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
         <CloseButtonPanel className="sm:w-4/5 m-auto">
           <div className="flex flex-col p-2">
             <span className="text-sm text-center">
-              {t("confirmation.sellCrops")} <br className="hidden sm:block" />
-              {`${t("sell")} ${cropAmount} ${selected.name} ${t("for")} `}
-              <br className="hidden sm:block" />
-              {`${Math.floor(
-                displaySellPrice(selected) * Number(cropAmount)
-              )} Coins?`}
+              {t("confirmation.sellCrops", {
+                cropAmount: cropAmount,
+                cropName: selected.name,
+                coinAmount: Math.floor(
+                  displaySellPrice(selected) * Number(cropAmount)
+                ),
+              })}
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">

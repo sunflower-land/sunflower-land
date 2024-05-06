@@ -101,7 +101,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               </span>
               <img src={blockBucksIcon} className="w-6" />
             </div>
-            <span>{`${t("total")} ${price.usd} USD`}</span>
+            <span>{`${t("total")}: US$${price.usd}`}</span>
           </div>
 
           {/* <p className="mr-2 mb-1">{`${t("total")}: ${price.usd} USD`}</p> */}
@@ -131,7 +131,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               </span>
               <img src={blockBucksIcon} className="w-6" />
             </div>
-            <span className="text-xs">{`${t("total")} ${price.usd} USD`}</span>
+            <span className="text-xs">{`${t("total")}: US$${price.usd}`}</span>
           </div>
           <div className="grid grid-cols-2 gap-3 mb-3">
             <OuterPanel
@@ -204,7 +204,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
                 iconWidth={11}
                 className="absolute h-7 w-[110%] sm:w-[108%] -bottom-1"
               >
-                {`$${price.usd} USD`}
+                {`US$${price.usd}`}
               </Label>
             </OuterPanel>
           ))}

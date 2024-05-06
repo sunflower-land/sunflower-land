@@ -9,7 +9,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { Transition } from "@headlessui/react";
 import { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
@@ -22,6 +21,7 @@ import { useSelector } from "@xstate/react";
 import lightning from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
   onClose: () => void;
@@ -89,6 +89,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     megastore.available.from,
     getTotalSecondsAvailable()
   );
+
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
@@ -102,12 +103,12 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
             "megaStore.month.sale"
           )}`}</Label>
           <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
-            {secondsToString(timeRemaining, {
-              length: "medium",
-              removeTrailingZeros: true,
-            })}{" "}
-            {t("left")}
-            {"!"}
+            {t("megaStore.timeRemaining", {
+              timeRemaining: secondsToString(timeRemaining, {
+                length: "medium",
+                removeTrailingZeros: true,
+              }),
+            })}
           </Label>
         </div>
         <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">

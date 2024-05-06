@@ -77,10 +77,7 @@ const ChumSelection: React.FC<{
 
   return (
     <div>
-      <p className="mb-1 p-1 text-xs">
-        {t("select.resource")}
-        {":"}{" "}
-      </p>
+      <p className="mb-1 p-1 text-xs">{t("select.resource")}</p>
 
       <div className="flex flex-wrap">
         {getKeys(CHUM_AMOUNTS)
@@ -247,7 +244,7 @@ const BaitSelection: React.FC<{
 
           <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
             {t("statements.daily.limit")}
-            {":"} {dailyFishingCount}
+            {dailyFishingCount}
             {"/"}
             {dailyFishingMax}
           </Label>

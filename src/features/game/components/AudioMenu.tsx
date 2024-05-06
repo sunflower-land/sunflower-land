@@ -9,13 +9,14 @@ import sound_off from "assets/icons/sound_off.png";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "./CloseablePanel";
 import { Song } from "assets/songs/playlist";
-import { PIXEL_SCALE } from "../lib/constants";
+import { PIXEL_SCALE, TEST_FARM } from "../lib/constants";
 import {
   AudioLocalStorageKeys,
   cacheAudioSetting,
   getCachedAudioSetting,
 } from "../lib/audio";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   musicPlayer: React.MutableRefObject<HTMLAudioElement>;
@@ -51,6 +52,10 @@ export const AudioMenu: React.FC<Props> = ({
 
   useEffect(() => {
     if (!musicPlayer.current) return;
+
+    if (hasFeatureAccess(TEST_FARM, "SOUND")) {
+      musicPlayer.current.volume = 0.1;
+    }
 
     if (musicPaused) {
       musicPlayer.current.pause();

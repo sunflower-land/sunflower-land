@@ -32,8 +32,8 @@ export function pickMushroom({
 
   delete mushrooms[action.id];
 
-  const inventoryMushrooms = copy.inventory["Wild Mushroom"] ?? new Decimal(0);
-  copy.inventory["Wild Mushroom"] = inventoryMushrooms.add(mushroom.amount);
+  const inventoryMushrooms = copy.inventory[mushroom.name] ?? new Decimal(0);
+  copy.inventory[mushroom.name] = inventoryMushrooms.add(mushroom.amount);
 
   return copy;
 }

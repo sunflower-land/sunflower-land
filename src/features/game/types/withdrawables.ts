@@ -17,6 +17,7 @@ import {
   Coupons,
   EasterEgg,
   FertiliserName,
+  GameState,
   InventoryItemName,
   LanternName,
   Points,
@@ -55,7 +56,6 @@ import {
 import { WorkbenchToolName } from "./tools";
 import { BumpkinItem } from "./bumpkin";
 import { hasSeasonEnded } from "./seasons";
-import { GoblinState } from "../lib/goblinMachine";
 import { CompostName } from "./composters";
 import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
@@ -208,6 +208,13 @@ const warBanners = {
   "Goblin War Banner": () => false,
 };
 
+const factionBanners = {
+  "Bumpkin Faction Banner": () => false,
+  "Goblin Faction Banner": () => false,
+  "Nightshade Faction Banner": () => false,
+  "Sunflorian Faction Banner": () => false,
+};
+
 const heliosBlacksmith: Record<HeliosBlacksmithItem, () => boolean> = {
   "Immortal Pear": () => false,
   "Treasure Map": () => false,
@@ -236,6 +243,7 @@ const commodities: Record<CommodityName, () => boolean> = {
   Crimstone: () => false,
   Sunstone: () => false,
   Diamond: () => false,
+  Oil: () => false,
 
   Honey: () => false,
   Egg: () => true,
@@ -253,6 +261,7 @@ const resources: Record<ResourceName, () => boolean> = {
   Beehive: () => false,
   "Flower Bed": () => false,
   "Sunstone Rock": () => false,
+  "Oil Reserve": () => false,
 };
 
 const mutantChickens: Record<MutantChicken, () => boolean> = {
@@ -263,6 +272,7 @@ const mutantChickens: Record<MutantChicken, () => boolean> = {
   "El Pollo Veloz": () => true,
   "Banana Chicken": () => true,
   "Crim Peckster": () => true,
+  "Knight Chicken": () => true,
 };
 
 const flags: Record<Flag, () => boolean> = {
@@ -363,6 +373,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Luxury Key": () => false,
   "Rare Key": () => false,
   "Prize Ticket": () => false,
+  Scroll: () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {
@@ -407,6 +418,9 @@ const food: Record<Food, () => boolean> = {
 };
 
 const consumables: Record<ConsumableName, () => boolean> = {
+  "Beetroot Blaze": () => false,
+  "Rapid Roast": () => false,
+  "Shroom Syrup": () => false,
   "Mashed Potato": () => false,
   "Pumpkin Soup": () => false,
   "Bumpkin Broth": () => false,
@@ -646,6 +660,12 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Humming Bird": () => canWithdrawTimebasedItem(new Date("2024-04-22")), // Last Auction 2024/04/21 5pm UTC
   "Hungry Caterpillar": () => canWithdrawTimebasedItem(new Date("2024-03-31")), // Last Auction 2024/03/30 5pm UTC
   "Queen Bee": () => canWithdrawTimebasedItem(new Date("2024-03-19")), // Last Auction 2024/03/18 5pm UTC
+  "Turbo Sprout": () => canWithdrawTimebasedItem(new Date("2024-07-12")), // Last Auction 2024/07/11
+  Soybliss: () => canWithdrawTimebasedItem(new Date("2024-06-24")), // Last Auction 2024/06/23
+  "Grape Granny": () => canWithdrawTimebasedItem(new Date("2024-06-30")), // Last Auction 2024/06/29
+  "Royal Throne": () => canWithdrawTimebasedItem(new Date("2024-07-09")), // Last Auction 2024/07/08,
+  "Lily Egg": () => canWithdrawTimebasedItem(new Date("2024-06-21")), // Last Auction 2024/06/20
+  Goblet: () => canWithdrawTimebasedItem(new Date("2024-07-15")), // Last Auction 2024/07/14
 };
 
 const achievementDecoration: Record<AchievementDecorationName, () => boolean> =
@@ -766,6 +786,8 @@ const purchasables: Record<PurchasableItems, () => boolean> = {
   "Gold Pass": () => false,
   "Catch the Kraken Banner": () => false,
   "Spring Blossom Banner": () => false,
+  "Clash of Factions Banner": () => false,
+  "Lifetime Farmer Banner": () => false,
 };
 
 const potionHouse: Record<
@@ -841,6 +863,7 @@ const fish: Record<FishName | MarineMarvelName, () => boolean> = {
   Halibut: () => false,
   Parrotfish: () => false,
   "Crimson Carp": () => false,
+  "Battle Fish": () => false,
 };
 
 const interiors: Record<InteriorDecorationName, () => boolean> = {
@@ -858,6 +881,9 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Green Field Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Flower Cart": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Tea Rug": () => canWithdrawTimebasedItem(new Date("2024-04-01")),
+  "Fancy Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
+  Clock: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
+  Vinny: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
@@ -915,11 +941,12 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...compost,
   ...fish,
   ...interiors,
+  ...factionBanners,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<
   BumpkinItem,
-  (state?: GoblinState) => boolean
+  (state?: GameState) => boolean
 > = {
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,
@@ -1240,4 +1267,14 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Striped Red Shirt": () => canWithdrawTimebasedItem(new Date("2023-04-04")),
   "Striped Yellow Shirt": () =>
     canWithdrawTimebasedItem(new Date("2023-04-04")),
+
+  // Clash of Factions Auction
+  "Non La Hat": () => canWithdrawTimebasedItem(new Date("2024-06-27")), // Last Auction 2024/06/26
+  "Oil Can": () => canWithdrawTimebasedItem(new Date("2024-07-07")), // Last Auction 2024/07/06
+  "Olive Shield": () => canWithdrawTimebasedItem(new Date("2024-07-06")), // Last Auction 2024/07/05
+  "Paw Shield": () => canWithdrawTimebasedItem(new Date("2024-07-24")), // Last Auction 2024/07/23
+  Pan: () => canWithdrawTimebasedItem(new Date("2024-07-21")), // Last Auction 2024/07/20
+  // Clash of Factions Megastore
+  "Royal Robe": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
+  Crown: () => canWithdrawTimebasedItem(new Date("2024-04-04")),
 };

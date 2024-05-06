@@ -7,6 +7,7 @@ import { FishName } from "./fishing";
 import { translate } from "lib/i18n/translate";
 
 type FirePitCookableName =
+  | "Rapid Roast"
   | "Mashed Potato"
   | "Pumpkin Soup"
   | "Bumpkin Broth"
@@ -20,6 +21,7 @@ type FirePitCookableName =
   | "Gumbo";
 
 type KitchenCookableName =
+  | "Beetroot Blaze"
   | "Roast Veggies"
   | "Bumpkin Salad"
   | "Goblin's Treat"
@@ -41,6 +43,7 @@ type BakeryCookableName =
   | "Cornbread";
 
 type DeliCookableName =
+  | "Shroom Syrup"
   | "Blueberry Jam"
   | "Fermented Carrots"
   | "Sauerkraut"
@@ -214,6 +217,18 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     },
     marketRate: 0,
   },
+  "Rapid Roast": {
+    name: "Rapid Roast",
+    description: translate("description.rapidRoast"),
+    experience: 300,
+    building: "Fire Pit",
+    cookingSeconds: 10,
+    ingredients: {
+      "Magic Mushroom": new Decimal(1),
+      Pumpkin: new Decimal(40),
+    },
+    marketRate: 10, // TODO
+  },
 };
 
 export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
@@ -378,6 +393,18 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       "Goblin's Treat": new Decimal(1),
     },
     marketRate: 1100,
+  },
+  "Beetroot Blaze": {
+    name: "Beetroot Blaze",
+    description: translate("description.beetrootBlaze"),
+    experience: 2000,
+    building: "Kitchen",
+    cookingSeconds: 30,
+    ingredients: {
+      "Magic Mushroom": new Decimal(2),
+      Beetroot: new Decimal(50),
+    },
+    marketRate: 10, // TODO
   },
 };
 
@@ -647,6 +674,18 @@ export const DELI_COOKABLES: Record<DeliCookableName, Cookable> = {
       Tuna: new Decimal(6),
     },
     marketRate: 0,
+  },
+  "Shroom Syrup": {
+    name: "Shroom Syrup",
+    description: translate("description.fermented.shroomSyrup"),
+    experience: 10000,
+    building: "Deli",
+    cookingSeconds: 10,
+    ingredients: {
+      "Magic Mushroom": new Decimal(3),
+      Honey: new Decimal(20),
+    },
+    marketRate: 10, // TODO
   },
 };
 

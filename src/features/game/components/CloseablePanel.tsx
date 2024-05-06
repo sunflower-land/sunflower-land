@@ -89,7 +89,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
                 <SquareIcon icon={tab.icon} width={7} />
                 <span
                   className={classNames(
-                    "text-xs sm:text-sm text-ellipsis ml-2",
+                    "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
                     {
                       pulse: currentTab !== index && tab.unread,
                     }

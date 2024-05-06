@@ -40,6 +40,7 @@ export const maxItems: Inventory = {
   "Fat Chicken": new Decimal("5"),
   "Banana Chicken": new Decimal("5"),
   "Crim Peckster": new Decimal("5"),
+  "Knight Chicken": new Decimal("5"),
 
   // Seed limits + buffer
   "Sunflower Seed": new Decimal(1250),
@@ -104,7 +105,7 @@ export const maxItems: Inventory = {
   Stone: new Decimal("1600"),
   Wood: new Decimal("8000"),
   "Wild Mushroom": new Decimal("100"),
-  Honey: new Decimal("80"),
+  Honey: new Decimal("220"),
 
   "War Bond": new Decimal(500),
   "Human War Banner": new Decimal(1),
@@ -150,6 +151,7 @@ export const maxItems: Inventory = {
   "Crow Feather": new Decimal(750),
   "Mermaid Scale": new Decimal(1500),
   "Tulip Bulb": new Decimal(1500),
+  Scroll: new Decimal(1500),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
@@ -168,8 +170,8 @@ export const maxItems: Inventory = {
   "Rapid Root": new Decimal(500),
 
   // Bait
-  Earthworm: new Decimal(100),
-  Grub: new Decimal(100),
+  Earthworm: new Decimal(200),
+  Grub: new Decimal(150),
   "Red Wiggler": new Decimal(100),
   "Fishing Lure": new Decimal(100),
 

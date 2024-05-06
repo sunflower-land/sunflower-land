@@ -3,6 +3,7 @@ import { NPCName } from "lib/npcs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SceneId } from "../mmoMachine";
 import { Moderation } from "features/game/lib/gameMachine";
+import { FactionName } from "features/game/types/game";
 
 export interface InputData {
   x: number;
@@ -14,6 +15,7 @@ export interface InputData {
 export interface Player extends Schema {
   username: string;
   farmId: number;
+  faction?: FactionName;
   x: number;
   y: number;
   experience: number;

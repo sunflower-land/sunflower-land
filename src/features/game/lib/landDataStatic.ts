@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "../types/game";
+import { ChoreV2, ChoreV2Name, GameState, Inventory } from "../types/game";
 
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
@@ -20,6 +20,7 @@ export const INITIAL_RESOURCES: Pick<
   | "fruitPatches"
   | "sunstones"
   | "beehives"
+  | "oil"
 > = {
   crops: {
     1: {
@@ -146,6 +147,7 @@ export const INITIAL_RESOURCES: Pick<
     },
   },
   crimstones: {},
+  oil: {},
   fruitPatches: {
     1: {
       x: 7,
@@ -372,8 +374,27 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
+  chores: {
+    choresCompleted: 0,
+    choresSkipped: 0,
+    chores: {
+      2: {
+        activity: "Sunflower Planted",
+        bumpkinId: INITIAL_BUMPKIN.id,
+        createdAt: Date.now(),
+        description: "Plant a sunflower",
+        requirement: 1,
+        startCount: 0,
+      },
+    } as Record<ChoreV2Name, ChoreV2>,
+  },
   inventory: {
+    Potato: new Decimal(200),
+    Pumpkin: new Decimal(200),
+    "Battle Fish": new Decimal(1),
+    "Knight Chicken": new Decimal(1),
     Baozi: new Decimal(10),
+    Goblet: new Decimal(1),
     "Prize Ticket": new Decimal(10),
     "Rich Chicken": new Decimal(1),
     "Fat Chicken": new Decimal(2),
@@ -383,7 +404,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Hungry Hare": new Decimal(1),
     "Earn Alliance Banner": new Decimal(1),
     "Farmhand Coupon": new Decimal(1),
-    "Sunpetal Seed": new Decimal(100),
     "White Festive Fox": new Decimal(3),
     "Red Pansy": new Decimal(3),
     "White Pansy": new Decimal(3),
@@ -393,7 +413,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Yellow Daffodil": new Decimal(3),
     "White Daffodil": new Decimal(3),
     "Red Daffodil": new Decimal(3),
-    Sunflower: new Decimal(5),
+    Sunflower: new Decimal(5000),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
     Carrot: new Decimal(500),
@@ -412,7 +432,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(3),
     Gold: new Decimal(13),
-    "Gold Pass": new Decimal(1),
+    // "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(3),
@@ -428,7 +448,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Banana: new Decimal(12),
     Wood: new Decimal(500),
     Crimstone: new Decimal(20),
-    "Block Buck": new Decimal(20),
+    "Block Buck": new Decimal(200),
     Stone: new Decimal(100),
     Iron: new Decimal(100),
     "Mermaid Scale": new Decimal(1000),
@@ -446,6 +466,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Flower Cart": new Decimal(1),
     Capybara: new Decimal(1),
     "Golden Cauliflower": new Decimal(1),
+
+    "Sunpetal Seed": new Decimal(20),
+    "Bloom Seed": new Decimal(10),
+    "Lily Seed": new Decimal(5),
+    "Sunflower Seed": new Decimal(1000),
 
     // Foods
     "Pumpkin Soup": new Decimal(1),
@@ -686,7 +711,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         from: "pumpkin' pete",
         reward: {
           items: {},
-          sfl: 0.12,
         },
         id: "1",
         items: {
@@ -1157,5 +1181,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   goblinMarket: {
     resources: {},
+  },
+  dailyFactionDonationRequest: {
+    resource: "Sunflower",
+    amount: new Decimal(1000),
+  },
+  faction: {
+    name: "goblins",
+    pledgedAt: 0,
+    points: 0,
+    donated: {
+      daily: {
+        sfl: {},
+        resources: {},
+      },
+      totalItems: {},
+    },
   },
 };

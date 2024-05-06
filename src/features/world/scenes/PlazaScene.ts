@@ -1,9 +1,8 @@
 import mapJson from "assets/map/plaza.json";
-import rabbitJson from "assets/map/rabbit_plaza.json";
-import rabbitTileset from "assets/map/rabbit-tileset.json";
+import factionMapJson from "assets/map/plaza_faction_pledge.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { BaseScene, FACTION_NAME_COLORS, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
 import { FanArtNPC, interactableModalManager } from "../ui/InteractableModals";
 import {
@@ -12,15 +11,12 @@ import {
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { Page } from "../containers/Page";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { getSeasonWeek } from "lib/utils/getSeasonWeek";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { hasFeatureAccess } from "lib/flags";
-import { RABBITS, collectRabbit, rabbitsCaught } from "../ui/npcs/Hopper";
-import { GameState } from "features/game/types/game";
-import shuffle from "lodash.shuffle";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { FactionName, GameState } from "features/game/types/game";
+import { capitalize } from "lib/utils/capitalize";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -44,6 +40,36 @@ const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
     y: 137,
   },
 ];
+
+type FactionNPC = {
+  npc: NPCName;
+  x: number;
+  y: number;
+  direction?: "left" | "right";
+  faction: Omit<FactionName, "nightshades">;
+};
+
+const FACTION_NPCS: FactionNPC[] = [
+  {
+    x: 32,
+    y: 166,
+    npc: "lady day",
+    faction: "sunflorians",
+  },
+  {
+    x: 32,
+    y: 132,
+    npc: "robert",
+    faction: "bumpkins",
+  },
+  {
+    x: 32,
+    y: 98,
+    npc: "grommy",
+    faction: "goblins",
+  },
+];
+
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 600,
@@ -140,175 +166,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   },
 ];
 
-const PAGE_POSITIONS: Record<number, Coordinates[]> = {
-  1: [
-    {
-      x: 400,
-      y: 420,
-    },
-    {
-      x: 800,
-      y: 300,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-  2: [
-    {
-      x: 775,
-      y: 350,
-    },
-    {
-      x: 750,
-      y: 140,
-    },
-    {
-      x: 150,
-      y: 445,
-    },
-  ],
-  3: [
-    {
-      x: 750,
-      y: 140,
-    },
-    {
-      x: 300,
-      y: 320,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-  4: [
-    {
-      x: 400,
-      y: 420,
-    },
-    {
-      x: 800,
-      y: 300,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-  5: [
-    {
-      x: 775,
-      y: 350,
-    },
-    {
-      x: 750,
-      y: 140,
-    },
-    {
-      x: 150,
-      y: 445,
-    },
-  ],
-  6: [
-    {
-      x: 750,
-      y: 140,
-    },
-    {
-      x: 300,
-      y: 320,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-  7: [
-    {
-      x: 400,
-      y: 420,
-    },
-    {
-      x: 800,
-      y: 300,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-  8: [
-    {
-      x: 775,
-      y: 350,
-    },
-    {
-      x: 750,
-      y: 140,
-    },
-    {
-      x: 150,
-      y: 445,
-    },
-  ],
-  9: [
-    {
-      x: 750,
-      y: 140,
-    },
-    {
-      x: 300,
-      y: 320,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-  10: [
-    {
-      x: 400,
-      y: 420,
-    },
-    {
-      x: 800,
-      y: 300,
-    },
-    {
-      x: 55,
-      y: 200,
-    },
-  ],
-};
-
-const RABBIT_CORDS = [
-  [144, 413],
-  [232, 391],
-  [6, 168],
-  [249, 260],
-  [23, 89],
-  [120, 23],
-  [256, 127],
-  [330, 46],
-  [296, 104],
-  [433, 150],
-  [584, 73],
-  [585, 373],
-  [710, 432],
-  [792, 214],
-  [728, 174],
-  [776, 39],
-  [872, 86],
-  [329, 215],
-  [330, 361],
-];
-
-const randomiseList = shuffle(RABBIT_CORDS);
-// Pick 6 random coords
-const CURRENT_RABBIT_CORDS = randomiseList.slice(0, 6);
-
 export class PlazaScene extends BaseScene {
   sceneId: SceneId = "plaza";
 
@@ -318,14 +175,25 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
+  private bumpkinsBanner: Phaser.GameObjects.Image | undefined;
+  private goblinsBanner: Phaser.GameObjects.Image | undefined;
+  private nightshadesBanner: Phaser.GameObjects.Image | undefined;
+  private sunfloriansBanner: Phaser.GameObjects.Image | undefined;
+
+  private bumpkinsFactionNPC: BumpkinContainer | undefined;
+  private goblinsFactionNPC: BumpkinContainer | undefined;
+  private nightshadesFactionNPC: Phaser.GameObjects.Sprite | undefined;
+  private sunfloriansFactionNPC: BumpkinContainer | undefined;
+
+  private chosenFaction: FactionName | undefined;
+
   constructor({ gameState }: { gameState: GameState }) {
-    const IS_EASTER = hasFeatureAccess(gameState, "EASTER");
+    const IS_FACTIONS = hasFeatureAccess(gameState, "FACTIONS");
     super({
       name: "plaza",
       map: {
-        json: IS_EASTER ? rabbitJson : mapJson,
-        imageKey: IS_EASTER ? "easter-tileset" : "tileset",
-        defaultTilesetConfig: IS_EASTER ? rabbitTileset : undefined,
+        json: IS_FACTIONS ? factionMapJson : mapJson,
+        imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
@@ -347,11 +215,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
-
-    this.load.spritesheet("easter_egg", "world/easter_donation.png", {
-      frameWidth: 16,
-      frameHeight: 19,
-    });
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -405,17 +268,25 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("flower_cart", "world/flower_cart.png");
-    this.load.image("queen_bee", "world/queen_bee.png");
+    this.load.image("vinny", "world/vinny.webp");
+    this.load.image("non_la", "world/non_la.webp");
 
-    this.load.spritesheet("banner", "world/spring_banner.png", {
-      frameWidth: 22,
-      frameHeight: 36,
-    });
+    this.load.image("banner", "world/clash_of_factions_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
       frameHeight: 7,
+    });
+
+    // Factions
+    this.load.image("goblins_banner", "world/goblins_banner.webp");
+    this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
+    this.load.image("nightshades_banner", "world/nightshades_banner.webp");
+    this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
+
+    this.load.spritesheet("maximus", "world/maximus.png", {
+      frameWidth: 23,
+      frameHeight: 26,
     });
 
     super.preload();
@@ -441,100 +312,248 @@ export class PlazaScene extends BaseScene {
     });
   }
 
+  setUpFactionNPCS() {
+    const maximus = this.add.sprite(33, 200, "maximus");
+    maximus.flipX = true;
+    maximus.setSize(23, 26);
+    maximus.setDepth(200);
+    this.physics.world.enable(maximus);
+    (maximus.body as Phaser.Physics.Arcade.Body).setImmovable(true);
+    this.colliders?.add(maximus);
+    // make maximus immoveable
+    this.anims.create({
+      key: "maximus_animation",
+      frames: this.anims.generateFrameNumbers("maximus", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    maximus.play("maximus_animation", true);
+    const shadow = this.add.sprite(33, 212, "shadow");
+    shadow.setSize(23, 10);
+
+    this.nightshadesFactionNPC = maximus;
+
+    FACTION_NPCS.forEach(({ npc, x, y, direction = "right", faction }) => {
+      const container = new BumpkinContainer({
+        scene: this,
+        x,
+        y,
+        clothing: {
+          ...NPC_WEARABLES[npc],
+          updatedAt: 0,
+        },
+        direction,
+      });
+
+      container.setDepth(y);
+      (container.body as Phaser.Physics.Arcade.Body)
+        .setSize(16, 20)
+        .setOffset(0, 0)
+        .setImmovable(true)
+        .setCollideWorldBounds(true);
+
+      this.physics.world.enable(container);
+      this.colliders?.add(container);
+      this.triggerColliders?.add(container);
+
+      switch (faction) {
+        case "bumpkins":
+          this.bumpkinsFactionNPC = container;
+          break;
+        case "goblins":
+          this.goblinsFactionNPC = container;
+          break;
+        case "sunflorians":
+          this.sunfloriansFactionNPC = container;
+          break;
+      }
+    });
+  }
+
+  setUpFactionBanners() {
+    // Add banners
+    this.bumpkinsBanner = this.add
+      .image(15, 125, "bumpkins_banner")
+      .setDepth(125);
+    this.goblinsBanner = this.add.image(15, 90, "goblins_banner").setDepth(90);
+    this.nightshadesBanner = this.add
+      .image(15, 197, "nightshades_banner")
+      .setDepth(190);
+    this.sunfloriansBanner = this.add
+      .image(15, 160, "sunflorians_banner")
+      .setDepth(160);
+
+    if (!this.chosenFaction) {
+      // Make banners interactive
+      this.bumpkinsBanner
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("pledge_bumpkin");
+        });
+      this.goblinsBanner
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("pledge_goblin");
+        });
+      this.nightshadesBanner
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("pledge_nightshade");
+        });
+      this.sunfloriansBanner
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          interactableModalManager.open("pledge_sunflorian");
+        });
+    } else {
+      this.makeChosenFactionBannerInteractive(String(this.chosenFaction));
+    }
+  }
+
+  makeAllFactionNPCsInteractive() {
+    this.bumpkinsFactionNPC?.addOnClick(() =>
+      interactableModalManager.open("pledge_bumpkin")
+    );
+    this.goblinsFactionNPC?.addOnClick(() =>
+      interactableModalManager.open("pledge_goblin")
+    );
+    this.sunfloriansFactionNPC?.addOnClick(() =>
+      interactableModalManager.open("pledge_sunflorian")
+    );
+    this.nightshadesFactionNPC
+      ?.setInteractive({ cursor: "pointer" })
+      .on("pointerdown", (p: Phaser.Input.Pointer) => {
+        if (p.downElement.nodeName === "CANVAS") {
+          interactableModalManager.open("pledge_nightshade");
+        }
+      });
+  }
+
+  makeChosenFactionNPCInteractive(chosenFaction: string) {
+    switch (chosenFaction) {
+      case "bumpkins":
+        this.bumpkinsFactionNPC?.addOnClick(() =>
+          interactableModalManager.open("bumpkins_faction")
+        );
+
+        break;
+      case "goblins":
+        this.goblinsFactionNPC?.addOnClick(() =>
+          interactableModalManager.open("goblins_faction")
+        );
+        break;
+      case "sunflorians":
+        this.sunfloriansFactionNPC?.addOnClick(() =>
+          interactableModalManager.open("sunflorians_faction")
+        );
+        break;
+      case "nightshades":
+        this.nightshadesFactionNPC
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", (p: Phaser.Input.Pointer) => {
+            if (p.downElement.nodeName === "CANVAS") {
+              interactableModalManager.open("nightshades_faction");
+            }
+          });
+        break;
+    }
+  }
+
+  makeChosenFactionBannerInteractive(chosenFaction: string) {
+    switch (chosenFaction) {
+      case "bumpkins":
+        this.bumpkinsBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("bumpkins_faction");
+          });
+        break;
+      case "goblins":
+        this.goblinsBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("goblins_faction");
+          });
+        break;
+      case "nightshades":
+        this.nightshadesBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("nightshades_faction");
+          });
+        break;
+      case "sunflorians":
+        this.sunfloriansBanner
+          ?.setInteractive({ cursor: "pointer" })
+          .on("pointerdown", () => {
+            interactableModalManager.open("sunflorians_faction");
+          });
+        break;
+    }
+  }
+
+  updateFactionBannerInteractionsOnPledge(chosenFaction: string) {
+    this.bumpkinsBanner?.disableInteractive();
+    this.goblinsBanner?.disableInteractive();
+    this.nightshadesBanner?.disableInteractive();
+    this.sunfloriansBanner?.disableInteractive();
+
+    this.makeChosenFactionBannerInteractive(chosenFaction);
+  }
+
+  updateFactionNPCInteractionsOnPledge(chosenFaction: string) {
+    this.bumpkinsFactionNPC?.disableInteractive();
+    this.goblinsFactionNPC?.disableInteractive();
+    this.sunfloriansFactionNPC?.disableInteractive();
+    this.nightshadesFactionNPC?.disableInteractive();
+
+    this.makeChosenFactionNPCInteractive(chosenFaction);
+  }
+
+  addFactionNameToPlayer(faction: string) {
+    const color = FACTION_NAME_COLORS[faction as FactionName];
+    const factionTag = this.createPlayerText({
+      x: 0,
+      y: 0,
+      text: `<${capitalize(faction)}>`,
+      color,
+    });
+
+    factionTag.name = "factionTag";
+    this.currentPlayer?.add(factionTag);
+
+    const nameTag = this.currentPlayer?.getByName(
+      "nameTag"
+    ) as Phaser.GameObjects.Text;
+
+    if (!nameTag) return;
+
+    nameTag.setPosition(0, 16);
+  }
+
+  updateColyseus(faction: string) {
+    this.mmoService?.state.context.server?.send(0, {
+      faction,
+    });
+  }
+
   async create() {
     super.create();
 
-    const IS_EASTER = hasFeatureAccess(this.gameState, "EASTER");
+    // Faction setup
+    if (hasFeatureAccess(this.gameState, "FACTIONS")) {
+      this.chosenFaction = this.gameService.state.context.state?.faction?.name;
+      this.setUpFactionBanners();
+      this.setUpFactionNPCS();
 
-    if (IS_EASTER) {
-      this.anims.create({
-        key: `glint_anim`,
-        frames: this.anims.generateFrameNumbers("glint", {
-          start: 0,
-          end: 6,
-        }),
-        repeat: -1,
-        frameRate: 6,
-        repeatDelay: 800,
-      });
-
-      PLAZA_BUMPKINS.push({
-        npc: "hopper",
-        x: 434,
-        y: 340,
-      });
-
-      PLAZA_BUMPKINS.push({
-        npc: "flopsy",
-        x: 380,
-        y: 245,
-      });
-
-      const rabbitPositions = CURRENT_RABBIT_CORDS.slice(
-        rabbitsCaught(),
-        RABBITS
-      );
-      rabbitPositions.forEach((coords, index) => {
-        const rabbit = this.add.sprite(
-          coords[0],
-          coords[1],
-          `rabbit_${index + 1}`
-        );
-
-        const glint = this.add
-          .sprite(coords[0] + 4, coords[1] - 4, "glint")
-          .setOrigin(0.5);
-
-        glint.play(`glint_anim`, true);
-
-        rabbit.setDepth(100000000);
-        glint.setDepth(100000000);
-
-        rabbit.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-          rabbit.destroy();
-          glint.destroy();
-
-          collectRabbit();
-
-          // Show poof at position
-          const poof = this.add
-            .sprite(coords[0], coords[1], "poof")
-            .setOrigin(0.5);
-
-          this.anims.create({
-            key: `poof_anim`,
-            frames: this.anims.generateFrameNumbers("poof", {
-              start: 0,
-              end: 8,
-            }),
-            repeat: 0,
-            frameRate: 10,
-          });
-
-          poof.play(`poof_anim`, true);
-
-          // Listen for the animation complete event
-          poof.on("animationcomplete", function (animation: { key: string }) {
-            if (animation.key === "poof_anim") {
-              poof.destroy();
-            }
-          });
-        });
-      });
-
-      const easterEgg = this.add
-        .sprite(395, 245, "easter_egg")
-        .setDepth(1000000000000);
-      this.anims.create({
-        key: "egg_animation",
-        frames: this.anims.generateFrameNumbers("easter_egg", {
-          start: 0,
-          end: 6,
-        }),
-        repeat: -1,
-        frameRate: 4,
-      });
-      easterEgg.play("egg_animation", true);
+      if (this.chosenFaction) {
+        this.makeChosenFactionNPCInteractive(this.chosenFaction);
+      } else {
+        this.makeAllFactionNPCsInteractive();
+      }
     }
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
@@ -551,50 +570,6 @@ export class PlazaScene extends BaseScene {
     tradingBoardIcon.setDepth(1000000);
 
     this.initialiseNPCs(PLAZA_BUMPKINS);
-
-    let week: number | undefined = undefined;
-    try {
-      week = getSeasonWeek();
-    } catch {
-      // eslint-disable-next-line no-console
-      console.error("Error getting week");
-    }
-
-    if (week) {
-      (PAGE_POSITIONS[week] ?? []).forEach(({ x, y }, index) => {
-        const pageNumber = index + 1;
-
-        const collectedFlowerPages =
-          this.gameState?.springBlossom?.[week!]?.collectedFlowerPages;
-
-        if (
-          collectedFlowerPages &&
-          !collectedFlowerPages.includes(pageNumber)
-        ) {
-          const page = new Page({ x, y, scene: this });
-          page.setDepth(1000000);
-          this.physics.world.enable(page);
-
-          this.physics.add.collider(
-            this.currentPlayer as BumpkinContainer,
-            page,
-            (obj1, obj2) => {
-              page.sprite?.destroy();
-              page.destroy();
-
-              const chime = this.sound.add("chime");
-              chime.play({ loop: false, volume: 0.1 });
-
-              interactableModalManager.open("page_discovered");
-              this.gameService.send("flowerPage.discovered", {
-                id: pageNumber,
-              });
-              this.gameService.send("SAVE");
-            }
-          );
-        }
-      });
-    }
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
       this.arrows = this.add
@@ -705,46 +680,16 @@ export class PlazaScene extends BaseScene {
     });
 
     // Banner
-    const banner = this.add.sprite(400, 220, "banner");
-    this.anims.create({
-      key: "banner_animation",
-      frames: this.anims.generateFrameNumbers("banner", {
-        start: 0,
-        end: 1,
-      }),
-      repeat: -1,
-      frameRate: 7,
-    });
-    banner.play("banner_animation", true);
-    // .setInteractive({ cursor: "pointer" });
-    // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
-    // });
-    banner.setDepth(100000000000);
-
-    const banner2 = this.add.sprite(464, 220, "banner");
-    banner2.play("banner_animation", true);
+    this.add.image(400, 225, "banner").setDepth(100000000000);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open("banner");
     // });
-    banner2.setDepth(100000000000);
+    this.add.image(464, 225, "banner").setDepth(100000000000);
 
-    const banner3 = this.add.sprite(480, 382, "banner");
-    banner3.play("banner_animation", true);
-    // .setInteractive({ cursor: "pointer" })
-    // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
-    // });
-    banner3.setDepth(100000000000);
+    this.add.image(480, 386, "banner").setDepth(100000000000);
 
-    const banner4 = this.add.sprite(385, 382, "banner");
-    banner4.play("banner_animation", true);
-    // .setInteractive({ cursor: "pointer" })
-    // .on("pointerdown", () => {
-    //   interactableModalManager.open("banner");
-    // });
-    banner4.setDepth(100000000000);
+    this.add.sprite(385, 386, "banner").setDepth(100000000000);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
@@ -803,8 +748,8 @@ export class PlazaScene extends BaseScene {
       });
 
     // Stella Collectible of the Month
-    this.add.image(248, 244, "flower_cart");
-    this.add.image(288, 248, "queen_bee");
+    this.add.image(248, 244, "vinny");
+    this.add.image(288.5, 248, "non_la");
 
     const door = this.colliders
       ?.getChildren()
@@ -900,6 +845,17 @@ export class PlazaScene extends BaseScene {
 
     if (this.movementAngle && this.arrows) {
       this.arrows.setVisible(false);
+    }
+
+    // Update newly pledged faction
+    const faction = this.gameService.state.context.state.faction?.name;
+
+    if (!!faction && !this.chosenFaction) {
+      this.chosenFaction = faction;
+      this.updateFactionBannerInteractionsOnPledge(faction);
+      this.updateFactionNPCInteractionsOnPledge(faction);
+      this.addFactionNameToPlayer(faction);
+      this.updateColyseus(faction);
     }
   }
 }

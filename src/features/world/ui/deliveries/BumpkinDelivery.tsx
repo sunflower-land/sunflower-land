@@ -12,6 +12,7 @@ import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
 import chest from "assets/icons/chest.png";
 import lockIcon from "assets/skills/lock.png";
+import factions from "assets/icons/factions.webp";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -36,7 +37,17 @@ import {
 import { NpcDialogues } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
-import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
+import {
+  FACTION_POINT_MULTIPLIER,
+  generateDeliveryTickets,
+  getOrderSellPrice,
+} from "features/game/events/landExpansion/deliver";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { VIPAccess } from "features/game/components/VipAccess";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
+import { hasFeatureAccess } from "lib/flags";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -60,6 +71,9 @@ export const OrderCard: React.FC<{
 
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
+
+  const tickets = generateDeliveryTickets({ game, npc: order.from });
+
   return (
     <>
       <div className="">
@@ -69,7 +83,7 @@ export const OrderCard: React.FC<{
             "opacity-50 cursor-default": !canDeliver,
           })}
         >
-          <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
+          <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 pb-2">
             {getKeys(order.items).map((itemName) => {
               if (itemName === "coins") {
                 return (
@@ -106,7 +120,7 @@ export const OrderCard: React.FC<{
                 />
               );
             })}
-            <div className="flex items-center justify-between mt-2 mb-0.5">
+            <div className="flex items-center justify-between">
               <Label icon={chest} type="warning" className="ml-1.5">
                 {t("reward")}
               </Label>
@@ -138,13 +152,13 @@ export const OrderCard: React.FC<{
                   </span>
                 </div>
               )}
-              {order.reward.tickets && (
+              {!!tickets && (
                 <div className="flex items-center">
                   <img
                     src={ITEM_DETAILS[getSeasonalTicket()].image}
                     className="w-5 h-auto mr-1"
                   />
-                  <span className="text-xs">{order.reward.tickets}</span>
+                  <span className="text-xs">{tickets}</span>
                 </div>
               )}
               {getKeys(order.reward.items ?? {}).map((item) => (
@@ -156,14 +170,6 @@ export const OrderCard: React.FC<{
                   <span className="text-xs">{item}</span>
                 </div>
               ))}
-
-              {/* <div>
-                <Button className="h-7" onClick={onDeliver}>
-                  <div className="flex items-center">
-                    <span className="text-xs">Deliver</span>
-                  </div>
-                </Button>
-              </div> */}
             </div>
           </OuterPanel>
         </div>
@@ -529,13 +535,17 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { openModal } = useContext(ModalContext);
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);
-
   const [gift, setGift] = useState<Airdrop>();
 
   const delivery = game.delivery.orders.find((order) => order.from === npc);
+
+  const { ticketTasksAreFrozen } = getSeasonChangeover({
+    id: gameService.state.context.farmId,
+  });
 
   const deliver = () => {
     gameService.send("order.delivered", {
@@ -571,14 +581,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   };
 
   const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
-  const hasSeasonPass = (
-    game.inventory[getSeasonalBanner()] ?? new Decimal(0)
-  )?.gte(1);
+  const hasSeasonPass =
+    (game.inventory[getSeasonalBanner()] ?? new Decimal(0))?.gte(1) ||
+    (game.inventory["Lifetime Farmer Banner"] ?? new Decimal(0))?.gte(1);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
+
+  const tickets = generateDeliveryTickets({ game, npc });
 
   let message = intro;
 
@@ -590,12 +602,13 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("bumpkin.delivery.waiting");
   }
 
-  if (!delivery) {
+  if (!delivery || (!!tickets && ticketTasksAreFrozen)) {
     message = noOrder;
   }
 
   const hasVIP =
-    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() || hasSeasonPass;
+    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() ||
+    hasVipAccess(game.inventory);
 
   if (requiresSeasonPass && !hasVIP) {
     message = t("goblinTrade.vipDelivery");
@@ -605,7 +618,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingExpansions >= 1;
-
+  const isTicketOrder = tickets > 0;
+  const deliveryFrozen = ticketTasksAreFrozen && isTicketOrder;
   const acceptGifts = !!getNextGift({ game, npc });
 
   if (gift) {
@@ -633,7 +647,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       )}
       {!showFlowers && (
         <>
-          <div className="p-2">
+          <div className="p-2 pb-1">
             <div className="flex justify-between items-center mb-3">
               <Label
                 type="default"
@@ -665,9 +679,12 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             </div>
 
             <div className="flex justify-between items-center mb-2">
-              <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                {t("delivery")}
-              </Label>
+              <div className="flex w-full justify-between">
+                <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
+                  {t("delivery")}
+                </Label>
+              </div>
+
               {delivery?.completedAt && (
                 <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
                   {t("completed")}
@@ -683,10 +700,14 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   {t("goblinTrade.vipRequired")}
                 </Label>
               )}
-              {!delivery?.completedAt && requiresSeasonPass && hasVIP && (
-                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {`VIP Access`}
-                </Label>
+              {!delivery?.completedAt && requiresSeasonPass && (
+                <VIPAccess
+                  isVIP={hasVIP}
+                  onUpgrade={() => {
+                    onClose();
+                    openModal("BUY_BANNER");
+                  }}
+                />
               )}
             </div>
 
@@ -697,19 +718,63 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             {isLocked && (
               <>
                 <p className="text-xs mb-2">
-                  {t("bumpkin.delivery.proveYourself")} {missingExpansions}{" "}
-                  {t("bumpkin.delivery.more.time")}
+                  {t("bumpkin.delivery.proveYourself", {
+                    missingExpansions: missingExpansions,
+                  })}
                 </p>
               </>
             )}
 
-            {delivery && (
-              <OrderCard
-                game={gameState.context.state}
-                order={delivery as Order}
-                hasRequirementsCheck={() => true}
-                onDeliver={deliver}
-              />
+            {delivery && !deliveryFrozen && (
+              <>
+                <OrderCard
+                  game={gameState.context.state}
+                  order={delivery as Order}
+                  hasRequirementsCheck={() => true}
+                  onDeliver={deliver}
+                />
+                {isTicketOrder &&
+                  hasFeatureAccess({} as GameState, "FACTIONS") && (
+                    <div className="flex items-center justify-between my-1 mt-2">
+                      <Label
+                        type={game.faction ? "warning" : "danger"}
+                        icon={factions}
+                      >
+                        {t("faction.points.title")}
+                      </Label>
+                      <div className="flex items-center">
+                        <img
+                          src={
+                            game.faction
+                              ? FACTION_POINT_ICONS[game.faction.name]
+                              : factions
+                          }
+                          className="w-4 h-auto mr-1"
+                        />
+                        <span
+                          className={classNames("text-xs", {
+                            "text-error": isTicketOrder && !game.faction,
+                          })}
+                        >
+                          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
+                          {tickets! * FACTION_POINT_MULTIPLIER}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                {isTicketOrder &&
+                  !game.faction &&
+                  hasFeatureAccess({} as GameState, "FACTIONS") && (
+                    <Label type="danger" icon={factions}>
+                      {t("faction.points.pledge.warning")}
+                    </Label>
+                  )}
+              </>
+            )}
+            {isTicketOrder && ticketTasksAreFrozen && (
+              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("orderhelp.ticket.deliveries.closed")}
+              </Label>
             )}
           </div>
 
@@ -726,7 +791,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !hasDelivery ||
                 !!delivery?.completedAt ||
                 isLocked ||
-                missingVIPAccess
+                missingVIPAccess ||
+                (isTicketOrder && ticketTasksAreFrozen)
               }
               onClick={deliver}
             >

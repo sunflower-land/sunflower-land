@@ -63,7 +63,7 @@ Query current offchain state for one farm.
 ### URL:
 
 ```
-GET https://api.sunflower-land.com/community/farm/{id}
+GET https://api.sunflower-land.com/community/farms/{id}
 ```
 
 ### Response Body:

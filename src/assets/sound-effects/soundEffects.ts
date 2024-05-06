@@ -7,6 +7,11 @@ import { CONFIG } from "lib/config";
 export type Footsteps = "dirt_footstep" | "wood_footstep" | "sand_footstep";
 
 export const SOUNDS = {
+  ui: {
+    hud: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Slide_Bass_Hit_Thump_Click_1.mp3`,
+    tab: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Tab_Click_Bass_HIt_Thump_Plastic_3.mp3`,
+    close: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Slide_Bass_Hit_Thump_Click_2.mp3`,
+  },
   footsteps: {
     dirt: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Footsteps/Dirt/Farm_Game_Footsteps_Dirt_1_Soil_Walk_Run_Ground_Surface.mp3`,
     wood: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Footsteps/Wood/Farm_Game_Footsteps_Wood_5_House_Walk_Run_Ground_Surface.mp3`,

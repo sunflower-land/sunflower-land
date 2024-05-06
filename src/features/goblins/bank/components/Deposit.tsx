@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useSelector } from "@xstate/react";
 
 import {
   Inventory,
@@ -14,7 +15,6 @@ import { fromWei, toBN, toWei } from "web3-utils";
 import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
-import { transferInventoryItem } from "./WithdrawItems";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
@@ -26,19 +26,52 @@ import { sflBalanceOf } from "lib/blockchain/Token";
 import { CopyAddress } from "components/ui/CopyAddress";
 import { getItemUnit } from "features/game/lib/conversion";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { getImageUrl } from "features/goblins/tailor/TabContent";
 import { loadWardrobe } from "lib/blockchain/BumpkinItems";
 import { getBudsBalance } from "lib/blockchain/Buds";
 import { CONFIG } from "lib/config";
-import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { isMobile } from "mobile-device-detect";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { getImageUrl } from "lib/utils/getImageURLS";
+import { MachineState } from "features/game/lib/gameMachine";
+import { Context as GameContext } from "features/game/GameProvider";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { GameWallet } from "features/wallet/Wallet";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
+
+export function transferInventoryItem(
+  itemName: InventoryItemName,
+  setFrom: React.Dispatch<
+    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
+  >,
+  setTo: React.Dispatch<
+    React.SetStateAction<Partial<Record<InventoryItemName, Decimal>>>
+  >
+) {
+  let amount = new Decimal(1);
+
+  // Subtract 1 or remaining
+  setFrom((prev) => {
+    const remaining = prev[itemName] ?? new Decimal(0);
+    if (remaining.lessThan(1)) {
+      amount = remaining;
+    }
+    return {
+      ...prev,
+      [itemName]: prev[itemName]?.minus(amount),
+    };
+  });
+
+  // Add 1 or remaining
+  setTo((prev) => ({
+    ...prev,
+    [itemName]: (prev[itemName] ?? new Decimal(0)).add(amount),
+  }));
+}
 
 type Status = "loading" | "loaded" | "error";
 
@@ -55,7 +88,7 @@ interface Props {
       | "budIds"
     >
   ) => void;
-  onClose: () => void;
+  onClose?: () => void;
   onLoaded?: (loaded: boolean) => void;
   canDeposit?: boolean;
 }
@@ -105,7 +138,8 @@ const DepositOptions: React.FC<Props> = ({
   onLoaded,
   farmAddress,
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+  const { t } = useAppTranslation();
+
   const [hasWeb3, setHasWeb3] = useState(false);
 
   const [status, setStatus] = useState<Status>("loading");
@@ -118,8 +152,6 @@ const DepositOptions: React.FC<Props> = ({
   const [inventoryToDeposit, setInventoryToDeposit] = useState<Inventory>({});
   const [wearablesToDeposit, setWearablesToDeposit] = useState<Wardrobe>({});
   const [budsToDeposit, setBudsToDeposit] = useState<number[]>([]);
-
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (status !== "loading") return;
@@ -267,7 +299,7 @@ const DepositOptions: React.FC<Props> = ({
       budIds: budsToDeposit,
     });
 
-    onClose();
+    onClose && onClose();
   };
 
   const amountGreaterThanBalance = toBN(toWei(sflDepositAmount.toString())).gt(
@@ -319,6 +351,7 @@ const DepositOptions: React.FC<Props> = ({
   //     </div>
   //   );
   // }
+
   return (
     <>
       {status === "loading" && <Loading />}
@@ -494,16 +527,17 @@ const DepositOptions: React.FC<Props> = ({
             </div>
             {sflDepositAmount > 0 && (
               <div className="mb-1 mt-2 text-xxs">
-                {t("deposit.goblinTaxInfo")}{" "}
-                <a
-                  target="_blank"
-                  className="underline text-xxs hover:text-blue-500"
-                  href={`https://docs.sunflower-land.com/economy/withdrawing`}
-                  rel="noreferrer"
-                >
-                  {`Goblin Tax`}
-                </a>{" "}
-                {t("deposit.applied")}
+                <span>{t("deposit.goblinTaxInfo")}</span>
+                <span>
+                  <a
+                    target="_blank"
+                    className="underline text-xxs hover:text-blue-500"
+                    href={`https://docs.sunflower-land.com/economy/withdrawing`}
+                    rel="noreferrer"
+                  >
+                    {t("read.more")}
+                  </a>
+                </span>
               </div>
             )}
           </div>
@@ -554,5 +588,29 @@ export const DepositModal: React.FC<DepositModalProps> = ({
         />
       </CloseButtonPanel>
     </Modal>
+  );
+};
+
+const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
+const _xp = (state: MachineState) =>
+  state.context.state.bumpkin?.experience ?? 0;
+
+export const DepositWrapper: React.FC = () => {
+  const { gameService } = useContext(GameContext);
+  const farmAddress = useSelector(gameService, _farmAddress);
+  const xp = useSelector(gameService, _xp);
+
+  const handleDeposit = (
+    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">
+  ) => {
+    gameService.send("DEPOSIT", args);
+  };
+
+  return (
+    <Deposit
+      farmAddress={farmAddress}
+      onDeposit={handleDeposit}
+      canDeposit={getBumpkinLevel(xp) >= 3}
+    />
   );
 };

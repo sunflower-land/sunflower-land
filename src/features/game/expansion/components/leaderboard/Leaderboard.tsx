@@ -12,9 +12,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   farmId: number;
+  username?: string;
 }
 
-export const Leaderboard: React.FC<Props> = ({ farmId }) => {
+export const Leaderboard: React.FC<Props> = ({ farmId, username }) => {
   const [data, setData] = useState<Leaderboards | null>(null);
   const [loading, setLoading] = useState(false);
   const [showLeaderboard, setShowLeaderboard] = useState(false);
@@ -46,6 +47,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
   };
 
   const seasonTicket = getSeasonalTicket();
+  const id = username ?? String(farmId);
 
   return (
     <>
@@ -77,7 +79,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
                 {data.tickets.topTen && (
                   <TicketTable
                     rankings={data.tickets.topTen}
-                    farmId={Number(farmId)}
+                    id={String(farmId)}
                   />
                 )}
                 {data.tickets.farmRankingDetails && (
@@ -88,7 +90,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId }) => {
                     <TicketTable
                       showHeader={false}
                       rankings={data.tickets.farmRankingDetails}
-                      farmId={Number(farmId)}
+                      id={id}
                     />
                   </>
                 )}

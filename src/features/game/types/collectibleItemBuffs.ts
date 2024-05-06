@@ -169,6 +169,33 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: lightning,
   },
 
+  // Clash of Factions
+  "Turbo Sprout": {
+    shortDescription: translate("description.turbo.sprout.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+
+  Soybliss: {
+    shortDescription: translate("description.soybliss.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
+  },
+
+  "Grape Granny": {
+    shortDescription: translate("description.grape.granny.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
+  },
+  Vinny: {
+    shortDescription: translate("description.vinny.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
+  },
+
   // Fruit Boosts
   "Immortal Pear": {
     shortDescription: translate("description.immortal.pear.boost"),
@@ -386,11 +413,23 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Crimstone.image,
   },
+  "Battle Fish": {
+    labelType: "success",
+    shortDescription: translate("description.battle.fish.boost"),
+    boostTypeIcon: powerup,
+    // boostedItemIcon: ITEM_DETAILS.Oil.image,
+  },
   "Crim Peckster": {
     shortDescription: translate("description.crim.peckster.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS.Crimstone.image,
+  },
+  "Knight Chicken": {
+    shortDescription: translate("description.knight.chicken.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: ITEM_DETAILS.Oil.image,
   },
   "Mushroom House": {
     shortDescription: translate("description.mushroom.house.boost"),

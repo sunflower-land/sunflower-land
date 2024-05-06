@@ -4,7 +4,9 @@ export type GeneralTerms =
   | "accept"
   | "accepting.terms"
   | "advanced"
+  | "already.own.item"
   | "amount.matic"
+  | "are.you.sure"
   | "deposit"
   | "add.liquidity"
   | "add"
@@ -21,6 +23,8 @@ export type GeneralTerms =
   | "back"
   | "bait"
   | "balance"
+  | "banner"
+  | "banners"
   | "basket"
   | "beach.bounty"
   | "beta"
@@ -31,7 +35,6 @@ export type GeneralTerms =
   | "cancel"
   | "card.cash"
   | "caught"
-  | "change.Language"
   | "check"
   | "chest"
   | "chores"
@@ -72,6 +75,8 @@ export type GeneralTerms =
   | "details"
   | "donate"
   | "donating"
+  | "donation"
+  | "donations"
   | "drafting.noitem"
   | "drafting.select"
   | "drafting.trade.detail"
@@ -88,6 +93,7 @@ export type GeneralTerms =
   | "expand.land"
   | "expand"
   | "explore"
+  | "faction"
   | "farm.storage"
   | "farm"
   | "featured"
@@ -102,12 +108,13 @@ export type GeneralTerms =
   | "for"
   | "for.info.wearable"
   | "forbidden"
-  | "free.trade"
+  | "free"
   | "fruit"
   | "fruits"
   | "gift"
   | "go.home"
   | "goblin.delivery"
+  | "goblin.exchange"
   | "gotIt"
   | "goto"
   | "grant.wish"
@@ -130,7 +137,6 @@ export type GeneralTerms =
   | "list"
   | "loading"
   | "locked"
-  | "logout"
   | "loser.refund"
   | "lvl"
   | "maintenance"
@@ -161,6 +167,7 @@ export type GeneralTerms =
   | "on"
   | "open"
   | "open.gift"
+  | "p2p.trading"
   | "pass.required"
   | "pay.attention.feedback"
   | "place"
@@ -168,6 +175,7 @@ export type GeneralTerms =
   | "placing.bid"
   | "place.bid"
   | "plant"
+  | "player"
   | "play.again"
   | "please.wait"
   | "please.try.again"
@@ -183,7 +191,10 @@ export type GeneralTerms =
   | "refresh"
   | "refreshing"
   | "remaining"
-  | "remaining.trades"
+  | "remaining.free.listings"
+  | "remaining.free.purchases"
+  | "remaining.free.listing"
+  | "remaining.free.purchase"
   | "remove"
   | "reqSkillPts"
   | "reqSkills"
@@ -210,6 +221,7 @@ export type GeneralTerms =
   | "session.expire"
   | "session.expired"
   | "settings"
+  | "sfl/coins"
   | "share"
   | "shopping"
   | "skillPts"
@@ -299,7 +311,9 @@ export type GeneralTerms =
   | "buildings"
   | "boosts"
   | "decorations"
-  | "unit";
+  | "goblin.deliveries"
+  | "vipAccess"
+  | "vip";
 
 export type TimeUnits =
   // Singular
@@ -448,23 +462,16 @@ export type BirdiePlaza =
   | "birdieplaza.birdieIntro"
   | "birdieplaza.admiringOutfit"
   | "birdieplaza.currentSeason"
-  | "birdieplaza.currentSeason.two"
   | "birdieplaza.collectTickets"
-  | "birdieplaza.collectTickets.two"
   | "birdieplaza.whatIsSeason"
   | "birdieplaza.howToEarnTickets"
   | "birdieplaza.earnTicketsVariety"
-  | "birdieplaza.earnTicketsVariety.two"
   | "birdieplaza.commonMethod"
-  | "birdieplaza.commonMethod.two"
   | "birdieplaza.choresAndRewards"
-  | "birdieplaza.choresAndRewards.two"
   | "birdieplaza.gatherAndCraft"
-  | "birdieplaza.gatherAndCraft.two"
   | "birdieplaza.newSeasonIntro"
   | "birdieplaza.seasonQuests"
-  | "birdieplaza.craftItems"
-  | "birdieplaza.craftItems.two";
+  | "birdieplaza.craftItems";
 
 export type BoostDescriptions =
   //Mutant Chickens
@@ -493,6 +500,7 @@ export type BoostDescriptions =
   | "description.emerald.turtle"
   | "description.iron.idol"
   | "description.crim.peckster"
+  | "description.knight.chicken"
   | "description.skill.shrimpy"
   | "description.soil.krabby"
   | "description.nana"
@@ -612,7 +620,9 @@ export type BoostEffectDescriptions =
   | "description.nugget.boost"
   | "description.rock.golem.boost"
   | "description.crimson.carp.boost"
+  | "description.battle.fish.boost"
   | "description.crim.peckster.boost"
+  | "description.knight.chicken.boost"
   | "description.queen.bee.boost"
   | "description.humming.bird.boost"
   | "description.beehive.boost"
@@ -628,7 +638,16 @@ export type BoostEffectDescriptions =
   | "description.time.warp.totem.boost"
   | "description.radiant.ray.boost"
   | "description.beekeeper.hat.boost"
-  | "description.flower.fox.boost";
+  | "description.flower.fox.boost"
+  | "description.turbo.sprout.boost"
+  | "description.soybliss.boost"
+  | "description.grape.granny.boost"
+  | "description.non.la.hat.boost"
+  | "description.oil.can.boost"
+  | "description.paw.shield.boost"
+  | "description.olive.shield.boost"
+  | "description.pan.boost"
+  | "description.vinny.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -674,8 +693,7 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.noFlowers"
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
-  | "bumpkin.delivery.proveYourself"
-  | "bumpkin.delivery.more.time";
+  | "bumpkin.delivery.proveYourself";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"
@@ -752,14 +770,10 @@ export type BumpkinSkillsDescription =
   | "description.buckaroo";
 
 export type BumpkinTrade =
-  | "bumpkinTrade.askPrice"
-  | "bumpkinTrade.listingPurchased"
-  | "bumpkinTrade.travelPlaza"
   | "bumpkinTrade.minLevel"
   | "bumpkinTrade.noTradeListed"
   | "bumpkinTrade.sell"
   | "bumpkinTrade.like.list"
-  | "bumpkinTrade.goldpass.required"
   | "bumpkinTrade.purchase"
   | "bumpkinTrade.available"
   | "bumpkinTrade.quantity"
@@ -767,11 +781,14 @@ export type BumpkinTrade =
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.listingPrice"
   | "bumpkinTrade.pricePerUnit"
+  | "bumpkinTrade.price/unit"
   | "bumpkinTrade.tradingFee"
   | "bumpkinTrade.youWillReceive"
   | "bumpkinTrade.cancel"
   | "bumpkinTrade.list"
-  | "bumpkinTrade.maxListings";
+  | "bumpkinTrade.maxListings"
+  | "bumpkinTrade.max"
+  | "bumpkinTrade.floorPrice";
 
 export type GoblinTrade =
   | "goblinTrade.select"
@@ -1123,6 +1140,7 @@ export type DecorationDescriptions =
   | "description.iron.rock"
   | "description.stone.rock"
   | "description.crimstone.rock"
+  | "description.oil.reserve"
   | "description.flower.bed"
   | "description.tree"
   | "description.fruit.patch"
@@ -1215,14 +1233,25 @@ export type DecorationDescriptions =
   //Banners
   | "description.goblin.war.banner"
   | "description.human.war.banner"
-  | "description.earnAllianceBanner";
+  | "description.earnAllianceBanner"
+  | "description.sunflorian.faction.banner"
+  | "description.nightshade.faction.banner"
+  | "description.bumpkin.faction.banner"
+  | "description.goblin.faction.banner"
+
+  // Clash of Factions
+  | "description.turbo.sprout"
+  | "description.soybliss"
+  | "description.grape.granny"
+  | "description.royal.throne"
+  | "description.lily.egg"
+  | "description.goblet"
+  | "description.fancy.rug"
+  | "description.clock"
+  | "description.vinny";
 
 export type Delivery =
-  | "delivery.panel.one"
-  | "delivery.panel.two"
-  | "delivery.panel.three"
-  | "delivery.panel.four"
-  | "delivery.ressource"
+  | "delivery.resource"
   | "delivery.feed"
   | "delivery.fee"
   | "delivery.goblin.comm.treasury";
@@ -1239,7 +1268,6 @@ export type DepositWallet =
   | "deposit.farmWillReceive"
   | "deposit.depositDidNotArrive"
   | "deposit.goblinTaxInfo"
-  | "deposit.applied"
   | "deposit.sendToFarm"
   | "deposit.toDepositLevelUp"
   | "deposit.level"
@@ -1337,13 +1365,45 @@ export type ErrorTerms =
   | "error.insufficientSFL"
   | "error.decorationCollides"
   | "error.idAlreadyExists"
-  | "error.ClientRPC";
+  | "error.ClientRPC"
+  | "error.walletInUse.one"
+  | "error.walletInUse.two"
+  | "error.walletInUse.three";
 
 export type ExoticShopItems =
   | "exoticShopItems.line1"
   | "exoticShopItems.line2"
   | "exoticShopItems.line3"
   | "exoticShopItems.line4";
+
+export type Factions =
+  | "faction.join"
+  | "faction.description.sunflorians"
+  | "faction.description.bumpkins"
+  | "faction.description.goblins"
+  | "faction.description.nightshades"
+  | "faction.countdown"
+  | "faction.join.confirm"
+  | "faction.cannot.change"
+  | "faction.joined.sunflorians.intro"
+  | "faction.joined.bumpkins.intro"
+  | "faction.joined.goblins.intro"
+  | "faction.joined.nightshades.intro"
+  | "faction.earn.emblems"
+  | "faction.earn.emblems.time.left"
+  | "faction.emblems.tasks"
+  | "faction.view.leaderboard"
+  | "faction.donation.request.message"
+  | "faction.donation.label"
+  | "faction.donation.sfl"
+  | "faction.donation.sfl.max.per.day"
+  | "faction.donation.bulk.resources"
+  | "faction.donation.bulk.resources.unlimited.per.day"
+  | "faction.donation.confirm"
+  | "faction.seasonal.delivery.start.at"
+  | "faction.points.with.number"
+  | "faction.points.title"
+  | "faction.points.pledge.warning";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
@@ -1413,7 +1473,8 @@ export type FishDescriptions =
   | "description.radiant.ray"
   | "description.phantom.barracuda"
   | "description.gilded.swordfish"
-  | "description.crimson.carp";
+  | "description.crimson.carp"
+  | "description.battle.fish";
 
 export type FishermanModal =
   | "fishermanModal.attractFish"
@@ -1523,7 +1584,6 @@ export type FlowerShopTerms =
   | "flowerShop.missingPages.inABind"
   | "flowerShop.missingPages.sadly"
   | "flowerShop.noFlowers.noTrade"
-  | "flowerShop.do.have"
   | "flowerShop.do.have.trade"
   | "flowerShop.do.have.trade.one";
 
@@ -1540,6 +1600,7 @@ export type FoodDescriptions =
   | "description.cabbers.mash"
   | "description.popcorn"
   | "description.gumbo"
+  | "description.rapidRoast"
 
   //Kitchen
   | "description.roast.veggies"
@@ -1555,6 +1616,7 @@ export type FoodDescriptions =
   | "description.bumpkin.ganoush"
   | "description.chowder"
   | "description.pancakes"
+  | "description.beetrootBlaze"
 
   //Bakery
   | "description.apple.pie"
@@ -1581,6 +1643,7 @@ export type FoodDescriptions =
   | "description.sauerkraut"
   | "description.fancy.fries"
   | "description.fermented.fish"
+  | "description.fermented.shroomSyrup"
 
   //Smoothie Shack
   | "description.apple.juice"
@@ -1633,6 +1696,7 @@ export type GameDescriptions =
   | "description.baozi"
   | "description.communityEgg"
   | "description.hungryHare"
+  | "description.scroll"
   //Easter Items
   | "description.egg.basket"
   | "description.blue.egg"
@@ -1683,12 +1747,6 @@ export type GetContent =
   | "getContent.join";
 
 export type GetInputErrorMessage =
-  | "getInputErrorMessage.minimum"
-  | "getInputErrorMessage.sfl"
-  | "getInputErrorMessage.s"
-  | "getInputErrorMessage.no.sfl"
-  | "getInputErrorMessage.yes.sfl"
-  | "getInputErrorMessage.auction"
   | "getInputErrorMessage.place.bid"
   | "getInputErrorMessage.cannot.bid";
 
@@ -1704,17 +1762,6 @@ export type GOBLIN_MESSAGES =
   | "goblinMessages.msg8"
   | "goblinMessages.msg9"
   | "goblinMessages.msg10";
-
-export type GoldPassModal =
-  | "goldPass.unlockPower"
-  | "goldPass.craftNFTs"
-  | "goldPass.trade"
-  | "goldPass.participateAuction"
-  | "goldPass.withdrawTransferNFTs"
-  | "goldPass.accessRestrictedAreas"
-  | "common.noThanks"
-  | "goldPass.buyNow"
-  | "goldPass.priceInMatic";
 
 export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
 
@@ -1866,7 +1913,6 @@ export type Islandupgrade =
   | "islandupgrade.welcomePetalParadise"
   | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
-  | "islandupgrade.notReadyExpandMore.two"
   | "islandupgrade.exoticResourcesDescription";
 
 export type InteractableModals =
@@ -2039,7 +2085,8 @@ export type MegaStore =
   | "megaStore.message"
   | "megaStore.month.sale"
   | "megaStore.wearable"
-  | "megaStore.collectible";
+  | "megaStore.collectible"
+  | "megaStore.timeRemaining";
 
 export type MilestoneMessages =
   | "milestone.noviceAngler"
@@ -2083,7 +2130,6 @@ export type NoBumpkin =
   | "noBumpkin.deposit"
   | "noBumpkin.advancedIsland"
   | "noBumpkin.nude"
-  | "weakBumpkin.notStrong"
   | "dequipper.noBumpkins"
   | "dequipper.missingBumpkins"
   | "dequipper.intro"
@@ -2523,21 +2569,11 @@ export type NpcDialogues =
 export type NyeButton = "plaza.magicButton.query";
 
 export type ObsessionDialogue =
-  | "obsessionDialogue.line1.part1"
-  | "obsessionDialogue.line1.part2"
-  | "obsessionDialogue.line1.part3"
-  | "obsessionDialogue.line2.part1"
-  | "obsessionDialogue.line2.part2"
-  | "obsessionDialogue.line2.part3"
-  | "obsessionDialogue.line3.part1"
-  | "obsessionDialogue.line3.part2"
-  | "obsessionDialogue.line3.part3"
-  | "obsessionDialogue.line4.part1"
-  | "obsessionDialogue.line4.part2"
-  | "obsessionDialogue.line4.part3"
-  | "obsessionDialogue.line5.part1"
-  | "obsessionDialogue.line5.part2"
-  | "obsessionDialogue.line5.part3";
+  | "obsessionDialogue.line1"
+  | "obsessionDialogue.line2"
+  | "obsessionDialogue.line3"
+  | "obsessionDialogue.line4"
+  | "obsessionDialogue.line5";
 
 export type Offer =
   | "offer.okxOffer"
@@ -2545,8 +2581,6 @@ export type Offer =
   | "offer.getStarterPack"
   | "offer.newHere"
   | "offer.getStarted"
-  | "offer.NFT.include"
-  | "offer.free"
   | "offer.not.enough.BlockBucks";
 
 export type Onboarding =
@@ -2585,7 +2619,8 @@ export type OrderHelp =
   | "orderhelp.New.Season.arrival"
   | "orderhelp.Wisely"
   | "orderhelp.SkipIn"
-  | "orderhelp.NoRight";
+  | "orderhelp.NoRight"
+  | "orderhelp.ticket.deliveries.closed";
 
 export type PageFounds =
   | "pageFounds.title"
@@ -2627,15 +2662,6 @@ export type Pickserver =
   | "pickserver.explore"
   | "pickserver.built";
 
-export type PlazaSettings =
-  | "plazaSettings.changeServer"
-  | "plazaSettings.title.main"
-  | "plazaSettings.title.mutedPlayers"
-  | "plazaSettings.title.keybinds"
-  | "plazaSettings.mutedPlayers.description"
-  | "plazaSettings.keybinds.description"
-  | "plazaSettings.noMutedPlayers";
-
 export type PlayerTrade =
   | "playerTrade.no.trade"
   | "playerTrade.max.item"
@@ -2675,6 +2701,12 @@ export type ReactionBud =
 
 export type Refunded = "refunded.itemsReturned" | "refunded.goodLuck";
 
+export type RemoveHungryCaterpillar =
+  | "removeHungryCaterpillar.title"
+  | "removeHungryCaterpillar.description"
+  | "removeHungryCaterpillar.confirmation"
+  | "removeHungryCaterpillar.removeFlowerSeeds";
+
 export type RemoveKuebiko =
   | "removeKuebiko.title"
   | "removeKuebiko.description"
@@ -2698,7 +2730,6 @@ export type RetreatTerms =
 
 export type Resources =
   | "resources.recoversIn"
-  | "resources.required"
   | "resources.boulder.rareMineFound"
   | "resources.boulder.advancedMining";
 
@@ -2763,15 +2794,17 @@ export type SeasonTerms =
   | "season.includes"
   | "season.limitedOffer"
   | "season.wearableAirdrop"
-  | "season.place.land";
-
-export type SettingsMenu =
-  | "settingsMenu.timeMachine"
-  | "settingsMenu.storeOnChain"
-  | "settingsMenu.howToPlay"
-  | "settingsMenu.swapMaticForSFL"
-  | "settingsMenu.share"
-  | "settingsMenu.confirmLogout";
+  | "season.place.land"
+  | "season.megastore.discount"
+  | "season.supporter.gift"
+  | "season.free.season.passes"
+  | "season.vip.access"
+  | "season.vip.description"
+  | "season.mystery.gift"
+  | "season.xp.boost"
+  | "season.free.season.passes.description"
+  | "season.lifetime.farmer"
+  | "season.free.with.lifetime";
 
 export type Share =
   | "share.TweetText"
@@ -2858,7 +2891,6 @@ export type Statements =
   | "statements.dontRefresh"
   | "statements.feed.bumpkin.one"
   | "statements.feed.bumpkin.two"
-  | "statements.gold.pass.required"
   | "statements.guide.one"
   | "statements.guide.two"
   | "statements.jigger.one"
@@ -2918,7 +2950,9 @@ export type Statements =
   | "statements.minted.withdrawAfterMint"
   | "statements.startgame"
   | "statements.session.expired"
-  | "statements.price.change";
+  | "statements.price.change"
+  | "statements.translation.contribution"
+  | "statements.translation.joinDiscord";
 
 export type StopGoblin =
   | "stopGoblin.stop.goblin"
@@ -2926,13 +2960,6 @@ export type StopGoblin =
   | "stopGoblin.tap.one"
   | "stopGoblin.tap.two"
   | "stopGoblin.left";
-
-export type SubSettings =
-  | "subSettings.disableAnimations"
-  | "subSettings.enableAnimations"
-  | "subSettings.logout"
-  | "subSettings.transferOwnership"
-  | "subSettings.refreshDescription";
 
 export type Swarming = "swarming.tooLongToFarm" | "swarming.goblinsTakenOver";
 
@@ -3000,7 +3027,6 @@ export type TransactionTerms =
 export type Transfer =
   | "transfer.sure.adress"
   | "transfer.Account"
-  | "transfer.Account.Trans"
   | "transfer.Farm"
   | "transfer.Refresh"
   | "transfer.Taccount"
@@ -3051,6 +3077,8 @@ export type WarningTerms =
   | "warning.chat.noSpecialCharacters"
   | "warning.level.required"
   | "warning.hoarding.message"
+  | "warning.hoarding.indefiniteArticle.a"
+  | "warning.hoarding.indefiniteArticle.an"
   | "warning.hoarding.one"
   | "warning.hoarding.two"
   | "travelRequirement.notice";
@@ -3065,7 +3093,8 @@ export type WelcomeTerms =
   | "welcome.signIn.Message"
   | "welcome.email"
   | "welcome.takeover.ownership"
-  | "welcome.promo";
+  | "welcome.promo"
+  | "welcome.offline";
 
 export type Winner = "winner.mintTime" | "winner.mintTime.one";
 
@@ -3086,6 +3115,7 @@ export type WishingWell =
   | "wishingWell.info.one"
   | "wishingWell.info.two"
   | "wishingWell.info.three"
+  | "wishingWell.moreInfo"
   | "wishingWell.noLiquidity"
   | "wishingWell.rewardsInWell"
   | "wishingWell.luck";
@@ -3106,7 +3136,8 @@ export type Withdraw =
   | "withdraw.budRestricted"
   | "withdraw.bumpkin.wearing"
   | "withdraw.bumpkin.sure.withdraw"
-  | "withdraw.bumpkin.play"
+  | "withdraw.bumpkin.closed"
+  | "withdraw.bumpkin.closing"
   | "withdraw.buds";
 
 export type WornDescription =
@@ -3130,6 +3161,7 @@ export type World =
   | "world.plaza"
   | "world.beach"
   | "world.retreat"
+  | "world.woodlands"
   | "world.home"
   | "world.kingdom";
 
@@ -3165,6 +3197,66 @@ export type Trading =
   | "trading.your.listing"
   | "trading.you.receive"
   | "trading.burned";
+
+export type RestrictionReason =
+  | "restrictionReason.isGrowing"
+  | "restrictionReason.beanPlanted"
+  | "restrictionReason.cropsGrowing"
+  | "restrictionReason.basicCropsGrowing"
+  | "restrictionReason.mediumCropsGrowing"
+  | "restrictionReason.advancedCropsGrowing"
+  | "restrictionReason.fruitsGrowing"
+  | "restrictionReason.treesChopped"
+  | "restrictionReason.stoneMined"
+  | "restrictionReason.ironMined"
+  | "restrictionReason.goldMined"
+  | "restrictionReason.crimstoneMined"
+  | "restrictionReason.chickensFed"
+  | "restrictionReason.treasuresDug"
+  | "restrictionReason.inUse"
+  | "restrictionReason.recentlyUsed"
+  | "restrictionReason.recentlyFished"
+  | "restrictionReason.flowersGrowing"
+  | "restrictionReason.beesBusy"
+  | "restrictionReason.pawShaken"
+  | "restrictionReason.festiveSeason"
+  | "restrictionReason.noRestriction"
+  | "restrictionReason.genieLampRubbed";
+
+export type Leaderboard =
+  | "leaderboard.leaderboard"
+  | "leaderboard.error"
+  | "leaderboard.initialising"
+  | "leaderboard.topTen"
+  | "leaderboard.yourPosition";
+
+export type GameOptions =
+  | "gameOptions.title"
+  | "gameOptions.howToPlay"
+  | "gameOptions.amoyActions"
+  | "gameOptions.amoyActions.timeMachine"
+  | "gameOptions.blockchainSettings"
+  | "gameOptions.blockchainSettings.refreshChain"
+  | "gameOptions.blockchainSettings.storeOnChain"
+  | "gameOptions.blockchainSettings.swapMaticForSFL"
+  | "gameOptions.blockchainSettings.transferOwnership"
+  | "gameOptions.generalSettings"
+  | "gameOptions.generalSettings.connectDiscord"
+  | "gameOptions.generalSettings.assignRole"
+  | "gameOptions.generalSettings.changeLanguage"
+  | "gameOptions.generalSettings.disableAnimations"
+  | "gameOptions.generalSettings.enableAnimations"
+  | "gameOptions.generalSettings.share"
+  | "gameOptions.plazaSettings"
+  | "gameOptions.plazaSettings.changeServer"
+  | "gameOptions.plazaSettings.title.mutedPlayers"
+  | "gameOptions.plazaSettings.title.keybinds"
+  | "gameOptions.plazaSettings.mutedPlayers.description"
+  | "gameOptions.plazaSettings.keybinds.description"
+  | "gameOptions.plazaSettings.noMutedPlayers"
+  | "gameOptions.farmId"
+  | "gameOptions.logout"
+  | "gameOptions.confirmLogout";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3225,6 +3317,7 @@ export type TranslationKeys =
   | FlowerShopTerms
   | FoodDescriptions
   | GameDescriptions
+  | GameOptions
   | GameTerms
   | GarbageCollector
   | GeneralTerms
@@ -3233,11 +3326,11 @@ export type TranslationKeys =
   | GetInputErrorMessage
   | GOBLIN_MESSAGES
   | GoblinTrade
-  | GoldPassModal
   | GoldTooth
   | GuideTerms
   | GuideCompost
   | GuideCompost
+  | Factions
   | HalveningCountdown
   | Harvestflower
   | HarvestBeeHive
@@ -3282,7 +3375,6 @@ export type TranslationKeys =
   | PirateChest
   | PirateQuest
   | Pickserver
-  | PlazaSettings
   | PlayerTrade
   | Portal
   | PurchaseableBaitTranslation
@@ -3291,6 +3383,7 @@ export type TranslationKeys =
   | Reaction
   | ReactionBud
   | Refunded
+  | RemoveHungryCaterpillar
   | RemoveKuebiko
   | Resale
   | ResourceTerms
@@ -3303,7 +3396,6 @@ export type TranslationKeys =
   | PwaInstall
   | SceneDialogueKey
   | SeasonTerms
-  | SettingsMenu
   | Share
   | SharkBumpkinDialogues
   | Shelly
@@ -3315,7 +3407,6 @@ export type TranslationKeys =
   | SpecialEvent
   | Statements
   | StopGoblin
-  | SubSettings
   | Swarming
   | TieBreaker
   | TimeUnits
@@ -3338,4 +3429,6 @@ export type TranslationKeys =
   | Promo
   | Trader
   | NyonStatue
-  | Trading;
+  | Trading
+  | RestrictionReason
+  | Leaderboard;

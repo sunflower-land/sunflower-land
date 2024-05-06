@@ -24,7 +24,8 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   return (
     <CloseButtonPanel
       onClose={onClose}
-      title="Store Progress"
+      title={t("transaction.storeProgress")}
+      className="capitalize"
       bumpkinParts={{
         body: "Goblin Potion",
         pants: "Farmer Overalls",
