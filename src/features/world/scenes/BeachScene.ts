@@ -7,6 +7,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FishermanContainer } from "../containers/FishermanContainer";
 import { interactableModalManager } from "../ui/InteractableModals";
+import { translate } from "lib/i18n/translate";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -195,6 +196,8 @@ export class BeachScene extends BaseScene {
     chest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(chest, 75)) {
         interactableModalManager.open("rare_chest");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
   }
