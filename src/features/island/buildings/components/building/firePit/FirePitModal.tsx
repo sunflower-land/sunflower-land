@@ -48,7 +48,9 @@ export const FirePitModal: React.FC<Props> = ({
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
-  const firePitRecipes = Object.values(FIRE_PIT_COOKABLES);
+  const firePitRecipes = Object.values(FIRE_PIT_COOKABLES).sort(
+    (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
+  );
 
   const [selected, setSelected] = useState<Cookable>(
     firePitRecipes.find((recipe) => recipe.name === itemInProgress) ||
