@@ -39,6 +39,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
 import {
   FACTION_POINT_MULTIPLIER,
+  generateDeliveryTickets,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -70,6 +71,9 @@ export const OrderCard: React.FC<{
 
   const canDeliver = hasRequirementsCheck(order);
   const { t } = useAppTranslation();
+
+  const tickets = generateDeliveryTickets({ game, npc: order.from });
+
   return (
     <>
       <div className="">
@@ -148,13 +152,13 @@ export const OrderCard: React.FC<{
                   </span>
                 </div>
               )}
-              {order.reward.tickets && (
+              {!!tickets && (
                 <div className="flex items-center">
                   <img
                     src={ITEM_DETAILS[getSeasonalTicket()].image}
                     className="w-5 h-auto mr-1"
                   />
-                  <span className="text-xs">{order.reward.tickets}</span>
+                  <span className="text-xs">{tickets}</span>
                 </div>
               )}
               {getKeys(order.reward.items ?? {}).map((item) => (
@@ -586,6 +590,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const positive = useRandomItem(dialogue.positiveDelivery);
   const noOrder = useRandomItem(dialogue.noOrder);
 
+  const tickets = generateDeliveryTickets({ game, npc });
+
   let message = intro;
 
   if (delivery && !delivery.completedAt && hasDelivery) {
@@ -596,7 +602,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     message = t("bumpkin.delivery.waiting");
   }
 
-  if (!delivery || (!!delivery.reward.tickets && ticketTasksAreFrozen)) {
+  if (!delivery || (!!tickets && ticketTasksAreFrozen)) {
     message = noOrder;
   }
 
@@ -612,7 +618,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     (DELIVERY_LEVELS[npc] ?? 0) - getTotalExpansions({ game }).toNumber();
   const missingVIPAccess = requiresSeasonPass && !hasSeasonPass && !hasVIP;
   const isLocked = missingExpansions >= 1;
-  const isTicketOrder = !!delivery?.reward.tickets;
+  const isTicketOrder = tickets > 0;
   const deliveryFrozen = ticketTasksAreFrozen && isTicketOrder;
   const acceptGifts = !!getNextGift({ game, npc });
 
@@ -751,7 +757,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                           })}
                         >
                           {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
-                          {delivery.reward.tickets! * FACTION_POINT_MULTIPLIER}
+                          {tickets! * FACTION_POINT_MULTIPLIER}
                         </span>
                       </div>
                     </div>

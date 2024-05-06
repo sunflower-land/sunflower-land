@@ -5,103 +5,35 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeChore } from "./completeChore";
 import { ChoreV2 } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
+import cloneDeep from "lodash.clonedeep";
 
 describe("chore.completed", () => {
-  it("requires chore has started", () => {
-    expect(() =>
-      completeChore({
-        action: {
-          type: "chore.completed",
-        },
-        state: {
-          ...TEST_FARM,
-          hayseedHank: {
-            choresCompleted: 0,
-            chore: {
-              activity: "Sunflower Harvested",
-              requirement: 10,
-              reward: {
-                items: { "Solar Flare Ticket": 1 },
-              },
-              description: "Harvest 10 Sunflowers",
-            },
-          },
-        },
-      })
-    ).toThrow("Chore has not started");
+  beforeEach(() => {
+    jest.useRealTimers();
   });
+  it("throws an error if the chore number doesn't exits", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
 
-  it("requires same Bumpkin is working on chore", () => {
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
     expect(() =>
       completeChore({
+        createdAt: oneMinuteAfterStart.getTime(),
         action: {
           type: "chore.completed",
-        },
-        state: {
-          ...TEST_FARM,
-          hayseedHank: {
-            choresCompleted: 0,
-            chore: {
-              activity: "Sunflower Harvested",
-              requirement: 10,
-              reward: {
-                items: { "Solar Flare Ticket": 1 },
-              },
-              description: "Harvest 10 Sunflowers",
-            },
-            progress: {
-              bumpkinId: 22,
-              startCount: 0,
-              startedAt: 0,
-            },
-          },
-        },
-      })
-    ).toThrow("Not the same Bumpkin");
-  });
-
-  it("requires chore is completed", () => {
-    expect(() =>
-      completeChore({
-        action: {
-          type: "chore.completed",
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 5,
-            },
-          },
-          hayseedHank: {
-            choresCompleted: 0,
-            chore: {
-              activity: "Sunflower Harvested",
-              requirement: 10,
-              reward: {
-                items: { "Solar Flare Ticket": 1 },
-              },
-              description: "Harvest 10 Sunflowers",
-            },
-            progress: {
-              bumpkinId: INITIAL_BUMPKIN.id,
-              startCount: 0,
-              startedAt: 0,
-            },
-          },
-        },
-        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-        createdAt: 1693526400000,
-      })
-    ).toThrow("Chore is not completed");
-  });
-
-  it("requires chore is completed based on new progress", () => {
-    expect(() =>
-      completeChore({
-        action: {
-          type: "chore.completed",
+          id: undefined,
         },
         state: {
           ...TEST_FARM,
@@ -111,33 +43,135 @@ describe("chore.completed", () => {
               "Sunflower Harvested": 50,
             },
           },
-          hayseedHank: {
+          chores: {
             choresCompleted: 0,
-            chore: {
-              activity: "Sunflower Harvested",
-              requirement: 10,
-              reward: {
-                items: { "Solar Flare Ticket": 1 },
-              },
-              description: "Harvest 10 Sunflowers",
-            },
-            progress: {
-              bumpkinId: INITIAL_BUMPKIN.id,
-              startCount: 45,
-              startedAt: 0,
+            choresSkipped: 0,
+            chores: {
+              "1": chore,
+              "2": chore,
+              "3": chore,
+              "4": chore,
+              "5": chore,
             },
           },
         },
-        // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-        createdAt: 1693526400000,
+      })
+    ).toThrow("Chore ID not supplied");
+  });
+
+  it("errors if the chore is not complete", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
+
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    expect(() =>
+      completeChore({
+        createdAt: oneMinuteAfterStart.getTime(),
+        action: {
+          type: "chore.completed",
+          id: 1,
+        },
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            activity: {
+              "Sunflower Harvested": 0,
+            },
+          },
+          chores: {
+            choresCompleted: 0,
+            choresSkipped: 0,
+            chores: {
+              "1": chore,
+              "2": chore,
+              "3": chore,
+              "4": chore,
+              "5": chore,
+            },
+          },
+        },
       })
     ).toThrow("Chore is not completed");
   });
 
-  it("increments chores completed", () => {
+  it("errors if the bumpkin does not exist", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
+
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    expect(() =>
+      completeChore({
+        createdAt: oneMinuteAfterStart.getTime(),
+        action: {
+          type: "chore.completed",
+          id: 1,
+        },
+        state: {
+          ...TEST_FARM,
+          bumpkin: undefined,
+          chores: {
+            choresCompleted: 0,
+            choresSkipped: 0,
+            chores: {
+              "1": chore,
+              "2": chore,
+              "3": chore,
+              "4": chore,
+              "5": chore,
+            },
+          },
+        },
+      })
+    ).toThrow("No bumpkin found");
+  });
+
+  it("adds the reward into the inventory", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
+
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
     const state = completeChore({
+      createdAt: oneMinuteAfterStart.getTime(),
       action: {
         type: "chore.completed",
+        id: 1,
       },
       state: {
         ...TEST_FARM,
@@ -147,34 +181,45 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        hayseedHank: {
+        chores: {
           choresCompleted: 0,
-          chore: {
-            activity: "Sunflower Harvested",
-            requirement: 10,
-            reward: {
-              items: { "Solar Flare Ticket": 1 },
-            },
-            description: "Harvest 10 Sunflowers",
-          },
-          progress: {
-            bumpkinId: INITIAL_BUMPKIN.id,
-            startCount: 0,
-            startedAt: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
           },
         },
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
     });
 
-    expect(state.hayseedHank?.choresCompleted).toEqual(1);
+    expect(state.inventory["Crow Feather"]).toEqual(new Decimal(1));
   });
 
-  it("claims the reward", () => {
+  it("marks chores as complete", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
+
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
     const state = completeChore({
+      createdAt: oneMinuteAfterStart.getTime(),
       action: {
         type: "chore.completed",
+        id: 1,
       },
       state: {
         ...TEST_FARM,
@@ -184,35 +229,45 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        hayseedHank: {
+        chores: {
           choresCompleted: 0,
-          chore: {
-            activity: "Sunflower Harvested",
-            requirement: 10,
-            reward: {
-              items: { "Solar Flare Ticket": 1, "Sunflower Seed": 5 },
-            },
-            description: "Harvest 10 Sunflowers",
-          },
-          progress: {
-            bumpkinId: INITIAL_BUMPKIN.id,
-            startCount: 0,
-            startedAt: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
           },
         },
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
     });
 
-    expect(state.inventory["Solar Flare Ticket"]).toEqual(new Decimal(1));
-    expect(state.inventory["Sunflower Seed"]).toEqual(new Decimal(5));
+    expect(state.chores?.chores["1"].completedAt).toBeGreaterThan(0);
   });
 
-  it("increments chores completed for Bumpkin", () => {
+  it("prevents players from completing chores twice", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
+
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
     const state = completeChore({
+      createdAt: oneMinuteAfterStart.getTime(),
       action: {
         type: "chore.completed",
+        id: 1,
       },
       state: {
         ...TEST_FARM,
@@ -222,192 +277,51 @@ describe("chore.completed", () => {
             "Sunflower Harvested": 50,
           },
         },
-        hayseedHank: {
+        chores: {
           choresCompleted: 0,
-          chore: {
-            activity: "Sunflower Harvested",
-            requirement: 10,
-            reward: {
-              items: { "Solar Flare Ticket": 1 },
-            },
-            description: "Harvest 10 Sunflowers",
-          },
-          progress: {
-            bumpkinId: INITIAL_BUMPKIN.id,
-            startCount: 0,
-            startedAt: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
           },
         },
       },
-      // 1693526400000 = Friday, September 1, 2023 12:00:00 AM GMT
-      createdAt: 1693526400000,
     });
 
-    expect(state.bumpkin?.activity?.["Chore Completed"]).toEqual(1);
+    expect(() =>
+      completeChore({
+        createdAt: oneMinuteAfterStart.getTime(),
+        action: {
+          type: "chore.completed",
+          id: 1,
+        },
+        state,
+      })
+    ).toThrow("Chore is already completed");
   });
 
-  describe("Witches' Eve", () => {
-    it("throws an error if the chore number doesn't exits", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
+  it("errors if the bumpkin changed", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
 
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
 
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
 
-      expect(() =>
-        completeChore({
-          createdAt: oneMinuteAfterStart.getTime(),
-          action: {
-            type: "chore.completed",
-            id: undefined,
-          },
-          state: {
-            ...TEST_FARM,
-            bumpkin: {
-              ...INITIAL_BUMPKIN,
-              activity: {
-                "Sunflower Harvested": 50,
-              },
-            },
-            chores: {
-              choresCompleted: 0,
-              choresSkipped: 0,
-              chores: {
-                "1": chore,
-                "2": chore,
-                "3": chore,
-                "4": chore,
-                "5": chore,
-              },
-            },
-          },
-        })
-      ).toThrow("Chore ID not supplied");
-    });
-
-    it("errors if the chore is not complete", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      expect(() =>
-        completeChore({
-          createdAt: oneMinuteAfterStart.getTime(),
-          action: {
-            type: "chore.completed",
-            id: 1,
-          },
-          state: {
-            ...TEST_FARM,
-            bumpkin: {
-              ...INITIAL_BUMPKIN,
-              activity: {
-                "Sunflower Harvested": 0,
-              },
-            },
-            chores: {
-              choresCompleted: 0,
-              choresSkipped: 0,
-              chores: {
-                "1": chore,
-                "2": chore,
-                "3": chore,
-                "4": chore,
-                "5": chore,
-              },
-            },
-          },
-        })
-      ).toThrow("Chore is not completed");
-    });
-
-    it("errors if the bumpkin does not exist", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      expect(() =>
-        completeChore({
-          createdAt: oneMinuteAfterStart.getTime(),
-          action: {
-            type: "chore.completed",
-            id: 1,
-          },
-          state: {
-            ...TEST_FARM,
-            bumpkin: undefined,
-            chores: {
-              choresCompleted: 0,
-              choresSkipped: 0,
-              chores: {
-                "1": chore,
-                "2": chore,
-                "3": chore,
-                "4": chore,
-                "5": chore,
-              },
-            },
-          },
-        })
-      ).toThrow("No bumpkin found");
-    });
-
-    it("adds the reward into the inventory", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      const state = completeChore({
+    expect(() =>
+      completeChore({
         createdAt: oneMinuteAfterStart.getTime(),
         action: {
           type: "chore.completed",
@@ -417,6 +331,7 @@ describe("chore.completed", () => {
           ...TEST_FARM,
           bumpkin: {
             ...INITIAL_BUMPKIN,
+            id: 1000,
             activity: {
               "Sunflower Harvested": 50,
             },
@@ -433,216 +348,56 @@ describe("chore.completed", () => {
             },
           },
         },
-      });
+      })
+    ).toThrow("Not the same bumpkin");
+  });
 
-      expect(state.inventory["Crow Feather"]).toEqual(new Decimal(1));
-    });
+  it("adds to the completed count", () => {
+    const { startDate } = SEASONS["Witches' Eve"];
 
-    it("marks chores as complete", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
+    const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
 
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
+    jest.useFakeTimers();
+    jest.setSystemTime(oneMinuteAfterStart);
 
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: oneMinuteAfterStart.getTime(),
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
 
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      const state = completeChore({
-        createdAt: oneMinuteAfterStart.getTime(),
-        action: {
-          type: "chore.completed",
-          id: 1,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 50,
-            },
+    const state = completeChore({
+      createdAt: oneMinuteAfterStart.getTime(),
+      action: {
+        type: "chore.completed",
+        id: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
           },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
           chores: {
-            choresCompleted: 0,
-            choresSkipped: 0,
-            chores: {
-              "1": chore,
-              "2": chore,
-              "3": chore,
-              "4": chore,
-              "5": chore,
-            },
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
           },
         },
-      });
-
-      expect(state.chores?.chores["1"].completedAt).toBeGreaterThan(0);
+      },
     });
 
-    it("prevents players from completing chores twice", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      const state = completeChore({
-        createdAt: oneMinuteAfterStart.getTime(),
-        action: {
-          type: "chore.completed",
-          id: 1,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 50,
-            },
-          },
-          chores: {
-            choresCompleted: 0,
-            choresSkipped: 0,
-            chores: {
-              "1": chore,
-              "2": chore,
-              "3": chore,
-              "4": chore,
-              "5": chore,
-            },
-          },
-        },
-      });
-
-      expect(() =>
-        completeChore({
-          createdAt: oneMinuteAfterStart.getTime(),
-          action: {
-            type: "chore.completed",
-            id: 1,
-          },
-          state,
-        })
-      ).toThrow("Chore is already completed");
-    });
-
-    it("errors if the bumpkin changed", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      expect(() =>
-        completeChore({
-          createdAt: oneMinuteAfterStart.getTime(),
-          action: {
-            type: "chore.completed",
-            id: 1,
-          },
-          state: {
-            ...TEST_FARM,
-            bumpkin: {
-              ...INITIAL_BUMPKIN,
-              id: 1000,
-              activity: {
-                "Sunflower Harvested": 50,
-              },
-            },
-            chores: {
-              choresCompleted: 0,
-              choresSkipped: 0,
-              chores: {
-                "1": chore,
-                "2": chore,
-                "3": chore,
-                "4": chore,
-                "5": chore,
-              },
-            },
-          },
-        })
-      ).toThrow("Not the same bumpkin");
-    });
-
-    it("adds to the completed count", () => {
-      const { startDate } = SEASONS["Witches' Eve"];
-
-      const oneMinuteAfterStart = new Date(startDate.getTime() + 1 * 60 * 1000);
-
-      jest.useFakeTimers();
-      jest.setSystemTime(oneMinuteAfterStart);
-
-      const chore: ChoreV2 = {
-        activity: "Sunflower Harvested",
-        description: "Harvest 30 Sunflowers",
-        createdAt: oneMinuteAfterStart.getTime(),
-        bumpkinId: INITIAL_BUMPKIN.id,
-        startCount: 0,
-        requirement: 30,
-        tickets: 1,
-      };
-
-      const state = completeChore({
-        createdAt: oneMinuteAfterStart.getTime(),
-        action: {
-          type: "chore.completed",
-          id: 1,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            activity: {
-              "Sunflower Harvested": 50,
-            },
-          },
-          chores: {
-            choresCompleted: 0,
-            choresSkipped: 0,
-            chores: {
-              "1": chore,
-              "2": chore,
-              "3": chore,
-              "4": chore,
-              "5": chore,
-            },
-          },
-        },
-      });
-
-      expect(state.chores?.choresCompleted).toBe(1);
-    });
+    expect(state.chores?.choresCompleted).toBe(1);
   });
 
   it("does not reward faction points if the faction does not exist", () => {
@@ -655,7 +410,6 @@ describe("chore.completed", () => {
       bumpkinId: INITIAL_BUMPKIN.id,
       startCount: 0,
       requirement: 30,
-      tickets: 1,
     };
 
     const state = completeChore({
@@ -699,7 +453,6 @@ describe("chore.completed", () => {
       bumpkinId: INITIAL_BUMPKIN.id,
       startCount: 0,
       requirement: 30,
-      tickets: 1,
     };
 
     const state = completeChore({
@@ -743,5 +496,234 @@ describe("chore.completed", () => {
     });
 
     expect(state.faction?.points).toBe(5);
+  });
+
+  it("rewards easy tickets", () => {
+    const now = new Date("2024-05-09").getTime();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: now,
+      action: {
+        type: "chore.completed",
+        id: 1,
+      },
+      state: {
+        ...cloneDeep(TEST_FARM),
+
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          donated: {
+            daily: {
+              sfl: {},
+              resources: {},
+            },
+            totalItems: {},
+          },
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory["Scroll"]).toEqual(new Decimal(1));
+  });
+
+  it("rewards hard tickets", () => {
+    const now = new Date("2024-05-09").getTime();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: now,
+      action: {
+        type: "chore.completed",
+        id: 5,
+      },
+      state: {
+        ...cloneDeep(TEST_FARM),
+
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          donated: {
+            daily: {
+              sfl: {},
+              resources: {},
+            },
+            totalItems: {},
+          },
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory["Scroll"]).toEqual(new Decimal(5));
+  });
+
+  it("provides +2 tickets for banner holders", () => {
+    const now = new Date("2024-05-09").getTime();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: now,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...cloneDeep(TEST_FARM),
+
+        inventory: {
+          "Clash of Factions Banner": new Decimal(1),
+        },
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          donated: {
+            daily: {
+              sfl: {},
+              resources: {},
+            },
+            totalItems: {},
+          },
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory["Scroll"]).toEqual(new Decimal(6));
+  });
+
+  it("provides +2 tickets for lifetime banner holders", () => {
+    const now = new Date("2024-05-09").getTime();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: now,
+      action: {
+        type: "chore.completed",
+        id: 4,
+      },
+      state: {
+        ...cloneDeep(TEST_FARM),
+        inventory: {
+          "Lifetime Farmer Banner": new Decimal(1),
+        },
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          donated: {
+            daily: {
+              sfl: {},
+              resources: {},
+            },
+            totalItems: {},
+          },
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.inventory["Scroll"]).toEqual(new Decimal(6));
   });
 });

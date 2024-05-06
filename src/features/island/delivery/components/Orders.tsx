@@ -15,7 +15,10 @@ import lockIcon from "assets/skills/lock.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
-import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
+import {
+  generateDeliveryTickets,
+  getOrderSellPrice,
+} from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
 import { Order } from "features/game/types/game";
@@ -203,6 +206,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full scrollable overflow-y-auto pl-1">
           {orders.map((order) => {
+            const tickets = generateDeliveryTickets({
+              game: gameState,
+              npc: order.from,
+            });
+
             return (
               <div className="py-1 px-2" key={order.id}>
                 <OuterPanel
@@ -282,14 +290,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       {`${makeRewardAmountForLabel(order)}`}
                     </Label>
                   )}
-                  {!order.completedAt && order.reward.tickets && (
+                  {!order.completedAt && !!tickets && (
                     <Label
                       icon={ITEM_DETAILS[getSeasonalTicket()].image}
                       type="warning"
                       className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
                       style={{ width: "calc(100% + 15px)" }}
                     >
-                      {order.reward.tickets}
+                      {tickets}
                     </Label>
                   )}
 
@@ -524,15 +532,19 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               )}
             </div>
           )}
-          {ticketTasksAreFrozen && previewOrder.reward.tickets && (
-            <Label
-              type="danger"
-              className="mb-1"
-              icon={SUNNYSIDE.icons.stopwatch}
-            >
-              {t("deliveries.closed")}
-            </Label>
-          )}
+          {ticketTasksAreFrozen &&
+            !!generateDeliveryTickets({
+              game: gameState,
+              npc: previewOrder.from,
+            }) && (
+              <Label
+                type="danger"
+                className="mb-1"
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
+                {t("deliveries.closed")}
+              </Label>
+            )}
         </OuterPanel>
       )}
     </div>

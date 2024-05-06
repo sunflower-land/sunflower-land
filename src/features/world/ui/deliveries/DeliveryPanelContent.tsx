@@ -14,7 +14,10 @@ import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import classNames from "classnames";
-import { getOrderSellPrice } from "features/game/events/landExpansion/deliver";
+import {
+  generateDeliveryTickets,
+  getOrderSellPrice,
+} from "features/game/events/landExpansion/deliver";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinDelivery } from "./BumpkinDelivery";
@@ -65,6 +68,8 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
         {orders.map((order) => {
           const canDeliver = hasRequirementsCheck(order);
+
+          const tickets = generateDeliveryTickets({ game, npc: order.from });
 
           return (
             <OuterPanel
@@ -136,7 +141,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                     </span>
                   </div>
                 )}
-                {order.reward.tickets && (
+                {!!tickets && (
                   <div
                     className="flex items-center mt-1"
                     key={getSeasonalTicket()}
@@ -145,7 +150,7 @@ export const OrderCards: React.FC<OrderCardsProps> = ({
                       src={ITEM_DETAILS[getSeasonalTicket()].image}
                       className="h-5 mr-1"
                     />
-                    <span className="text-xs">{order.reward.tickets}</span>
+                    <span className="text-xs">{tickets}</span>
                   </div>
                 )}
               </div>

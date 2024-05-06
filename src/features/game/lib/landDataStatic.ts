@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
 import Decimal from "decimal.js-light";
-import { GameState, Inventory } from "../types/game";
+import { ChoreV2, ChoreV2Name, GameState, Inventory } from "../types/game";
 
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
@@ -374,7 +374,23 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
+  chores: {
+    choresCompleted: 0,
+    choresSkipped: 0,
+    chores: {
+      2: {
+        activity: "Sunflower Planted",
+        bumpkinId: INITIAL_BUMPKIN.id,
+        createdAt: Date.now(),
+        description: "Plant a sunflower",
+        requirement: 1,
+        startCount: 0,
+      },
+    } as Record<ChoreV2Name, ChoreV2>,
+  },
   inventory: {
+    Potato: new Decimal(200),
+    Pumpkin: new Decimal(200),
     "Battle Fish": new Decimal(1),
     "Knight Chicken": new Decimal(1),
     Baozi: new Decimal(10),
@@ -695,7 +711,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         from: "pumpkin' pete",
         reward: {
           items: {},
-          tickets: 5,
         },
         id: "1",
         items: {

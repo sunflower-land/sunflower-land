@@ -27,7 +27,6 @@ import {
   SoldOutCollectibleName,
 } from "./collectibles";
 import { TreasureToolName } from "./tools";
-import { Chore } from "./chores";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
 import { SeasonalTicket } from "./seasons";
@@ -557,18 +556,6 @@ export type Bid = {
   tickets: number;
 };
 
-export type HayseedHank = {
-  choresCompleted: number;
-  dawnBreakerChoresCompleted?: number;
-  dawnBreakerChoresSkipped?: number;
-  chore: Chore;
-  progress?: {
-    bumpkinId: number;
-    startedAt: number;
-    startCount: number;
-  };
-};
-
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 
 export type WitchesEve = {
@@ -629,7 +616,6 @@ export type Order = {
   from: NPCName;
   items: Partial<Record<InventoryItemName | "coins" | "sfl", number>>;
   reward: {
-    tickets?: number;
     sfl?: number;
     coins?: number;
     items?: Partial<Record<InventoryItemName, number>>;
@@ -724,7 +710,6 @@ export type ChoreV2 = {
   requirement: number;
   bumpkinId: number;
   startCount: number;
-  tickets: number;
 };
 
 export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
@@ -1030,7 +1015,6 @@ export interface GameState {
   auctioneer: {
     bid?: Bid;
   };
-  hayseedHank?: HayseedHank;
   chores?: ChoresV2;
   mushrooms: Mushrooms;
   catchTheKraken: CatchTheKraken;
