@@ -8,6 +8,7 @@ import {
   setCachedMarketPrices,
 } from "../ui/market/lib/marketCache";
 import { getMarketPrices } from "features/game/actions/getMarketPrices";
+import { translate } from "lib/i18n/translate";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -123,6 +124,8 @@ export class RetreatScene extends BaseScene {
     exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(exchange, 75)) {
         interactableModalManager.open("goblin_market");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -156,6 +159,8 @@ export class RetreatScene extends BaseScene {
     bank.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(bank, 75)) {
         interactableModalManager.open("bank");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -167,6 +172,8 @@ export class RetreatScene extends BaseScene {
     wishingWell.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(wishingWell, 75)) {
         interactableModalManager.open("wishingWell");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
@@ -211,7 +218,11 @@ export class RetreatScene extends BaseScene {
     garbageCollector
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("garbage_collector");
+        if (this.checkDistanceToSprite(garbageCollector, 75)) {
+          interactableModalManager.open("garbage_collector");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     const smoke = this.add.sprite(72, 46, "garbage_smoke");
@@ -243,6 +254,8 @@ export class RetreatScene extends BaseScene {
     raffle.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(raffle, 75)) {
         interactableModalManager.open("raffle");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
 
