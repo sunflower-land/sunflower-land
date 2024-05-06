@@ -1,15 +1,11 @@
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "features/game/types/game";
-import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
-} from "features/game/types/resources";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 
 export type PlaceOilReserveAction = {
   type: "oilReserve.placed";
-  name: ResourceName;
   id: string;
   coordinates: {
     x: number;
