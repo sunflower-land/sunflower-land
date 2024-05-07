@@ -102,36 +102,52 @@ describe("craftTool", () => {
       })
     ).toThrow("Not enough stock");
   });
-});
 
-it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
-  const state = craftTool({
-    state: {
-      ...GAME_STATE,
-      coins: 100,
-      inventory: {},
-    },
-    action: {
-      type: "tool.crafted",
-      tool: "Axe",
-    },
+  it("increments Axe Crafted activity by 1 when 1 axe is crafted", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
+
+    expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
   });
 
-  expect(state.bumpkin?.activity?.["Axe Crafted"]).toBe(1);
-});
+  it("increments Coins spent when axe is crafted", () => {
+    const state = craftTool({
+      state: {
+        ...GAME_STATE,
+        coins: 100,
+        inventory: {},
+      },
+      action: {
+        type: "tool.crafted",
+        tool: "Axe",
+      },
+    });
 
-it("increments Coins spent when axe is crafted", () => {
-  const state = craftTool({
-    state: {
-      ...GAME_STATE,
-      coins: 100,
-      inventory: {},
-    },
-    action: {
-      type: "tool.crafted",
-      tool: "Axe",
-    },
+    expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(20);
   });
 
-  expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(20);
+  it("does not craft a tool that has a required island expansion that the player has not reached", () => {
+    expect(() =>
+      craftTool({
+        state: {
+          ...GAME_STATE,
+          coins: 100,
+          inventory: { Wood: new Decimal(25), Iron: new Decimal(10) },
+        },
+        action: {
+          type: "tool.crafted",
+          tool: "Oil Drill",
+        },
+      })
+    ).toThrow("You do not have the required island expansion");
+  });
 });

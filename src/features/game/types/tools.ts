@@ -3,7 +3,7 @@
  */
 
 import Decimal from "decimal.js-light";
-import { Inventory } from "./game";
+import { Inventory, IslandType } from "./game";
 import { translate } from "lib/i18n/translate";
 
 export type WorkbenchToolName =
@@ -23,6 +23,7 @@ export interface Tool {
   ingredients: Inventory;
   price: number;
   disabled?: boolean;
+  requiredIsland?: IslandType;
 }
 
 export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
@@ -85,6 +86,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
       Wood: new Decimal(25),
       Iron: new Decimal(10),
     },
+    requiredIsland: "desert",
   },
 };
 

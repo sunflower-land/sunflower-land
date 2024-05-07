@@ -843,6 +843,8 @@ export type MegaStore = {
 
 export type IslandType = "basic" | "spring" | "desert";
 
+export const ISLAND_EXPANSIONS: IslandType[] = ["basic", "spring", "desert"];
+
 export type Home = {
   collectibles: Collectibles;
 };
