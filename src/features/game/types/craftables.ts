@@ -219,7 +219,8 @@ export type ToolName =
   | "Iron Pickaxe"
   | "Gold Pickaxe"
   | "Hammer"
-  | "Rod";
+  | "Rod"
+  | "Oil Drill";
 
 export type Shovel = "Rusty Shovel" | "Shovel";
 
@@ -552,6 +553,21 @@ export const TOOLS: Record<ToolName, CraftableItem> = {
       {
         item: "Gold",
         amount: new Decimal(3),
+      },
+    ],
+  },
+  "Oil Drill": {
+    name: "Oil Drill",
+    description: translate("description.oil.drill"),
+    price: 2240,
+    ingredients: [
+      {
+        item: "Wood",
+        amount: new Decimal(25),
+      },
+      {
+        item: "Iron",
+        amount: new Decimal(10),
       },
     ],
   },

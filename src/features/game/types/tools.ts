@@ -12,7 +12,8 @@ export type WorkbenchToolName =
   | "Stone Pickaxe"
   | "Iron Pickaxe"
   | "Gold Pickaxe"
-  | "Rod";
+  | "Rod"
+  | "Oil Drill";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -74,6 +75,15 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     ingredients: {
       Wood: new Decimal(3),
       Stone: new Decimal(1),
+    },
+  },
+  "Oil Drill": {
+    name: "Oil Drill",
+    description: translate("description.oil.drill"),
+    price: 100,
+    ingredients: {
+      Wood: new Decimal(25),
+      Iron: new Decimal(10),
     },
   },
 };

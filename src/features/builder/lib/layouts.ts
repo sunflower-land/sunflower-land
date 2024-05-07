@@ -12,6 +12,7 @@ export type Layout = {
   boulder: Coordinates[];
   beehives: Coordinates[];
   flowers: Coordinates[];
+  oilReserves: Coordinates[];
 };
 
 export const INITIAL_LAYOUTS: Record<string, Layout> = {};

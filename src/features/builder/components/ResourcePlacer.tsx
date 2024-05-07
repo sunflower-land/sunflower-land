@@ -28,6 +28,7 @@ import { ZoomContext } from "components/ZoomProvider";
 import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBed } from "features/island/flowers/FlowerBed";
+import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
 
 export const RESOURCES: Record<
   keyof Layout,
@@ -124,6 +125,14 @@ export const RESOURCES: Record<
       width: 1,
     },
     icon: ITEM_DETAILS["Tulip Bulb"].image,
+  },
+  oilReserves: {
+    component: () => <OilReserve id="1" />,
+    dimensions: {
+      height: 2,
+      width: 2,
+    },
+    icon: ITEM_DETAILS["Oil Reserve"].image,
   },
 };
 

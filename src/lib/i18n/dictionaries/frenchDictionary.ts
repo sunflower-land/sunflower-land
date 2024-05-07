@@ -4583,6 +4583,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.sand.shovel": "Utilisé pour creuser des trésors",
   "description.sand.drill":
     "Creusez profondément pour trouver des trésors peu communs ou rares",
+  "description.oil.drill": ENGLISH_TERMS["description.oil.drill"],
 };
 
 const trader: Record<Trader, string> = {

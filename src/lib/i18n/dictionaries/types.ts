@@ -2980,7 +2980,8 @@ export type ToolDescriptions =
   | "description.shovel"
   | "description.sand.shovel"
   | "description.sand.drill"
-  | "description.gold.pickaxe";
+  | "description.gold.pickaxe"
+  | "description.oil.drill";
 
 export type TransactionTerms =
   | "transaction.storeBlockBucks"

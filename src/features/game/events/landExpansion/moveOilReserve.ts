@@ -25,7 +25,7 @@ export function moveOilReserve({
   createdAt = Date.now(),
 }: Options): GameState {
   const stateCopy = cloneDeep(state) as GameState;
-  const oilReserves = stateCopy.oil;
+  const oilReserves = stateCopy.oilReserves;
 
   if (stateCopy.bumpkin === undefined) {
     throw new Error(MOVE_OIL_ERRORS.NO_BUMPKIN);

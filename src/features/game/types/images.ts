@@ -176,7 +176,7 @@ import apple from "assets/resources/apple.png";
 import orange from "assets/resources/orange.png";
 import blueberry from "assets/resources/blueberry.png";
 import banana from "assets/resources/banana.png";
-import oil from "assets/resources/oil.png";
+import oil from "assets/resources/oil.webp";
 
 // Skills
 import greenThumb from "assets/skills/green_thumb.png";
@@ -488,6 +488,7 @@ import stoneFence from "assets/decorations/stone_fence.png";
 import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import genieLamp from "assets/sfts/genie_lamp.png";
 import oldBottle from "assets/sfts/treasure/old_bottle.png";
+import oilDrill from "assets/icons/oil_drill.webp";
 
 import bonniesTombstone from "assets/decorations/bonnies_tombstone.png";
 import grubnashTombstone from "assets/decorations/grubnash_tombstone.png";
@@ -515,7 +516,7 @@ import ironRock from "assets/resources/iron_small.png";
 import stoneRock from "assets/resources/stone_small.png";
 import crimstoneRock from "assets/resources/crimstone/crimstone_rock_1.webp";
 import sunstoneRock from "assets/resources/sunstone/sunstone_rock_1.webp";
-import oilReserve from "assets/resources/oil_reserve.png";
+import oilReserve from "assets/resources/oil/oil_reserve_full.webp";
 
 // Potion House
 import giantCabbage from "assets/sfts/giant_cabbage.png";
@@ -1047,6 +1048,10 @@ export const ITEM_DETAILS: Items = {
   "Sand Drill": {
     description: translate("description.sand.drill"),
     image: drill,
+  },
+  "Oil Drill": {
+    description: translate("description.oil.drill"),
+    image: oilDrill,
   },
 
   "Block Buck": {

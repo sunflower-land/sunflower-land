@@ -4415,6 +4415,7 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.sand.drill":
     "Sıra dışı veya nadir hazineler için derinlere inin",
   "description.gold.pickaxe": "Kızıltaş ve güneştaşı toplamak için kullanılır",
+  "description.oil.drill": ENGLISH_TERMS["description.oil.drill"],
 };
 
 const trader: Record<Trader, string> = {

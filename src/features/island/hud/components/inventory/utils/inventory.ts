@@ -149,6 +149,17 @@ export const getChestItems = (state: GameState) => {
       };
     }
 
+    if (itemName === "Oil Reserve") {
+      return {
+        ...acc,
+        "Oil Reserve": new Decimal(
+          state.inventory["Oil Reserve"]?.minus(
+            Object.keys(state.oilReserves).length
+          ) ?? 0
+        ),
+      };
+    }
+
     if (itemName in COLLECTIBLES_DIMENSIONS) {
       return {
         ...acc,

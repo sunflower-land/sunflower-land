@@ -23,11 +23,12 @@ describe("moveOilReserve", () => {
       moveOilReserve({
         state: {
           ...TEST_FARM,
-          oil: {
+          oilReserves: {
             "1": {
               height: 1,
               width: 1,
-              drillsLeft: 1,
+              drilled: 1,
+              createdAt: 0,
               x: 1,
               y: 1,
               oil: {
@@ -50,7 +51,7 @@ describe("moveOilReserve", () => {
     const gameState = moveOilReserve({
       state: {
         ...TEST_FARM,
-        oil: {
+        oilReserves: {
           "123": {
             height: 1,
             width: 1,
@@ -60,7 +61,8 @@ describe("moveOilReserve", () => {
               amount: 1,
               drilledAt: 0,
             },
-            drillsLeft: 1,
+            createdAt: 0,
+            drilled: 1,
           },
           "456": {
             height: 1,
@@ -71,7 +73,8 @@ describe("moveOilReserve", () => {
               amount: 1,
               drilledAt: 0,
             },
-            drillsLeft: 1,
+            drilled: 1,
+            createdAt: 0,
           },
           "789": {
             height: 1,
@@ -82,7 +85,8 @@ describe("moveOilReserve", () => {
               amount: 1,
               drilledAt: 0,
             },
-            drillsLeft: 1,
+            drilled: 1,
+            createdAt: 0,
           },
         },
       },
@@ -93,7 +97,7 @@ describe("moveOilReserve", () => {
       },
     });
 
-    expect(gameState.oil).toEqual({
+    expect(gameState.oilReserves).toEqual({
       "123": {
         height: 1,
         width: 1,
@@ -103,7 +107,8 @@ describe("moveOilReserve", () => {
           amount: 1,
           drilledAt: 0,
         },
-        drillsLeft: 1,
+        drilled: 1,
+        createdAt: 0,
       },
       "456": {
         height: 1,
@@ -114,7 +119,8 @@ describe("moveOilReserve", () => {
           amount: 1,
           drilledAt: 0,
         },
-        drillsLeft: 1,
+        drilled: 1,
+        createdAt: 0,
       },
       "789": {
         height: 1,
@@ -125,7 +131,8 @@ describe("moveOilReserve", () => {
           amount: 1,
           drilledAt: 0,
         },
-        drillsLeft: 1,
+        drilled: 1,
+        createdAt: 0,
       },
     });
   });
