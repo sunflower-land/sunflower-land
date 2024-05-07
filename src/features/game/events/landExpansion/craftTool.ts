@@ -51,12 +51,7 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Tool does not exist");
   }
 
-  const requiredIsland = tool.requiredIsland;
-
-  if (
-    requiredIsland &&
-    !hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)
-  ) {
+  if (!hasRequiredIslandExpansion(stateCopy.island.type, tool.requiredIsland)) {
     throw new Error("You do not have the required island expansion");
   }
 

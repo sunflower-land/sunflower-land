@@ -15,6 +15,12 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+
+import lockIcon from "assets/skills/lock.png";
+import { Label } from "components/ui/Label";
+import { capitalize } from "lib/utils/capitalize";
+import { IslandType } from "features/game/types/game";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -69,7 +75,19 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
 
   const bulkToolCraftAmount = makeBulkBuyAmount(stock);
   const { t } = useAppTranslation();
-  const Action = () => {
+  const getAction = () => {
+    if (
+      !hasRequiredIslandExpansion(state.island.type, selected.requiredIsland)
+    ) {
+      return (
+        <Label type="danger">
+          {t("islandupgrade.requiredIsland", {
+            islandType: capitalize(selected.requiredIsland as IslandType),
+          })}
+        </Label>
+      );
+    }
+
     if (stock.equals(0)) {
       return <Restock onClose={onClose}></Restock>;
     }
@@ -110,20 +128,30 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
             coins: selected.price,
             resources: selected.ingredients,
           }}
-          actionView={Action()}
+          actionView={getAction()}
         />
       }
       content={
         <>
-          {getKeys(WORKBENCH_TOOLS).map((toolName) => (
-            <Box
-              isSelected={selectedName === toolName}
-              key={toolName}
-              onClick={() => onToolClick(toolName)}
-              image={ITEM_DETAILS[toolName].image}
-              count={inventory[toolName]}
-            />
-          ))}
+          {getKeys(WORKBENCH_TOOLS).map((toolName) => {
+            const { requiredIsland } = WORKBENCH_TOOLS[toolName];
+            const isLocked = !hasRequiredIslandExpansion(
+              state.island.type,
+              requiredIsland
+            );
+
+            return (
+              <Box
+                isSelected={selectedName === toolName}
+                key={toolName}
+                onClick={() => onToolClick(toolName)}
+                image={ITEM_DETAILS[toolName].image}
+                count={inventory[toolName]}
+                secondaryImage={lockIcon}
+                showOverlay={isLocked}
+              />
+            );
+          })}
         </>
       }
     />
