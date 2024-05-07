@@ -106,7 +106,6 @@ import {
   Onboarding,
   OnCollectReward,
   OrderHelp,
-  PageFounds,
   Pending,
   PersonHood,
   PirateChest,
@@ -4049,20 +4048,6 @@ const orderhelp: Record<OrderHelp, string> = {
     ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
-const pageFounds: Record<PageFounds, string> = {
-  "pageFounds.title": "Pages Trouvées!",
-  "pageFounds.gardeningBookPage":
-    "On dirait une page d'un livre de jardinage...",
-  "pageFounds.lastPageFound":
-    "Fantastique ! Bien joué pour avoir trouvé la dernière page ! Les pages révèlent comment croiser une nouvelle fleur!",
-  "pageFounds.knowHowToGrow": "Vous savez maintenant comment faire pousser un",
-  "pageFounds.checkCodex": "Consultez le Codex pour en savoir plus à ce sujet!",
-  "pageFounds.all": "Toutes les pages trouvées!",
-  "pageFounds.pageContainsInfo":
-    "Super ! Cette page contient des informations sur la manière de faire pousser un",
-  pageFounds: "Pages Trouvées",
-};
-
 const pending: Record<Pending, string> = {
   "pending.calcul": "Les résultats sont en cours de calcul.",
   "pending.comeback": "Revenez plus tard.",
@@ -5091,7 +5076,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...onboarding,
   ...onCollectReward,
   ...orderhelp,
-  ...pageFounds,
   ...pending,
   ...personHood,
   ...pickserver,

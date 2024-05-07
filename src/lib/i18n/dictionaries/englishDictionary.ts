@@ -105,7 +105,6 @@ import {
   Onboarding,
   OnCollectReward,
   OrderHelp,
-  PageFounds,
   Pending,
   PersonHood,
   PirateChest,
@@ -3893,19 +3892,6 @@ const orderhelp: Record<OrderHelp, string> = {
     "Ticket deliveries are currently closed",
 };
 
-const pageFounds: Record<PageFounds, string> = {
-  "pageFounds.title": "Page Found!",
-  "pageFounds.gardeningBookPage": "Looks like a page from a gardening book...",
-  "pageFounds.lastPageFound":
-    "Fantastic! Well done finding the last page! The pages reveal how to cross breed a new flower!",
-  "pageFounds.knowHowToGrow": "You now know how to grow a",
-  "pageFounds.checkCodex": "Check the Codex to learn more about it!",
-  "pageFounds.all": "All Pages Found!",
-  "pageFounds.pageContainsInfo":
-    "Great! This page contains some information about how to grow a",
-  pageFounds: "Pages Found:",
-};
-
 const pending: Record<Pending, string> = {
   "pending.calcul": "The results are being calculated.",
   "pending.comeback": "Come back later.",
@@ -4880,7 +4866,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...onboarding,
   ...onCollectReward,
   ...orderhelp,
-  ...pageFounds,
   ...pending,
   ...personHood,
   ...pickserver,

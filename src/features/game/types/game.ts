@@ -568,9 +568,9 @@ export type CatchTheKraken = {
   hunger: InventoryItemName;
 };
 
-export type SpringBlossom = {
+export type FlowerShop = {
+  week: number;
   weeklyFlower: FlowerName;
-  collectedFlowerPages: number[];
   tradedFlowerShop?: boolean;
 };
 
@@ -1028,7 +1028,7 @@ export interface GameState {
   buds?: Record<number, Bud>;
 
   christmas?: Christmas;
-  springBlossom: Record<number, SpringBlossom>;
+  flowerShop?: FlowerShop;
   megastore: MegaStore;
   specialEvents: SpecialEvents;
   goblinMarket: {

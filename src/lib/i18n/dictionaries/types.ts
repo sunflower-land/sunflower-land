@@ -2622,16 +2622,6 @@ export type OrderHelp =
   | "orderhelp.NoRight"
   | "orderhelp.ticket.deliveries.closed";
 
-export type PageFounds =
-  | "pageFounds.title"
-  | "pageFounds.gardeningBookPage"
-  | "pageFounds.lastPageFound"
-  | "pageFounds.knowHowToGrow"
-  | "pageFounds.checkCodex"
-  | "pageFounds.all"
-  | "pageFounds.pageContainsInfo"
-  | "pageFounds";
-
 export type Pending = "pending.calcul" | "pending.comeback";
 
 export type PersonHood =
@@ -3369,7 +3359,6 @@ export type TranslationKeys =
   | Onboarding
   | OnCollectReward
   | OrderHelp
-  | PageFounds
   | Pending
   | PersonHood
   | PirateChest
