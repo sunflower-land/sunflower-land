@@ -510,7 +510,6 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       Beehive: 3,
       "Flower Bed": 3,
     }
-    5:
     6:
     7:
     8:
