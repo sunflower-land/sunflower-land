@@ -76,7 +76,7 @@ export function isFlowerSeed(seed: FlowerSeedName) {
 export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
   "Sunpetal Seed": {
     price: 16,
-    bumpkinLevel: 17,
+    bumpkinLevel: 13,
     plantSeconds: 1 * 24 * 60 * 60,
     description: translate("description.sunpetal.seed"),
     disabled: false,
