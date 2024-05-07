@@ -1,17 +1,21 @@
 import { createPortal } from "react-dom";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
+
+import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Modal } from "components/ui/Modal";
 import { MinigameName } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Button } from "components/ui/Button";
-import { CONFIG } from "lib/config";
-import { Label } from "components/ui/Label";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+
+import { Button } from "components/ui/Button";
+import { Label } from "components/ui/Label";
+
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CONFIG } from "lib/config";
+
+import { portal } from "../community/actions/portal";
+import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 
 interface Props {
   portalName: MinigameName;
@@ -42,13 +46,15 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
       let token = "";
       if (CONFIG.API_URL) {
-        const { token } = await portal({
+        const { token: portalToken } = await portal({
           portalId: portalName,
           token: authState.context.user.rawToken as string,
           farmId: gameState.context.farmId,
         });
+        token = portalToken;
       }
 
+      console.log({ token });
       // Change route
       // setUrl(`https://${portalName}.sunflower-land.com?jwt=${token}`);
       setUrl(`http://localhost:3001?jwt=${token}`);
@@ -91,6 +97,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         score: event.data.score,
         id: portalName,
       });
+      gameService.send("SAVE");
     }
   };
 
@@ -105,17 +112,14 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   }, []);
 
   const confirmPurchase = () => {
-    console.log("Confirm purchase");
     gameService.send("minigame.itemPurchased", {
       id: portalName,
       sfl: purchase,
     });
     gameService.send("SAVE");
 
-    console.log("iframe purchase", { iframeRef });
     if (iframeRef.current) {
-      console.log("SEND IT OFF!", iframeRef.current.contentWindow);
-      iframeRef.current.contentWindow.postMessage(
+      iframeRef.current.contentWindow?.postMessage(
         {
           event: "purchased",
           sfl: url,
@@ -139,7 +143,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
     return <span className="loading">{t("loading")}</span>;
   }
 
-  console.log({ isComplete });
   if (isComplete) {
     return (
       <ClaimReward

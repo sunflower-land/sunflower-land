@@ -22,6 +22,8 @@ import { InlineDialogue } from "../TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -39,7 +41,7 @@ export const MinigamePrizeUI: React.FC<{
     );
   }
 
-  const isComplete = history && prize.score > history.highscore;
+  const isComplete = history && history.highscore >= prize.score;
   const secondsLeft = (prize.endAt - Date.now()) / 1000;
 
   return (
@@ -107,6 +109,40 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
       <div>
         <Portal portalName="chicken-rescue" onClose={onClose} />
       </div>
+    );
+  }
+
+  const onClaim = () => {
+    gameService.send("minigame.prizeClaimed", {
+      id: "chicken-rescue",
+    });
+
+    onClose();
+  };
+
+  const isComplete = isMinigameComplete({
+    game: gameState.context.state,
+    name: "chicken-rescue",
+  });
+
+  console.log({ isComplete });
+
+  if (isComplete && !dailyAttempt.prizeClaimedAt) {
+    return (
+      <ClaimReward
+        onClaim={onClaim}
+        reward={{
+          message:
+            "Congratulations, you rescued the chickens! Here is your reward.",
+          createdAt: Date.now(),
+          factionPoints: 10,
+          id: "discord-bonus",
+          items: {},
+          wearables: {},
+          sfl: 0,
+          coins: 0,
+        }}
+      />
     );
   }
 

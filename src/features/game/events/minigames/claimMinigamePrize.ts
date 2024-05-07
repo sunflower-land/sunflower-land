@@ -5,6 +5,39 @@ import {
 } from "features/game/types/minigames";
 import cloneDeep from "lodash.clonedeep";
 
+export function isMinigameComplete({
+  game,
+  name,
+  now = new Date(),
+}: {
+  game: GameState;
+  name: MinigameName;
+  now?: Date;
+}) {
+  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
+  const { games, prizes } = minigames;
+
+  const todayKey = new Date(now).toISOString().slice(0, 10);
+
+  // Get todays prize
+  const prize = prizes[name];
+
+  if (!prize) {
+    return false;
+  }
+
+  const minigame = games[name];
+  const history = minigame?.history[todayKey];
+
+  if (!history) {
+    return false;
+  }
+
+  console.log({ history, prize });
+  // Has reached score
+  return history.highscore >= prize.score;
+}
+
 export type ClaimMinigamePrizeAction = {
   type: "minigame.prizeClaimed";
   id: MinigameName;
@@ -52,20 +85,19 @@ export function claimMinigamePrize({
   }
 
   // Has reached score
-  if (history.highscore < prize.score) {
+  if (
+    !isMinigameComplete({ game, name: action.id, now: new Date(createdAt) })
+  ) {
     throw new Error(`Score ${history.highscore} is less than ${prize.score}`);
   }
 
   // Has already claimed
-  const claimedAt = games[action.id]?.prizeClaimedAt ?? 0;
-  const claimedDay = new Date(claimedAt).toISOString().substring(0, 10);
-
-  if (claimedDay === new Date(createdAt).toISOString().substring(0, 10)) {
+  if (!!history.prizeClaimedAt) {
     throw new Error(`Already claimed ${action.id} prize`);
   }
 
   // Claim prize
-  minigame.prizeClaimedAt = createdAt;
+  history.prizeClaimedAt = createdAt;
 
   // Claim coins
   if (!!prize.coins) {

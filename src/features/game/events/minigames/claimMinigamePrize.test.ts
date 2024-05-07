@@ -126,9 +126,9 @@ describe("minigame.prizeClaimed", () => {
             games: {
               "chicken-rescue": {
                 highscore: 30,
-                prizeClaimedAt: date.getTime(),
                 history: {
                   [date.toISOString().substring(0, 10)]: {
+                    prizeClaimedAt: date.getTime(),
                     attempts: 2,
                     highscore: 30,
                   },
@@ -179,8 +179,7 @@ describe("minigame.prizeClaimed", () => {
           games: {
             "chicken-rescue": {
               highscore: 30,
-              // Claimed yesterday
-              prizeClaimedAt: new Date("2024-05-03T00:00:00Z").getTime(),
+
               history: {
                 [date.toISOString().substring(0, 10)]: {
                   attempts: 2,
@@ -210,8 +209,10 @@ describe("minigame.prizeClaimed", () => {
     expect(state.coins).toEqual(100);
     expect(state.faction?.points).toEqual(10);
 
-    expect(state.minigames.games["chicken-rescue"]?.prizeClaimedAt).toEqual(
-      date.getTime()
-    );
+    expect(
+      state.minigames.games["chicken-rescue"]?.history[
+        date.toISOString().substring(0, 10)
+      ].prizeClaimedAt
+    ).toEqual(date.getTime());
   });
 });
