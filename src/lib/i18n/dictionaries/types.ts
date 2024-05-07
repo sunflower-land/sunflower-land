@@ -1913,7 +1913,8 @@ export type Islandupgrade =
   | "islandupgrade.welcomePetalParadise"
   | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
-  | "islandupgrade.exoticResourcesDescription";
+  | "islandupgrade.exoticResourcesDescription"
+  | "islandupgrade.requiredIsland";
 
 export type InteractableModals =
   | "interactableModals.returnhome.message"
