@@ -152,7 +152,6 @@ export const Box: React.FC<BoxProps> = ({
       <div
         className={classNames("bg-brown-600 cursor-pointer relative", {
           "bg-brown-600 cursor-not-allowed opacity-75": disabled,
-          "opacity-75": locked,
           "cursor-pointer": canClick,
         })}
         {...clickEvents}
@@ -166,7 +165,14 @@ export const Box: React.FC<BoxProps> = ({
           ...pixelDarkBorderStyle,
         }}
       >
-        <div className="absolute flex justify-center items-center w-full h-full">
+        <div
+          className={classNames(
+            "absolute flex justify-center items-center w-full h-full",
+            {
+              "opacity-75": locked,
+            }
+          )}
+        >
           <SquareIcon
             icon={image}
             width={INNER_CANVAS_WIDTH}

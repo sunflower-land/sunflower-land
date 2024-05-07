@@ -95,24 +95,21 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const landLocked = () => {
-    return (
-      <div className="flex flex-col w-full justify-center">
-        <div className="flex items-center justify-center ">
-          <Label
-            type="danger"
-            icon={SUNNYSIDE.icons.player}
-          >{`Level ${nextLockedLevel} required`}</Label>
-        </div>
-      </div>
-    );
-  };
-
-  const action = () => {
+  const getAction = () => {
     const hasMaxNumberOfBuildings =
       buildingsInInventory.gte(numOfBuildingAllowed);
     // Hasn't unlocked the first
-    if (nextLockedLevel && hasMaxNumberOfBuildings) return landLocked();
+    if (nextLockedLevel && hasMaxNumberOfBuildings)
+      return (
+        <div className="flex flex-col w-full justify-center">
+          <div className="flex items-center justify-center ">
+            <Label
+              type="danger"
+              icon={SUNNYSIDE.icons.player}
+            >{`Level ${nextLockedLevel} required`}</Label>
+          </div>
+        </div>
+      );
 
     if (isAlreadyCrafted) {
       return <p className="text-xxs text-center mb-1">{t("alr.crafted")}</p>;
@@ -148,7 +145,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               {}
             ),
           }}
-          actionView={action()}
+          actionView={getAction()}
         />
       }
       content={

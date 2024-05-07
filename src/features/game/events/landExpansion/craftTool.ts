@@ -16,6 +16,7 @@ import {
   PurchaseableBait,
 } from "features/game/types/fishing";
 import { translate } from "lib/i18n/translate";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 type CraftableToolName =
   | WorkbenchToolName
@@ -48,6 +49,10 @@ export function craftTool({ state, action }: Options) {
 
   if (!tool) {
     throw new Error("Tool does not exist");
+  }
+
+  if (!hasRequiredIslandExpansion(stateCopy.island.type, tool.requiredIsland)) {
+    throw new Error("You do not have the required island expansion");
   }
 
   if (stateCopy.stock[action.tool]?.lt(1)) {

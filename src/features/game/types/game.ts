@@ -843,6 +843,12 @@ export type MegaStore = {
 
 export type IslandType = "basic" | "spring" | "desert";
 
+/**
+ * The order of the islands is important as it determines the levels of the islands.
+ * Each new island should be added to the end of the array.
+ */
+export const ISLAND_EXPANSIONS: IslandType[] = ["basic", "spring", "desert"];
+
 export type Home = {
   collectibles: Collectibles;
 };
