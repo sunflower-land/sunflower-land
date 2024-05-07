@@ -434,7 +434,6 @@ export const TEST_FARM: GameState = {
     mushrooms: {},
   },
   beehives: {},
-  springBlossom: {},
   megastore: {
     available: makeMegaStoreAvailableDates(),
     collectibles: [],
@@ -521,7 +520,6 @@ export const EMPTY: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
-  springBlossom: {},
   megastore: {
     available: makeMegaStoreAvailableDates(),
     collectibles: [],

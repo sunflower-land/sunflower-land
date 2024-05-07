@@ -1,9 +1,8 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
-import { FlowerName } from "features/game/types/flowers";
 import { GameState } from "features/game/types/game";
-import { SEASONS } from "features/game/types/seasons";
-import { getSeasonWeekByCreatedAt } from "lib/utils/getSeasonWeek";
+import { FlowerName } from "features/game/types/flowers";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 export type FlowerShopTradedAction = {
   type: "flowerShop.traded";
@@ -25,39 +24,39 @@ export function tradeFlowerShop({
 }: Options): GameState {
   const game: GameState = cloneDeep(state);
 
-  if (createdAt < SEASONS["Spring Blossom"].startDate.getTime()) {
-    throw new Error("Spring Blossom season has not started");
+  const flowerShop = game.flowerShop;
+  if (!flowerShop) {
+    throw new Error("Flower shop is not open");
   }
 
-  if (createdAt > SEASONS["Spring Blossom"].endDate.getTime()) {
-    throw new Error("Spring Blossom season has ended");
+  if (
+    createdAt < flowerShop.week ||
+    createdAt > flowerShop.week + 7 * 24 * 60 * 60 * 1000
+  ) {
+    throw new Error("Flower shop has not been updated");
   }
 
-  const week = getSeasonWeekByCreatedAt(createdAt);
-  const flower = game.springBlossom[week].weeklyFlower;
-
-  if (action.flower !== flower) {
+  const weeklyFlower = flowerShop.weeklyFlower;
+  if (action.flower !== weeklyFlower) {
     throw new Error("Flower is not the current weeks flower");
   }
 
-  if (!game.springBlossom[week]) {
-    throw new Error("Week does not exist");
-  }
-
-  if (game.springBlossom[week].tradedFlowerShop) {
+  if (flowerShop.tradedFlowerShop) {
     throw new Error("Already claimed reward");
   }
 
-  game.springBlossom[week].tradedFlowerShop = true;
+  flowerShop.tradedFlowerShop = true;
+  game.flowerShop = flowerShop;
 
-  const flowerCount = game.inventory[flower] ?? new Decimal(0);
+  const flowerCount = game.inventory[weeklyFlower] ?? new Decimal(0);
   if (flowerCount.lessThan(1)) {
     throw new Error("Not enough flowers");
   }
-  game.inventory[flower] = flowerCount.minus(1);
+  game.inventory[weeklyFlower] = flowerCount.minus(1);
 
-  const tulipCount = game.inventory["Tulip Bulb"] ?? new Decimal(0);
-  game.inventory["Tulip Bulb"] = tulipCount.plus(TICKETS_REWARDED);
+  const seasonTicket = getSeasonalTicket(new Date(createdAt));
+  const ticketCount = game.inventory[seasonTicket] ?? new Decimal(0);
+  game.inventory[seasonTicket] = ticketCount.plus(TICKETS_REWARDED);
 
   return game;
 }

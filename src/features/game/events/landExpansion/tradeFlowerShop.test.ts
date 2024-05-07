@@ -1,30 +1,34 @@
-import "lib/__mocks__/configMock";
-
 import Decimal from "decimal.js-light";
 import { tradeFlowerShop } from "./tradeFlowerShop";
+import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 import { TEST_FARM } from "features/game/lib/constants";
-import { SEASONS } from "features/game/types/seasons";
 import { GameState } from "features/game/types/game";
 
 describe("tradeFlowerShop", () => {
-  it("throws if before the Spring Blossom season", () => {
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  const createdAt = SEASONS["Clash of Factions"].startDate.getTime();
+
+  it("throws if the flower shop is not open", () => {
     expect(() =>
       tradeFlowerShop({
-        state: TEST_FARM,
-        action: { type: "flowerShop.traded", flower: "Red Pansy" },
-        createdAt: SEASONS["Spring Blossom"].startDate.getTime() - 1,
+        state: { ...TEST_FARM, flowerShop: undefined },
+        action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
+        createdAt: createdAt + 1,
       })
-    ).toThrow("Spring Blossom season has not started");
+    ).toThrow("Flower shop is not open");
   });
 
-  it("throws if after the Spring Blossom season", () => {
+  it("throws if the flower shop state is out of date", () => {
     expect(() =>
       tradeFlowerShop({
-        state: TEST_FARM,
-        action: { type: "flowerShop.traded", flower: "Red Pansy" },
-        createdAt: SEASONS["Spring Blossom"].endDate.getTime() + 1,
+        state: {
+          ...TEST_FARM,
+          flowerShop: { weeklyFlower: "Red Pansy", week: createdAt },
+        },
+        action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
+        createdAt: createdAt + sevenDays + 1,
       })
-    ).toThrow("Spring Blossom season has ended");
+    ).toThrow("Flower shop has not been updated");
   });
 
   it("throws if the input flower is not the current weeks flower", () => {
@@ -32,12 +36,10 @@ describe("tradeFlowerShop", () => {
       tradeFlowerShop({
         state: {
           ...TEST_FARM,
-          springBlossom: {
-            1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
-          },
+          flowerShop: { weeklyFlower: "Red Pansy", week: createdAt },
         },
         action: { type: "flowerShop.traded", flower: "Yellow Pansy" },
-        createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+        createdAt: createdAt + 1,
       })
     ).toThrow("Flower is not the current weeks flower");
   });
@@ -47,12 +49,11 @@ describe("tradeFlowerShop", () => {
       tradeFlowerShop({
         state: {
           ...TEST_FARM,
-          springBlossom: {
-            1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
-          },
+          flowerShop: { weeklyFlower: "Red Pansy", week: createdAt },
+          inventory: {},
         },
         action: { type: "flowerShop.traded", flower: "Red Pansy" },
-        createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+        createdAt: createdAt + 1,
       })
     ).toThrow("Not enough flowers");
   });
@@ -62,19 +63,20 @@ describe("tradeFlowerShop", () => {
       state: {
         ...TEST_FARM,
         inventory: { "Red Pansy": new Decimal(2) },
-        springBlossom: {
-          1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
+        flowerShop: {
+          weeklyFlower: "Red Pansy",
+          week: createdAt,
         },
       },
       action: { type: "flowerShop.traded", flower: "Red Pansy" },
-      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+      createdAt: createdAt + 1,
     });
 
     expect(() =>
       tradeFlowerShop({
         state: firstState,
         action: { type: "flowerShop.traded", flower: "Red Pansy" },
-        createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+        createdAt: createdAt + 1,
       })
     ).toThrow("Already claimed reward");
   });
@@ -83,8 +85,9 @@ describe("tradeFlowerShop", () => {
     const initialState: GameState = {
       ...TEST_FARM,
       inventory: { "Red Pansy": new Decimal(1) },
-      springBlossom: {
-        1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
+      flowerShop: {
+        weeklyFlower: "Red Pansy",
+        week: createdAt,
       },
     };
 
@@ -93,7 +96,7 @@ describe("tradeFlowerShop", () => {
     const state = tradeFlowerShop({
       state: initialState,
       action: { type: "flowerShop.traded", flower: "Red Pansy" },
-      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+      createdAt: createdAt + 1,
     });
 
     const inventoryAfter = state.inventory["Red Pansy"];
@@ -106,14 +109,17 @@ describe("tradeFlowerShop", () => {
       state: {
         ...TEST_FARM,
         inventory: { "Red Pansy": new Decimal(1) },
-        springBlossom: {
-          1: { collectedFlowerPages: [], weeklyFlower: "Red Pansy" },
+        flowerShop: {
+          weeklyFlower: "Red Pansy",
+          week: createdAt,
         },
       },
       action: { type: "flowerShop.traded", flower: "Red Pansy" },
-      createdAt: SEASONS["Spring Blossom"].startDate.getTime() + 1,
+      createdAt: createdAt + 1,
     });
 
-    expect(state.inventory["Tulip Bulb"]?.toNumber()).toBeGreaterThanOrEqual(1);
+    expect(
+      state.inventory[getSeasonalTicket(new Date(createdAt + 1))]?.toNumber()
+    ).toBeGreaterThanOrEqual(1);
   });
 });

@@ -12,7 +12,6 @@ import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
-import { PageFound } from "./PageFound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
 import { Donations } from "./donations/Donations";
@@ -77,7 +76,6 @@ type InteractableName =
   | "crop_boom_finish"
   | "christmas_reward"
   | "goblin_hammer"
-  | "page_discovered"
   | "trading_board"
   | "wishingWell"
   | "goblin_market"
@@ -581,9 +579,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <FanArt name={interactable as FanArtNPC} onClose={closeModal} />
       </Modal>
 
-      <Modal show={interactable === "page_discovered"} onHide={closeModal}>
-        <PageFound onClose={closeModal} />
-      </Modal>
       <Modal
         show={interactable === "trading_board"}
         dialogClassName="md:max-w-3xl"
