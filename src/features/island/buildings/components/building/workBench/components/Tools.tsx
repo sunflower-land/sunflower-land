@@ -147,7 +147,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
                 onClick={() => onToolClick(toolName)}
                 image={ITEM_DETAILS[toolName].image}
                 count={inventory[toolName]}
-                secondaryImage={lockIcon}
+                secondaryImage={isLocked ? lockIcon : undefined}
                 showOverlay={isLocked}
               />
             );

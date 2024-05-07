@@ -65,7 +65,7 @@ const FACTION_NPCS: FactionNPC[] = [
   },
   {
     x: 32,
-    y: 98,
+    y: 96,
     npc: "grommy",
     faction: "goblins",
   },
@@ -379,7 +379,7 @@ export class PlazaScene extends BaseScene {
     this.bumpkinsBanner = this.add
       .image(15, 125, "bumpkins_banner")
       .setDepth(125);
-    this.goblinsBanner = this.add.image(15, 90, "goblins_banner").setDepth(90);
+    this.goblinsBanner = this.add.image(16, 88, "goblins_banner").setDepth(90);
     this.nightshadesBanner = this.add
       .image(15, 197, "nightshades_banner")
       .setDepth(190);
