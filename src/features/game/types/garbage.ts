@@ -3,6 +3,7 @@ export type GarbageName =
   | "Dawn Breaker Ticket"
   | "Crow Feather"
   | "Mermaid Scale"
+  | "Tulip Bulb"
   | "War Bond"
   | "Love Letter"
   | "Red Envelope"
@@ -36,6 +37,9 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 0.1,
   },
   "Mermaid Scale": {
+    sellPrice: 0.1,
+  },
+  "Tulip Bulb": {
     sellPrice: 0.1,
   },
 
