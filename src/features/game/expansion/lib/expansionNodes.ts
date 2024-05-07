@@ -290,6 +290,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
     },
   },
   spring: {
+    // Basic Expansion 10
     4: {
       "Crop Plot": 31,
       "Fruit Patch": 2,
@@ -495,5 +496,40 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Flower Bed": 3,
     },
   },
-  desert: {},
+  desert: {
+    // Spring island level 16
+    5: {
+      "Crop Plot": 45,
+      "Fruit Patch": 11,
+      Tree: 18,
+      "Stone Rock": 15,
+      "Iron Rock": 9,
+      "Gold Rock": 6,
+      "Crimstone Rock": 2,
+      "Sunstone Rock": 2,
+      Beehive: 3,
+      "Flower Bed": 3,
+    }
+    5:
+    6:
+    7:
+    8:
+    9:
+    10:
+    11:
+    12:
+    13:
+    14:
+    15:
+    16:
+    17:
+    18:
+    19:
+    20:
+    21:
+    22:
+    23:
+    24:
+    25:
+  },
 };

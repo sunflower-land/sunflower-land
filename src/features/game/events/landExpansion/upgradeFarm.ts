@@ -352,7 +352,7 @@ export const ISLAND_UPGRADE: Record<
   spring: {
     expansions: 16,
     items: {
-      Gold: new Decimal(9999999999), // TODO
+      Crimstone: new Decimal(20),
     },
     upgrade: "desert",
   },
@@ -432,11 +432,48 @@ export function expireItems({
   return game;
 }
 
-function desertUpgrade(_: GameState) {
-  throw new Error("Not implemented");
+function desertUpgrade(state: GameState) {
+  const game = cloneDeep(state) as GameState;
+  // Clear the house
+  delete game.inventory["Town Center"];
+  delete game.inventory["House"];
 
-  return _;
+  // Add new resources
+  game.inventory.Manor = new Decimal(1);
+
+  // Ensure they have the minimum resources to start the island with
+  const minimum = TOTAL_EXPANSION_NODES.spring[4];
+
+  Object.entries(minimum).forEach(([name, amount]) => {
+    const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
+    if (item.lt(amount)) {
+      game.inventory[name as InventoryItemName] = new Decimal(amount);
+    }
+  });
+
+  // TODO airdrop GNOME
+  // game.airdrops = [
+  //   ...(game.airdrops ?? []),
+  //   {
+  //     id: "island-upgrade-reward",
+  //     coordinates: {
+  //       x: -1,
+  //       y: 7,
+  //     },
+  //     createdAt: 0,
+  //     items: {
+  //       Blossombeard: 1,
+  //     },
+  //     sfl: 0,
+  //     coins: 0,
+  //     wearables: {},
+  //     message: translate("islandupgrade.welcomeDesertIsland"),
+  //   },
+  // ];
+
+  return game;
 }
+
 export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   let game = cloneDeep(state) as GameState;
 
@@ -446,7 +483,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Player has not met the expansion requirements");
   }
 
-  // Check & burnthe requirements
+  // Check & burn the requirements
   Object.entries(upcoming.items).forEach(([name, required]) => {
     const amount = game.inventory[name as InventoryItemName] ?? new Decimal(0);
     if (amount.lt(required)) {
@@ -483,7 +520,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
 
   // Set the island
   game.island = {
-    type: "spring",
+    type: upcoming.upgrade,
     upgradedAt: createdAt,
     previousExpansions: game.inventory["Basic Land"]?.toNumber() ?? 0,
   };
@@ -497,7 +534,13 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   }
 
   // Reset expansions
-  game.inventory["Basic Land"] = new Decimal(4);
+  if (upcoming.upgrade === "spring") {
+    game.inventory["Basic Land"] = new Decimal(4);
+  }
+
+  if (upcoming.upgrade === "desert") {
+    game.inventory["Basic Land"] = new Decimal(5);
+  }
 
   game =
     // Place initial resources
