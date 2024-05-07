@@ -5,12 +5,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { FlowerName } from "features/game/types/flowers";
-import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
+import { getSeasonalTicket } from "features/game/types/seasons";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getSeasonWeek } from "lib/utils/getSeasonWeek";
+import { FlowerShop } from "features/game/types/game";
 
 interface CompleteProps {
   desiredFlower: FlowerName;
@@ -47,24 +47,18 @@ const Complete: React.FC<CompleteProps> = ({
 };
 
 interface Props {
-  desiredFlower: FlowerName;
+  flowerShop: FlowerShop;
   flowerCount: number;
-  alreadyComplete: boolean;
 }
 
-export const FlowerTrade: React.FC<Props> = ({
-  desiredFlower,
-  flowerCount,
-  alreadyComplete,
-}) => {
+export const FlowerTrade: React.FC<Props> = ({ flowerShop, flowerCount }) => {
+  const desiredFlower = flowerShop.weeklyFlower;
   const desiredFlowerImage = ITEM_DETAILS[desiredFlower].image;
   const { t } = useAppTranslation();
-  const currentWeek = getSeasonWeek() - 1;
   const sevenDays = 7 * 24 * 60 * 60 * 1000;
   const sevenDaysSeconds = sevenDays / 1000;
 
-  const weekStartTime =
-    SEASONS["Spring Blossom"].startDate.getTime() + currentWeek * sevenDays;
+  const weekStartTime = flowerShop.week;
   const currentTime = Date.now();
 
   const percentageOfWeek = (currentTime - weekStartTime) / sevenDays;
@@ -100,7 +94,7 @@ export const FlowerTrade: React.FC<Props> = ({
       </div>
       <Complete
         flowerCount={flowerCount}
-        alreadyComplete={!!alreadyComplete}
+        alreadyComplete={!!flowerShop.tradedFlowerShop}
         desiredFlower={desiredFlower}
       />
     </div>

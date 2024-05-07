@@ -105,8 +105,7 @@ export const FlowerShop: React.FC<Props> = ({ onClose }) => {
     >
       {tab === 0 && (
         <FlowerTrade
-          alreadyComplete={!!flowerShop.tradedFlowerShop}
-          desiredFlower={flowerShop.weeklyFlower}
+          flowerShop={flowerShop}
           flowerCount={(
             inventory[flowerShop.weeklyFlower] ?? new Decimal(0)
           ).toNumber()}
