@@ -7,6 +7,7 @@ import debounce from "lodash.debounce";
 import { Player } from "../types/Room";
 import { NPCName, acknowedlgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
+import { PlazaSettings } from "lib/utils/hooks/usePlazaSettings";
 
 const NAME_ALIASES: Partial<Record<NPCName, string>> = {
   "pumpkin' pete": "pete",
@@ -38,6 +39,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   private idleAnimationKey: string | undefined;
   private walkingAnimationKey: string | undefined;
   private direction: "left" | "right" = "right";
+
+  // Plaza Settings
+  private plazaSettings: PlazaSettings | undefined;
 
   constructor({
     scene,
@@ -108,6 +112,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         }
       );
     }
+
+    this.plazaSettings = this.scene.registry.get("plazaSettings");
   }
 
   get directionFacing() {
@@ -138,7 +144,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         this.faceLeft();
       }
 
-      this.sprite.play(this.idleAnimationKey, true);
+      if (this.plazaSettings?.idleAnimation) {
+        this.sprite.play(this.idleAnimationKey, true);
+      }
 
       this.silhoutte?.destroy();
 
@@ -172,7 +180,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         }
 
         this.createIdleAnimation();
-        this.sprite.play(this.idleAnimationKey as string, true);
+
+        if (this.plazaSettings?.idleAnimation) {
+          this.sprite.play(this.idleAnimationKey as string, true);
+        }
 
         this.ready = true;
         this.silhoutte?.destroy();
@@ -341,7 +352,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.walkingAnimationKey as string) &&
-      this.sprite?.anims.getName() !== this.walkingAnimationKey
+      this.sprite?.anims.getName() !== this.walkingAnimationKey &&
+      this.plazaSettings?.walkAnimation
     ) {
       try {
         this.sprite.anims.play(this.walkingAnimationKey as string, true);
@@ -349,6 +361,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing walk animation: ", e);
       }
+    } else {
+      this.sprite?.anims.stop();
     }
   }
 
@@ -356,7 +370,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     if (
       this.sprite?.anims &&
       this.scene?.anims.exists(this.idleAnimationKey as string) &&
-      this.sprite?.anims.getName() !== this.idleAnimationKey
+      this.sprite?.anims.getName() !== this.idleAnimationKey &&
+      this.plazaSettings?.idleAnimation
     ) {
       try {
         this.sprite.anims.play(this.idleAnimationKey as string, true);
@@ -364,6 +379,8 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         // eslint-disable-next-line no-console
         console.log("Bumpkin Container: Error playing idle animation: ", e);
       }
+    } else {
+      this.sprite?.anims.stop();
     }
   }
 

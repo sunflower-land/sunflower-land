@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-interface PlazaSettings {
+export interface PlazaSettings {
   framerate: 30 | 60 | 90 | 120 | 0; // 0 = unlimited
   idleAnimation: boolean;
   walkAnimation: boolean;

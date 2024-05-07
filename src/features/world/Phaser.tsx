@@ -154,8 +154,10 @@ export const PhaserComponent: React.FC<Props> = ({
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,
       fps: {
+        min: 30,
         target: plazaSettings.framerate,
-        forceSetTimeOut: true,
+        limit: plazaSettings.framerate,
+        panicMax: 120,
         smoothStep: true,
       },
       backgroundColor: "#000000",
@@ -203,6 +205,7 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("gameService", gameService);
     game.current.registry.set("id", gameService.state.context.farmId);
     game.current.registry.set("initialScene", scene);
+    game.current.registry.set("plazaSettings", plazaSettings);
 
     gameService.onEvent((e) => {
       if (e.type === "bumpkin.equipped") {
