@@ -4167,6 +4167,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.promo.code": "Promosyon kodunuzu girin",
   "reward.woohoo": "Woohoo! İşte ödülünüz",
   "reward.connectWeb3Wallet": "Günlük bir ödül için bir Web3 Cüzdanı bağlayın.",
+  "reward.factionPoints": ENGLISH_TERMS["reward.factionPoints"],
 };
 
 const rulesGameStart: Record<RulesGameStart, string> = {

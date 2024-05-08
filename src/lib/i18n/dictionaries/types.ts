@@ -2820,7 +2820,8 @@ export type RewardTerms =
   | "reward.wearable"
   | "reward.woohoo"
   | "reward.promo.code"
-  | "reward.connectWeb3Wallet";
+  | "reward.connectWeb3Wallet"
+  | "reward.factionPoints";
 
 export type RulesGameStart =
   | "rules.gameStart"

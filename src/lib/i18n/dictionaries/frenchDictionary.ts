@@ -4325,6 +4325,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.woohoo": "Woohoo ! Voici votre récompense",
   "reward.connectWeb3Wallet":
     "Connectez un portefeuille Web3 pour une récompense quotidienne.",
+  "reward.factionPoints": ENGLISH_TERMS["reward.factionPoints"],
 };
 
 const rulesGameStart: Record<RulesGameStart, string> = {

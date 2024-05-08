@@ -77,7 +77,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   {setPrecision(new Decimal(airdrop.factionPoints)).toString()}{" "}
                   {"Faction Points"}
                 </Label>
-                <p className="text-xs">Earn glory for your faction!</p>
+                <p className="text-xs"> {t("reward.factionPoints")}</p>
               </div>
             </div>
           )}

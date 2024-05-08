@@ -85,6 +85,4 @@ describe("minigame.itemPurchased", () => {
       ],
     });
   });
-
-  it("subtracts the sfl", () => {});
 });

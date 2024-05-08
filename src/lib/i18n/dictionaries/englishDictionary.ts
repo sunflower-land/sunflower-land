@@ -4169,6 +4169,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.promo.code": "Enter your promo code:",
   "reward.woohoo": "Woohoo! You found a hidden reward.",
   "reward.connectWeb3Wallet": "Connect a Web3 Wallet for a daily reward.",
+  "reward.factionPoints": "Earn glory for your faction!",
 };
 
 const rulesGameStart: Record<RulesGameStart, string> = {
