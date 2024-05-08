@@ -51,12 +51,12 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      const baseUrl =
-        CONFIG.PORTAL_URL ?? `https://${portalName}.sunflower-land.com`;
+      const baseUrl = `https://${portalName}.sunflower-land.com`;
 
       const language = localStorage.getItem("language") || "en";
 
       const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}`;
+
       setUrl(url);
 
       setLoading(false);
