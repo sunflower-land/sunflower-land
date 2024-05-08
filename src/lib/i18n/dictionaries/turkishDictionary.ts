@@ -174,6 +174,7 @@ import {
   Leaderboard,
   GameOptions,
   GreenhouseKeys,
+  Minigame,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4905,6 +4906,17 @@ const greenhouse: Record<GreenhouseKeys, string> = {
   "greenhouse.numberOil": ENGLISH_TERMS["greenhouse.numberOil"],
 };
 
+const minigame: Record<Minigame, string> = {
+  "minigame.chickenRescue": ENGLISH_TERMS["minigame.chickenRescue"],
+  "minigame.comingSoon": ENGLISH_TERMS["minigame.comingSoon"],
+  "minigame.completed": ENGLISH_TERMS["minigame.completed"],
+  "minigame.confirm": ENGLISH_TERMS["minigame.confirm"],
+  "minigame.noPrizeAvailable": ENGLISH_TERMS["minigame.noPrizeAvailable"],
+  "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
+  "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
+  "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
+};
+
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -5004,6 +5016,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...lostSunflorian,
   ...megaStore,
   ...milestoneMessages,
+  ...minigame,
   ...modalDescription,
   ...nftminting,
   ...noaccount,

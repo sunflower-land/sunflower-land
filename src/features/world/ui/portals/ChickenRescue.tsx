@@ -1,16 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { portal } from "../community/actions/portal";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import {
-  MinigameName,
-  SUPPORTED_MINIGAMES,
-} from "features/game/types/minigames";
+
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Modal } from "components/ui/Modal";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
 import coins from "assets/icons/coins.webp";
@@ -30,12 +24,14 @@ export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
   history?: MinigameHistory;
 }> = ({ prize, history }) => {
+  const { t } = useAppTranslation();
+
   if (!prize) {
     return (
       <OuterPanel>
         <div className="px-1">
           <Label type="danger" icon={SUNNYSIDE.icons.sad}>
-            No daily prize available
+            {t("minigame.noPrizeAvailable")}
           </Label>
         </div>
       </OuterPanel>
@@ -52,7 +48,7 @@ export const MinigamePrizeUI: React.FC<{
         <div className="flex justify-between mt-2 flex-wrap">
           {isComplete ? (
             <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-              Completed
+              {t("minigame.completed")}
             </Label>
           ) : (
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
@@ -95,10 +91,10 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
       <>
         <div className="mb-1 p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            Minigame - Chicken Rescue
+            {t("minigame.chickenRescue")}
           </Label>
           <div className="h-6">
-            <InlineDialogue message="Coming soon..." />
+            <InlineDialogue message={t("minigame.comingSoon")} />
           </div>
         </div>
       </>
@@ -141,8 +137,6 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
     name: "chicken-rescue",
   });
 
-  console.log({ isComplete });
-
   if (isComplete && !dailyAttempt.prizeClaimedAt) {
     return (
       <ClaimReward
@@ -165,16 +159,18 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="mb-1">
-        <Label type="default" className="mb-1" icon={factions}>
-          Minigame - Chicken Rescue
-        </Label>
-        <div className="h-6">
-          <InlineDialogue message="Can you help me rescue the chickens?" />
+        <div className="p-2">
+          <Label type="default" className="mb-1" icon={factions}>
+            {t("minigame.chickenRescue")}
+          </Label>
+          <div className="h-6">
+            <InlineDialogue message={t("minigame.chickenRescueHelp")} />
+          </div>
         </div>
 
         <MinigamePrizeUI prize={prize} history={dailyAttempt} />
       </div>
-      <Button onClick={playNow}>Play now</Button>
+      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
     </>
   );
 };

@@ -15,7 +15,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 
 import { portal } from "../community/actions/portal";
-import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 
 interface Props {
   portalName: MinigameName;
@@ -39,8 +38,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const { t } = useAppTranslation();
 
   useEffect(() => {
-    // TODO - check if already complete = transition straight into complete state;
-
     const load = async () => {
       setLoading(true);
 
@@ -54,14 +51,15 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      console.log({ token });
-      // Change route
-      // setUrl(`https://${portalName}.sunflower-land.com?jwt=${token}`);
-      setUrl(`http://localhost:3001?jwt=${token}`);
+      const baseUrl =
+        CONFIG.PORTAL_URL ?? `https://${portalName}.sunflower-land.com`;
+
+      const language = localStorage.getItem("language") || "en";
+
+      const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}`;
+      setUrl(url);
 
       setLoading(false);
-
-      // TODO - check if they have an unclaimed prize?
     };
 
     load();
@@ -69,8 +67,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {
-    console.log({ event });
-
     if (event.data?.event === "closePortal") {
       // Close the modal when the message is received
       setLoading(false);
@@ -86,13 +82,11 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
     if (event.data.event === "purchase") {
       // Purchase the item
-      console.log("Purchasing item", event.data.sfl);
       setPurchase(event.data.sfl);
     }
 
     if (event.data.event === "played") {
       // Purchase the item
-      console.log("Score", event.data.score);
       gameService.send("minigame.played", {
         score: event.data.score,
         id: portalName,
@@ -188,13 +182,13 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
             <CloseButtonPanel onClose={() => setPurchase(undefined)}>
               <div className="p-1">
                 <Label type="default" className="mb-2">
-                  Purchase
+                  {t("minigame.purchase")}
                 </Label>
                 <p className="text-sm">
-                  Are you sure you want to spend {purchase} SFL?
+                  {`${t("minigame.confirm")} ${purchase} SFL`}
                 </p>
               </div>
-              <Button onClick={confirmPurchase}>Confirm</Button>
+              <Button onClick={confirmPurchase}> {t("confirm")}</Button>
             </CloseButtonPanel>
           </div>,
           document.body

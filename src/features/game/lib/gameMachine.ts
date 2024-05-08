@@ -95,6 +95,7 @@ import {
   sellMarketResourceRequest,
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
+import { MinigameName } from "../types/minigames";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -677,7 +678,7 @@ export function startGame(authContext: AuthContext) {
           id: "portalling",
           invoke: {
             src: async (context) => {
-              const portalId = getPortal() as string;
+              const portalId = getPortal() as MinigameName;
               const { token } = await portal({
                 portalId,
                 token: authContext.user.rawToken as string,

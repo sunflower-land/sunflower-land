@@ -22,7 +22,6 @@ export async function portal(request: Request) {
     const isValid = !!token.userAccess;
 
     if (isFresh && isValid) {
-      console.log("CACHED FOUND!");
       return { token: cachedToken };
     }
   }

@@ -30,8 +30,6 @@ import { Leaderboards } from "features/game/expansion/components/leaderboard/act
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { hasFeatureAccess } from "lib/flags";
 import { FactionsLeaderboard } from "./pages/FactionsLeaderboard";
-import { hasFeatureAccess } from "lib/flags";
-import { Minigames } from "./pages/Minigames";
 
 interface Props {
   show: boolean;
@@ -144,14 +142,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       : []),
   ];
 
-  if (hasFeatureAccess(state, "PORTALS")) {
-    categories.push({
-      name: "Minigames",
-      icon: SUNNYSIDE.icons.heart,
-      count: 0,
-    });
-  }
-
   return (
     <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
       <div className="h-[500px] relative">
@@ -235,7 +225,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   data={data?.factions ?? null}
                 />
               )}
-              {currentTab === 6 && <Minigames />}
             </InnerPanel>
           </div>
         </OuterPanel>
