@@ -743,7 +743,11 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                         }
                         className="w-4 h-auto mr-1"
                       />
-                      <span className="text-xs">
+                      <span
+                        className={classNames("text-xs", {
+                          "text-error": isTicketOrder && !game.faction,
+                        })}
+                      >
                         {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
                         {delivery.reward.tickets! * FACTION_POINT_MULTIPLIER}
                       </span>
@@ -757,7 +761,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 )}
               </>
             )}
-            {ticketTasksAreFrozen && (
+            {isTicketOrder && ticketTasksAreFrozen && (
               <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
                 {t("orderhelp.ticket.deliveries.closed")}
               </Label>
@@ -777,7 +781,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !hasDelivery ||
                 !!delivery?.completedAt ||
                 isLocked ||
-                missingVIPAccess
+                missingVIPAccess ||
+                (isTicketOrder && ticketTasksAreFrozen)
               }
               onClick={deliver}
             >
