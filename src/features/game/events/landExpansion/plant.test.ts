@@ -1888,6 +1888,38 @@ describe("getCropTime", () => {
 
     expect(time).toEqual(sunflowerHarvestSeconds);
   });
+
+  it("plants a normal soybean", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Soybean Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Soybean",
+        plantedAt: expect.any(Number),
+        amount: 1,
+      })
+    );
+  });
 });
 
 describe("isPlotFertile", () => {
