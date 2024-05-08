@@ -123,8 +123,7 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
   },
   Soybean: {
     sellPrice: 2.3,
-    // harvestSeconds: 3 * 60 * 60,
-    harvestSeconds: 20,
+    harvestSeconds: 3 * 60 * 60,
     name: "Soybean",
     description: translate("description.soybean"),
     bumpkinLevel: 10,
@@ -229,8 +228,7 @@ export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
     price: 1.5,
     description: translate("description.soybean"),
     bumpkinLevel: 10,
-    // plantSeconds: 3 * 60 * 60,
-    plantSeconds: 20,
+    plantSeconds: 3 * 60 * 60,
     yield: "Soybean",
   },
 });

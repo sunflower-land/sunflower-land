@@ -29,6 +29,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -158,7 +159,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const harvestCount = getHarvestCount();
-  const seeds = getKeys(SEEDS()).filter((seed) => !SEEDS()[seed].disabled);
+  const seeds = getKeys(SEEDS()).filter((seed) => {
+    if (seed === "Soybean Seed") {
+      return hasFeatureAccess(state, "SOYBEAN");
+    }
+
+    return !SEEDS()[seed].disabled;
+  });
 
   return (
     <SplitScreenView
