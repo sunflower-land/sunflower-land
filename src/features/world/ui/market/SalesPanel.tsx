@@ -36,6 +36,7 @@ export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Pumpkin: 2000,
   Carrot: 2000,
   Cabbage: 2000,
+  Soybean: 2000,
   Beetroot: 1000,
   Cauliflower: 1000,
   Parsnip: 400,
