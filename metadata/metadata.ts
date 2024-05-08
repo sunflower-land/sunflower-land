@@ -59,6 +59,18 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
+  "Soybean Seed": {
+    name: "Soybean Seed",
+    description:
+      "A seed used to grow soybean.\n\nYou can buy soybean seeds in game at the market.",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/124.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Seed" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
   "Pumpkin Seed": {
     name: "Pumpkin Seed",
     description:
@@ -322,6 +334,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     attributes: [
       { trait_type: "Purpose", value: "Crop" },
       { trait_type: "Tradable", value: "Yes" },
+    ],
+  },
+  Soybean: {
+    name: "Soybean",
+    description: "A crop grown at Sunflower Land.\n\nA versatile legume!",
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/251.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Crop" },
+      { trait_type: "Tradable", value: "No" },
     ],
   },
   Parsnip: {

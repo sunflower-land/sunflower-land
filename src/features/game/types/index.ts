@@ -45,6 +45,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Sunpetal Seed": 121,
   "Bloom Seed": 122,
   "Lily Seed": 123,
+  "Soybean Seed": 124,
 
   Sunflower: 201,
   Potato: 202,
@@ -96,6 +97,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Purple Lotus": 248,
   "White Lotus": 249,
   "Blue Lotus": 250,
+  Soybean: 251,
 
   Axe: 301,
   Pickaxe: 302,

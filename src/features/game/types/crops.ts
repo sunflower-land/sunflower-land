@@ -14,7 +14,8 @@ export type CropName =
   | "Corn"
   | "Radish"
   | "Wheat"
-  | "Kale";
+  | "Kale"
+  | "Soybean";
 
 export type Crop = {
   sellPrice: number;
@@ -120,6 +121,14 @@ export const CROPS: () => Record<CropName, Crop> = () => ({
     bumpkinLevel: 7,
     harvestSeconds: 36 * 60 * 60,
   },
+  Soybean: {
+    sellPrice: 2.3,
+    // harvestSeconds: 3 * 60 * 60,
+    harvestSeconds: 20,
+    name: "Soybean",
+    description: translate("description.soybean"),
+    bumpkinLevel: 10,
+  },
 });
 
 export type CropSeedName = `${CropName} Seed`;
@@ -215,5 +224,13 @@ export const CROP_SEEDS: () => Record<CropSeedName, Seed> = () => ({
     bumpkinLevel: 7,
     plantSeconds: 36 * 60 * 60,
     yield: "Kale",
+  },
+  "Soybean Seed": {
+    price: 1.5,
+    description: translate("description.soybean"),
+    bumpkinLevel: 10,
+    // plantSeconds: 3 * 60 * 60,
+    plantSeconds: 20,
+    yield: "Soybean",
   },
 });
