@@ -735,6 +735,10 @@ export const ITEM_DETAILS: Items = {
     ...crops.Kale,
     image: CROP_LIFECYCLE.Kale.crop,
   },
+  Soybean: {
+    ...crops.Soybean,
+    image: CROP_LIFECYCLE.Soybean.crop,
+  },
 
   // Seeds
   "Sunflower Seed": {
@@ -804,6 +808,10 @@ export const ITEM_DETAILS: Items = {
   "Kale Seed": {
     description: CROP_SEEDS()["Kale Seed"].description,
     image: CROP_LIFECYCLE.Kale.seed,
+  },
+  "Soybean Seed": {
+    description: CROP_SEEDS()["Soybean Seed"].description,
+    image: CROP_LIFECYCLE.Soybean.seed,
   },
   "Apple Seed": {
     description: FRUIT_SEEDS()["Apple Seed"].description,

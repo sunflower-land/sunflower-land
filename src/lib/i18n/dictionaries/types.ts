@@ -964,6 +964,7 @@ export type CropFruitDescriptions =
   | "description.radish"
   | "description.wheat"
   | "description.kale"
+  | "description.soybean"
 
   //Fruit
   | "description.blueberry"

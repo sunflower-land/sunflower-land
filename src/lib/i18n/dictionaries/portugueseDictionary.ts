@@ -1390,6 +1390,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.radish": "Leva tempo, mas vale a pena esperar!",
   "description.wheat": "A colheita mais colhida do mundo.",
   "description.kale": "Um alimento poderoso para Bumpkin!",
+  "description.soybean": ENGLISH_TERMS["description.soybean"],
 
   // Fruits
   "description.blueberry": "A fraqueza de um Goblin",

@@ -30,6 +30,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -37,6 +38,7 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Pumpkin: 2000,
   Carrot: 2000,
   Cabbage: 2000,
+  Soybean: 2000,
   Beetroot: 1000,
   Cauliflower: 1000,
   Parsnip: 1000,
@@ -117,32 +119,40 @@ export const BuyPanel: React.FC<{
           </Label>
         )}
         <div className="flex flex-wrap mt-2">
-          {getKeys(TRADE_LIMITS).map((name) => (
-            <div
-              key={name}
-              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-            >
-              <OuterPanel
-                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
-                onClick={() => onSearch(name)}
+          {getKeys(TRADE_LIMITS)
+            .filter((name) => {
+              if (name === "Soybean") {
+                return hasFeatureAccess(state, "SOYBEAN");
+              }
+
+              return true;
+            })
+            .map((name) => (
+              <div
+                key={name}
+                className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
               >
-                <span className="text-xs mt-1">{name}</span>
-                <img
-                  src={ITEM_DETAILS[name].image}
-                  className="h-10 mt-1 mb-8"
-                />
-                <Label
-                  type="warning"
-                  className={"absolute -bottom-2 text-center mt-1 p-1"}
-                  style={{ width: "calc(100% + 10px)" }}
+                <OuterPanel
+                  className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+                  onClick={() => onSearch(name)}
                 >
-                  {t("bumpkinTrade.price/unit", {
-                    price: floorPrices[name]?.toFixed(4) || "",
-                  })}
-                </Label>
-              </OuterPanel>
-            </div>
-          ))}
+                  <span className="text-xs mt-1">{name}</span>
+                  <img
+                    src={ITEM_DETAILS[name].image}
+                    className="h-10 mt-1 mb-8"
+                  />
+                  <Label
+                    type="warning"
+                    className={"absolute -bottom-2 text-center mt-1 p-1"}
+                    style={{ width: "calc(100% + 10px)" }}
+                  >
+                    {t("bumpkinTrade.price/unit", {
+                      price: floorPrices[name]?.toFixed(4) || "",
+                    })}
+                  </Label>
+                </OuterPanel>
+              </div>
+            ))}
         </div>
       </div>
     );
@@ -221,7 +231,7 @@ export const BuyPanel: React.FC<{
       setLoading(true);
     };
 
-    const Action = (listing: Listing) => {
+    const getAction = (listing: Listing) => {
       if (listing.farmId == farmId) {
         return (
           <div className="flex items-center mt-1  justify-end mr-0.5">
@@ -315,7 +325,7 @@ export const BuyPanel: React.FC<{
                         />
                       ))}
                       <div className="ml-1">
-                        <div className="flex justfy-end items-center mb-1">
+                        <div className="flex justify-end items-center mb-1">
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
@@ -398,7 +408,7 @@ export const BuyPanel: React.FC<{
                     </div>
                   </div>
 
-                  <div>{Action(listing)}</div>
+                  <div>{getAction(listing)}</div>
                 </div>
               </OuterPanel>
             );

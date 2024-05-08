@@ -11,6 +11,7 @@ import cornProcSprite from "assets/crops/corn/proc_sprite.png";
 import radishProcSprite from "assets/crops/radish/proc_sprite.png";
 import wheatProcSprite from "assets/crops/wheat/proc_sprite.png";
 import kaleProcSprite from "assets/crops/kale/proc_sprite.png";
+import soybeanProcSprite from "assets/crops/soybean/proc_sprite.png";
 
 import { CropName } from "features/game/types/crops";
 import { getKeys } from "features/game/types/craftables";
@@ -30,6 +31,7 @@ const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Radish: radishProcSprite,
   Wheat: wheatProcSprite,
   Kale: kaleProcSprite,
+  Soybean: soybeanProcSprite,
 };
 
 export const HARVEST_PROC_ANIMATION = {
@@ -64,6 +66,7 @@ export const IMAGES: Record<CropName, string> = {
   Radish: "radish",
   Wheat: "wheat",
   Kale: "kale",
+  Soybean: "soybean",
 };
 
 export const CROP_LIFECYCLE: Record<CropName, Lifecycle> = getKeys(

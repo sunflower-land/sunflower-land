@@ -28,6 +28,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -54,6 +55,8 @@ const ListTrade: React.FC<{
   isSaving: boolean;
   floorPrices: FloorPrices;
 }> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
+  // TODO: Remove this when the feature flag is removed
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<InventoryItemName>();
   const [quantityDisplay, setQuantityDisplay] = useState("");
@@ -75,8 +78,15 @@ const ListTrade: React.FC<{
 
         <div className="flex flex-wrap ">
           {getKeys(TRADE_LIMITS)
-            .filter((name) => !!inventory[name]?.gte(1))
+            .filter((name) => {
+              if (name === "Soybean")
+                return hasFeatureAccess(
+                  gameService.state.context.state,
+                  "SOYBEAN"
+                );
 
+              return !!inventory[name]?.gte(1);
+            })
             .map((name) => (
               <div
                 key={name}

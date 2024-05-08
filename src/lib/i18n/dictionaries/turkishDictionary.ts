@@ -1376,6 +1376,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.radish": "Zaman alır ama beklemeye değer!",
   "description.wheat": "Dünyanın en çok hasat edilen ürünü.",
   "description.kale": "Bir Bumpkin Güç Yemeği!",
+  "description.soybean": ENGLISH_TERMS["description.soybean"],
 
   // Fruits
   "description.blueberry": "Bir Goblin'in zayıflığı",

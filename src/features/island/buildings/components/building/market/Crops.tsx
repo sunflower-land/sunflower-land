@@ -28,6 +28,7 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -135,7 +136,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
     ...CROPS(),
     ...FRUIT(),
     ...exotics,
-  }).filter((value) => !value.disabled);
+  }).filter((value) => {
+    if (value.name === "Soybean") return hasFeatureAccess(state, "SOYBEAN");
+
+    return !value.disabled;
+  });
 
   return (
     <>

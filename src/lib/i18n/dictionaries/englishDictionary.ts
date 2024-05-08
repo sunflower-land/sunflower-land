@@ -1362,6 +1362,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.radish": "Takes time but is worth the wait!",
   "description.wheat": "The most harvested crop in the world.",
   "description.kale": "A Bumpkin Power Food!",
+  "description.soybean": "A versatile legume!",
 
   // Fruits
   "description.blueberry": "A Goblin's weakness",

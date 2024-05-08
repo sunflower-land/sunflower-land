@@ -207,6 +207,7 @@ const INITIAL_STOCK: Inventory = {
   "Pumpkin Seed": new Decimal(100),
   "Carrot Seed": new Decimal(100),
   "Cabbage Seed": new Decimal(90),
+  "Soybean Seed": new Decimal(80),
   "Beetroot Seed": new Decimal(80),
   "Cauliflower Seed": new Decimal(80),
   "Parsnip Seed": new Decimal(60),
