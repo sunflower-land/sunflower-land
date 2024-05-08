@@ -2,6 +2,7 @@ import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
   | "gaucho"
+  | "chicken"
   | "hopper"
   | "flopsy"
   | "betty"
@@ -73,8 +74,7 @@ export type NPCName =
   | "grommy" // faction spruiker;
   | "lady day" // faction spruiker;
   | "robert" // faction spruiker;
-  | "maximus" // faction spruiker;
-  | "chicken";
+  | "maximus"; // faction spruiker;
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   gaucho: {
@@ -569,6 +569,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Cemetery Background",
     shoes: "Brown Boots",
+    hat: "Chicken Hat",
   },
   "phantom face": {
     body: "Dark Brown Farmer Potion",

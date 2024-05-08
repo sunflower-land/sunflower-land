@@ -13,8 +13,8 @@ import { Modal } from "components/ui/Modal";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
-import chickenRescueBanner from "assets/portals/chicken_rescue_preview.png";
 import coins from "assets/icons/coins.webp";
+import factions from "assets/icons/factions.webp";
 import flagIcon from "assets/icons/faction_point.webp";
 
 import { Portal } from "./Portal";
@@ -24,6 +24,7 @@ import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
+import { hasFeatureAccess } from "lib/flags";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -89,6 +90,21 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
 
   const { t } = useAppTranslation();
 
+  if (!hasFeatureAccess(gameState.context.state, "CHICKEN_RESCUE")) {
+    return (
+      <>
+        <div className="mb-1 p-2">
+          <Label type="default" className="mb-1" icon={factions}>
+            Minigame - Chicken Rescue
+          </Label>
+          <div className="h-6">
+            <InlineDialogue message="Coming soon..." />
+          </div>
+        </div>
+      </>
+    );
+  }
+
   const dateKey = new Date().toISOString().slice(0, 10);
   const minigame = gameState.context.state.minigames.games["chicken-rescue"];
   const history = minigame?.history ?? {};
@@ -149,7 +165,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="mb-1">
-        <Label type="default" className="mb-1">
+        <Label type="default" className="mb-1" icon={factions}>
           Minigame - Chicken Rescue
         </Label>
         <div className="h-6">

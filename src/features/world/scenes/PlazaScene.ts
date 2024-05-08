@@ -150,8 +150,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 208,
-    y: 402,
+    x: 188,
+    y: 362,
     npc: "billy",
   },
   {
@@ -765,7 +765,7 @@ export class PlazaScene extends BaseScene {
         interactableModalManager.open("clubhouse_reward");
       });
 
-    const chickenRescuePortal = this.add.sprite(440, 408, "portal");
+    const chickenRescuePortal = this.add.sprite(210, 375, "portal");
     this.anims.create({
       key: "portal_anim",
       frames: this.anims.generateFrameNumbers("portal", {
