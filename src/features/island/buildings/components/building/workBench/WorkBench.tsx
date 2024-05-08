@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import workbench from "assets/buildings/workbench.png";
+import workbench from "assets/desert/buildings/workbench.png";
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
 
