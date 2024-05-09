@@ -852,7 +852,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.basic.scarecrow.boost":
     "-20% Temps de croissance des cultures de base : Tournesol, potato et pumpkin (AOE 3x3)",
   "description.scary.mike.boost":
-    "+0.2 Culture moyenne : Carotte, Cabbage, Betterave, Cauliflower et Parsnip (AOE 3x3)",
+    "+0.2 Culture moyenne : Carotte, Cabbage, Soya, Betterave, Cauliflower et Parsnip (AOE 3x3)",
   "description.laurie.chuckle.crow.boost":
     "+0.2 Culture avancée: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",

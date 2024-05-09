@@ -843,7 +843,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.basic.scarecrow.boost":
     "-20% Basic Crop Growth Time: Sunflower, Potato and Pumpkin (AOE 3x3)",
   "description.scary.mike.boost":
-    "+0.2 Medium Crop: Carrot, Cabbage, Beetroot, Cauliflower and Parsnip (AOE 3x3)",
+    "+0.2 Medium Crop: Carrot, Cabbage, Soybean, Beetroot, Cauliflower and Parsnip (AOE 3x3)",
   "description.laurie.chuckle.crow.boost":
     "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",

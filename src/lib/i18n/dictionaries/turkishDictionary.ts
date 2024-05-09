@@ -838,7 +838,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.basic.scarecrow.boost":
     "-20% Temel Mahsullerin Büyüme süresi: Ayçiçeği, Patates ve Kabak (Etki Alanı 3x3)",
   "description.scary.mike.boost":
-    "+0.2 Orta Mahsul: Havuç, Lahana, Pancar, Karnabahar ve Yaban havucu (Etki Alanı 3x3)",
+    "+0.2 Orta Mahsul: Havuç, Lahana, Soya, Pancar, Karnabahar ve Yaban havucu (Etki Alanı 3x3)",
   "description.laurie.chuckle.crow.boost":
     "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.bale.boost": "+0.2 Yumurta (Etki Alanı 4x4)",
