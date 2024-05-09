@@ -449,7 +449,8 @@ export function getCropYieldAmount({
 
   if (
     collectibles["Sir Goldensnout"] &&
-    isCollectibleBuilt({ name: "Sir Goldensnout", game })
+    isCollectibleBuilt({ name: "Sir Goldensnout", game }) &&
+    plot
   ) {
     const sirGoldenSnout = collectibles["Sir Goldensnout"][0];
 

@@ -394,7 +394,7 @@ describe("supplyCropMachine", () => {
       },
     };
 
-    const oil = 1;
+    const oil = 10;
 
     const result = supplyCropMachine({
       state,
@@ -483,6 +483,51 @@ describe("supplyCropMachine", () => {
     expect(
       result.buildings["Crop Machine"]?.[0].oilTimeRemaining
     ).toStrictEqual(0);
+  });
+
+  it("adds 10% yield onto Sunflowers wearing Sunflower Amulet", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Sunflower Seed": new Decimal(5),
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Sunflower Amulet" },
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            oilTimeRemaining: 0,
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Sunflower Seed", amount: 5 },
+      },
+      createdAt: now,
+    });
+
+    const sunflowerTime = 60 * 1000 * 5;
+
+    expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
+      {
+        crop: "Sunflower",
+        amount: 5.5,
+        growTimeRemaining: sunflowerTime / CROP_MACHINE_PLOTS,
+      },
+    ]);
   });
 });
 
