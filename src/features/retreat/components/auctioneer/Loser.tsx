@@ -11,9 +11,15 @@ interface Props {
   onRefund: () => void;
   results: AuctionResults;
   farmId: number;
+  username: string;
 }
 
-export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
+export const Loser: React.FC<Props> = ({
+  farmId,
+  username,
+  onRefund,
+  results,
+}) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
@@ -31,6 +37,7 @@ export const Loser: React.FC<Props> = ({ farmId, onRefund, results }) => {
         leaderboard={results.leaderboard}
         showHeader
         status="loser"
+        username={username}
       />
       <div className="my-2">
         <Label type="danger">{t("loser.unsuccess")}</Label>

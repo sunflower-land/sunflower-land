@@ -16,8 +16,15 @@ interface Props {
   bid: Bid;
   farmId: number;
   results: AuctionResults;
+  username: string;
 }
-export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
+export const Winner: React.FC<Props> = ({
+  onMint,
+  bid,
+  farmId,
+  username,
+  results,
+}) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const deadline = results.endAt + 24 * 60 * 60 * 1000;
@@ -44,6 +51,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
         leaderboard={results.leaderboard}
         showHeader
         status="winner"
+        username={username}
       />
 
       <div className="my-2">

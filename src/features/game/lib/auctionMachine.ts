@@ -38,6 +38,7 @@ export type LeaderboardBid = {
   sfl: number;
   items: Partial<Record<InventoryItemName, number>>;
   farmId: number;
+  username: string;
 };
 
 export type AuctionResults = {
@@ -149,6 +150,7 @@ export const createAuctioneerMachine = ({
               sfl: 1000,
               tickets: 5,
               rank: 1,
+              username: "",
             },
             {
               farmId: 1,
@@ -157,6 +159,7 @@ export const createAuctioneerMachine = ({
               sfl: 100,
               tickets: 5,
               rank: 2,
+              username: "",
             },
             {
               farmId: 122078,
@@ -165,6 +168,7 @@ export const createAuctioneerMachine = ({
               sfl: 100,
               tickets: 5,
               rank: 3,
+              username: "",
             },
             {
               farmId: 156788,
@@ -173,6 +177,7 @@ export const createAuctioneerMachine = ({
               sfl: 100,
               tickets: 5,
               rank: 50,
+              username: "",
             },
             // {
             //   farmId: 1,

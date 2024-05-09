@@ -18,10 +18,12 @@ interface Props {
   auctionService: MachineInterpreter;
   results: AuctionResults;
   farmId: number;
+  username: string;
 }
 
 export const TieBreaker: React.FC<Props> = ({
   farmId,
+  username,
   auctionService,
   results,
 }) => {
@@ -41,6 +43,7 @@ export const TieBreaker: React.FC<Props> = ({
         leaderboard={results.leaderboard}
         showHeader
         status="tiebreaker"
+        username={username}
       />
       <div className="my-2">
         <Label type="warning">{"Tiebreaker"}</Label>

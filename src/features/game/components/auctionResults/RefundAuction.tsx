@@ -10,10 +10,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { useActor } from "@xstate/react";
 
 export const RefundAuction: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(GameContext);
+  const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const bid = gameService.state.context.state.auctioneer.bid!;
@@ -38,6 +40,7 @@ export const RefundAuction: React.FC = () => {
             gameService.send("CLOSE");
           }}
           results={gameService.state.context.auctionResults!}
+          username={gameState.context.state.username!}
         />
       </CloseButtonPanel>
     </Modal>

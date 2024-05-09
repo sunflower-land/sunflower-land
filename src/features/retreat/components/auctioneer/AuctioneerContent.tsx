@@ -142,6 +142,7 @@ export const AuctioneerContent: React.FC<Props> = ({
         farmId={auctioneerState.context.farmId}
         onRefund={() => auctionService.send("REFUND")}
         results={auctioneerState.context.results as AuctionResults}
+        username={gameState.username!}
       />
     );
   }
@@ -157,6 +158,7 @@ export const AuctioneerContent: React.FC<Props> = ({
         bid={auctioneerState.context.bid as Bid}
         farmId={auctioneerState.context.farmId ?? 0}
         results={auctioneerState.context.results as AuctionResults}
+        username={gameState.username!}
       />
     );
   }
@@ -166,6 +168,7 @@ export const AuctioneerContent: React.FC<Props> = ({
         auctionService={auctionService}
         farmId={auctioneerState.context.farmId}
         results={auctioneerState.context.results as AuctionResults}
+        username={gameState.username!}
       />
     );
   }

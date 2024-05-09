@@ -9,9 +9,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { useActor } from "@xstate/react";
 
 export const ClaimAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
+  const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const bid = gameService.state.context.state.auctioneer.bid!;
@@ -39,6 +41,7 @@ export const ClaimAuction: React.FC = () => {
           bid={gameService.state.context.state.auctioneer.bid!}
           farmId={gameService.state.context.farmId}
           results={gameService.state.context.auctionResults!}
+          username={gameState.context.state.username!}
         />
       </CloseButtonPanel>
     </Modal>

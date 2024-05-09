@@ -18,12 +18,21 @@ export const toOrdinalSuffix = (num: number) => {
     : int + ordinals[3];
 };
 
-export const AuctionLeaderboardTable: React.FC<{
+interface Props {
   leaderboard: AuctionResults["leaderboard"];
   showHeader: boolean;
   farmId: number;
   status: AuctionResults["status"];
-}> = ({ farmId, leaderboard, showHeader = true, status }) => {
+  username: string;
+}
+
+export const AuctionLeaderboardTable: React.FC<Props> = ({
+  farmId,
+  leaderboard,
+  showHeader = true,
+  status,
+  username,
+}) => {
   const { t } = useAppTranslation();
 
   return (
@@ -58,10 +67,12 @@ export const AuctionLeaderboardTable: React.FC<{
             <tr
               key={index}
               className={classNames({
-                "bg-green-500": status === "winner" && result.farmId === farmId,
+                "bg-green-500":
+                  status === "winner" &&
+                  (result.username === username ?? result.farmId === farmId),
                 "bg-red-500":
                   (status === "loser" || status === "tiebreaker") &&
-                  result.farmId === farmId,
+                  (result.username === username ?? result.farmId === farmId),
               })}
             >
               <td
@@ -74,7 +85,7 @@ export const AuctionLeaderboardTable: React.FC<{
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 flex flex-wrap"
               >
-                {result.farmId}
+                {result.username ?? result.farmId}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
