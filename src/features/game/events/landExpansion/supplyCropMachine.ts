@@ -18,7 +18,7 @@ type Options = {
 
 export const CROP_MACHINE_PLOTS = 5;
 const MAX_QUEUE_SIZE = 5;
-export const OIL_PER_HOUR_COMSUMPTION = 1;
+export const OIL_PER_HOUR_CONSUMPTION = 1;
 
 export function calculateCropTime(seeds: {
   type: CropSeedName;
@@ -33,7 +33,7 @@ export function calculateCropTime(seeds: {
 
 export function getOilTimeRemaining(oil: number) {
   // return the time in milliseconds
-  return (oil / OIL_PER_HOUR_COMSUMPTION) * 60 * 60 * 1000;
+  return (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
 }
 
 export function getPackYieldAmount(
