@@ -29,7 +29,6 @@ import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { hasFeatureAccess } from "lib/flags";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -279,89 +278,81 @@ export const SalesPanel: React.FC<{
             </div>
 
             <div className="flex flex-wrap mt-2">
-              {getKeys(MARKET_BUNDLES)
-                .filter((name) => {
-                  if (name === "Soybean") {
-                    return hasFeatureAccess(state, "SOYBEAN");
-                  }
+              {getKeys(MARKET_BUNDLES).map((name) => {
+                const priceMovement = getPriceMovement(
+                  marketPrices?.prices?.currentPrices?.[name] ?? 0,
+                  marketPrices?.prices?.yesterdayPrices?.[name] ?? 0
+                );
 
-                  return true;
-                })
-                .map((name) => {
-                  const priceMovement = getPriceMovement(
-                    marketPrices?.prices?.currentPrices?.[name] ?? 0,
-                    marketPrices?.prices?.yesterdayPrices?.[name] ?? 0
-                  );
-
-                  return (
-                    <div
-                      key={name}
-                      className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
-                    >
-                      <OuterPanel
-                        className={classNames(
-                          "w-full relative flex flex-col items-center justify-center",
-                          {
-                            "cursor-not-allowed opacity-75":
-                              !hasVIP || !hasPrices,
-                            "cursor-pointer hover:bg-brown-200":
-                              hasVIP && hasPrices,
-                          }
-                        )}
-                        onClick={
-                          hasPrices && hasVIP
-                            ? () => {
-                                onSell(
-                                  name,
-                                  marketPrices.prices.currentPrices[name]
-                                );
-                              }
-                            : undefined
+                return (
+                  <div
+                    key={name}
+                    className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
+                  >
+                    <OuterPanel
+                      className={classNames(
+                        "w-full relative flex flex-col items-center justify-center",
+                        {
+                          "cursor-not-allowed opacity-75":
+                            !hasVIP || !hasPrices,
+                          "cursor-pointer hover:bg-brown-200":
+                            hasVIP && hasPrices,
                         }
+                      )}
+                      onClick={
+                        hasPrices && hasVIP
+                          ? () => {
+                              onSell(
+                                name,
+                                marketPrices.prices.currentPrices[name]
+                              );
+                            }
+                          : undefined
+                      }
+                    >
+                      <span className="text-xs mt-1">{name}</span>
+                      <img
+                        src={ITEM_DETAILS[name].image}
+                        className="h-10 my-1"
+                      />
+                      <span className={"text-xxs md:text-xs mb-7"}>
+                        {/* \u{d7} is &times; in unicode */}
+                        {`\u{d7}${MARKET_BUNDLES[name]}`}
+                      </span>
+                      <Label
+                        type="warning"
+                        className="absolute -bottom-2 text-center mt-1 p-1"
+                        style={{ width: "calc(100% + 10px)" }}
                       >
-                        <span className="text-xs mt-1">{name}</span>
-                        <img
-                          src={ITEM_DETAILS[name].image}
-                          className="h-10 my-1"
-                        />
-                        <span className={"text-xxs md:text-xs mb-7"}>
-                          {/* \u{d7} is &times; in unicode */}
-                          {`\u{d7}${MARKET_BUNDLES[name]}`}
-                        </span>
-                        <Label
-                          type="warning"
-                          className="absolute -bottom-2 text-center mt-1 p-1"
-                          style={{ width: "calc(100% + 10px)" }}
+                        <span
+                          className={classNames("text-[12px]", {
+                            pulse: showPulse,
+                          })}
                         >
-                          <span
-                            className={classNames("text-[12px]", {
-                              pulse: showPulse,
-                            })}
-                          >
-                            {t("bumpkinTrade.price/unit", {
-                              price:
-                                marketPrices?.prices?.currentPrices?.[
-                                  name
-                                ]?.toFixed(4) || "0.0000",
-                            })}
-                          </span>
-                          {priceMovement === "up" && (
-                            <img
-                              src={increase_arrow}
-                              className="w-6 absolute -right-1 -top-6"
-                            />
-                          )}
-                          {priceMovement === "down" && (
-                            <img
-                              src={decrease_arrow}
-                              className="w-6 absolute -right-1 -top-6"
-                            />
-                          )}
-                        </Label>
-                      </OuterPanel>
-                    </div>
-                  );
-                })}
+                          {t("bumpkinTrade.price/unit", {
+                            price:
+                              marketPrices?.prices?.currentPrices?.[
+                                name
+                              ]?.toFixed(4) || "0.0000",
+                          })}
+                        </span>
+                        {priceMovement === "up" && (
+                          <img
+                            src={increase_arrow}
+                            className="w-6 absolute -right-1 -top-6"
+                          />
+                        )}
+                        {priceMovement === "down" && (
+                          <img
+                            src={decrease_arrow}
+                            className="w-6 absolute -right-1 -top-6"
+                          />
+                        )}
+                      </Label>
+                    </OuterPanel>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
