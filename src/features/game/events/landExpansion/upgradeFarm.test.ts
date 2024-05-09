@@ -293,6 +293,7 @@ describe("upgradeFarm", () => {
         ...TEST_FARM,
         inventory: {
           "Basic Land": new Decimal(16),
+          Gold: new Decimal(15),
           Sunstone: new Decimal(1),
         },
         sunstones: {
