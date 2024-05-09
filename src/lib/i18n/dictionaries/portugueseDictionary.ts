@@ -845,7 +845,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.basic.scarecrow.boost":
     "-20% Tempo de Crescimento de Plantação Básica: Girassol, Batata e Abóbora (AOE 3x3)",
   "description.scary.mike.boost":
-    "+0,2 Plantação Média: Cenoura, Repolho, Beterraba, Couve-flor e Nabo (AOE 3x3)",
+    "+0,2 Plantação Média: Cenoura, Repolho, Soja, Beterraba, Couve-flor e Nabo (AOE 3x3)",
   "description.laurie.chuckle.crow.boost":
     "+0,2 Plantação Avançada: Berinjela, Milho, Rabanete, Trigo, Couve (AOE 3x3)",
   "description.bale.boost": "+0,2 Ovo (AOE 4x4)",
