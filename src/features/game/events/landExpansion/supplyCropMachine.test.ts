@@ -1,5 +1,6 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
+  CROP_MACHINE_PLOTS,
   OIL_PER_HOUR_COMSUMPTION,
   calculateCropTime,
   supplyCropMachine,
@@ -118,7 +119,7 @@ describe("supplyCropMachine", () => {
       {
         crop: "Sunflower",
         amount: 5,
-        growTimeRemaining: sunflowerTime / 5, // 5 plots,
+        growTimeRemaining: sunflowerTime / CROP_MACHINE_PLOTS, // 5 plots,
       },
     ]);
   });
@@ -168,12 +169,12 @@ describe("supplyCropMachine", () => {
       {
         crop: "Sunflower",
         amount: 5,
-        growTimeRemaining: sunflowerTime / 5, // 5 plots,
+        growTimeRemaining: sunflowerTime / CROP_MACHINE_PLOTS, // 5 plots,
       },
       {
         crop: "Potato",
         amount: 5,
-        growTimeRemaining: potatoTime / 5, // 5 plots,
+        growTimeRemaining: potatoTime / CROP_MACHINE_PLOTS, // 5 plots,
       },
     ]);
   });
@@ -329,7 +330,7 @@ describe("supplyCropMachine", () => {
               {
                 crop: "Sunflower",
                 amount: 100,
-                growTimeRemaining: (60 * 100 * 1000) / 5,
+                growTimeRemaining: (60 * 100 * 1000) / CROP_MACHINE_PLOTS,
               },
             ],
           },
@@ -345,7 +346,7 @@ describe("supplyCropMachine", () => {
       },
     });
 
-    const sunflowerTime = (60 * 100 * 1000) / 5; // 5 plots;
+    const sunflowerTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS; // 5 plots;
     const oilTimeRemain = (10 / OIL_PER_HOUR_COMSUMPTION) * 60 * 60 * 1000;
     expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
@@ -380,12 +381,12 @@ describe("supplyCropMachine", () => {
               {
                 crop: "Sunflower",
                 amount: 100,
-                growTimeRemaining: (60 * 100 * 1000) / 5,
+                growTimeRemaining: (60 * 100 * 1000) / CROP_MACHINE_PLOTS,
               },
               {
                 crop: "Potato",
                 amount: 100,
-                growTimeRemaining: (60 * 5 * 100 * 1000) / 5,
+                growTimeRemaining: (60 * 5 * 100 * 1000) / CROP_MACHINE_PLOTS,
               },
             ],
           },
@@ -403,8 +404,8 @@ describe("supplyCropMachine", () => {
       },
     });
 
-    const sunflowerTime = (60 * 100 * 1000) / 5;
-    const potatoTime = (60 * 5 * 100 * 1000) / 5;
+    const sunflowerTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS;
+    const potatoTime = (60 * 5 * 100 * 1000) / CROP_MACHINE_PLOTS;
     const oilTimeRemain = (oil / OIL_PER_HOUR_COMSUMPTION) * 60 * 60 * 1000;
 
     const item1ReadyAt = now + sunflowerTime;
@@ -429,8 +430,10 @@ describe("supplyCropMachine", () => {
     ).toStrictEqual(oilTimeRemain - sunflowerTime - potatoTime);
   });
 
-  it("recalculates queue when supplying lees oil than needed to finish first seed pack", () => {
+  it("recalculates queue when supplying half of the oil needed to finish first seed pack", () => {
     const now = Date.now();
+    const sunflowerTime = (60 * 300 * 1000) / CROP_MACHINE_PLOTS;
+
     const state: GameState = {
       ...GAME_STATE,
       inventory: {
@@ -448,8 +451,8 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 1000,
-                growTimeRemaining: (60 * 1000 * 1000) / 5,
+                amount: 300,
+                growTimeRemaining: sunflowerTime,
               },
             ],
           },
@@ -457,7 +460,8 @@ describe("supplyCropMachine", () => {
       },
     };
 
-    const oil = 0.1;
+    const oil = OIL_PER_HOUR_COMSUMPTION / 2;
+    const oilTimeRemain = (oil / OIL_PER_HOUR_COMSUMPTION) * 60 * 60 * 1000;
 
     const result = supplyCropMachine({
       state,
@@ -465,15 +469,15 @@ describe("supplyCropMachine", () => {
         type: "cropMachine.supplied",
         oil,
       },
+      createdAt: now,
     });
-
-    const oilTimeRemain = (oil / OIL_PER_HOUR_COMSUMPTION) * 60 * 60 * 1000;
 
     expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 1000,
-        growTimeRemaining: (60 * 1000 * 1000) / 5 - oilTimeRemain,
+        amount: 300,
+        growTimeRemaining: sunflowerTime - oilTimeRemain,
+        growsUntil: now + oilTimeRemain,
       },
     ]);
     expect(
@@ -485,6 +489,6 @@ describe("supplyCropMachine", () => {
 describe("calculateCropTime", () => {
   it("calculates the time to harvest 10 Sunflower Seeds", () => {
     const result = calculateCropTime({ type: "Sunflower Seed", amount: 10 });
-    expect(result).toBe((60 * 10 * 1000) / 5);
+    expect(result).toBe((60 * 10 * 1000) / CROP_MACHINE_PLOTS);
   });
 });

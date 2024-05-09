@@ -36,6 +36,7 @@ import {
 } from "features/island/lib/alternateArt";
 
 import { Greenhouse } from "./greenhouse/Greenhouse";
+import { CropMachine } from "./cropMachine/CropMachine";
 
 export interface BuildingProps {
   buildingId: string;
@@ -179,7 +180,7 @@ export const BUILDING_COMPONENTS: Record<
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
   Greenhouse: Greenhouse,
-  "Crop Machine": () => <div />,
+  "Crop Machine": CropMachine,
 };
 
 export const READONLY_BUILDINGS: (
@@ -312,6 +313,25 @@ export const READONLY_BUILDINGS: (
           width: `${PIXEL_SCALE * 34}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
           left: `${PIXEL_SCALE * -3}px`,
+        }}
+      />
+    </div>
+  ),
+
+  "Crop Machine": () => (
+    <div
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 80}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+      }}
+    >
+      <img
+        src={ITEM_DETAILS["Crop Machine"].image}
+        className="w-full absolute"
+        style={{
+          width: `${PIXEL_SCALE * 80}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
         }}
       />
     </div>

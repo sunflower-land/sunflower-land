@@ -15,7 +15,7 @@ type Options = {
   createdAt?: number;
 };
 
-const CROP_MACHINE_PLOTS = 5;
+export const CROP_MACHINE_PLOTS = 5;
 const MAX_QUEUE_SIZE = 5;
 export const OIL_PER_HOUR_COMSUMPTION = 0.1;
 
@@ -60,6 +60,9 @@ export function updateCropMachine({
     if (pack.growTimeRemaining > 0) {
       if (cropMachine.oilTimeRemaining > pack.growTimeRemaining) {
         cropMachine.oilTimeRemaining -= pack.growTimeRemaining;
+
+        delete pack.growsUntil;
+
         pack.readyAt =
           (queue[index - 1]?.readyAt ?? currentTime) + pack.growTimeRemaining;
 
@@ -68,6 +71,9 @@ export function updateCropMachine({
 
       if (cropMachine.oilTimeRemaining < pack.growTimeRemaining) {
         pack.growTimeRemaining -= cropMachine.oilTimeRemaining;
+
+        pack.growsUntil = currentTime + cropMachine.oilTimeRemaining;
+
         cropMachine.oilTimeRemaining = 0;
       }
       return {

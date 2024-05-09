@@ -5,6 +5,8 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Modal } from "components/ui/Modal";
 
 const Timer: React.FC<{ readyAt: number }> = ({ readyAt }) => {
   const [secondsLeft, setSecondsLeft] = useState((readyAt - Date.now()) / 1000);
@@ -36,13 +38,37 @@ const Timer: React.FC<{ readyAt: number }> = ({ readyAt }) => {
 interface Props {
   showModal: boolean;
   setShowModal: (show: boolean) => void;
+  readyAt?: number;
 }
 
-export const CropMachineModal: React.FC = () => {
+export const CropMachineModal: React.FC<Props> = ({
+  setShowModal,
+  showModal,
+  readyAt,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const cropMachine = gameState.context.state.buildings["Crop Machine"]?.[0];
 
+  const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
 
-  return <></>;
+  return (
+    <Modal show={showModal} onHide={() => setShowModal(false)}>
+      <CloseButtonPanel
+        onClose={() => {
+          setShowModal(false);
+        }}
+        tabs={[{ icon: "", name: "Crop Machine" }]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+      >
+        {tab === 0 && (
+          <div>
+            <p></p>
+          </div>
+        )}
+      </CloseButtonPanel>
+    </Modal>
+  );
 };

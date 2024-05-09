@@ -35,6 +35,7 @@ const VALID_BUILDINGS: BuildingName[] = [
   "Turbo Composter" as BuildingName,
   "Premium Composter" as BuildingName,
   "Greenhouse" as BuildingName,
+  "Crop Machine" as BuildingName,
 ].sort(
   (a, b) => BUILDINGS[a][0].unlocksAtLevel - BUILDINGS[b][0].unlocksAtLevel
 );

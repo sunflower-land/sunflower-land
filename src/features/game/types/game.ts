@@ -529,6 +529,7 @@ export type CropMachineQueue = {
   crop: CropName;
   amount: number;
   growTimeRemaining: number;
+  growsUntil?: number;
   readyAt?: number;
 };
 
