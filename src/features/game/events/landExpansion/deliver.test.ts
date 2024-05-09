@@ -507,7 +507,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: now,
               from: "pumpkin' pete",
               items: {
                 Sunflower: 50,
@@ -556,7 +556,7 @@ describe("deliver", () => {
             {
               id: "123",
               createdAt: 0,
-              readyAt: Date.now(),
+              readyAt: now,
               from: "tywin",
               items: {
                 Gold: 50,
