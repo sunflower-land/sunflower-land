@@ -1920,6 +1920,48 @@ describe("getCropTime", () => {
       })
     );
   });
+
+  it("adds +1 soybean with Soybliss placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        collectibles: {
+          Soybliss: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Soybean Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Soybean",
+        plantedAt: expect.any(Number),
+        amount: 2,
+      })
+    );
+  });
 });
 
 describe("isPlotFertile", () => {
