@@ -7,7 +7,11 @@ import desertPrestige from "assets/announcements/desert_prestige.png";
 import lockIcon from "assets/skills/lock.png";
 import land from "assets/land/islands/island.webp";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  PIXEL_SCALE,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
@@ -30,16 +34,14 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
 import { formatDateTime } from "lib/utils/time";
-import { CONFIG } from "lib/config";
-
-const DEBUG_MODE = !CONFIG.API_URL;
+import { hasFeatureAccess } from "lib/flags";
 
 const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
-  spring: DEBUG_MODE
+  spring: hasFeatureAccess(TEST_FARM, "PRESTIGE_DESERT")
     ? new Date(0).getTime()
     : new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: null, // TODO
+  desert: null, // NEXT Prestige After Spring
 };
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {

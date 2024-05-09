@@ -281,4 +281,39 @@ describe("upgradeFarm", () => {
 
     expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(1));
   });
+
+  it.only("does not remove sunstones", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Sunstone: new Decimal(1),
+        },
+        sunstones: {
+          "1234": {
+            height: 1,
+            minesLeft: 1,
+            stone: {
+              amount: 1,
+              minedAt: Date.now() - 1 * 60 * 60 * 1000,
+            },
+            width: 1,
+            x: 1,
+            y: 1,
+          },
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Time Warp Totem"]).toEqual(new Decimal(1));
+  });
+
+  it("saves how many sunstones you were given", () => {});
 });

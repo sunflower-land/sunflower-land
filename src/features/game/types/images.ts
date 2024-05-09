@@ -1632,6 +1632,11 @@ export const ITEM_DETAILS: Items = {
     image: house,
     description: translate("description.house"),
   },
+  Manor: {
+    // TODO Set Image feat/prestige-desert
+    image: house,
+    description: translate("description.manor"),
+  },
   Kitchen: {
     image: kitchen,
     description: translate("description.kitchen"),
