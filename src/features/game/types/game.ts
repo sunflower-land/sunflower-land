@@ -497,6 +497,7 @@ export type PlacedItem = {
   createdAt: number;
 
   crafting?: BuildingProduct;
+  oilTimeRemaining?: number;
 };
 
 type ShakeItem = PlacedItem & { shakenAt?: number };
@@ -524,10 +525,23 @@ export type CompostBuilding = PlacedItem & {
   boost?: Partial<Record<InventoryItemName, number>>;
 };
 
+export type CropMachineQueue = {
+  crop: CropName;
+  amount: number;
+  growTimeRemaining: number;
+  readyAt?: number;
+};
+
+export type CropMachineBuilding = PlacedItem & {
+  queue?: CropMachineQueue[];
+  oilTimeRemaining?: number;
+};
+
 type CustomBuildings = {
   "Compost Bin": CompostBuilding[];
   "Turbo Composter": CompostBuilding[];
   "Premium Composter": CompostBuilding[];
+  "Crop Machine": CropMachineBuilding[];
 };
 
 type PlacedBuildings<Name extends BuildingName> = {
