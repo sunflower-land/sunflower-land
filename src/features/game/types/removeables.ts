@@ -373,7 +373,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Flower Fox": (game) => areFlowersGrowing(game),
 
   // Clash of Factions
-  Soybliss: (game) => areAnyCropsGrowing(game),
+  Soybliss: (game) => cropIsGrowing({ item: "Soybean", game }),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
