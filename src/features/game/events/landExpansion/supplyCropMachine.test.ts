@@ -11,8 +11,6 @@ import { GameState } from "features/game/types/game";
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
 describe("supplyCropMachine", () => {
-  const dateNow = Date.now();
-
   it("throws an error if Crop Machine does not exist", () => {
     expect(() =>
       supplyCropMachine({
@@ -51,6 +49,34 @@ describe("supplyCropMachine", () => {
         },
       })
     ).toThrow("Missing requirements");
+  });
+
+  it("throws an error if the seed is not a basic crop seed", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Radish Seed": new Decimal(10),
+          },
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                id: "0",
+                oilTimeRemaining: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Radish Seed", amount: 10 },
+        },
+      })
+    ).toThrow("You can only supply basic crop seeds!");
   });
 
   it("removes ingredients from inventory", () => {

@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 import { getCropYieldAmount } from "./plant";
+import { isBasicCrop } from "./harvest";
 
 export type supplyCropMachineAction = {
   type: "cropMachine.supplied";
@@ -132,6 +133,12 @@ export function supplyCropMachine({
 
   if (!stateCopy.buildings["Crop Machine"]) {
     throw new Error("Crop Machine does not exist");
+  }
+
+  const cropName = seedsAdded.type.split(" ")[0] as CropName;
+
+  if (!isBasicCrop(cropName)) {
+    throw new Error("You can only supply basic crop seeds!");
   }
 
   const cropMachine = stateCopy.buildings["Crop Machine"][0];
