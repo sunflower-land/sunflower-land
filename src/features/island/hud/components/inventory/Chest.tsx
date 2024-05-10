@@ -380,7 +380,11 @@ export const Chest: React.FC<Props> = ({
 
           {decorations.length > 0 && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Decorations">
-              <Label type="default" className="my-1">
+              <Label
+                type="default"
+                className="my-1"
+                icon={ITEM_DETAILS["Basic Bear"].image}
+              >
                 {t("decorations")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
