@@ -450,7 +450,7 @@ export const BuyPanel: React.FC<{
               {remainingFreePurchases == 0
                 ? `${t("remaining.free.purchase")}`
                 : `${t("remaining.free.purchases", {
-                    listingsRemaining: hasPurchasesRemaining
+                    purchasesRemaining: hasPurchasesRemaining
                       ? remainingFreePurchases
                       : "No",
                   })}`}
