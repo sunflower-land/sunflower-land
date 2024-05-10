@@ -1428,7 +1428,7 @@ export const DESERT_LAND_5_LAYOUT: () => Layout = () => ({
   sunstones: [],
   trees: [],
   beehives: [],
-  oil: [
+  oilReserves: [
     {
       x: -3,
       y: 0,
@@ -1651,7 +1651,7 @@ export const DESERT_LAND_15_LAYOUT: () => Layout = () => ({
   sunstones: [],
   trees: [],
   beehives: [],
-  oil: [
+  oilReserves: [
     {
       x: 0,
       y: 0,
@@ -1771,7 +1771,7 @@ export const DESERT_LAND_20_LAYOUT: () => Layout = () => ({
     },
   ],
   beehives: [],
-  oil: [
+  oilReserves: [
     {
       x: 0,
       y: 0,
