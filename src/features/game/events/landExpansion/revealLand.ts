@@ -467,7 +467,8 @@ export function getRewards({
 
   // Expansion Desert Refunds
   if (game.island.type === "desert") {
-    const expectedLand = expansions.add(11);
+    // Expansion 5 on desert should refund expansion 17 of spring island
+    const expectedLand = expansions.add(12);
 
     if (expectedLand.lte(game.island.previousExpansions ?? 0)) {
       const refund = EXPANSION_REQUIREMENTS.spring[expectedLand.toNumber()];

@@ -104,6 +104,26 @@ describe("expansionRequirements", () => {
 
       expect(rewards).toEqual([]);
     });
+
+    it("refunds the 17th spring expansion on desert island", () => {
+      const rewards = getRewards({
+        game: {
+          ...TEST_FARM,
+          inventory: {
+            "Basic Land": new Decimal(5),
+          },
+          island: {
+            type: "desert",
+            previousExpansions: 23,
+          },
+        },
+        createdAt: Date.now(),
+      });
+
+      expect(rewards[0].items).toEqual(
+        EXPANSION_REQUIREMENTS.spring[17].resources
+      );
+    });
   });
 });
 
