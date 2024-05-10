@@ -11,6 +11,7 @@ import {
 
 import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -323,6 +324,13 @@ const INITIAL_LAND: Pick<
   },
 };
 
+const SUNSTONE_RELOCATION: Coordinates[] = [
+  { x: -2, y: 7 },
+  { x: 0, y: 7 },
+  { x: 4, y: 2 },
+  { x: 4, y: 0 },
+];
+
 export const ISLAND_UPGRADE: Record<
   IslandType,
   { items: Inventory; expansions: number; upgrade: IslandType | null }
@@ -506,14 +514,32 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
     }),
     game.buds
   );
+  game.beehives = {};
   game.flowers.flowerBeds = {};
   game.oilReserves = {};
+
+  Object.keys(game.sunstones).forEach((key, i) => {
+    game.sunstones[key].x = SUNSTONE_RELOCATION[i].x;
+    game.sunstones[key].y = SUNSTONE_RELOCATION[i].y;
+  });
+
+  const previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
+  const sunstonesForExpansion =
+    TOTAL_EXPANSION_NODES[game.island.type][previousExpansions][
+      "Sunstone Rock"
+    ] ?? 0;
+
+  const maxSunstones = Math.max(
+    sunstonesForExpansion,
+    game.island.sunstones ?? 0
+  );
 
   // Set the island
   game.island = {
     type: upcoming.upgrade,
     upgradedAt: createdAt,
-    previousExpansions: game.inventory["Basic Land"]?.toNumber() ?? 0,
+    previousExpansions,
+    sunstones: maxSunstones,
   };
 
   if (upcoming.upgrade === "spring") {

@@ -1215,4 +1215,51 @@ export const STATIC_OFFLINE_FARM: GameState = {
       totalItems: {},
     },
   },
+
+  sunstones: {
+    "123": {
+      height: 2,
+      minesLeft: 2,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      width: 2,
+      x: -6,
+      y: 9,
+    },
+    "456": {
+      height: 2,
+      minesLeft: 3,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      width: 2,
+      x: -3,
+      y: 9,
+    },
+    "789": {
+      height: 2,
+      minesLeft: 4,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      width: 2,
+      x: 0,
+      y: 9,
+    },
+    "78a9": {
+      height: 2,
+      minesLeft: 10,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      width: 2,
+      x: -9,
+      y: 9,
+    },
+  },
 };
