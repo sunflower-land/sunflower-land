@@ -2947,12 +2947,16 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.locked": "Verrouillé",
   "islandupgrade.exploring": "Exploration en cours",
   "islandupgrade.welcomePetalParadise": "Bienvenue à Petal Paradise!",
+  "islandupgrade.welcomeDesertIsland":
+    ENGLISH_TERMS["islandupgrade.welcomeDesertIsland"],
   "islandupgrade.itemsReturned":
     "Vos objets ont été renvoyés en toute sécurité dans votre inventaire.",
   "islandupgrade.notReadyExpandMore":
     "You are not ready. Expand {{remainingExpansions}} more times",
   "islandupgrade.exoticResourcesDescription":
     "Cette partie de Sunflower Land est connue pour ses ressources exotiques. Étendez votre île pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares!",
+  "islandupgrade.desertResourcesDescription":
+    ENGLISH_TERMS["islandupgrade.desertResourcesDescription"],
   "islandupgrade.requiredIsland": ENGLISH_TERMS["islandupgrade.requiredIsland"],
 };
 

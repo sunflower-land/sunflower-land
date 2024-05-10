@@ -465,6 +465,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Clementine: Clementine,
   Cobalt: Cobalt,
   Blossombeard: Blossombeard,
+  // TODO feat/prestige-desert
+  "Desert Gnome": Blossombeard,
 
   // Dawn Breaker items
   "Mushroom House": MushroomHouse,

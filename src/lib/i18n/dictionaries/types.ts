@@ -1912,9 +1912,11 @@ export type Islandupgrade =
   | "islandupgrade.locked"
   | "islandupgrade.exploring"
   | "islandupgrade.welcomePetalParadise"
+  | "islandupgrade.welcomeDesertIsland"
   | "islandupgrade.itemsReturned"
   | "islandupgrade.notReadyExpandMore"
   | "islandupgrade.exoticResourcesDescription"
+  | "islandupgrade.desertResourcesDescription"
   | "islandupgrade.requiredIsland";
 
 export type InteractableModals =

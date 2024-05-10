@@ -50,6 +50,7 @@ export type ShopDecorationName =
 
 export type SeasonalDecorationName =
   | "Blossombeard"
+  | "Desert Gnome"
   | "Clementine"
   | "Cobalt"
   | "Dawn Umbrella Seat"
@@ -130,6 +131,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     height: 2,
   },
   Blossombeard: {
+    width: 1,
+    height: 1,
+  },
+  "Desert Gnome": {
     width: 1,
     height: 1,
   },

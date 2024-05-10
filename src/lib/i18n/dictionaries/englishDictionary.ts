@@ -2811,12 +2811,15 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.locked": "Locked",
   "islandupgrade.exploring": "Exploring",
   "islandupgrade.welcomePetalParadise": "Welcome to Petal Paradise!",
+  "islandupgrade.welcomeDesertIsland": "Welcome to the Desert!",
   "islandupgrade.itemsReturned":
     "Your items have been safely returned to your inventory.",
   "islandupgrade.notReadyExpandMore":
     "You are not ready. Expand {{remainingExpansions}} more times",
   "islandupgrade.exoticResourcesDescription":
     "This area of Sunflower Land is known for its exotic resources. Expand your land to discover fruit, flowers, bee hives & rare minerals!",
+  "islandupgrade.desertResourcesDescription":
+    "The harsh desert environment requires new technology to survive. Expand your land to discover new buildings and what's inside!",
   "islandupgrade.requiredIsland": "Unlocks on {{islandType}} Island",
 };
 

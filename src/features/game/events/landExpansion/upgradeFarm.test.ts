@@ -68,7 +68,7 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Basic Land"]).toEqual(new Decimal(4));
   });
 
-  it("resets collectibles, buildings, fishing, chickens, mushrooms, buds, flowers, beehives, oil", () => {
+  it("resets collectibles, buildings, fishing, chickens, mushrooms, buds, flowers, beehives, oil, crimstone", () => {
     const createdAt = Date.now();
     const state = upgrade({
       action: {
@@ -175,6 +175,19 @@ describe("upgradeFarm", () => {
             },
           },
         },
+        crimstones: {
+          crim: {
+            height: 1,
+            minesLeft: 1,
+            stone: {
+              amount: 1,
+              minedAt: Date.now() - 1 * 60 * 60 * 1000,
+            },
+            width: 1,
+            x: 100,
+            y: 100,
+          },
+        },
       },
       createdAt,
     });
@@ -200,9 +213,10 @@ describe("upgradeFarm", () => {
     expect(state.flowers.flowerBeds).toEqual({});
     expect(state.beehives).toEqual({});
     expect(state.oilReserves).toEqual({});
+    expect(state.crimstones).toEqual({});
   });
 
-  it("does not reset codex", () => {
+  it("does not reset flower codex", () => {
     const createdAt = Date.now();
     const state = upgrade({
       action: {

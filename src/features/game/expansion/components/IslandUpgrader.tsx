@@ -35,25 +35,32 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
 import { formatDateTime } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
+import { translate } from "lib/i18n/translate";
 
 const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
   spring: hasFeatureAccess(TEST_FARM, "PRESTIGE_DESERT")
     ? new Date(0).getTime()
     : new Date("2024-05-15T00:00:00Z").getTime(),
-  desert: null, // NEXT Prestige After Spring
+  desert: null, // Next prestige after desert
 };
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: springRaft,
   spring: desertRaft,
-  desert: null, // TODO
+  desert: null, // Next prestige after desert
 };
 
 const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   basic: springPrestige,
   spring: desertPrestige,
-  desert: null, // TODO
+  desert: null, // Next prestige after desert
+};
+
+const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
+  basic: null,
+  spring: translate("islandupgrade.welcomePetalParadise"),
+  desert: translate("islandupgrade.welcomeDesertIsland"),
 };
 
 const IslandUpgraderModal: React.FC<{
@@ -242,7 +249,8 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     setShowModal(false);
   };
 
-  const upgradeDates = UPGRADE_DATES[island];
+  const upgradeRaft = UPGRADE_RAFTS[island];
+  const preview = UPGRADE_PREVIEW[island];
 
   return (
     <>
@@ -275,15 +283,14 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
             <p className="text-sm mb-2">
-              {t("islandupgrade.welcomePetalParadise")}
+              {UPGRADE_MESSAGES[gameState.island.type]}
             </p>
             <p className="text-xs mb-2">
               {t("islandupgrade.exoticResourcesDescription")}
             </p>
-            <img
-              src={UPGRADE_PREVIEW.basic}
-              className="w-full rounded-md mb-2"
-            />
+            {preview && (
+              <img src={preview} className="w-full rounded-md mb-2" />
+            )}
             <p className="text-xs mb-2">{t("islandupgrade.itemsReturned")}</p>
           </div>
           <Button onClick={() => setShowUpgraded(false)}>
@@ -292,34 +299,40 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <MapPlacement x={getPosition().x + offset} y={getPosition().y} width={4}>
-        <div
-          className="absolute cursor-pointer hover:img-highlight"
-          onClick={() => setShowModal(true)}
-          style={{
-            top: `${2 * PIXEL_SCALE}px`,
-            left: `${2 * PIXEL_SCALE}px`,
-          }}
+      {upgradeRaft && (
+        <MapPlacement
+          x={getPosition().x + offset}
+          y={getPosition().y}
+          width={4}
         >
-          <img
-            src={UPGRADE_RAFTS[island]}
-            style={{
-              width: `${62 * PIXEL_SCALE}px`,
-            }}
-          />
           <div
-            className="absolute"
+            className="absolute cursor-pointer hover:img-highlight"
+            onClick={() => setShowModal(true)}
             style={{
-              top: `${16 * PIXEL_SCALE}px`,
-              left: `${24 * PIXEL_SCALE}px`,
-              width: `${1 * GRID_WIDTH_PX}px`,
-              transform: "scaleX(-1)",
+              top: `${2 * PIXEL_SCALE}px`,
+              left: `${2 * PIXEL_SCALE}px`,
             }}
           >
-            <NPC parts={NPC_WEARABLES["grubnuk"]} />
+            <img
+              src={upgradeRaft}
+              style={{
+                width: `${62 * PIXEL_SCALE}px`,
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                top: `${16 * PIXEL_SCALE}px`,
+                left: `${24 * PIXEL_SCALE}px`,
+                width: `${1 * GRID_WIDTH_PX}px`,
+                transform: "scaleX(-1)",
+              }}
+            >
+              <NPC parts={NPC_WEARABLES["grubnuk"]} />
+            </div>
           </div>
-        </div>
-      </MapPlacement>
+        </MapPlacement>
+      )}
     </>
   );
 };

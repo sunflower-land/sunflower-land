@@ -435,7 +435,7 @@ function desertUpgrade(state: GameState) {
   game.inventory.Manor = new Decimal(1);
 
   // Ensure they have the minimum resources to start the island with
-  const minimum = TOTAL_EXPANSION_NODES.spring[4];
+  const minimum = TOTAL_EXPANSION_NODES.desert[4];
 
   Object.entries(minimum).forEach(([name, amount]) => {
     const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
@@ -444,25 +444,24 @@ function desertUpgrade(state: GameState) {
     }
   });
 
-  // TODO airdrop GNOME
-  // game.airdrops = [
-  //   ...(game.airdrops ?? []),
-  //   {
-  //     id: "island-upgrade-reward",
-  //     coordinates: {
-  //       x: -1,
-  //       y: 7,
-  //     },
-  //     createdAt: 0,
-  //     items: {
-  //       Blossombeard: 1,
-  //     },
-  //     sfl: 0,
-  //     coins: 0,
-  //     wearables: {},
-  //     message: translate("islandupgrade.welcomeDesertIsland"),
-  //   },
-  // ];
+  game.airdrops = [
+    ...(game.airdrops ?? []),
+    {
+      id: "desert-island-upgrade-reward",
+      coordinates: {
+        x: -1,
+        y: 7,
+      },
+      createdAt: 0,
+      items: {
+        "Desert Gnome": 1,
+      },
+      sfl: 0,
+      coins: 0,
+      wearables: {},
+      message: translate("islandupgrade.welcomeDesertIsland"),
+    },
+  ];
 
   return game;
 }
@@ -514,6 +513,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
     }),
     game.buds
   );
+  game.crimstones = {};
   game.beehives = {};
   game.flowers.flowerBeds = {};
   game.oilReserves = {};
