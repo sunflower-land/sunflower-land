@@ -118,6 +118,10 @@ export function getLand({
     land = SPRING_LAYOUTS()[expansion];
   }
 
+  if (game.island.type === "desert") {
+    land = DESERT_LAYOUTS()[expansion];
+  }
+
   if (!land) {
     return null;
   }
@@ -1398,6 +1402,303 @@ export const SPRING_LAYOUTS: () => Record<number, Layout> = () => ({
   20: SPRING_LAND_20_LAYOUT(),
 });
 
+export const DESERT_LAND_5_LAYOUT: () => Layout = () => ({
+  id: "desert_5",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_6_LAYOUT: () => Layout = () => ({
+  id: "desert_6",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_7_LAYOUT: () => Layout = () => ({
+  id: "desert_7",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_8_LAYOUT: () => Layout = () => ({
+  id: "desert_8",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_9_LAYOUT: () => Layout = () => ({
+  id: "desert_9",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_10_LAYOUT: () => Layout = () => ({
+  id: "desert_10",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_11_LAYOUT: () => Layout = () => ({
+  id: "desert_11",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_12_LAYOUT: () => Layout = () => ({
+  id: "desert_12",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_13_LAYOUT: () => Layout = () => ({
+  id: "desert_13",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_14_LAYOUT: () => Layout = () => ({
+  id: "desert_14",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_15_LAYOUT: () => Layout = () => ({
+  id: "desert_15",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_16_LAYOUT: () => Layout = () => ({
+  id: "desert_16",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_17_LAYOUT: () => Layout = () => ({
+  id: "desert_17",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_18_LAYOUT: () => Layout = () => ({
+  id: "desert_18",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_19_LAYOUT: () => Layout = () => ({
+  id: "desert_19",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_20_LAYOUT: () => Layout = () => ({
+  id: "desert_20",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_21_LAYOUT: () => Layout = () => ({
+  id: "desert_21",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_22_LAYOUT: () => Layout = () => ({
+  id: "desert_22",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_23_LAYOUT: () => Layout = () => ({
+  id: "desert_23",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_24_LAYOUT: () => Layout = () => ({
+  id: "desert_24",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAND_25_LAYOUT: () => Layout = () => ({
+  id: "desert_25",
+  plots: [],
+  fruitPatches: [],
+  gold: [],
+  iron: [],
+  stones: [],
+  crimstones: [],
+  sunstones: [],
+  trees: [],
+  beehives: [],
+});
+
+export const DESERT_LAYOUTS: () => Record<number, Layout> = () => ({
+  5: DESERT_LAND_5_LAYOUT(),
+  6: DESERT_LAND_6_LAYOUT(),
+  7: DESERT_LAND_7_LAYOUT(),
+  8: DESERT_LAND_8_LAYOUT(),
+  9: DESERT_LAND_9_LAYOUT(),
+  10: DESERT_LAND_10_LAYOUT(),
+  11: DESERT_LAND_11_LAYOUT(),
+  12: DESERT_LAND_12_LAYOUT(),
+  13: DESERT_LAND_13_LAYOUT(),
+  14: DESERT_LAND_14_LAYOUT(),
+  15: DESERT_LAND_15_LAYOUT(),
+  16: DESERT_LAND_16_LAYOUT(),
+  17: DESERT_LAND_17_LAYOUT(),
+  18: DESERT_LAND_18_LAYOUT(),
+  19: DESERT_LAND_19_LAYOUT(),
+  20: DESERT_LAND_20_LAYOUT(),
+  21: DESERT_LAND_21_LAYOUT(),
+  22: DESERT_LAND_22_LAYOUT(),
+  23: DESERT_LAND_23_LAYOUT(),
+  24: DESERT_LAND_24_LAYOUT(),
+  25: DESERT_LAND_25_LAYOUT(),
+});
+
 export type Layout = {
   id: string;
   trees: Coordinates[];
@@ -1835,8 +2136,6 @@ const DESERT_LAND_5_REQUIREMENTS: Requirements = {
     Stone: 10,
     Iron: 5,
     Gold: 5,
-    Crimstone: 0,
-    "Block Buck": 0,
   },
   sfl: 0,
   coins: 0,
@@ -1850,8 +2149,6 @@ const DESERT_LAND_6_REQUIREMENTS: Requirements = {
     Stone: 20,
     Iron: 10,
     Gold: 5,
-    Crimstone: 0,
-    "Block Buck": 0,
   },
   sfl: 0,
   coins: 0,
@@ -1865,7 +2162,6 @@ const DESERT_LAND_7_REQUIREMENTS: Requirements = {
     Stone: 20,
     Iron: 10,
     Gold: 5,
-    Crimstone: 0,
     "Block Buck": 1,
   },
   sfl: 0,

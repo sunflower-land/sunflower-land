@@ -313,7 +313,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "desert",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -448,7 +448,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(19),
+    "Basic Land": new Decimal(4),
     Gold: new Decimal(13),
     // "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
@@ -1213,53 +1213,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         resources: {},
       },
       totalItems: {},
-    },
-  },
-
-  sunstones: {
-    "123": {
-      height: 2,
-      minesLeft: 2,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      width: 2,
-      x: -6,
-      y: 9,
-    },
-    "456": {
-      height: 2,
-      minesLeft: 3,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      width: 2,
-      x: -3,
-      y: 9,
-    },
-    "789": {
-      height: 2,
-      minesLeft: 4,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      width: 2,
-      x: 0,
-      y: 9,
-    },
-    "78a9": {
-      height: 2,
-      minesLeft: 10,
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      width: 2,
-      x: -9,
-      y: 9,
     },
   },
 };
