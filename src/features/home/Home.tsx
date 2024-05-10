@@ -2,6 +2,7 @@ import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 
 import tent from "assets/land/tent_inside.png";
 import house from "assets/land/house_inside.png";
+import manor from "assets/land/manor_inside.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";
@@ -36,7 +37,7 @@ const isLandscaping = (state: MachineState) => state.matches("landscaping");
 const BACKGROUND_IMAGE: Record<IslandType, string> = {
   basic: tent,
   spring: house,
-  desert: house, // TODO
+  desert: manor,
 };
 
 export const Home: React.FC = () => {
