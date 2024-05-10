@@ -19,6 +19,8 @@ import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { FLAGGED_RECIPES } from "features/game/events/landExpansion/cook";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   selected: Cookable;
@@ -87,6 +89,12 @@ export const Recipes: React.FC<Props> = ({
     );
   };
 
+  const validRecipes = recipes.filter(
+    (recipes) =>
+      !FLAGGED_RECIPES[recipes.name] ||
+      hasFeatureAccess(state, FLAGGED_RECIPES[recipes.name as FeatureName])
+  );
+
   return (
     <SplitScreenView
       panel={
@@ -124,7 +132,7 @@ export const Recipes: React.FC<Props> = ({
           )}
           {crafting && <p className="mb-2 w-full">{t("recipes")}</p>}
           <div className="flex flex-wrap h-fit">
-            {recipes.map((item) => (
+            {validRecipes.map((item) => (
               <Box
                 isSelected={selected.name === item.name}
                 key={item.name}
