@@ -929,6 +929,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.genie.lamp.boost": "Grants 3 Wishes",
   "description.observatory.boost": "+5% XP",
   "description.blossombeard.boost": "+10% XP",
+  "description.desertgnome.boost": "+10% Cooking Speed",
   "description.christmas.festive.tree.boost": "Free Gift at Christmas",
   "description.grinxs.hammer.boost": "Halves expansion costs",
   "description.time.warp.totem.boost":
@@ -1605,6 +1606,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "The Clementine Gnome is a cheerful companion for your farming adventures.",
   "description.blossombeard":
     "The Blossombeard Gnome is a powerful companion for your farming adventures.",
+  "description.desertgnome":
+    "A gnome that can survive the harshest of conditions.",
   "description.cobalt":
     "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
   "description.hoot": "Hoot hoot! Have you solved my riddle yet?",

@@ -525,6 +525,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.blossombeard.boost"),
     boostTypeIcon: lightning,
   },
+  "Desert Gnome": {
+    labelType: "vibrant",
+    shortDescription: translate("description.desertgnome.boost"),
+    boostTypeIcon: lightning,
+  },
   "Christmas Tree": {
     shortDescription: translate("description.christmas.festive.tree.boost"),
     labelType: "vibrant",

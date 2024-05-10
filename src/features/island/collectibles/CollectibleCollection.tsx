@@ -276,6 +276,7 @@ import { SilverStallion } from "./components/SilverStallion";
 import { TraineeTarget } from "./components/TraineeTarget";
 import { TwisterRug } from "./components/TwisterRug";
 import { Cluckapult } from "./components/Cluckapult";
+import { DesertGnome } from "./components/DesertGnome";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -497,8 +498,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Clementine: Clementine,
   Cobalt: Cobalt,
   Blossombeard: Blossombeard,
-  // TODO feat/desert-gnome
-  "Desert Gnome": Blossombeard,
+  "Desert Gnome": DesertGnome,
 
   // Dawn Breaker items
   "Mushroom House": MushroomHouse,

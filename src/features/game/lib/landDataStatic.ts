@@ -391,6 +391,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    "Desert Gnome": new Decimal(1),
+    Blossombeard: new Decimal(1),
+    Gnome: new Decimal(1),
+    Cobalt: new Decimal(1),
     Potato: new Decimal(200),
     Pumpkin: new Decimal(200),
     "Oil Reserve": new Decimal(0),

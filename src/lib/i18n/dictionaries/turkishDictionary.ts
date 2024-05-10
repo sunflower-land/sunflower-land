@@ -927,6 +927,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.genie.lamp.boost": "3 Dilek Gerçekleştirir",
   "description.observatory.boost": "+5% XP",
   "description.blossombeard.boost": "+10% XP",
+  "description.desertgnome.boost":
+    ENGLISH_TERMS["description.desertgnome.boost"],
   "description.christmas.festive.tree.boost": "Noelde Ücretsiz Hediye",
   "description.grinxs.hammer.boost": "Genişleme maliyetlerini yarıya indirir",
   "description.time.warp.totem.boost":
@@ -1609,6 +1611,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Clementine Gnome, çiftçilik maceralarınız için neşeli bir yol arkadaşıdır.",
   "description.blossombeard":
     "Çiçek Sakallı Gnome, çiftçilik maceralarınız için güçlü bir yol arkadaşıdır.",
+  "description.desertgnome": ENGLISH_TERMS["description.desertgnome"],
   "description.cobalt":
     "Kobalt Gnome, canlı şapkasıyla çiftliğinize renk katar.",
   "description.hoot": "Vay vay! Bilmecemi hâlâ çözmedin mi?",
