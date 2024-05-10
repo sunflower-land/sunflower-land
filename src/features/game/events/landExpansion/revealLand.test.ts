@@ -445,7 +445,7 @@ describe("revealLand", () => {
     expect(Object.values(state.oilReserves ?? {})).toHaveLength(2);
   });
 
-  it("does not add sunstones if already dropped on previous expnasion", () => {
+  it("does not add sunstones if already dropped on previous expansion", () => {
     const state = revealLand({
       action: {
         type: "land.revealed",
