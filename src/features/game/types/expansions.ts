@@ -185,7 +185,7 @@ export function getLand({
   const availableOilReserves =
     expectedResources["Oil Reserve"] -
     (game.inventory["Oil Reserve"]?.toNumber() ?? 0);
-  land.oil = land.oil?.slice(0, availableOilReserves);
+  land.oilReserves = land.oilReserves?.slice(0, availableOilReserves);
 
   return land;
 }
@@ -1935,7 +1935,7 @@ export type Layout = {
   beehives?: Coordinates[];
   flowerBeds?: Coordinates[];
   fruitPatches?: Coordinates[];
-  oil?: Coordinates[];
+  oilReserves?: Coordinates[];
 };
 
 /**

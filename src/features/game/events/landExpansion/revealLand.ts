@@ -205,7 +205,7 @@ export function revealLand({
     land.flowerBeds?.length ?? 0
   );
 
-  land.oil?.forEach((coords) => {
+  land.oilReserves?.forEach((coords) => {
     const id = randomUUID();
     game.oilReserves[id] = {
       height: 2,
@@ -221,7 +221,7 @@ export function revealLand({
     };
   });
   inventory["Oil Reserve"] = (inventory["Oil Reserve"] || new Decimal(0)).add(
-    land.oil?.length ?? 0
+    land.oilReserves?.length ?? 0
   );
 
   // Refresh all basic resources
