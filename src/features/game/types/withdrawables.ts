@@ -397,6 +397,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Turbo Composter": () => false,
   "Premium Composter": () => false,
   House: () => false,
+  Manor: () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {
@@ -535,6 +536,7 @@ const decorations: Record<ShopDecorationName, () => boolean> = {
 
 const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   Blossombeard: () => false,
+  "Desert Gnome": () => false,
   Clementine: () => true,
   Cobalt: () => true,
   "Dawn Umbrella Seat": () => true,

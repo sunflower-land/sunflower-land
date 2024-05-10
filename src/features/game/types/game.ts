@@ -925,6 +925,7 @@ export interface GameState {
     type: IslandType;
     upgradedAt?: number;
     previousExpansions?: number;
+    sunstones?: number;
   };
 
   username?: string;

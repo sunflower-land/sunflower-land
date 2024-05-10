@@ -1632,6 +1632,11 @@ export const ITEM_DETAILS: Items = {
     image: house,
     description: translate("description.house"),
   },
+  Manor: {
+    // TODO feat/manor
+    image: house,
+    description: translate("description.house"),
+  },
   Kitchen: {
     image: kitchen,
     description: translate("description.kitchen"),
@@ -2602,6 +2607,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.clementine"),
   },
   Blossombeard: {
+    image: blossombeard,
+    description: translate("description.blossombeard"),
+  },
+  // TODO feat/desert-gnome
+  "Desert Gnome": {
     image: blossombeard,
     description: translate("description.blossombeard"),
   },

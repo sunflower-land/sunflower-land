@@ -147,6 +147,8 @@ export const BUILDING_COMPONENTS: Record<
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
+  // TODO feat/manor
+  Manor: () => <div></div>,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {

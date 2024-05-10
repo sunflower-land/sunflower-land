@@ -5,8 +5,13 @@ import desertRaft from "assets/land/desert_prestige_raft.png";
 import springPrestige from "assets/announcements/spring_prestige.png";
 import desertPrestige from "assets/announcements/desert_prestige.png";
 import lockIcon from "assets/skills/lock.png";
+import land from "assets/land/islands/island.webp";
 
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import {
+  GRID_WIDTH_PX,
+  PIXEL_SCALE,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
@@ -28,17 +33,40 @@ import { GameState, IslandType } from "features/game/types/game";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
+import { formatDateTime } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
+import { translate } from "lib/i18n/translate";
 
-const UPGRADE_RAFTS: Record<IslandType, string> = {
-  basic: springRaft,
-  spring: desertRaft,
-  desert: desertRaft, // TODO
+const UPGRADE_DATES: Record<IslandType, number | null> = {
+  basic: new Date(0).getTime(),
+  spring: hasFeatureAccess(TEST_FARM, "PRESTIGE_DESERT")
+    ? new Date(0).getTime()
+    : new Date("2024-05-15T00:00:00Z").getTime(),
+  desert: null, // Next prestige after desert
 };
 
-const UPGRADE_PREVIEW: Record<IslandType, string> = {
+const UPGRADE_RAFTS: Record<IslandType, string | null> = {
+  basic: springRaft,
+  spring: desertRaft,
+  desert: null, // Next prestige after desert
+};
+
+const UPGRADE_PREVIEW: Record<IslandType, string | null> = {
   basic: springPrestige,
   spring: desertPrestige,
-  desert: desertPrestige, // TODO
+  desert: null, // Next prestige after desert
+};
+
+const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
+  basic: null,
+  spring: translate("islandupgrade.welcomePetalParadise"),
+  desert: translate("islandupgrade.welcomeDesertIsland"),
+};
+
+const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
+  basic: null,
+  spring: translate("islandupgrade.exoticResourcesDescription"),
+  desert: translate("islandupgrade.desertResourcesDescription"),
 };
 
 const IslandUpgraderModal: React.FC<{
@@ -86,7 +114,9 @@ const IslandUpgraderModal: React.FC<{
     );
   }
 
-  const hasAccess = gameState.context.state.island.type === "basic";
+  const upgradeDate = UPGRADE_DATES[island.type];
+  const hasUpgrade = upgradeDate !== null;
+  const isReady = hasUpgrade && upgradeDate < Date.now();
 
   const hasResources = getKeys(upgrade.items).every(
     (name) => inventory[name]?.gte(upgrade.items[name] ?? 0) ?? false
@@ -106,19 +136,41 @@ const IslandUpgraderModal: React.FC<{
           className="w-full rounded-md"
         />
 
-        {hasAccess && (
+        {!hasUpgrade && (
+          <Label icon={lockIcon} type="danger" className="mr-3 my-2">
+            {t("coming.soon")}
+          </Label>
+        )}
+
+        {hasUpgrade && (
           <>
-            <div className="flex items-center mt-2 mb-1">
-              {remainingExpansions > 0 && (
-                <Label icon={lockIcon} type="danger" className="mr-3">
-                  {t("islandupgrade.locked")}
+            <div className="flex items-center mt-2 mb-1 flex-wrap">
+              {!isReady && (
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="danger"
+                  className="mr-3 my-2 whitespace-nowrap"
+                >
+                  {`${t("coming.soon")} - ${formatDateTime(
+                    new Date(upgradeDate).toISOString()
+                  )}`}
                 </Label>
               )}
+              {remainingExpansions > 0 && (
+                <Label
+                  icon={land}
+                  type="danger"
+                  className="mr-3 whitespace-nowrap"
+                >
+                  {`${remainingExpansions} Expansions Remaining`}
+                </Label>
+              )}
+
               {getKeys(upgrade.items).map((name) => (
                 <Label
                   key={name}
                   icon={ITEM_DETAILS[name].image}
-                  className="mr-3"
+                  className="mr-3 whitespace-nowrap"
                   type={
                     inventory[name]?.gte(upgrade.items[name] ?? 0)
                       ? "default"
@@ -127,27 +179,13 @@ const IslandUpgraderModal: React.FC<{
                 >{`${upgrade.items[name]} x ${name}`}</Label>
               ))}
             </div>
-            {remainingExpansions > 0 && (
-              <p className="text-xs">
-                {t("islandupgrade.notReadyExpandMore", {
-                  remainingExpansions: remainingExpansions,
-                })}
-              </p>
-            )}
           </>
-        )}
-
-        {!hasAccess && (
-          <Label icon={lockIcon} type="danger" className="mr-3 my-2">
-            {t("coming.soon") +
-              (gameState.context.state.island.type === "basic"
-                ? " - February 1st"
-                : " - May 14th")}
-          </Label>
         )}
       </div>
       <Button
-        disabled={!hasResources || !hasAccess || remainingExpansions > 0}
+        disabled={
+          !hasUpgrade || !hasResources || !isReady || remainingExpansions > 0
+        }
         onClick={() => setShowConfirmation(true)}
       >
         {t("continue")}
@@ -217,6 +255,9 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     setShowModal(false);
   };
 
+  const upgradeRaft = UPGRADE_RAFTS[island];
+  const preview = UPGRADE_PREVIEW[island];
+
   return (
     <>
       {createPortal(
@@ -248,15 +289,14 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.grubnuk}>
           <div className="p-2">
             <p className="text-sm mb-2">
-              {t("islandupgrade.welcomePetalParadise")}
+              {UPGRADE_MESSAGES[gameState.island.type]}
             </p>
             <p className="text-xs mb-2">
-              {t("islandupgrade.exoticResourcesDescription")}
+              {UPGRADE_DESCRIPTIONS[gameState.island.type]}
             </p>
-            <img
-              src={UPGRADE_PREVIEW.basic}
-              className="w-full rounded-md mb-2"
-            />
+            {preview && (
+              <img src={preview} className="w-full rounded-md mb-2" />
+            )}
             <p className="text-xs mb-2">{t("islandupgrade.itemsReturned")}</p>
           </div>
           <Button onClick={() => setShowUpgraded(false)}>
@@ -265,34 +305,40 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
         </CloseButtonPanel>
       </Modal>
 
-      <MapPlacement x={getPosition().x + offset} y={getPosition().y} width={4}>
-        <div
-          className="absolute cursor-pointer hover:img-highlight"
-          onClick={() => setShowModal(true)}
-          style={{
-            top: `${2 * PIXEL_SCALE}px`,
-            left: `${2 * PIXEL_SCALE}px`,
-          }}
+      {upgradeRaft && (
+        <MapPlacement
+          x={getPosition().x + offset}
+          y={getPosition().y}
+          width={4}
         >
-          <img
-            src={UPGRADE_RAFTS[island]}
-            style={{
-              width: `${62 * PIXEL_SCALE}px`,
-            }}
-          />
           <div
-            className="absolute"
+            className="absolute cursor-pointer hover:img-highlight"
+            onClick={() => setShowModal(true)}
             style={{
-              top: `${16 * PIXEL_SCALE}px`,
-              left: `${24 * PIXEL_SCALE}px`,
-              width: `${1 * GRID_WIDTH_PX}px`,
-              transform: "scaleX(-1)",
+              top: `${2 * PIXEL_SCALE}px`,
+              left: `${2 * PIXEL_SCALE}px`,
             }}
           >
-            <NPC parts={NPC_WEARABLES["grubnuk"]} />
+            <img
+              src={upgradeRaft}
+              style={{
+                width: `${62 * PIXEL_SCALE}px`,
+              }}
+            />
+            <div
+              className="absolute"
+              style={{
+                top: `${16 * PIXEL_SCALE}px`,
+                left: `${24 * PIXEL_SCALE}px`,
+                width: `${1 * GRID_WIDTH_PX}px`,
+                transform: "scaleX(-1)",
+              }}
+            >
+              <NPC parts={NPC_WEARABLES["grubnuk"]} />
+            </div>
           </div>
-        </div>
-      </MapPlacement>
+        </MapPlacement>
+      )}
     </>
   );
 };
