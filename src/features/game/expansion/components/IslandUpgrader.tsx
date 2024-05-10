@@ -63,6 +63,12 @@ const UPGRADE_MESSAGES: Record<IslandType, string | null> = {
   desert: translate("islandupgrade.welcomeDesertIsland"),
 };
 
+const UPGRADE_DESCRIPTIONS: Record<IslandType, string | null> = {
+  basic: null,
+  spring: translate("islandupgrade.exoticResourcesDescription"),
+  desert: translate("islandupgrade.desertResourcesDescription"),
+};
+
 const IslandUpgraderModal: React.FC<{
   onClose: () => void;
   onUpgrade: () => void;
@@ -286,7 +292,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
               {UPGRADE_MESSAGES[gameState.island.type]}
             </p>
             <p className="text-xs mb-2">
-              {t("islandupgrade.exoticResourcesDescription")}
+              {UPGRADE_DESCRIPTIONS[gameState.island.type]}
             </p>
             {preview && (
               <img src={preview} className="w-full rounded-md mb-2" />
