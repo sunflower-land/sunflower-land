@@ -2288,6 +2288,27 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.gumbo":
     "A pot full of magic! Every spoonful's a Mardi Gras parade!",
   "description.rapidRoast": "For Bumpkins in a hurry...",
+  "description.antipasto": "Assorted bites, perfect for sharing.",
+  "description.carrotJuice": "Refreshing juice, pressed fresh by bumpkins.",
+  "description.fishBasket": "Oceanic flavors, sourced by goblins.",
+  "description.fishBurger": "Succulent burger, loved by seaside adventurers.",
+  "description.fishnChips": "Classic seaside meal, loved by all.",
+  "description.fishOmelette":
+    "Flavorful omelette, filled with oceanic treasures.",
+  "description.friedCalamari": "Crispy calamari rings, a delicious indulgence.",
+  "description.friedTofu": "Golden fried tofu, crafted with care.",
+  "description.grapeJuice": "Sweet and tangy juice, freshly squeezed.",
+  "description.oceansOlive":
+    "Delightful oceanic dish, a true Sunflorian delicacy.",
+  "description.quickJuice": "Quick energy boost, a Goblin favourite.",
+  "description.riceBun": "Soft and fluffy rice bun, a favorite.",
+  "description.slowJuice": "Nutrient-rich juice, handcrafted by bumpkins.",
+  "description.steamedRedRice":
+    "Perfectly steamed red rice, a bumpkin's delight.",
+  "description.sushirRoll": "Delicious sushi roll, skillfully prepared.",
+  "description.theLot": "Flavorful fruit blend, refreshing and nutritious.",
+  "description.tofuScramble":
+    "Hearty scramble, packed with protein and flavor.",
 
   // Kitchen
   "description.beetrootBlaze": "A spicy beetroot-infused magic mushroom dish",
