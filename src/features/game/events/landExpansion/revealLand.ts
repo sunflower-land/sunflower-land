@@ -289,15 +289,6 @@ export function revealLand({
 }
 
 export const expansionRequirements = ({ game }: { game: GameState }) => {
-  // DEBUG feat/prestige-desert
-  // return {
-  //   resources: {},
-  //   sfl: 0,
-  //   coins: 0,
-  //   seconds: 0,
-  //   bumpkinLevel: 0,
-  // };
-
   const level = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
