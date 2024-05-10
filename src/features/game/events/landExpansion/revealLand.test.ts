@@ -387,6 +387,44 @@ describe("revealLand", () => {
     expect(Object.values(state.sunstones ?? {})).toHaveLength(2);
   });
 
+  it("adds oil", () => {
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      farmId: 1,
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(14),
+          "Oil Reserve": new Decimal(1),
+        },
+        island: {
+          type: "desert",
+        },
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+
+        oilReserves: {
+          "123": {
+            x: -3,
+            y: 3,
+            height: 2,
+            width: 2,
+            createdAt: 0,
+            drilled: 1,
+            oil: {
+              amount: 1,
+              drilledAt: 0,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.inventory["Oil Reserve"]).toEqual(new Decimal(2));
+    expect(Object.values(state.oilReserves ?? {})).toHaveLength(2);
+  });
+
   it("does not add sunstones if already dropped on previous expnasion", () => {
     const state = revealLand({
       action: {

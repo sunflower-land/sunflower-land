@@ -34,6 +34,8 @@ describe("detectCollisions", () => {
     const state: GameState = cloneDeep(TEST_FARM);
     state.inventory["Basic Land"] = new Decimal(1);
 
+    state.crops = {};
+
     const position: Position = { x: 0, y: 0, height: 1, width: 1 };
 
     const hasCollision = detectCollision({

@@ -420,8 +420,31 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
     expect(state.sunstones).toEqual({
       ...sunstones,
-      "1234": { ...sunstones["1234"], x: -2, y: 7 },
+      "1234": { ...sunstones["1234"], x: -4, y: 7 },
     });
+  });
+
+  it("does not give extra sunstones", () => {
+    const createdAt = Date.now();
+
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(16),
+          Crimstone: new Decimal(20),
+        },
+        island: {
+          type: "spring",
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.inventory["Sunstone Rock"]).toBeUndefined();
   });
 
   it("moves the sunstones to a central location", () => {
@@ -458,7 +481,7 @@ describe("upgradeFarm", () => {
 
     expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
     expect(state.sunstones).toEqual({
-      "1234": { ...sunstones["1234"], x: -2, y: 7 },
+      "1234": { ...sunstones["1234"], x: -4, y: 7 },
     });
   });
 

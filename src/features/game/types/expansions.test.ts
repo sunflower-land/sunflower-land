@@ -34,7 +34,7 @@ describe("getLand", () => {
       },
     });
 
-    expect(land).toEqual(SPRING_LAND_5_LAYOUT);
+    expect(land).toEqual(SPRING_LAND_5_LAYOUT());
   });
 
   it("does not return resources if player already has expected resources", () => {

@@ -147,20 +147,7 @@ export const INITIAL_RESOURCES: Pick<
     },
   },
   crimstones: {},
-  oilReserves: {
-    1: {
-      createdAt: 0,
-      drilled: 0,
-      oil: {
-        amount: 10,
-        drilledAt: 0,
-      },
-      x: -3,
-      y: 6,
-      height: 2,
-      width: 2,
-    },
-  },
+  oilReserves: {},
   fruitPatches: {
     1: {
       x: 7,
@@ -313,7 +300,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "desert",
+    type: "spring",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -406,7 +393,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     Potato: new Decimal(200),
     Pumpkin: new Decimal(200),
-    "Oil Reserve": new Decimal(1),
+    "Oil Reserve": new Decimal(0),
     "Oil Drill": new Decimal(5),
     "Battle Fish": new Decimal(1),
     "Knight Chicken": new Decimal(1),
@@ -448,7 +435,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(4),
+    "Basic Land": new Decimal(20),
     Gold: new Decimal(13),
     // "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),

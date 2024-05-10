@@ -175,7 +175,7 @@ export function revealLand({
 
   // Add bee hives
   land.beehives?.forEach((coords) => {
-    const id = Object.keys(game.beehives).length;
+    const id = randomUUID();
     game.beehives[id] = {
       height: 1,
       width: 1,
@@ -192,7 +192,7 @@ export function revealLand({
 
   // Add flower beds
   land.flowerBeds?.forEach((coords) => {
-    const id = Object.keys(game.flowers.flowerBeds).length;
+    const id = randomUUID();
     game.flowers.flowerBeds[id] = {
       height: 1,
       width: 3,
@@ -203,6 +203,25 @@ export function revealLand({
   });
   inventory["Flower Bed"] = (inventory["Flower Bed"] || new Decimal(0)).add(
     land.flowerBeds?.length ?? 0
+  );
+
+  land.oil?.forEach((coords) => {
+    const id = randomUUID();
+    game.oilReserves[id] = {
+      height: 2,
+      width: 2,
+      x: coords.x + origin.x,
+      y: coords.y + origin.y,
+      createdAt,
+      drilled: 0,
+      oil: {
+        amount: 0,
+        drilledAt: 0,
+      },
+    };
+  });
+  inventory["Oil Reserve"] = (inventory["Oil Reserve"] || new Decimal(0)).add(
+    land.oil?.length ?? 0
   );
 
   // Refresh all basic resources
@@ -270,6 +289,15 @@ export function revealLand({
 }
 
 export const expansionRequirements = ({ game }: { game: GameState }) => {
+  // DEBUG feat/prestige-desert
+  // return {
+  //   resources: {},
+  //   sfl: 0,
+  //   coins: 0,
+  //   seconds: 0,
+  //   bumpkinLevel: 0,
+  // };
+
   const level = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
 
   const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
@@ -437,6 +465,44 @@ export function getRewards({
           coins: 0,
           wearables: {},
           message: "You are on OG expander, here's a reward!",
+          coordinates: position && {
+            x: position.x,
+            y: position.y,
+          },
+        },
+      ];
+    }
+  }
+
+  // Expansion Desert Refunds
+  if (game.island.type === "desert") {
+    const expectedLand = expansions.add(11);
+
+    if (expectedLand.lte(game.island.previousExpansions ?? 0)) {
+      const refund = EXPANSION_REQUIREMENTS.spring[expectedLand.toNumber()];
+
+      const expansionBoundaries = {
+        x: EXPANSION_ORIGINS[expansions.toNumber() - 1].x - LAND_SIZE / 2,
+        y: EXPANSION_ORIGINS[expansions.toNumber() - 1].y + LAND_SIZE / 2,
+        width: LAND_SIZE,
+        height: LAND_SIZE,
+      };
+
+      const position = pickEmptyPosition({
+        gameState: game,
+        bounding: expansionBoundaries,
+      });
+
+      airdrops = [
+        ...airdrops,
+        {
+          createdAt,
+          id: `desert-expansion-refund-${expectedLand.toNumber()}`,
+          items: refund.resources,
+          sfl: 0,
+          coins: 0,
+          wearables: {},
+          message: "You are a Petal Paradise expander, here's a reward!",
           coordinates: position && {
             x: position.x,
             y: position.y,

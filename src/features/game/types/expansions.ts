@@ -182,6 +182,11 @@ export function getLand({
     );
   land.sunstones = land.sunstones?.slice(0, availableSunstones);
 
+  const availableOilReserves =
+    expectedResources["Oil Reserve"] -
+    (game.inventory["Oil Reserve"]?.toNumber() ?? 0);
+  land.oil = land.oil?.slice(0, availableOilReserves);
+
   return land;
 }
 
@@ -1404,38 +1409,63 @@ export const SPRING_LAYOUTS: () => Record<number, Layout> = () => ({
 
 export const DESERT_LAND_5_LAYOUT: () => Layout = () => ({
   id: "desert_5",
-  plots: [],
+  plots: [{ x: -1, y: 1 }],
   fruitPatches: [],
   gold: [],
-  iron: [],
-  stones: [],
+  iron: [
+    {
+      x: 2,
+      y: -2,
+    },
+  ],
+  stones: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
   crimstones: [],
   sunstones: [],
   trees: [],
   beehives: [],
+  oil: [
+    {
+      x: -3,
+      y: 0,
+    },
+  ],
 });
 
 export const DESERT_LAND_6_LAYOUT: () => Layout = () => ({
   id: "desert_6",
   plots: [],
-  fruitPatches: [],
+  fruitPatches: [{ x: -3, y: 0 }],
   gold: [],
   iron: [],
   stones: [],
   crimstones: [],
-  sunstones: [],
+  sunstones: [{ x: 0, y: 0 }],
   trees: [],
   beehives: [],
 });
 
 export const DESERT_LAND_7_LAYOUT: () => Layout = () => ({
   id: "desert_7",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: -1,
+    },
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
   stones: [],
-  crimstones: [],
+  crimstones: [{ x: 1, y: 2 }],
   sunstones: [],
   trees: [],
   beehives: [],
@@ -1443,13 +1473,27 @@ export const DESERT_LAND_7_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_8_LAYOUT: () => Layout = () => ({
   id: "desert_8",
-  plots: [],
+  plots: [
+    {
+      x: 0,
+      y: 0,
+    },
+    {
+      x: 0,
+      y: 1,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
   stones: [],
   crimstones: [],
-  sunstones: [],
+  sunstones: [
+    {
+      x: -3,
+      y: 0,
+    },
+  ],
   trees: [],
   beehives: [],
 });
@@ -1460,19 +1504,39 @@ export const DESERT_LAND_9_LAYOUT: () => Layout = () => ({
   fruitPatches: [],
   gold: [],
   iron: [],
-  stones: [],
+  stones: [
+    {
+      x: 1,
+      y: -1,
+    },
+  ],
   crimstones: [],
   sunstones: [],
-  trees: [],
+  trees: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
   beehives: [],
 });
 
 export const DESERT_LAND_10_LAYOUT: () => Layout = () => ({
   id: "desert_10",
-  plots: [],
+  plots: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
   fruitPatches: [],
   gold: [],
-  iron: [],
+  iron: [
+    {
+      x: 1,
+      y: 0,
+    },
+  ],
   stones: [],
   crimstones: [],
   sunstones: [],
@@ -1482,8 +1546,18 @@ export const DESERT_LAND_10_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_11_LAYOUT: () => Layout = () => ({
   id: "desert_11",
-  plots: [],
-  fruitPatches: [],
+  plots: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
   gold: [],
   iron: [],
   stones: [],
@@ -1495,7 +1569,16 @@ export const DESERT_LAND_11_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_12_LAYOUT: () => Layout = () => ({
   id: "desert_12",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
@@ -1514,18 +1597,38 @@ export const DESERT_LAND_13_LAYOUT: () => Layout = () => ({
   iron: [],
   stones: [],
   crimstones: [],
-  sunstones: [],
-  trees: [],
+  sunstones: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
+  trees: [
+    {
+      x: 0,
+      y: 2,
+    },
+  ],
   beehives: [],
 });
 
 export const DESERT_LAND_14_LAYOUT: () => Layout = () => ({
   id: "desert_14",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
-  stones: [],
+  stones: [
+    {
+      x: 1,
+      y: -1,
+    },
+  ],
   crimstones: [],
   sunstones: [],
   trees: [],
@@ -1534,7 +1637,12 @@ export const DESERT_LAND_14_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_15_LAYOUT: () => Layout = () => ({
   id: "desert_15",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: -2,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
@@ -1543,24 +1651,49 @@ export const DESERT_LAND_15_LAYOUT: () => Layout = () => ({
   sunstones: [],
   trees: [],
   beehives: [],
+  oil: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
 });
 
 export const DESERT_LAND_16_LAYOUT: () => Layout = () => ({
   id: "desert_16",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: 0,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
   stones: [],
   crimstones: [],
   sunstones: [],
-  trees: [],
+  trees: [
+    {
+      x: 1,
+      y: 2,
+    },
+  ],
   beehives: [],
 });
 
 export const DESERT_LAND_17_LAYOUT: () => Layout = () => ({
   id: "desert_17",
-  plots: [],
+  plots: [
+    {
+      x: 0,
+      y: 0,
+    },
+    {
+      x: -1,
+      y: 0,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
@@ -1573,9 +1706,19 @@ export const DESERT_LAND_17_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_18_LAYOUT: () => Layout = () => ({
   id: "desert_18",
-  plots: [],
+  plots: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
   fruitPatches: [],
-  gold: [],
+  gold: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
   iron: [],
   stones: [],
   crimstones: [],
@@ -1586,8 +1729,18 @@ export const DESERT_LAND_18_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_19_LAYOUT: () => Layout = () => ({
   id: "desert_19",
-  plots: [],
-  fruitPatches: [],
+  plots: [
+    {
+      x: 2,
+      y: -2,
+    },
+  ],
+  fruitPatches: [
+    {
+      x: -2,
+      y: 3,
+    },
+  ],
   gold: [],
   iron: [],
   stones: [],
@@ -1603,22 +1756,53 @@ export const DESERT_LAND_20_LAYOUT: () => Layout = () => ({
   fruitPatches: [],
   gold: [],
   iron: [],
-  stones: [],
+  stones: [
+    {
+      x: -1,
+      y: 2,
+    },
+  ],
   crimstones: [],
   sunstones: [],
-  trees: [],
+  trees: [
+    {
+      x: 1,
+      y: 3,
+    },
+  ],
   beehives: [],
+  oil: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
 });
 
 export const DESERT_LAND_21_LAYOUT: () => Layout = () => ({
   id: "desert_21",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
   fruitPatches: [],
   gold: [],
-  iron: [],
+  iron: [
+    {
+      x: -1,
+      y: 2,
+    },
+  ],
   stones: [],
   crimstones: [],
-  sunstones: [],
+  sunstones: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
   trees: [],
   beehives: [],
 });
@@ -1626,24 +1810,44 @@ export const DESERT_LAND_21_LAYOUT: () => Layout = () => ({
 export const DESERT_LAND_22_LAYOUT: () => Layout = () => ({
   id: "desert_22",
   plots: [],
-  fruitPatches: [],
+  fruitPatches: [
+    {
+      x: 1,
+      y: 2,
+    },
+  ],
   gold: [],
   iron: [],
   stones: [],
   crimstones: [],
   sunstones: [],
-  trees: [],
+  trees: [
+    {
+      x: -2,
+      y: -1,
+    },
+  ],
   beehives: [],
 });
 
 export const DESERT_LAND_23_LAYOUT: () => Layout = () => ({
   id: "desert_23",
-  plots: [],
+  plots: [
+    {
+      x: -2,
+      y: 2,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
   stones: [],
-  crimstones: [],
+  crimstones: [
+    {
+      x: 0,
+      y: 0,
+    },
+  ],
   sunstones: [],
   trees: [],
   beehives: [],
@@ -1651,24 +1855,44 @@ export const DESERT_LAND_23_LAYOUT: () => Layout = () => ({
 
 export const DESERT_LAND_24_LAYOUT: () => Layout = () => ({
   id: "desert_24",
-  plots: [],
+  plots: [
+    {
+      x: -1,
+      y: 1,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
   stones: [],
   crimstones: [],
-  sunstones: [],
+  sunstones: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
   trees: [],
   beehives: [],
 });
 
 export const DESERT_LAND_25_LAYOUT: () => Layout = () => ({
   id: "desert_25",
-  plots: [],
+  plots: [
+    {
+      x: -1,
+      y: -1,
+    },
+  ],
   fruitPatches: [],
   gold: [],
   iron: [],
-  stones: [],
+  stones: [
+    {
+      x: 1,
+      y: 1,
+    },
+  ],
   crimstones: [],
   sunstones: [],
   trees: [],
@@ -1711,6 +1935,7 @@ export type Layout = {
   beehives?: Coordinates[];
   flowerBeds?: Coordinates[];
   fruitPatches?: Coordinates[];
+  oil?: Coordinates[];
 };
 
 /**

@@ -325,7 +325,7 @@ const INITIAL_LAND: Pick<
 };
 
 const SUNSTONE_RELOCATION: Coordinates[] = [
-  { x: -2, y: 7 },
+  { x: -4, y: 7 },
   { x: 0, y: 7 },
   { x: 4, y: 2 },
   { x: 4, y: 0 },
@@ -368,7 +368,8 @@ function springUpgrade(state: GameState) {
   game.inventory.House = new Decimal(1);
 
   // Ensure they have the minimum resources to start the island with
-  const minimum = TOTAL_EXPANSION_NODES.spring[4];
+  // Do not give bonus sunstones
+  const minimum = { ...TOTAL_EXPANSION_NODES.spring[4], "Sunstone Rock": 0 };
 
   Object.entries(minimum).forEach(([name, amount]) => {
     const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
@@ -435,7 +436,8 @@ function desertUpgrade(state: GameState) {
   game.inventory.Manor = new Decimal(1);
 
   // Ensure they have the minimum resources to start the island with
-  const minimum = TOTAL_EXPANSION_NODES.desert[4];
+  // Do not give bonus sunstones
+  const minimum = { ...TOTAL_EXPANSION_NODES.desert[4], "Sunstone Rock": 0 };
 
   Object.entries(minimum).forEach(([name, amount]) => {
     const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
