@@ -36,35 +36,35 @@ export function getBasicLand({
   expansion: number;
 }) {
   if (expansion === 4) {
-    return LAND_4_LAYOUT;
+    return LAND_4_LAYOUT();
   }
 
   if (expansion === 5) {
-    return LAND_5_LAYOUT;
+    return LAND_5_LAYOUT();
   }
 
   if (expansion === 6) {
-    return LAND_6_LAYOUT;
+    return LAND_6_LAYOUT();
   }
 
   if (expansion === 7) {
-    return LAND_7_LAYOUT;
+    return LAND_7_LAYOUT();
   }
 
   if (expansion === 8) {
-    return LAND_8_LAYOUT;
+    return LAND_8_LAYOUT();
   }
 
   if (expansion === 9) {
-    return LAND_9_LAYOUT;
+    return LAND_9_LAYOUT();
   }
 
   if (expansion === 10) {
-    return LAND_10_LAYOUT;
+    return LAND_10_LAYOUT();
   }
 
   if (expansion === 11) {
-    return LAND_11_LAYOUT;
+    return LAND_11_LAYOUT();
   }
 
   // LEGACY - can remove from Feb 1st
@@ -72,28 +72,28 @@ export function getBasicLand({
     const group = getPlayerGroup(id.toString());
     const positionInPack = (expansion + group) % 3;
 
-    return LAND_PACK_THREE[positionInPack];
+    return LAND_PACK_THREE[positionInPack]();
   }
 
   if (expansion >= 15 && expansion <= 17) {
     const group = getPlayerGroup(id.toString());
     const positionInPack = (expansion + group) % 3;
 
-    return LAND_PACK_FOUR[positionInPack];
+    return LAND_PACK_FOUR[positionInPack]();
   }
 
   if (expansion >= 18 && expansion <= 20) {
     const group = getPlayerGroup(id.toString());
     const positionInPack = (expansion + group) % 3;
 
-    return LAND_PACK_FIVE[positionInPack];
+    return LAND_PACK_FIVE[positionInPack]();
   }
 
   if (expansion >= 21 && expansion <= 23) {
     const group = getPlayerGroup(id.toString());
     const positionInPack = (expansion + group) % 3;
 
-    return LAND_PACK_SIX[positionInPack];
+    return LAND_PACK_SIX[positionInPack]();
   }
 
   return null;
@@ -115,7 +115,7 @@ export function getLand({
   }
 
   if (game.island.type === "spring") {
-    land = SPRING_LAYOUTS[expansion];
+    land = SPRING_LAYOUTS()[expansion];
   }
 
   if (!land) {
@@ -181,7 +181,7 @@ export function getLand({
   return land;
 }
 
-export const LAND_4_LAYOUT: Layout = {
+export const LAND_4_LAYOUT: () => Layout = () => ({
   id: "4",
   plots: [
     {
@@ -241,9 +241,9 @@ export const LAND_4_LAYOUT: Layout = {
       y: 3,
     },
   ],
-};
+});
 
-export const LAND_5_LAYOUT: Layout = {
+export const LAND_5_LAYOUT: () => Layout = () => ({
   id: "5",
   plots: [
     {
@@ -288,9 +288,9 @@ export const LAND_5_LAYOUT: Layout = {
       y: 2,
     },
   ],
-} as Layout;
+});
 
-export const LAND_6_LAYOUT: Layout = {
+export const LAND_6_LAYOUT: () => Layout = () => ({
   id: "6",
   plots: [
     {
@@ -325,9 +325,9 @@ export const LAND_6_LAYOUT: Layout = {
       y: 2,
     },
   ],
-} as Layout;
+});
 
-export const LAND_7_LAYOUT: Layout = {
+export const LAND_7_LAYOUT: () => Layout = () => ({
   id: "7",
   plots: [
     {
@@ -359,9 +359,9 @@ export const LAND_7_LAYOUT: Layout = {
       y: 2,
     },
   ],
-} as Layout;
+});
 
-export const LAND_8_LAYOUT: Layout = {
+export const LAND_8_LAYOUT: () => Layout = () => ({
   id: "8",
   plots: [
     {
@@ -393,9 +393,9 @@ export const LAND_8_LAYOUT: Layout = {
       y: 3,
     },
   ],
-} as Layout;
+});
 
-export const LAND_9_LAYOUT: Layout = {
+export const LAND_9_LAYOUT: () => Layout = () => ({
   id: "9",
   plots: [
     {
@@ -417,9 +417,9 @@ export const LAND_9_LAYOUT: Layout = {
   ],
   stones: [],
   trees: [],
-} as Layout;
+});
 
-export const LAND_10_LAYOUT: Layout = {
+export const LAND_10_LAYOUT: () => Layout = () => ({
   id: "10",
   plots: [
     {
@@ -455,8 +455,8 @@ export const LAND_10_LAYOUT: Layout = {
       y: -1,
     },
   ],
-} as Layout;
-export const LAND_11_LAYOUT: Layout = {
+});
+export const LAND_11_LAYOUT: () => Layout = () => ({
   id: "11",
   plots: [
     {
@@ -493,8 +493,8 @@ export const LAND_11_LAYOUT: Layout = {
       y: 3,
     },
   ],
-} as Layout;
-export const LAND_12_LAYOUT: Layout = {
+});
+export const LAND_12_LAYOUT: () => Layout = () => ({
   id: "12",
   plots: [],
   fruitPatches: [
@@ -517,9 +517,9 @@ export const LAND_12_LAYOUT: Layout = {
   ],
   trees: [],
   boulder: [],
-} as Layout;
+});
 
-export const LAND_13_LAYOUT: Layout = {
+export const LAND_13_LAYOUT: () => Layout = () => ({
   id: "13",
   plots: [
     {
@@ -546,9 +546,9 @@ export const LAND_13_LAYOUT: Layout = {
       y: 2,
     },
   ],
-} as Layout;
+});
 
-export const LAND_14_LAYOUT: Layout = {
+export const LAND_14_LAYOUT: () => Layout = () => ({
   id: "14",
   plots: [
     {
@@ -585,9 +585,9 @@ export const LAND_14_LAYOUT: Layout = {
     },
   ],
   trees: [],
-} as Layout;
+});
 
-export const LAND_15_LAYOUT: Layout = {
+export const LAND_15_LAYOUT: () => Layout = () => ({
   id: "15",
   plots: [],
   fruitPatches: [
@@ -605,9 +605,9 @@ export const LAND_15_LAYOUT: Layout = {
       y: 0,
     },
   ],
-} as Layout;
+});
 
-export const LAND_16_LAYOUT: Layout = {
+export const LAND_16_LAYOUT: () => Layout = () => ({
   id: "16",
   plots: [],
   fruitPatches: [
@@ -630,9 +630,9 @@ export const LAND_16_LAYOUT: Layout = {
   ],
   stones: [],
   trees: [],
-} as Layout;
+});
 
-export const LAND_17_LAYOUT: Layout = {
+export const LAND_17_LAYOUT: () => Layout = () => ({
   id: "17",
   plots: [
     {
@@ -664,9 +664,9 @@ export const LAND_17_LAYOUT: Layout = {
       y: 2,
     },
   ],
-} as Layout;
+});
 
-export const LAND_18_LAYOUT: Layout = {
+export const LAND_18_LAYOUT: () => Layout = () => ({
   id: "18",
   plots: [
     {
@@ -683,9 +683,9 @@ export const LAND_18_LAYOUT: Layout = {
   fruitPatches: [],
   gold: [],
   iron: [],
-};
+});
 
-export const LAND_19_LAYOUT: Layout = {
+export const LAND_19_LAYOUT: () => Layout = () => ({
   id: "19",
   plots: [],
   fruitPatches: [
@@ -713,9 +713,9 @@ export const LAND_19_LAYOUT: Layout = {
     },
   ],
   gold: [],
-};
+});
 
-export const LAND_20_LAYOUT: Layout = {
+export const LAND_20_LAYOUT: () => Layout = () => ({
   id: "20",
   plots: [
     {
@@ -737,9 +737,9 @@ export const LAND_20_LAYOUT: Layout = {
   stones: [],
   gold: [],
   iron: [],
-};
+});
 
-export const LAND_21_LAYOUT: Layout = {
+export const LAND_21_LAYOUT: () => Layout = () => ({
   id: "21",
   plots: [
     {
@@ -772,9 +772,9 @@ export const LAND_21_LAYOUT: Layout = {
       y: 0,
     },
   ],
-};
+});
 
-export const LAND_22_LAYOUT: Layout = {
+export const LAND_22_LAYOUT: () => Layout = () => ({
   id: "22",
   plots: [
     {
@@ -797,9 +797,9 @@ export const LAND_22_LAYOUT: Layout = {
     },
   ],
   iron: [],
-};
+});
 
-export const LAND_23_LAYOUT: Layout = {
+export const LAND_23_LAYOUT: () => Layout = () => ({
   id: "23",
   plots: [
     {
@@ -827,9 +827,9 @@ export const LAND_23_LAYOUT: Layout = {
       y: 0,
     },
   ],
-};
+});
 
-export const SPRING_LAND_5_LAYOUT: Layout = {
+export const SPRING_LAND_5_LAYOUT: () => Layout = () => ({
   id: "spring_5",
   plots: [
     {
@@ -882,9 +882,9 @@ export const SPRING_LAND_5_LAYOUT: Layout = {
     },
   ],
   beehives: [],
-};
+});
 
-export const SPRING_LAND_6_LAYOUT: Layout = {
+export const SPRING_LAND_6_LAYOUT: () => Layout = () => ({
   id: "spring_6",
   plots: [],
   fruitPatches: [
@@ -921,9 +921,9 @@ export const SPRING_LAND_6_LAYOUT: Layout = {
       y: -1,
     },
   ],
-};
+});
 
-export const SPRING_LAND_7_LAYOUT: Layout = {
+export const SPRING_LAND_7_LAYOUT: () => Layout = () => ({
   id: "spring_7",
   plots: [
     {
@@ -958,9 +958,9 @@ export const SPRING_LAND_7_LAYOUT: Layout = {
     },
   ],
   beehives: [],
-};
+});
 
-export const SPRING_LAND_8_LAYOUT: Layout = {
+export const SPRING_LAND_8_LAYOUT: () => Layout = () => ({
   id: "spring_8",
   plots: [
     {
@@ -1000,9 +1000,9 @@ export const SPRING_LAND_8_LAYOUT: Layout = {
   sunstones: [],
   trees: [],
   beehives: [],
-};
+});
 
-export const SPRING_LAND_9_LAYOUT: Layout = {
+export const SPRING_LAND_9_LAYOUT: () => Layout = () => ({
   plots: [],
   fruitPatches: [
     {
@@ -1028,9 +1028,9 @@ export const SPRING_LAND_9_LAYOUT: Layout = {
   ],
   beehives: [],
   id: "spring_9",
-};
+});
 
-export const SPRING_LAND_10_LAYOUT: Layout = {
+export const SPRING_LAND_10_LAYOUT: () => Layout = () => ({
   plots: [],
   fruitPatches: [
     {
@@ -1067,9 +1067,9 @@ export const SPRING_LAND_10_LAYOUT: Layout = {
     },
   ],
   id: "spring_10",
-};
+});
 
-export const SPRING_LAND_11_LAYOUT: Layout = {
+export const SPRING_LAND_11_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -2,
@@ -1104,9 +1104,9 @@ export const SPRING_LAND_11_LAYOUT: Layout = {
   ],
   beehives: [],
   id: "spring_11",
-};
+});
 
-export const SPRING_LAND_12_LAYOUT: Layout = {
+export const SPRING_LAND_12_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -1,
@@ -1126,9 +1126,9 @@ export const SPRING_LAND_12_LAYOUT: Layout = {
   trees: [],
   beehives: [],
   id: "spring_12",
-};
+});
 
-export const SPRING_LAND_13_LAYOUT: Layout = {
+export const SPRING_LAND_13_LAYOUT: () => Layout = () => ({
   plots: [],
   fruitPatches: [
     {
@@ -1164,9 +1164,9 @@ export const SPRING_LAND_13_LAYOUT: Layout = {
   ],
   beehives: [],
   id: "spring_13",
-};
+});
 
-export const SPRING_LAND_14_LAYOUT: Layout = {
+export const SPRING_LAND_14_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -2,
@@ -1191,9 +1191,9 @@ export const SPRING_LAND_14_LAYOUT: Layout = {
   trees: [],
   beehives: [],
   id: "spring_14",
-};
+});
 
-export const SPRING_LAND_15_LAYOUT: Layout = {
+export const SPRING_LAND_15_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -2,
@@ -1234,9 +1234,9 @@ export const SPRING_LAND_15_LAYOUT: Layout = {
   ],
   beehives: [],
   id: "spring_15",
-};
+});
 
-export const SPRING_LAND_16_LAYOUT: Layout = {
+export const SPRING_LAND_16_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -2,
@@ -1273,8 +1273,8 @@ export const SPRING_LAND_16_LAYOUT: Layout = {
     },
   ],
   id: "spring_16",
-};
-export const SPRING_LAND_17_LAYOUT: Layout = {
+});
+export const SPRING_LAND_17_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: 0,
@@ -1305,8 +1305,8 @@ export const SPRING_LAND_17_LAYOUT: Layout = {
   trees: [],
   beehives: [],
   id: "spring_17",
-};
-export const SPRING_LAND_18_LAYOUT: Layout = {
+});
+export const SPRING_LAND_18_LAYOUT: () => Layout = () => ({
   plots: [],
   fruitPatches: [],
   gold: [],
@@ -1322,9 +1322,9 @@ export const SPRING_LAND_18_LAYOUT: Layout = {
   trees: [],
   beehives: [],
   id: "spring_18",
-};
+});
 
-export const SPRING_LAND_19_LAYOUT: Layout = {
+export const SPRING_LAND_19_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -1,
@@ -1349,9 +1349,9 @@ export const SPRING_LAND_19_LAYOUT: Layout = {
   trees: [],
   beehives: [],
   id: "spring_19",
-};
+});
 
-export const SPRING_LAND_20_LAYOUT: Layout = {
+export const SPRING_LAND_20_LAYOUT: () => Layout = () => ({
   plots: [
     {
       x: -1,
@@ -1376,27 +1376,27 @@ export const SPRING_LAND_20_LAYOUT: Layout = {
   trees: [],
   beehives: [],
   id: "spring_20",
-};
+});
 
-export const SPRING_LAYOUTS: Record<number, Layout> = {
-  5: SPRING_LAND_5_LAYOUT,
-  6: SPRING_LAND_6_LAYOUT,
-  7: SPRING_LAND_7_LAYOUT,
-  8: SPRING_LAND_8_LAYOUT,
-  9: SPRING_LAND_9_LAYOUT,
+export const SPRING_LAYOUTS: () => Record<number, Layout> = () => ({
+  5: SPRING_LAND_5_LAYOUT(),
+  6: SPRING_LAND_6_LAYOUT(),
+  7: SPRING_LAND_7_LAYOUT(),
+  8: SPRING_LAND_8_LAYOUT(),
+  9: SPRING_LAND_9_LAYOUT(),
 
-  10: SPRING_LAND_10_LAYOUT,
-  11: SPRING_LAND_11_LAYOUT,
-  12: SPRING_LAND_12_LAYOUT,
-  13: SPRING_LAND_13_LAYOUT,
-  14: SPRING_LAND_14_LAYOUT,
-  15: SPRING_LAND_15_LAYOUT,
-  16: SPRING_LAND_16_LAYOUT,
-  17: SPRING_LAND_17_LAYOUT,
-  18: SPRING_LAND_18_LAYOUT,
-  19: SPRING_LAND_19_LAYOUT,
-  20: SPRING_LAND_20_LAYOUT,
-};
+  10: SPRING_LAND_10_LAYOUT(),
+  11: SPRING_LAND_11_LAYOUT(),
+  12: SPRING_LAND_12_LAYOUT(),
+  13: SPRING_LAND_13_LAYOUT(),
+  14: SPRING_LAND_14_LAYOUT(),
+  15: SPRING_LAND_15_LAYOUT(),
+  16: SPRING_LAND_16_LAYOUT(),
+  17: SPRING_LAND_17_LAYOUT(),
+  18: SPRING_LAND_18_LAYOUT(),
+  19: SPRING_LAND_19_LAYOUT(),
+  20: SPRING_LAND_20_LAYOUT(),
+});
 
 export type Layout = {
   id: string;

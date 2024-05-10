@@ -16,7 +16,7 @@ describe("getLand", () => {
       },
     });
 
-    expect(land).toEqual(LAND_4_LAYOUT);
+    expect(land).toEqual(LAND_4_LAYOUT());
   });
 
   it("returns a spring land", () => {

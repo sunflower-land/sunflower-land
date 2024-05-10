@@ -153,8 +153,8 @@ describe("totalExpansions", () => {
     const nodes = TOTAL_EXPANSION_NODES.spring[4];
 
     let expansion = 5;
-    while (SPRING_LAYOUTS[expansion]) {
-      const layout = SPRING_LAYOUTS[expansion];
+    while (SPRING_LAYOUTS()[expansion]) {
+      const layout = SPRING_LAYOUTS()[expansion];
 
       nodes.Beehive += layout.beehives?.length ?? 0;
       nodes["Crop Plot"] += layout.plots?.length ?? 0;
