@@ -24,16 +24,7 @@ type Options = {
 
 const INITIAL_LAND: Pick<
   GameState,
-  | "buildings"
-  | "crops"
-  | "fruitPatches"
-  | "stones"
-  | "iron"
-  | "gold"
-  | "trees"
-  | "flowers"
-  | "beehives"
-  | "crimstones"
+  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold" | "trees"
 > = {
   buildings: {
     House: [
@@ -330,17 +321,11 @@ const INITIAL_LAND: Pick<
       width: 1,
     },
   },
-  flowers: {
-    discovered: {},
-    flowerBeds: {},
-  },
-  beehives: {},
-  crimstones: {},
 };
 
 export const ISLAND_UPGRADE: Record<
   IslandType,
-  { items: Inventory; expansions: number; upgrade: IslandType }
+  { items: Inventory; expansions: number; upgrade: IslandType | null }
 > = {
   basic: {
     expansions: 9,
@@ -362,7 +347,7 @@ export const ISLAND_UPGRADE: Record<
     items: {
       Gold: new Decimal(9999999999),
     },
-    upgrade: "desert",
+    upgrade: null,
   },
 };
 
@@ -479,6 +464,10 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
 
   const upcoming = ISLAND_UPGRADE[game.island.type];
 
+  if (upcoming.upgrade === null) {
+    throw new Error("Not implemented");
+  }
+
   if (game.inventory["Basic Land"]?.lt(upcoming.expansions)) {
     throw new Error("Player has not met the expansion requirements");
   }
@@ -517,6 +506,8 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
     }),
     game.buds
   );
+  game.flowers.flowerBeds = {};
+  game.oilReserves = {};
 
   // Set the island
   game.island = {
@@ -539,7 +530,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   }
 
   if (upcoming.upgrade === "desert") {
-    game.inventory["Basic Land"] = new Decimal(5);
+    game.inventory["Basic Land"] = new Decimal(4);
   }
 
   game =

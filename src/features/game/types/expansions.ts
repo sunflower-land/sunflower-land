@@ -1422,6 +1422,7 @@ export interface Requirements {
   resources: Partial<Record<InventoryItemName, number>>;
   seconds: number;
   sfl?: number;
+  coins?: number;
   bumpkinLevel: number;
 }
 
@@ -1822,6 +1823,339 @@ const SPRING_LAND_20_REQUIREMENTS: Requirements = {
   seconds: 48 * 60 * 60,
 
   bumpkinLevel: 55,
+};
+
+const DESERT_LAND_5_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 50,
+    Stone: 10,
+    Iron: 5,
+    Gold: 5,
+    Crimstone: 0,
+    "Block Buck": 0,
+  },
+  sfl: 0,
+  coins: 0,
+  seconds: 60,
+  bumpkinLevel: 40,
+};
+
+const DESERT_LAND_6_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 20,
+    Iron: 10,
+    Gold: 5,
+    Crimstone: 0,
+    "Block Buck": 0,
+  },
+  sfl: 0,
+  coins: 0,
+  seconds: 60 * 5,
+  bumpkinLevel: 40,
+};
+
+const DESERT_LAND_7_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 150,
+    Stone: 20,
+    Iron: 10,
+    Gold: 5,
+    Crimstone: 0,
+    "Block Buck": 1,
+  },
+  sfl: 0,
+  coins: 0,
+  seconds: 30 * 60,
+  bumpkinLevel: 41,
+};
+
+const DESERT_LAND_8_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 150,
+    Stone: 10,
+    Iron: 5,
+    Gold: 5,
+    Crimstone: 3,
+    Oil: 5,
+    "Block Buck": 2,
+  },
+  sfl: 0,
+  coins: 0,
+  seconds: 2 * 60 * 60,
+  bumpkinLevel: 42,
+};
+
+const DESERT_LAND_9_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 50,
+    Stone: 5,
+    Iron: 5,
+    Gold: 5,
+    Crimstone: 6,
+    Oil: 5,
+    "Block Buck": 2,
+  },
+  sfl: 0,
+  coins: 0,
+  seconds: 2 * 60 * 60,
+  bumpkinLevel: 43,
+};
+
+const DESERT_LAND_10_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 50,
+    Iron: 10,
+    Gold: 5,
+    Crimstone: 12,
+    Oil: 10,
+    "Block Buck": 3,
+  },
+  sfl: 0,
+  coins: 320,
+  seconds: 8 * 60 * 60,
+  bumpkinLevel: 44,
+};
+
+const DESERT_LAND_11_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 150,
+    Stone: 75,
+    Iron: 10,
+    Gold: 5,
+    Crimstone: 15,
+    Oil: 30,
+    "Block Buck": 3,
+  },
+  sfl: 0,
+  coins: 640,
+  seconds: 12 * 60 * 60,
+  bumpkinLevel: 45,
+};
+
+const DESERT_LAND_12_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 100,
+    Stone: 100,
+    Iron: 5,
+    Gold: 10,
+    Crimstone: 18,
+    Oil: 30,
+    "Block Buck": 3,
+  },
+  sfl: 0,
+  coins: 1280,
+  seconds: 12 * 60 * 60,
+  bumpkinLevel: 47,
+};
+
+const DESERT_LAND_13_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 200,
+    Stone: 50,
+    Iron: 15,
+    Gold: 10,
+    Crimstone: 21,
+    Oil: 40,
+    "Block Buck": 3,
+  },
+  sfl: 0,
+  coins: 2560,
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 50,
+};
+
+const DESERT_LAND_14_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 200,
+    Stone: 100,
+    Iron: 15,
+    Gold: 10,
+    Crimstone: 24,
+    Oil: 50,
+    "Block Buck": 3,
+  },
+  sfl: 0,
+  coins: 3200,
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 53,
+};
+
+const DESERT_LAND_15_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 300,
+    Stone: 50,
+    Iron: 20,
+    Gold: 10,
+    Crimstone: 27,
+    Oil: 75,
+    "Block Buck": 3,
+  },
+  sfl: 0,
+  coins: 3200,
+  seconds: 24 * 60 * 60,
+  bumpkinLevel: 56,
+};
+
+const DESERT_LAND_16_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 250,
+    Stone: 125,
+    Iron: 15,
+    Gold: 15,
+    Crimstone: 30,
+    Oil: 100,
+    "Block Buck": 4,
+  },
+  sfl: 0,
+  coins: 3200,
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 58,
+};
+
+const DESERT_LAND_17_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 350,
+    Stone: 75,
+    Iron: 20,
+    Gold: 10,
+    Crimstone: 33,
+    Oil: 125,
+    "Block Buck": 4,
+  },
+  sfl: 0,
+  coins: 4800,
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 60,
+};
+
+const DESERT_LAND_18_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 400,
+    Stone: 125,
+    Iron: 25,
+    Gold: 15,
+    Crimstone: 36,
+    Oil: 150,
+    "Block Buck": 5,
+  },
+  sfl: 0,
+  coins: 4800,
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 63,
+};
+
+const DESERT_LAND_19_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 450,
+    Stone: 150,
+    Iron: 30,
+    Gold: 20,
+    Crimstone: 39,
+    Oil: 200,
+    "Block Buck": 4,
+  },
+  sfl: 0,
+  coins: 6400,
+  seconds: 36 * 60 * 60,
+  bumpkinLevel: 65,
+};
+
+const DESERT_LAND_20_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 525,
+    Stone: 200,
+    Iron: 35,
+    Gold: 30,
+    Crimstone: 42,
+    Oil: 250,
+    "Block Buck": 4,
+  },
+  sfl: 0,
+  coins: 6400,
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 68,
+};
+
+const DESERT_LAND_21_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 550,
+    Stone: 150,
+    Iron: 30,
+    Gold: 25,
+    Crimstone: 45,
+    Oil: 350,
+    "Block Buck": 4,
+  },
+  sfl: 0,
+  coins: 8000,
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 70,
+};
+
+const DESERT_LAND_22_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 600,
+    Stone: 200,
+    Iron: 35,
+    Gold: 30,
+    Crimstone: 48,
+    Oil: 450,
+    "Block Buck": 5,
+  },
+  sfl: 0,
+  coins: 8000,
+  seconds: 48 * 60 * 60,
+  bumpkinLevel: 72,
+};
+
+const DESERT_LAND_23_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 650,
+    Stone: 250,
+    Iron: 40,
+    Gold: 35,
+    Crimstone: 51,
+    Oil: 500,
+    "Block Buck": 5,
+  },
+  sfl: 0,
+  coins: 8000,
+  seconds: 60 * 60 * 60,
+  bumpkinLevel: 73,
+};
+
+const DESERT_LAND_24_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 700,
+    Stone: 300,
+    Iron: 50,
+    Gold: 45,
+    Crimstone: 54,
+    Oil: 550,
+    "Block Buck": 5,
+  },
+  sfl: 0,
+  coins: 9600,
+  seconds: 60 * 60 * 60,
+  bumpkinLevel: 74,
+};
+
+const DESERT_LAND_25_REQUIREMENTS: Requirements = {
+  resources: {
+    Wood: 750,
+    Stone: 350,
+    Iron: 50,
+    Gold: 50,
+    Crimstone: 60,
+    Oil: 650,
+    "Block Buck": 5,
+  },
+  sfl: 0,
+  coins: 11200,
+  seconds: 60 * 60 * 60,
+  bumpkinLevel: 75,
 };
 
 export const EXPANSION_REQUIREMENTS: Record<
