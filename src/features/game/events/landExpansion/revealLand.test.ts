@@ -46,84 +46,84 @@ describe("expansionRequirements", () => {
       Wood: 1.5,
     });
   });
+});
 
-  describe("getRewards", () => {
-    it("returns rewards for previously built expansions", () => {
-      const rewards = getRewards({
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            "Basic Land": new Decimal(5),
-          },
-          island: {
-            type: "spring",
-            previousExpansions: 16,
-          },
+describe("getRewards", () => {
+  it("returns rewards for previously built expansions", () => {
+    const rewards = getRewards({
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(5),
         },
-        createdAt: Date.now(),
-      });
-
-      expect(rewards[0].items).toEqual(
-        EXPANSION_REQUIREMENTS.basic[10].resources
-      );
-    });
-    it("returns correct maximum refund rewards", () => {
-      const rewards = getRewards({
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            "Basic Land": new Decimal(18),
-          },
-          island: {
-            type: "spring",
-            previousExpansions: 23,
-          },
+        island: {
+          type: "spring",
+          previousExpansions: 16,
         },
-        createdAt: Date.now(),
-      });
-
-      expect(rewards[0].items).toEqual(
-        EXPANSION_REQUIREMENTS.basic[23].resources
-      );
+      },
+      createdAt: Date.now(),
     });
 
-    it("does not return anymore rewards if player has no more expansion refunds", () => {
-      const rewards = getRewards({
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            "Basic Land": new Decimal(5),
-          },
-          island: {
-            type: "spring",
-            previousExpansions: 9,
-          },
+    expect(rewards[0].items).toEqual(
+      EXPANSION_REQUIREMENTS.basic[10].resources
+    );
+  });
+  it("returns correct maximum refund rewards", () => {
+    const rewards = getRewards({
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(18),
         },
-        createdAt: Date.now(),
-      });
-
-      expect(rewards).toEqual([]);
+        island: {
+          type: "spring",
+          previousExpansions: 23,
+        },
+      },
+      createdAt: Date.now(),
     });
 
-    it("refunds the 17th spring expansion on desert island", () => {
-      const rewards = getRewards({
-        game: {
-          ...TEST_FARM,
-          inventory: {
-            "Basic Land": new Decimal(5),
-          },
-          island: {
-            type: "desert",
-            previousExpansions: 23,
-          },
-        },
-        createdAt: Date.now(),
-      });
+    expect(rewards[0].items).toEqual(
+      EXPANSION_REQUIREMENTS.basic[23].resources
+    );
+  });
 
-      expect(rewards[0].items).toEqual(
-        EXPANSION_REQUIREMENTS.spring[17].resources
-      );
+  it("does not return anymore rewards if player has no more expansion refunds", () => {
+    const rewards = getRewards({
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(5),
+        },
+        island: {
+          type: "spring",
+          previousExpansions: 9,
+        },
+      },
+      createdAt: Date.now(),
     });
+
+    expect(rewards).toEqual([]);
+  });
+
+  it("refunds the 17th spring expansion on desert island", () => {
+    const rewards = getRewards({
+      game: {
+        ...TEST_FARM,
+        inventory: {
+          "Basic Land": new Decimal(5),
+        },
+        island: {
+          type: "desert",
+          previousExpansions: 23,
+        },
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(rewards[0].items).toEqual(
+      EXPANSION_REQUIREMENTS.spring[17].resources
+    );
   });
 });
 
