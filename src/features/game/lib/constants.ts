@@ -48,7 +48,7 @@ export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }
 export const INITIAL_STOCK = (state?: GameState): Inventory => {
-  let tools = {
+  const tools = {
     Axe: new Decimal(200),
     Pickaxe: new Decimal(60),
     "Stone Pickaxe": new Decimal(20),
@@ -59,22 +59,15 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
   };
 
   // increase in 50% tool stock if you have a toolshed
-  if (
-    state?.buildings["Toolshed"] &&
-    isBuildingReady(state.buildings["Toolshed"])
-  ) {
-    tools = {
-      Axe: new Decimal(300),
-      Pickaxe: new Decimal(90),
-      "Stone Pickaxe": new Decimal(30),
-      "Iron Pickaxe": new Decimal(8),
-      "Gold Pickaxe": new Decimal(8),
-      "Oil Drill": new Decimal(8),
-      Rod: new Decimal(75),
-    };
+  if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {
+    for (const tool in tools) {
+      tools[tool as keyof typeof tools] = new Decimal(
+        Math.ceil(tools[tool as keyof typeof tools].toNumber() * 1.5)
+      );
+    }
   }
 
-  let seeds = {
+  const seeds = {
     "Sunflower Seed": new Decimal(400),
     "Potato Seed": new Decimal(200),
     "Pumpkin Seed": new Decimal(150),
@@ -94,9 +87,9 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Olive Seed": new Decimal(10),
     "Rice Seed": new Decimal(10),
 
-    "Apple Seed": new Decimal(10),
-    "Orange Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
+    "Orange Seed": new Decimal(10),
+    "Apple Seed": new Decimal(10),
     "Banana Plant": new Decimal(10),
 
     "Sunpetal Seed": new Decimal(16),
@@ -105,37 +98,15 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
   };
 
   if (
-    state?.buildings["Warehouse"] &&
-    isBuildingReady(state.buildings["Warehouse"])
+    state?.buildings.Warehouse &&
+    isBuildingReady(state.buildings.Warehouse)
   ) {
-    seeds = {
-      "Sunflower Seed": new Decimal(480),
-      "Potato Seed": new Decimal(240),
-      "Pumpkin Seed": new Decimal(180),
-      "Carrot Seed": new Decimal(120),
-      "Cabbage Seed": new Decimal(108),
-      "Soybean Seed": new Decimal(108),
-      "Beetroot Seed": new Decimal(96),
-      "Cauliflower Seed": new Decimal(96),
-      "Parsnip Seed": new Decimal(72),
-      "Eggplant Seed": new Decimal(60),
-      "Corn Seed": new Decimal(60),
-      "Radish Seed": new Decimal(48),
-      "Wheat Seed": new Decimal(48),
-      "Kale Seed": new Decimal(36),
-      "Apple Seed": new Decimal(12),
-      "Orange Seed": new Decimal(12),
-      "Blueberry Seed": new Decimal(12),
-      "Banana Plant": new Decimal(12),
-
-      "Grape Seed": new Decimal(12),
-      "Olive Seed": new Decimal(12),
-      "Rice Seed": new Decimal(12),
-
-      "Sunpetal Seed": new Decimal(20),
-      "Bloom Seed": new Decimal(10),
-      "Lily Seed": new Decimal(5),
-    };
+    // Multiply each seed quantity by 1.2 and round up
+    for (const seed in seeds) {
+      seeds[seed as keyof typeof seeds] = new Decimal(
+        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2)
+      );
+    }
   }
 
   return {
@@ -156,7 +127,7 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
 };
 
 export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
-  let seeds = {
+  const seeds: Record<string, Decimal> = {
     "Sunflower Seed": new Decimal(1000),
     "Potato Seed": new Decimal(500),
     "Pumpkin Seed": new Decimal(400),
@@ -172,9 +143,9 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
     "Wheat Seed": new Decimal(100),
     "Kale Seed": new Decimal(80),
 
-    "Apple Seed": new Decimal(25),
-    "Orange Seed": new Decimal(33),
     "Blueberry Seed": new Decimal(40),
+    "Orange Seed": new Decimal(33),
+    "Apple Seed": new Decimal(25),
     "Banana Plant": new Decimal(25),
 
     "Rice Seed": new Decimal(50),
@@ -187,38 +158,15 @@ export const INVENTORY_LIMIT = (state?: GameState): Inventory => {
   };
 
   if (
-    state?.buildings["Warehouse"] &&
-    isBuildingReady(state.buildings["Warehouse"])
+    state?.buildings.Warehouse &&
+    isBuildingReady(state.buildings.Warehouse)
   ) {
-    seeds = {
-      "Sunflower Seed": new Decimal(1200),
-      "Potato Seed": new Decimal(600),
-      "Pumpkin Seed": new Decimal(480),
-      "Carrot Seed": new Decimal(300),
-      "Cabbage Seed": new Decimal(288),
-      "Soybean Seed": new Decimal(288),
-      "Beetroot Seed": new Decimal(264),
-      "Cauliflower Seed": new Decimal(240),
-      "Parsnip Seed": new Decimal(180),
-      "Eggplant Seed": new Decimal(144),
-      "Corn Seed": new Decimal(144),
-      "Radish Seed": new Decimal(120),
-      "Wheat Seed": new Decimal(120),
-      "Kale Seed": new Decimal(96),
-
-      "Apple Seed": new Decimal(30),
-      "Orange Seed": new Decimal(40),
-      "Blueberry Seed": new Decimal(50),
-      "Banana Plant": new Decimal(30),
-
-      "Rice Seed": new Decimal(75),
-      "Grape Seed": new Decimal(75),
-      "Olive Seed": new Decimal(75),
-
-      "Sunpetal Seed": new Decimal(48),
-      "Bloom Seed": new Decimal(24),
-      "Lily Seed": new Decimal(12),
-    };
+    // Multiply each seed quantity by 1.2
+    for (const seed in seeds) {
+      seeds[seed as keyof typeof seeds] = new Decimal(
+        Math.ceil(seeds[seed as keyof typeof seeds].toNumber() * 1.2)
+      );
+    }
   }
 
   return seeds;
