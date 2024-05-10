@@ -159,7 +159,7 @@ export function revealLand({
 
   // Add sun stones
   land.sunstones?.forEach((coords) => {
-    const id = Object.keys(game.sunstones).length;
+    const id = randomUUID();
     game.sunstones[id] = {
       height: 2,
       width: 2,

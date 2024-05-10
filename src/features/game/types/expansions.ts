@@ -168,10 +168,14 @@ export function getLand({
     (game.inventory["Crimstone Rock"]?.toNumber() ?? 0);
   land.crimstones = land.crimstones?.slice(0, availableCrimstones);
 
-  // Sun Stones
+  // IMPORTANT: We cannot drop extra sunstones
+  // We need to consider how many sunstones were dropped on previous lands in `game.island.sunstones`
   const availableSunstones =
     expectedResources["Sunstone Rock"] -
-    (game.inventory["Sunstone Rock"]?.toNumber() ?? 0);
+    Math.max(
+      game.inventory["Sunstone Rock"]?.toNumber() ?? 0,
+      game.island.sunstones ?? 0
+    );
   land.sunstones = land.sunstones?.slice(0, availableSunstones);
 
   return land;

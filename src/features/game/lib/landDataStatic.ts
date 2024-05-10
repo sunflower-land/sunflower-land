@@ -352,7 +352,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     spawnedAt: 0,
   },
   farmHands: { bumpkins: {} },
-  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000 },
+  bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
   buds: {
     1: {
       aura: "Basic",
