@@ -73,6 +73,11 @@ const FACTION_NPCS: FactionNPC[] = [
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 387,
+    y: 255,
+    npc: "gaucho",
+  },
+  {
     x: 600,
     y: 197,
     npc: "hammerin harry",

@@ -1809,6 +1809,14 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "This was a community art initiative and donations are greatly appreciated!",
+  "donation.rioGrandeDoSul.one":
+    "Olá gente! South of Brazil has been devastated by recent flooding and we are gathering donations for food and water at the shelters.",
+  "donation.rioGrandeDoSul.two":
+    "Everyone who donates will receive a commemorative decoration.",
+  "donation.matic": "Donation in MATIC",
+  "donation.minimum": "Minimum 1 MATIC",
+  "donation.airdrop": "Decorations will be airdropped after donations close.",
+  "donation.specialEvent": "Special Donation Event",
 };
 
 const draftBid: Record<DraftBid, string> = {

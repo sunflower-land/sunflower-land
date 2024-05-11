@@ -14,7 +14,7 @@ import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
-import { Donations } from "./donations/Donations";
+import { CommunityDonations } from "./donations/Donations";
 import { SceneId } from "../mmoMachine";
 import { TradingBoard } from "./npcs/TradingBoard";
 import { BudBox } from "./chests/BudBox";
@@ -136,7 +136,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "donations"} onHide={closeModal}>
         <CloseButtonPanel title={t("enjoying.event")} onClose={closeModal}>
-          <Donations />
+          <CommunityDonations />
         </CloseButtonPanel>
       </Modal>
       {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}

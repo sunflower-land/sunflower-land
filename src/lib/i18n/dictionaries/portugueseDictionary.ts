@@ -1847,6 +1847,15 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "Esta foi uma iniciativa de arte da comunidade e as doações são muito apreciadas!",
+  "donation.rioGrandeDoSul.one":
+    "Olá gente! O Sul do Brasil foi fortemente afetado pelas enchentes e nós estamos coletando doações para a compra de água e comida para os abrigos.",
+  "donation.rioGrandeDoSul.two":
+    "Todos que doarem receberão um item de decorão especial.",
+  "donation.matic": "Doação em MATIC",
+  "donation.minimum": "Mínimo 1 MATIC",
+  "donation.airdrop":
+    "As decorações serão enviadas via airdrop quando as doações forem encerradas.",
+  "donation.specialEvent": "Evento especial de doação",
 };
 
 const draftBid: Record<DraftBid, string> = {

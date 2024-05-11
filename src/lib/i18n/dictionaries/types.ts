@@ -1298,7 +1298,14 @@ export type DraftBid =
   | "draftBid.unsuccessfulParticipants"
   | "draftBid.termsAndConditions";
 
-export type Donation = "donation.one";
+export type Donation =
+  | "donation.one"
+  | "donation.specialEvent"
+  | "donation.rioGrandeDoSul.one"
+  | "donation.rioGrandeDoSul.two"
+  | "donation.matic"
+  | "donation.minimum"
+  | "donation.airdrop";
 
 export type ErrorAndAccess =
   | "errorAndAccess.blocked.betaTestersOnly"
