@@ -169,7 +169,7 @@ export const CommunityDonations: React.FC = () => {
  * A wallet address managed by the donatee in Porto Alegre
  * Funds will be converted to FIAT and distributed
  */
-const RS_DONATEE_WALLET = "0xTODO";
+const RS_DONATEE_WALLET = "0x0BFa1450E49B3ad61F9Cc30E37ace13F5aF8ae61";
 
 export const SpecialEventDonations: React.FC = () => {
   const { t } = useAppTranslation();
