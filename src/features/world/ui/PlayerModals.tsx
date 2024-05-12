@@ -11,6 +11,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PlayerTrade } from "./PlayerTrade";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 type Player = {
   id: number;
@@ -34,6 +35,64 @@ class PlayerModalManager {
 
 export const playerModalManager = new PlayerModalManager();
 
+const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <>
+      <div className="flex items-center ml-1 mt-2 mb-4">
+        <img
+          src={levelIcon}
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            marginRight: `${PIXEL_SCALE * 4}px`,
+          }}
+        />
+        <div>
+          <p className="text-base">
+            {t("lvl")} {getBumpkinLevel(player?.experience ?? 0)}
+          </p>
+          {/* Progress bar */}
+          <BumpkinLevel experience={player?.experience} />
+        </div>
+
+        {player?.id && (
+          <div className="flex-auto self-start text-right text-xs mr-3 f-10">
+            {"#"}
+            {player?.id}
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <>
+      <div className="flex items-center ml-1 mt-2 mb-4">
+        <div className="flex justify-between items-center">
+          <Label type="success" icon={giftIcon}>
+            Giver giver
+          </Label>
+          <Label type="default" icon={SUNNYSIDE.icons.player}>
+            {player.id}
+          </Label>
+        </div>
+        <div>
+          <p className="text-sm">
+            Congratulations, you discovered a gift giver!
+          </p>
+          <p className="text-sm">
+            Each day you can claim a free prize from them.
+          </p>
+        </div>
+      </div>
+    </>
+  );
+};
 interface Props {
   game: GameState;
 }
@@ -53,6 +112,8 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
   const closeModal = () => {
     setPlayer(undefined);
   };
+
+  const playerHasGift = player?.clothing.hat === "Gift Giver";
 
   return (
     <>
@@ -77,33 +138,12 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             },
           ]}
         >
-          {tab === 0 && (
-            <>
-              <div className="flex items-center ml-1 mt-2 mb-4">
-                <img
-                  src={levelIcon}
-                  style={{
-                    width: `${PIXEL_SCALE * 10}px`,
-                    marginRight: `${PIXEL_SCALE * 4}px`,
-                  }}
-                />
-                <div>
-                  <p className="text-base">
-                    {t("lvl")} {getBumpkinLevel(player?.experience ?? 0)}
-                  </p>
-                  {/* Progress bar */}
-                  <BumpkinLevel experience={player?.experience} />
-                </div>
-
-                {player?.id && (
-                  <div className="flex-auto self-start text-right text-xs mr-3 f-10">
-                    {"#"}
-                    {player?.id}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
+          {tab === 0 &&
+            (playerHasGift ? (
+              <PlayerGift player={player} />
+            ) : (
+              <PlayerDetails player={player} />
+            ))}
           {tab === 1 && (
             <PlayerTrade onClose={closeModal} farmId={player?.id as number} />
           )}

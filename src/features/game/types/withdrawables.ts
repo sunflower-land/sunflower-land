@@ -1022,6 +1022,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   BumpkinItem,
   (state?: GameState) => boolean
 > = {
+  "Gift Giver": () => false,
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,
   "Light Brown Farmer Potion": () => false,
