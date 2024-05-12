@@ -646,6 +646,10 @@ const base: Record<Base, string> = {
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {
+  "giftGiver.description":
+    "Congratulations, you discovered a gift giver! Each day you can claim a free prize from them.",
+  "giftGiver.label": "Gift Giver",
+  "giftGiver.opened": "Already opened today",
   "basic.treasure.missingKey": "Missing Key",
   "basic.treasure.needKey": "You need a Treasure Key to open this chest",
   "rare.treasure.needKey": "You need a Rare Key to open this chest",

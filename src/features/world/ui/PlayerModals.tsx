@@ -1,7 +1,8 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import levelIcon from "assets/icons/level_up.png";
+import giftIcon from "assets/icons/gift.png";
 
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -12,6 +13,11 @@ import { PlayerTrade } from "./PlayerTrade";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
+import { Context } from "features/game/GameProvider";
+import { useActor } from "@xstate/react";
+import { Button } from "components/ui/Button";
+import { Revealed } from "features/game/components/Revealed";
+import { ChestRevealing } from "./chests/ChestRevealing";
 
 type Player = {
   id: number;
@@ -68,31 +74,79 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
 };
 
 const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  const { pumpkinPlaza } = gameState.context.state;
+
+  const [isRevealing, setIsRevealing] = useState(false);
+
+  // Just a prolonged UI state to show the shuffle of items animation
+  const [isPicking, setIsPicking] = useState(false);
+
   const { t } = useAppTranslation();
+
+  const open = async () => {
+    setIsPicking(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    gameService.send("REVEAL", {
+      event: {
+        type: "giftGiver.opened",
+        createdAt: new Date(),
+      },
+    });
+    setIsRevealing(true);
+    setIsPicking(false);
+  };
+
+  const openedAt = pumpkinPlaza.giftGiver?.openedAt ?? 0;
+
+  // Have they opened one today already?
+  const hasOpened =
+    !!openedAt &&
+    new Date(openedAt).toISOString().substring(0, 10) ===
+      new Date().toISOString().substring(0, 10);
+
+  if (isPicking || (gameState.matches("revealing") && isRevealing)) {
+    return <ChestRevealing type={"Gift Giver"} />;
+  }
+
+  if (gameState.matches("revealed") && isRevealing) {
+    return (
+      <Revealed
+        onAcknowledged={() => {
+          setIsRevealing(false);
+        }}
+      />
+    );
+  }
 
   return (
     <>
       <div className="flex items-center ml-1 mt-2 mb-4">
         <div className="flex justify-between items-center">
           <Label type="success" icon={giftIcon}>
-            Giver giver
+            {t("giftGiver.label")}
           </Label>
-          <Label type="default" icon={SUNNYSIDE.icons.player}>
-            {player.id}
-          </Label>
+          {hasOpened && (
+            <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+              {t("giftGiver.label")}
+            </Label>
+          )}
         </div>
         <div>
-          <p className="text-sm">
-            Congratulations, you discovered a gift giver!
-          </p>
-          <p className="text-sm">
-            Each day you can claim a free prize from them.
-          </p>
+          <p className="text-sm">{t("giftGiver.description")}</p>
         </div>
       </div>
+      <Button onClick={open} disabled={hasOpened}>
+        {t("open")}
+      </Button>
     </>
   );
 };
+
 interface Props {
   game: GameState;
 }
@@ -140,9 +194,9 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
         >
           {tab === 0 &&
             (playerHasGift ? (
-              <PlayerGift player={player} />
+              <PlayerGift player={player as Player} />
             ) : (
-              <PlayerDetails player={player} />
+              <PlayerDetails player={player as Player} />
             ))}
           {tab === 1 && (
             <PlayerTrade onClose={closeModal} farmId={player?.id as number} />
