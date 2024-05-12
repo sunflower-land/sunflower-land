@@ -6325,7 +6325,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A strong and noble chicken boosting your oil yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/495.gif",
+    image: "../public/erc1155/images/500.gif",
     attributes: [
       { trait_type: "Boost", value: "Resource" },
       {
