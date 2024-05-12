@@ -22,6 +22,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
+import { Manor } from "./manor/Manor";
 
 export interface BuildingProps {
   buildingId: string;
@@ -147,8 +148,7 @@ export const BUILDING_COMPONENTS: Record<
   "Compost Bin": () => <Composter name="Compost Bin" />,
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
-  // TODO feat/manor
-  Manor: () => <div></div>,
+  Manor: Manor,
 };
 
 export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {

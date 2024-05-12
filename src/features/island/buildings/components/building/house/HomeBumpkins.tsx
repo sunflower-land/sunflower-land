@@ -24,14 +24,14 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   return (
     <>
       <div className="flex w-full">
-        <div className="mr-2 relative" style={{ width: `${GRID_WIDTH_PX}px` }}>
+        <div className="mr-1 relative" style={{ width: `${GRID_WIDTH_PX}px` }}>
           <PlayerNPC parts={bumpkin.equipped} />
         </div>
 
         {getKeys(farmHands).map((id) => (
           <div
             key={id}
-            className="mr-2 cursor-pointer relative hover:img-highlight"
+            className="mr-1 cursor-pointer relative hover:img-highlight"
             onClick={() => setSelectedFarmHandId(id)}
             style={{ width: `${GRID_WIDTH_PX}px` }}
           >
