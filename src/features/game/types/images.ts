@@ -537,6 +537,22 @@ import potatoMutant from "assets/sfts/potato_mutant.gif";
 import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
+import battleCryDrum from "assets/sfts/battlecry_drum.webp";
+import bullseyBoard from "assets/sfts/bullsey_board.webp";
+import chessRug from "assets/sfts/chess_rug.webp";
+import cluckapult from "assets/sfts/cluckapult.webp";
+import goldenGallant from "assets/sfts/golden_gallant.webp";
+import goldenGarrison from "assets/sfts/golden_garrison.webp";
+import goldenGurdian from "assets/sfts/golden_guardian.webp";
+import noviceKnight from "assets/sfts/novice_knight.webp";
+import regularPawn from "assets/sfts/regular_pawn.webp";
+import rookieRook from "assets/sfts/rookie_rook.webp";
+import silverSentinel from "assets/sfts/silver_sentinel.webp";
+import silverSquire from "assets/sfts/silver_squire.webp";
+import silverStallion from "assets/sfts/silver_stallion.webp";
+import traineeTarget from "assets/sfts/trainee_target.webp";
+import twisterRug from "assets/sfts/twister_rug.webp";
+
 import anchovy from "assets/fish/anchovy.png";
 import barredKnifejaw from "assets/fish/barred_knifejaw.png";
 import blowfish from "assets/fish/blowfish.png";
@@ -3410,5 +3426,65 @@ export const ITEM_DETAILS: Items = {
   "Gaucho Rug": {
     image: gauchoRug,
     description: translate("description.gauchoRug"),
+  },
+  "Battlecry Drum": {
+    image: battleCryDrum,
+    description: translate("description.battleCryDrum"),
+  },
+  "Bullseye Board": {
+    image: bullseyBoard,
+    description: translate("description.bullseyBoard"),
+  },
+  "Chess Rug": {
+    image: chessRug,
+    description: translate("description.chessRug"),
+  },
+  Cluckapult: {
+    image: cluckapult,
+    description: translate("description.cluckapult"),
+  },
+  "Golden Gallant": {
+    image: goldenGallant,
+    description: translate("description.goldenGallant"),
+  },
+  "Golden Garrison": {
+    image: goldenGarrison,
+    description: translate("description.goldenGarrison"),
+  },
+  "Golden Guardian": {
+    image: goldenGurdian,
+    description: translate("description.goldenGurdian"),
+  },
+  "Novice Knight": {
+    image: noviceKnight,
+    description: translate("description.noviceKnight"),
+  },
+  "Regular Pawn": {
+    image: regularPawn,
+    description: translate("description.regularPawn"),
+  },
+  "Rookie Rook": {
+    image: rookieRook,
+    description: translate("description.rookieRook"),
+  },
+  "Silver Sentinel": {
+    image: silverSentinel,
+    description: translate("description.silverSentinel"),
+  },
+  "Silver Squire": {
+    image: silverSquire,
+    description: translate("description.silverSquire"),
+  },
+  "Silver Stallion": {
+    image: silverStallion,
+    description: translate("description.silverStallion"),
+  },
+  "Trainee Target": {
+    image: traineeTarget,
+    description: translate("description.traineeTarget"),
+  },
+  "Twister Rug": {
+    image: twisterRug,
+    description: translate("description.twisterRug"),
   },
 };

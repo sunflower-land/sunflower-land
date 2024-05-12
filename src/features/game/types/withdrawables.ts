@@ -535,6 +535,23 @@ const decorations: Record<ShopDecorationName, () => boolean> = {
 };
 
 const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
+  // TODO - time base withdrawals
+  "Battlecry Drum": () => false,
+  "Bullseye Board": () => false,
+  "Chess Rug": () => false,
+  Cluckapult: () => false,
+  "Golden Gallant": () => false,
+  "Golden Garrison": () => false,
+  "Golden Guardian": () => false,
+  "Novice Knight": () => false,
+  "Regular Pawn": () => false,
+  "Rookie Rook": () => false,
+  "Silver Sentinel": () => false,
+  "Silver Squire": () => false,
+  "Silver Stallion": () => false,
+  "Trainee Target": () => false,
+  "Twister Rug": () => false,
+
   Blossombeard: () => false,
   "Desert Gnome": () => false,
   Clementine: () => true,

@@ -261,6 +261,21 @@ import { Vinny } from "./components/Vinny";
 import { KnightChicken } from "./components/KnightChicken";
 import { BattleFish } from "./components/BattleFish";
 import { GauchoRug } from "./components/GauchoRug";
+import { BattlecryDrum } from "./components/BattleCryDrum";
+import { BullseyeBoard } from "./components/BullseyeBoard";
+import { ChessRug } from "./components/ChessRug";
+import { GoldenGallant } from "./components/GoldenGallant";
+import { GoldenGarrison } from "./components/GoldenGarrison";
+import { GoldenGuardian } from "./components/GoldenGuardian";
+import { NoviceKnight } from "./components/NoviceKnight";
+import { RegularPawn } from "./components/RegularPawn";
+import { RookieRook } from "./components/RookieRook";
+import { SilverSentinel } from "./components/SilverSentinel";
+import { SilverSquire } from "./components/SilverSquire";
+import { SilverStallion } from "./components/SilverStallion";
+import { TraineeTarget } from "./components/TraineeTarget";
+import { TwisterRug } from "./components/TwisterRug";
+import { Cluckapult } from "./components/Cluckapult";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -269,6 +284,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
   React.FC<CollectibleProps>
 > = {
   "Gaucho Rug": GauchoRug,
+  "Battlecry Drum": BattlecryDrum,
+  "Bullseye Board": BullseyeBoard,
+  "Chess Rug": ChessRug,
+  "Golden Gallant": GoldenGallant,
+  "Golden Garrison": GoldenGarrison,
+  "Golden Guardian": GoldenGuardian,
+  "Novice Knight": NoviceKnight,
+  "Regular Pawn": RegularPawn,
+  "Rookie Rook": RookieRook,
+  "Silver Sentinel": SilverSentinel,
+  "Silver Squire": SilverSquire,
+  "Silver Stallion": SilverStallion,
+  "Trainee Target": TraineeTarget,
+  "Twister Rug": TwisterRug,
+  Cluckapult: Cluckapult,
   "Hungry Hare": HungryHare,
   "Community Egg": CommunityEgg,
   Baozi: Baozi,
