@@ -7067,20 +7067,20 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
-  // TODO feat/desert-gnome
+
   "Desert Gnome": {
     description:
       "The Blossombeard Gnome is a powerful companion for your farming adventures.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2010.png",
+    image: "../public/erc1155/images/2017.png",
     attributes: [
       { trait_type: "Tradable", value: "No" },
-      { trait_type: "Boost", value: "XP" },
+      { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_percentage",
-        trait_type: "Experience",
-        value: 10,
+        trait_type: "Cooking Time",
+        value: -10,
       },
     ],
   },
@@ -7483,7 +7483,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/555.png",
-    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Rapid Roast": {
     name: "Rapid Roast",
@@ -7491,7 +7494,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/556.png",
-    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Shroom Syrup": {
     name: "Shroom Syrup",
@@ -7499,7 +7505,10 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/557.png",
-    attributes: [{ trait_type: "Purpose", value: "Consumable" }],
+    attributes: [
+      { trait_type: "Purpose", value: "Consumable" },
+      { trait_type: "Tradable", value: "No" },
+    ],
   },
   "Gaucho Rug": {
     name: "Gaucho Rug",
