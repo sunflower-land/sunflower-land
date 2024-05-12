@@ -371,6 +371,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   // Honey
   "Queen Bee": (game) => isProducingHoney(game),
   "Flower Fox": (game) => areFlowersGrowing(game),
+
+  // Clash of Factions
+  Soybliss: (game) => cropIsGrowing({ item: "Soybean", game }),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

@@ -301,6 +301,10 @@ export function getCropYieldAmount({
 
   const { skills } = game.bumpkin;
 
+  if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {
+    amount += 1;
+  }
+
   if (
     crop === "Cauliflower" &&
     isCollectibleBuilt({ name: "Golden Cauliflower", game })
