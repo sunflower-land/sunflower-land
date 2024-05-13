@@ -660,7 +660,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Battlecry Drum": 2018,
   "Bullseye Board": 2019,
   "Chess Rug": 2020,
-  Cluckapult: 2021,
+  "Gaucho Rug": 2021,
   "Golden Gallant": 2022,
   "Golden Garrison": 2023,
   "Golden Guardian": 2024,
@@ -672,7 +672,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Silver Stallion": 2030,
   "Trainee Target": 2031,
   "Twister Rug": 2032,
-  "Gaucho Rug": 2033,
+  Cluckapult: 2033,
 };
 
 // The reverse of above
