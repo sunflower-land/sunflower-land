@@ -32,6 +32,8 @@ export const EXPANSION_ORIGINS: Record<number, Coordinates> = {
   21: { x: -1 * LAND_SIZE, y: -2 * LAND_SIZE },
   22: { x: 0 * LAND_SIZE, y: -2 * LAND_SIZE },
   23: { x: 1 * LAND_SIZE, y: -2 * LAND_SIZE },
+  24: { x: 2 * LAND_SIZE, y: -2 * LAND_SIZE },
+  25: { x: 3 * LAND_SIZE, y: -2 * LAND_SIZE },
 };
 
 export type LandRequirements = {

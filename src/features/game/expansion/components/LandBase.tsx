@@ -47,6 +47,8 @@ import desertLevel20 from "assets/land/levels/desert/level_20.webp";
 import desertLevel21 from "assets/land/levels/desert/level_21.webp";
 import desertLevel22 from "assets/land/levels/desert/level_22.webp";
 import desertLevel23 from "assets/land/levels/desert/level_23.webp";
+import desertLevel24 from "assets/land/levels/desert/level_24.webp";
+import desertLevel25 from "assets/land/levels/desert/level_25.webp";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
@@ -104,6 +106,8 @@ const DESERT_LEVEL_IMAGES = {
   21: desertLevel21,
   22: desertLevel22,
   23: desertLevel23,
+  24: desertLevel24,
+  25: desertLevel25,
 };
 
 const LEVEL_IMAGES: Record<IslandType, Record<number, string>> = {
