@@ -7510,14 +7510,6 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
   },
-  "Gaucho Rug": {
-    name: "Gaucho Rug",
-    description: "A commerative rug to support South Brazil.",
-    decimals: 0,
-    external_url: "https://docs.sunflower-land.com/getting-started/about",
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
-    image: "../public/erc1155/images/2021.png",
-  },
   "Battlecry Drum": {
     name: "Battlecry Drum",
     description: "",
@@ -7544,15 +7536,13 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: `../public/erc1155/images/2020.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
-  Cluckapult: {
-    name: "Cluckapult",
-    description:
-      "Launch into fun with the Cluckapult, where chicken-flinging chaos reigns supreme.",
-
+  "Gaucho Rug": {
+    name: "Gaucho Rug",
+    description: "A commerative rug to support South Brazil.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: `../public/erc1155/images/2033.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    image: "../public/erc1155/images/2021.png",
   },
   "Golden Gallant": {
     name: "Golden Gallant",
@@ -7655,6 +7645,15 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: `../public/erc1155/images/2032.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Cluckapult: {
+    name: "Cluckapult",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2033.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Grape Seed": {
