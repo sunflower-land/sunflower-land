@@ -48,7 +48,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTION_LEADERBOARD: clashOfFactionsFeatureFlag,
   SOUND: testnetFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
-  PRESTIGE_DESERT: testnetFeatureFlag,
+  PRESTIGE_DESERT: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

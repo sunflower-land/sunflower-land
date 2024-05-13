@@ -7,11 +7,7 @@ import desertPrestige from "assets/announcements/desert_prestige.png";
 import lockIcon from "assets/skills/lock.png";
 import land from "assets/land/islands/island.webp";
 
-import {
-  GRID_WIDTH_PX,
-  PIXEL_SCALE,
-  TEST_FARM,
-} from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
@@ -37,13 +33,15 @@ import { formatDateTime } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 
-const UPGRADE_DATES: Record<IslandType, number | null> = {
+const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
+  state
+) => ({
   basic: new Date(0).getTime(),
-  spring: hasFeatureAccess(TEST_FARM, "PRESTIGE_DESERT")
+  spring: hasFeatureAccess(state, "PRESTIGE_DESERT")
     ? new Date(0).getTime()
     : new Date("2024-05-15T00:00:00Z").getTime(),
   desert: null, // Next prestige after desert
-};
+});
 
 const UPGRADE_RAFTS: Record<IslandType, string | null> = {
   basic: springRaft,
@@ -114,7 +112,7 @@ const IslandUpgraderModal: React.FC<{
     );
   }
 
-  const upgradeDate = UPGRADE_DATES[island.type];
+  const upgradeDate = UPGRADE_DATES(gameState.context.state)[island.type];
   const hasUpgrade = upgradeDate !== null;
   const isReady = hasUpgrade && upgradeDate < Date.now();
 
