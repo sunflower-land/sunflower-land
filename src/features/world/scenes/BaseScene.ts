@@ -383,6 +383,15 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (this.playerEntities[message.sessionId]) {
+        const distance = Phaser.Math.Distance.BetweenPoints(
+          this.playerEntities[message.sessionId],
+          this.currentPlayer as BumpkinContainer
+        );
+
+        if (distance > 250) {
+          return;
+        }
+
         this.playerEntities[message.sessionId].speak(message.text);
       } else if (message.sessionId === server.sessionId) {
         this.currentPlayer?.speak(message.text);
