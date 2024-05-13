@@ -220,6 +220,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Yeteneği Talep Et",
   clear: "Temizle",
   close: "Kapat",
+  coins: ENGLISH_TERMS["coins"],
   collect: "Topla",
   "coming.soon": "Yakında Gelecek",
   common: "Yaygın",
@@ -2833,8 +2834,7 @@ const islandNotFound: Record<IslandNotFound, string> = {
 const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmUpgrade":
     "Yeni bir adaya geçmek istediğinizden emin misiniz?",
-  "islandupgrade.warning":
-    "Devam eden herhangi bir ürün, meyve, bina veya tavuk olmadığından emin olun. Bunlar envanterinize iade edilecektir.",
+  "islandupgrade.warning": ENGLISH_TERMS["islandupgrade.warning"],
   "islandupgrade.upgradeIsland": "Ada Yükseltmesi",
   "islandupgrade.newOpportunities":
     "Çiftliğinizi büyütmeniz için yeni kaynaklar ve fırsatlarla dolu egzotik bir ada sizi bekliyor.",

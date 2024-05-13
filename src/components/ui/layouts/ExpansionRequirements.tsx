@@ -25,6 +25,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
  */
 interface Props {
   inventory: Inventory;
+  coins: number;
   bumpkin: Bumpkin;
   details: DetailsProps;
   requirements: IExpansionRequirements;
@@ -50,6 +51,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
   details,
   requirements,
   actionView,
+  coins,
 }: Props) => {
   const { t } = useAppTranslation();
 
@@ -88,6 +90,15 @@ export const ExpansionRequirements: React.FC<Props> = ({
         </div>
 
         <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
+          {!!requirements.coins && (
+            <RequirementLabel
+              key={"coins"}
+              type="coins"
+              balance={coins}
+              showLabel
+              requirement={requirements.coins}
+            />
+          )}
           {getKeys(requirements.resources).map((itemName) => {
             return (
               <RequirementLabel

@@ -44,6 +44,7 @@ export type GeneralTerms =
   | "claim"
   | "clear"
   | "close"
+  | "coins"
   | "collect"
   | "coming.soon"
   | "common"

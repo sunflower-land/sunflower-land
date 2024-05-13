@@ -43,6 +43,7 @@ interface ExpandIconProps {
   canExpand: boolean;
   showHelper: boolean;
   inventory: Inventory;
+  coins: number;
 }
 export const ExpandIcon: React.FC<ExpandIconProps> = ({
   onOpen,
@@ -52,6 +53,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
   canExpand,
   showHelper,
   inventory,
+  coins,
 }) => {
   const showRequirements = inventory["Basic Land"]?.lte(5);
 
@@ -81,6 +83,21 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
           {showRequirements && (
             <>
               <div className="flex mt-2 flex-wrap justify-center px-4 items-center">
+                {!!requirements.coins && (
+                  <div className="mr-3 flex items-center mb-1" key={"coins"}>
+                    <RequirementLabel
+                      type="coins"
+                      requirement={requirements.coins}
+                      balance={coins}
+                    />
+                    {coins >= requirements.coins && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        className="h-4 ml-0.5"
+                      />
+                    )}
+                  </div>
+                )}
                 {getKeys(requirements.resources ?? {})
                   .filter((name) => name !== "Block Buck")
                   .map((name) => (
@@ -290,6 +307,7 @@ export const UpcomingExpansion: React.FC = () => {
           position={nextPosition}
           requirements={requirements as IExpansionRequirements}
           showHelper={showHelper ?? false}
+          coins={state.coins}
         />
       )}
 
@@ -300,6 +318,7 @@ export const UpcomingExpansion: React.FC = () => {
         >
           <ExpansionRequirements
             inventory={state.inventory}
+            coins={state.coins}
             bumpkin={state.bumpkin as Bumpkin}
             details={{
               description: translate("landscape.expansion.one"),

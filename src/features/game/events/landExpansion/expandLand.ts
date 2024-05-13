@@ -36,6 +36,12 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     throw new Error("Insufficient Bumpkin Level");
   }
 
+  const coinRequirement = requirements.coins ?? 0;
+  if (game.coins < coinRequirement) {
+    throw new Error("Insufficient coins");
+  }
+  game.coins -= coinRequirement;
+
   const inventory = getKeys(requirements.resources).reduce(
     (inventory, ingredientName) => {
       const count = game.inventory[ingredientName] || new Decimal(0);
