@@ -300,7 +300,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "desert",
+    type: "spring",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -435,7 +435,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(4),
+    "Basic Land": new Decimal(20),
     Gold: new Decimal(13),
     // "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),

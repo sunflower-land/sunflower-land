@@ -90,7 +90,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
         </div>
 
         <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
-          {requirements.coins && (
+          {!!requirements.coins && (
             <RequirementLabel
               key={"coins"}
               type="coins"

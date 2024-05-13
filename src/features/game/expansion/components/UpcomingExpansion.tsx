@@ -83,7 +83,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
           {showRequirements && (
             <>
               <div className="flex mt-2 flex-wrap justify-center px-4 items-center">
-                {requirements.coins && (
+                {!!requirements.coins && (
                   <div className="mr-3 flex items-center mb-1" key={"coins"}>
                     <RequirementLabel
                       type="coins"
