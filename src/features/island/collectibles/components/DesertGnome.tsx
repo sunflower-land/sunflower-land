@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/sfts/desert_gnome.png";
+import image from "assets/sfts/desert_gnome.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const DesertGnome: React.FC = () => {
