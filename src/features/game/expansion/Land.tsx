@@ -583,6 +583,7 @@ export const Land: React.FC = () => {
     airdrops,
     beehives,
     oilReserves,
+    island,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
