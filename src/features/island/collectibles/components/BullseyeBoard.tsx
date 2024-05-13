@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/bullsey_board.webp";
+import image from "assets/sfts/bullseye_board.webp";
 
 export const BullseyeBoard: React.FC = () => {
   return (

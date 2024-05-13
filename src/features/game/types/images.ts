@@ -562,7 +562,7 @@ import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
 import battleCryDrum from "assets/sfts/battlecry_drum.webp";
-import bullseyBoard from "assets/sfts/bullsey_board.webp";
+import bullseyBoard from "assets/sfts/bullseye_board.webp";
 import chessRug from "assets/sfts/chess_rug.webp";
 import cluckapult from "assets/sfts/cluckapult.webp";
 import goldenGallant from "assets/sfts/golden_gallant.webp";
