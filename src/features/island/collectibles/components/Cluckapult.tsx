@@ -8,7 +8,7 @@ export const Cluckapult: React.FC = () => {
     <img
       src={image}
       style={{
-        width: `${PIXEL_SCALE * 24}px`,
+        width: `${PIXEL_SCALE * 31}px`,
         bottom: `${PIXEL_SCALE * 2}px`,
       }}
       className="absolute left-1/2 transform -translate-x-1/2"

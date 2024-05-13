@@ -143,7 +143,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Twister Rug": {
     width: 3,
-    height: 3,
+    height: 2,
   },
   Cluckapult: {
     width: 2,

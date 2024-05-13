@@ -8,7 +8,7 @@ export const GoldenGuardian: React.FC = () => {
     <img
       src={image}
       style={{
-        width: `${PIXEL_SCALE * 8}px`,
+        width: `${PIXEL_SCALE * 9}px`,
         bottom: `${PIXEL_SCALE * 2}px`,
       }}
       className="absolute left-1/2 transform -translate-x-1/2"
