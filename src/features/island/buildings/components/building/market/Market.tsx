@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 
-import market from "assets/desert/buildings/bettys_market.png";
+import market from "assets/buildings/bettys_market.png";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
