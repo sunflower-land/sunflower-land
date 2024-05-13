@@ -2,7 +2,7 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import React, { useRef, useState } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import background from "assets/land/levels/level_1.webp";
+import background from "assets/land/levels/basic/level_1.webp";
 import { GameProvider } from "features/game/GameProvider";
 import waterMovement from "assets/decorations/water_movement.png";
 import { getKeys } from "features/game/types/craftables";

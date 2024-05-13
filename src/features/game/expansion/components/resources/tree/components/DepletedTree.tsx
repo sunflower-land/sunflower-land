@@ -1,14 +1,23 @@
 import React, { useState } from "react";
 import stump from "assets/resources/tree/stump.png";
+import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { IslandType } from "features/game/types/game";
+
+const STUMP_IMAGE: Record<IslandType, string> = {
+  basic: stump,
+  spring: stump,
+  desert: cactiStump,
+};
 
 interface Props {
   timeLeft: number;
+  island: IslandType;
 }
 
-const DepletedTreeComponent: React.FC<Props> = ({ timeLeft }) => {
+const DepletedTreeComponent: React.FC<Props> = ({ timeLeft, island }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const { t } = useAppTranslation();
 
@@ -20,7 +29,7 @@ const DepletedTreeComponent: React.FC<Props> = ({ timeLeft }) => {
     >
       <div className="absolute w-full h-full pointer-events-none">
         <img
-          src={stump}
+          src={STUMP_IMAGE[island]}
           className="absolute opacity-50"
           style={{
             width: `${GRID_WIDTH_PX}px`,

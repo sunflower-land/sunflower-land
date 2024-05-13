@@ -583,6 +583,7 @@ export const Land: React.FC = () => {
     airdrops,
     beehives,
     oilReserves,
+    island,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -647,7 +648,7 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <LandBase expandedCount={expansionCount} />
+            <LandBase type={island.type} expandedCount={expansionCount} />
             <DirtRenderer grid={gameGrid} />
 
             {!landscaping && (
