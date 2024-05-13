@@ -4414,7 +4414,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A rare resource used to mine crimstones",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/635.png",
+    image: "../public/erc1155/images/635.gif",
     attributes: [
       { trait_type: "Purpose", value: "Resource Node" },
       { trait_type: "Tradable", value: "No" },
