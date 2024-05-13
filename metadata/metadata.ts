@@ -7468,7 +7468,141 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A commerative rug to support South Brazil.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
     image: "../public/erc1155/images/2018.png",
+  },
+  "Battlecry Drum": {
+    name: "Battlecry Drum",
+    description: "",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2018.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Bullseye Board": {
+    name: "Bullseye Board",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2019.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Chess Rug": {
+    name: "Chess Rug",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2020.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  Cluckapult: {
+    name: "Cluckapult",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2021.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Golden Gallant": {
+    name: "Golden Gallant",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2022.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Golden Garrison": {
+    name: "Golden Garrison",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2023.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Golden Guardian": {
+    name: "Golden Guardian",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2024.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Novice Knight": {
+    name: "Novice Knight",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2025.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Regular Pawn": {
+    name: "Regular Pawn",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2026.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Rookie Rook": {
+    name: "Rookie Rook",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2027.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Silver Sentinel": {
+    name: "Silver Sentinel",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2028.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Silver Squire": {
+    name: "Silver Squire",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2029.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Silver Stallion": {
+    name: "Silver Stallion",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2030.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Trainee Target": {
+    name: "Trainee Target",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2031.png`,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Twister Rug": {
+    name: "Twister Rug",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/2032.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
 };

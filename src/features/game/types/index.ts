@@ -657,7 +657,22 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Clock: 2015,
   Vinny: 2016,
   "Desert Gnome": 2017,
-  "Gaucho Rug": 2018,
+  "Battlecry Drum": 2018,
+  "Bullseye Board": 2019,
+  "Chess Rug": 2020,
+  "Gaucho Rug": 2021,
+  "Golden Gallant": 2022,
+  "Golden Garrison": 2023,
+  "Golden Guardian": 2024,
+  "Novice Knight": 2025,
+  "Regular Pawn": 2026,
+  "Rookie Rook": 2027,
+  "Silver Sentinel": 2028,
+  "Silver Squire": 2029,
+  "Silver Stallion": 2030,
+  "Trainee Target": 2031,
+  "Twister Rug": 2032,
+  Cluckapult: 2033,
 };
 
 // The reverse of above

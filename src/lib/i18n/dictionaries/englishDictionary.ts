@@ -1503,6 +1503,21 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Bouncy ball brings beachy vibes, blows boredom away.",
   "description.palm.tree":
     "Tall, beachy, shady and chic, palm trees make waves sashay.",
+  "description.battleCryDrum": "",
+  "description.bullseyBoard": "",
+  "description.chessRug": "",
+  "description.cluckapult": "",
+  "description.goldenGallant": "",
+  "description.goldenGarrison": "",
+  "description.goldenGurdian": "",
+  "description.noviceKnight": "",
+  "description.regularPawn": "",
+  "description.rookieRook": "",
+  "description.silverSentinel": "",
+  "description.silverSquire": "",
+  "description.silverStallion": "",
+  "description.traineeTarget": "",
+  "description.twisterRug": "",
 
   //other
   "description.sunflower.amulet": "10% increased Sunflower yield.",

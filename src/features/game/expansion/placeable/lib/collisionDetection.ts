@@ -189,6 +189,8 @@ export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
 };
 
 const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
+  "Chess Rug",
+  "Twister Rug",
   "Rug",
   "Sunrise Bloom Rug",
   "Flower Rug",
