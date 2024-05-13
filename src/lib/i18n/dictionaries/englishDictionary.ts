@@ -1668,6 +1668,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
   "description.sunrise.bloom.rug":
     "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+  "description.gauchoRug": "A commerative rug to support South Brazil.",
   "description.blossom.royale":
     "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
   "description.rainbow":

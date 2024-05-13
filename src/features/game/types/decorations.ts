@@ -68,7 +68,8 @@ export type SeasonalDecorationName =
   | "Hideaway Herman"
   | "Shifty Sheldon"
   | "Tiki Torch"
-  | "Beach Umbrella";
+  | "Beach Umbrella"
+  | "Gaucho Rug";
 
 export type EventDecorationName =
   | "Community Egg"
@@ -109,6 +110,10 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Gaucho Rug": {
+    width: 3,
+    height: 2,
+  },
   "Hungry Hare": {
     width: 2,
     height: 2,

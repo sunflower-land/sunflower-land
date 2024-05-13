@@ -88,6 +88,7 @@ import capybara from "assets/sfts/capybara.webp";
 import flowerRug from "assets/sfts/flower_rug.webp";
 import teaRug from "assets/sfts/tea_rug.webp";
 import greenFieldRug from "assets/sfts/green_field_rug.webp";
+import gauchoRug from "assets/sfts/gaucho_rug.webp";
 // Clash of Factions
 import turboSprout from "assets/sfts/turbo_sprout.webp";
 import soybliss from "assets/sfts/soybliss.webp";
@@ -3405,5 +3406,9 @@ export const ITEM_DETAILS: Items = {
   "Shroom Syrup": {
     image: shroomSyrup,
     description: translate("description.fermented.shroomSyrup"),
+  },
+  "Gaucho Rug": {
+    image: gauchoRug,
+    description: translate("description.gauchoRug"),
   },
 };

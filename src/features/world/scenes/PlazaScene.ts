@@ -73,8 +73,8 @@ const FACTION_NPCS: FactionNPC[] = [
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 387,
-    y: 255,
+    x: 323,
+    y: 150,
     npc: "gaucho",
   },
   {
@@ -289,6 +289,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
     this.load.image("nightshades_banner", "world/nightshades_banner.webp");
     this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
+    this.load.image("gaucho_rug", "world/gaucho_rug.png");
 
     this.load.spritesheet("maximus", "world/maximus.png", {
       frameWidth: 23,
@@ -561,6 +562,8 @@ export class PlazaScene extends BaseScene {
         this.makeAllFactionNPCsInteractive();
       }
     }
+
+    this.add.sprite(323, 160, "gaucho_rug");
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {

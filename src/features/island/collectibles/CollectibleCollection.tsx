@@ -260,6 +260,7 @@ import { Clock } from "./components/Clock";
 import { Vinny } from "./components/Vinny";
 import { KnightChicken } from "./components/KnightChicken";
 import { BattleFish } from "./components/BattleFish";
+import { GauchoRug } from "./components/GauchoRug";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 
@@ -267,6 +268,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Gaucho Rug": GauchoRug,
   "Hungry Hare": HungryHare,
   "Community Egg": CommunityEgg,
   Baozi: Baozi,

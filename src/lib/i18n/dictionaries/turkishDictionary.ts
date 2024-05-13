@@ -1729,6 +1729,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.nightshade.faction.banner":
     ENGLISH_TERMS["description.nightshade.faction.banner"],
 
+  "description.gauchoRug": ENGLISH_TERMS["description.gauchoRug"],
+
   // Clash of Factions
   "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
   "description.soybliss": ENGLISH_TERMS["description.soybliss"],

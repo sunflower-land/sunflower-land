@@ -1212,6 +1212,7 @@ export type DecorationDescriptions =
   | "description.flower.fox"
   | "description.hungry.caterpillar"
   | "description.sunrise.bloom.rug"
+  | "description.gauchoRug"
   | "description.blossom.royale"
   | "description.rainbow"
   | "description.enchanted.rose"
