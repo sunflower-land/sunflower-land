@@ -383,16 +383,20 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (this.playerEntities[message.sessionId]) {
+        const screenHeight = this.cameras.main.height;
+        const screenWidth = this.cameras.main.width;
         const distance = Phaser.Math.Distance.BetweenPoints(
           this.playerEntities[message.sessionId],
           this.currentPlayer as BumpkinContainer
         );
 
-        if (distance > 250) {
-          return;
-        }
+        const maxDistance = Math.min(screenWidth, screenHeight) * 0.2;
 
-        this.playerEntities[message.sessionId].speak(message.text);
+        const isVisible = distance < maxDistance;
+
+        if (isVisible) {
+          this.playerEntities[message.sessionId].speak(message.text);
+        }
       } else if (message.sessionId === server.sessionId) {
         this.currentPlayer?.speak(message.text);
       }
