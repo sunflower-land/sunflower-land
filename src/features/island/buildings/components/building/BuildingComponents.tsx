@@ -23,10 +23,12 @@ import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
+import { IslandType } from "features/game/types/game";
 
 export interface BuildingProps {
   buildingId: string;
   buildingIndex: number;
+  island: IslandType;
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
@@ -42,17 +44,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <FirePit
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -63,17 +68,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <Bakery
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -91,17 +99,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <Kitchen
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -111,17 +122,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <Deli
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -131,17 +145,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <SmoothieShack
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
