@@ -6,16 +6,27 @@ import { Bumpkin, LanternName } from "./game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
-import { FruitName, FruitSeedName } from "./fruits";
+import {
+  FruitName,
+  FruitSeedName,
+  GreenHouseFruitName,
+  GreenHouseFruitSeedName,
+} from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { BeachBountyTreasure, TreasureName } from "./treasure";
-import { CompostName, ComposterName } from "./composters";
+import { ComposterName, CompostName } from "./composters";
 import { PurchaseableBait } from "./fishing";
 import { FlowerName, FlowerSeedName } from "./flowers";
 
-type BuyableName = SeedName | Animal | DecorationName | BeanName;
+type BuyableName =
+  | SeedName
+  | Animal
+  | DecorationName
+  | BeanName
+  | GreenHouseFruitSeedName;
+
 type SellableName =
   | CropName
   | Food
@@ -23,7 +34,8 @@ type SellableName =
   | BeachBountyTreasure
   | FruitName
   | GarbageName
-  | ExoticCropName;
+  | ExoticCropName
+  | GreenHouseFruitName;
 
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
