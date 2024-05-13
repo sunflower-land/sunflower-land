@@ -325,7 +325,7 @@ const INITIAL_LAND: Pick<
 };
 
 const SUNSTONE_RELOCATION: Coordinates[] = [
-  { x: -4, y: 7 },
+  { x: -3, y: 7 },
   { x: 0, y: 7 },
   { x: 4, y: 2 },
   { x: 4, y: 0 },

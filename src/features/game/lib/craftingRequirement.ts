@@ -15,6 +15,8 @@ export const craftingRequirementsMet = (
     return false;
   }
 
+  const hasCoins = gameState.coins >= (requirements.coins ?? 0);
+
   const hasResources = getKeys(requirements.resources).every((name) =>
     gameState.inventory[name]?.gte(requirements.resources[name] ?? 0)
   );
@@ -23,6 +25,7 @@ export const craftingRequirementsMet = (
     ? getBumpkinLevel(gameState.bumpkin?.experience || 0) >=
       (requirements.bumpkinLevel ?? 0)
     : !!gameState.bumpkin;
-  const canCraft = hasResources && hasLevel;
+
+  const canCraft = hasResources && hasLevel && hasCoins;
   return canCraft;
 };

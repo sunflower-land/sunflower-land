@@ -219,6 +219,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Claim Skill",
   clear: "Clear",
   close: "Close",
+  coins: "Coins",
   collect: "Collect",
   "coming.soon": "Coming soon",
   common: "Common",
@@ -2802,7 +2803,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmUpgrade":
     "Are you sure you want to upgrade to a new island.",
   "islandupgrade.warning":
-    "Make sure you do not have any crops, fruit, buildings or chickens in progress. These will be returned to your inventory.",
+    "Make sure you do not have any crops, fruit, buildings, chickens, mushrooms, crimstone, flowers or honey in progress. These will not be able to be harvested and will be returned to your inventory.",
   "islandupgrade.upgradeIsland": "Upgrade Island",
   "islandupgrade.newOpportunities":
     "An exotic island awaits you with new resources and opportunities to grow your farm.",

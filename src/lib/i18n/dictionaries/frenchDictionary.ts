@@ -228,6 +228,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "claim.skill": "Réclamer une compétence",
   clear: "Effacer",
   close: "Fermer",
+  coins: ENGLISH_TERMS["coins"],
   collect: "Collecter",
   collectibles: "Objets de collection",
   collection: "Collection",
@@ -2937,8 +2938,7 @@ const islandNotFound: Record<IslandNotFound, string> = {
 const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmUpgrade":
     "Êtes-vous sûr de vouloir passer à une nouvelle île?",
-  "islandupgrade.warning":
-    "Assurez-vous de ne pas avoir de cultures, de fruits, de bâtiments ou de poules en cours. Ils seront renvoyés dans votre inventaire.",
+  "islandupgrade.warning": ENGLISH_TERMS["islandupgrade.warning"],
   "islandupgrade.upgradeIsland": "Améliorer l'île",
   "islandupgrade.newOpportunities":
     "Une île exotique vous attend avec de nouvelles ressources et des opportunités pour développer votre ferme.",

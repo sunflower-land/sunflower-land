@@ -11,6 +11,7 @@ import { secondsToString } from "lib/utils/time";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { setPrecision } from "lib/utils/formatNumber";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * The props for SFL requirement label. Use this when the item costs SFL.
@@ -144,6 +145,8 @@ type Props = (
  * @props The component props.
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
+  const { t } = useAppTranslation();
+
   const getIcon = () => {
     switch (props.type) {
       case "coins":
@@ -227,6 +230,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         )}
         {props.type === "item" && props.showLabel && (
           <span className="text-xs ml-1">{props.item}</span>
+        )}
+        {props.type === "coins" && props.showLabel && (
+          <span className="text-xs ml-1">{t("coins")}</span>
         )}
       </div>
 

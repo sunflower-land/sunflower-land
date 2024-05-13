@@ -219,6 +219,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   clear: "Limpar",
   close: "Fechar",
   "coming.soon": "Em breve",
+  coins: ENGLISH_TERMS["coins"],
   common: "Comum",
   completed: "Concluído",
   confirm: "Confirmar",
@@ -2718,8 +2719,7 @@ const howToUpgrade: Record<HowToUpgrade, string> = {
 const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.confirmUpgrade":
     "Tem certeza de que deseja atualizar para uma nova ilha.",
-  "islandupgrade.warning":
-    "Certifique-se de que não há plantações, frutas, construções ou galinhas em progresso. Estes serão devolvidos ao seu inventário.",
+  "islandupgrade.warning": ENGLISH_TERMS["islandupgrade.warning"],
   "islandupgrade.upgradeIsland": "Atualizar Ilha",
   "islandupgrade.newOpportunities":
     "Uma ilha exótica espera por você com novos recursos e oportunidades para expandir sua fazenda.",
