@@ -1204,3 +1204,16 @@ img {
     transform: translate(0px, 0px);
   }
 }
+
+/* Plaza ChatUI Scrollbar */
+
+.plaza-chat-ui::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.plaza-chat-ui::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
