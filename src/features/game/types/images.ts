@@ -499,6 +499,7 @@ import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
 import mahoganyCap from "assets/decorations/mahogony_cap.png";
 import clementine from "assets/decorations/clementine.png";
 import blossombeard from "assets/sfts/blossom_beard.webp";
+import desertgnome from "assets/sfts/desert_gnome.webp";
 import cobalt from "assets/decorations/cobalt.png";
 import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
@@ -2627,10 +2628,9 @@ export const ITEM_DETAILS: Items = {
     image: blossombeard,
     description: translate("description.blossombeard"),
   },
-  // TODO feat/desert-gnome
   "Desert Gnome": {
-    image: blossombeard,
-    description: translate("description.blossombeard"),
+    image: desertgnome,
+    description: translate("description.desertgnome"),
   },
   Cobalt: {
     image: cobalt,

@@ -1,20 +1,20 @@
 import React from "react";
 
-import image from "assets/sfts/blossom_beard.webp";
+import image from "assets/sfts/desert_gnome.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-export const Blossombeard: React.FC = () => {
+export const DesertGnome: React.FC = () => {
   return (
     <>
       <img
         src={image}
         style={{
-          width: `${PIXEL_SCALE * 13}px`,
+          width: `${PIXEL_SCALE * 9}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 1.5}px`,
+          left: `${PIXEL_SCALE * 3.5}px`,
         }}
         className="absolute"
-        alt="Blossombeard"
+        alt="DesertGnome"
       />
     </>
   );

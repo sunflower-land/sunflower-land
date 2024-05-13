@@ -944,6 +944,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.genie.lamp.boost": "Accorde 3 souhaits",
   "description.observatory.boost": "+5% XP",
   "description.blossombeard.boost": "+10% XP",
+  "description.desertgnome.boost":
+    ENGLISH_TERMS["description.desertgnome.boost"],
   "description.christmas.festive.tree.boost": "Cadeau gratuit à Noël",
   "description.grinxs.hammer.boost": "Réduit de moitié les coûts d'expansion",
   "description.time.warp.totem.boost":
@@ -1678,6 +1680,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Le gnome Clementine est un compagnon joyeux pour vos aventures agricoles.",
   "description.blossombeard":
     "Le gnome Blossombeard est un compagnon puissant pour vos aventures agricoles.",
+  "description.desertgnome": ENGLISH_TERMS["description.desertgnome"],
   "description.cobalt":
     "Le gnome Cobalt ajoute une touche de couleur à votre ferme avec son chapeau vibrant.",
   "description.hoot": "Hibou hibou ! Avez-vous résolu mon énigme?",

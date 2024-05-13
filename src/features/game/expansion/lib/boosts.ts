@@ -110,6 +110,10 @@ export const getCookingTime = (
     reducedSecs = reducedSecs.mul(0.5);
   }
 
+  if (isCollectibleBuilt({ name: "Desert Gnome", game })) {
+    reducedSecs = reducedSecs.mul(0.9);
+  }
+
   return reducedSecs.toNumber();
 };
 
