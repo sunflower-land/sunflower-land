@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
 import { donationMachine } from "features/community/merchant/lib/donationMachine";
 import { useMachine } from "@xstate/react";
@@ -9,6 +9,15 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
+const VALID_INTEGER = new RegExp(/^\d+$/);
+const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
+const INPUT_MAX_CHAR = 10;
+const MAX_NON_VIP_LISTINGS = 1;
+const MAX_SFL = 150;
+
+import walletIcon from "assets/icons/wallet.png";
+import classNames from "classnames";
 
 const CONTRIBUTORS = [
   "JC",
@@ -29,7 +38,7 @@ const CONTRIBUTORS = [
   "default",
 ];
 
-export const Donations: React.FC = () => {
+export const CommunityDonations: React.FC = () => {
   const { t } = useAppTranslation();
 
   const [state, send] = useMachine(donationMachine);
@@ -127,6 +136,115 @@ export const Donations: React.FC = () => {
           >
             <span className="text-xs whitespace-nowrap">{t("donate")}</span>
           </Button>
+        </div>
+      )}
+      {state.matches("donating") && (
+        <div className="flex flex-col items-center">
+          <p className="loading mb-4">{t("donating")}</p>
+        </div>
+      )}
+      {state.matches("donated") && (
+        <div className="flex flex-col items-center">
+          <p className="mb-4">{t("thank.you")}</p>
+        </div>
+      )}
+      {state.matches("error") && (
+        <div className="flex flex-col items-center">
+          <p className="my-4">{t("statements.ohNo")}</p>
+        </div>
+      )}
+      {state.matches("confirming") && (
+        <GameWallet action="donate">
+          <p className="m-2">{`${donation} (MATIC)`}</p>
+          <Button className="w-full ml-1" onClick={donate}>
+            <span className="text-xs whitespace-nowrap">{t("confirm")}</span>
+          </Button>
+        </GameWallet>
+      )}
+    </>
+  );
+};
+
+/**
+ * A wallet address managed by the donatee in Porto Alegre
+ * Funds will be converted to FIAT and distributed
+ */
+const RS_DONATEE_WALLET = "0x0BFa1450E49B3ad61F9Cc30E37ace13F5aF8ae61";
+
+export const SpecialEventDonations: React.FC = () => {
+  const { t } = useAppTranslation();
+
+  const [state, send] = useMachine(donationMachine);
+  const [quantityDisplay, setQuantityDisplay] = useState("1");
+
+  const donation = Number(quantityDisplay);
+
+  const donate = () => {
+    send("DONATE", {
+      donation,
+      to: RS_DONATEE_WALLET,
+    });
+  };
+
+  return (
+    <>
+      {state.matches("idle") && (
+        <div className="flex flex-col mb-1 p-2 text-sm">
+          <Label icon={SUNNYSIDE.icons.heart} type="chill" className="mb-2">
+            {t("donation.specialEvent")}
+          </Label>
+
+          <p className="mb-2 text-sm">{t("donation.rioGrandeDoSul.one")}</p>
+
+          <p className="mb-3 text-sm">{t("donation.rioGrandeDoSul.two")}</p>
+
+          <div className="flex justify-between items-center mb-2">
+            <Label type="default" icon={walletIcon}>
+              {t("donation.matic")}
+            </Label>
+            {donation < 1 && (
+              <Label type="danger">{t("donation.minimum")}</Label>
+            )}
+          </div>
+
+          <input
+            style={{
+              boxShadow: "#b96e50 0px 1px 1px 1px inset",
+              border: "2px solid #ead4aa",
+            }}
+            type="number"
+            placeholder="1"
+            min={1}
+            value={quantityDisplay}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              // Strip the leading zero from numbers
+              if (
+                /^0+(?!\.)/.test(e.target.value) &&
+                e.target.value.length > 1
+              ) {
+                e.target.value = e.target.value.replace(/^0/, "");
+              }
+
+              if (e.target.value === "") {
+                setQuantityDisplay(""); // Reset to 0 if input is empty
+              } else if (VALID_INTEGER.test(e.target.value)) {
+                const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
+                setQuantityDisplay(amount);
+              }
+            }}
+            className={classNames(
+              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error"
+            )}
+          />
+
+          <Button
+            className="w-full mb-1"
+            onClick={donate}
+            disabled={donation < 0.1}
+          >
+            <span className="text-xs whitespace-nowrap">{t("donate")}</span>
+          </Button>
+          <p className="text-xxs italic text-center">{t("donation.airdrop")}</p>
         </div>
       )}
       {state.matches("donating") && (

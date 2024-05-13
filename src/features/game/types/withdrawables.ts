@@ -555,6 +555,7 @@ const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   "Shifty Sheldon": () => true,
   "Tiki Torch": () => true,
   Surfboard: () => true,
+  "Gaucho Rug": () => true,
 };
 
 const mutantCrop: Record<MutantCropName, () => boolean> = {

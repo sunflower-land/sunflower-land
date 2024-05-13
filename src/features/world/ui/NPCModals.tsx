@@ -10,7 +10,10 @@ import { Birdie } from "./npcs/Birdie";
 import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Bert } from "./npcs/Bert";
-import { Donations } from "./donations/Donations";
+import {
+  CommunityDonations,
+  SpecialEventDonations,
+} from "./donations/Donations";
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
 import { Luna } from "./npcs/Luna";
@@ -82,7 +85,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES["flopsy"]}
           >
-            <Donations />
+            <CommunityDonations />
           </CloseButtonPanel>
         )}
 
@@ -123,6 +126,15 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
             bumpkinParts={NPC_WEARABLES.garbo}
           >
             <GarbageCollectorModal />
+          </CloseButtonPanel>
+        )}
+
+        {npc === "gaucho" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.gaucho}
+          >
+            <SpecialEventDonations />
           </CloseButtonPanel>
         )}
 

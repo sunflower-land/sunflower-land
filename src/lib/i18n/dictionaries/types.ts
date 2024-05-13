@@ -1212,6 +1212,7 @@ export type DecorationDescriptions =
   | "description.flower.fox"
   | "description.hungry.caterpillar"
   | "description.sunrise.bloom.rug"
+  | "description.gauchoRug"
   | "description.blossom.royale"
   | "description.rainbow"
   | "description.enchanted.rose"
@@ -1298,7 +1299,14 @@ export type DraftBid =
   | "draftBid.unsuccessfulParticipants"
   | "draftBid.termsAndConditions";
 
-export type Donation = "donation.one";
+export type Donation =
+  | "donation.one"
+  | "donation.specialEvent"
+  | "donation.rioGrandeDoSul.one"
+  | "donation.rioGrandeDoSul.two"
+  | "donation.matic"
+  | "donation.minimum"
+  | "donation.airdrop";
 
 export type ErrorAndAccess =
   | "errorAndAccess.blocked.betaTestersOnly"

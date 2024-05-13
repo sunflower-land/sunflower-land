@@ -195,6 +195,7 @@ const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Tea Rug",
   "Green Field Rug",
   "Fancy Rug",
+  "Gaucho Rug",
 ];
 function detectHomeCollision({
   state,

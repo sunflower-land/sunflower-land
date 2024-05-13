@@ -446,6 +446,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Iron Rock": new Decimal(OFFLINE_FARM_IRON),
     "Gold Rock": new Decimal(OFFLINE_FARM_GOLD),
     "Crimstone Rock": new Decimal(0),
+    "Gaucho Rug": new Decimal(1),
     "Sunstone Rock": new Decimal(0),
     "Fruit Patch": new Decimal(0),
     Egg: new Decimal(12),

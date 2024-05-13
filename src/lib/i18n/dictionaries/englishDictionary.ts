@@ -1668,6 +1668,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
   "description.sunrise.bloom.rug":
     "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
+  "description.gauchoRug": "A commerative rug to support South Brazil.",
   "description.blossom.royale":
     "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
   "description.rainbow":
@@ -1809,6 +1810,14 @@ const discordBonus: Record<DiscordBonus, string> = {
 const donation: Record<Donation, string> = {
   "donation.one":
     "This was a community art initiative and donations are greatly appreciated!",
+  "donation.rioGrandeDoSul.one":
+    "Olá gente! South of Brazil has been devastated by recent flooding and we are gathering donations for food and water at the shelters.",
+  "donation.rioGrandeDoSul.two":
+    "Everyone who donates will receive a commemorative decoration.",
+  "donation.matic": "Donation in MATIC",
+  "donation.minimum": "Minimum 1 MATIC",
+  "donation.airdrop": "Decorations will be airdropped after donations close.",
+  "donation.specialEvent": "Special Donation Event",
 };
 
 const draftBid: Record<DraftBid, string> = {

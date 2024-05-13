@@ -7463,4 +7463,12 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/557.png",
     attributes: [{ trait_type: "Purpose", value: "Consumable" }],
   },
+  "Gaucho Rug": {
+    name: "Gaucho Rug",
+    description: "A commerative rug to support South Brazil.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2018.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };
