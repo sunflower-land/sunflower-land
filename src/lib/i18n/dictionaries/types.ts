@@ -674,6 +674,7 @@ export type BuildingDescriptions =
   | "description.compost.bin"
   | "description.hen.house"
   | "description.bakery"
+  | "description.greenhouse"
   | "description.turbo.composter"
   | "description.deli"
   | "description.smoothie.shack"

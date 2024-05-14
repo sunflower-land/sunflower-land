@@ -990,6 +990,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.compost.bin": "Produz iscas e fertilizantes regularmente.",
   "description.hen.house": "Expanda seu império de galinhas",
   "description.bakery": "Asse seus bolos favoritos",
+  "description.greenhouse": ENGLISH_TERMS["description.greenhouse"],
   "description.turbo.composter":
     "Produz iscas e fertilizantes avançados regularmente.",
   "description.deli": "Satisfaça seu apetite com esses alimentos delicatessen!",

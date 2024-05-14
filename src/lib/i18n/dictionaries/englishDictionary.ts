@@ -977,6 +977,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.compost.bin": "Produces bait & fertiliser on a regular basis.",
   "description.hen.house": "Grow your chicken empire",
   "description.bakery": "Bake your favourite cakes",
+  "description.greenhouse": "A sanctuary for sensitive crops",
   "description.turbo.composter":
     "Produces advanced bait & fertiliser on a regular basis.",
   "description.deli": "Satisfy your appetite with these delicatessen foods!",
