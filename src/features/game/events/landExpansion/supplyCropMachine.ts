@@ -77,12 +77,12 @@ export function updateCropMachine({
   const queue = cropMachine.queue ?? [];
 
   queue.map((pack, index) => {
-    if (pack.growTimeRemaining === 0 || !cropMachine.oilTimeRemaining) {
+    if (pack.growTimeRemaining === 0 || !cropMachine.unallocatedOilTime) {
       return pack;
     }
 
     // If crop machine has oil to use then allocate it to the pack
-    if (cropMachine.oilTimeRemaining > pack.growTimeRemaining) {
+    if (cropMachine.unallocatedOilTime > pack.growTimeRemaining) {
       // Provide the pack with a start time if it doesn't have one
       if (!pack.startTime) {
         // First queue item will use current time
@@ -96,7 +96,7 @@ export function updateCropMachine({
         }
       }
 
-      cropMachine.oilTimeRemaining -= pack.growTimeRemaining;
+      cropMachine.unallocatedOilTime -= pack.growTimeRemaining;
 
       delete pack.growsUntil;
 
@@ -108,7 +108,7 @@ export function updateCropMachine({
     }
 
     // If crop machine doesn't have enough oil to finish the pack
-    if (cropMachine.oilTimeRemaining < pack.growTimeRemaining) {
+    if (cropMachine.unallocatedOilTime < pack.growTimeRemaining) {
       if (index === 0) {
         // Allocate a startTime if there is no startTime
         if (!pack.startTime) {
@@ -116,7 +116,7 @@ export function updateCropMachine({
         }
 
         // It updates the grows until based on the remaining oil in the crop machine
-        pack.growsUntil = currentTime + cropMachine.oilTimeRemaining;
+        pack.growsUntil = currentTime + cropMachine.unallocatedOilTime;
       } else {
         const previousQueueItemReadyAt = queue[index - 1]?.readyAt as number;
 
@@ -127,13 +127,13 @@ export function updateCropMachine({
 
         // It updates the grows until based on the remaining oil in the crop machine
         pack.growsUntil =
-          previousQueueItemReadyAt + cropMachine.oilTimeRemaining;
+          previousQueueItemReadyAt + cropMachine.unallocatedOilTime;
       }
 
-      pack.growTimeRemaining -= cropMachine.oilTimeRemaining;
+      pack.growTimeRemaining -= cropMachine.unallocatedOilTime;
 
       // Set the crop machine oil remaining to 0 as all oil has been allocated
-      cropMachine.oilTimeRemaining = 0;
+      cropMachine.unallocatedOilTime = 0;
     }
     return {
       ...pack,
@@ -198,7 +198,7 @@ export function supplyCropMachine({
   const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
   stateCopy.inventory["Oil"] = previousOilInInventory.minus(oilAdded);
 
-  stateCopy.buildings["Crop Machine"][0].oilTimeRemaining =
+  stateCopy.buildings["Crop Machine"][0].unallocatedOilTime =
     getOilTimeRemaining(oilAdded);
 
   const crop = seedsAdded.type.split(" ")[0] as CropName;

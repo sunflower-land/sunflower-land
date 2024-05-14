@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { harvestCropMachine } from "./harvestCropMachine";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
+import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
@@ -31,7 +32,7 @@ describe("harvestCropMachine", () => {
                 createdAt: 0,
                 id: "1",
                 readyAt: 123,
-                oilTimeRemaining: 0,
+                unallocatedOilTime: 0,
                 queue: [],
               },
             ],
@@ -56,12 +57,13 @@ describe("harvestCropMachine", () => {
                 createdAt: 0,
                 id: "1",
                 readyAt: 123,
-                oilTimeRemaining: 0,
+                unallocatedOilTime: 0,
                 queue: [
                   {
                     amount: 10,
                     crop: "Sunflower",
                     growTimeRemaining: 100,
+                    totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
                   },
                 ],
               },
@@ -87,13 +89,14 @@ describe("harvestCropMachine", () => {
               createdAt: 0,
               id: "1",
               readyAt: 123,
-              oilTimeRemaining: 0,
+              unallocatedOilTime: 0,
               queue: [
                 {
                   amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
+                  totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
                 },
               ],
             },
@@ -123,18 +126,20 @@ describe("harvestCropMachine", () => {
               createdAt: 0,
               id: "1",
               readyAt: 123,
-              oilTimeRemaining: 0,
+              unallocatedOilTime: 0,
               queue: [
                 {
                   amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
+                  totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
                 },
                 {
                   amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 200,
+                  totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
                 },
               ],
             },
@@ -155,6 +160,7 @@ describe("harvestCropMachine", () => {
         amount: 10,
         crop: "Sunflower",
         growTimeRemaining: 200,
+        totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
       },
     ]);
   });

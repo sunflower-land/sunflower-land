@@ -38,7 +38,7 @@ describe("supplyCropMachine", () => {
                 createdAt: 0,
                 id: "1",
                 readyAt: 123,
-                oilTimeRemaining: 0,
+                unallocatedOilTime: 0,
               },
             ],
           },
@@ -66,7 +66,7 @@ describe("supplyCropMachine", () => {
                 createdAt: 0,
                 readyAt: 0,
                 id: "0",
-                oilTimeRemaining: 0,
+                unallocatedOilTime: 0,
               },
             ],
           },
@@ -93,7 +93,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
           },
         ],
       },
@@ -125,7 +125,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
           },
         ],
       },
@@ -167,7 +167,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
           },
         ],
       },
@@ -222,7 +222,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 500,
+            unallocatedOilTime: 500,
             queue: [
               {
                 crop: "Sunflower",
@@ -290,7 +290,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
           },
         ],
       },
@@ -321,7 +321,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
           },
         ],
       },
@@ -339,7 +339,7 @@ describe("supplyCropMachine", () => {
     const oilTimeRemaining = oilTime * 60 * 60 * 1000;
 
     expect(
-      newState.buildings["Crop Machine"]?.[0].oilTimeRemaining
+      newState.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(oilTimeRemaining);
   });
 
@@ -360,7 +360,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
             queue: [
               {
                 crop: "Sunflower",
@@ -395,7 +395,7 @@ describe("supplyCropMachine", () => {
       },
     ]);
     expect(
-      result.buildings["Crop Machine"]?.[0].oilTimeRemaining
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(oilTimeRemain - sunflowerTime);
   });
 
@@ -419,7 +419,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
             queue: [
               {
                 crop: "Sunflower",
@@ -474,7 +474,7 @@ describe("supplyCropMachine", () => {
       },
     ]);
     expect(
-      result.buildings["Crop Machine"]?.[0].oilTimeRemaining
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(
       oilTimeRemaining - sunflowerPackGrowTime - potatoPackGrowTime
     );
@@ -497,7 +497,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
             queue: [
               {
                 crop: "Sunflower",
@@ -534,7 +534,7 @@ describe("supplyCropMachine", () => {
       },
     ]);
     expect(
-      result.buildings["Crop Machine"]?.[0].oilTimeRemaining
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(0);
   });
 
@@ -556,7 +556,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
             queue: [
               {
                 crop: "Sunflower",
@@ -609,7 +609,7 @@ describe("supplyCropMachine", () => {
       },
     ]);
     expect(
-      result.buildings["Crop Machine"]?.[0].oilTimeRemaining
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(0);
   });
 
@@ -631,7 +631,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
             queue: [
               {
                 crop: "Sunflower",
@@ -701,7 +701,7 @@ describe("supplyCropMachine", () => {
       },
     ]);
     expect(
-      result.buildings["Crop Machine"]?.[0].oilTimeRemaining
+      result.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(oilTimeRemaining);
   });
 
@@ -724,7 +724,7 @@ describe("supplyCropMachine", () => {
             createdAt: 0,
             readyAt: 0,
             id: "0",
-            oilTimeRemaining: 0,
+            unallocatedOilTime: 0,
           },
         ],
       },

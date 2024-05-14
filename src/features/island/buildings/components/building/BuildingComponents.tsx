@@ -180,7 +180,9 @@ export const BUILDING_COMPONENTS: Record<
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
   Greenhouse: Greenhouse,
-  "Crop Machine": CropMachine,
+  "Crop Machine": ({ buildingId }: Pick<BuildingProps, "buildingId">) => (
+    <CropMachine id={buildingId} />
+  ),
 };
 
 export const READONLY_BUILDINGS: (
@@ -317,7 +319,6 @@ export const READONLY_BUILDINGS: (
       />
     </div>
   ),
-
   "Crop Machine": () => (
     <div
       className="absolute bottom-0"

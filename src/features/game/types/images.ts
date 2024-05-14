@@ -393,7 +393,7 @@ import advancedComposter from "assets/composters/composter_advanced.png";
 import expertComposter from "assets/composters/composter_expert.png";
 import house from "assets/buildings/house.png";
 import manor from "assets/buildings/manor.png";
-import cropMachine from "assets/buildings/crop_machine.png";
+import cropMachine from "assets/cropMachine/notReadyStates/stage1_collector_empty.webp";
 
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";

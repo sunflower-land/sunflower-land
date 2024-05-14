@@ -536,7 +536,7 @@ export type CropMachineQueueItem = {
 
 export type CropMachineBuilding = PlacedItem & {
   queue?: CropMachineQueueItem[];
-  oilTimeRemaining?: number;
+  unallocatedOilTime?: number;
 };
 
 type CustomBuildings = {
