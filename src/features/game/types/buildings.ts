@@ -434,7 +434,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
         },
         {
           item: "Oil",
-          amount: new Decimal(1000),
+          amount: new Decimal(100),
         },
       ],
     },
