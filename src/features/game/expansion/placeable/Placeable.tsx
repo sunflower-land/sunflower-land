@@ -31,11 +31,14 @@ import { isBudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { IslandType } from "features/game/types/game";
 
-export const PLACEABLES: Record<PlaceableName | "Bud", React.FC<any>> = {
+export const PLACEABLES: (
+  island: IslandType
+) => Record<PlaceableName | "Bud", React.FC<any>> = (island) => ({
   Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...READONLY_COLLECTIBLES,
-  ...READONLY_RESOURCE_COMPONENTS,
+  ...READONLY_RESOURCE_COMPONENTS(island),
   ...READONLY_BUILDINGS,
   "Dirt Path": () => (
     <img
@@ -43,7 +46,7 @@ export const PLACEABLES: Record<PlaceableName | "Bud", React.FC<any>> = {
       style={{ width: `${PIXEL_SCALE * 22}px` }}
     />
   ),
-};
+});
 
 // TODO - get dynamic bounds for placeable
 // const BOUNDS_MIN_X = -15
@@ -159,8 +162,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   }
 
   const Collectible = isBudName(placeable)
-    ? PLACEABLES["Bud"]
-    : PLACEABLES[placeable];
+    ? PLACEABLES(gameState.context.state.island.type)["Bud"]
+    : PLACEABLES(gameState.context.state.island.type)[placeable];
 
   return (
     <>
