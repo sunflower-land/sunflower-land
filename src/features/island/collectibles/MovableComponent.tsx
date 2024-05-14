@@ -85,11 +85,21 @@ function getMoveAction(
 export function getRemoveAction(
   name: InventoryItemName | "Bud"
 ): GameEventName<PlacementEvent> | null {
-  if (name in BUILDINGS_DIMENSIONS) {
+  if (
+    name in BUILDINGS_DIMENSIONS &&
+    name !== "Manor" &&
+    name !== "Town Center" &&
+    name !== "House"
+  ) {
     return "building.removed";
   }
 
-  if (name in RESOURCES) {
+  if (
+    name in RESOURCES ||
+    name === "Manor" ||
+    name === "House" ||
+    name === "Town Center"
+  ) {
     return null;
   }
 
