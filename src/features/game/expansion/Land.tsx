@@ -120,6 +120,7 @@ const getIslandElements = ({
                 showTimers={showTimers}
                 x={x}
                 y={y}
+                island={game.island.type}
               />
             </MapPlacement>
           );
