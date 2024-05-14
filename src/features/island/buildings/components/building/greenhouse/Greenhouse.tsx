@@ -37,8 +37,8 @@ export const Greenhouse: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 78}px`,
-            bottom: `${PIXEL_SCALE * 0}px`,
-            left: `${PIXEL_SCALE * 1}px`,
+            bottom: `${PIXEL_SCALE * 2}px`,
+            left: `${PIXEL_SCALE * 0}px`,
           }}
         />
       </BuildingImageWrapper>

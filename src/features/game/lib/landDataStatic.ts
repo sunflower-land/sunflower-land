@@ -393,6 +393,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Apple Seed": new Decimal(10),
+    Bakery: new Decimal(1),
+    Deli: new Decimal(1),
+    Greenhouse: new Decimal(1),
     "Desert Gnome": new Decimal(1),
     Blossombeard: new Decimal(1),
     Gnome: new Decimal(1),
