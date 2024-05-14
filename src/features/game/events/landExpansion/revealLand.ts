@@ -290,19 +290,6 @@ export function revealLand({
     };
   }, {} as GameState["crimstones"]);
 
-  game.oilReserves = getKeys(game.oilReserves).reduce((acc, id) => {
-    return {
-      ...acc,
-      [id]: {
-        ...game.oilReserves[id],
-        oil: {
-          ...game.oilReserves[id].oil,
-          drilledAt: createdAt - 48 * 60 * 60 * 1000,
-        },
-      },
-    };
-  }, {} as GameState["oilReserves"]);
-
   // Add any rewards
   const rewards = getRewards({ game, createdAt });
   const previous = game.airdrops ?? [];
