@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import bakery from "assets/buildings/bakery.png";
 import smoke from "assets/buildings/smoke.gif";
 import goblinChef from "assets/npcs/goblin_chef.gif";
 import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
@@ -16,6 +15,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
+import { BAKERY_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -28,6 +28,7 @@ export const Bakery: React.FC<Props> = ({
   craftingService,
   isBuilt,
   onRemove,
+  island,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -79,7 +80,7 @@ export const Bakery: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Bakery" onClick={handleClick} ready={ready}>
         <img
-          src={bakery}
+          src={BAKERY_VARIANTS[island]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

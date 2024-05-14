@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import workbench from "assets/buildings/workbench.png";
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
 
@@ -14,6 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
@@ -28,7 +28,11 @@ const needsHelp = (state: MachineState) => {
   return false;
 };
 
-export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const WorkBench: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+  island,
+}) => {
   const { gameService } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   const showHelper = useSelector(gameService, needsHelp);
@@ -59,7 +63,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <>
       <BuildingImageWrapper name="Workbench" onClick={handleClick}>
         <img
-          src={workbench}
+          src={WORKBENCH_VARIANTS[island]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 47}px`,

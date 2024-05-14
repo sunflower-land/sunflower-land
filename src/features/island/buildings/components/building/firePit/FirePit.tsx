@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import firePit from "assets/buildings/fire_pit.png";
-
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
 import { CookableName } from "features/game/types/consumables";
@@ -20,6 +18,7 @@ import npc from "assets/npcs/cook.gif";
 import doing from "assets/npcs/cook_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -31,6 +30,7 @@ export const FirePit: React.FC<Props> = ({
   name,
   craftingService,
   isBuilt,
+  island,
   onRemove,
 }) => {
   const [showModal, setShowModal] = useState(false);
@@ -100,7 +100,7 @@ export const FirePit: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Fire Pit" onClick={handleClick} ready={ready}>
         <img
-          src={firePit}
+          src={FIRE_PIT_VARIANTS[island]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

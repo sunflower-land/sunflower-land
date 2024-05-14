@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import house from "assets/buildings/manor.png";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
@@ -14,8 +12,13 @@ import { DailyReward } from "features/game/expansion/components/dailyReward/Dail
 import { useNavigate } from "react-router-dom";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
+import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 
-export const Manor: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const Manor: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+  island,
+}) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -60,7 +63,7 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={house}
+          src={MANOR_VARIANTS[island]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{

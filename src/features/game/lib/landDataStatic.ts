@@ -6,7 +6,8 @@ import { ChoreV2, ChoreV2Name, GameState, Inventory } from "../types/game";
 import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
-import { makeMegaStoreAvailableDates } from "./constants";
+import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
+import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -273,6 +274,7 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 );
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  ...EMPTY,
   home: {
     collectibles: {
       Wardrobe: [
@@ -300,7 +302,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   island: {
-    type: "spring",
+    type: "desert",
   },
   mysteryPrizes: {},
   mushrooms: {
@@ -622,8 +624,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   createdAt: new Date().getTime(),
 
-  ...INITIAL_RESOURCES,
-
   conversations: ["hank-intro"],
 
   fishing: {
@@ -655,66 +655,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  buildings: {
-    Manor: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 2,
-          y: 3,
+  buildings: Object.fromEntries(
+    Object.keys(READONLY_BUILDINGS("basic")).map((name, i) => [
+      name,
+      [
+        {
+          id: name,
+          coordinates: {
+            x: -15 + ((i * 5) % 30),
+            y: 10 - Math.floor(i / 5) * 5,
+          },
+          readyAt: 0,
         },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 8,
-        },
-        createdAt: 0,
-      },
-    ],
-
-    Market: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 5,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 3,
-          y: -1,
-        },
-        createdAt: 0,
-      },
-    ],
-  },
-  collectibles: {
-    // "Golden Cauliflower": [
-    //   {
-    //     id: "123",
-    //     createdAt: 0,
-    //     readyAt: 0,
-    //     coordinates: {
-    //       x: 3,
-    //       y: 3,
-    //     },
-    //   },
-    // ],
-  },
+      ],
+    ])
+  ),
+  collectibles: {},
   pumpkinPlaza: {
     raffle: {
       entries: {

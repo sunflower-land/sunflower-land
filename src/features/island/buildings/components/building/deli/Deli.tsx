@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import deli from "assets/buildings/deli.png";
 import artisian from "assets/npcs/artisian.gif";
 import artisianDoing from "assets/npcs/artisian_doing.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -15,6 +14,7 @@ import { DeliModal } from "./DeliModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
+import { DELI_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -27,6 +27,7 @@ export const Deli: React.FC<Props> = ({
   craftingService,
   isBuilt,
   onRemove,
+  island,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -77,7 +78,7 @@ export const Deli: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Deli" onClick={handleClick} ready={ready}>
         <img
-          src={deli}
+          src={DELI_VARIANTS[island]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !crafting,
             "opacity-80": crafting,
