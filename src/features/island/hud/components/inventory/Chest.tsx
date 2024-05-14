@@ -1,7 +1,11 @@
 import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  IslandType,
+} from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { getChestBuds, getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
@@ -33,10 +37,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { TREE_VARIANTS } from "features/island/resources/Resource";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
-export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
+export const ITEM_ICONS: (
+  island: IslandType
+) => Partial<Record<InventoryItemName, string>> = (island) => ({
   Market: marketIcon,
   "Fire Pit": firePitIcon,
   Workbench: workbenchIcon,
@@ -47,7 +54,8 @@ export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
   "Smoothie Shack": smoothieIcon,
   Toolshed: toolshedIcon,
   Warehouse: warehouseIcon,
-};
+  Tree: TREE_VARIANTS[island],
+});
 
 interface Props {
   state: GameState;
@@ -274,7 +282,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}
@@ -298,7 +309,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}
@@ -318,7 +332,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}
@@ -338,7 +355,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}

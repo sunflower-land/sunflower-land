@@ -174,7 +174,10 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
                 isSelected={selectedName === name}
                 key={name}
                 onClick={() => setSelectedName(name)}
-                image={ITEM_ICONS[name] ?? ITEM_DETAILS[name].image}
+                image={
+                  ITEM_ICONS(state.island.type)[name] ??
+                  ITEM_DETAILS[name].image
+                }
                 secondaryImage={secondaryIcon}
                 showOverlay={isLocked}
               />
