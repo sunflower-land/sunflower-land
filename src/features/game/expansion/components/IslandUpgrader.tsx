@@ -199,7 +199,7 @@ interface Props {
 export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
   const { t } = useAppTranslation();
 
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -232,7 +232,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
     scrollIntoView(Section.Home, "auto");
 
     setShowTravelAnimation(false);
-    confetti();
+    if (showAnimations) confetti();
   };
 
   const nextExpansioon =

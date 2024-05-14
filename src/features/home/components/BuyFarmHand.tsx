@@ -27,7 +27,7 @@ interface Props {
 
 export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
 
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -38,7 +38,7 @@ export const BuyFarmHand: React.FC<Props> = ({ onClose, gameState }) => {
     gameService.send("farmHand.bought");
     gameService.send("SAVE");
     setShowSuccess(true);
-    confetti();
+    if (showAnimations) confetti();
 
     if (!hasCoupon) {
       gameAnalytics.trackSink({
