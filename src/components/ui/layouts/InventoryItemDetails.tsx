@@ -11,6 +11,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 
 /**
  * The props for the details for items.
@@ -73,7 +74,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const getItemDetail = () => {
     const item = ITEM_DETAILS[details.item];
-    const icon = item.image;
+    const icon = ITEM_ICONS(game.island.type)[details.item] ?? item.image;
     const title = details.item;
 
     let description = item.description;

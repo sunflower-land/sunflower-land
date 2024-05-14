@@ -32,7 +32,7 @@ import { IslandType } from "features/game/types/game";
 
 import cacti from "assets/resources/tree/cacti.webp";
 
-const TREE_VARIANTS: Record<IslandType, string> = {
+export const TREE_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
   spring: SUNNYSIDE.resource.tree,
   desert: cacti,
