@@ -107,9 +107,9 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       src={ITEM_DETAILS["Crimstone Rock"].image}
       className="relative"
       style={{
-        width: `${PIXEL_SCALE * 14}px`,
+        width: `${PIXEL_SCALE * 24}px`,
         top: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
     />
   ),
