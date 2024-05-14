@@ -1366,6 +1366,11 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.kale": "A Bumpkin Power Food!",
   "description.soybean": "A versatile legume!",
 
+  // Greenhouse
+  "description.grape": "A zengy and desired fruit.",
+  "description.olive": "A luxury for advanced farmers.",
+  "description.rice": "Perfect for rations!",
+
   // Fruits
   "description.blueberry": "A Goblin's weakness",
   "description.orange": "Vitamin C to keep your Bumpkin Healthy",

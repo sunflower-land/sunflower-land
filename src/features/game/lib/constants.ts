@@ -90,6 +90,10 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
     "Wheat Seed": new Decimal(40),
     "Kale Seed": new Decimal(30),
 
+    "Grape Seed": new Decimal(10),
+    "Olive Seed": new Decimal(10),
+    "Rice Seed": new Decimal(10),
+
     "Apple Seed": new Decimal(10),
     "Orange Seed": new Decimal(10),
     "Blueberry Seed": new Decimal(10),
@@ -123,6 +127,10 @@ export const INITIAL_STOCK = (state?: GameState): Inventory => {
       "Orange Seed": new Decimal(12),
       "Blueberry Seed": new Decimal(12),
       "Banana Plant": new Decimal(12),
+
+      "Grape Seed": new Decimal(12),
+      "Olive Seed": new Decimal(12),
+      "Rice Seed": new Decimal(12),
 
       "Sunpetal Seed": new Decimal(20),
       "Bloom Seed": new Decimal(10),

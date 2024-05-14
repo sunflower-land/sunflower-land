@@ -7605,4 +7605,58 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: `../public/erc1155/images/2032.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Grape Seed": {
+    name: "Grape Seed",
+    description: "A zengy and desired fruit.",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/125.png`,
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
+  "Olive Seed": {
+    name: "Olive Seed",
+    description: "A luxury for advanced farmers.",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/126.png`,
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
+  "Rice Seed": {
+    name: "Rice Seed",
+    description: "Perfect for rations...",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/127.png`,
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
+  Grape: {
+    name: "Grape",
+    description: "A zengy and desired fruit.",
+
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/252.png`,
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
+  },
+  Olive: {
+    name: "Olive",
+    description: "A luxury for advanced farmers.",
+
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/253.png`,
+    attributes: [{ trait_type: "Purpose", value: "Crop" }],
+  },
+  Rice: {
+    name: "Rice",
+    description: "Perfect for rations...",
+
+    decimals: 18,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: `../public/erc1155/images/254.png`,
+    attributes: [{ trait_type: "Purpose", value: "Seed" }],
+  },
 };

@@ -8,6 +8,12 @@ import bananaPlant from "assets/fruit/banana/banana_plant.png";
 import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
 import bloomSeed from "assets/flowers/bloom_seed.webp";
 import lilySeed from "assets/flowers/lily_seed.webp";
+import grape from "assets/greenhouse/grape.webp";
+import grapeSeed from "assets/greenhouse/grape_seed.webp";
+import olive from "assets/greenhouse/olive.webp";
+import oliveSeed from "assets/greenhouse/olive_seed.webp";
+import rice from "assets/greenhouse/rice.webp";
+import riceSeed from "assets/greenhouse/rice_seed.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
@@ -3486,5 +3492,30 @@ export const ITEM_DETAILS: Items = {
   "Twister Rug": {
     image: twisterRug,
     description: translate("description.twisterRug"),
+  },
+
+  "Grape Seed": {
+    image: grapeSeed,
+    description: translate("description.grape"),
+  },
+  "Olive Seed": {
+    image: oliveSeed,
+    description: translate("description.olive"),
+  },
+  "Rice Seed": {
+    image: riceSeed,
+    description: translate("description.rice"),
+  },
+  Grape: {
+    image: grape,
+    description: translate("description.grape"),
+  },
+  Olive: {
+    image: olive,
+    description: translate("description.olive"),
+  },
+  Rice: {
+    image: rice,
+    description: translate("description.rice"),
   },
 };

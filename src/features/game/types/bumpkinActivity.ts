@@ -1,12 +1,12 @@
 import Decimal from "decimal.js-light";
 import { ConsumableName, CookableName } from "./consumables";
 import { Animal, Food, ToolName } from "./craftables";
-import { CropName } from "./crops";
+import { CropName, GreenHouseCropSeedName } from "./crops";
 import { Bumpkin, LanternName } from "./game";
 import { BeanName, ExoticCropName } from "./beans";
 import { HeliosBlacksmithItem, PotionHouseItemName } from "./collectibles";
 import { DecorationName } from "./decorations";
-import { FruitName, FruitSeedName } from "./fruits";
+import { FruitName, FruitSeedName, GreenHouseFruitSeedName } from "./fruits";
 import { GarbageName } from "./garbage";
 import { SeedName } from "./seeds";
 import { TreasureToolName, WorkbenchToolName } from "./tools";
@@ -52,8 +52,12 @@ export type SellEvent = `${SellableName} Sold`;
 export type TreasureEvent = `${TreasureName} Dug`;
 export type ComposterCollectEvent = `${CompostName} Collected`;
 export type CompostedEvent = `${ComposterName} Collected`;
+export type PlantGreenHouseFruitEvent = `${GreenHouseFruitSeedName} Planted`;
+export type PlantGreenHouseCropEvent = `${GreenHouseCropSeedName} Planted`;
 
 export type BumpkinActivityName =
+  | PlantGreenHouseFruitEvent
+  | PlantGreenHouseCropEvent
   | CookEvent
   | FedEvent
   | BuyEvent

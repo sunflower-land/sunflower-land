@@ -26,6 +26,57 @@ export type Crop = {
   disabled?: boolean;
 };
 
+export type GreenHouseCropName = "Olive" | "Rice";
+
+export type GreenHouseCrop = {
+  sellPrice: number;
+  harvestSeconds: number;
+  name: GreenHouseCropName;
+  description: string;
+  bumpkinLevel: number;
+  disabled?: boolean;
+};
+
+export const GREENHOUSE_CROPS: () => Record<
+  GreenHouseCropName,
+  GreenHouseCrop
+> = () => ({
+  Rice: {
+    sellPrice: 460,
+    harvestSeconds: 32 * 60 * 60,
+    name: "Rice",
+    description: "A staple food for many.",
+    bumpkinLevel: 10,
+  },
+  Olive: {
+    sellPrice: 520,
+    harvestSeconds: 44 * 60 * 60,
+    name: "Olive",
+    description: "Zesty with a rich history.",
+    bumpkinLevel: 10,
+  },
+});
+
+export const GREENHOUSE_SEEDS: () => Record<
+  GreenHouseCropSeedName,
+  Seed
+> = () => ({
+  "Rice Seed": {
+    price: 240,
+    description: "A staple food for many.",
+    bumpkinLevel: 40,
+    plantSeconds: 32 * 60 * 60,
+  },
+  "Olive Seed": {
+    price: 320,
+    description: "Zesty with a rich history.",
+    bumpkinLevel: 40,
+    plantSeconds: 44 * 60 * 60,
+  },
+});
+
+export type GreenHouseCropSeedName = `${GreenHouseCropName} Seed`;
+
 /**
  * Crops and their original prices
  */

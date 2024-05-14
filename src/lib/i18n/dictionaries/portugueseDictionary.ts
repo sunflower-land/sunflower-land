@@ -1395,6 +1395,10 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.kale": "Um alimento poderoso para Bumpkin!",
   "description.soybean": ENGLISH_TERMS["description.soybean"],
 
+  "description.grape": ENGLISH_TERMS["description.grape"],
+  "description.olive": ENGLISH_TERMS["description.olive"],
+  "description.rice": ENGLISH_TERMS["description.rice"],
+
   // Fruits
   "description.blueberry": "A fraqueza de um Goblin",
   "description.orange": "Vitamina C para manter seu Bumpkin saudável",

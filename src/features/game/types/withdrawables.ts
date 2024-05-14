@@ -1,5 +1,15 @@
-import { CropName, CropSeedName } from "./crops";
-import { FruitName, FruitSeedName } from "./fruits";
+import {
+  CropName,
+  CropSeedName,
+  GreenHouseCropName,
+  GreenHouseCropSeedName,
+} from "./crops";
+import {
+  FruitName,
+  FruitSeedName,
+  GreenHouseFruitName,
+  GreenHouseFruitSeedName,
+} from "./fruits";
 import {
   Animal,
   BarnItem,
@@ -909,7 +919,29 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   Vinny: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
 };
 
+const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
+  "Grape Seed": () => false,
+};
+
+const greenHouseFruit: Record<GreenHouseFruitName, () => boolean> = {
+  Grape: () => false,
+};
+
+const greenHouseCropSeed: Record<GreenHouseCropSeedName, () => boolean> = {
+  "Olive Seed": () => false,
+  "Rice Seed": () => false,
+};
+
+const greenHouseCrop: Record<GreenHouseCropName, () => boolean> = {
+  Olive: () => false,
+  Rice: () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...greenHouseCrop,
+  ...greenHouseCropSeed,
+  ...greenHouseFruitSeed,
+  ...greenHouseFruit,
   ...crops,
   ...fruits,
   ...flowers,

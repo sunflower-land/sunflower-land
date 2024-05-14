@@ -968,6 +968,11 @@ export type CropFruitDescriptions =
   | "description.kale"
   | "description.soybean"
 
+  // Greenhouse
+  | "description.rice"
+  | "description.olive"
+  | "description.grape"
+
   //Fruit
   | "description.blueberry"
   | "description.orange"
