@@ -98,9 +98,12 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   };
 
   const getAction = () => {
-    if (!hasFeatureAccess(state, "GREENHOUSE")) {
+    if (
+      !hasFeatureAccess(state, "GREENHOUSE") &&
+      selectedName === "Greenhouse"
+    ) {
       return (
-        <Label type="default" icon={lock}>
+        <Label type="default" icon={lock} className="mx-auto">
           {t("coming.soon")}
         </Label>
       );
