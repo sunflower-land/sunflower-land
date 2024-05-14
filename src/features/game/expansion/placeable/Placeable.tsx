@@ -22,7 +22,6 @@ import { Chicken } from "features/island/chickens/Chicken";
 
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { getGameGrid } from "./lib/makeGrid";
 import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
@@ -32,6 +31,7 @@ import { CollectibleLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { IslandType } from "features/game/types/game";
+import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 
 export const PLACEABLES: (
   island: IslandType
@@ -42,7 +42,7 @@ export const PLACEABLES: (
   ...READONLY_BUILDINGS(island),
   "Dirt Path": () => (
     <img
-      src={ITEM_DETAILS["Dirt Path"].image}
+      src={DIRT_PATH_VARIANTS[island]}
       style={{ width: `${PIXEL_SCALE * 22}px` }}
     />
   ),

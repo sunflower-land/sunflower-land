@@ -7607,7 +7607,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Grape Seed": {
     name: "Grape Seed",
-    description: "A zengy and desired fruit.",
+    description: "A zesty and desired fruit.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7634,7 +7634,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Grape: {
     name: "Grape",
-    description: "A zengy and desired fruit.",
+    description: "A zesty and desired fruit.",
 
     decimals: 18,
     external_url: "https://docs.sunflower-land.com/getting-started/about",

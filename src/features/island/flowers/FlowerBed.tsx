@@ -3,11 +3,11 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { FlowerBedModal } from "./FlowerBedModal";
-import emptyFlowerBed from "assets/flowers/empty.webp";
 import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { useActor } from "@xstate/react";
 import {
+  DESERT_FLOWER_LIFECYCLE,
   FLOWERS,
   FLOWER_LIFECYCLE,
   FLOWER_SEEDS,
@@ -25,6 +25,14 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
+import { IslandType } from "features/game/types/game";
+import { FLOWER_VARIANTS } from "../lib/alternateArt";
+
+const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
+  basic: FLOWER_LIFECYCLE,
+  spring: FLOWER_LIFECYCLE,
+  desert: DESERT_FLOWER_LIFECYCLE,
+};
 
 interface Props {
   id: string;
@@ -80,7 +88,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           onClick={() => setShowPlantModal(true)}
         >
           <img
-            src={emptyFlowerBed}
+            src={FLOWER_VARIANTS[state.island.type]}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 48}px`,
@@ -151,7 +159,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         onMouseLeave={() => setShowPopover(false)}
       >
         <img
-          src={FLOWER_LIFECYCLE[flower.name][stage]}
+          src={LIFECYCLE_VARIANTS[state.island.type][flower.name][stage]}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

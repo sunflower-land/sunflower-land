@@ -7,7 +7,6 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
-import { READONLY_BUILDINGS } from "features/island/buildings/components/building/BuildingComponents";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -393,6 +392,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    "Apple Seed": new Decimal(10),
     "Desert Gnome": new Decimal(1),
     Blossombeard: new Decimal(1),
     Gnome: new Decimal(1),
@@ -655,21 +655,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  buildings: Object.fromEntries(
-    Object.keys(READONLY_BUILDINGS("basic")).map((name, i) => [
-      name,
-      [
-        {
-          id: name,
-          coordinates: {
-            x: -15 + ((i * 5) % 30),
-            y: 10 - Math.floor(i / 5) * 5,
-          },
-          readyAt: 0,
-        },
-      ],
-    ])
-  ),
+  buildings: {},
   collectibles: {},
   pumpkinPlaza: {
     raffle: {
@@ -733,6 +719,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
 
+  ...INITIAL_RESOURCES,
+  flowers: {
+    discovered: {},
+    flowerBeds: {
+      "123": {
+        createdAt: 0,
+        height: 1,
+        width: 3,
+        x: 2,
+        y: 0,
+      },
+    },
+  },
   farmActivity: {},
   milestones: {},
   catchTheKraken: {
