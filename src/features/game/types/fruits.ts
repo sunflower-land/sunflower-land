@@ -101,13 +101,6 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     seed: "Banana Plant",
     bumpkinLevel: 16,
   },
-  Grape: {
-    description: "A bunch of grapes",
-    name: "Grape",
-    sellPrice: 35,
-    seed: "Grape Seed",
-    bumpkinLevel: 14,
-  },
 });
 
 export type GreenhouseFruitSeed = {
@@ -150,6 +143,6 @@ export const GREENHOUSE_FRUIT: () => Record<
     name: "Grape",
     sellPrice: 320,
     seed: "Grape Seed",
-    bumpkinLevel: 14,
+    bumpkinLevel: 40,
   },
 });

@@ -292,6 +292,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Anlaşıldı",
   goto: "Git",
   "grant.wish": "Yeni Dilek Dile",
+  greenhouse: ENGLISH_TERMS["greenhouse"],
   guide: "Rehber",
   harvested: "Hasat edilmiş",
   honey: "Bal",

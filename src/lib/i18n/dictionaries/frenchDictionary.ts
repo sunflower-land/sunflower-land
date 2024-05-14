@@ -311,6 +311,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Compris",
   goto: "Aller à",
   "grant.wish": "Exaucer un vœu",
+  greenhouse: ENGLISH_TERMS["greenhouse"],
   guide: "Guide",
   harvested: "Récolté",
   "hoarding.check": "Vérification des stocks",

@@ -285,6 +285,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Entendi",
   goto: "Ir para",
   "grant.wish": "Conceder Novo Desejo",
+  greenhouse: ENGLISH_TERMS["greenhouse"],
   guide: "Guia",
   honey: "Mel",
   "hungry?": "Com Fome?",

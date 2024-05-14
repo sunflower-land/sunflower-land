@@ -293,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   goto: "Go to",
   "grant.wish": "Grant New Wish",
+  greenhouse: "Greenhouse",
   guide: "Guide",
   harvested: "Harvested",
   honey: "Honey",

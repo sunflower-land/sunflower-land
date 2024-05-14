@@ -20,6 +20,7 @@ const clashOfFactionsFeatureFlag = () => {
  */
 type FeatureName =
   | "JEST_TEST"
+  | "GREENHOUSE"
   | "PORTALS"
   | "EASTER"
   | "FACTIONS"
@@ -49,6 +50,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   SOUND: testnetFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
   PRESTIGE_DESERT: defaultFeatureFlag,
+  GREENHOUSE: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
