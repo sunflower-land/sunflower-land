@@ -38,7 +38,7 @@ type FeatureFlag = (game: GameState) => boolean;
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
-  DESERT_RECIPES: testnetFeatureFlag,
+  DESERT_RECIPES: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended
     if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;
