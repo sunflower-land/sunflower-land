@@ -22,9 +22,10 @@ import {
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
-import fruitPatchDirt from "assets/fruit/fruit_patch.png";
+
 import powerup from "assets/icons/level_up.png";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { FRUIT_PATCH_VARIANTS } from "../lib/alternateArt";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -54,6 +55,7 @@ const compareGame = (prev: GameState, next: GameState) =>
 
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+const _island = (state: MachineState) => state.context.state.island.type;
 
 interface Props {
   id: string;
@@ -82,6 +84,7 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     selectInventory,
     (prev, next) => HasAxes(prev, game, fruit) === HasAxes(next, game, fruit)
   );
+  const island = useSelector(gameService, _island);
 
   useEffect(() => {
     loadAudio([harvestAudio, plantAudio, treeFallAudio]);
@@ -175,7 +178,7 @@ export const FruitPatch: React.FC<Props> = ({ id, index }) => {
     <div className="w-full h-full relative">
       {/* Fruit patch soil */}
       <img
-        src={fruitPatchDirt}
+        src={FRUIT_PATCH_VARIANTS[island]}
         className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 30}px`,

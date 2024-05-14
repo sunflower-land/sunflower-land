@@ -650,7 +650,7 @@ export const Land: React.FC = () => {
             })}
           >
             <LandBase type={island.type} expandedCount={expansionCount} />
-            <DirtRenderer grid={gameGrid} />
+            <DirtRenderer island={island.type} grid={gameGrid} />
 
             {!landscaping && (
               <Water

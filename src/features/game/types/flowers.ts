@@ -317,8 +317,24 @@ export const FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
       seedling: `flowers/seedling.webp`,
       sprout: `flowers/sprout.webp`,
       halfway: `flowers/halfway.webp`,
-      almost: `flowers/${IMAGES[name]}_growing.webp`,
+      almost: `flowers/${IMAGES[name]}  .webp`,
       ready: `flowers/${IMAGES[name]}_ready.webp`,
+    },
+  }),
+  {} as Record<FlowerName, Lifecycle>
+);
+
+export const DESERT_FLOWER_LIFECYCLE: Record<FlowerName, Lifecycle> = getKeys(
+  IMAGES
+).reduce(
+  (acc, name) => ({
+    ...acc,
+    [name]: {
+      seedling: `flowers/desert/seedling.webp`,
+      sprout: `flowers/desert/sprout.webp`,
+      halfway: `flowers/desert/halfway.webp`,
+      almost: `flowers/desert/${IMAGES[name]}  .webp`,
+      ready: `flowers/desert/${IMAGES[name]}_ready.webp`,
     },
   }),
   {} as Record<FlowerName, Lifecycle>

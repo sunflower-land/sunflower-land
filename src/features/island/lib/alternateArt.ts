@@ -25,6 +25,12 @@ import desertSmoothieShack from "assets/desert/buildings/smoothie_shack_backgrou
 import workbench from "assets/buildings/workbench.png";
 import desertWorkbench from "assets/desert/buildings/workbench.webp";
 
+import fruitPatchDirt from "assets/fruit/fruit_patch.png";
+import desertFruitPatchDirt from "assets/desert/fruit/fruit_patch.webp";
+
+import emptyFlowerBed from "assets/flowers/empty.webp";
+import desertEmptyFlowerBed from "assets/desert/flowers/empty.webp";
+
 import { IslandType } from "features/game/types/game";
 
 export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
@@ -79,4 +85,16 @@ export const WORKBENCH_VARIANTS: Record<IslandType, string> = {
   basic: workbench,
   spring: workbench,
   desert: desertWorkbench,
+};
+
+export const FRUIT_PATCH_VARIANTS: Record<IslandType, string> = {
+  basic: fruitPatchDirt,
+  spring: fruitPatchDirt,
+  desert: desertFruitPatchDirt,
+};
+
+export const FLOWER_VARIENTS: Record<IslandType, string> = {
+  basic: emptyFlowerBed,
+  spring: emptyFlowerBed,
+  desert: desertEmptyFlowerBed,
 };
