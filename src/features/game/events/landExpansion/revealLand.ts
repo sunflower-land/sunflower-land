@@ -277,6 +277,19 @@ export function revealLand({
     };
   }, {} as GameState["gold"]);
 
+  game.crimstones = getKeys(game.crimstones).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.crimstones[id],
+        stone: {
+          ...game.crimstones[id].stone,
+          minedAt: createdAt - 48 * 60 * 60 * 1000,
+        },
+      },
+    };
+  }, {} as GameState["crimstones"]);
+
   // Add any rewards
   const rewards = getRewards({ game, createdAt });
   const previous = game.airdrops ?? [];

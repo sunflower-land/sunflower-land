@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { expansionRequirements, getRewards, revealLand } from "./revealLand";
 import {
+  CRIMSTONE_RECOVERY_TIME,
   GOLD_RECOVERY_TIME,
   IRON_RECOVERY_TIME,
   STONE_RECOVERY_TIME,
@@ -684,6 +685,41 @@ describe("revealLand", () => {
 
     expect(state.gold[1].stone.minedAt).toBeLessThan(
       now - GOLD_RECOVERY_TIME * 1000
+    );
+  });
+
+  it("replenishes crimstones", () => {
+    const now = Date.now();
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      farmId: 3,
+      state: {
+        ...TEST_FARM,
+        crimstones: {
+          "1": {
+            minesLeft: 10,
+            stone: {
+              amount: 2,
+              minedAt: now - 2 * 60 * 1000,
+            },
+            x: -3,
+            y: 3,
+            height: 2,
+            width: 2,
+          },
+        },
+        inventory: {
+          "Basic Land": new Decimal(4),
+        },
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt: now,
+    });
+
+    expect(state.crimstones[1].stone.minedAt).toBeLessThan(
+      now - CRIMSTONE_RECOVERY_TIME * 1000
     );
   });
 });
