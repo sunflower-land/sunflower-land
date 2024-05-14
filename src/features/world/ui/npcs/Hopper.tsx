@@ -9,7 +9,6 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SpecialEvent } from "features/game/types/specialEvents";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import confetti from "canvas-confetti";
 import { Button } from "components/ui/Button";
 
 interface Props {
@@ -26,16 +25,6 @@ const lastFoundAt = localStorage.getItem("easter.rabbitsFound");
 // every 24 hours the rabbits go missing
 if (lastFoundAt && Number(lastFoundAt) > Date.now() - 24 * 60 * 60 * 1000) {
   RABBITS_FOUND = RABBITS;
-}
-
-export function collectRabbit() {
-  RABBITS_FOUND += 1;
-
-  if (RABBITS_FOUND === RABBITS) {
-    confetti();
-
-    localStorage.setItem("easter.rabbitsFound", Date.now().toString());
-  }
 }
 
 export function rabbitsCaught() {

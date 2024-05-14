@@ -16,7 +16,7 @@ interface Props {
 export const NyeButton: React.FC<Props> = ({ onClose }) => {
   const [showReward, setShowReward] = useState(false);
 
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const hasClaimed = !!gameState.context.state.wardrobe?.["New Years Tiara"];
@@ -61,7 +61,7 @@ export const NyeButton: React.FC<Props> = ({ onClose }) => {
             {
               text: translate("yes"),
               cb: () => {
-                confetti();
+                if (showAnimations) confetti();
 
                 if (hasClaimed) {
                   onClose();

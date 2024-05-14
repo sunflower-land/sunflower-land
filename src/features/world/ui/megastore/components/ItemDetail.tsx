@@ -46,7 +46,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   isVisible,
   onClose,
 }) => {
-  const { shortcutItem, gameService } = useContext(Context);
+  const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
@@ -136,7 +136,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       shortcutItem(item.name as InventoryItemName);
     }
 
-    confetti();
+    if (showAnimations) confetti();
     trackAnalytics();
     setShowSuccess(true);
     setConfirmBuy(false);
