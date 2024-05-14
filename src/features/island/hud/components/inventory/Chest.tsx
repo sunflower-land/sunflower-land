@@ -38,6 +38,7 @@ import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TREE_VARIANTS } from "features/island/resources/Resource";
+import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -55,6 +56,7 @@ export const ITEM_ICONS: (
   Toolshed: toolshedIcon,
   Warehouse: warehouseIcon,
   Tree: TREE_VARIANTS[island],
+  "Dirt Path": DIRT_PATH_VARIANTS[island],
 });
 
 interface Props {

@@ -26,7 +26,7 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
 import { IslandType } from "features/game/types/game";
-import { FLOWER_VARIENTS } from "../lib/alternateArt";
+import { FLOWER_VARIANTS } from "../lib/alternateArt";
 
 const LIFECYCLE_VARIANTS: Record<IslandType, typeof FLOWER_LIFECYCLE> = {
   basic: FLOWER_LIFECYCLE,
@@ -88,7 +88,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           onClick={() => setShowPlantModal(true)}
         >
           <img
-            src={FLOWER_VARIENTS[state.island.type]}
+            src={FLOWER_VARIANTS[state.island.type]}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 48}px`,

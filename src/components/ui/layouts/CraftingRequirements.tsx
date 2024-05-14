@@ -18,6 +18,7 @@ import {
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 
 /**
  * The props for the details for items.
@@ -113,7 +114,9 @@ function getDetails(
     return {
       count: inventoryCount,
       description: ITEM_DETAILS[details.item].description,
-      image: ITEM_DETAILS[details.item].image,
+      image:
+        ITEM_ICONS(game.island.type)[details.item] ??
+        ITEM_DETAILS[details.item].image,
       name: details.item,
       limit: limit as Decimal,
     };

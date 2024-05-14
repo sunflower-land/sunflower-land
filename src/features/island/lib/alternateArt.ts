@@ -31,6 +31,9 @@ import desertFruitPatchDirt from "assets/desert/fruit/fruit_patch.webp";
 import emptyFlowerBed from "assets/flowers/empty.webp";
 import desertEmptyFlowerBed from "assets/desert/flowers/empty.webp";
 
+import dirt from "assets/sfts/dirt_path.png";
+import desertDirt from "assets/desert/sfts/dirt_path.webp";
+
 import { IslandType } from "features/game/types/game";
 
 export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
@@ -93,8 +96,14 @@ export const FRUIT_PATCH_VARIANTS: Record<IslandType, string> = {
   desert: desertFruitPatchDirt,
 };
 
-export const FLOWER_VARIENTS: Record<IslandType, string> = {
+export const FLOWER_VARIANTS: Record<IslandType, string> = {
   basic: emptyFlowerBed,
   spring: emptyFlowerBed,
   desert: desertEmptyFlowerBed,
+};
+
+export const DIRT_PATH_VARIANTS: Record<IslandType, string> = {
+  basic: dirt,
+  spring: dirt,
+  desert: desertDirt,
 };
