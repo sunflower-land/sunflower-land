@@ -92,7 +92,19 @@ export type MegaStoreCollectibleName =
   | "Green Field Rug"
   | "Vinny"
   | "Clock"
-  | "Fancy Rug";
+  | "Fancy Rug"
+  //June
+  | "Regular Pawn"
+  | "Novice Knight"
+  | "Golden Garrison"
+  | "Trainee Target"
+  | "Chess Rug"
+  // July
+  | "Rice Panda"
+  | "Silver Squire"
+  | "Cluckapult"
+  | "Bullseye Board"
+  | "Twister Rug";
 
 export type GoblinBlacksmithItemName =
   | "Purple Trail"

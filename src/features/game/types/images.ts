@@ -575,6 +575,7 @@ import silverSquire from "assets/sfts/silver_squire.webp";
 import silverStallion from "assets/sfts/silver_stallion.webp";
 import traineeTarget from "assets/sfts/trainee_target.webp";
 import twisterRug from "assets/sfts/twister_rug.webp";
+import ricePanda from "assets/sfts/rice_panda.webp";
 
 import anchovy from "assets/fish/anchovy.png";
 import barredKnifejaw from "assets/fish/barred_knifejaw.png";
@@ -3509,7 +3510,6 @@ export const ITEM_DETAILS: Items = {
     image: twisterRug,
     description: translate("description.twisterRug"),
   },
-
   "Grape Seed": {
     image: grapeSeed,
     description: translate("description.grape"),
@@ -3605,5 +3605,9 @@ export const ITEM_DETAILS: Items = {
   Greenhouse: {
     image: greenhouse,
     description: translate("description.greenhouse"),
+  },
+  "Rice Panda": {
+    image: ricePanda,
+    description: translate("description.ricePanda"),
   },
 };

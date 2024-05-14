@@ -7803,4 +7803,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: `../public/erc1155/images/1019.png`,
     attributes: [{ trait_type: "Purpose", value: "Building" }],
   },
+  "Rice Panda": {
+    name: "Rice Panda",
+    description: "",
+
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    attributes: [
+      { trait_type: "Boost", value: "Crop" },
+      { trait_type: "Tradable", value: "Yes" },
+      {
+        display_type: "boost_number",
+        trait_type: "Increase Rice Yield",
+        value: 0.25,
+      },
+    ],
+  },
 };

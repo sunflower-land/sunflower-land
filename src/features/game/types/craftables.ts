@@ -1307,6 +1307,16 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Vinny: { width: 1, height: 1 },
   Clock: { width: 1, height: 1 },
   "Fancy Rug": { width: 3, height: 2 },
+  "Bullseye Board": { width: 2, height: 2 },
+  "Chess Rug": { width: 3, height: 3 },
+  "Twister Rug": { width: 3, height: 2 },
+  Cluckapult: { width: 2, height: 2 },
+  "Trainee Target": { width: 1, height: 1 },
+  "Golden Garrison": { width: 1, height: 1 },
+  "Novice Knight": { width: 1, height: 1 },
+  "Regular Pawn": { width: 1, height: 1 },
+  "Silver Squire": { width: 1, height: 1 },
+  "Rice Panda": { width: 1, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

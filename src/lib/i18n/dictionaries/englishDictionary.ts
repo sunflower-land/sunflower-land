@@ -947,6 +947,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.pan.boost": "+25% XP",
   "description.paw.shield.boost": "+25% Faction Ped feeding XP",
   "description.vinny.boost": "+0.25 Grape",
+  "description.rice.panda.boost": "+0.25 Rice",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1752,6 +1753,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.fancy.rug": "A rug that brings a touch of elegance to any room.",
   "description.vinny":
     "Vinny, a friendly grapevine, is always ready for a chat.",
+  "description.ricePanda": "A smart panda never forgets to water the rice.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

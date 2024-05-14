@@ -1767,6 +1767,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.silverStallion": ENGLISH_TERMS["description.silverStallion"],
   "description.traineeTarget": ENGLISH_TERMS["description.traineeTarget"],
   "description.twisterRug": ENGLISH_TERMS["description.twisterRug"],
+  "description.ricePanda": ENGLISH_TERMS["description.ricePanda"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

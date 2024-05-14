@@ -195,6 +195,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
   },
+  "Rice Panda": {
+    shortDescription: translate("description.rice.panda.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
+  },
 
   // Fruit Boosts
   "Immortal Pear": {
