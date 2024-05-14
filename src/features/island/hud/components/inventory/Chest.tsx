@@ -187,9 +187,9 @@ export const Chest: React.FC<Props> = ({
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
-  const boosts = getKeys(collectibles).filter(
-    (name) => name in COLLECTIBLE_BUFF_LABELS
-  );
+  const boosts = getKeys(collectibles)
+    .filter((name) => name in COLLECTIBLE_BUFF_LABELS)
+    .filter((name) => !resources.includes(name) && !buildings.includes(name));
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
