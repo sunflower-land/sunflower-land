@@ -27,6 +27,8 @@ import deliIcon from "assets/buildings/deli_icon.png";
 import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
 import toolshedIcon from "assets/buildings/toolshed_icon.png";
 import warehouseIcon from "assets/buildings/warehouse_icon.png";
+import greenhouseIcon from "assets/icons/greenhouse.webp";
+
 import { BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
@@ -57,6 +59,7 @@ export const ITEM_ICONS: (
   Warehouse: warehouseIcon,
   Tree: TREE_VARIANTS[island],
   "Dirt Path": DIRT_PATH_VARIANTS[island],
+  Greenhouse: greenhouseIcon,
 });
 
 interface Props {

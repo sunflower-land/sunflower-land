@@ -997,6 +997,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
     "Produit régulièrement de l'appât et de l'engrais.",
   "description.hen.house": "Développez votre empire de poulets",
   "description.bakery": "Préparez vos gâteaux préférés",
+  "description.greenhouse": ENGLISH_TERMS["description.greenhouse"],
   "description.turbo.composter":
     "Produit régulièrement de l'appât et de l'engrais avancés.",
   "description.deli": "Satisfaites votre appétit avec ces mets délicats!",

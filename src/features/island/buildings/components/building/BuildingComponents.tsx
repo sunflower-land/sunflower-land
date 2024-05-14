@@ -35,6 +35,8 @@ import {
   WORKBENCH_VARIANTS,
 } from "features/island/lib/alternateArt";
 
+import { Greenhouse } from "./greenhouse/Greenhouse";
+
 export interface BuildingProps {
   buildingId: string;
   buildingIndex: number;
@@ -176,6 +178,7 @@ export const BUILDING_COMPONENTS: Record<
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
+  Greenhouse: Greenhouse,
 };
 
 export const READONLY_BUILDINGS: (

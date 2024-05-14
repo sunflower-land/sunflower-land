@@ -398,6 +398,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   Tent: () => false,
   "Water Well": () => false,
   Bakery: () => false,
+  Greenhouse: () => false,
   "Hen House": () => false,
   Deli: () => false,
   "Smoothie Shack": () => false,

@@ -384,6 +384,7 @@ import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
+import greenhouse from "src/assets/buildings/greenhouse.webp";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
@@ -3600,5 +3601,9 @@ export const ITEM_DETAILS: Items = {
   "Tofu Scramble": {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.tofuScramble"),
+  },
+  Greenhouse: {
+    image: greenhouse,
+    description: translate("description.greenhouse"),
   },
 };

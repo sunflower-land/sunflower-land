@@ -980,6 +980,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.compost.bin": "Düzenli olarak yem ve gübre üretir.",
   "description.hen.house": "Tavuk imparatorluğunuzu kurun",
   "description.bakery": "Favori pastalarınızı pişirin",
+  "description.greenhouse": ENGLISH_TERMS["description.greenhouse"],
   "description.turbo.composter": "Düzenli olarak gelişmiş yem ve gübre üretir.",
   "description.deli": "Mezelerle iştahınızı tatmin edin!",
   "description.smoothie.shack": "Taze sıkılmış!",
