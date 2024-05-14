@@ -347,6 +347,21 @@ import bananaBlast from "assets/food/banana_blast.png";
 import beetrootBlaze from "assets/food/beetroot_blaze.png";
 import shroomSyrup from "assets/food/shroom_syrup.png";
 import rapidRoast from "assets/food/rapid_roast.png";
+import theLot from "assets/food/the_lot.webp";
+import antipasto from "assets/food/antipasto.webp";
+import carrotJuice from "assets/food/carrot_juice.webp";
+import fishBasket from "assets/food/seafood_basket.webp";
+import fishBurger from "assets/food/fish_burger.webp";
+import fishnChips from "assets/food/fish_and_chips.webp";
+import fishOmelette from "assets/food/fish_omelette.webp";
+import friedCalamari from "assets/food/fried_calamari.webp";
+import grapeJuice from "assets/food/grape_juice.webp";
+import oceansOlive from "assets/food/oceans_olive.webp";
+import quickJuice from "assets/food/quick_juice.webp";
+import riceBun from "assets/food/rice_bun.webp";
+import slowJuice from "assets/food/slow_juice.webp";
+import redRice from "assets/food/red_rice.webp";
+import sushiRoll from "assets/food/sushi_roll.webp";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -3517,5 +3532,73 @@ export const ITEM_DETAILS: Items = {
   Rice: {
     image: rice,
     description: translate("description.rice"),
+  },
+  Antipasto: {
+    image: antipasto,
+    description: translate("description.antipasto"),
+  },
+  "Carrot Juice": {
+    image: carrotJuice,
+    description: translate("description.carrotJuice"),
+  },
+  "Seafood Basket": {
+    image: fishBasket,
+    description: translate("description.fishBasket"),
+  },
+  "Fish Burger": {
+    image: fishBurger,
+    description: translate("description.fishBurger"),
+  },
+  "Fish n Chips": {
+    image: fishnChips,
+    description: translate("description.fishnChips"),
+  },
+  "Fish Omelette": {
+    image: fishOmelette,
+    description: translate("description.fishOmelette"),
+  },
+  "Fried Calamari": {
+    image: friedCalamari,
+    description: translate("description.friedCalamari"),
+  },
+  "Fried Tofu": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.friedTofu"),
+  },
+  "Grape Juice": {
+    image: grapeJuice,
+    description: translate("description.grapeJuice"),
+  },
+  "Ocean's Olive": {
+    image: oceansOlive,
+    description: translate("description.oceansOlive"),
+  },
+  "Quick Juice": {
+    image: quickJuice,
+    description: translate("description.quickJuice"),
+  },
+  "Rice Bun": {
+    image: riceBun,
+    description: translate("description.riceBun"),
+  },
+  "Slow Juice": {
+    image: slowJuice,
+    description: translate("description.slowJuice"),
+  },
+  "Steamed Red Rice": {
+    image: redRice,
+    description: translate("description.steamedRedRice"),
+  },
+  "Sushi Roll": {
+    image: sushiRoll,
+    description: translate("description.sushirRoll"),
+  },
+  "The Lot": {
+    image: theLot,
+    description: translate("description.theLot"),
+  },
+  "Tofu Scramble": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.tofuScramble"),
   },
 };

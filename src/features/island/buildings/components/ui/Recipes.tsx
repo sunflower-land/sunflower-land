@@ -7,7 +7,11 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
-import { Cookable, CookableName } from "features/game/types/consumables";
+import {
+  ConsumableName,
+  Cookable,
+  CookableName,
+} from "features/game/types/consumables";
 
 import { InProgressInfo } from "../building/InProgressInfo";
 import { MachineInterpreter } from "../../lib/craftingMachine";
@@ -19,6 +23,8 @@ import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { FLAGGED_RECIPES } from "features/game/events/landExpansion/cook";
+import { FeatureName, hasFeatureAccess } from "lib/flags";
 
 interface Props {
   selected: Cookable;
@@ -87,6 +93,18 @@ export const Recipes: React.FC<Props> = ({
     );
   };
 
+  const validRecipes = recipes.filter((recipes) => {
+    const flag = FLAGGED_RECIPES[recipes.name];
+    if (!flag) {
+      return true;
+    }
+
+    return hasFeatureAccess(
+      state,
+      FLAGGED_RECIPES[recipes.name as ConsumableName] as FeatureName
+    );
+  });
+
   return (
     <SplitScreenView
       panel={
@@ -124,7 +142,7 @@ export const Recipes: React.FC<Props> = ({
           )}
           {crafting && <p className="mb-2 w-full">{t("recipes")}</p>}
           <div className="flex flex-wrap h-fit">
-            {recipes.map((item) => (
+            {validRecipes.map((item) => (
               <Box
                 isSelected={selected.name === item.name}
                 key={item.name}

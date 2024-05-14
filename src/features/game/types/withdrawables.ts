@@ -517,6 +517,23 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Angelfish: () => false,
   Halibut: () => false,
   Parrotfish: () => false,
+  "Carrot Juice": () => false,
+  "Seafood Basket": () => false,
+  "Fish Burger": () => false,
+  "Fish n Chips": () => false,
+  "Fish Omelette": () => false,
+  "Fried Calamari": () => false,
+  "Fried Tofu": () => false,
+  "Grape Juice": () => false,
+  "Ocean's Olive": () => false,
+  "Quick Juice": () => false,
+  "Rice Bun": () => false,
+  "Slow Juice": () => false,
+  "Steamed Red Rice": () => false,
+  "Sushi Roll": () => false,
+  "The Lot": () => false,
+  "Tofu Scramble": () => false,
+  Antipasto: () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
