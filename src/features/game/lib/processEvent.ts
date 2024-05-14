@@ -33,6 +33,10 @@ export const maxItems: Inventory = {
   Blueberry: new Decimal("900"),
   Banana: new Decimal("600"),
 
+  Olive: new Decimal("250"),
+  Grape: new Decimal("250"),
+  Rice: new Decimal("250"),
+
   Chicken: new Decimal("20"),
   Egg: new Decimal("800"),
 
@@ -65,6 +69,9 @@ export const maxItems: Inventory = {
   "Sunpetal Seed": new Decimal(100),
   "Bloom Seed": new Decimal(100),
   "Lily Seed": new Decimal(100),
+  "Olive Seed": new Decimal(100),
+  "Grape Seed": new Decimal(100),
+  "Rice Seed": new Decimal(100),
 
   "Red Pansy": new Decimal("80"),
   "Yellow Pansy": new Decimal("80"),

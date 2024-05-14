@@ -292,6 +292,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Anlaşıldı",
   goto: "Git",
   "grant.wish": "Yeni Dilek Dile",
+  greenhouse: ENGLISH_TERMS["greenhouse"],
   guide: "Rehber",
   harvested: "Hasat edilmiş",
   honey: "Bal",
@@ -1380,6 +1381,10 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.wheat": "Dünyanın en çok hasat edilen ürünü.",
   "description.kale": "Bir Bumpkin Güç Yemeği!",
   "description.soybean": ENGLISH_TERMS["description.soybean"],
+
+  "description.grape": ENGLISH_TERMS["description.grape"],
+  "description.olive": ENGLISH_TERMS["description.olive"],
+  "description.rice": ENGLISH_TERMS["description.rice"],
 
   // Fruits
   "description.blueberry": "Bir Goblin'in zayıflığı",

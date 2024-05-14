@@ -293,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Got it",
   goto: "Go to",
   "grant.wish": "Grant New Wish",
+  greenhouse: "Greenhouse",
   guide: "Guide",
   harvested: "Harvested",
   honey: "Honey",
@@ -1365,6 +1366,11 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.wheat": "The most harvested crop in the world.",
   "description.kale": "A Bumpkin Power Food!",
   "description.soybean": "A versatile legume!",
+
+  // Greenhouse
+  "description.grape": "A zengy and desired fruit.",
+  "description.olive": "A luxury for advanced farmers.",
+  "description.rice": "Perfect for rations!",
 
   // Fruits
   "description.blueberry": "A Goblin's weakness",

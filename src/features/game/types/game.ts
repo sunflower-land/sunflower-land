@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Decimal } from "decimal.js-light";
 
-import { CropName, CropSeedName } from "./crops";
+import {
+  CropName,
+  CropSeedName,
+  GreenHouseCropName,
+  GreenHouseCropSeedName,
+} from "./crops";
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
 import { CommodityName, MushroomName, ResourceName } from "./resources";
@@ -15,7 +20,12 @@ import { AchievementName } from "./achievements";
 import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
-import { FruitName, FruitSeedName } from "./fruits";
+import {
+  FruitName,
+  FruitSeedName,
+  GreenHouseFruitName,
+  GreenHouseFruitSeedName,
+} from "./fruits";
 import { TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
@@ -297,6 +307,10 @@ export type InventoryItemName =
   | FruitName
   | FruitSeedName
   | FlowerSeedName
+  | GreenHouseFruitSeedName
+  | GreenHouseFruitName
+  | GreenHouseCropName
+  | GreenHouseCropSeedName
   | CraftableName
   | CommodityName
   | ResourceName

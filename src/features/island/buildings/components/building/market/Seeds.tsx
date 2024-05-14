@@ -2,11 +2,16 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import lock from "assets/skills/lock.png";
 import orange from "assets/resources/orange.png";
+import greenhouse from "assets/icons/greenhouse.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { CROP_SEEDS, CropName } from "features/game/types/crops";
+import {
+  CROP_SEEDS,
+  CropName,
+  GREENHOUSE_SEEDS,
+} from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
@@ -16,7 +21,12 @@ import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
-import { FRUIT, FRUIT_SEEDS, FruitSeedName } from "features/game/types/fruits";
+import {
+  FRUIT,
+  FRUIT_SEEDS,
+  FruitSeedName,
+  GREENHOUSE_FRUIT_SEEDS,
+} from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
@@ -29,6 +39,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -251,6 +262,33 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   />
                 ))}
             </div>
+
+            {hasFeatureAccess(state, "GREENHOUSE") && (
+              <>
+                <Label icon={greenhouse} type="default" className="ml-2 mb-1">
+                  {t("greenhouse")}
+                </Label>
+                <div className="flex flex-wrap mb-2">
+                  {seeds
+                    .filter(
+                      (name) =>
+                        name in GREENHOUSE_SEEDS() ||
+                        name in GREENHOUSE_FRUIT_SEEDS()
+                    )
+                    .map((name: SeedName) => (
+                      <Box
+                        isSelected={selectedName === name}
+                        key={name}
+                        onClick={() => onSeedClick(name)}
+                        image={ITEM_DETAILS[name].image}
+                        showOverlay={isSeedLocked(name)}
+                        secondaryImage={isSeedLocked(name) ? lock : undefined}
+                        count={inventory[name]}
+                      />
+                    ))}
+                </div>
+              </>
+            )}
           </>
         </div>
       }

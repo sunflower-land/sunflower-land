@@ -5,7 +5,7 @@ import {
 } from "../events/landExpansion/harvest";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import { CROPS, CropName } from "../types/crops";
-import { FRUIT, FruitName } from "../types/fruits";
+import { FRUIT, FruitName, GREENHOUSE_FRUIT } from "../types/fruits";
 import { GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
 
@@ -20,7 +20,7 @@ const isMineral = (resource: Resource): boolean => {
 };
 
 const isFruit = (resource: Resource): boolean => {
-  return resource in FRUIT();
+  return resource in FRUIT() || resource in GREENHOUSE_FRUIT();
 };
 
 const getTypeBoost = (bud: Bud, resource: Resource): number => {

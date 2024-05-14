@@ -3,19 +3,20 @@ import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { Crop, CROPS } from "features/game/types/crops";
+import { Crop, CROPS, GREENHOUSE_CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
-import { Fruit, FRUIT } from "features/game/types/fruits";
+import { Fruit, FRUIT, GREENHOUSE_FRUIT } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
 import lightning from "assets/icons/lightning.png";
+import greenhouse from "assets/icons/greenhouse.webp";
 import orange from "assets/resources/orange.png";
 import {
   EXOTIC_CROPS,
@@ -28,13 +29,13 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
 ): item is ExoticCrop => {
   return item.name in EXOTIC_CROPS;
 };
-
 export const Crops: React.FC<{ cropShortage: boolean }> = ({
   cropShortage,
 }) => {
@@ -133,9 +134,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
 
   const cropsAndFruits = Object.values({
     ...CROPS(),
+    ...GREENHOUSE_CROPS(),
+    ...GREENHOUSE_FRUIT(),
     ...FRUIT(),
     ...exotics,
-  });
+  }) as Crop[];
 
   return (
     <>
@@ -252,6 +255,39 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                   />
                 ))}
             </div>
+
+            {hasFeatureAccess(state, "GREENHOUSE") && (
+              <>
+                <div className="flex">
+                  <Label className="mr-3 ml-2" icon={greenhouse} type="default">
+                    {t("greenhouse")}
+                  </Label>
+                </div>
+                <div className="flex flex-wrap mb-2">
+                  {cropsAndFruits
+                    .filter(
+                      (crop) =>
+                        !!crop.sellPrice &&
+                        (crop.name in GREENHOUSE_CROPS() ||
+                          crop.name in GREENHOUSE_FRUIT())
+                    )
+                    .map((item) => (
+                      <Box
+                        isSelected={selected.name === item.name}
+                        key={item.name}
+                        onClick={() => setSelected(item)}
+                        image={ITEM_DETAILS[item.name].image}
+                        count={inventory[item.name]}
+                        parentDivRef={divRef}
+                        secondaryImage={
+                          bumpkinLevel < item.bumpkinLevel ? lock : undefined
+                        }
+                        showOverlay={bumpkinLevel < item.bumpkinLevel}
+                      />
+                    ))}
+                </div>
+              </>
+            )}
           </div>
         }
       />

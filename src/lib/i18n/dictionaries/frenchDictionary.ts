@@ -311,6 +311,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   gotIt: "Compris",
   goto: "Aller à",
   "grant.wish": "Exaucer un vœu",
+  greenhouse: ENGLISH_TERMS["greenhouse"],
   guide: "Guide",
   harvested: "Récolté",
   "hoarding.check": "Vérification des stocks",
@@ -1422,6 +1423,10 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.wheat": "La récolte la plus abondante au monde.",
   "description.kale": "Une nourriture puissante pour les Bumpkins!",
   "description.soybean": ENGLISH_TERMS["description.soybean"],
+
+  "description.grape": ENGLISH_TERMS["description.grape"],
+  "description.olive": ENGLISH_TERMS["description.olive"],
+  "description.rice": ENGLISH_TERMS["description.rice"],
 
   // Fruits
   "description.blueberry": "La faiblesse d'un Goblin",

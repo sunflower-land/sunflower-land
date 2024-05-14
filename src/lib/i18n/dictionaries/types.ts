@@ -119,6 +119,7 @@ export type GeneralTerms =
   | "gotIt"
   | "goto"
   | "grant.wish"
+  | "greenhouse"
   | "guide"
   | "harvested"
   | "honey"
@@ -967,6 +968,11 @@ export type CropFruitDescriptions =
   | "description.wheat"
   | "description.kale"
   | "description.soybean"
+
+  // Greenhouse
+  | "description.rice"
+  | "description.olive"
+  | "description.grape"
 
   //Fruit
   | "description.blueberry"
