@@ -33,6 +33,10 @@ export const maxItems: Inventory = {
   Blueberry: new Decimal("900"),
   Banana: new Decimal("600"),
 
+  Olive: new Decimal("250"),
+  Grape: new Decimal("250"),
+  Rice: new Decimal("250"),
+
   Chicken: new Decimal("20"),
   Egg: new Decimal("800"),
 

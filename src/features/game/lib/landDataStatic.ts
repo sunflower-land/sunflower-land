@@ -356,7 +356,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  coins: 100,
+  coins: 10000000,
   balance: new Decimal(100),
   previousBalance: new Decimal(0),
   previousInventory: {
