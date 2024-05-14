@@ -275,7 +275,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     experience: 1800,
     cookingSeconds: 300 * 60,
     ingredients: {
-      // "Rice": new Decimal(2), TODO,
+      Rice: new Decimal(2),
       Wheat: new Decimal(50),
     },
     marketRate: 0,
@@ -287,8 +287,8 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     experience: 1900,
     cookingSeconds: 180 * 60,
     ingredients: {
-      // Olive: new Decimal(2), TODO
-      // Grapes: new Decimal(2), TODO
+      Olive: new Decimal(2),
+      Grape: new Decimal(2),
     },
     marketRate: 0,
   },
@@ -476,7 +476,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     experience: 2400,
     cookingSeconds: 4 * 60 * 60,
     ingredients: {
-      // Rice: new Decimal(3), TODO
+      Rice: new Decimal(3),
       Beetroot: new Decimal(50),
     },
     marketRate: 0,
@@ -541,7 +541,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     cookingSeconds: 2 * 60 * 60,
     ingredients: {
       "Olive Flounder": new Decimal(1),
-      // Olive: new Decimal(2), TODO
+      Olive: new Decimal(2),
     },
     marketRate: 0,
   },
@@ -579,7 +579,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     ingredients: {
       Angelfish: new Decimal(1),
       Seaweed: new Decimal(1),
-      // Rice: new Decimal(2), TODO
+      Rice: new Decimal(2),
     },
     marketRate: 0,
   },
@@ -945,7 +945,7 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     experience: 1800,
     cookingSeconds: 3 * 60 * 60,
     ingredients: {
-      // Grape: new Decimal(5), TODO
+      Grape: new Decimal(5),
       Radish: new Decimal(20),
     },
     marketRate: 0,
@@ -959,7 +959,7 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     ingredients: {
       Blueberry: new Decimal(1),
       Orange: new Decimal(1),
-      // Grape: new Decimal(1), TODO
+      Grape: new Decimal(1),
       Apple: new Decimal(1),
       Banana: new Decimal(1),
     },
@@ -995,7 +995,7 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     experience: 5000,
     cookingSeconds: 24 * 60 * 60,
     ingredients: {
-      // Grape: new Decimal(10), TODO
+      Grape: new Decimal(10),
       Kale: new Decimal(100),
     },
     marketRate: 0,
