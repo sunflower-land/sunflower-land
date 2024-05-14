@@ -16,6 +16,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -33,6 +34,7 @@ const VALID_BUILDINGS: BuildingName[] = [
   "Compost Bin" as BuildingName,
   "Turbo Composter" as BuildingName,
   "Premium Composter" as BuildingName,
+  "Greenhouse" as BuildingName,
 ].sort(
   (a, b) => BUILDINGS[a][0].unlocksAtLevel - BUILDINGS[b][0].unlocksAtLevel
 );
@@ -96,6 +98,14 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   };
 
   const getAction = () => {
+    if (!hasFeatureAccess(state, "GREENHOUSE")) {
+      return (
+        <Label type="default" icon={lock}>
+          {t("coming.soon")}
+        </Label>
+      );
+    }
+
     const hasMaxNumberOfBuildings =
       buildingsInInventory.gte(numOfBuildingAllowed);
     // Hasn't unlocked the first

@@ -416,10 +416,9 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
   ],
   Greenhouse: [
     {
-      unlocksAtLevel: 99,
+      unlocksAtLevel: 46,
       coins: 4800,
-      constructionSeconds: 30,
-      // 500 Wood, 250 Stone, 25 Crimstone, 4800 coins.
+      constructionSeconds: 60 * 60 * 4,
       ingredients: [
         {
           item: "Wood",
