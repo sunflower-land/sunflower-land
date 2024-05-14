@@ -69,6 +69,9 @@ export const maxItems: Inventory = {
   "Sunpetal Seed": new Decimal(100),
   "Bloom Seed": new Decimal(100),
   "Lily Seed": new Decimal(100),
+  "Olive Seed": new Decimal(100),
+  "Grape Seed": new Decimal(100),
+  "Rice Seed": new Decimal(100),
 
   "Red Pansy": new Decimal("80"),
   "Yellow Pansy": new Decimal("80"),
