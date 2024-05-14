@@ -1,8 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import firePit from "assets/buildings/fire_pit.png";
-import desertFirePit from "assets/desert/buildings/fire_pit.webp";
-
 import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
 import { CookableName } from "features/game/types/consumables";
@@ -21,13 +18,7 @@ import npc from "assets/npcs/cook.gif";
 import doing from "assets/npcs/cook_doing.gif";
 import shadow from "assets/npcs/shadow.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { IslandType } from "features/game/types/game";
-
-const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
-  basic: firePit,
-  spring: firePit,
-  desert: desertFirePit,
-};
+import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 

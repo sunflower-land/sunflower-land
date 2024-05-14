@@ -39,7 +39,7 @@ export const PLACEABLES: (
   Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
   ...READONLY_COLLECTIBLES,
   ...READONLY_RESOURCE_COMPONENTS(island),
-  ...READONLY_BUILDINGS,
+  ...READONLY_BUILDINGS(island),
   "Dirt Path": () => (
     <img
       src={ITEM_DETAILS["Dirt Path"].image}

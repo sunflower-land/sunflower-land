@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import workbench from "assets/buildings/workbench.png";
-import desertWorkbench from "assets/desert/buildings/workbench.webp";
 import npc from "assets/npcs/blacksmith.gif";
 import shadow from "assets/npcs/shadow.png";
 
@@ -15,13 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { IslandType } from "features/game/types/game";
-
-const WORKBENCH_VARIANTS: Record<IslandType, string> = {
-  basic: workbench,
-  spring: workbench,
-  desert: desertWorkbench,
-};
+import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =

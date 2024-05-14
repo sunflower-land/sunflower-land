@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import deli from "assets/buildings/deli.png";
-import desertDeli from "assets/desert/buildings/deli.webp";
 import artisian from "assets/npcs/artisian.gif";
 import artisianDoing from "assets/npcs/artisian_doing.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -16,13 +14,7 @@ import { DeliModal } from "./DeliModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
-import { IslandType } from "features/game/types/game";
-
-const DELI_VARIANTS: Record<IslandType, string> = {
-  basic: deli,
-  spring: deli,
-  desert: desertDeli,
-};
+import { DELI_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 

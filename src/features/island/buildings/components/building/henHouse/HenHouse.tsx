@@ -1,21 +1,12 @@
 import React, { useEffect } from "react";
 import { Modal } from "components/ui/Modal";
 
-import building from "assets/buildings/hen_house.png";
-import desertBuilding from "assets/desert/buildings/hen_house.webp";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { HenHouseModal } from "./components/HenHouseModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { barnAudio, loadAudio } from "lib/utils/sfx";
-import { IslandType } from "features/game/types/game";
-
-const HEN_HOUSE_VARIANTS: Record<IslandType, string> = {
-  basic: building,
-  spring: building,
-  desert: desertBuilding,
-};
+import { HEN_HOUSE_VARIANTS } from "features/island/lib/alternateArt";
 
 export const ChickenHouse: React.FC<BuildingProps> = ({
   isBuilt,

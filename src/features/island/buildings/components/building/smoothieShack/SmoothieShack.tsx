@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import smoothieShack from "assets/buildings/smoothie_shack_background.webp";
-import desertSmoothieShack from "assets/desert/buildings/smoothie_shack_background.webp";
 import smoothieShackDesk from "assets/buildings/smoothie_shack_desk.webp";
 import smoothieChef from "assets/npcs/smoothie.gif";
 import smoothieChefMaking from "assets/npcs/smoothie_making.gif";
@@ -16,13 +14,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
-import { IslandType } from "features/game/types/game";
-
-const SMOOTHIE_SHACK_VARIANTS: Record<IslandType, string> = {
-  basic: smoothieShack,
-  spring: smoothieShack,
-  desert: desertSmoothieShack,
-};
+import { SMOOTHIE_SHACK_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 

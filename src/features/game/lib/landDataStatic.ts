@@ -656,7 +656,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   buildings: Object.fromEntries(
-    Object.keys(READONLY_BUILDINGS).map((name, i) => [
+    Object.keys(READONLY_BUILDINGS("basic")).map((name, i) => [
       name,
       [
         {

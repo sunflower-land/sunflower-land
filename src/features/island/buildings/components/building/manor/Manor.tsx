@@ -1,26 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import house from "assets/buildings/manor.png";
-import desertHouse from "assets/desert/buildings/manor.webp";
-
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin, IslandType } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router-dom";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
-
-const MANOR_VARIANTS: Record<IslandType, string> = {
-  basic: house,
-  spring: house,
-  desert: desertHouse,
-};
+import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 
 export const Manor: React.FC<BuildingProps> = ({
   isBuilt,

@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import classNames from "classnames";
 
-import kitchen from "assets/buildings/kitchen.png";
-import desertKitchen from "assets/desert/buildings/kitchen.webp";
 import npc from "assets/npcs/chef.gif";
 import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -17,13 +15,7 @@ import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
-import { IslandType } from "features/game/types/game";
-
-const KITCHEN_VARIANTS: Record<IslandType, string> = {
-  basic: kitchen,
-  spring: kitchen,
-  desert: desertKitchen,
-};
+import { KITCHEN_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 

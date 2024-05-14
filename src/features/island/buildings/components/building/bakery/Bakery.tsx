@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import bakery from "assets/buildings/bakery.png";
-import desertBakery from "assets/desert/buildings/bakery.webp";
 import smoke from "assets/buildings/smoke.gif";
 import goblinChef from "assets/npcs/goblin_chef.gif";
 import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
@@ -17,13 +15,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
-import { IslandType } from "features/game/types/game";
-
-const BAKERY_VARIANTS: Record<IslandType, string> = {
-  basic: bakery,
-  spring: bakery,
-  desert: desertBakery,
-};
+import { BAKERY_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
