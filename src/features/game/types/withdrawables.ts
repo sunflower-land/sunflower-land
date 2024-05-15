@@ -565,20 +565,11 @@ const decorations: Record<ShopDecorationName, () => boolean> = {
 const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   // TODO - time base withdrawals
   "Battlecry Drum": () => false,
-  "Bullseye Board": () => false,
-  "Chess Rug": () => false,
-  Cluckapult: () => false,
   "Golden Gallant": () => false,
-  "Golden Garrison": () => false,
   "Golden Guardian": () => false,
-  "Novice Knight": () => false,
-  "Regular Pawn": () => false,
   "Rookie Rook": () => false,
   "Silver Sentinel": () => false,
-  "Silver Squire": () => false,
   "Silver Stallion": () => false,
-  "Trainee Target": () => false,
-  "Twister Rug": () => false,
 
   Blossombeard: () => false,
   "Desert Gnome": () => false,
@@ -935,6 +926,16 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Fancy Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   Clock: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   Vinny: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
+  "Regular Pawn": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Novice Knight": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Golden Garrison": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Trainee Target": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Chess Rug": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Rice Panda": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Twister Rug": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
 };
 
 const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {

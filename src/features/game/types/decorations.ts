@@ -71,20 +71,11 @@ export type SeasonalDecorationName =
   | "Beach Umbrella"
   | "Gaucho Rug"
   | "Battlecry Drum"
-  | "Bullseye Board"
-  | "Chess Rug"
-  | "Cluckapult"
   | "Golden Gallant"
-  | "Golden Garrison"
   | "Golden Guardian"
-  | "Novice Knight"
-  | "Regular Pawn"
   | "Rookie Rook"
   | "Silver Sentinel"
-  | "Silver Squire"
-  | "Silver Stallion"
-  | "Trainee Target"
-  | "Twister Rug";
+  | "Silver Stallion";
 
 export type EventDecorationName =
   | "Community Egg"
@@ -133,43 +124,11 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 2,
     height: 2,
   },
-  "Bullseye Board": {
-    width: 2,
-    height: 2,
-  },
-  "Chess Rug": {
-    width: 3,
-    height: 3,
-  },
-  "Twister Rug": {
-    width: 3,
-    height: 2,
-  },
-  Cluckapult: {
-    width: 2,
-    height: 2,
-  },
-  "Trainee Target": {
-    width: 1,
-    height: 1,
-  },
   "Golden Gallant": {
     width: 1,
     height: 1,
   },
-  "Golden Garrison": {
-    width: 1,
-    height: 1,
-  },
   "Golden Guardian": {
-    width: 1,
-    height: 1,
-  },
-  "Novice Knight": {
-    width: 1,
-    height: 1,
-  },
-  "Regular Pawn": {
     width: 1,
     height: 1,
   },
@@ -181,10 +140,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  "Silver Squire": {
-    width: 1,
-    height: 1,
-  },
+
   "Silver Stallion": {
     width: 1,
     height: 1,
