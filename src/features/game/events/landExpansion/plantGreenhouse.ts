@@ -15,6 +15,9 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
+import { isWearableActive } from "features/game/lib/wearables";
+import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -39,6 +42,57 @@ export const SEED_TO_PLANT: Record<
 };
 
 export const MAX_POTS = 4;
+
+export function getCropYieldAmount({
+  crop,
+  game,
+}: {
+  crop: GreenHouseCropName | GreenHouseFruitName;
+  game: GameState;
+}): number {
+  let amount = 1;
+
+  if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
+    amount += 1;
+  }
+
+  return amount;
+}
+
+type GetPlantedAtArgs = {
+  crop: GreenHouseCropName | GreenHouseFruitName;
+  game: GameState;
+  createdAt: number;
+};
+
+function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): number {
+  if (!crop) return 0;
+
+  const cropTime = GREENHOUSE_CROP_TIME_SECONDS[crop];
+
+  const boostedTime = getCropTime({ crop, game });
+
+  const offset = cropTime - boostedTime;
+
+  return createdAt - offset * 1000;
+}
+
+const getCropTime = ({
+  crop,
+  game,
+}: {
+  crop: GreenHouseCropName | GreenHouseFruitName;
+  game: GameState;
+}) => {
+  let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
+  if (game.bumpkin === undefined) return seconds;
+
+  if (isCollectibleBuilt({ name: "Turbo Sprout", game })) {
+    seconds *= 0.5;
+  }
+
+  return seconds;
+};
 
 export function plantGreenhouse({
   state,
@@ -80,9 +134,12 @@ export function plantGreenhouse({
   // Plants
   game.greenhouse.pots[potId] = {
     plant: {
-      amount: 1,
+      amount: getCropYieldAmount({
+        crop: plantName,
+        game,
+      }),
       name: plantName,
-      plantedAt: createdAt,
+      plantedAt: getPlantedAt({ createdAt, crop: plantName, game }),
     },
   };
 
