@@ -638,6 +638,8 @@ const availableSeeds: Record<AvailableSeeds, string> = {
   "availableSeeds.select": "Seed not selected",
   "availableSeeds.select.plant":
     "What seed would you like to select and plant?",
+  "quickSelect.empty": "No greenhouse seeds.",
+  "quickSelect.label": "Quick select",
 };
 
 const base: Record<Base, string> = {

@@ -421,7 +421,9 @@ export type AddSFL =
 
 export type AvailableSeeds =
   | "availableSeeds.select"
-  | "availableSeeds.select.plant";
+  | "availableSeeds.select.plant"
+  | "quickSelect.label"
+  | "quickSelect.empty";
 
 export type Base = "base.missing" | "base.far.away";
 

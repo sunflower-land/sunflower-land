@@ -638,6 +638,8 @@ const auction: Record<Auction, string> = {
 const availableSeeds: Record<AvailableSeeds, string> = {
   "availableSeeds.select": "Tohum seçilmedi",
   "availableSeeds.select.plant": "Hangi tohumu seçip dikmek istersiniz?",
+  "quickSelect.empty": ENGLISH_TERMS["quickSelect.empty"],
+  "quickSelect.label": ENGLISH_TERMS["quickSelect.label"],
 };
 
 const base: Record<Base, string> = {
