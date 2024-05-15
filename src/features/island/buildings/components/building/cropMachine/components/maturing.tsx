@@ -14,7 +14,7 @@ interface Props {
 
 export const Maturing = ({ paused }: Props) => {
   const { scale } = useContext(ZoomContext);
-  const spritesheetRef = useRef<SpriteSheetInstance | null>(null);
+  const spritesheetRef = useRef<SpriteSheetInstance>();
   const [fps] = useState<number[]>(
     calculateFPS(
       [
@@ -26,14 +26,10 @@ export const Maturing = ({ paused }: Props) => {
   );
 
   useEffect(() => {
-    if (!paused && spritesheetRef.current?.getInfo("isPaused")) {
-      spritesheetRef.current?.play();
-      return;
-    }
-
-    if (paused && spritesheetRef.current?.getInfo("isPlaying")) {
+    if (paused) {
       spritesheetRef.current?.pause();
-      return;
+    } else {
+      spritesheetRef.current?.play();
     }
   }, [paused]);
 

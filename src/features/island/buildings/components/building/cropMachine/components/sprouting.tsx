@@ -26,14 +26,10 @@ export const Sprouting = ({ paused }: Props) => {
   );
 
   useEffect(() => {
-    if (!paused && spritesheetRef.current?.getInfo("isPaused")) {
-      spritesheetRef.current?.play();
-      return;
-    }
-
-    if (paused && spritesheetRef.current?.getInfo("isPlaying")) {
+    if (paused) {
       spritesheetRef.current?.pause();
-      return;
+    } else {
+      spritesheetRef.current?.play();
     }
   }, [paused]);
 

@@ -8,30 +8,20 @@ import planting from "assets/cropMachine/stage2_collector_seed_planting_sheet.we
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 
-// {
-//   image: planting,
-//   steps: 48,
-//   fpsPerFrame: calculateFPS(new Array(48).fill(80), 3.84),
-// }
-
 interface Props {
   paused: boolean;
 }
 
 export const Planting = ({ paused }: Props) => {
   const { scale } = useContext(ZoomContext);
-  const spritesheetRef = useRef<SpriteSheetInstance | null>(null);
+  const spritesheetRef = useRef<SpriteSheetInstance>();
   const [fps] = useState<number[]>(calculateFPS(new Array(16).fill(80), 1.28));
 
   useEffect(() => {
-    if (!paused && spritesheetRef.current?.getInfo("isPaused")) {
-      spritesheetRef.current?.play();
-      return;
-    }
-
-    if (paused && spritesheetRef.current?.getInfo("isPlaying")) {
+    if (paused) {
       spritesheetRef.current?.pause();
-      return;
+    } else {
+      spritesheetRef.current?.play();
     }
   }, [paused]);
 

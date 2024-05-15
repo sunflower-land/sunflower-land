@@ -94,18 +94,17 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      <BuildingImageWrapper name="Crop Machine" onClick={handleClick}>
+      <BuildingImageWrapper
+        name="Crop Machine"
+        onClick={handleClick}
+        ready={canHarvest}
+      >
         <div
           className="absolute bottom-0"
           style={{
             width: `${PIXEL_SCALE * 80}px`,
           }}
         >
-          <img
-            src={shadow}
-            className="absolute bottom-0 right-1"
-            style={{ width: `${PIXEL_SCALE * 80}px` }}
-          />
           {idle && (
             <img
               src={image}
@@ -116,22 +115,28 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
               }}
             />
           )}
-          {/*  */}
           {(running || paused) && (
-            <div id="cropMachine" className="border-1 border-black">
-              {growingCropPackStage === "planting" && (
-                <Planting paused={paused} />
-              )}
-              {growingCropPackStage === "sprouting" && (
-                <Sprouting paused={paused} />
-              )}
-              {growingCropPackStage === "maturing" && (
-                <Maturing paused={paused} />
-              )}
-              {growingCropPackStage === "harvesting" && (
-                <Harvesting paused={paused} />
-              )}
-            </div>
+            <>
+              <img
+                src={shadow}
+                className="absolute bottom-0 right-1"
+                style={{ width: `${PIXEL_SCALE * 80}px` }}
+              />
+              <div id="cropMachine" className="border-1 border-black">
+                {growingCropPackStage === "planting" && (
+                  <Planting paused={paused} />
+                )}
+                {growingCropPackStage === "sprouting" && (
+                  <Sprouting paused={paused} />
+                )}
+                {growingCropPackStage === "maturing" && (
+                  <Maturing paused={paused} />
+                )}
+                {growingCropPackStage === "harvesting" && (
+                  <Harvesting paused={paused} />
+                )}
+              </div>
+            </>
           )}
 
           {canHarvest && (
