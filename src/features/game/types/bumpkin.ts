@@ -110,7 +110,8 @@ export type BumpkinShirt =
   | "Daisy Tee"
   | "Blue Monarch Shirt"
   | "Green Monarch Shirt"
-  | "Orange Monarch Shirt";
+  | "Orange Monarch Shirt"
+  | "Gift Giver";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -668,6 +669,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   Crown: 313,
   Pan: 314,
   "Soybean Onesie": 315,
+  "Gift Giver": 316,
 };
 
 // The reverse of above
@@ -1042,4 +1044,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   Crown: "hat",
   Pan: "tool",
   "Soybean Onesie": "onesie",
+  "Gift Giver": "shirt",
 };

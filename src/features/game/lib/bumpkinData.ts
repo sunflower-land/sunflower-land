@@ -17,7 +17,7 @@ export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: {
     body: "Beige Farmer Potion",
     hair: "Basic Hair",
-    shirt: "Red Farmer Shirt",
+    shirt: "Gift Giver",
     pants: "Brown Suspenders",
 
     shoes: "Black Farmer Boots",

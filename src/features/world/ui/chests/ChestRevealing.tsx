@@ -3,11 +3,13 @@ import {
   RARE_REWARDS,
   LUXURY_REWARDS,
   BUD_BOX_REWARDS,
+  GIFT_GIVER_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useEffect } from "react";
 
 import sfl from "assets/icons/sfl.webp";
+import coins from "assets/icons/coins.webp";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";
@@ -15,7 +17,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
 
 interface Props {
-  type: "Treasure Key" | "Rare Key" | "Luxury Key" | "Bud Box";
+  type: "Treasure Key" | "Rare Key" | "Luxury Key" | "Bud Box" | "Gift Giver";
 }
 
 const CHEST_LOOT = {
@@ -23,6 +25,7 @@ const CHEST_LOOT = {
   "Rare Key": RARE_REWARDS,
   "Luxury Key": LUXURY_REWARDS,
   "Bud Box": BUD_BOX_REWARDS,
+  "Gift Giver": GIFT_GIVER_REWARDS,
 };
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
@@ -41,6 +44,11 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
       if (randomItem.sfl) {
         newImage = sfl;
         newLabel = `${randomItem.sfl} SFL`;
+      }
+
+      if (randomItem.coins) {
+        newImage = coins;
+        newLabel = `${randomItem.coins} Coins`;
       }
 
       if (randomItem.wearables) {

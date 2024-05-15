@@ -647,6 +647,9 @@ const base: Record<Base, string> = {
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {
+  "giftGiver.description": ENGLISH_TERMS["giftGiver.description"],
+  "giftGiver.label": ENGLISH_TERMS["giftGiver.label"],
+  "giftGiver.opened": ENGLISH_TERMS["giftGiver.opened"],
   "basic.treasure.congratsKey": "Parabéns, você tem uma Chave do Tesouro!",
   "basic.treasure.getKey":
     "Você pode obter Chaves do Tesouro completando tarefas para Bumpkins",

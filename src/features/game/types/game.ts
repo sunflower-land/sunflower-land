@@ -1030,6 +1030,9 @@ export interface GameState {
     vipChest?: {
       openedAt: number;
     };
+    giftGiver?: {
+      openedAt: number;
+    };
   };
   conversations: ConversationName[];
   mailbox: {
