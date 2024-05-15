@@ -7481,7 +7481,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Bullseye Board": {
     name: "Bullseye Board",
-    description: "",
+    description: "Hit the mark every time.!",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7490,7 +7490,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Chess Rug": {
     name: "Chess Rug",
-    description: "",
+    description: "Checkmate.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7499,7 +7499,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   Cluckapult: {
     name: "Cluckapult",
-    description: "",
+    description:
+      "Launch into fun with the Cluckapult, where chicken-flinging chaos reigns supreme.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7517,7 +7518,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Golden Garrison": {
     name: "Golden Garrison",
-    description: "",
+    description:
+      "Defend your territory in style with this shimmering garrison, a true fortress of flair.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7535,7 +7537,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Novice Knight": {
     name: "Novice Knight",
-    description: "",
+    description: "Every move is an adventure.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7544,7 +7546,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Regular Pawn": {
     name: "Regular Pawn",
-    description: "",
+    description:
+      "Small but mighty! This pawn may just make a big move in your collection.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7571,7 +7574,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Silver Squire": {
     name: "Silver Squire",
-    description: "",
+    description: "Add some shine to your collection.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7589,7 +7592,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Trainee Target": {
     name: "Trainee Target",
-    description: "",
+    description:
+      "Every champion starts somewhere! Perfect your aim with the Trainee Target.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7598,7 +7602,8 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Twister Rug": {
     name: "Twister Rug",
-    description: "",
+    description:
+      "Twist, turn, and tie your decor together with this playful rug.",
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
@@ -7805,8 +7810,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
   },
   "Rice Panda": {
     name: "Rice Panda",
-    description: "",
-
+    description: "A smart panda never forgets to water the rice.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
