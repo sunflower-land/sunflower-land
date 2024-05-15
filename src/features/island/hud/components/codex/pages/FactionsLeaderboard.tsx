@@ -151,7 +151,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
           <div className="flex justify-end">
             <p className="text-[12px]">
               {`${t("leaderboard.factionMembers")}: ${formatNumber(
-                data.totalMembers[selected] ?? 0
+                data.totalMembers?.[selected] ?? 0
               )}`}
             </p>
           </div>

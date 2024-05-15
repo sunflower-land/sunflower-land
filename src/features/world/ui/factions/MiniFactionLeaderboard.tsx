@@ -36,7 +36,7 @@ export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
     );
 
   const topTen = data.topTens[faction];
-  const totalMembers = data.totalMembers[faction];
+  const totalMembers = data.totalMembers?.[faction];
 
   return (
     <>
