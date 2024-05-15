@@ -320,4 +320,50 @@ describe("plantGreenhouse", () => {
       },
     });
   });
+
+  it("boosts +0.25 rice yield when Non La Hat is equipped", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Grape Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Grape Seed": new Decimal(1),
+        },
+        greenhouse: {
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          Vinny: [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1.25,
+        name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
 });

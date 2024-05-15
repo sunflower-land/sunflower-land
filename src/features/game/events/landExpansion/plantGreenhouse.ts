@@ -56,6 +56,10 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  if (crop === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
+    amount += 0.25;
+  }
+
   return amount;
 }
 
