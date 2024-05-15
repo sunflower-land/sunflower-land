@@ -27,12 +27,24 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
     return (
       <GameWallet action="purchase">
         <>
-          <div className="my-2">
-            <Label type="success">{t("congrats")}</Label>
+          <div className="flex flex-col justify-center items-center pt-2">
+            <div className="my-2">
+              <Label type="success">{t("congrats")}</Label>
+            </div>
+            <p className="text-xs mb-2">{t("winner.mintTime")}</p>
+            <TimerDisplay time={countdown} />
+            <a
+              href="https://docs.sunflower-land.com/player-guides/auctions#how-to-mint-an-items"
+              className="mx-auto text-xxs underline text-center pb-2 pt-2"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("read.more")}
+            </a>
+            <Button className="mt-2" onClick={() => onMint(bid.auctionId)}>
+              {t("mint")}
+            </Button>
           </div>
-          <Button className="mt-2" onClick={() => onMint(bid.auctionId)}>
-            {t("mint")}
-          </Button>
         </>
       </GameWallet>
     );
