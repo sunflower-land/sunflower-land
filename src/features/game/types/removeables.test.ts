@@ -1281,4 +1281,58 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing Battle Fish when oil is drilled", () => {
+    const [restricted] = hasRemoveRestriction("Battle Fish", "123", {
+      ...TEST_FARM,
+      oilReserves: {
+        0: {
+          x: 0,
+          y: 3,
+          width: 1,
+          height: 1,
+          oil: {
+            amount: 1,
+            drilledAt: Date.now() - 100,
+          },
+          createdAt: 0,
+          drilled: 1,
+        },
+      },
+      collectibles: {
+        "Battle Fish": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
+
+  it("prevents a user from removing Knight Chicken when oil is drilled", () => {
+    const [restricted] = hasRemoveRestriction("Knight Chicken", "123", {
+      ...TEST_FARM,
+      oilReserves: {
+        0: {
+          x: 0,
+          y: 3,
+          width: 1,
+          height: 1,
+          oil: {
+            amount: 1,
+            drilledAt: Date.now() - 100,
+          },
+          createdAt: 0,
+          drilled: 1,
+        },
+      },
+      collectibles: {
+        "Knight Chicken": [
+          { coordinates: { x: 1, y: 1 }, createdAt: 0, id: "123", readyAt: 0 },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
 });
