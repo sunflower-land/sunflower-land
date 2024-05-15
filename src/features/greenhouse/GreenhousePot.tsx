@@ -24,6 +24,9 @@ import { QuickSelect } from "./QuickSelect";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
+import { Label } from "components/ui/Label";
+import { secondsToString } from "lib/utils/time";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const READY_PLANT: Record<GreenHouseCropName | GreenHouseFruitName, string> = {
   Grape: grapePot,
@@ -41,9 +44,11 @@ const selectInventory = (state: MachineState) => state.context.state.inventory;
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const { gameService, selectedItem, showTimers } = useContext(Context);
 
+  const { t } = useAppTranslation();
   const [_, setRender] = useState<number>(0);
   const [showHarvested, setShowHarvested] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
+  const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [pulsating, setPulsating] = useState(false);
   const harvested = useRef<GreenhousePlant>();
 
@@ -66,20 +71,6 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       id,
       seed: selectedItem,
     });
-  };
-
-  const harvest = async () => {
-    harvested.current = pot.plant;
-
-    gameService.send("greenhouse.harvested", {
-      id,
-    });
-
-    setShowHarvested(true);
-
-    await new Promise((res) => setTimeout(res, 2000));
-
-    setShowHarvested(false);
   };
 
   if (!pot?.plant) {
@@ -149,7 +140,30 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const plantedAt = pot.plant.plantedAt;
   const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
 
+  const secondsLeft = (readyAt - Date.now()) / 1000;
+
   const startAt = plantedAt ?? 0;
+
+  const harvest = async () => {
+    if (Date.now() < readyAt) {
+      setShowTimeRemaining(true);
+      await new Promise((res) => setTimeout(res, 2000));
+      setShowTimeRemaining(false);
+      return;
+    }
+
+    harvested.current = pot.plant;
+
+    gameService.send("greenhouse.harvested", {
+      id,
+    });
+
+    setShowHarvested(true);
+
+    await new Promise((res) => setTimeout(res, 2000));
+
+    setShowHarvested(false);
+  };
 
   return (
     <div
@@ -183,6 +197,23 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           />
         </div>
       )}
+
+      {/* Quick Select */}
+      <Transition
+        appear={true}
+        show={showTimeRemaining}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-0 left-[80%] absolute z-40 shadow-md"
+      >
+        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+          {secondsToString(secondsLeft, { length: "full" })}
+        </Label>
+      </Transition>
     </div>
   );
 };
