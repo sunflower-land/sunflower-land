@@ -29,6 +29,9 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public reaction: Phaser.GameObjects.Sprite | undefined;
   public invincible = false;
 
+  public icon: Phaser.GameObjects.Sprite | undefined;
+  public fx: Phaser.GameObjects.Sprite | undefined;
+
   public clothing: Player["clothing"];
   private ready = false;
 
@@ -107,6 +110,10 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
           }
         }
       );
+    }
+
+    if (clothing.shirt === "Gift Giver") {
+      this.showGift();
     }
   }
 
@@ -246,10 +253,64 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.ready = false;
     this.sprite?.destroy();
 
+    if (
+      this.clothing.shirt !== "Gift Giver" &&
+      clothing.shirt === "Gift Giver"
+    ) {
+      this.showGift();
+    }
+
+    if (
+      this.clothing.shirt === "Gift Giver" &&
+      clothing.shirt !== "Gift Giver"
+    ) {
+      this.removeGift();
+    }
+
     this.clothing = clothing;
     this.loadSprites(this.scene);
 
     this.showSmoke();
+  }
+
+  public showGift() {
+    if (this.icon) {
+      this.removeGift();
+    }
+
+    this.icon = this.scene.add.sprite(0, -12, "gift_icon").setOrigin(0.5);
+    this.add(this.icon);
+
+    if (this.scene.textures.exists("sparkle")) {
+      this.fx = this.scene.add.sprite(0, -8, "sparkle").setOrigin(0.5).setZ(10);
+      this.add(this.fx);
+
+      this.scene.anims.create({
+        key: `sparkel_anim`,
+        frames: this.scene.anims.generateFrameNumbers("sparkle", {
+          start: 0,
+          end: 20,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+
+      this.fx.play(`sparkel_anim`, true);
+    }
+  }
+
+  private removeGift() {
+    if (this.icon) {
+      this.icon.destroy();
+    }
+
+    this.icon = undefined;
+
+    if (this.fx) {
+      this.fx.destroy();
+    }
+
+    this.fx = undefined;
   }
 
   public faceRight() {

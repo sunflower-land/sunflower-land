@@ -125,20 +125,18 @@ const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
 
   return (
     <>
-      <div className="flex items-center ml-1 mt-2 mb-4">
-        <div className="flex justify-between items-center">
+      <div className="ml-1 mb-2">
+        <div className="flex justify-between items-center px-1 mb-2">
           <Label type="success" icon={giftIcon}>
             {t("giftGiver.label")}
           </Label>
           {hasOpened && (
             <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-              {t("giftGiver.label")}
+              {t("budBox.opened")}
             </Label>
           )}
         </div>
-        <div>
-          <p className="text-sm">{t("giftGiver.description")}</p>
-        </div>
+        <p className="text-sm">{t("giftGiver.description")}</p>
       </div>
       <Button onClick={open} disabled={hasOpened}>
         {t("open")}
@@ -167,7 +165,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
     setPlayer(undefined);
   };
 
-  const playerHasGift = player?.clothing.hat === "Gift Giver";
+  const playerHasGift = player?.clothing.shirt === "Gift Giver";
 
   return (
     <>
