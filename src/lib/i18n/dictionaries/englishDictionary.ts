@@ -4781,6 +4781,7 @@ export const leaderboardTerms: Record<Leaderboard, string> = {
   "leaderboard.initialising": "Calculating your rank. Please try again later.",
   "leaderboard.topTen": "Top ten",
   "leaderboard.yourPosition": "Your position",
+  "leaderboard.factionMembers": "Faction Members",
 };
 
 const gameOptions: Record<GameOptions, string> = {

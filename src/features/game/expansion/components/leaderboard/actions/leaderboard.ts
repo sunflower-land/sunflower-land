@@ -33,6 +33,7 @@ export type TicketLeaderboard = {
 
 export type FactionLeaderboard = {
   topTens: Record<FactionName, RankData[]>;
+  totalMembers: Record<FactionName, number>;
   totalTickets: Record<FactionName, number>;
   lastUpdated: number;
   farmRankingDetails?: RankData[] | null;

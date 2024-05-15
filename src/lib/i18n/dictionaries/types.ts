@@ -3279,7 +3279,8 @@ export type Leaderboard =
   | "leaderboard.error"
   | "leaderboard.initialising"
   | "leaderboard.topTen"
-  | "leaderboard.yourPosition";
+  | "leaderboard.yourPosition"
+  | "leaderboard.factionMembers";
 
 export type GameOptions =
   | "gameOptions.title"
