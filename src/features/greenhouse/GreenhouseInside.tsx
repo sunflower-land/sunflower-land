@@ -11,6 +11,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useNavigate } from "react-router-dom";
+import { GreenhousePot } from "./GreenhousePot";
+import { Hud } from "features/island/hud/Hud";
 
 const selectGameState = (state: MachineState) => state.context.state;
 
@@ -51,6 +53,43 @@ export const GreenhouseInside: React.FC = () => {
                 }}
               />
 
+              <div
+                className="absolute"
+                style={{
+                  left: `${26 * PIXEL_SCALE}px`,
+                  bottom: `${95 * PIXEL_SCALE}px`,
+                }}
+              >
+                <GreenhousePot id={1} />
+              </div>
+              <div
+                className="absolute"
+                style={{
+                  left: `${26 * PIXEL_SCALE}px`,
+                  bottom: `${46 * PIXEL_SCALE}px`,
+                }}
+              >
+                <GreenhousePot id={2} />
+              </div>
+              <div
+                className="absolute"
+                style={{
+                  right: `${26 * PIXEL_SCALE}px`,
+                  bottom: `${95 * PIXEL_SCALE}px`,
+                }}
+              >
+                <GreenhousePot id={3} />
+              </div>
+              <div
+                className="absolute"
+                style={{
+                  right: `${26 * PIXEL_SCALE}px`,
+                  bottom: `${46 * PIXEL_SCALE}px`,
+                }}
+              >
+                <GreenhousePot id={4} />
+              </div>
+
               <Button
                 className="absolute -bottom-16"
                 onClick={() => navigate("/")}
@@ -61,6 +100,8 @@ export const GreenhouseInside: React.FC = () => {
           </div>
         </div>
       </>
+
+      <Hud isFarming location="home" />
     </>
   );
 };

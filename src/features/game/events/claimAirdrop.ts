@@ -50,5 +50,6 @@ export function claimAirdrop({ state, action }: Options): GameState {
     airdrops: game.airdrops.filter((item) => item.id !== action.id),
     inventory,
     wardrobe,
+    coins: game.coins + (airdrop.coins ?? 0),
   };
 }

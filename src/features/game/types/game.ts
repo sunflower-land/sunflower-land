@@ -462,6 +462,16 @@ export type CropPlot = {
   createdAt: number;
 } & Position;
 
+export type GreenhousePlant = {
+  name: GreenHouseCropName | GreenHouseFruitName;
+  plantedAt: number;
+  amount: number;
+};
+
+export type GreenhousePot = {
+  plant?: GreenhousePlant;
+};
+
 export type FruitPatch = {
   fruit?: PlantedFruit;
   fertiliser?: FruitFertiliser;
@@ -984,6 +994,9 @@ export interface GameState {
   oilReserves: Record<string, OilReserve>;
 
   crops: Record<string, CropPlot>;
+  greenhouse: {
+    pots: Record<string, GreenhousePot>;
+  };
   fruitPatches: Record<string, FruitPatch>;
   beehives: Beehives;
   flowers: {

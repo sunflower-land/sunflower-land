@@ -394,6 +394,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     Manor: new Decimal(1),
     House: new Decimal(1),
+    "Rice Seed": new Decimal(10),
+    "Grape Seed": new Decimal(10),
+    "Olive Seed": new Decimal(10),
     "Apple Seed": new Decimal(10),
     Bakery: new Decimal(1),
     Deli: new Decimal(1),
@@ -660,7 +663,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  buildings: {},
+  buildings: {
+    Greenhouse: [
+      {
+        coordinates: {
+          x: -2,
+          y: -2,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+      },
+    ],
+  },
   collectibles: {},
   pumpkinPlaza: {
     raffle: {
