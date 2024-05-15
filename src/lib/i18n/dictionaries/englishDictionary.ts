@@ -4077,7 +4077,7 @@ const removeKuebiko: Record<RemoveKuebiko, string> = {
 };
 
 const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
-  "removeHungryCaterpillar.title": "Remove Hungry Catepillar?",
+  "removeHungryCaterpillar.title": "Remove Hungry Caterpillar?",
   "removeHungryCaterpillar.description":
     "This action will remove all your flower seeds from your inventory.",
   "removeHungryCaterpillar.removeFlowerSeeds": "Remove flower seeds",
