@@ -4191,6 +4191,7 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.free.season.passes": "Free Season Banners",
   "season.free.season.passes.description": "Receive banners for every Season",
   "season.vip.access": "Season VIP Access",
+  "season.vip.claim": "Claim your monthly seasonal airdrop.",
   "season.vip.description":
     "Unlock perks, discounts, bonus tickets, airdrops and more!",
   "season.mystery.gift": "Mystery Gift",

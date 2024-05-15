@@ -448,7 +448,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(25),
     Gold: new Decimal(13),
-    // "Gold Pass": new Decimal(1),
+    "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
     Tree: new Decimal(3),
