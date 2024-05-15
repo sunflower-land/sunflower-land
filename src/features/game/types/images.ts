@@ -392,6 +392,7 @@ import basicComposter from "assets/composters/composter_basic.png";
 import advancedComposter from "assets/composters/composter_advanced.png";
 import expertComposter from "assets/composters/composter_expert.png";
 import house from "assets/buildings/house.png";
+import manor from "assets/buildings/manor.png";
 
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
@@ -1674,8 +1675,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.house"),
   },
   Manor: {
-    // TODO feat/manor
-    image: house,
+    image: manor,
     description: translate("description.house"),
   },
   Kitchen: {

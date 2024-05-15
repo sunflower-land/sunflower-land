@@ -392,6 +392,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    Manor: new Decimal(1),
+    House: new Decimal(1),
     "Apple Seed": new Decimal(10),
     Bakery: new Decimal(1),
     Deli: new Decimal(1),
