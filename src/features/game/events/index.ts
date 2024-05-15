@@ -283,8 +283,18 @@ import {
   drillOilReserve,
   DrillOilReserveAction,
 } from "./landExpansion/drillOilReserve";
+import {
+  harvestGreenHouse,
+  HarvestGreenhouseAction,
+} from "./landExpansion/harvestGreenHouse";
+import {
+  plantGreenhouse,
+  PlantGreenhouseAction,
+} from "./landExpansion/plantGreenhouse";
 
 export type PlayingEvent =
+  | HarvestGreenhouseAction
+  | PlantGreenhouseAction
   | LandExpansionPlantAction
   | LandExpansionFertiliseCropAction
   | LandExpansionRemoveCropAction
@@ -431,6 +441,8 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "greenhouse.harvested": harvestGreenHouse,
+  "greenhouse.planted": plantGreenhouse,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,

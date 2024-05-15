@@ -9,7 +9,12 @@ import {
   GameState,
   EASTER_EGG,
 } from "features/game/types/game";
-import { CROP_SEEDS, CropName, CROPS } from "features/game/types/crops";
+import {
+  CROP_SEEDS,
+  CropName,
+  CROPS,
+  GREENHOUSE_SEEDS,
+} from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
@@ -21,7 +26,12 @@ import {
 } from "features/game/types/consumables";
 import { COMMODITIES } from "features/game/types/resources";
 import { BEANS, EXOTIC_CROPS } from "features/game/types/beans";
-import { FRUIT, FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
+import {
+  FRUIT,
+  FruitSeedName,
+  FRUIT_SEEDS,
+  GREENHOUSE_FRUIT_SEEDS,
+} from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
@@ -123,6 +133,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const seeds = getItems(CROP_SEEDS());
   const fruitSeeds = getItems(FRUIT_SEEDS());
+  const greenhouseSeeds = [
+    ...getItems(GREENHOUSE_FRUIT_SEEDS()),
+    ...getItems(GREENHOUSE_SEEDS()),
+  ];
   const flowerSeeds = getItems(FLOWER_SEEDS());
   const crops = getItems(CROPS());
   const fruits = getItems(FRUIT());
@@ -153,7 +167,12 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
   const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
 
-  const allSeeds = [...seeds, ...fruitSeeds, ...flowerSeeds];
+  const allSeeds = [
+    ...seeds,
+    ...fruitSeeds,
+    ...flowerSeeds,
+    ...greenhouseSeeds,
+  ];
   const allTools = [...workbenchTools, ...treasureTools];
 
   const itemsSection = (

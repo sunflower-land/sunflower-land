@@ -54,7 +54,7 @@ describe("plantGreenhouse", () => {
         state: {
           ...farm,
           greenhouse: {
-            plants: {
+            pots: {
               1: {},
             },
           },
@@ -82,7 +82,7 @@ describe("plantGreenhouse", () => {
         state: {
           ...farm,
           greenhouse: {
-            plants: {
+            pots: {
               1: {
                 plant: {
                   amount: 1,
@@ -115,7 +115,7 @@ describe("plantGreenhouse", () => {
       state: {
         ...farm,
         greenhouse: {
-          plants: {
+          pots: {
             1: {
               plant: {
                 amount: 2,
@@ -150,7 +150,7 @@ describe("plantGreenhouse", () => {
       state: {
         ...farm,
         greenhouse: {
-          plants: {
+          pots: {
             1: {
               plant: {
                 amount: 2,
@@ -173,7 +173,7 @@ describe("plantGreenhouse", () => {
       },
     });
 
-    expect(state.greenhouse.plants[1].plant).toBeUndefined();
+    expect(state.greenhouse.pots[1].plant).toBeUndefined();
   });
   it("tracks analytics", () => {
     const state = harvestGreenHouse({
@@ -184,7 +184,7 @@ describe("plantGreenhouse", () => {
       state: {
         ...farm,
         greenhouse: {
-          plants: {
+          pots: {
             1: {
               plant: {
                 amount: 2,

@@ -3,14 +3,11 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 import { MAX_POTS, SEED_TO_PLANT } from "./plantGreenhouse";
 import {
-  CROP_SEEDS,
-  GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
   GreenHouseCropName,
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import {
-  FRUIT_SEEDS,
   GREENHOUSE_FRUIT_SEEDS,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
@@ -77,7 +74,7 @@ export function harvestGreenHouse({
     throw new Error("Pot does not exist");
   }
 
-  const pot = game.greenhouse.plants[potId] ?? {};
+  const pot = game.greenhouse.pots[potId] ?? {};
 
   if (!pot.plant) {
     throw new Error("Plant does not exist");

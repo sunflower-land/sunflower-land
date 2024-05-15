@@ -89,7 +89,7 @@ describe("plantGreenhouse", () => {
             "Rice Seed": new Decimal(1),
           },
           greenhouse: {
-            plants: {
+            pots: {
               1: {
                 plant: {
                   amount: 2,
@@ -128,7 +128,7 @@ describe("plantGreenhouse", () => {
           "Rice Seed": new Decimal(1),
         },
         greenhouse: {
-          plants: {
+          pots: {
             1: {},
           },
         },
@@ -146,7 +146,7 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.plants[1]).toEqual({
+    expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         amount: 1,
         name: "Rice",
@@ -169,7 +169,7 @@ describe("plantGreenhouse", () => {
           "Rice Seed": new Decimal(2),
         },
         greenhouse: {
-          plants: {
+          pots: {
             1: {},
           },
         },
@@ -204,7 +204,7 @@ describe("plantGreenhouse", () => {
           "Rice Seed": new Decimal(2),
         },
         greenhouse: {
-          plants: {
+          pots: {
             1: {},
           },
         },

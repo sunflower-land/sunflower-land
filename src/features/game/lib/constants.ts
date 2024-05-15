@@ -334,7 +334,7 @@ export const TEST_FARM: GameState = {
     weeklyCatches: {},
   },
   greenhouse: {
-    plants: {},
+    pots: {},
   },
   wardrobe: {},
   previousWardrobe: {},
@@ -606,7 +606,7 @@ export const EMPTY: GameState = {
     bumpkins: {},
   },
   greenhouse: {
-    plants: {},
+    pots: {},
   },
   mailbox: {
     read: [],

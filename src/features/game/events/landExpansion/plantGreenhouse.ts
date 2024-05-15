@@ -3,12 +3,10 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 
 import {
-  GreenHouseCrop,
   GreenHouseCropName,
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import {
-  GreenHouseFruit,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
 } from "features/game/types/fruits";
@@ -72,7 +70,7 @@ export function plantGreenhouse({
     throw new Error("Not a valid pot");
   }
 
-  const pot = game.greenhouse.plants[potId] ?? {};
+  const pot = game.greenhouse.pots[potId] ?? {};
 
   if (pot.plant) {
     throw new Error("Plant already exists");
@@ -80,7 +78,7 @@ export function plantGreenhouse({
 
   const plantName = SEED_TO_PLANT[action.seed];
   // Plants
-  game.greenhouse.plants[potId] = {
+  game.greenhouse.pots[potId] = {
     plant: {
       amount: 1,
       name: plantName,
