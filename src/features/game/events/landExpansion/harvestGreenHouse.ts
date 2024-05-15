@@ -1,25 +1,26 @@
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState } from "features/game/types/game";
-import { MAX_POTS, SEED_TO_PLANT } from "./plantGreenhouse";
+import { MAX_POTS } from "./plantGreenhouse";
 import {
-  GREENHOUSE_SEEDS,
+  GREENHOUSE_CROPS,
   GreenHouseCropName,
-  GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import {
   GREENHOUSE_FRUIT_SEEDS,
   GreenHouseFruitName,
-  GreenHouseFruitSeedName,
 } from "features/game/types/fruits";
-import { getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 
-type GreenhouseSeed = GreenHouseCropSeedName | GreenHouseFruitSeedName;
+const SECONDS: Record<GreenHouseCropName | GreenHouseFruitName, number> = {
+  Grape: GREENHOUSE_FRUIT_SEEDS()["Grape Seed"].plantSeconds,
+  Olive: GREENHOUSE_CROPS().Olive.harvestSeconds,
+  Rice: GREENHOUSE_CROPS().Rice.harvestSeconds,
+};
 
 function getReadyAt({
   game,
@@ -30,14 +31,7 @@ function getReadyAt({
   plant: GreenHouseCropName | GreenHouseFruitName;
   createdAt?: number;
 }) {
-  const seedName = getKeys(SEED_TO_PLANT).find(
-    (seed) => SEED_TO_PLANT[seed] === plant
-  ) as GreenhouseSeed;
-
-  const seconds = {
-    ...GREENHOUSE_SEEDS(),
-    ...GREENHOUSE_FRUIT_SEEDS(),
-  }[seedName].plantSeconds;
+  const seconds = SECONDS[plant];
 
   return createdAt + seconds * 1000;
 }

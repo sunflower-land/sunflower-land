@@ -224,4 +224,34 @@ describe("claimAirdrop", () => {
     expect(state.balance).toEqual(new Decimal(7));
     expect(state.airdrops).toEqual([]);
   });
+
+  it("claims a coin reward", () => {
+    const state = claimAirdrop({
+      state: {
+        ...TEST_FARM,
+        inventory: {},
+        wardrobe: {
+          "Red Farmer Shirt": 1,
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {},
+            wearables: {},
+            sfl: 0,
+            coins: 100,
+          },
+        ],
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+    });
+
+    expect(state.coins).toEqual(100);
+
+    expect(state.airdrops).toEqual([]);
+  });
 });

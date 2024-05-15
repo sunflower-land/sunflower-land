@@ -13,6 +13,7 @@ import {
   CROP_SEEDS,
   CropName,
   CROPS,
+  GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
 } from "features/game/types/crops";
 import { getCropTime } from "features/game/events/landExpansion/plant";
@@ -31,6 +32,7 @@ import {
   FruitSeedName,
   FRUIT_SEEDS,
   GREENHOUSE_FRUIT_SEEDS,
+  GREENHOUSE_FRUIT,
 } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -138,8 +140,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     ...getItems(GREENHOUSE_SEEDS()),
   ];
   const flowerSeeds = getItems(FLOWER_SEEDS());
-  const crops = getItems(CROPS());
-  const fruits = getItems(FRUIT());
+  const crops = [...getItems(CROPS()), ...getItems(GREENHOUSE_CROPS())];
+  const fruits = [...getItems(FRUIT()), ...getItems(GREENHOUSE_FRUIT())];
   const flowers = getItems(FLOWERS);
   const workbenchTools = getItems(WORKBENCH_TOOLS);
   const treasureTools = getItems(TREASURE_TOOLS);
