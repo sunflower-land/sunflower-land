@@ -1,8 +1,8 @@
 import { canChop } from "features/game/events/landExpansion/chop";
 import { CHICKEN_TIME_TO_EGG } from "features/game/lib/constants";
-import { FruitName } from "features/game/types/fruits";
+import { FruitName, GreenHouseFruitName } from "features/game/types/fruits";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import { CropName } from "features/game/types/crops";
+import { CropName, GreenHouseCropName } from "features/game/types/crops";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { areUnsupportedChickensBrewing } from "features/game/events/landExpansion/removeBuilding";
 import { Bud, StemTrait, TypeTrait } from "./buds";
@@ -34,6 +34,28 @@ export function cropIsGrowing({ item, game }: CanRemoveArgs): Restriction {
     (plot) => isCropGrowing(plot) && plot.crop?.name === item
   );
   return [cropGrowing, translate("restrictionReason.isGrowing", { item })];
+}
+type CanRemoveGreenhouseCropsArgs = {
+  crop: GreenHouseCropName | GreenHouseFruitName;
+  game: GameState;
+};
+
+function greenhouseCropIsGrowing({
+  crop,
+  game,
+}: CanRemoveGreenhouseCropsArgs): Restriction {
+  const cropPlanted = Object.values(game.greenhouse.pots ?? {}).some(
+    (pots) => pots.plant && pots.plant.name === crop
+  );
+  return [cropPlanted, `${crop} is growing`];
+}
+
+function areAnyGreenhouseCropGrowing(game: GameState): Restriction {
+  const cropsPlanted = Object.values(game.greenhouse.pots ?? {}).some(
+    (plot) => !!plot.plant
+  );
+
+  return [cropsPlanted, "Crops are growing"];
 }
 
 function beanIsPlanted(game: GameState): Restriction {
@@ -389,6 +411,10 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   "Knight Chicken": (game) => areAnyOilReservesDrilled(game),
   "Battle Fish": (game) => areAnyOilReservesDrilled(game),
+  "Turbo Sprout": (game) => areAnyGreenhouseCropGrowing(game),
+  Vinny: (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
+  "Grape Granny": (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
+  "Rice Panda": (game) => greenhouseCropIsGrowing({ crop: "Rice", game }),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
