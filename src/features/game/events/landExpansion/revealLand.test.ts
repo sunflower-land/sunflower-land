@@ -718,7 +718,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.crimstones[1].stone.minedAt).toBeLessThan(
+    expect(state.crimstones[1].stone.minedAt).toBeLessThanOrEqual(
       now - CRIMSTONE_RECOVERY_TIME * 1000
     );
   });

@@ -14,6 +14,7 @@ import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -284,7 +285,7 @@ export function revealLand({
         ...game.crimstones[id],
         stone: {
           ...game.crimstones[id].stone,
-          minedAt: createdAt - 48 * 60 * 60 * 1000,
+          minedAt: createdAt - CRIMSTONE_RECOVERY_TIME * 1000,
         },
       },
     };
