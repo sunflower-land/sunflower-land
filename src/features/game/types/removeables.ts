@@ -19,6 +19,7 @@ import { FLOWERS, FLOWER_SEEDS } from "./flowers";
 import { getCurrentHoneyProduced } from "../expansion/components/resources/beehive/beehiveMachine";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
+import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 
 export type Restriction = [boolean, string];
 type RemoveCondition = (gameState: GameState) => Restriction;
@@ -270,6 +271,17 @@ function hasShakenTree(game: GameState): Restriction {
 
   return [hasShakenRecently, translate("restrictionReason.festiveSeason")];
 }
+
+function areAnyOilReservesDrilled(game: GameState): Restriction {
+  const now = Date.now();
+
+  const oilReservesDrilled = Object.values(game.oilReserves).some(
+    (oilReserve) => !canDrillOilReserve(oilReserve, now)
+  );
+
+  return [oilReservesDrilled, "Oil reserves are drilled"];
+}
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -374,6 +386,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Clash of Factions
   Soybliss: (game) => cropIsGrowing({ item: "Soybean", game }),
+
+  "Knight Chicken": (game) => areAnyOilReservesDrilled(game),
+  "Battle Fish": (game) => areAnyOilReservesDrilled(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
