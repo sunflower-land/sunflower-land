@@ -412,4 +412,52 @@ describe("plantGreenhouse", () => {
       },
     });
   });
+
+  it("boosts +1 Olive yield when Olive Shield is equipped", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Olive Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Olive Seed": new Decimal(1),
+        },
+        greenhouse: {
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Olive Shield",
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 2,
+        name: "Olive",
+        plantedAt: now,
+      },
+    });
+  });
 });

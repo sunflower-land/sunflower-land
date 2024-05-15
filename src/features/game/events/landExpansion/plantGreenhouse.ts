@@ -64,6 +64,10 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
+    amount += 1;
+  }
+
   return amount;
 }
 
