@@ -460,4 +460,50 @@ describe("plantGreenhouse", () => {
       },
     });
   });
+
+  it("boosts +0.25 rice yield when Rice Panda is placed", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          pots: {
+            1: {},
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {
+          "Rice Panda": [
+            { id: "1", createdAt: 0, coordinates: { x: 0, y: 0 }, readyAt: 0 },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1.25,
+        name: "Rice",
+        plantedAt: now,
+      },
+    });
+  });
 });

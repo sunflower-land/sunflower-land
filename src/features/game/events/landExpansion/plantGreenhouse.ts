@@ -52,10 +52,16 @@ export function getCropYieldAmount({
 }): number {
   let amount = 1;
 
+  // Rice
   if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
     amount += 1;
   }
 
+  if (crop === "Rice" && isCollectibleBuilt({ name: "Rice Panda", game })) {
+    amount += 0.25;
+  }
+
+  // Grape
   if (crop === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
     amount += 0.25;
   }
@@ -64,6 +70,7 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  // Olive
   if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
     amount += 1;
   }
