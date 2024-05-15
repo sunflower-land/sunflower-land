@@ -25,7 +25,7 @@ export const GREENHOUSE_SECONDS: Record<
   Rice: GREENHOUSE_CROPS().Rice.harvestSeconds,
 };
 
-function getReadyAt({
+export function getReadyAt({
   game,
   plant,
   createdAt = Date.now(),
