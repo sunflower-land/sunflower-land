@@ -56,8 +56,8 @@ export const RARE_REWARDS: ChestReward[] = [
   { wearables: { "Pale Potion": 1 }, weighting: 50 },
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { wearables: { "Beekeeper Hat": 1 }, weighting: 5 },
-  { items: { Capybara: 1 }, weighting: 25 },
+  { wearables: { Crown: 1 }, weighting: 5 },
+  { items: { "Fancy Rug": 1 }, weighting: 25 },
   { items: { "Flower Rug": 1 }, weighting: 25 },
 ];
 
@@ -84,9 +84,9 @@ export const LUXURY_REWARDS: ChestReward[] = [
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 50 },
   { wearables: { "Bee Wings": 1 }, weighting: 10 },
-  { wearables: { "Beekeeper Hat": 1 }, weighting: 10 },
-  { items: { Capybara: 1 }, weighting: 50 },
-  { items: { "Flower Fox": 1 }, weighting: 25 },
+  { wearables: { Crown: 1 }, weighting: 10 },
+  { items: { "Fancy Rug": 1 }, weighting: 50 },
+  { items: { Vinny: 1 }, weighting: 25 },
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
