@@ -43,14 +43,14 @@ export const GREENHOUSE_CROPS: () => Record<
 > = () => ({
   Rice: {
     sellPrice: 460,
-    harvestSeconds: 32 * 60 * 60,
+    harvestSeconds: 3, //32 * 60 * 60,
     name: "Rice",
     description: "A staple food for many.",
     bumpkinLevel: 10,
   },
   Olive: {
     sellPrice: 520,
-    harvestSeconds: 44 * 60 * 60,
+    harvestSeconds: 3, //44 * 60 * 60,
     name: "Olive",
     description: "Zesty with a rich history.",
     bumpkinLevel: 10,

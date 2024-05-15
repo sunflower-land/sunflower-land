@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
+import { Transition } from "@headlessui/react";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
 import grapePot from "assets/greenhouse/grape_pot.webp";
@@ -11,6 +12,10 @@ import { GreenHouseFruitName } from "features/game/types/fruits";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { LiveProgressBar } from "components/ui/ProgressBar";
+import { GREENHOUSE_SECONDS } from "features/game/events/landExpansion/harvestGreenHouse";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { GreenhousePlant } from "features/game/types/game";
 
 const READY_PLANT: Record<GreenHouseCropName | GreenHouseFruitName, string> = {
   Grape: grapePot,
@@ -25,7 +30,12 @@ interface Props {
 const selectPots = (state: MachineState) => state.context.state.greenhouse.pots;
 
 export const GreenhousePot: React.FC<Props> = ({ id }) => {
-  const { gameService, selectedItem } = useContext(Context);
+  const { gameService, selectedItem, showTimers } = useContext(Context);
+
+  const [_, setRender] = useState<number>(0);
+  const [showHarvested, setShowHarvested] = useState(false);
+  const harvested = useRef<GreenhousePlant>();
+
   const pots = useSelector(gameService, selectPots);
 
   const pot = pots[id];
@@ -37,33 +47,98 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     });
   };
 
-  const harvest = () => {
+  const harvest = async () => {
+    harvested.current = pot.plant;
+
     gameService.send("greenhouse.harvested", {
       id,
     });
+
+    setShowHarvested(true);
+
+    await new Promise((res) => setTimeout(res, 2000));
+
+    setShowHarvested(false);
   };
 
   if (!pot?.plant) {
     return (
+      <div
+        style={{
+          width: `${PIXEL_SCALE * 28}px`,
+        }}
+      >
+        <Transition
+          appear={true}
+          id="oil-reserve-collected-amount"
+          show={showHarvested}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-6"
+          enterTo="opacity-100 -translate-y-2"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-2 left-[40%] absolute w-full z-40 pointer-events-none"
+        >
+          <img
+            src={ITEM_DETAILS[harvested.current?.name ?? "Rice"].image}
+            className="mr-2 img-highlight-heavy"
+            style={{
+              width: `${PIXEL_SCALE * 7}px`,
+            }}
+          />
+          <span className="text-sm">{`+${harvested.current?.amount}`}</span>
+        </Transition>
+        <img
+          src={emptyPot}
+          className="cursor-pointer hover:img-highlight"
+          style={{
+            width: `${PIXEL_SCALE * 28}px`,
+          }}
+          onClick={plant}
+        />
+      </div>
+    );
+  }
+
+  const harvestSeconds = GREENHOUSE_SECONDS[pot.plant.name];
+  const plantedAt = pot.plant.plantedAt;
+  const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
+
+  const startAt = plantedAt ?? 0;
+
+  return (
+    <div
+      style={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+    >
       <img
-        src={emptyPot}
+        src={READY_PLANT[pot.plant.name]}
         className="cursor-pointer hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 28}px`,
         }}
-        onClick={plant}
+        onClick={harvest}
       />
-    );
-  }
-
-  return (
-    <img
-      src={READY_PLANT[pot.plant.name]}
-      className="cursor-pointer hover:img-highlight"
-      style={{
-        width: `${PIXEL_SCALE * 28}px`,
-      }}
-      onClick={harvest}
-    />
+      {showTimers && Date.now() < readyAt && (
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            bottom: `${PIXEL_SCALE * 2.5}px`,
+            left: `${PIXEL_SCALE * 6.5}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+          }}
+        >
+          <LiveProgressBar
+            key={`${startAt}-${readyAt}`}
+            startAt={startAt}
+            endAt={readyAt}
+            formatLength="short"
+            onComplete={() => setRender((r) => r + 1)}
+          />
+        </div>
+      )}
+    </div>
   );
 };
