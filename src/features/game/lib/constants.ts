@@ -333,6 +333,9 @@ export const TEST_FARM: GameState = {
     hunger: "Sunflower",
     weeklyCatches: {},
   },
+  greenhouse: {
+    plants: {},
+  },
   wardrobe: {},
   previousWardrobe: {},
   createdAt: new Date().getTime(),
@@ -601,6 +604,9 @@ export const EMPTY: GameState = {
   conversations: [],
   farmHands: {
     bumpkins: {},
+  },
+  greenhouse: {
+    plants: {},
   },
   mailbox: {
     read: [],
