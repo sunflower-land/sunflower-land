@@ -7813,7 +7813,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "A smart panda never forgets to water the rice.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/question_mark.png",
+    image: "../public/erc1155/images/2034.png",
     attributes: [
       { trait_type: "Boost", value: "Crop" },
       { trait_type: "Tradable", value: "Yes" },
