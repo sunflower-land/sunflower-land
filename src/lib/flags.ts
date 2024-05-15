@@ -21,7 +21,6 @@ const clashOfFactionsFeatureFlag = () => {
 export type FeatureName =
   | "JEST_TEST"
   | "GREENHOUSE"
-  | "VIP_GIFT"
   | "PORTALS"
   | "EASTER"
   | "FACTIONS"
@@ -40,7 +39,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
-  VIP_GIFT: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended
     if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;

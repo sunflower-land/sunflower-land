@@ -591,12 +591,10 @@ export class PlazaScene extends BaseScene {
         .setDepth(1000000000000);
     }
 
-    if (hasFeatureAccess(this.gameState, "VIP_GIFT")) {
-      const vipGift = this.add.sprite(379, 240, "vip_gift");
-      vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open("vip_chest");
-      });
-    }
+    const vipGift = this.add.sprite(379, 240, "vip_gift");
+    vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("vip_chest");
+    });
 
     if (this.gameState.inventory["Treasure Key"]) {
       this.add.sprite(152, 140, "key_disc").setDepth(1000000000);
