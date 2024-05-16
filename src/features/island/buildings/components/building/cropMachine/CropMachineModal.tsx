@@ -10,6 +10,8 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { isMobile } from "mobile-device-detect";
 import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   show: boolean;
@@ -28,7 +30,6 @@ export const CropMachineModal: React.FC<Props> = ({
   growingCropPackIndex,
   growingCropPackStage,
   running,
-  idle,
   paused,
   onClose,
 }) => {
@@ -68,7 +69,12 @@ export const CropMachineModal: React.FC<Props> = ({
           <OuterPanel>
             {growingPack ? (
               <div className="flex flex-col">
-                <div className="flex space-x-1">
+                <div className="flex justify-between ml-2.5 mr-0.5 my-1">
+                  <TimeRemainingLabel
+                    paused={paused}
+                    startTime={growingPack.startTime as number}
+                    totalGrowTime={growingPack.totalGrowTime}
+                  />
                   <Label
                     type="default"
                     className="capitalize"
@@ -96,17 +102,52 @@ export const CropMachineModal: React.FC<Props> = ({
   );
 };
 
-interface GrowthProgressProps {
+interface ProgressProps {
   startTime: number;
   paused: boolean;
   totalGrowTime: number;
 }
 
+const TimeRemainingLabel = ({
+  startTime,
+  paused,
+  totalGrowTime,
+}: ProgressProps) => {
+  const [secondsRemaining, setSecondsRemaining] = useState(0);
+
+  useEffect(() => {
+    setSecondsRemaining((totalGrowTime - Date.now() - startTime) / 1000);
+  }, [startTime, totalGrowTime]);
+
+  useEffect(() => {
+    if (!paused) {
+      const interval = setInterval(() => {
+        const remaining = totalGrowTime - (Date.now() - startTime);
+        setSecondsRemaining(remaining / 1000);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [paused, startTime, totalGrowTime]);
+
+  return (
+    <Label
+      type="info"
+      icon={SUNNYSIDE.icons.stopwatch}
+      className="capitalize"
+    >{`Grow time remaining: ${secondsToString(secondsRemaining, {
+      length: "short",
+      isShortFormat: true,
+      removeTrailingZeros: true,
+    })}`}</Label>
+  );
+};
+
 const GrowthProgressBar = ({
   startTime,
   totalGrowTime,
   paused,
-}: GrowthProgressProps) => {
+}: ProgressProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
