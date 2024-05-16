@@ -152,7 +152,16 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         </div>
       </BuildingImageWrapper>
 
-      <CropMachineModal setShowModal={setShowModal} showModal={showModal} />
+      <CropMachineModal
+        queue={queue}
+        running={running}
+        idle={idle}
+        paused={paused}
+        growingCropPackIndex={growingCropPackIndex}
+        growingCropPackStage={growingCropPackStage}
+        onClose={() => setShowModal(false)}
+        show={true}
+      />
     </>
   );
 };
