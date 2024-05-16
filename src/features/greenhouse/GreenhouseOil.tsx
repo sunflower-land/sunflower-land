@@ -30,7 +30,7 @@ const isPlanting = (state: MachineState) =>
   Object.values(state.context.state.greenhouse.pots).some((pot) => !!pot.plant);
 
 export const GreenhouseOil: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
@@ -99,7 +99,10 @@ export const GreenhouseOil: React.FC = () => {
           }}
           className="absolute z-10"
         >
-          <Label type="default" icon={oilIcon}>{`${oil} Oil`}</Label>
+          <Label
+            type={oil <= 0 ? "danger" : "default"}
+            icon={oilIcon}
+          >{`${oil} Oil`}</Label>
         </div>
         <img
           src={oilBarrels}
