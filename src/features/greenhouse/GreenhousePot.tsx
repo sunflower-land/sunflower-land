@@ -2,9 +2,18 @@ import React, { useContext, useRef, useState } from "react";
 import { Transition } from "@headlessui/react";
 
 import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
-import grapePot from "assets/greenhouse/grape_pot.webp";
-import olivePot from "assets/greenhouse/olive_pot.webp";
-import ricePot from "assets/greenhouse/rice_pot.webp";
+import grapeSeedling from "assets/greenhouse/grape_seedling.webp";
+import grapeGrowing from "assets/greenhouse/grape_growing.webp";
+import grapeAlmost from "assets/greenhouse/grape_almost.webp";
+import grapeReady from "assets/greenhouse/grape_ready.webp";
+import oliveSeedling from "assets/greenhouse/olive_seedling.webp";
+import oliveGrowing from "assets/greenhouse/olive_growing.webp";
+import oliveAlmost from "assets/greenhouse/olive_almost.webp";
+import oliveReady from "assets/greenhouse/olive_ready.webp";
+import riceSeedling from "assets/greenhouse/rice_seedling.webp";
+import riceGrowing from "assets/greenhouse/rice_growing.webp";
+import riceAlmost from "assets/greenhouse/rice_almost.webp";
+import riceReady from "assets/greenhouse/rice_ready.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
@@ -16,7 +25,7 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { LiveProgressBar } from "components/ui/ProgressBar";
-import { GREENHOUSE_SECONDS } from "features/game/events/landExpansion/harvestGreenHouse";
+import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GreenhousePlant } from "features/game/types/game";
 import { SEED_TO_PLANT } from "features/game/events/landExpansion/plantGreenhouse";
@@ -28,10 +37,29 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-const READY_PLANT: Record<GreenHouseCropName | GreenHouseFruitName, string> = {
-  Grape: grapePot,
-  Olive: olivePot,
-  Rice: ricePot,
+type Stage = "seedling" | "growing" | "almost" | "ready";
+const PLANT_STAGES: Record<
+  GreenHouseCropName | GreenHouseFruitName,
+  Record<Stage, string>
+> = {
+  Grape: {
+    seedling: grapeSeedling,
+    almost: grapeAlmost,
+    growing: grapeGrowing,
+    ready: grapeReady,
+  },
+  Olive: {
+    almost: oliveAlmost,
+    growing: oliveGrowing,
+    ready: oliveReady,
+    seedling: oliveSeedling,
+  },
+  Rice: {
+    almost: riceAlmost,
+    growing: riceGrowing,
+    ready: riceReady,
+    seedling: riceSeedling,
+  },
 };
 
 interface Props {
@@ -136,13 +164,17 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     );
   }
 
-  const harvestSeconds = GREENHOUSE_SECONDS[pot.plant.name];
   const plantedAt = pot.plant.plantedAt;
-  const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
-
+  const readyAt = getReadyAt({
+    game: gameService.state.context.state,
+    plant: pot.plant.name,
+    createdAt: plantedAt,
+  });
+  const harvestSeconds = (readyAt - plantedAt) / 1000;
   const secondsLeft = (readyAt - Date.now()) / 1000;
-
   const startAt = plantedAt ?? 0;
+
+  const percentage = ((harvestSeconds - secondsLeft) / harvestSeconds) * 100;
 
   const harvest = async () => {
     if (Date.now() < readyAt) {
@@ -165,6 +197,16 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     setShowHarvested(false);
   };
 
+  let stage: Stage = "ready";
+
+  if (percentage < 20) {
+    stage = "seedling";
+  } else if (percentage < 50) {
+    stage = "growing";
+  } else if (percentage < 100) {
+    stage = "almost";
+  }
+
   return (
     <div
       style={{
@@ -172,7 +214,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       }}
     >
       <img
-        src={READY_PLANT[pot.plant.name]}
+        src={PLANT_STAGES[pot.plant.name][stage]}
         className="cursor-pointer hover:img-highlight"
         style={{
           width: `${PIXEL_SCALE * 28}px`,
