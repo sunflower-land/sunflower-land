@@ -171,6 +171,7 @@ import {
   RemoveHungryCaterpillar,
   Leaderboard,
   GameOptions,
+  GreenhouseKeys,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4825,6 +4826,11 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.plazaSettings.changeServer": "Change server",
 };
 
+const greenhouse: Record<GreenhouseKeys, string> = {
+  "greenhouse.oilDescription": "The greenhouse needs oil to grow plants.",
+  "greenhouse.oilRequired": "Oil required",
+};
+
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...addSFL,
@@ -4896,6 +4902,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...goblin_messages,
   ...goblinTrade,
   ...goldTooth,
+  ...greenhouse,
   ...guideCompost,
   ...guideTerms,
   ...halveningCountdown,

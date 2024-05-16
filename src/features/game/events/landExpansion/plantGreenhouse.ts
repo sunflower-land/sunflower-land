@@ -41,6 +41,12 @@ export const SEED_TO_PLANT: Record<
   "Rice Seed": "Rice",
 };
 
+export const OIL_USAGE: Record<GreenhouseSeed, number> = {
+  "Grape Seed": 5,
+  "Rice Seed": 15,
+  "Olive Seed": 20,
+};
+
 export const MAX_POTS = 4;
 
 export function getCropYieldAmount({
@@ -138,6 +144,10 @@ export function plantGreenhouse({
     throw new Error(`Missing ${action.seed}`);
   }
 
+  if (game.greenhouse.oil < OIL_USAGE[action.seed]) {
+    throw new Error("Not enough Oil");
+  }
+
   const potId = action.id;
   if (!Number.isInteger(potId) || potId <= 0 || potId > MAX_POTS) {
     throw new Error("Not a valid pot");
@@ -164,6 +174,9 @@ export function plantGreenhouse({
 
   // Subtracts seed
   game.inventory[action.seed] = seeds.sub(1);
+
+  // Use oil
+  game.greenhouse.oil -= OIL_USAGE[action.seed];
 
   // Tracks Analytics
   const activityName: BumpkinActivityName = `${plantName} Planted`;

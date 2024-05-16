@@ -995,6 +995,7 @@ export interface GameState {
 
   crops: Record<string, CropPlot>;
   greenhouse: {
+    oil: number;
     pots: Record<string, GreenhousePot>;
   };
   fruitPatches: Record<string, FruitPatch>;
