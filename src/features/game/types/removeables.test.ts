@@ -1365,6 +1365,7 @@ describe("canremove", () => {
     const [restricted] = hasRemoveRestriction("Turbo Sprout", "123", {
       ...TEST_FARM,
       greenhouse: {
+        oil: 50,
         pots: {
           0: {
             plant: {
@@ -1389,6 +1390,7 @@ describe("canremove", () => {
     const [restricted] = hasRemoveRestriction("Vinny", "123", {
       ...TEST_FARM,
       greenhouse: {
+        oil: 50,
         pots: {
           0: {
             plant: {
@@ -1413,6 +1415,7 @@ describe("canremove", () => {
     const [restricted] = hasRemoveRestriction("Vinny", "123", {
       ...TEST_FARM,
       greenhouse: {
+        oil: 50,
         pots: {
           0: {
             plant: {
@@ -1437,6 +1440,7 @@ describe("canremove", () => {
     const [restricted] = hasRemoveRestriction("Rice Panda", "123", {
       ...TEST_FARM,
       greenhouse: {
+        oil: 50,
         pots: {
           0: {
             plant: {

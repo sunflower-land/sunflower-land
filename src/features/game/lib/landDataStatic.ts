@@ -274,6 +274,10 @@ const OFFLINE_FARM_FRUIT = getEnabledNodeCount(
 
 export const STATIC_OFFLINE_FARM: GameState = {
   ...EMPTY,
+  greenhouse: {
+    pots: {},
+    oil: 5,
+  },
   home: {
     collectibles: {
       Wardrobe: [
@@ -392,6 +396,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    Oil: new Decimal(500),
     Manor: new Decimal(1),
     House: new Decimal(1),
     "Rice Seed": new Decimal(10),

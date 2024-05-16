@@ -13,15 +13,16 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useNavigate } from "react-router-dom";
 import { GreenhousePot } from "./GreenhousePot";
 import { Hud } from "features/island/hud/Hud";
+import { GreenhouseOil } from "./GreenhouseOil";
 
-const selectGameState = (state: MachineState) => state.context.state;
+const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;
 
 export const GreenhouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
 
-  const state = useSelector(gameService, selectGameState);
+  const oil = useSelector(gameService, selectOil);
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -52,6 +53,17 @@ export const GreenhouseInside: React.FC = () => {
                   height: `${192 * PIXEL_SCALE}px`,
                 }}
               />
+
+              <div
+                className="absolute"
+                style={{
+                  left: `${60.5 * PIXEL_SCALE}px`,
+                  top: `${52 * PIXEL_SCALE}px`,
+                  width: `${55 * PIXEL_SCALE}px`,
+                }}
+              >
+                <GreenhouseOil />
+              </div>
 
               <div
                 className="absolute"

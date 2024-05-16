@@ -14,6 +14,7 @@ import riceSeedling from "assets/greenhouse/rice_seedling.webp";
 import riceGrowing from "assets/greenhouse/rice_growing.webp";
 import riceAlmost from "assets/greenhouse/rice_almost.webp";
 import riceReady from "assets/greenhouse/rice_ready.webp";
+import barrelIcon from "assets/resources/oil_barrel.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {
@@ -28,7 +29,10 @@ import { LiveProgressBar } from "components/ui/ProgressBar";
 import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GreenhousePlant } from "features/game/types/game";
-import { SEED_TO_PLANT } from "features/game/events/landExpansion/plantGreenhouse";
+import {
+  OIL_USAGE,
+  SEED_TO_PLANT,
+} from "features/game/events/landExpansion/plantGreenhouse";
 import { QuickSelect } from "./QuickSelect";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -77,6 +81,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [showHarvested, setShowHarvested] = useState(false);
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
+  const [showOilWarning, setShowOilWarning] = useState(false);
   const [pulsating, setPulsating] = useState(false);
   const harvested = useRef<GreenhousePlant>();
 
@@ -85,13 +90,23 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const pot = pots[id];
 
-  const plant = () => {
+  const plant = async () => {
     if (
       !selectedItem ||
       !SEED_TO_PLANT[selectedItem as GreenHouseCropSeedName] ||
       !inventory[selectedItem]?.gte(1)
     ) {
       setShowQuickSelect(true);
+      return;
+    }
+
+    if (
+      OIL_USAGE[selectedItem as GreenHouseCropSeedName] >
+      gameService.state.context.state.greenhouse.oil
+    ) {
+      setShowOilWarning(true);
+      await new Promise((res) => setTimeout(res, 2000));
+      setShowOilWarning(false);
       return;
     }
 
@@ -150,6 +165,26 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             onSelected={() => setPulsating(true)}
           />
         </Transition>
+
+        {/* Oil Warning */}
+        <Transition
+          appear={true}
+          show={showOilWarning}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-4 left-[80%] absolute z-40 shadow-md w-60"
+        >
+          <Label type="danger" icon={barrelIcon}>
+            {`${OIL_USAGE[selectedItem as GreenHouseCropSeedName]} ${t(
+              "greenhouse.oilRequired"
+            )}`}
+          </Label>
+        </Transition>
+
         <img
           src={emptyPot}
           className={classNames("cursor-pointer hover:img-highlight", {
@@ -240,7 +275,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         </div>
       )}
 
-      {/* Quick Select */}
+      {/* Time left */}
       <Transition
         appear={true}
         show={showTimeRemaining}

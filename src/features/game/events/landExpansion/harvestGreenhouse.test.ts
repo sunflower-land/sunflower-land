@@ -54,6 +54,7 @@ describe("plantGreenhouse", () => {
         state: {
           ...farm,
           greenhouse: {
+            oil: 50,
             pots: {
               1: {},
             },
@@ -82,6 +83,7 @@ describe("plantGreenhouse", () => {
         state: {
           ...farm,
           greenhouse: {
+            oil: 50,
             pots: {
               1: {
                 plant: {
@@ -115,6 +117,7 @@ describe("plantGreenhouse", () => {
       state: {
         ...farm,
         greenhouse: {
+          oil: 50,
           pots: {
             1: {
               plant: {
@@ -150,6 +153,7 @@ describe("plantGreenhouse", () => {
       state: {
         ...farm,
         greenhouse: {
+          oil: 50,
           pots: {
             1: {
               plant: {
@@ -184,6 +188,7 @@ describe("plantGreenhouse", () => {
       state: {
         ...farm,
         greenhouse: {
+          oil: 50,
           pots: {
             1: {
               plant: {

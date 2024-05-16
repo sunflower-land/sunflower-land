@@ -291,8 +291,13 @@ import {
   plantGreenhouse,
   PlantGreenhouseAction,
 } from "./landExpansion/plantGreenhouse";
+import {
+  oilGreenhouse,
+  OilGreenhouseAction,
+} from "./landExpansion/oilGreenHouse";
 
 export type PlayingEvent =
+  | OilGreenhouseAction
   | HarvestGreenhouseAction
   | PlantGreenhouseAction
   | LandExpansionPlantAction
@@ -441,6 +446,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
   "airdrop.claimed": claimAirdrop,

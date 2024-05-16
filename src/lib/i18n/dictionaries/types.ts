@@ -3312,6 +3312,9 @@ export type GameOptions =
   | "gameOptions.logout"
   | "gameOptions.confirmLogout";
 
+export type GreenhouseKeys =
+  | "greenhouse.oilRequired"
+  | "greenhouse.oilDescription";
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3381,6 +3384,7 @@ export type TranslationKeys =
   | GOBLIN_MESSAGES
   | GoblinTrade
   | GoldTooth
+  | GreenhouseKeys
   | GuideTerms
   | GuideCompost
   | GuideCompost
