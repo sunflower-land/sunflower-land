@@ -180,7 +180,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.soybliss.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    // boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
+    boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
   },
 
   "Grape Granny": {

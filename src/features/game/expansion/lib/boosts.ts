@@ -158,6 +158,11 @@ export const getFoodExpBoost = (
     boostedExp = boostedExp.mul(1.5);
   }
 
+  if (isWearableActive({ name: "Pan", game })) {
+    // 25% boost
+    boostedExp = boostedExp.mul(1.25);
+  }
+
   //Observatory is placed
   if (isCollectibleBuilt({ name: "Observatory", game })) {
     boostedExp = boostedExp.mul(1.05);

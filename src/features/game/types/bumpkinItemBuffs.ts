@@ -204,13 +204,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("description.non.la.hat.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      // boostedItemIcon: ITEM_DETAILS.Rice.image,
+      boostedItemIcon: ITEM_DETAILS.Rice.image,
     },
     "Oil Can": {
       shortDescription: translate("description.oil.can.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      // boostedItemIcon: ITEM_DETAILS.Oil.image,
+      boostedItemIcon: ITEM_DETAILS.Oil.image,
     },
     "Paw Shield": {
       shortDescription: translate("description.paw.shield.boost"),
