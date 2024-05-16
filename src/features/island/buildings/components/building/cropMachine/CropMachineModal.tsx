@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import { CropMachineQueueItem } from "features/game/types/game";
+import {
+  CropMachineQueueItem,
+  InventoryItemName,
+} from "features/game/types/game";
 import { CropMachineGrowingStage } from "./lib/cropMachine";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -12,6 +15,8 @@ import { Label } from "components/ui/Label";
 import { OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
+import { CROP_MACHINE_PLOTS } from "features/game/events/landExpansion/supplyCropMachine";
+import add from "assets/icons/plus.png";
 
 interface Props {
   show: boolean;
@@ -65,7 +70,7 @@ export const CropMachineModal: React.FC<Props> = ({
       <CloseButtonPanel onClose={onClose}>
         <div className="flex flex-col">
           <div className="p-1 my-0.5">{makeMachineStatusLabel()}</div>
-
+          {/* Current crop */}
           <OuterPanel>
             {growingPack ? (
               <div className="flex flex-col">
@@ -96,6 +101,35 @@ export const CropMachineModal: React.FC<Props> = ({
               <div className="pl-1 pt-2 pb-2.5">{`No crops growing`}</div>
             )}
           </OuterPanel>
+          {/* Rest of queue */}
+          <div className="flex mt-2">
+            {[
+              ...queue,
+              ...new Array(CROP_MACHINE_PLOTS - queue.length).fill(null),
+            ]
+              .filter((_, index) => {
+                if (growingCropPackIndex === undefined) return true;
+
+                return index !== growingCropPackIndex;
+              })
+              .map((item, index) => {
+                if (!item) return <Box key={index} image={add} />;
+
+                const isReady = item.readyAt && item.readyAt < Date.now();
+
+                return (
+                  <Box
+                    key={index}
+                    image={ITEM_DETAILS[item.crop as InventoryItemName].image}
+                    secondaryImage={
+                      isReady ? SUNNYSIDE.icons.confirm : undefined
+                    }
+                    count={item.amount}
+                    countLabelType={isReady ? "success" : "danger"}
+                  />
+                );
+              })}
+          </div>
         </div>
       </CloseButtonPanel>
     </Modal>

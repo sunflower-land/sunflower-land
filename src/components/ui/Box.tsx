@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import { Label } from "./Label";
+import { Label, LabelType } from "./Label";
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
@@ -25,6 +25,7 @@ export interface BoxProps {
   secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
+  countLabelType?: LabelType;
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
@@ -53,6 +54,7 @@ export const Box: React.FC<BoxProps> = ({
   secondaryImage,
   isSelected,
   count,
+  countLabelType = "default",
   onClick,
   disabled,
   locked,
@@ -235,7 +237,7 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type="default" className="px-0.5 text-xxs">
+            <Label type={countLabelType} className="px-0.5 text-xxs">
               {isHover && !showHiddenCountLabel
                 ? precisionCount.toString()
                 : shortCount}
