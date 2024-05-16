@@ -16,13 +16,16 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 
-const SECONDS: Record<GreenHouseCropName | GreenHouseFruitName, number> = {
+export const GREENHOUSE_SECONDS: Record<
+  GreenHouseCropName | GreenHouseFruitName,
+  number
+> = {
   Grape: GREENHOUSE_FRUIT_SEEDS()["Grape Seed"].plantSeconds,
   Olive: GREENHOUSE_CROPS().Olive.harvestSeconds,
   Rice: GREENHOUSE_CROPS().Rice.harvestSeconds,
 };
 
-function getReadyAt({
+export function getReadyAt({
   game,
   plant,
   createdAt = Date.now(),
@@ -31,7 +34,7 @@ function getReadyAt({
   plant: GreenHouseCropName | GreenHouseFruitName;
   createdAt?: number;
 }) {
-  const seconds = SECONDS[plant];
+  const seconds = GREENHOUSE_SECONDS[plant];
 
   return createdAt + seconds * 1000;
 }
