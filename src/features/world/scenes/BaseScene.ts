@@ -91,6 +91,9 @@ export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
 
+  public renderArea?: Phaser.Geom.Rectangle;
+  public graphics?: Phaser.GameObjects.Graphics; // DEBUG - Draw render area
+
   public joystick?: VirtualJoystick;
   private sceneTransitionData?: SceneTransitionData;
   private switchToScene?: SceneId;
@@ -184,6 +187,7 @@ export abstract class BaseScene extends Phaser.Scene {
     try {
       this.initialiseMap();
       this.initialiseSounds();
+      this.initialiseRenderArea();
 
       if (this.options.mmo.enabled) {
         this.initialiseMMO();
@@ -357,6 +361,86 @@ export abstract class BaseScene extends Phaser.Scene {
     camera.fadeIn();
   }
 
+  /**
+   * Initializes the render area rectangle, which defines the area to render entities within the camera view.
+   * The render area is positioned around the camera's scroll position with optional padding.
+   * @throws Error if the camera is not initialized.
+   */
+  public initialiseRenderArea() {
+    if (!this.cameras.main) throw new Error("Camera not initialised");
+
+    const camera = this.cameras.main;
+    const { width, height } = camera;
+
+    const padding = this.options.map.padding ?? [0, 0];
+
+    const renderAreaWidth = width + padding[0] * 2;
+    const renderAreaHeight = height + padding[1] * 2;
+
+    const renderAreaX = camera.scrollX - padding[0];
+    const renderAreaY = camera.scrollY - padding[1];
+
+    this.renderArea = new Phaser.Geom.Rectangle(
+      renderAreaX,
+      renderAreaY,
+      // DEBUG - Draw render area at 1/4 of the screen (remove / 2 for full screen)
+      renderAreaWidth / this.zoom / 2,
+      renderAreaHeight / this.zoom / 2
+    );
+
+    this.events.on("shutdown", () => {
+      this.renderArea = undefined;
+      this.graphics?.destroy();
+    });
+  }
+
+  /**
+   * Updates the position of the render area rectangle relative to the current player's position.
+   * The render area stays centered on the player and adjusts for the camera's zoom level.
+   * @throws Error if the camera, current player, or render area is not initialized.
+   */
+  public updateRenderAreaPosition() {
+    if (!this.cameras.main || !this.currentPlayer || !this.renderArea)
+      throw new Error("Update Render Area Position Error");
+
+    const camera = this.cameras.main;
+    const { width, height } = camera;
+
+    const padding = this.options.map.padding ?? [0, 0];
+
+    const renderAreaWidth = width + padding[0] * 2;
+    const renderAreaHeight = height + padding[1] * 2;
+
+    const playerX = this.currentPlayer.x;
+    const playerY = this.currentPlayer.y;
+
+    const renderAreaX = playerX - renderAreaWidth / (this.zoom * 4);
+    const renderAreaY = playerY - renderAreaHeight / (this.zoom * 4);
+
+    this.renderArea.setPosition(renderAreaX, renderAreaY);
+
+    // DEBUG - Draw render area
+    this.graphics?.clear();
+    this.graphics = this.add.graphics();
+    this.graphics.lineStyle(2, 0x00ff00, 1);
+    this.graphics.strokeRectShape(this.renderArea as Phaser.Geom.Rectangle);
+    this.graphics.setDepth(Number.MAX_SAFE_INTEGER);
+  }
+
+  /**
+   * Checks if an entity is inside the render area.
+   * @param entity The entity to check if it is inside the render area.
+   * @returns True if the entity is inside the render area, false otherwise.
+   */
+  public isInsideRenderArea(entity: BumpkinContainer) {
+    if (!this.renderArea) return false;
+
+    return Phaser.Geom.Rectangle.ContainsPoint(
+      this.renderArea,
+      new Phaser.Geom.Point(entity.x, entity.y)
+    );
+  }
+
   public initialiseMMO() {
     if (this.options.mmo.url && this.options.mmo.serverId) {
       this.mmoService?.send("CONNECT", {
@@ -383,19 +467,10 @@ export abstract class BaseScene extends Phaser.Scene {
       }
 
       if (this.playerEntities[message.sessionId]) {
-        const screenHeight = this.cameras.main.height;
-        const screenWidth = this.cameras.main.width;
-        const distance = Phaser.Math.Distance.BetweenPoints(
-          this.playerEntities[message.sessionId],
-          this.currentPlayer as BumpkinContainer
-        );
+        const entity = this.playerEntities[message.sessionId];
 
-        const maxDistance = Math.min(screenWidth, screenHeight) * 0.2;
-
-        const isVisible = distance < maxDistance;
-
-        if (isVisible) {
-          this.playerEntities[message.sessionId].speak(message.text);
+        if (entity.visible) {
+          entity.speak(message.text);
         }
       } else if (message.sessionId === server.sessionId) {
         this.currentPlayer?.speak(message.text);
@@ -715,6 +790,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.updateOtherPlayers();
     this.updateUsernames();
     this.updateFactions();
+    this.updateRenderAreaPosition();
   }
 
   keysToAngle(
@@ -1000,7 +1076,10 @@ export abstract class BaseScene extends Phaser.Scene {
         entity
       );
 
-      const hidden = !playerInVIP && overlap;
+      // Hide if outside of render area
+      const overlapRenderArea = !this.isInsideRenderArea(entity);
+
+      const hidden = !playerInVIP && (overlap || overlapRenderArea);
 
       // Check if player is in area as well
       if (hidden === entity.visible) {
