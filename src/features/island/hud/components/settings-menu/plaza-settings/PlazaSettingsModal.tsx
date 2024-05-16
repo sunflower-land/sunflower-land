@@ -41,10 +41,8 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
     setMutedPlayers([...muted]);
   };
 
-  const changeServer = () => {
-    PubSub.publish("CHANGE_SERVER");
-    onSubMenuClick("main");
-    onClose();
+  const changeServer = async () => {
+    onSubMenuClick("pickServer");
   };
 
   {

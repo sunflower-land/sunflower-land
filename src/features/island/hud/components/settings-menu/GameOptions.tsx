@@ -41,6 +41,7 @@ import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
+import { PickServer } from "./plaza-settings/PickServer";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -221,17 +222,21 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
 
   return (
     <Modal show={show} onHide={onHide}>
-      <CloseButtonPanel
-        title={settingMenus[selected].title}
-        onBack={
-          selected !== "main"
-            ? () => setSelected(settingMenus[selected].parent)
-            : undefined
-        }
-        onClose={onHide}
-      >
+      {settingMenus[selected].title ? (
+        <CloseButtonPanel
+          title={settingMenus[selected].title}
+          onBack={
+            selected !== "main"
+              ? () => setSelected(settingMenus[selected].parent)
+              : undefined
+          }
+          onClose={onHide}
+        >
+          <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
+        </CloseButtonPanel>
+      ) : (
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
-      </CloseButtonPanel>
+      )}
     </Modal>
   );
 };
@@ -244,6 +249,7 @@ export type SettingMenuId =
   | "blockchain"
   | "general"
   | "plaza"
+  | "pickServer"
 
   // Blockchain Settings
   | "deposit"
@@ -258,7 +264,7 @@ export type SettingMenuId =
   | "share";
 
 interface SettingMenu {
-  title: string;
+  title?: string;
   parent: SettingMenuId;
   content: React.FC<ContentComponentProps>;
 }
@@ -294,6 +300,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.plazaSettings"),
     parent: "main",
     content: PlazaSettings,
+  },
+  pickServer: {
+    parent: "plaza",
+    content: PickServer,
   },
 
   // Blockchain Settings

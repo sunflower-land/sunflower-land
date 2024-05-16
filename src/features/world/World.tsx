@@ -18,7 +18,6 @@ import {
 } from "./mmoMachine";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { Ocean } from "./ui/Ocean";
-import { PickServer } from "./ui/PickServer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -44,7 +43,6 @@ const _isLoading = (state: MachineState) => state.matches("loading");
 const _isConnecting = (state: MMOMachineState) => state.matches("connecting");
 const _isConnected = (state: MMOMachineState) => state.matches("connected");
 const _isJoining = (state: MMOMachineState) => state.matches("joining");
-const _isJoined = (state: MMOMachineState) => state.matches("joined");
 const _isKicked = (state: MMOMachineState) => state.matches("kicked");
 const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
@@ -79,9 +77,12 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // We need to listen to events outside of MMO scope (Settings Panel)
   useEffect(() => {
     // Subscribe to the event
-    const eventSubscription = PubSub.subscribe("CHANGE_SERVER", () => {
-      mmoService.send("CHANGE_SERVER");
-    });
+    const eventSubscription = PubSub.subscribe(
+      "CHANGE_SERVER",
+      (message: string, data?: any) => {
+        mmoService.send("CHANGE_SERVER", { serverId: data.server.id });
+      }
+    );
 
     return () => {
       PubSub.unsubscribe(eventSubscription);
@@ -148,16 +149,6 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
             {/* Kicked reasons */}
             <p className="">{t("chat.Kicked")}</p>
           </Panel>
-        </Modal>
-      </Ocean>
-    );
-  }
-
-  if (isConnected) {
-    return (
-      <Ocean>
-        <Modal show>
-          <PickServer mmoService={mmoService} />
         </Modal>
       </Ocean>
     );
