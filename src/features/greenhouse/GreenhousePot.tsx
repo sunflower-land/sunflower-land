@@ -34,7 +34,6 @@ import {
   SEED_TO_PLANT,
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { QuickSelect } from "./QuickSelect";
-import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
@@ -160,7 +159,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         >
           <QuickSelect
             icon={SUNNYSIDE.icons.seeds}
-            options={getKeys(SEED_TO_PLANT)}
+            options={[
+              { name: "Grape Seed", icon: "Grape" },
+              { name: "Rice Seed", icon: "Rice" },
+              { name: "Olive Seed", icon: "Olive" },
+            ]}
             onClose={() => setShowQuickSelect(false)}
             onSelected={() => setPulsating(true)}
           />

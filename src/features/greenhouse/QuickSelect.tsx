@@ -11,7 +11,7 @@ import React, { useContext, useEffect, useRef } from "react";
 
 interface Props {
   icon: string;
-  options: InventoryItemName[];
+  options: { name: InventoryItemName; icon?: InventoryItemName }[];
   onClose: () => void;
   onSelected?: (name: InventoryItemName) => void;
 }
@@ -53,7 +53,7 @@ export const QuickSelect: React.FC<Props> = ({
     }
   };
 
-  const available = options.filter((option) => inventory[option]?.gte(1));
+  const available = options.filter((option) => inventory[option.name]?.gte(1));
 
   return (
     <div ref={ref} style={{ minWidth: "190px" }}>
@@ -61,15 +61,16 @@ export const QuickSelect: React.FC<Props> = ({
         <Label className="absolute -top-3 left-4" type="default" icon={icon}>
           {t("quickSelect.label")}
         </Label>
-        <div className="flex overflow-x-scroll mt-1">
-          {available.map((item) => (
+        <div className="flex mt-1">
+          {available.map(({ name, icon }) => (
             <Box
-              key={item}
-              count={inventory[item]}
-              image={ITEM_DETAILS[item].image}
-              disabled={!inventory[item]?.gte(1)}
-              onClick={() => select(item)}
-              isSelected={selectedItem === item}
+              key={name}
+              count={inventory[name]}
+              image={ITEM_DETAILS[name].image}
+              secondaryImage={icon ? ITEM_DETAILS[icon].image : undefined}
+              disabled={!inventory[name]?.gte(1)}
+              onClick={() => select(name)}
+              isSelected={selectedItem === name}
             />
           ))}
           {available.length === 0 && (
