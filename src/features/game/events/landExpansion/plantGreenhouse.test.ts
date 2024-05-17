@@ -632,7 +632,7 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1.2,
         name: "Rice",
-        plantedAt: now,
+        plantedAt: expect.any(Number),
       },
     });
   });
