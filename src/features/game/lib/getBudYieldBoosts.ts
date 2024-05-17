@@ -4,12 +4,23 @@ import {
   isMediumCrop,
 } from "../events/landExpansion/harvest";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
-import { CROPS, CropName } from "../types/crops";
-import { FRUIT, FruitName, GREENHOUSE_FRUIT } from "../types/fruits";
+import { CROPS, CropName, GreenHouseCropName } from "../types/crops";
+import {
+  FRUIT,
+  FruitName,
+  GREENHOUSE_FRUIT,
+  GreenHouseFruitName,
+} from "../types/fruits";
 import { GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
 
-export type Resource = CommodityName | CropName | FruitName | MushroomName;
+export type Resource =
+  | CommodityName
+  | CropName
+  | FruitName
+  | MushroomName
+  | GreenHouseCropName
+  | GreenHouseFruitName;
 
 export const isCrop = (resource: Resource): resource is CropName => {
   return resource in CROPS();

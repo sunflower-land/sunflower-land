@@ -16,7 +16,7 @@ import {
   GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
 } from "features/game/types/crops";
-import { getCropTime } from "features/game/events/landExpansion/plant";
+import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
 import { getBasketItems } from "./utils/inventory";
 import {
@@ -44,7 +44,7 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { TREASURE_TOOLS, WORKBENCH_TOOLS } from "features/game/types/tools";
-import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import {
   WORM,
   CROP_COMPOST,
@@ -105,7 +105,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     }
 
     if (isFruitSeed(seedName)) {
-      return getFruitTime(
+      return getFruitPatchTime(
         seedName,
         gameState,
         (gameState.bumpkin as Bumpkin)?.equipped ?? {}
@@ -113,7 +113,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
-    return getCropTime({
+    return getCropPlotTime({
       crop,
       inventory,
       game: gameState,
