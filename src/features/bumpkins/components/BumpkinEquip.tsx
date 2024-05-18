@@ -4,12 +4,9 @@ import {
   BumpkinPart,
   ITEM_IDS,
 } from "features/game/types/bumpkin";
-import React, { useState } from "react";
 import React, { useEffect, useState } from "react";
-import classNames from "classnames";
 import { DynamicNFT } from "./DynamicNFT";
 import { NPC } from "features/island/bumpkin/components/NPC";
-import { OuterPanel } from "components/ui/Panel";
 import { OuterPanel, InnerPanel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { SquareIcon } from "components/ui/SquareIcon";
