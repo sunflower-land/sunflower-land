@@ -87,6 +87,10 @@ export function getFruitYield({
   const { buds } = game;
   let amount = 1;
 
+  if (isWearableActive({ name: "Fruit Picker Apron", game })) {
+    amount += 0.1;
+  }
+
   amount += getBudYieldBoosts(buds ?? {}, name);
 
   return amount;
@@ -110,16 +114,6 @@ export function getFruitPatchYield({
     isCollectibleBuilt({ name: "Black Bearry", game })
   ) {
     amount += 1;
-  }
-
-  if (
-    (name === "Apple" ||
-      name === "Orange" ||
-      name === "Blueberry" ||
-      name === "Banana") &&
-    isWearableActive({ name: "Fruit Picker Apron", game })
-  ) {
-    amount += 0.1;
   }
 
   if (fertiliser === "Fruitful Blend") {
