@@ -82,4 +82,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 290,
     },
   },
+  portal: {
+    default: {
+      x: 400,
+      y: 450,
+    },
+  },
 });
