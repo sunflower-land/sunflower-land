@@ -126,10 +126,9 @@ export const GreenhouseOil: React.FC = () => {
           }}
           className="absolute z-10"
         >
-          <Label
-            type={barrelOil <= 0 ? "danger" : "default"}
-            icon={oilIcon}
-          >{`${barrelOil} Oil`}</Label>
+          <Label type={barrelOil <= 0 ? "danger" : "default"} icon={oilIcon}>
+            {t("greenhouse.oilInTank", { barrelOil: barrelOil })}
+          </Label>
         </div>
         <img
           src={oilBarrels}

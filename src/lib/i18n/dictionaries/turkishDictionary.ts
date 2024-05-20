@@ -4873,6 +4873,7 @@ const gameOptions: Record<GameOptions, string> = {
 const greenhouse: Record<GreenhouseKeys, string> = {
   "greenhouse.oilDescription": ENGLISH_TERMS["greenhouse.oilDescription"],
   "greenhouse.oilRequired": ENGLISH_TERMS["greenhouse.oilRequired"],
+  "greenhouse.oilInTank": ENGLISH_TERMS["greenhouse.oilInTank"],
 };
 
 export const TURKISH_TERMS: Record<TranslationKeys, string> = {

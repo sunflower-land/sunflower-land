@@ -3314,7 +3314,9 @@ export type GameOptions =
 
 export type GreenhouseKeys =
   | "greenhouse.oilRequired"
-  | "greenhouse.oilDescription";
+  | "greenhouse.oilDescription"
+  | "greenhouse.oilInTank";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction

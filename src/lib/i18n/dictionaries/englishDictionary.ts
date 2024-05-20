@@ -4830,6 +4830,7 @@ const gameOptions: Record<GameOptions, string> = {
 const greenhouse: Record<GreenhouseKeys, string> = {
   "greenhouse.oilDescription": "The greenhouse needs oil to grow plants.",
   "greenhouse.oilRequired": "Oil required",
+  "greenhouse.oilInTank": "{{oil}} Oil in Tank",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
