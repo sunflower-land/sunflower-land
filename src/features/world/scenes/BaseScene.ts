@@ -56,7 +56,7 @@ type BaseSceneOptions = {
   name: SceneId;
   map: {
     tilesetUrl?: string;
-    json: any;
+    json?: any;
     padding?: [number, number];
     imageKey?: string;
     defaultTilesetConfig?: any;

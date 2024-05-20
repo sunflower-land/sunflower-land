@@ -5,6 +5,8 @@ import { SceneId } from "../mmoMachine";
 import { Moderation } from "features/game/lib/gameMachine";
 import { FactionName } from "features/game/types/game";
 
+export type PortalMaps = "island_1" | "island_2" | "island_3" | "island_4";
+
 export interface InputData {
   x: number;
   y: number;
@@ -78,6 +80,14 @@ export interface Trade extends Schema {
   tradeId: string;
 }
 
+export interface PortalProps extends Schema {
+  type: string;
+  id: string;
+  size: { w: number; h: number };
+  x: number;
+  y: number;
+}
+
 export interface PlazaRoomState extends Schema {
   mapWidth: number;
   mapHeight: number;
@@ -89,4 +99,14 @@ export interface PlazaRoomState extends Schema {
   reactions: ArraySchema<Reaction>;
   trades: ArraySchema<Trade>;
   actions: ArraySchema<Action>;
+
+  // Portal
+  metadata?: {
+    map: PortalMaps;
+    name: string;
+    description: string;
+    owner: number;
+  };
+
+  props?: MapSchema<PortalProps>;
 }
