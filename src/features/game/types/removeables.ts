@@ -412,6 +412,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Knight Chicken": (game) => areAnyOilReservesDrilled(game),
   "Battle Fish": (game) => areAnyOilReservesDrilled(game),
   "Turbo Sprout": (game) => areAnyGreenhouseCropGrowing(game),
+  Greenhouse: (game) => areAnyGreenhouseCropGrowing(game),
   Vinny: (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Grape Granny": (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Rice Panda": (game) => greenhouseCropIsGrowing({ crop: "Rice", game }),
