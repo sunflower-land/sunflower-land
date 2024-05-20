@@ -4756,6 +4756,7 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.isGrowing": "{{item}} is growing",
   "restrictionReason.beanPlanted": "Magic Bean is planted",
   "restrictionReason.cropsGrowing": "Crops are growing",
+  "restrictionReason.?cropGrowing": "{{crop}} is growing",
   "restrictionReason.basicCropsGrowing": "Basic crops are growing",
   "restrictionReason.mediumCropsGrowing": "Medium crops are growing",
   "restrictionReason.advancedCropsGrowing": "Advanced crops are growing",
@@ -4776,6 +4777,7 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.festiveSeason": "Locked during festive season",
   "restrictionReason.noRestriction": "No restriction",
   "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
+  "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
 };
 
 export const leaderboardTerms: Record<Leaderboard, string> = {
