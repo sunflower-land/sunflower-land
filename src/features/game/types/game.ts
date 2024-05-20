@@ -466,6 +466,8 @@ export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
   plantedAt: number;
   amount: number;
+  fruit?: GreenHouseFruitName;
+  crop?: GreenHouseCropName;
 };
 
 export type GreenhousePot = {

@@ -79,9 +79,15 @@ export function areFruitsGrowing(
 }
 
 export function areAnyFruitsGrowing(game: GameState): Restriction {
-  const fruitGrowing = Object.values(game.fruitPatches ?? {}).some((patch) =>
-    isFruitGrowing(patch)
+  const fruitGrowingInPatch = Object.values(game.fruitPatches ?? {}).some(
+    (patch) => isFruitGrowing(patch)
   );
+
+  const fruitGrowingInGreenhouse = Object.values(
+    game.greenhouse.pots ?? {}
+  ).some((pots) => pots.plant && pots.plant.fruit);
+
+  const fruitGrowing = fruitGrowingInPatch || fruitGrowingInGreenhouse;
 
   return [fruitGrowing, translate("restrictionReason.fruitsGrowing")];
 }
