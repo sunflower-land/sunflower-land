@@ -526,6 +526,7 @@ export type CompostBuilding = PlacedItem & {
 
 export type CropMachineQueueItem = {
   crop: CropName;
+  seeds: number;
   amount: number;
   growTimeRemaining: number;
   totalGrowTime: number;

@@ -10,11 +10,13 @@ import React, { useEffect, useState } from "react";
 
 interface Props {
   show: boolean;
+  className?: string;
   onBackdropClick: () => void;
 }
 
 export const ModalOverlay: React.FC<Props> = ({
   show,
+  className,
   children,
   onBackdropClick,
 }) => {
@@ -39,7 +41,7 @@ export const ModalOverlay: React.FC<Props> = ({
       >
         <div
           id="overlay-mine"
-          className="bg-brown-300 opacity-70 absolute inset-1 top-8 z-20"
+          className={`bg-brown-300 opacity-70 absolute inset-1 top-8 z-20 ${className}`}
           style={{
             boxShadow: "rgb(194 134 105) 0px 0px 5px 6px",
           }}

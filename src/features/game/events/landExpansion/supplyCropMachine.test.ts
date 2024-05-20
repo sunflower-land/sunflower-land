@@ -79,6 +79,81 @@ describe("supplyCropMachine", () => {
     ).toThrow("You can only supply basic crop seeds!");
   });
 
+  it("throws an error if the oil capacity is exceeded with an empty queue", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Oil: new Decimal(100),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: 0,
+            queue: [],
+          },
+        ],
+      },
+    };
+
+    expect(() =>
+      supplyCropMachine({
+        state,
+        action: {
+          type: "cropMachine.supplied",
+          oil: 49,
+        },
+      })
+    ).toThrow("Oil capacity exceeded");
+  });
+
+  it("throws and error if the oil capacity is exceeded with queue items", () => {
+    const sunflowerPackGrowTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS;
+
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Oil: new Decimal(100),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: 0,
+            queue: [
+              {
+                crop: "Sunflower",
+                amount: 100,
+                totalGrowTime: sunflowerPackGrowTime,
+                growTimeRemaining: 0,
+                startTime: Date.now(),
+                readyAt: Date.now() + sunflowerPackGrowTime,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    expect(() =>
+      supplyCropMachine({
+        state,
+        action: {
+          type: "cropMachine.supplied",
+          oil: 48,
+        },
+      })
+    ).toThrow("Oil capacity exceeded");
+  });
+
   it("removes ingredients from inventory", () => {
     const state: GameState = {
       ...GAME_STATE,

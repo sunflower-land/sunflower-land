@@ -4,22 +4,28 @@ import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 import { getCropYieldAmount } from "./plant";
 import { isBasicCrop } from "./harvest";
+import { getTotalOilMillisInMachine } from "features/island/buildings/components/building/cropMachine/lib/cropMachine";
 
-export type supplyCropMachineAction = {
+export type AddSeedsInput = { type: CropSeedName; amount: number };
+
+export type SupplyCropMachineAction = {
   type: "cropMachine.supplied";
-  seeds?: { type: CropSeedName; amount: number };
+  seeds?: AddSeedsInput;
   oil?: number;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: supplyCropMachineAction;
+  action: SupplyCropMachineAction;
   createdAt?: number;
 };
 
-export const CROP_MACHINE_PLOTS = 5;
-const MAX_QUEUE_SIZE = 5;
+export const MAX_QUEUE_SIZE = 5;
+export const CROP_MACHINE_PLOTS = 10;
 export const OIL_PER_HOUR_CONSUMPTION = 1;
+// 2 days worth of oil
+// export const MAX_OIL_CAPACITY_IN_MILLIS = 2 * 24 * 60 * 60 * 1000;
+export const MAX_OIL_CAPACITY_IN_MILLIS = 2 * 60 * 1000;
 
 export function calculateCropTime(seeds: {
   type: CropSeedName;
@@ -32,7 +38,7 @@ export function calculateCropTime(seeds: {
   return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS;
 }
 
-export function getOilTimeRemaining(oil: number) {
+export function getOilTimeInMillis(oil: number) {
   // return the time in milliseconds
   return (oil / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
 }
@@ -186,7 +192,7 @@ export function supplyCropMachine({
 
   const queue = cropMachine.queue ?? [];
 
-  if (queue.length + 1 >= MAX_QUEUE_SIZE) {
+  if (queue.length + 1 > MAX_QUEUE_SIZE) {
     throw new Error("Queue is full");
   }
 
@@ -198,13 +204,26 @@ export function supplyCropMachine({
   const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
   stateCopy.inventory["Oil"] = previousOilInInventory.minus(oilAdded);
 
+  const oilMillisInMachine = getTotalOilMillisInMachine(
+    queue,
+    cropMachine.unallocatedOilTime ?? 0
+  );
+
+  if (
+    oilMillisInMachine + getOilTimeInMillis(oilAdded) >
+    MAX_OIL_CAPACITY_IN_MILLIS
+  ) {
+    throw new Error("Oil capacity exceeded");
+  }
+
   stateCopy.buildings["Crop Machine"][0].unallocatedOilTime =
-    getOilTimeRemaining(oilAdded);
+    getOilTimeInMillis(oilAdded);
 
   const crop = seedsAdded.type.split(" ")[0] as CropName;
 
   if (seedsAdded.amount > 0) {
     queue.push({
+      seeds: seedsAdded.amount,
       amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
       crop,
       growTimeRemaining: calculateCropTime(seedsAdded),

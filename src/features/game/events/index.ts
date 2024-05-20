@@ -305,6 +305,14 @@ import {
   claimMinigamePrize,
   ClaimMinigamePrizeAction,
 } from "./minigames/claimMinigamePrize";
+import {
+  supplyCropMachine,
+  SupplyCropMachineAction,
+} from "./landExpansion/supplyCropMachine";
+import {
+  harvestCropMachine,
+  HarvestCropMachineAction,
+} from "./landExpansion/harvestCropMachine";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -393,7 +401,9 @@ export type PlayingEvent =
   | DrillOilReserveAction
   | ClaimMinigamePrizeAction
   | PurchaseMinigameAction
-  | PlayMinigameAction;
+  | PlayMinigameAction
+  | SupplyCropMachineAction
+  | HarvestCropMachineAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -547,6 +557,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "faction.pledged": pledgeFaction,
   "faction.donated": donateToFaction,
   "oilReserve.drilled": drillOilReserve,
+  "cropMachine.supplied": supplyCropMachine,
+  "cropMachine.harvested": harvestCropMachine,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
