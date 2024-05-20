@@ -28,6 +28,7 @@ import { SpecialEventModal } from "./SpecialEventModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
 import { FactionModalContent } from "./factions/FactionModalContent";
+import { Lucas } from "./npcs/Lucas";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -208,6 +209,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "luna" && <Luna onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
+        {npc === "lucas" && <Lucas onClose={closeModal} />}
 
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "goblet" && <DeliveryPanel npc={npc} onClose={closeModal} />}
