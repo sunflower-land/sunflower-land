@@ -1,5 +1,9 @@
+import Phaser from "phaser";
+
 import { SceneId } from "../mmoMachine";
 import { BaseScene } from "./BaseScene";
+import { PlazaRoomState } from "../types/Room";
+import { Room } from "colyseus.js";
 
 // Props
 import { PORTAL_PROPS, PortalPropsT } from "../lib/props";
@@ -37,10 +41,12 @@ export class PortalScene extends BaseScene {
     },
   };
 
-  constructor() {
+  constructor({ mmoServer }: { mmoServer: Room<PlazaRoomState> | undefined }) {
+    const PortalMap = MAPS[mmoServer?.state.metadata?.map || "island_1"];
+
     super({
       name: "portal",
-      map: { json: undefined },
+      map: { json: PortalMap },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
@@ -63,30 +69,23 @@ export class PortalScene extends BaseScene {
   async create(): Promise<void> {
     super.create();
 
-    // Load the map
-    const mapKey = this.mmoServer?.state.metadata?.map || "island_1";
-    if (mapKey) {
-      this.load.tilemapTiledJSON(mapKey, MAPS[mapKey]);
-      this.load.on("complete", () => {
-        this.map = this.make.tilemap({ key: mapKey });
+    try {
+      // Preload all Portal props
+      await this.preloadProps();
+
+      // Place any props that are already in the state
+      this.mmoServer?.state.props?.forEach((prop) => {
+        if (!prop.x || !prop.y) return;
+
+        this.placeProp(prop.id, prop.x, prop.y, true);
       });
 
-      // Once the map is loaded, start the game
-      this.load.start();
+      // Server Listeners
+      this.setupServerListeners();
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Error while loading Portal", error);
     }
-
-    // Preload all Portal props
-    await this.preloadProps();
-
-    // Place any props that are already in the state
-    this.mmoServer?.state.props?.forEach((prop) => {
-      if (!prop.x || !prop.y) return;
-
-      this.placeProp(prop.id, prop.x, prop.y, true);
-    });
-
-    // Server Listeners
-    this.setupServerListeners();
 
     // DEBUG - Display Debug Graphics
     this.physics.world.createDebugGraphic();

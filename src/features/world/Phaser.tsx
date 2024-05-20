@@ -45,6 +45,7 @@ import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
+import { PortalScene } from "./scenes/PortalScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -111,6 +112,9 @@ export const PhaserComponent: React.FC<Props> = ({
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
+    new PortalScene({
+      mmoServer: mmoService.state.context.server,
+    }),
   ];
 
   useEffect(() => {
