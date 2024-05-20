@@ -11,6 +11,7 @@ import {
   FruitName,
   FRUIT_SEEDS,
   Fruit,
+  GreenHouseFruitName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState, PlantedFruit } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
@@ -78,12 +79,28 @@ export function isFruitGrowing(patch: FruitPatch) {
 
 export function getFruitYield({
   game,
+  name,
+}: {
+  game: GameState;
+  name: FruitName | GreenHouseFruitName;
+}) {
+  const { buds } = game;
+  let amount = 1;
+
+  amount += getBudYieldBoosts(buds ?? {}, name);
+
+  return amount;
+}
+
+export function getFruitPatchYield({
+  game,
   buds,
   name,
   wearables,
   fertiliser,
 }: FruitYield) {
-  let amount = 1;
+  let amount = getFruitYield({ game, name });
+
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
   }
@@ -119,8 +136,6 @@ export function getFruitYield({
   ) {
     amount += 0.1;
   }
-
-  amount += getBudYieldBoosts(buds, name);
 
   return amount;
 }
@@ -175,7 +190,7 @@ export function harvestFruit({
     createdAt
   );
 
-  patch.fruit.amount = getFruitYield({
+  patch.fruit.amount = getFruitPatchYield({
     game: stateCopy,
     buds: stateCopy.buds ?? {},
     wearables: bumpkin.equipped,

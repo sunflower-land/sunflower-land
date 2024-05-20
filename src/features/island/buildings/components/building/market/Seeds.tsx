@@ -15,7 +15,7 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
-import { getCropTime } from "features/game/events/landExpansion/plant";
+import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -31,7 +31,7 @@ import { Restock } from "features/island/buildings/components/building/market/Re
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -146,13 +146,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (yields && yields in FRUIT())
-      return getFruitTime(
+      return getFruitPatchTime(
         selectedName as FruitSeedName,
         state,
         (state.bumpkin as Bumpkin)?.equipped ?? {}
       );
 
-    return getCropTime({
+    return getCropPlotTime({
       crop: yields as CropName,
       inventory,
       game: state,

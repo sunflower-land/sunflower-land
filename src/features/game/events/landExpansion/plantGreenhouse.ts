@@ -3,6 +3,7 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState } from "features/game/types/game";
 
 import {
+  GREENHOUSE_CROPS,
   GreenHouseCropName,
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
@@ -18,6 +19,9 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { getCropTime, getCropYieldAmount } from "./plant";
+import { getFruitYield } from "./fruitHarvested";
+import { getFruitTime } from "./fruitPlanted";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -41,6 +45,15 @@ export const SEED_TO_PLANT: Record<
   "Rice Seed": "Rice",
 };
 
+export const PLANT_TO_SEED: Record<
+  GreenHouseCropName | GreenHouseFruitName,
+  GreenhouseSeed
+> = {
+  Grape: "Grape Seed",
+  Olive: "Olive Seed",
+  Rice: "Rice Seed",
+};
+
 export const OIL_USAGE: Record<GreenhouseSeed, number> = {
   "Grape Seed": 5,
   "Rice Seed": 15,
@@ -49,7 +62,13 @@ export const OIL_USAGE: Record<GreenhouseSeed, number> = {
 
 export const MAX_POTS = 4;
 
-export function getCropYieldAmount({
+function isCrop(
+  plant: GreenHouseCropName | GreenHouseFruitName
+): plant is GreenHouseCropName {
+  return (plant as GreenHouseCropName) in GREENHOUSE_CROPS();
+}
+
+export function getGreenhouseYieldAmount({
   crop,
   game,
 }: {
@@ -57,6 +76,12 @@ export function getCropYieldAmount({
   game: GameState;
 }): number {
   let amount = 1;
+
+  if (isCrop(crop)) {
+    amount = getCropYieldAmount({ crop, game });
+  } else {
+    amount = getFruitYield({ name: crop, game });
+  }
 
   // Rice
   if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
@@ -95,14 +120,14 @@ function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): number {
 
   const cropTime = GREENHOUSE_CROP_TIME_SECONDS[crop];
 
-  const boostedTime = getCropTime({ crop, game });
+  const boostedTime = getGreenhouseCropTime({ crop, game });
 
   const offset = cropTime - boostedTime;
 
   return createdAt - offset * 1000;
 }
 
-const getCropTime = ({
+const getGreenhouseCropTime = ({
   crop,
   game,
 }: {
@@ -110,6 +135,18 @@ const getCropTime = ({
   game: GameState;
 }) => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
+
+  if (isCrop(crop)) {
+    const baseMultiplier = getCropTime({ game, crop });
+    seconds *= baseMultiplier;
+  } else {
+    const baseMultiplier = getFruitTime({
+      game,
+      name: PLANT_TO_SEED[crop] as GreenHouseFruitSeedName,
+    });
+    seconds *= baseMultiplier;
+  }
+
   if (game.bumpkin === undefined) return seconds;
 
   if (isCollectibleBuilt({ name: "Turbo Sprout", game })) {
@@ -163,7 +200,7 @@ export function plantGreenhouse({
   // Plants
   game.greenhouse.pots[potId] = {
     plant: {
-      amount: getCropYieldAmount({
+      amount: getGreenhouseYieldAmount({
         crop: plantName,
         game,
       }),

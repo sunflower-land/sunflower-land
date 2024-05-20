@@ -4,8 +4,8 @@ import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
 import {
-  getCropTime,
-  getCropYieldAmount,
+  getCropPlotTime,
+  getPlotYieldAmount,
   getPlantedAt,
   isPlotFertile,
   plant,
@@ -1560,7 +1560,7 @@ describe("getCropTime", () => {
   const plot = GAME_STATE.crops[firstCropId];
 
   it("applies a 5% speed boost with Cultivator skill", () => {
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Carrot",
       game: {
         ...TEST_FARM,
@@ -1575,7 +1575,7 @@ describe("getCropTime", () => {
   });
 
   it("reduces in 20% carrot time when Bumpkin is wearing Carrot Amulet", () => {
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Carrot",
       inventory: {},
       buds: {},
@@ -1593,7 +1593,7 @@ describe("getCropTime", () => {
 
   it("applies a 10% speed boost with Lunar Calendar placed.", () => {
     const carrotHarvestSeconds = CROPS()["Carrot"].harvestSeconds;
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Carrot",
       inventory: {},
       buds: {},
@@ -1618,7 +1618,7 @@ describe("getCropTime", () => {
 
   it("grows cabbage twice as fast with Cabbage Girl placed.", () => {
     const cabbageHarvestSeconds = CROPS()["Cabbage"].harvestSeconds;
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Cabbage",
       buds: {},
       game: {
@@ -1643,7 +1643,7 @@ describe("getCropTime", () => {
 
   it("applies a 25% speed boost with Obie placed", () => {
     const baseHarvestSeconds = CROPS()["Eggplant"].harvestSeconds;
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Eggplant",
       inventory: {},
       game: {
@@ -1667,7 +1667,7 @@ describe("getCropTime", () => {
   });
 
   it("applies the eggplant boost when wearing the onesie", () => {
-    const amount = getCropYieldAmount({
+    const amount = getPlotYieldAmount({
       crop: "Eggplant",
       inventory: {},
       game: {
@@ -1688,7 +1688,7 @@ describe("getCropTime", () => {
   });
 
   it("applies the corn boost when wearing the corn onesie", () => {
-    const amount = getCropYieldAmount({
+    const amount = getPlotYieldAmount({
       crop: "Corn",
       inventory: {},
       game: {
@@ -1710,7 +1710,7 @@ describe("getCropTime", () => {
 
   it("applies a 25% speed boost with Kernaldo placed", () => {
     const baseHarvestSeconds = CROPS()["Corn"].harvestSeconds;
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Corn",
       inventory: {},
       game: {
@@ -1736,7 +1736,7 @@ describe("getCropTime", () => {
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
     const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
 
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Sunflower",
       inventory: {},
       buds: {},
@@ -1762,7 +1762,7 @@ describe("getCropTime", () => {
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Potato", () => {
     const potatoHarvestSeconds = CROPS()["Potato"].harvestSeconds;
 
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Potato",
       inventory: {},
       game: {
@@ -1788,7 +1788,7 @@ describe("getCropTime", () => {
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Pumpkin", () => {
     const pumpkinHarvestSeconds = CROPS()["Pumpkin"].harvestSeconds;
 
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Pumpkin",
       inventory: {},
       game: {
@@ -1814,7 +1814,7 @@ describe("getCropTime", () => {
   it("does not apply boost with Basic Scarecrow if not basic crop", () => {
     const beetrootHarvestSeconds = CROPS()["Beetroot"].harvestSeconds;
 
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Beetroot",
       inventory: {},
       game: {
@@ -1840,7 +1840,7 @@ describe("getCropTime", () => {
   it("does not apply boost with Basic Scarecrow placed, if plot is outside AOE", () => {
     const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
 
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Sunflower",
       inventory: {},
       game: {
@@ -1866,7 +1866,7 @@ describe("getCropTime", () => {
   it("does not apply boost with Basic Scarecrow placed, if it was moved within 10min", () => {
     const sunflowerHarvestSeconds = CROPS()["Sunflower"].harvestSeconds;
 
-    const time = getCropTime({
+    const time = getCropPlotTime({
       crop: "Sunflower",
       inventory: {},
       game: {
@@ -2132,7 +2132,7 @@ describe("isPlotFertile", () => {
 
 describe("getCropYield", () => {
   it("does not apply sir goldensnout boost outside AOE", () => {
-    const amount = getCropYieldAmount({
+    const amount = getPlotYieldAmount({
       crop: "Sunflower",
       game: {
         ...TEST_FARM,
@@ -2156,7 +2156,7 @@ describe("getCropYield", () => {
   });
 
   it("applies sir goldensnout boost inside AOE", () => {
-    const amount = getCropYieldAmount({
+    const amount = getPlotYieldAmount({
       crop: "Sunflower",
       game: {
         ...TEST_FARM,

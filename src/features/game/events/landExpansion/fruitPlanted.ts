@@ -1,15 +1,19 @@
 import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   FruitSeedName,
   FRUIT_SEEDS,
   isFruitSeed,
+  GreenHouseFruitSeedName,
 } from "features/game/types/fruits";
 import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import cloneDeep from "lodash.clonedeep";
-import { getFruitYield } from "./fruitHarvested";
+import { getFruitPatchYield } from "./fruitHarvested";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
@@ -33,7 +37,7 @@ export function getPlantedAt(
   if (!fruitSeedName) return createdAt;
 
   const fruitTime = FRUIT_SEEDS()[fruitSeedName].plantSeconds;
-  const boostedTime = getFruitTime(fruitSeedName, game, wearables);
+  const boostedTime = getFruitPatchTime(fruitSeedName, game, wearables);
 
   const offset = fruitTime - boostedTime;
 
@@ -41,14 +45,36 @@ export function getPlantedAt(
 }
 
 /**
+ * Generic boost for all fruit types - normal + greenhouse
+ */
+export function getFruitTime({
+  game,
+  name,
+}: {
+  game: GameState;
+  name: FruitSeedName | GreenHouseFruitSeedName;
+}) {
+  let seconds = 1;
+
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+    seconds = seconds * 0.5;
+  }
+
+  return seconds;
+}
+
+/**
  * Based on boosts, how long a fruit will take to grow
  */
-export const getFruitTime = (
+export const getFruitPatchTime = (
   fruitSeedName: FruitSeedName,
   game: GameState,
   _: BumpkinParts
 ) => {
   let seconds = FRUIT_SEEDS()[fruitSeedName]?.plantSeconds ?? 0;
+
+  const baseMultiplier = getFruitTime({ game, name: fruitSeedName });
+  seconds *= baseMultiplier;
 
   // Squirrel Monkey: 50% reduction
   if (
@@ -140,7 +166,7 @@ export function plantFruit({
       stateCopy,
       createdAt
     ),
-    amount: getFruitYield({
+    amount: getFruitPatchYield({
       name: fruitName,
       game: stateCopy,
       buds: stateCopy.buds ?? {},

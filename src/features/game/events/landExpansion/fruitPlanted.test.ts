@@ -4,7 +4,7 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FruitSeedName, FRUIT_SEEDS } from "features/game/types/fruits";
 import { FruitPatch, GameState } from "features/game/types/game";
-import { getFruitTime, plantFruit } from "./fruitPlanted";
+import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -601,7 +601,7 @@ describe("getFruitTime", () => {
   it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
     const seed = "Orange Seed";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(
+    const time = getFruitPatchTime(
       seed,
       {
         ...TEST_FARM,
@@ -623,7 +623,7 @@ describe("getFruitTime", () => {
   it("does not apply a 50% speed boost with Squirrel Monkey placed for other seeds", () => {
     const seed = "Apple Seed";
     const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(
+    const time = getFruitPatchTime(
       seed,
       {
         ...TEST_FARM,
@@ -646,7 +646,7 @@ describe("getFruitTime", () => {
   it("applies a 10% speed boost with Nana placed for Banana plant", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(
+    const time = getFruitPatchTime(
       seed,
       {
         ...TEST_FARM,
@@ -668,7 +668,7 @@ describe("getFruitTime", () => {
   it("does not apply a 10% speed boost with Nana placed for other seeds", () => {
     const seed = "Apple Seed";
     const applePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(
+    const time = getFruitPatchTime(
       seed,
       {
         ...TEST_FARM,
@@ -691,7 +691,7 @@ describe("getFruitTime", () => {
   it("applies a 20% speed boost with Banana Onesie", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
-    const time = getFruitTime(
+    const time = getFruitPatchTime(
       seed,
       {
         ...TEST_FARM,

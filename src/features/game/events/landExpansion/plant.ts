@@ -1,7 +1,7 @@
 import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 
-import { CropName, CROPS } from "../../types/crops";
+import { CropName, CROPS, GreenHouseCropName } from "../../types/crops";
 import {
   Bumpkin,
   CropPlot,
@@ -116,44 +116,23 @@ export function isPlotFertile({
 }
 
 /**
- * Based on boosts, how long a crop will take to grow
+ * Generic boost for all crop types - basic, normal, advanced + greenhouse
  */
-export const getCropTime = ({
-  crop,
-  inventory,
+export function getCropTime({
   game,
-  buds,
-  plot,
-  fertiliser,
+  crop,
 }: {
-  crop: CropName;
-  inventory: Inventory;
   game: GameState;
-  buds: NonNullable<GameState["buds"]>;
-  plot?: CropPlot;
-  fertiliser?: CropCompostName;
-}) => {
-  let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
-  if (game.bumpkin === undefined) return seconds;
+  crop: CropName | GreenHouseCropName;
+}) {
+  let seconds = 1;
 
-  const { skills } = game.bumpkin;
+  const { inventory, buds, bumpkin } = game;
+  const skills = bumpkin?.skills ?? {};
 
   // Legacy Seed Specialist skill: 10% reduction
   if (inventory["Seed Specialist"]?.gte(1)) {
     seconds = seconds * 0.9;
-  }
-
-  // Mysterious Parsnip: 50% reduction
-  if (
-    crop === "Parsnip" &&
-    isCollectibleBuilt({ name: "Mysterious Parsnip", game })
-  ) {
-    seconds = seconds * 0.5;
-  }
-
-  // Bumpkin Wearable Boost
-  if (crop === "Carrot" && isWearableActive({ name: "Carrot Amulet", game })) {
-    seconds = seconds * 0.8;
   }
 
   // Scarecrow: 15% reduction
@@ -175,6 +154,53 @@ export const getCropTime = ({
     seconds = seconds * 0.9;
   }
 
+  seconds = seconds * getBudSpeedBoosts(buds ?? {}, crop);
+
+  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
+    seconds = seconds * 0.5;
+  }
+
+  return seconds;
+}
+
+/**
+ * Based on boosts, how long a crop will take to grow
+ */
+export const getCropPlotTime = ({
+  crop,
+  inventory,
+  game,
+  buds,
+  plot,
+  fertiliser,
+}: {
+  crop: CropName;
+  inventory: Inventory;
+  game: GameState;
+  buds: NonNullable<GameState["buds"]>;
+  plot?: CropPlot;
+  fertiliser?: CropCompostName;
+}) => {
+  let seconds = CROPS()[crop]?.harvestSeconds ?? 0;
+
+  if (game.bumpkin === undefined) return seconds;
+
+  const baseMultiplier = getCropTime({ game, crop });
+  seconds *= baseMultiplier;
+
+  // Mysterious Parsnip: 50% reduction
+  if (
+    crop === "Parsnip" &&
+    isCollectibleBuilt({ name: "Mysterious Parsnip", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  // Bumpkin Wearable Boost
+  if (crop === "Carrot" && isWearableActive({ name: "Carrot Amulet", game })) {
+    seconds = seconds * 0.8;
+  }
+
   // Cabbage Girl: 50% reduction
   if (
     crop === "Cabbage" &&
@@ -192,8 +218,6 @@ export const getCropTime = ({
   if (crop === "Corn" && isCollectibleBuilt({ name: "Kernaldo", game })) {
     seconds = seconds * 0.75;
   }
-
-  seconds = seconds * getBudSpeedBoosts(buds, crop);
 
   // Any boost added below this line will not be reflected in betty's shop
   if (!plot) return seconds;
@@ -232,10 +256,6 @@ export const getCropTime = ({
     seconds = seconds * 0.5;
   }
 
-  if (isCollectibleActive({ name: "Time Warp Totem", game })) {
-    seconds = seconds * 0.5;
-  }
-
   return seconds;
 };
 
@@ -264,7 +284,7 @@ export function getPlantedAt({
   if (!crop) return 0;
 
   const cropTime = CROPS()[crop].harvestSeconds;
-  const boostedTime = getCropTime({
+  const boostedTime = getCropPlotTime({
     crop,
     inventory,
     game: game,
@@ -279,14 +299,56 @@ export function getPlantedAt({
 }
 
 /**
- * Based on items, the output will be different
+ * Generic boosts for all types of crops - basic, advanced, expert + greenhouse
  */
 export function getCropYieldAmount({
   crop,
-  plot,
-  inventory,
   game,
-  buds,
+}: {
+  crop: CropName | GreenHouseCropName;
+  game: GameState;
+}) {
+  const { inventory, buds, bumpkin } = game;
+  const skills = bumpkin?.skills ?? {};
+
+  let amount = 1;
+
+  if (
+    isCollectibleBuilt({ name: "Scarecrow", game }) ||
+    isCollectibleBuilt({ name: "Kuebiko", game })
+  ) {
+    amount *= 1.2;
+  }
+
+  if (inventory.Coder?.gte(1)) {
+    amount *= 1.2;
+  }
+
+  //Bumpkin Skill boost Green Thumb Skill
+  if (skills["Green Thumb"]) {
+    amount *= 1.05;
+  }
+
+  //Bumpkin Skill boost Master Farmer Skill
+  if (skills["Master Farmer"]) {
+    amount *= 1.1;
+  }
+
+  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
+    amount += 3;
+  }
+
+  amount += getBudYieldBoosts(buds ?? {}, crop);
+
+  return amount;
+}
+/**
+ * Based on items, the output will be different
+ */
+export function getPlotYieldAmount({
+  crop,
+  plot,
+  game,
   fertiliser,
 }: {
   crop: CropName;
@@ -296,10 +358,9 @@ export function getCropYieldAmount({
   buds: NonNullable<GameState["buds"]>;
   fertiliser?: CropCompostName;
 }): number {
-  let amount = 1;
-  if (game.bumpkin === undefined) return amount;
+  if (game.bumpkin === undefined) return 1;
 
-  const { skills } = game.bumpkin;
+  let amount = getCropYieldAmount({ game, crop });
 
   if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {
     amount += 1;
@@ -321,27 +382,6 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Victoria Sisters", game })
   ) {
     amount *= 1.2;
-  }
-
-  if (
-    isCollectibleBuilt({ name: "Scarecrow", game }) ||
-    isCollectibleBuilt({ name: "Kuebiko", game })
-  ) {
-    amount *= 1.2;
-  }
-
-  if (inventory.Coder?.gte(1)) {
-    amount *= 1.2;
-  }
-
-  //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"]) {
-    amount *= 1.05;
-  }
-
-  //Bumpkin Skill boost Master Farmer Skill
-  if (skills["Master Farmer"]) {
-    amount *= 1.1;
   }
 
   //Bumpkin Wearable boost Parsnip tool
@@ -495,10 +535,6 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
-  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
-    amount += 3;
-  }
-
   if (
     crop === "Carrot" &&
     isCollectibleBuilt({ name: "Lab Grown Carrot", game })
@@ -519,8 +555,6 @@ export function getCropYieldAmount({
   ) {
     amount += 0.4;
   }
-
-  amount += getBudYieldBoosts(buds, crop);
 
   if (fertiliser === "Sprout Mix") {
     amount += 0.2;
@@ -590,7 +624,7 @@ export function plant({
         fertiliser: plot.fertiliser?.name,
       }),
       name: cropName,
-      amount: getCropYieldAmount({
+      amount: getPlotYieldAmount({
         crop: cropName,
         inventory,
         game: stateCopy,
