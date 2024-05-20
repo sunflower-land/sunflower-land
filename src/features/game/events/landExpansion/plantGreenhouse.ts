@@ -62,7 +62,7 @@ export const OIL_USAGE: Record<GreenhouseSeed, number> = {
 
 export const MAX_POTS = 4;
 
-function isCrop(
+function isGreenhouseCrop(
   plant: GreenHouseCropName | GreenHouseFruitName
 ): plant is GreenHouseCropName {
   return (plant as GreenHouseCropName) in GREENHOUSE_CROPS();
@@ -77,7 +77,7 @@ export function getGreenhouseYieldAmount({
 }): number {
   let amount = 1;
 
-  if (isCrop(crop)) {
+  if (isGreenhouseCrop(crop)) {
     amount = getCropYieldAmount({ crop, game });
   } else {
     amount = getFruitYield({ name: crop, game });
@@ -136,7 +136,7 @@ const getGreenhouseCropTime = ({
 }) => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
 
-  if (isCrop(crop)) {
+  if (isGreenhouseCrop(crop)) {
     const baseMultiplier = getCropTime({ game, crop });
     seconds *= baseMultiplier;
   } else {
