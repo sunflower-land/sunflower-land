@@ -99,7 +99,10 @@ export class PortalScene extends BaseScene {
     this.updatePropPreview();
   }
 
-  // Props Preloading
+  /**
+   * Preload Props
+   * @memberof PortalScene
+   */
   async preloadProps(): Promise<void> {
     await Promise.all(
       PORTAL_PROPS.map(async (prop) => {
@@ -108,7 +111,10 @@ export class PortalScene extends BaseScene {
     );
   }
 
-  // Setup Server Listeners
+  /**
+   * Setup Server Listeners
+   * @memberof PortalScene
+   */
   setupServerListeners(): void {
     if (!this.mmoServer) return;
 
@@ -121,7 +127,14 @@ export class PortalScene extends BaseScene {
     });
   }
 
-  // Place Prop
+  /**
+   * Place Prop in the scene
+   * @param id - Prop ID
+   * @param x - X Position
+   * @param y - Y Position
+   * @param server - Is this a server event?
+   * @memberof PortalScene
+   */
   placeProp(id: string, x: number, y: number, server: boolean): void {
     const Prop = PORTAL_PROPS.find((prop) => prop.id === id);
 
@@ -153,7 +166,13 @@ export class PortalScene extends BaseScene {
     }
   }
 
-  // Remove Prop
+  /**
+   * Remove Prop from the scene
+   * @param x - X Position
+   * @param y - Y Position
+   * @param server - Is this a server event?
+   * @memberof PortalScene
+   */
   removeProp(x: number, y: number, server: boolean): void {
     const prop = this.placedProps.find((p) => p.x === x && p.y === y);
 
@@ -170,7 +189,10 @@ export class PortalScene extends BaseScene {
     }
   }
 
-  // Prop Preview
+  /**
+   * Update Prop Preview
+   * @memberof PortalScene
+   */
   updatePropPreview(): void {
     if (this.buildModeGrid && this.selectedProp) {
       // Destroy the preview if it exists
@@ -202,7 +224,13 @@ export class PortalScene extends BaseScene {
     }
   }
 
-  // Convert map position to cell position
+  /**
+   * Get Cell Position from World Position
+   * @param x - X Position
+   * @param y - Y Position
+   * @returns Cell Position { x, y }
+   * @memberof PortalScene
+   */
   getCellPosition(x: number, y: number): { x: number; y: number } {
     return {
       x: Math.floor(x / 16),
@@ -210,7 +238,11 @@ export class PortalScene extends BaseScene {
     };
   }
 
-  // Create Build Mode Grid
+  /**
+   * Create Build Mode Grid
+   * @memberof PortalScene
+   * @public
+   */
   createBuildModeGrid(): void {
     const { widthInPixels, heightInPixels } = this.map;
 
@@ -242,7 +274,11 @@ export class PortalScene extends BaseScene {
     });
   }
 
-  // Toggle Build Mode
+  /**
+   * Toggle Build Mode
+   * @memberof PortalScene
+   * @public
+   */
   public toggleBuildMode(): void {
     if (this.buildModeGrid) {
       // Destroy the grid
@@ -264,7 +300,13 @@ export class PortalScene extends BaseScene {
     this.createBuildModeGrid();
   }
 
-  // Select an Object (will be called from the UI)
+  /**
+   * From the UI, select an object to place in the Portal Scene
+   * @param obj - Object to select
+   * @returns
+   * @memberof PortalScene
+   * @public
+   */
   public selectObject(obj: PortalPropsT): void {
     this.selectedProp = obj;
   }
