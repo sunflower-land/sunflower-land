@@ -121,8 +121,11 @@ export const GreenhouseOil: React.FC = () => {
       >
         <div
           style={{
-            left: `${16 * PIXEL_SCALE}px`,
             top: `${-6 * PIXEL_SCALE}px`,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            whiteSpace: "nowrap",
           }}
           className="absolute z-10"
         >
