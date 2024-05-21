@@ -53,6 +53,9 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
       const baseUrl = `https://${portalName}.sunflower-land.com`;
 
+      // If testing a local portal, uncomment this line
+      // baseUrl = `http://localhost:3001`;
+
       const language = localStorage.getItem("language") || "en";
 
       const url = `${baseUrl}?jwt=${token}&network=${CONFIG.NETWORK}&language=${language}`;
