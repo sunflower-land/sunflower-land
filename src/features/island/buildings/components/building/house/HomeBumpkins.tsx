@@ -46,6 +46,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
       <Modal
         show={!!selectedFarmHandId}
         onHide={() => setSelectedFarmHandId(undefined)}
+        size="lg"
       >
         <CloseButtonPanel
           bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}

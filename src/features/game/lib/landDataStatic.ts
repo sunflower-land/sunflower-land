@@ -611,7 +611,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Red Farmer Shirt": 2,
     "Blue Farmer Shirt": 1,
     "Brown Suspenders": 1,
-    "Fruit Picker Apron": 1,
 
     "Black Farmer Boots": 1,
     "Farmer Pitchfork": 1,
