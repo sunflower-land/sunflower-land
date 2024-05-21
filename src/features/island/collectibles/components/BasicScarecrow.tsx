@@ -5,7 +5,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 export const BasicScarecrow: React.FC = () => {
   return (
     <div
-      className="absolute"
+      className="absolute pointer-events-none"
       style={{
         width: `${PIXEL_SCALE * 22}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
