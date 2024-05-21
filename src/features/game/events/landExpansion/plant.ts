@@ -340,6 +340,10 @@ export function getCropYieldAmount({
 
   amount += getBudYieldBoosts(buds ?? {}, crop);
 
+  if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
+    amount = amount + 0.5;
+  }
+
   return amount;
 }
 /**
@@ -458,14 +462,6 @@ export function getPlotYieldAmount({
     if (isWithinAOE("Sir Goldensnout", position, plot)) {
       amount = amount + 0.5;
     }
-  }
-
-  if (
-    isOvernightCrop(crop) &&
-    collectibles["Hoot"] &&
-    isCollectibleBuilt({ name: "Hoot", game })
-  ) {
-    amount = amount + 0.5;
   }
 
   if (
