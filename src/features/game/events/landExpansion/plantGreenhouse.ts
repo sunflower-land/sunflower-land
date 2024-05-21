@@ -127,7 +127,7 @@ function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): number {
   return createdAt - offset * 1000;
 }
 
-const getGreenhouseCropTime = ({
+export const getGreenhouseCropTime = ({
   crop,
   game,
 }: {

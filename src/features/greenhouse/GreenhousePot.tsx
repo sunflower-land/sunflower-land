@@ -142,7 +142,9 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
               width: `${PIXEL_SCALE * 7}px`,
             }}
           />
-          <span className="text-sm">{`+${harvested.current?.amount}`}</span>
+          <span className="text-sm">{`+${harvested.current?.amount.toFixed(
+            2
+          )}`}</span>
         </Transition>
 
         {/* Quick Select */}
@@ -288,10 +290,16 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         leave="transition-opacity duration-100"
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
-        className="flex top-0 left-[80%] absolute z-40 shadow-md"
+        className="flex top-0 left-[90%] absolute z-40 shadow-md w-[200px]"
       >
-        <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-          {secondsToString(secondsLeft, { length: "full" })}
+        <Label
+          type="info"
+          icon={ITEM_DETAILS[pot.plant.name].image}
+          secondaryIcon={SUNNYSIDE.icons.stopwatch}
+        >
+          {`${pot.plant.name}: ${secondsToString(secondsLeft, {
+            length: "medium",
+          })}`}
         </Label>
       </Transition>
     </div>

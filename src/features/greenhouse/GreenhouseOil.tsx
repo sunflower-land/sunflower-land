@@ -24,22 +24,27 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;
+const selectAvailable = (state: MachineState) =>
+  state.context.state.inventory.Oil ?? new Decimal(0);
 const isPlanting = (state: MachineState) =>
   Object.values(state.context.state.greenhouse.pots).some((pot) => !!pot.plant);
 
 export const GreenhouseOil: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
 
   const [addedOil, setAddedOil] = useState(0);
-  const oil = useSelector(gameService, selectOil);
+  const barrelOil = useSelector(gameService, selectOil);
+  const available = useSelector(gameService, selectAvailable);
   const plantsAreActive = useSelector(gameService, isPlanting);
 
-  const totalOil = oil + addedOil;
+  const totalOil = barrelOil + addedOil;
+  const availableOil = available.sub(addedOil);
 
   const open = () => {
     setAddedOil(0);
@@ -59,8 +64,8 @@ export const GreenhouseOil: React.FC = () => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-1">
-            <Label type="default" className="mb-2" icon={oilIcon}>
-              {t("greenhouse.oilRequired")}
+            <Label type="default" className="mb-2" icon={barrel}>
+              {`${totalOil} oil in machine`}
             </Label>
             <p className="text-xs mb-2">{t("greenhouse.oilDescription")}</p>
             <div className="flex items-center flex-wrap">
@@ -75,17 +80,39 @@ export const GreenhouseOil: React.FC = () => {
               ))}
             </div>
 
+            <div className="flex justify-between items-center mb-2 mt-4 pl-1">
+              <Label type="default" icon={SUNNYSIDE.icons.basket}>
+                {`Insert Oil: ${availableOil} ${t("available")}`}
+              </Label>
+              {totalOil >= 100 && (
+                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                  {`Max reached`}
+                </Label>
+              )}
+            </div>
+
             <div className="flex items-center mt-2 -mx-2">
-              <Box count={new Decimal(totalOil)} image={barrel} disabled />
+              <Box count={new Decimal(availableOil)} image={oilIcon} disabled />
+              <Button
+                className="w-12 mr-1"
+                onClick={() => setAddedOil((o) => o - 5)}
+                disabled={addedOil < 5}
+              >
+                {`-5`}
+              </Button>
               <Button
                 className="w-12"
                 onClick={() => setAddedOil((o) => o + 5)}
+                disabled={!availableOil.gte(5) || totalOil >= 100}
               >
                 {`+5`}
               </Button>
+              <Box count={new Decimal(totalOil)} image={barrel} disabled />
             </div>
           </div>
-          <Button onClick={confirm}>{t("confirm")}</Button>
+          <Button disabled={addedOil <= 0 || totalOil > 100} onClick={confirm}>
+            {t("confirm")}
+          </Button>
         </CloseButtonPanel>
       </Modal>
       <div
@@ -100,9 +127,9 @@ export const GreenhouseOil: React.FC = () => {
           className="absolute z-10"
         >
           <Label
-            type={oil <= 0 ? "danger" : "default"}
+            type={barrelOil <= 0 ? "danger" : "default"}
             icon={oilIcon}
-          >{`${oil} Oil`}</Label>
+          >{`${barrelOil} Oil`}</Label>
         </div>
         <img
           src={oilBarrels}

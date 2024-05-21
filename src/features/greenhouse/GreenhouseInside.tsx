@@ -4,7 +4,6 @@ import background from "assets/land/greenhouse_inside.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,8 +20,6 @@ export const GreenhouseInside: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
-
-  const oil = useSelector(gameService, selectOil);
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -113,7 +110,7 @@ export const GreenhouseInside: React.FC = () => {
         </div>
       </>
 
-      <Hud isFarming location="home" />
+      <Hud isFarming={false} location="home" />
     </>
   );
 };

@@ -11,6 +11,7 @@ import {
   CROP_SEEDS,
   CropName,
   GREENHOUSE_SEEDS,
+  GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
@@ -40,6 +41,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  SEED_TO_PLANT,
+  getGreenhouseCropTime,
+} from "features/game/events/landExpansion/plantGreenhouse";
 
 interface Props {
   onClose: () => void;
@@ -151,6 +156,18 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
         state,
         (state.bumpkin as Bumpkin)?.equipped ?? {}
       );
+
+    if (
+      selectedName in GREENHOUSE_SEEDS() ||
+      selectedName in GREENHOUSE_FRUIT_SEEDS()
+    ) {
+      const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
+      const seconds = getGreenhouseCropTime({
+        crop: plant,
+        game: state,
+      });
+      return seconds;
+    }
 
     return getCropPlotTime({
       crop: yields as CropName,

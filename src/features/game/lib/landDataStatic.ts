@@ -276,7 +276,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   ...EMPTY,
   greenhouse: {
     pots: {},
-    oil: 5,
+    oil: 50,
   },
   home: {
     collectibles: {
@@ -611,6 +611,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Red Farmer Shirt": 2,
     "Blue Farmer Shirt": 1,
     "Brown Suspenders": 1,
+    "Fruit Picker Apron": 1,
 
     "Black Farmer Boots": 1,
     "Farmer Pitchfork": 1,
@@ -673,6 +674,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
       {
         coordinates: {
           x: -2,
+          y: -2,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+      },
+    ],
+    Market: [
+      {
+        coordinates: {
+          x: -5,
           y: -2,
         },
         createdAt: 0,

@@ -1023,7 +1023,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.chef.apron.boost": "+20% Cake Profit",
-  "bumpkinItemBuff.fruit.picker.apron.boost": "+0.1 Fruit",
+  "bumpkinItemBuff.fruit.picker.apron.boost":
+    "+0.1 Apple, Blueberry, Orange + Banana",
   "bumpkinItemBuff.angel.wings.boost": "30% Chance of Instant Crops",
   "bumpkinItemBuff.devil.wings.boost": "30% Chance of Instant Crops",
   "bumpkinItemBuff.eggplant.onesie.boost": "+0.1 Eggplant",
