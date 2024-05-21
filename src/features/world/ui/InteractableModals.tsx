@@ -10,7 +10,6 @@ import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
 import { Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
-import { Luna } from "./npcs/Luna";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
@@ -26,6 +25,7 @@ import { WishingWellModal } from "features/game/components/bank/components/Wishi
 import { GoblinMarket } from "./market/GoblinMarket";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { VIPGift } from "./VIPGift";
+import { ChickenRescue } from "./portals/ChickenRescue";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -39,7 +39,6 @@ type InteractableName =
   | "rare_chest"
   | "kraken"
   | "nye_button"
-  | "portal"
   | "welcome_sign"
   | "bud"
   | "plaza_statue"
@@ -88,7 +87,8 @@ type InteractableName =
   | "bumpkins_faction"
   | "goblins_faction"
   | "nightshades_faction"
-  | "sunflorians_faction";
+  | "sunflorians_faction"
+  | "chicken_rescue";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -368,8 +368,14 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "portal"} onHide={closeModal}>
-        <Luna onClose={closeModal} />
+
+      <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.billy}
+        >
+          <ChickenRescue onClose={closeModal} />
+        </CloseButtonPanel>
       </Modal>
       <Modal show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal

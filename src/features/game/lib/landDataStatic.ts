@@ -308,6 +308,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
     type: "desert",
   },
   mysteryPrizes: {},
+  minigames: {
+    games: {},
+    prizes: {
+      "chicken-rescue": {
+        coins: 0,
+        startAt: new Date("2023-01-01").getTime(),
+        endAt: new Date("2025-01-01").getTime(),
+        score: 2,
+        factionPoints: 15,
+      },
+    },
+  },
   mushrooms: {
     mushrooms: {
       1: {

@@ -150,8 +150,8 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 208,
-    y: 402,
+    x: 188,
+    y: 362,
     npc: "billy",
   },
   {
@@ -217,6 +217,16 @@ export class PlazaScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
+
+    this.load.spritesheet("easter_egg", "world/easter_donation.png", {
+      frameWidth: 16,
+      frameHeight: 19,
+    });
+
+    this.load.spritesheet("portal", "world/portal_well_sheet.png", {
+      frameWidth: 20,
+      frameHeight: 25,
+    });
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -753,6 +763,23 @@ export class PlazaScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         interactableModalManager.open("clubhouse_reward");
+      });
+
+    const chickenRescuePortal = this.add.sprite(210, 375, "portal");
+    this.anims.create({
+      key: "portal_anim",
+      frames: this.anims.generateFrameNumbers("portal", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    chickenRescuePortal.play("portal_anim", true);
+    chickenRescuePortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        interactableModalManager.open("chicken_rescue");
       });
 
     // Stella Collectible of the Month

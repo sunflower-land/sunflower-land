@@ -2820,7 +2820,8 @@ export type RewardTerms =
   | "reward.wearable"
   | "reward.woohoo"
   | "reward.promo.code"
-  | "reward.connectWeb3Wallet";
+  | "reward.connectWeb3Wallet"
+  | "reward.factionPoints";
 
 export type RulesGameStart =
   | "rules.gameStart"
@@ -3341,6 +3342,15 @@ export type GreenhouseKeys =
   | "greenhouse.oilInMachine"
   | "greenhouse.insertOil"
   | "greenhouse.numberOil";
+export type Minigame =
+  | "minigame.playNow"
+  | "minigame.chickenRescue"
+  | "minigame.completed"
+  | "minigame.noPrizeAvailable"
+  | "minigame.confirm"
+  | "minigame.purchase"
+  | "minigame.comingSoon"
+  | "minigame.chickenRescueHelp";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3440,6 +3450,7 @@ export type TranslationKeys =
   | LostSunflorian
   | MegaStore
   | MilestoneMessages
+  | Minigame
   | ModalDescription
   | Noaccount
   | NoBumpkin

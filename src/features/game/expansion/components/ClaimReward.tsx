@@ -5,6 +5,7 @@ import confetti from "canvas-confetti";
 import token from "src/assets/icons/sfl.webp";
 import coins from "src/assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
+import factionPoint from "assets/icons/faction_point.webp";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -65,6 +66,18 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   {setPrecision(new Decimal(airdrop.sfl)).toString()} {"SFL"}
                 </Label>
                 <p className="text-xs">{t("reward.spendWisely")}</p>
+              </div>
+            </div>
+          )}
+          {!!airdrop.factionPoints && (
+            <div className="flex items-center">
+              <Box image={factionPoint} />
+              <div>
+                <Label type="warning">
+                  {setPrecision(new Decimal(airdrop.factionPoints)).toString()}{" "}
+                  {"Faction Points"}
+                </Label>
+                <p className="text-xs"> {t("reward.factionPoints")}</p>
               </div>
             </div>
           )}

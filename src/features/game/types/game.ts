@@ -56,7 +56,7 @@ import {
   MarineMarvelName,
 } from "./fishing";
 import { Coordinates } from "../expansion/components/MapPlacement";
-import { PortalName } from "./portals";
+import { MinigameName } from "./minigames";
 import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
@@ -559,6 +559,7 @@ export type Airdrop = {
   coins: number;
   message?: string;
   coordinates?: Coordinates;
+  factionPoints?: number;
 };
 
 // Mystery Prize reveals
@@ -785,15 +786,24 @@ export type CommunityIsland = {
   };
 };
 
-export type Portal = {
-  arcadeTokensMinted: number;
+export type MinigamePrize = {
+  startAt: number;
+  endAt: number;
+  score: number;
+  coins: number;
+  factionPoints: number;
+};
 
-  history: Record<
-    string,
-    {
-      arcadeTokensMinted: number;
-    }
-  >;
+export type MinigameHistory = {
+  highscore: number;
+  attempts: number;
+  prizeClaimedAt?: number;
+};
+
+export type Minigame = {
+  highscore: number;
+  purchases?: { sfl: number; purchasedAt: number }[];
+  history: Record<string, MinigameHistory>;
 };
 
 export type TradeListing = {
@@ -967,8 +977,10 @@ export interface GameState {
   bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
-  islands?: Record<string, CommunityIsland>;
-  portals?: Partial<Record<PortalName, Portal>>;
+  minigames: {
+    prizes: Partial<Record<MinigameName, MinigamePrize>>;
+    games: Partial<Record<MinigameName, Minigame>>;
+  };
 
   farmHands: {
     bumpkins: Record<string, FarmHand>;

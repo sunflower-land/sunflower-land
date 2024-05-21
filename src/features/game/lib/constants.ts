@@ -264,6 +264,10 @@ export const TEST_FARM: GameState = {
     "Basic Land": new Decimal(3),
   },
   previousInventory: {},
+  minigames: {
+    games: {},
+    prizes: {},
+  },
   stock: INITIAL_STOCK(),
   chickens: {},
   farmActivity: {},
@@ -543,6 +547,10 @@ export const EMPTY: GameState = {
     Wood: new Decimal(50),
     Gold: new Decimal(10),
     Stone: new Decimal(10),
+  },
+  minigames: {
+    games: {},
+    prizes: {},
   },
   previousInventory: {},
   chickens: {},
