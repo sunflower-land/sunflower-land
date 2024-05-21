@@ -47,7 +47,10 @@ function greenhouseCropIsGrowing({
   const cropPlanted = Object.values(game.greenhouse.pots ?? {}).some(
     (pots) => pots.plant && pots.plant.name === crop
   );
-  return [cropPlanted, `${crop} is growing`];
+  return [
+    cropPlanted,
+    translate("restrictionReason.?cropGrowing", { crop: crop }),
+  ];
 }
 
 function areAnyGreenhouseCropGrowing(game: GameState): Restriction {
@@ -55,7 +58,7 @@ function areAnyGreenhouseCropGrowing(game: GameState): Restriction {
     (plot) => !!plot.plant
   );
 
-  return [cropsPlanted, "Crops are growing"];
+  return [cropsPlanted, translate("restrictionReason.cropsGrowing")];
 }
 
 function beanIsPlanted(game: GameState): Restriction {
@@ -301,7 +304,7 @@ function areAnyOilReservesDrilled(game: GameState): Restriction {
     (oilReserve) => !canDrillOilReserve(oilReserve, now)
   );
 
-  return [oilReservesDrilled, "Oil reserves are drilled"];
+  return [oilReservesDrilled, translate("restrictionReason.oilReserveDrilled")];
 }
 
 export const REMOVAL_RESTRICTIONS: Partial<
@@ -412,6 +415,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Knight Chicken": (game) => areAnyOilReservesDrilled(game),
   "Battle Fish": (game) => areAnyOilReservesDrilled(game),
   "Turbo Sprout": (game) => areAnyGreenhouseCropGrowing(game),
+  Greenhouse: (game) => areAnyGreenhouseCropGrowing(game),
   Vinny: (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Grape Granny": (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Rice Panda": (game) => greenhouseCropIsGrowing({ crop: "Rice", game }),

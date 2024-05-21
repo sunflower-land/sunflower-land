@@ -3275,6 +3275,7 @@ export type RestrictionReason =
   | "restrictionReason.isGrowing"
   | "restrictionReason.beanPlanted"
   | "restrictionReason.cropsGrowing"
+  | "restrictionReason.?cropGrowing"
   | "restrictionReason.basicCropsGrowing"
   | "restrictionReason.mediumCropsGrowing"
   | "restrictionReason.advancedCropsGrowing"
@@ -3294,7 +3295,8 @@ export type RestrictionReason =
   | "restrictionReason.pawShaken"
   | "restrictionReason.festiveSeason"
   | "restrictionReason.noRestriction"
-  | "restrictionReason.genieLampRubbed";
+  | "restrictionReason.genieLampRubbed"
+  | "restrictionReason.oilReserveDrilled";
 
 export type Leaderboard =
   | "leaderboard.leaderboard"
