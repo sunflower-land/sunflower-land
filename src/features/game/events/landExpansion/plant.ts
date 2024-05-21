@@ -415,6 +415,10 @@ export function getPlotYieldAmount({
     amount += 0.1;
   }
 
+  if (crop === "Soybean" && isWearableActive({ name: "Tofu Mask", game })) {
+    amount += 0.1;
+  }
+
   if (crop === "Corn" && isWearableActive({ name: "Corn Onesie", game })) {
     amount += 0.1;
   }

@@ -1353,4 +1353,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Royal Robe": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
   Crown: () => canWithdrawTimebasedItem(new Date("2024-04-04")),
   "Soybean Onesie": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Tofu Mask": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Olive Royalty Shirt": () => false,
+  "Royal Scepter": () => false,
 };

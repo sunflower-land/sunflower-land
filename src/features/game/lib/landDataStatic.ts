@@ -617,6 +617,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Earn Alliance Banner": new Decimal(1),
   },
   wardrobe: {
+    "Tofu Mask": 1,
+    "Royal Scepter": 1,
+    "Olive Royalty Shirt": 2,
     "Elf Suit": 1,
     "Banana Onesie": 1,
     "Beige Farmer Potion": 2,

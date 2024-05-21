@@ -111,7 +111,8 @@ export type BumpkinShirt =
   | "Blue Monarch Shirt"
   | "Green Monarch Shirt"
   | "Orange Monarch Shirt"
-  | "Gift Giver";
+  | "Gift Giver"
+  | "Olive Royalty Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -154,7 +155,8 @@ export type BumpkinTool =
   | "Bee Smoker"
   | "Crimstone Hammer"
   | "Oil Can"
-  | "Pan";
+  | "Pan"
+  | "Royal Scepter";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -244,7 +246,8 @@ export type BumpkinHat =
   | "Chicken Hat"
   | "Love's Topper"
   | "Non La Hat"
-  | "Crown";
+  | "Crown"
+  | "Tofu Mask";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -670,6 +673,9 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   Pan: 314,
   "Soybean Onesie": 315,
   "Gift Giver": 316,
+  "Olive Royalty Shirt": 317,
+  "Royal Scepter": 318,
+  "Tofu Mask": 319,
 };
 
 // The reverse of above
@@ -734,6 +740,7 @@ export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
 export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
+  "Soybean Onesie": "onesie",
   "Beige Farmer Potion": "body",
   "Dark Brown Farmer Potion": "body",
   "Light Brown Farmer Potion": "body",
@@ -1043,6 +1050,8 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Royal Robe": "coat",
   Crown: "hat",
   Pan: "tool",
-  "Soybean Onesie": "onesie",
   "Gift Giver": "shirt",
+  "Olive Royalty Shirt": "shirt",
+  "Royal Scepter": "tool",
+  "Tofu Mask": "hat",
 };
