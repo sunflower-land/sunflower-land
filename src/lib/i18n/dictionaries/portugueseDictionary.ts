@@ -493,6 +493,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
   vip: ENGLISH_TERMS["vip"],
+  "max.reached": ENGLISH_TERMS["max.reached"],
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -4904,7 +4905,9 @@ const gameOptions: Record<GameOptions, string> = {
 const greenhouse: Record<GreenhouseKeys, string> = {
   "greenhouse.oilDescription": ENGLISH_TERMS["greenhouse.oilDescription"],
   "greenhouse.oilRequired": ENGLISH_TERMS["greenhouse.oilRequired"],
-  "greenhouse.oilInTank": ENGLISH_TERMS["greenhouse.oilInTank"],
+  "greenhouse.oilInMachine": ENGLISH_TERMS["greenhouse.oilInMachine"],
+  "greenhouse.insertOil": ENGLISH_TERMS["greenhouse.insertOil"],
+  "greenhouse.numberOil": ENGLISH_TERMS["greenhouse.numberOil"],
 };
 
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {

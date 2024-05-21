@@ -65,7 +65,7 @@ export const GreenhouseOil: React.FC = () => {
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <div className="p-1">
             <Label type="default" className="mb-2" icon={barrel}>
-              {`${totalOil} oil in machine`}
+              {t("greenhouse.oilInMachine", { oil: totalOil })}
             </Label>
             <p className="text-xs mb-2">{t("greenhouse.oilDescription")}</p>
             <div className="flex items-center flex-wrap">
@@ -75,18 +75,20 @@ export const GreenhouseOil: React.FC = () => {
                     src={ITEM_DETAILS[SEED_TO_PLANT[seed]].image}
                     className="h-5 mr-1"
                   />
-                  <p className="text-xs mr-0.5">{`${OIL_USAGE[seed]} Oil`}</p>
+                  <p className="text-xs mr-0.5">
+                    {t("greenhouse.numberOil", { oil: OIL_USAGE[seed] })}
+                  </p>
                 </OuterPanel>
               ))}
             </div>
 
             <div className="flex justify-between items-center mb-2 mt-4 pl-1">
               <Label type="default" icon={SUNNYSIDE.icons.basket}>
-                {`Insert Oil: ${availableOil} ${t("available")}`}
+                {t("greenhouse.insertOil", { oil: availableOil })}
               </Label>
               {totalOil >= 100 && (
                 <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                  {`Max reached`}
+                  {t("max.reached")}
                 </Label>
               )}
             </div>
@@ -130,7 +132,7 @@ export const GreenhouseOil: React.FC = () => {
           className="absolute z-10"
         >
           <Label type={barrelOil <= 0 ? "danger" : "default"} icon={oilIcon}>
-            {t("greenhouse.oilInTank", { barrelOil: barrelOil })}
+            {t("greenhouse.oilInMachine", { oil: barrelOil })}
           </Label>
         </div>
         <img

@@ -147,6 +147,7 @@ export type GeneralTerms =
   | "message"
   | "messages"
   | "max"
+  | "max.reached"
   | "minimum"
   | "mint"
   | "minting"
@@ -3315,7 +3316,9 @@ export type GameOptions =
 export type GreenhouseKeys =
   | "greenhouse.oilRequired"
   | "greenhouse.oilDescription"
-  | "greenhouse.oilInTank";
+  | "greenhouse.oilInMachine"
+  | "greenhouse.insertOil"
+  | "greenhouse.numberOil";
 
 export type TranslationKeys =
   | AchievementsTerms
