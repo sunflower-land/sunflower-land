@@ -120,6 +120,7 @@ const getIslandElements = ({
                 showTimers={showTimers}
                 x={x}
                 y={y}
+                island={game.island.type}
               />
             </MapPlacement>
           );
@@ -583,6 +584,7 @@ export const Land: React.FC = () => {
     airdrops,
     beehives,
     oilReserves,
+    island,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -647,8 +649,8 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <LandBase expandedCount={expansionCount} />
-            <DirtRenderer grid={gameGrid} />
+            <LandBase type={island.type} expandedCount={expansionCount} />
+            <DirtRenderer island={island.type} grid={gameGrid} />
 
             {!landscaping && (
               <Water

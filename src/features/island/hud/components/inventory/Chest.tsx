@@ -1,7 +1,11 @@
 import React, { useRef } from "react";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  IslandType,
+} from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { getChestBuds, getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
@@ -23,6 +27,8 @@ import deliIcon from "assets/buildings/deli_icon.png";
 import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
 import toolshedIcon from "assets/buildings/toolshed_icon.png";
 import warehouseIcon from "assets/buildings/warehouse_icon.png";
+import greenhouseIcon from "assets/icons/greenhouse.webp";
+
 import { BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
@@ -33,10 +39,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { TREE_VARIANTS } from "features/island/resources/Resource";
+import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
+import { BANNERS } from "features/game/types/banners";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
-export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
+export const ITEM_ICONS: (
+  island: IslandType
+) => Partial<Record<InventoryItemName, string>> = (island) => ({
   Market: marketIcon,
   "Fire Pit": firePitIcon,
   Workbench: workbenchIcon,
@@ -47,7 +58,10 @@ export const ITEM_ICONS: Partial<Record<InventoryItemName, string>> = {
   "Smoothie Shack": smoothieIcon,
   Toolshed: toolshedIcon,
   Warehouse: warehouseIcon,
-};
+  Tree: TREE_VARIANTS[island],
+  "Dirt Path": DIRT_PATH_VARIANTS[island],
+  Greenhouse: greenhouseIcon,
+});
 
 interface Props {
   state: GameState;
@@ -187,14 +201,16 @@ export const Chest: React.FC<Props> = ({
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
-  const boosts = getKeys(collectibles).filter(
-    (name) => name in COLLECTIBLE_BUFF_LABELS
-  );
+  const boosts = getKeys(collectibles)
+    .filter((name) => name in COLLECTIBLE_BUFF_LABELS)
+    .filter((name) => !resources.includes(name) && !buildings.includes(name));
+  const banners = getKeys(collectibles).filter((name) => name in BANNERS);
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
       !buildings.includes(name) &&
-      !boosts.includes(name)
+      !boosts.includes(name) &&
+      !banners.includes(name)
   );
 
   return (
@@ -274,7 +290,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}
@@ -298,7 +317,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}
@@ -318,7 +340,37 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {banners.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Banners">
+              <Label
+                type="default"
+                className="my-1"
+                icon={ITEM_DETAILS["Lifetime Farmer Banner"].image}
+              >
+                {t("banners")}
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {banners.map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}
@@ -328,7 +380,11 @@ export const Chest: React.FC<Props> = ({
 
           {decorations.length > 0 && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Decorations">
-              <Label type="default" className="my-1">
+              <Label
+                type="default"
+                className="my-1"
+                icon={ITEM_DETAILS["Basic Bear"].image}
+              >
                 {t("decorations")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
@@ -338,7 +394,10 @@ export const Chest: React.FC<Props> = ({
                     isSelected={selectedChestItem === item}
                     key={item}
                     onClick={() => handleItemClick(item)}
-                    image={ITEM_ICONS[item] ?? ITEM_DETAILS[item].image}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
                     parentDivRef={divRef}
                   />
                 ))}

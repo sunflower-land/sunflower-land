@@ -334,4 +334,34 @@ describe("getReadyAt", () => {
 
     expect(time).toEqual(readyAt);
   });
+
+  it("applies desert gnome boost", () => {
+    const now = Date.now();
+
+    const time = getReadyAt({
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Desert Gnome": [
+            {
+              coordinates: { x: 1, y: 1 },
+              createdAt: Date.now(),
+              id: "1",
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
 });

@@ -14,6 +14,7 @@ import cloneDeep from "lodash.clonedeep";
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -276,6 +277,19 @@ export function revealLand({
       },
     };
   }, {} as GameState["gold"]);
+
+  game.crimstones = getKeys(game.crimstones).reduce((acc, id) => {
+    return {
+      ...acc,
+      [id]: {
+        ...game.crimstones[id],
+        stone: {
+          ...game.crimstones[id].stone,
+          minedAt: createdAt - CRIMSTONE_RECOVERY_TIME * 1000,
+        },
+      },
+    };
+  }, {} as GameState["crimstones"]);
 
   // Add any rewards
   const rewards = getRewards({ game, createdAt });

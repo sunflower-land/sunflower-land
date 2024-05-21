@@ -1,5 +1,11 @@
 import { GameState, PlantedCrop } from "../../types/game";
-import { Crop, CropName, CROPS } from "../../types/crops";
+import {
+  Crop,
+  CropName,
+  CROPS,
+  GREENHOUSE_CROPS,
+  GreenHouseCropName,
+} from "../../types/crops";
 import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import {
@@ -34,9 +40,21 @@ export const isAdvancedCrop = (cropName: CropName) => {
   return cropDetails.harvestSeconds >= CROPS()["Eggplant"].harvestSeconds;
 };
 
-export const isOvernightCrop = (cropName: CropName) => {
-  const cropDetails = CROPS()[cropName];
-  return cropDetails.harvestSeconds >= CROPS()["Radish"].harvestSeconds;
+function isCrop(plant: GreenHouseCropName | CropName): plant is CropName {
+  return (plant as CropName) in CROPS();
+}
+
+export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (isCrop(cropName)) {
+    const cropDetails = CROPS()[cropName];
+    return cropDetails.harvestSeconds >= CROPS()["Radish"].harvestSeconds;
+  }
+
+  const details = GREENHOUSE_CROPS()[cropName];
+  return (
+    details.harvestSeconds >= 24 * 60 * 60 &&
+    details.harvestSeconds <= 36 * 60 * 60
+  );
 };
 
 export const isReadyToHarvest = (

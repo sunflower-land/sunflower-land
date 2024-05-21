@@ -5,7 +5,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { FRUIT, FRUIT_SEEDS } from "features/game/types/fruits";
 import { GameState, FruitPatch } from "features/game/types/game";
 import {
-  getFruitYield,
+  getFruitPatchYield,
   harvestFruit,
   isFruitReadyToHarvest,
 } from "./fruitHarvested";
@@ -580,7 +580,7 @@ describe("fruitHarvested", () => {
 
   describe("getFruitYield", () => {
     it("provides no bonuses", () => {
-      const amount = getFruitYield({
+      const amount = getFruitPatchYield({
         buds: {},
         game: TEST_FARM,
         name: "Apple",

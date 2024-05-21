@@ -6,6 +6,8 @@ import Spritesheet, {
 
 import shakeSheet from "assets/resources/tree/shake_sheet.png";
 import springShakeSheet from "assets/resources/tree/spring_shake_sheet.png";
+import desertShakeSheet from "assets/resources/tree/desert_shake_sheet.webp";
+import cacti from "assets/resources/tree/cacti.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -33,13 +35,13 @@ interface Props {
 const SHAKE_SHEET: Record<IslandType, string> = {
   basic: shakeSheet,
   spring: springShakeSheet,
-  desert: shakeSheet,
+  desert: desertShakeSheet,
 };
 
 const TREE_IMAGE: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,
   spring: SUNNYSIDE.resource.spring_tree,
-  desert: SUNNYSIDE.resource.tree,
+  desert: cacti,
 };
 
 const RecoveredTreeComponent: React.FC<Props> = ({

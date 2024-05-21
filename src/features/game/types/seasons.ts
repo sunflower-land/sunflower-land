@@ -61,7 +61,7 @@ export type SeasonalBanner =
   | "Spring Blossom Banner"
   | "Clash of Factions Banner";
 
-export const BANNERS: Record<SeasonalBanner, SeasonName> = {
+export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Solar Flare Banner": "Solar Flare",
   "Dawn Breaker Banner": "Dawn Breaker",
   "Witches' Eve Banner": "Witches' Eve",
@@ -126,7 +126,7 @@ export function hasSeasonEnded(season: SeasonName, now = Date.now()) {
 }
 
 export function getSeasonByBanner(banner: SeasonalBanner): SeasonName {
-  return BANNERS[banner];
+  return SEASONAL_BANNERS[banner];
 }
 
 export function getSeasonalBannerImage() {

@@ -180,7 +180,7 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     shortDescription: translate("description.soybliss.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
-    // boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
+    boostedItemIcon: CROP_LIFECYCLE.Soybean.crop,
   },
 
   "Grape Granny": {
@@ -191,6 +191,12 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   },
   Vinny: {
     shortDescription: translate("description.vinny.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+    // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
+  },
+  "Rice Panda": {
+    shortDescription: translate("description.rice.panda.boost"),
     labelType: "success",
     boostTypeIcon: powerup,
     // boostedItemIcon: CROP_LIFECYCLE.grape.crop,
@@ -523,6 +529,11 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
   Blossombeard: {
     labelType: "vibrant",
     shortDescription: translate("description.blossombeard.boost"),
+    boostTypeIcon: lightning,
+  },
+  "Desert Gnome": {
+    labelType: "vibrant",
+    shortDescription: translate("description.desertgnome.boost"),
     boostTypeIcon: lightning,
   },
   "Christmas Tree": {

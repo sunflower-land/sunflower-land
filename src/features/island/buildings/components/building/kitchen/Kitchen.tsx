@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import classNames from "classnames";
 
-import kitchen from "assets/buildings/kitchen.png";
 import npc from "assets/npcs/chef.gif";
 import doing from "assets/npcs/chef_doing.gif";
 import shadow from "assets/npcs/shadow.png";
@@ -16,6 +15,7 @@ import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
+import { KITCHEN_VARIANTS } from "features/island/lib/alternateArt";
 
 type Props = BuildingProps & Partial<CraftingMachineChildProps>;
 
@@ -28,6 +28,7 @@ export const Kitchen: React.FC<Props> = ({
   craftingService,
   isBuilt,
   onRemove,
+  island,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -79,7 +80,7 @@ export const Kitchen: React.FC<Props> = ({
     <>
       <BuildingImageWrapper name="Kitchen" onClick={handleClick} ready={ready}>
         <img
-          src={kitchen}
+          src={KITCHEN_VARIANTS[island]}
           className={classNames("absolute pointer-events-none bottom-0", {
             "opacity-100": !crafting,
             "opacity-80": crafting,

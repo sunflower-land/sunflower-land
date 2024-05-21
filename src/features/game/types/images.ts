@@ -8,6 +8,12 @@ import bananaPlant from "assets/fruit/banana/banana_plant.png";
 import sunpetalSeed from "assets/flowers/sunpetal_seed.webp";
 import bloomSeed from "assets/flowers/bloom_seed.webp";
 import lilySeed from "assets/flowers/lily_seed.webp";
+import grape from "assets/greenhouse/grape.webp";
+import grapeSeed from "assets/greenhouse/grape_seed.webp";
+import olive from "assets/greenhouse/olive.webp";
+import oliveSeed from "assets/greenhouse/olive_seed.webp";
+import rice from "assets/greenhouse/rice.webp";
+import riceSeed from "assets/greenhouse/rice_seed.webp";
 
 import communityEgg from "assets/sfts/easter_donation_egg.webp";
 import hungryHare from "assets/sfts/hungryHare.png";
@@ -341,6 +347,21 @@ import bananaBlast from "assets/food/banana_blast.png";
 import beetrootBlaze from "assets/food/beetroot_blaze.png";
 import shroomSyrup from "assets/food/shroom_syrup.png";
 import rapidRoast from "assets/food/rapid_roast.png";
+import theLot from "assets/food/the_lot.webp";
+import antipasto from "assets/food/antipasto.webp";
+import carrotJuice from "assets/food/carrot_juice.webp";
+import fishBasket from "assets/food/seafood_basket.webp";
+import fishBurger from "assets/food/fish_burger.webp";
+import fishnChips from "assets/food/fish_and_chips.webp";
+import fishOmelette from "assets/food/fish_omelette.webp";
+import friedCalamari from "assets/food/fried_calamari.webp";
+import grapeJuice from "assets/food/grape_juice.webp";
+import oceansOlive from "assets/food/oceans_olive.webp";
+import quickJuice from "assets/food/quick_juice.webp";
+import riceBun from "assets/food/rice_bun.webp";
+import slowJuice from "assets/food/slow_juice.webp";
+import redRice from "assets/food/red_rice.webp";
+import sushiRoll from "assets/food/sushi_roll.webp";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -363,6 +384,7 @@ import well from "src/assets/buildings/well1.png";
 import chickenHouse from "src/assets/buildings/hen_house.png";
 import bakery from "src/assets/buildings/bakery.png";
 import deli from "src/assets/buildings/deli.png";
+import greenhouse from "src/assets/buildings/greenhouse.webp";
 import smoothieShack from "src/assets/buildings/smoothie_shack.webp";
 import toolshed from "src/assets/buildings/toolshed.png";
 import warehouse from "src/assets/buildings/warehouse.png";
@@ -370,6 +392,7 @@ import basicComposter from "assets/composters/composter_basic.png";
 import advancedComposter from "assets/composters/composter_advanced.png";
 import expertComposter from "assets/composters/composter_expert.png";
 import house from "assets/buildings/house.png";
+import manor from "assets/buildings/manor.png";
 
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
@@ -499,6 +522,7 @@ import chestnutStool from "assets/decorations/chestnut_fungi_stool.png";
 import mahoganyCap from "assets/decorations/mahogony_cap.png";
 import clementine from "assets/decorations/clementine.png";
 import blossombeard from "assets/sfts/blossom_beard.webp";
+import desertgnome from "assets/sfts/desert_gnome.webp";
 import cobalt from "assets/decorations/cobalt.png";
 import dawnUmbrellaSeat from "assets/decorations/dawn_umbrella_seat.png";
 import eggplantGrill from "assets/decorations/eggplant_grill.png";
@@ -538,7 +562,7 @@ import radishMutant from "assets/sfts/radish_mutant.gif";
 import sunflowerMutant from "assets/sfts/sunflower_mutant.gif";
 
 import battleCryDrum from "assets/sfts/battlecry_drum.webp";
-import bullseyBoard from "assets/sfts/bullsey_board.webp";
+import bullseyBoard from "assets/sfts/bullseye_board.webp";
 import chessRug from "assets/sfts/chess_rug.webp";
 import cluckapult from "assets/sfts/cluckapult.webp";
 import goldenGallant from "assets/sfts/golden_gallant.webp";
@@ -552,6 +576,7 @@ import silverSquire from "assets/sfts/silver_squire.webp";
 import silverStallion from "assets/sfts/silver_stallion.webp";
 import traineeTarget from "assets/sfts/trainee_target.webp";
 import twisterRug from "assets/sfts/twister_rug.webp";
+import ricePanda from "assets/sfts/rice_panda.webp";
 
 import anchovy from "assets/fish/anchovy.png";
 import barredKnifejaw from "assets/fish/barred_knifejaw.png";
@@ -1650,8 +1675,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.house"),
   },
   Manor: {
-    // TODO feat/manor
-    image: house,
+    image: manor,
     description: translate("description.house"),
   },
   Kitchen: {
@@ -2627,10 +2651,9 @@ export const ITEM_DETAILS: Items = {
     image: blossombeard,
     description: translate("description.blossombeard"),
   },
-  // TODO feat/desert-gnome
   "Desert Gnome": {
-    image: blossombeard,
-    description: translate("description.blossombeard"),
+    image: desertgnome,
+    description: translate("description.desertgnome"),
   },
   Cobalt: {
     image: cobalt,
@@ -3486,5 +3509,105 @@ export const ITEM_DETAILS: Items = {
   "Twister Rug": {
     image: twisterRug,
     description: translate("description.twisterRug"),
+  },
+  "Grape Seed": {
+    image: grapeSeed,
+    description: translate("description.grape"),
+  },
+  "Olive Seed": {
+    image: oliveSeed,
+    description: translate("description.olive"),
+  },
+  "Rice Seed": {
+    image: riceSeed,
+    description: translate("description.rice"),
+  },
+  Grape: {
+    image: grape,
+    description: translate("description.grape"),
+  },
+  Olive: {
+    image: olive,
+    description: translate("description.olive"),
+  },
+  Rice: {
+    image: rice,
+    description: translate("description.rice"),
+  },
+  Antipasto: {
+    image: antipasto,
+    description: translate("description.antipasto"),
+  },
+  "Carrot Juice": {
+    image: carrotJuice,
+    description: translate("description.carrotJuice"),
+  },
+  "Seafood Basket": {
+    image: fishBasket,
+    description: translate("description.fishBasket"),
+  },
+  "Fish Burger": {
+    image: fishBurger,
+    description: translate("description.fishBurger"),
+  },
+  "Fish n Chips": {
+    image: fishnChips,
+    description: translate("description.fishnChips"),
+  },
+  "Fish Omelette": {
+    image: fishOmelette,
+    description: translate("description.fishOmelette"),
+  },
+  "Fried Calamari": {
+    image: friedCalamari,
+    description: translate("description.friedCalamari"),
+  },
+  "Fried Tofu": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.friedTofu"),
+  },
+  "Grape Juice": {
+    image: grapeJuice,
+    description: translate("description.grapeJuice"),
+  },
+  "Ocean's Olive": {
+    image: oceansOlive,
+    description: translate("description.oceansOlive"),
+  },
+  "Quick Juice": {
+    image: quickJuice,
+    description: translate("description.quickJuice"),
+  },
+  "Rice Bun": {
+    image: riceBun,
+    description: translate("description.riceBun"),
+  },
+  "Slow Juice": {
+    image: slowJuice,
+    description: translate("description.slowJuice"),
+  },
+  "Steamed Red Rice": {
+    image: redRice,
+    description: translate("description.steamedRedRice"),
+  },
+  "Sushi Roll": {
+    image: sushiRoll,
+    description: translate("description.sushirRoll"),
+  },
+  "The Lot": {
+    image: theLot,
+    description: translate("description.theLot"),
+  },
+  "Tofu Scramble": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.tofuScramble"),
+  },
+  Greenhouse: {
+    image: greenhouse,
+    description: translate("description.greenhouse"),
+  },
+  "Rice Panda": {
+    image: ricePanda,
+    description: translate("description.ricePanda"),
   },
 };

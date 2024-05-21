@@ -1,6 +1,5 @@
 import {
   withdrawBudsTransaction,
-  withdrawBumpkinTransaction,
   withdrawItemsTransaction,
   withdrawSFLTransaction,
   withdrawWearablesTransaction,
@@ -152,50 +151,6 @@ export async function withdrawWearables({
   const transaction = await response.json();
 
   const newSessionId = await withdrawWearablesTransaction({
-    ...transaction,
-    web3: wallet.web3Provider,
-    account: wallet.myAccount,
-  });
-
-  return { sessionId: newSessionId, verified: true };
-}
-
-type BumpkinOptions = {
-  farmId: number;
-  bumpkinId: number;
-  transactionId: string;
-  token: string;
-};
-
-export async function withdrawBumpkin({
-  farmId,
-  bumpkinId,
-  transactionId,
-  token,
-}: BumpkinOptions) {
-  const response = await window.fetch(`${API_URL}/withdraw-bumpkin/${farmId}`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${token}`,
-      "X-Transaction-ID": transactionId,
-    },
-    body: JSON.stringify({
-      bumpkinId,
-    }),
-  });
-
-  if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
-  }
-
-  if (response.status >= 400) {
-    throw new Error(ERRORS.WITHDRAW_SERVER_ERROR);
-  }
-
-  const transaction = await response.json();
-
-  const newSessionId = await withdrawBumpkinTransaction({
     ...transaction,
     web3: wallet.web3Provider,
     account: wallet.myAccount,

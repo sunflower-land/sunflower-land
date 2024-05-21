@@ -26,6 +26,8 @@ import shadow from "assets/npcs/shadow.png";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { formatNumber } from "lib/utils/formatNumber";
+import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 
 const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
@@ -88,6 +90,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
               position={position}
               isSelected={selected === faction}
               onClick={() => select(faction as FactionName)}
+              totalTickets={data.totalTickets[faction as FactionName]}
             />
           ))}
         </div>
@@ -145,6 +148,13 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
               <TicketTable rankings={topTen} id={id} />
             </>
           )}
+          <div className="flex justify-end">
+            <p className="text-[12px]">
+              {`${t("leaderboard.factionMembers")}: ${formatNumber(
+                data.totalMembers?.[selected] ?? 0
+              )}`}
+            </p>
+          </div>
         </div>
       )}
 
@@ -171,6 +181,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
 interface FactionProps {
   name: FactionName;
   position: string;
+  totalTickets: number;
   isSelected: boolean;
   onClick: () => void;
 }
@@ -179,6 +190,7 @@ const Faction: React.FC<FactionProps> = ({
   onClick,
   isSelected,
   position,
+  totalTickets,
 }) => {
   const npcs: Record<Exclude<FactionName, "nightshades">, NPCName> = {
     bumpkins: "robert",
@@ -202,27 +214,47 @@ const Faction: React.FC<FactionProps> = ({
           <span className="text-xs capitalize">{name}</span>
           <div className="h-11">
             {name === "nightshades" ? (
-              <div>
-                <img
-                  src={maximus}
-                  className="-scale-x-100"
-                  style={{ width: 14 * PIXEL_SCALE }}
-                />
-                <div className="relative flex justify-center -z-10">
+              <div className="flex justify-center items-center">
+                <div>
                   <img
-                    src={shadow}
-                    style={{
-                      width: `${PIXEL_SCALE * 12}px`,
-                      bottom: `${PIXEL_SCALE * -2}px`,
-                    }}
-                    className="absolute pointer-events-none"
+                    src={maximus}
+                    className="-scale-x-100"
+                    style={{ width: 14 * PIXEL_SCALE }}
                   />
+                  <div className="relative flex justify-center">
+                    <img
+                      src={shadow}
+                      style={{
+                        width: `${PIXEL_SCALE * 12}px`,
+                        bottom: `${PIXEL_SCALE * -2}px`,
+                      }}
+                      className="absolute pointer-events-none"
+                    />
+                  </div>
+                </div>
+                <div className="flex pt-2">
+                  <img
+                    src={FACTION_POINT_ICONS[name]}
+                    className="w-4 h-4 inline-block mx-1"
+                  />
+                  <span className="text-xxs">
+                    {formatNumber(totalTickets ?? 0)}
+                  </span>
                 </div>
               </div>
             ) : (
-              <div className="flex h-full items-center">
+              <div className="flex h-full items-center justify-center">
                 <div className="relative">
                   <NPCIcon parts={NPC_WEARABLES[npcs[name]]} />
+                </div>
+                <div className="flex pt-1">
+                  <img
+                    src={FACTION_POINT_ICONS[name]}
+                    className="w-4 h-4 inline-block mx-1"
+                  />
+                  <span className="text-xxs">
+                    {formatNumber(totalTickets ?? 0)}
+                  </span>
                 </div>
               </div>
             )}

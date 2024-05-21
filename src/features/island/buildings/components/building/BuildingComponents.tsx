@@ -23,10 +23,24 @@ import { CookableName } from "features/game/types/consumables";
 import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
+import { IslandType } from "features/game/types/game";
+import {
+  BAKERY_VARIANTS,
+  DELI_VARIANTS,
+  FIRE_PIT_VARIANTS,
+  HEN_HOUSE_VARIANTS,
+  KITCHEN_VARIANTS,
+  MARKET_VARIANTS,
+  SMOOTHIE_SHACK_VARIANTS,
+  WORKBENCH_VARIANTS,
+} from "features/island/lib/alternateArt";
+
+import { Greenhouse } from "./greenhouse/Greenhouse";
 
 export interface BuildingProps {
   buildingId: string;
   buildingIndex: number;
+  island: IslandType;
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
@@ -42,17 +56,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <FirePit
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -63,17 +80,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <Bakery
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -91,17 +111,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <Kitchen
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -111,17 +134,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <Deli
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -131,17 +157,20 @@ export const BUILDING_COMPONENTS: Record<
     craftingItemName,
     craftingReadyAt,
     isBuilt,
+    island,
   }: BuildingProps) => (
     <WithCraftingMachine
       buildingId={buildingId}
       buildingIndex={buildingIndex}
       craftingItemName={craftingItemName}
       craftingReadyAt={craftingReadyAt}
+      island={island}
     >
       <SmoothieShack
         buildingId={buildingId}
         buildingIndex={buildingIndex}
         isBuilt={isBuilt}
+        island={island}
       />
     </WithCraftingMachine>
   ),
@@ -149,27 +178,30 @@ export const BUILDING_COMPONENTS: Record<
   "Turbo Composter": () => <Composter name="Turbo Composter" />,
   "Premium Composter": () => <Composter name="Premium Composter" />,
   Manor: Manor,
+  Greenhouse: Greenhouse,
 };
 
-export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
+export const READONLY_BUILDINGS: (
+  island: IslandType
+) => Record<BuildingName, React.FC<any>> = (island) => ({
   ...BUILDING_COMPONENTS,
   "Fire Pit": () => (
     <img
-      src={ITEM_DETAILS["Fire Pit"].image}
+      src={FIRE_PIT_VARIANTS[island]}
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 47}px` }}
     />
   ),
   Kitchen: () => (
     <img
-      src={ITEM_DETAILS["Kitchen"].image}
+      src={KITCHEN_VARIANTS[island]}
       className="absolute"
       style={{ width: `${PIXEL_SCALE * 63}px`, bottom: 0 }}
     />
   ),
   Workbench: () => (
     <img
-      src={ITEM_DETAILS["Workbench"].image}
+      src={WORKBENCH_VARIANTS[island]}
       className="relative"
       style={{
         width: `${PIXEL_SCALE * 47}px`,
@@ -179,14 +211,14 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
   ),
   Market: () => (
     <img
-      src={ITEM_DETAILS["Market"].image}
+      src={MARKET_VARIANTS[island]}
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 48}px` }}
     />
   ),
   "Hen House": () => (
     <img
-      src={ITEM_DETAILS["Hen House"].image}
+      src={HEN_HOUSE_VARIANTS[island]}
       className="absolute"
       style={{ width: `${PIXEL_SCALE * 61}px`, bottom: 0 }}
     />
@@ -204,21 +236,21 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
   ),
   "Smoothie Shack": () => (
     <img
-      src={ITEM_DETAILS["Smoothie Shack"].image}
+      src={SMOOTHIE_SHACK_VARIANTS[island]}
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 48}px` }}
     />
   ),
   Bakery: () => (
     <img
-      src={ITEM_DETAILS["Bakery"].image}
+      src={BAKERY_VARIANTS[island]}
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 62}px`, left: `${PIXEL_SCALE * 1}px` }}
     />
   ),
   Deli: () => (
     <img
-      src={ITEM_DETAILS["Deli"].image}
+      src={DELI_VARIANTS[island]}
       className="absolute bottom-0"
       style={{ width: `${PIXEL_SCALE * 64}px` }}
     />
@@ -283,4 +315,4 @@ export const READONLY_BUILDINGS: Record<BuildingName, React.FC<any>> = {
       />
     </div>
   ),
-};
+});

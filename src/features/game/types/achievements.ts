@@ -5,7 +5,7 @@ import { CookEvent, CraftedEvent, HarvestEvent } from "./bumpkinActivity";
 import { COOKABLES, COOKABLE_CAKES } from "./consumables";
 import { getKeys, TOOLS } from "./craftables";
 import { CROPS } from "./crops";
-import { FRUIT } from "./fruits";
+import { FRUIT, GREENHOUSE_FRUIT } from "./fruits";
 import { getSeasonalTicket } from "./seasons";
 import { translate } from "lib/i18n/translate";
 
@@ -513,7 +513,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Fruit Aficionado": {
     description: translate("fruitAficionado.description"),
     progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(FRUIT()).map(
+      const fruits = [...getKeys(FRUIT()), ...getKeys(GREENHOUSE_FRUIT())];
+      const harvestEvents = fruits.map(
         (name) => `${name} Harvested` as HarvestEvent
       );
 
@@ -554,7 +555,8 @@ export const ACHIEVEMENTS: () => Record<AchievementName, Achievement> = () => ({
   "Fruit Platter": {
     description: translate("fruitPlatter.description"),
     progress: (gameState: GameState) => {
-      const harvestEvents = getKeys(FRUIT()).map(
+      const fruits = [...getKeys(FRUIT()), ...getKeys(GREENHOUSE_FRUIT())];
+      const harvestEvents = fruits.map(
         (name) => `${name} Harvested` as HarvestEvent
       );
 

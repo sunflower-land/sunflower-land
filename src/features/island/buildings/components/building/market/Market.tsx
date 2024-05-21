@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 
-import market from "assets/buildings/bettys_market.png";
 import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -16,6 +15,7 @@ import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { loadAudio, shopAudio } from "lib/utils/sfx";
 import { isCropShortage } from "features/game/expansion/lib/boosts";
+import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 
 const hasSoldCropsBefore = (bumpkin?: Bumpkin) => {
   if (!bumpkin) return false;
@@ -37,7 +37,11 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
   );
 };
 
-export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
+export const Market: React.FC<BuildingProps> = ({
+  isBuilt,
+  onRemove,
+  island,
+}) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -71,7 +75,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, onRemove }) => {
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
-          src={market}
+          src={MARKET_VARIANTS[island]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

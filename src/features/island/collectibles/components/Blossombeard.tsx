@@ -11,7 +11,7 @@ export const Blossombeard: React.FC = () => {
         style={{
           width: `${PIXEL_SCALE * 13}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 3.5}px`,
+          left: `${PIXEL_SCALE * 1.5}px`,
         }}
         className="absolute"
         alt="Blossombeard"

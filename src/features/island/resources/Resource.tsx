@@ -28,6 +28,15 @@ import { FlowerBed } from "../flowers/FlowerBed";
 import { Sunstone } from "features/game/expansion/components/resources/sunstone/Sunstone";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
+import { IslandType } from "features/game/types/game";
+
+import cacti from "assets/resources/tree/cacti.webp";
+
+export const TREE_VARIANTS: Record<IslandType, string> = {
+  basic: SUNNYSIDE.resource.tree,
+  spring: SUNNYSIDE.resource.tree,
+  desert: cacti,
+};
 
 export interface ResourceProps {
   name: ResourceName;
@@ -40,10 +49,9 @@ export interface ResourceProps {
 }
 
 // Used for placing
-export const READONLY_RESOURCE_COMPONENTS: Record<
-  ResourceName,
-  React.FC<ResourceProps>
-> = {
+export const READONLY_RESOURCE_COMPONENTS: (
+  island: IslandType
+) => Record<ResourceName, React.FC<ResourceProps>> = (island) => ({
   "Crop Plot": () => (
     <div
       className="relative"
@@ -107,9 +115,9 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       src={ITEM_DETAILS["Crimstone Rock"].image}
       className="relative"
       style={{
-        width: `${PIXEL_SCALE * 14}px`,
+        width: `${PIXEL_SCALE * 24}px`,
         top: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 1}px`,
+        left: `${PIXEL_SCALE * 4}px`,
       }}
     />
   ),
@@ -124,12 +132,12 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
   ),
   Tree: () => (
     <img
-      src={SUNNYSIDE.resource.tree}
+      src={TREE_VARIANTS[island]}
       className="relative"
       style={{
         width: `${PIXEL_SCALE * 26}px`,
-        bottom: `${PIXEL_SCALE * 2}px`,
-        right: `${PIXEL_SCALE * 3}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
     />
   ),
@@ -183,7 +191,7 @@ export const READONLY_RESOURCE_COMPONENTS: Record<
       }}
     />
   ),
-};
+});
 
 export const RESOURCE_COMPONENTS: Record<
   ResourceName,

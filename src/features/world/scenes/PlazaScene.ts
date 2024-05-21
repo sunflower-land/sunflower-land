@@ -73,11 +73,6 @@ const FACTION_NPCS: FactionNPC[] = [
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 323,
-    y: 150,
-    npc: "gaucho",
-  },
-  {
     x: 600,
     y: 197,
     npc: "hammerin harry",
@@ -208,6 +203,7 @@ export class PlazaScene extends BaseScene {
   preload() {
     this.load.audio("chime", SOUNDS.notifications.chime);
 
+    this.load.image("vip_gift", "world/vip_gift.png");
     this.load.image("rabbit_1", "world/rabbit_1.png");
     this.load.image("rabbit_2", "world/rabbit_2.png");
     this.load.image("rabbit_3", "world/rabbit_3.png");
@@ -289,7 +285,6 @@ export class PlazaScene extends BaseScene {
     this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
     this.load.image("nightshades_banner", "world/nightshades_banner.webp");
     this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
-    this.load.image("gaucho_rug", "world/gaucho_rug.png");
 
     this.load.spritesheet("maximus", "world/maximus.png", {
       frameWidth: 23,
@@ -563,8 +558,6 @@ export class PlazaScene extends BaseScene {
       }
     }
 
-    this.add.sprite(323, 160, "gaucho_rug");
-
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("trading_board");
@@ -589,6 +582,11 @@ export class PlazaScene extends BaseScene {
         )
         .setDepth(1000000000000);
     }
+
+    const vipGift = this.add.sprite(379, 240, "vip_gift");
+    vipGift.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("vip_chest");
+    });
 
     if (this.gameState.inventory["Treasure Key"]) {
       this.add.sprite(152, 140, "key_disc").setDepth(1000000000);

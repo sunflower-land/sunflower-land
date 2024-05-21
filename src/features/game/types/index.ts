@@ -46,6 +46,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bloom Seed": 122,
   "Lily Seed": 123,
   "Soybean Seed": 124,
+  "Grape Seed": 125,
+  "Rice Seed": 126,
+  "Olive Seed": 127,
 
   Sunflower: 201,
   Potato: 202,
@@ -98,6 +101,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "White Lotus": 249,
   "Blue Lotus": 250,
   Soybean: 251,
+  Grape: 252,
+  Rice: 253,
+  Olive: 254,
 
   Axe: 301,
   Pickaxe: 302,
@@ -271,6 +277,23 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Beetroot Blaze": 555,
   "Rapid Roast": 556,
   "Shroom Syrup": 557,
+  "Carrot Juice": 558,
+  "Seafood Basket": 559,
+  "Fish Burger": 560,
+  "Fish n Chips": 561,
+  "Fish Omelette": 562,
+  "Fried Calamari": 563,
+  "Fried Tofu": 564,
+  "Grape Juice": 565,
+  "Ocean's Olive": 566,
+  "Quick Juice": 567,
+  "Rice Bun": 568,
+  "Slow Juice": 569,
+  "Steamed Red Rice": 570,
+  "Sushi Roll": 571,
+  "The Lot": 572,
+  "Tofu Scramble": 573,
+  Antipasto: 574,
 
   Wood: 601,
   Stone: 602,
@@ -460,6 +483,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Premium Composter": 1016,
   House: 1017,
   Manor: 1018,
+  Greenhouse: 1019,
 
   // Temporary Bumpkin items
   "Chef Apron": 1101,
@@ -673,6 +697,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Trainee Target": 2031,
   "Twister Rug": 2032,
   Cluckapult: 2033,
+  "Rice Panda": 2034,
 };
 
 // The reverse of above

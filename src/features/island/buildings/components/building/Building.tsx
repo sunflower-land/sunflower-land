@@ -11,6 +11,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
+import { IslandType } from "features/game/types/game";
 
 interface Prop {
   name: BuildingName;
@@ -23,6 +24,7 @@ interface Prop {
   showTimers: boolean;
   x: number;
   y: number;
+  island: IslandType;
 }
 
 export interface BuildingProps {
@@ -32,6 +34,7 @@ export interface BuildingProps {
   craftingReadyAt?: number;
   isBuilt?: boolean;
   onRemove?: () => void;
+  island: IslandType;
 }
 
 const InProgressBuilding: React.FC<Prop> = ({
@@ -41,6 +44,7 @@ const InProgressBuilding: React.FC<Prop> = ({
   readyAt,
   createdAt,
   showTimers,
+  island,
 }) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -57,7 +61,11 @@ const InProgressBuilding: React.FC<Prop> = ({
         onMouseLeave={() => setShowTooltip(false)}
       >
         <div className="w-full h-full pointer-events-none opacity-50">
-          <BuildingPlaced buildingId={id} buildingIndex={index} />
+          <BuildingPlaced
+            buildingId={id}
+            buildingIndex={index}
+            island={island}
+          />
         </div>
         {showTimers && (
           <div
@@ -100,6 +108,7 @@ const BuildingComponent: React.FC<Prop> = ({
   showTimers,
   x,
   y,
+  island,
 }) => {
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
@@ -120,6 +129,7 @@ const BuildingComponent: React.FC<Prop> = ({
           showTimers={showTimers}
           x={x}
           y={y}
+          island={island}
         />
       ) : (
         <BuildingPlaced
@@ -128,6 +138,7 @@ const BuildingComponent: React.FC<Prop> = ({
           craftingItemName={craftingItemName}
           craftingReadyAt={craftingReadyAt}
           isBuilt
+          island={island}
         />
       )}
     </>
@@ -135,13 +146,15 @@ const BuildingComponent: React.FC<Prop> = ({
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
+const _island = (state: MachineState) => state.context.state.island.type;
 
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
 
   const landscaping = useSelector(gameService, isLandscaping);
+  const island = useSelector(gameService, _island);
   if (landscaping) {
-    const BuildingPlaced = READONLY_BUILDINGS[props.name];
+    const BuildingPlaced = READONLY_BUILDINGS(island)[props.name];
 
     const inProgress = props.readyAt > Date.now();
 

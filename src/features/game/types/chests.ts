@@ -5,6 +5,7 @@ export type ChestReward = {
   wearables?: Partial<Wardrobe>;
   sfl?: number;
   weighting: number;
+  coins?: number;
 };
 
 export const BASIC_REWARDS: ChestReward[] = [
@@ -56,9 +57,9 @@ export const RARE_REWARDS: ChestReward[] = [
   { wearables: { "Pale Potion": 1 }, weighting: 50 },
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 20 },
-  { wearables: { "Beekeeper Hat": 1 }, weighting: 5 },
-  { items: { Capybara: 1 }, weighting: 25 },
-  { items: { "Flower Rug": 1 }, weighting: 25 },
+  { wearables: { Crown: 1 }, weighting: 5 },
+  { items: { "Twister Rug": 1 }, weighting: 25 },
+  { items: { "Chess Rug": 1 }, weighting: 25 },
 ];
 
 export const LUXURY_REWARDS: ChestReward[] = [
@@ -83,10 +84,10 @@ export const LUXURY_REWARDS: ChestReward[] = [
   { wearables: { "Chicken Hat": 1 }, weighting: 25 },
   { items: { "Time Warp Totem": 1 }, weighting: 25 },
   { items: { "Prize Ticket": 1 }, weighting: 50 },
-  { wearables: { "Bee Wings": 1 }, weighting: 10 },
-  { wearables: { "Beekeeper Hat": 1 }, weighting: 10 },
-  { items: { Capybara: 1 }, weighting: 50 },
-  { items: { "Flower Fox": 1 }, weighting: 25 },
+  { wearables: { "Butterfly Wings": 1 }, weighting: 10 },
+  { wearables: { Crown: 1 }, weighting: 10 },
+  { items: { "Chess Rug": 1 }, weighting: 50 },
+  { items: { Vinny: 1 }, weighting: 25 },
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
@@ -100,4 +101,16 @@ export const BUD_BOX_REWARDS: ChestReward[] = [
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
   { items: { "Oil Drill": 2 }, weighting: 5 },
+];
+
+export const GIFT_GIVER_REWARDS: ChestReward[] = [
+  { items: { "Radish Cake": 1 }, weighting: 15 },
+  { items: {}, coins: 2500, weighting: 12 },
+  { items: { "Pirate Cake": 1 }, weighting: 10 },
+  { items: { "Fishing Lure": 3 }, weighting: 10 },
+  { items: { "Prize Ticket": 1 }, weighting: 5 },
+  { items: { Grub: 3, Earthworm: 3, "Red Wiggler": 3 }, weighting: 5 },
+  { items: {}, coins: 5000, weighting: 5 },
+  { items: { "Block Buck": 1 }, sfl: 0, weighting: 5 },
+  { items: {}, sfl: 5, weighting: 3 },
 ];

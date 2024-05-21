@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
@@ -7,6 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import confetti from "canvas-confetti";
 import { ESTIMATED_HALVENING } from "features/game/lib/halvening";
+import { Context } from "features/game/GameProvider";
 
 const Countdown: React.FC<{ time: Date; onComplete: () => void }> = ({
   time,
@@ -15,9 +16,11 @@ const Countdown: React.FC<{ time: Date; onComplete: () => void }> = ({
   const start = useCountdown(time.getTime());
   const { t } = useAppTranslation();
 
+  const { showAnimations } = useContext(Context);
+
   useEffect(() => {
     if (time.getTime() < Date.now()) {
-      confetti();
+      if (showAnimations) confetti();
       onComplete();
     }
   }, [start]);

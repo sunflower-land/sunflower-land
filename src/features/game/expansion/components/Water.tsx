@@ -19,6 +19,8 @@ import { IslandUpgrader } from "./IslandUpgrader";
 import { GameState } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 
+import { CONFIG } from "lib/config";
+
 interface Props {
   townCenterBuilt: boolean;
   expansionCount: number;
@@ -44,7 +46,7 @@ export const WaterComponent: React.FC<Props> = ({
     >
       {/* Decorations */}
 
-      <DiscordBoat />
+      {CONFIG.NETWORK === "mainnet" && <DiscordBoat />}
 
       {/* Goblin swimming */}
       <MapPlacement x={-6 - offset} y={-1} width={6}>
@@ -97,7 +99,6 @@ export const WaterComponent: React.FC<Props> = ({
         />
       </MapPlacement>
 
-      {/* Bottom island */}
       <SeasonTeaser offset={offset} />
 
       <TravelTeaser />

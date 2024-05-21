@@ -18,7 +18,10 @@ type FirePitCookableName =
   | "Kale Omelette"
   | "Cabbers n Mash"
   | "Popcorn"
-  | "Gumbo";
+  | "Gumbo"
+  | "Antipasto"
+  | "Rice Bun"
+  | "Fried Tofu";
 
 type KitchenCookableName =
   | "Beetroot Blaze"
@@ -34,7 +37,16 @@ type KitchenCookableName =
   | "Goblin Brunch"
   | "Fruit Salad"
   | "Bumpkin ganoush"
-  | "Chowder";
+  | "Chowder"
+  | "Steamed Red Rice"
+  | "Tofu Scramble"
+  | "Fried Calamari"
+  | "Fish Burger"
+  | "Fish Omelette"
+  | "Ocean's Olive"
+  | "Seafood Basket"
+  | "Fish n Chips"
+  | "Sushi Roll";
 
 type BakeryCookableName =
   | CakeName
@@ -56,9 +68,24 @@ type JuiceName =
   | "Purple Smoothie"
   | "Power Smoothie"
   | "Bumpkin Detox"
-  | "Banana Blast";
+  | "Banana Blast"
+  | "Grape Juice"
+  | "Quick Juice"
+  | "Slow Juice"
+  | "The Lot"
+  | "Carrot Juice";
 
-type FishCookableName = "Chowder" | "Gumbo" | "Fermented Fish";
+type FishCookableName =
+  | "Chowder"
+  | "Gumbo"
+  | "Fermented Fish"
+  | "Fried Calamari"
+  | "Fish Burger"
+  | "Fish Omelette"
+  | "Ocean's Olive"
+  | "Seafood Basket"
+  | "Fish n Chips"
+  | "Sushi Roll";
 
 type CakeName = Cake | "Orange Cake" | "Eggplant Cake" | "Honey Cake";
 
@@ -228,6 +255,42 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
       Pumpkin: new Decimal(40),
     },
     marketRate: 10, // TODO
+  },
+  "Fried Tofu": {
+    name: "Fried Tofu",
+    description: translate("description.friedTofu"),
+    building: "Fire Pit",
+    experience: 400,
+    cookingSeconds: 90 * 60,
+    ingredients: {
+      Soybean: new Decimal(15),
+      Sunflower: new Decimal(200),
+    },
+    marketRate: 0,
+  },
+  "Rice Bun": {
+    name: "Rice Bun",
+    description: translate("description.riceBun"),
+    building: "Fire Pit",
+    experience: 1800,
+    cookingSeconds: 300 * 60,
+    ingredients: {
+      Rice: new Decimal(2),
+      Wheat: new Decimal(50),
+    },
+    marketRate: 0,
+  },
+  Antipasto: {
+    name: "Antipasto",
+    description: translate("description.antipasto"),
+    building: "Fire Pit",
+    experience: 1900,
+    cookingSeconds: 180 * 60,
+    ingredients: {
+      Olive: new Decimal(2),
+      Grape: new Decimal(2),
+    },
+    marketRate: 0,
   },
 };
 
@@ -405,6 +468,120 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
       Beetroot: new Decimal(50),
     },
     marketRate: 10, // TODO
+  },
+  "Steamed Red Rice": {
+    name: "Steamed Red Rice",
+    description: translate("description.steamedRedRice"),
+    building: "Kitchen",
+    experience: 2400,
+    cookingSeconds: 4 * 60 * 60,
+    ingredients: {
+      Rice: new Decimal(3),
+      Beetroot: new Decimal(50),
+    },
+    marketRate: 0,
+  },
+  "Tofu Scramble": {
+    name: "Tofu Scramble",
+    description: translate("description.tofuScramble"),
+    building: "Kitchen",
+    experience: 1000,
+    cookingSeconds: 3 * 60 * 60,
+    ingredients: {
+      Soybean: new Decimal(20),
+      Egg: new Decimal(10),
+      Cauliflower: new Decimal(10),
+    },
+    marketRate: 0,
+  },
+  "Fried Calamari": {
+    name: "Fried Calamari",
+    description: translate("description.friedCalamari"),
+    building: "Kitchen",
+    experience: 1500,
+    cookingSeconds: 5 * 60 * 60,
+    ingredients: {
+      Sunflower: new Decimal(200),
+      Wheat: new Decimal(15),
+      Squid: new Decimal(1),
+    },
+    marketRate: 0,
+  },
+  "Fish Burger": {
+    name: "Fish Burger",
+    description: translate("description.fishBurger"),
+    building: "Kitchen",
+    experience: 1300,
+    cookingSeconds: 2 * 60 * 60,
+    ingredients: {
+      Beetroot: new Decimal(10),
+      Wheat: new Decimal(10),
+      "Horse Mackerel": new Decimal(1),
+    },
+    marketRate: 0,
+  },
+  "Fish Omelette": {
+    name: "Fish Omelette",
+    description: translate("description.fishOmelette"),
+    building: "Kitchen",
+    experience: 1500,
+    cookingSeconds: 5 * 60 * 60,
+    ingredients: {
+      Egg: new Decimal(20),
+      Surgeonfish: new Decimal(1),
+      Butterflyfish: new Decimal(2),
+    },
+    marketRate: 0,
+  },
+  "Ocean's Olive": {
+    name: "Ocean's Olive",
+    description: translate("description.oceansOlive"),
+    building: "Kitchen",
+    experience: 1000,
+    cookingSeconds: 2 * 60 * 60,
+    ingredients: {
+      "Olive Flounder": new Decimal(1),
+      Olive: new Decimal(2),
+    },
+    marketRate: 0,
+  },
+  "Seafood Basket": {
+    name: "Seafood Basket",
+    description: translate("description.fishBasket"),
+    building: "Kitchen",
+    experience: 2200,
+    cookingSeconds: 5 * 60 * 60,
+    ingredients: {
+      Blowfish: new Decimal(2),
+      Napoleanfish: new Decimal(2),
+      Sunfish: new Decimal(2),
+    },
+    marketRate: 0,
+  },
+  "Fish n Chips": {
+    name: "Fish n Chips",
+    description: translate("description.fishnChips"),
+    building: "Kitchen",
+    experience: 2000,
+    cookingSeconds: 4 * 60 * 60,
+    ingredients: {
+      "Fancy Fries": new Decimal(1),
+      Halibut: new Decimal(1),
+    },
+    marketRate: 0,
+  },
+  "Sushi Roll": {
+    name: "Sushi Roll",
+    description: translate("description.sushirRoll"),
+    building: "Kitchen",
+    experience: 1500,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Angelfish: new Decimal(1),
+      Seaweed: new Decimal(1),
+      Rice: new Decimal(2),
+    },
+    marketRate: 0,
   },
 };
 
@@ -761,6 +938,68 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     },
     marketRate: 560,
   },
+  "Grape Juice": {
+    name: "Grape Juice",
+    description: translate("description.grapeJuice"),
+    building: "Smoothie Shack",
+    experience: 1800,
+    cookingSeconds: 3 * 60 * 60,
+    ingredients: {
+      Grape: new Decimal(5),
+      Radish: new Decimal(20),
+    },
+    marketRate: 0,
+  },
+  "The Lot": {
+    name: "The Lot",
+    description: translate("description.theLot"),
+    building: "Smoothie Shack",
+    experience: 1500,
+    cookingSeconds: 3.5 * 60 * 60,
+    ingredients: {
+      Blueberry: new Decimal(1),
+      Orange: new Decimal(1),
+      Grape: new Decimal(1),
+      Apple: new Decimal(1),
+      Banana: new Decimal(1),
+    },
+    marketRate: 0,
+  },
+  "Carrot Juice": {
+    name: "Carrot Juice",
+    description: translate("description.carrotJuice"),
+    building: "Smoothie Shack",
+    experience: 200,
+    cookingSeconds: 60 * 60,
+    ingredients: {
+      Carrot: new Decimal(30),
+    },
+    marketRate: 0,
+  },
+  "Quick Juice": {
+    name: "Quick Juice",
+    description: translate("description.quickJuice"),
+    building: "Smoothie Shack",
+    experience: 100,
+    cookingSeconds: 30 * 60,
+    ingredients: {
+      Sunflower: new Decimal(50),
+      Pumpkin: new Decimal(40),
+    },
+    marketRate: 0,
+  },
+  "Slow Juice": {
+    name: "Slow Juice",
+    description: translate("description.slowJuice"),
+    building: "Smoothie Shack",
+    experience: 5000,
+    cookingSeconds: 24 * 60 * 60,
+    ingredients: {
+      Grape: new Decimal(10),
+      Kale: new Decimal(100),
+    },
+    marketRate: 0,
+  },
 };
 
 export const COOKABLES: Record<CookableName, Cookable> = {
@@ -775,6 +1014,13 @@ export const FISH_COOKABLES: Record<FishCookableName, Cookable> = {
   Chowder: KITCHEN_COOKABLES.Chowder,
   Gumbo: FIRE_PIT_COOKABLES.Gumbo,
   "Fermented Fish": DELI_COOKABLES["Fermented Fish"],
+  "Fried Calamari": KITCHEN_COOKABLES["Fried Calamari"],
+  "Fish Burger": KITCHEN_COOKABLES["Fish Burger"],
+  "Fish Omelette": KITCHEN_COOKABLES["Fish Omelette"],
+  "Ocean's Olive": KITCHEN_COOKABLES["Ocean's Olive"],
+  "Seafood Basket": KITCHEN_COOKABLES["Seafood Basket"],
+  "Fish n Chips": KITCHEN_COOKABLES["Fish n Chips"],
+  "Sushi Roll": KITCHEN_COOKABLES["Sushi Roll"],
 };
 
 export const COOKABLE_CAKES: Record<CakeName, Cookable> = {

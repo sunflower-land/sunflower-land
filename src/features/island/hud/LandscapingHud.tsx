@@ -30,6 +30,7 @@ import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
+import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -213,6 +214,13 @@ const LandscapingHudComponent: React.FC<{
           onRemove={() => remove()}
         />
       )}
+      {showRemoveConfirmation &&
+        selectedItem?.name === "Hungry Caterpillar" && (
+          <RemoveHungryCaterpillarModal
+            onClose={() => setShowRemoveConfirmation(false)}
+            onRemove={() => remove()}
+          />
+        )}
       {showRemove && (
         <div
           onClick={() => !isRestricted && remove()}

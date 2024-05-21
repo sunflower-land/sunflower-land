@@ -1,5 +1,15 @@
-import { CropName, CropSeedName } from "./crops";
-import { FruitName, FruitSeedName } from "./fruits";
+import {
+  CropName,
+  CropSeedName,
+  GreenHouseCropName,
+  GreenHouseCropSeedName,
+} from "./crops";
+import {
+  FruitName,
+  FruitSeedName,
+  GreenHouseFruitName,
+  GreenHouseFruitSeedName,
+} from "./fruits";
 import {
   Animal,
   BarnItem,
@@ -388,6 +398,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   Tent: () => false,
   "Water Well": () => false,
   Bakery: () => false,
+  Greenhouse: () => false,
   "Hen House": () => false,
   Deli: () => false,
   "Smoothie Shack": () => false,
@@ -507,6 +518,23 @@ const consumables: Record<ConsumableName, () => boolean> = {
   Angelfish: () => false,
   Halibut: () => false,
   Parrotfish: () => false,
+  "Carrot Juice": () => false,
+  "Seafood Basket": () => false,
+  "Fish Burger": () => false,
+  "Fish n Chips": () => false,
+  "Fish Omelette": () => false,
+  "Fried Calamari": () => false,
+  "Fried Tofu": () => false,
+  "Grape Juice": () => false,
+  "Ocean's Olive": () => false,
+  "Quick Juice": () => false,
+  "Rice Bun": () => false,
+  "Slow Juice": () => false,
+  "Steamed Red Rice": () => false,
+  "Sushi Roll": () => false,
+  "The Lot": () => false,
+  "Tofu Scramble": () => false,
+  Antipasto: () => false,
 };
 
 const decorations: Record<ShopDecorationName, () => boolean> = {
@@ -537,20 +565,11 @@ const decorations: Record<ShopDecorationName, () => boolean> = {
 const seasonalDecorations: Record<SeasonalDecorationName, () => boolean> = {
   // TODO - time base withdrawals
   "Battlecry Drum": () => false,
-  "Bullseye Board": () => false,
-  "Chess Rug": () => false,
-  Cluckapult: () => false,
   "Golden Gallant": () => false,
-  "Golden Garrison": () => false,
   "Golden Guardian": () => false,
-  "Novice Knight": () => false,
-  "Regular Pawn": () => false,
   "Rookie Rook": () => false,
   "Silver Sentinel": () => false,
-  "Silver Squire": () => false,
   "Silver Stallion": () => false,
-  "Trainee Target": () => false,
-  "Twister Rug": () => false,
 
   Blossombeard: () => false,
   "Desert Gnome": () => false,
@@ -907,9 +926,41 @@ const megastore: Record<MegaStoreCollectibleName, () => boolean> = {
   "Fancy Rug": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   Clock: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   Vinny: () => canWithdrawTimebasedItem(new Date("2024-05-01")),
+  "Regular Pawn": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Novice Knight": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Golden Garrison": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Trainee Target": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Chess Rug": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Rice Panda": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Silver Squire": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  Cluckapult: () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Bullseye Board": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Twister Rug": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+};
+
+const greenHouseFruitSeed: Record<GreenHouseFruitSeedName, () => boolean> = {
+  "Grape Seed": () => false,
+};
+
+const greenHouseFruit: Record<GreenHouseFruitName, () => boolean> = {
+  Grape: () => false,
+};
+
+const greenHouseCropSeed: Record<GreenHouseCropSeedName, () => boolean> = {
+  "Olive Seed": () => false,
+  "Rice Seed": () => false,
+};
+
+const greenHouseCrop: Record<GreenHouseCropName, () => boolean> = {
+  Olive: () => false,
+  Rice: () => false,
 };
 
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
+  ...greenHouseCrop,
+  ...greenHouseCropSeed,
+  ...greenHouseFruitSeed,
+  ...greenHouseFruit,
   ...crops,
   ...fruits,
   ...flowers,
@@ -971,6 +1022,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   BumpkinItem,
   (state?: GameState) => boolean
 > = {
+  "Gift Giver": () => false,
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,
   "Light Brown Farmer Potion": () => false,
@@ -1300,4 +1352,8 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   // Clash of Factions Megastore
   "Royal Robe": () => canWithdrawTimebasedItem(new Date("2024-04-04")),
   Crown: () => canWithdrawTimebasedItem(new Date("2024-04-04")),
+  "Soybean Onesie": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
+  "Tofu Mask": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Olive Royalty Shirt": () => false,
+  "Royal Scepter": () => false,
 };

@@ -20,7 +20,7 @@ import {
 } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { getCropTime } from "features/game/events/landExpansion/plant";
+import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -64,7 +64,7 @@ const FertilePlotComponent: React.FC<Props> = ({
   let startAt = plantedAt ?? 0;
   if (cropName && game.bumpkin) {
     const fertiliserName = fertiliser?.name ?? undefined;
-    harvestSeconds = getCropTime({
+    harvestSeconds = getCropPlotTime({
       crop: cropName,
       inventory,
       game,

@@ -18,6 +18,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ITEM_ICONS } from "../inventory/Chest";
 
 interface Props {
   onClose: () => void;
@@ -29,6 +30,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
     useState<LandscapingDecorationName>("Bush");
 
   const selected = LANDSCAPING_DECORATIONS()[selectedName];
+
   const { gameService } = useContext(Context);
   const [
     {
@@ -105,7 +107,10 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
               onClick={() =>
                 setSelectedName(item.name as LandscapingDecorationName)
               }
-              image={ITEM_DETAILS[item.name].image}
+              image={
+                ITEM_ICONS(state.island.type)[item.name] ??
+                ITEM_DETAILS[item.name].image
+              }
             />
           ))}
           <span className="text-xxs mt-2">{t("statements.frankie.plaza")}</span>

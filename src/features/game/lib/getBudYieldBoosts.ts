@@ -4,15 +4,35 @@ import {
   isMediumCrop,
 } from "../events/landExpansion/harvest";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
-import { CROPS, CropName } from "../types/crops";
-import { FRUIT, FruitName } from "../types/fruits";
+import {
+  CROPS,
+  CropName,
+  GREENHOUSE_CROPS,
+  GreenHouseCropName,
+} from "../types/crops";
+import {
+  FRUIT,
+  FruitName,
+  GREENHOUSE_FRUIT,
+  GreenHouseFruitName,
+} from "../types/fruits";
 import { GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
 
-export type Resource = CommodityName | CropName | FruitName | MushroomName;
+export type Resource =
+  | CommodityName
+  | CropName
+  | FruitName
+  | MushroomName
+  | GreenHouseCropName
+  | GreenHouseFruitName;
+
+export const isPlotCrop = (resource: Resource): resource is CropName => {
+  return resource in CROPS();
+};
 
 export const isCrop = (resource: Resource): resource is CropName => {
-  return resource in CROPS();
+  return resource in CROPS() || resource in GREENHOUSE_CROPS();
 };
 
 const isMineral = (resource: Resource): boolean => {
@@ -20,7 +40,7 @@ const isMineral = (resource: Resource): boolean => {
 };
 
 const isFruit = (resource: Resource): boolean => {
-  return resource in FRUIT();
+  return resource in FRUIT() || resource in GREENHOUSE_FRUIT();
 };
 
 const getTypeBoost = (bud: Bud, resource: Resource): number => {
@@ -30,15 +50,15 @@ const getTypeBoost = (bud: Bud, resource: Resource): number => {
     return 0.2;
   }
 
-  if (isCrop(resource) && isBasicCrop(resource) && hasType("Plaza")) {
+  if (isPlotCrop(resource) && isBasicCrop(resource) && hasType("Plaza")) {
     return 0.3;
   }
 
-  if (isCrop(resource) && isMediumCrop(resource) && hasType("Castle")) {
+  if (isPlotCrop(resource) && isMediumCrop(resource) && hasType("Castle")) {
     return 0.3;
   }
 
-  if (isCrop(resource) && isAdvancedCrop(resource) && hasType("Snow")) {
+  if (isPlotCrop(resource) && isAdvancedCrop(resource) && hasType("Snow")) {
     return 0.3;
   }
 
@@ -64,7 +84,7 @@ const getStemBoost = (bud: Bud, resource: Resource): number => {
     return 0.5;
   }
 
-  if (isCrop(resource) && isBasicCrop(resource) && hasStem("Basic Leaf")) {
+  if (isPlotCrop(resource) && isBasicCrop(resource) && hasStem("Basic Leaf")) {
     return 0.2;
   }
 

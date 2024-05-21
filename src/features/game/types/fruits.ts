@@ -7,6 +7,9 @@ import { translate } from "lib/i18n/translate";
 
 export type FruitName = "Apple" | "Blueberry" | "Orange" | "Banana";
 
+export type GreenHouseFruitName = "Grape";
+export type GreenHouseFruitSeedName = "Grape Seed";
+
 export type FruitSeedName =
   | "Apple Seed"
   | "Blueberry Seed"
@@ -97,5 +100,49 @@ export const FRUIT: () => Record<FruitName, Fruit> = () => ({
     isBush: true,
     seed: "Banana Plant",
     bumpkinLevel: 16,
+  },
+});
+
+export type GreenhouseFruitSeed = {
+  price: number;
+  description: string;
+  plantSeconds: number;
+  bumpkinLevel: number;
+  yield: GreenHouseFruitName;
+  disabled?: boolean;
+};
+
+export const GREENHOUSE_FRUIT_SEEDS: () => Record<
+  GreenHouseFruitSeedName,
+  GreenhouseFruitSeed
+> = () => ({
+  "Grape Seed": {
+    price: 160,
+    description: "A bunch of grapes",
+    plantSeconds: 12 * 60 * 60,
+    bumpkinLevel: 14,
+    yield: "Grape",
+  },
+});
+
+export type GreenHouseFruit = {
+  description: string;
+  name: GreenHouseFruitName;
+  isBush?: boolean;
+  sellPrice: number;
+  seed: GreenHouseFruitSeedName;
+  bumpkinLevel: number;
+};
+
+export const GREENHOUSE_FRUIT: () => Record<
+  GreenHouseFruitName,
+  GreenHouseFruit
+> = () => ({
+  Grape: {
+    description: "A bunch of grapes",
+    name: "Grape",
+    sellPrice: 320,
+    seed: "Grape Seed",
+    bumpkinLevel: 40,
   },
 });

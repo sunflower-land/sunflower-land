@@ -2,26 +2,37 @@ import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
 import lock from "assets/skills/lock.png";
 import orange from "assets/resources/orange.png";
+import greenhouse from "assets/icons/greenhouse.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
-import { CROP_SEEDS, CropName } from "features/game/types/crops";
+import {
+  CROP_SEEDS,
+  CropName,
+  GREENHOUSE_SEEDS,
+  GreenHouseCropSeedName,
+} from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
-import { getCropTime } from "features/game/events/landExpansion/plant";
+import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin } from "features/game/types/game";
-import { FRUIT, FRUIT_SEEDS, FruitSeedName } from "features/game/types/fruits";
+import {
+  FRUIT,
+  FRUIT_SEEDS,
+  FruitSeedName,
+  GREENHOUSE_FRUIT_SEEDS,
+} from "features/game/types/fruits";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { getFruitTime } from "features/game/events/landExpansion/fruitPlanted";
+import { getFruitPatchTime } from "features/game/events/landExpansion/fruitPlanted";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -29,6 +40,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  SEED_TO_PLANT,
+  getGreenhouseCropTime,
+} from "features/game/events/landExpansion/plantGreenhouse";
 
 interface Props {
   onClose: () => void;
@@ -135,13 +151,25 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     if (yields && yields in FRUIT())
-      return getFruitTime(
+      return getFruitPatchTime(
         selectedName as FruitSeedName,
         state,
         (state.bumpkin as Bumpkin)?.equipped ?? {}
       );
 
-    return getCropTime({
+    if (
+      selectedName in GREENHOUSE_SEEDS() ||
+      selectedName in GREENHOUSE_FRUIT_SEEDS()
+    ) {
+      const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
+      const seconds = getGreenhouseCropTime({
+        crop: plant,
+        game: state,
+      });
+      return seconds;
+    }
+
+    return getCropPlotTime({
       crop: yields as CropName,
       inventory,
       game: state,
@@ -251,6 +279,33 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                   />
                 ))}
             </div>
+
+            {hasFeatureAccess(state, "GREENHOUSE") && (
+              <>
+                <Label icon={greenhouse} type="default" className="ml-2 mb-1">
+                  {t("greenhouse")}
+                </Label>
+                <div className="flex flex-wrap mb-2">
+                  {seeds
+                    .filter(
+                      (name) =>
+                        name in GREENHOUSE_SEEDS() ||
+                        name in GREENHOUSE_FRUIT_SEEDS()
+                    )
+                    .map((name: SeedName) => (
+                      <Box
+                        isSelected={selectedName === name}
+                        key={name}
+                        onClick={() => onSeedClick(name)}
+                        image={ITEM_DETAILS[name].image}
+                        showOverlay={isSeedLocked(name)}
+                        secondaryImage={isSeedLocked(name) ? lock : undefined}
+                        count={inventory[name]}
+                      />
+                    ))}
+                </div>
+              </>
+            )}
           </>
         </div>
       }

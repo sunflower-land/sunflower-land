@@ -119,6 +119,7 @@ export type GeneralTerms =
   | "gotIt"
   | "goto"
   | "grant.wish"
+  | "greenhouse"
   | "guide"
   | "harvested"
   | "honey"
@@ -146,6 +147,7 @@ export type GeneralTerms =
   | "message"
   | "messages"
   | "max"
+  | "max.reached"
   | "minimum"
   | "mint"
   | "minting"
@@ -161,6 +163,7 @@ export type GeneralTerms =
   | "no"
   | "no.event"
   | "no.have.bumpkin"
+  | "not.required"
   | "ocean.fishing"
   | "off"
   | "offer.end"
@@ -168,6 +171,7 @@ export type GeneralTerms =
   | "on"
   | "open"
   | "open.gift"
+  | "optional"
   | "p2p.trading"
   | "pass.required"
   | "pay.attention.feedback"
@@ -420,7 +424,9 @@ export type AddSFL =
 
 export type AvailableSeeds =
   | "availableSeeds.select"
-  | "availableSeeds.select.plant";
+  | "availableSeeds.select.plant"
+  | "quickSelect.label"
+  | "quickSelect.empty";
 
 export type Base = "base.missing" | "base.far.away";
 
@@ -434,6 +440,9 @@ export type BasicTreasure =
   | "basic.treasure.key"
   | "basic.treasure.congratsKey"
   | "basic.treasure.openChest"
+  | "giftGiver.label"
+  | "giftGiver.opened"
+  | "giftGiver.description"
   | "budBox.open"
   | "budBox.opened"
   | "budBox.title"
@@ -640,6 +649,7 @@ export type BoostEffectDescriptions =
   | "description.genie.lamp.boost"
   | "description.observatory.boost"
   | "description.blossombeard.boost"
+  | "description.desertgnome.boost"
   | "description.christmas.festive.tree.boost"
   | "description.grinxs.hammer.boost"
   | "description.time.warp.totem.boost"
@@ -654,7 +664,8 @@ export type BoostEffectDescriptions =
   | "description.paw.shield.boost"
   | "description.olive.shield.boost"
   | "description.pan.boost"
-  | "description.vinny.boost";
+  | "description.vinny.boost"
+  | "description.rice.panda.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -678,6 +689,7 @@ export type BuildingDescriptions =
   | "description.compost.bin"
   | "description.hen.house"
   | "description.bakery"
+  | "description.greenhouse"
   | "description.turbo.composter"
   | "description.deli"
   | "description.smoothie.shack"
@@ -735,6 +747,24 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.hornet.mask"
   | "bumpkinItemBuff.honeycomb.shield"
   | "bumpkinItemBuff.flower.crown";
+
+export type BumpkinPart =
+  | "equip.background"
+  | "equip.hair"
+  | "equip.body"
+  | "equip.shirt"
+  | "equip.pants"
+  | "equip.shoes"
+  | "equip.tool"
+  | "equip.necklace"
+  | "equip.coat"
+  | "equip.hat"
+  | "equip.secondaryTool"
+  | "equip.onesie"
+  | "equip.suit"
+  | "equip.wings"
+  | "equip.dress"
+  | "equip.beard";
 
 export type BumpkinPartRequirements =
   | "equip.missingHair"
@@ -973,6 +1003,11 @@ export type CropFruitDescriptions =
   | "description.kale"
   | "description.soybean"
 
+  // Greenhouse
+  | "description.rice"
+  | "description.olive"
+  | "description.grape"
+
   //Fruit
   | "description.blueberry"
   | "description.orange"
@@ -1165,6 +1200,7 @@ export type DecorationDescriptions =
   | "description.shroom.glow"
   | "description.clementine"
   | "description.blossombeard"
+  | "description.desertgnome"
   | "description.cobalt"
   | "description.hoot"
   | "description.genie.bear"
@@ -1272,7 +1308,8 @@ export type DecorationDescriptions =
   | "description.goblet"
   | "description.fancy.rug"
   | "description.clock"
-  | "description.vinny";
+  | "description.vinny"
+  | "description.ricePanda";
 
 export type Delivery =
   | "delivery.resource"
@@ -1632,6 +1669,23 @@ export type FoodDescriptions =
   | "description.popcorn"
   | "description.gumbo"
   | "description.rapidRoast"
+  | "description.carrotJuice"
+  | "description.fishBasket"
+  | "description.fishBurger"
+  | "description.fishnChips"
+  | "description.fishOmelette"
+  | "description.friedCalamari"
+  | "description.friedTofu"
+  | "description.grapeJuice"
+  | "description.oceansOlive"
+  | "description.quickJuice"
+  | "description.riceBun"
+  | "description.slowJuice"
+  | "description.steamedRedRice"
+  | "description.sushirRoll"
+  | "description.theLot"
+  | "description.tofuScramble"
+  | "description.antipasto"
 
   //Kitchen
   | "description.roast.veggies"
@@ -2824,6 +2878,7 @@ export type SeasonTerms =
   | "season.free.season.passes"
   | "season.vip.access"
   | "season.vip.description"
+  | "season.vip.claim"
   | "season.mystery.gift"
   | "season.xp.boost"
   | "season.free.season.passes.description"
@@ -3227,6 +3282,7 @@ export type RestrictionReason =
   | "restrictionReason.isGrowing"
   | "restrictionReason.beanPlanted"
   | "restrictionReason.cropsGrowing"
+  | "restrictionReason.?cropGrowing"
   | "restrictionReason.basicCropsGrowing"
   | "restrictionReason.mediumCropsGrowing"
   | "restrictionReason.advancedCropsGrowing"
@@ -3246,14 +3302,16 @@ export type RestrictionReason =
   | "restrictionReason.pawShaken"
   | "restrictionReason.festiveSeason"
   | "restrictionReason.noRestriction"
-  | "restrictionReason.genieLampRubbed";
+  | "restrictionReason.genieLampRubbed"
+  | "restrictionReason.oilReserveDrilled";
 
 export type Leaderboard =
   | "leaderboard.leaderboard"
   | "leaderboard.error"
   | "leaderboard.initialising"
   | "leaderboard.topTen"
-  | "leaderboard.yourPosition";
+  | "leaderboard.yourPosition"
+  | "leaderboard.factionMembers";
 
 export type GameOptions =
   | "gameOptions.title"
@@ -3283,6 +3341,13 @@ export type GameOptions =
   | "gameOptions.logout"
   | "gameOptions.confirmLogout";
 
+export type GreenhouseKeys =
+  | "greenhouse.oilRequired"
+  | "greenhouse.oilDescription"
+  | "greenhouse.oilInMachine"
+  | "greenhouse.insertOil"
+  | "greenhouse.numberOil";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3300,6 +3365,7 @@ export type TranslationKeys =
   | BuildingDescriptions
   | BumpkinDelivery
   | BumpkinItemBuff
+  | BumpkinPart
   | BumpkinPartRequirements
   | BumpkinSkillsDescription
   | BumpkinTrade
@@ -3352,6 +3418,7 @@ export type TranslationKeys =
   | GOBLIN_MESSAGES
   | GoblinTrade
   | GoldTooth
+  | GreenhouseKeys
   | GuideTerms
   | GuideCompost
   | GuideCompost

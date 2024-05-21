@@ -227,7 +227,7 @@ export const ExpansionBuilding: React.FC<{
  */
 export const UpcomingExpansion: React.FC = () => {
   const [_, setRender] = useState(0);
-  const { gameService } = useContext(Context);
+  const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
@@ -265,7 +265,7 @@ export const UpcomingExpansion: React.FC = () => {
     gameService.send("land.revealed");
     gameService.send("SAVE");
 
-    confetti();
+    if (showAnimations) confetti();
   };
 
   const nextPosition =
