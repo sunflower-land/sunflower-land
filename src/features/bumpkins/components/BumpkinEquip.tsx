@@ -205,7 +205,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
             selected={selectedBumpkinPart}
             onSelect={(bumpkinPart) => setSelectedBumpkinPart(bumpkinPart)}
           ></BumpkinPartGroup>
-          <Label type="default">{t("not.required")}</Label>
+          <Label type="default">{t("optional")}</Label>
           <BumpkinPartGroup
             bumpkinParts={NOTREQUIRED}
             equipped={equipped}
@@ -217,13 +217,13 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
         <div className="flex-1 flex max-h-[300px] sm:max-h-[294px]">
           <OuterPanel className="w-full flex flex-col !pt-1 !pb-0 !px-1 min-h-[106px]">
             <div className="w-full pb-1">
-              <p className="text-sm text-center">{`${t(
+              <Label type="default">{`${t(
                 `equip.${selectedBumpkinPart}`
-              )}`}</p>
+              )}`}</Label>
             </div>
             <div className="flex-col flex-1 overflow-y-auto scrollable justify-center items-center">
               {filteredWardrobeNames.length === 0 ? (
-                <div className="flex h-full justify-center items-center">
+                <div className="flex h-full justify-center items-center text-xs">
                   <p>{t("empty")}</p>
                 </div>
               ) : (

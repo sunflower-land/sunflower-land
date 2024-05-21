@@ -326,6 +326,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "OK",
   on: "Ligado",
   "open.gift": "Abrir Presente",
+  optional: ENGLISH_TERMS["optional"],
   "pass.required": "Senha Necessária",
   "place.map": "Colocar no mapa",
   "placing.bid": "Colocando lance",

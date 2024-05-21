@@ -369,6 +369,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   open: "Ouvrir",
   opensea: "Opensea",
   "open.gift": "Ouvrir un Cadeau",
+  optional: ENGLISH_TERMS["optional"],
   "pass.required": "Pass requis",
   place: "Place",
   "place.map": "Placer sur la carte",

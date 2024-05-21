@@ -344,6 +344,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "OK",
   on: "On",
   open: "Open",
+  optional: "Optional",
   "open.gift": "Open Gift",
   "p2p.trading": "P2P Trading",
   "pass.required": "Pass Required",

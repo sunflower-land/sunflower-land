@@ -170,6 +170,7 @@ export type GeneralTerms =
   | "on"
   | "open"
   | "open.gift"
+  | "optional"
   | "p2p.trading"
   | "pass.required"
   | "pay.attention.feedback"

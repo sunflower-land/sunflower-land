@@ -344,6 +344,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   on: "Açık",
   open: "Açık",
   "open.gift": "Hediyeyi Aç",
+  optional: ENGLISH_TERMS["optional"],
   "pass.required": "Bilet Gerekli",
   place: "Yerleştir",
   "place.map": "Haritaya yerleştir",
