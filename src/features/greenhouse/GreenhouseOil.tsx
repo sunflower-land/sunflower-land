@@ -33,7 +33,7 @@ const isPlanting = (state: MachineState) =>
   Object.values(state.context.state.greenhouse.pots).some((pot) => !!pot.plant);
 
 export const GreenhouseOil: React.FC = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
 
   const { t } = useAppTranslation();
