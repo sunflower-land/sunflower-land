@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import {
-  BANNERS,
+  SEASONAL_BANNERS,
   SEASONS,
   SeasonalBanner,
   getPreviousSeasonalBanner,
@@ -98,7 +98,7 @@ export function purchaseBanner({
     return stateCopy;
   }
 
-  if (!(action.name in BANNERS)) {
+  if (!(action.name in SEASONAL_BANNERS)) {
     throw new Error("Invalid banner");
   }
 

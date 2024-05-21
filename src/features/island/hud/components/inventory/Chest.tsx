@@ -41,6 +41,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TREE_VARIANTS } from "features/island/resources/Resource";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
+import { BANNERS } from "features/game/types/banners";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -203,11 +204,13 @@ export const Chest: React.FC<Props> = ({
   const boosts = getKeys(collectibles)
     .filter((name) => name in COLLECTIBLE_BUFF_LABELS)
     .filter((name) => !resources.includes(name) && !buildings.includes(name));
+  const banners = getKeys(collectibles).filter((name) => name in BANNERS);
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
       !buildings.includes(name) &&
-      !boosts.includes(name)
+      !boosts.includes(name) &&
+      !banners.includes(name)
   );
 
   return (
@@ -348,9 +351,40 @@ export const Chest: React.FC<Props> = ({
             </div>
           )}
 
+          {banners.length > 0 && (
+            <div className="flex flex-col pl-2 mb-2 w-full" key="Banners">
+              <Label
+                type="default"
+                className="my-1"
+                icon={ITEM_DETAILS["Lifetime Farmer Banner"].image}
+              >
+                {t("banners")}
+              </Label>
+              <div className="flex mb-2 flex-wrap -ml-1.5">
+                {banners.map((item) => (
+                  <Box
+                    count={chestMap[item]}
+                    isSelected={selectedChestItem === item}
+                    key={item}
+                    onClick={() => handleItemClick(item)}
+                    image={
+                      ITEM_ICONS(state.island.type)[item] ??
+                      ITEM_DETAILS[item].image
+                    }
+                    parentDivRef={divRef}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
           {decorations.length > 0 && (
             <div className="flex flex-col pl-2 mb-2 w-full" key="Decorations">
-              <Label type="default" className="my-1">
+              <Label
+                type="default"
+                className="my-1"
+                icon={ITEM_DETAILS["Basic Bear"].image}
+              >
                 {t("decorations")}
               </Label>
               <div className="flex mb-2 flex-wrap -ml-1.5">
