@@ -321,6 +321,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "make.wish": "Make a Wish",
   "making.wish": "Making a wish",
   max: "Max",
+  "max.reached": "Max reached",
   message: "Message",
   messages: "Messages",
   minimum: "Minimum",
@@ -4854,6 +4855,9 @@ const gameOptions: Record<GameOptions, string> = {
 const greenhouse: Record<GreenhouseKeys, string> = {
   "greenhouse.oilDescription": "The greenhouse needs oil to grow plants.",
   "greenhouse.oilRequired": "Oil required",
+  "greenhouse.oilInMachine": "{{oil}} Oil in machine",
+  "greenhouse.insertOil": "Insert Oil: {{oil}} available",
+  "greenhouse.numberOil": "{{oil}} Oil",
 };
 
 export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
