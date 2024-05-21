@@ -4,7 +4,12 @@ import {
   isMediumCrop,
 } from "../events/landExpansion/harvest";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
-import { CROPS, CropName, GreenHouseCropName } from "../types/crops";
+import {
+  CROPS,
+  CropName,
+  GREENHOUSE_CROPS,
+  GreenHouseCropName,
+} from "../types/crops";
 import {
   FRUIT,
   FruitName,
@@ -22,8 +27,12 @@ export type Resource =
   | GreenHouseCropName
   | GreenHouseFruitName;
 
-export const isCrop = (resource: Resource): resource is CropName => {
+export const isPlotCrop = (resource: Resource): resource is CropName => {
   return resource in CROPS();
+};
+
+export const isCrop = (resource: Resource): resource is CropName => {
+  return resource in CROPS() || resource in GREENHOUSE_CROPS();
 };
 
 const isMineral = (resource: Resource): boolean => {
@@ -41,15 +50,15 @@ const getTypeBoost = (bud: Bud, resource: Resource): number => {
     return 0.2;
   }
 
-  if (isCrop(resource) && isBasicCrop(resource) && hasType("Plaza")) {
+  if (isPlotCrop(resource) && isBasicCrop(resource) && hasType("Plaza")) {
     return 0.3;
   }
 
-  if (isCrop(resource) && isMediumCrop(resource) && hasType("Castle")) {
+  if (isPlotCrop(resource) && isMediumCrop(resource) && hasType("Castle")) {
     return 0.3;
   }
 
-  if (isCrop(resource) && isAdvancedCrop(resource) && hasType("Snow")) {
+  if (isPlotCrop(resource) && isAdvancedCrop(resource) && hasType("Snow")) {
     return 0.3;
   }
 
@@ -75,7 +84,7 @@ const getStemBoost = (bud: Bud, resource: Resource): number => {
     return 0.5;
   }
 
-  if (isCrop(resource) && isBasicCrop(resource) && hasStem("Basic Leaf")) {
+  if (isPlotCrop(resource) && isBasicCrop(resource) && hasStem("Basic Leaf")) {
     return 0.2;
   }
 
