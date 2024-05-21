@@ -33,7 +33,7 @@ const DepletedTreeComponent: React.FC<Props> = ({ timeLeft, island }) => {
           className="absolute opacity-50"
           style={{
             width: `${GRID_WIDTH_PX}px`,
-            bottom: `${PIXEL_SCALE * 5}px`,
+            bottom: `${PIXEL_SCALE * (island === "desert" ? 2 : 5)}px`,
             left: `${PIXEL_SCALE * 8}px`,
           }}
         />
