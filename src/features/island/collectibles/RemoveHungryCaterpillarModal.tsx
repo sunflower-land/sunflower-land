@@ -12,7 +12,7 @@ interface Props {
   onRemove: () => void;
 }
 
-export const RemoveHungryCatepillarModal: React.FC<Props> = ({
+export const RemoveHungryCaterpillarModal: React.FC<Props> = ({
   onClose,
   onRemove,
 }) => {

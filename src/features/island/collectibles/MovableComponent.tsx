@@ -36,7 +36,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { CollectibleLocation } from "features/game/types/collectibles";
-import { RemoveHungryCatepillarModal } from "./RemoveHungryCatepillarModal";
+import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -384,7 +384,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
               />
             )}
             {showRemoveConfirmation && name === "Hungry Caterpillar" && (
-              <RemoveHungryCatepillarModal
+              <RemoveHungryCaterpillarModal
                 onClose={() => setShowRemoveConfirmation(false)}
                 onRemove={() => remove()}
               />
