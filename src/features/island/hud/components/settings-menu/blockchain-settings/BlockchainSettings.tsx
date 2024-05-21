@@ -14,6 +14,7 @@ const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
 
 export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
+  onClose,
 }) => {
   const { t } = useAppTranslation();
 
@@ -25,6 +26,7 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
 
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
+    onClose();
   };
 
   return (
