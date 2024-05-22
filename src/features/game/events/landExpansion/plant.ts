@@ -298,77 +298,30 @@ export function getPlantedAt({
   return createdAt - offset * 1000;
 }
 
-/**
- * Generic boosts for all types of crops - basic, advanced, expert + greenhouse
- */
-export function getCropYieldAmount({
-  crop,
-  game,
-}: {
-  crop: CropName | GreenHouseCropName;
-  game: GameState;
-}) {
-  const { inventory, buds, bumpkin } = game;
-  const skills = bumpkin?.skills ?? {};
-
-  let amount = 1;
-
-  if (
-    isCollectibleBuilt({ name: "Scarecrow", game }) ||
-    isCollectibleBuilt({ name: "Kuebiko", game })
-  ) {
-    amount *= 1.2;
-  }
-
-  if (inventory.Coder?.gte(1)) {
-    amount *= 1.2;
-  }
-
-  //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"]) {
-    amount *= 1.05;
-  }
-
-  //Bumpkin Skill boost Master Farmer Skill
-  if (skills["Master Farmer"]) {
-    amount *= 1.1;
-  }
-
-  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
-    amount += 3;
-  }
-
-  amount += getBudYieldBoosts(buds ?? {}, crop);
-
-  if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
-    amount = amount + 0.5;
-  }
-
-  return amount;
+function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
+  return (plant as CropName) in CROPS();
 }
+
 /**
  * Based on items, the output will be different
  */
-export function getPlotYieldAmount({
+export function getCropYieldAmount({
   crop,
   plot,
   game,
   fertiliser,
 }: {
-  crop: CropName;
-  plot: CropPlot;
-  inventory: Inventory;
+  crop: CropName | GreenHouseCropName;
+  plot?: CropPlot;
   game: GameState;
-  buds: NonNullable<GameState["buds"]>;
   fertiliser?: CropCompostName;
 }): number {
   if (game.bumpkin === undefined) return 1;
 
-  let amount = getCropYieldAmount({ game, crop });
+  let amount = 1;
 
-  if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {
-    amount += 1;
-  }
+  const { inventory, bumpkin, buds } = game;
+  const skills = bumpkin.skills ?? {};
 
   if (
     crop === "Cauliflower" &&
@@ -409,6 +362,32 @@ export function getPlotYieldAmount({
   }
 
   if (
+    isCollectibleBuilt({ name: "Scarecrow", game }) ||
+    isCollectibleBuilt({ name: "Kuebiko", game })
+  ) {
+    amount *= 1.2;
+  }
+
+  if (inventory.Coder?.gte(1)) {
+    amount *= 1.2;
+  }
+
+  //Bumpkin Skill boost Green Thumb Skill
+  if (skills["Green Thumb"]) {
+    amount *= 1.05;
+  }
+
+  //Bumpkin Skill boost Master Farmer Skill
+  if (skills["Master Farmer"]) {
+    amount *= 1.1;
+  }
+
+  // Additive boosts below
+  if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {
+    amount += 1;
+  }
+
+  if (
     crop === "Eggplant" &&
     isWearableActive({ name: "Eggplant Onesie", game })
   ) {
@@ -425,7 +404,12 @@ export function getPlotYieldAmount({
 
   const collectibles = game.collectibles;
 
-  if (collectibles["Scary Mike"]?.[0] && isMediumCrop(crop) && plot) {
+  if (
+    collectibles["Scary Mike"]?.[0] &&
+    isPlotCrop(crop) &&
+    isMediumCrop(crop) &&
+    plot
+  ) {
     const scarecrowCoordinates = collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
 
@@ -463,13 +447,17 @@ export function getPlotYieldAmount({
       ...COLLECTIBLES_DIMENSIONS["Sir Goldensnout"],
     };
 
-    if (isWithinAOE("Sir Goldensnout", position, plot)) {
+    if (
+      isPlotCrop(crop) &&
+      isWithinAOE("Sir Goldensnout", position, plot as CropPlot)
+    ) {
       amount = amount + 0.5;
     }
   }
 
   if (
     collectibles["Laurie the Chuckle Crow"]?.[0] &&
+    isPlotCrop(crop) &&
     isAdvancedCrop(crop) &&
     plot
   ) {
@@ -560,6 +548,33 @@ export function getPlotYieldAmount({
     amount += 0.2;
   }
 
+  // Generic Crop Boosts
+
+  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
+    amount += 3;
+  }
+
+  amount += getBudYieldBoosts(buds ?? {}, crop);
+
+  if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
+    amount = amount + 0.5;
+  }
+
+  // Greenhouse Crops
+  // Rice
+  if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
+    amount += 1;
+  }
+
+  if (crop === "Rice" && isCollectibleBuilt({ name: "Rice Panda", game })) {
+    amount += 0.25;
+  }
+
+  // Olive
+  if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
+    amount += 1;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 
@@ -624,12 +639,10 @@ export function plant({
         fertiliser: plot.fertiliser?.name,
       }),
       name: cropName,
-      amount: getPlotYieldAmount({
+      amount: getCropYieldAmount({
         crop: cropName,
-        inventory,
         game: stateCopy,
         plot,
-        buds,
         fertiliser: plot.fertiliser?.name,
       }),
     },

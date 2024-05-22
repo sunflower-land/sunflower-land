@@ -16,7 +16,6 @@ import {
   BumpkinActivityName,
   trackActivity,
 } from "features/game/types/bumpkinActivity";
-import { isWearableActive } from "features/game/lib/wearables";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getCropTime, getCropYieldAmount } from "./plant";
@@ -75,38 +74,11 @@ export function getGreenhouseYieldAmount({
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
 }): number {
-  let amount = 1;
-
   if (isGreenhouseCrop(crop)) {
-    amount = getCropYieldAmount({ crop, game });
-  } else {
-    amount = getFruitYield({ name: crop, game });
+    return getCropYieldAmount({ crop, game });
   }
 
-  // Rice
-  if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {
-    amount += 1;
-  }
-
-  if (crop === "Rice" && isCollectibleBuilt({ name: "Rice Panda", game })) {
-    amount += 0.25;
-  }
-
-  // Grape
-  if (crop === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
-    amount += 0.25;
-  }
-
-  if (crop === "Grape" && isCollectibleBuilt({ name: "Grape Granny", game })) {
-    amount += 1;
-  }
-
-  // Olive
-  if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
-    amount += 1;
-  }
-
-  return amount;
+  return getFruitYield({ name: crop, game });
 }
 
 type GetPlantedAtArgs = {
