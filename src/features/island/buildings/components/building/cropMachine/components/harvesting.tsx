@@ -49,7 +49,7 @@ export const Harvesting = ({ paused }: Props) => {
       fps={fps[0]}
       steps={13}
       direction="forward"
-      autoplay={true}
+      autoplay={!paused}
       loop={true}
       onEachFrame={(spritesheet) => {
         const frame = spritesheet.getInfo("frame");
