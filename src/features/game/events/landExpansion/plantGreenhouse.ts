@@ -55,9 +55,9 @@ export const PLANT_TO_SEED: Record<
 };
 
 export const OIL_USAGE: Record<GreenhouseSeed, number> = {
-  "Grape Seed": 5,
-  "Rice Seed": 15,
-  "Olive Seed": 20,
+  "Grape Seed": 3,
+  "Rice Seed": 4,
+  "Olive Seed": 6,
 };
 
 export const MAX_POTS = 4;

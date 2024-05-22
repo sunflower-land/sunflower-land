@@ -141,7 +141,7 @@ export const GREENHOUSE_FRUIT: () => Record<
   Grape: {
     description: "A bunch of grapes",
     name: "Grape",
-    sellPrice: 320,
+    sellPrice: 240,
     seed: "Grape Seed",
     bumpkinLevel: 40,
   },

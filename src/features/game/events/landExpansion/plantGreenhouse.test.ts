@@ -587,7 +587,7 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    expect(state.greenhouse.oil).toEqual(35);
+    expect(state.greenhouse.oil).toEqual(46);
   });
 
   it("applies normal crop yield boosts", () => {
