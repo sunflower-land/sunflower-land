@@ -81,7 +81,7 @@ export const Box: React.FC<BoxProps> = ({
     [precisionCount]
   );
 
-  const canClick = !locked && !disabled;
+  const canClick = !locked && !disabled && !!onClick;
 
   const longPressEvents = useLongPress(
     () => (canClick ? onClick?.() : undefined),
@@ -152,7 +152,7 @@ export const Box: React.FC<BoxProps> = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <div
-        className={classNames("bg-brown-600 cursor-pointer relative", {
+        className={classNames("bg-brown-600 relative", {
           "bg-brown-600 cursor-not-allowed opacity-75": disabled,
           "cursor-pointer": canClick,
         })}
