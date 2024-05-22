@@ -651,6 +651,7 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 const base: Record<Base, string> = {
   "base.missing": "Missing name in config",
   "base.far.away": "You are too far away",
+  "base.iam.far.away": "I am too far away",
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {

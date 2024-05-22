@@ -13,11 +13,11 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { npcModalManager } from "../ui/NPCModals";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
+import { translate } from "lib/i18n/translate";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -570,14 +570,22 @@ export class PlazaScene extends BaseScene {
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("trading_board");
+      if (this.checkDistanceToSprite(tradingBoard, 75)) {
+        interactableModalManager.open("trading_board");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     const tradingBoardIcon = this.add.sprite(745, 240, "trade_icon");
     tradingBoardIcon
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("trading_board");
+        if (this.checkDistanceToSprite(tradingBoardIcon, 75)) {
+          interactableModalManager.open("trading_board");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
     tradingBoardIcon.setDepth(1000000);
 
@@ -604,15 +612,27 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(152, 140, "locked_disc").setDepth(1000000000);
     }
 
+    // Sprites
     const basicChest = this.add.sprite(152, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("basic_chest");
+      if (this.checkDistanceToSprite(basicChest, 75)) {
+        interactableModalManager.open("basic_chest");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     const luxuryChest = this.add.sprite(825, 70, "luxury_chest");
     luxuryChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("luxury_chest");
+      if (this.checkDistanceToSprite(luxuryChest, 75)) {
+        interactableModalManager.open("luxury_chest");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
+
+    this.add.sprite(321.5, 230, "shop_icon");
+    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
 
     if (this.gameState.inventory["Luxury Key"]) {
       this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
@@ -620,15 +640,6 @@ export class PlazaScene extends BaseScene {
       this.add.sprite(825, 50, "locked_disc").setDepth(1000000000);
     }
 
-    const shopIcon = this.add.sprite(321.5, 230, "shop_icon");
-    shopIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      npcModalManager.open("stella");
-    });
-
-    const auctionIcon = this.add.sprite(608, 220, "timer_icon");
-    auctionIcon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      npcModalManager.open("hammerin harry");
-    });
     auctionIcon.setDepth(1000000);
 
     const clubHouseLabel = new Label(this, "CLUBHOUSE", "brown");
@@ -649,7 +660,11 @@ export class PlazaScene extends BaseScene {
     });
     fatChicken.play("fat_chicken_animation", true);
     fatChicken.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("fat_chicken");
+      if (this.checkDistanceToSprite(fatChicken, 75)) {
+        interactableModalManager.open("fat_chicken");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     // Plaza Bud
@@ -667,7 +682,11 @@ export class PlazaScene extends BaseScene {
       .play("plaza_bud_animation", true)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("bud");
+        if (this.checkDistanceToSprite(bud, 75)) {
+          interactableModalManager.open("bud");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     // Art NPCs
@@ -693,7 +712,11 @@ export class PlazaScene extends BaseScene {
 
       // On click
       fanNPC.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open(npc.name);
+        if (this.checkDistanceToSprite(fanNPC, 75)) {
+          interactableModalManager.open(npc.name);
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
     });
 
@@ -723,7 +746,11 @@ export class PlazaScene extends BaseScene {
       .play("plaza_bud_animation_3", true)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("bud");
+        if (this.checkDistanceToSprite(bud3, 75)) {
+          interactableModalManager.open("bud");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     const turtle = this.add.sprite(119, 293, "turtle_bud");
@@ -741,7 +768,11 @@ export class PlazaScene extends BaseScene {
       .play("turtle_bud_anim", true)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("bud");
+        if (this.checkDistanceToSprite(turtle, 75)) {
+          interactableModalManager.open("bud");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     const snowHornBud = this.add.sprite(128, 235, "snow_horn_bud");
@@ -762,7 +793,11 @@ export class PlazaScene extends BaseScene {
       .setVisible(false)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("clubhouse_reward");
+        if (this.checkDistanceToSprite(chest, 75)) {
+          interactableModalManager.open("clubhouse_reward");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     const chickenRescuePortal = this.add.sprite(210, 375, "portal");
