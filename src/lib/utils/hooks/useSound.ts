@@ -2,6 +2,8 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { Howl } from "howler";
 import { useEffect } from "react";
 import willow_tree from "assets/songs/willow_tree.mp3";
+import { hasFeatureAccess } from "lib/flags";
+import { TEST_FARM } from "features/game/lib/constants";
 
 const HOWLERS = {
   open: new Howl({
@@ -86,6 +88,7 @@ export const useSound = (sound: keyof typeof HOWLERS, play = false) => {
   const howl = HOWLERS[sound];
 
   useEffect(() => {
+    if (!hasFeatureAccess(TEST_FARM, "SOUND")) return;
     howl.load();
 
     // Autoplay
@@ -102,6 +105,8 @@ export const useSound = (sound: keyof typeof HOWLERS, play = false) => {
 
   return {
     play: () => {
+      if (!hasFeatureAccess(TEST_FARM, "SOUND")) return;
+
       // Debounce
       const now = Date.now();
       if (now - lastSoundPlayedAt < 15) return;
