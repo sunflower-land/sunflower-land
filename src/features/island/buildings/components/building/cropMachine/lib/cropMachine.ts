@@ -1,7 +1,4 @@
-import Decimal from "decimal.js-light";
-import { OIL_PER_HOUR_CONSUMPTION } from "features/game/events/landExpansion/supplyCropMachine";
 import { CropMachineQueueItem } from "features/game/types/game";
-import { setPrecision } from "lib/utils/formatNumber";
 import { Interpreter, State as IState, createMachine, assign } from "xstate";
 
 export interface Context {
@@ -59,15 +56,31 @@ function getGrowingCropPackStage(
   return "harvesting";
 }
 
+function isCropInProgress(item: CropMachineQueueItem, now = Date.now()) {
+  const hasStarted = item.startTime && item.startTime <= now;
+
+  if (!hasStarted) {
+    return false;
+  }
+
+  if (item.readyAt && item.readyAt >= now) {
+    return true;
+  }
+
+  if (item.growsUntil && !item.readyAt) {
+    return true;
+  }
+
+  return false;
+}
+
 export function findGrowingCropPackIndex(queue: CropMachineQueueItem[]) {
   const index = queue.findIndex((item) => {
     const now = Date.now();
-    const { startTime, readyAt, growsUntil } = item;
 
-    const hasStarted = startTime && startTime <= now;
-    const isGrowing = (readyAt && readyAt > now) || growsUntil;
+    const inProgress = isCropInProgress(item, now);
 
-    return hasStarted && isGrowing;
+    return inProgress;
   });
 
   return index >= 0 ? index : undefined;
@@ -75,12 +88,6 @@ export function findGrowingCropPackIndex(queue: CropMachineQueueItem[]) {
 
 export function hasReadyCrops(queue: CropMachineQueueItem[], now = Date.now()) {
   return queue.some((item) => item.readyAt && item.readyAt <= now);
-}
-
-export function convertOilMillisToQuantity(oilRunTime: number): number {
-  // Convert oil run time (in milliseconds) to hours by dividing by the run time consumption per oil
-  const oilQuantity: number = oilRunTime / (OIL_PER_HOUR_CONSUMPTION * 3600000); // Convert milliseconds to hours
-  return setPrecision(new Decimal(oilQuantity), 6).toNumber();
 }
 
 export function isCropPackReady(item: CropMachineQueueItem, now = Date.now()) {
@@ -106,37 +113,6 @@ function updateQueueAndUnallocatedOil(
       : undefined,
     canHarvest: hasReadyCrops(updatedQueue),
   };
-}
-
-export function getTotalOilMillisInMachine(
-  queue: CropMachineQueueItem[],
-  unallocatedOilTime: number
-) {
-  const now = Date.now();
-
-  const oil = queue.reduce((totalOil, item) => {
-    if (!item.startTime) return totalOil;
-
-    if (item.readyAt && item.startTime <= now) {
-      return totalOil + item.readyAt - now;
-    }
-
-    if (item.readyAt && item.startTime > now) {
-      return totalOil + item.readyAt - item.startTime;
-    }
-
-    if (item.growsUntil && item.startTime <= now) {
-      return totalOil + item.growsUntil - now;
-    }
-
-    if (item.growsUntil && item.startTime > now) {
-      return totalOil + item.growsUntil - item.startTime;
-    }
-
-    return totalOil;
-  }, unallocatedOilTime ?? 0);
-
-  return Math.max(oil, 0);
 }
 
 export const cropStateMachine = createMachine<Context, Event, State>(
@@ -171,11 +147,12 @@ export const cropStateMachine = createMachine<Context, Event, State>(
         invoke: {
           src: "startCropMachine",
         },
+        entry: "updateMachine",
         on: {
           TICK: [
             {
               target: "idle",
-              cond: "noPacksReadyToGrow",
+              cond: "noPacksGrowing",
               actions: "updateMachine",
             },
             {
@@ -200,7 +177,6 @@ export const cropStateMachine = createMachine<Context, Event, State>(
             },
             {
               target: "idle",
-              cond: "hasOil",
               actions: "supplyMachine",
             },
           ],
@@ -257,10 +233,12 @@ export const cropStateMachine = createMachine<Context, Event, State>(
       }),
     },
     guards: {
-      noPacksReadyToGrow: (context) => {
-        const nextPackToGrowIndex = findGrowingCropPackIndex(context.queue);
+      noPacksGrowing: (context) => {
+        if (context.growingCropPackIndex === undefined) return true;
 
-        return nextPackToGrowIndex === undefined;
+        const cropPackIndex = findGrowingCropPackIndex(context.queue);
+
+        return cropPackIndex === undefined;
       },
       areCropsGrowing: (context) => {
         if (context.growingCropPackIndex === undefined) return false;
@@ -276,18 +254,9 @@ export const cropStateMachine = createMachine<Context, Event, State>(
 
         const cropPack = context.queue[cropPackIndex];
 
+        if (cropPack.readyAt) return false;
+
         return !!cropPack.growsUntil && cropPack.growsUntil <= Date.now();
-      },
-      hasOil: (context) => {
-        const now = Date.now();
-        if (context.unallocatedOilTime > 0) return true;
-
-        return context.queue.some((item) => {
-          if (item.growsUntil && item.growsUntil > now) return true;
-          if (item.readyAt && item.readyAt > now) return true;
-
-          return false;
-        });
       },
     },
   }
