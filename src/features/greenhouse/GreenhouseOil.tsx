@@ -17,7 +17,6 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
-import { OuterPanel } from "components/ui/Panel";
 import {
   OIL_USAGE,
   SEED_TO_PLANT,
@@ -68,17 +67,16 @@ export const GreenhouseOil: React.FC = () => {
               {t("greenhouse.oilInMachine", { oil: totalOil })}
             </Label>
             <p className="text-xs mb-2">{t("greenhouse.oilDescription")}</p>
-            <div className="flex items-center flex-wrap">
+            <div className="flex items-center flex-wrap gap-1">
               {getKeys(OIL_USAGE).map((seed) => (
-                <OuterPanel key={seed} className="flex items-center mr-1">
-                  <img
-                    src={ITEM_DETAILS[SEED_TO_PLANT[seed]].image}
-                    className="h-5 mr-1"
-                  />
-                  <p className="text-xs mr-0.5">
-                    {t("greenhouse.numberOil", { oil: OIL_USAGE[seed] })}
-                  </p>
-                </OuterPanel>
+                <Label
+                  key={seed}
+                  type="formula"
+                  className="mx-1"
+                  icon={ITEM_DETAILS[SEED_TO_PLANT[seed]].image}
+                >
+                  {t("greenhouse.numberOil", { oil: OIL_USAGE[seed] })}
+                </Label>
               ))}
             </div>
 
