@@ -814,7 +814,11 @@ export class PlazaScene extends BaseScene {
     chickenRescuePortal
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("chicken_rescue");
+        if (this.checkDistanceToSprite(chickenRescuePortal, 40)) {
+          interactableModalManager.open("chicken_rescue");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     // Stella Collectible of the Month
