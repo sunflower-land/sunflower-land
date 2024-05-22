@@ -11,9 +11,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
 import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
-import { tab } from "lib/utils/sfx";
-import { hasFeatureAccess } from "lib/flags";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { FactionName } from "features/game/types/game";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
@@ -28,6 +26,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
@@ -46,6 +45,8 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
 }) => {
   const { t } = useAppTranslation();
 
+  const tab = useSound("tab");
+
   // TODO FACTION - get faction from game state
   const [selected, setSelected] = React.useState<FactionName>(faction);
   const [mobileFullScreen, setMobileFullScreen] =
@@ -59,7 +60,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
   const select = (faction: FactionName) => {
     setSelected(faction);
     setMobileFullScreen(true);
-    hasFeatureAccess(TEST_FARM, "SOUND") && tab.play();
+    tab.play();
   };
 
   if (isLoading && !data) return <Loading />;

@@ -10,7 +10,13 @@ export const SOUNDS = {
   ui: {
     hud: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Slide_Bass_Hit_Thump_Click_1.mp3`,
     tab: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Tab_Click_Bass_HIt_Thump_Plastic_3.mp3`,
+    button: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Tab_Click_Bass_HIt_Thump_Plastic_4.mp3`,
     close: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Slide_Bass_Hit_Thump_Click_2.mp3`,
+    travel: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Dark_Deep_Bass_Negative_Tonal_Slide_1.mp3`,
+    profile: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Positive_Successful_Cook_Minigame_Chime_Tone_Dishes.mp3`,
+    inventory: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Household/Furniture/Farm_Game_Household_Furniture_Other_Place_1_Basket_House.mp3`,
+    copypaste: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Tube_Tonal_Hit_3_Liquid_Low_Bass.mp3`,
+    sfl: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Coins_Buy_1_Shop.mp3`,
   },
   footsteps: {
     dirt: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Footsteps/Dirt/Farm_Game_Footsteps_Dirt_1_Soil_Walk_Run_Ground_Surface.mp3`,
@@ -22,6 +28,8 @@ export const SOUNDS = {
     nature_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/ambience_birds_crickets.mp3`,
     engine: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Mechanical Loops/Farm_Game_Loop_Mechanical_Engine_Tractor_Drive_1.mp3`,
     shoreline: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/Farm_Game_Loop_Nature_Ambience_Beach_Waves_1_Water_Shoreline_Crashing_Soft.mp3`,
+    windy: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/Farm_Game_Loop_Nature_Ambience_Windy_Gusty_Day_Atmosphere.mp3`,
+    desert: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Loops/Nature Loops/Farm_Game_Loop_Nature_Ambience_Hot_Dry_Summer_Day_with_Bugs_Atmosphere.mp3`,
   },
   songs: {
     royal_farms: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/songs/royal_farms.mp3`,
@@ -55,6 +63,9 @@ export const SOUNDS = {
     mining_fall: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/mining_fall.mp3`,
     chop: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/chop.mp3`,
     tree_fall: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/tree_fall.mp3`,
+    mushroom_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
+    mushroom_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_2_Click_Pop_Fun_Cartoon.mp3`,
+    mushroom_3: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_3_Click_Pop_Fun_Cartoon.mp3`,
   },
   misc: {
     battle: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Misc/battle.mp3`,

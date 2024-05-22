@@ -68,6 +68,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
 import { VIPOffer } from "../components/modal/components/VIPItems";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -182,6 +183,8 @@ const isProvingPersonhood = (state: MachineState) =>
 
 const GameContent = () => {
   const { gameService } = useContext(Context);
+
+  useSound("desert", true);
 
   const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
