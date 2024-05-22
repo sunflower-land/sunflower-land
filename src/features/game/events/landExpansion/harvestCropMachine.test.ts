@@ -7,7 +7,19 @@ import { CROP_MACHINE_PLOTS } from "./supplyCropMachine";
 const GAME_STATE: GameState = { ...TEST_FARM, bumpkin: INITIAL_BUMPKIN };
 
 describe("harvestCropMachine", () => {
-  const dateNow = Date.now();
+  it("throws an error if there is no bumpkin", () => {
+    expect(() =>
+      harvestCropMachine({
+        state: {
+          ...GAME_STATE,
+          bumpkin: undefined,
+        },
+        action: {
+          type: "cropMachine.harvested",
+        },
+      })
+    ).toThrow("Bumpkin does not exist");
+  });
 
   it("throws an error if Crop Machine does not exist", () => {
     expect(() =>
@@ -64,6 +76,7 @@ describe("harvestCropMachine", () => {
                     crop: "Sunflower",
                     growTimeRemaining: 100,
                     totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+                    seeds: 10,
                   },
                 ],
               },
@@ -97,6 +110,7 @@ describe("harvestCropMachine", () => {
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
                   totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+                  seeds: 10,
                 },
               ],
             },
@@ -134,12 +148,14 @@ describe("harvestCropMachine", () => {
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
                   totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+                  seeds: 10,
                 },
                 {
                   amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 200,
                   totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+                  seeds: 10,
                 },
               ],
             },
@@ -161,7 +177,52 @@ describe("harvestCropMachine", () => {
         crop: "Sunflower",
         growTimeRemaining: 200,
         totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+        seeds: 10,
       },
     ]);
+  });
+
+  it("adds bumpkin activity for all harvested crops", () => {
+    const dateNow = Date.now();
+    const state = harvestCropMachine({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 123,
+              unallocatedOilTime: 0,
+              queue: [
+                {
+                  amount: 10,
+                  crop: "Sunflower",
+                  growTimeRemaining: 0,
+                  readyAt: dateNow - 1000,
+                  totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+                  seeds: 10,
+                },
+                {
+                  amount: 10,
+                  crop: "Sunflower",
+                  growTimeRemaining: 0,
+                  readyAt: dateNow - 2000,
+                  totalGrowTime: (60 * 10 * 1000) / CROP_MACHINE_PLOTS,
+                  seeds: 10,
+                },
+              ],
+            },
+          ],
+        },
+        inventory: {},
+      },
+      action: {
+        type: "cropMachine.harvested",
+      },
+    });
+
+    expect(state.bumpkin?.activity?.["Sunflower Harvested"]).toEqual(20);
   });
 });
