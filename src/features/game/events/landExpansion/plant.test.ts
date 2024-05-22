@@ -5,7 +5,7 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
 import {
   getCropPlotTime,
-  getPlotYieldAmount,
+  getCropYieldAmount,
   getPlantedAt,
   isPlotFertile,
   plant,
@@ -1709,9 +1709,8 @@ describe("getCropTime", () => {
   });
 
   it("applies the eggplant boost when wearing the onesie", () => {
-    const amount = getPlotYieldAmount({
+    const amount = getCropYieldAmount({
       crop: "Eggplant",
-      inventory: {},
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -1722,7 +1721,6 @@ describe("getCropTime", () => {
           },
         },
       },
-      buds: {},
       plot,
     });
 
@@ -1730,9 +1728,8 @@ describe("getCropTime", () => {
   });
 
   it("applies the corn boost when wearing the corn onesie", () => {
-    const amount = getPlotYieldAmount({
+    const amount = getCropYieldAmount({
       crop: "Corn",
-      inventory: {},
       game: {
         ...TEST_FARM,
         bumpkin: {
@@ -1743,7 +1740,6 @@ describe("getCropTime", () => {
           },
         },
       },
-      buds: {},
       plot,
     });
 
@@ -2174,7 +2170,7 @@ describe("isPlotFertile", () => {
 
 describe("getCropYield", () => {
   it("does not apply sir goldensnout boost outside AOE", () => {
-    const amount = getPlotYieldAmount({
+    const amount = getCropYieldAmount({
       crop: "Sunflower",
       game: {
         ...TEST_FARM,
@@ -2189,8 +2185,6 @@ describe("getCropYield", () => {
           ],
         },
       },
-      inventory: {},
-      buds: {},
       plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
     });
 
@@ -2198,7 +2192,7 @@ describe("getCropYield", () => {
   });
 
   it("applies sir goldensnout boost inside AOE", () => {
-    const amount = getPlotYieldAmount({
+    const amount = getCropYieldAmount({
       crop: "Sunflower",
       game: {
         ...TEST_FARM,
@@ -2213,8 +2207,6 @@ describe("getCropYield", () => {
           ],
         },
       },
-      inventory: {},
-      buds: {},
       plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },
     });
 

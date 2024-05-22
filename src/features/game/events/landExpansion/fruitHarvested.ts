@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
-import { Equipped } from "features/game/types/bumpkin";
 import {
   BumpkinActivityName,
   trackActivity,
@@ -51,10 +50,8 @@ export const isFruitReadyToHarvest = (
 };
 
 type FruitYield = {
-  name: FruitName;
+  name: FruitName | GreenHouseFruitName;
   game: GameState;
-  buds: NonNullable<GameState["buds"]>;
-  wearables: Equipped;
   fertiliser?: FruitCompostName;
 };
 
@@ -77,29 +74,8 @@ export function isFruitGrowing(patch: FruitPatch) {
   return growingTimeLeft > 0;
 }
 
-export function getFruitYield({
-  game,
-  name,
-}: {
-  game: GameState;
-  name: FruitName | GreenHouseFruitName;
-}) {
-  const { buds } = game;
+export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   let amount = 1;
-
-  amount += getBudYieldBoosts(buds ?? {}, name);
-
-  return amount;
-}
-
-export function getFruitPatchYield({
-  game,
-  buds,
-  name,
-  wearables,
-  fertiliser,
-}: FruitYield) {
-  let amount = getFruitYield({ game, name });
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
@@ -136,6 +112,16 @@ export function getFruitPatchYield({
   ) {
     amount += 0.1;
   }
+
+  // Grape
+  if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
+    amount += 0.25;
+  }
+
+  if (name === "Grape" && isCollectibleBuilt({ name: "Grape Granny", game })) {
+    amount += 1;
+  }
+  amount += getBudYieldBoosts(game.buds ?? {}, name);
 
   return amount;
 }
@@ -190,10 +176,8 @@ export function harvestFruit({
     createdAt
   );
 
-  patch.fruit.amount = getFruitPatchYield({
+  patch.fruit.amount = getFruitYield({
     game: stateCopy,
-    buds: stateCopy.buds ?? {},
-    wearables: bumpkin.equipped,
     name,
     fertiliser: patch.fertiliser?.name,
   });

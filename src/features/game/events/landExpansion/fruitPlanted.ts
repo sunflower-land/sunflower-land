@@ -13,7 +13,7 @@ import {
 import { Bumpkin, GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
 import cloneDeep from "lodash.clonedeep";
-import { getFruitPatchYield } from "./fruitHarvested";
+import { getFruitYield } from "./fruitHarvested";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
@@ -166,11 +166,9 @@ export function plantFruit({
       stateCopy,
       createdAt
     ),
-    amount: getFruitPatchYield({
+    amount: getFruitYield({
       name: fruitName,
       game: stateCopy,
-      buds: stateCopy.buds ?? {},
-      wearables: bumpkin.equipped,
       fertiliser: patch.fertiliser?.name,
     }),
     harvestedAt: 0,
