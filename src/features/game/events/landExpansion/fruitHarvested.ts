@@ -74,7 +74,7 @@ export function isFruitGrowing(patch: FruitPatch) {
   return growingTimeLeft > 0;
 }
 
-export function getFruitYield({ game, name, fertiliser }: FruitYield) {
+export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   let amount = 1;
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {

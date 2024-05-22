@@ -324,10 +324,32 @@ export function getCropYieldAmount({
   const skills = bumpkin.skills ?? {};
 
   if (
-    crop === "Cauliflower" &&
-    isCollectibleBuilt({ name: "Golden Cauliflower", game })
+    isCollectibleBuilt({ name: "Scarecrow", game }) ||
+    isCollectibleBuilt({ name: "Kuebiko", game })
   ) {
-    amount *= 2;
+    amount *= 1.2;
+  }
+
+  if (inventory.Coder?.gte(1)) {
+    amount *= 1.2;
+  }
+
+  //Bumpkin Skill boost Green Thumb Skill
+  if (skills["Green Thumb"]) {
+    amount *= 1.05;
+  }
+
+  //Bumpkin Skill boost Master Farmer Skill
+  if (skills["Master Farmer"]) {
+    amount *= 1.1;
+  }
+
+  //Bumpkin Wearable boost Sunflower Amulet
+  if (
+    crop === "Sunflower" &&
+    isWearableActive({ name: "Sunflower Amulet", game })
+  ) {
+    amount *= 1.1;
   }
 
   if (crop === "Carrot" && isCollectibleBuilt({ name: "Easter Bunny", game })) {
@@ -353,36 +375,26 @@ export function getCropYieldAmount({
   ) {
     amount *= 1.2;
   }
-  //Bumpkin Wearable boost Sunflower Amulet
-  if (
-    crop === "Sunflower" &&
-    isWearableActive({ name: "Sunflower Amulet", game })
-  ) {
-    amount *= 1.1;
-  }
 
   if (
-    isCollectibleBuilt({ name: "Scarecrow", game }) ||
-    isCollectibleBuilt({ name: "Kuebiko", game })
+    crop === "Cauliflower" &&
+    isCollectibleBuilt({ name: "Golden Cauliflower", game })
   ) {
-    amount *= 1.2;
+    amount *= 2;
   }
 
-  if (inventory.Coder?.gte(1)) {
-    amount *= 1.2;
+  // Generic Additive Crop Boosts
+  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
+    amount += 3;
   }
 
-  //Bumpkin Skill boost Green Thumb Skill
-  if (skills["Green Thumb"]) {
-    amount *= 1.05;
+  amount += getBudYieldBoosts(buds ?? {}, crop);
+
+  // Specific Crop Additive Boosts
+  if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
+    amount = amount + 0.5;
   }
 
-  //Bumpkin Skill boost Master Farmer Skill
-  if (skills["Master Farmer"]) {
-    amount *= 1.1;
-  }
-
-  // Additive boosts below
   if (crop === "Soybean" && isCollectibleBuilt({ name: "Soybliss", game })) {
     amount += 1;
   }
@@ -546,18 +558,6 @@ export function getCropYieldAmount({
 
   if (fertiliser === "Sprout Mix") {
     amount += 0.2;
-  }
-
-  // Generic Crop Boosts
-
-  if (isWearableActive({ name: "Infernal Pitchfork", game })) {
-    amount += 3;
-  }
-
-  amount += getBudYieldBoosts(buds ?? {}, crop);
-
-  if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
-    amount = amount + 0.5;
   }
 
   // Greenhouse Crops
