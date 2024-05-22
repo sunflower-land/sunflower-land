@@ -52,7 +52,7 @@ export const Maturing = ({ paused }: Props) => {
       fps={fps[0]}
       steps={16}
       direction="forward"
-      autoplay={true}
+      autoplay={!paused}
       loop={true}
       onEachFrame={(spritesheet) => {
         const frame = spritesheet.getInfo("frame");

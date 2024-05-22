@@ -115,6 +115,27 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const handleAddOil = (oil: number) => {
+    const updated = gameService.send({
+      type: "cropMachine.supplied",
+      oil,
+    });
+
+    const machines = updated.context.state.buildings[
+      "Crop Machine"
+    ] as CropMachineBuilding[];
+
+    const updatedMachine = machines.find(
+      (machine) => machine.id === id
+    ) as CropMachineBuilding;
+
+    cropMachineService.send({
+      type: "SUPPLY_MACHINE",
+      updatedQueue: updatedMachine.queue ?? [],
+      updatedUnallocatedOilTime: cropMachine.unallocatedOilTime ?? 0,
+    });
+  };
+
   const image = ITEM_DETAILS["Crop Machine"].image;
 
   return (
@@ -185,6 +206,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}
         onHarvest={handleHarvest}
+        onAddOil={handleAddOil}
       />
     </>
   );

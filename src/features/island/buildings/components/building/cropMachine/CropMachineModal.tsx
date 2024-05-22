@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
@@ -6,13 +6,11 @@ import { CropMachineQueueItem } from "features/game/types/game";
 import {
   CropMachineState,
   MachineInterpreter,
-  getTotalOilMillisInMachine,
   isCropPackReady,
 } from "./lib/cropMachine";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
-import { isMobile } from "mobile-device-detect";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -22,6 +20,8 @@ import {
   MAX_OIL_CAPACITY_IN_MILLIS,
   MAX_QUEUE_SIZE,
   calculateCropTime,
+  getOilTimeInMillis,
+  getTotalOilMillisInMachine,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import add from "assets/icons/plus.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -32,11 +32,13 @@ import { CROP_SEEDS, CropName, CropSeedName } from "features/game/types/crops";
 import { isBasicCrop } from "features/game/events/landExpansion/harvest";
 import { getKeys } from "features/game/types/craftables";
 import { useSelector } from "@xstate/react";
-import { _paused, _running } from "./CropMachine";
+import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
+import { calculateCropProgress } from "./lib/calculateCropProgress";
+import lightning from "assets/icons/lightning.png";
 
 interface Props {
   show: boolean;
@@ -47,6 +49,7 @@ interface Props {
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
   onHarvest: () => void;
+  onAddOil: (oil: number) => void;
 }
 
 type OverlayScreen = "harvestCrops" | "addOil";
@@ -57,7 +60,8 @@ const ALLOWED_SEEDS: CropSeedName[] = getKeys(CROP_SEEDS()).filter((seed) => {
   return isBasicCrop(crop);
 });
 
-const INCREMENT_AMOUNT = 10;
+const SEED_INCREMENT_AMOUNT = 10;
+const OIL_INCREMENT_AMOUNT = 1;
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -71,10 +75,12 @@ export const CropMachineModal: React.FC<Props> = ({
   onClose,
   onAddSeeds,
   onHarvest,
+  onAddOil,
 }) => {
   const { gameService } = useContext(Context);
 
   const growingCropPackIndex = useSelector(service, _growingCropPackIndex);
+  const idle = useSelector(service, _idle);
   const running = useSelector(service, _running);
   const paused = useSelector(service, _paused);
   const inventory = useSelector(gameService, _inventory);
@@ -85,15 +91,52 @@ export const CropMachineModal: React.FC<Props> = ({
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
   const [overlayScreen, setOverlayScreen] = useState<OverlayScreen>();
   const [totalSeeds, setTotalSeeds] = useState(0);
+  const [totalOil, setTotalOil] = useState(0);
+  const [tab, setTab] = useState(0);
 
   const { t } = useAppTranslation();
 
+  useLayoutEffect(() => {
+    if (show) {
+      setSelectedPackIndex(growingCropPackIndex ?? 0);
+      setSelectedSeed(undefined);
+      setTotalSeeds(0);
+    }
+  }, [show]);
+
+  const getProjectedOilTimeMillis = () => {
+    const projectedOilTime = getOilTimeInMillis(totalOil);
+    const projectedTotalOilTime = getTotalOilMillisInMachine(
+      queue,
+      unallocatedOilTime + projectedOilTime
+    );
+
+    return projectedTotalOilTime;
+  };
+
+  const canAddOneHourOfOil = () => {
+    const ONE_HOUR_IN_MILLIS = 60 * 60 * 1000;
+
+    const projectedTotalOilTime = getProjectedOilTimeMillis();
+    const newProjectedTotalOilTime = projectedTotalOilTime + ONE_HOUR_IN_MILLIS;
+
+    return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS;
+  };
+
   const incrementSeeds = () => {
-    setTotalSeeds((prev) => prev + INCREMENT_AMOUNT);
+    setTotalSeeds((prev) => prev + SEED_INCREMENT_AMOUNT);
   };
 
   const decrementSeeds = () => {
-    setTotalSeeds((prev) => Math.max(prev - INCREMENT_AMOUNT, 0));
+    setTotalSeeds((prev) => Math.max(prev - SEED_INCREMENT_AMOUNT, 0));
+  };
+
+  const incrementOil = () => {
+    setTotalOil((prev) => prev + OIL_INCREMENT_AMOUNT);
+  };
+
+  const decrementOil = () => {
+    setTotalOil((prev) => Math.max(prev - OIL_INCREMENT_AMOUNT, 0));
   };
 
   const getMachineStatusLabel = () => {
@@ -123,12 +166,20 @@ export const CropMachineModal: React.FC<Props> = ({
     return "default";
   };
 
-  const canIncrement = () => {
+  const canIncrementSeeds = () => {
     if (!selectedSeed) return false;
 
     const seedBalance = inventory[selectedSeed] ?? new Decimal(0);
 
-    return totalSeeds + INCREMENT_AMOUNT <= seedBalance.toNumber();
+    return totalSeeds + SEED_INCREMENT_AMOUNT <= seedBalance.toNumber();
+  };
+
+  const canIncrementOil = () => {
+    if (!canAddOneHourOfOil()) return false;
+
+    const oilBalance = inventory.Oil ?? new Decimal(0);
+
+    return totalOil + OIL_INCREMENT_AMOUNT <= oilBalance.toNumber();
   };
 
   const handleAddSeeds = () => {
@@ -149,6 +200,12 @@ export const CropMachineModal: React.FC<Props> = ({
     setSelectedPackIndex(0);
   };
 
+  const handleAddOil = () => {
+    onAddOil(totalOil);
+    setTotalOil(0);
+    setOverlayScreen(undefined);
+  };
+
   const selectedPack = queue[selectedPackIndex];
   const stackedQueue: (CropMachineQueueItem | null)[] = [
     ...queue,
@@ -159,12 +216,12 @@ export const CropMachineModal: React.FC<Props> = ({
 
   return (
     <Modal show={show} onHide={onClose}>
-      <CloseButtonPanel onClose={onClose}>
-        {/* Can harvest */}
-        {/* Add oil */}
-        {/* Add crops */}
-        {/* Main screen */}
-
+      <CloseButtonPanel
+        tabs={[{ icon: SUNNYSIDE.icons.seedling, name: "Crop Machine" }]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        onClose={onClose}
+      >
         <div className="flex flex-col mt-1">
           <div className="mt-0.5 mb-1.5 ml-0.5">{getMachineStatusLabel()}</div>
           {/* Current crop */}
@@ -177,29 +234,28 @@ export const CropMachineModal: React.FC<Props> = ({
                     <TimeRemainingLabel
                       paused={paused}
                       growsUntil={selectedPack.growsUntil}
+                      readyAt={selectedPack.readyAt}
                       startTime={selectedPack.startTime as number}
                       totalGrowTime={selectedPack.totalGrowTime}
+                      growTimeRemaining={selectedPack.growTimeRemaining}
                     />
-                    {paused && (
-                      <Label
-                        type="danger"
-                        icon={ITEM_DETAILS.Oil.image}
-                      >{`More oil required`}</Label>
-                    )}
+                    {paused && <Label type="default">{`Paused`}</Label>}
                   </div>
                 )}
                 <div className="flex">
                   <Box
                     image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
-                  ></Box>
+                  />
                   <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs sm:text-sm">{`${selectedPack.amount} x ${selectedPack.crop} Seeds`}</span>
+                    <span className="text-xs">{`${selectedPack.amount} x ${selectedPack.crop} Seeds`}</span>
                     {show && (
                       <GrowthProgressBar
                         paused={paused}
                         growsUntil={selectedPack.growsUntil}
                         startTime={selectedPack.startTime as number}
                         totalGrowTime={selectedPack.totalGrowTime}
+                        readyAt={selectedPack.readyAt}
+                        growTimeRemaining={selectedPack.growTimeRemaining}
                       />
                     )}
                   </div>
@@ -209,15 +265,18 @@ export const CropMachineModal: React.FC<Props> = ({
             {/* Harvest */}
             {selectedPack && isCropPackReady(selectedPack) && (
               <div className="flex flex-col w-full">
-                <div className="flex justify-between ml-2.5 mr-0.5 my-1">
+                <div className="flex justify-between ml-2.5 mr-0.5 mt-1 mb-0.5">
                   <Label type="success" icon={SUNNYSIDE.icons.confirm}>
                     {`Ready to harvest`}
                   </Label>
+                  {selectedPack.amount > selectedPack.seeds && (
+                    <Label type="vibrant" icon={lightning}>{`Boosted`}</Label>
+                  )}
                 </div>
                 <div className="flex w-full">
                   <Box image={ITEM_DETAILS[selectedPack.crop].image}></Box>
                   <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs sm:text-sm">{`Total crops grown: ${selectedPack.amount}`}</span>
+                    <span className="text-xs">{`Total ${selectedPack.crop}s: ${selectedPack.amount}`}</span>
                   </div>
                 </div>
                 <Button
@@ -262,18 +321,23 @@ export const CropMachineModal: React.FC<Props> = ({
                       />
                       <div className="flex justify-between w-full my-1">
                         <Label type="default">{`Add ${selectedSeed.toLocaleLowerCase()}s`}</Label>
-                        {!canIncrement() && (
-                          <Label type="danger">{`Not enough seeds`}</Label>
-                        )}
+                        <Label
+                          type={
+                            (inventory[selectedSeed]?.toNumber() ?? 0) < 1
+                              ? "danger"
+                              : "info"
+                          }
+                        >{`Available: ${
+                          (inventory[selectedSeed]?.toNumber() ?? 0) -
+                          totalSeeds
+                        }`}</Label>
                       </div>
                     </div>
                     <div className="flex w-full">
                       <Box image={ITEM_DETAILS[selectedSeed].image} />
                       <div className="flex w-full justify-between">
-                        <div className="flex flex-col justify-center text-xs">
-                          <span>{`Seeds: ${totalSeeds}/${
-                            inventory[selectedSeed] ?? new Decimal(0)
-                          }`}</span>
+                        <div className="flex flex-col justify-center space-y-1 text-xs">
+                          <span>{`Seeds: ${totalSeeds}`}</span>
                           <span>{`Grow time: ${secondsToString(
                             calculateCropTime({
                               type: selectedSeed,
@@ -290,11 +354,13 @@ export const CropMachineModal: React.FC<Props> = ({
                           <Button
                             disabled={totalSeeds === 0}
                             onClick={decrementSeeds}
-                          >{`-10`}</Button>
+                            className="px-2"
+                          >{`-${SEED_INCREMENT_AMOUNT}`}</Button>
                           <Button
                             onClick={incrementSeeds}
-                            disabled={!canIncrement()}
-                          >{`+10`}</Button>
+                            disabled={!canIncrementSeeds()}
+                            className="px-2"
+                          >{`+${SEED_INCREMENT_AMOUNT}`}</Button>
                         </div>
                       </div>
                     </div>
@@ -319,7 +385,7 @@ export const CropMachineModal: React.FC<Props> = ({
                     <Box
                       image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
                     />
-                    <div className="flex flex-col justify-center text-xxs">
+                    <div className="flex flex-col justify-center text-xs">
                       <span>{`Seeds: ${selectedPack.seeds}`}</span>
                       <span>{`Grow time: ${secondsToString(
                         calculateCropTime({
@@ -337,7 +403,7 @@ export const CropMachineModal: React.FC<Props> = ({
                 </div>
               )}
           </OuterPanel>
-          {/* Rest of queue */}
+          {/* Queued packs */}
           <div className="flex flex-col">
             <Label
               type="default"
@@ -352,6 +418,7 @@ export const CropMachineModal: React.FC<Props> = ({
                       key={index}
                       image={add}
                       onClick={() => setSelectedPackIndex(index)}
+                      isSelected={index === selectedPackIndex}
                     />
                   );
 
@@ -373,43 +440,126 @@ export const CropMachineModal: React.FC<Props> = ({
               })}
             </div>
             {show && (
-              <OilRemaining
+              <OilTank
+                idle={idle}
                 paused={paused}
                 queue={queue}
                 unallocatedOilTime={unallocatedOilTime}
+                onAddOil={() => setOverlayScreen("addOil")}
               />
             )}
           </div>
         </div>
         <ModalOverlay
           show={overlayScreen !== undefined}
-          className="top-4"
+          className="top-11"
           onBackdropClick={() => setOverlayScreen(undefined)}
         >
           <InnerPanel>
-            <div className="flex flex-col space-y-2">
-              <Label
-                type="default"
-                icon={CROP_LIFECYCLE.Sunflower.crop}
-                className="ml-1.5 mt-2 mb-1"
-              >{`Ready crop packs`}</Label>
-              <span className="text-xs px-1.5 pb-2">{`You currently have ${readyPacks.length} crop packs to harvest! Click the harvest button to collect all your crops.`}</span>
-              <div className="flex">
-                {readyPacks.map((pack, index) => (
-                  <Box
-                    key={index}
-                    image={ITEM_DETAILS[pack.crop].image}
-                    count={new Decimal(pack.amount)}
-                    countLabelType="success"
-                    onClick={() => setSelectedPackIndex(index)}
+            {overlayScreen === "harvestCrops" && (
+              <div className="flex flex-col space-y-2">
+                <div className="flex justify-between">
+                  <Label
+                    type="default"
+                    icon={CROP_LIFECYCLE.Sunflower.crop}
+                    className="ml-1.5 mt-2 mb-1"
+                  >{`Ready crop packs`}</Label>
+                  <img
+                    src={SUNNYSIDE.icons.close}
+                    className="cursor-pointer m-0.5"
+                    onClick={() => setOverlayScreen(undefined)}
+                    style={{
+                      width: `${PIXEL_SCALE * 9}px`,
+                      height: `${PIXEL_SCALE * 9}px`,
+                    }}
                   />
-                ))}
-              </div>
+                </div>
+                <span className="text-xs px-2 pb-2">{`You currently have ${readyPacks.length} crop packs to harvest! Click the harvest button to collect all your crops.`}</span>
+                <div className="flex">
+                  {readyPacks.map((pack, index) => (
+                    <Box
+                      key={index}
+                      image={ITEM_DETAILS[pack.crop].image}
+                      count={new Decimal(pack.amount)}
+                      countLabelType="success"
+                    />
+                  ))}
+                </div>
 
-              <Button
-                onClick={handleHarvestAllCrops}
-              >{`Harvest all crops`}</Button>
-            </div>
+                <Button
+                  onClick={handleHarvestAllCrops}
+                >{`Harvest all crops`}</Button>
+              </div>
+            )}
+            {overlayScreen === "addOil" && (
+              <div className="flex flex-col space-y-1.5">
+                <div className="flex justify-between">
+                  <div className="flex space-x-2">
+                    <Label
+                      type="default"
+                      icon={ITEM_DETAILS.Oil.image}
+                      className="m-1.5"
+                    >{`Add oil`}</Label>
+                  </div>
+                  <img
+                    src={SUNNYSIDE.icons.close}
+                    className="cursor-pointer m-0.5"
+                    onClick={() => setOverlayScreen(undefined)}
+                    style={{
+                      width: `${PIXEL_SCALE * 9}px`,
+                      height: `${PIXEL_SCALE * 9}px`,
+                    }}
+                  />
+                </div>
+                <span className="px-2 text-xs pb-1">{`Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.`}</span>
+                <div className="flex justify-between items-center">
+                  <Label
+                    type={
+                      (inventory.Oil?.toNumber() ?? 0) < 1 ? "danger" : "info"
+                    }
+                    className="ml-1.5 mt-4"
+                  >{`Available: ${
+                    (inventory.Oil?.toNumber() ?? 0) - totalOil
+                  }`}</Label>
+                  <Label
+                    type={!canAddOneHourOfOil() ? "danger" : "info"}
+                    className="ml-1.5 mt-4"
+                  >{`Max runtime: 48hrs`}</Label>
+                </div>
+                <div className="flex ml-1">
+                  <Box image={oilBarrel} />
+                  <div className="flex w-full justify-between">
+                    <div className="flex flex-col justify-center text-xs space-y-1">
+                      <span>{`Oil to add: ${totalOil}`}</span>
+                      <span>{`Total runtime: ${secondsToString(
+                        getOilTimeInMillis(totalOil) / 1000,
+                        {
+                          length: "full",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        }
+                      )}`}</span>
+                    </div>
+                    <div className="flex items-center space-x-1 mr-2">
+                      <Button
+                        className="w-11"
+                        disabled={totalOil === 0}
+                        onClick={decrementOil}
+                      >{`-${OIL_INCREMENT_AMOUNT}`}</Button>
+                      <Button
+                        className="w-11"
+                        onClick={incrementOil}
+                        disabled={!canIncrementOil()}
+                      >{`+${OIL_INCREMENT_AMOUNT}`}</Button>
+                    </div>
+                  </div>
+                </div>
+                <Button
+                  disabled={totalOil === 0}
+                  onClick={handleAddOil}
+                >{`Add oil`}</Button>
+              </div>
+            )}
           </InnerPanel>
         </ModalOverlay>
       </CloseButtonPanel>
@@ -417,61 +567,105 @@ export const CropMachineModal: React.FC<Props> = ({
   );
 };
 
-const OilRemaining = ({
-  paused,
-  queue,
-  unallocatedOilTime,
-}: {
+interface IOilTank {
+  idle: boolean;
   paused: boolean;
   queue: CropMachineQueueItem[];
   unallocatedOilTime: number;
-}) => {
-  // update each second
-  const [percentageFull, setPercentageFull] = useState(0);
+  onAddOil: () => void;
+}
 
-  useEffect(() => {
+const OilTank = ({
+  idle,
+  paused,
+  queue,
+  unallocatedOilTime,
+  onAddOil,
+}: IOilTank) => {
+  const calculatePercentageFull = (
+    queue: CropMachineQueueItem[],
+    unallocatedOilTime: number
+  ) => {
     const totalOilMillis = getTotalOilMillisInMachine(
       queue,
       unallocatedOilTime
     );
 
-    const percentageFull = (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
+    return (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
+  };
 
-    setPercentageFull(percentageFull);
-  }, [queue, unallocatedOilTime]);
+  const calculateOilTimeRemaining = (
+    queue: CropMachineQueueItem[],
+    unallocatedOilTime: number
+  ) => {
+    const totalOilMillis = getTotalOilMillisInMachine(
+      queue,
+      unallocatedOilTime
+    );
+    return totalOilMillis / 1000; // Convert milliseconds to seconds
+  };
+
+  // Initial state
+  const [oilInTank, setOilInTank] = useState(
+    calculatePercentageFull(queue, unallocatedOilTime)
+  );
+  const [runtime, setRuntime] = useState(
+    calculateOilTimeRemaining(queue, unallocatedOilTime)
+  );
 
   useEffect(() => {
+    // Update the state immediately when paused or idle
+    if (paused || idle) {
+      setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
+      setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
+      return;
+    }
+
+    // Set interval when the machine is active
     const interval = setInterval(() => {
-      if (paused) return;
-
-      const totalOilMillis = getTotalOilMillisInMachine(
-        queue,
-        unallocatedOilTime
-      );
-
-      const quantity = (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
-
-      setPercentageFull(quantity);
+      setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
+      setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
     }, 1000);
+
+    // Cleanup function to clear the interval
     return () => clearInterval(interval);
-  }, [queue, unallocatedOilTime, paused]);
+  }, [queue, unallocatedOilTime, paused, idle]);
 
   return (
-    <div className="flex">
-      <div className="flex my-2 ml-1.5 space-x-2 items-center">
-        <img src={oilBarrel} style={{ width: `${PIXEL_SCALE * 13}px` }} />
-        <div className="flex flex-col justify-evenly h-full">
-          <ResizableBar
-            percentage={percentageFull}
-            type={percentageFull < 10 ? "error" : "quantity"}
-            outerDimensions={{
-              width: 44,
-              height: 8,
-            }}
-          />
-          <div className="flex">
-            <div className="text-xs">{`Oil remaining: 2hrs`}</div>
+    <div>
+      <Label
+        type={runtime === 0 ? "danger" : "default"}
+        className="ml-1.5 mt-2.5"
+        icon={ITEM_DETAILS.Oil.image}
+      >
+        {runtime === 0 ? `More oil required` : `Oil tank`}
+      </Label>
+      <div className="flex items-center justify-between">
+        <div className="flex my-2 ml-1.5 space-x-2 items-center">
+          <img src={oilBarrel} style={{ width: `${PIXEL_SCALE * 13}px` }} />
+          <div className="flex flex-col justify-evenly h-full space-y-1">
+            <ResizableBar
+              percentage={oilInTank}
+              type={oilInTank < 10 ? "error" : "quantity"}
+              outerDimensions={{
+                width: 60,
+                height: 8,
+              }}
+            />
+            <div className="flex">
+              <div className="text-xs">{`Machine runtime: ${secondsToString(
+                runtime,
+                {
+                  length: "short",
+                  isShortFormat: true,
+                  removeTrailingZeros: true,
+                }
+              )}`}</div>
+            </div>
           </div>
+        </div>
+        <div className="pr-2">
+          <Button onClick={onAddOil}>{`Add oil`}</Button>
         </div>
       </div>
     </div>
@@ -482,7 +676,9 @@ interface ProgressProps {
   startTime: number;
   paused: boolean;
   growsUntil?: number;
+  readyAt?: number;
   totalGrowTime: number;
+  growTimeRemaining: number;
 }
 
 const TimeRemainingLabel = ({
@@ -490,25 +686,29 @@ const TimeRemainingLabel = ({
   paused,
   growsUntil,
   totalGrowTime,
+  readyAt,
+  growTimeRemaining,
 }: ProgressProps) => {
-  // Calculate initial seconds remaining
-  const calculateSecondsRemaining = () => {
-    if (paused && growsUntil) {
-      const secondsGrown = (growsUntil - startTime) / 1000;
-      return totalGrowTime - secondsGrown;
-    } else {
-      return (totalGrowTime - (Date.now() - startTime)) / 1000;
-    }
+  const getTimeRemaining = () => {
+    const progress = calculateCropProgress({
+      startTime,
+      totalGrowTime,
+      readyAt,
+      growsUntil,
+      growTimeRemaining,
+    });
+    const elapsedGrowTime = (totalGrowTime * progress) / 100;
+    const remainingGrowTime = totalGrowTime - elapsedGrowTime;
+
+    return remainingGrowTime / 1000;
   };
 
-  const [secondsRemaining, setSecondsRemaining] = useState(
-    calculateSecondsRemaining
-  );
+  const [secondsRemaining, setSecondsRemaining] = useState(getTimeRemaining());
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (!paused) {
-        setSecondsRemaining((totalGrowTime - (Date.now() - startTime)) / 1000);
+        setSecondsRemaining(getTimeRemaining());
       }
     }, 1000);
 
@@ -536,25 +736,35 @@ const GrowthProgressBar = ({
   startTime,
   totalGrowTime,
   growsUntil,
+  readyAt,
+  growTimeRemaining,
   paused,
 }: ProgressProps) => {
   // Calculate initial progress
-  const calculateProgress = () => {
-    if (paused && growsUntil) {
-      const progressUntilPaused =
-        ((growsUntil - startTime) / totalGrowTime) * 100;
-      return progressUntilPaused;
-    } else {
-      return ((Date.now() - startTime) / totalGrowTime) * 100;
-    }
-  };
 
-  const [progress, setProgress] = useState(calculateProgress);
+  // Calculate initial progress as default
+  const [progress, setProgress] = useState(
+    calculateCropProgress({
+      startTime,
+      totalGrowTime,
+      readyAt,
+      growsUntil,
+      growTimeRemaining,
+    })
+  );
 
   useEffect(() => {
     if (progress < 100 && !paused) {
       const interval = setInterval(() => {
-        setProgress(((Date.now() - startTime) / totalGrowTime) * 100);
+        setProgress(
+          calculateCropProgress({
+            startTime,
+            totalGrowTime,
+            readyAt,
+            growsUntil,
+            growTimeRemaining,
+          })
+        );
       }, 1000);
       return () => clearInterval(interval);
     }
@@ -566,7 +776,7 @@ const GrowthProgressBar = ({
       percentage={progress}
       type="progress"
       outerDimensions={{
-        width: isMobile ? 70 : 100,
+        width: 70,
         height: 8,
       }}
     />
