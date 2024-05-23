@@ -120,7 +120,7 @@ export const GREENHOUSE_FRUIT_SEEDS: () => Record<
     price: 160,
     description: "A bunch of grapes",
     plantSeconds: 12 * 60 * 60,
-    bumpkinLevel: 14,
+    bumpkinLevel: 40,
     yield: "Grape",
   },
 });
