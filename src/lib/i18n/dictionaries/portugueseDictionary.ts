@@ -831,8 +831,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "O sussurrador de vegetais e campeão de colheitas assustadoramente boas!",
   "description.laurie.chuckle.crow":
     "Com sua risada desconcertante, ela espanta bicadas de suas colheitas!",
-  "description.immortal.pear":
-    "Uma pêra de longa vida que faz com que as árvores frutíferas durem mais tempo.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",
   "description.sir.goldensnout":
@@ -863,7 +862,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0,2 Plantação Avançada: Berinjela, Milho, Rabanete, Trigo, Couve (AOE 3x3)",
   "description.bale.boost": "+0,2 Ovo (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Colheita Máxima de Frutas por semente",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost":
     "+20% Coins nas Vendas de Recompensa do Tesouro",
   "description.poppy.boost": "+0,1 Milho",
