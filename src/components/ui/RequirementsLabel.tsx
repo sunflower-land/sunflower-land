@@ -240,8 +240,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       </div>
 
       <Label
-        className={classNames("whitespace-nowrap", { "ml-1": !requirementMet })}
+        className={classNames("whitespace-nowrap font-secondary", {
+          "ml-1": !requirementMet,
+        })}
         type={requirementMet ? "transparent" : "danger"}
+        style={{ fontSize: "22px" }}
       >
         {getText()}
       </Label>
