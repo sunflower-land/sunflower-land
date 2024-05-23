@@ -399,7 +399,7 @@ export const SignIn = () => {
           href="https://docs.sunflower-land.com/getting-started/how-to-start"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline text-white text-xs"
+          className="underline text-base font-secondary"
         >
           {t("welcome.needHelp")}
         </a>
