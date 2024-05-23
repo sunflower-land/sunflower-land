@@ -383,9 +383,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.renderArea = new Phaser.Geom.Rectangle(
       renderAreaX,
       renderAreaY,
-      // DEBUG - Draw render area at 1/4 of the screen (remove / 2 for full screen)
-      renderAreaWidth / this.zoom / 2,
-      renderAreaHeight / this.zoom / 2
+      renderAreaWidth / this.zoom,
+      renderAreaHeight / this.zoom
     );
 
     this.events.on("shutdown", () => {
@@ -414,17 +413,31 @@ export abstract class BaseScene extends Phaser.Scene {
     const playerX = this.currentPlayer.x;
     const playerY = this.currentPlayer.y;
 
-    const renderAreaX = playerX - renderAreaWidth / (this.zoom * 4);
-    const renderAreaY = playerY - renderAreaHeight / (this.zoom * 4);
+    // Clalculate the render area position based on the player's position
+    let renderAreaX = playerX - renderAreaWidth / this.zoom / 2;
+    let renderAreaY = playerY - renderAreaHeight / this.zoom / 2;
 
+    // Clamp the render area position to the map bounds
+    const mapWidth = this.map.width * SQUARE_WIDTH;
+    const mapHeight = this.map.height * SQUARE_WIDTH;
+
+    const renderAreaRight = renderAreaX + renderAreaWidth / this.zoom;
+    const renderAreaBottom = renderAreaY + renderAreaHeight / this.zoom;
+
+    if (renderAreaX < 0) {
+      renderAreaX = 0;
+    } else if (renderAreaRight > mapWidth) {
+      renderAreaX = mapWidth - renderAreaWidth / this.zoom;
+    }
+
+    if (renderAreaY < 0) {
+      renderAreaY = 0;
+    } else if (renderAreaBottom > mapHeight) {
+      renderAreaY = mapHeight - renderAreaHeight / this.zoom;
+    }
+
+    // Update the render area position
     this.renderArea.setPosition(renderAreaX, renderAreaY);
-
-    // DEBUG - Draw render area
-    this.graphics?.clear();
-    this.graphics = this.add.graphics();
-    this.graphics.lineStyle(2, 0x00ff00, 1);
-    this.graphics.strokeRectShape(this.renderArea as Phaser.Geom.Rectangle);
-    this.graphics.setDepth(Number.MAX_SAFE_INTEGER);
   }
 
   /**
