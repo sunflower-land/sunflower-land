@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
@@ -10,7 +10,6 @@ import {
 } from "./lib/cropMachine";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ResizableBar } from "components/ui/ProgressBar";
 import { Label } from "components/ui/Label";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -37,8 +36,10 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import { calculateCropProgress } from "./lib/calculateCropProgress";
 import lightning from "assets/icons/lightning.png";
+import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
+import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
+import { OilTank } from "./components/OilTank";
 
 interface Props {
   show: boolean;
@@ -239,7 +240,9 @@ export const CropMachineModal: React.FC<Props> = ({
                       totalGrowTime={selectedPack.totalGrowTime}
                       growTimeRemaining={selectedPack.growTimeRemaining}
                     />
-                    {paused && <Label type="default">{`Paused`}</Label>}
+                    {paused && (
+                      <Label type="default">{t("cropMachine.paused")}</Label>
+                    )}
                   </div>
                 )}
                 <div className="flex">
@@ -249,7 +252,7 @@ export const CropMachineModal: React.FC<Props> = ({
                   <div className="flex flex-col justify-center space-y-1">
                     <span className="text-xs">{`${selectedPack.amount} x ${selectedPack.crop} Seeds`}</span>
                     {show && (
-                      <GrowthProgressBar
+                      <PackGrowthProgressBar
                         paused={paused}
                         growsUntil={selectedPack.growsUntil}
                         startTime={selectedPack.startTime as number}
@@ -267,16 +270,28 @@ export const CropMachineModal: React.FC<Props> = ({
               <div className="flex flex-col w-full">
                 <div className="flex justify-between ml-2.5 mr-0.5 mt-1 mb-0.5">
                   <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                    {`Ready to harvest`}
+                    {t("cropMachine.readyToHarvest")}
                   </Label>
                   {selectedPack.amount > selectedPack.seeds && (
-                    <Label type="vibrant" icon={lightning}>{`Boosted`}</Label>
+                    <Label type="vibrant" icon={lightning}>
+                      {t("cropMachine.boosted")}
+                    </Label>
                   )}
                 </div>
                 <div className="flex w-full">
                   <Box image={ITEM_DETAILS[selectedPack.crop].image}></Box>
                   <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs">{`Total ${selectedPack.crop}s: ${selectedPack.amount}`}</span>
+                    <span className="text-xs">
+                      {t("cropMachine.totalSeeds", {
+                        total: selectedPack.seeds,
+                      })}
+                    </span>
+                    <span className="text-xs">
+                      {t("cropMachine.totalCrops", {
+                        cropName: selectedPack.crop.toLocaleLowerCase(),
+                        total: selectedPack.amount,
+                      })}
+                    </span>
                   </div>
                 </div>
                 <Button
@@ -286,7 +301,9 @@ export const CropMachineModal: React.FC<Props> = ({
                       ? () => setOverlayScreen("harvestCrops")
                       : onHarvest
                   }
-                >{`Harvest`}</Button>
+                >
+                  {t("cropMachine.harvest")}
+                </Button>
               </div>
             )}
             {/* Add seeds */}
@@ -294,11 +311,9 @@ export const CropMachineModal: React.FC<Props> = ({
               <div className="flex flex-col w-full">
                 {!selectedSeed ? (
                   <>
-                    <Label
-                      type="default"
-                      icon={add}
-                      className="ml-2.5 my-1"
-                    >{`Pick seed`}</Label>
+                    <Label type="default" icon={add} className="ml-2.5 my-1">
+                      {t("cropMachine.pickSeed")}
+                    </Label>
                     <div className="flex">
                       {ALLOWED_SEEDS.map((seed, index) => (
                         <Box
@@ -320,35 +335,46 @@ export const CropMachineModal: React.FC<Props> = ({
                         onClick={() => setSelectedSeed(undefined)}
                       />
                       <div className="flex justify-between w-full my-1">
-                        <Label type="default">{`Add ${selectedSeed.toLocaleLowerCase()}s`}</Label>
+                        <Label type="default">
+                          {t("cropMachine.addSeeds", {
+                            seedType: selectedSeed.toLocaleLowerCase(),
+                          })}
+                        </Label>
                         <Label
                           type={
                             (inventory[selectedSeed]?.toNumber() ?? 0) < 1
                               ? "danger"
                               : "info"
                           }
-                        >{`Available: ${
-                          (inventory[selectedSeed]?.toNumber() ?? 0) -
-                          totalSeeds
-                        }`}</Label>
+                        >
+                          {t("cropMachine.availableInventory", {
+                            amount:
+                              (inventory[selectedSeed]?.toNumber() ?? 0) -
+                              totalSeeds,
+                          })}
+                        </Label>
                       </div>
                     </div>
                     <div className="flex w-full">
                       <Box image={ITEM_DETAILS[selectedSeed].image} />
                       <div className="flex w-full justify-between">
                         <div className="flex flex-col justify-center space-y-1 text-xs">
-                          <span>{`Seeds: ${totalSeeds}`}</span>
-                          <span>{`Grow time: ${secondsToString(
-                            calculateCropTime({
-                              type: selectedSeed,
-                              amount: totalSeeds,
-                            }) / 1000,
-                            {
-                              length: "full",
-                              isShortFormat: true,
-                              removeTrailingZeros: true,
-                            }
-                          )}`}</span>
+                          <span>{t("cropMachine.seeds", { totalSeeds })}</span>
+                          <span>
+                            {t("cropMachine.growTime", {
+                              time: secondsToString(
+                                calculateCropTime({
+                                  type: selectedSeed,
+                                  amount: totalSeeds,
+                                }) / 1000,
+                                {
+                                  length: "full",
+                                  isShortFormat: true,
+                                  removeTrailingZeros: true,
+                                }
+                              ),
+                            })}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Button
@@ -367,7 +393,9 @@ export const CropMachineModal: React.FC<Props> = ({
                     <Button
                       disabled={totalSeeds === 0}
                       onClick={handleAddSeeds}
-                    >{`Add seed pack`}</Button>
+                    >
+                      {t("cropMachine.addSeedPack")}
+                    </Button>
                   </div>
                 )}
               </div>
@@ -377,27 +405,32 @@ export const CropMachineModal: React.FC<Props> = ({
               selectedPackIndex !== growingCropPackIndex &&
               !isCropPackReady(selectedPack) && (
                 <div className="flex flex-col">
-                  <Label
-                    type="warning"
-                    className="my-1 ml-0.5"
-                  >{`Not started yet`}</Label>
+                  <Label type="warning" className="my-1 ml-0.5">
+                    {t("cropMachine.notStartedYet")}
+                  </Label>
                   <div className="flex">
                     <Box
                       image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
                     />
-                    <div className="flex flex-col justify-center text-xs">
-                      <span>{`Seeds: ${selectedPack.seeds}`}</span>
-                      <span>{`Grow time: ${secondsToString(
-                        calculateCropTime({
-                          type: `${selectedPack.crop} Seed`,
-                          amount: selectedPack.seeds,
-                        }) / 1000,
-                        {
-                          length: "full",
-                          isShortFormat: true,
-                          removeTrailingZeros: true,
-                        }
-                      )}`}</span>
+                    <div className="flex flex-col justify-center text-xs space-y-1">
+                      <span>
+                        {t("cropMachine.seeds", { amount: selectedPack.seeds })}
+                      </span>
+                      <span>
+                        {t("cropMachine.growTime", {
+                          time: secondsToString(
+                            calculateCropTime({
+                              type: `${selectedPack.crop} Seed`,
+                              amount: selectedPack.seeds,
+                            }) / 1000,
+                            {
+                              length: "full",
+                              isShortFormat: true,
+                              removeTrailingZeros: true,
+                            }
+                          ),
+                        })}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -409,7 +442,9 @@ export const CropMachineModal: React.FC<Props> = ({
               type="default"
               className="ml-1.5 mt-2 mb-1"
               icon={SUNNYSIDE.icons.seedling}
-            >{`Seed packs`}</Label>
+            >
+              {t("cropMachine.seedPacks")}
+            </Label>
             <div className="flex mt-1">
               {stackedQueue.map((item, index) => {
                 if (item === null)
@@ -426,14 +461,27 @@ export const CropMachineModal: React.FC<Props> = ({
 
                 return (
                   <Box
+                    key={`${item.startTime}-${index}`}
                     isSelected={index === selectedPackIndex}
-                    key={index}
                     image={ITEM_DETAILS[`${item.crop} Seed`].image}
-                    count={new Decimal(item.seeds)}
+                    count={!isReady ? new Decimal(item.seeds) : undefined}
                     countLabelType={getQueueItemCountLabelType(
                       index,
                       !!isReady
                     )}
+                    overlayIcon={
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        alt="confirm"
+                        className="object-contain absolute z-10"
+                        style={{
+                          width: `${PIXEL_SCALE * 8}px`,
+                          top: `${PIXEL_SCALE * -4}px`,
+                          right: `${PIXEL_SCALE * -4}px`,
+                        }}
+                      />
+                    }
+                    showOverlay={!!isReady}
                     onClick={() => setSelectedPackIndex(index)}
                   />
                 );
@@ -463,7 +511,9 @@ export const CropMachineModal: React.FC<Props> = ({
                     type="default"
                     icon={CROP_LIFECYCLE.Sunflower.crop}
                     className="ml-1.5 mt-2 mb-1"
-                  >{`Ready crop packs`}</Label>
+                  >
+                    {t("cropMachine.readyCropPacks")}
+                  </Label>
                   <img
                     src={SUNNYSIDE.icons.close}
                     className="cursor-pointer m-0.5"
@@ -474,7 +524,11 @@ export const CropMachineModal: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <span className="text-xs px-2 pb-2">{`You currently have ${readyPacks.length} crop packs to harvest! Click the harvest button to collect all your crops.`}</span>
+                <span className="text-xs px-2 pb-2">
+                  {t("cropMachine.readyCropPacks.description", {
+                    totalReady: readyPacks.length,
+                  })}
+                </span>
                 <div className="flex">
                   {readyPacks.map((pack, index) => (
                     <Box
@@ -486,9 +540,9 @@ export const CropMachineModal: React.FC<Props> = ({
                   ))}
                 </div>
 
-                <Button
-                  onClick={handleHarvestAllCrops}
-                >{`Harvest all crops`}</Button>
+                <Button onClick={handleHarvestAllCrops}>
+                  {t("cropMachine.harvestAllCrops")}
+                </Button>
               </div>
             )}
             {overlayScreen === "addOil" && (
@@ -499,7 +553,9 @@ export const CropMachineModal: React.FC<Props> = ({
                       type="default"
                       icon={ITEM_DETAILS.Oil.image}
                       className="m-1.5"
-                    >{`Add oil`}</Label>
+                    >
+                      {t("cropMachine.addOil")}
+                    </Label>
                   </div>
                   <img
                     src={SUNNYSIDE.icons.close}
@@ -511,34 +567,46 @@ export const CropMachineModal: React.FC<Props> = ({
                     }}
                   />
                 </div>
-                <span className="px-2 text-xs pb-1">{`Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.`}</span>
+                <span className="px-2 text-xs pb-1">
+                  {t("cropMachine.oil.description")}
+                </span>
                 <div className="flex justify-between items-center">
                   <Label
                     type={
                       (inventory.Oil?.toNumber() ?? 0) < 1 ? "danger" : "info"
                     }
-                    className="ml-1.5 mt-4"
-                  >{`Available: ${
-                    (inventory.Oil?.toNumber() ?? 0) - totalOil
-                  }`}</Label>
+                    className="mx-1.5 mt-2"
+                  >
+                    {t("cropMachine.availableInventory", {
+                      amount: (inventory.Oil?.toNumber() ?? 0) - totalOil,
+                    })}
+                  </Label>
                   <Label
                     type={!canAddOneHourOfOil() ? "danger" : "info"}
-                    className="ml-1.5 mt-4"
-                  >{`Max runtime: 48hrs`}</Label>
+                    className="mx-1.5 mt-2"
+                  >
+                    {t("cropMachine.maxRuntime", { time: `48hrs` })}
+                  </Label>
                 </div>
                 <div className="flex ml-1">
                   <Box image={oilBarrel} />
                   <div className="flex w-full justify-between">
                     <div className="flex flex-col justify-center text-xs space-y-1">
-                      <span>{`Oil to add: ${totalOil}`}</span>
-                      <span>{`Total runtime: ${secondsToString(
-                        getOilTimeInMillis(totalOil) / 1000,
-                        {
-                          length: "full",
-                          isShortFormat: true,
-                          removeTrailingZeros: true,
-                        }
-                      )}`}</span>
+                      <span>
+                        {t("cropMachine.oilToAdd", { amount: totalOil })}
+                      </span>
+                      <span>
+                        {t("cropMachine.totalRuntime", {
+                          time: secondsToString(
+                            getOilTimeInMillis(totalOil) / 1000,
+                            {
+                              length: "full",
+                              isShortFormat: true,
+                              removeTrailingZeros: true,
+                            }
+                          ),
+                        })}
+                      </span>
                     </div>
                     <div className="flex items-center space-x-1 mr-2">
                       <Button
@@ -554,231 +622,14 @@ export const CropMachineModal: React.FC<Props> = ({
                     </div>
                   </div>
                 </div>
-                <Button
-                  disabled={totalOil === 0}
-                  onClick={handleAddOil}
-                >{`Add oil`}</Button>
+                <Button disabled={totalOil === 0} onClick={handleAddOil}>
+                  {t("cropMachine.addOil")}
+                </Button>
               </div>
             )}
           </InnerPanel>
         </ModalOverlay>
       </CloseButtonPanel>
     </Modal>
-  );
-};
-
-interface IOilTank {
-  idle: boolean;
-  paused: boolean;
-  queue: CropMachineQueueItem[];
-  unallocatedOilTime: number;
-  onAddOil: () => void;
-}
-
-const OilTank = ({
-  idle,
-  paused,
-  queue,
-  unallocatedOilTime,
-  onAddOil,
-}: IOilTank) => {
-  const calculatePercentageFull = (
-    queue: CropMachineQueueItem[],
-    unallocatedOilTime: number
-  ) => {
-    const totalOilMillis = getTotalOilMillisInMachine(
-      queue,
-      unallocatedOilTime
-    );
-
-    return (totalOilMillis / MAX_OIL_CAPACITY_IN_MILLIS) * 100;
-  };
-
-  const calculateOilTimeRemaining = (
-    queue: CropMachineQueueItem[],
-    unallocatedOilTime: number
-  ) => {
-    const totalOilMillis = getTotalOilMillisInMachine(
-      queue,
-      unallocatedOilTime
-    );
-    return totalOilMillis / 1000; // Convert milliseconds to seconds
-  };
-
-  // Initial state
-  const [oilInTank, setOilInTank] = useState(
-    calculatePercentageFull(queue, unallocatedOilTime)
-  );
-  const [runtime, setRuntime] = useState(
-    calculateOilTimeRemaining(queue, unallocatedOilTime)
-  );
-
-  useEffect(() => {
-    // Update the state immediately when paused or idle
-    if (paused || idle) {
-      setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
-      setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
-      return;
-    }
-
-    // Set interval when the machine is active
-    const interval = setInterval(() => {
-      setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
-      setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
-    }, 1000);
-
-    // Cleanup function to clear the interval
-    return () => clearInterval(interval);
-  }, [queue, unallocatedOilTime, paused, idle]);
-
-  return (
-    <div>
-      <Label
-        type={runtime === 0 ? "danger" : "default"}
-        className="ml-1.5 mt-2.5"
-        icon={ITEM_DETAILS.Oil.image}
-      >
-        {runtime === 0 ? `More oil required` : `Oil tank`}
-      </Label>
-      <div className="flex items-center justify-between">
-        <div className="flex my-2 ml-1.5 space-x-2 items-center">
-          <img src={oilBarrel} style={{ width: `${PIXEL_SCALE * 13}px` }} />
-          <div className="flex flex-col justify-evenly h-full space-y-1">
-            <ResizableBar
-              percentage={oilInTank}
-              type={oilInTank < 10 ? "error" : "quantity"}
-              outerDimensions={{
-                width: 60,
-                height: 8,
-              }}
-            />
-            <div className="flex">
-              <div className="text-xs">{`Machine runtime: ${secondsToString(
-                runtime,
-                {
-                  length: "short",
-                  isShortFormat: true,
-                  removeTrailingZeros: true,
-                }
-              )}`}</div>
-            </div>
-          </div>
-        </div>
-        <div className="pr-2">
-          <Button onClick={onAddOil}>{`Add oil`}</Button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-interface ProgressProps {
-  startTime: number;
-  paused: boolean;
-  growsUntil?: number;
-  readyAt?: number;
-  totalGrowTime: number;
-  growTimeRemaining: number;
-}
-
-const TimeRemainingLabel = ({
-  startTime,
-  paused,
-  growsUntil,
-  totalGrowTime,
-  readyAt,
-  growTimeRemaining,
-}: ProgressProps) => {
-  const getTimeRemaining = () => {
-    const progress = calculateCropProgress({
-      startTime,
-      totalGrowTime,
-      readyAt,
-      growsUntil,
-      growTimeRemaining,
-    });
-    const elapsedGrowTime = (totalGrowTime * progress) / 100;
-    const remainingGrowTime = totalGrowTime - elapsedGrowTime;
-
-    return remainingGrowTime / 1000;
-  };
-
-  const [secondsRemaining, setSecondsRemaining] = useState(getTimeRemaining());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!paused) {
-        setSecondsRemaining(getTimeRemaining());
-      }
-    }, 1000);
-
-    return () => clearInterval(interval);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [paused, startTime, totalGrowTime]);
-
-  const seconds = Math.max(secondsRemaining, 0);
-  const time = secondsToString(seconds, {
-    length: "short",
-    isShortFormat: true,
-    removeTrailingZeros: true,
-  });
-
-  return (
-    <Label
-      type="info"
-      icon={SUNNYSIDE.icons.stopwatch}
-      className="capitalize"
-    >{`Grow time remaining: ${time}`}</Label>
-  );
-};
-
-const GrowthProgressBar = ({
-  startTime,
-  totalGrowTime,
-  growsUntil,
-  readyAt,
-  growTimeRemaining,
-  paused,
-}: ProgressProps) => {
-  // Calculate initial progress
-
-  // Calculate initial progress as default
-  const [progress, setProgress] = useState(
-    calculateCropProgress({
-      startTime,
-      totalGrowTime,
-      readyAt,
-      growsUntil,
-      growTimeRemaining,
-    })
-  );
-
-  useEffect(() => {
-    if (progress < 100 && !paused) {
-      const interval = setInterval(() => {
-        setProgress(
-          calculateCropProgress({
-            startTime,
-            totalGrowTime,
-            readyAt,
-            growsUntil,
-            growTimeRemaining,
-          })
-        );
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [progress, paused, startTime, totalGrowTime]);
-
-  return (
-    <ResizableBar
-      percentage={progress}
-      type="progress"
-      outerDimensions={{
-        width: 70,
-        height: 8,
-      }}
-    />
   );
 };

@@ -99,7 +99,7 @@ export const OilTank = ({
               percentage={oilInTank}
               type={oilInTank < 10 ? "error" : "quantity"}
               outerDimensions={{
-                width: 60,
+                width: 40,
                 height: 8,
               }}
             />
@@ -117,7 +117,7 @@ export const OilTank = ({
           </div>
         </div>
         <div className="pr-2">
-          <Button onClick={onAddOil}>{`Add oil`}</Button>
+          <Button onClick={onAddOil}>{t("cropMachine.addOil")}</Button>
         </div>
       </div>
     </div>

@@ -15,10 +15,10 @@ import {
   hasReadyCrops,
   CropMachineState,
 } from "./lib/cropMachine";
-import { Planting } from "./components/planting";
-import { Sprouting } from "./components/sprouting";
-import { Maturing } from "./components/maturing";
-import { Harvesting } from "./components/harvesting";
+import { Planting } from "./components/Planting";
+import { Sprouting } from "./components/Sprouting";
+import { Maturing } from "./components/Maturing";
+import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
 import readyCrops from "assets/cropMachine/readyCrops.webp";
@@ -63,7 +63,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const cropMachineService = useInterpret(cropStateMachine, {
     context: cropMachineContext,
-    devTools: true,
   }) as unknown as MachineInterpreter;
 
   const growingCropPackStage = useSelector(

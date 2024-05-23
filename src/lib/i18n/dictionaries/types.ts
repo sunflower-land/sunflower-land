@@ -1026,8 +1026,30 @@ export type CropFruitDescriptions =
 export type CropMachine =
   | "cropMachine.moreOilRequired"
   | "cropMachine.oilTank"
+  | "cropMachine.addOil"
+  | "cropMachine.oil.description"
   | "cropMachine.machineRuntime"
-  | "cropMachine.growTimeRemaining";
+  | "cropMachine.growTimeRemaining"
+  | "cropMachine.paused"
+  | "cropMachine.readyToHarvest"
+  | "cropMachine.boosted"
+  | "cropMachine.totalSeeds"
+  | "cropMachine.totalCrops"
+  | "cropMachine.harvest"
+  | "cropMachine.pickSeed"
+  | "cropMachine.addSeeds"
+  | "cropMachine.availableInventory"
+  | "cropMachine.seeds"
+  | "cropMachine.growTime"
+  | "cropMachine.addSeedPack"
+  | "cropMachine.notStartedYet"
+  | "cropMachine.seedPacks"
+  | "cropMachine.readyCropPacks"
+  | "cropMachine.readyCropPacks.description"
+  | "cropMachine.harvestAllCrops"
+  | "cropMachine.maxRuntime"
+  | "cropMachine.oilToAdd"
+  | "cropMachine.totalRuntime";
 
 export type DeliveryItem =
   | "deliveryitem.inventory"
