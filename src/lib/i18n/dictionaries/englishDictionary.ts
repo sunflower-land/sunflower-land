@@ -958,7 +958,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.oil.can.boost": "+2 Oil",
   "description.olive.shield.boost": "+1 Olive",
   "description.pan.boost": "+25% XP",
-  "description.paw.shield.boost": "+25% Faction Pet feeding XP",
+  "description.paw.shield.boost": "+25% Faction Pet Satiation",
   "description.vinny.boost": "+0.25 Grape",
   "description.rice.panda.boost": "+0.25 Rice",
 };
