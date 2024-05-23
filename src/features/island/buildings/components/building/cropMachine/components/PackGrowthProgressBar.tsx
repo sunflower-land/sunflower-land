@@ -19,8 +19,6 @@ export const PackGrowthProgressBar = ({
   growTimeRemaining,
   paused,
 }: ProgressProps) => {
-  // Calculate initial progress
-
   // Calculate initial progress as default
   const [progress, setProgress] = useState(
     calculateCropProgress({
