@@ -58,7 +58,6 @@ const LandscapingHudComponent: React.FC<{
   const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
-  const open = useSound("open");
   const button = useSound("button");
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
@@ -170,7 +169,6 @@ const LandscapingHudComponent: React.FC<{
               {location === "farm" && (
                 <div
                   onClick={() => {
-                    open.play();
                     setShowDecorations(true);
                   }}
                   className="w-full z-10 cursor-pointer hover:img-highlight relative"
@@ -315,13 +313,10 @@ const Chest: React.FC<{
 
   const chestItems = getChestItems(gameState.context.state);
 
-  const open = useSound("open");
-
   return (
     <>
       <div
         onClick={() => {
-          open.play();
           setShowChest(true);
         }}
         className="z-50 cursor-pointer hover:img-highlight relative"

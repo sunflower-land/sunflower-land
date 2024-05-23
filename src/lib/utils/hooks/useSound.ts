@@ -7,27 +7,27 @@ const HOWLERS = {
   open: new Howl({
     src: [SOUNDS.ui.hud],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   tab: new Howl({
     src: [SOUNDS.ui.tab],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   close: new Howl({
     src: [SOUNDS.ui.close],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   travel: new Howl({
     src: [SOUNDS.ui.travel],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   profile: new Howl({
     src: [SOUNDS.ui.profile],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   inventory: new Howl({
     src: [SOUNDS.ui.inventory],
@@ -37,12 +37,12 @@ const HOWLERS = {
   button: new Howl({
     src: [SOUNDS.ui.button],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   copypaste: new Howl({
     src: [SOUNDS.ui.copypaste],
     preload: false,
-    volume: 0.1,
+    volume: 0.2,
   }),
   romy_rick: new Howl({
     src: [willow_tree],
@@ -61,22 +61,22 @@ const HOWLERS = {
   sfl: new Howl({
     src: [SOUNDS.ui.sfl],
     preload: false,
-    volume: 0.05,
+    volume: 0.1,
   }),
   mushroom_1: new Howl({
     src: [SOUNDS.resources.mushroom_1],
     preload: false,
-    volume: 0.1,
+    volume: 0.15,
   }),
   mushroom_2: new Howl({
     src: [SOUNDS.resources.mushroom_2],
     preload: false,
-    volume: 0.1,
+    volume: 0.15,
   }),
   mushroom_3: new Howl({
     src: [SOUNDS.resources.mushroom_3],
     preload: false,
-    volume: 0.1,
+    volume: 0.15,
   }),
 };
 

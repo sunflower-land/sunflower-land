@@ -49,7 +49,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
-  const close = useSound("close");
   const tab = useSound("tab");
 
   const [data, setData] = useState<Leaderboards | null | undefined>(undefined);

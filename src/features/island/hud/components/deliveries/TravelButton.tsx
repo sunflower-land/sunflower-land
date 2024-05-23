@@ -4,18 +4,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import world from "assets/icons/world.png";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
-import { useSound } from "lib/utils/hooks/useSound";
 
 export const Travel: React.FC<{ isVisiting?: boolean }> = ({
   isVisiting = false,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
-  const open = useSound("open");
-  const close = useSound("close");
-
   const onClose = () => {
-    close.play();
     setShowModal(false);
   };
 
@@ -32,7 +27,6 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
-            open.play();
             setShowModal(true);
           }}
         >
