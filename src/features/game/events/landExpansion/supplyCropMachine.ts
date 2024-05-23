@@ -135,7 +135,7 @@ export function updateCropMachine({
 
     // Allocate oil to the pack and update its state
     if (cropMachine.unallocatedOilTime > pack.growTimeRemaining) {
-      completePackGrowth(
+      completelyAllocatePack(
         pack,
         cropMachine,
         index,
@@ -143,7 +143,7 @@ export function updateCropMachine({
         now
       );
     } else {
-      partiallyGrowPack(
+      partiallyAllocatedPack(
         pack,
         cropMachine,
         index,
@@ -157,9 +157,9 @@ export function updateCropMachine({
 }
 
 /**
- * Completes the growth of a pack if there's enough oil.
+ * Allocates all the oil for the complete growth of a pack.
  */
-function completePackGrowth(
+function completelyAllocatePack(
   pack: CropMachineQueueItem,
   cropMachine: CropMachineBuilding,
   index: number,
@@ -187,9 +187,9 @@ function completePackGrowth(
 }
 
 /**
- * Partially grows a pack if there's not enough oil to complete it.
+ * Allocates a partial amount of oil to the pack. It will not be able to grow completely.
  */
-function partiallyGrowPack(
+function partiallyAllocatedPack(
   pack: CropMachineQueueItem,
   cropMachine: CropMachineBuilding,
   index: number,
