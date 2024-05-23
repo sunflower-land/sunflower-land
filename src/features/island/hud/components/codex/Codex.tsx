@@ -20,7 +20,7 @@ import { Deliveries } from "./pages/Deliveries";
 import { Chores } from "./pages/Chores";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
-import { closeButton, tab } from "lib/utils/sfx";
+import { useSound } from "lib/utils/hooks/useSound";
 
 import trophy from "assets/icons/trophy.png";
 import factions from "assets/icons/factions.webp";
@@ -49,6 +49,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
+  const close = useSound("close");
+  const tab = useSound("tab");
+
   const [data, setData] = useState<Leaderboards | null | undefined>(undefined);
 
   useEffect(() => {
@@ -70,12 +73,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   }, [show]);
 
   const handleTabClick = (index: number) => {
-    hasFeatureAccess(gameService.state.context.state, "SOUND") && tab.play();
+    tab.play();
     setCurrentTab(index);
   };
 
   const handleHide = () => {
-    closeButton.play();
     onHide();
   };
 

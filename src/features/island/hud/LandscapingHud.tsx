@@ -31,6 +31,7 @@ import { BudName } from "features/game/types/buds";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -56,6 +57,9 @@ const LandscapingHudComponent: React.FC<{
 
   const [showDecorations, setShowDecorations] = useState(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
+
+  const open = useSound("open");
+  const button = useSound("button");
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
 
@@ -134,7 +138,10 @@ const LandscapingHudComponent: React.FC<{
               }}
             >
               <div
-                onClick={() => child.send("CANCEL")}
+                onClick={() => {
+                  button.play();
+                  child.send("CANCEL");
+                }}
                 className="w-full z-10 cursor-pointer hover:img-highlight relative"
                 style={{
                   width: `${PIXEL_SCALE * 22}px`,
@@ -162,7 +169,10 @@ const LandscapingHudComponent: React.FC<{
 
               {location === "farm" && (
                 <div
-                  onClick={() => setShowDecorations(true)}
+                  onClick={() => {
+                    open.play();
+                    setShowDecorations(true);
+                  }}
                   className="w-full z-10 cursor-pointer hover:img-highlight relative"
                   style={{
                     width: `${PIXEL_SCALE * 22}px`,
@@ -305,10 +315,15 @@ const Chest: React.FC<{
 
   const chestItems = getChestItems(gameState.context.state);
 
+  const open = useSound("open");
+
   return (
     <>
       <div
-        onClick={() => setShowChest(true)}
+        onClick={() => {
+          open.play();
+          setShowChest(true);
+        }}
         className="z-50 cursor-pointer hover:img-highlight relative"
         style={{
           width: `${PIXEL_SCALE * 22}px`,

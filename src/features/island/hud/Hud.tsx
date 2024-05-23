@@ -22,6 +22,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _xp = (state: MachineState) =>
@@ -45,6 +46,9 @@ const HudComponent: React.FC<{
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
+  const sfl = useSound("sfl");
+  const button = useSound("button");
+
   const autosaving = gameState.matches("autosaving");
 
   const handleDeposit = (
@@ -54,6 +58,7 @@ const HudComponent: React.FC<{
   };
 
   const handleBuyCurrenciesModal = () => {
+    sfl.play();
     setShowBuyCurrencies(!showBuyCurrencies);
   };
 
@@ -66,6 +71,7 @@ const HudComponent: React.FC<{
           {isFarming && (
             <div
               onClick={() => {
+                button.play();
                 if (isFarming) {
                   gameService.send("LANDSCAPE");
                 }

@@ -41,6 +41,7 @@ import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -58,6 +59,9 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
+
+  const copypaste = useSound("copypaste");
+  const button = useSound("button");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
@@ -98,6 +102,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             icon={SUNNYSIDE.icons.search}
             className="mb-1 mr-4"
             onClick={() => {
+              copypaste.play();
               clipboard.copy(
                 gameService.state?.context?.farmId.toString() as string
               );
@@ -113,6 +118,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               icon={SUNNYSIDE.icons.search}
               className="mb-1 mr-4"
               onClick={() => {
+                copypaste.play();
                 clipboard.copy(
                   gameService.state?.context?.nftId?.toString() || ""
                 );
@@ -129,6 +135,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               className="mb-1 mr-4"
               icon={walletIcon}
               onClick={() => {
+                copypaste.play();
                 clipboard.copy(
                   gameService.state?.context?.linkedWallet as string
                 );

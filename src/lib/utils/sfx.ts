@@ -1,7 +1,5 @@
 import { SOUNDS } from "assets/sound-effects/soundEffects";
-import { TEST_FARM } from "features/game/lib/constants";
 import { Howl } from "howler";
-import { hasFeatureAccess } from "lib/flags";
 
 /**
  * All sounds should be lazy loaded to prevent unnecessary network requests on initial load. Please add the
@@ -150,22 +148,6 @@ export const warChant = new Howl({
   src: [SOUNDS.misc.war_chant],
   preload: false,
   volume: 0.2,
-});
-
-export const hud = new Howl({
-  src: [SOUNDS.ui.hud],
-  preload: hasFeatureAccess(TEST_FARM, "SOUND"),
-  volume: 0.1,
-});
-export const tab = new Howl({
-  src: [SOUNDS.ui.tab],
-  preload: hasFeatureAccess(TEST_FARM, "SOUND"),
-  volume: 0.1,
-});
-export const closeButton = new Howl({
-  src: [SOUNDS.ui.close],
-  preload: hasFeatureAccess(TEST_FARM, "SOUND"),
-  volume: 0.1,
 });
 
 // Arcade - Greedy Goblin

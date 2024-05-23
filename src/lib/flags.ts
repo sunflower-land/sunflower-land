@@ -25,7 +25,6 @@ export type FeatureName =
   | "EASTER"
   | "FACTIONS"
   | "FACTION_LEADERBOARD"
-  | "SOUND"
   | "BANNER_SALES"
   | "PRESTIGE_DESERT"
   | "DESERT_RECIPES"
@@ -51,7 +50,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
   FACTIONS: clashOfFactionsFeatureFlag,
   FACTION_LEADERBOARD: clashOfFactionsFeatureFlag,
-  SOUND: testnetFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
   PRESTIGE_DESERT: defaultFeatureFlag,
   GREENHOUSE: defaultFeatureFlag,

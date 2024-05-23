@@ -24,6 +24,7 @@ import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const DIMENSIONS = {
   original: 80,
@@ -216,6 +217,9 @@ export const BumpkinProfile: React.FC<{
   const [viewSkillsPage, setViewSkillsPage] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const profile = useSound("profile");
+  const close = useSound("close");
+
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const {
@@ -232,6 +236,7 @@ export const BumpkinProfile: React.FC<{
   }, [level, experience]);
 
   const handleShowHomeModal = () => {
+    profile.play();
     setViewSkillsPage(showSkillPointAlert);
     setShowModal(true);
     if (showSkillPointAlert) {
@@ -257,6 +262,7 @@ export const BumpkinProfile: React.FC<{
   };
 
   const handleHideModal = () => {
+    close.play();
     setShowModal(false);
   };
 
