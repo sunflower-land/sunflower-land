@@ -49,7 +49,7 @@ export function harvestCropMachine({
       bumpkin.activity = trackActivity(
         `${pack.crop} Harvested`,
         bumpkin.activity,
-        new Decimal(pack.amount)
+        new Decimal(pack.seeds)
       );
     }
   });
