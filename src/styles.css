@@ -4,10 +4,10 @@
 @import "./resourceNodeAnimations.css";
 @layer utilities {
   .text-shadow {
-    text-shadow: 1px 1px #1f1f1f;
+    text-shadow: 0px 1px #714431;
   }
   .text-shadow-md {
-    text-shadow: 2px 2px #1f1f1f;
+    text-shadow: 0px 2px #714431;
   }
   .text-shadow-none {
     text-shadow: none;
@@ -41,7 +41,10 @@
   }
 
   .text-stroke {
-    -webkit-text-stroke: 1px black;
+    /* -webkit-text-stroke: 1px black; */
+    /* text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000,
+      -1px 1px 0 #000, 1px 1px 0 #000;
+    letter-spacing: 0.4px; */
   }
 
   .img-shadow {
@@ -109,13 +112,18 @@
 }
 
 @font-face {
-  font-family: "TinyFont";
-  src: url("https://sunflower-land.com/testnet-assets/fonts/TinyFont.otf");
+  font-family: "Teeny";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Teeny.otf");
 }
 
 @font-face {
-  font-family: "Teeny";
-  src: url("https://sunflower-land.com/testnet-assets/fonts/Teeny.otf");
+  font-family: "Basic";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Basic.ttf");
+}
+
+@font-face {
+  font-family: "Hint";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Hint.ttf");
 }
 
 html {
@@ -123,10 +131,10 @@ html {
 }
 
 body {
-  font-family: "Paytone One", sans-serif, "LXGW WenKai TC", cursive;
+  font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
   overflow: hidden;
-  color: white;
-  font-size: 22px;
+  color: #181425;
+  font-size: 1rem;
   letter-spacing: -0.4px;
   word-spacing: 3px;
   line-height: 20px;
@@ -135,7 +143,8 @@ body {
 body,
 button,
 input {
-  text-shadow: 1px 1px #1f1f1f;
+  /* text-shadow: 0px 1.4px #714431; */
+  color: #3e2731;
 }
 
 button:disabled {
@@ -152,13 +161,6 @@ img {
 
 #walletconnect-wrapper {
   all: initial;
-}
-
-@media screen and (min-width: 480px) {
-  body {
-    font-size: 24px;
-    line-height: 22px;
-  }
 }
 
 * {
@@ -1203,4 +1205,10 @@ img {
   100% {
     transform: translate(0px, 0px);
   }
+}
+
+a {
+  font-family: Hint;
+  font-size: 24px !important;
+  color: #3e2731;
 }
