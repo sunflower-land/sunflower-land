@@ -40,24 +40,24 @@ export function getTotalOilMillisInMachine(
     // There is no oil to allocated to this pack
     if (!item.startTime) return totalOil;
 
-    // Pack has started growing but has not reached the readyAt time
+    // Completely allocated pack has started growing but has not reached the readyAt time
     // therefore it is currently using its allocation of oil
     // add the unused oil to the total oil
     if (item.readyAt && item.startTime <= now && item.readyAt > now) {
       return totalOil + item.readyAt - now;
     }
 
-    // Complete pack hasn't started growing yet. Add the entire allocation to the total oil
+    // Completely allocated pack hasn't started growing yet. Add the entire allocation to the total oil
     if (item.readyAt && item.startTime > now) {
       return totalOil + item.readyAt - item.startTime;
     }
 
-    // Partial pack hasn't started growing yet. Add the entire allocation to the total oil.
+    // Partially allocated pack hasn't started growing yet. Add the entire allocation to the total oil.
     if (item.growsUntil && item.startTime > now) {
       return totalOil + item.growsUntil - item.startTime;
     }
 
-    // Partial pack has started growing and is currently growing but has not reached the growsUntil time
+    // Partially allocated pack has started growing and is currently growing but has not reached the growsUntil time
     // therefore it is currently using its oil allocation
     // add the unused oil to the total oil
     if (item.growsUntil && item.startTime <= now && item.growsUntil > now) {
