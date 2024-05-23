@@ -11,12 +11,9 @@ import { Equipped } from "features/game/types/bumpkin";
 
 import primaryButton from "assets/ui/light_button.png";
 
-interface OuterPanelProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
   tabAlignment?: "top" | "left";
-}
-
-interface PanelProps extends OuterPanelProps {
   bumpkinParts?: Partial<Equipped>;
 }
 
@@ -78,34 +75,49 @@ export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<OuterPanelProps> = ({
+export const OuterPanel: React.FC<PanelProps> = ({
   children,
   hasTabs,
   tabAlignment = "top",
   ...divProps
 }) => {
-  const { className, style, ...otherDivProps } = divProps;
+  const { className, style, bumpkinParts, ...otherDivProps } = divProps;
   return (
-    <div
-      className={classNames(className)}
-      style={{
-        ...pixelDarkBorderStyle,
-        background: "#c28569",
-        padding: `${PIXEL_SCALE * 1}px`,
-        ...(hasTabs
-          ? {
-              paddingTop:
-                tabAlignment === "top" ? `${PIXEL_SCALE * 15}px` : undefined,
-              paddingLeft:
-                tabAlignment === "left" ? `${PIXEL_SCALE * 15}px` : undefined,
-            }
-          : {}),
-        ...style,
-      }}
-      {...otherDivProps}
-    >
-      {children}
-    </div>
+    <>
+      {bumpkinParts && (
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            zIndex: -10,
+            top: `${PIXEL_SCALE * -61}px`,
+            left: `${PIXEL_SCALE * -8}px`,
+            width: `${PIXEL_SCALE * 100}px`,
+          }}
+        >
+          <DynamicNFT bumpkinParts={bumpkinParts} />
+        </div>
+      )}
+      <div
+        className={classNames(className)}
+        style={{
+          ...pixelDarkBorderStyle,
+          background: "#c28569",
+          padding: `${PIXEL_SCALE * 1}px`,
+          ...(hasTabs
+            ? {
+                paddingTop:
+                  tabAlignment === "top" ? `${PIXEL_SCALE * 15}px` : undefined,
+                paddingLeft:
+                  tabAlignment === "left" ? `${PIXEL_SCALE * 15}px` : undefined,
+              }
+            : {}),
+          ...style,
+        }}
+        {...otherDivProps}
+      >
+        {children}
+      </div>
+    </>
   );
 };
 
@@ -124,7 +136,6 @@ export const ButtonPanel: React.FC<ButtonPanelProps> = ({
       className={classNames(className, "hover:brightness-90 cursor-pointer")}
       style={{
         ...pixelDarkBorderStyle,
-        background: "#c28569",
         padding: `${PIXEL_SCALE * 1}px`,
         borderImage: `url(${primaryButton})`,
         borderStyle: "solid",
@@ -132,7 +143,6 @@ export const ButtonPanel: React.FC<ButtonPanelProps> = ({
         borderImageSlice: "3 3 4 3 fill",
         imageRendering: "pixelated",
         borderImageRepeat: "stretch",
-        borderRadius: `${PIXEL_SCALE * 5}px`,
         color: "#674544",
         ...style,
       }}

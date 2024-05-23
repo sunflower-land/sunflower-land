@@ -13,6 +13,8 @@ import {
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Panel } from "components/ui/Panel";
+import { ConversationName } from "features/game/types/announcements";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -83,6 +85,7 @@ export const FirePitModal: React.FC<Props> = ({
           tabs={[{ icon: chefHat, name: "Fire Pit" }]}
           onClose={onClose}
           bumpkinParts={NPC_WEARABLES.bruce}
+          container={OuterPanel}
         >
           <Recipes
             selected={selected}

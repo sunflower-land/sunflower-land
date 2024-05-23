@@ -6,6 +6,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { StylistWearables } from "features/world/ui/stylist/StylistWearables";
 import { BASIC_WEARABLES } from "features/game/types/stylist";
+import { OuterPanel } from "components/ui/Panel";
 
 function hasOpened() {
   return !!localStorage.getItem("hasOpenedWardrobe");
@@ -25,7 +26,7 @@ export const Wardrobe: React.FC = () => {
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel>
+        <CloseButtonPanel container={OuterPanel}>
           <StylistWearables wearables={BASIC_WEARABLES} />
         </CloseButtonPanel>
       </Modal>

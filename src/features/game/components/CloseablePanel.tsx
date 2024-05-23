@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Panel } from "../../../components/ui/Panel";
+import { Panel, PanelProps } from "../../../components/ui/Panel";
 import { Equipped } from "features/game/types/bumpkin";
 import { Tab } from "components/ui/Tab";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -26,6 +26,7 @@ interface Props {
   onBack?: () => void;
   bumpkinParts?: Partial<Equipped>;
   className?: string;
+  container?: React.FC<PanelProps>;
 }
 
 /**
@@ -51,6 +52,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
   secondaryAction,
   className,
   children,
+  container: Container = Panel,
 }) => {
   const tabSound = useSound("tab");
   const button = useSound("button");
@@ -63,7 +65,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
   const showBackButton = !!onBack;
 
   return (
-    <Panel
+    <Container
       className={classNames(
         "relative max-h-[90vh] overflow-y-auto scrollable",
         className
@@ -205,6 +207,6 @@ export const CloseButtonPanel: React.FC<Props> = ({
         )}
         {children}
       </div>
-    </Panel>
+    </Container>
   );
 };
