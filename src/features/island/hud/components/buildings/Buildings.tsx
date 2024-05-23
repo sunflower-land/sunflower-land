@@ -164,7 +164,13 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {VALID_BUILDINGS.map((name: BuildingName) => {
+          {VALID_BUILDINGS.filter((name) => {
+            if (name === "Crop Machine") {
+              return hasFeatureAccess(state, "CROP_MACHINE");
+            }
+
+            return true;
+          }).map((name: BuildingName) => {
             const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]
