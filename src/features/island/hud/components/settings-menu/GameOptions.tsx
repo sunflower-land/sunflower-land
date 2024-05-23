@@ -185,7 +185,9 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       <Button className="p-1 mb-2" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
-      <p className="mx-1 text-xxs">{CONFIG.RELEASE_VERSION?.split("-")[0]}</p>
+      <p className="mx-1 text-xxs font-secondary">
+        {CONFIG.RELEASE_VERSION?.split("-")[0]}
+      </p>
       <Modal
         show={isConfirmLogoutModalOpen}
         onHide={() => showConfirmLogoutModal(false)}

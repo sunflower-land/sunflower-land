@@ -30,7 +30,7 @@ import { getDayOfYear, secondsToString } from "lib/utils/time";
 import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -213,7 +213,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
             return (
               <div className="py-1 px-2" key={order.id}>
-                <OuterPanel
+                <ButtonPanel
                   onClick={() => select(order.id)}
                   className={classNames(
                     "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
@@ -323,7 +323,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       />
                     </div>
                   )}
-                </OuterPanel>
+                </ButtonPanel>
               </div>
             );
           })}

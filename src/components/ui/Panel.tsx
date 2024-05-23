@@ -9,6 +9,8 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
+import primaryButton from "assets/ui/light_button.png";
+
 interface OuterPanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
   tabAlignment?: "top" | "left";
@@ -85,9 +87,10 @@ export const OuterPanel: React.FC<OuterPanelProps> = ({
   const { className, style, ...otherDivProps } = divProps;
   return (
     <div
-      className={classNames("bg-brown-600", className)}
+      className={classNames(className)}
       style={{
         ...pixelDarkBorderStyle,
+        background: "#c28569",
         padding: `${PIXEL_SCALE * 1}px`,
         ...(hasTabs
           ? {
@@ -97,6 +100,40 @@ export const OuterPanel: React.FC<OuterPanelProps> = ({
                 tabAlignment === "left" ? `${PIXEL_SCALE * 15}px` : undefined,
             }
           : {}),
+        ...style,
+      }}
+      {...otherDivProps}
+    >
+      {children}
+    </div>
+  );
+};
+
+type ButtonPanelProps = React.HTMLAttributes<HTMLDivElement>;
+/**
+ * A panel with a single layered pixel effect
+ */
+export const ButtonPanel: React.FC<ButtonPanelProps> = ({
+  children,
+  ...divProps
+}) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(className, "hover:brightness-90 cursor-pointer")}
+      style={{
+        ...pixelDarkBorderStyle,
+        background: "#c28569",
+        padding: `${PIXEL_SCALE * 1}px`,
+        borderImage: `url(${primaryButton})`,
+        borderStyle: "solid",
+        borderWidth: `8px 8px 10px 8px`,
+        borderImageSlice: "3 3 4 3 fill",
+        imageRendering: "pixelated",
+        borderImageRepeat: "stretch",
+        borderRadius: `${PIXEL_SCALE * 5}px`,
+        color: "#674544",
         ...style,
       }}
       {...otherDivProps}

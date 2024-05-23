@@ -1,5 +1,5 @@
 import React from "react";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
 /**
@@ -54,13 +54,13 @@ export const SplitScreenView: React.FC<Props> = ({
         {content}
       </div>
       {showHeader && (
-        <OuterPanel
+        <InnerPanel
           className={classNames("w-full sm:w-2/5", {
             "lg:w-1/4": wideModal,
           })}
         >
           {header}
-        </OuterPanel>
+        </InnerPanel>
       )}
     </div>
   );
