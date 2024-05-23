@@ -59,10 +59,11 @@ export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   const { className, style, ...otherDivProps } = divProps;
   return (
     <div
-      className={classNames("bg-brown-300", className)}
+      className={classNames(className)}
       style={{
         ...pixelLightBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
+        background: "#e4a672",
         ...style,
       }}
       {...otherDivProps}
@@ -84,7 +85,7 @@ export const OuterPanel: React.FC<OuterPanelProps> = ({
   const { className, style, ...otherDivProps } = divProps;
   return (
     <div
-      className={classNames("bg-brown-600 text-white", className)}
+      className={classNames("bg-brown-600", className)}
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
