@@ -1026,7 +1026,8 @@ export type CropFruitDescriptions =
 export type CropMachine =
   | "cropMachine.moreOilRequired"
   | "cropMachine.oilTank"
-  | "cropMachine.machineRuntime";
+  | "cropMachine.machineRuntime"
+  | "cropMachine.growTimeRemaining";
 
 export type DeliveryItem =
   | "deliveryitem.inventory"

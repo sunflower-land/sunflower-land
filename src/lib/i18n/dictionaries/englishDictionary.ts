@@ -1434,6 +1434,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.moreOilRequired": "More oil required",
   "cropMachine.oilTank": "Oil tank",
   "cropMachine.machineRuntime": "Machine runtime {{time}}",
+  "cropMachine.growTimeRemaining": "Grow time remaining: {{time}}",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
