@@ -889,7 +889,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.mysterious.parsnip.boost": "-50% Yaban Havucu Büyüme Süresi",
   "description.queen.cornelia.boost": "+1 Mısır (Etki Alanı 3x4)",
   "description.foliant.boost": "+0.2 Kıvırcık Lahana",
-  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana",
+  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana, Pirinç",
   "description.hungry.caterpillar.boost": "Ücretsiz Çiçek Tohumları",
   "description.black.bearry.boost": "+1 Yaban Mersini",
   "description.squirrel.monkey.boost": "-50% Portakal Büyüme Süresi",
