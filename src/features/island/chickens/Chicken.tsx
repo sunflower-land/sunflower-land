@@ -43,6 +43,7 @@ import lockIcon from "assets/skills/lock.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -133,6 +134,8 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, shortcutItem, showTimers } = useContext(Context);
 
+  const chickenSound = useSound("chicken");
+
   const chicken = useSelector(
     gameService,
     (state) => state.context.state.chickens[id],
@@ -184,6 +187,8 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   };
 
   const handleClick = () => {
+    if (interactible) chickenSound.play();
+
     if (eggReady) {
       chickenService.send("LAY");
       return;

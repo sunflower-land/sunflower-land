@@ -63,6 +63,7 @@ export const SOUNDS = {
     mining_fall: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/mining_fall.mp3`,
     chop: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/chop.mp3`,
     tree_fall: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/tree_fall.mp3`,
+    chicken: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/chicken.mp3`,
     mushroom_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
     mushroom_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_2_Click_Pop_Fun_Cartoon.mp3`,
     mushroom_3: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_3_Click_Pop_Fun_Cartoon.mp3`,

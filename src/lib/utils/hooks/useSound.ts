@@ -63,6 +63,11 @@ const HOWLERS = {
     preload: false,
     volume: 0.05,
   }),
+  chicken: new Howl({
+    src: [SOUNDS.resources.chicken],
+    preload: false,
+    volume: 0.4,
+  }),
   mushroom_1: new Howl({
     src: [SOUNDS.resources.mushroom_1],
     preload: false,
