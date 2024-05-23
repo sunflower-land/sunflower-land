@@ -6550,7 +6550,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       "Technology arrives at the farm! Crop Machine is here to help!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/1018.png",
+    image: "../public/erc1155/images/1020.png",
 
     attributes: [
       { trait_type: "Purpose", value: "Building" },

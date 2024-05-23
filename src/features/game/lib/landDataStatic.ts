@@ -426,6 +426,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Pumpkin: new Decimal(200),
     "Oil Reserve": new Decimal(0),
     "Oil Drill": new Decimal(5),
+    Oil: new Decimal(100),
     "Battle Fish": new Decimal(1),
     "Knight Chicken": new Decimal(1),
     Baozi: new Decimal(10),
