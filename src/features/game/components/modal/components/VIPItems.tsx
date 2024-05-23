@@ -7,7 +7,7 @@ import {
   getSeasonalBanner,
   getSeasonalBannerImage,
 } from "features/game/types/seasons";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -240,7 +240,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
             </a>
           </div>
           <p className="text-xs px-1">{t("season.vip.description")}</p>
-          <OuterPanel
+          <ButtonPanel
             className={classNames(
               "flex flex-col px-1 cursor-pointer relative",
               {
@@ -282,8 +282,8 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
                 />
               )}
             </div>
-          </OuterPanel>
-          <OuterPanel
+          </ButtonPanel>
+          <ButtonPanel
             className={classNames(
               "flex flex-col px-1 cursor-pointer relative",
               {
@@ -326,7 +326,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               )}
               {getSeasonalBannerPriceLabel()}
             </div>
-          </OuterPanel>
+          </ButtonPanel>
           {onSkip && <Button onClick={onSkip}>{t("close")}</Button>}
         </div>
       )}

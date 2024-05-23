@@ -10,6 +10,7 @@ import building from "assets/buildings/blacksmith_building.gif";
 import { HeliosBlacksmithItems } from "./component/HeliosBlacksmithItems";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { OuterPanel } from "components/ui/Panel";
 
 export const HeliosBlacksmith: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -55,6 +56,7 @@ export const HeliosBlacksmith: React.FC = () => {
           }}
           tabs={[{ icon: SUNNYSIDE.icons.hammer, name: "Craft" }]}
           onClose={() => setIsOpen(false)}
+          container={OuterPanel}
         >
           <HeliosBlacksmithItems />
         </CloseButtonPanel>

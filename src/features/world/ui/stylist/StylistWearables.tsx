@@ -215,7 +215,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
             href="https://opensea.io/collection/bumpkin-wearables"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline text-white text-xs"
+            className="underline text-xs"
           >
             {t("statements.soldOutWearables")}
           </a>

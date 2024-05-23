@@ -11,7 +11,7 @@ import coinsStack from "assets/icons/coins_stack.webp";
 import coinsScattered from "assets/icons/coins_scattered.webp";
 import sflIcon from "assets/icons/sfl.webp";
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
@@ -204,7 +204,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                     const option = SFL_TO_COIN_PACKAGES[Number(packageId)];
 
                     return (
-                      <OuterPanel
+                      <ButtonPanel
                         key={JSON.stringify(option)}
                         className="flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300"
                         onClick={() => setExchangePackageId(Number(packageId))}
@@ -226,7 +226,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                         >
                           {`${option.sfl} SFL`}
                         </Label>
-                      </OuterPanel>
+                      </ButtonPanel>
                     );
                   })}
                 </div>

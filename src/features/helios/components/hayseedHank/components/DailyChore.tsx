@@ -139,7 +139,7 @@ export const DailyChore: React.FC<Props> = ({
             {hasFeatureAccess({} as GameState, "FACTIONS") && (
               <div className="flex items-center justify-end space-x-1">
                 <span
-                  className={classNames("mb-0.5 text-white", {
+                  className={classNames("mb-0.5", {
                     "text-error": !faction,
                   })}
                 >

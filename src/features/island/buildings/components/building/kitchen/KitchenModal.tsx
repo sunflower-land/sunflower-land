@@ -11,6 +11,7 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   isOpen: boolean;
@@ -54,6 +55,7 @@ export const KitchenModal: React.FC<Props> = ({
           }}
           tabs={[{ icon: chefHat, name: "Kitchen" }]}
           onClose={onClose}
+          container={OuterPanel}
         >
           <Recipes
             selected={selected}
