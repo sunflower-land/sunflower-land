@@ -359,7 +359,9 @@ export const CropMachineModal: React.FC<Props> = ({
                       <Box image={ITEM_DETAILS[selectedSeed].image} />
                       <div className="flex w-full justify-between">
                         <div className="flex flex-col justify-center space-y-1 text-xs">
-                          <span>{t("cropMachine.seeds", { totalSeeds })}</span>
+                          <span>
+                            {t("cropMachine.seeds", { amount: totalSeeds })}
+                          </span>
                           <span>
                             {t("cropMachine.growTime", {
                               time: secondsToString(
