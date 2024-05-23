@@ -1016,6 +1016,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.tent": "(Discontinued)",
   "description.house": "A place to rest your head",
   "description.crop.machine": "Automate your crop production",
+  "building.oil.remaining": "{{oil}} Oil in building",
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -2015,6 +2016,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.walletInUse.two":
     "This wallet is already linked to a farm. Please use social login or another wallet.",
   "error.walletInUse.three": "Try another login method",
+  "error.notEnoughOil": "Not enough oil",
+  "error.oilCapacityExceeded": "Oil capacity exceeded",
 };
 
 const event: Record<Event, string> = {

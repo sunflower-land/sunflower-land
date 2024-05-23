@@ -5,17 +5,16 @@ import { ResourceName } from "./resources";
 
 export type Home = "Tent" | "House" | "Manor";
 
+export type CookingBuildingName = "Fire Pit" | "Kitchen" | "Bakery" | "Deli";
+
 export type BuildingName =
-  | "Fire Pit"
+  | CookingBuildingName
+  | "Smoothie Shack"
   | "Market"
   | "Town Center"
   | "Workbench"
-  | "Kitchen"
   | "Water Well"
-  | "Bakery"
   | "Hen House"
-  | "Deli"
-  | "Smoothie Shack"
   | "Toolshed"
   | "Warehouse"
   | "Compost Bin"
