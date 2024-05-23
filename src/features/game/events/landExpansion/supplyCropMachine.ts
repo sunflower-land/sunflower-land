@@ -100,8 +100,6 @@ export function getPackYieldAmount(
   for (let i = 0; i < amount; i++) {
     totalYield += getCropYieldAmount({
       game: state,
-      buds: state.buds ?? {},
-      inventory: state.inventory,
       crop,
     });
   }
