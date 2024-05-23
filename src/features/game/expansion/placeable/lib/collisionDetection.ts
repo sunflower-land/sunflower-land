@@ -91,7 +91,11 @@ const PLACEABLE_DIMENSIONS = {
   ...RESOURCE_DIMENSIONS,
 };
 
-function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
+function detectPlaceableCollision(
+  state: GameState,
+  boundingBox: BoundingBox,
+  name: InventoryItemName
+) {
   const {
     collectibles,
     buildings,
@@ -114,7 +118,15 @@ function detectPlaceableCollision(state: GameState, boundingBox: BoundingBox) {
     ...buildings,
   };
 
-  const placeableBounds = getKeys(placed).flatMap((name) => {
+  if (NON_COLLIDING_OBJECTS.includes(name)) {
+    return false;
+  }
+
+  const collidingItems = getKeys(placed).filter(
+    (name) => !NON_COLLIDING_OBJECTS.includes(name)
+  );
+
+  const placeableBounds = collidingItems.flatMap((name) => {
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
@@ -435,7 +447,7 @@ export function detectCollision({
 
   return (
     detectWaterCollision(expansions, position) ||
-    detectPlaceableCollision(state, position) ||
+    detectPlaceableCollision(state, position, name) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position)
