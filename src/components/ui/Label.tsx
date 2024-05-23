@@ -124,10 +124,6 @@ export const Label: React.FC<Props> = ({
           LABEL_STYLES[type].textColour === "#ffffff"
             ? "1px 1px #1f1f1f"
             : "none",
-
-        // Pixel Font styles
-        // fontFamily: "TinyFont",
-        // textShadow: "none",
       }}
     >
       {icon && (
@@ -142,12 +138,10 @@ export const Label: React.FC<Props> = ({
         />
       )}
       <span
+        className="text-xs py-0.5"
         style={{
           textAlign: "center",
-          lineHeight: "15px",
           // Normal font styles
-          fontSize: "13px",
-          marginTop: "-2px",
 
           // Pixel Font styles
           // paddingTop: "2px",

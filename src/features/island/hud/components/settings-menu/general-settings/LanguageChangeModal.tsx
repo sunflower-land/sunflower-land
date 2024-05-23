@@ -100,7 +100,7 @@ export const LanguageSwitcher: React.FC = () => {
           <a
             target="_blank"
             rel="noopener noreferrer"
-            className="underline text-white text-xs cursor-pointer"
+            className="underline text-xs cursor-pointer"
             onClick={() => setShowContributeLanguage(true)}
           >
             {t("statements.translation.want2contribute")}

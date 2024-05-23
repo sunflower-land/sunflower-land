@@ -50,16 +50,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.home")}
-        </span>
+        <span className="text-xs sm:text-sm">{t("world.home")}</span>
       </div>
 
       <div
@@ -78,16 +69,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.plaza")}
-        </span>
+        <span className="text-xs sm:text-sm">{t("world.plaza")}</span>
       </div>
 
       {hasFeatureAccess(gameService.state.context.state, "KINGDOM") && (
@@ -136,16 +118,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.beach")}
-        </span>
+        <span className="text-xs sm:text-sm">{t("world.beach")}</span>
       </div>
 
       <div
@@ -164,16 +137,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.woodlands")}
-        </span>
+        <span className="text-xs sm:text-sm">{t("world.woodlands")}</span>
       </div>
 
       {/* <div
@@ -195,7 +159,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           className="text-xs sm:text-sm"
           style={
             {
-              "-webkit-text-stroke": "1px black",
+              
             } as any
           }
         >
@@ -220,16 +184,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.retreat")}
-        </span>
+        <span className="text-xs sm:text-sm">{t("world.retreat")}</span>
       </div>
     </OuterPanel>
   );
