@@ -5,7 +5,7 @@ import token from "assets/icons/sfl.webp";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { DynamicNFT } from "./DynamicNFT";
-import { InnerPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import {
   getBumpkinLevel,
   getExperienceToNextLevel,
@@ -240,44 +240,44 @@ export const BumpkinModal: React.FC<Props> = ({
                 </div>
               </div>
 
-              <div
-                className="mb-2 cursor-pointer"
-                onClick={() => setView("skills")}
-              >
-                <InnerPanel className="relative mt-1 !px-2 !py-1">
-                  <div className="flex items-center mb-1 justify-between">
-                    <div className="flex items-center">
-                      <span className="text-xs">{t("skills")}</span>
-                      {hasAvailableSP && !readonly && (
-                        <img
-                          src={SUNNYSIDE.icons.expression_alerted}
-                          className="h-4 ml-2"
-                        />
-                      )}
-                    </div>
-                    <span className="text-xxs underline">{t("viewAll")}</span>
-                  </div>
-                  <SkillBadges
-                    inventory={inventory}
-                    bumpkin={bumpkin as Bumpkin}
-                  />
-                </InnerPanel>
-              </div>
-
-              <div
-                className="mb-2 cursor-pointer"
+              <ButtonPanel
                 onClick={() => setView("achievements")}
+                className="mb-2 relative mt-1 !px-2 !py-1"
               >
-                <InnerPanel className="relative mt-1 !px-2 !py-1">
-                  <div className="flex items-center mb-1 justify-between">
-                    <div className="flex items-center">
-                      <span className="text-xs">{t("achievements")}</span>
-                    </div>
-                    <span className="text-xxs underline">{t("viewAll")}</span>
+                <div className="flex items-center mb-1 justify-between">
+                  <div className="flex items-center">
+                    <span className="text-xs">{t("skills")}</span>
+                    {hasAvailableSP && !readonly && (
+                      <img
+                        src={SUNNYSIDE.icons.expression_alerted}
+                        className="h-4 ml-2"
+                      />
+                    )}
                   </div>
-                  <AchievementBadges achievements={bumpkin?.achievements} />
-                </InnerPanel>
-              </div>
+                  <span className="text-base underline font-secondary">
+                    {t("viewAll")}
+                  </span>
+                </div>
+                <SkillBadges
+                  inventory={inventory}
+                  bumpkin={bumpkin as Bumpkin}
+                />
+              </ButtonPanel>
+
+              <ButtonPanel
+                onClick={() => setView("achievements")}
+                className="mb-2 relative mt-1 !px-2 !py-1"
+              >
+                <div className="flex items-center mb-1 justify-between">
+                  <div className="flex items-center">
+                    <span className="text-xs">{t("achievements")}</span>
+                  </div>
+                  <span className="underline font-secondary">
+                    {t("viewAll")}
+                  </span>
+                </div>
+                <AchievementBadges achievements={bumpkin?.achievements} />
+              </ButtonPanel>
             </div>
           </div>
         )}

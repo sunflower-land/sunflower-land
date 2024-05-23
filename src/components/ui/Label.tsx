@@ -52,7 +52,7 @@ const LABEL_STYLES: Record<
   transparent: {
     background: "none",
     borderStyle: {},
-    textColour: "#ffffff",
+    textColour: "#181425",
   },
   // Special
   vibrant: {
@@ -117,13 +117,14 @@ export const Label: React.FC<Props> = ({
         paddingLeft: icon ? "14px" : "3px",
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
+        fontSize: `10px`,
         ...style,
 
         // Normal font styles
-        textShadow:
-          LABEL_STYLES[type].textColour === "#ffffff"
-            ? "1px 1px #1f1f1f"
-            : "none",
+        // textShadow:
+        //   LABEL_STYLES[type].textColour === "#ffffff"
+        //     ? "1px 1px #1f1f1f"
+        //     : "none",
       }}
     >
       {icon && (
@@ -145,7 +146,8 @@ export const Label: React.FC<Props> = ({
 
           // Pixel Font styles
           // paddingTop: "2px",
-          // fontSize: `10px`,
+          // fontSize: `22px`,
+          fontSize: "inherit",
         }}
       >
         {children}
