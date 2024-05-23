@@ -1023,6 +1023,11 @@ export type CropFruitDescriptions =
   | "description.bloom.seed"
   | "description.lily.seed";
 
+export type CropMachine =
+  | "cropMachine.moreOilRequired"
+  | "cropMachine.oilTank"
+  | "cropMachine.machineRuntime";
+
 export type DeliveryItem =
   | "deliveryitem.inventory"
   | "deliveryitem.itemsToDeliver"
@@ -3388,6 +3393,7 @@ export type TranslationKeys =
   | Conversations
   | CropBoomMessages
   | CropFruitDescriptions
+  | CropMachine
   | DeliveryItem
   | DefaultDialogue
   | DecorationDescriptions

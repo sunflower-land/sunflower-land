@@ -32,6 +32,7 @@ import {
   ConfirmationTerms,
   Conversations,
   CropBoomMessages,
+  CropMachine,
   CropFruitDescriptions,
   DeliveryItem,
   DefaultDialogue,
@@ -1427,6 +1428,12 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.sunpetal.seed": "A sunpetal seed",
   "description.bloom.seed": "A bloom seed",
   "description.lily.seed": "A lily seed",
+};
+
+const cropMachine: Record<CropMachine, string> = {
+  "cropMachine.moreOilRequired": "More oil required",
+  "cropMachine.oilTank": "Oil tank",
+  "cropMachine.machineRuntime": "Machine runtime {{time}}",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -4910,6 +4917,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...conversations,
   ...cropBoomMessages,
   ...cropFruitDescriptions,
+  ...cropMachine,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
