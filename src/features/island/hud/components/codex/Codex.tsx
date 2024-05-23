@@ -198,35 +198,59 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               </div>
             </div>
             {/* Content */}
-            <InnerPanel
+            {/* <InnerPanel
               className={classNames("flex flex-col h-full overflow-hidden", {
                 "overflow-y-auto scrollable": currentTab !== 5,
               })}
-            >
-              {currentTab === 0 && <Deliveries />}
-              {currentTab === 1 && <Chores farmId={farmId} />}
-              {currentTab === 2 && (
+            > */}
+            {currentTab === 0 && <Deliveries />}
+            {currentTab === 1 && (
+              <InnerPanel
+                className={classNames("flex flex-col h-full overflow-hidden")}
+              >
+                <Chores farmId={farmId} />
+              </InnerPanel>
+            )}
+            {currentTab === 2 && (
+              <InnerPanel
+                className={classNames("flex flex-col h-full overflow-hidden")}
+              >
                 <Fish onMilestoneReached={handleMilestoneReached} />
-              )}
-              {currentTab === 3 && (
+              </InnerPanel>
+            )}
+            {currentTab === 3 && (
+              <InnerPanel
+                className={classNames("flex flex-col h-full overflow-hidden")}
+              >
                 <Flowers onMilestoneReached={handleMilestoneReached} />
-              )}
-              {currentTab === 4 && (
+              </InnerPanel>
+            )}
+            {currentTab === 4 && (
+              <InnerPanel
+                className={classNames("flex flex-col h-full overflow-hidden")}
+              >
                 <TicketsLeaderboard
                   id={id}
                   isLoading={data === undefined}
                   data={data?.tickets ?? null}
                 />
-              )}
-              {currentTab === 5 && state.faction && (
+              </InnerPanel>
+            )}
+            {currentTab === 5 && state.faction && (
+              <InnerPanel
+                className={classNames(
+                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+                )}
+              >
                 <FactionsLeaderboard
                   id={id}
                   faction={state.faction.name}
                   isLoading={data === undefined}
                   data={data?.factions ?? null}
                 />
-              )}
-            </InnerPanel>
+              </InnerPanel>
+            )}
+            {/* </InnerPanel> */}
           </div>
         </OuterPanel>
         {showMilestoneReached && (

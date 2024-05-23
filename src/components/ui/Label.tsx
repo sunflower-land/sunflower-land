@@ -64,7 +64,7 @@ const LABEL_STYLES: Record<
   warning: {
     background: "#f09100",
     borderStyle: pixelOrangeBorderStyle,
-    textColour: "#ffffff",
+    textColour: "#3e2731",
   },
   chill: {
     background: "#e4a672",

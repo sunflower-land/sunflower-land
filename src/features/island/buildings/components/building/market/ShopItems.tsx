@@ -8,7 +8,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ConversationName } from "features/game/types/announcements";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { Panel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -131,6 +131,7 @@ export const ShopItems: React.FC<Props> = ({
       currentTab={tab}
       setCurrentTab={setTab}
       onClose={onClose}
+      container={OuterPanel}
     >
       {tab === 0 && <Seeds onClose={onClose} />}
       {tab === 1 && <Crops cropShortage={!!cropShortage} />}

@@ -8,6 +8,7 @@ import { IslandBlacksmithItems } from "features/helios/components/blacksmith/com
 import { Buildings } from "features/island/hud/components/buildings/Buildings";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: (e?: SyntheticEvent) => void;
@@ -28,6 +29,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
+      container={OuterPanel}
     >
       {tab === 0 && <Tools onClose={onClose} />}
       {tab === 1 && <IslandBlacksmithItems />}

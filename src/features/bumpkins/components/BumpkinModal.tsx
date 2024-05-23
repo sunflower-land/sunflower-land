@@ -241,7 +241,7 @@ export const BumpkinModal: React.FC<Props> = ({
               </div>
 
               <ButtonPanel
-                onClick={() => setView("achievements")}
+                onClick={() => setView("skills")}
                 className="mb-2 relative mt-1 !px-2 !py-1"
               >
                 <div className="flex items-center mb-1 justify-between">
