@@ -2,6 +2,7 @@ import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
   | "gaucho"
+  | "chicken"
   | "hopper"
   | "flopsy"
   | "betty"
@@ -86,6 +87,16 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Brown Boots",
     hat: "Boater Hat",
+  },
+  chicken: {
+    background: "Farm Background",
+    body: "Beige Farmer Potion",
+    hair: "Basic Hair",
+    shoes: "Black Farmer Boots",
+    tool: "Farmer Pitchfork",
+    pants: "Farmer Overalls",
+    shirt: "Blue Farmer Shirt",
+    hat: "Chicken Hat",
   },
   flopsy: {
     body: "Dark Brown Farmer Potion",
@@ -558,6 +569,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Farmer Pitchfork",
     background: "Cemetery Background",
     shoes: "Brown Boots",
+    hat: "Chicken Hat",
   },
   "phantom face": {
     body: "Dark Brown Farmer Potion",

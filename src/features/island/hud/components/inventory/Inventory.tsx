@@ -11,6 +11,7 @@ import { getChestItems } from "./utils/inventory";
 import { KNOWN_IDS } from "features/game/types";
 import { useLocation } from "react-router-dom";
 import { BudName } from "features/game/types/buds";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   state: GameState;
@@ -37,6 +38,10 @@ export const Inventory: React.FC<Props> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
+
+  const inventory = useSound("inventory");
+  const close = useSound("close");
+
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const limitedInventory =
     pathname.includes("retreat") ||
@@ -76,7 +81,10 @@ export const Inventory: React.FC<Props> = ({
         }}
       >
         <div
-          onClick={() => setIsOpen(true)}
+          onClick={() => {
+            inventory.play();
+            setIsOpen(true);
+          }}
           className="relative flex z-50 cursor-pointer hover:img-highlight"
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
@@ -127,7 +135,10 @@ export const Inventory: React.FC<Props> = ({
 
       <InventoryItemsModal
         show={isOpen}
-        onHide={() => setIsOpen(false)}
+        onHide={() => {
+          close.play();
+          setIsOpen(false);
+        }}
         state={state}
         selectedBasketItem={selectedBasketItem}
         onSelectBasketItem={handleBasketItemClick}

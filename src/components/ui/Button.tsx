@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { pixelLightBorderStyle } from "features/game/lib/style";
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import Decimal from "decimal.js-light";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -33,9 +34,18 @@ export const Button: React.FC<Props> = ({
     }
   );
 
+  const button = useSound("button");
+
+  const onClickWithSound = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    button.play();
+    onClick?.(event);
+  };
+
   const clickEvents = longPress
     ? longPressEvents
-    : { onClick: !disabled ? onClick : undefined };
+    : { onClick: !disabled ? onClickWithSound : undefined };
 
   return (
     <button

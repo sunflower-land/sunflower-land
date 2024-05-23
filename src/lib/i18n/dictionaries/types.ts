@@ -428,7 +428,7 @@ export type AvailableSeeds =
   | "quickSelect.label"
   | "quickSelect.empty";
 
-export type Base = "base.missing" | "base.far.away";
+export type Base = "base.missing" | "base.far.away" | "base.iam.far.away";
 
 export type BasicTreasure =
   | "basic.treasure.missingKey"
@@ -2826,7 +2826,8 @@ export type RewardTerms =
   | "reward.wearable"
   | "reward.woohoo"
   | "reward.promo.code"
-  | "reward.connectWeb3Wallet";
+  | "reward.connectWeb3Wallet"
+  | "reward.factionPoints";
 
 export type RulesGameStart =
   | "rules.gameStart"
@@ -3347,6 +3348,15 @@ export type GreenhouseKeys =
   | "greenhouse.oilInMachine"
   | "greenhouse.insertOil"
   | "greenhouse.numberOil";
+export type Minigame =
+  | "minigame.playNow"
+  | "minigame.chickenRescue"
+  | "minigame.completed"
+  | "minigame.noPrizeAvailable"
+  | "minigame.confirm"
+  | "minigame.purchase"
+  | "minigame.comingSoon"
+  | "minigame.chickenRescueHelp";
 
 export type TranslationKeys =
   | AchievementsTerms
@@ -3446,6 +3456,7 @@ export type TranslationKeys =
   | LostSunflorian
   | MegaStore
   | MilestoneMessages
+  | Minigame
   | ModalDescription
   | Noaccount
   | NoBumpkin

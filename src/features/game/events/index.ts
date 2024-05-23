@@ -296,6 +296,16 @@ import {
   OilGreenhouseAction,
 } from "./landExpansion/oilGreenHouse";
 
+import {
+  PurchaseMinigameAction,
+  purchaseMinigameItem,
+} from "./minigames/purchaseMinigameItem";
+import { PlayMinigameAction, playMinigame } from "./minigames/playMinigame";
+import {
+  claimMinigamePrize,
+  ClaimMinigamePrizeAction,
+} from "./minigames/claimMinigamePrize";
+
 export type PlayingEvent =
   | OilGreenhouseAction
   | HarvestGreenhouseAction
@@ -380,7 +390,10 @@ export type PlayingEvent =
   | ExchangeSFLtoCoinsAction
   | PledgeFactionAction
   | DonateToFactionAction
-  | DrillOilReserveAction;
+  | DrillOilReserveAction
+  | ClaimMinigamePrizeAction
+  | PurchaseMinigameAction
+  | PlayMinigameAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -449,6 +462,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
+  "minigame.itemPurchased": purchaseMinigameItem,
+  "minigame.prizeClaimed": claimMinigamePrize,
+  "minigame.played": playMinigame,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,

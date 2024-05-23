@@ -7,6 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useNavigate } from "react-router-dom";
 import { OuterPanel } from "components/ui/Panel";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const showDebugBorders = false;
 
@@ -15,6 +16,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const navigate = useNavigate();
+
+  const travel = useSound("travel");
 
   useEffect(() => {
     gameService.send("SAVE");
@@ -41,6 +44,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          travel.play();
           navigate("/");
           onClose();
         }}
@@ -68,6 +72,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          travel.play();
           navigate("/world/plaza");
           onClose();
         }}
@@ -95,6 +100,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          travel.play();
           navigate("/world/beach");
           onClose();
         }}
@@ -122,6 +128,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          travel.play();
           navigate("/world/woodlands");
           onClose();
         }}
@@ -177,6 +184,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          travel.play();
           navigate("/world/retreat");
           onClose();
         }}

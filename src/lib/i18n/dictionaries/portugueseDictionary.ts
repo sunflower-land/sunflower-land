@@ -174,6 +174,7 @@ import {
   Leaderboard,
   GameOptions,
   GreenhouseKeys,
+  Minigame,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -651,6 +652,7 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 const base: Record<Base, string> = {
   "base.missing": "Nome ausente na configuração",
   "base.far.away": "Você está muito longe",
+  "base.iam.far.away": "Estou muito longe",
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {
@@ -4173,6 +4175,7 @@ const rewardTerms: Record<RewardTerms, string> = {
   "reward.woohoo": "Uhuu! Aqui está sua recompensa",
   "reward.connectWeb3Wallet":
     "Conecte uma Carteira Web3 para uma recompensa diária.",
+  "reward.factionPoints": ENGLISH_TERMS["reward.factionPoints"],
 };
 
 const rulesGameStart: Record<RulesGameStart, string> = {
@@ -4943,6 +4946,17 @@ const greenhouse: Record<GreenhouseKeys, string> = {
   "greenhouse.numberOil": ENGLISH_TERMS["greenhouse.numberOil"],
 };
 
+const minigame: Record<Minigame, string> = {
+  "minigame.chickenRescue": ENGLISH_TERMS["minigame.chickenRescue"],
+  "minigame.comingSoon": ENGLISH_TERMS["minigame.comingSoon"],
+  "minigame.completed": ENGLISH_TERMS["minigame.completed"],
+  "minigame.confirm": ENGLISH_TERMS["minigame.confirm"],
+  "minigame.noPrizeAvailable": ENGLISH_TERMS["minigame.noPrizeAvailable"],
+  "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
+  "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
+  "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
+};
+
 export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...achievementTerms,
   ...auction,
@@ -5041,6 +5055,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...lostSunflorian,
   ...megaStore,
   ...milestoneMessages,
+  ...minigame,
   ...modalDescription,
   ...noaccount,
   ...noBumpkin,

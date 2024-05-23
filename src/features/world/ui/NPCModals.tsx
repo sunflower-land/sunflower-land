@@ -16,7 +16,6 @@ import {
 } from "./donations/Donations";
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
-import { Luna } from "./npcs/Luna";
 import { Mayor } from "./npcs/Mayor";
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
@@ -28,6 +27,7 @@ import { SpecialEventModal } from "./SpecialEventModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
 import { FactionModalContent } from "./factions/FactionModalContent";
+import { ChickenRescue } from "./portals/ChickenRescue";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -139,32 +139,12 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         )}
 
         {npc === "billy" && (
-          <SpeakingModal
-            bumpkinParts={NPC_WEARABLES.billy}
+          <CloseButtonPanel
             onClose={closeModal}
-            message={[
-              {
-                text: translate("npc.Modal.Billy"),
-              },
-              {
-                text: translate("npc.Modal.Billy.one"),
-              },
-              {
-                text: translate("npc.Modal.Billy.two"),
-                actions: [
-                  {
-                    text: "Read more",
-                    cb: () => {
-                      window.open(
-                        "https://docs.sunflower-land.com/player-guides/bud-nfts",
-                        "_blank"
-                      );
-                    },
-                  },
-                ],
-              },
-            ]}
-          />
+            bumpkinParts={NPC_WEARABLES.billy}
+          >
+            <ChickenRescue onClose={closeModal} />
+          </CloseButtonPanel>
         )}
         {npc === "goldtooth" && <GoldTooth onClose={closeModal} />}
         {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
@@ -206,7 +186,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "finn" && <Finn onClose={closeModal} />}
         {npc === "tango" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "luna" && <Luna onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
 
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}

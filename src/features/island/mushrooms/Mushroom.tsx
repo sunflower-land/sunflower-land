@@ -8,6 +8,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { ZoomContext } from "components/ZoomProvider";
 import { MushroomName } from "features/game/types/resources";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const FIFTEEN_SECONDS = 15000;
 const getDelay = () => Math.random() * FIFTEEN_SECONDS;
@@ -39,9 +40,15 @@ export const Mushroom: React.FC<Props> = ({ id, isFirstRender, name }) => {
 
   const mushroomGif = useRef<SpriteSheetInstance>();
 
+  const mushrooms = ["mushroom_1", "mushroom_2", "mushroom_3"] as const;
+  const mushroomSound = useSound(
+    mushrooms[Math.floor(Math.random() * mushrooms.length)]
+  );
+
   const { image } = MUSHROOM_STYLES[name];
 
   const pickMushroom = () => {
+    mushroomSound.play();
     gameService.send("mushroom.picked", { id });
   };
 

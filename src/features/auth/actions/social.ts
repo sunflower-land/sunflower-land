@@ -1,3 +1,4 @@
+import { removeMinigameJWTs } from "features/world/ui/community/actions/portal";
 import { decodeToken } from "./login";
 
 const host = window.location.host.replace(/^www\./, "");
@@ -40,4 +41,6 @@ export function saveJWT(token: string) {
 
 export function removeJWT() {
   localStorage.removeItem(LOCAL_STORAGE_KEY);
+
+  removeMinigameJWTs();
 }

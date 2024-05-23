@@ -269,6 +269,17 @@ export abstract class BaseScene extends Phaser.Scene {
           .on("pointerdown", (p: Phaser.Input.Pointer) => {
             if (p.downElement.nodeName === "CANVAS") {
               const id = polygon.data.list.id;
+
+              const distance = Phaser.Math.Distance.BetweenPoints(
+                this.currentPlayer as BumpkinContainer,
+                polygon as Phaser.GameObjects.Polygon
+              );
+
+              if (distance > 50) {
+                this.currentPlayer?.speak(translate("base.iam.far.away"));
+                return;
+              }
+
               interactableModalManager.open(id);
             }
           });
@@ -1017,6 +1028,19 @@ export abstract class BaseScene extends Phaser.Scene {
     this.syncPlayers();
     this.updateClothing();
     this.renderPlayers();
+  }
+
+  checkDistanceToSprite(
+    sprite: Phaser.GameObjects.Sprite,
+    maxDistance: number
+  ) {
+    const distance = Phaser.Math.Distance.BetweenPoints(
+      sprite,
+      this.currentPlayer as BumpkinContainer
+    );
+
+    if (distance > maxDistance) return false;
+    return true;
   }
 
   initialiseNPCs(npcs: NPCBumpkin[]) {

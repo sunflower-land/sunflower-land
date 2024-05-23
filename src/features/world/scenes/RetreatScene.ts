@@ -8,6 +8,7 @@ import {
   setCachedMarketPrices,
 } from "../ui/market/lib/marketCache";
 import { getMarketPrices } from "features/game/actions/getMarketPrices";
+import { translate } from "lib/i18n/translate";
 
 const BUMPKINS: NPCBumpkin[] = [
   {
@@ -120,9 +121,12 @@ export class RetreatScene extends BaseScene {
     bigGoblin.play("big_goblin_animation", true);
 
     const exchange = this.add.sprite(114, 215, "exchange");
-    // On click
     exchange.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("goblin_market");
+      if (this.checkDistanceToSprite(exchange, 75)) {
+        interactableModalManager.open("goblin_market");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     const grabnab = this.add.sprite(90, 235, "grabnab");
@@ -153,7 +157,11 @@ export class RetreatScene extends BaseScene {
 
     const bank = this.add.sprite(422, 94, "bank");
     bank.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("bank");
+      if (this.checkDistanceToSprite(bank, 75)) {
+        interactableModalManager.open("bank");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     this.add.sprite(532, 51, "raffle_disc").setDepth(1000000000);
@@ -162,7 +170,11 @@ export class RetreatScene extends BaseScene {
 
     const wishingWell = this.add.sprite(532, 71, "wishing_well");
     wishingWell.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("wishingWell");
+      if (this.checkDistanceToSprite(wishingWell, 75)) {
+        interactableModalManager.open("wishingWell");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     this.add.sprite(513, 404, "balloon");
@@ -206,7 +218,11 @@ export class RetreatScene extends BaseScene {
     garbageCollector
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
-        interactableModalManager.open("garbage_collector");
+        if (this.checkDistanceToSprite(garbageCollector, 75)) {
+          interactableModalManager.open("garbage_collector");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
       });
 
     const smoke = this.add.sprite(72, 46, "garbage_smoke");
@@ -236,7 +252,11 @@ export class RetreatScene extends BaseScene {
     raffle.play("raffle_animation", true);
 
     raffle.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      interactableModalManager.open("raffle");
+      if (this.checkDistanceToSprite(raffle, 75)) {
+        interactableModalManager.open("raffle");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
 
     const twentyFourHours = 1000 * 60 * 60 * 24;
