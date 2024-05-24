@@ -175,6 +175,7 @@ import {
   GameOptions,
   GreenhouseKeys,
   Minigame,
+  RemoveCropMachine,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4154,6 +4155,13 @@ const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
     "Are you sure you want to remove your Hungry Caterpillar?",
 };
 
+const removeCropMachine: Record<RemoveCropMachine, string> = {
+  "removeCropMachine.title": "Remove Crop Machine?",
+  "removeCropMachine.description":
+    "This action will remove all the seeds from your crop machine.",
+  "removeCropMachine.removeSeeds": "Remove seeds",
+};
+
 const resale: Record<Resale, string> = {
   "resale.actionText": "Resale",
 };
@@ -5083,4 +5091,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...world,
   ...wornDescription,
   ...restrictionReason,
+  ...removeCropMachine,
 };

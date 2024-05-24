@@ -176,6 +176,7 @@ import {
   GreenhouseKeys,
   Minigame,
   CropMachine,
+  RemoveCropMachine,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -4152,6 +4153,14 @@ const removeKuebiko: Record<RemoveKuebiko, string> = {
   "removeKuebiko.removeSeeds": "Tohumları Kaldır",
 };
 
+const removeCropMachine: Record<RemoveCropMachine, string> = {
+  "removeCropMachine.title": ENGLISH_TERMS["removeCropMachine.title"],
+  "removeCropMachine.description":
+    ENGLISH_TERMS["removeCropMachine.description"],
+  "removeCropMachine.removeSeeds":
+    ENGLISH_TERMS["removeCropMachine.removeSeeds"],
+};
+
 const resale: Record<Resale, string> = {
   "resale.actionText": "Yeniden Sat",
 };
@@ -5129,4 +5138,5 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...world,
   ...wornDescription,
   ...restrictionReason,
+  ...removeCropMachine,
 };

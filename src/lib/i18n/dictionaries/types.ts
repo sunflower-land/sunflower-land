@@ -2813,6 +2813,11 @@ export type RemoveKuebiko =
   | "removeKuebiko.description"
   | "removeKuebiko.removeSeeds";
 
+export type RemoveCropMachine =
+  | "removeCropMachine.title"
+  | "removeCropMachine.description"
+  | "removeCropMachine.removeSeeds";
+
 export type Resale = "resale.actionText";
 
 export type ResourceTerms =
@@ -3511,6 +3516,7 @@ export type TranslationKeys =
   | Refunded
   | RemoveHungryCaterpillar
   | RemoveKuebiko
+  | RemoveCropMachine
   | Resale
   | ResourceTerms
   | Restock
