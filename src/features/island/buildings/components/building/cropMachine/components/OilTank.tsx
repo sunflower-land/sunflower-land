@@ -15,16 +15,14 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface OilTankProps {
-  idle: boolean;
-  paused: boolean;
+  stopped: boolean;
   queue: CropMachineQueueItem[];
   unallocatedOilTime: number;
   onAddOil: () => void;
 }
 
 export const OilTank = ({
-  idle,
-  paused,
+  stopped,
   queue,
   unallocatedOilTime,
   onAddOil,
@@ -64,7 +62,7 @@ export const OilTank = ({
 
   useEffect(() => {
     // Update the state immediately when paused or idle
-    if (paused || idle) {
+    if (stopped) {
       setOilInTank(calculatePercentageFull(queue, unallocatedOilTime));
       setRuntime(calculateOilTimeRemaining(queue, unallocatedOilTime));
       return;
@@ -78,7 +76,7 @@ export const OilTank = ({
 
     // Cleanup function to clear the interval
     return () => clearInterval(interval);
-  }, [queue, unallocatedOilTime, paused, idle]);
+  }, [queue, unallocatedOilTime, stopped]);
 
   return (
     <div>

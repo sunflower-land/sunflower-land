@@ -21,7 +21,7 @@ import { Maturing } from "./components/Maturing";
 import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
-import readyCrops from "assets/cropMachine/readyCrops.webp";
+import harvestedCropsImage from "assets/cropMachine/readyCrops.webp";
 import shadow from "assets/cropMachine/shadow.webp";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 
@@ -137,19 +137,31 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
   const image = ITEM_DETAILS["Crop Machine"].image;
 
+  const readyCrops = queue
+    .filter((pack) => pack.readyAt && pack.readyAt <= Date.now())
+    .map((pack) => pack.crop);
+
   return (
     <>
-      <BuildingImageWrapper
-        name="Crop Machine"
-        onClick={handleClick}
-        ready={canHarvest}
-      >
+      <BuildingImageWrapper name="Crop Machine" onClick={handleClick}>
         <div
           className="absolute bottom-0"
           style={{
             width: `${PIXEL_SCALE * 80}px`,
+            height: `${PIXEL_SCALE * 80}px`,
           }}
         >
+          {readyCrops.length > 0 && (
+            <div className="absolute top-2 flex w-full items-center justify-center z-10">
+              {readyCrops.map((crop, index) => (
+                <img
+                  key={index}
+                  src={ITEM_DETAILS[crop].image}
+                  className="img-highlight-heavy w-8 ready"
+                />
+              ))}
+            </div>
+          )}
           {idle && (
             <img
               src={image}
@@ -186,7 +198,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
 
           {canHarvest && (
             <img
-              src={readyCrops}
+              src={harvestedCropsImage}
               className="absolute bottom-2"
               style={{
                 height: `${PIXEL_SCALE * 59}px`,

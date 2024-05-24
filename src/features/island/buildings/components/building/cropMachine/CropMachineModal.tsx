@@ -478,8 +478,8 @@ export const CropMachineModal: React.FC<Props> = ({
                         className="object-contain absolute z-10"
                         style={{
                           width: `${PIXEL_SCALE * 8}px`,
-                          top: `${PIXEL_SCALE * -4}px`,
-                          right: `${PIXEL_SCALE * -4}px`,
+                          bottom: `${0.5}px`,
+                          right: `${0.5}px`,
                         }}
                       />
                     }
@@ -491,8 +491,7 @@ export const CropMachineModal: React.FC<Props> = ({
             </div>
             {show && (
               <OilTank
-                idle={idle}
-                paused={paused}
+                stopped={paused || idle}
                 queue={queue}
                 unallocatedOilTime={unallocatedOilTime}
                 onAddOil={() => setOverlayScreen("addOil")}
