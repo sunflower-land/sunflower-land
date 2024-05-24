@@ -5,7 +5,7 @@ import {
   CookableName,
   COOKABLES,
 } from "features/game/types/consumables";
-import { Bumpkin, GameState, PlacedItem } from "features/game/types/game";
+import { Bumpkin, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { translate } from "lib/i18n/translate";
@@ -47,7 +47,7 @@ type Options = {
 };
 
 type GetReadyAtArgs = {
-  building: PlacedItem;
+  buildingName: BuildingName;
   item: CookableName;
   bumpkin: Bumpkin;
   createdAt: number;
@@ -68,11 +68,10 @@ function isCookingBuilding(
 }
 
 export function getCookingOilBoost(
-  building: PlacedItem,
-  item: CookableName
+  buildingName: BuildingName,
+  item: CookableName,
+  game: GameState
 ): { timeToCook: number; oilConsumed: number } {
-  const buildingName = COOKABLES[item].building;
-
   if (!isCookingBuilding(buildingName)) {
     return { timeToCook: COOKABLES[item].cookingSeconds, oilConsumed: 0 };
   }
@@ -80,7 +79,7 @@ export function getCookingOilBoost(
   const itemCookingTime = COOKABLES[item].cookingSeconds;
 
   const itemOilConsumption = getOilConsumption(buildingName, item);
-  const oilRemaining = building.oilRemaining || 0;
+  const oilRemaining = game.buildings[buildingName]?.[0].oilRemaining || 0;
 
   const boostValue = BUILDING_OIL_BOOSTS[buildingName];
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
@@ -100,13 +99,13 @@ export function getCookingOilBoost(
 }
 
 export const getReadyAt = ({
-  building,
+  buildingName,
   item,
   bumpkin,
   createdAt,
   game,
 }: GetReadyAtArgs) => {
-  const withOilBoost = getCookingOilBoost(building, item).timeToCook;
+  const withOilBoost = getCookingOilBoost(buildingName, item, game).timeToCook;
 
   const seconds = getCookingTime(withOilBoost, bumpkin, game);
 
@@ -164,7 +163,11 @@ export function cook({
     throw new Error(translate("error.cookingInProgress"));
   }
 
-  const oilConsumed = getCookingOilBoost(building, action.item).oilConsumed;
+  const oilConsumed = getCookingOilBoost(
+    requiredBuilding,
+    action.item,
+    stateCopy
+  ).oilConsumed;
   stateCopy.inventory = getKeys(ingredients).reduce((inventory, ingredient) => {
     const count = inventory[ingredient] || new Decimal(0);
     const amount = ingredients[ingredient] || new Decimal(0);
@@ -187,7 +190,7 @@ export function cook({
     name: action.item,
     boost: { Oil: oilConsumed },
     readyAt: getReadyAt({
-      building,
+      buildingName: requiredBuilding,
       item: action.item,
       bumpkin,
       createdAt,

@@ -60,6 +60,7 @@ export const BakeryModal: React.FC<Props> = ({
           onClose={onClose}
           crafting={crafting}
           craftingService={craftingService}
+          buildingName="Bakery"
         />
       </CloseButtonPanel>
     </Modal>

@@ -92,6 +92,7 @@ export const FirePitModal: React.FC<Props> = ({
             onClose={onClose}
             crafting={!!crafting}
             craftingService={craftingService}
+            buildingName="Fire Pit"
           />
         </CloseButtonPanel>
       )}

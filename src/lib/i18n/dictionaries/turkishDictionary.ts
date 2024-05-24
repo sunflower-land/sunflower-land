@@ -1015,6 +1015,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.tent": "(Artık üretilmiyor)",
   "description.house": "Kafanı dinleyebileceğin bir yer.",
   "description.crop.machine": ENGLISH_TERMS["description.crop.machine"],
+  "building.oil.remaining": ENGLISH_TERMS["building.oil.remaining"],
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {

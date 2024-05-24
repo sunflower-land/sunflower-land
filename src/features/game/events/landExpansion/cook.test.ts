@@ -234,13 +234,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      building: {
-        coordinates: { x: 1, y: 1 },
-        createdAt: Date.now(),
-        id: "1",
-        readyAt: Date.now(),
-        oilRemaining: 0,
-      },
+      buildingName: "Fire Pit",
       item: "Boiled Eggs",
       bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
@@ -262,13 +256,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      building: {
-        coordinates: { x: 1, y: 1 },
-        createdAt: Date.now(),
-        id: "1",
-        readyAt: Date.now(),
-        oilRemaining: 0,
-      },
+      buildingName: "Fire Pit",
       item: "Boiled Eggs",
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -297,13 +285,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      building: {
-        coordinates: { x: 1, y: 1 },
-        createdAt: Date.now(),
-        id: "1",
-        readyAt: Date.now(),
-        oilRemaining: 0,
-      },
+      buildingName: "Fire Pit",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       game: {
@@ -334,13 +316,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      building: {
-        coordinates: { x: 1, y: 1 },
-        createdAt: Date.now(),
-        id: "1",
-        readyAt: Date.now(),
-        oilRemaining: 0,
-      },
+      buildingName: "Fire Pit",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
@@ -378,7 +354,7 @@ describe("getReadyAt", () => {
     };
 
     const result = getReadyAt({
-      building: FirePit,
+      buildingName: "Fire Pit",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
@@ -404,7 +380,11 @@ describe("getCookingOilBoost", () => {
       readyAt: 0,
       coordinates: { x: 0, y: 0 },
     };
-    const time = getCookingOilBoost(kitchen, "Boiled Eggs").timeToCook;
+    const time = getCookingOilBoost(
+      "Kitchen",
+      "Boiled Eggs",
+      TEST_FARM
+    ).timeToCook;
 
     expect(time).toEqual(60 * 60);
   });
@@ -416,7 +396,11 @@ describe("getCookingOilBoost", () => {
       readyAt: 0,
       oilRemaining: 1,
     };
-    const time = getCookingOilBoost(kitchen, "Boiled Eggs").timeToCook;
+    const time = getCookingOilBoost(
+      "Kitchen",
+      "Boiled Eggs",
+      TEST_FARM
+    ).timeToCook;
 
     expect(time).toEqual(60 * 60 * 0.8);
   });
@@ -429,7 +413,7 @@ describe("getCookingOilBoost", () => {
       readyAt: 0,
       oilRemaining: 6,
     };
-    const boost = getCookingOilBoost(deli, "Fermented Carrots");
+    const boost = getCookingOilBoost("Deli", "Fermented Carrots", TEST_FARM);
 
     // Deli consumption is 12 oil per day
     // Deli boost is 0.4 (40% speed boost, meaning 60% of the original time)

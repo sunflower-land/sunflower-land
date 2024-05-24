@@ -64,6 +64,7 @@ export const KitchenModal: React.FC<Props> = ({
             onClose={onClose}
             crafting={crafting}
             craftingService={craftingService}
+            buildingName="Kitchen"
           />
           <AddOil buildingId={buildingId} buildingName="Kitchen" />
         </CloseButtonPanel>

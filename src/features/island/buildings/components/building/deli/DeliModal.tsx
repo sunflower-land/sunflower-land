@@ -59,6 +59,7 @@ export const DeliModal: React.FC<Props> = ({
           onClose={onClose}
           crafting={crafting}
           craftingService={craftingService}
+          buildingName="Deli"
         />
       </CloseButtonPanel>
     </Modal>
