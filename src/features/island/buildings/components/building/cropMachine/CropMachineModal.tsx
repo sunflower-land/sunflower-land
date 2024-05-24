@@ -207,6 +207,11 @@ export const CropMachineModal: React.FC<Props> = ({
     setOverlayScreen(undefined);
   };
 
+  const handlePickSeed = (seed: CropSeedName) => {
+    setSelectedSeed(seed);
+    setTotalSeeds(0);
+  };
+
   const selectedPack = queue[selectedPackIndex];
   const stackedQueue: (CropMachineQueueItem | null)[] = [
     ...queue,
@@ -321,7 +326,7 @@ export const CropMachineModal: React.FC<Props> = ({
                           image={ITEM_DETAILS[seed].image}
                           isSelected={selectedSeed === seed}
                           count={inventory[seed] ?? new Decimal(0)}
-                          onClick={() => setSelectedSeed(seed)}
+                          onClick={() => handlePickSeed(seed)}
                         />
                       ))}
                     </div>
