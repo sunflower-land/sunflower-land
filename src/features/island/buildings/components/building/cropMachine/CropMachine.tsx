@@ -22,6 +22,7 @@ import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
 import harvestedCropsImage from "assets/cropMachine/readyCrops.webp";
+import idleMachine from "assets/cropMachine/stage1_collector_empty.webp";
 import shadow from "assets/cropMachine/shadow.webp";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 
@@ -71,7 +72,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   );
   const canHarvest = useSelector(cropMachineService, _canHarvest);
   const running = useSelector(cropMachineService, _running);
-  const idle = useSelector(cropMachineService, _idle);
   const paused = useSelector(cropMachineService, _paused);
 
   const handleClick = () => {
@@ -135,8 +135,6 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
-  const image = ITEM_DETAILS["Crop Machine"].image;
-
   const readyCrops = queue
     .filter((pack) => pack.readyAt && pack.readyAt <= Date.now())
     .map((pack) => pack.crop);
@@ -152,7 +150,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
           }}
         >
           {readyCrops.length > 0 && (
-            <div className="absolute top-2 flex w-full items-center justify-center z-10">
+            <div className="absolute top-1.5 flex w-full items-center justify-center z-10">
               {readyCrops.map((crop, index) => (
                 <img
                   key={index}
@@ -162,16 +160,14 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
               ))}
             </div>
           )}
-          {idle && (
-            <img
-              src={image}
-              className="w-full absolute"
-              style={{
-                width: `${PIXEL_SCALE * 80}px`,
-                bottom: `${PIXEL_SCALE * 0}px`,
-              }}
-            />
-          )}
+          <img
+            src={idleMachine}
+            className="w-full absolute"
+            style={{
+              width: `${PIXEL_SCALE * 80}px`,
+              bottom: `${PIXEL_SCALE * 0}px`,
+            }}
+          />
           {(running || paused) && (
             <>
               <img

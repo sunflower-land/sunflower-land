@@ -45,15 +45,17 @@ function getGrowingCropPackStage(
 ): CropMachineGrowingStage {
   const now = Date.now();
 
-  const stage1Threshold = item.startTime + item.totalGrowTime / 4;
-  const stage2Threshold = stage1Threshold + item.totalGrowTime / 4;
-  const stage3Threshold = stage2Threshold + item.totalGrowTime / 4;
+  const stageDuration = item.totalGrowTime / 3;
+
+  const stage1Threshold = item.startTime + stageDuration;
+  const stage2Threshold = stage1Threshold + stageDuration;
+  const harvestThreshold = item.startTime + item.totalGrowTime - 5000; // 5 seconds before the end
 
   if (now < stage1Threshold) return "planting";
   if (now < stage2Threshold) return "sprouting";
-  if (now < stage3Threshold) return "maturing";
+  if (now < harvestThreshold) return "maturing";
 
-  return "harvesting";
+  return "harvesting"; // Last 5 seconds
 }
 
 function isCropInProgress(item: CropMachineQueueItem, now = Date.now()) {

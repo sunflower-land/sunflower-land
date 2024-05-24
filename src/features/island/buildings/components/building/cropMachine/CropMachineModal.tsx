@@ -40,6 +40,7 @@ import lightning from "assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   show: boolean;
@@ -584,7 +585,9 @@ export const CropMachineModal: React.FC<Props> = ({
                     className="mx-1.5 mt-2"
                   >
                     {t("cropMachine.availableInventory", {
-                      amount: (inventory.Oil?.toNumber() ?? 0) - totalOil,
+                      amount: setPrecision(
+                        new Decimal((inventory.Oil?.toNumber() ?? 0) - totalOil)
+                      ),
                     })}
                   </Label>
                   <Label
