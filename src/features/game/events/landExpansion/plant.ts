@@ -575,6 +575,13 @@ export function getCropYieldAmount({
     amount += 1;
   }
 
+  if (
+    crop === "Olive" &&
+    isWearableActive({ game, name: "Olive Royalty Shirt" })
+  ) {
+    amount += 0.25;
+  }
+
   return Number(setPrecision(new Decimal(amount)));
 }
 

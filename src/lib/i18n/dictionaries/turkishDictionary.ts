@@ -964,6 +964,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.paw.shield.boost": ENGLISH_TERMS["description.paw.shield.boost"],
   "description.vinny.boost": ENGLISH_TERMS["description.vinny.boost"],
   "description.rice.panda.boost": ENGLISH_TERMS["description.rice.panda.boost"],
+  "description.olive.shirt.boost":
+    ENGLISH_TERMS["description.olive.shirt.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
