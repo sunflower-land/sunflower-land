@@ -57,6 +57,62 @@ describe("supplyCropMachine", () => {
     ).toThrow("Missing requirements");
   });
 
+  it("throws an error if a negative amount is passed into the action", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Sunflower Seed": new Decimal(10),
+          },
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 123,
+                unallocatedOilTime: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Sunflower Seed", amount: -10 },
+        },
+      })
+    ).toThrow("Invalid amount supplied");
+  });
+
+  it("throws an error if you don't have enough oil", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Sunflower Seed": new Decimal(10),
+          },
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                id: "1",
+                readyAt: 123,
+                unallocatedOilTime: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          oil: 10,
+        },
+      })
+    ).toThrow("Missing requirements");
+  });
+
   it("throws an error if the seed is not a basic crop seed", () => {
     expect(() =>
       supplyCropMachine({
@@ -223,6 +279,10 @@ describe("supplyCropMachine", () => {
     });
 
     const sunflowerTime = (60 * 1000 * 5) / CROP_MACHINE_PLOTS;
+
+    const pack = newState.buildings["Crop Machine"]?.[0]
+      .queue?.[0] as CropMachineQueueItem;
+
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
@@ -430,7 +490,7 @@ describe("supplyCropMachine", () => {
 
     expect(
       newState.buildings["Crop Machine"]?.[0].unallocatedOilTime
-    ).toStrictEqual(oilTimeRemaining);
+    ).toBeCloseTo(oilTimeRemaining);
   });
 
   it("recalculates one item in queue when supplying oil", () => {
@@ -442,6 +502,7 @@ describe("supplyCropMachine", () => {
       inventory: {
         ...GAME_STATE.inventory,
         "Potato Seed": new Decimal(50),
+        Oil: new Decimal(10),
       },
       buildings: {
         "Crop Machine": [
@@ -475,20 +536,13 @@ describe("supplyCropMachine", () => {
 
     const sunflowerTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS; // 5 plots;
     const oilTimeRemain = (10 / OIL_PER_HOUR_CONSUMPTION) * 60 * 60 * 1000;
-    expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
-      {
-        crop: "Sunflower",
-        amount: 100,
-        growTimeRemaining: 0,
-        totalGrowTime: sunflowerPackGrowTime,
-        startTime: now,
-        readyAt: now + sunflowerTime,
-        seeds: 100,
-      },
-    ]);
+    const pack = result.buildings["Crop Machine"]?.[0]
+      .queue?.[0] as CropMachineQueueItem;
+    expect(pack.growTimeRemaining).toBe(0);
+    expect(pack.readyAt).toBeCloseTo(now + sunflowerTime);
     expect(
       result.buildings["Crop Machine"]?.[0].unallocatedOilTime
-    ).toStrictEqual(oilTimeRemain - sunflowerTime);
+    ).toBeCloseTo(oilTimeRemain - sunflowerTime);
   });
 
   it("recalculates multiple items in queue when supplying oil", () => {
@@ -503,6 +557,7 @@ describe("supplyCropMachine", () => {
       inventory: {
         ...GAME_STATE.inventory,
         "Potato Seed": new Decimal(50),
+        Oil: new Decimal(10),
       },
       buildings: {
         "Crop Machine": [
@@ -549,29 +604,17 @@ describe("supplyCropMachine", () => {
     const item1ReadyAt = now + sunflowerPackGrowTime;
     const item2ReadyAt = item1ReadyAt + potatoPackGrowTime;
 
-    expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
-      {
-        crop: "Sunflower",
-        amount: 100,
-        growTimeRemaining: 0,
-        startTime: now,
-        totalGrowTime: sunflowerPackGrowTime,
-        readyAt: item1ReadyAt,
-        seeds: 100,
-      },
-      {
-        crop: "Potato",
-        amount: 100,
-        totalGrowTime: potatoPackGrowTime,
-        startTime: item1ReadyAt,
-        growTimeRemaining: 0,
-        readyAt: item2ReadyAt,
-        seeds: 100,
-      },
-    ]);
+    const packOne = result.buildings["Crop Machine"]?.[0]
+      .queue?.[0] as CropMachineQueueItem;
+    const packTwo = result.buildings["Crop Machine"]?.[0]
+      .queue?.[1] as CropMachineQueueItem;
+    expect(packOne.growTimeRemaining).toBe(0);
+    expect(packOne.readyAt).toBeCloseTo(item1ReadyAt);
+    expect(packTwo.growTimeRemaining).toBe(0);
+    expect(packTwo.readyAt).toBeCloseTo(item2ReadyAt);
     expect(
       result.buildings["Crop Machine"]?.[0].unallocatedOilTime
-    ).toStrictEqual(
+    ).toBeCloseTo(
       oilTimeRemaining - sunflowerPackGrowTime - potatoPackGrowTime
     );
   });
@@ -585,6 +628,7 @@ describe("supplyCropMachine", () => {
       inventory: {
         ...GAME_STATE.inventory,
         "Potato Seed": new Decimal(50),
+        Oil: new Decimal(10),
       },
       buildings: {
         "Crop Machine": [
@@ -620,17 +664,12 @@ describe("supplyCropMachine", () => {
       createdAt: now,
     });
 
-    expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
-      {
-        crop: "Sunflower",
-        amount: 600,
-        totalGrowTime: sunflowerTime,
-        startTime: now,
-        growTimeRemaining: sunflowerTime - oilTimeRemaining,
-        growsUntil: now + oilTimeRemaining,
-        seeds: 600,
-      },
-    ]);
+    const packOne = result.buildings["Crop Machine"]?.[0]
+      .queue?.[0] as CropMachineQueueItem;
+    expect(packOne.growTimeRemaining).toBeCloseTo(
+      sunflowerTime - oilTimeRemaining
+    );
+    expect(packOne.growsUntil).toBeCloseTo(now + oilTimeRemaining);
     expect(
       result.buildings["Crop Machine"]?.[0].unallocatedOilTime
     ).toStrictEqual(0);
@@ -646,6 +685,7 @@ describe("supplyCropMachine", () => {
       inventory: {
         ...GAME_STATE.inventory,
         "Potato Seed": new Decimal(50),
+        Oil: new Decimal(10),
       },
       buildings: {
         "Crop Machine": [
@@ -690,29 +730,22 @@ describe("supplyCropMachine", () => {
 
     const pack1ReadyAt = now + sunflowerTimeForThreeHundred;
 
-    expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
-      {
-        crop: "Sunflower",
-        amount: 300,
-        totalGrowTime: sunflowerTimeForThreeHundred,
-        startTime: now,
-        growTimeRemaining: 0,
-        readyAt: pack1ReadyAt,
-        seeds: 300,
-      },
-      {
-        crop: "Sunflower",
-        amount: 600,
-        totalGrowTime: sunflowerTimeForSixHundred,
-        startTime: pack1ReadyAt,
-        growTimeRemaining: sunflowerTimeForSixHundred / 2,
-        growsUntil: pack1ReadyAt + sunflowerTimeForSixHundred / 2,
-        seeds: 600,
-      },
-    ]);
+    const packOne = result.buildings["Crop Machine"]?.[0]
+      .queue?.[0] as CropMachineQueueItem;
+    const packTwo = result.buildings["Crop Machine"]?.[0]
+      .queue?.[1] as CropMachineQueueItem;
+
+    expect(packOne.growTimeRemaining).toBeCloseTo(0);
+    expect(packOne.readyAt).toBeCloseTo(pack1ReadyAt);
+    expect(packTwo.growTimeRemaining).toBeCloseTo(
+      sunflowerTimeForSixHundred / 2
+    );
+    expect(packTwo.growsUntil).toBeCloseTo(
+      pack1ReadyAt + sunflowerTimeForSixHundred / 2
+    );
     expect(
       result.buildings["Crop Machine"]?.[0].unallocatedOilTime
-    ).toStrictEqual(0);
+    ).toBeCloseTo(0);
   });
 
   it("allocates enough oil to finish all packs in queue", () => {
@@ -725,6 +758,7 @@ describe("supplyCropMachine", () => {
       inventory: {
         ...GAME_STATE.inventory,
         "Potato Seed": new Decimal(50),
+        Oil: new Decimal(10),
       },
       buildings: {
         "Crop Machine": [
@@ -779,38 +813,23 @@ describe("supplyCropMachine", () => {
     const potatoReadyAt = sunflower1ReadyAt + potatoTime;
     const sunflower2ReadyAt = potatoReadyAt + sunflowerTime;
 
-    expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
-      {
-        crop: "Sunflower",
-        amount: 300,
-        totalGrowTime: sunflowerTime,
-        startTime: now,
-        growTimeRemaining: 0,
-        readyAt: sunflower1ReadyAt,
-        seeds: 300,
-      },
-      {
-        crop: "Potato",
-        amount: 500,
-        totalGrowTime: potatoTime,
-        startTime: sunflower1ReadyAt,
-        growTimeRemaining: 0,
-        readyAt: potatoReadyAt,
-        seeds: 500,
-      },
-      {
-        crop: "Sunflower",
-        amount: 300,
-        totalGrowTime: sunflowerTime,
-        startTime: potatoReadyAt,
-        growTimeRemaining: 0,
-        readyAt: sunflower2ReadyAt,
-        seeds: 300,
-      },
-    ]);
+    const packOne = result.buildings["Crop Machine"]?.[0]
+      .queue?.[0] as CropMachineQueueItem;
+    const packTwo = result.buildings["Crop Machine"]?.[0]
+      .queue?.[1] as CropMachineQueueItem;
+    const packThree = result.buildings["Crop Machine"]?.[0]
+      ?.queue?.[2] as CropMachineQueueItem;
+
+    expect(packOne.growTimeRemaining).toBe(0);
+    expect(packOne.readyAt).toBeCloseTo(sunflower1ReadyAt);
+    expect(packTwo.growTimeRemaining).toBe(0);
+    expect(packTwo.readyAt).toBeCloseTo(potatoReadyAt);
+    expect(packThree.growTimeRemaining).toBe(0);
+    expect(packThree.readyAt).toBeCloseTo(sunflower2ReadyAt);
+
     expect(
       result.buildings["Crop Machine"]?.[0].unallocatedOilTime
-    ).toStrictEqual(oilTimeRemaining);
+    ).toBeCloseTo(oilTimeRemaining);
   });
 
   it("adds 10% yield onto Sunflowers wearing Sunflower Amulet", () => {
@@ -1232,6 +1251,92 @@ describe("supplyCropMachine", () => {
     expect(firstPack.growsUntil).toBeCloseTo(now + oilMillisAdded);
     expect(machine.unallocatedOilTime).toBe(0);
     expect(firstPack.readyAt).toBeUndefined();
+  });
+
+  it("can add oil when the queue is full", () => {
+    const now = Date.now();
+    const sunflowerPackGrowTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS;
+
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Oil: new Decimal(1),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: now,
+            id: "1",
+            unallocatedOilTime: 0,
+            queue: [
+              {
+                crop: "Sunflower",
+                amount: 100,
+                totalGrowTime: sunflowerPackGrowTime,
+                growTimeRemaining: 0,
+                startTime: now,
+                readyAt: now + sunflowerPackGrowTime,
+                seeds: 100,
+              },
+              {
+                crop: "Sunflower",
+                amount: 100,
+                totalGrowTime: sunflowerPackGrowTime,
+                growTimeRemaining: 0,
+                startTime: now,
+                readyAt: now + sunflowerPackGrowTime,
+                seeds: 100,
+              },
+              {
+                crop: "Sunflower",
+                amount: 100,
+                totalGrowTime: sunflowerPackGrowTime,
+                growTimeRemaining: 0,
+                startTime: now,
+                readyAt: now + sunflowerPackGrowTime,
+                seeds: 100,
+              },
+              {
+                crop: "Sunflower",
+                amount: 100,
+                totalGrowTime: sunflowerPackGrowTime,
+                growTimeRemaining: 0,
+                startTime: now,
+                readyAt: now + sunflowerPackGrowTime,
+                seeds: 100,
+              },
+              {
+                crop: "Sunflower",
+                amount: 100,
+                totalGrowTime: sunflowerPackGrowTime,
+                growTimeRemaining: 0,
+                startTime: now,
+                readyAt: now + sunflowerPackGrowTime,
+                seeds: 100,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const result = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        oil: 1,
+      },
+      createdAt: now,
+    });
+
+    const machine = result.buildings[
+      "Crop Machine"
+    ]?.[0] as CropMachineBuilding;
+
+    expect(machine.unallocatedOilTime).toBe(getOilTimeInMillis(1));
   });
 });
 

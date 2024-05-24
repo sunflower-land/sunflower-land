@@ -262,11 +262,15 @@ export function supplyCropMachine({
     amount: 0,
   };
 
+  if (seedsAdded.amount < 0 || oilAdded < 0) {
+    throw new Error("Invalid amount supplied");
+  }
+
   if (!stateCopy.bumpkin) {
     throw new Error("You do not have a Bumpkin");
   }
 
-  if (!stateCopy.buildings["Crop Machine"]) {
+  if (!stateCopy.buildings["Crop Machine"]?.[0]) {
     throw new Error("Crop Machine does not exist");
   }
 
@@ -287,7 +291,7 @@ export function supplyCropMachine({
 
   const queue = cropMachine.queue ?? [];
 
-  if (queue.length + 1 > MAX_QUEUE_SIZE) {
+  if (seedsAdded.amount > 0 && queue.length + 1 > MAX_QUEUE_SIZE) {
     throw new Error("Queue is full");
   }
 
@@ -297,6 +301,11 @@ export function supplyCropMachine({
   );
 
   const previousOilInInventory = stateCopy.inventory["Oil"] ?? new Decimal(0);
+
+  if (previousOilInInventory.lt(oilAdded)) {
+    throw new Error("Missing requirements");
+  }
+
   stateCopy.inventory["Oil"] = previousOilInInventory.minus(oilAdded);
 
   const oilMillisInMachine = getTotalOilMillisInMachine(
