@@ -961,6 +961,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.paw.shield.boost": "+25% Faction Pet Satiation",
   "description.vinny.boost": "+0.25 Grape",
   "description.rice.panda.boost": "+0.25 Rice",
+  "description.olive.shirt.boost": "+0.25 Olive",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
