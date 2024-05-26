@@ -227,21 +227,21 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "basic_chest"}>
+      <Modal show={interactable === "basic_chest"} onHide={closeModal}>
         <BasicTreasureChest
           type="Treasure Key"
           onClose={closeModal}
           location={"plaza"}
         />
       </Modal>
-      <Modal show={interactable === "rare_chest"}>
+      <Modal show={interactable === "rare_chest"} onHide={closeModal}>
         <BasicTreasureChest
           type="Rare Key"
           onClose={closeModal}
           location={"plaza"}
         />
       </Modal>
-      <Modal show={interactable === "luxury_chest"}>
+      <Modal show={interactable === "luxury_chest"} onHide={closeModal}>
         <BasicTreasureChest
           type="Luxury Key"
           onClose={closeModal}
