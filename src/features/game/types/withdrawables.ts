@@ -409,6 +409,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Premium Composter": () => false,
   House: () => false,
   Manor: () => false,
+  "Crop Machine": () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {

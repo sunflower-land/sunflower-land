@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import { Label } from "./Label";
+import { Label, LabelType } from "./Label";
 import selectBoxBL from "assets/ui/select/selectbox_bl.png";
 import selectBoxBR from "assets/ui/select/selectbox_br.png";
 import selectBoxTL from "assets/ui/select/selectbox_tl.png";
@@ -25,10 +25,16 @@ export interface BoxProps {
   secondaryImage?: any;
   isSelected?: boolean;
   count?: Decimal;
+  countLabelType?: LabelType;
   onClick?: () => void;
   disabled?: boolean;
   locked?: boolean;
   canBeLongPressed?: boolean;
+  /**
+   * This can be used a different icon when there is no count passed in.
+   * It will be placed in the top right corner of the box.
+   */
+  alternateIcon?: string;
   /**
    * When an NFT is minted it enters into a cooldown period where is cannot be withdrawn from the farm. We communicate
    * this as if the NFT is under construction.
@@ -53,6 +59,7 @@ export const Box: React.FC<BoxProps> = ({
   secondaryImage,
   isSelected,
   count,
+  countLabelType = "default",
   onClick,
   disabled,
   locked,
@@ -63,6 +70,7 @@ export const Box: React.FC<BoxProps> = ({
   className = "",
   iconClassName = "",
   parentDivRef,
+  alternateIcon,
 }) => {
   const [isHover, setIsHover] = useState(false);
   const [showHiddenCountLabel, setShowHiddenCountLabel] = useState(false);
@@ -79,7 +87,7 @@ export const Box: React.FC<BoxProps> = ({
     [precisionCount]
   );
 
-  const canClick = !locked && !disabled;
+  const canClick = !locked && !disabled && !!onClick;
 
   const longPressEvents = useLongPress(
     () => (canClick ? onClick?.() : undefined),
@@ -150,7 +158,7 @@ export const Box: React.FC<BoxProps> = ({
       onMouseLeave={() => setIsHover(false)}
     >
       <div
-        className={classNames("bg-brown-600 cursor-pointer relative", {
+        className={classNames("bg-brown-600 relative", {
           "bg-brown-600 cursor-not-allowed opacity-75": disabled,
           "cursor-pointer": canClick,
         })}
@@ -235,7 +243,7 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type="default" className="px-0.5 text-xxs">
+            <Label type={countLabelType} className="px-0.5 text-xxs">
               {isHover && !showHiddenCountLabel
                 ? precisionCount.toString()
                 : shortCount}
@@ -257,6 +265,28 @@ export const Box: React.FC<BoxProps> = ({
             <Label type="default" className="px-0.5 text-xxs">
               {precisionCount.toString()}
             </Label>
+          </div>
+        )}
+
+        {/** Show alternate Icon */}
+        {!showCountLabel && alternateIcon && (
+          <div
+            ref={labelRef}
+            className={classNames("absolute", {
+              "z-10": !isHover,
+              "z-20": isHover,
+            })}
+            style={{
+              right: `${LABEL_RIGHT_SHIFT_PX}px`,
+              top: `${LABEL_TOP_SHIFT_PX}px`,
+              pointerEvents: "none",
+            }}
+          >
+            <SquareIcon
+              icon={alternateIcon}
+              width={INNER_CANVAS_WIDTH}
+              className={iconClassName}
+            />
           </div>
         )}
 

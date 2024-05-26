@@ -32,6 +32,7 @@ import {
   ConfirmationTerms,
   Conversations,
   CropBoomMessages,
+  CropMachine,
   CropFruitDescriptions,
   DeliveryItem,
   DefaultDialogue,
@@ -174,6 +175,7 @@ import {
   GameOptions,
   GreenhouseKeys,
   Minigame,
+  RemoveCropMachine,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1009,6 +1011,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.workbench": "Craft tools to collect resources",
   "description.tent": "(Discontinued)",
   "description.house": "A place to rest your head",
+  "description.crop.machine": "Automate your crop production",
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -1427,6 +1430,37 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.sunpetal.seed": "A sunpetal seed",
   "description.bloom.seed": "A bloom seed",
   "description.lily.seed": "A lily seed",
+};
+
+const cropMachine: Record<CropMachine, string> = {
+  "cropMachine.moreOilRequired": "More oil required",
+  "cropMachine.oilTank": "Oil tank",
+  "cropMachine.machineRuntime": "Machine runtime {{time}}",
+  "cropMachine.growTimeRemaining": "Grow time remaining: {{time}}",
+  "cropMachine.paused": "Paused",
+  "cropMachine.readyToHarvest": "Ready to harvest",
+  "cropMachine.boosted": "Boosted",
+  "cropMachine.totalSeeds": "Total seeds: {{total}}",
+  "cropMachine.totalCrops": "Total {{cropName}}: {{total}}",
+  "cropMachine.harvest": "Harvest",
+  "cropMachine.pickSeed": "Pick seed",
+  "cropMachine.addSeeds": "Add {{seedType}}s",
+  "cropMachine.availableInventory": "Available {{amount}}",
+  "cropMachine.seeds": "Seeds: {{amount}}",
+  "cropMachine.growTime": "Grow time: {{time}}",
+  "cropMachine.addSeedPack": "Add seed pack",
+  "cropMachine.notStartedYet": "Not started yet",
+  "cropMachine.seedPacks": "Seed packs",
+  "cropMachine.readyCropPacks": "Ready crop packs",
+  "cropMachine.readyCropPacks.description":
+    "You currently have {{totalReady}} crop packs to harvest! Click the harvest button to collect all your crops.",
+  "cropMachine.harvestAllCrops": "Harvest all crops",
+  "cropMachine.addOil": "Add oil",
+  "cropMachine.oil.description":
+    "Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.",
+  "cropMachine.maxRuntime": "Max runtime: {{time}}",
+  "cropMachine.oilToAdd": "Oil to add: {{amount}}",
+  "cropMachine.totalRuntime": "Total runtime: {{time}}",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -4122,6 +4156,13 @@ const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
     "Are you sure you want to remove your Hungry Caterpillar?",
 };
 
+const removeCropMachine: Record<RemoveCropMachine, string> = {
+  "removeCropMachine.title": "Remove Crop Machine?",
+  "removeCropMachine.description":
+    "This action will remove all the seeds from your crop machine.",
+  "removeCropMachine.removeSeeds": "Remove seeds",
+};
+
 const resale: Record<Resale, string> = {
   "resale.actionText": "Resale",
 };
@@ -4910,6 +4951,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...conversations,
   ...cropBoomMessages,
   ...cropFruitDescriptions,
+  ...cropMachine,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
@@ -5050,4 +5092,5 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...world,
   ...wornDescription,
   ...restrictionReason,
+  ...removeCropMachine,
 };

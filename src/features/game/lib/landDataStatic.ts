@@ -415,6 +415,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
     "Apple Seed": new Decimal(10),
+    "Crop Machine": new Decimal(1),
     Bakery: new Decimal(1),
     Deli: new Decimal(1),
     Greenhouse: new Decimal(1),
