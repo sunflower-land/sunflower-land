@@ -321,7 +321,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "clubhouse_reward"}>
+      <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
         <BudBox onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "raffle"} onHide={closeModal}>
