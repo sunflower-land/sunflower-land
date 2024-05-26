@@ -125,6 +125,7 @@ describe("drillOilReserve", () => {
           },
         },
       },
+      createdAt: now,
     });
 
     const reserve = game.oilReserves["1"];
