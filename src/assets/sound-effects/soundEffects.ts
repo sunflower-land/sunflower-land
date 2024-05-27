@@ -17,6 +17,7 @@ export const SOUNDS = {
     inventory: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Household/Furniture/Farm_Game_Household_Furniture_Other_Place_1_Basket_House.mp3`,
     copypaste: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Designed/Farm_Game_User_Interface_Designed_Tube_Tonal_Hit_3_Liquid_Low_Bass.mp3`,
     sfl: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Notifications/Farm_Game_Notification_Alert_Coins_Buy_1_Shop.mp3`,
+    no: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Household/Inventory/Farm_Game_Household_Inventory_Item_Drop_Throw_Away_2.mp3`,
   },
   footsteps: {
     dirt: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Footsteps/Dirt/Farm_Game_Footsteps_Dirt_1_Soil_Walk_Run_Ground_Surface.mp3`,
@@ -63,9 +64,14 @@ export const SOUNDS = {
     mining_fall: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/mining_fall.mp3`,
     chop: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/chop.mp3`,
     tree_fall: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Resources/tree_fall.mp3`,
+    chicken_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Cluck_Chirp_Vocalization_1.mp3`,
+    chicken_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Cluck_Chirp_Vocalization_2.mp3`,
     mushroom_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
     mushroom_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_2_Click_Pop_Fun_Cartoon.mp3`,
     mushroom_3: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_3_Click_Pop_Fun_Cartoon.mp3`,
+
+    chicken_collect_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Yelp_Cluck_Chirp_Vocalization_1.mp3`,
+    chicken_collect_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Yelp_Cluck_Chirp_Vocalization_2.mp3`,
   },
   misc: {
     battle: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Misc/battle.mp3`,
