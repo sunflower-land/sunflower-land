@@ -39,7 +39,7 @@ export const DepletedOilReserve: React.FC<Props> = ({
       >
         <img
           src={emptyOilReserve}
-          className="absolute opacity-50"
+          className="opacity-50"
           style={{
             width: `${PIXEL_SCALE * 30}px`,
           }}
