@@ -1,6 +1,7 @@
 import classNames from "classnames";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useEffect, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useSound } from "lib/utils/hooks/useSound";
 
 interface ModalProps {
   size?: "lg" | "sm";
@@ -27,6 +28,24 @@ export const Modal: React.FC<ModalProps> = ({
   backdrop = true,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+
+  const openSound = useSound("open");
+  const closeSound = useSound("close");
+
+  // exit modal if Escape key is pressed
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && show) {
+        onHide?.();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [show, onHide]);
 
   return (
     <Transition appear show={!!show} as={Fragment}>
@@ -71,7 +90,13 @@ export const Modal: React.FC<ModalProps> = ({
               leave="ease-out duration-75"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
-              beforeEnter={() => onShow?.()}
+              beforeEnter={() => {
+                if (backdrop) openSound.play();
+                onShow?.();
+              }}
+              beforeLeave={() => {
+                closeSound.play();
+              }}
               afterLeave={() => onExited?.()}
             >
               <Dialog.Panel

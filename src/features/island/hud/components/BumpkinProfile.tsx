@@ -218,7 +218,6 @@ export const BumpkinProfile: React.FC<{
   const [showModal, setShowModal] = useState(false);
 
   const profile = useSound("profile");
-  const close = useSound("close");
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -262,7 +261,6 @@ export const BumpkinProfile: React.FC<{
   };
 
   const handleHideModal = () => {
-    close.play();
     setShowModal(false);
   };
 

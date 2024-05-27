@@ -78,7 +78,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
         </div>
         <div className="mb-2 flex justify-between items-center">
           <Label type={"default"} icon={SUNNYSIDE.icons.basket}>
-            {`Requirements`}
+            {t("requirements")}
           </Label>
           <Label
             type="info"
@@ -116,7 +116,9 @@ export const ExpansionRequirements: React.FC<Props> = ({
         {!hasLevel && (
           <>
             <Label type="danger" icon={lockIcon} className="my-2">
-              {t("lvl")} {requirements.bumpkinLevel} {t("required")}
+              {t("warning.level.required", {
+                lvl: requirements.bumpkinLevel,
+              })}
             </Label>
             <p className="text-xs mb-2">{t("statements.visit.firePit")}</p>
           </>

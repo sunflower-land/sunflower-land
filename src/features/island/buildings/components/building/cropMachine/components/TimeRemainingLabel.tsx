@@ -45,7 +45,7 @@ export const TimeRemainingLabel = ({
 
   const seconds = Math.max(secondsRemaining, 0);
   const time = secondsToString(seconds, {
-    length: "short",
+    length: "medium",
     isShortFormat: true,
     removeTrailingZeros: true,
   });

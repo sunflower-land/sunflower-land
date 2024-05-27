@@ -177,6 +177,7 @@ import {
   Minigame,
   CropMachine,
   RemoveCropMachine,
+  Username,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -203,7 +204,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   available: "Disponível",
   back: "Voltar",
   bait: "Isca",
-  balance: "Saldo: ",
+  balance: "Saldo",
+  "balance.short": ENGLISH_TERMS["balance.short"],
   banner: "Banner",
   banners: "Banners",
   basket: "Cesta",
@@ -391,7 +393,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   syncing: "Sincronizando",
   task: "Tarefa",
   "thank.you": "Obrigado!",
-  "there.currently": "Atualmente há",
   tools: "Ferramentas",
   total: "Total",
   trades: "Negociações",
@@ -499,7 +500,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
   vip: ENGLISH_TERMS["vip"],
+  requirements: ENGLISH_TERMS.requirements,
   "max.reached": ENGLISH_TERMS["max.reached"],
+  bought: ENGLISH_TERMS.bought,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -840,8 +843,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "O sussurrador de vegetais e campeão de colheitas assustadoramente boas!",
   "description.laurie.chuckle.crow":
     "Com sua risada desconcertante, ela espanta bicadas de suas colheitas!",
-  "description.immortal.pear":
-    "Uma pêra de longa vida que faz com que as árvores frutíferas durem mais tempo.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",
   "description.sir.goldensnout":
@@ -872,7 +874,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0,2 Plantação Avançada: Berinjela, Milho, Rabanete, Trigo, Couve (AOE 3x3)",
   "description.bale.boost": "+0,2 Ovo (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Colheita Máxima de Frutas por semente",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost":
     "+20% Coins nas Vendas de Recompensa do Tesouro",
   "description.poppy.boost": "+0,1 Milho",
@@ -906,7 +909,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.mysterious.parsnip.boost": "-50% Tempo de Crescimento de Nabo",
   "description.queen.cornelia.boost": "+1 Milho (AOE 3x4)",
   "description.foliant.boost": "+0.2 Couve",
-  "description.hoot.boost": "+0.5 Trigo, Rabanete, Couve",
+  "description.hoot.boost": "+0.5 Trigo, Rabanete, Couve, Arroz",
   "description.hungry.caterpillar.boost": "Sementes de Flores Grátis",
   "description.black.bearry.boost": "+1 Mirtilo",
   "description.squirrel.monkey.boost": "-50% Tempo de Crescimento de Laranja",
@@ -1167,6 +1170,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
   "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
   "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
+  "bumpkinTrade.sellConfirmation":
+    ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1326,6 +1331,7 @@ const conversations: Record<Conversations, string> = {
   "hank-crafting.one":
     "Hmm, essas colheitas estão crescendo muito devagar. Não tenho tempo para esperar.",
   "hank-crafting.two": "Fabrique um espantalho para acelerar suas colheitas.",
+  "hank.choresFrozen": ENGLISH_TERMS["hank.choresFrozen"],
   "betty-intro.headline": "Como fazer crescer sua fazenda",
   "betty-intro.one": "Ei, ei! Bem-vindo ao meu mercado.",
   "betty-intro.two":
@@ -2572,6 +2578,9 @@ const gameTerms: Record<GameTerms, string> = {
   "compost.complete": "Compostagem completa",
   "in.progress": "Em progresso",
   sunflowerLandCodex: "Sunflower Land Codex",
+  "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "harvest.number": ENGLISH_TERMS["harvest.number"],
+  "level.number": ENGLISH_TERMS["level.number"],
 };
 
 const genieLamp: Record<GenieLamp, string> = {
@@ -4479,7 +4488,8 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.four": "fornecer liquidez",
   "statements.wishing.well.info.five": " no jogo",
   "statements.wishing.well.info.six": "fornecendo liquidez",
-  "statements.wishing.well.worthwell": "em recompensas no poço!",
+  "statements.wishing.well.worthwell":
+    ENGLISH_TERMS["statements.wishing.well.worthwell"],
   "statements.wishing.well.look.like":
     ENGLISH_TERMS["statements.wishing.well.look.like"],
   //  "It doesn't look like you are providing liquidity yet.",
@@ -4511,6 +4521,8 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Parece que sua sessão expirou. Atualize a página para continuar jogando.",
+  "statements.translation.want2contribute":
+    ENGLISH_TERMS["statements.translation.want2contribute"],
   "statements.translation.contribution":
     ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord":
@@ -4663,6 +4675,13 @@ const tutorialPage: Record<TutorialPage, string> = {
     "As construções são uma maneira importante de progredir no jogo, pois ajudarão você a expandir e evoluir.",
   "tutorial.pageTwo.text2":
     "Vamos começar aumentando nosso Bumpkin para podermos obter a Bancada de Trabalho e aprender sobre ferramentas.",
+};
+
+const username: Record<Username, string> = {
+  "username.tooShort": ENGLISH_TERMS["username.tooShort"],
+  "username.tooLong": ENGLISH_TERMS["username.tooLong"],
+  "username.invalidChar": ENGLISH_TERMS["username.invalidChar"],
+  "username.startWithLetter": ENGLISH_TERMS["username.startWithLetter"],
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
@@ -5163,6 +5182,7 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...trading,
   ...treasureModal,
   ...tutorialPage,
+  ...username,
   ...visitislandEnter,
   ...visitislandNotFound,
   ...wallet,

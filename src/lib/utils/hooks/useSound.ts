@@ -49,7 +49,7 @@ const HOWLERS = {
     preload: false,
     volume: 0.06,
     loop: true,
-    rate: 0.76,
+    rate: 1,
   }),
   desert: new Howl({
     src: [SOUNDS.loops.desert],
@@ -60,6 +60,26 @@ const HOWLERS = {
   }),
   sfl: new Howl({
     src: [SOUNDS.ui.sfl],
+    preload: false,
+    volume: 0.05,
+  }),
+  chicken_1: new Howl({
+    src: [SOUNDS.resources.chicken_1],
+    preload: false,
+    volume: 0.05,
+  }),
+  chicken_2: new Howl({
+    src: [SOUNDS.resources.chicken_2],
+    preload: false,
+    volume: 0.05,
+  }),
+  chicken_collect_1: new Howl({
+    src: [SOUNDS.resources.chicken_collect_1],
+    preload: false,
+    volume: 0.05,
+  }),
+  chicken_collect_2: new Howl({
+    src: [SOUNDS.resources.chicken_collect_2],
     preload: false,
     volume: 0.05,
   }),
@@ -78,6 +98,11 @@ const HOWLERS = {
     preload: false,
     volume: 0.1,
   }),
+  no: new Howl({
+    src: [SOUNDS.ui.no],
+    preload: false,
+    volume: 0.05,
+  }),
 };
 
 let lastSoundPlayedAt = 0;
@@ -86,7 +111,8 @@ export const useSound = (sound: keyof typeof HOWLERS, play = false) => {
   const howl = HOWLERS[sound];
 
   useEffect(() => {
-    howl.load();
+    // Load once only
+    if (howl.state() === "unloaded") howl.load();
 
     // Autoplay
     if (play) {

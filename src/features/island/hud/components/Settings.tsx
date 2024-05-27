@@ -35,8 +35,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   const { pathname } = useLocation();
 
   const button = useSound("button");
-  const open = useSound("open");
-  const close = useSound("close");
 
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const showLimitedButtons =
@@ -58,13 +56,11 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   }, []);
 
   const handleCloseAudioMenu = () => {
-    close.play();
     setOpenAudioMenu(false);
     setShowMoreButtons(false);
   };
 
   const handleCloseSettingsMenu = () => {
-    close.play();
     setOpenSettingsMenu(false);
     setShowMoreButtons(false);
   };
@@ -160,7 +156,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     settingButton(
       index,
       () => {
-        open.play();
         setOpenAudioMenu(true);
       },
       <img
@@ -199,7 +194,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     settingButton(
       index,
       () => {
-        open.play();
         setOpenSettingsMenu(true);
       },
       <img

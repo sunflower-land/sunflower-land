@@ -177,6 +177,7 @@ import {
   Minigame,
   CropMachine,
   RemoveCropMachine,
+  Username,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -203,7 +204,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   available: "Mevcut",
   back: "Geri",
   bait: "Yem",
-  balance: "Bakiye: ",
+  balance: "Bakiye",
+  "balance.short": ENGLISH_TERMS["balance.short"],
   banner: "Bayrak",
   banners: "Banners",
   basket: "Sepet",
@@ -420,7 +422,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "terms.condition": "Şartlar ve koşullar",
   test: "Deneme",
   "thank.you": "Teşekkür ederim!",
-  "there.currently": "Şu anda",
   time: "Zaman",
   tools: "Aletler",
   total: "Toplam",
@@ -499,7 +500,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
   vip: ENGLISH_TERMS["vip"],
+  requirements: ENGLISH_TERMS.requirements,
   "max.reached": ENGLISH_TERMS["max.reached"],
+  bought: ENGLISH_TERMS.bought,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -840,8 +843,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Sebzelere fısıldayan ve korkunç derecede iyi hasatların şampiyonu!",
   "description.laurie.chuckle.crow":
     "Rahatsız edici kıkırdaması ile gagalayanları mahsullerinden kaçırıyor!",
-  "description.immortal.pear":
-    "Meyve ağaçlarının daha uzun süre hayatta kalmasını sağlayan uzun ömürlü bir armut.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Tavuklar için konforlu bir sığınak sağlayan,kümes hayvanlarının en sevdiği komşusu.",
   "description.sir.goldensnout":
@@ -865,7 +867,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.bale.boost": "+0.2 Yumurta (Etki Alanı 4x4)",
-  "description.immortal.pear.boost": "Tohum başına +1 Meyve Hasadı.",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% Coins",
   "description.poppy.boost": "+0.1 Mısır",
   "description.kernaldo.boost": "Mısır Büyüme Süresi -25%",
@@ -898,7 +901,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.mysterious.parsnip.boost": "-50% Yaban Havucu Büyüme Süresi",
   "description.queen.cornelia.boost": "+1 Mısır (Etki Alanı 3x4)",
   "description.foliant.boost": "+0.2 Kıvırcık Lahana",
-  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana",
+  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana, Pirinç",
   "description.hungry.caterpillar.boost": "Ücretsiz Çiçek Tohumları",
   "description.black.bearry.boost": "+1 Yaban Mersini",
   "description.squirrel.monkey.boost": "-50% Portakal Büyüme Süresi",
@@ -1151,6 +1154,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
   "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
   "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
+  "bumpkinTrade.sellConfirmation":
+    ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1294,7 +1299,7 @@ const conversations: Record<Conversations, string> = {
   "hank-crafting.one":
     "Hımmm, bu mahsuller çok yavaş büyüyor. Beklemek için zamanım yok.",
   "hank-crafting.two": "Mahsullerinizi hızlandırmak için bir korkuluk yapın.",
-
+  "hank.choresFrozen": ENGLISH_TERMS["hank.choresFrozen"],
   "betty-intro.headline": "Çiftliğinizi nasıl büyütebilirsiniz?",
   "betty-intro.one": "Selam, selam! Pazarıma hoş geldiniz.",
   "betty-intro.two":
@@ -2541,6 +2546,9 @@ const gameTerms: Record<GameTerms, string> = {
   "compost.complete": "Kompost tamamlandı",
   "aoe.locked": "Etki Alanı Kilitli",
   sunflowerLandCodex: "Sunflower Land Kodeksi",
+  "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "harvest.number": ENGLISH_TERMS["harvest.number"],
+  "level.number": ENGLISH_TERMS["level.number"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4464,7 +4472,8 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.four": "likidite sağla",
   "statements.wishing.well.info.five": "oyunda",
   "statements.wishing.well.info.six": "likidite sağlanıyor",
-  "statements.wishing.well.worthwell": "kuyudaki ödüller değerinde!",
+  "statements.wishing.well.worthwell":
+    ENGLISH_TERMS["statements.wishing.well.worthwell"],
   "statements.wishing.well.look.like":
     ENGLISH_TERMS["statements.wishing.well.look.like"],
   // "It doesn't look like you are providing liquidity yet.",
@@ -4498,6 +4507,8 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Oturumunuzun süresi dolmuş gibi görünüyor. Oynamaya devam etmek için lütfen sayfayı yenileyin.",
+  "statements.translation.want2contribute":
+    ENGLISH_TERMS["statements.translation.want2contribute"],
   "statements.translation.contribution":
     ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord":
@@ -4650,6 +4661,13 @@ const tutorialPage: Record<TutorialPage, string> = {
     "Binalar, genişlemenize ve gelişmenize yardımcı olacağından oyunda ilerlemenin önemli bir yoludur.",
   "tutorial.pageTwo.text2":
     "Tezgahın aletler hakkında bilgi edinmesini sağlamak için Bumpkin'imizin seviyesini yükselterek başlayalım.",
+};
+
+const username: Record<Username, string> = {
+  "username.tooShort": ENGLISH_TERMS["username.tooShort"],
+  "username.tooLong": ENGLISH_TERMS["username.tooLong"],
+  "username.invalidChar": ENGLISH_TERMS["username.invalidChar"],
+  "username.startWithLetter": ENGLISH_TERMS["username.startWithLetter"],
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
@@ -5136,6 +5154,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...transfer,
   ...treasureModal,
   ...tutorialPage,
+  ...username,
   ...visitislandEnter,
   ...visitislandNotFound,
   ...wallet,

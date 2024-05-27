@@ -117,6 +117,7 @@ export const AddSFL: React.FC = () => {
               />
               <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
                 {t("balance")}
+                {`: `}
                 {formattedMaticBalance}
               </span>
             </div>

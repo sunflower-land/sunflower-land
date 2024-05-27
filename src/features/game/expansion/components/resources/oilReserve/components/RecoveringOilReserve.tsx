@@ -20,6 +20,7 @@ export const RecoveringOilReserve: React.FC<Props> = ({ timeLeft }) => {
     >
       <img
         src={halfFullOilReserve}
+        className="opacity-50"
         style={{
           width: `${PIXEL_SCALE * 30}px`,
         }}

@@ -43,6 +43,7 @@ import lockIcon from "assets/skills/lock.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 const getPercentageComplete = (fedAt?: number) => {
   if (!fedAt) return 0;
@@ -133,6 +134,16 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, shortcutItem, showTimers } = useContext(Context);
 
+  const chickens = ["chicken_1", "chicken_2"] as const;
+  const chickenSound = useSound(
+    chickens[Math.floor(Math.random() * chickens.length)]
+  );
+  const chickenCollects = ["chicken_collect_1", "chicken_collect_2"] as const;
+  const chickenCollectSound = useSound(
+    chickenCollects[Math.floor(Math.random() * chickenCollects.length)]
+  );
+  const no = useSound("no");
+
   const chicken = useSelector(
     gameService,
     (state) => state.context.state.chickens[id],
@@ -185,11 +196,14 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
   const handleClick = () => {
     if (eggReady) {
+      chickenSound.play();
+
       chickenService.send("LAY");
       return;
     }
 
     if (eggLaid) {
+      chickenCollectSound.play();
       handleCollect();
       return;
     }
@@ -205,6 +219,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
       const hasWheat = HasWheat(inventoryWheatCount, game);
 
       if (!hasWheat) {
+        no.play();
         setShowPopover(true);
         await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
         setShowPopover(false);
@@ -213,6 +228,8 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
       shortcutItem("Wheat");
     }
+
+    chickenSound.play();
 
     const {
       context: {

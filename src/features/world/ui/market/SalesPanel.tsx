@@ -229,9 +229,11 @@ export const SalesPanel: React.FC<{
             </div>
           </div>
           <span className="pt-3 text-xs px-1 pb-2">
-            {`${t("sell")} ${MARKET_BUNDLES[selected]} ${selected} ${t(
-              "for"
-            )} ${bundlePrice} ${"SFL"}?`}
+            {t("bumpkinTrade.sellConfirmation", {
+              quantity: MARKET_BUNDLES[selected],
+              resource: selected,
+              price: bundlePrice,
+            })}
           </span>
         </div>
         <div className="flex space-x-1">

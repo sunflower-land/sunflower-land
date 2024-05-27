@@ -14,7 +14,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
-import { useSound } from "lib/utils/hooks/useSound";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -22,8 +21,6 @@ const _level = (state: MachineState) =>
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const open = useSound("open");
 
   const { gameService } = useContext(Context);
 
@@ -45,7 +42,6 @@ export const CodexButton: React.FC = () => {
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
-          open.play();
           setIsOpen(true);
         }}
       >

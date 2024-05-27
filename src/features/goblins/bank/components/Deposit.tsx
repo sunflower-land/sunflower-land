@@ -140,8 +140,6 @@ const DepositOptions: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const [hasWeb3, setHasWeb3] = useState(false);
-
   const [status, setStatus] = useState<Status>("loading");
   // These are the balances of the user's personal wallet
   const [sflBalance, setSflBalance] = useState<Decimal>(new Decimal(0));
@@ -213,10 +211,7 @@ const DepositOptions: React.FC<Props> = ({
 
   if (status === "error") {
     <div className="p-2">
-      <p>
-        {t("deposit.errorLoadingBalances")}
-        {","}
-      </p>
+      <p>{t("deposit.errorLoadingBalances")}</p>
     </div>;
   }
 
@@ -391,7 +386,7 @@ const DepositOptions: React.FC<Props> = ({
                           )}
                         />
                         <span className="text-xxs md:text-xs absolute top-1/2 -translate-y-1/2 right-2">{`${
-                          isMobile ? "Bal" : "Balance"
+                          isMobile ? t("balance.short") : t("balance")
                         }: ${formattedSflBalance}`}</span>
                       </div>
                       <div className="w-[10%] flex self-center justify-center">

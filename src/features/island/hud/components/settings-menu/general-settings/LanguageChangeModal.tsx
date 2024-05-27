@@ -90,7 +90,9 @@ export const LanguageSwitcher: React.FC = () => {
             rel="noopener noreferrer"
             className="underline text-white text-xs cursor-pointer"
             onClick={() => setShowContributeLanguage(true)}
-          >{`Want to contribute your Language?`}</a>
+          >
+            {t("statements.translation.want2contribute")}
+          </a>
           <Modal
             show={showContributeLanguage}
             onHide={() => setShowContributeLanguage(false)}

@@ -21,7 +21,7 @@ export const SessionExpired: React.FC = () => {
         <p className="text-center mb-3">{t("session.expired")}</p>
 
         <p className="text-center mb-4 text-xs">
-          {`${t("statements.session.expired")}`}
+          {t("statements.session.expired")}
         </p>
       </div>
       <Button

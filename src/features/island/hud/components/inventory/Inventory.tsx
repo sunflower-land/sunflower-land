@@ -40,7 +40,6 @@ export const Inventory: React.FC<Props> = ({
   const { pathname } = useLocation();
 
   const inventory = useSound("inventory");
-  const close = useSound("close");
 
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const limitedInventory =
@@ -136,7 +135,6 @@ export const Inventory: React.FC<Props> = ({
       <InventoryItemsModal
         show={isOpen}
         onHide={() => {
-          close.play();
           setIsOpen(false);
         }}
         state={state}
