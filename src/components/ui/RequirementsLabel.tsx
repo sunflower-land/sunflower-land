@@ -244,7 +244,10 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           "ml-1": !requirementMet,
         })}
         type={requirementMet ? "transparent" : "danger"}
-        style={{ fontSize: "22px" }}
+        style={{
+          fontSize: "22px",
+          letterSpacing: props.type === "item" ? "1px" : 0,
+        }}
       >
         {getText()}
       </Label>

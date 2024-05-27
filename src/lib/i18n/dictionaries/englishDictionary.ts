@@ -747,7 +747,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.genie.lamp":
     "A magical lamp that contains a genie who will grant you three wishes.",
   "description.basic.scarecrow":
-    "Choosy defender of your farm's VIP (Very Important Plants)",
+    "Boost nearby Sunflowers, Potatoes and Pumpkins.",
   "description.scary.mike":
     "The veggie whisperer and champion of frightfully good harvests!",
   "description.laurie.chuckle.crow":
@@ -770,8 +770,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.freya.fox.boost": "+0.5 Pumpkin",
   "description.sir.goldensnout.boost": "+0.5 Crop (AOE 4x4)",
   "description.maximus.boost": "+1 Eggplant",
-  "description.basic.scarecrow.boost":
-    "-20% Basic Crop Growth Time: Sunflower, Potato and Pumpkin (AOE 3x3)",
+  "description.basic.scarecrow.boost": "-20% Growth Time",
   "description.scary.mike.boost":
     "+0.2 Medium Crop: Carrot, Cabbage, Soybean, Beetroot, Cauliflower and Parsnip (AOE 3x3)",
   "description.laurie.chuckle.crow.boost":
