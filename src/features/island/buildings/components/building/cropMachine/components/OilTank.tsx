@@ -105,7 +105,7 @@ export const OilTank = ({
               <div className="text-xs">
                 {t("cropMachine.machineRuntime", {
                   time: secondsToString(runtime, {
-                    length: "short",
+                    length: "medium",
                     isShortFormat: true,
                     removeTrailingZeros: true,
                   }),
