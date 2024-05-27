@@ -17,7 +17,7 @@ export class WalkAudioController {
   handleWalkSound(isWalking: boolean): void {
     if (isWalking) {
       if (!this.walkSound.isPlaying) {
-        this.walkSound.play({ loop: true, volume: 0.1, rate: 0.62 });
+        this.walkSound.play({ loop: true, volume: 0.07, rate: 0.62 });
       }
     } else {
       if (this.walkSound.isPlaying) {
