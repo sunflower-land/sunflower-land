@@ -713,6 +713,8 @@ const beehive: Record<Beehive, string> = {
     "Tozlaşma kutlaması! Mahsulleriniz, dost canlısı bir arı sürüsü sayesinde 0,2'lik bir destekle ödüllendirilecek!",
   "beehive.honeyProductionPaused":
     ENGLISH_TERMS["beehive.honeyProductionPaused"],
+  "beehive.yield": ENGLISH_TERMS["beehive.yield"],
+  "beehive.honeyPerFullHive": ENGLISH_TERMS["beehive.honeyPerFullHive"],
   "beehive.speed": ENGLISH_TERMS["beehive.speed"],
   "beehive.fullHivePerDay": ENGLISH_TERMS["beehive.fullHivePerDay"],
   "beehive.estimatedFull": ENGLISH_TERMS["beehive.estimatedFull"],

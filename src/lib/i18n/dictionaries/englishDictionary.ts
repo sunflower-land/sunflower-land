@@ -709,6 +709,8 @@ const beehive: Record<Beehive, string> = {
   "beehive.pollinationCelebration":
     "Pollination celebration! Your crops are in for a treat with a 0.2 boost from a friendly bee swarm!",
   "beehive.honeyProductionPaused": "Honey production paused",
+  "beehive.yield": "Yield",
+  "beehive.honeyPerFullHive": "{{multiplier}} honey / full hive",
   "beehive.speed": "Speed",
   "beehive.fullHivePerDay": "{{speed}} full {{hive}} / day",
   "beehive.estimatedFull": "Estimated full",

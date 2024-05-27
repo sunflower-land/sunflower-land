@@ -43,6 +43,7 @@ import Decimal from "decimal.js-light";
 import { secondsToString } from "lib/utils/time";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { getHoneyMultiplier } from "features/game/events/landExpansion/harvestBeehive";
 
 interface Props {
   id: string;
@@ -100,6 +101,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const currentSpeed = useSelector(beehiveService, _currentSpeed);
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
+
+  const honeyMultiplier = getHoneyMultiplier(gameState.context.state);
 
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
@@ -365,20 +368,32 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               </div>
             </div>
             {currentSpeed > 0 && !!secondsLeftUntilFull && (
-              <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
-                <Label type="default" icon={lightning}>
-                  {t("beehive.speed")}
-                </Label>
-                <div className="text-xs mb-0.5">
-                  {t("beehive.fullHivePerDay", {
-                    speed: setPrecision(new Decimal(currentSpeed)),
-                    hive:
-                      new Decimal(currentSpeed).toNumber() > 1
-                        ? t("beehive.hives.plural")
-                        : t("beehive.hive.singular"),
-                  })}
+              <>
+                <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                  <Label type="default" icon={honeyDrop}>
+                    {t("beehive.yield")}
+                  </Label>
+                  <div className="text-xs mb-0.5">
+                    {t("beehive.honeyPerFullHive", {
+                      multiplier: setPrecision(new Decimal(honeyMultiplier)),
+                    })}
+                  </div>
                 </div>
-              </div>
+                <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                  <Label type="default" icon={lightning}>
+                    {t("beehive.speed")}
+                  </Label>
+                  <div className="text-xs mb-0.5">
+                    {t("beehive.fullHivePerDay", {
+                      speed: setPrecision(new Decimal(currentSpeed)),
+                      hive:
+                        new Decimal(currentSpeed).toNumber() > 1
+                          ? t("beehive.hives.plural")
+                          : t("beehive.hive.singular"),
+                    })}
+                  </div>
+                </div>
+              </>
             )}
             {currentSpeed === 0 && (
               <Label type="warning" className="m-1 mb-2">

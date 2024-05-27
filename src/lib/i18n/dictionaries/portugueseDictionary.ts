@@ -702,6 +702,8 @@ const beehive: Record<Beehive, string> = {
     "Celebração da polinização! Suas colheitas terão um boost de 0,2 graças a um enxame de abelhas amigáveis!",
   "beehive.honeyProductionPaused":
     ENGLISH_TERMS["beehive.honeyProductionPaused"],
+  "beehive.yield": ENGLISH_TERMS["beehive.yield"],
+  "beehive.honeyPerFullHive": ENGLISH_TERMS["beehive.honeyPerFullHive"],
   "beehive.speed": ENGLISH_TERMS["beehive.speed"],
   "beehive.fullHivePerDay": ENGLISH_TERMS["beehive.fullHivePerDay"],
   "beehive.estimatedFull": ENGLISH_TERMS["beehive.estimatedFull"],

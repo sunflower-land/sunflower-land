@@ -464,6 +464,8 @@ export type Beehive =
   | "beehive.beeSwarm"
   | "beehive.pollinationCelebration"
   | "beehive.honeyProductionPaused"
+  | "beehive.yield"
+  | "beehive.honeyPerFullHive"
   | "beehive.speed"
   | "beehive.fullHivePerDay"
   | "beehive.estimatedFull"
