@@ -905,7 +905,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.mysterious.parsnip.boost": "-50% Temps de croissance du Parsnip",
   "description.queen.cornelia.boost": "+1 Corn (AOE 3x4)",
   "description.foliant.boost": "+0.2 Kale",
-  "description.hoot.boost": "+0.5 Wheat, Radish, Kale",
+  "description.hoot.boost": "+0.5 Blé, Radis, Chou Frisé, Riz",
   "description.hungry.caterpillar.boost": "Graines de fleurs gratuites",
   "description.black.bearry.boost": "+1 Myrtille",
   "description.squirrel.monkey.boost": "-50% Temps de croissance de l'orange",
