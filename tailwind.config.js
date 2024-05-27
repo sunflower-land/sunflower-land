@@ -21,12 +21,13 @@ module.exports = {
         "0.7rem",
         {
           lineHeight: "0.8rem",
+          letterSpacing: "0.2px",
         },
       ],
       sm: [
         "0.85rem",
         {
-          lineHeight: "0.87rem",
+          lineHeight: "0.92rem",
         },
       ],
       base: [
