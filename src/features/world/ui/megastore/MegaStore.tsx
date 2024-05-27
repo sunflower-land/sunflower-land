@@ -9,7 +9,6 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { getTimeLeft, secondsToString } from "lib/utils/time";
 
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { Transition } from "@headlessui/react";
 import { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
 import { ItemsList } from "./components/ItemsList";
@@ -22,6 +21,7 @@ import lightning from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { ModalOverlay } from "components/ui/ModalOverlay";
 
 interface Props {
   onClose: () => void;
@@ -99,9 +99,9 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
     >
       <div className="relative h-full w-full">
         <div className="flex justify-between px-2 pb-2 bg-brown-300">
-          <Label type="vibrant" icon={lightning}>{`${t(
-            "megaStore.month.sale"
-          )}`}</Label>
+          <Label type="vibrant" icon={lightning}>
+            {t("megaStore.month.sale")}
+          </Label>
           <Label icon={SUNNYSIDE.icons.stopwatch} type="danger">
             {t("megaStore.timeRemaining", {
               timeRemaining: secondsToString(timeRemaining, {
@@ -112,7 +112,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">
-          <span className="text-xs pb-2">{`${t("megaStore.message")}`}</span>
+          <span className="text-xs pb-2">{t("megaStore.message")}</span>
           {/* Wearables */}
           <ItemsList
             itemsLabel="Wearables"
@@ -128,45 +128,20 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
             onItemClick={handleClickItem}
           />
         </div>
-        <Transition show={!!selectedItem}>
-          {/* Overlay */}
-          <Transition.Child
-            enter="transition-opacity ease-linear duration-100"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="transition-opacity ease-linear duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div
-              id="overlay-mine"
-              className="bg-brown-300 opacity-70 absolute inset-1 top-8 z-20"
-              style={{
-                boxShadow: "rgb(194 134 105) 0px 0px 5px 6px",
-              }}
-              onClick={() => setSelectedItem(null)}
-            />
-          </Transition.Child>
-          <Transition.Child
-            enter="transition-transform ease-linear duration-100"
-            enterFrom="scale-0"
-            enterTo="scale-100"
-            leave="transition-transform ease-linear duration-100"
-            leaveFrom="scale-100"
-            leaveTo="scale-0"
-            afterLeave={() => setIsVisible(false)}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform w-full sm:w-5/6 z-20"
-          >
-            <ItemDetail
-              isVisible={isVisible}
-              item={selectedItem}
-              image={getItemImage(selectedItem)}
-              buff={getItemBuffLabel(selectedItem)}
-              isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
-              onClose={() => setSelectedItem(null)}
-            />
-          </Transition.Child>
-        </Transition>
+
+        <ModalOverlay
+          show={!!selectedItem}
+          onBackdropClick={() => setSelectedItem(null)}
+        >
+          <ItemDetail
+            isVisible={isVisible}
+            item={selectedItem}
+            image={getItemImage(selectedItem)}
+            buff={getItemBuffLabel(selectedItem)}
+            isWearable={selectedItem ? isWearablesItem(selectedItem) : false}
+            onClose={() => setSelectedItem(null)}
+          />
+        </ModalOverlay>
       </div>
     </CloseButtonPanel>
   );

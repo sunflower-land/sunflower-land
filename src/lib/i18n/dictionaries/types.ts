@@ -23,6 +23,7 @@ export type GeneralTerms =
   | "back"
   | "bait"
   | "balance"
+  | "balance.short"
   | "banner"
   | "banners"
   | "basket"
@@ -32,6 +33,7 @@ export type GeneralTerms =
   | "bounty"
   | "build"
   | "buy"
+  | "bought"
   | "cancel"
   | "card.cash"
   | "caught"
@@ -205,6 +207,7 @@ export type GeneralTerms =
   | "reqSkills"
   | "required"
   | "requires"
+  | "requirements"
   | "resale"
   | "resources"
   | "restock"
@@ -248,7 +251,6 @@ export type GeneralTerms =
   | "terms.condition"
   | "test"
   | "thank.you"
-  | "there.currently"
   | "time"
   | "tools"
   | "total"
@@ -659,7 +661,8 @@ export type BoostEffectDescriptions =
   | "description.olive.shield.boost"
   | "description.pan.boost"
   | "description.vinny.boost"
-  | "description.rice.panda.boost";
+  | "description.rice.panda.boost"
+  | "description.olive.shirt.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -695,7 +698,8 @@ export type BuildingDescriptions =
   | "description.fire.pit"
   | "description.workbench"
   | "description.tent"
-  | "description.house";
+  | "description.house"
+  | "description.crop.machine";
 
 export type BumpkinDelivery =
   | "bumpkin.delivery.haveFlower"
@@ -819,7 +823,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
   | "bumpkinTrade.max"
-  | "bumpkinTrade.floorPrice";
+  | "bumpkinTrade.floorPrice"
+  | "bumpkinTrade.sellConfirmation";
 
 export type GoblinTrade =
   | "goblinTrade.select"
@@ -918,6 +923,7 @@ export type Conversations =
   | "hank.crafting.scarecrow"
   | "hank-crafting.one"
   | "hank-crafting.two"
+  | "hank.choresFrozen"
   | "betty-intro.headline"
   | "betty-intro.one"
   | "betty-intro.two"
@@ -1021,6 +1027,34 @@ export type CropFruitDescriptions =
   | "description.sunpetal.seed"
   | "description.bloom.seed"
   | "description.lily.seed";
+
+export type CropMachine =
+  | "cropMachine.moreOilRequired"
+  | "cropMachine.oilTank"
+  | "cropMachine.addOil"
+  | "cropMachine.oil.description"
+  | "cropMachine.machineRuntime"
+  | "cropMachine.growTimeRemaining"
+  | "cropMachine.paused"
+  | "cropMachine.readyToHarvest"
+  | "cropMachine.boosted"
+  | "cropMachine.totalSeeds"
+  | "cropMachine.totalCrops"
+  | "cropMachine.harvest"
+  | "cropMachine.pickSeed"
+  | "cropMachine.addSeeds"
+  | "cropMachine.availableInventory"
+  | "cropMachine.seeds"
+  | "cropMachine.growTime"
+  | "cropMachine.addSeedPack"
+  | "cropMachine.notStartedYet"
+  | "cropMachine.seedPacks"
+  | "cropMachine.readyCropPacks"
+  | "cropMachine.readyCropPacks.description"
+  | "cropMachine.harvestAllCrops"
+  | "cropMachine.maxRuntime"
+  | "cropMachine.oilToAdd"
+  | "cropMachine.totalRuntime";
 
 export type DeliveryItem =
   | "deliveryitem.inventory"
@@ -1796,6 +1830,8 @@ export type GameTerms =
   | "farm.banned"
   | "gobSwarm"
   | "granting.wish"
+  | "harvest.number"
+  | "level.number"
   | "new.delivery.in"
   | "new.delivery.levelup"
   | "no.sfl"
@@ -1807,7 +1843,8 @@ export type GameTerms =
   | "in.progress"
   | "compost.complete"
   | "aoe.locked"
-  | "sunflowerLandCodex";
+  | "sunflowerLandCodex"
+  | "visiting.farmId";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -2784,6 +2821,11 @@ export type RemoveKuebiko =
   | "removeKuebiko.description"
   | "removeKuebiko.removeSeeds";
 
+export type RemoveCropMachine =
+  | "removeCropMachine.title"
+  | "removeCropMachine.description"
+  | "removeCropMachine.removeSeeds";
+
 export type Resale = "resale.actionText";
 
 export type ResourceTerms =
@@ -3025,6 +3067,7 @@ export type Statements =
   | "statements.startgame"
   | "statements.session.expired"
   | "statements.price.change"
+  | "statements.translation.want2contribute"
   | "statements.translation.contribution"
   | "statements.translation.joinDiscord";
 
@@ -3122,6 +3165,12 @@ export type TutorialPage =
   | "tutorial.pageOne.text2"
   | "tutorial.pageTwo.text1"
   | "tutorial.pageTwo.text2";
+
+export type Username =
+  | "username.tooShort"
+  | "username.tooLong"
+  | "username.invalidChar"
+  | "username.startWithLetter";
 
 export type VisitislandEnter =
   | "visitIsland.enterIslandId"
@@ -3387,6 +3436,7 @@ export type TranslationKeys =
   | Conversations
   | CropBoomMessages
   | CropFruitDescriptions
+  | CropMachine
   | DeliveryItem
   | DefaultDialogue
   | DecorationDescriptions
@@ -3481,6 +3531,7 @@ export type TranslationKeys =
   | Refunded
   | RemoveHungryCaterpillar
   | RemoveKuebiko
+  | RemoveCropMachine
   | Resale
   | ResourceTerms
   | Restock
@@ -3511,6 +3562,7 @@ export type TranslationKeys =
   | Transfer
   | TreasureModal
   | TutorialPage
+  | Username
   | VisitislandEnter
   | VisitislandNotFound
   | Wallet

@@ -8,7 +8,7 @@ export const ChessRug: React.FC = () => {
     <img
       src={image}
       style={{
-        width: `${PIXEL_SCALE * 48}px`,
+        width: `${PIXEL_SCALE * 64}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
       className="absolute"

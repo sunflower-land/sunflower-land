@@ -111,13 +111,13 @@ export const BuyPanel: React.FC<{
     }
 
     return (
-      <div className="p-2">
+      <div className="flex flex-col pl-2 pt-2">
         {hasPurchasesRemaining && (
           <Label type="default" icon={SUNNYSIDE.icons.basket} className="ml-2">
             {t("trading.select.resources")}
           </Label>
         )}
-        <div className="flex flex-wrap mt-2">
+        <div className="flex flex-wrap flex-1 pr-2 overflow-y-auto scrollable mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
               key={name}
@@ -287,7 +287,7 @@ export const BuyPanel: React.FC<{
 
     if (loading) {
       if (gameService.state.matches("fulfillTradeListing")) {
-        return <Loading text="Trading" />;
+        return <Loading text={t("trading")} />;
       }
 
       if (selectedListing) {
@@ -320,7 +320,9 @@ export const BuyPanel: React.FC<{
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
-                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                        <p className="text-xxs ">
+                          {t("bumpkinTrade.price/unit", { price: unitPrice })}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -349,7 +351,7 @@ export const BuyPanel: React.FC<{
     }
 
     return (
-      <div>
+      <div className="flex flex-col w-full pl-2 pt-1">
         <div className="flex items-center">
           <img
             src={SUNNYSIDE.icons.arrow_left}
@@ -369,7 +371,7 @@ export const BuyPanel: React.FC<{
             {selected.current}
           </Label>
         </div>
-        <div className="mt-1">
+        <div className="flex-1 pr-2 overflow-y-auto scrollable mt-1">
           {listings.map((listing, index) => {
             // only one resource listing
             const listingItem = listing.items[
@@ -394,7 +396,9 @@ export const BuyPanel: React.FC<{
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${listing.sfl} SFL`}</p>
                         </div>
-                        <p className="text-xxs ">{`${unitPrice} per unit`}</p>
+                        <p className="text-xxs ">
+                          {t("bumpkinTrade.price/unit", { price: unitPrice })}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -425,7 +429,7 @@ export const BuyPanel: React.FC<{
 
   return (
     <>
-      <div className="max-h-[400px] min-h-[150px] overflow-y-auto pr-1 divide-brown-600 scrollable">
+      <div className="flex flex-col max-h-[400px] divide-brown-600">
         <div className="pl-2 pt-2 space-y-1 sm:space-y-0 sm:flex items-center justify-between ml-1.5">
           <VIPAccess
             isVIP={isVIP}
@@ -443,15 +447,15 @@ export const BuyPanel: React.FC<{
                 : `${t("remaining.free.purchases", {
                     purchasesRemaining: hasPurchasesRemaining
                       ? remainingFreePurchases
-                      : "No",
+                      : t("no"),
                   })}`}
             </Label>
           )}
         </div>
-        <div className="flex items-start justify-between mb-2">
+        <div className="flex flex-col min-h-[150px] items-start justify-between">
           {isSearching && <p className="loading mt-1">{t("searching")}</p>}
           {!isSearching && (
-            <div className="relative w-full">
+            <div className="flex overflow-y-auto relative w-full">
               {view === "search" && searchView()}
               {view === "list" && listView(listings)}
             </div>

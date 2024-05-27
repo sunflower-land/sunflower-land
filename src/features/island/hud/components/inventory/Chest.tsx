@@ -170,7 +170,7 @@ export const Chest: React.FC<Props> = ({
           actionView={
             onPlace && (
               <Button onClick={handlePlace} disabled={isSaving}>
-                {isSaving ? t("saving") : "Place on map"}
+                {isSaving ? t("saving") : t("place.map")}
               </Button>
             )
           }

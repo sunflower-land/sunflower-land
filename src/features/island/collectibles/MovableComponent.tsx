@@ -37,6 +37,7 @@ import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
+import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -379,6 +380,12 @@ export const MoveableComponent: React.FC<MovableProps> = ({
             </div>
             {showRemoveConfirmation && name === "Kuebiko" && (
               <RemoveKuebikoModal
+                onClose={() => setShowRemoveConfirmation(false)}
+                onRemove={() => remove()}
+              />
+            )}
+            {showRemoveConfirmation && name === "Crop Machine" && (
+              <RemoveCropMachineModal
                 onClose={() => setShowRemoveConfirmation(false)}
                 onRemove={() => remove()}
               />

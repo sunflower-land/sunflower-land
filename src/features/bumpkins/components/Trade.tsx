@@ -343,10 +343,9 @@ const TradeDetails: React.FC<{
                 ))}
 
                 <div>
-                  <Label
-                    type="success"
-                    className="ml-1 mt-0.5"
-                  >{`Bought`}</Label>
+                  <Label type="success" className="ml-1 mt-0.5">
+                    {t("bought")}
+                  </Label>
                   <div className="flex items-center mr-0.5 mt-1">
                     <img src={token} className="h-6 mr-1" />
                     <p className="text-xs">{`${trade.sfl} SFL`}</p>

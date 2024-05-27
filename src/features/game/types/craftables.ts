@@ -1308,7 +1308,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Clock: { width: 1, height: 1 },
   "Fancy Rug": { width: 3, height: 2 },
   "Bullseye Board": { width: 2, height: 2 },
-  "Chess Rug": { width: 3, height: 3 },
+  "Chess Rug": { width: 4, height: 4 },
   "Twister Rug": { width: 3, height: 2 },
   Cluckapult: { width: 2, height: 2 },
   "Trainee Target": { width: 1, height: 1 },

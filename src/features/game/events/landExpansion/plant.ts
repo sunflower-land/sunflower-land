@@ -449,7 +449,8 @@ export function getCropYieldAmount({
 
   if (
     collectibles["Sir Goldensnout"] &&
-    isCollectibleBuilt({ name: "Sir Goldensnout", game })
+    isCollectibleBuilt({ name: "Sir Goldensnout", game }) &&
+    plot
   ) {
     const sirGoldenSnout = collectibles["Sir Goldensnout"][0];
 
@@ -573,6 +574,13 @@ export function getCropYieldAmount({
   // Olive
   if (crop === "Olive" && isWearableActive({ name: "Olive Shield", game })) {
     amount += 1;
+  }
+
+  if (
+    crop === "Olive" &&
+    isWearableActive({ game, name: "Olive Royalty Shirt" })
+  ) {
+    amount += 0.25;
   }
 
   return Number(setPrecision(new Decimal(amount)));

@@ -4928,7 +4928,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Crop" },
       {
         display_type: "boost_number",
-        trait_type: "Increase Yield of Radish, Wheat & Kale",
+        trait_type: "Increase Yield of Radish, Wheat, Kale & Rice", // Updated to include Rice
         value: 0.5,
       },
       { trait_type: "Tradable", value: "Yes" },
@@ -6540,6 +6540,17 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/1017.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Building" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Crop Machine": {
+    description:
+      "Technology arrives at the farm! Crop Machine is here to help!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/1020.png",
 
     attributes: [
       { trait_type: "Purpose", value: "Building" },

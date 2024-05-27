@@ -175,6 +175,9 @@ import {
   GameOptions,
   GreenhouseKeys,
   Minigame,
+  CropMachine,
+  RemoveCropMachine,
+  Username,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -201,7 +204,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   available: "Disponible",
   back: "Retour",
   bait: "Appât",
-  balance: "Solde: ",
+  balance: "Solde",
+  "balance.short": ENGLISH_TERMS["balance.short"],
   banner: "Bannière",
   banners: "Banners",
   basket: "Panier",
@@ -452,7 +456,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "terms.condition": "Termes et conditions",
   test: "Test",
   "thank.you": "Merci!",
-  "there.currently": "Il y a actuellement",
   time: "Temps",
   tools: "Outils",
   total: "Total",
@@ -497,7 +500,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
   vip: ENGLISH_TERMS["vip"],
+  requirements: ENGLISH_TERMS.requirements,
   "max.reached": ENGLISH_TERMS["max.reached"],
+  bought: ENGLISH_TERMS.bought,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -845,8 +850,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Le chuchoteur de légumes et champion des récoltes effroyablement bonnes!",
   "description.laurie.chuckle.crow":
     "Avec son rire déconcertant, elle chasse les picoreurs de vos cultures!",
-  "description.immortal.pear":
-    "Une poire longue durée de vie qui fait durer les arbres fruitiers plus longtemps.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Le voisin préféré de la volaille, offrant une retraite confortable aux poules",
   "description.sir.goldensnout":
@@ -870,7 +874,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Culture avancée: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Récolte de fruits par graine",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost": "+20% Coins sur les ventes de trésors",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Temps de croissance du Wheat",
@@ -903,7 +908,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.mysterious.parsnip.boost": "-50% Temps de croissance du Parsnip",
   "description.queen.cornelia.boost": "+1 Corn (AOE 3x4)",
   "description.foliant.boost": "+0.2 Kale",
-  "description.hoot.boost": "+0.5 Wheat, Radish, Kale",
+  "description.hoot.boost": "+0.5 Blé, Radis, Chou Frisé, Riz",
   "description.hungry.caterpillar.boost": "Graines de fleurs gratuites",
   "description.black.bearry.boost": "+1 Myrtille",
   "description.squirrel.monkey.boost": "-50% Temps de croissance de l'orange",
@@ -979,6 +984,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.paw.shield.boost": ENGLISH_TERMS["description.paw.shield.boost"],
   "description.vinny.boost": ENGLISH_TERMS["description.vinny.boost"],
   "description.rice.panda.boost": ENGLISH_TERMS["description.rice.panda.boost"],
+  "description.olive.shirt.boost":
+    ENGLISH_TERMS["description.olive.shirt.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1027,6 +1034,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.workbench": "Fabriquez des outils pour collecter des ressources",
   "description.tent": "(Arrêté)",
   "description.house": "Un endroit où reposer votre tête",
+  "description.crop.machine": ENGLISH_TERMS["description.crop.machine"],
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -1168,6 +1176,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": "Max : {{max}}",
   "bumpkinTrade.floorPrice": "Prix minimum : {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / unité",
+  "bumpkinTrade.sellConfirmation":
+    ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1330,6 +1340,7 @@ const conversations: Record<Conversations, string> = {
     "Hmm, ces cultures poussent terriblement lentement. Je n'ai pas le temps d'attendre.",
   "hank-crafting.two":
     "Fabrique un épouvantail pour accélérer la croissance de tes cultures.",
+  "hank.choresFrozen": ENGLISH_TERMS["hank.choresFrozen"],
   "betty-intro.headline": "Comment faire pousser ta ferme",
   "betty-intro.one": "Hé, hé ! Bienvenue sur mon marché.",
   "betty-intro.two":
@@ -1481,6 +1492,38 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.sunpetal.seed": "Une graine de pétales de soleil",
   "description.bloom.seed": "Une graine de fleur épanouie",
   "description.lily.seed": "Une graine de lys",
+};
+
+const cropMachine: Record<CropMachine, string> = {
+  "cropMachine.addOil": ENGLISH_TERMS["cropMachine.addOil"],
+  "cropMachine.addSeedPack": ENGLISH_TERMS["cropMachine.addSeedPack"],
+  "cropMachine.addSeeds": ENGLISH_TERMS["cropMachine.addSeeds"],
+  "cropMachine.availableInventory":
+    ENGLISH_TERMS["cropMachine.availableInventory"],
+  "cropMachine.boosted": ENGLISH_TERMS["cropMachine.boosted"],
+  "cropMachine.growTime": ENGLISH_TERMS["cropMachine.growTime"],
+  "cropMachine.growTimeRemaining":
+    ENGLISH_TERMS["cropMachine.growTimeRemaining"],
+  "cropMachine.harvest": ENGLISH_TERMS["cropMachine.harvest"],
+  "cropMachine.harvestAllCrops": ENGLISH_TERMS["cropMachine.harvestAllCrops"],
+  "cropMachine.machineRuntime": ENGLISH_TERMS["cropMachine.machineRuntime"],
+  "cropMachine.maxRuntime": ENGLISH_TERMS["cropMachine.maxRuntime"],
+  "cropMachine.moreOilRequired": ENGLISH_TERMS["cropMachine.moreOilRequired"],
+  "cropMachine.notStartedYet": ENGLISH_TERMS["cropMachine.notStartedYet"],
+  "cropMachine.oil.description": ENGLISH_TERMS["cropMachine.oil.description"],
+  "cropMachine.oilTank": ENGLISH_TERMS["cropMachine.oilTank"],
+  "cropMachine.oilToAdd": ENGLISH_TERMS["cropMachine.oilToAdd"],
+  "cropMachine.paused": ENGLISH_TERMS["cropMachine.paused"],
+  "cropMachine.pickSeed": ENGLISH_TERMS["cropMachine.pickSeed"],
+  "cropMachine.readyCropPacks": ENGLISH_TERMS["cropMachine.readyCropPacks"],
+  "cropMachine.readyCropPacks.description":
+    ENGLISH_TERMS["cropMachine.readyCropPacks.description"],
+  "cropMachine.readyToHarvest": ENGLISH_TERMS["cropMachine.readyToHarvest"],
+  "cropMachine.seedPacks": ENGLISH_TERMS["cropMachine.seedPacks"],
+  "cropMachine.seeds": ENGLISH_TERMS["cropMachine.seeds"],
+  "cropMachine.totalCrops": ENGLISH_TERMS["cropMachine.totalCrops"],
+  "cropMachine.totalRuntime": ENGLISH_TERMS["cropMachine.totalRuntime"],
+  "cropMachine.totalSeeds": ENGLISH_TERMS["cropMachine.totalSeeds"],
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -2608,6 +2651,9 @@ const gameTerms: Record<GameTerms, string> = {
   "compost.complete": "Compost terminé",
   "aoe.locked": "AOE verrouillé",
   sunflowerLandCodex: "Sunflower Land Codex",
+  "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "harvest.number": ENGLISH_TERMS["harvest.number"],
+  "level.number": ENGLISH_TERMS["level.number"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4275,6 +4321,14 @@ const removeKuebiko: Record<RemoveKuebiko, string> = {
   "removeKuebiko.removeSeeds": "Supprimer les graines",
 };
 
+const removeCropMachine: Record<RemoveCropMachine, string> = {
+  "removeCropMachine.title": ENGLISH_TERMS["removeCropMachine.title"],
+  "removeCropMachine.description":
+    ENGLISH_TERMS["removeCropMachine.description"],
+  "removeCropMachine.removeSeeds":
+    ENGLISH_TERMS["removeCropMachine.removeSeeds"],
+};
+
 const resale: Record<Resale, string> = {
   "resale.actionText": "Revente",
 };
@@ -4575,7 +4629,8 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.four": "Fournissez de la liquidité",
   "statements.wishing.well.info.five": " dans le jeu",
   "statements.wishing.well.info.six": "Fournir de la liquidité",
-  "statements.wishing.well.worthwell": "valeur des récompenses dans le puits!",
+  "statements.wishing.well.worthwell":
+    ENGLISH_TERMS["statements.wishing.well.worthwell"],
   "statements.wishing.well.look.like":
     "Il semble que vous ne fournissiez pas encore de liquidité.",
   "statements.wishing.well.lucky": "Voyons à quel point vous êtes chanceux!",
@@ -4613,6 +4668,8 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Il semble que votre session ait expiré. Veuillez actualiser la page pour continuer à jouer.",
+  "statements.translation.want2contribute":
+    ENGLISH_TERMS["statements.translation.want2contribute"],
   "statements.translation.contribution":
     ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord":
@@ -4771,6 +4828,13 @@ const tutorialPage: Record<TutorialPage, string> = {
     "Les bâtiments sont un moyen important de progresser dans le jeu car ils vous aideront à vous développer et à évoluer.",
   "tutorial.pageTwo.text2":
     "Commençons par augmenter le niveau de notre Bumpkin pour obtenir l'établi et en apprendre davantage sur les outils.",
+};
+
+const username: Record<Username, string> = {
+  "username.tooShort": ENGLISH_TERMS["username.tooShort"],
+  "username.tooLong": ENGLISH_TERMS["username.tooLong"],
+  "username.invalidChar": ENGLISH_TERMS["username.invalidChar"],
+  "username.startWithLetter": ENGLISH_TERMS["username.startWithLetter"],
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
@@ -5115,6 +5179,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...conversations,
   ...cropBoomMessages,
   ...cropFruitDescriptions,
+  ...cropMachine,
   ...decorationDescriptions,
   ...defaultDialogue,
   ...delivery,
@@ -5243,6 +5308,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...transfer,
   ...treasureModal,
   ...tutorialPage,
+  ...username,
   ...visitislandEnter,
   ...visitislandNotFound,
   ...wallet,
@@ -5255,4 +5321,5 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...wornDescription,
   ...trading,
   ...restrictionReason,
+  ...removeCropMachine,
 };

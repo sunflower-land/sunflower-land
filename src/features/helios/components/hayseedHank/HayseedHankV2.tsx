@@ -93,7 +93,7 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
             <InlineDialogue
               trail={25}
               // key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
-              message={`Well shucks, looks like we're all caught up for today. Take yourself a little breather and enjoy the rest of the day!`}
+              message={t("hank.choresFrozen")}
             />
           </div>
         )}

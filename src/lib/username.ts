@@ -8,6 +8,7 @@
 
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
+import { translate } from "./i18n/translate";
 const API_URL = CONFIG.API_URL;
 
 const REGEX = new RegExp(/^[\w*?!, '-]+$/);
@@ -21,12 +22,12 @@ export const validateUsername = (username?: string) => {
 
   username = username.replace(/[_-]/g, "");
 
-  if (username.length < 3) return "Username is too short (min 3 characters)";
-  if (username.length > 12) return "Username is too long (max 12 characters)";
-  if (!REGEX.test(username)) return "Username contains invalid characters";
-  if (username.includes(" ")) return "Username contains invalid characters";
+  if (username.length < 3) return translate("username.tooShort");
+  if (username.length > 12) return translate("username.tooLong");
+  if (!REGEX.test(username)) return translate("username.invalidChar");
+  if (username.includes(" ")) return translate("username.invalidChar");
   if (!ALPHABET.includes(username[0].toLowerCase()))
-    return "Username must start with a letter";
+    return translate("username.startWithLetter");
 
   return null;
 };

@@ -637,6 +637,62 @@ describe("plantGreenhouse", () => {
     });
   });
 
+  it("does not apply Castle bud crop yield boost", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buds: {
+          "1": {
+            type: "Castle",
+            aura: "No Aura",
+            colour: "Blue",
+            ears: "Ears",
+            stem: "Egg Head",
+            coordinates: {
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+        collectibles: {},
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: expect.any(Number),
+      },
+    });
+  });
+
   it("applies normal fruit yield boosts", () => {
     const now = Date.now();
     const state = plantGreenhouse({
@@ -689,7 +745,7 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("applies normal crop speed boosts", () => {
+  it("applies time warp totem speed boost", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -737,6 +793,61 @@ describe("plantGreenhouse", () => {
         amount: 1,
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
+      },
+    });
+  });
+
+  it("applies Saphiro bud speed boost", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        buds: {
+          "1": {
+            type: "Saphiro",
+            aura: "No Aura",
+            colour: "Blue",
+            ears: "Ears",
+            stem: "Egg Head",
+            coordinates: {
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
+        plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
     });
   });

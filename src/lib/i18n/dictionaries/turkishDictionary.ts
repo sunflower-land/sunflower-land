@@ -175,6 +175,9 @@ import {
   GameOptions,
   GreenhouseKeys,
   Minigame,
+  CropMachine,
+  RemoveCropMachine,
+  Username,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -201,7 +204,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   available: "Mevcut",
   back: "Geri",
   bait: "Yem",
-  balance: "Bakiye: ",
+  balance: "Bakiye",
+  "balance.short": ENGLISH_TERMS["balance.short"],
   banner: "Bayrak",
   banners: "Banners",
   basket: "Sepet",
@@ -418,7 +422,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "terms.condition": "Şartlar ve koşullar",
   test: "Deneme",
   "thank.you": "Teşekkür ederim!",
-  "there.currently": "Şu anda",
   time: "Zaman",
   tools: "Aletler",
   total: "Toplam",
@@ -497,7 +500,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
   vip: ENGLISH_TERMS["vip"],
+  requirements: ENGLISH_TERMS.requirements,
   "max.reached": ENGLISH_TERMS["max.reached"],
+  bought: ENGLISH_TERMS.bought,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -831,8 +836,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Sebzelere fısıldayan ve korkunç derecede iyi hasatların şampiyonu!",
   "description.laurie.chuckle.crow":
     "Rahatsız edici kıkırdaması ile gagalayanları mahsullerinden kaçırıyor!",
-  "description.immortal.pear":
-    "Meyve ağaçlarının daha uzun süre hayatta kalmasını sağlayan uzun ömürlü bir armut.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Tavuklar için konforlu bir sığınak sağlayan,kümes hayvanlarının en sevdiği komşusu.",
   "description.sir.goldensnout":
@@ -856,7 +860,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.bale.boost": "+0.2 Yumurta (Etki Alanı 4x4)",
-  "description.immortal.pear.boost": "Tohum başına +1 Meyve Hasadı.",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% Coins",
   "description.poppy.boost": "+0.1 Mısır",
   "description.kernaldo.boost": "Mısır Büyüme Süresi -25%",
@@ -889,7 +894,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.mysterious.parsnip.boost": "-50% Yaban Havucu Büyüme Süresi",
   "description.queen.cornelia.boost": "+1 Mısır (Etki Alanı 3x4)",
   "description.foliant.boost": "+0.2 Kıvırcık Lahana",
-  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana",
+  "description.hoot.boost": "+0.5 Buğday, Turp, Kıvırcık Lahana, Pirinç",
   "description.hungry.caterpillar.boost": "Ücretsiz Çiçek Tohumları",
   "description.black.bearry.boost": "+1 Yaban Mersini",
   "description.squirrel.monkey.boost": "-50% Portakal Büyüme Süresi",
@@ -964,6 +969,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.paw.shield.boost": ENGLISH_TERMS["description.paw.shield.boost"],
   "description.vinny.boost": ENGLISH_TERMS["description.vinny.boost"],
   "description.rice.panda.boost": ENGLISH_TERMS["description.rice.panda.boost"],
+  "description.olive.shirt.boost":
+    ENGLISH_TERMS["description.olive.shirt.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1007,6 +1014,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.workbench": "Kaynak toplamak için alet üretin",
   "description.tent": "(Artık üretilmiyor)",
   "description.house": "Kafanı dinleyebileceğin bir yer.",
+  "description.crop.machine": ENGLISH_TERMS["description.crop.machine"],
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -1139,6 +1147,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
   "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
   "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
+  "bumpkinTrade.sellConfirmation":
+    ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1282,7 +1292,7 @@ const conversations: Record<Conversations, string> = {
   "hank-crafting.one":
     "Hımmm, bu mahsuller çok yavaş büyüyor. Beklemek için zamanım yok.",
   "hank-crafting.two": "Mahsullerinizi hızlandırmak için bir korkuluk yapın.",
-
+  "hank.choresFrozen": ENGLISH_TERMS["hank.choresFrozen"],
   "betty-intro.headline": "Çiftliğinizi nasıl büyütebilirsiniz?",
   "betty-intro.one": "Selam, selam! Pazarıma hoş geldiniz.",
   "betty-intro.two":
@@ -1438,6 +1448,38 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.sunpetal.seed": "Bir güneş yaprağı tohumu",
   "description.bloom.seed": "Bir çiçek tohumu",
   "description.lily.seed": "Bir zambak tohumu",
+};
+
+const cropMachine: Record<CropMachine, string> = {
+  "cropMachine.addOil": ENGLISH_TERMS["cropMachine.addOil"],
+  "cropMachine.addSeedPack": ENGLISH_TERMS["cropMachine.addSeedPack"],
+  "cropMachine.addSeeds": ENGLISH_TERMS["cropMachine.addSeeds"],
+  "cropMachine.availableInventory":
+    ENGLISH_TERMS["cropMachine.availableInventory"],
+  "cropMachine.boosted": ENGLISH_TERMS["cropMachine.boosted"],
+  "cropMachine.growTime": ENGLISH_TERMS["cropMachine.growTime"],
+  "cropMachine.growTimeRemaining":
+    ENGLISH_TERMS["cropMachine.growTimeRemaining"],
+  "cropMachine.harvest": ENGLISH_TERMS["cropMachine.harvest"],
+  "cropMachine.harvestAllCrops": ENGLISH_TERMS["cropMachine.harvestAllCrops"],
+  "cropMachine.machineRuntime": ENGLISH_TERMS["cropMachine.machineRuntime"],
+  "cropMachine.maxRuntime": ENGLISH_TERMS["cropMachine.maxRuntime"],
+  "cropMachine.moreOilRequired": ENGLISH_TERMS["cropMachine.moreOilRequired"],
+  "cropMachine.notStartedYet": ENGLISH_TERMS["cropMachine.notStartedYet"],
+  "cropMachine.oil.description": ENGLISH_TERMS["cropMachine.oil.description"],
+  "cropMachine.oilTank": ENGLISH_TERMS["cropMachine.oilTank"],
+  "cropMachine.oilToAdd": ENGLISH_TERMS["cropMachine.oilToAdd"],
+  "cropMachine.paused": ENGLISH_TERMS["cropMachine.paused"],
+  "cropMachine.pickSeed": ENGLISH_TERMS["cropMachine.pickSeed"],
+  "cropMachine.readyCropPacks": ENGLISH_TERMS["cropMachine.readyCropPacks"],
+  "cropMachine.readyCropPacks.description":
+    ENGLISH_TERMS["cropMachine.readyCropPacks.description"],
+  "cropMachine.readyToHarvest": ENGLISH_TERMS["cropMachine.readyToHarvest"],
+  "cropMachine.seedPacks": ENGLISH_TERMS["cropMachine.seedPacks"],
+  "cropMachine.seeds": ENGLISH_TERMS["cropMachine.seeds"],
+  "cropMachine.totalCrops": ENGLISH_TERMS["cropMachine.totalCrops"],
+  "cropMachine.totalRuntime": ENGLISH_TERMS["cropMachine.totalRuntime"],
+  "cropMachine.totalSeeds": ENGLISH_TERMS["cropMachine.totalSeeds"],
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -2497,6 +2539,9 @@ const gameTerms: Record<GameTerms, string> = {
   "compost.complete": "Kompost tamamlandı",
   "aoe.locked": "Etki Alanı Kilitli",
   sunflowerLandCodex: "Sunflower Land Kodeksi",
+  "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "harvest.number": ENGLISH_TERMS["harvest.number"],
+  "level.number": ENGLISH_TERMS["level.number"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4118,6 +4163,14 @@ const removeKuebiko: Record<RemoveKuebiko, string> = {
   "removeKuebiko.removeSeeds": "Tohumları Kaldır",
 };
 
+const removeCropMachine: Record<RemoveCropMachine, string> = {
+  "removeCropMachine.title": ENGLISH_TERMS["removeCropMachine.title"],
+  "removeCropMachine.description":
+    ENGLISH_TERMS["removeCropMachine.description"],
+  "removeCropMachine.removeSeeds":
+    ENGLISH_TERMS["removeCropMachine.removeSeeds"],
+};
+
 const resale: Record<Resale, string> = {
   "resale.actionText": "Yeniden Sat",
 };
@@ -4412,7 +4465,8 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.four": "likidite sağla",
   "statements.wishing.well.info.five": "oyunda",
   "statements.wishing.well.info.six": "likidite sağlanıyor",
-  "statements.wishing.well.worthwell": "kuyudaki ödüller değerinde!",
+  "statements.wishing.well.worthwell":
+    ENGLISH_TERMS["statements.wishing.well.worthwell"],
   "statements.wishing.well.look.like":
     ENGLISH_TERMS["statements.wishing.well.look.like"],
   // "It doesn't look like you are providing liquidity yet.",
@@ -4446,6 +4500,8 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Oturumunuzun süresi dolmuş gibi görünüyor. Oynamaya devam etmek için lütfen sayfayı yenileyin.",
+  "statements.translation.want2contribute":
+    ENGLISH_TERMS["statements.translation.want2contribute"],
   "statements.translation.contribution":
     ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord":
@@ -4598,6 +4654,13 @@ const tutorialPage: Record<TutorialPage, string> = {
     "Binalar, genişlemenize ve gelişmenize yardımcı olacağından oyunda ilerlemenin önemli bir yoludur.",
   "tutorial.pageTwo.text2":
     "Tezgahın aletler hakkında bilgi edinmesini sağlamak için Bumpkin'imizin seviyesini yükselterek başlayalım.",
+};
+
+const username: Record<Username, string> = {
+  "username.tooShort": ENGLISH_TERMS["username.tooShort"],
+  "username.tooLong": ENGLISH_TERMS["username.tooLong"],
+  "username.invalidChar": ENGLISH_TERMS["username.invalidChar"],
+  "username.startWithLetter": ENGLISH_TERMS["username.startWithLetter"],
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
@@ -4953,6 +5016,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...confirmSkill,
   ...conversations,
   ...cropBoomMessages,
+  ...cropMachine,
   ...cropFruitDescriptions,
   ...decorationDescriptions,
   ...defaultDialogue,
@@ -5083,6 +5147,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...transfer,
   ...treasureModal,
   ...tutorialPage,
+  ...username,
   ...visitislandEnter,
   ...visitislandNotFound,
   ...wallet,
@@ -5094,4 +5159,5 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...world,
   ...wornDescription,
   ...restrictionReason,
+  ...removeCropMachine,
 };
