@@ -143,7 +143,9 @@ export const IslandBlacksmithItems: React.FC = () => {
           </div>
           <div className="flex mt-2">
             <img src={worldIcon} className="h-5 mr-2" />
-            <p className="text-xs">{t("statements.blacksmith.plaza")}</p>
+            <p className="font-secondary text-[20px] leading-[14px]">
+              {t("statements.blacksmith.plaza")}
+            </p>
           </div>
         </div>
       }

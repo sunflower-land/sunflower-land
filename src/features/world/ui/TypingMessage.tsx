@@ -64,5 +64,5 @@ export const InlineDialogue: React.FC<{
     };
   }, [message, trail, currentIndex]);
 
-  return <div className="leading-[1] text-[16px]">{displayedMessage}</div>;
+  return <div className="text-sm">{displayedMessage}</div>;
 };

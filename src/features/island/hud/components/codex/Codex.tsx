@@ -213,21 +213,25 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
             {currentTab === 2 && (
               <InnerPanel
-                className={classNames("flex flex-col h-full overflow-hidden")}
+                className={classNames(
+                  "flex flex-col h-full overflow-y-auto scrollable"
+                )}
               >
                 <Fish onMilestoneReached={handleMilestoneReached} />
               </InnerPanel>
             )}
             {currentTab === 3 && (
               <InnerPanel
-                className={classNames("flex flex-col h-full overflow-hidden")}
+                className={classNames(
+                  "flex flex-col h-full overflow-y-auto scrollable"
+                )}
               >
                 <Flowers onMilestoneReached={handleMilestoneReached} />
               </InnerPanel>
             )}
             {currentTab === 4 && (
               <InnerPanel
-                className={classNames("flex flex-col h-full overflow-hidden")}
+                className={classNames("flex flex-col h-full overflow-hidden ")}
               >
                 <TicketsLeaderboard
                   id={id}
