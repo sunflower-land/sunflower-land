@@ -252,11 +252,14 @@ export const CropMachineModal: React.FC<Props> = ({
                   </div>
                 )}
                 <div className="flex">
-                  <Box
-                    image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
-                  />
+                  <Box image={ITEM_DETAILS[selectedPack.crop].image} />
                   <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs">{`${selectedPack.amount} x ${selectedPack.crop} Seeds`}</span>
+                    <span className="text-xs">
+                      {`??? x `}
+                      {selectedPack.crop === "Potato"
+                        ? `${selectedPack.crop}es`
+                        : `${selectedPack.crop}s`}
+                    </span>
                     {show && (
                       <PackGrowthProgressBar
                         paused={paused}
