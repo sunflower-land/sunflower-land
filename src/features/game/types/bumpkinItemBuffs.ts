@@ -221,10 +221,17 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       shortDescription: translate("description.olive.shield.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Olive.image,
     },
     Pan: {
       shortDescription: translate("description.pan.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+    },
+    "Olive Royalty Shirt": {
+      shortDescription: translate("description.olive.shirt.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Olive.image,
     },
   };

@@ -35,6 +35,7 @@ const VALID_BUILDINGS: BuildingName[] = [
   "Turbo Composter" as BuildingName,
   "Premium Composter" as BuildingName,
   "Greenhouse" as BuildingName,
+  "Crop Machine" as BuildingName,
 ].sort(
   (a, b) => BUILDINGS[a][0].unlocksAtLevel - BUILDINGS[b][0].unlocksAtLevel
 );
@@ -163,7 +164,13 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {VALID_BUILDINGS.map((name: BuildingName) => {
+          {VALID_BUILDINGS.filter((name) => {
+            if (name === "Crop Machine") {
+              return hasFeatureAccess(state, "CROP_MACHINE");
+            }
+
+            return true;
+          }).map((name: BuildingName) => {
             const blueprints = BUILDINGS[name];
             const inventoryCount = inventory[name] || new Decimal(0);
             const nextIndex = blueprints[inventoryCount.toNumber()]

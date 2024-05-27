@@ -409,6 +409,7 @@ const buildings: Record<BuildingName, () => boolean> = {
   "Premium Composter": () => false,
   House: () => false,
   Manor: () => false,
+  "Crop Machine": () => false,
 };
 
 const fertilisers: Record<FertiliserName, () => boolean> = {
@@ -1354,6 +1355,6 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   Crown: () => canWithdrawTimebasedItem(new Date("2024-04-04")),
   "Soybean Onesie": () => canWithdrawTimebasedItem(new Date("2024-08-01")),
   "Tofu Mask": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
-  "Olive Royalty Shirt": () => false,
+  "Olive Royalty Shirt": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Royal Scepter": () => false,
 };

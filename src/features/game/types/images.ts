@@ -393,6 +393,7 @@ import advancedComposter from "assets/composters/composter_advanced.png";
 import expertComposter from "assets/composters/composter_expert.png";
 import house from "assets/buildings/house.png";
 import manor from "assets/buildings/manor.png";
+import cropMachine from "assets/buildings/crop_machine.wep.webp";
 
 // Composter Bait
 import earthworm from "assets/composters/earthworm.png";
@@ -1677,6 +1678,10 @@ export const ITEM_DETAILS: Items = {
   Manor: {
     image: manor,
     description: translate("description.house"),
+  },
+  "Crop Machine": {
+    image: cropMachine,
+    description: translate("description.crop.machine"),
   },
   Kitchen: {
     image: kitchen,

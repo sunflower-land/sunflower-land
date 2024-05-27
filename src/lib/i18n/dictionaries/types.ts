@@ -665,7 +665,8 @@ export type BoostEffectDescriptions =
   | "description.olive.shield.boost"
   | "description.pan.boost"
   | "description.vinny.boost"
-  | "description.rice.panda.boost";
+  | "description.rice.panda.boost"
+  | "description.olive.shirt.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
@@ -701,7 +702,8 @@ export type BuildingDescriptions =
   | "description.fire.pit"
   | "description.workbench"
   | "description.tent"
-  | "description.house";
+  | "description.house"
+  | "description.crop.machine";
 
 export type BumpkinDelivery =
   | "bumpkin.delivery.haveFlower"
@@ -1027,6 +1029,34 @@ export type CropFruitDescriptions =
   | "description.sunpetal.seed"
   | "description.bloom.seed"
   | "description.lily.seed";
+
+export type CropMachine =
+  | "cropMachine.moreOilRequired"
+  | "cropMachine.oilTank"
+  | "cropMachine.addOil"
+  | "cropMachine.oil.description"
+  | "cropMachine.machineRuntime"
+  | "cropMachine.growTimeRemaining"
+  | "cropMachine.paused"
+  | "cropMachine.readyToHarvest"
+  | "cropMachine.boosted"
+  | "cropMachine.totalSeeds"
+  | "cropMachine.totalCrops"
+  | "cropMachine.harvest"
+  | "cropMachine.pickSeed"
+  | "cropMachine.addSeeds"
+  | "cropMachine.availableInventory"
+  | "cropMachine.seeds"
+  | "cropMachine.growTime"
+  | "cropMachine.addSeedPack"
+  | "cropMachine.notStartedYet"
+  | "cropMachine.seedPacks"
+  | "cropMachine.readyCropPacks"
+  | "cropMachine.readyCropPacks.description"
+  | "cropMachine.harvestAllCrops"
+  | "cropMachine.maxRuntime"
+  | "cropMachine.oilToAdd"
+  | "cropMachine.totalRuntime";
 
 export type DeliveryItem =
   | "deliveryitem.inventory"
@@ -2790,6 +2820,11 @@ export type RemoveKuebiko =
   | "removeKuebiko.description"
   | "removeKuebiko.removeSeeds";
 
+export type RemoveCropMachine =
+  | "removeCropMachine.title"
+  | "removeCropMachine.description"
+  | "removeCropMachine.removeSeeds";
+
 export type Resale = "resale.actionText";
 
 export type ResourceTerms =
@@ -3393,6 +3428,7 @@ export type TranslationKeys =
   | Conversations
   | CropBoomMessages
   | CropFruitDescriptions
+  | CropMachine
   | DeliveryItem
   | DefaultDialogue
   | DecorationDescriptions
@@ -3487,6 +3523,7 @@ export type TranslationKeys =
   | Refunded
   | RemoveHungryCaterpillar
   | RemoveKuebiko
+  | RemoveCropMachine
   | Resale
   | ResourceTerms
   | Restock
