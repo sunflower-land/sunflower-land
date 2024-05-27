@@ -143,14 +143,19 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     <>
       <BuildingImageWrapper name="Crop Machine" onClick={handleClick}>
         <div
-          className="absolute bottom-0"
+          className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 80}px`,
-            height: `${PIXEL_SCALE * 80}px`,
+            height: `${PIXEL_SCALE * 64}px`,
           }}
         >
           {readyCrops.length > 0 && (
-            <div className="absolute top-1.5 flex w-full items-center justify-center z-10">
+            <div
+              className="absolute flex w-full items-center justify-center z-10"
+              style={{
+                top: `${PIXEL_SCALE * 16}px`,
+              }}
+            >
               {readyCrops.map((crop, index) => (
                 <img
                   key={index}
