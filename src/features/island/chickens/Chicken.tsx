@@ -134,10 +134,15 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, shortcutItem, showTimers } = useContext(Context);
 
-  const chickenSoundSources = ["chicken_1", "chicken_2"] as const;
+  const chickens = ["chicken_1", "chicken_2"] as const;
   const chickenSound = useSound(
-    chickenSoundSources[Math.floor(Math.random() * chickenSoundSources.length)]
+    chickens[Math.floor(Math.random() * chickens.length)]
   );
+  const chickenCollects = ["chicken_collect_1", "chicken_collect_2"] as const;
+  const chickenCollectSound = useSound(
+    chickenCollects[Math.floor(Math.random() * chickenCollects.length)]
+  );
+  const no = useSound("no");
 
   const chicken = useSelector(
     gameService,
@@ -190,14 +195,15 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   };
 
   const handleClick = () => {
-    if (interactible) chickenSound.play();
-
     if (eggReady) {
+      chickenSound.play();
+
       chickenService.send("LAY");
       return;
     }
 
     if (eggLaid) {
+      chickenCollectSound.play();
       handleCollect();
       return;
     }
@@ -213,6 +219,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
       const hasWheat = HasWheat(inventoryWheatCount, game);
 
       if (!hasWheat) {
+        no.play();
         setShowPopover(true);
         await new Promise((resolve) => setTimeout(resolve, POPOVER_TIME_MS));
         setShowPopover(false);
@@ -221,6 +228,8 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 
       shortcutItem("Wheat");
     }
+
+    chickenSound.play();
 
     const {
       context: {
