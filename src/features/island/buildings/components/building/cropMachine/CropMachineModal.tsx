@@ -295,7 +295,7 @@ export const CropMachineModal: React.FC<Props> = ({
                     <span className="text-xs">
                       {t("cropMachine.totalCrops", {
                         cropName: selectedPack.crop.toLocaleLowerCase(),
-                        total: selectedPack.amount,
+                        total: setPrecision(new Decimal(selectedPack.amount)),
                       })}
                     </span>
                   </div>
