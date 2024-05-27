@@ -193,10 +193,13 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return `${roundedDownXp} XP`;
       }
       case "level": {
-        return `Level ${props.requirement}`;
+        return `${t("level.number", { level: props.requirement })}`;
       }
       case "harvests": {
-        return `${props.minHarvest}-${props.maxHarvest} harvests`;
+        return `${t("harvest.number", {
+          minHarvest: props.minHarvest,
+          maxHarvest: props.maxHarvest,
+        })}`;
       }
     }
   };

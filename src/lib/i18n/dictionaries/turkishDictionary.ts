@@ -177,6 +177,7 @@ import {
   Minigame,
   CropMachine,
   RemoveCropMachine,
+  Username,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -203,7 +204,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   available: "Mevcut",
   back: "Geri",
   bait: "Yem",
-  balance: "Bakiye: ",
+  balance: "Bakiye",
+  "balance.short": ENGLISH_TERMS["balance.short"],
   banner: "Bayrak",
   banners: "Banners",
   basket: "Sepet",
@@ -420,7 +422,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "terms.condition": "Şartlar ve koşullar",
   test: "Deneme",
   "thank.you": "Teşekkür ederim!",
-  "there.currently": "Şu anda",
   time: "Zaman",
   tools: "Aletler",
   total: "Toplam",
@@ -499,7 +500,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   "p2p.trading": ENGLISH_TERMS["p2p.trading"],
   vipAccess: ENGLISH_TERMS["vipAccess"],
   vip: ENGLISH_TERMS["vip"],
+  requirements: ENGLISH_TERMS.requirements,
   "max.reached": ENGLISH_TERMS["max.reached"],
+  bought: ENGLISH_TERMS.bought,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1144,6 +1147,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": ENGLISH_TERMS["bumpkinTrade.max"],
   "bumpkinTrade.floorPrice": ENGLISH_TERMS["bumpkinTrade.floorPrice"],
   "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
+  "bumpkinTrade.sellConfirmation":
+    ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1287,7 +1292,7 @@ const conversations: Record<Conversations, string> = {
   "hank-crafting.one":
     "Hımmm, bu mahsuller çok yavaş büyüyor. Beklemek için zamanım yok.",
   "hank-crafting.two": "Mahsullerinizi hızlandırmak için bir korkuluk yapın.",
-
+  "hank.choresFrozen": ENGLISH_TERMS["hank.choresFrozen"],
   "betty-intro.headline": "Çiftliğinizi nasıl büyütebilirsiniz?",
   "betty-intro.one": "Selam, selam! Pazarıma hoş geldiniz.",
   "betty-intro.two":
@@ -2534,6 +2539,9 @@ const gameTerms: Record<GameTerms, string> = {
   "compost.complete": "Kompost tamamlandı",
   "aoe.locked": "Etki Alanı Kilitli",
   sunflowerLandCodex: "Sunflower Land Kodeksi",
+  "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "harvest.number": ENGLISH_TERMS["harvest.number"],
+  "level.number": ENGLISH_TERMS["level.number"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4457,7 +4465,8 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.four": "likidite sağla",
   "statements.wishing.well.info.five": "oyunda",
   "statements.wishing.well.info.six": "likidite sağlanıyor",
-  "statements.wishing.well.worthwell": "kuyudaki ödüller değerinde!",
+  "statements.wishing.well.worthwell":
+    ENGLISH_TERMS["statements.wishing.well.worthwell"],
   "statements.wishing.well.look.like":
     ENGLISH_TERMS["statements.wishing.well.look.like"],
   // "It doesn't look like you are providing liquidity yet.",
@@ -4491,6 +4500,8 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Oturumunuzun süresi dolmuş gibi görünüyor. Oynamaya devam etmek için lütfen sayfayı yenileyin.",
+  "statements.translation.want2contribute":
+    ENGLISH_TERMS["statements.translation.want2contribute"],
   "statements.translation.contribution":
     ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord":
@@ -4643,6 +4654,13 @@ const tutorialPage: Record<TutorialPage, string> = {
     "Binalar, genişlemenize ve gelişmenize yardımcı olacağından oyunda ilerlemenin önemli bir yoludur.",
   "tutorial.pageTwo.text2":
     "Tezgahın aletler hakkında bilgi edinmesini sağlamak için Bumpkin'imizin seviyesini yükselterek başlayalım.",
+};
+
+const username: Record<Username, string> = {
+  "username.tooShort": ENGLISH_TERMS["username.tooShort"],
+  "username.tooLong": ENGLISH_TERMS["username.tooLong"],
+  "username.invalidChar": ENGLISH_TERMS["username.invalidChar"],
+  "username.startWithLetter": ENGLISH_TERMS["username.startWithLetter"],
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
@@ -5129,6 +5147,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...transfer,
   ...treasureModal,
   ...tutorialPage,
+  ...username,
   ...visitislandEnter,
   ...visitislandNotFound,
   ...wallet,

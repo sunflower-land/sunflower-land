@@ -37,9 +37,10 @@ const RequiredSkillPoints = ({
       })}
     >
       <span className="text-center text-xxs sm:text-xs">
-        {t("reqSkillPts")}{" "}
+        {t("reqSkillPts")}
       </span>
       <span className="text-xxs sm:text-xs text-center">
+        {" "}
         {`${availableSkillPoints}/${pointsRequired}`}
       </span>
     </div>

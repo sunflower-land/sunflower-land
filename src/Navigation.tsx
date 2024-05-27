@@ -25,6 +25,7 @@ import { useOrientation } from "lib/utils/hooks/useOrientation";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { Modal } from "components/ui/Modal";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -46,6 +47,7 @@ const selectState = (state: AuthMachineState) => ({
  * Controls flow of authorised and unauthorised games
  */
 export const Navigation: React.FC = () => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(AuthProvider.Context);
   const state = useSelector(authService, selectState);
   const [showGame, setShowGame] = useState(false);
@@ -108,7 +110,7 @@ export const Navigation: React.FC = () => {
           <ZoomProvider>
             <Modal show={showConnectionModal}>
               <Panel>
-                <div className="text-sm p-1 mb-1">{`Hey there Bumpkin, it looks like you aren't online. Please check your network connection.`}</div>
+                <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
               </Panel>
             </Modal>
             <HashRouter>

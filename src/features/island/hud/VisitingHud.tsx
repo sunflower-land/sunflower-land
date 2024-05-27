@@ -13,6 +13,7 @@ import { createPortal } from "react-dom";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -21,6 +22,7 @@ import Decimal from "decimal.js-light";
 export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
 
   return createPortal(
     <div
@@ -30,7 +32,9 @@ export const VisitingHud: React.FC = () => {
     >
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50">
-          <span className="text-white">{`Visiting #${gameState.context.farmId}`}</span>
+          <span className="text-white">
+            {t("visiting.farmId", { farmId: gameState.context.farmId })}
+          </span>
         </InnerPanel>
       )}
       <Balances

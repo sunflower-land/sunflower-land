@@ -176,6 +176,7 @@ import {
   GreenhouseKeys,
   Minigame,
   RemoveCropMachine,
+  Username,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -202,7 +203,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   available: "Available",
   back: "Back",
   bait: "Bait",
-  balance: "Balance: ",
+  balance: "Balance",
+  "balance.short": "Bal",
   banner: "Banner",
   banners: "Banners",
   basket: "Basket",
@@ -384,6 +386,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   required: "Required",
   "not.required": "Not Required",
   requires: "Requires",
+  requirements: "Requirements",
   resale: "Resale",
   resources: "Resources",
   restock: "Restock",
@@ -426,7 +429,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   "terms.condition": "Terms and conditions",
   test: "Test",
   "thank.you": "Thank you!",
-  "there.currently": "There is currently",
   time: "Time",
   tools: "Tools",
   total: "Total",
@@ -499,6 +501,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "goblin.deliveries": "Goblin Deliveries",
   vipAccess: "VIP Access",
   vip: "VIP",
+  bought: "Bought",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1145,6 +1148,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": "Max: {{max}}",
   "bumpkinTrade.floorPrice": "Floor Price: {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / unit",
+  "bumpkinTrade.sellConfirmation":
+    "Sell {{quantity}} {{resource}} for {{price}} SFL?",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1284,6 +1289,8 @@ const conversations: Record<Conversations, string> = {
   "hank-crafting.one":
     "Hmmm, those crops are growing awfully slow. I aint' got time to wait around.",
   "hank-crafting.two": "Craft a scarecrow to speed up your crops.",
+  "hank.choresFrozen":
+    "Well shucks, looks like we're all caught up for today. Take yourself a little breather and enjoy the rest of the day!",
   "betty-intro.headline": "How to grow your farm",
   "betty-intro.one": "Hey, hey! Welcome to my market.",
   "betty-intro.two":
@@ -2523,6 +2530,8 @@ const gameTerms: Record<GameTerms, string> = {
   "farm.banned": "This farm is banned",
   gobSwarm: "Goblin Swarm!",
   "granting.wish": "Granting your wish",
+  "harvest.number": "{{minHarvest}}-{{maxHarvest}} harvests",
+  "level.number": "Level {{level}}",
   "new.delivery.in": "New deliveries:",
   "new.delivery.levelup": "Level up to unlock more deliveries.",
   "no.sfl": "No SFL tokens found",
@@ -2535,6 +2544,7 @@ const gameTerms: Record<GameTerms, string> = {
   "compost.complete": "Compost complete",
   "aoe.locked": "AOE Locked",
   sunflowerLandCodex: "Sunflower Land Codex",
+  "visiting.farmId": "Visting #{{farmId}}",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4459,7 +4469,8 @@ const statements: Record<Statements, string> = {
   "statements.wishing.well.info.four": "provide liquidity",
   "statements.wishing.well.info.five": " in the game",
   "statements.wishing.well.info.six": "providing liquidity",
-  "statements.wishing.well.worthwell": "worth of rewards in the well!",
+  "statements.wishing.well.worthwell":
+    "There is currently {{rewards}} SFL worth of rewards in the well!",
   "statements.wishing.well.look.like":
     "It doesn't look like you are providing liquidity yet.",
   "statements.wishing.well.lucky": "Let's see how lucky you are!",
@@ -4482,7 +4493,7 @@ const statements: Record<Statements, string> = {
   "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
   "statements.crop.water": "These crops need water!",
   "statements.daily.limit": "Daily Limit: ",
-  "statements.sure.buy": "Are you sure you want to buy",
+  "statements.sure.buy": "Are you sure you want to buy {{item}}?",
   "statements.perplayer": "per Player",
   "statements.minted.goToChest": "Go to your chest and place it on your island",
   "statements.minted.withdrawAfterMint":
@@ -4491,6 +4502,7 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
+  "statements.translation.want2contribute": "Want to contribute your Language?",
   "statements.translation.contribution":
     "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
   "statements.translation.joinDiscord": "Join Discord",
@@ -4640,6 +4652,13 @@ const tutorialPage: Record<TutorialPage, string> = {
     "Buildings are an important way to progress through the game as they will help you to expand and evolve.",
   "tutorial.pageTwo.text2":
     "Lets start by leveling up our Bumpkin so we can get the Workbench to learn about tools.",
+};
+
+const username: Record<Username, string> = {
+  "username.tooShort": "Username is too short (min 3 characters)",
+  "username.tooLong": "Username is too long (max 12 characters)",
+  "username.invalidChar": "Username contains invalid characters",
+  "username.startWithLetter": "Username must start with a letter",
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
@@ -5081,6 +5100,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...transactionTerms,
   ...transfer,
   ...treasureModal,
+  ...username,
   ...tutorialPage,
   ...visitislandEnter,
   ...visitislandNotFound,

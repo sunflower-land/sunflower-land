@@ -32,6 +32,7 @@ import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
 import { useSound } from "lib/utils/hooks/useSound";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -53,6 +54,7 @@ const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 const LandscapingHudComponent: React.FC<{
   location: CollectibleLocation;
 }> = ({ location }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const [showDecorations, setShowDecorations] = useState(false);
@@ -251,7 +253,7 @@ const LandscapingHudComponent: React.FC<{
             }}
           >
             <Label type="danger">
-              {isRestricted ? restrictionReason : "Remove"}
+              {isRestricted ? restrictionReason : t("remove")}
             </Label>
           </div>
           <img

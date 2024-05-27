@@ -96,13 +96,11 @@ const GrantWish = ({ totalTokensInWell, onClick }: GrantWishArgs) => {
           <img src={wisingWell} alt="wishing well" className="w-16 mb-2" />
         </div>
         <p className="mb-4 text-sm">
-          {`${t("there.currently")} ${Number(
-            fromWei(totalTokensInWell.toString())
-          ).toFixed(2)} SFL ${t("statements.wishing.well.worthwell")}`}
+          {t("statements.wishing.well.worthwell", {
+            rewards: Number(fromWei(totalTokensInWell.toString())).toFixed(2),
+          })}
         </p>
-        <p className="mb-2 text-sm">{`${t(
-          "statements.wishing.well.lucky"
-        )}`}</p>
+        <p className="mb-2 text-sm">{t("statements.wishing.well.lucky")}</p>
       </div>
       <div className="flex">
         <Button onClick={onClick}>{t("grant.wish")}</Button>
@@ -120,8 +118,8 @@ const ZeroTokens = ({ onClick }: ZeroTokensArgs) => {
           <h1 className="text-lg mb-4 text-center">{t("uhOh")}</h1>
           <img src={goblinHead} alt="skeleton death" className="w-16 mb-2" />
         </div>
-        <p className="mb-4 text-sm">{`${t("wishingWell.noReward")}`}</p>
-        <p className="mb-2 text-sm">{`${t("wishingWell.wish.lucky")}`}</p>
+        <p className="mb-4 text-sm">{t("wishingWell.noReward")}</p>
+        <p className="mb-2 text-sm">{t("wishingWell.wish.lucky")}</p>
       </div>
       <div className="flex">
         <Button className="whitespace-nowrap" onClick={onClick}>
@@ -184,9 +182,9 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           </a>
         </p>
         <p className="mb-4 text-sm">
-          {`${t("there.currently")} ${Number(
-            fromWei(totalTokensInWell.toString())
-          ).toFixed(2)} SFL ${t("statements.wishing.well.worthwell")}`}
+          {t("statements.wishing.well.worthwell", {
+            rewards: Number(fromWei(totalTokensInWell.toString())).toFixed(2),
+          })}
         </p>
         <div className="flex justify-center items-center mb-4">
           <img
