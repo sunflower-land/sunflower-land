@@ -134,7 +134,10 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
   const { scale } = useContext(ZoomContext);
   const { gameService, shortcutItem, showTimers } = useContext(Context);
 
-  const chickenSound = useSound("chicken");
+  const chickenSoundSources = ["chicken_1", "chicken_2"] as const;
+  const chickenSound = useSound(
+    chickenSoundSources[Math.floor(Math.random() * chickenSoundSources.length)]
+  );
 
   const chicken = useSelector(
     gameService,
