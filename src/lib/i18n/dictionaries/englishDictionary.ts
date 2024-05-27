@@ -1451,7 +1451,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.totalSeeds": "Total seeds: {{total}}",
   "cropMachine.totalCrops": "Total {{cropName}}: {{total}}",
   "cropMachine.harvest": "Harvest",
-  "cropMachine.pickSeed": "Pick seed",
+  "cropMachine.pickSeed": "Select a seed",
   "cropMachine.addSeeds": "Add {{seedType}}s",
   "cropMachine.availableInventory": "Available {{amount}}",
   "cropMachine.seeds": "Seeds: {{amount}}",
@@ -4170,7 +4170,7 @@ const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
 const removeCropMachine: Record<RemoveCropMachine, string> = {
   "removeCropMachine.title": "Remove Crop Machine?",
   "removeCropMachine.description":
-    "This action will remove all the seeds from your crop machine.",
+    "This action will remove oil and all the seeds stored in your crop machine.",
   "removeCropMachine.removeSeeds": "Remove seeds",
 };
 
