@@ -700,7 +700,8 @@ export type BuildingDescriptions =
   | "description.tent"
   | "description.house"
   | "description.crop.machine"
-  | "building.oil.remaining";
+  | "building.oil.remaining"
+  | "cooking.building.oil.description";
 
 export type BumpkinDelivery =
   | "bumpkin.delivery.haveFlower"

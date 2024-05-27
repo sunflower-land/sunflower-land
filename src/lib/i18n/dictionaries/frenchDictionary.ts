@@ -1036,6 +1036,8 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.house": "Un endroit où reposer votre tête",
   "description.crop.machine": ENGLISH_TERMS["description.crop.machine"],
   "building.oil.remaining": ENGLISH_TERMS["building.oil.remaining"],
+  "cooking.building.oil.description":
+    ENGLISH_TERMS["cooking.building.oil.description"],
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {

@@ -1017,6 +1017,9 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.house": "A place to rest your head",
   "description.crop.machine": "Automate your crop production",
   "building.oil.remaining": "{{oil}} Oil in building",
+
+  "cooking.building.oil.description":
+    "You can boost your recipe cooking times by {{boost}}% when adding oil into the {{buildingName}}. As you add oil you can see how long the {{buildingName}} will be able to be boosted.",
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {

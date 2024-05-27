@@ -157,6 +157,7 @@ export const Deli: React.FC<Props> = ({
         crafting={!!crafting}
         itemInProgress={name}
         craftingService={craftingService}
+        buildingId={buildingId}
       />
     </>
   );

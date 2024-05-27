@@ -61,7 +61,7 @@ export const BUILDING_OIL_BOOSTS: Record<CookingBuildingName, number> = {
   Deli: 0.4,
 };
 
-function isCookingBuilding(
+export function isCookingBuilding(
   building: BuildingName
 ): building is CookingBuildingName {
   return (building as CookingBuildingName) !== undefined;
@@ -79,7 +79,7 @@ export function getCookingOilBoost(
   const itemCookingTime = COOKABLES[item].cookingSeconds;
 
   const itemOilConsumption = getOilConsumption(buildingName, item);
-  const oilRemaining = game.buildings[buildingName]?.[0].oilRemaining || 0;
+  const oilRemaining = game.buildings?.[buildingName]?.[0]?.oilRemaining || 0;
 
   const boostValue = BUILDING_OIL_BOOSTS[buildingName];
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
@@ -162,6 +162,8 @@ export function cook({
   if (building.crafting !== undefined) {
     throw new Error(translate("error.cookingInProgress"));
   }
+
+  const oilRemaining = building.oilRemaining || 0;
 
   const oilConsumed = getCookingOilBoost(
     requiredBuilding,

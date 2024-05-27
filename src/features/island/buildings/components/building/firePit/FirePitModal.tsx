@@ -12,11 +12,11 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ConversationName } from "features/game/types/announcements";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { BuildingOilTank } from "../BuildingOilTank";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;
@@ -36,7 +36,7 @@ interface Props {
   crafting: boolean;
   itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
-  conversation?: ConversationName;
+  buildingId: string;
 }
 export const FirePitModal: React.FC<Props> = ({
   isOpen,
@@ -45,6 +45,7 @@ export const FirePitModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
+  buildingId,
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
@@ -93,6 +94,11 @@ export const FirePitModal: React.FC<Props> = ({
             crafting={!!crafting}
             craftingService={craftingService}
             buildingName="Fire Pit"
+          />
+          <BuildingOilTank
+            buildingName="Fire Pit"
+            buildingId={buildingId}
+            currentlyCooking={selected.name}
           />
         </CloseButtonPanel>
       )}

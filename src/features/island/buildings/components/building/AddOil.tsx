@@ -18,7 +18,7 @@ import {
   BUILDING_DAILY_OIL_CONSUMPTION,
   BUILDING_OIL_BOOSTS,
 } from "features/game/events/landExpansion/cook";
-import { BUILDING_OIL_CAPACITY } from "features/game/events/landExpansion/supplyCookingOil";
+import { BUILDING_DAILY_OIL_CAPACITY } from "features/game/events/landExpansion/supplyCookingOil";
 
 interface Props {
   buildingId: string;
@@ -69,7 +69,7 @@ export const AddOil: React.FC<Props> = ({ buildingName, buildingId }) => {
               <Label type="default" className="mb-2 mr-2" icon={barrel}>
                 {t("building.oil.remaining", { oil: barrelOil })}
               </Label>
-              {barrelOil >= BUILDING_OIL_CAPACITY[buildingName] ? (
+              {barrelOil >= BUILDING_DAILY_OIL_CAPACITY[buildingName] ? (
                 <Label type="warning" className="mb-2">
                   {`Full tank`}
                 </Label>
@@ -96,7 +96,7 @@ export const AddOil: React.FC<Props> = ({ buildingName, buildingId }) => {
                 onClick={() => handleSupplyOil()}
                 disabled={
                   !availableOil.gte(1) ||
-                  barrelOil >= BUILDING_OIL_CAPACITY[buildingName]
+                  barrelOil >= BUILDING_DAILY_OIL_CAPACITY[buildingName]
                 }
               >
                 {`+1`}

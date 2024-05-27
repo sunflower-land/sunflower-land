@@ -18,12 +18,13 @@ type Options = {
 };
 
 // Max 2 days worth of oil
-export const BUILDING_OIL_CAPACITY: Record<CookingBuildingName, number> = {
-  "Fire Pit": 2,
-  Kitchen: 10,
-  Bakery: 20,
-  Deli: 24,
-};
+export const BUILDING_DAILY_OIL_CAPACITY: Record<CookingBuildingName, number> =
+  {
+    "Fire Pit": 2,
+    Kitchen: 10,
+    Bakery: 20,
+    Deli: 24,
+  };
 
 export function supplyCookingOil({
   state,
@@ -48,7 +49,7 @@ export function supplyCookingOil({
     throw new Error(translate("error.notEnoughOil"));
   }
 
-  const oilCapacity = BUILDING_OIL_CAPACITY[action.building];
+  const oilCapacity = BUILDING_DAILY_OIL_CAPACITY[action.building];
   const oilInBuilding = building.oilRemaining || 0;
 
   if (oilInBuilding + action.oilQuantity > oilCapacity) {

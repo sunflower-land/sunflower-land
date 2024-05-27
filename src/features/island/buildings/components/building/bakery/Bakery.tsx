@@ -170,6 +170,7 @@ export const Bakery: React.FC<Props> = ({
         crafting={!!crafting}
         itemInProgress={name}
         craftingService={craftingService}
+        buildingId={buildingId}
       />
     </>
   );

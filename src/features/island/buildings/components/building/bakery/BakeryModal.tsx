@@ -11,6 +11,7 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { BuildingOilTank } from "../BuildingOilTank";
 
 interface Props {
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface Props {
   crafting: boolean;
   itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
+  buildingId: string;
 }
 export const BakeryModal: React.FC<Props> = ({
   isOpen,
@@ -27,6 +29,7 @@ export const BakeryModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
+  buildingId,
 }) => {
   const cakeRecipes = Object.values(BAKERY_COOKABLES).sort(
     (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
@@ -61,6 +64,11 @@ export const BakeryModal: React.FC<Props> = ({
           crafting={crafting}
           craftingService={craftingService}
           buildingName="Bakery"
+        />
+        <BuildingOilTank
+          buildingName="Fire Pit"
+          buildingId={buildingId}
+          currentlyCooking={selected.name}
         />
       </CloseButtonPanel>
     </Modal>
