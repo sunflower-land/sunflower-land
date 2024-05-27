@@ -53,7 +53,6 @@ export const CloseButtonPanel: React.FC<Props> = ({
   children,
 }) => {
   const tabSound = useSound("tab");
-  const close = useSound("close");
   const button = useSound("button");
 
   const handleTabClick = (index: number) => {
@@ -136,7 +135,6 @@ export const CloseButtonPanel: React.FC<Props> = ({
               src={SUNNYSIDE.icons.close}
               className="flex-none cursor-pointer float-right"
               onClick={() => {
-                close.play();
                 onClose();
               }}
               style={{

@@ -49,7 +49,7 @@ const HOWLERS = {
     preload: false,
     volume: 0.06,
     loop: true,
-    rate: 0.76,
+    rate: 1,
   }),
   desert: new Howl({
     src: [SOUNDS.loops.desert],
