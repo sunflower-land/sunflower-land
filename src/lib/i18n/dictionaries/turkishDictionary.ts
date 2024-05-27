@@ -833,8 +833,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Sebzelere fısıldayan ve korkunç derecede iyi hasatların şampiyonu!",
   "description.laurie.chuckle.crow":
     "Rahatsız edici kıkırdaması ile gagalayanları mahsullerinden kaçırıyor!",
-  "description.immortal.pear":
-    "Meyve ağaçlarının daha uzun süre hayatta kalmasını sağlayan uzun ömürlü bir armut.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Tavuklar için konforlu bir sığınak sağlayan,kümes hayvanlarının en sevdiği komşusu.",
   "description.sir.goldensnout":
@@ -858,7 +857,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Gelişmiş Mahsul: Patlıcan, Mısır, Turp, Buğday, Kıvırcık lahana (Etki Alanı 3x3)",
   "description.bale.boost": "+0.2 Yumurta (Etki Alanı 4x4)",
-  "description.immortal.pear.boost": "Tohum başına +1 Meyve Hasadı.",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost": "Hazine Ödülü satışlarında +20% Coins",
   "description.poppy.boost": "+0.1 Mısır",
   "description.kernaldo.boost": "Mısır Büyüme Süresi -25%",

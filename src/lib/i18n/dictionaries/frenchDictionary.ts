@@ -847,8 +847,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Le chuchoteur de légumes et champion des récoltes effroyablement bonnes!",
   "description.laurie.chuckle.crow":
     "Avec son rire déconcertant, elle chasse les picoreurs de vos cultures!",
-  "description.immortal.pear":
-    "Une poire longue durée de vie qui fait durer les arbres fruitiers plus longtemps.",
+  "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Le voisin préféré de la volaille, offrant une retraite confortable aux poules",
   "description.sir.goldensnout":
@@ -872,7 +871,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Culture avancée: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Récolte de fruits par graine",
+  "description.immortal.pear.boost":
+    ENGLISH_TERMS["description.immortal.pear.boost"],
   "description.treasure.map.boost": "+20% Coins sur les ventes de trésors",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Temps de croissance du Wheat",

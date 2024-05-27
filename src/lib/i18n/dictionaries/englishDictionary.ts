@@ -840,7 +840,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.laurie.chuckle.crow":
     "With her disconcerting chuckle, she shooes peckers away from your crops!",
   "description.immortal.pear":
-    "A long-lived pear that makes fruit trees last longer.",
+    "A long-lived pear that makes fruit trees growing in patches last longer.",
   "description.bale":
     "A poultry's favorite neighbor, providing a cozy retreat for chickens",
   "description.sir.goldensnout":
@@ -864,7 +864,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.laurie.chuckle.crow.boost":
     "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
   "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
+  "description.immortal.pear.boost":
+    "+1 Fruit Harvest for fruit seeds growing on Fruit Patches",
   "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
