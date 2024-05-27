@@ -69,8 +69,7 @@ export const SOUNDS = {
     mushroom_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_1_Click_Pop_Fun_Cartoon.mp3`,
     mushroom_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_2_Click_Pop_Fun_Cartoon.mp3`,
     mushroom_3: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Menu_UI/Collects/Farm_Game_User_Interface_Collect_Item_3_Click_Pop_Fun_Cartoon.mp3`,
-    chicken_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Cluck_Chirp_Vocalization_1.mp3`,
-    chicken_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Cluck_Chirp_Vocalization_2.mp3`,
+
     chicken_collect_1: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Yelp_Cluck_Chirp_Vocalization_1.mp3`,
     chicken_collect_2: `${CONFIG.PROTECTED_IMAGE_URL}/sfx/Animals/Bird/Bird_Chicken_Yelp_Cluck_Chirp_Vocalization_2.mp3`,
   },
