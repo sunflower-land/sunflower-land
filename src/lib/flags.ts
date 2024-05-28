@@ -26,7 +26,6 @@ export type FeatureName =
   | "FACTION_LEADERBOARD"
   | "BANNER_SALES"
   | "PRESTIGE_DESERT"
-  | "DESERT_RECIPES"
   | "CHICKEN_RESCUE"
   | "CROP_MACHINE";
 
@@ -39,7 +38,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   CHICKEN_RESCUE: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
-  DESERT_RECIPES: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended
     if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;

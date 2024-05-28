@@ -362,6 +362,8 @@ import riceBun from "assets/food/rice_bun.webp";
 import slowJuice from "assets/food/slow_juice.webp";
 import redRice from "assets/food/red_rice.webp";
 import sushiRoll from "assets/food/sushi_roll.webp";
+import friedTofu from "assets/food/fried_tofu.png";
+import tofuScramble from "assets/food/tofu_scramble.png";
 
 import goblinKey from "src/assets/sfts/quest/goblin_key.png";
 import sunflowerKey from "src/assets/sfts/quest/sunflower_key.png";
@@ -3568,7 +3570,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.friedCalamari"),
   },
   "Fried Tofu": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: friedTofu,
     description: translate("description.friedTofu"),
   },
   "Grape Juice": {
@@ -3604,7 +3606,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.theLot"),
   },
   "Tofu Scramble": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: tofuScramble,
     description: translate("description.tofuScramble"),
   },
   Greenhouse: {
