@@ -440,17 +440,17 @@ export const FishermanModal: React.FC<Props> = ({
     );
   }
 
-  if (showFishFrenzy) {
+  if (showFullMoon) {
     return (
       <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
         <SpeakingText
           message={[
             {
-              text: translate("fishermanModal.fullmoon"),
+              text: translate("fishermanModal.fullMoon"),
             },
           ]}
           onClose={() => {
-            setShowFishFrenzy(false);
+            setShowFullMoon(false);
           }}
         />
       </CloseButtonPanel>
