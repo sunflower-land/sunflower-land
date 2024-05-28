@@ -1174,6 +1174,8 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
   "bumpkinTrade.max": "Max : {{max}}",
+  "bumpkinTrade.minimumFloor": ENGLISH_TERMS["bumpkinTrade.minimumFloor"],
+  "bumpkinTrade.maximumFloor": ENGLISH_TERMS["bumpkinTrade.maximumFloor"],
   "bumpkinTrade.floorPrice": "Prix minimum : {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / unité",
   "bumpkinTrade.sellConfirmation":
