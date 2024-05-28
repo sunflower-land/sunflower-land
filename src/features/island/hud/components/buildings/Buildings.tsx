@@ -99,17 +99,6 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
   };
 
   const getAction = () => {
-    if (
-      !hasFeatureAccess(state, "GREENHOUSE") &&
-      selectedName === "Greenhouse"
-    ) {
-      return (
-        <Label type="default" icon={lock} className="mx-auto">
-          {t("coming.soon")}
-        </Label>
-      );
-    }
-
     const hasMaxNumberOfBuildings =
       buildingsInInventory.gte(numOfBuildingAllowed);
     // Hasn't unlocked the first

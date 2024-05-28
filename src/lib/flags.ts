@@ -20,7 +20,6 @@ const clashOfFactionsFeatureFlag = () => {
  */
 export type FeatureName =
   | "JEST_TEST"
-  | "GREENHOUSE"
   | "PORTALS"
   | "EASTER"
   | "FACTIONS"
@@ -53,7 +52,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTION_LEADERBOARD: clashOfFactionsFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
   PRESTIGE_DESERT: defaultFeatureFlag,
-  GREENHOUSE: defaultFeatureFlag,
   CROP_MACHINE: defaultFeatureFlag,
 };
 
