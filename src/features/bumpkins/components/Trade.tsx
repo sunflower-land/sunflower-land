@@ -21,7 +21,10 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
-import { TRADE_LIMITS } from "features/world/ui/trader/BuyPanel";
+import {
+  TRADE_LIMITS,
+  TRADE_MINIMUMS,
+} from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -109,30 +112,27 @@ const ListTrade: React.FC<{
     );
   }
 
+  const unitPrice = sfl / quantity;
+  const tooLittle = !!quantity && quantity < (TRADE_MINIMUMS[selected] ?? 0);
+
+  const isTooHigh =
+    !!sfl &&
+    !!quantity &&
+    !!floorPrices[selected] &&
+    new Decimal(floorPrices[selected] ?? 0).mul(1.2).lt(unitPrice);
+
+  const isTooLow =
+    !!sfl &&
+    !!quantity &&
+    !!floorPrices[selected] &&
+    new Decimal(floorPrices[selected] ?? 0).mul(0.8).gt(unitPrice);
+
   return (
     <>
-      <div className="flex justify-between items-center">
-        <div className="flex flex-col items-start">
-          <div className="flex items-center">
-            <Box image={ITEM_DETAILS[selected].image} disabled />
-            <span className="text-sm">{selected}</span>
-          </div>
-          <Label
-            type={
-              sfl / quantity < (floorPrices[selected] ?? 0)
-                ? "danger"
-                : sfl / quantity > (floorPrices[selected] ?? 0)
-                ? "success"
-                : "warning"
-            }
-            className="my-1"
-          >
-            {t("bumpkinTrade.floorPrice", {
-              price: floorPrices[selected]
-                ? setPrecision(new Decimal(floorPrices[selected] ?? 0))
-                : "?",
-            })}
-          </Label>
+      <div className="flex justify-between">
+        <div className="flex items-center">
+          <Box image={ITEM_DETAILS[selected].image} disabled />
+          <span className="text-sm">{selected}</span>
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
@@ -145,6 +145,43 @@ const ListTrade: React.FC<{
             {`${setPrecision(new Decimal(inventory?.[selected] ?? 0), 0)}`}
           </span>
         </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <Label
+          type={
+            sfl / quantity < (floorPrices[selected] ?? 0)
+              ? "danger"
+              : sfl / quantity > (floorPrices[selected] ?? 0)
+              ? "success"
+              : "warning"
+          }
+          className="my-1"
+        >
+          {t("bumpkinTrade.floorPrice", {
+            price: floorPrices[selected]
+              ? setPrecision(new Decimal(floorPrices[selected] ?? 0))
+              : "?",
+          })}
+        </Label>
+        {isTooLow && (
+          <Label type="danger" className="my-1 ml-2 mr-1">
+            {t("bumpkinTrade.minimumFloor", {
+              min: setPrecision(new Decimal(floorPrices[selected] ?? 0))
+                .mul(0.8)
+                .toNumber(),
+            })}
+          </Label>
+        )}
+        {isTooHigh && (
+          <Label type="danger" className="my-1 ml-2 mr-1">
+            {t("bumpkinTrade.maximumFloor", {
+              max: setPrecision(new Decimal(floorPrices[selected] ?? 0))
+                .mul(1.2)
+                .toNumber(),
+            })}
+          </Label>
+        )}
       </div>
 
       <div className="flex">
@@ -160,6 +197,11 @@ const ListTrade: React.FC<{
             {quantity > (TRADE_LIMITS[selected] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
                 {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
+              </Label>
+            )}
+            {tooLittle && (
+              <Label type="danger" className="my-1 ml-2 mr-1">
+                {t("bumpkinTrade.min", { min: TRADE_MINIMUMS[selected] ?? 0 })}
               </Label>
             )}
           </div>
@@ -303,6 +345,9 @@ const ListTrade: React.FC<{
         </Button>
         <Button
           disabled={
+            tooLittle ||
+            isTooHigh ||
+            isTooLow ||
             maxSFL ||
             (inventory[selected]?.lt(quantity) ?? false) ||
             quantity === 0 || // Disable when quantity is 0

@@ -823,6 +823,9 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
   | "bumpkinTrade.max"
+  | "bumpkinTrade.min"
+  | "bumpkinTrade.minimumFloor"
+  | "bumpkinTrade.maximumFloor"
   | "bumpkinTrade.floorPrice"
   | "bumpkinTrade.sellConfirmation";
 

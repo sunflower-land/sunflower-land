@@ -59,6 +59,34 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Crimstone: 20,
 };
 
+export const TRADE_MINIMUMS: Partial<Record<InventoryItemName, number>> = {
+  Sunflower: 200,
+  Potato: 200,
+  Pumpkin: 100,
+  Carrot: 100,
+  Cabbage: 100,
+  Soybean: 50,
+  Beetroot: 50,
+  Cauliflower: 50,
+  Parsnip: 20,
+  Eggplant: 20,
+  Corn: 20,
+  Radish: 10,
+  Wheat: 10,
+  Kale: 10,
+  Blueberry: 5,
+  Orange: 5,
+  Apple: 5,
+  Banana: 5,
+  Wood: 50,
+  Stone: 30,
+  Iron: 10,
+  Gold: 5,
+  Egg: 10,
+  Honey: 5,
+  Crimstone: 1,
+};
+
 const MAX_NON_VIP_PURCHASES = 3;
 
 function getRemainingFreePurchases(dailyPurchases: {
