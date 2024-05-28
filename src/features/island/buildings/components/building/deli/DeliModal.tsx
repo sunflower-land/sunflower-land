@@ -19,6 +19,7 @@ interface Props {
   crafting: boolean;
   itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
+  buildingId: string;
 }
 export const DeliModal: React.FC<Props> = ({
   isOpen,
@@ -27,6 +28,7 @@ export const DeliModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
+  buildingId,
 }) => {
   const deliRecipes = Object.values(DELI_COOKABLES).sort(
     (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
@@ -59,6 +61,9 @@ export const DeliModal: React.FC<Props> = ({
           onClose={onClose}
           crafting={crafting}
           craftingService={craftingService}
+          buildingName="Deli"
+          buildingId={buildingId}
+          currentlyCooking={selected.name}
         />
       </CloseButtonPanel>
     </Modal>

@@ -1027,6 +1027,11 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.tent": "(Descontinuado)",
   "description.house": "Um lugar para descansar a cabeça",
   "description.crop.machine": "Automatize suas plantações",
+  "building.oil.remaining": ENGLISH_TERMS["building.oil.remaining"],
+  "cooking.building.oil.description":
+    ENGLISH_TERMS["cooking.building.oil.description"],
+  "cooking.building.oil.boost": ENGLISH_TERMS["cooking.building.oil.boost"],
+  "cooking.building.runtime": ENGLISH_TERMS["cooking.building.runtime"],
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -2055,6 +2060,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.walletInUse.one": ENGLISH_TERMS["error.walletInUse.one"],
   "error.walletInUse.two": ENGLISH_TERMS["error.walletInUse.two"],
   "error.walletInUse.three": ENGLISH_TERMS["error.walletInUse.three"],
+  "error.notEnoughOil": ENGLISH_TERMS["error.notEnoughOil"],
+  "error.oilCapacityExceeded": ENGLISH_TERMS["error.oilCapacityExceeded"],
 };
 
 const exoticShopItems: Record<ExoticShopItems, string> = {
