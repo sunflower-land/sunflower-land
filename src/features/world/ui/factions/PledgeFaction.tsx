@@ -21,7 +21,10 @@ const FACTION_DESCRIPTIONS: Record<FactionName, FactionTranslations> = {
   nightshades: "faction.description.nightshades",
 };
 
-export const FACTIONS_START_TIME = new Date(Date.UTC(2024, 6, 1));
+/**
+ * When faction donations end
+ */
+export const FACTIONS_START_TIME = new Date(Date.UTC(2024, 5, 14));
 
 interface Props {
   faction: FactionName;
