@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void;
 }
 
-export type MuteDuration = 1 | 5 | 10 | 60 | 720 | 1440 | 10080;
+export type MuteDuration = 1 | 5 | 10 | 60 | 720 | 1440 | 10080 | 40320;
 
 export const MUTE_DURATIONS: { value: MuteDuration; label: string }[] = [
   { value: 5, label: "5 mins" },
@@ -21,6 +21,7 @@ export const MUTE_DURATIONS: { value: MuteDuration; label: string }[] = [
   { value: 720, label: "12 hours" },
   { value: 1440, label: "1 day" },
   { value: 10080, label: "1 week" },
+  { value: 40320, label: "1 month" },
 ];
 
 export const MuteModal: React.FC<Props> = ({
