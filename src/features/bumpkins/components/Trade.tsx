@@ -229,6 +229,14 @@ const ListTrade: React.FC<{
               } else if (VALID_INTEGER.test(e.target.value)) {
                 const amount = e.target.value.slice(0, INPUT_MAX_CHAR);
                 setQuantityDisplay(amount);
+
+                // Auto generate price
+                if (floorPrices[selected]) {
+                  const estimated = new Decimal(floorPrices[selected] ?? 0).mul(
+                    amount
+                  );
+                  setSflDisplay(estimated.toString());
+                }
               }
             }}
             className={classNames(
