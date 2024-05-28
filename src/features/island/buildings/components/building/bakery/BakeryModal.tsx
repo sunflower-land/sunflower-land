@@ -11,7 +11,6 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { BuildingOilTank } from "../BuildingOilTank";
 
 interface Props {
   isOpen: boolean;
@@ -63,11 +62,8 @@ export const BakeryModal: React.FC<Props> = ({
           onClose={onClose}
           crafting={crafting}
           craftingService={craftingService}
-          buildingName="Bakery"
-        />
-        <BuildingOilTank
-          buildingName="Fire Pit"
           buildingId={buildingId}
+          buildingName="Bakery"
           currentlyCooking={selected.name}
         />
       </CloseButtonPanel>

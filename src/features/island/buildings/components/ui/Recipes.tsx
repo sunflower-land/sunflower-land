@@ -29,6 +29,7 @@ import {
 } from "features/game/events/landExpansion/cook";
 import { FeatureName, hasFeatureAccess } from "lib/flags";
 import { BuildingName } from "features/game/types/buildings";
+import { BuildingOilTank } from "../building/BuildingOilTank";
 
 interface Props {
   selected: Cookable;
@@ -39,6 +40,8 @@ interface Props {
   craftingService?: MachineInterpreter;
   crafting: boolean;
   buildingName: BuildingName;
+  buildingId?: string;
+  currentlyCooking?: CookableName;
 }
 
 /**
@@ -59,6 +62,8 @@ export const Recipes: React.FC<Props> = ({
   onCook,
   crafting,
   craftingService,
+  buildingId,
+  currentlyCooking,
   buildingName,
 }) => {
   const { gameService } = useContext(Context);
@@ -130,7 +135,7 @@ export const Recipes: React.FC<Props> = ({
               )
             ),
             timeSeconds: getCookingTime(
-              getCookingOilBoost(buildingName, selected.name, state).timeToCook,
+              getCookingOilBoost(selected.name, state, buildingId).timeToCook,
               state.bumpkin,
               state
             ),
@@ -158,6 +163,13 @@ export const Recipes: React.FC<Props> = ({
               />
             ))}
           </div>
+          {buildingId ? (
+            <BuildingOilTank
+              buildingName={buildingName}
+              buildingId={buildingId}
+              currentlyCooking={currentlyCooking}
+            />
+          ) : null}
         </>
       }
     />

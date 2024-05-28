@@ -47,7 +47,7 @@ type Options = {
 };
 
 type GetReadyAtArgs = {
-  buildingName: BuildingName;
+  buildingId: string;
   item: CookableName;
   bumpkin: Bumpkin;
   createdAt: number;
@@ -68,18 +68,24 @@ export function isCookingBuilding(
 }
 
 export function getCookingOilBoost(
-  buildingName: BuildingName,
   item: CookableName,
-  game: GameState
+  game: GameState,
+  buildingId?: string
 ): { timeToCook: number; oilConsumed: number } {
-  if (!isCookingBuilding(buildingName)) {
+  const buildingName = COOKABLES[item].building;
+
+  if (!isCookingBuilding(buildingName) || !buildingId) {
     return { timeToCook: COOKABLES[item].cookingSeconds, oilConsumed: 0 };
   }
+
+  const building = game.buildings?.[buildingName]?.find(
+    (building) => building.id === buildingId
+  );
 
   const itemCookingTime = COOKABLES[item].cookingSeconds;
 
   const itemOilConsumption = getOilConsumption(buildingName, item);
-  const oilRemaining = game.buildings?.[buildingName]?.[0]?.oilRemaining || 0;
+  const oilRemaining = building?.oilRemaining || 0;
 
   const boostValue = BUILDING_OIL_BOOSTS[buildingName];
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
@@ -99,13 +105,13 @@ export function getCookingOilBoost(
 }
 
 export const getReadyAt = ({
-  buildingName,
+  buildingId,
   item,
   bumpkin,
   createdAt,
   game,
 }: GetReadyAtArgs) => {
-  const withOilBoost = getCookingOilBoost(buildingName, item, game).timeToCook;
+  const withOilBoost = getCookingOilBoost(item, game, buildingId).timeToCook;
 
   const seconds = getCookingTime(withOilBoost, bumpkin, game);
 
@@ -163,12 +169,10 @@ export function cook({
     throw new Error(translate("error.cookingInProgress"));
   }
 
-  const oilRemaining = building.oilRemaining || 0;
-
   const oilConsumed = getCookingOilBoost(
-    requiredBuilding,
     action.item,
-    stateCopy
+    stateCopy,
+    action.buildingId
   ).oilConsumed;
   stateCopy.inventory = getKeys(ingredients).reduce((inventory, ingredient) => {
     const count = inventory[ingredient] || new Decimal(0);
@@ -192,7 +196,7 @@ export function cook({
     name: action.item,
     boost: { Oil: oilConsumed },
     readyAt: getReadyAt({
-      buildingName: requiredBuilding,
+      buildingId: action.buildingId,
       item: action.item,
       bumpkin,
       createdAt,

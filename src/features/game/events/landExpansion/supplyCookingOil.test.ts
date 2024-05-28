@@ -138,13 +138,13 @@ describe("supplyCookingOil", () => {
     expect(result.inventory.Oil).toEqual(new Decimal(0));
   });
 
-  it("throws if supplying more oil to Kitchen the building capacity", () => {
+  it("throws if supplying more oil to Fire Pit the building capacity", () => {
     expect(() =>
       supplyCookingOil({
         state: {
           ...GAME_STATE,
           buildings: {
-            Kitchen: [
+            "Fire Pit": [
               {
                 coordinates: { x: 0, y: 0 },
                 id: "1",
@@ -160,7 +160,7 @@ describe("supplyCookingOil", () => {
         },
         action: {
           type: "cookingOil.supplied",
-          building: "Kitchen",
+          building: "Fire Pit",
           buildingId: "1",
           oilQuantity: 2,
         },

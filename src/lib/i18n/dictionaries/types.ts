@@ -701,7 +701,9 @@ export type BuildingDescriptions =
   | "description.house"
   | "description.crop.machine"
   | "building.oil.remaining"
-  | "cooking.building.oil.description";
+  | "cooking.building.oil.description"
+  | "cooking.building.no.oil"
+  | "cooking.building.runtime";
 
 export type BumpkinDelivery =
   | "bumpkin.delivery.haveFlower"

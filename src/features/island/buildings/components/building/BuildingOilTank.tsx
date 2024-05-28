@@ -86,6 +86,8 @@ export const BuildingOilTank = ({
     });
 
     gameService.send("SAVE");
+
+    setShowAddOilModal(false);
   };
 
   const canAddOil = () => {
@@ -159,47 +161,67 @@ export const BuildingOilTank = ({
     BUILDING_OIL_BOOSTS[buildingName as CookingBuildingName] * 100;
 
   useUiRefresher();
+
+  const onClick = () => {
+    setShowAddOilModal(true);
+  };
   return (
-    <div>
-      <Label
-        type={runtime === 0 ? "danger" : "default"}
-        className="ml-1.5 mt-2.5"
-        icon={ITEM_DETAILS.Oil.image}
-      >
-        {runtime === 0
-          ? t("cropMachine.moreOilRequired")
-          : t("cropMachine.oilTank")}
-      </Label>
-      <div className="flex items-center justify-between">
-        <div className="flex my-2 ml-1.5 space-x-2 items-center">
-          <img src={oilBarrel} style={{ width: `${PIXEL_SCALE * 13}px` }} />
-          <div className="flex flex-col justify-evenly h-full space-y-1">
-            <ResizableBar
-              percentage={oilInTank}
-              type={oilInTank < 10 ? "error" : "quantity"}
-              outerDimensions={{
-                width: 40,
-                height: 8,
-              }}
-            />
-            <div className="flex">
-              <div className="text-xs">
-                {t("cropMachine.machineRuntime", {
-                  time: secondsToString(runtime, {
-                    length: "medium",
-                    isShortFormat: true,
-                    removeTrailingZeros: true,
-                  }),
-                })}
+    <>
+      <div className="relative w-full">
+        {runtime === 0 ? (
+          <Label
+            type={"danger"}
+            className="ml-1.5 mt-2.5 cursor-pointer"
+            icon={ITEM_DETAILS.Oil.image}
+            onClick={onClick}
+          >
+            {t("cooking.building.no.oil")}
+          </Label>
+        ) : (
+          <div>
+            <Label
+              type={"default"}
+              className="ml-1.5 mt-2.5"
+              icon={ITEM_DETAILS.Oil.image}
+            >
+              {t("cropMachine.oilTank")}
+            </Label>
+            <div className="flex justify-between w-full">
+              <div className="flex my-2 ml-1.5 space-x-2 items-center">
+                <img
+                  src={oilBarrel}
+                  style={{ width: `${PIXEL_SCALE * 13}px` }}
+                />
+                <div className="flex flex-col justify-evenly h-full space-y-1">
+                  <ResizableBar
+                    percentage={oilInTank}
+                    type={oilInTank < 10 ? "error" : "quantity"}
+                    outerDimensions={{
+                      width: 40,
+                      height: 8,
+                    }}
+                  />
+                  <div className="flex">
+                    <div className="text-xs">
+                      {t("cooking.building.runtime", {
+                        time: secondsToString(runtime, {
+                          length: "short",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        }),
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="pr-2">
+                <Button onClick={() => setShowAddOilModal(true)}>
+                  {t("cropMachine.addOil")}
+                </Button>
               </div>
             </div>
           </div>
-        </div>
-        <div className="pr-2">
-          <Button onClick={() => setShowAddOilModal(true)}>
-            {t("cropMachine.addOil")}
-          </Button>
-        </div>
+        )}
       </div>
 
       <ModalOverlay
@@ -298,6 +320,6 @@ export const BuildingOilTank = ({
           }
         </InnerPanel>
       </ModalOverlay>
-    </div>
+    </>
   );
 };

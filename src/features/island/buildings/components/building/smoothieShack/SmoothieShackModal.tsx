@@ -59,7 +59,7 @@ export const SmoothieShackModal: React.FC<Props> = ({
           onClose={onClose}
           crafting={crafting}
           craftingService={craftingService}
-          buildingName={"Smoothie Shack"}
+          buildingName="Smoothie Shack"
         />
       </CloseButtonPanel>
     </Modal>

@@ -2,7 +2,7 @@ import "lib/__mocks__/configMock";
 import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
-import { GameState, PlacedItem } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import {
   cook,
   getCookingOilBoost,
@@ -234,7 +234,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      buildingName: "Fire Pit",
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
@@ -256,7 +256,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      buildingName: "Fire Pit",
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -285,7 +285,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      buildingName: "Fire Pit",
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       game: {
@@ -316,7 +316,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
-      buildingName: "Fire Pit",
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
@@ -354,7 +354,7 @@ describe("getReadyAt", () => {
     };
 
     const result = getReadyAt({
-      buildingName: "Fire Pit",
+      buildingId: "1",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
@@ -374,46 +374,49 @@ describe("getReadyAt", () => {
 
 describe("getCookingOilBoost", () => {
   it("returns 60 minutes for Boiled Egg if no oil", () => {
-    const kitchen: PlacedItem = {
-      createdAt: Date.now(),
-      id: "1",
-      readyAt: 0,
-      coordinates: { x: 0, y: 0 },
-    };
-    const time = getCookingOilBoost(
-      "Kitchen",
-      "Boiled Eggs",
-      TEST_FARM
-    ).timeToCook;
+    const time = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1").timeToCook;
 
     expect(time).toEqual(60 * 60);
   });
-  it("boosts kitchen time by 20% with oil", () => {
-    const kitchen: PlacedItem = {
-      coordinates: { x: 0, y: 0 },
-      createdAt: Date.now(),
-      id: "1",
-      readyAt: 0,
-      oilRemaining: 1,
+
+  it("boosts Fire Pit time by 20% with oil", () => {
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oilRemaining: 1,
+          },
+        ],
+      },
     };
-    const time = getCookingOilBoost(
-      "Kitchen",
-      "Boiled Eggs",
-      TEST_FARM
-    ).timeToCook;
+
+    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
 
     expect(time).toEqual(60 * 60 * 0.8);
   });
 
   it("partial boost if oil is less than cooking required oil", () => {
-    const deli: PlacedItem = {
-      coordinates: { x: 0, y: 0 },
-      createdAt: Date.now(),
-      id: "1",
-      readyAt: 0,
-      oilRemaining: 6,
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        Deli: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oilRemaining: 6,
+          },
+        ],
+      },
     };
-    const boost = getCookingOilBoost("Deli", "Fermented Carrots", TEST_FARM);
+
+    const boost = getCookingOilBoost("Fermented Carrots", game, "1");
 
     // Deli consumption is 12 oil per day
     // Deli boost is 0.4 (40% speed boost, meaning 60% of the original time)

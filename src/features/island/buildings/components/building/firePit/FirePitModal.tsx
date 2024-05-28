@@ -16,7 +16,6 @@ import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BuildingOilTank } from "../BuildingOilTank";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bruce-read.${host}-${window.location.pathname}`;
@@ -93,9 +92,6 @@ export const FirePitModal: React.FC<Props> = ({
             onClose={onClose}
             crafting={!!crafting}
             craftingService={craftingService}
-            buildingName="Fire Pit"
-          />
-          <BuildingOilTank
             buildingName="Fire Pit"
             buildingId={buildingId}
             currentlyCooking={selected.name}
