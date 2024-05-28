@@ -96,7 +96,18 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const stock = state.stock[selectedName] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkBuyAmount(stock);
   const bulkSeedBuyAll = makeBulkBuyAll(stock);
+  const bulkBuyLimit =
+    (INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0)).toNumber() -
+    (inventory[selectedName] ?? new Decimal(0)).toNumber();
+  // Calculates the difference between amount in inventory and the inventory limit
 
+  const bulkBuy = () => {
+    if (bulkBuyLimit < bulkSeedBuyAll) {
+      return buy(bulkBuyLimit); // buys difference between inventory amount and inventory limit
+    } else {
+      return buy(bulkSeedBuyAll); // buys all available seeds
+    }
+  };
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
@@ -157,12 +168,17 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             {t("buy")} {bulkSeedBuyAmount}
           </Button>
         )}
-        {bulkSeedBuyAll > 10 && (
+        {bulkSeedBuyAll > 10 && bulkBuyLimit > 10 && (
           <Button
-            disabled={lessFunds(bulkSeedBuyAll)}
-            onClick={() => buy(bulkSeedBuyAll)}
+            disabled={
+              bulkBuyLimit < bulkSeedBuyAll
+                ? lessFunds(bulkBuyLimit)
+                : lessFunds(bulkSeedBuyAll)
+            }
+            onClick={bulkBuy}
           >
-            {"Buy All"}
+            {t("buy")}{" "}
+            {bulkBuyLimit < bulkSeedBuyAll ? bulkBuyLimit : bulkSeedBuyAll}
           </Button>
         )}
       </div>
