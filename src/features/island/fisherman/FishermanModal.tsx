@@ -389,6 +389,10 @@ export const FishermanModal: React.FC<Props> = ({
     weather === "Fish Frenzy" && dailyFishingCount === 0
   );
 
+  const [showFullMoon, setShowFullMoon] = React.useState(
+    weather === "Full Moon" && dailyFishingCount === 0
+  );
+
   const [tab, setTab] = useState(0);
   if (showIntro) {
     return (
@@ -426,6 +430,23 @@ export const FishermanModal: React.FC<Props> = ({
             },
             {
               text: translate("fishermanModal.bonusFish"),
+            },
+          ]}
+          onClose={() => {
+            setShowFishFrenzy(false);
+          }}
+        />
+      </CloseButtonPanel>
+    );
+  }
+
+  if (showFishFrenzy) {
+    return (
+      <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
+        <SpeakingText
+          message={[
+            {
+              text: translate("fishermanModal.fullmoon"),
             },
           ]}
           onClose={() => {

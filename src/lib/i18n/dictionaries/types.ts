@@ -903,7 +903,9 @@ export type ChumDetails =
   | "chumDetails.redPansy"
   | "chumDetails.richChicken"
   | "chumDetails.fatChicken"
-  | "chumDetails.speedChicken";
+  | "chumDetails.speedChicken"
+  | "chumDetails.horseMackerel"
+  | "chumDetails.sunfish";
 
 export type Community = "community.toast" | "community.url" | "comunity.Travel";
 
@@ -1586,6 +1588,7 @@ export type FishermanModal =
   | "fishermanModal.fishBenefits"
   | "fishermanModal.baitAndResources"
   | "fishermanModal.crazyHappening"
+  | "fishermanModal.fullMoon"
   | "fishermanModal.bonusFish"
   | "fishermanModal.dailyLimitReached"
   | "fishermanModal.needCraftRod"

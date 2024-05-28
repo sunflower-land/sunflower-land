@@ -99,6 +99,8 @@ export type Chum = Extract<
   | "Rich Chicken"
   | "Fat Chicken"
   | "Speed Chicken"
+  | "Sunfish"
+  | "Horse Mackerel"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -134,6 +136,8 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   "Fat Chicken": 3,
   "Rich Chicken": 3,
   "Speed Chicken": 3,
+  "Horse Mackerel": 1,
+  Sunfish: 1,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -169,6 +173,8 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   "Fat Chicken": translate("chumDetails.fatChicken"),
   "Rich Chicken": translate("chumDetails.richChicken"),
   "Speed Chicken": translate("chumDetails.speedChicken"),
+  "Horse Mackerel": translate("chumDetails.horseMackerel"),
+  Sunfish: translate("chumDetails.sunfish"),
 };
 
 export type FishingLocation = "beach" | "wharf";
