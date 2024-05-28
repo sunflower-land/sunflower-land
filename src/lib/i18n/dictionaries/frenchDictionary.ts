@@ -1038,7 +1038,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "building.oil.remaining": ENGLISH_TERMS["building.oil.remaining"],
   "cooking.building.oil.description":
     ENGLISH_TERMS["cooking.building.oil.description"],
-  "cooking.building.no.oil": ENGLISH_TERMS["cooking.building.no.oil"],
+  "cooking.building.oil.boost": ENGLISH_TERMS["cooking.building.oil.boost"],
   "cooking.building.runtime": ENGLISH_TERMS["cooking.building.runtime"],
 };
 

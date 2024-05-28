@@ -85,7 +85,7 @@ export function getCookingOilBoost(
   const itemCookingTime = COOKABLES[item].cookingSeconds;
 
   const itemOilConsumption = getOilConsumption(buildingName, item);
-  const oilRemaining = building?.oilRemaining || 0;
+  const oilRemaining = building?.oil || 0;
 
   const boostValue = BUILDING_OIL_BOOSTS[buildingName];
   const boostedCookingTime = itemCookingTime * (1 - boostValue);
@@ -188,9 +188,9 @@ export function cook({
     };
   }, stateCopy.inventory);
 
-  const previousOilRemaining = building.oilRemaining || 0;
+  const previousOilRemaining = building.oil || 0;
 
-  building.oilRemaining = previousOilRemaining - oilConsumed;
+  building.oil = previousOilRemaining - oilConsumed;
 
   building.crafting = {
     name: action.item,

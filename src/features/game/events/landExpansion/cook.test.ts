@@ -210,7 +210,7 @@ describe("cook", () => {
               readyAt: 1000,
               createdAt: 1000,
               id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-              oilRemaining: 10,
+              oil: 10,
             },
           ],
         },
@@ -223,9 +223,7 @@ describe("cook", () => {
     });
 
     const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
-    expect(state.buildings["Fire Pit"]?.[0].oilRemaining).toEqual(
-      10 - oilconsumed
-    );
+    expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
   });
 });
 

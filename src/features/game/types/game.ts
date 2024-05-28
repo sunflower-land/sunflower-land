@@ -497,7 +497,7 @@ export type PlacedItem = {
   readyAt: number;
   createdAt: number;
 
-  oilRemaining?: number;
+  oil?: number;
   crafting?: BuildingProduct;
 };
 

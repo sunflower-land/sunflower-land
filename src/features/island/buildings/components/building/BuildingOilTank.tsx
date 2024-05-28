@@ -52,7 +52,7 @@ export const BuildingOilTank = ({
     (building) => building.id === buildingId
   );
 
-  const oilRemainingInBuilding = building?.oilRemaining || 0;
+  const oilRemainingInBuilding = building?.oil || 0;
 
   const incrementOil = () => {
     setTotalOilToAdd((prev) => prev + OIL_INCREMENT_AMOUNT);
@@ -88,6 +88,7 @@ export const BuildingOilTank = ({
     gameService.send("SAVE");
 
     setShowAddOilModal(false);
+    setTotalOilToAdd(0);
   };
 
   const canAddOil = () => {
@@ -101,9 +102,10 @@ export const BuildingOilTank = ({
   };
 
   const canIncrementOil = () => {
-    if (!canAddOil() || !isCookingBuilding(buildingName)) return false;
-
     const oilBalance = game.inventory.Oil ?? new Decimal(0);
+    if (!canAddOil() || !isCookingBuilding(buildingName) || !oilBalance)
+      return false;
+
     const hasEnoughOil = oilBalance.toNumber() >= totalOilToAdd;
     const buildingNotFull =
       oilRemainingInBuilding + totalOilToAdd <=
@@ -123,9 +125,9 @@ export const BuildingOilTank = ({
       BUILDING_DAILY_OIL_CAPACITY[buildingName]
     );
 
-    const bla = (totalOilMillis / buildingTimeCapacity) * 100;
+    const percentage = (totalOilMillis / buildingTimeCapacity) * 100;
 
-    return bla;
+    return percentage;
   };
 
   const calculateOilTimeRemaining = () => {
@@ -162,20 +164,18 @@ export const BuildingOilTank = ({
 
   useUiRefresher();
 
-  const onClick = () => {
-    setShowAddOilModal(true);
-  };
   return (
     <>
       <div className="relative w-full">
         {runtime === 0 ? (
           <Label
-            type={"danger"}
+            type={"default"}
             className="ml-1.5 mt-2.5 cursor-pointer"
             icon={ITEM_DETAILS.Oil.image}
-            onClick={onClick}
+            secondaryIcon={SUNNYSIDE.ui.add_button}
+            onClick={() => setShowAddOilModal(true)}
           >
-            {t("cooking.building.no.oil")}
+            {t("cooking.building.oil.boost")}
           </Label>
         ) : (
           <div>
@@ -183,6 +183,8 @@ export const BuildingOilTank = ({
               type={"default"}
               className="ml-1.5 mt-2.5"
               icon={ITEM_DETAILS.Oil.image}
+              secondaryIcon={SUNNYSIDE.ui.add_button}
+              onClick={() => setShowAddOilModal(true)}
             >
               {t("cropMachine.oilTank")}
             </Label>
@@ -214,11 +216,6 @@ export const BuildingOilTank = ({
                   </div>
                 </div>
               </div>
-              <div className="pr-2">
-                <Button onClick={() => setShowAddOilModal(true)}>
-                  {t("cropMachine.addOil")}
-                </Button>
-              </div>
             </div>
           </div>
         )}
@@ -227,7 +224,10 @@ export const BuildingOilTank = ({
       <ModalOverlay
         show={showAddOilModal}
         className="top-11"
-        onBackdropClick={() => setShowAddOilModal(false)}
+        onBackdropClick={() => {
+          setShowAddOilModal(false);
+          setTotalOilToAdd(0);
+        }}
       >
         <InnerPanel>
           {
@@ -245,7 +245,10 @@ export const BuildingOilTank = ({
                 <img
                   src={SUNNYSIDE.icons.close}
                   className="cursor-pointer m-0.5"
-                  onClick={() => setShowAddOilModal(false)}
+                  onClick={() => {
+                    setShowAddOilModal(false);
+                    setTotalOilToAdd(0);
+                  }}
                   style={{
                     width: `${PIXEL_SCALE * 9}px`,
                     height: `${PIXEL_SCALE * 9}px`,

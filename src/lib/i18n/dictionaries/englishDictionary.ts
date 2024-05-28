@@ -1019,8 +1019,8 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "building.oil.remaining": "{{oil}} Oil in building",
 
   "cooking.building.oil.description":
-    "You can boost your recipe cooking times by {{boost}}% when adding oil into the {{buildingName}}. As you add oil you can see how long the {{buildingName}} will be able to be boosted.",
-  "cooking.building.no.oil": "No oil",
+    "You can boost your recipe cooking times by {{boost}}% when adding oil into the {{buildingName}}.",
+  "cooking.building.oil.boost": "Oil boost",
   "cooking.building.runtime": "Runtime {{time}}",
 };
 

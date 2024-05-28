@@ -50,7 +50,7 @@ export function supplyCookingOil({
   }
 
   const oilCapacity = BUILDING_DAILY_OIL_CAPACITY[action.building];
-  const oilInBuilding = building.oilRemaining || 0;
+  const oilInBuilding = building.oil || 0;
 
   if (oilInBuilding + action.oilQuantity > oilCapacity) {
     throw new Error(translate("error.oilCapacityExceeded"));
@@ -58,7 +58,7 @@ export function supplyCookingOil({
 
   stateCopy.inventory["Oil"] = oilInInventory.sub(action.oilQuantity);
 
-  building.oilRemaining = oilInBuilding + action.oilQuantity;
+  building.oil = oilInBuilding + action.oilQuantity;
 
   return stateCopy;
 }

@@ -105,7 +105,7 @@ describe("supplyCookingOil", () => {
       createdAt: Date.now(),
     });
 
-    expect(result.buildings?.Kitchen?.[0]?.oilRemaining).toBe(1);
+    expect(result.buildings?.Kitchen?.[0]?.oil).toBe(1);
   });
 
   it("removes oil from inventory", () => {
@@ -150,7 +150,7 @@ describe("supplyCookingOil", () => {
                 id: "1",
                 createdAt: Date.now(),
                 readyAt: 0,
-                oilRemaining: 1,
+                oil: 1,
               },
             ],
           },
@@ -181,7 +181,7 @@ describe("supplyCookingOil", () => {
                 id: "1",
                 createdAt: Date.now(),
                 readyAt: 0,
-                oilRemaining: 24,
+                oil: 24,
               },
             ],
           },

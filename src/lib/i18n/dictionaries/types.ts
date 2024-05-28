@@ -702,7 +702,7 @@ export type BuildingDescriptions =
   | "description.crop.machine"
   | "building.oil.remaining"
   | "cooking.building.oil.description"
-  | "cooking.building.no.oil"
+  | "cooking.building.oil.boost"
   | "cooking.building.runtime";
 
 export type BumpkinDelivery =
