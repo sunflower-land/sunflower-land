@@ -11,24 +11,7 @@ import { getCookingTime } from "features/game/expansion/lib/boosts";
 import { translate } from "lib/i18n/translate";
 import { FeatureName } from "lib/flags";
 
-export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {
-  "Seafood Basket": "DESERT_RECIPES",
-  "Fish Burger": "DESERT_RECIPES",
-  "Fish n Chips": "DESERT_RECIPES",
-  "Fish Omelette": "DESERT_RECIPES",
-  "Fried Calamari": "DESERT_RECIPES",
-  "Fried Tofu": "DESERT_RECIPES",
-  "Grape Juice": "DESERT_RECIPES",
-  "Ocean's Olive": "DESERT_RECIPES",
-  "Quick Juice": "DESERT_RECIPES",
-  "Rice Bun": "DESERT_RECIPES",
-  "Slow Juice": "DESERT_RECIPES",
-  "Steamed Red Rice": "DESERT_RECIPES",
-  "Sushi Roll": "DESERT_RECIPES",
-  "The Lot": "DESERT_RECIPES",
-  "Tofu Scramble": "DESERT_RECIPES",
-  Antipasto: "DESERT_RECIPES",
-};
+export const FLAGGED_RECIPES: Partial<Record<ConsumableName, FeatureName>> = {};
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
