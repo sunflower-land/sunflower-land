@@ -348,7 +348,7 @@ describe("getReadyAt", () => {
       createdAt: Date.now(),
       id: "1",
       readyAt: Date.now(),
-      oilRemaining: 10,
+      oil: 10,
     };
 
     const result = getReadyAt({
@@ -387,7 +387,7 @@ describe("getCookingOilBoost", () => {
             createdAt: Date.now(),
             id: "1",
             readyAt: 0,
-            oilRemaining: 1,
+            oil: 1,
           },
         ],
       },
@@ -408,7 +408,7 @@ describe("getCookingOilBoost", () => {
             createdAt: Date.now(),
             id: "1",
             readyAt: 0,
-            oilRemaining: 6,
+            oil: 6,
           },
         ],
       },
