@@ -9,3 +9,7 @@ export function makeBulkBuyAmount(stock: Decimal) {
 
   return MAX_BULK_BUY_AMOUNT;
 }
+
+export function makeBulkBuyAll(stock: Decimal) {
+  return stock.toDecimalPlaces(0, Decimal.ROUND_DOWN).toNumber();
+}

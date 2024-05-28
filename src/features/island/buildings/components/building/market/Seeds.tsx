@@ -18,7 +18,7 @@ import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
-import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
+import { makeBulkBuyAll, makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin, IslandType } from "features/game/types/game";
@@ -95,6 +95,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
   const bulkSeedBuyAmount = makeBulkBuyAmount(stock);
+  const bulkSeedBuyAll = makeBulkBuyAll(stock);
 
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];
@@ -154,6 +155,14 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             onClick={() => buy(bulkSeedBuyAmount)}
           >
             {t("buy")} {bulkSeedBuyAmount}
+          </Button>
+        )}
+        {bulkSeedBuyAll > 10 && (
+          <Button
+            disabled={lessFunds(bulkSeedBuyAll)}
+            onClick={() => buy(bulkSeedBuyAll)}
+          >
+            {"Buy All"}
           </Button>
         )}
       </div>
