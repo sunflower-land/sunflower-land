@@ -17,12 +17,14 @@ interface Props {
   onClose: () => void;
   location: "plaza";
   type: "Treasure Key" | "Rare Key" | "Luxury Key";
+  setIsLoading?: (isLoading: boolean) => void;
 }
 
 export const BasicTreasureChest: React.FC<Props> = ({
   onClose,
   location,
   type,
+  setIsLoading,
 }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -36,6 +38,7 @@ export const BasicTreasureChest: React.FC<Props> = ({
   const hasKey = !!gameState.context.state.inventory[type]?.gte(1);
 
   const open = async () => {
+    setIsLoading && setIsLoading(true);
     setIsPicking(true);
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -50,6 +53,7 @@ export const BasicTreasureChest: React.FC<Props> = ({
     });
     setIsRevealing(true);
     setIsPicking(false);
+    setIsLoading && setIsLoading(false);
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
