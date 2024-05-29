@@ -97,7 +97,7 @@ export const PlayerModal: React.FC<Props> = ({
   };
 
   const latestMute = player.moderation?.muted.sort(
-    (a, b) => a.mutedUntil - b.mutedUntil
+    (a, b) => b.mutedUntil - a.mutedUntil
   )[0];
   const isMuted = latestMute && latestMute.mutedUntil > Date.now();
 

@@ -23,8 +23,13 @@ import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { FLAGGED_RECIPES } from "features/game/events/landExpansion/cook";
+import {
+  FLAGGED_RECIPES,
+  getCookingOilBoost,
+} from "features/game/events/landExpansion/cook";
 import { FeatureName, hasFeatureAccess } from "lib/flags";
+import { BuildingName } from "features/game/types/buildings";
+import { BuildingOilTank } from "../building/BuildingOilTank";
 
 interface Props {
   selected: Cookable;
@@ -34,6 +39,9 @@ interface Props {
   onCook: (name: CookableName) => void;
   craftingService?: MachineInterpreter;
   crafting: boolean;
+  buildingName: BuildingName;
+  buildingId?: string;
+  currentlyCooking?: CookableName;
 }
 
 /**
@@ -54,6 +62,9 @@ export const Recipes: React.FC<Props> = ({
   onCook,
   crafting,
   craftingService,
+  buildingId,
+  currentlyCooking,
+  buildingName,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -124,7 +135,7 @@ export const Recipes: React.FC<Props> = ({
               )
             ),
             timeSeconds: getCookingTime(
-              selected.cookingSeconds,
+              getCookingOilBoost(selected.name, state, buildingId).timeToCook,
               state.bumpkin,
               state
             ),
@@ -152,6 +163,13 @@ export const Recipes: React.FC<Props> = ({
               />
             ))}
           </div>
+          {hasFeatureAccess(state, "COOKING_BOOST") && buildingId ? (
+            <BuildingOilTank
+              buildingName={buildingName}
+              buildingId={buildingId}
+              currentlyCooking={currentlyCooking}
+            />
+          ) : null}
         </>
       }
     />

@@ -10,6 +10,20 @@ const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
+  faction_house: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 230 + randomXOffset,
+      y: 420 - randomYOffset,
+    },
+  },
+  kingdom: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 220 + randomXOffset,
+      y: 850 - randomYOffset,
+    },
+  },
   retreat: {
     // Make sure everyone doesn't spawn in same spot
     default: {

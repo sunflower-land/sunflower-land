@@ -68,7 +68,7 @@ export const PlayerList: React.FC<Props> = ({
           <div className="flex flex-col items-start gap-2 ml-1 mt-2 h-96 overflow-y-auto scrollable">
             {Players.map((player) => {
               const latestMute = player.moderation?.muted.sort(
-                (a, b) => a.mutedUntil - b.mutedUntil
+                (a, b) => b.mutedUntil - a.mutedUntil
               )[0];
 
               const isMuted = latestMute && latestMute.mutedUntil > Date.now();

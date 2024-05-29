@@ -252,11 +252,14 @@ export const CropMachineModal: React.FC<Props> = ({
                   </div>
                 )}
                 <div className="flex">
-                  <Box
-                    image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
-                  />
+                  <Box image={ITEM_DETAILS[selectedPack.crop].image} />
                   <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs">{`${selectedPack.amount} x ${selectedPack.crop} Seeds`}</span>
+                    <span className="text-xs">
+                      {`??? x `}
+                      {selectedPack.crop === "Potato"
+                        ? `${selectedPack.crop}es`
+                        : `${selectedPack.crop}s`}
+                    </span>
                     {show && (
                       <PackGrowthProgressBar
                         paused={paused}
@@ -295,7 +298,7 @@ export const CropMachineModal: React.FC<Props> = ({
                     <span className="text-xs">
                       {t("cropMachine.totalCrops", {
                         cropName: selectedPack.crop.toLocaleLowerCase(),
-                        total: selectedPack.amount,
+                        total: setPrecision(new Decimal(selectedPack.amount)),
                       })}
                     </span>
                   </div>
@@ -500,7 +503,11 @@ export const CropMachineModal: React.FC<Props> = ({
                 stopped={paused || idle}
                 queue={queue}
                 unallocatedOilTime={unallocatedOilTime}
-                onAddOil={() => setOverlayScreen("addOil")}
+                onAddOil={() => {
+                  // Reset Oil Before showing Overlay to Prevent accidental adding
+                  setTotalOil(0);
+                  setOverlayScreen("addOil");
+                }}
               />
             )}
           </div>

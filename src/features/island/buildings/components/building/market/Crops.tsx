@@ -29,7 +29,6 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -256,38 +255,36 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                 ))}
             </div>
 
-            {hasFeatureAccess(state, "GREENHOUSE") && (
-              <>
-                <div className="flex">
-                  <Label className="mr-3 ml-2" icon={greenhouse} type="default">
-                    {t("greenhouse")}
-                  </Label>
-                </div>
-                <div className="flex flex-wrap mb-2">
-                  {cropsAndFruits
-                    .filter(
-                      (crop) =>
-                        !!crop.sellPrice &&
-                        (crop.name in GREENHOUSE_CROPS() ||
-                          crop.name in GREENHOUSE_FRUIT())
-                    )
-                    .map((item) => (
-                      <Box
-                        isSelected={selected.name === item.name}
-                        key={item.name}
-                        onClick={() => setSelected(item)}
-                        image={ITEM_DETAILS[item.name].image}
-                        count={inventory[item.name]}
-                        parentDivRef={divRef}
-                        secondaryImage={
-                          bumpkinLevel < item.bumpkinLevel ? lock : undefined
-                        }
-                        showOverlay={bumpkinLevel < item.bumpkinLevel}
-                      />
-                    ))}
-                </div>
-              </>
-            )}
+            <>
+              <div className="flex">
+                <Label className="mr-3 ml-2" icon={greenhouse} type="default">
+                  {t("greenhouse")}
+                </Label>
+              </div>
+              <div className="flex flex-wrap mb-2">
+                {cropsAndFruits
+                  .filter(
+                    (crop) =>
+                      !!crop.sellPrice &&
+                      (crop.name in GREENHOUSE_CROPS() ||
+                        crop.name in GREENHOUSE_FRUIT())
+                  )
+                  .map((item) => (
+                    <Box
+                      isSelected={selected.name === item.name}
+                      key={item.name}
+                      onClick={() => setSelected(item)}
+                      image={ITEM_DETAILS[item.name].image}
+                      count={inventory[item.name]}
+                      parentDivRef={divRef}
+                      secondaryImage={
+                        bumpkinLevel < item.bumpkinLevel ? lock : undefined
+                      }
+                      showOverlay={bumpkinLevel < item.bumpkinLevel}
+                    />
+                  ))}
+              </div>
+            </>
           </div>
         }
       />

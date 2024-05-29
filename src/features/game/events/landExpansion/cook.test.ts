@@ -3,7 +3,12 @@ import Decimal from "decimal.js-light";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { COOKABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
-import { cook, getReadyAt } from "./cook";
+import {
+  cook,
+  getCookingOilBoost,
+  getOilConsumption,
+  getReadyAt,
+} from "./cook";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -152,72 +157,6 @@ describe("cook", () => {
     expect(state.inventory["Gold"]).toEqual(new Decimal(4));
   });
 
-  it.skip("does not cook an item that is not in stock", () => {
-    expect(() =>
-      cook({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            Egg: new Decimal(2),
-          },
-          stock: {},
-          buildings: {
-            "Fire Pit": [
-              {
-                coordinates: {
-                  x: 2,
-                  y: 3,
-                },
-                readyAt: 1660563190206,
-                createdAt: 1660563160206,
-                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-              },
-            ],
-          },
-        },
-        action: {
-          type: "recipe.cooked",
-          item: "Boiled Eggs",
-          buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-        },
-      })
-    ).toThrow("Not enough stock");
-  });
-
-  it.skip("removes the item from the stock amount", () => {
-    const state = cook({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          Egg: new Decimal(2),
-        },
-        stock: {
-          "Boiled Eggs": new Decimal(2),
-        },
-        buildings: {
-          "Fire Pit": [
-            {
-              coordinates: {
-                x: 2,
-                y: 3,
-              },
-              readyAt: 1660563190206,
-              createdAt: 1660563160206,
-              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-            },
-          ],
-        },
-      },
-      action: {
-        type: "recipe.cooked",
-        item: "Boiled Eggs",
-        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
-      },
-    });
-
-    expect(state.stock["Boiled Eggs"]).toEqual(new Decimal(1));
-  });
-
   it("adds the crafting state to the building data structure", () => {
     const state = cook({
       state: {
@@ -253,6 +192,39 @@ describe("cook", () => {
       })
     );
   });
+
+  it("subtracts oil from building", () => {
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(20),
+        },
+        buildings: {
+          "Fire Pit": [
+            {
+              coordinates: {
+                x: 2,
+                y: 3,
+              },
+              readyAt: 1000,
+              createdAt: 1000,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              oil: 10,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Boiled Eggs",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+    });
+
+    const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
+    expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
+  });
 });
 
 describe("getReadyAt", () => {
@@ -260,6 +232,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
       createdAt: now,
@@ -281,6 +254,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -309,6 +283,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       game: {
@@ -339,6 +314,7 @@ describe("getReadyAt", () => {
     const now = Date.now();
 
     const time = getReadyAt({
+      buildingId: "123",
       item: "Boiled Eggs",
       bumpkin: INITIAL_BUMPKIN,
       createdAt: now,
@@ -363,5 +339,103 @@ describe("getReadyAt", () => {
       now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
 
     expect(time).toEqual(readyAt);
+  });
+
+  it("boosts Fire Pit time by 20% with enough oil to finish cooking", () => {
+    const now = Date.now();
+    const FirePit = {
+      coordinates: { x: 1, y: 1 },
+      createdAt: Date.now(),
+      id: "1",
+      readyAt: Date.now(),
+      oil: 10,
+    };
+
+    const result = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        buildings: {
+          "Fire Pit": [FirePit],
+        },
+      },
+    });
+
+    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 0.8 * 1000;
+
+    expect(result).toEqual(readyAt);
+  });
+});
+
+describe("getCookingOilBoost", () => {
+  it("returns 60 minutes for Boiled Egg if no oil", () => {
+    const time = getCookingOilBoost("Boiled Eggs", TEST_FARM, "1").timeToCook;
+
+    expect(time).toEqual(60 * 60);
+  });
+
+  it("boosts Fire Pit time by 20% with oil", () => {
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        "Fire Pit": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 1,
+          },
+        ],
+      },
+    };
+
+    const time = getCookingOilBoost("Boiled Eggs", game, "1").timeToCook;
+
+    expect(time).toEqual(60 * 60 * 0.8);
+  });
+
+  it("partial boost if oil is less than cooking required oil", () => {
+    const game = {
+      ...TEST_FARM,
+      buildings: {
+        Deli: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 6,
+          },
+        ],
+      },
+    };
+
+    const boost = getCookingOilBoost("Fermented Carrots", game, "1");
+
+    // Deli consumption is 12 oil per day
+    // Deli boost is 0.4 (40% speed boost, meaning 60% of the original time)
+    // Full boosted time will be 14.4 hours (86400 * 0.6 = 51840 seconds)
+    // With half the oil (6 out of 12), the boost should be half as effective (20% boost)
+    // Expected time = 86400 * 0.8 = 69120 seconds = 19.2 hours
+    expect(boost.timeToCook).toEqual(60 * 60 * 19.2);
+    expect(boost.oilConsumed).toEqual(6);
+  });
+});
+
+describe("getOilConsumption", () => {
+  it("consumes 1 oil for Boiled Egg", () => {
+    const oil = getOilConsumption("Deli", "Fermented Carrots");
+
+    expect(oil).toEqual(12);
+  });
+
+  it("consumes 20 oil for Parsnip Cake", () => {
+    const oil = getOilConsumption("Bakery", "Parsnip Cake");
+
+    expect(oil).toEqual(10);
   });
 });

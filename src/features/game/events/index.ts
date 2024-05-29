@@ -295,6 +295,10 @@ import {
   oilGreenhouse,
   OilGreenhouseAction,
 } from "./landExpansion/oilGreenHouse";
+import {
+  supplyCookingOil,
+  SupplyCookingOilAction,
+} from "./landExpansion/supplyCookingOil";
 
 import {
   PurchaseMinigameAction,
@@ -403,7 +407,8 @@ export type PlayingEvent =
   | PurchaseMinigameAction
   | PlayMinigameAction
   | SupplyCropMachineAction
-  | HarvestCropMachineAction;
+  | HarvestCropMachineAction
+  | SupplyCookingOilAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -559,6 +564,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "oilReserve.drilled": drillOilReserve,
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,
+  "cookingOil.supplied": supplyCookingOil,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
