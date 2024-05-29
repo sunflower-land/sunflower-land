@@ -217,7 +217,7 @@ export function getTotalExpansions({
 }
 
 interface Props {
-  onClose: () => void;
+  onClose?: () => void;
   npc: NPCName;
 }
 

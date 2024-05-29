@@ -435,7 +435,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {canSkip && <p className="text-xs">{t("choose.wisely")}</p>}
                 {!canSkip && (
                   <>
-                    <p className="text-xs">{t("orderhelp.SkipIn")}</p>
+                    <p className="text-xs font-secondary">
+                      {t("orderhelp.SkipIn")}:
+                    </p>
                     <div className="flex-1">
                       <RequirementLabel
                         type="time"

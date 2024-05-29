@@ -140,12 +140,12 @@ export const Detail: React.FC<Props> = ({
 
             {/* Additional Information */}
             {children}
-            <div className="flex items-center text-xxs">
+            <div className="flex items-center text-xxs mt-1">
               <span>
                 {t("detail.view.item")}{" "}
                 <a
                   href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
-                  className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
+                  className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 !text-[18px]"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
