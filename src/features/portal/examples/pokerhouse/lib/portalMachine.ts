@@ -25,7 +25,7 @@ const hasReadRules = () => {
   return !!localStorage.getItem("rules.read");
 };
 
-export const acknowledgeCropBoomRules = () => {
+export const acknowledgePokerHouseRules = () => {
   localStorage.setItem("rules.read", new Date().toISOString());
 };
 

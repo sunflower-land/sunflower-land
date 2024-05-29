@@ -1,4 +1,6 @@
 import mapJson from "assets/map/poker_house.json";
+import StairsDown from "./images/stairs_down.png"
+import DealerSpriteSheet from "./images/dealer_sheet.png"
 import { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { FanArtNPC, interactableModalManager } from "src/features/world/ui/InteractableModals";
@@ -24,8 +26,8 @@ export class PokerHouseScene extends BaseScene {
   
   preload() {
     super.preload();
-    this.load.image("stairs","src/assets/map/stairs_down.png")
-    this.load.spritesheet("dealer","./images/dealer_sheet.png",{frameWidth:16,frameHeight:16});
+    this.load.image("stairs",StairsDown)
+    this.load.spritesheet("dealer",DealerSpriteSheet,{frameWidth:16,frameHeight:16});
 
     // Ambience SFX
     if (!this.sound.get("nature_1")) {

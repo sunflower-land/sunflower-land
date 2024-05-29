@@ -7,7 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   onClose: () => void;
 }
-export const CropBoomFinish: React.FC<Props> = ({ onClose }) => {
+export const PokerHouseFinish: React.FC<Props> = ({ onClose }) => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
   const { t } = useAppTranslation();
