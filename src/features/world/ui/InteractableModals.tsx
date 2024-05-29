@@ -88,6 +88,7 @@ type InteractableName =
   | "goblins_faction"
   | "nightshades_faction"
   | "sunflorians_faction"
+  | "poker_house_modal"
   | "chicken_rescue";
 
 class InteractableModalManager {
@@ -153,6 +154,15 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           id={id}
         />
       </Modal>
+
+      <Modal show={interactable === "poker_house_modal"} onHide={closeModal}>
+        <BoatModal
+          isOpen={interactable === "poker_house_modal"}
+          closeModal={closeModal}
+          id={id}
+        />
+      </Modal>
+
       <Modal show={interactable === "fat_chicken"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}

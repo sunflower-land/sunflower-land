@@ -4,6 +4,7 @@ import DealerSpriteSheet from "./images/dealer_sheet.png"
 import { SceneId } from "features/world/mmoMachine";
 import { BaseScene } from "features/world/scenes/BaseScene";
 import { FanArtNPC, interactableModalManager } from "src/features/world/ui/InteractableModals";
+
 import { translate } from "lib/i18n/translate";
 import {
 
@@ -67,7 +68,7 @@ export class PokerHouseScene extends BaseScene {
     dealer1.setInteractive({cursor:"pointer"}).on("pointerdown",() => {
         if (this.checkDistanceToSprite(dealer1, 50)) {
             console.log("test")
-            interactableModalManager.open("clubhouse_reward");
+            interactableModalManager.open("poker_house_modal");
           } else {
             this.currentPlayer?.speak(translate("base.iam.far.away"));
           }
