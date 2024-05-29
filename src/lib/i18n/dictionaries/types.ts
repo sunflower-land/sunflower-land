@@ -122,6 +122,7 @@ export type GeneralTerms =
   | "goto"
   | "grant.wish"
   | "greenhouse"
+  | "growing"
   | "guide"
   | "harvested"
   | "honey"
