@@ -232,8 +232,8 @@ const ListTrade: React.FC<{
 
                 // Auto generate price
                 if (floorPrices[selected]) {
-                  const estimated = new Decimal(floorPrices[selected] ?? 0).mul(
-                    amount
+                  const estimated = setPrecision(
+                    new Decimal(floorPrices[selected] ?? 0).mul(amount)
                   );
                   setSflDisplay(estimated.toString());
                 }
