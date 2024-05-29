@@ -748,13 +748,11 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.basic.scarecrow":
     "Boost nearby Sunflowers, Potatoes and Pumpkins.",
   "description.scary.mike":
-    "The veggie whisperer and champion of frightfully good harvests!",
+    "Boost nearby Carrots, Cabbages, Beetroots and Cauliflowers",
   "description.laurie.chuckle.crow":
-    "With her disconcerting chuckle, she shooes peckers away from your crops!",
-  "description.immortal.pear":
-    "A long-lived pear that makes fruit trees growing in patches last longer.",
-  "description.bale":
-    "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
+  "description.immortal.pear": "Increase the survival of your fruit patches.",
+  "description.bale": "Boost nearby chickens.",
   "description.sir.goldensnout":
     "A royal member, Sir Goldensnout infuses your farm with sovereign prosperity through its golden manure.",
   "description.freya.fox":
@@ -770,13 +768,10 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.sir.goldensnout.boost": "+0.5 Crop (AOE 4x4)",
   "description.maximus.boost": "+1 Eggplant",
   "description.basic.scarecrow.boost": "-20% Growth Time",
-  "description.scary.mike.boost":
-    "+0.2 Medium Crop: Carrot, Cabbage, Soybean, Beetroot, Cauliflower and Parsnip (AOE 3x3)",
-  "description.laurie.chuckle.crow.boost":
-    "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
-  "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost":
-    "+1 Fruit Harvest for fruit seeds growing on Fruit Patches",
+  "description.scary.mike.boost": "+0.2 Medium Crops",
+  "description.laurie.chuckle.crow.boost": "+0.2 Advanced Crops",
+  "description.bale.boost": "+0.2 Eggs",
+  "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
   "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",

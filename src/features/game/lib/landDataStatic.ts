@@ -756,7 +756,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         [name]: [
           {
             coordinates: {
-              x: -50 + index * 3,
+              x: -10 + index * 3,
               y: -2,
             },
             createdAt: 0,
