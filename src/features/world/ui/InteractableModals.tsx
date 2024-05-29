@@ -8,7 +8,7 @@ import { KrakenIntro } from "./npcs/Shelly";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
-import { Panel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -351,6 +351,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <CloseButtonPanel
           onClose={closeModal}
           bumpkinParts={NPC_WEARABLES.garbo}
+          container={OuterPanel}
         >
           <GarbageCollectorModal />
         </CloseButtonPanel>

@@ -82,6 +82,7 @@ export const OuterPanel: React.FC<PanelProps> = ({
   ...divProps
 }) => {
   const { className, style, bumpkinParts, ...otherDivProps } = divProps;
+  console.log({ className });
   return (
     <>
       {bumpkinParts && (
@@ -98,10 +99,9 @@ export const OuterPanel: React.FC<PanelProps> = ({
         </div>
       )}
       <div
-        className={classNames(className)}
+        className={classNames(className, "bg-[#c28569]")}
         style={{
           ...pixelDarkBorderStyle,
-          background: "#c28569",
           padding: `${PIXEL_SCALE * 1}px`,
           ...(hasTabs
             ? {

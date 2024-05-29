@@ -142,7 +142,7 @@ export const ChatText: React.FC<Props> = ({
 
               if (message.username)
                 return (
-                  <p key={`${i}-${message.farmId}`}>
+                  <p key={`${i}-${message.farmId}`} className="text-white">
                     {message.username}
                     {":"} {message.text}
                   </p>
@@ -151,7 +151,7 @@ export const ChatText: React.FC<Props> = ({
               return (
                 <p
                   key={`${i}-${message.farmId}`}
-                  className="pt-0.5 -indent-6 pl-6"
+                  className="pt-0.5 -indent-6 pl-6 text-white"
                 >
                   {`[${message.farmId}]`}
                   {":"} {message.text}
@@ -183,7 +183,7 @@ export const ChatText: React.FC<Props> = ({
             e.preventDefault();
           }}
           placeholder="Type here..."
-          className="text-xxs placeholder-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
+          className="text-xxs placeholder-white text-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
           style={{ lineHeight: "12px", fontFamily: "monospace" }}
         />
         <Validation />

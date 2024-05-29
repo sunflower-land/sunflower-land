@@ -43,7 +43,7 @@ export const Tab: React.FC<Props> = ({
           paddingLeft: `${PIXEL_SCALE * 2}px`,
           paddingRight: `${PIXEL_SCALE * 2}px`,
           height: `${PIXEL_SCALE * 16}px`,
-          color: "#f6ecd8",
+          // color: "#f6ecd8",
         }}
       >
         {disabled && (

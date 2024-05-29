@@ -11,6 +11,7 @@ import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { OuterPanel } from "components/ui/Panel";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -90,14 +91,7 @@ export const Detail: React.FC<Props> = ({
 
       <div className="flex flex-col space-y-2">
         <div className="flex gap-1">
-          <div
-            className="w-3/5 sm:w-1/2 sm:min-w-[50%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-40"
-            style={{
-              backgroundImage: `url(${bg})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
+          <OuterPanel className="rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-fit">
             <img
               src={image}
               alt={name}
@@ -106,8 +100,8 @@ export const Detail: React.FC<Props> = ({
                 width: `${imageWidth}px`,
               }}
             />
-          </div>
-          <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
+          </OuterPanel>
+          <div className="flex flex-1 content-start flex-col sm:flex-row sm:flex-wrap gap-2 p-1">
             {additionalLabels}
             {/* Boost labels to go below */}
             {!!buff && (
@@ -126,37 +120,41 @@ export const Detail: React.FC<Props> = ({
             )}
           </div>
         </div>
-        <p className="text-xs">{description}</p>
-        <div className="border-b-[1px] border-brown-600 mt-3" />
-        {howToGetItem.length > 0 && (
-          <div className="flex flex-col">
-            <h3 className="text-sm mb-2">{t("detail.how.item")}</h3>
-            <ul className="text-xxs space-y-1">
-              {howToGetItem.map((text, index) => (
-                <li className="flex" key={`how-to-obtain-${index}`}>
-                  <div className="mr-1">{"-"}</div>
-                  <span>{text}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <OuterPanel>
+          <div className="p-1">
+            <p className="text-xs">{description}</p>
+            <div className="border-b-[1px] border-brown-600 mt-3" />
+            {howToGetItem.length > 0 && (
+              <div className="flex flex-col mt-2">
+                <h3 className="text-sm mb-2">{t("detail.how.item")}</h3>
+                <ul className="text-xxs space-y-1">
+                  {howToGetItem.map((text, index) => (
+                    <li className="flex" key={`how-to-obtain-${index}`}>
+                      <div className="mr-1">{"-"}</div>
+                      <span>{text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
-        {/* Additional Information */}
-        {children}
-        <div className="flex items-center text-xxs">
-          <span>
-            {t("detail.view.item")}{" "}
-            <a
-              href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
-              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {t("opensea")}
-            </a>
-          </span>
-        </div>
+            {/* Additional Information */}
+            {children}
+            <div className="flex items-center text-xxs">
+              <span>
+                {t("detail.view.item")}{" "}
+                <a
+                  href={getOpenSeaLink(KNOWN_IDS[name], "collectible")}
+                  className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {t("opensea")}
+                </a>
+              </span>
+            </div>
+          </div>
+        </OuterPanel>
       </div>
     </div>
   );
