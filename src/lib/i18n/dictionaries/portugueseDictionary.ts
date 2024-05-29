@@ -5078,6 +5078,10 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.generalSettings.assignRole":
     ENGLISH_TERMS["gameOptions.generalSettings.assignRole"],
   "gameOptions.generalSettings.changeLanguage": "Alterar Idioma",
+  "gameOptions.generalSettings.darkMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.darkMode"],
+  "gameOptions.generalSettings.lightMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.lightMode"],
   "gameOptions.generalSettings.disableAnimations": "Desativar Animações",
   "gameOptions.generalSettings.enableAnimations": "Ativar Animações",
   "gameOptions.generalSettings.share": "Compartilhar",
