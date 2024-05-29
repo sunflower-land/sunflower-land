@@ -21,6 +21,8 @@ export type Scenes = {
   crop_boom: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;
   retreat: Room<PlazaRoomState> | undefined;
+  kingdom: Room<PlazaRoomState> | undefined;
+  faction_house: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;

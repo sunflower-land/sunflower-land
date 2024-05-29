@@ -45,6 +45,9 @@ import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
+import { KingdomScene } from "./scenes/Kingdom";
+import { hasFeatureAccess } from "lib/flags";
+import { FactionHouseScene } from "./scenes/FactionHouse";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -111,6 +114,12 @@ export const PhaserComponent: React.FC<Props> = ({
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
+    ...(hasFeatureAccess(gameService.state.context.state, "KINGDOM")
+      ? [KingdomScene]
+      : []),
+    ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [FactionHouseScene]
+      : []),
   ];
 
   useEffect(() => {
