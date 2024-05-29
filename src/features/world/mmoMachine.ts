@@ -19,6 +19,7 @@ export type Scenes = {
   woodlands: Room<PlazaRoomState> | undefined;
   beach: Room<PlazaRoomState> | undefined;
   crop_boom: Room<PlazaRoomState> | undefined;
+  poker_house: Room<PlazaRoomState> | undefined;
   mushroom_forest: Room<PlazaRoomState> | undefined;
   retreat: Room<PlazaRoomState> | undefined;
 };

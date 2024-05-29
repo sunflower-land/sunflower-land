@@ -38,6 +38,12 @@ export const SPAWNS: () => SpawnLocation = () => ({
       x: 220,
       y: 422,
     },
+  }, 
+  poker_house: {
+    default: {
+      x: 220,
+      y: 422,
+    },
   },
   mushroom_forest: {
     default: {

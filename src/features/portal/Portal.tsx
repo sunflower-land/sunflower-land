@@ -7,6 +7,7 @@ import "src/styles.css";
 
 import { initialise } from "lib/utils/init";
 
+import { PokerHouseApp } from "./examples/pokerhouse/PokerHouse";
 import { CropBoomApp } from "./examples/cropBoom/CropBoom";
 import { MushroomForest } from "./examples/mushroomForest/MushroomForest";
 import { CONFIG } from "lib/config";
@@ -15,6 +16,10 @@ import { GoblinSwarm } from "./examples/goblinSwarm/GoblinSwarm";
 initialise();
 
 export const PortalApp: React.FC = () => {
+  if (CONFIG.PORTAL_APP === "poker-house") {
+    return <PokerHouseApp />;
+  }
+  
   if (CONFIG.PORTAL_APP === "crop-boom") {
     return <CropBoomApp />;
   }
