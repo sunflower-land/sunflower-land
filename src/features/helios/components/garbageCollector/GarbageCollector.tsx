@@ -12,6 +12,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { GarbageCollectorModal } from "./components/GarbageCollectorModal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { OuterPanel } from "components/ui/Panel";
 
 export const GarbageCollector: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -68,6 +69,7 @@ export const GarbageCollector: React.FC = () => {
       <Modal show={isOpen} onHide={() => setIsOpen(false)}>
         <CloseButtonPanel
           onClose={() => setIsOpen(false)}
+          container={OuterPanel}
           bumpkinParts={{
             body: "Goblin Potion",
             hair: "Teal Mohawk",

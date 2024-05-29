@@ -1,7 +1,7 @@
 import React from "react";
 import { MachineInterpreter } from "features/game/lib/auctionMachine";
 import { useActor } from "@xstate/react";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 
@@ -44,7 +44,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
             : getImageUrl(ITEM_IDS[auction.wearable]);
 
         return (
-          <OuterPanel
+          <ButtonPanel
             key={auction.auctionId}
             onClick={() => onSelect(auction.auctionId)}
             className="w-full cursor-pointer hover:bg-brown-300 !p-2 relative flex mb-1"
@@ -55,12 +55,9 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                 className="w-full h-full absolute inset-0 rounded-md"
               />
               <img src={image} className="w-1/2 h-1/2 object-contain z-10" />
-              <span
-                className="absolute bottom-1 right-1 z-20 bg-silver-500 text-xxs px-0.5 pb-0.5  rounded-md inline-flex items-center"
-                style={{ ...pixelGrayBorderStyle }}
-              >
+              <Label type="default" className="absolute bottom-1 right-1 z-20">
                 {auction.supply}
-              </span>
+              </Label>
             </div>
             <div className="flex flex-col flex-1">
               <p className="text-sm">
@@ -93,7 +90,7 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                 </div>
               )}
             </div>
-          </OuterPanel>
+          </ButtonPanel>
         );
       })}
     </div>

@@ -37,11 +37,7 @@ type TimeObject = {
   color?: string;
 };
 
-export const TimerDisplay = ({
-  time,
-  fontSize = 20,
-  color = "white",
-}: TimeObject) => {
+export const TimerDisplay = ({ time, fontSize = 20, color }: TimeObject) => {
   const timeKeys = getKeys(time);
 
   const times = timeKeys.map((key) => {
