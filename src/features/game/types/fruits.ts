@@ -122,6 +122,7 @@ export const GREENHOUSE_FRUIT_SEEDS: () => Record<
     plantSeconds: 12 * 60 * 60,
     bumpkinLevel: 14,
     yield: "Grape",
+    requiredIsland: "desert",
   },
 });
 
