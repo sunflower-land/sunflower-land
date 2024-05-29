@@ -10,7 +10,7 @@ import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -84,9 +84,9 @@ export const DailyChore: React.FC<Props> = ({
 
   if (isSkipping && autosaving) {
     return (
-      <OuterPanel className="!p-2 mb-2 text-xs">
+      <InnerPanel className="!p-2 mb-2 text-xs">
         <span className="loading text-sm">{t("skipping")}</span>
-      </OuterPanel>
+      </InnerPanel>
     );
   }
 
@@ -105,7 +105,7 @@ export const DailyChore: React.FC<Props> = ({
     id,
   });
   return (
-    <OuterPanel className="flex flex-col">
+    <InnerPanel className="flex flex-col">
       <div
         className={classNames("flex space-x-1 p-1", {
           "pb-0": isCodex,
@@ -122,7 +122,7 @@ export const DailyChore: React.FC<Props> = ({
                 height: 7,
               }}
             />
-            <span className="text-xxs ml-2">{`${setPrecision(
+            <span className="text-xxs ml-2 font-secondary">{`${setPrecision(
               new Decimal(progress)
             )}/${chore.requirement}`}</span>
           </div>
@@ -131,30 +131,27 @@ export const DailyChore: React.FC<Props> = ({
         {!chore.completedAt && (
           <div className="flex flex-col text-xs space-y-1">
             <div className="flex items-center justify-end space-x-1">
-              <span className="mb-0.5">{tickets}</span>
+              <span className="mb-0.5 font-secondary">{tickets}</span>
               <SquareIcon
                 icon={ITEM_DETAILS[getSeasonalTicket()].image}
                 width={6}
               />
             </div>
-            {hasFeatureAccess({} as GameState, "FACTIONS") &&
-              Date.now() < FACTION_POINT_CUTOFF.getTime() && (
-                <div className="flex items-center justify-end space-x-1">
-                  <span
-                    className={classNames("mb-0.5 text-white", {
-                      "text-error": !faction,
-                    })}
-                  >
-                    {tickets * FACTION_POINT_MULTIPLIER}
-                  </span>
-                  <SquareIcon
-                    icon={
-                      faction ? FACTION_POINT_ICONS[faction.name] : factions
-                    }
-                    width={6}
-                  />
-                </div>
-              )}
+            {faction && Date.now() < FACTION_POINT_CUTOFF.getTime() && (
+              <div className="flex items-center justify-end space-x-1">
+                <span
+                  className={classNames("mb-0.5 text-white", {
+                    "text-error": !faction,
+                  })}
+                >
+                  {tickets * FACTION_POINT_MULTIPLIER}
+                </span>
+                <SquareIcon
+                  icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
+                  width={6}
+                />
+              </div>
+            )}
           </div>
         )}
         {chore.completedAt && (
@@ -183,6 +180,6 @@ export const DailyChore: React.FC<Props> = ({
           </Button>
         </div>
       )}
-    </OuterPanel>
+    </InnerPanel>
   );
 };
