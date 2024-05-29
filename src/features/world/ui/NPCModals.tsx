@@ -28,6 +28,7 @@ import { GarbageCollectorModal } from "features/helios/components/garbageCollect
 import { Hopper } from "./npcs/Hopper";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { ChickenRescue } from "./portals/ChickenRescue";
+import { OuterPanel } from "components/ui/Panel";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -124,6 +125,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <CloseButtonPanel
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.garbo}
+            container={OuterPanel}
           >
             <GarbageCollectorModal />
           </CloseButtonPanel>
