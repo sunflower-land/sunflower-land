@@ -50,6 +50,9 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Orange: 200,
   Apple: 200,
   Banana: 200,
+  Olive: 100,
+  Grape: 100,
+  Rice: 100,
   Wood: 500,
   Stone: 200,
   Iron: 200,
@@ -57,6 +60,37 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Egg: 500,
   Honey: 100,
   Crimstone: 20,
+};
+
+export const TRADE_MINIMUMS: Partial<Record<InventoryItemName, number>> = {
+  Sunflower: 200,
+  Potato: 200,
+  Pumpkin: 100,
+  Carrot: 100,
+  Cabbage: 100,
+  Soybean: 50,
+  Beetroot: 50,
+  Cauliflower: 50,
+  Parsnip: 20,
+  Eggplant: 20,
+  Corn: 20,
+  Radish: 10,
+  Wheat: 10,
+  Kale: 10,
+  Blueberry: 5,
+  Orange: 5,
+  Apple: 5,
+  Banana: 5,
+  Olive: 5,
+  Grape: 5,
+  Rice: 5,
+  Wood: 50,
+  Stone: 10,
+  Iron: 5,
+  Gold: 3,
+  Egg: 10,
+  Honey: 5,
+  Crimstone: 1,
 };
 
 const MAX_NON_VIP_PURCHASES = 3;
@@ -298,7 +332,7 @@ export const BuyPanel: React.FC<{
 
         return (
           <>
-            <div className="p-2">
+            <div className="flex flex-col w-full p-2">
               <img src={SUNNYSIDE.icons.confirm} className="mx-auto h-6 my-2" />
               <p className="text-sm mb-2 text-center">
                 {t("trading.listing.fulfilled")}
@@ -306,7 +340,7 @@ export const BuyPanel: React.FC<{
               <OuterPanel>
                 <div className="flex justify-between">
                   <div>
-                    <div className="flex flex-wrap w-52">
+                    <div className="flex flex-wrap w-52 items-center">
                       {getKeys(selectedListing.items).map((item, index) => (
                         <Box
                           image={ITEM_DETAILS[item].image}
@@ -316,7 +350,7 @@ export const BuyPanel: React.FC<{
                         />
                       ))}
                       <div className="ml-1">
-                        <div className="flex justify-end items-center mb-1">
+                        <div className="flex items-center mb-1">
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
@@ -336,15 +370,16 @@ export const BuyPanel: React.FC<{
                   </div>
                 </div>
               </OuterPanel>
+              <Button
+                className="mt-2"
+                onClick={() => {
+                  setLoading(false);
+                  setView("search");
+                }}
+              >
+                {t("continue")}
+              </Button>
             </div>
-            <Button
-              onClick={() => {
-                setLoading(false);
-                setView("search");
-              }}
-            >
-              {t("continue")}
-            </Button>
           </>
         );
       }
@@ -392,7 +427,7 @@ export const BuyPanel: React.FC<{
                         />
                       ))}
                       <div className="ml-1">
-                        <div className="flex justfy-end items-center mb-1">
+                        <div className="flex items-center mb-1">
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${listing.sfl} SFL`}</p>
                         </div>

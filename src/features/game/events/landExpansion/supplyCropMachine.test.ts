@@ -1338,6 +1338,51 @@ describe("supplyCropMachine", () => {
 
     expect(machine.unallocatedOilTime).toBe(getOilTimeInMillis(1));
   });
+
+  it("completely allocates when the oil time perfectly matches the grow time", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(20),
+        Oil: new Decimal(1),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: 0,
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: now,
+    });
+
+    const finalState = supplyCropMachine({
+      state: newState,
+      action: {
+        type: "cropMachine.supplied",
+        oil: 1,
+      },
+      createdAt: now,
+    });
+
+    expect(
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[0].readyAt
+    ).toBeDefined();
+  });
 });
 
 describe("calculateCropTime", () => {

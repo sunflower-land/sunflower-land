@@ -272,7 +272,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     name: "Rice Bun",
     description: translate("description.riceBun"),
     building: "Fire Pit",
-    experience: 1800,
+    experience: 2600,
     cookingSeconds: 300 * 60,
     ingredients: {
       Rice: new Decimal(2),
@@ -284,7 +284,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     name: "Antipasto",
     description: translate("description.antipasto"),
     building: "Fire Pit",
-    experience: 1900,
+    experience: 3000,
     cookingSeconds: 180 * 60,
     ingredients: {
       Olive: new Decimal(2),
@@ -473,7 +473,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     name: "Steamed Red Rice",
     description: translate("description.steamedRedRice"),
     building: "Kitchen",
-    experience: 2400,
+    experience: 3000,
     cookingSeconds: 4 * 60 * 60,
     ingredients: {
       Rice: new Decimal(3),
@@ -537,7 +537,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
     name: "Ocean's Olive",
     description: translate("description.oceansOlive"),
     building: "Kitchen",
-    experience: 1000,
+    experience: 2000,
     cookingSeconds: 2 * 60 * 60,
     ingredients: {
       "Olive Flounder": new Decimal(1),
@@ -572,9 +572,9 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
   },
   "Sushi Roll": {
     name: "Sushi Roll",
-    description: translate("description.sushirRoll"),
+    description: translate("description.sushiRoll"),
     building: "Kitchen",
-    experience: 1500,
+    experience: 2000,
     cookingSeconds: 60 * 60,
     ingredients: {
       Angelfish: new Decimal(1),
@@ -942,7 +942,7 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     name: "Grape Juice",
     description: translate("description.grapeJuice"),
     building: "Smoothie Shack",
-    experience: 1800,
+    experience: 3300,
     cookingSeconds: 3 * 60 * 60,
     ingredients: {
       Grape: new Decimal(5),
@@ -992,7 +992,7 @@ export const JUICE_COOKABLES: Record<JuiceName, Cookable> = {
     name: "Slow Juice",
     description: translate("description.slowJuice"),
     building: "Smoothie Shack",
-    experience: 5000,
+    experience: 7500,
     cookingSeconds: 24 * 60 * 60,
     ingredients: {
       Grape: new Decimal(10),

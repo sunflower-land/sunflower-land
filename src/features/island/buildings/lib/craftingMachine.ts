@@ -3,6 +3,7 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { MachineInterpreter as GameServiceMachineInterpreter } from "src/features/game/lib/gameMachine";
 import { GameEventName, PlayingEvent } from "features/game/events";
 import { getCookingTime } from "features/game/expansion/lib/boosts";
+import { getCookingOilBoost } from "features/game/events/landExpansion/cook";
 
 export interface CraftingContext {
   name?: CookableName;
@@ -151,10 +152,13 @@ export const craftingMachine = createMachine<
         });
       },
       assignCraftingDetails: assign((context, event) => {
-        const { cookingSeconds } = COOKABLES[(event as CraftEvent).item];
         const { bumpkin } = context.gameService.state.context.state;
         const reducedSeconds = getCookingTime(
-          cookingSeconds,
+          getCookingOilBoost(
+            (event as CraftEvent).item,
+            context.gameService.state.context.state,
+            context.buildingId
+          ).timeToCook,
           bumpkin,
           context.gameService.state.context.state
         );

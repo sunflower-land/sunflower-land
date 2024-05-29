@@ -19,7 +19,9 @@ interface Props {
   crafting: boolean;
   itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
+  buildingId: string;
 }
+
 export const KitchenModal: React.FC<Props> = ({
   isOpen,
   onCook,
@@ -27,6 +29,7 @@ export const KitchenModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
+  buildingId,
 }) => {
   const kitchenRecipes = Object.values(KITCHEN_COOKABLES).sort(
     (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
@@ -37,30 +40,35 @@ export const KitchenModal: React.FC<Props> = ({
   );
 
   return (
-    <Modal show={isOpen} onHide={onClose}>
-      <CloseButtonPanel
-        bumpkinParts={{
-          body: "Light Brown Farmer Potion",
-          hair: "Explorer Hair",
-          pants: "Lumberjack Overalls",
-          shirt: "Blue Farmer Shirt",
-          tool: "Axe",
-          background: "Farm Background",
-          shoes: "Black Farmer Boots",
-        }}
-        tabs={[{ icon: chefHat, name: "Kitchen" }]}
-        onClose={onClose}
-      >
-        <Recipes
-          selected={selected}
-          setSelected={setSelected}
-          recipes={kitchenRecipes}
-          onCook={onCook}
+    <>
+      <Modal show={isOpen} onHide={onClose}>
+        <CloseButtonPanel
+          bumpkinParts={{
+            body: "Light Brown Farmer Potion",
+            hair: "Explorer Hair",
+            pants: "Lumberjack Overalls",
+            shirt: "Blue Farmer Shirt",
+            tool: "Axe",
+            background: "Farm Background",
+            shoes: "Black Farmer Boots",
+          }}
+          tabs={[{ icon: chefHat, name: "Kitchen" }]}
           onClose={onClose}
-          crafting={crafting}
-          craftingService={craftingService}
-        />
-      </CloseButtonPanel>
-    </Modal>
+        >
+          <Recipes
+            selected={selected}
+            setSelected={setSelected}
+            recipes={kitchenRecipes}
+            onCook={onCook}
+            onClose={onClose}
+            crafting={crafting}
+            craftingService={craftingService}
+            buildingName="Kitchen"
+            buildingId={buildingId}
+            currentlyCooking={selected.name}
+          />
+        </CloseButtonPanel>
+      </Modal>
+    </>
   );
 };

@@ -1,21 +1,20 @@
 import Decimal from "decimal.js-light";
 import { CollectibleName } from "./craftables";
-import { InventoryItemName } from "./game";
+import { InventoryItemName, IslandType } from "./game";
 import { ResourceName } from "./resources";
 
 export type Home = "Tent" | "House" | "Manor";
 
+export type CookingBuildingName = "Fire Pit" | "Kitchen" | "Bakery" | "Deli";
+
 export type BuildingName =
-  | "Fire Pit"
+  | CookingBuildingName
+  | "Smoothie Shack"
   | "Market"
   | "Town Center"
   | "Workbench"
-  | "Kitchen"
   | "Water Well"
-  | "Bakery"
   | "Hen House"
-  | "Deli"
-  | "Smoothie Shack"
   | "Toolshed"
   | "Warehouse"
   | "Compost Bin"
@@ -35,6 +34,7 @@ export type BuildingBluePrint = {
   ingredients: Ingredient[];
   coins: number;
   constructionSeconds: number;
+  requiredIsland?: IslandType;
 };
 
 export type PlaceableName =
@@ -438,6 +438,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
           amount: new Decimal(100),
         },
       ],
+      requiredIsland: "desert",
     },
   ],
   "Crop Machine": [
@@ -459,6 +460,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
           amount: new Decimal(50),
         },
       ],
+      requiredIsland: "desert",
     },
   ],
 };

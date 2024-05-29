@@ -12,7 +12,6 @@ import {
 } from "features/game/types/consumables";
 import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ConversationName } from "features/game/types/announcements";
 import { Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
@@ -36,7 +35,7 @@ interface Props {
   crafting: boolean;
   itemInProgress?: CookableName;
   craftingService?: MachineInterpreter;
-  conversation?: ConversationName;
+  buildingId: string;
 }
 export const FirePitModal: React.FC<Props> = ({
   isOpen,
@@ -45,6 +44,7 @@ export const FirePitModal: React.FC<Props> = ({
   crafting,
   itemInProgress,
   craftingService,
+  buildingId,
 }) => {
   const [showIntro, setShowIntro] = React.useState(!hasRead());
   const { t } = useAppTranslation();
@@ -92,6 +92,9 @@ export const FirePitModal: React.FC<Props> = ({
             onClose={onClose}
             crafting={!!crafting}
             craftingService={craftingService}
+            buildingName="Fire Pit"
+            buildingId={buildingId}
+            currentlyCooking={selected.name}
           />
         </CloseButtonPanel>
       )}

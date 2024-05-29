@@ -1035,6 +1035,11 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.tent": "(Arrêté)",
   "description.house": "Un endroit où reposer votre tête",
   "description.crop.machine": ENGLISH_TERMS["description.crop.machine"],
+  "building.oil.remaining": ENGLISH_TERMS["building.oil.remaining"],
+  "cooking.building.oil.description":
+    ENGLISH_TERMS["cooking.building.oil.description"],
+  "cooking.building.oil.boost": ENGLISH_TERMS["cooking.building.oil.boost"],
+  "cooking.building.runtime": ENGLISH_TERMS["cooking.building.runtime"],
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -1174,6 +1179,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.list": "Liste",
   "bumpkinTrade.maxListings": "Nombre maximum d'annonces atteint",
   "bumpkinTrade.max": "Max : {{max}}",
+  "bumpkinTrade.min": "Min : {{min}}",
+  "bumpkinTrade.minimumFloor": ENGLISH_TERMS["bumpkinTrade.minimumFloor"],
+  "bumpkinTrade.maximumFloor": ENGLISH_TERMS["bumpkinTrade.maximumFloor"],
   "bumpkinTrade.floorPrice": "Prix minimum : {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / unité",
   "bumpkinTrade.sellConfirmation":
@@ -1899,12 +1907,12 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.vinny": ENGLISH_TERMS["description.vinny"],
 
   "description.battleCryDrum": ENGLISH_TERMS["description.battleCryDrum"],
-  "description.bullseyBoard": ENGLISH_TERMS["description.bullseyBoard"],
+  "description.bullseyeBoard": ENGLISH_TERMS["description.bullseyeBoard"],
   "description.chessRug": ENGLISH_TERMS["description.chessRug"],
   "description.cluckapult": ENGLISH_TERMS["description.cluckapult"],
   "description.goldenGallant": ENGLISH_TERMS["description.goldenGallant"],
   "description.goldenGarrison": ENGLISH_TERMS["description.goldenGarrison"],
-  "description.goldenGurdian": ENGLISH_TERMS["description.goldenGurdian"],
+  "description.goldenGuardian": ENGLISH_TERMS["description.goldenGuardian"],
   "description.noviceKnight": ENGLISH_TERMS["description.noviceKnight"],
   "description.regularPawn": ENGLISH_TERMS["description.regularPawn"],
   "description.rookieRook": ENGLISH_TERMS["description.rookieRook"],
@@ -2098,6 +2106,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.walletInUse.one": ENGLISH_TERMS["error.walletInUse.one"],
   "error.walletInUse.two": ENGLISH_TERMS["error.walletInUse.two"],
   "error.walletInUse.three": ENGLISH_TERMS["error.walletInUse.three"],
+  "error.notEnoughOil": ENGLISH_TERMS["error.notEnoughOil"],
+  "error.oilCapacityExceeded": ENGLISH_TERMS["error.oilCapacityExceeded"],
 };
 
 const event: Record<Event, string> = {
@@ -2481,7 +2491,7 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.riceBun": ENGLISH_TERMS["description.riceBun"],
   "description.slowJuice": ENGLISH_TERMS["description.slowJuice"],
   "description.steamedRedRice": ENGLISH_TERMS["description.steamedRedRice"],
-  "description.sushirRoll": ENGLISH_TERMS["description.sushirRoll"],
+  "description.sushiRoll": ENGLISH_TERMS["description.sushiRoll"],
   "description.theLot": ENGLISH_TERMS["description.theLot"],
   "description.tofuScramble": ENGLISH_TERMS["description.tofuScramble"],
   "description.antipasto": ENGLISH_TERMS["description.antipasto"],

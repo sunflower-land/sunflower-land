@@ -17,6 +17,9 @@ import { ITEM_ICONS } from "../inventory/Chest";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { IslandType } from "features/game/types/game";
+import { capitalize } from "lib/utils/capitalize";
 
 interface Props {
   onClose: () => void;
@@ -100,12 +103,19 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
 
   const getAction = () => {
     if (
-      !hasFeatureAccess(state, "GREENHOUSE") &&
-      selectedName === "Greenhouse"
+      !hasRequiredIslandExpansion(
+        state.island.type,
+        buildingBlueprints[nextBlueprintIndex].requiredIsland
+      )
     ) {
       return (
-        <Label type="default" icon={lock} className="mx-auto">
-          {t("coming.soon")}
+        <Label type="danger">
+          {t("islandupgrade.requiredIsland", {
+            islandType: capitalize(
+              buildingBlueprints[nextBlueprintIndex]
+                .requiredIsland as IslandType
+            ),
+          })}
         </Label>
       );
     }
@@ -117,10 +127,9 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       return (
         <div className="flex flex-col w-full justify-center">
           <div className="flex items-center justify-center ">
-            <Label
-              type="danger"
-              icon={SUNNYSIDE.icons.player}
-            >{`Level ${nextLockedLevel} required`}</Label>
+            <Label type="danger" icon={SUNNYSIDE.icons.player}>
+              {t("warning.level.required", { lvl: nextLockedLevel })}
+            </Label>
           </div>
         </div>
       );

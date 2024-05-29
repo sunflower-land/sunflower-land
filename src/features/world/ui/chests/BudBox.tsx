@@ -21,6 +21,7 @@ import { getDayOfYear, secondsToString } from "lib/utils/time";
 
 interface Props {
   onClose: () => void;
+  setIsLoading?: (isLoading: boolean) => void;
 }
 
 const BUD_ORDER: TypeTrait[] = [
@@ -59,7 +60,7 @@ const ICONS: Record<TypeTrait, string> = {
   Beach: budIcon,
 };
 
-export const BudBox: React.FC<Props> = ({ onClose }) => {
+export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
@@ -70,6 +71,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
   const [isRevealing, setIsRevealing] = useState(false);
 
   const open = async () => {
+    setIsLoading && setIsLoading(true);
     setIsPicking(true);
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -82,6 +84,7 @@ export const BudBox: React.FC<Props> = ({ onClose }) => {
     });
     setIsRevealing(true);
     setIsPicking(false);
+    setIsLoading && setIsLoading(false);
   };
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {

@@ -127,14 +127,14 @@ export function updateCropMachine({
 
   queue.forEach((pack, index) => {
     // Skip packs that are already grown or if there's no oil left
-    if (pack.growTimeRemaining === 0 || !cropMachine.unallocatedOilTime) {
+    if (!!pack.readyAt || !cropMachine.unallocatedOilTime) {
       return;
     }
 
     const previousQueueItemReadyAt = queue[index - 1]?.readyAt ?? now;
 
     // Allocate oil to the pack and update its state
-    if (cropMachine.unallocatedOilTime > pack.growTimeRemaining) {
+    if (cropMachine.unallocatedOilTime >= pack.growTimeRemaining) {
       completelyAllocatePack(
         pack,
         cropMachine,

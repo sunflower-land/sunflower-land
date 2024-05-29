@@ -482,6 +482,7 @@ export type Mine = Position;
 export type BuildingProduct = {
   name: CookableName;
   readyAt: number;
+  boost?: Partial<Record<InventoryItemName, number>>;
 };
 
 export type BuildingProduce = {
@@ -496,6 +497,7 @@ export type PlacedItem = {
   readyAt: number;
   createdAt: number;
 
+  oil?: number;
   crafting?: BuildingProduct;
 };
 
