@@ -10,6 +10,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
 import primaryButton from "assets/ui/light_button.png";
+import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
   hasTabs?: boolean;
@@ -56,13 +57,16 @@ export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   ...divProps
 }) => {
   const { className, style, ...otherDivProps } = divProps;
+
+  const { isDarkMode } = useIsDarkMode();
+
   return (
     <div
       className={classNames(className)}
       style={{
         ...pixelLightBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,
-        background: "#e4a672",
+        background: isDarkMode ? "#c28669" : "#e4a672",
         ...style,
       }}
       {...otherDivProps}
@@ -82,7 +86,7 @@ export const OuterPanel: React.FC<PanelProps> = ({
   ...divProps
 }) => {
   const { className, style, bumpkinParts, ...otherDivProps } = divProps;
-  console.log({ className });
+  const { isDarkMode } = useIsDarkMode();
   return (
     <>
       {bumpkinParts && (

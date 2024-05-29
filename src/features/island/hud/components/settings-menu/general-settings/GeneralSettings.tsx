@@ -3,11 +3,14 @@ import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
+import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
   const { t } = useAppTranslation();
+
+  const { isDarkMode, toggleDarkMode } = useIsDarkMode();
 
   const { showAnimations, toggleAnimations } = useContext(Context);
 
@@ -22,6 +25,13 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
       </Button>
       <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-2">
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
+      </Button>
+      <Button className="mb-2" onClick={toggleDarkMode}>
+        <span>
+          {isDarkMode
+            ? t("gameOptions.generalSettings.darkMode")
+            : t("gameOptions.generalSettings.lightMode")}
+        </span>
       </Button>
       <Button className="mb-2" onClick={onToggleAnimations}>
         <span>
