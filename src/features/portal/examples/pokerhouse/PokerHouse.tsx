@@ -8,7 +8,7 @@ import { Button } from "components/ui/Button";
 import { PortalContext, PortalProvider } from "./lib/PortalProvider";
 import { Ocean } from "features/world/ui/Ocean";
 import { PokerHouseHud } from "features/portal/examples/pokerhouse/components/PokerHouseHud";
-import { PokerHousePhaser } from "features/portal/examples/pokerhouse/PokerHousePhaser";
+import { PokerHousePhaser } from "features/portal/examples/pokerhouse//PokerHousePhaser";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NPC_WEARABLES } from "lib/npcs";

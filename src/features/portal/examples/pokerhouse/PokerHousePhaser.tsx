@@ -8,6 +8,7 @@ import { PortalContext } from "./lib/PortalProvider";
 import { useActor } from "@xstate/react";
 import { PokerHouseScene } from "./PokerHouseScene";
 import { InteractableModals } from "features/world/ui/InteractableModals";
+import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
 
 export const PokerHousePhaser: React.FC = () => {
   const { portalService } = useContext(PortalContext);
@@ -20,6 +21,62 @@ export const PokerHousePhaser: React.FC = () => {
   const scene = "poker_house";
 
   const scenes = [Preloader, PokerHouseScene];
+
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    // Update Messages on change
+    portalState.context.mmoServer?.state.messages.onChange(() => {
+      const currentScene =
+        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+      const sceneMessages =
+        portalState.context.mmoServer?.state.messages.filter(
+          (m) => m.sceneId === currentScene
+        ) as Message[];
+
+      setMessages(
+        sceneMessages.map((m) => ({
+          farmId: m.farmId ?? 0,
+          username: m.username,
+          text: m.text,
+          sessionId: m.sessionId,
+          sceneId: m.sceneId,
+          sentAt: m.sentAt,
+        })) ?? []
+      );
+      updateMessages();
+    });
+
+    const updateMessages = () => {
+      // Load active scene in Phaser, otherwise fallback to route
+      const currentScene =
+        game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
+
+      const sceneMessages =
+        portalState.context.mmoServer?.state.messages.filter(
+          (m) => m.sceneId === currentScene
+        ) as Message[];
+
+      const filteredMessages = sceneMessages.filter(
+        (m) =>
+          !JSON.parse(
+            localStorage.getItem("plaza-settings.mutedFarmIds") ?? "[]"
+          ).includes(m.farmId)
+      );
+
+      setMessages(
+        filteredMessages.map((m) => ({
+          farmId: m.farmId ?? 0,
+          username: m.username,
+          text: m.text,
+          sessionId: m.sessionId,
+          sceneId: m.sceneId,
+          sentAt: m.sentAt,
+        })) ?? []
+      );
+    };
+  }, [portalState.context.mmoServer]);
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -86,6 +143,32 @@ export const PokerHousePhaser: React.FC = () => {
     <div>
       <div id="game-content" ref={ref} />
       <InteractableModals scene="plaza" id={portalState.context.id} />
+
+      <ChatUI
+        farmId={portalState.context.id}
+        gameState={portalState.context.state}
+        scene={scene}
+        onMessage={(m) => {
+          portalState.context.mmoServer?.send(0, {
+            text: m.text ?? "?",
+          });
+        }}
+        onCommand={(name, args) => {
+          console.log("command", name, args);
+        }}
+        messages={messages ?? []}
+        isMuted={false}
+        onReact={(reaction) => {
+          portalState.context.mmoServer?.send(0, {
+            reaction,
+          });
+        }}
+        onBudPlace={(tokenId) => {
+          portalState.context.mmoServer?.send(0, {
+            budId: tokenId,
+          });
+        }}
+      />
     </div>
   );
 };
