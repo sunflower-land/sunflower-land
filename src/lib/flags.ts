@@ -28,7 +28,10 @@ export type FeatureName =
   | "PRESTIGE_DESERT"
   | "CHICKEN_RESCUE"
   | "CROP_MACHINE"
-  | "COOKING_BOOST";
+  | "COOKING_BOOST"
+  | "DESERT_RECIPES"
+  | "KINGDOM"
+  | "FACTION_HOUSE";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -39,6 +42,9 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   CHICKEN_RESCUE: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
+  DESERT_RECIPES: defaultFeatureFlag,
+  KINGDOM: defaultFeatureFlag,
+  FACTION_HOUSE: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended
     if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;
