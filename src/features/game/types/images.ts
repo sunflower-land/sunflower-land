@@ -3463,7 +3463,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Bullseye Board": {
     image: bullseyBoard,
-    description: translate("description.bullseyBoard"),
+    description: translate("description.bullseyeBoard"),
   },
   "Chess Rug": {
     image: chessRug,
@@ -3483,7 +3483,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Golden Guardian": {
     image: goldenGurdian,
-    description: translate("description.goldenGurdian"),
+    description: translate("description.goldenGuardian"),
   },
   "Novice Knight": {
     image: noviceKnight,
@@ -3599,7 +3599,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Sushi Roll": {
     image: sushiRoll,
-    description: translate("description.sushirRoll"),
+    description: translate("description.sushiRoll"),
   },
   "The Lot": {
     image: theLot,

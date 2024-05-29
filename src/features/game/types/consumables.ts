@@ -572,7 +572,7 @@ export const KITCHEN_COOKABLES: Record<KitchenCookableName, Cookable> = {
   },
   "Sushi Roll": {
     name: "Sushi Roll",
-    description: translate("description.sushirRoll"),
+    description: translate("description.sushiRoll"),
     building: "Kitchen",
     experience: 2000,
     cookingSeconds: 60 * 60,
