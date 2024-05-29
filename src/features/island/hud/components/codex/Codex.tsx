@@ -176,12 +176,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   <OuterPanel
                     key={`${tab}-${index}`}
                     className={classNames(
-                      "flex items-center relative p-0.5 mb-1 cursor-pointer",
-                      {
-                        "bg-[#ead4aa]": currentTab === index,
-                      }
+                      "flex items-center relative p-0.5 mb-1 cursor-pointer"
                     )}
                     onClick={() => handleTabClick(index)}
+                    style={{
+                      background: currentTab === index ? "#ead4aa" : undefined,
+                    }}
                   >
                     {!!tab.count && (
                       <Label

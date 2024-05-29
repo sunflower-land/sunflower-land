@@ -154,12 +154,31 @@ export const OrderCard: React.FC<{
                 </div>
               )}
               {!!tickets && (
-                <div className="flex items-center">
-                  <img
-                    src={ITEM_DETAILS[getSeasonalTicket()].image}
-                    className="w-5 h-auto mr-1"
-                  />
-                  <span className="text-xs">{tickets}</span>
+                <div className="flex items-center space-x-2">
+                  {game.faction && (
+                    <div className="flex items-center">
+                      <img
+                        src={
+                          game.faction
+                            ? FACTION_POINT_ICONS[game.faction.name]
+                            : factions
+                        }
+                        className="w-5 h-auto mr-1"
+                      />
+                      <span className="text-[22px] font-secondary">
+                        {tickets! * FACTION_POINT_MULTIPLIER}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex items-center">
+                    <img
+                      src={ITEM_DETAILS[getSeasonalTicket()].image}
+                      className="w-5 h-auto mr-1"
+                    />
+                    <span className="text-[22px] font-secondary">
+                      {tickets}
+                    </span>
+                  </div>
                 </div>
               )}
               {getKeys(order.reward.items ?? {}).map((item) => (
@@ -168,7 +187,7 @@ export const OrderCard: React.FC<{
                     src={ITEM_DETAILS[item].image}
                     className="w-5 h-auto mr-1"
                   />
-                  <span className="text-xs">{item}</span>
+                  <span className="text-[22px] font-secondary">{item}</span>
                 </div>
               ))}
             </div>
@@ -748,43 +767,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   hasRequirementsCheck={() => true}
                   onDeliver={deliver}
                 />
-                {isTicketOrder &&
-                  hasFeatureAccess({} as GameState, "FACTIONS") &&
-                  Date.now() < FACTION_POINT_CUTOFF.getTime() && (
-                    <div className="flex items-center justify-between my-1 mt-2">
-                      <Label
-                        type={game.faction ? "warning" : "danger"}
-                        icon={factions}
-                      >
-                        {t("faction.points.title")}
-                      </Label>
-                      <div className="flex items-center">
-                        <img
-                          src={
-                            game.faction
-                              ? FACTION_POINT_ICONS[game.faction.name]
-                              : factions
-                          }
-                          className="w-4 h-auto mr-1"
-                        />
-                        <span
-                          className={classNames("text-xs", {
-                            "text-error": isTicketOrder && !game.faction,
-                          })}
-                        >
-                          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
-                          {tickets! * FACTION_POINT_MULTIPLIER}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                {isTicketOrder &&
-                  !game.faction &&
-                  hasFeatureAccess({} as GameState, "FACTIONS") && (
-                    <Label type="danger" icon={factions}>
-                      {t("faction.points.pledge.warning")}
-                    </Label>
-                  )}
               </>
             )}
             {isTicketOrder && ticketTasksAreFrozen && (

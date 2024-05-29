@@ -98,7 +98,7 @@ export const MegaStore: React.FC<Props> = ({ onClose }) => {
       onClose={onClose}
     >
       <div className="relative h-full w-full">
-        <div className="flex justify-between px-2 pb-2 bg-brown-300">
+        <div className="flex justify-between px-2 pb-2">
           <Label type="vibrant" icon={lightning}>
             {t("megaStore.month.sale")}
           </Label>
