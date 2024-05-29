@@ -190,7 +190,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       }
       case "xp": {
         const roundedDownXp = setPrecision(props.xp, 1);
-        return `${roundedDownXp} XP`;
+        return `${roundedDownXp}XP`;
       }
       case "level": {
         return `${t("level.number", { level: props.requirement })}`;
@@ -229,18 +229,18 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         <SquareIcon icon={getIcon()} width={7} />
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1">{"SFL"}</span>
+          <span className="text-xs ml-1 font-secondary">{"SFL"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1">{props.item}</span>
+          <span className="text-xs ml-1  font-secondary">{props.item}</span>
         )}
         {props.type === "coins" && props.showLabel && (
-          <span className="text-xs ml-1">{t("coins")}</span>
+          <span className="text-xs ml-1  font-secondary">{t("coins")}</span>
         )}
       </div>
 
       <Label
-        className={classNames("whitespace-nowrap font-secondary", {
+        className={classNames("whitespace-nowrap font-secondary relative", {
           "ml-1": !requirementMet,
         })}
         type={requirementMet ? "transparent" : "danger"}

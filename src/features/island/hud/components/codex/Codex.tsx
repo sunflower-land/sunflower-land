@@ -204,13 +204,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               })}
             > */}
             {currentTab === 0 && <Deliveries />}
-            {currentTab === 1 && (
-              <InnerPanel
-                className={classNames("flex flex-col h-full overflow-hidden")}
-              >
-                <Chores farmId={farmId} />
-              </InnerPanel>
-            )}
+            {currentTab === 1 && <Chores farmId={farmId} />}
             {currentTab === 2 && (
               <InnerPanel
                 className={classNames(

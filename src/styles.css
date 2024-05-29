@@ -1211,3 +1211,7 @@ a {
   font-size: 24px !important;
   color: #3e2731;
 }
+
+.font-secondary {
+  font-size: 22px;
+}

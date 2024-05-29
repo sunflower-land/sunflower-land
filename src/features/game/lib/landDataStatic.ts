@@ -7,6 +7,7 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_BUMPKIN, INITIAL_BUMPKIN_LEVEL } from "./bumpkinData";
 import { EMPTY, makeMegaStoreAvailableDates } from "./constants";
+import { BUILDINGS } from "../types/buildings";
 export const INITIAL_RESOURCES: Pick<
   GameState,
   | "crops"
@@ -749,28 +750,45 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   buildings: {
-    Greenhouse: [
-      {
-        coordinates: {
-          x: -2,
-          y: -2,
-        },
-        createdAt: 0,
-        id: "1",
-        readyAt: 0,
-      },
-    ],
-    Market: [
-      {
-        coordinates: {
-          x: -5,
-          y: -2,
-        },
-        createdAt: 0,
-        id: "1",
-        readyAt: 0,
-      },
-    ],
+    ...Object.keys(BUILDINGS).reduce(
+      (acc, name, index) => ({
+        ...acc,
+        [name]: [
+          {
+            coordinates: {
+              x: -50 + index * 3,
+              y: -2,
+            },
+            createdAt: 0,
+            id: "1",
+            readyAt: 0,
+          },
+        ],
+      }),
+      {}
+    ),
+    // Greenhouse: [
+    //   {
+    //     coordinates: {
+    //       x: -2,
+    //       y: -2,
+    //     },
+    //     createdAt: 0,
+    //     id: "1",
+    //     readyAt: 0,
+    //   },
+    // ],
+    // Market: [
+    //   {
+    //     coordinates: {
+    //       x: -5,
+    //       y: -2,
+    //     },
+    //     createdAt: 0,
+    //     id: "1",
+    //     readyAt: 0,
+    //   },
+    // ],
   },
   collectibles: {},
   pumpkinPlaza: {
