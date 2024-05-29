@@ -640,14 +640,14 @@ const auction: Record<Auction, string> = {
 const availableSeeds: Record<AvailableSeeds, string> = {
   "availableSeeds.select": "还未选择种子",
   "availableSeeds.select.plant": "你希望选择哪个种子来种植？",
-  "quickSelect.empty": "No greenhouse seeds.",
-  "quickSelect.label": "Quick select",
+  "quickSelect.empty": ENGLISH_TERMS["quickSelect.empty"],
+  "quickSelect.label": ENGLISH_TERMS["quickSelect.label"],
 };
 
 const base: Record<Base, string> = {
   "base.missing": "设定中缺失名字",
   "base.far.away": "你离得太远了",
-  "base.iam.far.away": "I am far away",
+  "base.iam.far.away": ENGLISH_TERMS["base.iam.far.away"],
 };
 
 const basicTreasure: Record<BasicTreasure, string> = {
@@ -673,10 +673,9 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.noTicket": "遗失奖券",
   "raffle.how": "您可以通过特殊活动和 Bumpkin 递送免费领取奖券。",
   "raffle.enter": "进入",
-  "giftGiver.description":
-    "Congratulations, you discovered a gift giver! Each day you can claim a free prize from them.",
-  "giftGiver.label": "Gift Giver",
-  "giftGiver.opened": "Already opened today",
+  "giftGiver.description": ENGLISH_TERMS["giftGiver.description"],
+  "giftGiver.label": ENGLISH_TERMS["giftGiver.label"],
+  "giftGiver.opened": ENGLISH_TERMS["giftGiver.opened"],
 };
 
 const beach: Record<Beach, string> = {
@@ -813,8 +812,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "掌控Queen Cornelia的威严力量， 并体验大块区域内玉米产量的显著提升。 +1 玉米",
   "description.heart.of.davy.jones":
     "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
-  "description.knight.chicken":
-    "A strong and noble chicken boosting your oil yield.",
+  "description.knight.chicken": ENGLISH_TERMS["description.knight.chicken"],
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -917,21 +915,20 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
 
   // Translate
   "description.hungryHare.boost": "发酵胡萝卜 2x XP",
-  "description.battle.fish.boost": "+0.05 Oil",
-  "description.knight.chicken.boost": "+0.1 Oil",
-  "description.turbo.sprout.boost": "-50% Green House Crop time",
-  "description.soybliss.boost": "+1 Soybean",
-  "description.grape.granny.boost": "+1 Grape",
-  "description.non.la.hat.boost": "+1 Rice",
-  "description.oil.can.boost": "+2 Oil",
-  "description.olive.shield.boost": "+1 Olive",
+  "description.battle.fish.boost": "+0.05 石油",
+  "description.knight.chicken.boost": "+0.1 石油",
+  "description.turbo.sprout.boost": "-50% 温室作物生长时间",
+  "description.soybliss.boost": "+1 黄豆",
+  "description.grape.granny.boost": "+1 葡萄",
+  "description.non.la.hat.boost": "+1 米饭",
+  "description.oil.can.boost": "+2 石油",
+  "description.olive.shield.boost": "+1 橄榄",
   "description.pan.boost": "+25% XP",
-  "description.paw.shield.boost": "+25% Faction Ped feeding XP",
-  "description.vinny.boost": "+0.25 Grape",
-  "description.desertgnome.boost": "+10% Cooking Speed",
-  "description.rice.panda.boost": "+0.25 Rice",
-  "description.olive.shirt.boost":
-    ENGLISH_TERMS["description.olive.shirt.boost"],
+  "description.paw.shield.boost": "+25% 阵营宠物饱食度",
+  "description.vinny.boost": "+0.25 葡萄",
+  "description.desertgnome.boost": "-10% 烹饪时间",
+  "description.rice.panda.boost": "+0.25 米饭",
+  "description.olive.shirt.boost": "+0.25 橄榄",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1308,7 +1305,7 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.pumpkin": "南瓜。南瓜不止于馅饼。",
   "description.carrot": "胡萝卜。对你的眼睛有益！",
   "description.cabbage": "卷心菜。曾经的奢侈品，现在的大众食物。",
-  "description.soybean": "A versatile legume!",
+  "description.soybean": "用途广泛的豆科植物！",
   "description.beetroot": "甜菜根。有益宿醉！",
   "description.cauliflower": "花椰菜。优秀的大米代餐！",
   "description.parsnip": "防风草。可别错认为是胡萝卜。",
@@ -1341,9 +1338,9 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "百合种子。一粒Lily种子",
 
   // Greenhouse Seeds
-  "description.grape": "A zesty and desired fruit.",
-  "description.olive": "A luxury for advanced farmers.",
-  "description.rice": "Perfect for rations!",
+  "description.grape": "一种味道浓郁、令人向往的水果。",
+  "description.olive": "对于高级农民来说，这是一种奢侈。",
+  "description.rice": "非常适合口粮！",
 };
 
 const cropMachine: Record<CropMachine, string> = {
@@ -1640,48 +1637,43 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.human.war.banner": "彰显为人类伟业献身的盟约",
   "description.earnAllianceBanner": "一杆特别活动的旗帜",
   "description.sunflorian.faction.banner":
-    "A display of allegiance to the Sunflorian Faction",
+    ENGLISH_TERMS["description.sunflorian.faction.banner"],
   "description.goblin.faction.banner":
-    "A display of allegiance to the Goblin Faction",
+    ENGLISH_TERMS["description.goblin.faction.banner"],
   "description.nightshade.faction.banner":
-    "A display of allegiance to the Nightshade Faction",
+    ENGLISH_TERMS["description.nightshade.faction.banner"],
   "description.bumpkin.faction.banner":
-    "A display of allegiance to the Bumpkin Faction",
-  "description.oil.reserve": "A source of oil",
+    ENGLISH_TERMS["description.bumpkin.faction.banner"],
+  "description.oil.reserve": "石油来源",
 
   // Clash of Factions
-  "description.turbo.sprout":
-    "An engine that reduces the Green House's growth time by 50%.",
-  "description.soybliss": "A unique soy creature that gives +1 Soybean yield.",
-  "description.grape.granny":
-    "Wise matriarch nurturing grapes to flourish with +1 yield.",
-  "description.royal.throne": "A throne fit for the highest ranking farmer.",
-  "description.lily.egg": "Tiny delight, grand beauty, endless wonder.",
-  "description.goblet": "A goblet that holds the finest of wines.",
-  "description.clock":
-    "A Clock that keeps time with the gentle ticking of the seasons.",
-  "description.fancy.rug": "A rug that brings a touch of elegance to any room.",
-  "description.vinny":
-    "Vinny, a friendly grapevine, is always ready for a chat.",
-  "description.desertgnome":
-    "A gnome that can survive the harshest of conditions.",
-  "description.battleCryDrum": "",
-  "description.bullseyBoard": "",
-  "description.chessRug": "",
-  "description.cluckapult": "",
-  "description.goldenGallant": "",
-  "description.goldenGarrison": "",
-  "description.goldenGurdian": "",
-  "description.noviceKnight": "",
-  "description.regularPawn": "",
-  "description.rookieRook": "",
-  "description.silverSentinel": "",
-  "description.silverStallion": "",
-  "description.silverSquire": "",
-  "description.traineeTarget": "",
-  "description.twisterRug": "",
-  "description.gauchoRug": "A commerative rug to support South Brazil.",
-  "description.ricePanda": "A smart panda never forgets to water the rice.",
+  "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
+  "description.soybliss": ENGLISH_TERMS["description.soybliss"],
+  "description.grape.granny": ENGLISH_TERMS["description.grape.granny"],
+  "description.royal.throne": ENGLISH_TERMS["description.royal.throne"],
+  "description.lily.egg": ENGLISH_TERMS["description.lily.egg"],
+  "description.goblet": ENGLISH_TERMS["description.goblet"],
+  "description.clock": ENGLISH_TERMS["description.clock"],
+  "description.fancy.rug": ENGLISH_TERMS["description.fancy.rug"],
+  "description.vinny": ENGLISH_TERMS["description.vinny"],
+  "description.desertgnome": ENGLISH_TERMS["description.desertgnome"],
+  "description.battleCryDrum": ENGLISH_TERMS["description.battleCryDrum"],
+  "description.bullseyeBoard": ENGLISH_TERMS["description.bullseyeBoard"],
+  "description.chessRug": ENGLISH_TERMS["description.chessRug"],
+  "description.cluckapult": ENGLISH_TERMS["description.cluckapult"],
+  "description.goldenGallant": ENGLISH_TERMS["description.goldenGallant"],
+  "description.goldenGarrison": ENGLISH_TERMS["description.goldenGarrison"],
+  "description.goldenGuardian": ENGLISH_TERMS["description.goldenGuardian"],
+  "description.noviceKnight": ENGLISH_TERMS["description.noviceKnight"],
+  "description.regularPawn": ENGLISH_TERMS["description.regularPawn"],
+  "description.rookieRook": ENGLISH_TERMS["description.rookieRook"],
+  "description.silverSentinel": ENGLISH_TERMS["description.silverSentinel"],
+  "description.silverStallion": ENGLISH_TERMS["description.silverStallion"],
+  "description.silverSquire": ENGLISH_TERMS["description.silverSquire"],
+  "description.traineeTarget": ENGLISH_TERMS["description.traineeTarget"],
+  "description.twisterRug": ENGLISH_TERMS["description.twisterRug"],
+  "description.gauchoRug": ENGLISH_TERMS["description.gauchoRug"],
+  "description.ricePanda": ENGLISH_TERMS["description.ricePanda"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
@@ -1756,14 +1748,12 @@ const discordBonus: Record<DiscordBonus, string> = {
 
 const donation: Record<Donation, string> = {
   "donation.one": "这是一个社区艺术项目，非常感谢捐赠！",
-  "donation.rioGrandeDoSul.one":
-    "Olá gente! South of Brazil has been devastated by recent flooding and we are gathering donations for food and water at the shelters.",
-  "donation.rioGrandeDoSul.two":
-    "Everyone who donates will receive a commemorative decoration.",
-  "donation.matic": "Donation in MATIC",
-  "donation.minimum": "Minimum 1 MATIC",
-  "donation.airdrop": "Decorations will be airdropped after donations close.",
-  "donation.specialEvent": "Special Donation Event",
+  "donation.rioGrandeDoSul.one": ENGLISH_TERMS["donation.rioGrandeDoSul.one"],
+  "donation.rioGrandeDoSul.two": ENGLISH_TERMS["donation.rioGrandeDoSul.two"],
+  "donation.matic": "MATIC 捐款",
+  "donation.minimum": "MATIC 捐款",
+  "donation.airdrop": ENGLISH_TERMS["donation.airdrop"],
+  "donation.specialEvent": "特别捐款活动",
 };
 
 const draftBid: Record<DraftBid, string> = {
@@ -1776,12 +1766,14 @@ const draftBid: Record<DraftBid, string> = {
 // Will Skip this category first, cuz I don’t think this page is used atm
 const errorAndAccess: Record<ErrorAndAccess, string> = {
   "errorAndAccess.blocked.betaTestersOnly":
-    "Access limited to beta testers only",
-  "errorAndAccess.denied.message": "You don't have access to the game yet.",
-  "errorAndAccess.instructions.part1": "Make sure you have joined the ",
-  "errorAndAccess.sflDiscord": "Sunflower Land Discord",
+    ENGLISH_TERMS["errorAndAccess.blocked.betaTestersOnly"],
+  "errorAndAccess.denied.message":
+    ENGLISH_TERMS["errorAndAccess.denied.message"],
+  "errorAndAccess.instructions.part1":
+    ENGLISH_TERMS["errorAndAccess.instructions.part1"],
+  "errorAndAccess.sflDiscord": ENGLISH_TERMS["errorAndAccess.sflDiscord"],
   "errorAndAccess.instructions.part2":
-    ", go to the #verify channel and have the 'farmer' role.",
+    ENGLISH_TERMS["errorAndAccess.instructions.part2"],
   "error.cannotPlaceInside": "无法放置在里面",
 };
 
@@ -1848,10 +1840,9 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.ClientRPC": "客户端 RPC 错误",
   "error.insufficientCoins": "硬币不足",
 
-  "error.walletInUse.one": "Wallet in Use",
-  "error.walletInUse.two":
-    "This wallet is already linked to a farm. Please use social login or another wallet.",
-  "error.walletInUse.three": "Try another login method",
+  "error.walletInUse.one": ENGLISH_TERMS["error.walletInUse.one"],
+  "error.walletInUse.two": ENGLISH_TERMS["error.walletInUse.two"],
+  "error.walletInUse.three": ENGLISH_TERMS["error.walletInUse.three"],
   "error.notEnoughOil": ENGLISH_TERMS["error.notEnoughOil"],
   "error.oilCapacityExceeded": ENGLISH_TERMS["error.oilCapacityExceeded"],
 };
@@ -1873,46 +1864,45 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
 };
 
 const factions: Record<Factions, string> = {
-  "faction.join": "Join {{faction}}",
+  "faction.join": ENGLISH_TERMS["faction.join"],
+  "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
+  "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
   "faction.description.sunflorians":
-    "The Sunflorians are the royals that rule over Sunflower Land. Do you believe in power and rules?",
-  "faction.description.bumpkins":
-    "The Bumpkins are the farmers and all round lifeblood of Sunflower Land. Do you believe in hard work and community?",
-  "faction.description.goblins":
-    "The Goblins are the mischievous industrialists of Sunflower Land. Do you believe in progress and innovation?",
+    ENGLISH_TERMS["faction.description.sunflorians"],
   "faction.description.nightshades":
-    "The Nightshades are the mysterious and magical beings of Sunflower Land. Do you believe in magic and secrets?",
-  "faction.countdown": "In {{timeUntil}} the faction battle begins.",
-  "faction.join.confirm": "Do you want to join the {{faction}}?",
-  "faction.cannot.change": "You cannot change factions once you have chosen.",
+    ENGLISH_TERMS["faction.description.nightshades"],
+  "faction.countdown": ENGLISH_TERMS["faction.countdown"],
+  "faction.join.confirm": ENGLISH_TERMS["faction.join.confirm"],
+  "faction.cannot.change": ENGLISH_TERMS["faction.cannot.change"],
   "faction.joined.sunflorians.intro":
-    "Greetings, noble Sunflorian! Join us as we rally our forces to claim supremacy and uphold the honor of our kingdom.",
+    ENGLISH_TERMS["faction.joined.sunflorians.intro"],
   "faction.joined.bumpkins.intro":
-    "Hey there, fellow Bumpkin! It's time to unite our farming brethren and show the other factions the power of hard work and unity.",
-  "faction.joined.goblins.intro":
-    "Salutations, crafty Goblin! With our minds sharp and our schemes devious, victory shall be ours in the battles ahead.",
+    ENGLISH_TERMS["faction.joined.bumpkins.intro"],
+  "faction.joined.goblins.intro": ENGLISH_TERMS["faction.joined.goblins.intro"],
   "faction.joined.nightshades.intro":
-    "Greetings, enigmatic Nightshade! Together, we shall navigate the shadows and unveil the secrets that will lead us to victory in the battles ahead.",
-  "faction.earn.emblems": "Earn Emblems",
-  "faction.earn.emblems.time.left": "{{timeLeft}} left",
-  "faction.emblems.tasks":
-    "Earn faction points by making donations or completing seasonal deliveries to become eligible for the faction emblems airdrop.",
-  "faction.view.leaderboard": "View Leaderboard",
-  "faction.donation.request.message":
-    "Greetings, {{faction}}! We are currently accepting donations of resources and SFL to help build up our faction. You will be rewarded faction points in return for your generosity.",
-  "faction.donation.label": "{{faction}} Faction Donation",
-  "faction.donation.sfl": "SFL donations min(10)",
-  "faction.donation.sfl.max.per.day": "{{donatedToday}}/500 max per day",
-  "faction.donation.bulk.resources": "Bulk resource donations (min {{min}})",
+    ENGLISH_TERMS["faction.joined.nightshades.intro"],
+  "faction.earn.emblems": ENGLISH_TERMS["faction.earn.emblems"],
+  "faction.earn.emblems.time.left":
+    ENGLISH_TERMS["faction.earn.emblems.time.left"],
+  "faction.emblems.tasks": ENGLISH_TERMS["faction.emblems.tasks"],
+  "faction.view.leaderboard": ENGLISH_TERMS["faction.view.leaderboard"],
+  "faction.donation.bulk.resources":
+    ENGLISH_TERMS["faction.donation.bulk.resources"],
   "faction.donation.bulk.resources.unlimited.per.day":
-    "{{donatedToday}}/unlimited per day",
-  "faction.donation.confirm":
-    "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
-  "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
-  "faction.points.with.number": "Faction points: {{points}}",
-  "faction.points.title": "Faction Points",
+    ENGLISH_TERMS["faction.donation.bulk.resources.unlimited.per.day"],
+  "faction.donation.confirm": ENGLISH_TERMS["faction.donation.confirm"],
+  "faction.donation.label": ENGLISH_TERMS["faction.donation.label"],
+  "faction.donation.request.message":
+    ENGLISH_TERMS["faction.donation.request.message"],
+  "faction.donation.sfl": ENGLISH_TERMS["faction.donation.sfl"],
+  "faction.donation.sfl.max.per.day":
+    ENGLISH_TERMS["faction.donation.sfl.max.per.day"],
+  "faction.seasonal.delivery.start.at":
+    ENGLISH_TERMS["faction.seasonal.delivery.start.at"],
+  "faction.points.with.number": ENGLISH_TERMS["faction.points.with.number"],
+  "faction.points.title": ENGLISH_TERMS["faction.points.title"],
   "faction.points.pledge.warning":
-    "Pledge a faction to receive faction points!",
+    ENGLISH_TERMS["faction.points.pledge.warning"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -1996,7 +1986,7 @@ const fishDescriptions: Record<FishDescriptions, string> = {
     "一种深海中难以捉摸且幽灵般的鱼，隐藏在阴影中。",
   "description.gilded.swordfish": "一条鳞片闪耀如金的剑鱼，终极的捕获！",
   "description.crimson.carp": "春天水域中稀有、充满活力的宝石。",
-  "description.battle.fish": "The rare armored swimmer of faction season!",
+  "description.battle.fish": "派系赛季稀有的装甲游泳者！",
 };
 
 const fishermanModal: Record<FishermanModal, string> = {
@@ -2070,89 +2060,74 @@ const flowerBed: Record<FlowerBed, string> = {
 };
 
 const flowerbreed: Record<Flowerbreed, string> = {
-  "flower.breed.sunflower": "Bumpkin Botanists swear they're not flowers.",
-  "flower.breed.cauliflower":
-    "Not so sure what the Bumpkin Botanists say about this one.",
-  "flower.breed.beetroot": "It has a beautiful purple color.",
-  "flower.breed.parsnip":
-    "A parsnip might be a good choice to cross breed with.",
-  "flower.breed.eggplant":
-    "Eggplant has a vibrant color, perhaps it will cross breed well.",
-  "flower.breed.radish": "Wow, this radish is red!",
-  "flower.breed.kale": "It's green, but not like the other greens.",
-  "flower.breed.blueberry":
-    "These blueberries are very ripe, I hope they don't stain.",
-  "flower.breed.apple": "Crunchy apples!",
-  "flower.breed.banana": "A bunch of bananas.",
-  "flower.breed.redPansy": "A red pansy.",
-  "flower.breed.yellowPansy": "A yellow pansy.",
-  "flower.breed.purplePansy": "A purple pansy.",
-  "flower.breed.whitePansy":
-    "A white pansy. Devoid of color, I wonder if this is rare.",
-  "flower.breed.bluePansy": "A blue pansy.",
-  "flower.breed.redCosmos": "A red cosmos.",
-  "flower.breed.yellowCosmos": "A yellow cosmos.",
-  "flower.breed.purpleCosmos": "A purple cosmos.",
-  "flower.breed.whiteCosmos": "A white cosmos.",
-  "flower.breed.blueCosmos": "A blue cosmos. Very descriptive.",
-  "flower.breed.prismPetal":
-    "An extremely rare mutation, are you sure you want to cross breed this?",
+  "flower.breed.sunflower": ENGLISH_TERMS["flower.breed.sunflower"],
+  "flower.breed.cauliflower": ENGLISH_TERMS["flower.breed.cauliflower"],
+  "flower.breed.beetroot": ENGLISH_TERMS["flower.breed.beetroot"],
+  "flower.breed.parsnip": ENGLISH_TERMS["flower.breed.parsnip"],
+  "flower.breed.eggplant": ENGLISH_TERMS["flower.breed.eggplant"],
+  "flower.breed.radish": ENGLISH_TERMS["flower.breed.radish"],
+  "flower.breed.kale": ENGLISH_TERMS["flower.breed.kale"],
+  "flower.breed.blueberry": ENGLISH_TERMS["flower.breed.blueberry"],
+  "flower.breed.apple": ENGLISH_TERMS["flower.breed.apple"],
+  "flower.breed.banana": ENGLISH_TERMS["flower.breed.banana"],
+  "flower.breed.redPansy": ENGLISH_TERMS["flower.breed.redPansy"],
+  "flower.breed.yellowPansy": ENGLISH_TERMS["flower.breed.yellowPansy"],
+  "flower.breed.purplePansy": ENGLISH_TERMS["flower.breed.purplePansy"],
+  "flower.breed.whitePansy": ENGLISH_TERMS["description.white.pansy"],
+  "flower.breed.bluePansy": ENGLISH_TERMS["flower.breed.bluePansy"],
+  "flower.breed.redCosmos": ENGLISH_TERMS["flower.breed.redCosmos"],
+  "flower.breed.yellowCosmos": ENGLISH_TERMS["flower.breed.yellowCosmos"],
+  "flower.breed.purpleCosmos": ENGLISH_TERMS["flower.breed.purpleCosmos"],
+  "flower.breed.whiteCosmos": ENGLISH_TERMS["flower.breed.whiteCosmos"],
+  "flower.breed.blueCosmos": ENGLISH_TERMS["flower.breed.blueCosmos"],
+  "flower.breed.prismPetal": ENGLISH_TERMS["flower.breed.prismPetal"],
   "flower.breed.redBalloonFlower":
-    "Balloon flowers are very pretty. The red ones especially.",
-  "flower.breed.yellowBalloonFlower": "A yellow balloon flower.",
-  "flower.breed.purpleBalloonFlower": "A purple balloon flower.",
-  "flower.breed.whiteBalloonFlower": "A white balloon flower. This is rare.",
+    ENGLISH_TERMS["flower.breed.redBalloonFlower"],
+  "flower.breed.yellowBalloonFlower":
+    ENGLISH_TERMS["flower.breed.yellowBalloonFlower"],
+  "flower.breed.purpleBalloonFlower":
+    ENGLISH_TERMS["flower.breed.purpleBalloonFlower"],
+  "flower.breed.whiteBalloonFlower":
+    ENGLISH_TERMS["flower.breed.whiteBalloonFlower"],
   "flower.breed.blueBalloonFlower":
-    "The most basic of balloon flowers. Nothing to brag about.",
-  "flower.breed.redDaffodil": "A red daffoldil",
-  "flower.breed.yellowDaffodil": "A yellow daffoldil",
-  "flower.breed.purpleDaffodil": "A purple daffoldil",
-  "flower.breed.whiteDaffodil": "A white daffoldil",
-  "flower.breed.blueDaffodil": "A blue daffoldil",
+    ENGLISH_TERMS["flower.breed.blueBalloonFlower"],
+  "flower.breed.redDaffodil": ENGLISH_TERMS["flower.breed.redDaffodil"],
+  "flower.breed.yellowDaffodil": ENGLISH_TERMS["flower.breed.yellowDaffodil"],
+  "flower.breed.purpleDaffodil": ENGLISH_TERMS["flower.breed.purpleDaffodil"],
+  "flower.breed.whiteDaffodil": ENGLISH_TERMS["flower.breed.whiteDaffodil"],
+  "flower.breed.blueDaffodil": ENGLISH_TERMS["flower.breed.blueDaffodil"],
   "flower.breed.celestialFrostbloom":
-    "An extremely rare mutation. Are you sure you want to cross breed this?",
-  "flower.breed.redCarnation":
-    "Bumpkins value the red carnation for its rarity.",
-  "flower.breed.yellowCarnation":
-    "Bumpkins don't value the yellow carnation for.",
-  "flower.breed.purpleCarnation":
-    "Bumpkins value the purple carnation for its beauty.",
-  "flower.breed.whiteCarnation":
-    "Bumpkins value the yellow carnation for its simplicity.",
-  "flower.breed.blueCarnation":
-    "Bumpkins value the blue carnation for its ability to cross breed with Bloom seeds.",
-  "flower.breed.redLotus": "A red lotus",
-  "flower.breed.yellowLotus": "A yellow lotus",
-  "flower.breed.purpleLotus": "A purple lotus",
-  "flower.breed.whiteLotus": "A white lotus",
-  "flower.breed.blueLotus": "A blue lotus",
-  "flower.breed.primulaEnigma":
-    "An extremely rare mutation, are you sure you want to cross breed this?",
+    ENGLISH_TERMS["flower.breed.celestialFrostbloom"],
+  "flower.breed.redCarnation": ENGLISH_TERMS["flower.breed.redCarnation"],
+  "flower.breed.yellowCarnation": ENGLISH_TERMS["flower.breed.yellowCarnation"],
+  "flower.breed.purpleCarnation": ENGLISH_TERMS["flower.breed.purpleCarnation"],
+  "flower.breed.whiteCarnation": ENGLISH_TERMS["flower.breed.whiteCarnation"],
+  "flower.breed.blueCarnation": ENGLISH_TERMS["flower.breed.blueCarnation"],
+  "flower.breed.redLotus": ENGLISH_TERMS["flower.breed.redLotus"],
+  "flower.breed.yellowLotus": ENGLISH_TERMS["flower.breed.yellowLotus"],
+  "flower.breed.purpleLotus": ENGLISH_TERMS["flower.breed.purpleLotus"],
+  "flower.breed.whiteLotus": ENGLISH_TERMS["flower.breed.whiteLotus"],
+  "flower.breed.blueLotus": ENGLISH_TERMS["flower.breed.blueLotus"],
+  "flower.breed.primulaEnigma": ENGLISH_TERMS["flower.breed.primulaEnigma"],
 };
 
 const flowerShopTerms: Record<FlowerShopTerms, string> = {
-  "flowerShop.desired.dreaming":
-    "Oh, I've been dreaming of cultivating a {{desiredFlowerName}}!",
+  "flowerShop.desired.dreaming": ENGLISH_TERMS["flowerShop.desired.dreaming"],
   "flowerShop.desired.delightful":
-    "How delightful it would be to have a {{desiredFlowerName}}.",
-  "flowerShop.desired.wonderful":
-    "How wonderful it would be to have a {{desiredFlowerName}}!",
+    ENGLISH_TERMS["flowerShop.desired.delightful"],
+  "flowerShop.desired.wonderful": ENGLISH_TERMS["flowerShop.desired.wonderful"],
   "flowerShop.desired.setMyHeart":
-    "I've set my heart on growing a {{desiredFlowerName}}.",
-  "flowerShop.missingPages.alas":
-    "But alas! I've misplaced the pages of my cross-breeding book! They must be in the plaza somewhere.",
+    ENGLISH_TERMS["flowerShop.desired.setMyHeart"],
+  "flowerShop.missingPages.alas": ENGLISH_TERMS["flowerShop.missingPages.alas"],
   "flowerShop.missingPages.cantBelieve":
-    "But I can't believe it, the pages with my best hybrid flower recipes are missing. They must be in the plaza somewhere.",
+    ENGLISH_TERMS["flowerShop.missingPages.cantBelieve"],
   "flowerShop.missingPages.inABind":
-    "However, I'm in a bit of a bind – the pages containing my cross-breeding techniques seem to have disappeared. They must be in the plaza somewhere.",
+    ENGLISH_TERMS["flowerShop.missingPages.inABind"],
   "flowerShop.missingPages.sadly":
-    "Sadly, my cross-breeding notes are gone! I'm sure they're somewhere around here. They must be in the plaza somewhere.",
-  "flowerShop.noFlowers.noTrade":
-    "I'm sorry, I don't have any flowers to trade right now.",
-  "flowerShop.do.have.trade":
-    "Do you have a {{desiredFlower}} you would trade me?",
-  "flowerShop.do.have.trade.one":
-    "Do you have a {{desiredFlower}} you would be willing to trade?",
+    ENGLISH_TERMS["flowerShop.missingPages.sadly"],
+  "flowerShop.noFlowers.noTrade": ENGLISH_TERMS["flowerShop.noFlowers.noTrade"],
+  "flowerShop.do.have.trade": ENGLISH_TERMS["flowerShop.do.have.trade"],
+  "flowerShop.do.have.trade.one": ENGLISH_TERMS["flowerShop.do.have.trade.one"],
 };
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
@@ -2168,25 +2143,25 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.cabbers.mash": "卷心菜和土豆泥",
   "description.popcorn": "经典的自制脆脆小吃。",
   "description.gumbo": "一锅充满魔力！ 每一勺都是狂欢节游行！",
-  "description.rapidRoast": "For Bumpkins in a hurry...",
+  "description.rapidRoast": "对于急着赶路的乡巴佬来说……",
 
   // Kitchen
-  "description.roast.veggies": "Even Goblins need to eat their veggies!",
-  "description.bumpkin.salad": "Gotta keep your Bumpkin healthy!",
-  "description.goblins.treat": "Goblins go crazy for this stuff!",
-  "description.cauliflower.burger": "Calling all cauliflower lovers!",
-  "description.club.sandwich":
-    "Filled with Carrots and Roasted Sunflower Seeds",
-  "description.mushroom.jacket.potatoes": "Cram them taters with what ya got!",
-  "description.sunflower.crunch": "Crunchy goodness. Try not to burn it.",
-  "description.bumpkin.roast": "A traditional Bumpkin dish",
-  "description.goblin.brunch": "A traditional Goblin dish",
-  "description.fruit.salad": "Fruit Salad, Yummy Yummy",
-  "description.bumpkin.ganoush": "Zesty roasted eggplant spread.",
-  "description.chowder":
-    "Sailor's delight in a bowl! Dive in, there's treasure inside!",
-  "description.pancakes": "A great start to a Bumpkins day",
-  "description.beetrootBlaze": "A spicy beetroot-infused magic mushroom dish",
+  "description.roast.veggies": ENGLISH_TERMS["description.roast.veggies"],
+  "description.bumpkin.salad": ENGLISH_TERMS["description.bumpkin.salad"],
+  "description.goblins.treat": ENGLISH_TERMS["description.goblins.treat"],
+  "description.cauliflower.burger":
+    ENGLISH_TERMS["description.cauliflower.burger"],
+  "description.club.sandwich": ENGLISH_TERMS["description.club.sandwich"],
+  "description.mushroom.jacket.potatoes":
+    ENGLISH_TERMS["description.mushroom.jacket.potatoes"],
+  "description.sunflower.crunch": ENGLISH_TERMS["description.sunflower.crunch"],
+  "description.bumpkin.roast": ENGLISH_TERMS["description.bumpkin.roast"],
+  "description.goblin.brunch": ENGLISH_TERMS["description.goblin.brunch"],
+  "description.fruit.salad": ENGLISH_TERMS["description.fruit.salad"],
+  "description.bumpkin.ganoush": ENGLISH_TERMS["description.bumpkin.ganoush"],
+  "description.chowder": ENGLISH_TERMS["description.chowder"],
+  "description.pancakes": ENGLISH_TERMS["description.pancakes"],
+  "description.beetrootBlaze": ENGLISH_TERMS["description.beetrootBlaze"],
 
   // Bakery
   "description.apple.pie": "乡巴佬 Betty 的著名食谱",
@@ -2214,95 +2189,82 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.fancy.fries": "奇妙的薯条",
   "description.fermented.fish": "大胆的美食！每一口都能释放内心的维京战士！",
   "description.fermented.shroomSyrup":
-    "The essence of bees and enchanted fungi",
+    ENGLISH_TERMS["description.fermented.shroomSyrup"],
 
   // Smoothie Shack
-  "description.apple.juice": "A crisp refreshing beverage",
-  "description.orange.juice": "OJ matches perfectly with a Club Sandwich",
-  "description.purple.smoothie": "You can hardly taste the Cabbage",
-  "description.power.smoothie":
-    "Official drink of the Bumpkin Powerlifting Society",
-  "description.bumpkin.detox": "Wash away the sins of last night",
-  "description.banana.blast":
-    "The ultimate fruity fuel for those with a peel for power!",
+  "description.apple.juice": ENGLISH_TERMS["description.apple.juice"],
+  "description.orange.juice": ENGLISH_TERMS["description.orange.juice"],
+  "description.purple.smoothie": ENGLISH_TERMS["description.purple.smoothie"],
+  "description.power.smoothie": ENGLISH_TERMS["description.power.smoothie"],
+  "description.bumpkin.detox": ENGLISH_TERMS["description.bumpkin.detox"],
+  "description.banana.blast": ENGLISH_TERMS["description.banana.blast"],
 
   // Unused foods
-  "description.roasted.cauliflower": "A Goblin's favourite",
-  "description.radish.pie": "Despised by humans, loved by goblins",
-  "description.antipasto": "Assorted bites, perfect for sharing.",
-  "description.carrotJuice": "Refreshing juice, pressed fresh by bumpkins.",
-  "description.fishBasket": "Oceanic flavors, sourced by goblins.",
-  "description.fishBurger": "Succulent burger, loved by seaside adventurers.",
-  "description.fishnChips": "Classic seaside meal, loved by all.",
-  "description.fishOmelette":
-    "Flavorful omelette, filled with oceanic treasures.",
-  "description.friedCalamari": "Crispy calamari rings, a delicious indulgence.",
-  "description.friedTofu": "Golden fried tofu, crafted with care.",
-  "description.grapeJuice": "Sweet and tangy juice, freshly squeezed.",
-  "description.oceansOlive":
-    "Delightful oceanic dish, a true Sunflorian delicacy.",
-  "description.quickJuice": "Quick energy boost, a Goblin favourite.",
-  "description.riceBun": "Soft and fluffy rice bun, a favorite.",
-  "description.slowJuice": "Nutrient-rich juice, handcrafted by bumpkins.",
-  "description.steamedRedRice":
-    "Perfectly steamed red rice, a bumpkin's delight.",
-  "description.sushirRoll": "Delicious sushi roll, skillfully prepared.",
-  "description.theLot": "Flavorful fruit blend, refreshing and nutritious.",
-  "description.tofuScramble":
-    "Hearty scramble, packed with protein and flavor.",
+  "description.roasted.cauliflower":
+    ENGLISH_TERMS["description.roasted.cauliflower"],
+  "description.radish.pie": ENGLISH_TERMS["description.radish.pie"],
+  "description.antipasto": ENGLISH_TERMS["description.antipasto"],
+  "description.carrotJuice": ENGLISH_TERMS["description.carrotJuice"],
+  "description.fishBasket": ENGLISH_TERMS["description.fishBasket"],
+  "description.fishBurger": ENGLISH_TERMS["description.fishBurger"],
+  "description.fishnChips": ENGLISH_TERMS["description.fishnChips"],
+  "description.fishOmelette": ENGLISH_TERMS["description.fishOmelette"],
+  "description.friedCalamari": ENGLISH_TERMS["description.friedCalamari"],
+  "description.friedTofu": ENGLISH_TERMS["description.friedTofu"],
+  "description.grapeJuice": ENGLISH_TERMS["description.grapeJuice"],
+  "description.oceansOlive": ENGLISH_TERMS["description.oceansOlive"],
+  "description.quickJuice": ENGLISH_TERMS["description.quickJuice"],
+  "description.riceBun": ENGLISH_TERMS["description.riceBun"],
+  "description.slowJuice": ENGLISH_TERMS["description.slowJuice"],
+  "description.steamedRedRice": ENGLISH_TERMS["description.steamedRedRice"],
+  "description.sushiRoll": ENGLISH_TERMS["description.sushiRoll"],
+  "description.theLot": ENGLISH_TERMS["description.theLot"],
+  "description.tofuScramble": ENGLISH_TERMS["description.tofuScramble"],
 };
 
 const gameDescriptions: Record<GameDescriptions, string> = {
   // Quest Items
-  "description.goblin.key": "The Goblin Key",
-  "description.sunflower.key": "The Sunflower Key",
-  "description.ancient.goblin.sword": "An Ancient Goblin Sword",
-  "description.ancient.human.warhammer": "An Ancient Human Warhammer",
+  "description.goblin.key": ENGLISH_TERMS["description.goblin.key"],
+  "description.sunflower.key": ENGLISH_TERMS["description.sunflower.key"],
+  "description.ancient.goblin.sword":
+    ENGLISH_TERMS["description.ancient.goblin.sword"],
+  "description.ancient.human.warhammer":
+    ENGLISH_TERMS["description.ancient.human.warhammer"],
 
   // Coupons
-  "description.community.coin":
-    "A valued coin that can be exchanged for rewards",
-  "description.bud.seedling": "A seedling to be exchanged for a free Bud NFT",
-  "description.gold.pass":
-    "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
-  "description.rapid.growth": "Apply to a crop to grow twice as fast",
-  "description.bud.ticket":
-    "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
-  "description.potion.ticket":
-    "A reward from the Potion House. Use this to buy items from Garth.",
-  "description.trading.ticket": "Free Trades! Woohoo!",
-  "description.block.buck": "A valuable token in Sunflower Land!",
-  "description.beta.pass": "Gain early access to features for testing.",
-  "description.war.bond": "A mark of a true warrior",
-  "description.allegiance": "A display of allegiance",
-  "description.jack.o.lantern": "A Halloween special event item",
-  "description.golden.crop": "A shiny golden crop",
-  "description.red.envelope": "Wow, you are lucky!",
-  "description.love.letter": "Convey feelings of love",
+  "description.community.coin": ENGLISH_TERMS["description.community.coin"],
+  "description.bud.seedling": ENGLISH_TERMS["description.bud.seedling"],
+  "description.gold.pass": ENGLISH_TERMS["description.gold.pass"],
+  "description.rapid.growth": ENGLISH_TERMS["description.rapid.growth"],
+  "description.bud.ticket": ENGLISH_TERMS["description.bud.ticket"],
+  "description.potion.ticket": ENGLISH_TERMS["description.potion.ticket"],
+  "description.trading.ticket": ENGLISH_TERMS["description.trading.ticket"],
+  "description.block.buck": ENGLISH_TERMS["description.block.buck"],
+  "description.beta.pass": ENGLISH_TERMS["description.beta.pass"],
+  "description.war.bond": ENGLISH_TERMS["description.war.bond"],
+  "description.allegiance": ENGLISH_TERMS["description.allegiance"],
+  "description.jack.o.lantern": ENGLISH_TERMS["description.jack.o.lantern"],
+  "description.golden.crop": ENGLISH_TERMS["description.golden.crop"],
+  "description.red.envelope": ENGLISH_TERMS["description.red.envelope"],
+  "description.love.letter": ENGLISH_TERMS["description.love.letter"],
   "description.solar.flare.ticket":
-    "A ticket used during the Solar Flare Season",
+    ENGLISH_TERMS["description.solar.flare.ticket"],
   "description.dawn.breaker.ticket":
-    "A ticket used during the Dawn Breaker Season",
-  "description.crow.feather":
-    "A ticket used during the Witches' Eve Ticket Season",
-  "description.mermaid.scale":
-    "A ticket used during the Catch the Kraken Season",
+    ENGLISH_TERMS["description.dawn.breaker.ticket"],
+  "description.crow.feather": ENGLISH_TERMS["description.crow.feather"],
+  "description.mermaid.scale": ENGLISH_TERMS["description.mermaid.scale"],
   "description.sunflower.supporter":
-    "The mark of a true supporter of the game!",
-  "description.arcade.coin":
-    "A token earned from mini-games and adventures. Can be exchanged for rewards.",
-  "description.farmhand.coupon":
-    "A coupon to exchange for a farm hand of your choice.",
-  "description.farmhand": "An adopted Bumpkin on your farm",
-  "description.tulip.bulb": "A ticket used during the Spring Blossom",
-  "description.treasure.key": "Visit the plaza to unlock your reward",
-  "description.rare.key": "Visit the beach to unlock your reward",
-  "description.luxury.key":
-    "Visit the plaza near woodlands to unlock your reward",
-  "description.prizeTicket": "A ticket to enter the prize giveaways",
-  "description.babyPanda":
-    "A cute panda from the Gas Hero event. Double experience for beginners during March.",
-  "description.baozi": "A delicious treat from the Lunar New Year event.",
+    ENGLISH_TERMS["description.sunflower.supporter"],
+  "description.arcade.coin": ENGLISH_TERMS["description.arcade.coin"],
+  "description.farmhand.coupon": ENGLISH_TERMS["description.farmhand.coupon"],
+  "description.farmhand": ENGLISH_TERMS["description.farmhand"],
+  "description.tulip.bulb": ENGLISH_TERMS["description.tulip.bulb"],
+  "description.treasure.key": ENGLISH_TERMS["description.treasure.key"],
+  "description.rare.key": ENGLISH_TERMS["description.rare.key"],
+  "description.luxury.key": ENGLISH_TERMS["description.luxury.key"],
+  "description.prizeTicket": ENGLISH_TERMS["description.prizeTicket"],
+  "description.babyPanda": ENGLISH_TERMS["description.babyPanda"],
+  "description.baozi": ENGLISH_TERMS["description.baozi"],
 
   // Easter Items
   "description.egg.basket": "复活节活动",
@@ -2319,29 +2281,29 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   //Home
   "description.homeOwnerPainting": "这个家的主人画像。",
-  "description.scroll": "A ticket used during the Clash of Factions Season",
+  "description.scroll": ENGLISH_TERMS["description.scroll"],
 };
 
 const gameTerms: Record<GameTerms, string> = {
-  "auction.winner": "Auction Winner!",
-  "bumpkin.level": "Bumpkin level",
-  bumpkinBuzz: "Bumpkin Buzz",
-  dailyLim: "Daily SFL Limit",
-  "farm.banned": "This farm is banned",
-  gobSwarm: "Goblin Swarm!",
-  "granting.wish": "Granting your wish",
-  "new.delivery.in": "新交付可用于：",
-  "no.sfl": "No SFL tokens found",
-  opensea: "OpenSea",
-  polygonscan: "PolygonScan",
-  potions: "Potions",
-  "proof.of.humanity": "Proof of Humanity",
-  sflDiscord: "Sunflower Land Discord Server",
-  "in.progress": "In Progress",
-  "compost.complete": "Compost complete",
-  "aoe.locked": "AOE Locked",
-  sunflowerLandCodex: "Sunflower Land Codex",
-  "new.delivery.levelup": "Level up to unlock more deliveries.",
+  "auction.winner": ENGLISH_TERMS["auction.winner"],
+  "bumpkin.level": ENGLISH_TERMS["bumpkin.level"],
+  bumpkinBuzz: ENGLISH_TERMS["bumpkinBuzz"],
+  dailyLim: ENGLISH_TERMS["dailyLim"],
+  "farm.banned": ENGLISH_TERMS["farm.banned"],
+  gobSwarm: ENGLISH_TERMS["gobSwarm"],
+  "granting.wish": ENGLISH_TERMS["granting.wish"],
+  "new.delivery.in": ENGLISH_TERMS["new.delivery.in"],
+  "no.sfl": ENGLISH_TERMS["no.sfl"],
+  opensea: ENGLISH_TERMS["opensea"],
+  polygonscan: ENGLISH_TERMS["polygonscan"],
+  potions: ENGLISH_TERMS["potions"],
+  "proof.of.humanity": ENGLISH_TERMS["proof.of.humanity"],
+  sflDiscord: ENGLISH_TERMS["sflDiscord"],
+  "in.progress": ENGLISH_TERMS["in.progress"],
+  "compost.complete": ENGLISH_TERMS["compost.complete"],
+  "aoe.locked": ENGLISH_TERMS["aoe.locked"],
+  sunflowerLandCodex: ENGLISH_TERMS["sunflowerLandCodex"],
+  "new.delivery.levelup": ENGLISH_TERMS["new.delivery.levelup"],
   "harvest.number": ENGLISH_TERMS["harvest.number"],
   "level.number": ENGLISH_TERMS["level.number"],
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
@@ -2358,16 +2320,14 @@ const genieLamp: Record<GenieLamp, string> = {
 };
 
 const getContent: Record<GetContent, string> = {
-  "getContent.error": "Error!",
-  "getContent.joining": "Joining",
-  "getContent.accessGranted":
-    "You now have access. Go check out the channel in Discord",
-  "getContent.connectToDiscord":
-    "You must be connected to Discord to join a restricted channel.",
-  "getContent.connect": "Connect",
-  "getContent.getAccess": "Get access to restricted groups on Discord",
-  "getContent.requires": "Requires",
-  "getContent.join": "Join",
+  "getContent.error": ENGLISH_TERMS["getContent.error"],
+  "getContent.joining": ENGLISH_TERMS["getContent.joining"],
+  "getContent.accessGranted": ENGLISH_TERMS["getContent.accessGranted"],
+  "getContent.connectToDiscord": ENGLISH_TERMS["getContent.connectToDiscord"],
+  "getContent.connect": ENGLISH_TERMS["getContent.connect"],
+  "getContent.getAccess": ENGLISH_TERMS["getContent.getAccess"],
+  "getContent.requires": ENGLISH_TERMS["getContent.requires"],
+  "getContent.join": ENGLISH_TERMS["getContent.join"],
 };
 
 const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
@@ -2390,20 +2350,17 @@ const goblin_messages: Record<GOBLIN_MESSAGES, string> = {
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
-  "goblinTrade.bulk": "Bulk Amount",
-  "goblinTrade.conversion": "Conversion",
-  "goblinTrade.select": "Select resource to sell",
-  "goblinTrade.hoarding": "Oh no! You've reached the max SFL.",
-  "goblinTrade.vipRequired": "VIP Access Required",
-  "goblinTrade.vipDelivery":
-    "Hmmm, looks like you are a basic Bumpkin. I only trade with VIPs.",
+  "goblinTrade.bulk": ENGLISH_TERMS["goblinTrade.bulk"],
+  "goblinTrade.conversion": ENGLISH_TERMS["goblinTrade.conversion"],
+  "goblinTrade.select": ENGLISH_TERMS["goblinTrade.select"],
+  "goblinTrade.hoarding": ENGLISH_TERMS["goblinTrade.hoarding"],
+  "goblinTrade.vipRequired": ENGLISH_TERMS["goblinTrade.vipRequired"],
+  "goblinTrade.vipDelivery": ENGLISH_TERMS["goblinTrade.vipDelivery"],
 };
 
 const goldTooth: Record<GoldTooth, string> = {
-  "goldTooth.intro.part1":
-    "Arrr, me hearties! The treasure-diggin' area be teemin' with wealth and adventure, and it be openin' its gates soon for ye daring farmers!",
-  "goldTooth.intro.part2":
-    "Be ready to join me crew, for the hunt for riches begins shortly!",
+  "goldTooth.intro.part1": ENGLISH_TERMS["goldTooth.intro.part1"],
+  "goldTooth.intro.part2": ENGLISH_TERMS["goldTooth.intro.part2"],
 };
 
 const guideCompost: Record<GuideCompost, string> = {
@@ -2432,123 +2389,90 @@ const guideTerms: Record<GuideTerms, string> = {
     "在 Sunflower Land，庄稼在你通往繁荣之路上扮演着至关重要的角色。通过种植和收获庄稼，你可以赚取向日葵币(SFL)或利用它们在游戏内制作有价值的配方和物品。",
   "crops.guide.two":
     "要种植庄稼，你需要从游戏商店购买相应的种子。每种农作物的生长时间都不同，从向日葵的1分钟到羽衣甘蓝的36小时不等。一旦庄稼完全成熟，你就可以收获它们并获得奖励。",
-  "crops.guide.three":
-    "Remember, as you expand your land and progress in the game, more crops will become available, offering greater opportunities for earning SFL and exploring the vast potential of Sunflower Land's farming economy. So get your hands dirty, plant those seeds, and watch your crops flourish as you harvest your way to success!",
+  "crops.guide.three": ENGLISH_TERMS["crops.guide.three"],
+  "building.guide.one": ENGLISH_TERMS["building.guide.one"],
+  "building.guide.two": ENGLISH_TERMS["building.guide.two"],
+  "cooking.guide.one": ENGLISH_TERMS["cooking.guide.one"],
+  "cooking.guide.two": ENGLISH_TERMS["cooking.guide.two"],
+  "cooking.guide.three": ENGLISH_TERMS["cooking.guide.three"],
+  "cooking.guide.four": ENGLISH_TERMS["cooking.guide.four"],
+  "cooking.guide.five": ENGLISH_TERMS["cooking.guide.five"],
 
-  "building.guide.one":
-    "Explore the diverse range of buildings available as you progress in Sunflower Land. From hen houses to workshops and beyond, each structure brings unique advantages to your farm. Take advantage of these buildings to streamline your farming operations, increase productivity, and unlock new possibilities. Plan your layout carefully and enjoy the rewards that come with constructing a thriving farm in Sunflower Land.",
-  "building.guide.two":
-    "In Sunflower Land, buildings are the cornerstone of your farming journey. To access the buildings menu, click the Inventory icon and select the Buildings tab. Choose the desired structure and return to your farm screen. Find an open space, marked in green, and confirm the placement. Wait for the timer to complete, and your new building will be ready to use. Buildings provide various benefits and unlock exciting gameplay features. Strategically position them on your farm to maximize efficiency and watch as your farming empire grows and prospers.",
+  "animals.guide.one": ENGLISH_TERMS["animals.guide.one"],
+  "animals.guide.two": ENGLISH_TERMS["animals.guide.two"],
+  "animals.guide.three": ENGLISH_TERMS["animals.guide.three"],
+  "crafting.guide.one": ENGLISH_TERMS["crafting.guide.one"],
+  "crafting.guide.two": ENGLISH_TERMS["crafting.guide.two"],
+  "crafting.guide.three": ENGLISH_TERMS["crafting.guide.three"],
+  "crafting.guide.four": ENGLISH_TERMS["crafting.guide.four"],
+  "deliveries.guide.one": ENGLISH_TERMS["deliveries.guide.one"],
+  "deliveries.guide.two": ENGLISH_TERMS["deliveries.guide.two"],
 
-  "cooking.guide.one":
-    "Cooking allows you to nourish your Bumpkin and help them gain valuable experience points (XP). By utilizing the crops you've harvested, you can prepare delicious food at different buildings dedicated to cooking.",
-  "cooking.guide.two":
-    "Starting with the Fire Pit, every farm has access to basic cooking facilities from the beginning. However, as you progress, you can unlock more advanced buildings such as the Kitchen, Bakery, Deli, and Smoothie Shack, each offering a wider variety of recipes and culinary delights.",
-  "cooking.guide.three":
-    "To cook, simply select a building and choose a recipe you wish to prepare. The recipe will provide details about the required ingredients, the XP gained upon consumption, and the preparation time. After initiating the cooking process, keep an eye on the timer to know when the food will be ready to collect.",
-  "cooking.guide.four":
-    "Once the food is ready, retrieve it from the building by clicking on it and moving it into your inventory. From there, you can interact with your Bumpkin NPC on the farm and feed them the prepared food, helping them gain XP and progress further in the game.",
-  "cooking.guide.five":
-    "Experiment with different recipes, unlock new buildings, and discover the joy of cooking as you nurture your Bumpkin and embark on a delicious culinary adventure in Sunflower Land.",
-
-  "animals.guide.one":
-    "Chickens in Sunflower Land are a delightful addition to your farm, serving as a source of eggs that can be used in various recipes and crafting. To start with chickens, you'll need to reach Bumpkin level 9 and build the Hen House. From there, you have the option to purchase chickens or place the ones you already have. Simply drag and drop them onto your farm, just like placing buildings. On a standard farm, every Hen House houses up to 10 chickens, and if you own the Chicken Coop SFT, this limit extends to 15.",
-  "animals.guide.two":
-    "Each chicken has an indicator above its head, displaying its current mood or needs. This can range from being hungry, tired, happy, or ready to hatch. To keep your chickens content and productive, feed them by selecting wheat from your inventory and interacting with the chicken. Feeding initiates the egg timer, which takes 48 hours for the eggs to be ready to hatch. Once the eggs are ready, visit your farm, check the icon above each chicken, and interact with them to find out the type of egg that has hatched. Occasionally, you may even discover rare mutant chickens, which offer special boosts such as faster egg production, increased yield, or reduced food consumption.",
-  "animals.guide.three":
-    "Nurturing your chickens and collecting their eggs adds a dynamic and rewarding element to your farm in Sunflower Land. Experiment with recipes, make use of the eggs in your crafting endeavors, and enjoy the surprises that come with rare mutant chickens. Build a thriving poultry operation and reap the benefits of your hard work as you embrace the charming world of chickens in Sunflower Land.",
-
-  "crafting.guide.one":
-    "In Sunflower Land, crafting NFTs is a crucial aspect of boosting your farming output and accelerating your progress. These special items provide various bonuses, such as crop growth boosts, cooking enhancements, and resource boosts, which can greatly expedite your journey. By maximizing your SFL (Sunflower Token:  you can craft tools, gather resources, and expand your land to further establish your farming empire.",
-  "crafting.guide.two":
-    "To begin crafting items, we'll visit Igor, a skilled craftsman in Sunfloria. After hopping on the boat and arriving at Sunfloria, head to the top of the island to have a conversation with Igor. He is currently offering a Basic Scarecrow, which boosts the speed of Sunflowers, Potatoes, and Pumpkins. This is an excellent deal that requires exchanging your resources for the scarecrow. Once obtained, return to your main island and enter design mode by clicking on the white hand icon in the top right corner of the game.",
-  "crafting.guide.three":
-    "In design mode, you can strategically place items and rearrange resources on your farm to optimize its layout and enhance its visual appeal. This step is crucial in maximizing the effectiveness of your crafted equipment. For example, place the Scarecrow over the plots you want to boost. Additionally, consider purchasing decorations to add charm and tidiness to your land.",
-  "crafting.guide.four":
-    "By crafting equipment and placing it strategically, you can amplify your farming abilities, create an island home to be proud of, and accelerate your progress in Sunflower Land.",
-
-  "deliveries.guide.one":
-    "Deliveries in Sunflower Land provide an exciting opportunity to help hungry Goblins and fellow Bumpkins while earning rewards. Every day you will be able to see all the orders you have by clicking on the delivery board on the bottom left of the screen. The orders have been placed by some local NPCs that can be found hanging around Pumpkin Plaza. To fulfill an order, you will need to take a boat ride to Pumpkin Plaza and look for the NPC expecting the delivery. Once you find them, click on them to deliver the order and receive your reward.",
-  "deliveries.guide.two":
-    "As a new player, you start with three order slots, but as you expand your farm, you will unlock additional slots, allowing advanced players to take on more orders. New orders come in every 24 hours, offering a range of tasks from farming produce to cooking food and gathering resources. Completing orders will earn you milestone bonuses, including Block Bucks, SFL, delicious cakes, and other rewards. The reward system is based on the difficulty of the request, so consider prioritizing orders that offer greater rewards to maximize your gains. Keep an eye on the board and challenge yourself with a variety of orders, leveling up and unlocking new buildings as needed to fulfill more demanding requests.",
-
-  "scavenger.guide.one":
-    "Scavenging in Sunflower Land offers exciting opportunities to uncover hidden treasures and gather valuable resources. The first aspect of scavenging is digging for treasure on Treasure Island, where you can become a pirate treasure hunter. By crafting a sand shovel and venturing to Treasure Island, you can dig in dark sandy areas to uncover a variety of treasures, including bounty, decorations, and even ancient SFTs with utility.",
-  "scavenger.guide.two":
-    "Another form of scavenging involves gathering wild mushrooms that appear spontaneously on your farm and surrounding islands. These mushrooms can be collected for free and used in recipes, quests, and crafting items. Keep an eye out for these mushrooms, as they replenish every 16 hours, with a maximum limit of 5 mushrooms on your farm. If your land is full, mushrooms will appear on the surrounding islands, ensuring you don't miss out on these valuable resources.",
-
-  "fruit.guide.one":
-    "Fruit plays a significant role in Sunflower Land as a valuable resource that can be sold for SFL or utilized in various recipes and crafting. Unlike crops, fruit patches have the unique ability to replenish multiple times after each harvest, providing a sustainable source of fruit for players.",
-  "fruit.guide.two":
-    "To plant fruit, you'll need to acquire larger fruit patches, which become available on the 9-10th expansion of your farm.",
-  "fruit.guide.three":
-    "By cultivating fruit and incorporating it into your farming strategies, you can maximize your profits, create delicious recipes, and unlock new possibilities in Sunflower Land.",
-
-  "seasons.guide.one":
-    "Seasons in Sunflower Land bring excitement and freshness to the game, offering players new challenges and opportunities. With the introduction of each season, players can look forward to a variety of new craftable items, limited edition decorations, mutant animals, and rare treasures. These seasonal changes create a dynamic and evolving gameplay experience, encouraging players to adapt their strategies and explore new possibilities on their farms. Additionally, seasonal tickets add a strategic element to the game, as players must decide how to allocate their tickets wisely, whether it's collecting rare items, opting for higher supply decorations, or exchanging tickets for SFL. The seasonal mechanic keeps the game engaging and ensures that there's always something to look forward to in Sunflower Land.",
-  "seasons.guide.two":
-    "The availability of seasonal items at the Goblin Blacksmith adds another layer of excitement. Players must gather the required resources and seasonal tickets to craft these limited-supply items, creating a sense of competition and urgency. Planning ahead and strategizing become crucial as players aim to secure their desired items before the supply runs out. Moreover, the option to swap seasonal tickets for SFL provides flexibility and allows players to make choices that align with their specific gameplay goals. With each season's unique offerings and the anticipation of surprise events, Sunflower Land keeps players engaged and entertained throughout the year, fostering a vibrant and ever-evolving farming experience.",
-  "pete.teaser.one": "Chop the trees",
-  "pete.teaser.three": "Harvest the Sunflowers",
-  "pete.teaser.four": "Sell the Sunflowers",
-  "pete.teaser.five": "Buy Seeds",
-  "pete.teaser.six": "Plant Seeds",
-  "pete.teaser.seven": "Craft a Scarecrow",
-  "pete.teaser.eight": "Cook food and level up",
-
-  "deliveries.intro":
-    "Travel to different islands and deliver goods to earn rewards.",
-  "deliveries.new": "New delivery",
-  "chores.intro":
-    "Complete tasks around the farm to earn rewards from Bumpkins.",
+  "scavenger.guide.one": ENGLISH_TERMS["scavenger.guide.one"],
+  "scavenger.guide.two": ENGLISH_TERMS["scavenger.guide.two"],
+  "fruit.guide.one": ENGLISH_TERMS["fruit.guide.one"],
+  "fruit.guide.two": ENGLISH_TERMS["fruit.guide.two"],
+  "fruit.guide.three": ENGLISH_TERMS["fruit.guide.three"],
+  "seasons.guide.one": ENGLISH_TERMS["seasons.guide.one"],
+  "seasons.guide.two": ENGLISH_TERMS["seasons.guide.two"],
+  "pete.teaser.one": ENGLISH_TERMS["pete.teaser.one"],
+  "pete.teaser.three": ENGLISH_TERMS["pete.teaser.three"],
+  "pete.teaser.four": ENGLISH_TERMS["pete.teaser.four"],
+  "pete.teaser.five": ENGLISH_TERMS["pete.teaser.five"],
+  "pete.teaser.six": ENGLISH_TERMS["pete.teaser.six"],
+  "pete.teaser.seven": ENGLISH_TERMS["pete.teaser.seven"],
+  "pete.teaser.eight": ENGLISH_TERMS["pete.teaser.eight"],
+  "deliveries.intro": ENGLISH_TERMS["deliveries.intro"],
+  "deliveries.new": ENGLISH_TERMS["deliveries.new"],
+  "chores.intro": ENGLISH_TERMS["chores.intro"],
 };
 
 const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching": "The Halvening is Approaching!",
+  "halveningCountdown.approaching":
+    ENGLISH_TERMS["halveningCountdown.approaching"],
   "halveningCountdown.description":
-    "At the Halvening, all prices of crops & certain resources are halved. This makes it more difficult to attain SFL.",
-  "halveningCountdown.preparation": "Make sure you are prepared!",
-  "halveningCountdown.title": "Halvening",
+    ENGLISH_TERMS["halveningCountdown.description"],
+  "halveningCountdown.preparation":
+    ENGLISH_TERMS["halveningCountdown.preparation"],
+  "halveningCountdown.title": ENGLISH_TERMS["halveningCountdown.title"],
 };
 
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
-  "harvestBeeHive.notPlaced": "This beehive is not placed.",
-  "harvestBeeHive.noHoney": "This beehive has no honey.",
+  "harvestBeeHive.notPlaced": ENGLISH_TERMS["harvestBeeHive.notPlaced"],
+  "harvestBeeHive.noHoney": ENGLISH_TERMS["harvestBeeHive.noHoney"],
 };
 
 const harvestflower: Record<Harvestflower, string> = {
-  "harvestflower.noFlowerBed": "Flower bed does not exist",
-  "harvestflower.noFlower": "Flower bed does not have a flower",
-  "harvestflower.notReady": "Flower is not ready to harvest",
-  "harvestflower.alr.plant": "Flower is already planted",
+  "harvestflower.noFlowerBed": ENGLISH_TERMS["harvestflower.noFlowerBed"],
+  "harvestflower.noFlower": ENGLISH_TERMS["harvestflower.noFlower"],
+  "harvestflower.notReady": ENGLISH_TERMS["harvestflower.notReady"],
+  "harvestflower.alr.plant": ENGLISH_TERMS["harvestflower.alr.plant"],
 };
 
 const hayseedHankPlaza: Record<HayseedHankPlaza, string> = {
-  "hayseedHankPlaza.cannotCompleteChore": "Cannot complete this chore?",
-  "hayseedHankPlaza.skipChore": "Skip chore",
-  "hayseedHankPlaza.canSkipIn": "You can skip this chore in",
-  "hayseedHankPlaza.wellDone": "Well done",
-  "hayseedHankPlaza.lendAHand": "Lend a hand?",
+  "hayseedHankPlaza.cannotCompleteChore":
+    ENGLISH_TERMS["hayseedHankPlaza.cannotCompleteChore"],
+  "hayseedHankPlaza.skipChore": ENGLISH_TERMS["hayseedHankPlaza.skipChore"],
+  "hayseedHankPlaza.canSkipIn": ENGLISH_TERMS["hayseedHankPlaza.canSkipIn"],
+  "hayseedHankPlaza.wellDone": ENGLISH_TERMS["hayseedHankPlaza.wellDone"],
+  "hayseedHankPlaza.lendAHand": ENGLISH_TERMS["hayseedHankPlaza.lendAHand"],
 };
 
 const hayseedHankV2: Record<HayseedHankV2, string> = {
-  "hayseedHankv2.dialog1":
-    "Well, howdy there, young whippersnappers! I'm Hayseed Hank, a seasoned ol' Bumpkin farmer, tending to the land like in the good ol' days.",
-  "hayseedHankv2.dialog2":
-    "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with ",
-  "hayseedHankv2.action": "Let's do it",
-  "hayseedHankv2.title": "Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores available in ",
-  "hayseedHankv2.skipChores": "You can skip chores each new day.",
-  "hayseedHankv2.greeting":
-    "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
+  "hayseedHankv2.dialog1": ENGLISH_TERMS["hayseedHankv2.dialog1"],
+  "hayseedHankv2.dialog2": ENGLISH_TERMS["hayseedHankv2.dialog2"],
+  "hayseedHankv2.action": ENGLISH_TERMS["hayseedHankv2.action"],
+  "hayseedHankv2.title": ENGLISH_TERMS["hayseedHankv2.title"],
+  "hayseedHankv2.newChoresAvailable":
+    ENGLISH_TERMS["hayseedHankv2.newChoresAvailable"],
+  "hayseedHankv2.skipChores": ENGLISH_TERMS["hayseedHankv2.skipChores"],
+  "hayseedHankv2.greeting": ENGLISH_TERMS["hayseedHankv2.greeting"],
 };
 
 const heliosSunflower: Record<HeliosSunflower, string> = {
-  "heliosSunflower.title": "Clytie the Sunflower",
-  "heliosSunflower.description":
-    "Only the true saviour can return and harvest this Sunflower.",
-  "confirmation.craft": "Are you sure you want to craft",
+  "heliosSunflower.title": ENGLISH_TERMS["heliosSunflower.title"],
+  "heliosSunflower.description": ENGLISH_TERMS["heliosSunflower.description"],
+  "confirmation.craft": ENGLISH_TERMS["confirmation.craft"],
 };
 
 const helper: Record<Helper, string> = {
@@ -2571,170 +2495,170 @@ const helper: Record<Helper, string> = {
 };
 
 const henHouseTerms: Record<HenHouseTerms, string> = {
-  "henHouse.chickens": "Chickens",
-  "henHouse.text.one": "Feed wheat and collect eggs",
-  "henHouse.text.two": "Lazy Chicken",
-  "henHouse.text.three": "Put your chicken to work to start collecting eggs!",
-  "henHouse.text.four": "Working Chicken",
-  "henHouse.text.five": "Already placed and working hard!",
-  "henHouse.text.six": "Build an extra Hen House to farm more chickens",
+  "henHouse.chickens": ENGLISH_TERMS["henHouse.chickens"],
+  "henHouse.text.one": ENGLISH_TERMS["henHouse.text.one"],
+  "henHouse.text.two": ENGLISH_TERMS["henHouse.text.two"],
+  "henHouse.text.three": ENGLISH_TERMS["henHouse.text.three"],
+  "henHouse.text.four": ENGLISH_TERMS["henHouse.text.four"],
+  "henHouse.text.five": ENGLISH_TERMS["henHouse.text.five"],
+  "henHouse.text.six": ENGLISH_TERMS["henHouse.text.six"],
 };
 
 const howToFarm: Record<HowToFarm, string> = {
-  "howToFarm.title": "How to Farm?",
-  "howToFarm.stepOne": "1.Harvest crops when they are ready",
-  "howToFarm.stepTwo": "2.Visit the town & click on the shop",
-  "howToFarm.stepThree": "3.Sell crops at the shop for SFL",
-  "howToFarm.stepFour": "4.Buy seeds using your SFL",
-  "howToFarm.stepFive": "5. Plant seeds and wait",
+  "howToFarm.title": ENGLISH_TERMS["howToFarm.title"],
+  "howToFarm.stepOne": ENGLISH_TERMS["howToFarm.stepOne"],
+  "howToFarm.stepTwo": ENGLISH_TERMS["howToFarm.stepTwo"],
+  "howToFarm.stepThree": ENGLISH_TERMS["howToFarm.stepThree"],
+  "howToFarm.stepFour": ENGLISH_TERMS["howToFarm.stepFour"],
+  "howToFarm.stepFive": ENGLISH_TERMS["howToFarm.stepFive"],
 };
 
 const howToSync: Record<HowToSync, string> = {
-  "howToSync.title": "How to sync?",
-  "howToSync.description":
-    "All of your progress is saved on our game server. You will need to sync on chain when you want to move your tokens, NFTs and resources onto Polygon.",
-  "howToSync.stepOne": "1. Open the menu",
-  "howToSync.stepTwo": "2. Click 'Sync on chain'",
+  "howToSync.title": ENGLISH_TERMS["howToSync.title"],
+  "howToSync.description": ENGLISH_TERMS["howToSync.description"],
+  "howToSync.stepOne": ENGLISH_TERMS["howToSync.stepOne"],
+  "howToSync.stepTwo": ENGLISH_TERMS["howToSync.stepTwo"],
 };
 
 const howToUpgrade: Record<HowToUpgrade, string> = {
-  "howToUpgrade.title": "How to upgrade?",
-  "howToUpgrade.stepOne": "1. Talk to a Goblin blocking the fields",
-  "howToUpgrade.stepTwo": "2.Visit the town & click on the kitchen",
-  "howToUpgrade.stepThree": "3. Craft the food that the goblin wants",
-  "howToUpgrade.stepFour": "4. Voila! Enjoy your new fields and crops",
+  "howToUpgrade.title": ENGLISH_TERMS["howToUpgrade.title"],
+  "howToUpgrade.stepOne": ENGLISH_TERMS["howToUpgrade.stepOne"],
+  "howToUpgrade.stepTwo": ENGLISH_TERMS["howToUpgrade.stepTwo"],
+  "howToUpgrade.stepThree": ENGLISH_TERMS["howToUpgrade.stepThree"],
+  "howToUpgrade.stepFour": ENGLISH_TERMS["howToUpgrade.stepFour"],
 };
 
 const interactableModals: Record<InteractableModals, string> = {
-  "interactableModals.returnhome.message": "Would you like to return home?",
+  "interactableModals.returnhome.message":
+    ENGLISH_TERMS["interactableModals.returnhome.message"],
   "interactableModals.fatChicken.message":
-    "Why won't these Bumpkins leave me alone, I just want to relax.",
-  "interactableModals.lazyBud.message": "Eeeep! So tired.....",
+    ENGLISH_TERMS["interactableModals.fatChicken.message"],
+  "interactableModals.lazyBud.message":
+    ENGLISH_TERMS["interactableModals.lazyBud.message"],
   "interactableModals.bud.message":
-    "Hmmm, I better leave that bud alone. I'm sure it's owner is looking for it",
+    ENGLISH_TERMS["interactableModals.bud.message"],
   "interactableModals.walrus.message":
-    "Arrr arr arrr! The fish shop ain't open 'til I get my fish.",
+    ENGLISH_TERMS["interactableModals.walrus.message"],
   "interactableModals.plazaBlueBook.message1":
-    "To summon the seekers, we must gather the essence of the land - pumpkins, nurtured by the earth, and eggs, the promise of new beginnings. ",
+    ENGLISH_TERMS["interactableModals.plazaBlueBook.message1"],
   "interactableModals.plazaBlueBook.message2":
-    "As dusk falls and the moon casts its silvery glow, we offer our humble gifts, hoping to awaken their watchful eyes once more.",
+    ENGLISH_TERMS["interactableModals.plazaBlueBook.message2"],
   "interactableModals.plazaOrangeBook.message1":
-    "Our brave defenders fought valiantly, but alas, we lost the great war, and the Moonseekers drove us from our homeland. Yet, we hold onto hope, for one day we shall reclaim what was once ours.",
+    ENGLISH_TERMS["interactableModals.plazaOrangeBook.message1"],
   "interactableModals.plazaOrangeBook.message2":
-    "Until then, we will keep Sunflower Land alive in our hearts and dreams, waiting for the day of our triumphant return",
+    ENGLISH_TERMS["interactableModals.plazaOrangeBook.message2"],
   "interactableModals.beachGreenBook.message1":
-    "When you're after those coveted Red Snappers, try an unexpected twist",
+    ENGLISH_TERMS["interactableModals.beachGreenBook.message1"],
   "interactableModals.beachGreenBook.message2":
-    "Use Apples with Red Wiggler Bait, and watch those crimson beauties practically leap into your net.",
+    ENGLISH_TERMS["interactableModals.beachGreenBook.message2"],
   "interactableModals.beachBlueBook.message1":
-    "Don't tell Shelly, but I've been trying to bring Saw Sharks to the beach!",
+    ENGLISH_TERMS["interactableModals.beachBlueBook.message1"],
   "interactableModals.beachBlueBook.message2":
-    "I've been experimenting with different chums lately, but the only one that seems to work is Red Snapper.",
+    ENGLISH_TERMS["interactableModals.beachBlueBook.message2"],
   "interactableModals.beachBlueBook.message3":
-    "These oceanic hunters can smell a Red Snapper feast from miles away, so don't be surprised if they come charging. ",
+    ENGLISH_TERMS["interactableModals.beachBlueBook.message3"],
   "interactableModals.beachOrangeBook.message1":
-    "A radiant fin appeared on the surface, I couldn't believe my eyes!",
+    ENGLISH_TERMS["interactableModals.beachOrangeBook.message1"],
   "interactableModals.beachOrangeBook.message2":
-    "Luckily Tango was with me, he must be my good luck charm.",
+    ENGLISH_TERMS["interactableModals.beachOrangeBook.message2"],
   "interactableModals.plazaGreenBook.message1":
-    "The Bumpkins control these islands, leaving us goblins with scarce work and even scarcer food.",
+    ENGLISH_TERMS["interactableModals.plazaGreenBook.message1"],
   "interactableModals.plazaGreenBook.message2":
-    "We strive for equality, a place to call our own, where we can live and thrive",
-  "interactableModals.fanArt.winner": "Fan art winner",
+    ENGLISH_TERMS["interactableModals.plazaGreenBook.message2"],
+  "interactableModals.fanArt.winner":
+    ENGLISH_TERMS["interactableModals.fanArt.winner"],
   "interactableModals.fanArt1.message":
-    "Congratulations Palisman, the winner of the first Fan Art competition",
+    ENGLISH_TERMS["interactableModals.fanArt1.message"],
   "interactableModals.fanArt2.message":
-    "Congratulations Vergelsxtn, the winner of the Dawn Breaker Party Fan Art competition",
-  "interactableModals.fanArt2.linkLabel": "View more",
+    ENGLISH_TERMS["interactableModals.fanArt2.message"],
+  "interactableModals.fanArt2.linkLabel":
+    ENGLISH_TERMS["interactableModals.fanArt2.linkLabel"],
   "interactableModals.fanArt3.message":
-    "The perfect place to for a beautiful painting. I wonder what they will put here next...",
+    ENGLISH_TERMS["interactableModals.fanArt3.message"],
   "interactableModals.clubhouseReward.message1":
-    "Patience buddy, rewards are coming...",
+    ENGLISH_TERMS["interactableModals.clubhouseReward.message1"],
   "interactableModals.clubhouseReward.message2":
-    "Join #bud-clubhouse on Discord for latest updates.",
+    ENGLISH_TERMS["interactableModals.clubhouseReward.message2"],
   "interactableModals.plazaStatue.message":
-    "In honor of Bumpkin Braveheart, the steadfast farmer who rallied our town against the Goblin horde during the dark days of the ancient war.",
+    ENGLISH_TERMS["interactableModals.plazaStatue.message"],
   "interactableModals.dawnBook1.message1":
-    "For centuries our family has protected Dawn Breaker Island. As the island's bell ringer, we've warned of dangers from the North, even as shadowy creatures threaten our home.",
+    ENGLISH_TERMS["interactableModals.dawnBook1.message1"],
   "interactableModals.dawnBook1.message2":
-    "Our family stands as the first line of defence against the darkness spreading from the North, but alas, our sacrifices go unnoticed.",
+    ENGLISH_TERMS["interactableModals.dawnBook1.message2"],
   "interactableModals.dawnBook1.message3":
-    "Will the day come when our devotion is acknowledged?",
+    ENGLISH_TERMS["interactableModals.dawnBook1.message3"],
   "interactableModals.dawnBook2.message1":
-    "Eggplants, they're more than they appear. Despite their dark exterior that attracts shadowy creatures, they bring light to our dishes.",
+    ENGLISH_TERMS["interactableModals.dawnBook2.message1"],
   "interactableModals.dawnBook2.message2":
-    "Grilled or mashed into a Bumpkin ganoush, their versatility is unmatched. The nightshade vegetables are a symbol of our resilience in the face of adversity.",
+    ENGLISH_TERMS["interactableModals.dawnBook2.message2"],
   "interactableModals.dawnBook3.message1":
-    "Dear diary, the Bumpkins' arrival has brought a ray of hope.",
+    ENGLISH_TERMS["interactableModals.dawnBook3.message1"],
   "interactableModals.dawnBook3.message2":
-    "I dream of the day I can steer my own boat to Sunfloria, the land where adventurers and travelers congregate.",
+    ENGLISH_TERMS["interactableModals.dawnBook3.message2"],
   "interactableModals.dawnBook3.message3":
-    "I've heard whispers about the Bumpkins' special preparations there - a beacon of promise in these challenging times.",
+    ENGLISH_TERMS["interactableModals.dawnBook3.message3"],
   "interactableModals.dawnBook4.message1":
-    "The gnomes, their allure was too potent to resist.",
+    ENGLISH_TERMS["interactableModals.dawnBook4.message1"],
   "interactableModals.dawnBook4.message2":
-    "The Witch's instructions echoed in my mind - 'Align the three, and power shall be yours.'",
+    ENGLISH_TERMS["interactableModals.dawnBook4.message2"],
   "interactableModals.dawnBook4.message3":
-    "Alas, even the eggplant soldiers couldn't guard against the temptation. But I will not falter. One day, I will claim the power I rightfully deserve?.",
+    ENGLISH_TERMS["interactableModals.dawnBook4.message3"],
   "interactableModals.timmyHome.message":
-    "Oh, gee, I really want you to explore my house, but Mom told me not to talk to strangers, maybe it's for the best.",
+    ENGLISH_TERMS["interactableModals.timmyHome.message"],
   "interactableModals.windmill.message":
-    "Ah, my windmill is under repair, can't have anyone snooping around while I fix it up, come back later.",
+    ENGLISH_TERMS["interactableModals.windmill.message"],
   "interactableModals.igorHome.message":
-    "Get lost! I'm in no mood for visitors, especially nosy ones like you!",
+    ENGLISH_TERMS["interactableModals.igorHome.message"],
   "interactableModals.potionHouse.message1":
-    "Watch out friend, the crazy scientist lives in there!",
+    ENGLISH_TERMS["interactableModals.potionHouse.message1"],
   "interactableModals.potionHouse.message2":
-    "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
+    ENGLISH_TERMS["interactableModals.potionHouse.message2"],
   "interactableModals.guildHouse.message":
-    "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
-  "interactableModals.guildHouse.budsCollection": "Buds Collection on Opensea",
+    ENGLISH_TERMS["interactableModals.guildHouse.message"],
+  "interactableModals.guildHouse.budsCollection":
+    ENGLISH_TERMS["interactableModals.guildHouse.budsCollection"],
   "interactableModals.bettyHome.message":
-    "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
+    ENGLISH_TERMS["interactableModals.bettyHome.message"],
   "interactableModals.bertHome.message":
-    "Intruders! They must be after my collection of rare items and secrets, I can't let them in!",
-  "interactableModals.beach.message1": "Have you been to the beach?",
+    ENGLISH_TERMS["interactableModals.bertHome.message"],
+  "interactableModals.beach.message1":
+    ENGLISH_TERMS["interactableModals.beach.message1"],
   "interactableModals.beach.message2":
-    "Rumour has that it is filled with luxurious treasures! Unfortunately it is under construction.",
+    ENGLISH_TERMS["interactableModals.beach.message2"],
   "interactableModals.castle.message":
-    "Hold it there peasant! There is no way I'm letting you visit the castle",
+    ENGLISH_TERMS["interactableModals.castle.message"],
   "interactableModals.woodlands.message":
-    "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
+    ENGLISH_TERMS["interactableModals.woodlands.message"],
   "interactableModals.port.message":
-    "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
+    ENGLISH_TERMS["interactableModals.port.message"],
 };
 
 const introPage: Record<IntroPage, string> = {
-  "introPage.welcome": "Welcome to the Potion Room, my curious apprentice!",
-  "introPage.description":
-    "I am Mad Scientist Bumpkin, here to assist you on this magical quest into the world of botanic sorcery. Get ready to uncover the secrets of Sunflower Land! Each attempt will cost 1 SFL.",
-  "introPage.mission":
-    "Your mission: decipher the right combination of potions within the enchanted grid.",
-  "introPage.tip":
-    "Remember, the more correct potions you select, the happier the plant will be, increasing your chances of rare drops!",
-  "introPage.chaosPotion": "Beware the 'chaos' potion, it shakes things up!",
-  "introPage.playButton": "Let's play",
+  "introPage.welcome": ENGLISH_TERMS["introPage.welcome"],
+  "introPage.description": ENGLISH_TERMS["introPage.description"],
+  "introPage.mission": ENGLISH_TERMS["introPage.mission"],
+  "introPage.tip": ENGLISH_TERMS["introPage.tip"],
+  "introPage.chaosPotion": ENGLISH_TERMS["introPage.chaosPotion"],
+  "introPage.playButton": ENGLISH_TERMS["introPage.playButton"],
 };
 
 const islandName: Record<IslandName, string> = {
-  "island.home": "Home",
-  "island.pumpkin.plaza": "Pumpkin Plaza",
-  "island.beach": "Beach",
-  "island.woodlands": "Woodlands",
-  "island.helios": "Helios",
-  "island.goblin.retreat": "Goblin Retreat",
+  "island.home": ENGLISH_TERMS["island.home"],
+  "island.pumpkin.plaza": ENGLISH_TERMS["island.pumpkin.plaza"],
+  "island.beach": ENGLISH_TERMS["island.beach"],
+  "island.woodlands": ENGLISH_TERMS["island.woodlands"],
+  "island.helios": ENGLISH_TERMS["island.helios"],
+  "island.goblin.retreat": ENGLISH_TERMS["island.goblin.retreat"],
 };
 
 const islandNotFound: Record<IslandNotFound, string> = {
-  "islandNotFound.message": "You have landed in the middle of nowhere!",
-  "islandNotFound.takeMeHome": "Take me home",
+  "islandNotFound.message": ENGLISH_TERMS["islandNotFound.message"],
+  "islandNotFound.takeMeHome": ENGLISH_TERMS["islandNotFound.takeMeHome"],
 };
 
 const islandupgrade: Record<Islandupgrade, string> = {
-  "islandupgrade.confirmUpgrade":
-    "Are you sure you want to upgrade to a new island.",
-  "islandupgrade.warning":
-    "Make sure you do not have any crops, fruit, buildings or chickens in progress. These will be returned to your inventory.",
+  "islandupgrade.confirmUpgrade": ENGLISH_TERMS["islandupgrade.confirmUpgrade"],
+  "islandupgrade.warning": ENGLISH_TERMS["islandupgrade.warning"],
   "islandupgrade.upgradeIsland": "升级岛",
   "islandupgrade.newOpportunities":
     "“探索一个充满异国情调的岛屿，发现新的资源，帮助你发展你的农场。令人兴奋的机会在等着你！”",
@@ -2748,34 +2672,31 @@ const islandupgrade: Record<Islandupgrade, string> = {
     "你尚未准备好。请再展开 {{remainingExpansions}} 次。",
   "islandupgrade.exoticResourcesDescription":
     "Sunflower Land 的这一地区以其奇异的资源而闻名。扩大你的土地，发现水果、鲜花、蜂巢和稀有矿物！",
-  "islandupgrade.welcomeDesertIsland": "Welcome to the Desert!",
+  "islandupgrade.welcomeDesertIsland":
+    ENGLISH_TERMS["islandupgrade.welcomeDesertIsland"],
   "islandupgrade.desertResourcesDescription":
-    "The harsh desert environment requires new technology to survive. Expand your land to discover new buildings and what's inside!",
-  "islandupgrade.requiredIsland": "Unlocks on {{islandType}} Island",
+    ENGLISH_TERMS["islandupgrade.desertResourcesDescription"],
+  "islandupgrade.requiredIsland": ENGLISH_TERMS["islandupgrade.requiredIsland"],
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {
-  "landscape.intro.one": "Design your dream island!",
-  "landscape.intro.two":
-    "In design mode you can hold, drag & move items around.",
-  "landscape.intro.three": "Craft rare decorations",
-  "landscape.intro.four": "Place collectibles from your chest",
-  "landscape.expansion.one":
-    "Howdy Bumpkin, would you like to expand your land? You can discover new resources, crops, and rewards.",
-  "landscape.expansion.two": "More expansions will be available soon...",
-  "landscape.timerPopover": "Next Expansion",
-  "landscape.dragMe": "Drag me",
-  "landscape.expansion.date":
-    "More expansions will be available on the 7th February.",
-  "landscape.great.work": "Great work Bumpkin!",
+  "landscape.intro.one": ENGLISH_TERMS["landscape.intro.one"],
+  "landscape.intro.two": ENGLISH_TERMS["landscape.intro.two"],
+  "landscape.intro.three": ENGLISH_TERMS["landscape.intro.three"],
+  "landscape.intro.four": ENGLISH_TERMS["landscape.intro.four"],
+  "landscape.expansion.one": ENGLISH_TERMS["landscape.expansion.one"],
+  "landscape.expansion.two": ENGLISH_TERMS["landscape.expansion.two"],
+  "landscape.timerPopover": ENGLISH_TERMS["landscape.timerPopover"],
+  "landscape.dragMe": ENGLISH_TERMS["landscape.dragMe"],
+  "landscape.expansion.date": ENGLISH_TERMS["landscape.expansion.date"],
+  "landscape.great.work": ENGLISH_TERMS["landscape.great.work"],
 };
 
 const letsGo: Record<LetsGo, string> = {
-  "letsGo.title": "Time to play!",
-  "letsGo.description":
-    "Thanks for playing beta! We are still working on the game and appreciate your support during the early stages!",
-  "letsGo.readMore": "You can read more about the game in the ",
-  "letsGo.officialDocs": "official docs",
+  "letsGo.title": ENGLISH_TERMS["letsGo.title"],
+  "letsGo.description": ENGLISH_TERMS["letsGo.description"],
+  "letsGo.readMore": ENGLISH_TERMS["letsGo.readMore"],
+  "letsGo.officialDocs": ENGLISH_TERMS["letsGo.officialDocs"],
 };
 
 const levelUpMessages: Record<LevelUpMessages, string> = {
@@ -2842,69 +2763,51 @@ const levelUpMessages: Record<LevelUpMessages, string> = {
 };
 
 const loser: Record<Loser, string> = {
-  "loser.unsuccess": "You were unsuccessful",
-  "loser.longer": "Auction no longer exists",
-  "loser.refund.one": "Refund",
+  "loser.unsuccess": ENGLISH_TERMS["loser.unsuccess"],
+  "loser.longer": ENGLISH_TERMS["loser.longer"],
+  "loser.refund.one": ENGLISH_TERMS["loser.refund.one"],
 };
 
 const lostSunflorian: Record<LostSunflorian, string> = {
-  "lostSunflorian.line1": "My father sent me here to rule over Helios.",
-  "lostSunflorian.line2":
-    "Unfortunately, these Bumpkins don't like me watching them.",
-  "lostSunflorian.line3": "I can't wait to return to Sunfloria.",
+  "lostSunflorian.line1": ENGLISH_TERMS["lostSunflorian.line1"],
+  "lostSunflorian.line2": ENGLISH_TERMS["lostSunflorian.line2"],
+  "lostSunflorian.line3": ENGLISH_TERMS["lostSunflorian.line3"],
 };
 
 const megaStore: Record<MegaStore, string> = {
-  "megaStore.message":
-    "Welcome to the Mega Store! Check out this month's limited items. If you like something, be sure to grab it before it vanishes into the realms of time.",
-  "megaStore.month.sale": "This month's sales",
-  "megaStore.wearable":
-    "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.",
-  "megaStore.collectible":
-    "Nice buy! Your new collectible is safely stored in your inventory.",
+  "megaStore.message": ENGLISH_TERMS["megaStore.message"],
+  "megaStore.month.sale": ENGLISH_TERMS["megaStore.month.sale"],
+  "megaStore.wearable": ENGLISH_TERMS["megaStore.wearable"],
+  "megaStore.collectible": ENGLISH_TERMS["megaStore.collectible"],
   "megaStore.timeRemaining": "剩下{{timeRemaining}}！",
 };
 
 const milestoneMessages: Record<MilestoneMessages, string> = {
-  "milestone.noviceAngler":
-    "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching each basic fish.",
-  "milestone.advancedAngler":
-    "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching each advanced fish. Keep it up!",
-  "milestone.expertAngler":
-    "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 300 fish is no small feat.",
-  "milestone.fishEncyclopedia":
-    "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering each basic, advanced, and expert fish is a remarkable achievement.",
-  "milestone.masterAngler":
-    "Wow, you've just reached the Master Angler milestone! Catching 1500 fish is a testament to your fishing skills.",
-  "milestone.marineMarvelMaster":
-    "Congratulations, you've just reached the Marine Marvel Master milestone! You're the undisputed champion of the seas! Catching each Marvel proves your fishing prowess like no other.",
-  "milestone.deepSeaDiver":
-    "Congratulations, you've just reached the Deep Sea Diver milestone! You have earnt the Deep Sea Helm - a mysterious Crown that attracts Marine Marvels to your hook.",
-  "milestone.sunpetalSavant":
-    "Congratulations, you've just reached the Sunpetal Savant milestone! You've discovered each Sunpetal variant. You're a true Sunpetal expert!",
-  "milestone.bloomBigShot":
-    "Congratulations, you've just reached the Bloom Big Shot milestone! You've discovered each Bloom variant. You're a true Bloom expert!",
-  "milestone.lilyLuminary":
-    "Congratulations, you've just reached the Lily Luminary milestone! You've discovered each Lily variant. You're a true Lily expert!",
+  "milestone.noviceAngler": ENGLISH_TERMS["milestone.noviceAngler"],
+  "milestone.advancedAngler": ENGLISH_TERMS["milestone.advancedAngler"],
+  "milestone.expertAngler": ENGLISH_TERMS["milestone.expertAngler"],
+  "milestone.fishEncyclopedia": ENGLISH_TERMS["milestone.fishEncyclopedia"],
+  "milestone.masterAngler": ENGLISH_TERMS["milestone.masterAngler"],
+  "milestone.marineMarvelMaster": ENGLISH_TERMS["milestone.marineMarvelMaster"],
+  "milestone.deepSeaDiver": ENGLISH_TERMS["milestone.deepSeaDiver"],
+  "milestone.sunpetalSavant": ENGLISH_TERMS["milestone.sunpetalSavant"],
+  "milestone.bloomBigShot": ENGLISH_TERMS["milestone.bloomBigShot"],
+  "milestone.lilyLuminary": ENGLISH_TERMS["milestone.lilyLuminary"],
 };
 
 const modalDescription: Record<ModalDescription, string> = {
-  "modalDescription.friend": "Hey there friend!",
-  "modalDescription.love.fruit":
-    "Wow, you really do love Fruits as much as I do!",
-  "modalDescription.gift":
-    "I have no more gifts for you. Don't forget to wear your new items!",
+  "modalDescription.friend": ENGLISH_TERMS["modalDescription.friend"],
+  "modalDescription.love.fruit": ENGLISH_TERMS["modalDescription.love.fruit"],
+  "modalDescription.gift": ENGLISH_TERMS["modalDescription.gift"],
   "modalDescription.limited.abilities":
-    "I've been designing limited edition wearables that can enhance your fruit picking abilities",
-  "modalDescription.trail":
-    "I am looking for dedicated fruit pickers to trial this clothing....for FREE!",
+    ENGLISH_TERMS["modalDescription.limited.abilities"],
+  "modalDescription.trail": ENGLISH_TERMS["modalDescription.trail"],
 };
 
 const nftminting: Record<NFTMinting, string> = {
-  "nftminting.mintAccountNFT": "Minting Account NFT",
-  "nftminting.mintingYourNFT":
-    "Minting your NFT and storing progress on the Blockchain",
-  "nftminting.almostThere": "Almost there",
+  "nftminting.mintAccountNFT": ENGLISH_TERMS["nftminting.mintAccountNFT"],
+  "nftminting.mintingYourNFT": ENGLISH_TERMS["nftminting.mintingYourNFT"],
+  "nftminting.almostThere": ENGLISH_TERMS["nftminting.almostThere"],
 };
 
 const noaccount: Record<Noaccount, string> = {
@@ -2912,54 +2815,51 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.addPromoCode": "添加促销代码？",
   "noaccount.alreadyHaveNFTFarm": "已经有农场了？",
   "noaccount.createFarm": "创建农场",
-  "noaccount.noFarmNFTs": "You do not own any farm NFTs.",
-  "noaccount.createNewFarm": "Create new farm",
-  "noaccount.selectNFTID": "Select your NFT ID:",
+  "noaccount.noFarmNFTs": ENGLISH_TERMS["noaccount.noFarmNFTs"],
+  "noaccount.createNewFarm": ENGLISH_TERMS["noaccount.createNewFarm"],
+  "noaccount.selectNFTID": ENGLISH_TERMS["noaccount.selectNFTID"],
   "noaccount.welcomeMessage": "欢迎来到 Sunflower Land！ 看来你还没有农场。",
-  "noaccount.promoCodeLabel": "Promo Code",
+  "noaccount.promoCodeLabel": ENGLISH_TERMS["noaccount.promoCodeLabel"],
 };
 
 const noBumpkin: Record<NoBumpkin, string> = {
-  "noBumpkin.readyToFarm": "Awesome, your Bumpkin is ready to farm!",
-  "noBumpkin.play": "Play",
-  "noBumpkin.missingBumpkin": "You are missing your Bumpkin",
-  "noBumpkin.bumpkinNFT":
-    "A Bumpkin is an NFT that is minted on the Blockchain.",
-  "noBumpkin.bumpkinHelp":
-    "You need a Bumpkin to help you plant, harvest, chop, mine and expand your land.",
-  "noBumpkin.mintBumpkin": "You can get a Bumpkin from OpenSea:",
-  "noBumpkin.allBumpkins": "Wow, look at all those Bumpkins!",
-  "noBumpkin.chooseBumpkin": "Which Bumpkin would you like to play with?",
-  "noBumpkin.deposit": "Deposit",
-  "noBumpkin.advancedIsland":
-    "This is an advanced island. A strong Bumpkin is required:",
-  "dequipper.noBumpkins": "No Bumpkins",
-  "dequipper.missingBumpkins":
-    "You do not have any Bumpkin NFTs in your wallet.",
-  "dequipper.intro": "Send clothing from a Bumpkin to your wallet.",
-  "dequipper.success":
-    "Congratulations, the wearables have been sent to your wallet. Deposit them to your farm to use them.",
-  "dequipper.dequip": "Dequip",
-  "dequipper.warning": "Once a Bumpkin is dequipped, it can no longer be used.",
-  "dequipper.nude": "Bumpkin is already dequipped",
-  "noBumpkin.nude": "Cannot dequip an empty Bumpkin",
+  "noBumpkin.readyToFarm": ENGLISH_TERMS["noBumpkin.readyToFarm"],
+  "noBumpkin.play": ENGLISH_TERMS["noBumpkin.play"],
+  "noBumpkin.missingBumpkin": ENGLISH_TERMS["noBumpkin.missingBumpkin"],
+  "noBumpkin.bumpkinNFT": ENGLISH_TERMS["noBumpkin.bumpkinNFT"],
+  "noBumpkin.bumpkinHelp": ENGLISH_TERMS["noBumpkin.bumpkinHelp"],
+  "noBumpkin.mintBumpkin": ENGLISH_TERMS["noBumpkin.mintBumpkin"],
+  "noBumpkin.allBumpkins": ENGLISH_TERMS["noBumpkin.allBumpkins"],
+  "noBumpkin.chooseBumpkin": ENGLISH_TERMS["noBumpkin.chooseBumpkin"],
+  "noBumpkin.deposit": ENGLISH_TERMS["noBumpkin.deposit"],
+  "noBumpkin.advancedIsland": ENGLISH_TERMS["noBumpkin.advancedIsland"],
+  "dequipper.noBumpkins": ENGLISH_TERMS["dequipper.noBumpkins"],
+  "dequipper.missingBumpkins": ENGLISH_TERMS["dequipper.missingBumpkins"],
+  "dequipper.intro": ENGLISH_TERMS["dequipper.intro"],
+  "dequipper.success": ENGLISH_TERMS["dequipper.success"],
+  "dequipper.dequip": ENGLISH_TERMS["dequipper.dequip"],
+  "dequipper.warning": ENGLISH_TERMS["dequipper.warning"],
+  "dequipper.nude": ENGLISH_TERMS["dequipper.nude"],
+  "noBumpkin.nude": ENGLISH_TERMS["noBumpkin.nude"],
 };
 
 const notOnDiscordServer: Record<NotOnDiscordServer, string> = {
-  "notOnDiscordServer.intro":
-    "Looks like you haven't joined the Sunflower Land Discord Server yet.",
-  "notOnDiscordServer.joinDiscord": "Join our ",
-  "notOnDiscordServer.discordServer": "Discord Server",
+  "notOnDiscordServer.intro": ENGLISH_TERMS["notOnDiscordServer.intro"],
+  "notOnDiscordServer.joinDiscord":
+    ENGLISH_TERMS["notOnDiscordServer.joinDiscord"],
+  "notOnDiscordServer.discordServer":
+    ENGLISH_TERMS["notOnDiscordServer.discordServer"],
   "notOnDiscordServer.completeVerification":
-    "2. Complete verification & get started",
-  "notOnDiscordServer.acceptRules": "3. Accept the rules in #rules",
+    ENGLISH_TERMS["notOnDiscordServer.completeVerification"],
+  "notOnDiscordServer.acceptRules":
+    ENGLISH_TERMS["notOnDiscordServer.acceptRules"],
 };
 
 const noTownCenter: Record<NoTownCenter, string> = {
-  "noTownCenter.reward": "Reward: 1 x Town Center!",
-  "noTownCenter.news": "Your latest news or statement here.",
+  "noTownCenter.reward": ENGLISH_TERMS["noTownCenter.reward"],
+  "noTownCenter.news": ENGLISH_TERMS["noTownCenter.news"],
   "noTownCenter.townCenterPlacement":
-    "You can place the Town Center through the inventory  building section",
+    ENGLISH_TERMS["noTownCenter.townCenterPlacement"],
 };
 
 const npc_message: Record<NPC_MESSAGE, string> = {
@@ -2984,921 +2884,754 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.blacksmith.msg7":
     "我正在市场上寻找原材料，你这有什么是能出售的吗？",
   // Pumpkin' pete
-  "npcMessages.pumpkinpete.msg1":
-    "Hey there, newbie! How 'bout some fresh produce?",
-  "npcMessages.pumpkinpete.msg2":
-    "Tasty crops, anyone? I'm your guy for easy pickings!",
-  "npcMessages.pumpkinpete.msg3":
-    "Fresh and delightful, that's my motto. What do you have?",
-  "npcMessages.pumpkinpete.msg4":
-    "Newcomer in town? Let's brighten up your day with some crops!",
-  "npcMessages.pumpkinpete.msg5":
-    "Need a hand, friend? I've got a variety of crops for you!",
-  "npcMessages.pumpkinpete.msg6":
-    "Energetic Pete, at your service! Crops, anyone?",
-  "npcMessages.pumpkinpete.msg7":
-    "Welcome to the plaza! Let's make your day brighter with crops!",
+  "npcMessages.pumpkinpete.msg1": ENGLISH_TERMS["npcMessages.pumpkinpete.msg1"],
+  "npcMessages.pumpkinpete.msg2": ENGLISH_TERMS["npcMessages.pumpkinpete.msg2"],
+  "npcMessages.pumpkinpete.msg3": ENGLISH_TERMS["npcMessages.pumpkinpete.msg3"],
+  "npcMessages.pumpkinpete.msg4": ENGLISH_TERMS["npcMessages.pumpkinpete.msg4"],
+  "npcMessages.pumpkinpete.msg5": ENGLISH_TERMS["npcMessages.pumpkinpete.msg5"],
+  "npcMessages.pumpkinpete.msg6": ENGLISH_TERMS["npcMessages.pumpkinpete.msg6"],
+  "npcMessages.pumpkinpete.msg7": ENGLISH_TERMS["npcMessages.pumpkinpete.msg7"],
   // Cornwell
-  "npcMessages.cornwell.msg1":
-    "Ah, the good old days... Hard work's my motto. What've you got?",
-  "npcMessages.cornwell.msg2":
-    "These youngsters, no work ethic! Bring me the challenging stuff.",
-  "npcMessages.cornwell.msg3":
-    "I remember when... Hard work, that's what's missing!",
-  "npcMessages.cornwell.msg4":
-    "Hard-earned knowledge deserves the finest harvest. Impress me!",
-  "npcMessages.cornwell.msg5":
-    "History and hard work, that's what we're all about. What's your pick?",
-  "npcMessages.cornwell.msg6":
-    "Cornwell's the name, and I'm here for the real farm experience.",
-  "npcMessages.cornwell.msg7":
-    "Hard tasks, rich rewards. Show me what you've got!",
+  "npcMessages.cornwell.msg1": ENGLISH_TERMS["npcMessages.cornwell.msg1"],
+  "npcMessages.cornwell.msg2": ENGLISH_TERMS["npcMessages.cornwell.msg2"],
+  "npcMessages.cornwell.msg3": ENGLISH_TERMS["npcMessages.cornwell.msg3"],
+  "npcMessages.cornwell.msg4": ENGLISH_TERMS["npcMessages.cornwell.msg4"],
+  "npcMessages.cornwell.msg5": ENGLISH_TERMS["npcMessages.cornwell.msg5"],
+  "npcMessages.cornwell.msg6": ENGLISH_TERMS["npcMessages.cornwell.msg6"],
+  "npcMessages.cornwell.msg7": ENGLISH_TERMS["npcMessages.cornwell.msg7"],
   // Raven
-  "npcMessages.raven.msg1":
-    "Darkness and mystery, that's my game. I'll take the tough crops.",
-  "npcMessages.raven.msg2":
-    "Goth at heart, I need the darkest crops for my potions.",
-  "npcMessages.raven.msg3":
-    "Supernatural and sinister, that's the vibe I'm after. Impress me.",
-  "npcMessages.raven.msg4":
-    "I crave the shadowy harvest for my spellwork. Hand 'em over.",
-  "npcMessages.raven.msg5":
-    "Bring me the crops that hide in the shadows. I won't be disappointed.",
-  "npcMessages.raven.msg6":
-    "Raven, the keeper of darkness, wants your most challenging crops.",
-  "npcMessages.raven.msg7":
-    "Dark delights for a goth heart. Show me your darkest harvest.",
+  "npcMessages.raven.msg1": ENGLISH_TERMS["npcMessages.raven.msg1"],
+  "npcMessages.raven.msg2": ENGLISH_TERMS["npcMessages.raven.msg2"],
+  "npcMessages.raven.msg3": ENGLISH_TERMS["npcMessages.raven.msg3"],
+  "npcMessages.raven.msg4": ENGLISH_TERMS["npcMessages.raven.msg4"],
+  "npcMessages.raven.msg5": ENGLISH_TERMS["npcMessages.raven.msg5"],
+  "npcMessages.raven.msg6": ENGLISH_TERMS["npcMessages.raven.msg6"],
+  "npcMessages.raven.msg7": ENGLISH_TERMS["npcMessages.raven.msg7"],
   // Bert
-  "npcMessages.bert.msg1":
-    "Man, these shrooms... they're the key. Got any magic ones?",
-  "npcMessages.bert.msg2":
-    "Mushroom madness, that's me. Magic mushrooms, anyone?",
-  "npcMessages.bert.msg3":
-    "It's all about the shrooms, baby. Hand over the enchanted ones.",
-  "npcMessages.bert.msg4":
-    "I see things, you know? Magic mushrooms, that's what I need.",
-  "npcMessages.bert.msg5":
-    "Life's a trip, man, and I need those magic mushrooms to ride it!",
-  "npcMessages.bert.msg6":
-    "Bert's the name, shrooms are the game. Enchanted ones, please!",
-  "npcMessages.bert.msg7":
-    "Magic mushrooms, my friend. That's what keeps me going.",
+  "npcMessages.bert.msg1": ENGLISH_TERMS["npcMessages.bert.msg1"],
+  "npcMessages.bert.msg2": ENGLISH_TERMS["npcMessages.bert.msg2"],
+  "npcMessages.bert.msg3": ENGLISH_TERMS["npcMessages.bert.msg3"],
+  "npcMessages.bert.msg4": ENGLISH_TERMS["npcMessages.bert.msg4"],
+  "npcMessages.bert.msg5": ENGLISH_TERMS["npcMessages.bert.msg5"],
+  "npcMessages.bert.msg6": ENGLISH_TERMS["npcMessages.bert.msg6"],
+  "npcMessages.bert.msg7": ENGLISH_TERMS["npcMessages.bert.msg7"],
   // Timmy
-  "npcMessages.timmy.msg1":
-    "Roar! I'm Timmy the bear! Gimme all the fruity goodness!",
-  "npcMessages.timmy.msg2":
-    "I'm a bear, and bears love fruit! Got any fruity treats for me?",
-  "npcMessages.timmy.msg3":
-    "Fruity delights, that's the secret. It's a Timmy thing, you know?",
-  "npcMessages.timmy.msg4":
-    "Bear hugs for fruits! It's a Timmy thing, you know?",
-  "npcMessages.timmy.msg5":
-    "In a bear suit, life's a treat. Fruits are my jam, got any?",
-  "npcMessages.timmy.msg6":
-    "Timmy the bear's here for fruity fun! Hand over those fruits!",
-  "npcMessages.timmy.msg7":
-    "Fruitful conversations with a bear! Share the fruity love!",
+  "npcMessages.timmy.msg1": ENGLISH_TERMS["npcMessages.timmy.msg1"],
+  "npcMessages.timmy.msg2": ENGLISH_TERMS["npcMessages.timmy.msg2"],
+  "npcMessages.timmy.msg3": ENGLISH_TERMS["npcMessages.timmy.msg3"],
+  "npcMessages.timmy.msg4": ENGLISH_TERMS["npcMessages.timmy.msg4"],
+  "npcMessages.timmy.msg5": ENGLISH_TERMS["npcMessages.timmy.msg5"],
+  "npcMessages.timmy.msg6": ENGLISH_TERMS["npcMessages.timmy.msg6"],
+  "npcMessages.timmy.msg7": ENGLISH_TERMS["npcMessages.timmy.msg7"],
   // Tywin
-  "npcMessages.tywin.msg1":
-    "Gold, gold, and more gold! Show me the riches, peasants!",
-  "npcMessages.tywin.msg2":
-    "I watch over Bumpkins to ensure they pay their dues. Gold, now!",
-  "npcMessages.tywin.msg3":
-    "Peasants, bring me your riches! I am Tywin, the demanding prince!",
-  "npcMessages.tywin.msg4":
-    "Pumpkin Plaza is beneath me, but gold is never enough. More!",
-  "npcMessages.tywin.msg5":
-    "It's a prince's life, and I demand your wealth. Pay your taxes!",
-  "npcMessages.tywin.msg6":
-    "A prince's wealth knows no bounds. Gold, gold, and more gold!",
-  "npcMessages.tywin.msg7":
-    "Gold is my crown, and I want it all! Bring me your riches!",
+  "npcMessages.tywin.msg1": ENGLISH_TERMS["npcMessages.tywin.msg1"],
+  "npcMessages.tywin.msg2": ENGLISH_TERMS["npcMessages.tywin.msg2"],
+  "npcMessages.tywin.msg3": ENGLISH_TERMS["npcMessages.tywin.msg3"],
+  "npcMessages.tywin.msg4": ENGLISH_TERMS["npcMessages.tywin.msg4"],
+  "npcMessages.tywin.msg5": ENGLISH_TERMS["npcMessages.tywin.msg5"],
+  "npcMessages.tywin.msg6": ENGLISH_TERMS["npcMessages.tywin.msg6"],
+  "npcMessages.tywin.msg7": ENGLISH_TERMS["npcMessages.tywin.msg7"],
   // Tango
-  "npcMessages.tango.msg1":
-    "Chatter, chomp, and chatter again! Fruits, fruits, and more fruits!",
-  "npcMessages.tango.msg2":
-    "I'm Tango, the fruity squirrel monkey! Bring me fruity treasures!",
-  "npcMessages.tango.msg3":
-    "Orange, cheeky, and playful, that's me. Fruits, anyone?",
-  "npcMessages.tango.msg4":
-    "Fruit secrets? I've got 'em! Share the fruity wonders with me!",
-  "npcMessages.tango.msg5":
-    "Fruitful mischief and fruity delights. Let's have some fun!",
-  "npcMessages.tango.msg6":
-    "Tango's the name, fruity games are my claim to fame. Gimme!",
-  "npcMessages.tango.msg7":
-    "Fruit knowledge runs in my family. Tell me your fruitiest tales!",
+  "npcMessages.tango.msg1": ENGLISH_TERMS["npcMessages.tango.msg1"],
+  "npcMessages.tango.msg2": ENGLISH_TERMS["npcMessages.tango.msg2"],
+  "npcMessages.tango.msg3": ENGLISH_TERMS["npcMessages.tango.msg3"],
+  "npcMessages.tango.msg4": ENGLISH_TERMS["npcMessages.tango.msg4"],
+  "npcMessages.tango.msg5": ENGLISH_TERMS["npcMessages.tango.msg5"],
+  "npcMessages.tango.msg6": ENGLISH_TERMS["npcMessages.tango.msg6"],
+  "npcMessages.tango.msg7": ENGLISH_TERMS["npcMessages.tango.msg7"],
   // Miranda
-  "npcMessages.miranda.msg1":
-    "Dance with me, friend! Add to my fruit-tastic hat, won't you?",
-  "npcMessages.miranda.msg2":
-    "Samba and fruits  they go hand in hand. What can you offer?",
-  "npcMessages.miranda.msg3":
-    "In the rhythm of samba, fruits are a must. Care to share?",
-  "npcMessages.miranda.msg4":
-    "It's all about the samba beat and fruity treats. Bring some over!",
-  "npcMessages.miranda.msg5":
-    "Join the samba celebration with a fruit gift for my hat!",
-  "npcMessages.miranda.msg6":
-    "Miranda's hat loves fruity flair. What can you contribute?",
-  "npcMessages.miranda.msg7":
-    "Samba, fruits, and friendship. Let's make it a party!",
+  "npcMessages.miranda.msg1": ENGLISH_TERMS["npcMessages.miranda.msg1"],
+  "npcMessages.miranda.msg2": ENGLISH_TERMS["npcMessages.miranda.msg2"],
+  "npcMessages.miranda.msg3": ENGLISH_TERMS["npcMessages.miranda.msg3"],
+  "npcMessages.miranda.msg4": ENGLISH_TERMS["npcMessages.miranda.msg4"],
+  "npcMessages.miranda.msg5": ENGLISH_TERMS["npcMessages.miranda.msg5"],
+  "npcMessages.miranda.msg6": ENGLISH_TERMS["npcMessages.miranda.msg6"],
+  "npcMessages.miranda.msg7": ENGLISH_TERMS["npcMessages.miranda.msg7"],
   // Finn
-  "npcMessages.finn.msg1":
-    "I've reeled in the biggest catch ever! Fish, anyone?",
-  "npcMessages.finn.msg2":
-    "Life's a fisherman's tale, and I've got stories to tell. Reeled in some fish!",
-  "npcMessages.finn.msg3":
-    "Finn the fisherman, the legend, and the fish whisperer. Reeled in some fish?",
-  "npcMessages.finn.msg4":
-    "Big fish, big stories, and a big ego. Bring me your fishy treasures!",
-  "npcMessages.finn.msg5":
-    "Hook, line, and swagger, that's me. Fish, it's what I do!",
-  "npcMessages.finn.msg6":
-    "Fish tales, bragging rights, and a hint of modesty. Fish, please!",
-  "npcMessages.finn.msg7":
-    "Did you know Surgeonfish have a soft spot for the zesty allure of oranges",
-  "npcMessages.finn.msg8":
-    "Caught the biggest fish ever. It's not just a story; it's reality!",
+  "npcMessages.finn.msg1": ENGLISH_TERMS["npcMessages.finn.msg1"],
+  "npcMessages.finn.msg2": ENGLISH_TERMS["npcMessages.finn.msg2"],
+  "npcMessages.finn.msg3": ENGLISH_TERMS["npcMessages.finn.msg3"],
+  "npcMessages.finn.msg4": ENGLISH_TERMS["npcMessages.finn.msg4"],
+  "npcMessages.finn.msg5": ENGLISH_TERMS["npcMessages.finn.msg5"],
+  "npcMessages.finn.msg6": ENGLISH_TERMS["npcMessages.finn.msg6"],
+  "npcMessages.finn.msg7": ENGLISH_TERMS["npcMessages.finn.msg7"],
+  "npcMessages.finn.msg8": ENGLISH_TERMS["npcMessages.finn.msg8"],
   // Findley
-  "npcMessages.findley.msg1":
-    "Not letting Finn have all the glory! I need bait and chum for my big catch!",
-  "npcMessages.findley.msg2":
-    "Finn's not the only one who can fish. I need bait and chum, stat!",
-  "npcMessages.findley.msg3":
-    "I'll show Finn who's the real angler! Bait and chum, I must have them!",
-  "npcMessages.findley.msg4":
-    "Looking to hook a Tuna? They have a peculiar fondness for the crisp allure of cauliflower.",
-  "npcMessages.findley.msg5":
-    "Fishy rivalry runs in the family. I'm out to prove a point. Bait and chum, please!",
-  "npcMessages.findley.msg6":
-    "Finn's not the only one with fishing skills. I'm going for the catch of a lifetime!",
-  "npcMessages.findley.msg7":
-    "Competing with Finn is a must. Bait and chum, I need your help!",
-  "npcMessages.findley.msg8":
-    "Siblings in a fishing showdown. Bait and chum are my secret weapons!",
-  "npcMessages.findley.msg9":
-    "Did you know Mahi Mahi can't resist the sweet crunch of corn",
+  "npcMessages.findley.msg1": ENGLISH_TERMS["npcMessages.findley.msg1"],
+  "npcMessages.findley.msg2": ENGLISH_TERMS["npcMessages.findley.msg2"],
+  "npcMessages.findley.msg3": ENGLISH_TERMS["npcMessages.findley.msg3"],
+  "npcMessages.findley.msg4": ENGLISH_TERMS["npcMessages.findley.msg4"],
+  "npcMessages.findley.msg5": ENGLISH_TERMS["npcMessages.findley.msg5"],
+  "npcMessages.findley.msg6": ENGLISH_TERMS["npcMessages.findley.msg6"],
+  "npcMessages.findley.msg7": ENGLISH_TERMS["npcMessages.findley.msg7"],
+  "npcMessages.findley.msg8": ENGLISH_TERMS["npcMessages.findley.msg8"],
+  "npcMessages.findley.msg9": ENGLISH_TERMS["npcMessages.findley.msg9"],
   // Corale
-  "npcMessages.corale.msg1":
-    "The ocean calls, and I need fish. Help me set my friends free!",
-  "npcMessages.corale.msg2":
-    "Fish are my friends, and I must set them free. Will you assist me?",
-  "npcMessages.corale.msg3":
-    "For the love of the sea, bring me fish. I'll release them to their home.",
-  "npcMessages.corale.msg4":
-    "Beneath the waves, my friends await. Fish, so they can swim free!",
-  "npcMessages.corale.msg5":
-    "A mermaid's plea to protect her friends. Bring me fish, kind soul.",
-  "npcMessages.corale.msg6":
-    "Fishes' freedom, that's my mission. Help me with fish, won't you?",
-  "npcMessages.corale.msg7":
-    "Join me in the sea's dance of life. Fish, to set my friends free!",
-  //Shelly
-  "npcMessages.shelly.msg1":
-    "Bumpkins are vanishing, and I fear the Kraken is the cause. Help me collect its tentacles!",
-  "npcMessages.shelly.msg2":
-    "Bumpkins are disappearing, and I suspect the Kraken. Can you fetch its tentacles, please?",
-  "npcMessages.shelly.msg3":
-    "Kraken's a threat, Bumpkins missing. Bring its tentacles to keep them safe.",
-  "npcMessages.shelly.msg4":
-    "Kraken's ominous, Bumpkins gone. Bring its tentacles for their safety.",
-  "npcMessages.shelly.msg5":
-    "Guarding the beach is tough with the Kraken. Help me protect Bumpkins, get its tentacles.",
-  "npcMessages.shelly.msg6":
-    "Protecting Bumpkins is my duty, but the Kraken worries me. Get its tentacles to safeguard them.",
-  "npcMessages.shelly.msg7":
-    "Kraken's causing panic, Bumpkins missing. Help me gather its tentacles for their safety.",
-  "npcMessages.shelly.msg8":
-    "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
+  "npcMessages.corale.msg1": ENGLISH_TERMS["npcMessages.corale.msg1"],
+  "npcMessages.corale.msg2": ENGLISH_TERMS["npcMessages.corale.msg2"],
+  "npcMessages.corale.msg3": ENGLISH_TERMS["npcMessages.corale.msg3"],
+  "npcMessages.corale.msg4": ENGLISH_TERMS["npcMessages.corale.msg4"],
+  "npcMessages.corale.msg5": ENGLISH_TERMS["npcMessages.corale.msg5"],
+  "npcMessages.corale.msg6": ENGLISH_TERMS["npcMessages.corale.msg6"],
+  "npcMessages.corale.msg7": ENGLISH_TERMS["npcMessages.corale.msg7"],
+  // Shelly
+  "npcMessages.shelly.msg1": ENGLISH_TERMS["npcMessages.shelly.msg1"],
+  "npcMessages.shelly.msg2": ENGLISH_TERMS["npcMessages.shelly.msg2"],
+  "npcMessages.shelly.msg3": ENGLISH_TERMS["npcMessages.shelly.msg3"],
+  "npcMessages.shelly.msg4": ENGLISH_TERMS["npcMessages.shelly.msg4"],
+  "npcMessages.shelly.msg5": ENGLISH_TERMS["npcMessages.shelly.msg5"],
+  "npcMessages.shelly.msg6": ENGLISH_TERMS["npcMessages.shelly.msg6"],
+  "npcMessages.shelly.msg7": ENGLISH_TERMS["npcMessages.shelly.msg7"],
+  "npcMessages.shelly.msg8": ENGLISH_TERMS["npcMessages.shelly.msg8"],
 };
 
 const npc: Record<Npc, string> = {
-  "npc.Modal.Hammer": "Gather round Bumpkins, an auction is about to begin.",
-  "npc.Modal.Marcus":
-    "Hey! You are not allowed to go in my house. Don't you dare touch my things!",
-  "npc.Modal.Billy": "Howdy, y'all! Name's Billy.",
-  "npc.Modal.Billy.one":
-    "I found these baby seedlings but for the life of me I cannot figure out what to do with them.",
-  "npc.Modal.Billy.two":
-    "I bet they have something to do with the worm buds that have been appearing around the plaza.",
-  "npc.Modal.Gabi": "Oi Bumpkin!",
-  "npc.Modal.Gabi.one":
-    "You look creative, have you ever thought about contributing art to the game?",
-  "npc.Modal.Craig": "Why are you looking at me strange?",
-  "npc.Modal.Craig.one": "Is there something in my teeth...",
+  "npc.Modal.Hammer": ENGLISH_TERMS["npc.Modal.Hammer"],
+  "npc.Modal.Marcus": ENGLISH_TERMS["npc.Modal.Marcus"],
+  "npc.Modal.Billy": ENGLISH_TERMS["npc.Modal.Billy"],
+  "npc.Modal.Billy.one": ENGLISH_TERMS["npc.Modal.Billy.one"],
+  "npc.Modal.Billy.two": ENGLISH_TERMS["npc.Modal.Billy.two"],
+  "npc.Modal.Gabi": ENGLISH_TERMS["npc.Modal.Gabi"],
+  "npc.Modal.Gabi.one": ENGLISH_TERMS["npc.Modal.Gabi.one"],
+  "npc.Modal.Craig": ENGLISH_TERMS["npc.Modal.Craig"],
+  "npc.Modal.Craig.one": ENGLISH_TERMS["npc.Modal.Craig.one"],
 };
 
 const npcDialogues: Record<NpcDialogues, string> = {
   // Blacksmith Intro
   "npcDialogues.blacksmith.intro1":
-    "What do you want? Speak quickly; time is money.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.intro1"],
   "npcDialogues.blacksmith.intro2":
-    "What brings you to my workshop? I'm busy, so make it quick.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.intro2"],
   "npcDialogues.blacksmith.intro3":
-    "Welcome to my humble abode. What brings you here?",
+    ENGLISH_TERMS["npcDialogues.blacksmith.intro3"],
   "npcDialogues.blacksmith.intro4":
-    "State your purpose. I'm busy, and I don't have time for idle chatter. What brings you to my workshop?",
+    ENGLISH_TERMS["npcDialogues.blacksmith.intro4"],
   // Blacksmith Positive Delivery
   "npcDialogues.blacksmith.positiveDelivery1":
-    "Finally! You brought the materials I need. Step aside; let me work my magic.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.positiveDelivery1"],
   "npcDialogues.blacksmith.positiveDelivery2":
-    "Ah, about time! You've acquired the exact items I sought. Prepare for equipment crafted with precision.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.positiveDelivery2"],
   "npcDialogues.blacksmith.positiveDelivery3":
-    "Good. You've delivered the materials I need. I shall not disappoint; my creations will be remarkable.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.positiveDelivery3"],
   "npcDialogues.blacksmith.positiveDelivery4":
-    "Impressive! You've acquired the necessary components. I will transform them into farming marvels!",
+    ENGLISH_TERMS["npcDialogues.blacksmith.positiveDelivery4"],
   "npcDialogues.blacksmith.positiveDelivery5":
-    "Hmm, you actually managed to find what I wanted. Well done.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.positiveDelivery5"],
   // Blacksmith Negative Delivery
   "npcDialogues.blacksmith.negativeDelivery1":
-    "You don't have what I require? Time is wasted. Come back when you have what's necessary.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.negativeDelivery1"],
   "npcDialogues.blacksmith.negativeDelivery2":
-    "No, no, no. You lack the essential materials. Don't waste my time. Return when you're prepared.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.negativeDelivery2"],
   "npcDialogues.blacksmith.negativeDelivery3":
-    "Unacceptable. You don't possess what I require. I have no time for incompetence. Return when you're capable.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.negativeDelivery3"],
   "npcDialogues.blacksmith.negativeDelivery4":
-    "Unsatisfactory. You don't possess what I need. Come back when you're ready to fulfill your end of the bargain.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.negativeDelivery4"],
   "npcDialogues.blacksmith.negativeDelivery5":
-    "Incompetence. You lack the materials required. Don't waste my time; return when you're prepared.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.negativeDelivery5"],
   // Blacksmith NoOrder
   "npcDialogues.blacksmith.noOrder1":
-    "No active order for me to fulfill at the moment, but if you're in need of tools or have materials for crafting, I am always here to assist you. Speak up, and we'll get to work.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.noOrder1"],
   "npcDialogues.blacksmith.noOrder2":
-    "No active order from me, but if you require sturdy equipment or have materials in need of shaping, I am your craftsman.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.noOrder2"],
   // Betty Into
-  "npcDialogues.betty.intro1":
-    "Hey there, sunshine! It's been a busy day at the market. I'm here to see if you've got the ingredients I ordered. Do you have them with you?",
-  "npcDialogues.betty.intro2":
-    "Hello, hello! I've been waiting to see if you've got the ingredients I ordered. Have you brought them?",
-  "npcDialogues.betty.intro3":
-    "Welcome to Betty's market! Ready to check if you've got the ingredients I need? Let's see what you've got in store for me!",
-  "npcDialogues.betty.intro4":
-    "Hey, hey! I'm eager to know if you've brought the ingredients I ordered. Show me what you've got!",
-  "npcDialogues.betty.intro5":
-    "Greetings, my green-thumbed friend! I'm excited to see if you've got the ingredients I asked for. What's in your basket?",
+  "npcDialogues.betty.intro1": ENGLISH_TERMS["npcDialogues.betty.intro1"],
+  "npcDialogues.betty.intro2": ENGLISH_TERMS["npcDialogues.betty.intro2"],
+  "npcDialogues.betty.intro3": ENGLISH_TERMS["npcDialogues.betty.intro3"],
+  "npcDialogues.betty.intro4": ENGLISH_TERMS["npcDialogues.betty.intro4"],
+  "npcDialogues.betty.intro5": ENGLISH_TERMS["npcDialogues.betty.intro5"],
   // Betty Positive Delivery
   "npcDialogues.betty.positiveDelivery1":
-    "Hooray! You've brought the ingredients I ordered. They're as fresh and vibrant as can be. Thank you, my gardening genius!",
+    ENGLISH_TERMS["npcDialogues.betty.positiveDelivery1"],
   "npcDialogues.betty.positiveDelivery2":
-    "That's what I'm talking about! You've got the exact ingredients I needed. You've made my day with your prompt delivery. Thank you!",
+    ENGLISH_TERMS["npcDialogues.betty.positiveDelivery2"],
   "npcDialogues.betty.positiveDelivery3":
-    "Oh, fantastic! These are the exact ingredients I asked for. The market will be buzzing with excitement. Thanks for your hard work!",
+    ENGLISH_TERMS["npcDialogues.betty.positiveDelivery3"],
   "npcDialogues.betty.positiveDelivery4":
-    "Oh, my garden! These ingredients are absolutely perfect. You've got a talent for finding the finest produce. Thank you, my green-thumbed hero!",
+    ENGLISH_TERMS["npcDialogues.betty.positiveDelivery4"],
   "npcDialogues.betty.positiveDelivery5":
-    "Bravo! You've brought the exact ingredients I needed. I can't wait to use them to create something extraordinary. Thanks for your swift delivery!",
+    ENGLISH_TERMS["npcDialogues.betty.positiveDelivery5"],
   // Betty Negative Delivery
   "npcDialogues.betty.negativeDelivery1":
-    "Oopsie-daisy! It seems you don't have the ingredients I ordered. No worries, though. Keep searching, and we'll find another opportunity.",
+    ENGLISH_TERMS["npcDialogues.betty.negativeDelivery1"],
   "npcDialogues.betty.negativeDelivery2":
-    "Oh, no! It looks like you don't have the ingredients I need at the moment. Don't worry, though. I believe in your resourcefulness. Come back when you have what I'm after!",
+    ENGLISH_TERMS["npcDialogues.betty.negativeDelivery2"],
   "npcDialogues.betty.negativeDelivery3":
-    "Aw, shucks! It seems you don't have the ingredients I'm looking for right now. Keep foraging, though! Maybe next time we'll have better luck.",
+    ENGLISH_TERMS["npcDialogues.betty.negativeDelivery3"],
   "npcDialogues.betty.negativeDelivery4":
-    "Oh, bummer! It seems the ingredients you brought don't match what I need. But don't lose heart; keep working, and return soon.",
+    ENGLISH_TERMS["npcDialogues.betty.negativeDelivery4"],
   "npcDialogues.betty.negativeDelivery5":
-    "Oh, snapdragons! It seems you don't have the exact ingredients I'm searching for. But don't worry, my friend. Keep working hard, and we'll celebrate when you find them!",
+    ENGLISH_TERMS["npcDialogues.betty.negativeDelivery5"],
   // Betty NoOrder
-  "npcDialogues.betty.noOrder1":
-    "No active order for me to fulfill right now, but that won't stop me from offering you the finest seeds and crops. Step right up and let's see what you're in the market for!",
-  "npcDialogues.betty.noOrder2":
-    "No specific order from me today, but that's not a problem. I'm here with a bounce in my step, ready to provide you with the best seeds and buy your delightful crops!",
+  "npcDialogues.betty.noOrder1": ENGLISH_TERMS["npcDialogues.betty.noOrder1"],
+  "npcDialogues.betty.noOrder2": ENGLISH_TERMS["npcDialogues.betty.noOrder2"],
   // Grimbly Intro
-  "npcDialogues.grimbly.intro1":
-    "Hungry. Need food. Have anything tasty for a hungry goblin?",
-  "npcDialogues.grimbly.intro2":
-    "Hungry goblin needs sustenance. Have what I need?",
-  "npcDialogues.grimbly.intro3":
-    "Starving goblin here. Got anything scrumptious for me to munch on?",
-  "npcDialogues.grimbly.intro4":
-    "Grimbly's hungry. Did you bring something tasty for me?",
+  "npcDialogues.grimbly.intro1": ENGLISH_TERMS["npcDialogues.grimbly.intro1"],
+  "npcDialogues.grimbly.intro2": ENGLISH_TERMS["npcDialogues.grimbly.intro2"],
+  "npcDialogues.grimbly.intro3": ENGLISH_TERMS["npcDialogues.grimbly.intro3"],
+  "npcDialogues.grimbly.intro4": ENGLISH_TERMS["npcDialogues.grimbly.intro4"],
   // Grimbly Positive Delivery
   "npcDialogues.grimbly.positiveDelivery1":
-    "Ah, finally! Something delicious to satisfy my hunger. You're a lifesaver, my friend!",
+    ENGLISH_TERMS["npcDialogues.grimbly.positiveDelivery1"],
   "npcDialogues.grimbly.positiveDelivery2":
-    "You've brought food! Grimbly's hunger is appeased. Thank you, thank you!",
+    ENGLISH_TERMS["npcDialogues.grimbly.positiveDelivery2"],
   "npcDialogues.grimbly.positiveDelivery3":
-    "Hooray! You've brought me food to fill my hungry belly. Grimbly appreciates your generosity!",
+    ENGLISH_TERMS["npcDialogues.grimbly.positiveDelivery3"],
   "npcDialogues.grimbly.positiveDelivery4":
-    "A feast for Grimbly! You've brought me exactly what I needed. Your kindness won't be forgotten!",
+    ENGLISH_TERMS["npcDialogues.grimbly.positiveDelivery4"],
   // Grimbly Negative Delivery
   "npcDialogues.grimbly.negativeDelivery1":
-    "No food? Grimbly still hungry. Find food, bring food. Grimbly grateful.",
+    ENGLISH_TERMS["npcDialogues.grimbly.negativeDelivery1"],
   "npcDialogues.grimbly.negativeDelivery2":
-    "No food for Grimbly? Grimbly's tummy growls. Come back when you find something tasty.",
+    ENGLISH_TERMS["npcDialogues.grimbly.negativeDelivery2"],
   "npcDialogues.grimbly.negativeDelivery3":
-    "Grimbly still hungry. No food? Keep searching, and maybe next time you'll satisfy my goblin appetite.",
+    ENGLISH_TERMS["npcDialogues.grimbly.negativeDelivery3"],
   "npcDialogues.grimbly.negativeDelivery4":
-    "Empty-handed? Grimbly's stomach rumbles. Keep searching, and don't forget about a goblin's hunger!",
+    ENGLISH_TERMS["npcDialogues.grimbly.negativeDelivery4"],
   // Grimbly NoOrder
   "npcDialogues.grimbly.noOrder1":
-    "Grimbly doesn't have an active order for you, but that doesn't mean I'm not hungry!",
+    ENGLISH_TERMS["npcDialogues.grimbly.noOrder1"],
   "npcDialogues.grimbly.noOrder2":
-    "No active order from Grimbly today, but fear not! I'm always on the lookout for tasty treats. If you find anything delicious, you know who to bring it to!",
-  // Grimtootk Intro
+    ENGLISH_TERMS["npcDialogues.grimbly.noOrder2"],
+  // Grimtooth Intro
   "npcDialogues.grimtooth.intro1":
-    "Greetings, weary traveler. Looking for me, are you?",
+    ENGLISH_TERMS["npcDialogues.grimtooth.intro1"],
   "npcDialogues.grimtooth.intro2":
-    "Step into the realm of shadows. Have you fulfilled my order?",
+    ENGLISH_TERMS["npcDialogues.grimtooth.intro2"],
   "npcDialogues.grimtooth.intro3":
-    "Welcome, wanderer, to my mystical realm. Do you have what I need?",
+    ENGLISH_TERMS["npcDialogues.grimtooth.intro3"],
   "npcDialogues.grimtooth.intro4":
-    "Step inside, dear traveler, and uncover the secrets I've amassed. Did you find what I requested?",
+    ENGLISH_TERMS["npcDialogues.grimtooth.intro4"],
   // Grimtooth Positive Delivery
   "npcDialogues.grimtooth.positiveDelivery1":
-    "Incredible! You've found the ingredients I require. The magic of Sunflorea is at your fingertips!",
+    ENGLISH_TERMS["npcDialogues.grimtooth.positiveDelivery1"],
   "npcDialogues.grimtooth.positiveDelivery2":
-    "Marvelous! You've acquired what I sought. Together, we shall delve into the deepest depths of magic!",
+    ENGLISH_TERMS["npcDialogues.grimtooth.positiveDelivery2"],
   "npcDialogues.grimtooth.positiveDelivery3":
-    "Incredible! You've gathered the mystical components I required. Your journey in the realm of magic begins!",
+    ENGLISH_TERMS["npcDialogues.grimtooth.positiveDelivery3"],
   "npcDialogues.grimtooth.positiveDelivery4":
-    "Ah, splendid! You've obtained the elusive ingredients I sought. Your journey in the realm of magic begins!",
+    ENGLISH_TERMS["npcDialogues.grimtooth.positiveDelivery4"],
   // Grimtooth Negative Delivery
   "npcDialogues.grimtooth.negativeDelivery1":
-    "Alas, the required ingredients elude you. Fear not, though. Keep searching, and the mysteries shall reveal themselves!",
+    ENGLISH_TERMS["npcDialogues.grimtooth.negativeDelivery1"],
   "npcDialogues.grimtooth.negativeDelivery2":
-    "Oh, darkness and dismay. You don't possess what I need. But fret not; keep working and the shadows will continue to guide you.",
+    ENGLISH_TERMS["npcDialogues.grimtooth.negativeDelivery2"],
   "npcDialogues.grimtooth.negativeDelivery3":
-    "Fear not, though. Continue your work, and the magic shall manifest.",
+    ENGLISH_TERMS["npcDialogues.grimtooth.negativeDelivery3"],
   "npcDialogues.grimtooth.negativeDelivery4":
-    "Oh, alas. You don't possess what I need. Return when you do.",
+    ENGLISH_TERMS["npcDialogues.grimtooth.negativeDelivery4"],
   // Grimtooth NoOrder
   "npcDialogues.grimtooth.noOrder1":
-    "No active order from GrimTooth at the moment, but don't worry. If you're in need of exquisite craftsmanship or have materials for me to work with, I'll be here, ready to create.",
+    ENGLISH_TERMS["npcDialogues.grimtooth.noOrder1"],
   "npcDialogues.grimtooth.noOrder2":
-    "No active order for you to fulfill with GrimTooth, but should you require the master craftsman's touch or have materials that need transforming, I'm at your service.",
+    ENGLISH_TERMS["npcDialogues.grimtooth.noOrder2"],
   // Old Salty Intro
   "npcDialogues.oldSalty.intro1":
     "Arghhhh, welcome, me heartie! Old Salty's the name, and treasure's me game. Do ye have what I seek?",
   "npcDialogues.oldSalty.intro2":
     "Ahoy, landlubber! Old Salty's the treasure enthusiast ye be lookin' for. Show me what ye've found on yer quest?",
-  "npcDialogues.oldSalty.intro3": "",
+  "npcDialogues.oldSalty.intro3": ENGLISH_TERMS["npcDialogues.oldSalty.intro3"],
   // Old Salty Positive Delivery
   "npcDialogues.oldSalty.positiveDelivery1":
-    "Arghhhh, ye've found the treasure I be seekin'. Ye've got the heart of a true adventurer, me matey!",
+    ENGLISH_TERMS["npcDialogues.oldSalty.positiveDelivery1"],
   "npcDialogues.oldSalty.positiveDelivery2":
-    "Avast! Ye've brought the very treasure Old Salty desires. Ye be earnin' me respect, me hearty!",
+    ENGLISH_TERMS["npcDialogues.oldSalty.positiveDelivery2"],
   "npcDialogues.oldSalty.positiveDelivery3":
-    "Ahoy, ye've found the treasure Old Salty's been huntin'. Ye be a true legend in these waters, me hearty!",
-  //  Olkd Salty Negative Delivery
+    ENGLISH_TERMS["npcDialogues.oldSalty.positiveDelivery3"],
+  // Old Salty Negative Delivery
   "npcDialogues.oldSalty.negativeDelivery1":
-    "Arrrr, no treasure for Old Salty? Keep yer eyes peeled, me heartie. The hidden gems await yer discovery!",
+    ENGLISH_TERMS["npcDialogues.oldSalty.negativeDelivery1"],
   "npcDialogues.oldSalty.negativeDelivery2":
-    "Ah, scallywag! No treasure for Old Salty? Keep searchin', and ye'll find the riches ye seek!",
+    ENGLISH_TERMS["npcDialogues.oldSalty.negativeDelivery2"],
   "npcDialogues.oldSalty.negativeDelivery3":
-    "Shiver me timbers! No treasure for Old Salty? Keep sailin', me matey. The loot be out there, waitin' fer ye!",
+    ENGLISH_TERMS["npcDialogues.oldSalty.negativeDelivery3"],
   // Old Salty NoOrder
   "npcDialogues.oldSalty.noOrder1":
-    "No active order for Old Salty's treasure cove, me heartie, but that doesn't mean there's no adventure to be had. Keep your eyes peeled for hidden treasures and uncharted waters!",
+    ENGLISH_TERMS["npcDialogues.oldSalty.noOrder1"],
   "npcDialogues.oldSalty.noOrder2":
-    "No specific treasure for you to seek with Old Salty at the moment, but don't fret, my hearty sailor! The high seas hold countless riches waiting to be discovered.",
+    ENGLISH_TERMS["npcDialogues.oldSalty.noOrder2"],
   // Raven Intro
-  "npcDialogues.raven.intro1":
-    "Welcome to my humble abode. Careful where you step; there are potions brewing. Did you get what I ordered?",
-  "npcDialogues.raven.intro2":
-    "Step into the realm of shadows. Seek wisdom, find enchantment. Do you have what I need?",
-  "npcDialogues.raven.intro3":
-    "Welcome, wanderer, to my mystical realm. Seeking something magical, are you? Or do you have what I need?",
-  "npcDialogues.raven.intro4":
-    "Step inside, dear traveler. The shadows will guide you. Did you find what I seek?",
+  "npcDialogues.raven.intro1": ENGLISH_TERMS["npcDialogues.raven.intro1"],
+  "npcDialogues.raven.intro2": ENGLISH_TERMS["npcDialogues.raven.intro2"],
+  "npcDialogues.raven.intro3": ENGLISH_TERMS["npcDialogues.raven.intro3"],
+  "npcDialogues.raven.intro4": ENGLISH_TERMS["npcDialogues.raven.intro4"],
   // Raven Positive Delivery
   "npcDialogues.raven.positiveDelivery1":
-    "Incredible! You've found the ingredients I require. The magic of Sunflorea is at your fingertips!",
+    ENGLISH_TERMS["npcDialogues.raven.positiveDelivery1"],
   "npcDialogues.raven.positiveDelivery2":
-    "Marvelous! You've acquired what I sought. Together, we shall delve into the deepest depths of magic!",
+    ENGLISH_TERMS["npcDialogues.raven.positiveDelivery2"],
   "npcDialogues.raven.positiveDelivery3":
-    "Incredible! You've gathered the mystical components I required. Your journey in the realm of magic begins!",
+    ENGLISH_TERMS["npcDialogues.raven.positiveDelivery3"],
   "npcDialogues.raven.positiveDelivery4":
-    "Ah, splendid! You've obtained the elusive ingredients I sought. Your journey in the realm of magic begins!",
+    ENGLISH_TERMS["npcDialogues.raven.positiveDelivery4"],
   // Raven Negative Delivery
   "npcDialogues.raven.negativeDelivery1":
-    "Alas, the required ingredients elude you. Fear not, though. Keep searching, and the mysteries shall reveal themselves!",
+    ENGLISH_TERMS["npcDialogues.raven.negativeDelivery1"],
   "npcDialogues.raven.negativeDelivery2":
-    "Oh, darkness and dismay. You don't possess what I need. But fret not; the shadows will guide you to it.",
+    ENGLISH_TERMS["npcDialogues.raven.negativeDelivery2"],
   "npcDialogues.raven.negativeDelivery3":
-    "Fear not, though. Continue your quest, and the magic shall manifest.",
+    ENGLISH_TERMS["npcDialogues.raven.negativeDelivery3"],
   // Raven NoOrder
-  "npcDialogues.raven.noOrder1":
-    "It seems there's no active order awaiting your arrival in my dark domain. However, should you seek guidance or have questions about the mystical arts, don't hesitate to ask.",
-  "npcDialogues.raven.noOrder2":
-    "No active order from me, traveler. But fret not! The shadows are ever-watchful, and when the time is right, we'll delve into the depths of magic together.",
+  "npcDialogues.raven.noOrder1": ENGLISH_TERMS["npcDialogues.raven.noOrder1"],
+  "npcDialogues.raven.noOrder2": ENGLISH_TERMS["npcDialogues.raven.noOrder2"],
   // Tywin Intro
-  "npcDialogues.tywin.intro1":
-    "Ah, another commoner gracing my presence. Do you have what I want? Speak quickly.",
-  "npcDialogues.tywin.intro2":
-    "Oh, great, another one from the peasantry. What's your business with someone of my stature? Do you have what I need?",
-  "npcDialogues.tywin.intro3":
-    "Greetings, commoner. Seeking wisdom, are you? Do you have everything I asked for?",
-  "npcDialogues.tywin.intro4":
-    "What do you want? Speak quickly; time is money. You have what I need, I assume?",
+  "npcDialogues.tywin.intro1": ENGLISH_TERMS["npcDialogues.tywin.intro1"],
+  "npcDialogues.tywin.intro2": ENGLISH_TERMS["npcDialogues.tywin.intro2"],
+  "npcDialogues.tywin.intro3": ENGLISH_TERMS["npcDialogues.tywin.intro3"],
+  "npcDialogues.tywin.intro4": ENGLISH_TERMS["npcDialogues.tywin.intro4"],
   // Tywin Positive Delivery
   "npcDialogues.tywin.positiveDelivery1":
-    "Hmm, it seems you're not entirely useless. You've managed to bring what I wanted. Carry on, peasant!",
+    ENGLISH_TERMS["npcDialogues.tywin.positiveDelivery1"],
   "npcDialogues.tywin.positiveDelivery2":
-    "Surprisingly, you've actually delivered what I desired. Perhaps you're not as useless as I presumed.",
+    ENGLISH_TERMS["npcDialogues.tywin.positiveDelivery2"],
   "npcDialogues.tywin.positiveDelivery3":
-    "Ah, marvelous work! You've brought the materials I require. Together, we shall create masterpieces!",
+    ENGLISH_TERMS["npcDialogues.tywin.positiveDelivery3"],
   "npcDialogues.tywin.positiveDelivery4":
-    "Good. You've delivered the materials I need. Igor shall not disappoint; the tools will be remarkable.",
+    ENGLISH_TERMS["npcDialogues.tywin.positiveDelivery4"],
   // Tywin Negative Delivery
   "npcDialogues.tywin.negativeDelivery1":
-    "Pathetic. You don't have what I asked for. Don't waste my time with your incompetence. Leave!",
+    ENGLISH_TERMS["npcDialogues.tywin.negativeDelivery1"],
   "npcDialogues.tywin.negativeDelivery2":
-    "What a disappointment. You don't have what I requested. Typical of your kind. Now begone!",
+    ENGLISH_TERMS["npcDialogues.tywin.negativeDelivery2"],
   "npcDialogues.tywin.negativeDelivery3":
-    "Unsatisfactory. You don't possess what I require. I have no time for incompetence. Return when you're capable.",
+    ENGLISH_TERMS["npcDialogues.tywin.negativeDelivery3"],
   "npcDialogues.tywin.negativeDelivery4":
-    "Incompetence. You lack the materials required. Don't waste my time; return when you're prepared.",
+    ENGLISH_TERMS["npcDialogues.tywin.negativeDelivery4"],
   // Tywin NoOrder
-  "npcDialogues.tywin.noOrder1":
-    "Ah, it appears I don't have an active order for you, commoner. But if you require my esteemed presence or have a request, state it quickly. Time is money, after all.",
-  "npcDialogues.tywin.noOrder2":
-    "No active order for you today, peasant. However, should you stumble upon something worthy of my attention or require my expertise, you know where to find me.",
-  //Bert Intro
-  "npcDialogues.bert.intro1":
-    "Psst! Explorer of the arcane! Sunflorea's vast secrets are manifold...",
-  "npcDialogues.bert.intro2":
-    "Ah, kindred spirit! Sunflorea is home to countless treasures...",
-  "npcDialogues.bert.intro3":
-    "Greetings, bearer of the mysterious! In Sunflorea, some items demand Delivery...",
-  "npcDialogues.bert.intro4":
-    "Hello, seeker of the concealed! Sunflorea's enchantments can be categorized into two...",
-  "bert.day":
-    "You cannot withdraw this item for 3 days after claiming {{seasonalTicket}}s.",
-  //Bert Positive Delivery
+  "npcDialogues.tywin.noOrder1": ENGLISH_TERMS["npcDialogues.tywin.noOrder1"],
+  "npcDialogues.tywin.noOrder2": ENGLISH_TERMS["npcDialogues.tywin.noOrder2"],
+  // Bert Intro
+  "npcDialogues.bert.intro1": ENGLISH_TERMS["npcDialogues.bert.intro1"],
+  "npcDialogues.bert.intro2": ENGLISH_TERMS["npcDialogues.bert.intro2"],
+  "npcDialogues.bert.intro3": ENGLISH_TERMS["npcDialogues.bert.intro3"],
+  "npcDialogues.bert.intro4": ENGLISH_TERMS["npcDialogues.bert.intro4"],
+  "bert.day": ENGLISH_TERMS["bert.day"],
+  // Bert Positive Delivery
   "npcDialogues.bert.positiveDelivery1":
-    "Incredible! You've brought me everything I need...",
+    ENGLISH_TERMS["npcDialogues.bert.positiveDelivery1"],
   "npcDialogues.bert.positiveDelivery2":
-    "Oh, fascinating find! You have brought me the exact items I sought...",
+    ENGLISH_TERMS["npcDialogues.bert.positiveDelivery2"],
   "npcDialogues.bert.positiveDelivery3":
-    "Ah, about time! You've acquired the exact items I sought. Excellent!",
+    ENGLISH_TERMS["npcDialogues.bert.positiveDelivery3"],
   "npcDialogues.bert.positiveDelivery4":
-    "Impressive! You've brought me exactly what I need to uncover the secrets of Sunflorea.",
-  //Bert Negative Delivery
+    ENGLISH_TERMS["npcDialogues.bert.positiveDelivery4"],
+  // Bert Negative Delivery
   "npcDialogues.bert.negativeDelivery1":
-    "Oh, alas. You don't possess what I seek. Keep exploring, I will see you when you have what I need!",
+    ENGLISH_TERMS["npcDialogues.bert.negativeDelivery1"],
   "npcDialogues.bert.negativeDelivery2":
-    "Drat! What you have isn't quite what I need. Keep working on my order, and together, we'll unravel the mysteries!",
+    ENGLISH_TERMS["npcDialogues.bert.negativeDelivery2"],
   "npcDialogues.bert.negativeDelivery3":
-    "Hmm, not quite what I expected. But fear not! There is still time to get me what I need.",
+    ENGLISH_TERMS["npcDialogues.bert.negativeDelivery3"],
   "npcDialogues.bert.negativeDelivery4":
-    "Oh, not quite what I sought. Return when you have it. But keep your eyes open; the pages of history have more to reveal.",
-  //Bert NoOrder
-  "npcDialogues.bert.noOrder1":
-    "No active order for me to fulfill today, but that doesn't mean I don't have any intriguing secrets to share.",
-  "npcDialogues.bert.noOrder2":
-    "No enigmatic artifact for you to discover with Bert at the moment, but that doesn't mean I'm short on peculiar facts and hidden truths.",
+    ENGLISH_TERMS["npcDialogues.bert.negativeDelivery4"],
+  // Bert NoOrder
+  "npcDialogues.bert.noOrder1": ENGLISH_TERMS["npcDialogues.bert.noOrder1"],
+  "npcDialogues.bert.noOrder2": ENGLISH_TERMS["npcDialogues.bert.noOrder2"],
   // Timmy Intro
-  "npcDialogues.timmy.intro1":
-    "Hey there, friend! It's Timmy, and I'm eager to see if you have what I asked for.",
-  "npcDialogues.timmy.intro2":
-    "Greetings, fellow adventurer! Timmy here, wondering if you've found what I requested.",
-  "npcDialogues.timmy.intro3":
-    "Welcome, welcome! I'm Timmy, the friendliest face in the plaza. Can you help me out by checking if you have what I need?",
-  "npcDialogues.timmy.intro4":
-    "Hey, hey! Ready for some fun in the sun? It's Timmy, and I can't wait to see if you've got what I asked for.",
-  "npcDialogues.timmy.intro5":
-    "Hello, sunshine! Timmy's here, hoping you have what I requested. Let's see?",
+  "npcDialogues.timmy.intro1": ENGLISH_TERMS["npcDialogues.timmy.intro1"],
+  "npcDialogues.timmy.intro2": ENGLISH_TERMS["npcDialogues.timmy.intro2"],
+  "npcDialogues.timmy.intro3": ENGLISH_TERMS["npcDialogues.timmy.intro3"],
+  "npcDialogues.timmy.intro4": ENGLISH_TERMS["npcDialogues.timmy.intro4"],
+  "npcDialogues.timmy.intro5": ENGLISH_TERMS["npcDialogues.timmy.intro5"],
   // Timmy Positive Delivery
   "npcDialogues.timmy.positiveDelivery1":
-    "Woohoo! You've got just what I needed. Your generosity fills my heart with joy. Thank you!",
+    ENGLISH_TERMS["npcDialogues.timmy.positiveDelivery1"],
   "npcDialogues.timmy.positiveDelivery2":
-    "That's what I'm talking about! You've brought exactly what I was looking for. You're a superstar!",
+    ENGLISH_TERMS["npcDialogues.timmy.positiveDelivery2"],
   "npcDialogues.timmy.positiveDelivery3":
-    "Oh, fantastic! Your timing couldn't be better. You've made my day with your thoughtful offering. Thank you!",
+    ENGLISH_TERMS["npcDialogues.timmy.positiveDelivery3"],
   "npcDialogues.timmy.positiveDelivery4":
-    "Hooray! You've delivered the goods. Sunflorea is lucky to have someone as amazing as you!",
+    ENGLISH_TERMS["npcDialogues.timmy.positiveDelivery4"],
   "npcDialogues.timmy.positiveDelivery5":
-    "You've done it again! Your kindness and generosity never cease to amaze me. Thank you for brightening up the plaza!",
+    ENGLISH_TERMS["npcDialogues.timmy.positiveDelivery5"],
   // Timmy Negative Delivery
   "npcDialogues.timmy.negativeDelivery1":
-    "Oopsie-daisy! It seems you don't have what I'm searching for right now. No worries, though. Keep exploring, and we'll find another opportunity.",
+    ENGLISH_TERMS["npcDialogues.timmy.negativeDelivery1"],
   "npcDialogues.timmy.negativeDelivery2":
-    "Oh, no! It looks like you don't have what I need at the moment. Don't worry, though. I believe in you. Come back when you find it!",
+    ENGLISH_TERMS["npcDialogues.timmy.negativeDelivery2"],
   "npcDialogues.timmy.negativeDelivery3":
-    "Aw, shucks! You don't have what I'm looking for right now. Keep exploring, though! Maybe next time you'll stumble upon what I need.",
+    ENGLISH_TERMS["npcDialogues.timmy.negativeDelivery3"],
   "npcDialogues.timmy.negativeDelivery4":
-    "Oh, bummer! It seems you don't have the item I'm seeking. But don't give up; new opportunities await just around the corner.",
+    ENGLISH_TERMS["npcDialogues.timmy.negativeDelivery4"],
   "npcDialogues.timmy.negativeDelivery5":
-    "Oh, snapdragons! You don't have what I'm searching for. But don't worry, my friend. Keep exploring, and we'll celebrate when you find it!",
+    ENGLISH_TERMS["npcDialogues.timmy.negativeDelivery5"],
   // Timmy NoOrder
-  "npcDialogues.timmy.noOrder1":
-    "Oh, hi there! I don't have any active orders for you right now, but I'm always eager to learn and hear stories. Have any exciting tales of your adventures in Sunflorea? Or perhaps you've come across a new bear friend? Share it with me!",
-  "npcDialogues.timmy.noOrder2":
-    "No specific order for me to fulfill at the moment, but that won't stop me from being curious! Do you have any interesting stories about your travels? Maybe you've encountered a rare bear or discovered a hidden gem in Sunflorea? Let's chat!",
+  "npcDialogues.timmy.noOrder1": ENGLISH_TERMS["npcDialogues.timmy.noOrder1"],
+  "npcDialogues.timmy.noOrder2": ENGLISH_TERMS["npcDialogues.timmy.noOrder2"],
   // Cornwell Intro
-  "npcDialogues.cornwell.intro1":
-    "Greetings, young adventurer! Have you come bearing the items I seek?",
-  "npcDialogues.cornwell.intro2":
-    "Ah, welcome, seeker of knowledge and relics! Do you have the items I requested? Show me what you've got.",
-  "npcDialogues.cornwell.intro3":
-    "Step into the realm of ancient secrets and wisdom. Have you acquired the items I desire? Share your discoveries with me, young one.",
-  "npcDialogues.cornwell.intro4":
-    "Ah, it's you! The one on a noble quest. Have you found the items I seek? Come, show me what you've uncovered in Sunflower Land's vast lands.",
-  "npcDialogues.cornwell.intro5":
-    "Greetings, young traveler! The winds of curiosity have brought you here. Do you have the items I require to enrich my collection?",
+  "npcDialogues.cornwell.intro1": ENGLISH_TERMS["npcDialogues.cornwell.intro1"],
+  "npcDialogues.cornwell.intro2": ENGLISH_TERMS["npcDialogues.cornwell.intro2"],
+  "npcDialogues.cornwell.intro3": ENGLISH_TERMS["npcDialogues.cornwell.intro3"],
+  "npcDialogues.cornwell.intro4": ENGLISH_TERMS["npcDialogues.cornwell.intro4"],
+  "npcDialogues.cornwell.intro5": ENGLISH_TERMS["npcDialogues.cornwell.intro5"],
   // Cornwell Positive Delivery
   "npcDialogues.cornwell.positiveDelivery1":
-    "Marvelous! You've brought the very relics I desired. Your efforts in preserving Sunflower Land's history will be remembered.",
+    ENGLISH_TERMS["npcDialogues.cornwell.positiveDelivery1"],
   "npcDialogues.cornwell.positiveDelivery2":
-    "Ah, splendid! Your findings align perfectly with the relics I sought. These treasures shall add great wisdom to my collection.",
+    ENGLISH_TERMS["npcDialogues.cornwell.positiveDelivery2"],
   "npcDialogues.cornwell.positiveDelivery3":
-    "Impressive! The items you've acquired are just what I was looking for. Sunflower Land's history will shine through them.",
+    ENGLISH_TERMS["npcDialogues.cornwell.positiveDelivery3"],
   "npcDialogues.cornwell.positiveDelivery4":
-    "Ah, young adventurer, you've surpassed my expectations! The items you've brought will be invaluable to my research.",
+    ENGLISH_TERMS["npcDialogues.cornwell.positiveDelivery4"],
   "npcDialogues.cornwell.positiveDelivery5":
-    "Ah, well done, my keen-eyed friend! The items you've delivered will find a place of honor in my windmill's collection.",
+    ENGLISH_TERMS["npcDialogues.cornwell.positiveDelivery5"],
   // Cornwell Negative Delivery
   "npcDialogues.cornwell.negativeDelivery1":
-    "Oh, it seems you haven't found the items I seek. Fear not; the journey of discovery continues. Keep exploring Sunflower Land's mysteries.",
+    ENGLISH_TERMS["npcDialogues.cornwell.negativeDelivery1"],
   "npcDialogues.cornwell.negativeDelivery2":
-    "Hmm, not quite the relics I was expecting. But do not despair! Keep searching, and the treasures of Sunflower Land will reveal themselves to you.",
+    ENGLISH_TERMS["npcDialogues.cornwell.negativeDelivery2"],
   "npcDialogues.cornwell.negativeDelivery3":
-    "Oh, it appears the items I desired elude you. No matter; your curiosity will lead you to the right discoveries eventually.",
+    ENGLISH_TERMS["npcDialogues.cornwell.negativeDelivery3"],
   "npcDialogues.cornwell.negativeDelivery4":
-    "Ah, I see you haven't found the specific items I need. Fret not; the history of Sunflower Land holds many secrets waiting to be unearthed.",
+    ENGLISH_TERMS["npcDialogues.cornwell.negativeDelivery4"],
   "npcDialogues.cornwell.negativeDelivery5":
-    "Oh, my dear traveler, it seems you didn't bring the exact items I sought. But your dedication to Sunflower Land's history is commendable.",
+    ENGLISH_TERMS["npcDialogues.cornwell.negativeDelivery5"],
   // Cornwell NoOrder
   "npcDialogues.cornwell.noOrder1":
-    "Ah, it appears there are no quest items for you to deliver at the moment. But do not be disheartened! Your journey in Sunflower Land is filled with untold adventures waiting to be discovered.",
+    ENGLISH_TERMS["npcDialogues.cornwell.noOrder1"],
   "npcDialogues.cornwell.noOrder2":
-    "Oh, it seems I have no need for your services at the moment. But don't fret; the pages of Sunflower Land's history turn endlessly, and new quests will surely present themselves.",
+    ENGLISH_TERMS["npcDialogues.cornwell.noOrder2"],
   "npcDialogues.cornwell.noOrder3":
-    "Ah, my apologies, but I have nothing for you to fulfill right now. Fear not, though; your path as a seeker of knowledge is bound to lead you to new quests in due time.",
+    ENGLISH_TERMS["npcDialogues.cornwell.noOrder3"],
   "npcDialogues.cornwell.noOrder4":
-    "Ah, it seems you haven't received any quest orders from me at the moment. But do not lose hope; your inquisitive nature will soon guide you to exciting new quests in Sunflower Land.",
-  // Pumpkin Pete Intor
+    ENGLISH_TERMS["npcDialogues.cornwell.noOrder4"],
+  // Pumpkin Pete Intro
   "npcDialogues.pumpkinPete.intro1":
-    "I have been waiting for you, my friend! Do you have my order ready?",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.intro1"],
   "npcDialogues.pumpkinPete.intro2":
-    "Hey there, pumpkin! I have been busy guiding Bumpkins around the plaza? Did you get my order?",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.intro2"],
   "npcDialogues.pumpkinPete.intro3":
-    "Greetings, friend! The plaza is bursting with excitement today. Did you get manage to get my order?",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.intro3"],
   "npcDialogues.pumpkinPete.intro4":
-    "Hello there, fellow adventurer! What brings you to my humble abode? Did you get my order?",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.intro4"],
   "npcDialogues.pumpkinPete.intro5":
-    "Hey, hey! Welcome to the plaza? Did you manage to find what I needed?",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.intro5"],
   // Pumpkin Pete Positive Delivery
   "npcDialogues.pumpkinPete.positiveDelivery1":
-    "Hooray! You've brought exactly what I need. You're a true hero of the plaza!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.positiveDelivery1"],
   "npcDialogues.pumpkinPete.positiveDelivery2":
-    "Pumpkin-tastic! You've got just what I needed. You're making our little community brighter!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.positiveDelivery2"],
   "npcDialogues.pumpkinPete.positiveDelivery3":
-    "Great seeds of joy! You've brought exactly what I need. The plaza is lucky to have you!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.positiveDelivery3"],
   "npcDialogues.pumpkinPete.positiveDelivery4":
-    "Fantastic! You've arrived bearing exactly what I desired. Your kindness spreads sunshine in our plaza!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.positiveDelivery4"],
   "npcDialogues.pumpkinPete.positiveDelivery5":
-    "Oh, pumpkin seeds of joy! You've brought me exactly what I needed. The plaza is grateful for your help!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.positiveDelivery5"],
   // Pumpkin Pete Negative Delivery
   "npcDialogues.pumpkinPete.negativeDelivery1":
-    "Oh, no. It seems you don't have what I'm looking for. Don't worry, though. I believe in you. Come back when you find it!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.negativeDelivery1"],
   "npcDialogues.pumpkinPete.negativeDelivery2":
-    "Aw, shucks! You don't have what I'm looking for right now. Keep exploring, though! Maybe next time.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.negativeDelivery2"],
   "npcDialogues.pumpkinPete.negativeDelivery3":
-    "Oh, seeds of sorrow! You don't have what I'm searching for. But don't give up; new opportunities bloom every day!",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.negativeDelivery3"],
   "npcDialogues.pumpkinPete.negativeDelivery4":
-    "Oh, snapdragons! You don't have what I'm seeking right now. Keep exploring, though! I'm confident you'll find it.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.negativeDelivery4"],
   "npcDialogues.pumpkinPete.negativeDelivery5":
-    "Oopsie-daisy! You don't have what I'm searching for. But don't worry, my friend. Keep exploring, and we'll celebrate when you find it.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.negativeDelivery5"],
   // Pumpkin Pete NoOrder
   "npcDialogues.pumpkinPete.noOrder1":
-    "Ah, my friend, it seems I don't have an active order for you at the moment. But fear not! I'm always here to offer guidance and a friendly pumpkin smile.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.noOrder1"],
   "npcDialogues.pumpkinPete.noOrder2":
-    "Oh, no active order for you today, my friend. But don't worry! Feel free to explore the plaza, and if you need any assistance, I'm your trusty Bumpkin.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.noOrder2"],
 
   // NPC gift dialogues
+  // Pumpkin Pete
   "npcDialogues.pumpkinPete.reward":
-    "Thank you kindly for your deliveries. Here's a token of appreciation for you.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.reward"],
   "npcDialogues.pumpkinPete.flowerIntro":
-    "Have you ever seen the elegance of a Yellow Cosmos? I'm craving one...",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.flowerIntro"],
   "npcDialogues.pumpkinPete.averageFlower":
-    "Not exactly what I had in mind, but it's quite charming. Thanks.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.averageFlower"],
   "npcDialogues.pumpkinPete.badFlower":
-    "This isn't what I was hoping for. Perhaps you can find a more suitable one?",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.badFlower"],
   "npcDialogues.pumpkinPete.goodFlower":
-    "This Yellow Cosmos is splendid! Thank you for bringing it to me.",
-
-  "npcDialogues.betty.reward":
-    "I appreciate your thoughtful gifts. Here's a little something to show my gratitude.",
+    ENGLISH_TERMS["npcDialogues.pumpkinPete.goodFlower"],
+  // Betty
+  "npcDialogues.betty.reward": ENGLISH_TERMS["npcDialogues.betty.reward"],
   "npcDialogues.betty.flowerIntro":
-    "Can you imagine the beauty of a Red, Yellow, Purple, White, or Blue Pansy? I long for one...",
+    ENGLISH_TERMS["npcDialogues.betty.flowerIntro"],
   "npcDialogues.betty.averageFlower":
-    "Not exactly what I was expecting, but it's quite lovely. Thank you.",
-  "npcDialogues.betty.badFlower":
-    "This isn't what I had in mind. Could you try to find a more suitable flower?",
+    ENGLISH_TERMS["npcDialogues.betty.averageFlower"],
+  "npcDialogues.betty.badFlower": ENGLISH_TERMS["npcDialogues.betty.badFlower"],
   "npcDialogues.betty.goodFlower":
-    "This Pansy is beautiful! Thank you for bringing it to me.",
-
+    ENGLISH_TERMS["npcDialogues.betty.goodFlower"],
+  // Blacksmith
   "npcDialogues.blacksmith.reward":
-    "Your deliveries are much appreciated. Here's something for your efforts.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.reward"],
   "npcDialogues.blacksmith.flowerIntro":
-    "I'm in need of a vibrant Red Carnation. Have you come across one?",
+    ENGLISH_TERMS["npcDialogues.blacksmith.flowerIntro"],
   "npcDialogues.blacksmith.averageFlower":
-    "Not exactly what I was hoping for, but it's quite nice. Thank you.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.averageFlower"],
   "npcDialogues.blacksmith.badFlower":
-    "This flower isn't quite right. Could you search for a more suitable one?",
+    ENGLISH_TERMS["npcDialogues.blacksmith.badFlower"],
   "npcDialogues.blacksmith.goodFlower":
-    "Ah, this Red Carnation is perfect! Thank you for bringing it to me.",
-
-  "npcDialogues.bert.reward":
-    "Thank you for your continuous help. Here's a small token of appreciation.",
+    ENGLISH_TERMS["npcDialogues.blacksmith.goodFlower"],
+  // Bert
+  "npcDialogues.bert.reward": ENGLISH_TERMS["npcDialogues.bert.reward"],
   "npcDialogues.bert.flowerIntro":
-    "The Lotus flowers in Red, Yellow, Purple, White, or Blue are truly enchanting. Do you have one?",
+    ENGLISH_TERMS["npcDialogues.bert.flowerIntro"],
   "npcDialogues.bert.averageFlower":
-    "This wasn't what I had in mind, but it's quite delightful. Thank you.",
-  "npcDialogues.bert.badFlower":
-    "This isn't the flower I needed. Perhaps another search is in order?",
-  "npcDialogues.bert.goodFlower":
-    "This Lotus is exquisite! Thank you for bringing it to me.",
-
-  "npcDialogues.finn.reward":
-    "Your contributions are invaluable. Here's a little something to express my gratitude.",
+    ENGLISH_TERMS["npcDialogues.bert.averageFlower"],
+  "npcDialogues.bert.badFlower": ENGLISH_TERMS["npcDialogues.bert.badFlower"],
+  "npcDialogues.bert.goodFlower": ENGLISH_TERMS["npcDialogues.bert.goodFlower"],
+  // Finn
+  "npcDialogues.finn.reward": ENGLISH_TERMS["npcDialogues.finn.reward"],
   "npcDialogues.finn.flowerIntro":
-    "I'm yearning for a beautiful Cosmos in White, or Blue. Can you find one?",
+    ENGLISH_TERMS["npcDialogues.finn.flowerIntro"],
   "npcDialogues.finn.averageFlower":
-    "Not exactly what I was hoping for, but it's quite pleasing. Thank you.",
-  "npcDialogues.finn.badFlower":
-    "This flower doesn't quite meet my expectations. Perhaps another try?",
-  "npcDialogues.finn.goodFlower":
-    "This Cosmos is stunning! Thank you for bringing it to me.",
+    ENGLISH_TERMS["npcDialogues.finn.averageFlower"],
+  "npcDialogues.finn.badFlower": ENGLISH_TERMS["npcDialogues.finn.badFlower"],
+  "npcDialogues.finn.goodFlower": ENGLISH_TERMS["npcDialogues.finn.goodFlower"],
 
-  "npcDialogues.finley.reward":
-    "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
+  // Finley
+  "npcDialogues.finley.reward": ENGLISH_TERMS["npcDialogues.finley.reward"],
   "npcDialogues.finley.flowerIntro":
-    "A lovely Daffodil, like the one I'm thinking of, would brighten up my day. Have you seen one?",
+    ENGLISH_TERMS["npcDialogues.finley.flowerIntro"],
   "npcDialogues.finley.averageFlower":
-    "It's not exactly what I had in mind, but it's quite charming. Thank you.",
+    ENGLISH_TERMS["npcDialogues.finley.averageFlower"],
   "npcDialogues.finley.badFlower":
-    "This flower isn't quite right. Perhaps another one would be more suitable?",
+    ENGLISH_TERMS["npcDialogues.finley.badFlower"],
   "npcDialogues.finley.goodFlower":
-    "This Daffodil is beautiful! Thank you for bringing it to me.",
-
-  "npcDialogues.corale.reward":
-    "Your deliveries are much appreciated. Here's a little something to show my gratitude.",
+    ENGLISH_TERMS["npcDialogues.finley.goodFlower"],
+  // Corale
+  "npcDialogues.corale.reward": ENGLISH_TERMS["npcDialogues.corale.reward"],
   "npcDialogues.corale.flowerIntro":
-    "Have you ever encountered the radiant Prism Petal? It's simply enchanting...",
+    ENGLISH_TERMS["npcDialogues.corale.flowerIntro"],
   "npcDialogues.corale.averageFlower":
-    "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
+    ENGLISH_TERMS["npcDialogues.corale.averageFlower"],
   "npcDialogues.corale.badFlower":
-    "This isn't quite what I had in mind. Could you find a more suitable flower?",
+    ENGLISH_TERMS["npcDialogues.corale.badFlower"],
   "npcDialogues.corale.goodFlower":
-    "This Prism Petal is exquisite! Thank you for bringing it to me.",
-
-  "npcDialogues.raven.reward":
-    "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
+    ENGLISH_TERMS["npcDialogues.corale.goodFlower"],
+  // Raven
+  "npcDialogues.raven.reward": ENGLISH_TERMS["npcDialogues.raven.reward"],
   "npcDialogues.raven.flowerIntro":
-    "Deep dark purple is the color of my soul - have you come across anything like this?",
+    ENGLISH_TERMS["npcDialogues.raven.flowerIntro"],
   "npcDialogues.raven.averageFlower":
-    "Not quite what I was expecting, but it's quite pleasing. Thank you.",
-  "npcDialogues.raven.badFlower":
-    "This flower isn't quite right. Perhaps another search is in order?",
+    ENGLISH_TERMS["npcDialogues.raven.averageFlower"],
+  "npcDialogues.raven.badFlower": ENGLISH_TERMS["npcDialogues.raven.badFlower"],
   "npcDialogues.raven.goodFlower":
-    "This Purple flower is perfect! Thank you for bringing it to me.",
-
-  "npcDialogues.miranda.reward":
-    "Thank you for your efforts. Here's a small token of appreciation for your deliveries.",
+    ENGLISH_TERMS["npcDialogues.raven.goodFlower"],
+  // Miranda
+  "npcDialogues.miranda.reward": ENGLISH_TERMS["npcDialogues.miranda.reward"],
   "npcDialogues.miranda.flowerIntro":
-    "The vibrancy of a Yellow flower would surely lift my spirits. Have you seen one around?",
+    ENGLISH_TERMS["npcDialogues.miranda.flowerIntro"],
   "npcDialogues.miranda.averageFlower":
-    "It's not exactly what I was hoping for, but it's quite charming. Thank you.",
+    ENGLISH_TERMS["npcDialogues.miranda.averageFlower"],
   "npcDialogues.miranda.badFlower":
-    "This flower isn't quite right. Perhaps another one would be more suitable?",
+    ENGLISH_TERMS["npcDialogues.miranda.badFlower"],
   "npcDialogues.miranda.goodFlower":
-    "This Yellow flower is lovely! Thank you for bringing it to me.",
-
-  "npcDialogues.cornwell.reward":
-    "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
+    ENGLISH_TERMS["npcDialogues.miranda.goodFlower"],
+  // Cornwell
+  "npcDialogues.cornwell.reward": ENGLISH_TERMS["npcDialogues.cornwell.reward"],
   "npcDialogues.cornwell.flowerIntro":
-    "The sight of a Balloon Flower in Red, Yellow, Purple, White, or Blue is truly delightful...",
+    ENGLISH_TERMS["npcDialogues.cornwell.flowerIntro"],
   "npcDialogues.cornwell.averageFlower":
-    "Not quite what I was expecting, but it's quite charming. Thank you.",
+    ENGLISH_TERMS["npcDialogues.cornwell.averageFlower"],
   "npcDialogues.cornwell.badFlower":
-    "This flower isn't quite right. Perhaps another search is in order?",
+    ENGLISH_TERMS["npcDialogues.cornwell.badFlower"],
   "npcDialogues.cornwell.goodFlower":
-    "This Balloon Flower is delightful! Thank you for bringing it to me.",
-
-  "npcDialogues.tywin.reward":
-    "Thank you for your deliveries. Here's a small token of appreciation for your efforts.",
+    ENGLISH_TERMS["npcDialogues.cornwell.goodFlower"],
+  // Tywin
+  "npcDialogues.tywin.reward": ENGLISH_TERMS["npcDialogues.tywin.reward"],
   "npcDialogues.tywin.flowerIntro":
-    "Have you heard of the exquisite Primula Enigma or the mesmerizing Celestial Frostbloom? I'm in need of one.",
+    ENGLISH_TERMS["npcDialogues.tywin.flowerIntro"],
   "npcDialogues.tywin.averageFlower":
-    "Not exactly what I was hoping for, but it's quite delightful. Thank you.",
-  "npcDialogues.tywin.badFlower":
-    "This flower isn't quite right. Perhaps another one would be more suitable?",
+    ENGLISH_TERMS["npcDialogues.tywin.averageFlower"],
+  "npcDialogues.tywin.badFlower": ENGLISH_TERMS["npcDialogues.tywin.badFlower"],
   "npcDialogues.tywin.goodFlower":
-    "This flower is simply breathtaking! Thank you for bringing it to me.",
+    ENGLISH_TERMS["npcDialogues.tywin.goodFlower"],
 
   "npcDialogues.default.flowerIntro":
-    "Have you got a flower for me? Make sure it is something I like.",
-  "npcDialogues.default.averageFlower": "Wow, thanks! I love this flower!",
+    ENGLISH_TERMS["npcDialogues.default.flowerIntro"],
+  "npcDialogues.default.averageFlower":
+    ENGLISH_TERMS["npcDialogues.default.averageFlower"],
   "npcDialogues.default.badFlower":
-    "Hmmmm, this isn't my favorite flower. But I guess it's the thought that counts.",
+    ENGLISH_TERMS["npcDialogues.default.badFlower"],
   "npcDialogues.default.goodFlower":
-    "This is my favorite flower! Thanks a bunch!",
-  "npcDialogues.default.reward":
-    "Wow, thanks Bumpkin. Here is a small gift for your help!",
-  "npcDialogues.default.locked": "Please come back tomorrow.",
-
-  // Glinteye Intro
-  "npcDialogues.glinteye.intro1":
-    "Ah, adventurer! Glinteye at your service. Ready to trade secrets and resources? Dive into my listings or add your own. Let's make a deal!",
-  "npcDialogues.glinteye.intro2":
-    "Welcome, curious soul! I'm Glinteye, your guide to trading wonders. Seek or list resources with me; fortune favors the bold!",
-  "npcDialogues.glinteye.intro3":
-    "Glinteye's my name, trading's my game! Browse or list, there's always a twist. What's your fancy today?",
-  "npcDialogues.glinteye.intro4":
-    "Hello there! I'm Glinteye, the goblin of trade. Explore player trades or list your items. Let's see what we can find together!",
+    ENGLISH_TERMS["npcDialogues.default.goodFlower"],
+  "npcDialogues.default.reward": ENGLISH_TERMS["npcDialogues.default.reward"],
+  "npcDialogues.default.locked": ENGLISH_TERMS["npcDialogues.default.locked"],
+  // Glinteye
+  "npcDialogues.glinteye.intro1": ENGLISH_TERMS["npcDialogues.glinteye.intro1"],
+  "npcDialogues.glinteye.intro2": ENGLISH_TERMS["npcDialogues.glinteye.intro2"],
+  "npcDialogues.glinteye.intro3": ENGLISH_TERMS["npcDialogues.glinteye.intro3"],
+  "npcDialogues.glinteye.intro4": ENGLISH_TERMS["npcDialogues.glinteye.intro4"],
 };
 
 const nyeButton: Record<NyeButton, string> = {
-  "plaza.magicButton.query":
-    "A magical button has appeared in the plaza. Do you want to press it?",
+  "plaza.magicButton.query": ENGLISH_TERMS["plaza.magicButton.query"],
 };
 
-export const NYON_STATUE: Record<NyonStatue, string> = {
-  "nyonStatue.memory": "In memory of",
-  "nyonStatue.description":
-    "The legendary knight responsible for clearing the goblins from the mines. Shortly after his victory he died by poisoning from a Goblin conspirator. The Sunflower Citizens erected this statue with his armor to commemorate his conquests.",
+const NYON_STATUE: Record<NyonStatue, string> = {
+  "nyonStatue.memory": ENGLISH_TERMS["nyonStatue.memory"],
+  "nyonStatue.description": ENGLISH_TERMS["nyonStatue.description"],
 };
 
 const obsessionDialogue: Record<ObsessionDialogue, string> = {
-  "obsessionDialogue.line1":
-    "Ah, the {{itemName}}! I only wish to see it, not possess. Show it to me, and {{seasonalTicket}}s will be your reward.",
-  "obsessionDialogue.line2":
-    "You've brought the {{itemName}}? I merely want to gaze upon it. Let me see, and {{seasonalTicket}}s shall be yours.",
-  "obsessionDialogue.line3":
-    "Is that the {{itemName}} you have? A mere glance is all I desire. Fore this, you'll receive {{seasonalTicket}}s.",
-  "obsessionDialogue.line4":
-    "The {{itemName}}! I don't want to keep it, just to behold it. Show it to me, and {{seasonalTicket}}s are yours.",
-  "obsessionDialogue.line5":
-    "You offer a view of the {{itemName}}? All I ask is to see it briefly. For your generosity, {{seasonalTicket}}s will be granted to you.",
+  "obsessionDialogue.line1": ENGLISH_TERMS["obsessionDialogue.line1"],
+  "obsessionDialogue.line2": ENGLISH_TERMS["obsessionDialogue.line2"],
+  "obsessionDialogue.line3": ENGLISH_TERMS["obsessionDialogue.line3"],
+  "obsessionDialogue.line4": ENGLISH_TERMS["obsessionDialogue.line4"],
+  "obsessionDialogue.line5": ENGLISH_TERMS["obsessionDialogue.line5"],
 };
 
 const offer: Record<Offer, string> = {
-  "offer.okxOffer": "Howdy Farmer, I have an exclusive OKX offer for you!",
-  "offer.beginWithNFT":
-    "To begin you will need to mint a free Farm NFT. This will include:",
-  "offer.getStarterPack": "Get Starter Pack Now",
-  "offer.newHere": "Howdy Farmer, you look new here!",
-  "offer.getStarted": "Get Started Now",
-  "offer.not.enough.BlockBucks": "You do not have enough Block Bucks!",
+  "offer.okxOffer": ENGLISH_TERMS["offer.okxOffer"],
+  "offer.beginWithNFT": ENGLISH_TERMS["offer.beginWithNFT"],
+  "offer.getStarterPack": ENGLISH_TERMS["offer.getStarterPack"],
+  "offer.newHere": ENGLISH_TERMS["offer.newHere"],
+  "offer.getStarted": ENGLISH_TERMS["offer.getStarted"],
+  "offer.not.enough.BlockBucks": ENGLISH_TERMS["offer.not.enough.BlockBucks"],
 };
 
 const onboarding: Record<Onboarding, string> = {
-  "onboarding.welcome": "Welcome to decentralized gaming!",
-  "onboarding.step.one": "Step 1/3",
-  "onboarding.step.two": "Step 2/3 (Create a wallet)",
-  "onboarding.step.three": "Step 3/3 (Create your NFT)",
-  "onboarding.intro.one":
-    "In your travels, you will earn rare NFTs that need to be protected. To keep these secure you'll need a Web3 wallet.",
-  "onboarding.intro.two": "To begin your journey, your wallet will receive:",
-  "onboarding.cheer": "You're almost there!",
-  "onboarding.form.one": "Fill in your details",
-  "onboarding.form.two":
-    "and we will send a free NFT to play. (This will take us 3-7 days)",
-  "onboarding.duplicateUser.one": "Already signed up!",
-  "onboarding.duplicateUser.two":
-    "It looks like you have already registered for beta testing using a different address. Only one address can be used during beta testing. ",
-  "onboarding.starterPack": "Starter Pack",
-  "onboarding.settingWallet": "Setting up your wallet",
-  "onboarding.wallet.one":
-    "There are many wallet providers out there, but we've partnered with Sequence because they're easy to use and secure.",
-  "onboarding.wallet.two":
-    "Select a sign-up method in the pop-up window and you're good to go. I'll see you back here in just a minute!",
-  "onboarding.wallet.haveWallet": "I already have a wallet",
-  "onboarding.wallet.createButton": "Create wallet",
-  "onboarding.wallet.acceptButton": "Accept terms of service",
-  "onboarding.buyFarm.title": "Buy your farm!",
-  "onboarding.buyFarm.one":
-    "Now that your wallet is all set up, it's time to get your very own farm NFT! ",
-  "onboarding.buyFarm.two":
-    "This NFT will securely store all your progress in Sunflower Land and allow you to keep coming back to tend to your farm.",
-  "onboarding.wallet.already": "I already have a wallet ",
+  "onboarding.welcome": ENGLISH_TERMS["onboarding.welcome"],
+  "onboarding.step.one": ENGLISH_TERMS["onboarding.step.one"],
+  "onboarding.step.two": ENGLISH_TERMS["onboarding.step.two"],
+  "onboarding.step.three": ENGLISH_TERMS["onboarding.step.three"],
+  "onboarding.intro.one": ENGLISH_TERMS["onboarding.intro.one"],
+  "onboarding.intro.two": ENGLISH_TERMS["onboarding.intro.two"],
+  "onboarding.cheer": ENGLISH_TERMS["onboarding.cheer"],
+  "onboarding.form.one": ENGLISH_TERMS["onboarding.form.one"],
+  "onboarding.form.two": ENGLISH_TERMS["onboarding.form.two"],
+  "onboarding.duplicateUser.one": ENGLISH_TERMS["onboarding.duplicateUser.one"],
+  "onboarding.duplicateUser.two": ENGLISH_TERMS["onboarding.duplicateUser.two"],
+  "onboarding.starterPack": ENGLISH_TERMS["onboarding.starterPack"],
+  "onboarding.settingWallet": ENGLISH_TERMS["onboarding.settingWallet"],
+  "onboarding.wallet.one": ENGLISH_TERMS["onboarding.wallet.one"],
+  "onboarding.wallet.two": ENGLISH_TERMS["onboarding.wallet.two"],
+  "onboarding.wallet.haveWallet": ENGLISH_TERMS["onboarding.wallet.haveWallet"],
+  "onboarding.wallet.createButton":
+    ENGLISH_TERMS["onboarding.wallet.createButton"],
+  "onboarding.wallet.acceptButton":
+    ENGLISH_TERMS["onboarding.wallet.acceptButton"],
+  "onboarding.buyFarm.title": ENGLISH_TERMS["onboarding.buyFarm.title"],
+  "onboarding.buyFarm.one": ENGLISH_TERMS["onboarding.buyFarm.one"],
+  "onboarding.buyFarm.two": ENGLISH_TERMS["onboarding.buyFarm.two"],
+  "onboarding.wallet.already": ENGLISH_TERMS["onboarding.wallet.already"],
 };
 
 const onCollectReward: Record<OnCollectReward, string> = {
-  "onCollectReward.Missing.Seed": "Missing Seeds",
-  "onCollectReward.Market": "Go to the Market to purchase seeds.",
-  "onCollectReward.Missing.Shovel": "Missing Shovel",
+  "onCollectReward.Missing.Seed": ENGLISH_TERMS["onCollectReward.Missing.Seed"],
+  "onCollectReward.Market": ENGLISH_TERMS["onCollectReward.Market"],
+  "onCollectReward.Missing.Shovel":
+    ENGLISH_TERMS["onCollectReward.Missing.Shovel"],
   "onCollectReward.Missing.Shovel.description":
-    "Expand your island to find it.",
+    ENGLISH_TERMS["onCollectReward.Missing.Shovel.description"],
 };
 
 const orderhelp: Record<OrderHelp, string> = {
   "orderhelp.Skip.hour": "要跳过订单，你必须在下订单后等待 24 小时。",
-  "orderhelp.New.Season":
-    "A new season approaches, deliveries will temporarily close.",
-  "orderhelp.New.Season.arrival": "New Seasonal Deliveries opening soon.",
-  "orderhelp.Wisely": "Choose wisely!",
+  "orderhelp.New.Season": ENGLISH_TERMS["orderhelp.New.Season"],
+  "orderhelp.New.Season.arrival": ENGLISH_TERMS["orderhelp.New.Season.arrival"],
+  "orderhelp.Wisely": ENGLISH_TERMS["orderhelp.Wisely"],
   "orderhelp.SkipIn": "跳入：",
   "orderhelp.NoRight": "先别跳",
   "orderhelp.ticket.deliveries.closed":
-    "Ticket deliveries are currently closed",
+    ENGLISH_TERMS["orderhelp.ticket.deliveries.closed"],
 };
 
 const pending: Record<Pending, string> = {
-  "pending.calcul": "The results are being calculated.",
-  "pending.comeback": "Come back later.",
+  "pending.calcul": ENGLISH_TERMS["pending.calcul"],
+  "pending.comeback": ENGLISH_TERMS["pending.comeback"],
 };
 
 const personHood: Record<PersonHood, string> = {
-  "personHood.Details": "Failed Loading Personhood Details",
-  "personHood.Identify": "Your identity could not be verified",
-  "personHood.Congrat": "Congratulations, your identity has been verified!",
+  "personHood.Details": ENGLISH_TERMS["personHood.Details"],
+  "personHood.Identify": ENGLISH_TERMS["personHood.Identify"],
+  "personHood.Congrat": ENGLISH_TERMS["personHood.Congrat"],
 };
 
 const pickserver: Record<Pickserver, string> = {
-  "pickserver.server": "Choose a server to join",
-  "pickserver.full": "FULL",
-  "pickserver.explore": "Explore custom project islands.",
-  "pickserver.built": "Do you want to build your own island?",
+  "pickserver.server": ENGLISH_TERMS["pickserver.server"],
+  "pickserver.full": ENGLISH_TERMS["pickserver.full"],
+  "pickserver.explore": ENGLISH_TERMS["pickserver.explore"],
+  "pickserver.built": ENGLISH_TERMS["pickserver.built"],
 };
 
 const piratechest: Record<PirateChest, string> = {
-  "piratechest.greeting":
-    "Ahoy matey! Set sail and come back later for a chest full of swashbuckling rewards!",
-  "piratechest.refreshesIn": "Chest Refreshes in:",
-  "piratechest.warning":
-    "Ahoy there! This chest be filled with treasures fit for a pirate king, but beware, only those with a pirate skin can open it and claim the booty within!",
+  "piratechest.greeting": ENGLISH_TERMS["piratechest.greeting"],
+  "piratechest.refreshesIn": ENGLISH_TERMS["piratechest.refreshesIn"],
+  "piratechest.warning": ENGLISH_TERMS["piratechest.warning"],
 };
 
 const pirateQuest: Record<PirateQuest, string> = {
-  "questDescription.farmerQuest1": "Harvest 1000 Sunflowers",
-  "questDescription.fruitQuest1": "Harvest 10 Blueberries",
-  "questDescription.fruitQuest2": "Harvest 100 Oranges",
-  "questDescription.fruitQuest3": "Harvest 750 Apples",
-  "questDescription.pirateQuest1": "Dig 30 holes",
-  "questDescription.pirateQuest2": "Collect 10 Seaweeds",
-  "questDescription.pirateQuest3": "Collect 10 Pipis",
-  "questDescription.pirateQuest4": "Collect 5 Corals",
-  "piratequest.welcome":
-    "Welcome to the high seas of adventure, where ye be tested as a true pirate. Set sail on a journey to find the richest pillage and become the greatest pirate to ever grace the ocean waves.",
-  "piratequest.finestPirate":
-    "Ahoy, ye be the finest pirate on the seven seas with yer loot!!",
+  "questDescription.farmerQuest1":
+    ENGLISH_TERMS["questDescription.farmerQuest1"],
+  "questDescription.fruitQuest1": ENGLISH_TERMS["questDescription.fruitQuest1"],
+  "questDescription.fruitQuest2": ENGLISH_TERMS["questDescription.fruitQuest2"],
+  "questDescription.fruitQuest3": ENGLISH_TERMS["questDescription.fruitQuest3"],
+  "questDescription.pirateQuest1":
+    ENGLISH_TERMS["questDescription.pirateQuest1"],
+  "questDescription.pirateQuest2":
+    ENGLISH_TERMS["questDescription.pirateQuest2"],
+  "questDescription.pirateQuest3":
+    ENGLISH_TERMS["questDescription.pirateQuest3"],
+  "questDescription.pirateQuest4":
+    ENGLISH_TERMS["questDescription.pirateQuest4"],
+  "piratequest.welcome": ENGLISH_TERMS["piratequest.welcome"],
+  "piratequest.finestPirate": ENGLISH_TERMS["piratequest.finestPirate"],
 };
 
 const playerTrade: Record<PlayerTrade, string> = {
-  "playerTrade.no.trade": "No trades available.",
-  "playerTrade.max.item": "Oh no! You've reached your max items.",
-  "playerTrade.Progress":
-    "Please store your progress on chain before continuing.",
-  "playerTrade.transaction":
-    "Oh oh! It looks like you have a transaction in progress.",
-  "playerTrade.Please": "Please allow 5 minutes before continuing.",
-  "playerTrade.sold": "Sold",
-  "playerTrade.sale": "For sale:",
-  "playerTrade.title.congrat": "Congratulations, your listing was purchased",
+  "playerTrade.no.trade": ENGLISH_TERMS["playerTrade.no.trade"],
+  "playerTrade.max.item": ENGLISH_TERMS["playerTrade.max.item"],
+  "playerTrade.Progress": ENGLISH_TERMS["playerTrade.Progress"],
+  "playerTrade.transaction": ENGLISH_TERMS["playerTrade.transaction"],
+  "playerTrade.Please": ENGLISH_TERMS["playerTrade.Please"],
+  "playerTrade.sold": ENGLISH_TERMS["playerTrade.sold"],
+  "playerTrade.sale": ENGLISH_TERMS["playerTrade.sale"],
+  "playerTrade.title.congrat": ENGLISH_TERMS["playerTrade.title.congrat"],
 };
 
 const portal: Record<Portal, string> = {
-  "portal.wrong": "Something went wrong",
-  "portal.unauthorised": "unauthorised",
+  "portal.wrong": ENGLISH_TERMS["portal.wrong"],
+  "portal.unauthorised": ENGLISH_TERMS["portal.unauthorised"],
 };
 
 const promo: Record<Promo, string> = {
-  "promo.cdcBonus": "Crypto.com Bonus!",
-  "promo.expandLand": "Expand your land twice to claim 100 SFL.",
+  "promo.cdcBonus": ENGLISH_TERMS["promo.cdcBonus"],
+  "promo.expandLand": ENGLISH_TERMS["promo.expandLand"],
 };
 
 const purchaseableBaitTranslation: Record<PurchaseableBaitTranslation, string> =
   {
     "purchaseableBait.fishingLure.description":
-      "Great for catching rare fish ! ",
+      ENGLISH_TERMS["purchaseableBait.fishingLure.description"],
   };
 
 const quest: Record<Quest, string> = {
-  "quest.mint.free": "Mint Free Wearable",
-  "quest.equipWearable": "Equip this wearable on your Bumpkin",
-  "quest.congrats": "Congratulations, you have minted a {{wearable}}!",
+  "quest.mint.free": ENGLISH_TERMS["quest.mint.free"],
+  "quest.equipWearable": ENGLISH_TERMS["quest.equipWearable"],
+  "quest.congrats": ENGLISH_TERMS["quest.congrats"],
 };
 
 const questions: Record<Questions, string> = {
-  "questions.obtain.MATIC": "How do I get MATIC?",
-  "questions.lowCash": "Short on Cash?",
+  "questions.obtain.MATIC": ENGLISH_TERMS["questions.obtain.MATIC"],
+  "questions.lowCash": ENGLISH_TERMS["questions.lowCash"],
 };
 
 const reaction: Record<Reaction, string> = {
-  "reaction.bumpkin": "Lvl 3 Bumpkin",
-  "reaction.bumpkin.10": "Lvl 10 Bumpkin",
-  "reaction.bumpkin.30": "Lvl 30 Bumpkin",
-  "reaction.bumpkin.40": "Lvl 40 Bumpkin",
-  "reaction.sunflowers": "Harvest 100,000 Sunflowers",
-  "reaction.crops": "Harvest 10,000 crops",
-  "reaction.goblin": "Turn into a Goblin",
-  "reaction.crown": "Own a Goblin Crown",
+  "reaction.bumpkin": ENGLISH_TERMS["reaction.bumpkin"],
+  "reaction.bumpkin.10": ENGLISH_TERMS["reaction.bumpkin.10"],
+  "reaction.bumpkin.30": ENGLISH_TERMS["reaction.bumpkin.30"],
+  "reaction.bumpkin.40": ENGLISH_TERMS["reaction.bumpkin.40"],
+  "reaction.sunflowers": ENGLISH_TERMS["reaction.sunflowers"],
+  "reaction.crops": ENGLISH_TERMS["reaction.crops"],
+  "reaction.goblin": ENGLISH_TERMS["reaction.goblin"],
+  "reaction.crown": ENGLISH_TERMS["reaction.crown"],
 };
 
 const reactionBud: Record<ReactionBud, string> = {
-  "reaction.bud.show": "Show your buds",
-  "reaction.bud.select": "Select a bud to place in the plaza",
-  "reaction.bud.noFound": "No buds found in your inventory",
+  "reaction.bud.show": ENGLISH_TERMS["reaction.bud.show"],
+  "reaction.bud.select": ENGLISH_TERMS["reaction.bud.select"],
+  "reaction.bud.noFound": ENGLISH_TERMS["reaction.bud.noFound"],
 };
 
 const refunded: Record<Refunded, string> = {
-  "refunded.itemsReturned": "Your items have been returned to your inventory",
-  "refunded.goodLuck": "Good luck next time!",
+  "refunded.itemsReturned": ENGLISH_TERMS["refunded.itemsReturned"],
+  "refunded.goodLuck": ENGLISH_TERMS["refunded.goodLuck"],
 };
 
 const removeCropMachine: Record<RemoveCropMachine, string> = {
@@ -3910,29 +3643,32 @@ const removeCropMachine: Record<RemoveCropMachine, string> = {
 };
 
 const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
-  "removeHungryCaterpillar.title": "Remove Hungry Catepillar?",
+  "removeHungryCaterpillar.title":
+    ENGLISH_TERMS["removeHungryCaterpillar.title"],
   "removeHungryCaterpillar.description":
-    "This action will remove all your flower seeds from your inventory.",
-  "removeHungryCaterpillar.removeFlowerSeeds": "Remove flower seeds",
+    ENGLISH_TERMS["removeHungryCaterpillar.description"],
+  "removeHungryCaterpillar.removeFlowerSeeds":
+    ENGLISH_TERMS["removeHungryCaterpillar.removeFlowerSeeds"],
   "removeHungryCaterpillar.confirmation":
-    "Are you sure you want to remove your Hungry Caterpillar?",
+    ENGLISH_TERMS["removeHungryCaterpillar.confirmation"],
 };
 
 const removeKuebiko: Record<RemoveKuebiko, string> = {
-  "removeKuebiko.title": "Remove Kuebiko",
-  "removeKuebiko.description":
-    "This action will remove all your seeds from your inventory.",
-  "removeKuebiko.removeSeeds": "Remove seeds",
+  "removeKuebiko.title": ENGLISH_TERMS["removeKuebiko.title"],
+  "removeKuebiko.description": ENGLISH_TERMS["removeKuebiko.description"],
+  "removeKuebiko.removeSeeds": ENGLISH_TERMS["removeKuebiko.removeSeeds"],
 };
 
 const resale: Record<Resale, string> = {
-  "resale.actionText": "Resale",
+  "resale.actionText": ENGLISH_TERMS["resale.actionText"],
 };
 
 const resources: Record<Resources, string> = {
   "resources.recoversIn": "恢复时间：",
-  "resources.boulder.rareMineFound": "You found a rare mine!",
-  "resources.boulder.advancedMining": "Advanced mining on its way.",
+  "resources.boulder.rareMineFound":
+    ENGLISH_TERMS["resources.boulder.rareMineFound"],
+  "resources.boulder.advancedMining":
+    ENGLISH_TERMS["resources.boulder.advancedMining"],
 };
 
 const resourceTerms: Record<ResourceTerms, string> = {
@@ -3942,7 +3678,7 @@ const resourceTerms: Record<ResourceTerms, string> = {
   "honey.description": "用于使你的烹饪更甜",
 };
 
-export const restrictionReason: Record<RestrictionReason, string> = {
+const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.isGrowing": "{{item}} 正在生长",
   "restrictionReason.beanPlanted": "魔法豆已种植",
   "restrictionReason.cropsGrowing": "庄稼正在生长",
@@ -4025,21 +3761,21 @@ const rulesTerms: Record<RulesTerms, string> = {
 };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": "Install App",
-  "magic.link": "Magic Link",
-  "generating.link": "Generating Link",
-  "generating.code": "Generating Code",
+  "install.app": ENGLISH_TERMS["install.app"],
+  "magic.link": ENGLISH_TERMS["magic.link"],
+  "generating.link": ENGLISH_TERMS["generating.link"],
+  "generating.code": ENGLISH_TERMS["generating.code"],
   "install.app.desktop.description":
-    "Scan the code below to install on your device. Please be sure to open in either Safari or Chrome browser.",
+    ENGLISH_TERMS["install.app.desktop.description"],
   "install.app.mobile.metamask.description":
-    "Copy the magic link below and open it in {{browser}} on your device to install!",
-  "do.not.share.link": "Do not share this link!",
-  "do.not.share.code": "Do not share this code!",
-  "qr.code.not.working": "QR code not working?",
+    ENGLISH_TERMS["install.app.mobile.metamask.description"],
+  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"],
+  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"],
+  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"],
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
-  "sceneDialogues.chefIsBusy": "Chef is busy",
+  "sceneDialogues.chefIsBusy": ENGLISH_TERMS["sceneDialogues.chefIsBusy"],
 };
 
 const seasonTerms: Record<SeasonTerms, string> = {
@@ -4055,71 +3791,61 @@ const seasonTerms: Record<SeasonTerms, string> = {
   "season.limitedOffer": "仅限时间！",
   "season.wearableAirdrop": "免费季节性可穿戴。",
   "season.place.land": "你必须将横幅放置在你的土地上",
-  "season.megastore.discount": "Megastore SFL discount",
-  "season.supporter.gift": "Supporter Gift",
-  "season.free.season.passes": "Free Season Banners",
-  "season.free.season.passes.description": "Receive banners for every Season",
-  "season.vip.access": "Season VIP Access",
-  "season.vip.description":
-    "Unlock perks, discounts, bonus tickets, airdrops and more!",
-  "season.mystery.gift": "Mystery Gift",
-  "season.xp.boost": "10% XP boost",
-  "season.lifetime.farmer": "Lifetime Farmer",
-  "season.free.with.lifetime": "Free with Lifetime Farmer",
-  "season.vip.claim": "Claim your monthly seasonal airdrop.",
+  "season.megastore.discount": ENGLISH_TERMS["season.megastore.discount"],
+  "season.supporter.gift": ENGLISH_TERMS["season.supporter.gift"],
+  "season.free.season.passes": ENGLISH_TERMS["season.free.season.passes"],
+  "season.free.season.passes.description":
+    ENGLISH_TERMS["season.free.season.passes.description"],
+  "season.vip.access": ENGLISH_TERMS["season.vip.access"],
+  "season.vip.description": ENGLISH_TERMS["season.vip.description"],
+  "season.mystery.gift": ENGLISH_TERMS["season.mystery.gift"],
+  "season.xp.boost": ENGLISH_TERMS["season.xp.boost"],
+  "season.lifetime.farmer": ENGLISH_TERMS["season.lifetime.farmer"],
+  "season.free.with.lifetime": ENGLISH_TERMS["season.free.with.lifetime"],
+  "season.vip.claim": ENGLISH_TERMS["season.vip.claim"],
 };
 
 const share: Record<Share, string> = {
-  "share.TweetText": "Visit My Sunflower Land Farm",
-  "share.ShareYourFarmLink": "Share Your Farm Link",
-  "share.ShowOffToFarmers":
-    "Show off to fellow farmers by sharing your farm link (URL: to directly visit your farm!",
-  "share.FarmNFTImageAlt": "Sunflower-Land Farm NFT Image",
-  "share.CopyFarmURL": "Copy farm URL",
-  "share.Tweet": "Tweet",
-  "share.chooseServer": "Choose a server to join",
-  "share.FULL": "FULL",
-  "share.exploreCustomIslands": "Explore custom project islands.",
-  "share.buildYourOwnIsland": "Do you want to build your own island?",
+  "share.TweetText": ENGLISH_TERMS["share.TweetText"],
+  "share.ShareYourFarmLink": ENGLISH_TERMS["share.ShareYourFarmLink"],
+  "share.ShowOffToFarmers": ENGLISH_TERMS["share.ShowOffToFarmers"],
+  "share.FarmNFTImageAlt": ENGLISH_TERMS["share.FarmNFTImageAlt"],
+  "share.CopyFarmURL": ENGLISH_TERMS["share.CopyFarmURL"],
+  "share.Tweet": ENGLISH_TERMS["share.Tweet"],
+  "share.chooseServer": ENGLISH_TERMS["share.chooseServer"],
+  "share.FULL": ENGLISH_TERMS["share.FULL"],
+  "share.exploreCustomIslands": ENGLISH_TERMS["share.exploreCustomIslands"],
+  "share.buildYourOwnIsland": ENGLISH_TERMS["share.buildYourOwnIsland"],
 };
 
 const sharkBumpkinDialogues: Record<SharkBumpkinDialogues, string> = {
-  "sharkBumpkin.dialogue.shhhh": "Shhhh!",
-  "sharkBumpkin.dialogue.scareGoblins": "I'm trying to scare the Goblins.",
+  "sharkBumpkin.dialogue.shhhh": ENGLISH_TERMS["sharkBumpkin.dialogue.shhhh"],
+  "sharkBumpkin.dialogue.scareGoblins":
+    ENGLISH_TERMS["sharkBumpkin.dialogue.scareGoblins"],
 };
 
 const shelly: Record<Shelly, string> = {
-  "shelly.Dialogue.one": "Howdy, Bumpkin! Welcome to the beach!",
-  "shelly.Dialogue.two":
-    "After a hard day's work on your farm, there's no better place to kick back and enjoy the waves.",
-  "shelly.Dialogue.three":
-    "But we've got a bit of a situation. A massive kraken has emerged and taken control of our beloved beach.",
-  "shelly.Dialogue.four":
-    "We could really use your help, dear. Grab your bait and fishing rods, and together, we'll tackle this colossal problem!",
-  "shelly.Dialogue.five":
-    "For each tentacle you catch I will provide you with valuable mermaid scales!",
-  "shelly.Dialogue.letsgo": "Let's do it!",
+  "shelly.Dialogue.one": ENGLISH_TERMS["shelly.Dialogue.one"],
+  "shelly.Dialogue.two": ENGLISH_TERMS["shelly.Dialogue.two"],
+  "shelly.Dialogue.three": ENGLISH_TERMS["shelly.Dialogue.three"],
+  "shelly.Dialogue.four": ENGLISH_TERMS["shelly.Dialogue.four"],
+  "shelly.Dialogue.five": ENGLISH_TERMS["shelly.Dialogue.five"],
+  "shelly.Dialogue.letsgo": ENGLISH_TERMS["shelly.Dialogue.letsgo"],
 };
 
 const shellyDialogue: Record<ShellyDialogue, string> = {
   "shellyPanelContent.tasksFrozen":
-    "I am waiting for the new season to start. Come back to me then!",
-  "shellyPanelContent.canTrade":
-    "Oh my, you've got a Kraken Tentacle! I'll swap it for some mermaid scales.",
+    ENGLISH_TERMS["shellyPanelContent.tasksFrozen"],
+  "shellyPanelContent.canTrade": ENGLISH_TERMS["shellyPanelContent.canTrade"],
   "shellyPanelContent.cannotTrade":
-    "Looks like you don't have any Kraken Tentacles at hand! Come back when you do.",
-  "shellyPanelContent.swap": "Swap",
-  "krakenIntro.congrats":
-    "Well done! The Kraken has stopped terrorising Bumpkins.",
-  "krakenIntro.noMoreTentacles":
-    "You have collected all the tentacles for the week. Let's keep a close eye on it, I'm sure the hunger will return.",
-  "krakenIntro.gotIt": "Got it!",
-  "krakenIntro.appetiteChanges":
-    "The Kraken's appetite is constantly changing.",
-  "krakenIntro.currentHunger":
-    "Right now it has a hunger for ....Phew, that's better than Bumpkins.",
-  "krakenIntro.catchInstruction":
-    "Head to your fishing spot and try catch the beast!",
+    ENGLISH_TERMS["shellyPanelContent.cannotTrade"],
+  "shellyPanelContent.swap": ENGLISH_TERMS["shellyPanelContent.swap"],
+  "krakenIntro.congrats": ENGLISH_TERMS["krakenIntro.congrats"],
+  "krakenIntro.noMoreTentacles": ENGLISH_TERMS["krakenIntro.noMoreTentacles"],
+  "krakenIntro.gotIt": ENGLISH_TERMS["krakenIntro.gotIt"],
+  "krakenIntro.appetiteChanges": ENGLISH_TERMS["krakenIntro.appetiteChanges"],
+  "krakenIntro.currentHunger": ENGLISH_TERMS["krakenIntro.currentHunger"],
+  "krakenIntro.catchInstruction": ENGLISH_TERMS["krakenIntro.catchInstruction"],
 };
 
 const shopItems: Record<ShopItems, string> = {
@@ -4132,183 +3858,153 @@ const shopItems: Record<ShopItems, string> = {
 };
 
 const showingFarm: Record<ShowingFarm, string> = {
-  "showing.farm": "Showing on Farm",
-  "showing.wallet": "In Wallet",
+  "showing.farm": ENGLISH_TERMS["showing.farm"],
+  "showing.wallet": ENGLISH_TERMS["showing.wallet"],
 };
 
 const snorklerDialogues: Record<SnorklerDialogues, string> = {
-  "snorkler.vastOcean": "It is a vast ocean!",
-  "snorkler.goldBeneath": "There must be gold somewhere beneath the surface.",
+  "snorkler.vastOcean": ENGLISH_TERMS["snorkler.vastOcean"],
+  "snorkler.goldBeneath": ENGLISH_TERMS["snorkler.goldBeneath"],
 };
 
 const somethingWentWrong: Record<SomethingWentWrong, string> = {
-  "somethingWentWrong.supportTeam": "support team",
-  "somethingWentWrong.jumpingOver": "or jumping over to our",
-  "somethingWentWrong.askingCommunity": "and asking our community.",
+  "somethingWentWrong.supportTeam":
+    ENGLISH_TERMS["somethingWentWrong.supportTeam"],
+  "somethingWentWrong.jumpingOver":
+    ENGLISH_TERMS["somethingWentWrong.jumpingOver"],
+  "somethingWentWrong.askingCommunity":
+    ENGLISH_TERMS["somethingWentWrong.askingCommunity"],
 };
 
 const specialEvent: Record<SpecialEvent, string> = {
-  "special.event.link": "Airdrop link",
-  "special.event.claimForm":
-    "Please fill in the form below to claim your airdrop.",
+  "special.event.link": ENGLISH_TERMS["special.event.link"],
+  "special.event.claimForm": ENGLISH_TERMS["special.event.claimForm"],
   "special.event.airdropHandling":
-    "Airdrops are handled externally and may take a few days to arrive.",
-  "special.event.walletRequired": "Wallet Required",
-  "special.event.web3Wallet":
-    "A Web3 wallet is required for this event as it contains an Airdrop.",
-  "special.event.airdrop": "Airdrop",
-  "special.event.finishedLabel": "Event Finished",
-  "special.event.finished":
-    "This event has finished. Stay tuned for future events!",
-  "special.event.ineligible":
-    "There is no work needing to be done right now, thanks for stopping by though!",
-
-  "special.event.easterIntro":
-    "Oh no, my 6 rabbits have gone missing again....they must be searching for food. Can you help me find them? They look similar to other rabbits but have a unique sparkle. Click on them to capture them.",
-  "special.event.rabbitsMissing": "Rabbits missing",
+    ENGLISH_TERMS["special.event.airdropHandling"],
+  "special.event.walletRequired": ENGLISH_TERMS["special.event.walletRequired"],
+  "special.event.web3Wallet": ENGLISH_TERMS["special.event.web3Wallet"],
+  "special.event.airdrop": ENGLISH_TERMS["special.event.airdrop"],
+  "special.event.finishedLabel": ENGLISH_TERMS["special.event.finishedLabel"],
+  "special.event.finished": ENGLISH_TERMS["special.event.finished"],
+  "special.event.ineligible": ENGLISH_TERMS["special.event.ineligible"],
+  "special.event.easterIntro": ENGLISH_TERMS["special.event.easterIntro"],
+  "special.event.rabbitsMissing": ENGLISH_TERMS["special.event.rabbitsMissing"],
 };
 
 const statements: Record<Statements, string> = {
-  "statements.adventure": "Start your Adventure!",
-  "statements.auctioneer.one":
-    "I've travelled far and wide across Sunflower Land in search for exotic treasures to bring to my fellow Bumpkins.",
-  "statements.auctioneer.two":
-    "Don't miss one of the Auctions where a swing of my mighty hammer can turn your hard-earned resources into rare, minted marvels!",
-  "statements.beta.one": "Beta is only accessible to our OG farmers.",
-  "statements.beta.two": "Stay tuned for updates. We will be going live soon!",
-  "statements.better.luck": "Better luck next time!",
-  "statements.blacklist.one":
-    "The anti-bot and multi-account detection system has picked up strange behaviour. Actions have been restricted.",
-  "statements.blacklist.two":
-    "Please submit a ticket with details and we will get back to you.",
-  "statements.clickBottle": "Click on a bottle to add to your guess",
-  "statements.clock.one":
-    "Uh oh, it looks like your clock is not in sync with the game. Set date and time to automatic to avoid disruptions",
-  "statements.clock.two":
-    "Need help to sync your clock? Have a look at our guide!",
-  "statements.conversation.one": "I've got something for you!",
-  "statements.cooldown":
-    "To protect the community, we require a 2 week waiting period before this farm can be accessed.",
-  "statements.docs": "Go to docs",
-  "statements.dontRefresh": "Do not refresh your browser!",
-  "statements.guide.one": "Go to guide",
-  "statements.guide.two": "Check out this guide to help you get started.",
-  "statements.jigger.one":
-    "You will be redirected to a 3rd party service to take a quick selfie. Never share any personal information or crypto data.",
-  "statements.jigger.two": "You failed the Jigger Proof of Humanity.",
-  "statements.jigger.three":
-    "You can continue playing, but some actions will be restricted while you are being verified.",
-  "statements.jigger.four":
-    "Please reach out to support@usejigger.com if you beleive this was a mistake.",
-  "statements.jigger.five":
-    "Your proof of humanity is still being processed by Jigger. This can take up to 2 hours.",
-  "statements.jigger.six":
-    "The multi-account detection system has picked up strange behaviour.",
-  "statements.lvlUp": "Feed your Bumpkin to level up",
-  "statements.maintenance":
-    "New things are coming! Thanks for your patience, the game will be live again shortly.",
-  "statements.minted": "The goblins have crafted your ",
-  "statements.minting":
-    "Please be patient while your item is minted on the Blockchain.",
-  "statements.mutant.chicken":
-    "Congratulations, your chicken has laid a very rare mutant chicken!",
-  "statements.news":
-    "Recieve the latest news, complete chores & feed your Bumpkin.",
-  "statements.ohNo": "Oh no! Something went wrong!",
-  "statements.openGuide": "Open guide",
-  "statements.patience": "Thank you for your patience.",
-  "statements.potionRule.one":
-    "Objective: Figure out the combination. You have 3 tries to get it right. The game will end if you have a perfect potion or if you run out of tries.",
-  "statements.potionRule.two":
-    "Choose a combination of potions and attempt to mix them.",
-  "statements.potionRule.three":
-    "Adjust your next combination based on the feedback given.",
-  "statements.potionRule.four":
-    "When the game is complete, the score for your last attempt will determine help to determine your reward.",
-  "statements.potionRule.five": "A perfect potion in the perfect position",
-  "statements.potionRule.six": "Correct potion but wrong position",
-  "statements.potionRule.seven": "Oops, wrong potion",
-  "statements.sflLim.one": "You have reached the daily SFL limit.",
-  "statements.sflLim.two":
-    "You can continue playing, but will need to wait until tomorrow to sync again.",
-  "statements.sniped": "Oh no! Another player bought that trade before you.",
-  "statements.switchNetwork": "Add or Switch Network",
-  "statements.sync":
-    "Please bear with us while we sync all of your data on chain.",
+  "statements.adventure": ENGLISH_TERMS["statements.adventure"],
+  "statements.auctioneer.one": ENGLISH_TERMS["statements.auctioneer.one"],
+  "statements.auctioneer.two": ENGLISH_TERMS["statements.auctioneer.two"],
+  "statements.beta.one": ENGLISH_TERMS["statements.beta.one"],
+  "statements.beta.two": ENGLISH_TERMS["statements.beta.two"],
+  "statements.better.luck": ENGLISH_TERMS["statements.better.luck"],
+  "statements.blacklist.one": ENGLISH_TERMS["statements.blacklist.one"],
+  "statements.blacklist.two": ENGLISH_TERMS["statements.blacklist.two"],
+  "statements.clickBottle": ENGLISH_TERMS["statements.clickBottle"],
+  "statements.clock.one": ENGLISH_TERMS["statements.clock.one"],
+  "statements.clock.two": ENGLISH_TERMS["statements.clock.two"],
+  "statements.conversation.one": ENGLISH_TERMS["statements.conversation.one"],
+  "statements.cooldown": ENGLISH_TERMS["statements.cooldown"],
+  "statements.docs": ENGLISH_TERMS["statements.docs"],
+  "statements.dontRefresh": ENGLISH_TERMS["statements.dontRefresh"],
+  "statements.guide.one": ENGLISH_TERMS["statements.guide.one"],
+  "statements.guide.two": ENGLISH_TERMS["statements.guide.two"],
+  "statements.jigger.one": ENGLISH_TERMS["statements.jigger.one"],
+  "statements.jigger.two": ENGLISH_TERMS["statements.jigger.two"],
+  "statements.jigger.three": ENGLISH_TERMS["statements.jigger.three"],
+  "statements.jigger.four": ENGLISH_TERMS["statements.jigger.four"],
+  "statements.jigger.five": ENGLISH_TERMS["statements.jigger.five"],
+  "statements.jigger.six": ENGLISH_TERMS["statements.jigger.six"],
+  "statements.lvlUp": ENGLISH_TERMS["statements.lvlUp"],
+  "statements.maintenance": ENGLISH_TERMS["statements.maintenance"],
+  "statements.minted": ENGLISH_TERMS["statements.minted"],
+  "statements.minting": ENGLISH_TERMS["statements.minting"],
+  "statements.mutant.chicken": ENGLISH_TERMS["statements.mutant.chicken"],
+  "statements.news": ENGLISH_TERMS["statements.news"],
+  "statements.ohNo": ENGLISH_TERMS["statements.ohNo"],
+  "statements.openGuide": ENGLISH_TERMS["statements.openGuide"],
+  "statements.patience": ENGLISH_TERMS["statements.patience"],
+  "statements.potionRule.one": ENGLISH_TERMS["statements.potionRule.one"],
+  "statements.potionRule.two": ENGLISH_TERMS["statements.potionRule.two"],
+  "statements.potionRule.three": ENGLISH_TERMS["statements.potionRule.three"],
+  "statements.potionRule.four": ENGLISH_TERMS["statements.potionRule.four"],
+  "statements.potionRule.five": ENGLISH_TERMS["statements.potionRule.five"],
+  "statements.potionRule.six": ENGLISH_TERMS["statements.potionRule.six"],
+  "statements.potionRule.seven": ENGLISH_TERMS["statements.potionRule.seven"],
+  "statements.sflLim.one": ENGLISH_TERMS["statements.sflLim.one"],
+  "statements.sflLim.two": ENGLISH_TERMS["statements.sflLim.two"],
+  "statements.sniped": ENGLISH_TERMS["statements.sniped"],
+  "statements.switchNetwork": ENGLISH_TERMS["statements.switchNetwork"],
+  "statements.sync": ENGLISH_TERMS["statements.sync"],
   "statements.tapCont": "点击继续",
 
-  "statements.tutorial.one":
-    "The boat will take you between islands where you can discover new lands and exciting adventures.",
-  "statements.tutorial.two":
-    "Many lands are far away and will require an experienced Bumpkin before you can visit them.",
-  "statements.tutorial.three":
-    "Your adventure begins now, how far you explore ... that is on you.",
+  "statements.tutorial.one": ENGLISH_TERMS["statements.tutorial.one"],
+  "statements.tutorial.two": ENGLISH_TERMS["statements.tutorial.two"],
+  "statements.tutorial.three": ENGLISH_TERMS["statements.tutorial.three"],
   "statements.visit.firePit": "访问 Fire Pit 做饭并喂你的乡巴佬。",
-  "statements.wishing.well.info.four": "provide liquidity",
-  "statements.wishing.well.info.five": " in the game",
-  "statements.wishing.well.info.six": "providing liquidity",
-  "statements.wishing.well.worthwell": "worth of rewards in the well!",
+  "statements.wishing.well.info.four":
+    ENGLISH_TERMS["statements.wishing.well.info.four"],
+  "statements.wishing.well.info.five":
+    ENGLISH_TERMS["statements.wishing.well.info.five"],
+  "statements.wishing.well.info.six":
+    ENGLISH_TERMS["statements.wishing.well.info.six"],
+  "statements.wishing.well.worthwell":
+    ENGLISH_TERMS["statements.wishing.well.worthwell"],
   "statements.wishing.well.look.like":
-    "It doesn't look like you are providing liquidity yet.",
-  "statements.wishing.well.lucky": "Let's see how lucky you are!",
-  "statements.wrongChain.one":
-    "Check out this guide to help you get connected.",
+    ENGLISH_TERMS["statements.wishing.well.look.like"],
+  "statements.wishing.well.lucky":
+    ENGLISH_TERMS["statements.wishing.well.lucky"],
+  "statements.wrongChain.one": ENGLISH_TERMS["statements.wrongChain.one"],
   "statements.feed.bumpkin.one": "你的库存中没有食物。",
   "statements.feed.bumpkin.two": "你需要烹饪食物来喂养你的土包。",
-  "statements.empty.chest": "Your chest is empty, discover rare items today!",
+  "statements.empty.chest": ENGLISH_TERMS["statements.empty.chest"],
   "statements.chest.captcha": "点击箱子将其打开",
-  "statements.frankie.plaza": "Travel to the plaza to craft rare decorations!",
-  "statements.blacksmith.plaza": "Travel to the Plaza for more rare items.",
+  "statements.frankie.plaza": ENGLISH_TERMS["statements.frankie.plaza"],
+  "statements.blacksmith.plaza": ENGLISH_TERMS["statements.blacksmith.plaza"],
   "statements.water.well.needed.one": "需要追加 Water Well。",
   "statements.water.well.needed.two":
     "为了支持更多的庄稼，建造更多的 Water Well。",
-  "statements.soldOut": "Sold out",
+  "statements.soldOut": "售罄",
   "statements.inStock": "库存",
-  "statements.soldOutWearables": "View sold out wearables",
-  "statements.craft.composter": "Craft at Composter",
-  "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
-  "statements.crop.water": "These crops need water!",
-  "statements.daily.limit": "Daily Limit:",
-  "statements.sure.buy": "Are you sure you want to buy",
-  "statements.perplayer": "per Player",
-  "statements.minted.goToChest": "Go to your chest and place it on your island",
+  "statements.soldOutWearables": ENGLISH_TERMS["statements.soldOutWearables"],
+  "statements.craft.composter": ENGLISH_TERMS["statements.craft.composter"],
+  "statements.wallet.to.inventory.transfer":
+    ENGLISH_TERMS["statements.wallet.to.inventory.transfer"],
+  "statements.crop.water": ENGLISH_TERMS["statements.crop.water"],
+  "statements.daily.limit": ENGLISH_TERMS["statements.daily.limit"],
+  "statements.sure.buy": ENGLISH_TERMS["statements.sure.buy"],
+  "statements.perplayer": ENGLISH_TERMS["statements.perplayer"],
+  "statements.minted.goToChest": ENGLISH_TERMS["statements.minted.goToChest"],
   "statements.minted.withdrawAfterMint":
-    "You will be able to withdraw your item once the mint has finished",
-  "statements.startgame": "Start New Game",
-
-  "statements.session.expired":
-    "It looks like your session has expired. Please refresh the page to continue playing.",
-  "statements.price.change":
-    "Oh no! Looks like the price has changed, please try again!",
+    ENGLISH_TERMS["statements.minted.withdrawAfterMint"],
+  "statements.startgame": ENGLISH_TERMS["statements.startgame"],
+  "statements.session.expired": ENGLISH_TERMS["statements.session.expired"],
+  "statements.price.change": ENGLISH_TERMS["statements.price.change"],
   "statements.translation.contribution":
-    "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
+    ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord": "加入 Discord",
   "statements.translation.want2contribute":
     ENGLISH_TERMS["statements.translation.want2contribute"],
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
-  "stopGoblin.stop.goblin": "Stop the Goblins!",
-  "stopGoblin.stop.moon": "Stop the Moon Seekers!",
-  "stopGoblin.tap.one": "Tap the Moon Seekers before they steal your resources",
-  "stopGoblin.tap.two": "Tap the Goblins before they eat your food",
-  "stopGoblin.left": "Attempts left: {{attemptsLeft}}",
+  "stopGoblin.stop.goblin": ENGLISH_TERMS["stopGoblin.stop.goblin"],
+  "stopGoblin.stop.moon": ENGLISH_TERMS["stopGoblin.stop.moon"],
+  "stopGoblin.tap.one": ENGLISH_TERMS["stopGoblin.tap.one"],
+  "stopGoblin.tap.two": ENGLISH_TERMS["stopGoblin.tap.two"],
+  "stopGoblin.left": ENGLISH_TERMS["stopGoblin.left"],
 };
 
 const swarming: Record<Swarming, string> = {
-  "swarming.tooLongToFarm":
-    "Pay attention, you took too long to farm your crops!",
-  "swarming.goblinsTakenOver":
-    "The Goblins have taken over your farm. You must wait for them to leave",
+  "swarming.tooLongToFarm": ENGLISH_TERMS["swarming.tooLongToFarm"],
+  "swarming.goblinsTakenOver": ENGLISH_TERMS["swarming.goblinsTakenOver"],
 };
 
 const tieBreaker: Record<TieBreaker, string> = {
-  "tieBreaker.tiebreaker": "Tiebreaker",
-  "tieBreaker.closeBid":
-    " A tie breaker is chosen by whichever Bumpkin has more experience. Unfortunately you lost.",
-  "tieBreaker.betterLuck":
-    "Time to eat some more cakes! Better luck next time.",
-  "tieBreaker.refund": "Refund resource",
+  "tieBreaker.tiebreaker": ENGLISH_TERMS["tieBreaker.tiebreaker"],
+  "tieBreaker.closeBid": ENGLISH_TERMS["tieBreaker.closeBid"],
+  "tieBreaker.betterLuck": ENGLISH_TERMS["tieBreaker.betterLuck"],
+  "tieBreaker.refund": ENGLISH_TERMS["tieBreaker.refund"],
 };
 
 const toolDescriptions: Record<ToolDescriptions, string> = {
@@ -4323,114 +4019,100 @@ const toolDescriptions: Record<ToolDescriptions, string> = {
   "description.sand.shovel": "用来挖宝藏",
   "description.sand.drill": "深入挖掘不寻常或稀有的宝藏",
   "description.gold.pickaxe": "用于收集红宝石和日光石",
-  "description.oil.drill": "Drill for oil",
+  "description.oil.drill": "石油钻探",
 };
 
 const trader: Record<Trader, string> = {
-  "trader.you.pay": "You pay",
-  "trader.price.per.unit": "Price per unit",
-  "trader.goblin.fee": "Goblin fee",
-  "trader.they.receive": "They receive",
-  "trader.seller.receives": "Seller receives",
-  "trader.buyer.pays": "Buyer pays",
-  "trader.cancel.trade": "Cancel trade",
-  "trader.you.receive": "You receive",
-  "trader.PoH":
-    "Proof of humanity is needed for this feature. Please take a quick selfie.",
-  "trader.start.verification": "Start Verification",
+  "trader.you.pay": ENGLISH_TERMS["trader.you.pay"],
+  "trader.price.per.unit": ENGLISH_TERMS["trader.price.per.unit"],
+  "trader.goblin.fee": ENGLISH_TERMS["trader.goblin.fee"],
+  "trader.they.receive": ENGLISH_TERMS["trader.they.receive"],
+  "trader.seller.receives": ENGLISH_TERMS["trader.seller.receives"],
+  "trader.buyer.pays": ENGLISH_TERMS["trader.buyer.pays"],
+  "trader.cancel.trade": ENGLISH_TERMS["trader.cancel.trade"],
+  "trader.you.receive": ENGLISH_TERMS["trader.you.receive"],
+  "trader.PoH": ENGLISH_TERMS["trader.PoH"],
+  "trader.start.verification": ENGLISH_TERMS["trader.start.verification"],
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
-  "transaction.t&c.one":
-    "Accept the terms and conditions to sign in to Sunflower Land.",
-  "transaction.t&c.two": "Accept Terms and Conditions",
-  "transaction.mintFarm": "Your farm has been minted!",
-  "transaction.farm.ready": "Your farm will be ready in",
+  "transaction.t&c.one": ENGLISH_TERMS["transaction.t&c.one"],
+  "transaction.t&c.two": ENGLISH_TERMS["transaction.t&c.two"],
+  "transaction.mintFarm": ENGLISH_TERMS["transaction.mintFarm"],
+  "transaction.farm.ready": ENGLISH_TERMS["transaction.farm.ready"],
   "transaction.networkFeeRequired":
-    "To secure your NFTs on the Blockchain, a small network fee is required.",
-  "transaction.estimated.fee": "Estimated fee",
-  "transaction.payCardCash": "Pay with Card/Cash",
-  "transaction.creditCard": "*Credit card fees apply",
-  "transaction.rejected": "Transaction Rejected!",
-  "transaction.message0":
-    "You need to accept the transaction in the metamask popup to continue.",
-  "transaction.noFee":
-    "This request will not trigger a blockchain transaction or cost any gas fees.",
+    ENGLISH_TERMS["transaction.networkFeeRequired"],
+  "transaction.estimated.fee": ENGLISH_TERMS["transaction.estimated.fee"],
+  "transaction.payCardCash": ENGLISH_TERMS["transaction.payCardCash"],
+  "transaction.creditCard": ENGLISH_TERMS["transaction.creditCard"],
+  "transaction.rejected": ENGLISH_TERMS["transaction.rejected"],
+  "transaction.message0": ENGLISH_TERMS["transaction.message0"],
+  "transaction.noFee": ENGLISH_TERMS["transaction.noFee"],
   "transaction.chooseDonationGame":
-    "Thank you for your support! Kindly choose the game that you like donate to.",
-  "transaction.minblockbucks": "Minimum 5 Block Bucks",
-  "transaction.payCash": "Pay with Cash",
-  "transaction.matic": "Matic",
-  "transaction.payMatic": "Pay with MATIC",
-  "transaction.storeBlockBucks": "Block bucks will be stored on your farm.",
-  "transaction.excludeFees": "*Prices exclude transaction fees.",
+    ENGLISH_TERMS["transaction.chooseDonationGame"],
+  "transaction.minblockbucks": ENGLISH_TERMS["transaction.minblockbucks"],
+  "transaction.payCash": ENGLISH_TERMS["transaction.payCash"],
+  "transaction.matic": ENGLISH_TERMS["transaction.matic"],
+  "transaction.payMatic": ENGLISH_TERMS["transaction.payMatic"],
+  "transaction.storeBlockBucks": ENGLISH_TERMS["transaction.storeBlockBucks"],
+  "transaction.excludeFees": ENGLISH_TERMS["transaction.excludeFees"],
   "transaction.storeProgress.blockchain.one":
-    "Do you wish to store your progress on the Blockchain?",
+    ENGLISH_TERMS["transaction.storeProgress.blockchain.one"],
   "transaction.storeProgress.blockchain.two":
-    "Storing data on the Blockchain does not restock shops.",
-  "transaction.storeProgress": "Store progress",
-  "transaction.storeProgress.chain": "Store progress on chain",
+    ENGLISH_TERMS["transaction.storeProgress.blockchain.two"],
+  "transaction.storeProgress": ENGLISH_TERMS["transaction.storeProgress"],
+  "transaction.storeProgress.chain":
+    ENGLISH_TERMS["transaction.storeProgress.chain"],
   "transaction.storeProgress.success":
-    "Woohoo! Your items are secured on the Blockchain!",
-  "transaction.trade.congrats": "Congratulations, your trade was successful",
-  "transaction.processing": "Processing your transaction.",
-  "transaction.pleaseWait":
-    "Please wait for your transaction to be confirmed by the Blockchain.",
+    ENGLISH_TERMS["transaction.storeProgress.success"],
+  "transaction.trade.congrats": ENGLISH_TERMS["transaction.trade.congrats"],
+  "transaction.processing": ENGLISH_TERMS["transaction.processing"],
+  "transaction.pleaseWait": ENGLISH_TERMS["transaction.pleaseWait"],
   "transaction.unconfirmed.reset":
-    "After 5 minutes, any unconfirmed transactions will be reset.",
-  "transaction.withdraw.one": "Withdrawing",
-  "transaction.withdraw.sent": "Your items/tokens have been sent to",
-  "transaction.withdraw.view": "You can view your items on",
-  "transaction.openSea": "OpenSea",
-  "transaction.withdraw.four":
-    "You can view your tokens by importing the SFL Token to your wallet.",
-  "transaction.withdraw.five": "Import SFL Token to MetaMask",
-  "transaction.displayItems":
-    "Please note that OpenSea can take up to 30 minutes to display your items. You can also view your items on",
-  "transaction.withdraw.polygon": "PolygonScan",
-  "transaction.id": "Transaction ID",
-  "transaction.termsOfService": "Accept the terms of service",
+    ENGLISH_TERMS["transaction.unconfirmed.reset"],
+  "transaction.withdraw.one": ENGLISH_TERMS["transaction.withdraw.one"],
+  "transaction.withdraw.sent": ENGLISH_TERMS["transaction.withdraw.sent"],
+  "transaction.withdraw.view": ENGLISH_TERMS["transaction.withdraw.view"],
+  "transaction.openSea": ENGLISH_TERMS["transaction.openSea"],
+  "transaction.withdraw.four": ENGLISH_TERMS["transaction.withdraw.four"],
+  "transaction.withdraw.five": ENGLISH_TERMS["transaction.withdraw.five"],
+  "transaction.displayItems": ENGLISH_TERMS["transaction.displayItems"],
+  "transaction.withdraw.polygon": ENGLISH_TERMS["transaction.withdraw.polygon"],
+  "transaction.id": ENGLISH_TERMS["transaction.id"],
+  "transaction.termsOfService": ENGLISH_TERMS["transaction.termsOfService"],
   "transaction.termsOfService.one":
-    "In order to buy your farm you will need to accept the Sunflower Land terms of service.",
+    ENGLISH_TERMS["transaction.termsOfService.one"],
   "transaction.termsOfService.two":
-    "This step will take you back to your new sequence wallet to accept the terms of service.",
-  "transaction.buy.BlockBucks": "Buy Block Bucks",
+    ENGLISH_TERMS["transaction.termsOfService.two"],
+  "transaction.buy.BlockBucks": ENGLISH_TERMS["transaction.buy.BlockBucks"],
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress":
-    "Please ensure that the address you provided is on the Polygon Blockchain, is correct and is owned by you. There is no recovery from incorrect addresses.",
-  "transfer.Account":
-    "Your Account #{{farmID}} has been transferred to {{receivingAddress}}!",
-  "transfer.Farm": "Transferring your farm!",
-  "transfer.Refresh": "Do not refresh this browser",
-  "transfer.Taccount": "Transfer your account",
-  "transfer.address": "Wallet address:",
+  "transfer.sure.adress": ENGLISH_TERMS["transfer.sure.adress"],
+  "transfer.Account": ENGLISH_TERMS["transfer.Account"],
+  "transfer.Farm": ENGLISH_TERMS["transfer.Farm"],
+  "transfer.Refresh": ENGLISH_TERMS["transfer.Refresh"],
+  "transfer.Taccount": ENGLISH_TERMS["transfer.Taccount"],
+  "transfer.address": ENGLISH_TERMS["transfer.address"],
 };
 
 const treasureModal: Record<TreasureModal, string> = {
-  "treasureModal.noShovelTitle": "No Sand Shovel!",
-  "treasureModal.needShovel":
-    "You need to have a Sand Shovel equipped to be able to dig for treasure!",
-  "treasureModal.purchaseShovel":
-    "If you need to purchase one, you can head to the Treasure Shop at the southern end of the island.",
-  "treasureModal.gotIt": "Got it",
-  "treasureModal.maxHolesTitle": "Max holes reached!",
-  "treasureModal.saveTreasure": "Save some treasure for the rest of us!",
+  "treasureModal.noShovelTitle": ENGLISH_TERMS["treasureModal.noShovelTitle"],
+  "treasureModal.needShovel": ENGLISH_TERMS["treasureModal.needShovel"],
+  "treasureModal.purchaseShovel": ENGLISH_TERMS["treasureModal.purchaseShovel"],
+  "treasureModal.gotIt": ENGLISH_TERMS["treasureModal.gotIt"],
+  "treasureModal.maxHolesTitle": ENGLISH_TERMS["treasureModal.maxHolesTitle"],
+  "treasureModal.saveTreasure": ENGLISH_TERMS["treasureModal.saveTreasure"],
   "treasureModal.comeBackTomorrow":
-    "Come back tomorrow to search for more treasure.",
-  "treasureModal.drilling": "Drilling",
+    ENGLISH_TERMS["treasureModal.comeBackTomorrow"],
+  "treasureModal.drilling": ENGLISH_TERMS["treasureModal.drilling"],
 };
 
 const tutorialPage: Record<TutorialPage, string> = {
-  "tutorial.pageOne.text1":
-    "This menu will show you the levels required to unlock new buildings.",
-  "tutorial.pageOne.text2":
-    "Some of these can be built multiple times once you reach a certain level.",
-  "tutorial.pageTwo.text1":
-    "Buildings are an important way to progress through the game as they will help you to expand and evolve.",
-  "tutorial.pageTwo.text2":
-    "Lets start by leveling up our Bumpkin so we can get the Workbench to learn about tools.",
+  "tutorial.pageOne.text1": ENGLISH_TERMS["tutorial.pageOne.text1"],
+  "tutorial.pageOne.text2": ENGLISH_TERMS["tutorial.pageOne.text2"],
+  "tutorial.pageTwo.text1": ENGLISH_TERMS["tutorial.pageTwo.text1"],
+  "tutorial.pageTwo.text2": ENGLISH_TERMS["tutorial.pageTwo.text2"],
 };
 
 const username: Record<Username, string> = {
@@ -4441,52 +4123,46 @@ const username: Record<Username, string> = {
 };
 
 const visitislandEnter: Record<VisitislandEnter, string> = {
-  "visitIsland.enterIslandId": "Enter Island ID",
-  "visitIsland.visit": "Visit",
+  "visitIsland.enterIslandId": "输入岛屿ID",
+  "visitIsland.visit": "拜访",
 };
 
 const visitislandNotFound: Record<VisitislandNotFound, string> = {
-  "visitislandNotFound.title": "Island Not Found!",
+  "visitislandNotFound.title": "未找到島嶼！",
 };
 
 const wallet: Record<Wallet, string> = {
-  "wallet.connect": "Connect your wallet",
-  "wallet.linkWeb3": "Link a Web3 Wallet",
-  "wallet.setupWeb3":
-    "To access this feature, you must first setup a Web3 wallet",
-  "wallet.wrongWallet": "Wrong Wallet",
-  "wallet.connectedWrongWallet": "You are connected to the wrong wallet",
-  "wallet.missingNFT": "Missing NFT",
-  "wallet.requireFarmNFT":
-    "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
-  "wallet.uniqueFarmNFT":
-    "A unique farm NFT will be minted to store your progress",
-  "wallet.mintFreeNFT": "Mint your free NFT",
-  "wallet.wrongChain": "Wrong Chain",
-  "wallet.walletAlreadyLinked": "Wallet already linked",
-  "wallet.linkAnotherWallet": "Please link another wallet",
-  "wallet.transferFarm":
-    "Please transfer the farm to another wallet in order to mint the new account",
-  "wallet.signRequest": "Sign",
+  "wallet.connect": ENGLISH_TERMS["wallet.connect"],
+  "wallet.linkWeb3": ENGLISH_TERMS["wallet.linkWeb3"],
+  "wallet.setupWeb3": ENGLISH_TERMS["wallet.setupWeb3"],
+  "wallet.wrongWallet": ENGLISH_TERMS["wallet.wrongWallet"],
+  "wallet.connectedWrongWallet": ENGLISH_TERMS["wallet.connectedWrongWallet"],
+  "wallet.missingNFT": ENGLISH_TERMS["wallet.missingNFT"],
+  "wallet.requireFarmNFT": ENGLISH_TERMS["wallet.requireFarmNFT"],
+  "wallet.uniqueFarmNFT": ENGLISH_TERMS["wallet.uniqueFarmNFT"],
+  "wallet.mintFreeNFT": ENGLISH_TERMS["wallet.mintFreeNFT"],
+  "wallet.wrongChain": ENGLISH_TERMS["wallet.wrongChain"],
+  "wallet.walletAlreadyLinked": ENGLISH_TERMS["wallet.walletAlreadyLinked"],
+  "wallet.linkAnotherWallet": ENGLISH_TERMS["wallet.linkAnotherWallet"],
+  "wallet.transferFarm": ENGLISH_TERMS["wallet.transferFarm"],
+  "wallet.signRequest": ENGLISH_TERMS["wallet.signRequest"],
   "wallet.signRequestInWallet": "请在你的钱包中签署请求以继续。",
 };
 
 const warningTerms: Record<WarningTerms, string> = {
-  "warning.noAxe": "No Axe Selected!",
-  "warning.chat.maxCharacters": "Max characters",
-  "warning.chat.noSpecialCharacters": "No special characters",
+  "warning.noAxe": ENGLISH_TERMS["warning.noAxe"],
+  "warning.chat.maxCharacters": "最大字符数",
+  "warning.chat.noSpecialCharacters":
+    ENGLISH_TERMS["warning.chat.noSpecialCharacters"],
   "warning.level.required": "需要 {{lvl}} 级",
-  "warning.hoarding.message":
-    "Are you {{indefiniteArticle}} {{itemName}} hoarder?!",
+  "warning.hoarding.message": ENGLISH_TERMS["warning.hoarding.message"],
   // indefiniteArticle: 'a' or 'an' depending if first letter is vowel.
   // If this is not used in your language, leave the `{{indefiniteArticle}}` part out
   "warning.hoarding.indefiniteArticle.a": "a", // Leave this blank if not needed
   "warning.hoarding.indefiniteArticle.an": "an", // Leave this blank if not needed
-  "warning.hoarding.one":
-    "Word is that Goblins are known to raid farms that have an abundance of resources.",
-  "warning.hoarding.two":
-    "To protect yourself and keep those precious resources safe, please store your progress on chain.",
-  "travelRequirement.notice": "Before travelling, you must level up.",
+  "warning.hoarding.one": ENGLISH_TERMS["warning.hoarding.one"],
+  "warning.hoarding.two": ENGLISH_TERMS["warning.hoarding.two"],
+  "travelRequirement.notice": ENGLISH_TERMS["travelRequirement.notice"],
 };
 
 const welcomeTerms: Record<WelcomeTerms, string> = {
@@ -4505,41 +4181,35 @@ const welcomeTerms: Record<WelcomeTerms, string> = {
 };
 
 const winner: Record<Winner, string> = {
-  "winner.mintTime": "You have 24 hours to mint your prize.",
-  "winner.mintTime.one": "No items available to craft!",
+  "winner.mintTime": ENGLISH_TERMS["winner.mintTime"],
+  "winner.mintTime.one": ENGLISH_TERMS["winner.mintTime.one"],
 };
 
 const wishingWellTerms: Record<WishingWell, string> = {
-  "wishingWell.makeWish": "Grant a new wish and see how lucky you are!",
-  "wishingWell.newWish":
-    "A new wish has been made for you based on your current balance of LP tokens!",
-  "wishingWell.noReward":
-    "You have no reward available! Liquidity needs to be held for 3 days to get a reward!",
-  "wishingWell.wish.lucky": "Grant a new wish and see how lucky you are!",
-  "wishingWell.sflRewardsReceived": "You received {{reward}} SFL!",
-  "wishingWell.wish.grantTime": "It's time to grant your wish!",
-  "wishingWell.wish.granted": "Your wish has been granted.",
-  "wishingWell.wish.made": "You have made a wish!",
-  "wishingWell.wish.timeTillNextWish": "Time till next wish: {{nextWishTime}}",
+  "wishingWell.makeWish": ENGLISH_TERMS["wishingWell.makeWish"],
+  "wishingWell.newWish": ENGLISH_TERMS["wishingWell.newWish"],
+  "wishingWell.noReward": ENGLISH_TERMS["wishingWell.noReward"],
+  "wishingWell.wish.lucky": ENGLISH_TERMS["wishingWell.wish.lucky"],
+  "wishingWell.sflRewardsReceived":
+    ENGLISH_TERMS["wishingWell.sflRewardsReceived"],
+  "wishingWell.wish.grantTime": ENGLISH_TERMS["wishingWell.wish.grantTime"],
+  "wishingWell.wish.granted": ENGLISH_TERMS["wishingWell.wish.granted"],
+  "wishingWell.wish.made": ENGLISH_TERMS["wishingWell.wish.made"],
+  "wishingWell.wish.timeTillNextWish":
+    ENGLISH_TERMS["wishingWell.wish.timeTillNextWish"],
   "wishingWell.wish.thanksForSupport":
-    "Thanks for supporting the project and making a wish.",
+    ENGLISH_TERMS["wishingWell.wish.thanksForSupport"],
   "wishingWell.wish.comeBackAfter":
-    "Come back in {{nextWishTime}} to see just how lucky you have been!",
-  "wishingWell.wish.warning.one":
-    "Be aware that only the LP tokens you held at the time the wish was made will be considered when the wish is granted.",
-  "wishingWell.wish.warning.two":
-    "If you remove your liquidity during this time you won't receive any rewards.",
-  "wishingWell.info.one":
-    "The wishing well is a magical place where SFL rewards can be made just by making a wish!",
-  "wishingWell.info.two":
-    "Wishes are granted to farmers who provided liquidity in the game.",
-  "wishingWell.info.three":
-    "Looks like you have those magic LP tokens in your wallet!",
-  "wishingWell.moreInfo": "More info",
-  "wishingWell.noLiquidity":
-    "It doesn't look like you're providing liquidity yet. More info,",
-  "wishingWell.rewardsInWell": "Amount of rewards in the well",
-  "wishingWell.luck": "Let's see how lucky you are!",
+    ENGLISH_TERMS["wishingWell.wish.comeBackAfter"],
+  "wishingWell.wish.warning.one": ENGLISH_TERMS["wishingWell.wish.warning.one"],
+  "wishingWell.wish.warning.two": ENGLISH_TERMS["wishingWell.wish.warning.two"],
+  "wishingWell.info.one": ENGLISH_TERMS["wishingWell.info.one"],
+  "wishingWell.info.two": ENGLISH_TERMS["wishingWell.info.two"],
+  "wishingWell.info.three": ENGLISH_TERMS["wishingWell.info.three"],
+  "wishingWell.moreInfo": ENGLISH_TERMS["wishingWell.moreInfo"],
+  "wishingWell.noLiquidity": ENGLISH_TERMS["wishingWell.noLiquidity"],
+  "wishingWell.rewardsInWell": ENGLISH_TERMS["wishingWell.rewardsInWell"],
+  "wishingWell.luck": ENGLISH_TERMS["wishingWell.luck"],
 };
 
 const withdraw: Record<Withdraw, string> = {
@@ -4554,16 +4224,14 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.receive": "您将收到 5SFL",
   "withdraw.select.item": "请选择要提取的商品",
   "withdraw.opensea": "提现成功后，您将能够在 OpenSea 上查看您的物品。",
-  "withdraw.restricted":
-    "Some items cannot be withdrawn. Other items may be restricted when", // To interpolate
+  "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"], // To interpolate
   "withdraw.bumpkin.wearing":
     "你的乡巴佬目前穿着以下无法撤回的衣服。你需要先更换衣服，然后才能撤回。",
   "withdraw.bumpkin.sure.withdraw": "您确定要撤回您的乡巴佬吗？",
   "withdraw.buds": "请选择要退出的 Buds",
   "withdraw.budRestricted": "用于今天的 Bud Box",
-  "withdraw.bumpkin.closed": "Bumpkin withdrawal has been permanently disabled",
-  "withdraw.bumpkin.closing":
-    "Bumpkins are moving off chain. Bumpkin withdrawal will be permanently disabled, {{timeRemaining}}",
+  "withdraw.bumpkin.closed": ENGLISH_TERMS["withdraw.bumpkin.closed"],
+  "withdraw.bumpkin.closing": ENGLISH_TERMS["withdraw.bumpkin.closing"],
 };
 
 const world: Record<World, string> = {
@@ -4609,90 +4277,98 @@ const trading: Record<Trading, string> = {
   "trading.burned": "is burned.", // not used
 };
 
-export const leaderboardTerms: Record<Leaderboard, string> = {
-  "leaderboard.leaderboard": "Leaderboard",
-  "leaderboard.error": "Error loading leaderboard. Please try again later.",
-  "leaderboard.initialising": "Calculating your rank. Please try again later.",
-  "leaderboard.topTen": "Top ten",
-  "leaderboard.yourPosition": "Your position",
-  "leaderboard.factionMembers": "Faction Members",
+const leaderboardTerms: Record<Leaderboard, string> = {
+  "leaderboard.leaderboard": ENGLISH_TERMS["leaderboard.leaderboard"],
+  "leaderboard.error": ENGLISH_TERMS["leaderboard.error"],
+  "leaderboard.initialising": ENGLISH_TERMS["leaderboard.initialising"],
+  "leaderboard.topTen": ENGLISH_TERMS["leaderboard.topTen"],
+  "leaderboard.yourPosition": ENGLISH_TERMS["leaderboard.yourPosition"],
+  "leaderboard.factionMembers": ENGLISH_TERMS["leaderboard.factionMembers"],
 };
 
 const gameOptions: Record<GameOptions, string> = {
-  "gameOptions.title": "Game Options",
-  "gameOptions.howToPlay": "How to Play? (Under Reconstruction)",
-  "gameOptions.farmId": "Farm ID #{{farmId}}",
-  "gameOptions.logout": "Logout",
-  "gameOptions.confirmLogout": "Are you sure you want to Logout?",
-
-  // Amoy Actions
-  "gameOptions.amoyActions": "Amoy Testnet Actions",
-  "gameOptions.amoyActions.timeMachine": "Time Machine",
-
-  // Blockchain Settings
-  "gameOptions.blockchainSettings": "Blockchain Settings",
-  "gameOptions.blockchainSettings.refreshChain": "Refresh from Chain",
-  "gameOptions.blockchainSettings.storeOnChain": "Store on Chain",
-  "gameOptions.blockchainSettings.swapMaticForSFL": "Swap MATIC for SFL",
-  "gameOptions.blockchainSettings.transferOwnership": "Transfer Ownership",
-
-  // General Settings
-  "gameOptions.generalSettings": "General Settings",
-  "gameOptions.generalSettings.connectDiscord": "Connect to Discord",
-  "gameOptions.generalSettings.assignRole": "Assign Discord Role",
-  "gameOptions.generalSettings.changeLanguage": "Change Language",
-  "gameOptions.generalSettings.disableAnimations": "Disable Animations",
-  "gameOptions.generalSettings.enableAnimations": "Enable Animations",
-  "gameOptions.generalSettings.share": "Share",
-
-  // Plaza Settings
-  "gameOptions.plazaSettings": "Plaza Settings",
-  "gameOptions.plazaSettings.title.mutedPlayers": "Muted Players",
-  "gameOptions.plazaSettings.title.keybinds": "Keybinds",
+  "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
+  "gameOptions.howToPlay": ENGLISH_TERMS["gameOptions.howToPlay"],
+  "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
+  "gameOptions.logout": ENGLISH_TERMS["gameOptions.logout"],
+  "gameOptions.confirmLogout": ENGLISH_TERMS["gameOptions.confirmLogout"],
+  "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"],
+  "gameOptions.amoyActions.timeMachine":
+    ENGLISH_TERMS["gameOptions.amoyActions.timeMachine"],
+  "gameOptions.blockchainSettings":
+    ENGLISH_TERMS["gameOptions.blockchainSettings"],
+  "gameOptions.blockchainSettings.refreshChain":
+    ENGLISH_TERMS["gameOptions.blockchainSettings.refreshChain"],
+  "gameOptions.blockchainSettings.storeOnChain":
+    ENGLISH_TERMS["gameOptions.blockchainSettings.storeOnChain"],
+  "gameOptions.blockchainSettings.swapMaticForSFL":
+    ENGLISH_TERMS["gameOptions.blockchainSettings.swapMaticForSFL"],
+  "gameOptions.blockchainSettings.transferOwnership":
+    ENGLISH_TERMS["gameOptions.blockchainSettings.transferOwnership"],
+  "gameOptions.generalSettings": ENGLISH_TERMS["gameOptions.generalSettings"],
+  "gameOptions.generalSettings.connectDiscord":
+    ENGLISH_TERMS["gameOptions.generalSettings.connectDiscord"],
+  "gameOptions.generalSettings.assignRole":
+    ENGLISH_TERMS["gameOptions.generalSettings.assignRole"],
+  "gameOptions.generalSettings.changeLanguage":
+    ENGLISH_TERMS["gameOptions.generalSettings.changeLanguage"],
+  "gameOptions.generalSettings.disableAnimations":
+    ENGLISH_TERMS["gameOptions.generalSettings.disableAnimations"],
+  "gameOptions.generalSettings.enableAnimations":
+    ENGLISH_TERMS["gameOptions.generalSettings.enableAnimations"],
+  "gameOptions.generalSettings.share":
+    ENGLISH_TERMS["gameOptions.generalSettings.share"],
+  "gameOptions.plazaSettings": ENGLISH_TERMS["gameOptions.plazaSettings"],
+  "gameOptions.plazaSettings.title.mutedPlayers":
+    ENGLISH_TERMS["gameOptions.plazaSettings.title.mutedPlayers"],
+  "gameOptions.plazaSettings.title.keybinds":
+    ENGLISH_TERMS["gameOptions.plazaSettings.title.keybinds"],
   "gameOptions.plazaSettings.mutedPlayers.description":
-    "In case you have muted some players using the /mute command, you can see them here and unmute them if you want.",
+    ENGLISH_TERMS["gameOptions.plazaSettings.mutedPlayers.description"],
   "gameOptions.plazaSettings.keybinds.description":
-    "Need to know what keybinds are available? Check them out here.",
-  "gameOptions.plazaSettings.noMutedPlayers": "You have no muted players.",
-  "gameOptions.plazaSettings.changeServer": "Change server",
+    ENGLISH_TERMS["gameOptions.plazaSettings.keybinds.description"],
+  "gameOptions.plazaSettings.noMutedPlayers":
+    ENGLISH_TERMS["gameOptions.plazaSettings.noMutedPlayers"],
+  "gameOptions.plazaSettings.changeServer":
+    ENGLISH_TERMS["gameOptions.plazaSettings.changeServer"],
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
-  "equip.background": "Background",
-  "equip.hair": "Hair",
-  "equip.body": "Body",
-  "equip.shirt": "Shirt",
-  "equip.pants": "Pants",
-  "equip.shoes": "Shoes",
-  "equip.tool": "Tool",
-  "equip.necklace": "Necklace",
-  "equip.coat": "Coat",
-  "equip.hat": "Hat",
-  "equip.secondaryTool": "Secondary Tool",
-  "equip.onesie": "Onesie",
-  "equip.suit": "Suit",
-  "equip.wings": "Wings",
-  "equip.dress": "Dress",
-  "equip.beard": "Beard",
+  "equip.background": ENGLISH_TERMS["equip.background"],
+  "equip.hair": ENGLISH_TERMS["equip.hair"],
+  "equip.body": ENGLISH_TERMS["equip.body"],
+  "equip.shirt": ENGLISH_TERMS["equip.shirt"],
+  "equip.pants": ENGLISH_TERMS["equip.pants"],
+  "equip.shoes": ENGLISH_TERMS["equip.shoes"],
+  "equip.tool": ENGLISH_TERMS["equip.tool"],
+  "equip.necklace": ENGLISH_TERMS["equip.necklace"],
+  "equip.coat": ENGLISH_TERMS["equip.coat"],
+  "equip.hat": ENGLISH_TERMS["equip.hat"],
+  "equip.secondaryTool": ENGLISH_TERMS["equip.secondaryTool"],
+  "equip.onesie": ENGLISH_TERMS["equip.onesie"],
+  "equip.suit": ENGLISH_TERMS["equip.suit"],
+  "equip.wings": ENGLISH_TERMS["equip.wings"],
+  "equip.dress": ENGLISH_TERMS["equip.dress"],
+  "equip.beard": ENGLISH_TERMS["equip.beard"],
 };
 
 const greenhouse: Record<GreenhouseKeys, string> = {
-  "greenhouse.oilDescription": "The greenhouse needs oil to grow plants.",
-  "greenhouse.oilRequired": "Oil required",
-  "greenhouse.oilInMachine": "{{oil}} Oil in machine",
-  "greenhouse.insertOil": "Insert Oil: {{oil}} available",
-  "greenhouse.numberOil": "{{oil}} Oil",
+  "greenhouse.oilDescription": ENGLISH_TERMS["greenhouse.oilDescription"],
+  "greenhouse.oilRequired": ENGLISH_TERMS["greenhouse.oilRequired"],
+  "greenhouse.oilInMachine": ENGLISH_TERMS["greenhouse.oilInMachine"],
+  "greenhouse.insertOil": ENGLISH_TERMS["greenhouse.insertOil"],
+  "greenhouse.numberOil": ENGLISH_TERMS["greenhouse.numberOil"],
 };
 
 const minigame: Record<Minigame, string> = {
-  "minigame.chickenRescue": "Minigame - Chicken Rescue",
-  "minigame.comingSoon": "Coming soon...",
-  "minigame.completed": "Complete",
-  "minigame.confirm": "Are you sure you want to spend ",
-  "minigame.noPrizeAvailable": "No daily prize available",
-  "minigame.playNow": "Play now",
-  "minigame.purchase": "Purchase",
-  "minigame.chickenRescueHelp": "Can you help me rescue the chickens?",
+  "minigame.chickenRescue": ENGLISH_TERMS["minigame.chickenRescue"],
+  "minigame.comingSoon": ENGLISH_TERMS["minigame.comingSoon"],
+  "minigame.completed": ENGLISH_TERMS["minigame.completed"],
+  "minigame.confirm": ENGLISH_TERMS["minigame.confirm"],
+  "minigame.noPrizeAvailable": ENGLISH_TERMS["minigame.noPrizeAvailable"],
+  "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
+  "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
+  "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
 };
 
 export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
