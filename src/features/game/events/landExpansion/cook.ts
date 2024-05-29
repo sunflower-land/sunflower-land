@@ -47,7 +47,7 @@ export const BUILDING_OIL_BOOSTS: Record<CookingBuildingName, number> = {
 export function isCookingBuilding(
   building: BuildingName
 ): building is CookingBuildingName {
-  return (building as CookingBuildingName) !== undefined;
+  return Object.keys(BUILDING_OIL_BOOSTS).includes(building);
 }
 
 export function getCookingOilBoost(
