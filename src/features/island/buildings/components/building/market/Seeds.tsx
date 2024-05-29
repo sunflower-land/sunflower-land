@@ -214,6 +214,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           details={{
             item: selectedName,
           }}
+          hideDescription
           requirements={{
             coins: price,
             showCoinsIfFree: true,

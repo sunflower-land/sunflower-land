@@ -124,6 +124,7 @@ export const Recipes: React.FC<Props> = ({
           details={{
             item: selected.name,
           }}
+          hideDescription
           requirements={{
             resources: selected.ingredients,
             xp: new Decimal(
