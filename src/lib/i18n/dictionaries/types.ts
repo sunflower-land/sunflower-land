@@ -3416,6 +3416,8 @@ export type GameOptions =
   | "gameOptions.generalSettings.connectDiscord"
   | "gameOptions.generalSettings.assignRole"
   | "gameOptions.generalSettings.changeLanguage"
+  | "gameOptions.generalSettings.darkMode"
+  | "gameOptions.generalSettings.lightMode"
   | "gameOptions.generalSettings.disableAnimations"
   | "gameOptions.generalSettings.enableAnimations"
   | "gameOptions.generalSettings.share"

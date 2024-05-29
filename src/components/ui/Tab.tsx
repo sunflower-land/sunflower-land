@@ -8,6 +8,7 @@ import {
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import lockIcon from "assets/skills/lock.png";
+import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 interface Props {
   isFirstTab?: boolean;
@@ -30,6 +31,8 @@ export const Tab: React.FC<Props> = ({
   onClick,
   disabled,
 }) => {
+  const { isDarkMode } = useIsDarkMode();
+
   if (!isActive) {
     return (
       <div
@@ -70,7 +73,7 @@ export const Tab: React.FC<Props> = ({
         paddingLeft: `${PIXEL_SCALE * 2}px`,
         paddingRight: `${PIXEL_SCALE * 2}px`,
         height: `${PIXEL_SCALE * 16}px`,
-        background: "#e4a672",
+        background: isDarkMode ? "#c28669" : "#e4a672",
       }}
     >
       {children}

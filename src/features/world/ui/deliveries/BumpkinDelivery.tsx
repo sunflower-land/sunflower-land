@@ -374,37 +374,40 @@ export const Gifts: React.FC<{
 
   return (
     <>
-      <div className="p-2">
-        <div className="flex justify-between items-center mb-2">
-          <Label
-            type="default"
-            icon={SUNNYSIDE.icons.player}
-            className="capitalize"
-          >
-            {name}
-          </Label>
+      <InnerPanel className="mb-1">
+        <div className="p-2">
+          <div className="flex justify-between items-center mb-2">
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.player}
+              className="capitalize"
+            >
+              {name}
+            </Label>
 
-          <div className="flex">
-            <BumpkinGiftBar onOpen={onOpen} game={game} npc={name} />
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="h-7 ml-2 cursor-pointer"
-              onClick={onClose}
+            <div className="flex">
+              <BumpkinGiftBar onOpen={onOpen} game={game} npc={name} />
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="h-7 ml-2 cursor-pointer"
+                onClick={onClose}
+              />
+            </div>
+          </div>
+          <div className="mb-2">
+            <InlineDialogue
+              trail={25}
+              key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
+              message={translated}
             />
           </div>
         </div>
-        <div className="mb-2">
-          <InlineDialogue
-            trail={25}
-            key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
-            message={translated}
-          />
-        </div>
-
+      </InnerPanel>
+      <InnerPanel className="mb-1">
         <div className="flex justify-between">
           <Label
             type="default"
-            className="mb-2"
+            className="mb-2 ml-1"
             icon={ITEM_DETAILS["White Pansy"].image}
           >
             {t("bumpkin.delivery.selectFlower")}
@@ -436,7 +439,7 @@ export const Gifts: React.FC<{
             ))}
           </div>
         )}
-      </div>
+      </InnerPanel>
 
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
