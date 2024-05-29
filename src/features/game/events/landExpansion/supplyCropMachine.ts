@@ -180,7 +180,8 @@ function completelyAllocatePack(
     delete pack.growsUntil;
   } else {
     // If the pack was not previously growing, set its readyAt time
-    pack.readyAt = previousQueueItemReadyAt + pack.growTimeRemaining;
+    pack.readyAt =
+      Math.max(previousQueueItemReadyAt, now) + pack.growTimeRemaining;
   }
 
   pack.growTimeRemaining = 0;
