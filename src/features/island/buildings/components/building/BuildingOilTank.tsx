@@ -103,7 +103,7 @@ export const BuildingOilTank = ({
 
   const canIncrementOil = () => {
     const oilBalance = game.inventory.Oil ?? new Decimal(0);
-    if (!canAddOil() || !isCookingBuilding(buildingName) || !oilBalance)
+    if (!canAddOil() || !isCookingBuilding(buildingName) || oilBalance.lt(1))
       return false;
 
     const hasEnoughOil = oilBalance.toNumber() >= totalOilToAdd;
