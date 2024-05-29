@@ -111,10 +111,15 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
-            islandType: capitalize(
-              buildingBlueprints[nextBlueprintIndex]
-                .requiredIsland as IslandType
-            ),
+            islandType:
+              buildingBlueprints[nextBlueprintIndex].requiredIsland === "spring"
+                ? "Petal Paradise"
+                : t("islandupgrade.otherIsland", {
+                    island: capitalize(
+                      buildingBlueprints[nextBlueprintIndex]
+                        .requiredIsland as IslandType
+                    ),
+                  }),
           })}
         </Label>
       );
