@@ -115,7 +115,7 @@ export const portalMachine = createMachine({
 
           // Join the MMO Server
           let mmoServer: Room<PlazaRoomState> | undefined;
-          const serverName = getServer() ?? "sunflorea_bliss";
+          const serverName = getServer() ?? "poker-house";
           const mmoUrl = CONFIG.ROOM_URL;
 
           if (serverName && mmoUrl) {
@@ -145,6 +145,7 @@ export const portalMachine = createMachine({
           },
         ],
         onError: {
+          actions: (context,event) => {console.error(event.data);},
           target: "error",
         },
       },
