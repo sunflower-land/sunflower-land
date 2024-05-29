@@ -1,6 +1,7 @@
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import {
   CROP_MACHINE_PLOTS,
+  MAX_OIL_CAPACITY_IN_MILLIS,
   OIL_PER_HOUR_CONSUMPTION,
   calculateCropTime,
   getOilTimeInMillis,
@@ -1382,6 +1383,112 @@ describe("supplyCropMachine", () => {
     expect(
       finalState.buildings["Crop Machine"]?.[0]?.queue?.[0].readyAt
     ).toBeDefined();
+  });
+
+  it("sets the readyAt to a minimum of Date.now + grow time when fully allocating slot 1", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(40),
+        Oil: new Decimal(1),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: MAX_OIL_CAPACITY_IN_MILLIS,
+            queue: [],
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: 1,
+    });
+
+    const finalState = supplyCropMachine({
+      state: newState,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: now,
+    });
+
+    expect(
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
+    ).toBeGreaterThan(now);
+  });
+
+  it("sets the readyAt to a minimum of Date.now + grow time when fully allocating slot 1 (previously partially allocated)", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(40),
+        Oil: new Decimal(1),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: 3600000 + 1800000,
+            queue: [],
+          },
+        ],
+      },
+    };
+
+    const firstState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: 1,
+    });
+
+    const secondState = supplyCropMachine({
+      state: firstState,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: firstState.buildings["Crop Machine"]?.[0]?.queue?.[0].readyAt,
+    });
+
+    // Not full allocated
+    expect(
+      secondState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
+    ).toBeUndefined();
+
+    const thirdState = supplyCropMachine({
+      state: secondState,
+      action: {
+        type: "cropMachine.supplied",
+        oil: 1,
+      },
+      createdAt: now,
+    });
+
+    expect(
+      thirdState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
+    ).toBeGreaterThan(now);
   });
 });
 
