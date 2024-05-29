@@ -1599,12 +1599,12 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.palm.tree":
     "Tall, beachy, shady and chic, palm trees make waves sashay.",
   "description.battleCryDrum": "",
-  "description.bullseyBoard": "",
+  "description.bullseyeBoard": "",
   "description.chessRug": "",
   "description.cluckapult": "",
   "description.goldenGallant": "",
   "description.goldenGarrison": "",
-  "description.goldenGurdian": "",
+  "description.goldenGuardian": "",
   "description.noviceKnight": "",
   "description.regularPawn": "",
   "description.rookieRook": "",
@@ -2395,7 +2395,7 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.slowJuice": "Nutrient-rich juice, handcrafted by bumpkins.",
   "description.steamedRedRice":
     "Perfectly steamed red rice, a bumpkin's delight.",
-  "description.sushirRoll": "Delicious sushi roll, skillfully prepared.",
+  "description.sushiRoll": "Delicious sushi roll, skillfully prepared.",
   "description.theLot": "Flavorful fruit blend, refreshing and nutritious.",
   "description.tofuScramble":
     "Hearty scramble, packed with protein and flavor.",
