@@ -503,7 +503,11 @@ export const CropMachineModal: React.FC<Props> = ({
                 stopped={paused || idle}
                 queue={queue}
                 unallocatedOilTime={unallocatedOilTime}
-                onAddOil={() => setOverlayScreen("addOil")}
+                onAddOil={() => {
+                  // Reset Oil Before showing Overlay to Prevent accidental adding
+                  setTotalOil(0);
+                  setOverlayScreen("addOil");
+                }}
               />
             )}
           </div>
