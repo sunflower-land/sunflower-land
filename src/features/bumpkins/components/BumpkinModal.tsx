@@ -57,7 +57,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
   };
 
   return (
-    <div className="flex item-center mt-1">
+    <div className="flex items-center mt-1">
       <ResizableBar
         percentage={getProgressPercentage()}
         type="progress"
