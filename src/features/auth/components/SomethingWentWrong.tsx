@@ -115,7 +115,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             {": "}
             {date}
           </p>
-          <p className="leading-3">
+          <p className="leading-3 font-secondary">
             {t("version")}
             {": "}
             {CONFIG.RELEASE_VERSION}

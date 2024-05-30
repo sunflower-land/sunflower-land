@@ -10,7 +10,7 @@ export function cacheDarkModeSetting(show: boolean) {
 
 export function getDarkModeSetting(): boolean {
   const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
-  return cached ? JSON.parse(cached) : true;
+  return cached ? JSON.parse(cached) : false;
 }
 
 export const useIsDarkMode = () => {

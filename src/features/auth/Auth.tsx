@@ -64,7 +64,11 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
               )}
 
               <div className="flex justify-center">
-                <Label type="default">
+                <Label
+                  type="default"
+                  className="font-secondary"
+                  style={{ fontSize: "22px" }}
+                >
                   {CONFIG.RELEASE_VERSION?.split("-")[0]}
                 </Label>
 

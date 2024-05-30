@@ -293,7 +293,11 @@ export const BumpkinModal: React.FC<Props> = ({
             }}
           />
         )}
-        {tab === 2 && isLoading && <Loading />}
+        {tab === 2 && isLoading && (
+          <div className="my-2">
+            <Loading />
+          </div>
+        )}
         {tab === 2 && !isLoading && <Trade floorPrices={floorPrices} />}
       </div>
     </CloseButtonPanel>
