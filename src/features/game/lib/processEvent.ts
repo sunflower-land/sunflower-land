@@ -124,6 +124,12 @@ export const maxItems: Inventory = {
   "Red Envelope": new Decimal(100),
   "Love Letter": new Decimal(400),
 
+  // Emblems
+  "Goblin Emblem": new Decimal(500),
+  "Bumpkin Emblem": new Decimal(500),
+  "Sunflorian Emblem": new Decimal(500),
+  "Nightshade Emblem": new Decimal(500),
+
   // Stock limits
   Axe: new Decimal("900"),
   Pickaxe: new Decimal("300"),

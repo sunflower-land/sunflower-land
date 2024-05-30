@@ -255,6 +255,10 @@ import crowFeather from "assets/icons/crow_feather.webp";
 import mermaidScale from "assets/icons/mermaid_scale.webp";
 import tulipBulb from "assets/icons/tulip_bulb.png";
 import scroll from "assets/icons/scroll.webp";
+import goblinEmblem from "assets/icons/goblin_emblem.webp";
+import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
+import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
+import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
@@ -2445,6 +2449,22 @@ export const ITEM_DETAILS: Items = {
   Scroll: {
     image: scroll,
     description: translate("description.scroll"),
+  },
+  "Bumpkin Emblem": {
+    image: bumpkinEmblem,
+    description: translate("description.bumpkin.emblem"),
+  },
+  "Goblin Emblem": {
+    image: goblinEmblem,
+    description: translate("description.goblin.emblem"),
+  },
+  "Nightshade Emblem": {
+    image: nightshadeEmblem,
+    description: translate("description.nightshade.emblem"),
+  },
+  "Sunflorian Emblem": {
+    image: sunflorianEmblem,
+    description: translate("description.sunflorian.emblem"),
   },
 
   "Sunflower Supporter": {

@@ -2559,6 +2559,14 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   //Home
   "description.homeOwnerPainting": "Uma pintura do proprietário desta casa.",
+
+  // Emblem
+  "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],
+  "description.goblin.emblem": ENGLISH_TERMS["description.goblin.emblem"],
+  "description.sunflorian.emblem":
+    ENGLISH_TERMS["description.sunflorian.emblem"],
+  "description.nightshade.emblem":
+    ENGLISH_TERMS["description.nightshade.emblem"],
 };
 
 const gameTerms: Record<GameTerms, string> = {
