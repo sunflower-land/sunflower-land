@@ -1214,4 +1214,5 @@ a {
 
 .font-secondary {
   font-size: 22px;
+  -webkit-font-smoothing: antialiased;
 }

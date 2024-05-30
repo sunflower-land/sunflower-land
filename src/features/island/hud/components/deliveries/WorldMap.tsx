@@ -52,9 +52,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <span
           className="text-xs sm:text-sm"
           style={{
-            background: "#ffffff9e",
-            padding: "2px",
-            borderRadius: "3px",
+            textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
           }}
         >
           {t("world.home")}
@@ -80,9 +79,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <span
           className="text-xs sm:text-sm"
           style={{
-            background: "#ffffff9e",
-            padding: "2px",
-            borderRadius: "3px",
+            textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
           }}
         >
           {t("world.plaza")}
@@ -108,9 +106,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <span
           className="text-xs sm:text-sm"
           style={{
-            background: "#ffffff9e",
-            padding: "2px",
-            borderRadius: "3px",
+            textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
           }}
         >
           {t("world.beach")}
@@ -136,9 +133,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <span
           className="text-xs sm:text-sm"
           style={{
-            background: "#ffffff9e",
-            padding: "2px",
-            borderRadius: "3px",
+            textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
           }}
         >
           {t("world.woodlands")}
@@ -163,9 +159,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <span
                    className="text-xs sm:text-sm"
           style={{
-            background: "#ffffff9e",
-            padding: "2px",
-            borderRadius: "3px",
+             textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
            
           }}
           style={
@@ -198,9 +193,8 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <span
           className="text-xs sm:text-sm"
           style={{
-            background: "#ffffff9e",
-            padding: "2px",
-            borderRadius: "3px",
+            textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
           }}
         >
           {t("world.retreat")}

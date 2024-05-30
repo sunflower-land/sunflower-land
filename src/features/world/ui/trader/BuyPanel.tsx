@@ -493,7 +493,7 @@ export const BuyPanel: React.FC<{
         <div className="flex flex-col min-h-[150px] items-start justify-between">
           {isSearching && <p className="loading mt-1">{t("searching")}</p>}
           {!isSearching && (
-            <div className="flex overflow-y-auto relative w-full">
+            <div className="flex overflow-y-auto relative w-full scrollable">
               {view === "search" && searchView()}
               {view === "list" && listView(listings)}
             </div>
