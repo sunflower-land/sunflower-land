@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -29,6 +29,7 @@ import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -61,9 +62,9 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
 
   useUiRefresher();
   return (
-    <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
-      cachedAt
-    )}`}</span>
+    <span className="text- font-secondary">{`${t(
+      "last.updated"
+    )} ${getRelativeTime(cachedAt)}`}</span>
   );
 };
 
@@ -203,7 +204,7 @@ export const SalesPanel: React.FC<{
                 <Label type={!canSell ? "danger" : "info"} className="my-1">
                   {t("bumpkinTrade.available")}
                 </Label>
-                <span className="text-sm mr-1">
+                <span className="text-sm mr-1 font-secondary text-[30px]">
                   {state.inventory?.[selected]?.toFixed(0, 1) ?? 0}
                 </span>
               </div>
@@ -219,9 +220,11 @@ export const SalesPanel: React.FC<{
             </div>
             <div className="flex justify-between items-center px-2 pt-1">
               <span
-                className={classNames("text-xs", { "text-red-500": !canSell })}
+                className={classNames("text-xs font-secondary text-[30px]", {
+                  "text-red-500": !canSell,
+                })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-[12px]">
+              <span className="font-secondary text-[30px]">
                 {t("bumpkinTrade.price/unit", {
                   price: Number(unitPrice).toFixed(4),
                 })}
@@ -291,7 +294,7 @@ export const SalesPanel: React.FC<{
                     key={name}
                     className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
                   >
-                    <OuterPanel
+                    <ButtonPanel
                       className={classNames(
                         "w-full relative flex flex-col items-center justify-center",
                         {
@@ -323,11 +326,19 @@ export const SalesPanel: React.FC<{
                       </span>
                       <Label
                         type="warning"
-                        className="absolute -bottom-2 text-center mt-1 p-1"
-                        style={{ width: "calc(100% + 10px)" }}
+                        className={
+                          "absolute -bottom-2 text-center p-1 font-secondary"
+                        }
+                        style={{
+                          left: `${PIXEL_SCALE * -3}px`,
+                          right: `${PIXEL_SCALE * -3}px`,
+                          width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                          fontSize: "22px",
+                          height: "30px",
+                        }}
                       >
                         <span
-                          className={classNames("text-[12px]", {
+                          className={classNames({
                             pulse: showPulse,
                           })}
                         >
@@ -351,7 +362,7 @@ export const SalesPanel: React.FC<{
                           />
                         )}
                       </Label>
-                    </OuterPanel>
+                    </ButtonPanel>
                   </div>
                 );
               })}
