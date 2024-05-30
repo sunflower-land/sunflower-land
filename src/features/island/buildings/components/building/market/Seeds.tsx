@@ -46,6 +46,9 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { capitalize } from "lib/utils/capitalize";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   onClose: () => void;
@@ -53,6 +56,7 @@ interface Props {
 
 export const Seeds: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] = useState<SeedName>("Sunflower Seed");
+  const [confirmBuyModal, showConfirmBuyModal] = useState(false);
 
   const selected = SEEDS()[selectedName];
   const { gameService, shortcutItem } = useContext(Context);
@@ -103,9 +107,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const bulkBuy = () => {
     if (bulkBuyLimit < bulkSeedBuyAll) {
-      return buy(bulkBuyLimit); // buys difference between inventory amount and inventory limit
+      return buy(bulkBuyLimit), showConfirmBuyModal(false); // buys difference between inventory amount and inventory limit
     } else {
-      return buy(bulkSeedBuyAll); // buys all available seeds
+      return buy(bulkSeedBuyAll), showConfirmBuyModal(false); // buys all available seeds
     }
   };
   const isSeedLocked = (seedName: SeedName) => {
@@ -169,17 +173,56 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           </Button>
         )}
         {bulkSeedBuyAll > 10 && bulkBuyLimit > 10 && (
-          <Button
-            disabled={
-              bulkBuyLimit < bulkSeedBuyAll
-                ? lessFunds(bulkBuyLimit)
-                : lessFunds(bulkSeedBuyAll)
-            }
-            onClick={bulkBuy}
-          >
-            {t("buy")}{" "}
-            {bulkBuyLimit < bulkSeedBuyAll ? bulkBuyLimit : bulkSeedBuyAll}
-          </Button>
+          <>
+            <Button
+              disabled={
+                bulkBuyLimit < bulkSeedBuyAll
+                  ? lessFunds(bulkBuyLimit)
+                  : lessFunds(bulkSeedBuyAll)
+              }
+              onClick={() => showConfirmBuyModal(true)}
+            >
+              {t("buy")}{" "}
+              {bulkBuyLimit < bulkSeedBuyAll ? bulkBuyLimit : bulkSeedBuyAll}
+            </Button>
+            <Modal
+              show={confirmBuyModal}
+              onHide={() => showConfirmBuyModal(false)}
+            >
+              <CloseButtonPanel
+                className="sm:w-4/5 m-auto"
+                bumpkinParts={NPC_WEARABLES.betty}
+              >
+                <div className="flex flex-col p-2">
+                  <span className="text-sm text-center">
+                    {t("confirmation.buyCrops", {
+                      coinAmount:
+                        price *
+                        (bulkBuyLimit < bulkSeedBuyAll
+                          ? bulkBuyLimit
+                          : bulkSeedBuyAll),
+                      seedNo:
+                        bulkBuyLimit < bulkSeedBuyAll
+                          ? bulkBuyLimit
+                          : bulkSeedBuyAll,
+                      seedName: selectedName,
+                    })}
+                  </span>
+                </div>
+                <div className="flex justify-content-around mt-2 space-x-1">
+                  <Button onClick={bulkBuy}>
+                    {t("buy")}{" "}
+                    {bulkBuyLimit < bulkSeedBuyAll
+                      ? bulkBuyLimit
+                      : bulkSeedBuyAll}
+                  </Button>
+                  <Button onClick={() => showConfirmBuyModal(false)}>
+                    {t("cancel")}
+                  </Button>
+                </div>
+              </CloseButtonPanel>
+            </Modal>
+          </>
         )}
       </div>
     );

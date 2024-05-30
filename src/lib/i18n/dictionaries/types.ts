@@ -836,7 +836,9 @@ export type ComposterDescription =
 
 export type ConfirmSkill = "confirm.skillClaim";
 
-export type ConfirmationTerms = "confirmation.sellCrops";
+export type ConfirmationTerms =
+  | "confirmation.sellCrops"
+  | "confirmation.buyCrops";
 
 export type Conversations =
   | "hank-intro.headline"
