@@ -4295,6 +4295,10 @@ const leaderboardTerms: Record<Leaderboard, string> = {
 };
 
 const gameOptions: Record<GameOptions, string> = {
+  "gameOptions.generalSettings.darkMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.darkMode"],
+  "gameOptions.generalSettings.lightMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.lightMode"],
   "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
   "gameOptions.howToPlay": ENGLISH_TERMS["gameOptions.howToPlay"],
   "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
