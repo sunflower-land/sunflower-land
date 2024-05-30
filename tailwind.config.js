@@ -38,9 +38,9 @@ module.exports = {
       ],
 
       lg: [
-        "1.725rem",
+        "1.525rem",
         {
-          lineHeight: "1.75rem",
+          lineHeight: "1.55rem",
         },
       ],
     },

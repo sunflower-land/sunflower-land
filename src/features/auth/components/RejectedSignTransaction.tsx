@@ -11,7 +11,7 @@ export const RejectedSignTransaction: React.FC<Props> = ({ onTryAgain }) => {
   const { t } = useAppTranslation();
   return (
     <>
-      <div className="flex flex-col text-shadow items-center p-2">
+      <div className="flex flex-col items-center p-2">
         <div className="flex mb-3 items-center">
           <img
             src={SUNNYSIDE.icons.expression_alerted}

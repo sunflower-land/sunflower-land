@@ -5,10 +5,8 @@ export const Beta: React.FC = () => {
   const { t } = useAppTranslation();
   return (
     <>
-      <span className="text-shadow">{t("statements.beta.one")}</span>
-      <span className="text-shadow text-xs block mt-4">
-        {t("statements.beta.two")}
-      </span>
+      <span>{t("statements.beta.one")}</span>
+      <span className="text-xs block mt-4">{t("statements.beta.two")}</span>
     </>
   );
 };

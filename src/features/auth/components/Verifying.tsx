@@ -61,7 +61,7 @@ export const Verifying: React.FC = () => {
         id="iframe"
         style={{ height: 0 }}
       ></iframe>
-      <span className="text-shadow loading">{t("loading")}</span>
+      <span className="loading">{t("loading")}</span>
     </>
   );
 };

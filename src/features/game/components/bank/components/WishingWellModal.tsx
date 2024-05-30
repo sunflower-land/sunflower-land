@@ -192,7 +192,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
             alt="player address"
             className="w-6"
           />
-          <span className="ml-2">
+          <span className="ml-2 font-secondary">
             {shortAddress(wallet.myAccount as string)}
           </span>
         </div>
@@ -200,7 +200,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           <p className="mb-2 text-sm">{t("wishingWell.info.three")}</p>
         ) : (
           <p className="mb-2 text-sm">
-            {`${t("statements.wishing.well.look.like")}`}
+            {`${t("statements.wishing.well.look.like")} `}
             <a
               className="underline"
               href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"

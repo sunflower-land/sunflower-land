@@ -32,7 +32,7 @@ export const WrongChain: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col text-center text-shadow items-center p-1">
+      <div className="flex flex-col text-center items-center p-1">
         <div className="flex m-2 items-center">
           <img
             src={SUNNYSIDE.icons.expression_alerted}

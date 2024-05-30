@@ -216,7 +216,9 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
             <p>{t("deliveryitem.deliverToWallet")}</p>
-            <p>{shortAddress(wallet.myAccount || "XXXX")}</p>
+            <p className="font-secondary">
+              {shortAddress(wallet.myAccount || "XXXX")}
+            </p>
           </div>
         </div>
 

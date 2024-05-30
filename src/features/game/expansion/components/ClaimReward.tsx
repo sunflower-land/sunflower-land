@@ -65,7 +65,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <Label type="warning">
                   {setPrecision(new Decimal(airdrop.sfl)).toString()} {"SFL"}
                 </Label>
-                <p className="text-xs">{t("reward.spendWisely")}</p>
+                <p className="text-xs mt-0.5">{t("reward.spendWisely")}</p>
               </div>
             </div>
           )}
@@ -77,7 +77,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   {setPrecision(new Decimal(airdrop.factionPoints)).toString()}{" "}
                   {"Faction Points"}
                 </Label>
-                <p className="text-xs"> {t("reward.factionPoints")}</p>
+                <p className="text-xs mt-0.5"> {t("reward.factionPoints")}</p>
               </div>
             </div>
           )}
@@ -101,7 +101,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   <Box image={ITEM_DETAILS[name].image} className="-mt-2" />
                   <div>
                     <div className="flex items-center">
-                      <Label type="default" className="mr-2 font-secondary">
+                      <Label type="default" className="mr-2 ">
                         {`${setPrecision(
                           new Decimal(airdrop.items[name] ?? 1)
                         ).toString()} x ${name}`}
@@ -110,21 +110,25 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                         <Label
                           type="success"
                           icon={powerup}
-                          className="mr-2"
+                          className="mr-2 font-secondary"
+                          style={{ fontSize: "22px" }}
                         >{`+${setPrecision(
                           new Decimal(
                             CONSUMABLES[name as ConsumableName].experience
                           )
-                        ).toString()} EXP`}</Label>
+                        ).toString()}XP`}</Label>
                       )}
                     </div>
-                    <p className="text-xs">{ITEM_DETAILS[name].description}</p>
+                    <p className="text-xs mt-0.5">
+                      {ITEM_DETAILS[name].description}
+                    </p>
                     {buff && (
                       <Label
                         type={buff.labelType}
                         icon={buff.boostTypeIcon}
                         secondaryIcon={buff.boostedItemIcon}
-                        className="my-1"
+                        className="my-1 font-secondary"
+                        style={{ fontSize: "22px" }}
                       >
                         {buff.shortDescription}
                       </Label>
@@ -139,10 +143,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <div className="flex items-center mb-2" key={name}>
                 <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
-                  <Label
-                    type="default"
-                    className="font-secondary"
-                  >{`${setPrecision(
+                  <Label type="default">{`${setPrecision(
                     new Decimal(airdrop.wearables[name] ?? 1)
                   ).toString()} x ${name}`}</Label>
                   <p className="text-xs">{t("reward.wearable")}</p>
