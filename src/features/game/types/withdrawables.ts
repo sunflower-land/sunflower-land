@@ -387,6 +387,10 @@ const coupons: Record<Coupons, () => boolean> = {
   "Rare Key": () => false,
   "Prize Ticket": () => false,
   Scroll: () => false,
+  "Bumpkin Emblem": () => false,
+  "Goblin Emblem": () => false,
+  "Nightshade Emblem": () => false,
+  "Sunflorian Emblem": () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

@@ -2531,6 +2531,12 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   //Home
   "description.homeOwnerPainting": "A painting of the owner of this home.",
+
+  // Emblems
+  "description.goblin.emblem": "Show your allegiance to the Goblins",
+  "description.sunflorian.emblem": "Show your allegiance to the Sunflorians",
+  "description.bumpkin.emblem": "Show your allegiance to the Bumpkins",
+  "description.nightshade.emblem": "Show your allegiance to the Nightshades",
 };
 
 const gameTerms: Record<GameTerms, string> = {

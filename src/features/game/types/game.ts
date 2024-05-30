@@ -182,7 +182,11 @@ export type Coupons =
   | "Rare Key"
   | "Luxury Key"
   | "Prize Ticket"
-  | SeasonalTicket;
+  | SeasonalTicket
+  | "Goblin Emblem"
+  | "Bumpkin Emblem"
+  | "Sunflorian Emblem"
+  | "Nightshade Emblem";
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Gold Pass": {
@@ -265,6 +269,18 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Scroll: {
     description: translate("description.scroll"),
+  },
+  "Goblin Emblem": {
+    description: translate("description.goblin.emblem"),
+  },
+  "Bumpkin Emblem": {
+    description: translate("description.bumpkin.emblem"),
+  },
+  "Sunflorian Emblem": {
+    description: translate("description.sunflorian.emblem"),
+  },
+  "Nightshade Emblem": {
+    description: translate("description.nightshade.emblem"),
   },
 };
 
