@@ -80,10 +80,7 @@ export const ChoreV2: React.FC<Props> = ({
         </div>
       )}
       {!ticketTasksAreFrozen && (
-        <div
-          className="flex flex-col space-y-1 overflow-y-scroll"
-          style={{ maxHeight: "350px" }}
-        >
+        <div className="flex flex-col space-y-1">
           {getKeys(chores.chores).map((choreId, index) => {
             const chore = chores.chores[choreId];
 
