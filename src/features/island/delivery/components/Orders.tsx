@@ -225,8 +225,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 <ButtonPanel
                   onClick={() => select(order.id)}
                   className={classNames("w-full  !py-2 relative", {
-                    "sm:!bg-brown-200 sm:img-highlight":
-                      order.id === previewOrder?.id,
+                    "sm:!bg-brown-200": order.id === previewOrder?.id,
                   })}
                   style={{ paddingBottom: "20px" }}
                 >
@@ -280,8 +279,16 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       type="warning"
                       iconWidth={8}
                       icon={sflIcon}
-                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                      style={{ width: "calc(100% + 15px)" }}
+                      className={
+                        "absolute -bottom-2 text-center p-1 font-secondary"
+                      }
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        fontSize: "22px",
+                        height: "30px",
+                      }}
                     >
                       {`${`${makeRewardAmountForLabel(order)}`}`}
                     </Label>
@@ -290,8 +297,16 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <Label
                       type="warning"
                       icon={coinsImg}
-                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                      style={{ width: "calc(100% + 15px)" }}
+                      className={
+                        "absolute -bottom-2 text-center p-1 font-secondary"
+                      }
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        fontSize: "22px",
+                        height: "30px",
+                      }}
                     >
                       {`${makeRewardAmountForLabel(order)}`}
                     </Label>
@@ -300,8 +315,16 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <Label
                       icon={ITEM_DETAILS[getSeasonalTicket()].image}
                       type="warning"
-                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                      style={{ width: "calc(100% + 15px)" }}
+                      className={
+                        "absolute -bottom-2 text-center p-1 font-secondary"
+                      }
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        fontSize: "22px",
+                        height: "30px",
+                      }}
                     >
                       {tickets}
                     </Label>
@@ -436,7 +459,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {!canSkip && (
                   <>
                     <p className="text-xs font-secondary">
-                      {t("orderhelp.SkipIn")}:
+                      {`${t("orderhelp.SkipIn")}:`}
                     </p>
                     <div className="flex-1">
                       <RequirementLabel

@@ -84,6 +84,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
             type="info"
             icon={SUNNYSIDE.icons.stopwatch}
             secondaryIcon={SUNNYSIDE.icons.hammer}
+            className="font-secondary !text-[22px]"
           >
             {secondsToString(requirements.seconds, { length: "medium" })}
           </Label>

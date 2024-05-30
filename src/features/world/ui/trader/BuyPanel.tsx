@@ -7,7 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/sfl.webp";
@@ -145,19 +145,14 @@ export const BuyPanel: React.FC<{
     }
 
     return (
-      <div className="flex flex-col pl-2 pt-2">
-        {hasPurchasesRemaining && (
-          <Label type="default" icon={SUNNYSIDE.icons.basket} className="ml-2">
-            {t("trading.select.resources")}
-          </Label>
-        )}
-        <div className="flex flex-wrap flex-1 pr-2 overflow-y-auto scrollable mt-2">
+      <div className="p-2">
+        <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
               key={name}
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
             >
-              <OuterPanel
+              <ButtonPanel
                 className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
                 onClick={() => onSearch(name)}
               >
@@ -168,14 +163,22 @@ export const BuyPanel: React.FC<{
                 />
                 <Label
                   type="warning"
-                  className={"absolute -bottom-2 text-center mt-1 p-1"}
-                  style={{ width: "calc(100% + 10px)" }}
+                  className={
+                    "absolute -bottom-2 text-center p-1 font-secondary"
+                  }
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    fontSize: "22px",
+                    height: "30px",
+                  }}
                 >
                   {t("bumpkinTrade.price/unit", {
                     price: floorPrices[name]?.toFixed(4) || "",
                   })}
                 </Label>
-              </OuterPanel>
+              </ButtonPanel>
             </div>
           ))}
         </div>

@@ -16,7 +16,7 @@ import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
@@ -31,6 +31,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -80,9 +81,9 @@ const ListTrade: React.FC<{
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
               key={name}
-              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2"
+              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
             >
-              <OuterPanel
+              <ButtonPanel
                 className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
                 onClick={() => {
                   setSelected(name);
@@ -95,8 +96,16 @@ const ListTrade: React.FC<{
                 <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
                 <Label
                   type="warning"
-                  className="absolute -bottom-2 text-center mt-1 p-1"
-                  style={{ width: "calc(100% + 10px)" }}
+                  className={
+                    "absolute -bottom-2 text-center p-1 font-secondary"
+                  }
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    fontSize: "22px",
+                    height: "30px",
+                  }}
                 >
                   {t("bumpkinTrade.price/unit", {
                     price: floorPrices[name]
@@ -104,7 +113,7 @@ const ListTrade: React.FC<{
                       : "?",
                   })}
                 </Label>
-              </OuterPanel>
+              </ButtonPanel>
             </div>
           ))}
         </div>
@@ -141,7 +150,7 @@ const ListTrade: React.FC<{
           >
             {t("bumpkinTrade.available")}
           </Label>
-          <span className="text-sm mr-1">
+          <span className="text-sm mr-1 font-secondary">
             {`${setPrecision(new Decimal(inventory?.[selected] ?? 0), 0)}`}
           </span>
         </div>
@@ -210,6 +219,7 @@ const ListTrade: React.FC<{
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
               border: "2px solid #ead4aa",
+              fontSize: "36px",
             }}
             type="number"
             placeholder="0"
@@ -240,7 +250,7 @@ const ListTrade: React.FC<{
               }
             }}
             className={classNames(
-              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
+              "mb-2  mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
               {
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
@@ -266,6 +276,7 @@ const ListTrade: React.FC<{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
               border: "2px solid #ead4aa",
               textAlign: "right",
+              fontSize: "36px",
             }}
             type="number"
             placeholder="0"
@@ -287,7 +298,7 @@ const ListTrade: React.FC<{
               }
             }}
             className={classNames(
-              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
+              "mb-2  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
               {
                 "text-error": maxSFL || sfl === 0,
               }
@@ -304,9 +315,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl)).toFixed(
-          4
-        )} SFL`}</p>
+        <p className="text-xs font-secondary">{`${setPrecision(
+          new Decimal(sfl)
+        ).toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -318,7 +329,7 @@ const ListTrade: React.FC<{
         <span className="text-xs">
           {t("bumpkinTrade.pricePerUnit", { resource: selected })}
         </span>
-        <p className="text-xs">
+        <p className="text-xs font-secondary">
           {quantity === 0
             ? "0.0000 SFL"
             : `${setPrecision(new Decimal(sfl / quantity)).toFixed(4)} SFL`}
@@ -332,9 +343,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.1)).toFixed(
-          4
-        )} SFL`}</p>
+        <p className="text-xs font-secondary">{`${setPrecision(
+          new Decimal(sfl * 0.1)
+        ).toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -343,9 +354,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.9)).toFixed(
-          4
-        )} SFL`}</p>
+        <p className="text-xs font-secondary">{`${setPrecision(
+          new Decimal(sfl * 0.9)
+        ).toFixed(4)} SFL`}</p>
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
