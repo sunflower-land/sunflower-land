@@ -33,7 +33,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   return (
     <Modal show onHide={onClose}>
       <div
-        className="bg-brown-600 text-white relative"
+        className="bg-brown-600  relative"
         style={{
           ...pixelRoomBorderStyle,
           padding: `${PIXEL_SCALE * 1}px`,
