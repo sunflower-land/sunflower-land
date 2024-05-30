@@ -118,7 +118,7 @@ export const CommunityDonations: React.FC = () => {
                 />
               </div>
             </div>
-            <span className="text-xs text-shadow my-2">
+            <span className="text-xs font-secondary my-2">
               {t("amount.matic")}
             </span>
           </div>

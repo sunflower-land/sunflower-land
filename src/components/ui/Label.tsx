@@ -45,9 +45,9 @@ export const LABEL_STYLES: Record<
   },
   // buff
   success: {
-    background: "#63c74d",
+    background: "#3e8948",
     borderStyle: pixelGreenBorderStyle,
-    textColour: "#262b45",
+    textColour: "#ffffff",
   },
   transparent: {
     background: "none",

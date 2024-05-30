@@ -68,7 +68,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
       />
 
       {/* XP progress text */}
-      <p className="text-xxs mt-0.5 ml-2">{`${Math.floor(
+      <p className="font-secondary mt-0.5 ml-2">{`${Math.floor(
         currentExperienceProgress
       )}/${maxLevel ? "-" : Math.floor(experienceToNextLevel)} XP`}</p>
     </div>

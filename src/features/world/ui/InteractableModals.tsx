@@ -125,7 +125,7 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] = useState<InteractableName>("raffle");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

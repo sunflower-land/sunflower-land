@@ -177,7 +177,9 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
         <div>
           <p className="text-sm">{t("withdraw.send.wallet")}</p>
-          <p className="text-sm">{shortAddress(wallet.myAccount || "XXXX")}</p>
+          <p className="text-sm font-secondary">
+            {shortAddress(wallet.myAccount || "XXXX")}
+          </p>
         </div>
       </div>
       <Button onClick={withdraw} disabled={disableWithdraw}>
