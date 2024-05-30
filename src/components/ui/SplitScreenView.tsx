@@ -49,7 +49,7 @@ export const SplitScreenView: React.FC<Props> = ({
             "flex-col": !contentScrollable,
           }
         )}
-        ref={divRef}
+        divRef={divRef}
       >
         {content}
       </InnerPanel>

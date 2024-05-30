@@ -27,10 +27,10 @@ export const useIsDarkMode = () => {
       setIsDarkMode(event.detail);
     };
 
-    window.addEventListener(DARK_MODE_EVENT, handleDarkModeChange);
+    window.addEventListener(DARK_MODE_EVENT as any, handleDarkModeChange);
 
     return () => {
-      window.removeEventListener(DARK_MODE_EVENT, handleDarkModeChange);
+      window.removeEventListener(DARK_MODE_EVENT as any, handleDarkModeChange);
     };
   }, []);
 
