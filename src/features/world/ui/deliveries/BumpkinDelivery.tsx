@@ -10,13 +10,12 @@ import { Button } from "components/ui/Button";
 import giftIcon from "assets/icons/gift.png";
 import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
-import chest from "assets/icons/chest.png";
 import lockIcon from "assets/skills/lock.png";
 import factions from "assets/icons/factions.webp";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -47,7 +46,6 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
-import { hasFeatureAccess } from "lib/flags";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -133,13 +131,7 @@ export const OrderCard: React.FC<{
               {order.reward.sfl !== undefined && (
                 <div className="flex items-center mr-1">
                   <img src={sfl} className="w-4 h-auto mr-1" />
-                  <span
-                    style={{
-                      // Match labels
-                      lineHeight: "15px",
-                      fontSize: "13px",
-                    }}
-                  >
+                  <span className="font-secondary">
                     {makeRewardAmountForLabel(order)}
                   </span>
                 </div>
@@ -147,13 +139,7 @@ export const OrderCard: React.FC<{
               {order.reward.coins !== undefined && (
                 <div className="flex items-center mr-1">
                   <img src={coinsImg} className="w-4 h-auto mr-1" />
-                  <span
-                    style={{
-                      // Match labels
-                      lineHeight: "15px",
-                      fontSize: "13px",
-                    }}
-                  >
+                  <span className="font-secondary">
                     {makeRewardAmountForLabel(order)}
                   </span>
                 </div>

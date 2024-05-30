@@ -96,22 +96,18 @@ export const Discord: React.FC = () => {
   }
 
   if (state === "error") {
-    return <span className="text-shadow">{t("getContent.error")}</span>;
+    return <span className="">{t("getContent.error")}</span>;
   }
 
   if (state === "joining") {
-    return (
-      <span className="text-shadow loading">{t("getContent.joining")}</span>
-    );
+    return <span className=" loading">{t("getContent.joining")}</span>;
   }
 
   if (state === "joined") {
     return (
       <>
-        <span className="text-shadow mt-2 block text-center">
-          {t("congrats")}
-        </span>
-        <span className="text-shadow my-2 block text-center">
+        <span className=" mt-2 block text-center">{t("congrats")}</span>
+        <span className=" my-2 block text-center">
           {t("getContent.accessGranted")}
         </span>
       </>
@@ -121,7 +117,7 @@ export const Discord: React.FC = () => {
   if (state === "noDiscord") {
     return (
       <>
-        <span className="text-shadow my-2 block text-sm p-2">
+        <span className=" my-2 block text-sm p-2">
           {t("getContent.connectToDiscord")}
         </span>
         <Button onClick={oauth}>{t("getContent.connect")}</Button>
@@ -130,7 +126,7 @@ export const Discord: React.FC = () => {
   }
 
   return (
-    <span className="text-shadow my-2 block text-sm">
+    <span className=" my-2 block text-sm">
       {t("getContent.getAccess")}
       {GROUPS.map((group) => (
         <div key={group.channel} className="flex justify-between w-full mt-4">
