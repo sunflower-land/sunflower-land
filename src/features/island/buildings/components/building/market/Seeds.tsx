@@ -40,7 +40,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FLOWER_SEEDS, FlowerSeedName } from "features/game/types/flowers";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
-import { hasFeatureAccess } from "lib/flags";
 import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,
@@ -280,32 +279,30 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 ))}
             </div>
 
-            {hasFeatureAccess(state, "GREENHOUSE") && (
-              <>
-                <Label icon={greenhouse} type="default" className="ml-2 mb-1">
-                  {t("greenhouse")}
-                </Label>
-                <div className="flex flex-wrap mb-2">
-                  {seeds
-                    .filter(
-                      (name) =>
-                        name in GREENHOUSE_SEEDS() ||
-                        name in GREENHOUSE_FRUIT_SEEDS()
-                    )
-                    .map((name: SeedName) => (
-                      <Box
-                        isSelected={selectedName === name}
-                        key={name}
-                        onClick={() => onSeedClick(name)}
-                        image={ITEM_DETAILS[name].image}
-                        showOverlay={isSeedLocked(name)}
-                        secondaryImage={isSeedLocked(name) ? lock : undefined}
-                        count={inventory[name]}
-                      />
-                    ))}
-                </div>
-              </>
-            )}
+            <>
+              <Label icon={greenhouse} type="default" className="ml-2 mb-1">
+                {t("greenhouse")}
+              </Label>
+              <div className="flex flex-wrap mb-2">
+                {seeds
+                  .filter(
+                    (name) =>
+                      name in GREENHOUSE_SEEDS() ||
+                      name in GREENHOUSE_FRUIT_SEEDS()
+                  )
+                  .map((name: SeedName) => (
+                    <Box
+                      isSelected={selectedName === name}
+                      key={name}
+                      onClick={() => onSeedClick(name)}
+                      image={ITEM_DETAILS[name].image}
+                      showOverlay={isSeedLocked(name)}
+                      secondaryImage={isSeedLocked(name) ? lock : undefined}
+                      count={inventory[name]}
+                    />
+                  ))}
+              </div>
+            </>
           </>
         </div>
       }

@@ -707,7 +707,11 @@ export type BuildingDescriptions =
   | "description.workbench"
   | "description.tent"
   | "description.house"
-  | "description.crop.machine";
+  | "description.crop.machine"
+  | "building.oil.remaining"
+  | "cooking.building.oil.description"
+  | "cooking.building.oil.boost"
+  | "cooking.building.runtime";
 
 export type BumpkinDelivery =
   | "bumpkin.delivery.haveFlower"
@@ -831,6 +835,9 @@ export type BumpkinTrade =
   | "bumpkinTrade.list"
   | "bumpkinTrade.maxListings"
   | "bumpkinTrade.max"
+  | "bumpkinTrade.min"
+  | "bumpkinTrade.minimumFloor"
+  | "bumpkinTrade.maximumFloor"
   | "bumpkinTrade.floorPrice"
   | "bumpkinTrade.sellConfirmation";
 
@@ -1265,12 +1272,12 @@ export type DecorationDescriptions =
   | "description.Farmhand"
   | "description.Beehive"
   | "description.battleCryDrum"
-  | "description.bullseyBoard"
+  | "description.bullseyeBoard"
   | "description.chessRug"
   | "description.cluckapult"
   | "description.goldenGallant"
   | "description.goldenGarrison"
-  | "description.goldenGurdian"
+  | "description.goldenGuardian"
   | "description.noviceKnight"
   | "description.regularPawn"
   | "description.rookieRook"
@@ -1472,7 +1479,9 @@ export type ErrorTerms =
   | "error.ClientRPC"
   | "error.walletInUse.one"
   | "error.walletInUse.two"
-  | "error.walletInUse.three";
+  | "error.walletInUse.three"
+  | "error.notEnoughOil"
+  | "error.oilCapacityExceeded";
 
 export type ExoticShopItems =
   | "exoticShopItems.line1"
@@ -1718,7 +1727,7 @@ export type FoodDescriptions =
   | "description.riceBun"
   | "description.slowJuice"
   | "description.steamedRedRice"
-  | "description.sushirRoll"
+  | "description.sushiRoll"
   | "description.theLot"
   | "description.tofuScramble"
   | "description.antipasto"
@@ -3408,6 +3417,8 @@ export type Minigame =
   | "minigame.purchase"
   | "minigame.comingSoon"
   | "minigame.chickenRescueHelp";
+
+export type KitchenKeys = "kitchen.oilRemaining";
 
 export type TranslationKeys =
   | AchievementsTerms

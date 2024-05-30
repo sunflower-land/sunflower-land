@@ -113,6 +113,7 @@ interface Props {
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   const [interactable, setInteractable] = useState<InteractableName>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     interactableModalManager.listen((interactable, open) => {
@@ -121,7 +122,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
   }, []);
 
   const closeModal = () => {
-    setInteractable(undefined);
+    !isLoading && setInteractable(undefined);
   };
 
   const { t } = useAppTranslation();
@@ -227,25 +228,28 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "basic_chest"}>
+      <Modal show={interactable === "basic_chest"} onHide={closeModal}>
         <BasicTreasureChest
           type="Treasure Key"
           onClose={closeModal}
           location={"plaza"}
+          setIsLoading={setIsLoading}
         />
       </Modal>
-      <Modal show={interactable === "rare_chest"}>
+      <Modal show={interactable === "rare_chest"} onHide={closeModal}>
         <BasicTreasureChest
           type="Rare Key"
           onClose={closeModal}
           location={"plaza"}
+          setIsLoading={setIsLoading}
         />
       </Modal>
-      <Modal show={interactable === "luxury_chest"}>
+      <Modal show={interactable === "luxury_chest"} onHide={closeModal}>
         <BasicTreasureChest
           type="Luxury Key"
           onClose={closeModal}
           location={"plaza"}
+          setIsLoading={setIsLoading}
         />
       </Modal>
       <Modal show={interactable === "plaza_orange_book"} onHide={closeModal}>
@@ -321,8 +325,8 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      <Modal show={interactable === "clubhouse_reward"}>
-        <BudBox onClose={closeModal} />
+      <Modal show={interactable === "clubhouse_reward"} onHide={closeModal}>
+        <BudBox onClose={closeModal} setIsLoading={setIsLoading} />
       </Modal>
       <Modal show={interactable === "raffle"} onHide={closeModal}>
         <Raffle onClose={closeModal} />

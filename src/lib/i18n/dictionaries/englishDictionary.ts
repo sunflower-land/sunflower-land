@@ -1024,6 +1024,12 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.tent": "(Discontinued)",
   "description.house": "A place to rest your head",
   "description.crop.machine": "Automate your crop production",
+  "building.oil.remaining": "{{oil}} Oil in building",
+
+  "cooking.building.oil.description":
+    "You can boost your recipe cooking times by {{boost}}% when adding oil into the {{buildingName}}.",
+  "cooking.building.oil.boost": "Oil boost",
+  "cooking.building.runtime": "Runtime {{time}}",
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
@@ -1154,6 +1160,9 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.list": "List",
   "bumpkinTrade.maxListings": "Max listings reached",
   "bumpkinTrade.max": "Max: {{max}}",
+  "bumpkinTrade.min": "Min: {{min}}",
+  "bumpkinTrade.minimumFloor": "Min unit price: {{min}}",
+  "bumpkinTrade.maximumFloor": "Max unit price: {{max}}",
   "bumpkinTrade.floorPrice": "Floor Price: {{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / unit",
   "bumpkinTrade.sellConfirmation":
@@ -1456,8 +1465,8 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.paused": "Paused",
   "cropMachine.readyToHarvest": "Ready to harvest",
   "cropMachine.boosted": "Boosted",
-  "cropMachine.totalSeeds": "Total seeds: {{total}}",
-  "cropMachine.totalCrops": "Total {{cropName}}: {{total}}",
+  "cropMachine.totalSeeds": "Total seeds planted: {{total}}",
+  "cropMachine.totalCrops": "Total {{cropName}} yield: {{total}}",
   "cropMachine.harvest": "Harvest",
   "cropMachine.pickSeed": "Select a seed",
   "cropMachine.addSeeds": "Add {{seedType}}s",
@@ -1598,12 +1607,12 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.palm.tree":
     "Tall, beachy, shady and chic, palm trees make waves sashay.",
   "description.battleCryDrum": "",
-  "description.bullseyBoard": "",
+  "description.bullseyeBoard": "",
   "description.chessRug": "",
   "description.cluckapult": "",
   "description.goldenGallant": "",
   "description.goldenGarrison": "",
-  "description.goldenGurdian": "",
+  "description.goldenGuardian": "",
   "description.noviceKnight": "",
   "description.regularPawn": "",
   "description.rookieRook": "",
@@ -2020,6 +2029,8 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.walletInUse.two":
     "This wallet is already linked to a farm. Please use social login or another wallet.",
   "error.walletInUse.three": "Try another login method",
+  "error.notEnoughOil": "Not enough oil",
+  "error.oilCapacityExceeded": "Oil capacity exceeded",
 };
 
 const event: Record<Event, string> = {
@@ -2392,7 +2403,7 @@ const foodDescriptions: Record<FoodDescriptions, string> = {
   "description.slowJuice": "Nutrient-rich juice, handcrafted by bumpkins.",
   "description.steamedRedRice":
     "Perfectly steamed red rice, a bumpkin's delight.",
-  "description.sushirRoll": "Delicious sushi roll, skillfully prepared.",
+  "description.sushiRoll": "Delicious sushi roll, skillfully prepared.",
   "description.theLot": "Flavorful fruit blend, refreshing and nutritious.",
   "description.tofuScramble":
     "Hearty scramble, packed with protein and flavor.",
