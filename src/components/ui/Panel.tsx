@@ -52,11 +52,12 @@ export const Panel: React.FC<PanelProps> = ({
 /**
  * Light panel with border effect
  */
-export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  children,
-  ...divProps
-}) => {
-  const { className, style, ...otherDivProps } = divProps;
+export const InnerPanel: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & {
+    divRef?: React.RefObject<HTMLDivElement>;
+  }
+> = ({ children, ...divProps }) => {
+  const { className, style, divRef, ...otherDivProps } = divProps;
 
   const { isDarkMode } = useIsDarkMode();
 
@@ -69,6 +70,7 @@ export const InnerPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
         background: isDarkMode ? "#c28669" : "#e4a672",
         ...style,
       }}
+      ref={divRef}
       {...otherDivProps}
     >
       {children}
