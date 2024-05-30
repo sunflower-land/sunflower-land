@@ -20,7 +20,7 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
   });
 
   return (
-    <>
+    <div className="scrollable overflow-y-auto max-h-[100%] overflow-x-hidden">
       <InnerPanel className="mb-1">
         {!ticketTasksAreFrozen && (
           <div className="p-1 text-xxs sm:text-xs">
@@ -62,6 +62,6 @@ export const Chores: React.FC<Props> = ({ farmId }) => {
         )}
       </InnerPanel>
       <ChoreV2 isReadOnly isCodex />
-    </>
+    </div>
   );
 };

@@ -33,7 +33,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     2: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
       x: -1,
       y: 0,
       height: 1,
@@ -41,7 +41,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Pumpkin", plantedAt: 0, amount: 1 },
+      crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
       x: 0,
       y: 0,
       height: 1,
