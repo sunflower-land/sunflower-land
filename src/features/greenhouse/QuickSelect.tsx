@@ -74,7 +74,9 @@ export const QuickSelect: React.FC<Props> = ({
             />
           ))}
           {available.length === 0 && (
-            <span className="text-xs p-0.5 pb-1">{t("quickSelect.empty")}</span>
+            <span className="text-xs p-0.5 py-1 font-secondary">
+              {t("quickSelect.empty")}
+            </span>
           )}
         </div>
       </InnerPanel>

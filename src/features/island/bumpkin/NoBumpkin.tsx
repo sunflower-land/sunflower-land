@@ -111,7 +111,7 @@ export const NoBumpkin: React.FC = () => {
             {t("warning.level.required", { lvl: requiredLevel })}
           </Label>
           <p className="text-sm my-2">{t("noBumpkin.mintBumpkin")}</p>
-          <p className="text-xs sm:text-sm text-shadow text-white p-1">
+          <p className="text-xs sm:text-sm text-white p-1">
             <a
               className="underline"
               href={

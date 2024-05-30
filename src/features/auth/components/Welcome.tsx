@@ -15,7 +15,7 @@ export const Welcome: React.FC = () => {
   return (
     <div className="p-2">
       <Button
-        className="mb-2 py-2 text-sm relative"
+        className="mb-1 py-2 text-sm relative"
         onClick={() => authService.send("SIGN_IN")}
       >
         <div className="px-8">
@@ -27,7 +27,7 @@ export const Welcome: React.FC = () => {
         </div>
       </Button>
       <Button
-        className="mb-2 py-2 text-sm relative"
+        className="mb-1 py-2 text-sm relative"
         onClick={() => authService.send("SIGNUP")}
       >
         <div className="px-8">
@@ -39,7 +39,7 @@ export const Welcome: React.FC = () => {
         </div>
       </Button>
       <Button
-        className="mb-2 py-2 text-sm relative"
+        className="mb-1 py-2 text-sm relative"
         onClick={() => setShowLanguageModal(true)}
       >
         <div className="px-8">

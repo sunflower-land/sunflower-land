@@ -86,19 +86,14 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           </div>
         </div>
         {!showOfflineModal ? (
-          <Panel
-            className="pb-1 relative"
-            style={{
-              minHeight: "70px",
-            }}
-          >
+          <Panel className="pb-1 relative">
             {authState.matches("welcome") && <Welcome />}
             {authState.matches("noAccount") && <NoAccount />}
             {authState.matches("walletInUse") && <WalletInUse />}
             {authState.matches("authorising") && <Loading />}
             {authState.matches("verifying") && <Verifying />}
             {(authState.matches("idle") || authState.matches("signIn")) && (
-              <SignIn />
+              <SignIn type="signin" />
             )}
             {authState.matches("signUp") && <SignUp />}
             {authState.matches("oauthorising") && <Loading />}

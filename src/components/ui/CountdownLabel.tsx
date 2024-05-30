@@ -15,7 +15,12 @@ interface Props {
  */
 export const CountdownLabel: React.FC<Props> = ({ timeLeft, endText }) => {
   return (
-    <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+    <Label
+      type="info"
+      className="font-secondary"
+      style={{ fontSize: "22px" }}
+      icon={SUNNYSIDE.icons.stopwatch}
+    >
       {secondsToString(timeLeft, { length: "medium" })}
       {endText ? ` ${endText}` : ""}
     </Label>

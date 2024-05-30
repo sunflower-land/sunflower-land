@@ -3,5 +3,5 @@ import React from "react";
 
 export const Refreshing: React.FC = () => {
   const { t } = useAppTranslation();
-  return <span className="text-shadow loading">{t("refreshing")}</span>;
+  return <span className="loading">{t("refreshing")}</span>;
 };
