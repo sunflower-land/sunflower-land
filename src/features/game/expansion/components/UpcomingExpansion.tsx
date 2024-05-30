@@ -109,6 +109,7 @@ export const ExpandIcon: React.FC<ExpandIconProps> = ({
                           new Decimal(requirements.resources[name] ?? 0)
                         }
                         balance={inventory[name] ?? new Decimal(0)}
+                        textColor={"white"}
                       />
                       {inventory[name]?.gte(
                         requirements.resources[name] ?? 0

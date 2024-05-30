@@ -3,14 +3,14 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { ChoreV2, ChoreV2Name, GameState } from "features/game/types/game";
+import { ChoreV2, ChoreV2Name } from "features/game/types/game";
 
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -18,10 +18,8 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "features/game/lib/gameMachine";
 
-import factions from "assets/icons/factions.webp";
 import { FACTION_POINT_MULTIPLIER } from "features/game/events/landExpansion/deliver";
 import classNames from "classnames";
-import { hasFeatureAccess } from "lib/flags";
 import { generateChoreTickets } from "features/game/events/landExpansion/completeChore";
 import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 
@@ -147,7 +145,7 @@ export const DailyChore: React.FC<Props> = ({
                   {tickets * FACTION_POINT_MULTIPLIER}
                 </span>
                 <SquareIcon
-                  icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
+                  icon={FACTION_POINT_ICONS[faction.name]}
                   width={6}
                 />
               </div>

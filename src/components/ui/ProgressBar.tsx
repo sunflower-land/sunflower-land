@@ -202,7 +202,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <span className="text-xxs text-white text-center">
+          <span className="font-secondary !text-[18px] text-white text-center">
             {secondsToString(seconds, {
               length: formatLength,
               isShortFormat: true,

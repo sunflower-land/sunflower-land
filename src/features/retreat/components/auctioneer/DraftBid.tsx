@@ -108,7 +108,7 @@ export const DraftBid: React.FC<Props> = ({
         <div className="absolute -top-2 right-0">
           {TimerDisplay({
             time: end,
-            fontSize: 18,
+            fontSize: 32,
             color: end.minutes >= 1 ? "white" : "red",
           })}
         </div>
@@ -173,7 +173,7 @@ export const DraftBid: React.FC<Props> = ({
         <div className="absolute -top-2 right-0">
           {TimerDisplay({
             time: end,
-            fontSize: 18,
+            fontSize: 32,
             color: end.minutes >= 1 ? "white" : "red",
           })}
         </div>

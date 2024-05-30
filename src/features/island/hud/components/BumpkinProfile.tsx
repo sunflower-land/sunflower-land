@@ -46,8 +46,8 @@ const DIMENSIONS = {
   level: {
     width: 24,
     height: 12,
-    marginLeft: 108,
-    marginTop: 84,
+    marginLeft: 109,
+    marginTop: 84.5,
   },
   username: {
     width: 200,
@@ -168,7 +168,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           }}
         />
         <div
-          className={`col-start-1 row-start-1 flex justify-center text-xxs z-20`}
+          className={`col-start-1 row-start-1 flex justify-center font-secondary z-20 text-xxs`}
           style={{
             width: `${DIMENSIONS.level.width}px`,
             height: `${DIMENSIONS.level.height}px`,

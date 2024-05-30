@@ -26,9 +26,9 @@ module.exports = {
         },
       ],
       sm: [
-        "0.85rem",
+        "0.8rem",
         {
-          lineHeight: "0.92rem",
+          lineHeight: "0.9rem",
         },
       ],
       base: [
