@@ -1269,10 +1269,10 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Meyveli Karışım her meyve verimini +0,1 artırır",
-  "compost.sproutMix": "Sprout Mix mahsul veriminizi +0,2 artırır",
-  "compost.sproutMixBoosted": "Sprout Mix mahsul veriminizi +0,4 artırır",
-  "compost.rapidRoot": "Rapid Root, mahsulün büyüme süresini %50 azaltır",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
