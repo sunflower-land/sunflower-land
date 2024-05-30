@@ -23,7 +23,7 @@ export type LabelType =
   | "formula"
   | "chill";
 
-const LABEL_STYLES: Record<
+export const LABEL_STYLES: Record<
   LabelType,
   { background: string; textColour: string; borderStyle: React.CSSProperties }
 > = {
@@ -45,9 +45,9 @@ const LABEL_STYLES: Record<
   },
   // buff
   success: {
-    background: "#3e8948",
+    background: "#63c74d",
     borderStyle: pixelGreenBorderStyle,
-    textColour: "#ffffff",
+    textColour: "#262b45",
   },
   transparent: {
     background: "none",

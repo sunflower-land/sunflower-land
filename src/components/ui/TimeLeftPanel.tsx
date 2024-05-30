@@ -27,9 +27,9 @@ export const TimeLeftPanel: React.FC<Props> = ({
         }
       )}
     >
-      <div className="flex flex-col text-xxs text-white p-1">
-        <span className="flex-1">{text}</span>
-        <span className="flex-1">
+      <div className="flex flex-col text-xxs p-1">
+        <span className="flex-1 mb-0.5">{text}</span>
+        <span className="flex-1 font-secondary">
           {secondsToString(timeLeft, { length: "medium" })}
         </span>
       </div>

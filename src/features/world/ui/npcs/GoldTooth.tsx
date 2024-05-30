@@ -18,6 +18,7 @@ import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -48,6 +49,7 @@ export const GoldTooth: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES.goldtooth}
+        container={OuterPanel}
       >
         <TreasureShopSell />
       </CloseButtonPanel>

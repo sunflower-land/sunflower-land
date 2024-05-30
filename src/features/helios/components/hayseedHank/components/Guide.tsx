@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import videoThumbnail from "assets/tutorials/video_thumbnail.png";
 import playIcon from "assets/icons/play.png";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
@@ -63,7 +63,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
 
     return (
       <>
-        <div className="p-1 mb-1">
+        <div className="p-1 mb-2">
           <div className="flex">
             <p className="text-xs flex-1 pr-2">{t("guide.intro")}</p>
             <a
@@ -92,8 +92,8 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
           });
 
           return (
-            <OuterPanel
-              className="flex mb-2 !p-1 w-full cursor-pointer  hover:bg-brown-200"
+            <ButtonPanel
+              className="flex mb-1 !p-1 w-full cursor-pointer  hover:bg-brown-200"
               key={path}
               onClick={() => onSelect(path)}
             >
@@ -151,7 +151,7 @@ export const Guide: React.FC<Props> = ({ selected, onSelect }) => {
                 </div>
               )} */}
               </div>
-            </OuterPanel>
+            </ButtonPanel>
           );
         })}
       </>

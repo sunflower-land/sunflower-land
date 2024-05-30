@@ -102,7 +102,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                   <Box image={ITEM_DETAILS[name].image} className="-mt-2" />
                   <div>
                     <div className="flex items-center">
-                      <Label type="default" className="mr-2">
+                      <Label type="default" className="mr-2 font-secondary">
                         {`${setPrecision(
                           new Decimal(airdrop.items[name] ?? 1)
                         ).toString()} x ${name}`}
@@ -140,7 +140,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <div className="flex items-center mb-2" key={name}>
                 <Box image={getImageUrl(ITEM_IDS[name])} />
                 <div>
-                  <Label type="default">{`${setPrecision(
+                  <Label
+                    type="default"
+                    className="font-secondary"
+                  >{`${setPrecision(
                     new Decimal(airdrop.wearables[name] ?? 1)
                   ).toString()} x ${name}`}</Label>
                   <p className="text-xs">{t("reward.wearable")}</p>
