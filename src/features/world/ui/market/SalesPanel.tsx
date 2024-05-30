@@ -6,6 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ButtonPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -28,6 +29,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -60,9 +62,9 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
 
   useUiRefresher();
   return (
-    <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
-      cachedAt
-    )}`}</span>
+    <span className="text- font-secondary">{`${t(
+      "last.updated"
+    )} ${getRelativeTime(cachedAt)}`}</span>
   );
 };
 
@@ -202,7 +204,7 @@ export const SalesPanel: React.FC<{
                 <Label type={!canSell ? "danger" : "info"} className="my-1">
                   {t("bumpkinTrade.available")}
                 </Label>
-                <span className="text-sm mr-1">
+                <span className="text-sm mr-1 font-secondary text-[30px]">
                   {state.inventory?.[selected]?.toFixed(0, 1) ?? 0}
                 </span>
               </div>
@@ -218,9 +220,11 @@ export const SalesPanel: React.FC<{
             </div>
             <div className="flex justify-between items-center px-2 pt-1">
               <span
-                className={classNames("text-xs", { "text-red-500": !canSell })}
+                className={classNames("text-xs font-secondary text-[30px]", {
+                  "text-red-500": !canSell,
+                })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-[12px]">
+              <span className="font-secondary text-[30px]">
                 {t("bumpkinTrade.price/unit", {
                   price: setPrecision(new Decimal(unitPrice)).toFixed(4),
                 })}
