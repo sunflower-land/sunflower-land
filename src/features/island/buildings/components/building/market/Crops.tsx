@@ -133,10 +133,10 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
 
   const cropsAndFruits = Object.values({
     ...CROPS(),
-    ...GREENHOUSE_CROPS(),
-    ...GREENHOUSE_FRUIT(),
     ...FRUIT(),
     ...exotics,
+    ...GREENHOUSE_FRUIT(),
+    ...GREENHOUSE_CROPS(),
   }) as Crop[];
 
   return (
