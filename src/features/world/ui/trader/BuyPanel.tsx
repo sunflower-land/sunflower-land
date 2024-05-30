@@ -7,7 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/sfl.webp";
@@ -147,13 +147,8 @@ export const BuyPanel: React.FC<{
     }
 
     return (
-      <div className="flex flex-col pl-2 pt-2">
-        {hasPurchasesRemaining && (
-          <Label type="default" icon={SUNNYSIDE.icons.basket} className="ml-2">
-            {t("trading.select.resources")}
-          </Label>
-        )}
-        <div className="flex flex-wrap flex-1 pr-2 overflow-y-auto scrollable mt-2">
+      <div className="p-2">
+        <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
               key={name}

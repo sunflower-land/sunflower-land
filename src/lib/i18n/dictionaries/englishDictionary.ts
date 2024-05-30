@@ -630,7 +630,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.collectTickets":
     "Collect enough {{seasonalTicket}}s and you can craft rare NFTs. That's how I got this rare outfit!",
   "birdieplaza.whatIsSeason": "What is a season?",
-  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}s?",
+  "birdieplaza.howToEarnTickets": "{{seasonalTicket}}s?",
   "birdieplaza.earnTicketsVariety":
     "You can earn {{seasonalTicket}} in a variety of ways.",
   "birdieplaza.commonMethod":
@@ -1054,10 +1054,10 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.minimumFloor": "Min unit price: {{min}}",
   "bumpkinTrade.maximumFloor": "Max unit price: {{max}}",
   "bumpkinTrade.floorPrice": "Floor Price: {{price}} SFL",
-  "bumpkinTrade.price/unit": "{{price}} / unit",
   "bumpkinTrade.sellConfirmation":
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
   "bumpkinTrade.cant.sell.all": "Can't sell all",
+  "bumpkinTrade.price/unit": "{{price}}/unit",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -2854,7 +2854,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
   "interactableModals.guildHouse.message":
     "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
-  "interactableModals.guildHouse.budsCollection": "Buds Collection on Opensea",
+  "interactableModals.guildHouse.budsCollection": "Opensea",
   "interactableModals.bettyHome.message":
     "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
   "interactableModals.bertHome.message":

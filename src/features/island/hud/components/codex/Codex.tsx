@@ -206,22 +206,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             {currentTab === 0 && <Deliveries />}
             {currentTab === 1 && <Chores farmId={farmId} />}
             {currentTab === 2 && (
-              <InnerPanel
-                className={classNames(
-                  "flex flex-col h-full overflow-y-auto scrollable"
-                )}
-              >
-                <Fish onMilestoneReached={handleMilestoneReached} />
-              </InnerPanel>
+              <Fish onMilestoneReached={handleMilestoneReached} />
             )}
             {currentTab === 3 && (
-              <InnerPanel
-                className={classNames(
-                  "flex flex-col h-full overflow-y-auto scrollable"
-                )}
-              >
-                <Flowers onMilestoneReached={handleMilestoneReached} />
-              </InnerPanel>
+              <Flowers onMilestoneReached={handleMilestoneReached} />
             )}
             {currentTab === 4 && (
               <InnerPanel
