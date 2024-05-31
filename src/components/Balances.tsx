@@ -35,7 +35,6 @@ export const Balances: React.FC<Props> = ({
           {/* Coins */}
           <div className="flex items-center space-x-2">
             <span
-              className=" text-[#743f39]"
               style={{
                 textShadow:
                   "white 1px 1px 0px, white -1px 1px 0px, white 1px -1px 0px, white -1px -1px 0px, white 1px 0px 0px, white -1px 0px 0px, white 0px 1px 0px, white 0px -1px 0px",
@@ -53,7 +52,6 @@ export const Balances: React.FC<Props> = ({
           </div>
           <div className="flex items-center space-x-2">
             <span
-              className=" text-[#743f39]"
               style={{
                 textShadow:
                   "white 1px 1px 0px, white -1px 1px 0px, white 1px -1px 0px, white -1px -1px 0px, white 1px 0px 0px, white -1px 0px 0px, white 0px 1px 0px, white 0px -1px 0px",
@@ -90,7 +88,6 @@ export const Balances: React.FC<Props> = ({
         >
           <div className="h-9 w-full bg-black opacity-30 absolute sfl-hud-backdrop -z-10" />
           <span
-            className=" text-[#743f39]"
             style={{
               textShadow:
                 "white 1px 1px 0px, white -1px 1px 0px, white 1px -1px 0px, white -1px -1px 0px, white 1px 0px 0px, white -1px 0px 0px, white 0px 1px 0px, white 0px -1px 0px",
