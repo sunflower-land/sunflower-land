@@ -1604,6 +1604,52 @@ describe("supplyCropMachine", () => {
 
     expect(secondGrowsUntil).toBeGreaterThan(firstGrowsUntil ?? Infinity);
   });
+
+  it("sets startTime greater than Date.now when the queue has finished crops", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(40),
+        Oil: new Decimal(1),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: MAX_OIL_CAPACITY_IN_MILLIS,
+            queue: [],
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: 1,
+    });
+
+    const finalState = supplyCropMachine({
+      state: newState,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: now,
+    });
+
+    expect(
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].startTime
+    ).toBeGreaterThanOrEqual(now);
+  });
 });
 
 describe("calculateCropTime", () => {

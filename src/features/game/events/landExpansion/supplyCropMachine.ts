@@ -220,7 +220,8 @@ function setPackStartTime(
   now: number
 ) {
   if (!pack.startTime) {
-    pack.startTime = index === 0 ? now : previousQueueItemReadyAt;
+    pack.startTime =
+      index === 0 ? now : Math.max(previousQueueItemReadyAt, now);
   }
 }
 
