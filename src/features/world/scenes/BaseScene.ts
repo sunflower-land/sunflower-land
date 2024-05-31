@@ -145,7 +145,7 @@ export abstract class BaseScene extends Phaser.Scene {
 
   constructor(options: BaseSceneOptions) {
     if (!options.name) {
-      throw new Error(translate("base.missing"));
+      throw new Error("Missing name in config");
     }
 
     const defaultedOptions: Required<BaseSceneOptions> = {

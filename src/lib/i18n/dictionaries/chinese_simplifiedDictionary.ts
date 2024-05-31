@@ -574,7 +574,6 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 };
 
 const base: Record<Base, string> = {
-  "base.missing": "设定中缺失名字",
   "base.far.away": "你离得太远了",
   "base.iam.far.away": "我离得太远了",
 };

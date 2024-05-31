@@ -583,7 +583,6 @@ const availableSeeds: Record<AvailableSeeds, string> = {
 };
 
 const base: Record<Base, string> = {
-  "base.missing": "Nom manquant dans la configuration",
   "base.far.away": "Vous êtes trop éloigné",
   "base.iam.far.away": "Je suis trop loin",
 };

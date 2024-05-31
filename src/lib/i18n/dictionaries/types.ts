@@ -357,7 +357,7 @@ export type AvailableSeeds =
   | "quickSelect.label"
   | "quickSelect.empty";
 
-export type Base = "base.missing" | "base.far.away" | "base.iam.far.away";
+export type Base = "base.far.away" | "base.iam.far.away";
 
 export type BasicTreasure =
   | "basic.treasure.missingKey"
