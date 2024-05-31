@@ -1310,14 +1310,10 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend":
-    "Le Mélange Fertile augmente le rendement de chaque fruit de +0.1",
-  "compost.sproutMix":
-    "Le Mélange de Germination augmente le rendement de vos cultures de +0.2",
-  "compost.sproutMixBoosted":
-    "Le Mélange de Germination augmente le rendement de vos cultures de +0.4",
-  "compost.rapidRoot":
-    "La Croissance Rapide réduit le temps de croissance des cultures de 50%",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {

@@ -1180,10 +1180,10 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Fruitful Blend增加 +0.1 每水果产量",
-  "compost.sproutMix": "Sprout Mix增加 +0.2 庄稼产量",
-  "compost.sproutMixBoosted": "Sprout Mix增加 +0.4 庄稼产量",
-  "compost.rapidRoot": "Rapid Root减少 50% 庄稼生长时间",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {

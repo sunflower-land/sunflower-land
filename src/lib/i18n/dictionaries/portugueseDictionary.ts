@@ -1298,14 +1298,10 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend":
-    "Fertilizante Frutífero aumenta cada rendimento de fruta em +0.1",
-  "compost.sproutMix":
-    "Fertilizante Mix de Brotos aumenta o rendimento da sua colheita em +0.2",
-  "compost.sproutMixBoosted":
-    "Fertilizante Mix de Brotos aumenta o rendimento da sua colheita em +0.4",
-  "compost.rapidRoot":
-    "Fertilizante Rápido reduz o tempo de crescimento da colheita em 50%",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
