@@ -75,10 +75,10 @@ export type NPCName =
   | "lady day" // faction spruiker;
   | "robert" // faction spruiker;
   | "maximus" // faction spruiker;
-  | "goblins recruiter" // faction recruiter;
-  | "bumpkins recruiter" // faction recruiter;
-  | "nightshades recruiter" // faction recruiter;
-  | "sunflorians recruiter"; // faction recruiter;
+  | "graxle" // faction recruiter;
+  | "barlow" // faction recruiter;
+  | "nyx" // faction recruiter;
+  | "reginald"; // faction recruiter;
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   gaucho: {
@@ -817,7 +817,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Black Farmer Boots",
   },
-  "bumpkins recruiter": {
+  barlow: {
     body: "Beige Farmer Potion",
     hair: "Explorer Hair",
     hat: "Bumpkin Helmet",
@@ -827,7 +827,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Bumpkin Sabaton",
   },
-  "goblins recruiter": {
+  graxle: {
     body: "Goblin Potion",
     hair: "Fire Hair",
     hat: "Goblin Helmet",
@@ -837,7 +837,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Goblin Sabaton",
   },
-  "nightshades recruiter": {
+  nyx: {
     body: "Pale Potion",
     hair: "Goth Hair",
     hat: "Nightshade Helmet",
@@ -847,7 +847,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Nightshade Sabaton",
   },
-  "sunflorians recruiter": {
+  reginald: {
     body: "Sunburst Potion",
     hair: "Blondie",
     hat: "Sunflorian Helmet",

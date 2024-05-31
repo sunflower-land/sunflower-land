@@ -14,11 +14,10 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
-import { NPC_WEARABLES } from "lib/npcs";
+import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
 import { translate } from "lib/i18n/translate";
-import { FactionNPC } from "./Kingdom";
 
 const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   {
@@ -42,6 +41,14 @@ const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
     y: 137,
   },
 ];
+
+export type FactionNPC = {
+  npc: NPCName;
+  x: number;
+  y: number;
+  direction?: "left" | "right";
+  faction: Omit<FactionName, "nightshades">;
+};
 
 const FACTION_NPCS: FactionNPC[] = [
   {

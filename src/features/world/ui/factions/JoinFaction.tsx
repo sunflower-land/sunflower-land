@@ -16,6 +16,7 @@ import {
 } from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
+import { InlineDialogue } from "../TypingMessage";
 
 const FACTION_EMBLEM: Record<FactionName, FactionEmblem> = {
   sunflorians: "Sunflorian Emblem",
@@ -25,10 +26,10 @@ const FACTION_EMBLEM: Record<FactionName, FactionEmblem> = {
 };
 
 const RECRUITER_VOICE: Record<FactionName, string> = {
-  goblins: "goblin_recruiter",
-  bumpkins: "bumpkin_recruiter",
-  sunflorians: "sunflorian_recruiter",
-  nightshades: "nightshade_recruiter",
+  goblins: "graxle",
+  bumpkins: "barlow",
+  sunflorians: "reginald",
+  nightshades: "nyx",
 };
 
 interface Props {
@@ -60,6 +61,20 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     recruiterVoice.play();
   };
 
+  const intro = `${t("faction.restrited.area", {
+    faction: capitalize(faction),
+  })} ${t("faction.not.pledged", {
+    faction: capitalize(faction),
+  })}`;
+
+  const confirmFaction = `${t("faction.cost", {
+    cost: 10,
+    faction: capitalize(faction),
+  })} ${t("faction.pledge.reward", {
+    emblems: EMBLEM_QTY,
+    banner: FACTION_BANNERS[faction],
+  })}`;
+
   // If joined a different faction, show a message that they can't change
   if (joinedFaction && joinedFaction.name !== faction) {
     return (
@@ -87,10 +102,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
               <Label type="danger">{`No Access`}</Label>
             </div>
             <span className="text-xs sm:text-sm">
-              {t("faction.restrited.area", { faction: capitalize(faction) })}
-            </span>
-            <span className="text-xs sm:text-sm">
-              {t("faction.not.pledged", { faction: capitalize(faction) })}
+              <InlineDialogue message={intro} />
             </span>
           </div>
           <Button className="mt-2" onClick={() => setShowConfirm(true)}>
@@ -108,15 +120,14 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
               </Label>
             </div>
             <span className="text-xs sm:text-sm mb-2">
-              {t("faction.cost", { cost: 10, faction: capitalize(faction) })}
+              <InlineDialogue message={confirmFaction} />
             </span>
 
-            <span className="text-xs sm:text-sm ">
-              {t("faction.pledge.reward", {
-                emblems: EMBLEM_QTY,
-                banner: FACTION_BANNERS[faction],
-              })}
-            </span>
+            {/* <span className="text-xs sm:text-sm ">
+              <InlineDialogue
+                message=
+              />
+            </span> */}
           </div>
           <Label type="danger" className="mb-2">
             {t("faction.cannot.change")}
@@ -156,7 +167,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
               <Label type="default">{capitalize(faction)}</Label>
             </div>
             <span className="text-xs sm:text-sm">
-              {t(`faction.greeting.${faction}`)}
+              <InlineDialogue message={t(`faction.greeting.${faction}`)} />
             </span>
           </div>
         </>

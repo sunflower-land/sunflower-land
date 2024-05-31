@@ -2095,9 +2095,9 @@ const factions: Record<Factions, string> = {
     "In exchange, you will receive a {{banner}} and {{emblems}} emblems.",
   "faction.welcome": "Welcome to the {{faction}}!",
   "faction.greeting.goblins": "Hail the Goblin King!",
-  "faction.greeting.sunflorians": "Our lineage will reign supreme",
+  "faction.greeting.sunflorians": "Our lineage will reign supreme!",
   "faction.greeting.bumpkins": "We must unite the farmers!",
-  "faction.greeting.nightshades": "The shadows will guide us to victory",
+  "faction.greeting.nightshades": "The shadows will guide us to victory!",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
