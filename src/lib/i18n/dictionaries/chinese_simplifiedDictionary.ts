@@ -279,6 +279,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "去",
   "grant.wish": "许下新愿望",
   guide: "指南",
+  growing: ENGLISH_TERMS["growing"],
   honey: "蜂蜜",
   "hungry?": "饿了么？",
   info: "概览",

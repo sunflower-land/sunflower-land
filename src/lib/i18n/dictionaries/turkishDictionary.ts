@@ -300,6 +300,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Git",
   "grant.wish": "Yeni Dilek Dile",
   greenhouse: ENGLISH_TERMS["greenhouse"],
+  growing: ENGLISH_TERMS["growing"],
   guide: "Rehber",
   harvested: "Hasat edilmiş",
   honey: "Bal",
