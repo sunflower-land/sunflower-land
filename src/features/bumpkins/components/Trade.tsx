@@ -289,17 +289,7 @@ const ListTrade: React.FC<{
             className={classNames(
               "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
-                "text-error":
-                  maxSFL ||
-                  sfl === 0 ||
-                  sfl / quantity <
-                    setPrecision(new Decimal(floorPrices[selected] ?? 0))
-                      .mul(0.8)
-                      .toNumber() ||
-                  sfl / quantity >
-                    setPrecision(new Decimal(floorPrices[selected] ?? 0))
-                      .mul(1.2)
-                      .toNumber(),
+                "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
               }
             )}
           />
