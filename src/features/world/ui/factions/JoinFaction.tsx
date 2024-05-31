@@ -61,7 +61,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   };
 
   // If joined a different faction, show a message that they can't change
-  if (!sameFaction) {
+  if (joinedFaction && joinedFaction.name !== faction) {
     return (
       <>
         <div className="flex flex-col p-2 pt-1 space-y-2">
