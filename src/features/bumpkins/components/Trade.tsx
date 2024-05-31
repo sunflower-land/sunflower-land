@@ -31,6 +31,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
+import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -82,29 +83,12 @@ const ListTrade: React.FC<{
               key={name}
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2"
             >
-              <OuterPanel
-                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
-                onClick={() => {
-                  setSelected(name);
-                }}
-              >
-                <Label type="default" className="absolute -top-3 -right-2">
-                  {`${setPrecision(new Decimal(inventory?.[name] ?? 0), 0)}`}
-                </Label>
-                <span className="text-xs mb-1">{name}</span>
-                <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
-                <Label
-                  type="warning"
-                  className="absolute -bottom-2 text-center mt-1 p-1"
-                  style={{ width: "calc(100% + 10px)" }}
-                >
-                  {t("bumpkinTrade.price/unit", {
-                    price: floorPrices[name]
-                      ? setPrecision(new Decimal(floorPrices[name] ?? 0))
-                      : "?",
-                  })}
-                </Label>
-              </OuterPanel>
+              <ListingCategoryCard
+                itemName={name}
+                inventoryAmount={inventory?.[name] ?? new Decimal(0)}
+                pricePerUnit={floorPrices[name]}
+                onClick={() => setSelected(name)}
+              />
             </div>
           ))}
         </div>
