@@ -287,7 +287,8 @@ describe("supplyCropMachine", () => {
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         growTimeRemaining: sunflowerTime,
         totalGrowTime: sunflowerTime,
         seeds: 5,
@@ -339,14 +340,16 @@ describe("supplyCropMachine", () => {
     expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         growTimeRemaining: sunflowerTime, // 5 plots,
         totalGrowTime: sunflowerTime,
         seeds: 5,
       },
       {
         crop: "Potato",
-        amount: 5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         growTimeRemaining: potatoTime,
         totalGrowTime: potatoTime,
         seeds: 5,
@@ -872,7 +875,8 @@ describe("supplyCropMachine", () => {
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 5.5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         totalGrowTime: sunflowerTime,
         growTimeRemaining: sunflowerTime,
         seeds: 5,
