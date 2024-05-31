@@ -331,8 +331,7 @@ export type AchievementsTerms =
   | "treasureHunter.two"
   | "eggcellentCollection.description"
   | "eggcellentCollection.one"
-  | "eggcellentCollection.two"
-  | "task.harvestSunflowers";
+  | "eggcellentCollection.two";
 
 export type Auction =
   | "auction.title"

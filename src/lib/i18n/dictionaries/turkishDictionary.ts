@@ -549,7 +549,6 @@ const achievementTerms: Record<AchievementsTerms, string> = {
     "Merhaba, yumurta toplayıcı! Tavuklar bize lezzetli yumurtalar sağlayan harika çiftlik arkadaşlarıdır.",
   "eggcellentCollection.two":
     "Yumurta toplayarak yemek pişirmek için taze malzemelere sahip olacak ve ayrıca özel tariflerin ve bonusların kilidini açacaksınız.",
-  "task.harvestSunflowers": "10 Ayçiçeği Hasat Et",
 };
 
 const addSFL: Record<AddSFL, string> = {

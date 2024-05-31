@@ -550,7 +550,6 @@ const achievementTerms: Record<AchievementsTerms, string> = {
     "Olá, colecionador de ovos! As galinhas são companheiras maravilhosas da fazenda que nos fornecem ovos deliciosos.",
   "eggcellentCollection.two":
     "Ao coletar ovos, você terá um suprimento fresco de ingredientes para cozinhar, e também irá desbloquear receitas e bônus especiais.",
-  "task.harvestSunflowers": "Colha 10 Girassóis",
 };
 
 const auction: Record<Auction, string> = {

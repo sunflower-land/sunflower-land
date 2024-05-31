@@ -543,7 +543,6 @@ const achievementTerms: Record<AchievementsTerms, string> = {
     "好喂，采蛋人！鸡真是出色的农场伙伴，每天都给你产出些美味鸡蛋。",
   "eggcellentCollection.two":
     "采到了鸡蛋，做饭就有了新鲜供应的原料，还能解锁特殊菜谱和额外奖励。",
-  "task.harvestSunflowers": "收获 10 棵向日葵",
 };
 
 const addSFL: Record<AddSFL, string> = {

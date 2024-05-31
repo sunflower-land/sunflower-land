@@ -550,7 +550,6 @@ const achievementTerms: Record<AchievementsTerms, string> = {
     "Salut, collectionneur d'œufs ! Les poules sont de merveilleuses compagnes de ferme qui nous fournissent de délicieux œufs.",
   "eggcellentCollection.two":
     "En collectant des œufs, vous aurez un approvisionnement frais d'ingrédients pour la cuisine, et vous débloquerez également des recettes spéciales et des bonus.",
-  "task.harvestSunflowers": "Récolter 10 Sunflowers",
 };
 
 const addSFL: Record<AddSFL, string> = {

@@ -548,7 +548,6 @@ const achievementTerms: Record<AchievementsTerms, string> = {
     "Howdy, egg collector! Chickens are wonderful farm companions that provide us with delicious eggs.",
   "eggcellentCollection.two":
     "By collecting eggs, you'll have a fresh supply of ingredients for cooking, and you'll also unlock special recipes and bonuses.",
-  "task.harvestSunflowers": "Harvest 10 Sunflowers",
 };
 
 const addSFL: Record<AddSFL, string> = {
