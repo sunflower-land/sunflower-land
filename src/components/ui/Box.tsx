@@ -270,7 +270,15 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type="default" className="px-0.5 text-xxs">
+            <Label
+              type="default"
+              className="px-0.5 text-xxs"
+              style={{
+                paddingLeft: "2.5px",
+                paddingRight: "1.5px",
+                height: "24px",
+              }}
+            >
               {precisionCount.toString()}
             </Label>
           </div>

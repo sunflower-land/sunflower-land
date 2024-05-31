@@ -7,7 +7,7 @@ import lightning from "assets/icons/lightning.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { GameState, InventoryItemName } from "features/game/types/game";
@@ -184,17 +184,19 @@ const BaitSelection: React.FC<{
 
   if (showChum) {
     return (
-      <ChumSelection
-        bait={bait}
-        state={state}
-        onCancel={() => setShowChum(false)}
-        initial={chum}
-        onList={(selected) => {
-          setChum(selected);
-          localStorage.setItem("lastSelectedChum", selected);
-          setShowChum(false);
-        }}
-      />
+      <InnerPanel>
+        <ChumSelection
+          bait={bait}
+          state={state}
+          onCancel={() => setShowChum(false)}
+          initial={chum}
+          onList={(selected) => {
+            setChum(selected);
+            localStorage.setItem("lastSelectedChum", selected);
+            setShowChum(false);
+          }}
+        />
+      </InnerPanel>
     );
   }
 
@@ -214,43 +216,44 @@ const BaitSelection: React.FC<{
 
   return (
     <>
-      <div className="p-2">
-        <div className="flex items-center justify-between flex-wrap">
-          <div className="flex items-center">
-            {tide === "Dusktide" ? (
-              <Label
-                icon={SUNNYSIDE.icons.stopwatch}
-                type="formula"
-                className="mr-2"
-              >
-                {"Dusktide"}
-              </Label>
-            ) : (
-              <Label
-                icon={SUNNYSIDE.icons.stopwatch}
-                type="default"
-                className="mr-2"
-              >
-                {"Dawnlight"}
-              </Label>
-            )}
+      <InnerPanel>
+        <div className="p-2">
+          <div className="flex items-center justify-between flex-wrap">
+            <div className="flex items-center">
+              {tide === "Dusktide" ? (
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="formula"
+                  className="mr-2"
+                >
+                  {"Dusktide"}
+                </Label>
+              ) : (
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="default"
+                  className="mr-2"
+                >
+                  {"Dawnlight"}
+                </Label>
+              )}
 
-            {weather === "Fish Frenzy" || weather === "Full Moon" ? (
-              <Label icon={lightning} type="vibrant">
-                {weather}
-              </Label>
-            ) : null}
+              {weather === "Fish Frenzy" || weather === "Full Moon" ? (
+                <Label icon={lightning} type="vibrant">
+                  {weather}
+                </Label>
+              ) : null}
+            </div>
+
+            <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
+              {t("statements.daily.limit")}
+              {dailyFishingCount}
+              {"/"}
+              {dailyFishingMax}
+            </Label>
           </div>
-
-          <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">
-            {t("statements.daily.limit")}
-            {dailyFishingCount}
-            {"/"}
-            {dailyFishingMax}
-          </Label>
         </div>
-      </div>
-      <div>
+
         <div className="flex flex-wrap">
           {BAIT.map((name) => (
             <Box
@@ -265,7 +268,9 @@ const BaitSelection: React.FC<{
             />
           ))}
         </div>
-        <OuterPanel className="my-1 relative">
+      </InnerPanel>
+      <div>
+        <InnerPanel className="my-1 relative">
           <div className="flex p-1">
             <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
             <div>
@@ -288,43 +293,45 @@ const BaitSelection: React.FC<{
               {t("fishermanModal.zero.available")}
             </Label>
           )}
-        </OuterPanel>
+        </InnerPanel>
       </div>
-      {chum ? (
-        <div className="flex item-center justify-between mb-1">
-          <div className="flex items-center">
-            <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
-            <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
-          </div>
-          <img
-            src={SUNNYSIDE.icons.cancel}
-            className="h-5 pr-0.5 cursor-pointer"
-            onClick={() => {
-              setChum(undefined);
-              localStorage.removeItem("lastSelectedChum");
-            }}
-          />
-        </div>
-      ) : (
-        <div className="my-1 p-1 flex justify-between items-start flex-1 w-full">
-          <div className="flex">
-            <img
-              src={SUNNYSIDE.icons.expression_confused}
-              className="h-4 mr-1"
-            />
-            <p className="text-xs mb-1">{t("fishermanModal.attractFish")}</p>
-          </div>
-          <Button
-            disabled={fishingLimitReached}
-            className={`h-[30px] w-[40px]`}
-            onClick={() => setShowChum(true)}
-          >
+      <InnerPanel className="mb-1">
+        {chum ? (
+          <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
-              <img src={plus} className="w-8 mt-1" />
+              <img src={ITEM_DETAILS[chum].image} className="h-5 mr-1" />
+              <Label type="default">{`Chum - ${CHUM_AMOUNTS[chum]} ${chum}`}</Label>
             </div>
-          </Button>
-        </div>
-      )}
+            <img
+              src={SUNNYSIDE.icons.cancel}
+              className="h-5 pr-0.5 cursor-pointer"
+              onClick={() => {
+                setChum(undefined);
+                localStorage.removeItem("lastSelectedChum");
+              }}
+            />
+          </div>
+        ) : (
+          <div className="p-1 flex justify-between items-center flex-1 w-full">
+            <div className="flex">
+              <img
+                src={SUNNYSIDE.icons.expression_confused}
+                className="h-4 mr-2"
+              />
+              <p className="text-xs mb-1">{t("fishermanModal.attractFish")}</p>
+            </div>
+            <Button
+              disabled={fishingLimitReached}
+              className={`h-[30px] w-[40px]`}
+              onClick={() => setShowChum(true)}
+            >
+              <div className="flex items-center">
+                <img src={plus} className="w-8 mt-1" />
+              </div>
+            </Button>
+          </div>
+        )}
+      </InnerPanel>
 
       {fishingLimitReached && (
         <Label className="mb-1" type="danger">
@@ -449,10 +456,15 @@ export const FishermanModal: React.FC<Props> = ({
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
+      container={OuterPanel}
     >
       {tab === 0 && <BaitSelection onCast={onCast} />}
 
-      {tab === 1 && <FishingGuide onClose={() => setTab(0)} />}
+      {tab === 1 && (
+        <InnerPanel>
+          <FishingGuide onClose={() => setTab(0)} />
+        </InnerPanel>
+      )}
     </CloseButtonPanel>
   );
 };

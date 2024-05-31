@@ -7,6 +7,7 @@ module.exports = {
     fontFamily: {
       body: ['"Basic","ZCOOL KuaiLe"'],
       secondary: ["Hint"],
+      pixel: ["HintBold"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
       speech: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
     },

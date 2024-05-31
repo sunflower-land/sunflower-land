@@ -20,8 +20,11 @@ import { FISH, FishName, MarineMarvelName } from "features/game/types/fishing";
 import { Detail } from "../components/Detail";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { InnerPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
+
+import giftIcon from "assets/icons/gift.png";
+import { ResizableBar } from "components/ui/ProgressBar";
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _milestones = (state: MachineState) => state.context.state.milestones;
@@ -46,6 +49,8 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
     FishName | MarineMarvelName
   >();
 
+  const [selectedMilestone, setSelectedMilestone] = useState<MilestoneName>();
+
   const farmActivity = useSelector(gameService, _farmActivity);
   const milestones = useSelector(gameService, _milestones);
 
@@ -65,6 +70,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
     gameService.send("milestone.claimed", { milestone });
     setExpandedIndex(undefined);
     onMilestoneReached(milestone);
+    setSelectedMilestone(undefined);
   };
 
   const milestoneNames = getKeys(FISH_MILESTONES);
@@ -109,18 +115,31 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
     );
   }
 
+  if (selectedMilestone) {
+    return (
+      <MilestonePanel
+        milestone={MILESTONES[selectedMilestone]}
+        farmActivity={farmActivity}
+        onClaim={() => handleClaimReward(selectedMilestone)}
+        onBack={() => setSelectedMilestone(undefined)}
+      />
+    );
+  }
+
   return (
-    <InnerPanel
-      className={classNames("flex flex-col h-full overflow-y-auto scrollable")}
+    <div
+      className={classNames(
+        "flex flex-col h-full overflow-y-auto scrollable pr-1"
+      )}
     >
-      <div className="space-y-2 mt-1">
+      <InnerPanel className="space-y-2 mt-1 mb-1">
         <div className="flex flex-col space-y-2">
-          <Label type="formula" className="ml-1.5">
-            {t("fish.caught")}
-            {caughtFishCount}
-          </Label>
           {/* Claimed Milestones */}
-          <div className="flex flex-wrap gap-1 px-1.5">
+          <div className="flex justify-between px-1.5">
+            <Label
+              icon={SUNNYSIDE.tools.fishing_rod}
+              type="default"
+            >{`Fishing`}</Label>
             <MilestoneTracker
               milestones={milestoneNames}
               experienceLabelText={`${experienceLevel} Angler`}
@@ -129,19 +148,53 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
             />
           </div>
 
-          <div className="space-y-1.5 px-1.5 flex flex-wrap">
-            {unclaimedMilestones.map((milestone, index) => (
-              <MilestonePanel
-                key={milestone}
-                milestone={MILESTONES[milestone]}
-                isExpanded={expandedIndex === index}
-                farmActivity={farmActivity}
-                onClick={() => handleMilestoneExpand(index)}
-                onClaim={() => handleClaimReward(milestone)}
-              />
-            ))}
+          <div className="px-1.5 py-2 flex overflow-x-auto scrollable">
+            {milestoneNames.map((name, index) => {
+              const milestone = MILESTONES[name];
+              const percentageComplete =
+                milestone.percentageComplete(farmActivity);
+
+              const claimed = milestones[name];
+              return (
+                <ButtonPanel
+                  key={name}
+                  style={{
+                    height: "80px",
+                    width: "100px",
+                    zIndex: 100 - index,
+                  }}
+                  className="flex mr-2  flex-col items-center justify-center relative"
+                  onClick={() => setSelectedMilestone(name)}
+                >
+                  <span
+                    className="text-xs text-center"
+                    style={{
+                      fontSize: "9px",
+                      lineHeight: "10px",
+                    }}
+                  >
+                    {name}
+                  </span>
+                  <img
+                    src={claimed ? SUNNYSIDE.icons.confirm : giftIcon}
+                    className="h-6 absolute -top-4 -right-4"
+                  />
+                  <div
+                    className="absolute w-full left-0 right-0 flex justify-center"
+                    style={{ bottom: "-12px" }}
+                  >
+                    <ResizableBar
+                      percentage={percentageComplete}
+                      type="progress"
+                    />
+                  </div>
+                </ButtonPanel>
+              );
+            })}
           </div>
         </div>
+      </InnerPanel>
+      <InnerPanel>
         <div className="flex flex-col">
           {getKeys(FISH_BY_TYPE).map((type) => {
             const typeIcon = ITEM_DETAILS[FISH_BY_TYPE[type][0]].image;
@@ -169,7 +222,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
             );
           })}
         </div>
-      </div>
-    </InnerPanel>
+      </InnerPanel>
+    </div>
   );
 };
