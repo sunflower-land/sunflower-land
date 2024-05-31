@@ -27,6 +27,7 @@ export const LanguageSwitcher: React.FC = () => {
     localStorage.setItem("language", languageCode);
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
+    location.reload();
 
     if (languageCode === "zh-CN") {
       changeFont("Sans Serif");
