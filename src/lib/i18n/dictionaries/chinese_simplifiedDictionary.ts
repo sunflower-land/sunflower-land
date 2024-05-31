@@ -222,7 +222,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   close: "关闭",
   "coming.soon": "即将推出",
   common: "普通",
-  completed: "已完成",
+  completed: "完成",
   confirm: "确认",
   congrats: "恭喜！",
   connected: "已连接",
