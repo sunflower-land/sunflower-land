@@ -600,6 +600,7 @@ describe("supplyCropMachine", () => {
         type: "cropMachine.supplied",
         oil,
       },
+      createdAt: now,
     });
 
     // 600 minutes of oil remaining
