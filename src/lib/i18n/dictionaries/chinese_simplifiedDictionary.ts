@@ -582,8 +582,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "basic.treasure.missingKey": "缺少钥匙",
   "basic.treasure.needKey": "您需要一把宝箱钥匙来开宝箱。",
   "basic.treasure.getKey": "您可以给乡包佬完成任务来拿到宝箱钥匙。",
-  "basic.treasure.goodLuck": "祝您好运",
-  "basic.treasure.key": "宝箱钥匙",
   "basic.treasure.congratsKey": "恭喜您，您有一把宝箱钥匙了！",
   "basic.treasure.openChest": "您要开箱领取奖励吗？",
   "rare.treasure.needKey": "您需要一把稀有钥匙才能打开这个宝箱。",
@@ -604,7 +602,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "giftGiver.description":
     "恭喜，您找到了个送礼客！每天你们都可以找他们领一份免费礼物。",
   "giftGiver.label": "送礼客",
-  "giftGiver.opened": "今日已开过",
 };
 
 const beach: Record<Beach, string> = {

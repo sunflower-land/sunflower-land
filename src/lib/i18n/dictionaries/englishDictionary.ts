@@ -589,15 +589,13 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "giftGiver.description":
     "Congratulations, you discovered a gift giver! Each day you can claim a free prize from them.",
   "giftGiver.label": "Gift Giver",
-  "giftGiver.opened": "Already opened today",
+
   "basic.treasure.missingKey": "Missing Key",
   "basic.treasure.needKey": "You need a Treasure Key to open this chest",
   "rare.treasure.needKey": "You need a Rare Key to open this chest",
   "luxury.treasure.needKey": "You need a Luxury Key to open this chest",
   "basic.treasure.getKey":
     "You can get treasure keys by completing tasks for Bumpkins",
-  "basic.treasure.goodLuck": "Good Luck",
-  "basic.treasure.key": "Treasure Key",
   "basic.treasure.congratsKey": "Congratulations, you have the key!",
   "basic.treasure.openChest":
     "Would you like to open the chest and claim a reward?",
