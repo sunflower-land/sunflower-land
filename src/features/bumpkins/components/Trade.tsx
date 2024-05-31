@@ -232,8 +232,8 @@ const ListTrade: React.FC<{
 
                 // Auto generate price
                 if (floorPrices[selected]) {
-                  const estimated = new Decimal(floorPrices[selected] ?? 0).mul(
-                    amount
+                  const estimated = setPrecision(
+                    new Decimal(floorPrices[selected] ?? 0).mul(amount)
                   );
                   setSflDisplay(estimated.toString());
                 }
@@ -245,7 +245,7 @@ const ListTrade: React.FC<{
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
                   quantity > (TRADE_LIMITS[selected] ?? 0) ||
-                  quantity === 0, // Add condition to change text color to red when quantity is 0
+                  quantity === 0,
               }
             )}
           />
@@ -289,7 +289,7 @@ const ListTrade: React.FC<{
             className={classNames(
               "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
-                "text-error": maxSFL || sfl === 0,
+                "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
               }
             )}
           />
