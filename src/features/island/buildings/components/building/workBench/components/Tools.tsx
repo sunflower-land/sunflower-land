@@ -82,7 +82,12 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
       return (
         <Label type="danger">
           {t("islandupgrade.requiredIsland", {
-            islandType: capitalize(selected.requiredIsland as IslandType),
+            islandType:
+              selected.requiredIsland === "spring"
+                ? "Petal Paradise"
+                : t("islandupgrade.otherIsland", {
+                    island: capitalize(selected.requiredIsland as IslandType),
+                  }),
           })}
         </Label>
       );

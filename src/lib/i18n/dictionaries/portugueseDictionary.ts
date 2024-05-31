@@ -2886,6 +2886,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.desertResourcesDescription":
     ENGLISH_TERMS["islandupgrade.desertResourcesDescription"],
   "islandupgrade.requiredIsland": ENGLISH_TERMS["islandupgrade.requiredIsland"],
+  "islandupgrade.otherIsland": ENGLISH_TERMS["islandupgrade.otherIsland"],
 };
 
 const interactableModals: Record<InteractableModals, string> = {

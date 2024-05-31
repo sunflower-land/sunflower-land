@@ -21,7 +21,7 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, IslandType } from "features/game/types/game";
 import {
   FRUIT,
   FRUIT_SEEDS,
@@ -44,6 +44,8 @@ import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,
 } from "features/game/events/landExpansion/plantGreenhouse";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { capitalize } from "lib/utils/capitalize";
 
 interface Props {
   onClose: () => void;
@@ -100,8 +102,24 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const Action = () => {
-    // return nothing if requirement not met
+    if (
+      !hasRequiredIslandExpansion(state.island.type, selected.requiredIsland)
+    ) {
+      return (
+        <Label type="danger">
+          {t("islandupgrade.requiredIsland", {
+            islandType:
+              selected.requiredIsland === "spring"
+                ? "Petal Paradise"
+                : t("islandupgrade.otherIsland", {
+                    island: capitalize(selected.requiredIsland as IslandType),
+                  }),
+          })}
+        </Label>
+      );
+    }
     if (isSeedLocked(selectedName)) {
+      // return nothing if requirement not met
       return <></>;
     }
 

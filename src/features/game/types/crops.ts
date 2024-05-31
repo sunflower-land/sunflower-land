@@ -66,12 +66,14 @@ export const GREENHOUSE_SEEDS: () => Record<
     description: "A staple food for many.",
     bumpkinLevel: 40,
     plantSeconds: 32 * 60 * 60,
+    requiredIsland: "desert",
   },
   "Olive Seed": {
     price: 320,
     description: "Zesty with a rich history.",
     bumpkinLevel: 40,
     plantSeconds: 44 * 60 * 60,
+    requiredIsland: "desert",
   },
 });
 
