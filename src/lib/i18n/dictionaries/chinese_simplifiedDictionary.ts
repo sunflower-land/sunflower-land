@@ -2418,7 +2418,7 @@ const guideCompost: Record<GuideCompost, string> = {
   "guide.compost.add.eggs": "添加鸡蛋",
   "guide.compost.eggs": "鸡蛋",
   "guide.compost.cropGrowthTime": "-50% 庄稼生长时间",
-  "guide.compost.fishingBait": "钓鱼饵",
+  "guide.compost.fishingBait": "鱼饵",
   "guide.compost.placeCrops": "将作物放入堆肥机中喂养虫儿",
   "guide.compost.compostCycle":
     "一个堆肥周期可以生产多个肥料，可用来促进你的作物和水果生长",
