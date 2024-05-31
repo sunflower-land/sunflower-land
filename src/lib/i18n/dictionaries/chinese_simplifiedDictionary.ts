@@ -6,7 +6,6 @@ import {
   AvailableSeeds,
   Base,
   BasicTreasure,
-  Beach,
   Beehive,
   BeachLuck,
   BirdiePlaza,
@@ -602,11 +601,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "giftGiver.description":
     "恭喜，您找到了个送礼客！每天你们都可以找他们领一份免费礼物。",
   "giftGiver.label": "送礼客",
-};
-
-const beach: Record<Beach, string> = {
-  "beach.party": "我们正在努力准备沙滩派对。",
-  "beach.ready": "准备好你的防晒霜和遮阳伞，酷夏将至！",
 };
 
 const beachLuck: Record<BeachLuck, string> = {
@@ -4482,7 +4476,6 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...basicTreasure,
-  ...beach,
   ...beachLuck,
   ...beehive,
   ...birdiePlaza,

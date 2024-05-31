@@ -6,7 +6,6 @@ import {
   AvailableSeeds,
   Base,
   BasicTreasure,
-  Beach,
   Beehive,
   BeachLuck,
   BirdiePlaza,
@@ -610,12 +609,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.noTicket": ENGLISH_TERMS["raffle.noTicket"],
   "raffle.how": ENGLISH_TERMS["raffle.how"],
   "raffle.enter": ENGLISH_TERMS["raffle.enter"],
-};
-
-const beach: Record<Beach, string> = {
-  "beach.party": "Estamos trabalhando duro para preparar uma festa na praia.",
-  "beach.ready":
-    "Prepare o protetor solar e os guarda-sóis, o Verão está chegando!",
 };
 
 const beehive: Record<Beehive, string> = {
@@ -5141,7 +5134,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...basicTreasure,
-  ...beach,
   ...beehive,
   ...beachLuck,
   ...birdiePlaza,

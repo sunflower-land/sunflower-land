@@ -380,8 +380,6 @@ export type BasicTreasure =
   | "raffle.how"
   | "raffle.enter";
 
-export type Beach = "beach.party" | "beach.ready";
-
 export type Beehive =
   | "beehive.harvestHoney"
   | "beehive.noFlowersGrowing"
@@ -3465,7 +3463,6 @@ export type TranslationKeys =
   | AvailableSeeds
   | Base
   | BasicTreasure
-  | Beach
   | Beehive
   | BeachLuck
   | BirdiePlaza

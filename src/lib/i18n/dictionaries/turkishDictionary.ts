@@ -6,7 +6,6 @@ import {
   AvailableSeeds,
   Base,
   BasicTreasure,
-  Beach,
   Beehive,
   BeachLuck,
   BirdiePlaza,
@@ -613,11 +612,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.how":
     "Özel etkinlikler ve Bumpkin teslimatları aracılığıyla Ödül Biletlerini ücretsiz olarak toplayabilirsiniz.",
   "raffle.enter": "Giriş",
-};
-
-const beach: Record<Beach, string> = {
-  "beach.party": "Plaj partisine hazırlanmak için çok çalışıyoruz.",
-  "beach.ready": "Güneş kreminizi ve şemsiyelerinizi hazırlayın, yaz geliyor!",
 };
 
 const beachLuck: Record<BeachLuck, string> = {
@@ -5113,7 +5107,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...basicTreasure,
-  ...beach,
   ...beachLuck,
   ...beehive,
   ...birdiePlaza,
