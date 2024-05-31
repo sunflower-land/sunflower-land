@@ -293,6 +293,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Ir para",
   "grant.wish": "Conceder Novo Desejo",
   greenhouse: ENGLISH_TERMS["greenhouse"],
+  growing: ENGLISH_TERMS["growing"],
   guide: "Guia",
   honey: "Mel",
   "hungry?": "Com Fome?",
@@ -1297,14 +1298,10 @@ const cropBoomMessages: Record<CropBoomMessages, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend":
-    "Fertilizante Frutífero aumenta cada rendimento de fruta em +0.1",
-  "compost.sproutMix":
-    "Fertilizante Mix de Brotos aumenta o rendimento da sua colheita em +0.2",
-  "compost.sproutMixBoosted":
-    "Fertilizante Mix de Brotos aumenta o rendimento da sua colheita em +0.4",
-  "compost.rapidRoot":
-    "Fertilizante Rápido reduz o tempo de crescimento da colheita em 50%",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -2889,6 +2886,7 @@ const islandupgrade: Record<Islandupgrade, string> = {
   "islandupgrade.desertResourcesDescription":
     ENGLISH_TERMS["islandupgrade.desertResourcesDescription"],
   "islandupgrade.requiredIsland": ENGLISH_TERMS["islandupgrade.requiredIsland"],
+  "islandupgrade.otherIsland": ENGLISH_TERMS["islandupgrade.otherIsland"],
 };
 
 const interactableModals: Record<InteractableModals, string> = {

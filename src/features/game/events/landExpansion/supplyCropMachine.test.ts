@@ -287,7 +287,8 @@ describe("supplyCropMachine", () => {
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         growTimeRemaining: sunflowerTime,
         totalGrowTime: sunflowerTime,
         seeds: 5,
@@ -339,14 +340,16 @@ describe("supplyCropMachine", () => {
     expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         growTimeRemaining: sunflowerTime, // 5 plots,
         totalGrowTime: sunflowerTime,
         seeds: 5,
       },
       {
         crop: "Potato",
-        amount: 5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         growTimeRemaining: potatoTime,
         totalGrowTime: potatoTime,
         seeds: 5,
@@ -597,6 +600,7 @@ describe("supplyCropMachine", () => {
         type: "cropMachine.supplied",
         oil,
       },
+      createdAt: now,
     });
 
     // 600 minutes of oil remaining
@@ -872,7 +876,8 @@ describe("supplyCropMachine", () => {
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        amount: 5.5,
+        // For performance reasons getCropYield is not called in the supplyCropMachine function
+        amount: 0,
         totalGrowTime: sunflowerTime,
         growTimeRemaining: sunflowerTime,
         seeds: 5,
@@ -1223,7 +1228,7 @@ describe("supplyCropMachine", () => {
                 totalGrowTime: packOneGrowTime,
                 growTimeRemaining: 70 * 60 * 1000, // 70 minutes
                 startTime: packOneStartTime,
-                growsUntil: packOneStartTime + 70 * 60 * 1000,
+                growsUntil: packOneStartTime + 30 * 60 * 1000,
                 seeds: 1000,
               },
             ],
@@ -1489,6 +1494,162 @@ describe("supplyCropMachine", () => {
     expect(
       thirdState.buildings["Crop Machine"]?.[0]?.queue?.[1].readyAt
     ).toBeGreaterThan(now);
+  });
+
+  it("sets the growsUntil to a minimum of growsUntil + oil when partially allocating slot 0 (previously partially allocated)", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(1000),
+        Oil: new Decimal(11),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: 0,
+            queue: [],
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 1000 },
+        oil: 10,
+      },
+      createdAt: now,
+    });
+
+    const finalState = supplyCropMachine({
+      state: newState,
+      action: {
+        type: "cropMachine.supplied",
+        oil: 1,
+      },
+      createdAt: now,
+    });
+
+    const firstGrowsUntil =
+      newState.buildings["Crop Machine"]?.[0]?.queue?.[0].growsUntil;
+    const secondGrowsUntil =
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[0].growsUntil;
+
+    expect(secondGrowsUntil).toBeGreaterThan(firstGrowsUntil ?? Infinity);
+  });
+
+  it("sets the growsUntil to a minimum of growsUntil + oil when partially allocating slot 1 (previously partially allocated)", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(1000),
+        Oil: new Decimal(11),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: 0,
+            queue: [
+              {
+                amount: 1,
+                crop: "Sunflower",
+                growTimeRemaining: 0,
+                seeds: 1,
+                totalGrowTime: 1,
+                readyAt: 1,
+                startTime: 1,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 1000 },
+        oil: 10,
+      },
+      createdAt: now,
+    });
+
+    const finalState = supplyCropMachine({
+      state: newState,
+      action: {
+        type: "cropMachine.supplied",
+        oil: 1,
+      },
+      createdAt: now,
+    });
+
+    const firstGrowsUntil =
+      newState.buildings["Crop Machine"]?.[0]?.queue?.[1].growsUntil;
+    const secondGrowsUntil =
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].growsUntil;
+
+    expect(secondGrowsUntil).toBeGreaterThan(firstGrowsUntil ?? Infinity);
+  });
+
+  it("sets startTime greater than Date.now when the queue has finished crops", () => {
+    const now = Date.now();
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        "Pumpkin Seed": new Decimal(40),
+        Oil: new Decimal(1),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+            unallocatedOilTime: MAX_OIL_CAPACITY_IN_MILLIS,
+            queue: [],
+          },
+        ],
+      },
+    };
+
+    const newState = supplyCropMachine({
+      state,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: 1,
+    });
+
+    const finalState = supplyCropMachine({
+      state: newState,
+      action: {
+        type: "cropMachine.supplied",
+        seeds: { type: "Pumpkin Seed", amount: 20 },
+      },
+      createdAt: now,
+    });
+
+    expect(
+      finalState.buildings["Crop Machine"]?.[0]?.queue?.[1].startTime
+    ).toBeGreaterThanOrEqual(now);
   });
 });
 

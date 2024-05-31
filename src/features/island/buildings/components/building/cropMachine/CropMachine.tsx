@@ -25,6 +25,7 @@ import harvestedCropsImage from "assets/cropMachine/readyCrops.webp";
 import idleMachine from "assets/cropMachine/stage1_collector_empty.webp";
 import shadow from "assets/cropMachine/shadow.webp";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
+import { hasFeatureAccess } from "lib/flags";
 
 const _cropMachine = (id: string) => (state: MachineState) => {
   const machines = state.context.state.buildings["Crop Machine"];
@@ -75,7 +76,8 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
   const paused = useSelector(cropMachineService, _paused);
 
   const handleClick = () => {
-    setShowModal(true);
+    hasFeatureAccess(gameService.state.context.state, "CROP_MACHINE") &&
+      setShowModal(true);
   };
 
   const handleAddSeeds = (seeds: AddSeedsInput) => {

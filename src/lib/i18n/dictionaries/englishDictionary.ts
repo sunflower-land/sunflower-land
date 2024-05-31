@@ -301,6 +301,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Go to",
   "grant.wish": "Grant New Wish",
   greenhouse: "Greenhouse",
+  growing: "Growing",
   guide: "Guide",
   harvested: "Harvested",
   honey: "Honey",
@@ -1260,10 +1261,13 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Fruitful Blend boosts each fruit yield by +0.1",
-  "compost.sproutMix": "Sprout Mix increases your crop yield by +0.2",
-  "compost.sproutMixBoosted": "Sprout Mix increases your crop yield by +0.4",
-  "compost.rapidRoot": "Rapid Root reduces crop growth time by 50%",
+  "compost.fruitfulBlend":
+    "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
+  "compost.sproutMix":
+    "Sprout Mix increases your crop yield from plots by +0.2",
+  "compost.sproutMixBoosted":
+    "Sprout Mix increases your crop yield from plots by +0.4",
+  "compost.rapidRoot": "Rapid Root reduces crop growth time from plots by 50%",
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -2968,7 +2972,8 @@ const islandupgrade: Record<Islandupgrade, string> = {
     "This area of Sunflower Land is known for its exotic resources. Expand your land to discover fruit, flowers, bee hives & rare minerals!",
   "islandupgrade.desertResourcesDescription":
     "The harsh desert environment requires new technology to survive. Expand your land to discover new buildings and what's inside!",
-  "islandupgrade.requiredIsland": "Unlocks on {{islandType}} Island",
+  "islandupgrade.requiredIsland": "Unlocks at {{islandType}}",
+  "islandupgrade.otherIsland": "{{island}} Island",
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {

@@ -186,7 +186,14 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         {t("gameOptions.logout")}
       </Button>
       <p className="mx-1 font-secondary">
-        {CONFIG.RELEASE_VERSION?.split("-")[0]}
+        <a
+          href="https://github.com/sunflower-land/sunflower-land/releases"
+          className="underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {CONFIG.RELEASE_VERSION?.split("-")[0]}
+        </a>
       </p>
       <Modal
         show={isConfirmLogoutModalOpen}

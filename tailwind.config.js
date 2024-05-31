@@ -5,7 +5,7 @@ module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
     fontFamily: {
-      body: ['"Basic","ZCOOL KuaiLe"'],
+      body: ['"Basic","LXGW WenKai TC"'],
       secondary: ["Hint"],
       pixel: ["HintBold"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,

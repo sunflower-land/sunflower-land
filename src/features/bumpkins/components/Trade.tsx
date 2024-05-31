@@ -16,7 +16,7 @@ import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
-import { ButtonPanel, OuterPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
@@ -31,7 +31,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -83,37 +83,12 @@ const ListTrade: React.FC<{
               key={name}
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
             >
-              <ButtonPanel
-                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
-                onClick={() => {
-                  setSelected(name);
-                }}
-              >
-                <Label type="default" className="absolute -top-3 -right-2">
-                  {`${setPrecision(new Decimal(inventory?.[name] ?? 0), 0)}`}
-                </Label>
-                <span className="text-xs mb-1">{name}</span>
-                <img src={ITEM_DETAILS[name].image} className="h-10 mb-6" />
-                <Label
-                  type="warning"
-                  className={
-                    "absolute -bottom-2 text-center p-1 font-secondary"
-                  }
-                  style={{
-                    left: `${PIXEL_SCALE * -3}px`,
-                    right: `${PIXEL_SCALE * -3}px`,
-                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                    fontSize: "22px",
-                    height: "30px",
-                  }}
-                >
-                  {t("bumpkinTrade.price/unit", {
-                    price: floorPrices[name]
-                      ? setPrecision(new Decimal(floorPrices[name] ?? 0))
-                      : "?",
-                  })}
-                </Label>
-              </ButtonPanel>
+              <ListingCategoryCard
+                itemName={name}
+                inventoryAmount={inventory?.[name] ?? new Decimal(0)}
+                pricePerUnit={floorPrices[name]}
+                onClick={() => setSelected(name)}
+              />
             </div>
           ))}
         </div>
@@ -242,8 +217,8 @@ const ListTrade: React.FC<{
 
                 // Auto generate price
                 if (floorPrices[selected]) {
-                  const estimated = new Decimal(floorPrices[selected] ?? 0).mul(
-                    amount
+                  const estimated = setPrecision(
+                    new Decimal(floorPrices[selected] ?? 0).mul(amount)
                   );
                   setSflDisplay(estimated.toString());
                 }
@@ -255,7 +230,7 @@ const ListTrade: React.FC<{
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
                   quantity > (TRADE_LIMITS[selected] ?? 0) ||
-                  quantity === 0, // Add condition to change text color to red when quantity is 0
+                  quantity === 0,
               }
             )}
           />
@@ -300,7 +275,7 @@ const ListTrade: React.FC<{
             className={classNames(
               "mb-2  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
               {
-                "text-error": maxSFL || sfl === 0,
+                "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
               }
             )}
           />

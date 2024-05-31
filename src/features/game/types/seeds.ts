@@ -15,6 +15,7 @@ import {
   GreenHouseFruitSeedName,
 } from "./fruits";
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
+import { IslandType } from "./game";
 
 export type SeedName =
   | CropSeedName
@@ -35,6 +36,7 @@ export type Seed = {
     | GreenHouseCropName
     | GreenHouseFruitName;
   disabled?: boolean;
+  requiredIsland?: IslandType;
 };
 
 export const SEEDS: () => Record<SeedName, Seed> = () => ({

@@ -6,7 +6,6 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ButtonPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -18,18 +17,17 @@ import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { setPrecision } from "lib/utils/formatNumber";
 
 import sflIcon from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
-import increase_arrow from "assets/icons/increase_arrow.png";
-import decrease_arrow from "assets/icons/decrease_arrow.png";
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -226,7 +224,7 @@ export const SalesPanel: React.FC<{
               >{`${MARKET_BUNDLES[selected]}`}</span>
               <span className="font-secondary text-[30px]">
                 {t("bumpkinTrade.price/unit", {
-                  price: Number(unitPrice).toFixed(4),
+                  price: setPrecision(new Decimal(unitPrice)).toFixed(4),
                 })}
               </span>
             </div>
@@ -294,75 +292,18 @@ export const SalesPanel: React.FC<{
                     key={name}
                     className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
                   >
-                    <ButtonPanel
-                      className={classNames(
-                        "w-full relative flex flex-col items-center justify-center",
-                        {
-                          "cursor-not-allowed opacity-75":
-                            !hasVIP || !hasPrices,
-                          "cursor-pointer hover:bg-brown-200":
-                            hasVIP && hasPrices,
-                        }
-                      )}
-                      onClick={
-                        hasPrices && hasVIP
-                          ? () => {
-                              onSell(
-                                name,
-                                marketPrices.prices.currentPrices[name]
-                              );
-                            }
-                          : undefined
-                      }
-                    >
-                      <span className="text-xs mt-1">{name}</span>
-                      <img
-                        src={ITEM_DETAILS[name].image}
-                        className="h-10 my-1"
-                      />
-                      <span className={"text-xxs md:text-xs mb-7"}>
-                        {/* \u{d7} is &times; in unicode */}
-                        {`\u{d7}${MARKET_BUNDLES[name]}`}
-                      </span>
-                      <Label
-                        type="warning"
-                        className={
-                          "absolute -bottom-2 text-center p-1 font-secondary"
-                        }
-                        style={{
-                          left: `${PIXEL_SCALE * -3}px`,
-                          right: `${PIXEL_SCALE * -3}px`,
-                          width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                          fontSize: "22px",
-                          height: "30px",
-                        }}
-                      >
-                        <span
-                          className={classNames({
-                            pulse: showPulse,
-                          })}
-                        >
-                          {t("bumpkinTrade.price/unit", {
-                            price:
-                              marketPrices?.prices?.currentPrices?.[
-                                name
-                              ]?.toFixed(4) || "0.0000",
-                          })}
-                        </span>
-                        {priceMovement === "up" && (
-                          <img
-                            src={increase_arrow}
-                            className="w-6 absolute -right-1 -top-6"
-                          />
-                        )}
-                        {priceMovement === "down" && (
-                          <img
-                            src={decrease_arrow}
-                            className="w-6 absolute -right-1 -top-6"
-                          />
-                        )}
-                      </Label>
-                    </ButtonPanel>
+                    <ListingCategoryCard
+                      itemName={name}
+                      pricePerUnit={marketPrices?.prices?.currentPrices?.[name]}
+                      disabled={!hasPrices || !hasVIP}
+                      marketBundle={MARKET_BUNDLES[name]}
+                      showPulse={showPulse}
+                      priceMovement={priceMovement}
+                      onClick={() => {
+                        if (!hasPrices || !hasVIP) return;
+                        onSell(name, marketPrices.prices.currentPrices[name]);
+                      }}
+                    />
                   </div>
                 );
               })}

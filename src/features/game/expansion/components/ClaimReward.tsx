@@ -81,12 +81,13 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               </div>
             </div>
           )}
-          {airdrop.coins !== undefined && airdrop.coins > 0 && (
+          {!!airdrop.coins && (
             <div className="flex items-center">
               <Box image={coins} />
               <div>
                 <Label type="warning">
-                  {airdrop.coins} {airdrop.coins === 1 ? "Coin" : "Coins"}
+                  {setPrecision(new Decimal(airdrop.coins), 2).toString()}{" "}
+                  {airdrop.coins === 1 ? "Coin" : "Coins"}
                 </Label>
                 <p className="text-xs">{t("reward.spendWisely")}</p>
               </div>
