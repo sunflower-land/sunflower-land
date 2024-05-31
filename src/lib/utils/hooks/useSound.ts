@@ -2,6 +2,10 @@ import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { Howl } from "howler";
 import { useEffect } from "react";
 import willow_tree from "assets/songs/willow_tree.mp3";
+import bumpkin_recruiter from "assets/sound-effects/bumpkin-recruiter.mp3";
+import goblin_recruiter from "assets/sound-effects/goblin-recruiter.mp3";
+import nightshade_recruiter from "assets/sound-effects/nightshade-recruiter.mp3";
+import sunflorian_recruiter from "assets/sound-effects/sunflorian-recruiter.mp3";
 
 const HOWLERS = {
   open: new Howl({
@@ -102,6 +106,27 @@ const HOWLERS = {
     src: [SOUNDS.ui.no],
     preload: false,
     volume: 0.05,
+  }),
+  // Factions
+  bumpkin_recruiter: new Howl({
+    src: bumpkin_recruiter,
+    preload: false,
+    volume: 0.07,
+  }),
+  goblin_recruiter: new Howl({
+    src: goblin_recruiter,
+    preload: false,
+    volume: 0.07,
+  }),
+  nightshade_recruiter: new Howl({
+    src: nightshade_recruiter,
+    preload: false,
+    volume: 0.07,
+  }),
+  sunflorian_recruiter: new Howl({
+    src: sunflorian_recruiter,
+    preload: false,
+    volume: 0.07,
   }),
 };
 

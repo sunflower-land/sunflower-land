@@ -150,6 +150,12 @@ export type EasterEventItemName = "Easter Bunny" | "Pablo The Bunny";
 
 export type MOMEventItem = "Engine Core";
 
+export type FactionEmblem =
+  | "Goblin Emblem"
+  | "Bumpkin Emblem"
+  | "Sunflorian Emblem"
+  | "Nightshade Emblem";
+
 export type MutantChicken =
   | "Speed Chicken"
   | "Rich Chicken"
@@ -183,10 +189,7 @@ export type Coupons =
   | "Luxury Key"
   | "Prize Ticket"
   | SeasonalTicket
-  | "Goblin Emblem"
-  | "Bumpkin Emblem"
-  | "Sunflorian Emblem"
-  | "Nightshade Emblem";
+  | FactionEmblem;
 
 export const COUPONS: Record<Coupons, { description: string }> = {
   "Gold Pass": {

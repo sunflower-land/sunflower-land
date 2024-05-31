@@ -26,6 +26,7 @@ import { GoblinMarket } from "./market/GoblinMarket";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { VIPGift } from "./VIPGift";
 import { ChickenRescue } from "./portals/ChickenRescue";
+import { JoinFactionModal } from "./factions/JoinFactionModal";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -88,7 +89,12 @@ type InteractableName =
   | "goblins_faction"
   | "nightshades_faction"
   | "sunflorians_faction"
-  | "chicken_rescue";
+  | "chicken_rescue"
+  // to replace pledge factions
+  | "join_goblins"
+  | "join_sunflorians"
+  | "join_bumpkins"
+  | "join_nightshades";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -647,6 +653,31 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "goblins_faction"} onHide={closeModal}>
         <FactionModalContent onClose={closeModal} />
+      </Modal>
+      {/* replace pledge */}
+      <Modal show={interactable === "join_sunflorians"} onHide={closeModal}>
+        <JoinFactionModal
+          representativeFaction="sunflorians"
+          onClose={closeModal}
+        />
+      </Modal>
+      <Modal show={interactable === "join_bumpkins"} onHide={closeModal}>
+        <JoinFactionModal
+          representativeFaction="bumpkins"
+          onClose={closeModal}
+        />
+      </Modal>
+      <Modal show={interactable === "join_goblins"} onHide={closeModal}>
+        <JoinFactionModal
+          representativeFaction="goblins"
+          onClose={closeModal}
+        />
+      </Modal>
+      <Modal show={interactable === "join_nightshades"} onHide={closeModal}>
+        <JoinFactionModal
+          representativeFaction="nightshades"
+          onClose={closeModal}
+        />
       </Modal>
     </>
   );
