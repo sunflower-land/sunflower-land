@@ -199,16 +199,12 @@ function partiallyAllocatedPack(
 ) {
   setPackStartTime(pack, index, previousQueueItemReadyAt, now);
 
-  if (index === 0) {
-    pack.growsUntil = now + (cropMachine.unallocatedOilTime as number);
-  } else {
-    updateGrowsUntil(
-      pack,
-      previousQueueItemReadyAt,
-      now,
-      cropMachine.unallocatedOilTime as number
-    );
-  }
+  updateGrowsUntil(
+    pack,
+    previousQueueItemReadyAt,
+    now,
+    cropMachine.unallocatedOilTime as number
+  );
 
   pack.growTimeRemaining -= cropMachine.unallocatedOilTime as number;
   cropMachine.unallocatedOilTime = 0;
