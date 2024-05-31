@@ -1394,7 +1394,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.potted.potato": "土豆血在你的乡包佬体内流淌。",
   "description.potted.pumpkin": "南瓜属于乡包佬",
   "description.cactus": "节约用水并让您的农场美丽惊人！",
-  "description.basic.bear": "这是一只普通的熊。用它在妖精撤退制作一只熊吧！",
+  "description.basic.bear":
+    "这是一只普通的熊。用它在哥布林退留地制作一只熊吧！",
   "description.bonnies.tombstone":
     "在任何农场都显诡怪的添饰，Bonnie 的人类墓碑叫人寒凉刺骨",
   "description.grubnashs.tombstone": "让 Grubnash 的哥布林墓碑带来些许诡魅",
@@ -2173,7 +2174,7 @@ const flowerShopTerms: Record<FlowerShopTerms, string> = {
 
 const foodDescriptions: Record<FoodDescriptions, string> = {
   // Fire Pit
-  "description.pumpkin.soup": "妖精们喜爱的奶油汤。",
+  "description.pumpkin.soup": "哥布林们喜爱的奶油汤。",
   "description.mashed.potato": "我的生活就是土豆。",
   "description.bumpkin.broth": "营养丰富的肉汤，可以补充你的乡巴佬。",
   "description.boiled.eggs": "煮鸡蛋非常适合早餐。",
@@ -4417,7 +4418,7 @@ const withdraw: Record<Withdraw, string> = {
   "withdraw.sfl.available": "SFL 现已在链上使用。",
   "withdraw.send.wallet": "已存入您的钱包。",
   "withdraw.choose": "请指定您想要提取的 SFL 金额",
-  "withdraw.receive": "您将收到 5SFL",
+  "withdraw.receive": "您将收到： {{sflReceived}} SFL",
   "withdraw.select.item": "请选择要提取的商品",
   "withdraw.opensea": "提现成功后，您将能够在 OpenSea 上查看您的物品。",
   "withdraw.restricted": ENGLISH_TERMS["withdraw.restricted"], // To interpolate
