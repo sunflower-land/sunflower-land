@@ -7,7 +7,6 @@ import {
   Base,
   BasicTreasure,
   Beehive,
-  BeachLuck,
   BirdiePlaza,
   BoostDescriptions,
   BoostEffectDescriptions,
@@ -612,14 +611,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.how":
     "Özel etkinlikler ve Bumpkin teslimatları aracılığıyla Ödül Biletlerini ücretsiz olarak toplayabilirsiniz.",
   "raffle.enter": "Giriş",
-};
-
-const beachLuck: Record<BeachLuck, string> = {
-  "beachLuck.tryLuck": "Bugün şansınızı denemek ister misiniz?",
-  "beachLuck.uncleFound":
-    "Amcam bu kumsalda kazı yaparken bir elmas yüzük buldu. Benim bulduğum tek şey sıkıcı SFL coinleri.",
-  "beachLuck.grabShovel": "Bir kürek alın ve kazmaya başlayın.",
-  "beachLuck.refreshesIn": "Hazineler Yenileniyor: ",
 };
 
 const beehive: Record<Beehive, string> = {
@@ -5107,7 +5098,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...basicTreasure,
-  ...beachLuck,
   ...beehive,
   ...birdiePlaza,
   ...boostDescriptions,

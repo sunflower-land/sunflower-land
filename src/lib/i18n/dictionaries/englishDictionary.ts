@@ -6,7 +6,6 @@ import {
   Base,
   BasicTreasure,
   Beehive,
-  BeachLuck,
   BirdiePlaza,
   BoostDescriptions,
   BoostEffectDescriptions,
@@ -610,14 +609,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "raffle.how":
     "You can collect Prize Tickets for free through special events and Bumpkin deliveries.",
   "raffle.enter": "Enter",
-};
-
-const beachLuck: Record<BeachLuck, string> = {
-  "beachLuck.tryLuck": "Wanna try your luck today?",
-  "beachLuck.uncleFound":
-    "My uncle found a diamond ring digging at this beach. All I keep finding is boring SFL coins.",
-  "beachLuck.grabShovel": "Just grab a shovel and start digging.",
-  "beachLuck.refreshesIn": "Treasures Refreshes in: ",
 };
 
 const beehive: Record<Beehive, string> = {
@@ -5123,7 +5114,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...basicTreasure,
-  ...beachLuck,
   ...beehive,
   ...birdiePlaza,
   ...boostDescriptions,

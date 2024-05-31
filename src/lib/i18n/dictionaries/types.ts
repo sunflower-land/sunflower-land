@@ -386,12 +386,6 @@ export type Beehive =
   | "beehive.beeSwarm"
   | "beehive.pollinationCelebration";
 
-export type BeachLuck =
-  | "beachLuck.tryLuck"
-  | "beachLuck.uncleFound"
-  | "beachLuck.grabShovel"
-  | "beachLuck.refreshesIn";
-
 export type BirdiePlaza =
   | "birdieplaza.birdieIntro"
   | "birdieplaza.admiringOutfit"
@@ -3464,7 +3458,6 @@ export type TranslationKeys =
   | Base
   | BasicTreasure
   | Beehive
-  | BeachLuck
   | BirdiePlaza
   | BoostDescriptions
   | BoostEffectDescriptions

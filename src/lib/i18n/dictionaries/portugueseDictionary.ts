@@ -7,7 +7,6 @@ import {
   Base,
   BasicTreasure,
   Beehive,
-  BeachLuck,
   BirdiePlaza,
   BoostDescriptions,
   BoostEffectDescriptions,
@@ -617,14 +616,6 @@ const beehive: Record<Beehive, string> = {
   "beehive.beeSwarm": "Enxame de abelhas",
   "beehive.pollinationCelebration":
     "Celebração da polinização! Suas colheitas terão um boost de 0,2 graças a um enxame de abelhas amigáveis!",
-};
-
-const beachLuck: Record<BeachLuck, string> = {
-  "beachLuck.tryLuck": "Quer tentar a sorte hoje?",
-  "beachLuck.uncleFound":
-    "Meu tio encontrou um anel de diamantes cavando nesta praia. Tudo que continuo encontrando são as decorativas moedas de SFL.",
-  "beachLuck.grabShovel": "Apenas pegue uma pá e comece a cavar.",
-  "beachLuck.refreshesIn": "Os Tesouros serão atualizados em: ",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {
@@ -5135,7 +5126,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...base,
   ...basicTreasure,
   ...beehive,
-  ...beachLuck,
   ...birdiePlaza,
   ...boostDescriptions,
   ...boostEffectDescriptions,

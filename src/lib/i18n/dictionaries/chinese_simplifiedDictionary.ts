@@ -7,7 +7,6 @@ import {
   Base,
   BasicTreasure,
   Beehive,
-  BeachLuck,
   BirdiePlaza,
   BoostDescriptions,
   BoostEffectDescriptions,
@@ -601,14 +600,6 @@ const basicTreasure: Record<BasicTreasure, string> = {
   "giftGiver.description":
     "恭喜，您找到了个送礼客！每天你们都可以找他们领一份免费礼物。",
   "giftGiver.label": "送礼客",
-};
-
-const beachLuck: Record<BeachLuck, string> = {
-  "beachLuck.tryLuck": "想试试今天的运气吗？",
-  "beachLuck.uncleFound":
-    "我叔叔在这个沙滩上可挖到了一枚钻戒。而我只能挖到些无聊的 SFL 硬币。",
-  "beachLuck.grabShovel": "赶快拿起铁锹开始挖吧。",
-  "beachLuck.refreshesIn": "财宝刷新于：",
 };
 
 const beehive: Record<Beehive, string> = {
@@ -4476,7 +4467,6 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...availableSeeds,
   ...base,
   ...basicTreasure,
-  ...beachLuck,
   ...beehive,
   ...birdiePlaza,
   ...boostDescriptions,
