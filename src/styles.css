@@ -412,6 +412,10 @@ img {
   );
   mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 22%);
   z-index: -1;
+
+  text-shadow: white 1px 1px 0px, white -1px 1px 0px, white 1px -1px 0px,
+    white -1px -1px 0px, white 1px 0px 0px, white -1px 0px 0px,
+    white 0px 1px 0px, white 0px -1px 0px;
 }
 
 .sfl-hud-backdrop {
