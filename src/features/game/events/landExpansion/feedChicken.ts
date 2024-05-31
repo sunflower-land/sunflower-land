@@ -6,7 +6,6 @@ import {
 } from "features/game/lib/constants";
 import { Bumpkin, GameState, Inventory } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { translate } from "lib/i18n/translate";
 
 export type LandExpansionFeedChickenAction = {
   type: "chicken.fed";
@@ -73,7 +72,7 @@ export function feedChicken({
   const { bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const chickens = stateCopy.chickens || {};

@@ -73,7 +73,7 @@ export function plantFlower({
   const { flowers, bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const flowerBed = flowers.flowerBeds[action.id];

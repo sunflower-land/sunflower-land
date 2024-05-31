@@ -16,7 +16,6 @@ import {
   PotionHouseItemName,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
-import { translate } from "lib/i18n/translate";
 
 export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   Record<CollectibleName, number>
@@ -62,29 +61,29 @@ export function craftCollectible({
     : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
 
   if (!item) {
-    throw new Error(translate("error.itemNotExist"));
+    throw new Error("Item does not exist");
   }
 
   if (stateCopy.stock[action.name]?.lt(1)) {
-    throw new Error(translate("error.notEnoughStock"));
+    throw new Error("Not enough stock");
   }
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (item.from && item.from?.getTime() > createdAt) {
-    throw new Error(translate("error.tooEarly"));
+    throw new Error("Too early");
   }
 
   if (item.to && item.to?.getTime() < createdAt) {
-    throw new Error(translate("error.tooLate"));
+    throw new Error("Too late");
   }
 
   const price = item.coins ?? 0;
 
   if (stateCopy.coins < price) {
-    throw new Error(translate("error.insufficientCoins"));
+    throw new Error("Insufficient Coins");
   }
 
   const subtractedInventory = getKeys(item.ingredients).reduce(
@@ -123,13 +122,13 @@ export function craftCollectible({
     });
 
     if (collides) {
-      throw new Error(translate("error.decorationCollides"));
+      throw new Error("Decoration collides");
     }
 
     const previous = stateCopy.collectibles[action.name] ?? [];
 
     if (previous.find((item) => item.id === action.id)) {
-      throw new Error(translate("error.idAlreadyExists"));
+      throw new Error("ID already exists");
     }
 
     const seconds = COLLECTIBLE_CRAFT_SECONDS[action.name] ?? 0;

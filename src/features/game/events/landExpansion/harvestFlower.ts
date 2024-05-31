@@ -34,7 +34,7 @@ export function harvestFlower({
 
   const bumpkin = stateCopy.bumpkin;
 
-  if (!bumpkin) throw new Error(translate("no.have.bumpkin"));
+  if (!bumpkin) throw new Error("You do not have a Bumpkin!");
 
   const flowers = stateCopy.flowers;
   const flowerBed = flowers.flowerBeds[action.id];

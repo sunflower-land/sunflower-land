@@ -6,7 +6,6 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { Bumpkin, GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { translate } from "lib/i18n/translate";
 
 export type PickSkillAction = {
   type: "skill.picked";
@@ -39,7 +38,7 @@ export function pickSkill({ state, action, createdAt = Date.now() }: Options) {
   const stateCopy = cloneDeep(state);
   const { bumpkin } = stateCopy;
   if (bumpkin == undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const availableSkillPoints = getAvailableBumpkinSkillPoints(bumpkin);

@@ -13,7 +13,6 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import { CropPlot } from "features/game/types/game";
-import { translate } from "lib/i18n/translate";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -82,7 +81,7 @@ export function harvest({
   const { bumpkin, crops: plots } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const plot = plots[action.index];

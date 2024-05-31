@@ -6,7 +6,6 @@ import {
 import { GameState, PlacedItem } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { CollectibleLocation } from "features/game/types/collectibles";
-import { translate } from "lib/i18n/translate";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -46,7 +45,7 @@ export function placeCollectible({
   const inventoryItemBalance = stateCopy.inventory[collectible];
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (!inventoryItemBalance) {

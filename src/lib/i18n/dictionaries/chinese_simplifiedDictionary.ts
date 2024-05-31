@@ -182,29 +182,22 @@ import {
 
 const generalTerms: Record<GeneralTerms, string> = {
   "2x.sale": "2 倍卖价",
-  advanced: "高级", //setting
   achievements: "成就",
-  accept: "接受",
-  "accepting.terms": "接受条款中……",
   "amount.matic": "MATIC 换算数额",
   deposit: "存入",
   add: "添加",
   addSFL: "添加 SFL",
   "add.liquidity": "添加流动性",
-  "alr.bought": "已购买",
   "alr.claim": "已领取！",
   "alr.completed": "已完成",
   "alr.crafted": "已锻造！",
   "alr.minted": "已铸造！",
   auction: "竞拍",
-  auctions: "竞拍",
-  "available.all.year": "全年常驻：",
   available: "可用",
   back: "返回",
   bait: "鱼饵", // Basket
   balance: "余额：",
   basket: "篮子",
-  "beach.bounty": "沙岸财宝",
   beta: "公测",
   bid: "竞标",
   bounty: "财宝", // Basket
@@ -221,11 +214,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   clear: "清除",
   close: "关闭",
   "coming.soon": "即将推出",
-  common: "普通",
   completed: "完成",
   confirm: "确认",
   congrats: "恭喜！",
-  connected: "已连接",
   connecting: "连接中",
   continue: "继续",
   cook: "烹饪",
@@ -233,21 +224,14 @@ const generalTerms: Record<GeneralTerms, string> = {
   "copy.address": "复制地址",
   coupons: "票券", // Basket
   craft: "锻造",
-  crafting: "锻造", // Map Selection Tag
   crops: "庄稼",
-  "currently.Unavailable": "目前不可用！",
   danger: "危险",
   date: "日期",
-  decoration: "装饰",
   deliveries: "送货",
   delivery: "送货",
   details: "详情：",
   donate: "捐赠",
   donating: "捐赠中",
-  "drafting.noitem": "没有物品可供上架",
-  "drafting.select": "选择要上架的物品",
-  "drafting.trade.detail": "挂单详情",
-  dragMe: "拖我",
   earn: "挣得",
   "easter.eggs": "复活节彩蛋",
   egg: "蛋",
@@ -259,7 +243,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   expand: "拓张",
   explore: "探索",
   farm: "农场",
-  "farm.storage": "农场库存",
   featured: "新增", // from “Featured” to “Newly Added”
   fee: "手续费", // Withdrawal Fee
   "feed.bumpkin": "喂乡包佬",
@@ -269,15 +252,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   flowers: "花卉", // Basket
   foods: "食品", // Basket
   for: "换", // meaning “swap”
-  "for.info.wearable": "了解此饰物详情",
   forbidden: "禁止入内", // meaning forbidden to enter
   fruit: "水果",
   fruits: "水果", // Basket
   "go.home": "回农场",
-  "goblin.delivery":
-    "哥布林将送货分成放在社区金库里。查览也可到此处 {{opensea}}",
   gotIt: "知道了",
-  goto: "去",
   "grant.wish": "许下新愿望",
   guide: "指南",
   growing: "正在种植",
@@ -286,10 +265,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   info: "概览",
   item: "物品：",
   land: "农场",
-  "land.id": "农场 ID：",
   "last.updated": "最近更新时间：",
   left: "剩余", // context is amount of stock left, Megashop time left
-  "let'sDoThis": "让我们开始吧!", // not used
   "lets.go": "走吧！",
   limit: "上限", // Megastore error message, Limit: Balance / Limit
   list: "上架",
@@ -308,7 +285,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   next: "下一页", // meaning changed to “Next Page” since used on UI page turn
   nextSkillPtLvl: "新技能点等级：", // adjusted from “Next skill point: level”
   no: "否",
-  "no.have.bumpkin": "您并未持有一个乡包佬!",
   "no.limits.exceeded": "未超出上限", // only in testnet can skip
   "no.mail": "没有邮件",
   "no.thanks": "免了谢谢",
@@ -318,36 +294,28 @@ const generalTerms: Record<GeneralTerms, string> = {
   ok: "好",
   on: "开",
   "open.gift": "打开礼物",
-  "pass.required": "需要通行证",
   "place.map": "放置地图上",
   "placing.bid": "投标中",
   plant: "种植",
   "please.try.again": "请稍后再试。",
-  "please.wait": "请耐心等候",
   "pay.attention.feedback": "请留意反馈图标：",
   print: "打印", // builder file, is it only in testnet?
-  "promo.code": "优惠码",
-  "providing.liquidity": "提供流动性",
   purchased: "已购买",
   purchasing: "购买中",
   rank: "排名",
-  rare: "稀有",
   "read.more": "更多详情", // translated to “More Info”
-  "ready.trade": "准备好做买卖了吗？",
   refresh: "刷新",
   refreshing: "刷新中",
   remove: "移除",
   reqSkillPts: "所需技能点：",
   reqSkills: "所需技能：",
   required: "必需", // as Threshold, expansion lvl requirement, Lvl X required
-  resale: "转售",
   resources: "资源",
   restock: "补货",
   retry: "重试",
   "reward.discovered": "奖励揭晓",
   save: "保存",
   saving: "保存中",
-  "seasonal.treasure": "时季宝物",
   seeds: "种子", // Basket
   selected: "已选择",
   "select.resource": "选择您的添饵：", // chum selection, distinguishing “bait/chum” as “鱼饵/添饵”
@@ -356,9 +324,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.one": "出售 1",
   "sell.ten": "出售 10",
   "session.expired": "进程已过期！",
-  settings: "设置",
   share: "分享",
-  shopping: "购物", // Map Selection Tag
   skillPts: "技能点：",
   skills: "技能",
   "skip.order": "跳过订单",
@@ -367,7 +333,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   submit: "提交",
   submitting: "提交中",
   success: "成功！",
-  "support.team": "运维小组",
   swapping: "兑换中",
   syncing: "储存中",
   task: "任务",
@@ -377,12 +342,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   trades: "交易", // Bumpkin UI
   trading: "交易", // Map Selection Tag
   transfer: "转移", //Account
-  "trash.collection": "垃圾回收", // Map Selection Tag
-  travel: "旅行",
-  "traveller.ready": "嘿游客！准备好游览了吗？",
   "try.again": "再试一次",
   uhOh: "呃噢！",
-  uncommon: "罕见", // Unknown Usecase
   "unlock.land": "解锁更多地块", //Unknown Usecase
   unlocking: "开锁中", // Daily Reward
   unmute: "取消静音",
@@ -391,19 +352,12 @@ const generalTerms: Record<GeneralTerms, string> = {
   version: "版本",
   viewAll: "查看所有", // Bumpkin UI
   visit: "拜访", // Multiple usecase: share, tab - bumpkin.io
-  "visit.enter.land": "输入农场 ID 以查看报价",
-  "visit.friend": "拜访朋友",
-  "visit.land": "拜访农场",
-  wallet: "钱包",
   warning: "警告",
   welcome: "欢迎！",
   "wishing.well": "许愿池",
   withdraw: "提取", // Map Selection Tag and Bank Withdrawal
-  withdrawing: "正在提现",
   yes: "是",
   "yes.please": "没错，有劳",
-  "you.are.here": "您在这里",
-  caught: "捕获",
   "choose.wisely": "谨慎选择！",
   collect: "收集",
   complete: "完成",
@@ -412,16 +366,11 @@ const generalTerms: Record<GeneralTerms, string> = {
   "enjoying.event": "活动尽兴吗？",
   "flowers.found": "发现花卉",
   gift: "送礼",
-  harvested: "已收获",
-  kick: "踢出",
   "linked.wallet": "关联钱包",
   locked: "已锁定",
-  message: "消息",
-  messages: "消息",
   "next.order": "下一订单",
   "no.delivery.avl": "暂无送货订单",
   "no.obsessions": "暂无痴玩",
-  "no.event": "暂无活动",
   open: "打开",
   place: "放置",
   "place.bid": "有请投标",
@@ -429,16 +378,9 @@ const generalTerms: Record<GeneralTerms, string> = {
   remaining: "剩余的",
   requires: "需要",
   reward: "奖励",
-  "session.expire": "您的进程已过期",
   skipping: "正在跳过",
-  "special.event": "特别活动",
-  spin: "转动", // Unknown
-  "start.new.chore": "开始新的日常农活",
-  "terms.condition": "条款与细则",
   test: "测试",
-  time: "时间",
   wish: "许愿",
-  "hoarding.check": "检查储物",
   opensea: "Opensea", // special term not transalting until official Chinese name
   layouts: "布局",
   labels: "标签",
@@ -453,13 +395,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   collectibles: "收集品",
   buds: "蕾芽",
   wearables: "饰物",
-  bumpkin: "乡包佬",
-  storage: "库存",
-  upcoming: "未至", // Unknown
-  collection: "收藏",
-  purchase: "购买",
-  listing: "上架中",
-  cancelling: "撤销中",
   skip: "跳过",
   docs: "文档",
   exit: "退出",
@@ -472,7 +407,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   buildings: "建筑",
   boosts: "增益道具",
   decorations: "装饰",
-  search: "搜索",
   searching: "搜索中",
   "copy.failed": "复制失败！",
   "copy.link": "复制链接",
@@ -480,26 +414,19 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sfl/coins": "SFL/硬币",
   "are.you.sure": "是否确认？",
   banner: "旗帜",
-  "already.own.item": "您已拥有此物件",
   banners: "旗帜",
-  donation: "捐赠",
   donations: "捐赠",
   faction: "派系",
   free: "免费",
-  "goblin.exchange": "哥布林交易所",
-  "p2p.trading": "P2P 交易",
   player: "玩家",
   "remaining.free.listings": "剩余 {{listingsRemaining}} 次免费上架",
   "remaining.free.listing": "剩余 1 次免费上架",
   "remaining.free.purchases": "剩余 {{purchasesRemaining}} 次免费采购",
   "remaining.free.purchase": "剩余 1 次免费采购",
-  "goblin.deliveries": "哥布林送货",
   vipAccess: "VIP 权限",
-  vip: "VIP",
   coins: "硬币",
   greenhouse: "温室",
   "max.reached": "已加满",
-  "not.required": "无需",
   optional: "额外",
   "balance.short": "余额：",
   bought: "已购买",
@@ -1808,7 +1735,6 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.composterAlreadyBoosted": "已经加速了。",
   "error.missingEggs": "缺少鸡蛋",
   "error.insufficientSFL": "SFL 不足。",
-  "error.insufficientSpaceForChickens": "空间不足以饲养更多的鸡。",
   "error.dailyAttemptsExhausted": "每日尝试次数都已用尽。",
   "error.missingRod": "缺少钓鱼竿。",
   "error.missingBait": "缺少鱼饵", // not used
@@ -1831,14 +1757,7 @@ const errorTerms: Record<ErrorTerms, string> = {
   "error.requiredBuildingNotExist": "所需建筑不存在",
   "error.cookingInProgress": "烹饪已在进行中",
   "error.insufficientIngredient": "原料不足",
-  "error.itemNotExist": "物件不存在",
-  "error.notEnoughStock": "库存不足",
-  "error.tooEarly": "太早",
-  "error.tooLate": "太迟",
-  "error.decorationCollides": "装饰冲突",
-  "error.idAlreadyExists": "ID 已存在",
   "error.ClientRPC": "客户端 RPC 错误",
-  "error.insufficientCoins": "硬币不足",
 
   "error.walletInUse.one": "钱包占用中",
   "error.walletInUse.two":
