@@ -30,6 +30,8 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
+import { setPrecision } from "lib/utils/formatNumber";
+import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 
 export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Sunflower: 2000,
@@ -50,9 +52,9 @@ export const TRADE_LIMITS: Partial<Record<InventoryItemName, number>> = {
   Orange: 200,
   Apple: 200,
   Banana: 200,
-  Olive: 100,
   Grape: 100,
   Rice: 100,
+  Olive: 100,
   Wood: 500,
   Stone: 200,
   Iron: 200,
@@ -81,9 +83,9 @@ export const TRADE_MINIMUMS: Partial<Record<InventoryItemName, number>> = {
   Orange: 5,
   Apple: 5,
   Banana: 5,
-  Olive: 5,
   Grape: 5,
   Rice: 5,
+  Olive: 5,
   Wood: 50,
   Stone: 10,
   Iron: 5,
@@ -157,25 +159,11 @@ export const BuyPanel: React.FC<{
               key={name}
               className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1"
             >
-              <OuterPanel
-                className="w-full relative flex flex-col items-center justify-center cursor-pointer hover:bg-brown-200"
+              <ListingCategoryCard
+                itemName={name}
+                pricePerUnit={floorPrices[name]}
                 onClick={() => onSearch(name)}
-              >
-                <span className="text-xs mt-1">{name}</span>
-                <img
-                  src={ITEM_DETAILS[name].image}
-                  className="h-10 mt-1 mb-8"
-                />
-                <Label
-                  type="warning"
-                  className={"absolute -bottom-2 text-center mt-1 p-1"}
-                  style={{ width: "calc(100% + 10px)" }}
-                >
-                  {t("bumpkinTrade.price/unit", {
-                    price: floorPrices[name]?.toFixed(4) || "",
-                  })}
-                </Label>
-              </OuterPanel>
+              />
             </div>
           ))}
         </div>
@@ -328,7 +316,7 @@ export const BuyPanel: React.FC<{
         const listingItem = selectedListing.items[
           getKeys(selectedListing.items)[0]
         ] as number;
-        const unitPrice = (selectedListing.sfl / listingItem).toFixed(4);
+        const unitPrice = selectedListing.sfl / listingItem;
 
         return (
           <>
@@ -354,8 +342,12 @@ export const BuyPanel: React.FC<{
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${selectedListing.sfl} SFL`}</p>
                         </div>
-                        <p className="text-xxs ">
-                          {t("bumpkinTrade.price/unit", { price: unitPrice })}
+                        <p className="text-xxs">
+                          {t("bumpkinTrade.price/unit", {
+                            price: setPrecision(new Decimal(unitPrice)).toFixed(
+                              4
+                            ),
+                          })}
                         </p>
                       </div>
                     </div>
@@ -412,7 +404,7 @@ export const BuyPanel: React.FC<{
             const listingItem = listing.items[
               getKeys(listing.items)[0]
             ] as number;
-            const unitPrice = (listing.sfl / listingItem).toFixed(4);
+            const unitPrice = listing.sfl / listingItem;
             return (
               <OuterPanel className="mb-2" key={`data-${index}`}>
                 <div className="flex justify-between">
@@ -431,8 +423,12 @@ export const BuyPanel: React.FC<{
                           <img src={token} className="h-6 mr-1" />
                           <p className="text-xs">{`${listing.sfl} SFL`}</p>
                         </div>
-                        <p className="text-xxs ">
-                          {t("bumpkinTrade.price/unit", { price: unitPrice })}
+                        <p className="text-xxs">
+                          {t("bumpkinTrade.price/unit", {
+                            price: setPrecision(new Decimal(unitPrice)).toFixed(
+                              4
+                            ),
+                          })}
                         </p>
                       </div>
                     </div>

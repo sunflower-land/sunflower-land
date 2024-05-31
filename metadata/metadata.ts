@@ -7890,4 +7890,44 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
       },
     ],
   },
+
+  "Bumpkin Emblem": {
+    name: "Bumpkin Emblem",
+    description:
+      "A symbol of the Bumpkin Faction. Show your support for the Bumpkin Faction with this emblem.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/742.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+
+  "Goblin Emblem": {
+    name: "Goblin Emblem",
+    description:
+      "A symbol of the Goblin Faction. Show your support for the Goblin Faction with this emblem.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/741.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+
+  "Nightshade Emblem": {
+    name: "Nightshade Emblem",
+    description:
+      "A symbol of the Nightshade Faction. Show your support for the Nightshade Faction with this emblem.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/744.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+
+  "Sunflorian Emblem": {
+    name: "Sunflorian Emblem",
+    description:
+      "A symbol of the Sunflorian Faction. Show your support for the Sunflorian Faction with this emblem.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/743.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };

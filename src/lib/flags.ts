@@ -57,7 +57,8 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   FACTION_LEADERBOARD: clashOfFactionsFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
   PRESTIGE_DESERT: defaultFeatureFlag,
-  CROP_MACHINE: defaultFeatureFlag,
+  // Just in case we need to disable the crop machine, leave the flag in temporarily
+  CROP_MACHINE: () => true,
   COOKING_BOOST: defaultFeatureFlag,
 };
 

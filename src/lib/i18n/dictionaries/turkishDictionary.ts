@@ -300,6 +300,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Git",
   "grant.wish": "Yeni Dilek Dile",
   greenhouse: ENGLISH_TERMS["greenhouse"],
+  growing: ENGLISH_TERMS["growing"],
   guide: "Rehber",
   harvested: "Hasat edilmiş",
   honey: "Bal",
@@ -1278,10 +1279,10 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Meyveli Karışım her meyve verimini +0,1 artırır",
-  "compost.sproutMix": "Sprout Mix mahsul veriminizi +0,2 artırır",
-  "compost.sproutMixBoosted": "Sprout Mix mahsul veriminizi +0,4 artırır",
-  "compost.rapidRoot": "Rapid Root, mahsulün büyüme süresini %50 azaltır",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -2536,6 +2537,14 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.baozi": "Ay Yeni Yılı etkinliğinden lezzetli bir ikram.",
   "description.hungryHare": ENGLISH_TERMS["description.hungryHare"],
   "description.communityEgg": ENGLISH_TERMS["description.communityEgg"],
+
+  // Emblem
+  "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],
+  "description.goblin.emblem": ENGLISH_TERMS["description.goblin.emblem"],
+  "description.sunflorian.emblem":
+    ENGLISH_TERMS["description.sunflorian.emblem"],
+  "description.nightshade.emblem":
+    ENGLISH_TERMS["description.nightshade.emblem"],
 };
 
 const gameTerms: Record<GameTerms, string> = {

@@ -199,16 +199,12 @@ function partiallyAllocatedPack(
 ) {
   setPackStartTime(pack, index, previousQueueItemReadyAt, now);
 
-  if (index === 0) {
-    pack.growsUntil = now + (cropMachine.unallocatedOilTime as number);
-  } else {
-    updateGrowsUntil(
-      pack,
-      previousQueueItemReadyAt,
-      now,
-      cropMachine.unallocatedOilTime as number
-    );
-  }
+  updateGrowsUntil(
+    pack,
+    previousQueueItemReadyAt,
+    now,
+    cropMachine.unallocatedOilTime as number
+  );
 
   pack.growTimeRemaining -= cropMachine.unallocatedOilTime as number;
   cropMachine.unallocatedOilTime = 0;
@@ -224,7 +220,8 @@ function setPackStartTime(
   now: number
 ) {
   if (!pack.startTime) {
-    pack.startTime = index === 0 ? now : previousQueueItemReadyAt;
+    pack.startTime =
+      index === 0 ? now : Math.max(previousQueueItemReadyAt, now);
   }
 }
 
@@ -331,7 +328,9 @@ export function supplyCropMachine({
   if (seedsAdded.amount > 0) {
     queue.push({
       seeds: seedsAdded.amount,
-      amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
+      // getPackYieldAmount is computationally expensive - let the backend provide this
+      amount: 0,
+      // amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
       crop,
       growTimeRemaining: calculateCropTime(seedsAdded),
       totalGrowTime: calculateCropTime(seedsAdded),

@@ -279,6 +279,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "去",
   "grant.wish": "许下新愿望",
   guide: "指南",
+  growing: "种植",
   honey: "蜂蜜",
   "hungry?": "饿了么？",
   info: "概览",
@@ -337,7 +338,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   remove: "移除",
   reqSkillPts: "所需技能点：",
   reqSkills: "所需技能：",
-  required: "门槛", // as Threshold, expansion lvl requirement, Lvl X required
+  required: "必需", // as Threshold, expansion lvl requirement, Lvl X required
   resale: "转售",
   resources: "资源",
   restock: "补货",
@@ -349,10 +350,10 @@ const generalTerms: Record<GeneralTerms, string> = {
   seeds: "种子", // Basket
   selected: "已选择",
   "select.resource": "选择你的添饵：", // chum selection, distinguishing “bait/chum” as “鱼饵/添饵”
-  sell: "卖出",
-  "sell.all": "卖所有",
-  "sell.one": "卖一个",
-  "sell.ten": "卖十个",
+  sell: "出售",
+  "sell.all": "出售所有",
+  "sell.one": "出售 1",
+  "sell.ten": "出售 10",
   "session.expired": "进程已过期！",
   settings: "设置",
   share: "分享",
@@ -474,31 +475,31 @@ const generalTerms: Record<GeneralTerms, string> = {
   searching: "搜寻中",
   "copy.failed": "复制失败！",
   "copy.link": "复制链接",
-  exchange: "交换",
+  exchange: "兑换",
   "sfl/coins": "SFL/硬币",
-  "are.you.sure": "你确认吗？",
-  banner: "横幅",
-  "already.own.item": "你已经拥有这个东西了",
-  banners: "横幅",
-  donation: "捐款",
-  donations: "捐款",
-  faction: "派",
+  "are.you.sure": "是否确认？",
+  banner: "旗帜",
+  "already.own.item": "你已拥有此物件",
+  banners: "旗帜",
+  donation: "捐赠",
+  donations: "捐赠",
+  faction: "派系",
   free: "免费",
-  "goblin.exchange": "妖精交换",
-  "p2p.trading": "同行交易",
-  player: "玩家·",
-  "remaining.free.listings": "剩下 {{listingsRemaining}} 个免费列表",
-  "remaining.free.listing": "剩下 1 个免费列表",
-  "remaining.free.purchases": "剩下 {{purchasesRemaining}} 个免费购买",
-  "remaining.free.purchase": "剩下 1 个免费购买",
-  "goblin.deliveries": "地精送货",
-  vipAccess: "VIP 访问",
+  "goblin.exchange": "哥布林交易所",
+  "p2p.trading": "P2P 交易",
+  player: "玩家",
+  "remaining.free.listings": "剩余 {{listingsRemaining}} 次免费上架",
+  "remaining.free.listing": "剩余 1 次免费上架",
+  "remaining.free.purchases": "剩余 {{purchasesRemaining}} 次免费采购",
+  "remaining.free.purchase": "剩余 1 次免费采购",
+  "goblin.deliveries": "哥布林送货",
+  vipAccess: "VIP 权限",
   vip: "VIP",
   coins: "硬币",
   greenhouse: "温室",
-  "max.reached": "最大达到了",
-  "not.required": "不需要",
-  optional: "选修的",
+  "max.reached": "已加满",
+  "not.required": "无需",
+  optional: "额外",
   "balance.short": ENGLISH_TERMS["balance.short"],
   bought: ENGLISH_TERMS.bought,
   requirements: ENGLISH_TERMS.requirements,
@@ -820,7 +821,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "掌控Queen Cornelia的威严力量， 并体验大块区域内玉米产量的显著提升。 +1 玉米",
   "description.heart.of.davy.jones":
     "谁拥有它，谁就拥有掌控七大洋的浩瀚力量，可以挖掘财宝不知疲倦",
-  "description.knight.chicken": ENGLISH_TERMS["description.knight.chicken"],
+  "description.knight.chicken": "一只强大而高贵的鸡为你的油田增强产出",
 };
 
 const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
@@ -922,20 +923,20 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.babyPanda.boost": "新玩家在 2024 年 3 月期间 2 倍 XP",
 
   // Translate
-  "description.hungryHare.boost": "发酵胡萝卜 2x XP",
+  "description.hungryHare.boost": "发酵胡萝卜 XP 翻倍",
   "description.battle.fish.boost": "+0.05 石油",
   "description.knight.chicken.boost": "+0.1 石油",
-  "description.turbo.sprout.boost": "-50% 温室作物生长时间",
-  "description.soybliss.boost": "+1 黄豆",
+  "description.turbo.sprout.boost": "-50% 温室庄稼生长时间",
+  "description.soybliss.boost": "+1 大豆",
   "description.grape.granny.boost": "+1 葡萄",
-  "description.non.la.hat.boost": "+1 米饭",
+  "description.non.la.hat.boost": "+1 稻米",
   "description.oil.can.boost": "+2 石油",
   "description.olive.shield.boost": "+1 橄榄",
   "description.pan.boost": "+25% XP",
-  "description.paw.shield.boost": "+25% 阵营宠物饱食度",
+  "description.paw.shield.boost": "-25% 派系宠物喂食量",
   "description.vinny.boost": "+0.25 葡萄",
-  "description.desertgnome.boost": "-10% 烹饪时间",
-  "description.rice.panda.boost": "+0.25 米饭",
+  "description.desertgnome.boost": "+10% 烹饪速度",
+  "description.rice.panda.boost": "+0.25 稻米",
   "description.olive.shirt.boost": "+0.25 橄榄",
 };
 
@@ -977,7 +978,7 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
   "description.workbench": "工作台。锻造收集资源的工具",
   "description.tent": "帐篷。（已停产）",
   "description.house": "房屋。一个让你休息的地方",
-  "description.greenhouse": ENGLISH_TERMS["description.greenhouse"],
+  "description.greenhouse": "娇弱庄稼的庇护所",
   "description.crop.machine": ENGLISH_TERMS["description.crop.machine"],
   "building.oil.remaining": ENGLISH_TERMS["building.oil.remaining"],
   "cooking.building.oil.description":
@@ -1187,10 +1188,10 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Fruitful Blend增加 +0.1 每水果产量",
-  "compost.sproutMix": "Sprout Mix增加 +0.2 庄稼产量",
-  "compost.sproutMixBoosted": "Sprout Mix增加 +0.4 庄稼产量",
-  "compost.rapidRoot": "Rapid Root减少 50% 庄稼生长时间",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -1201,7 +1202,7 @@ const composterDescription: Record<ComposterDescription, string> = {
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops":
-    "你确定要出售 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
+    "你确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1346,9 +1347,9 @@ const cropFruitDescriptions: Record<CropFruitDescriptions, string> = {
   "description.lily.seed": "百合种子。一粒Lily种子",
 
   // Greenhouse Seeds
-  "description.grape": "一种味道浓郁、令人向往的水果。",
-  "description.olive": "对于高级农民来说，这是一种奢侈。",
-  "description.rice": "非常适合口粮！",
+  "description.grape": "一种甜美神往的水果",
+  "description.olive": "高端农夫的奢品",
+  "description.rice": "完美口粮！",
 };
 
 const cropMachine: Record<CropMachine, string> = {
@@ -1644,15 +1645,11 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.goblin.war.banner": "彰显为哥布林伟业献身的盟约",
   "description.human.war.banner": "彰显为人类伟业献身的盟约",
   "description.earnAllianceBanner": "一杆特别活动的旗帜",
-  "description.sunflorian.faction.banner":
-    ENGLISH_TERMS["description.sunflorian.faction.banner"],
-  "description.goblin.faction.banner":
-    ENGLISH_TERMS["description.goblin.faction.banner"],
-  "description.nightshade.faction.banner":
-    ENGLISH_TERMS["description.nightshade.faction.banner"],
-  "description.bumpkin.faction.banner":
-    ENGLISH_TERMS["description.bumpkin.faction.banner"],
-  "description.oil.reserve": "石油来源",
+  "description.sunflorian.faction.banner": "彰显对 Sunflorian 派系的忠心",
+  "description.goblin.faction.banner": "彰显对 Goblin 派系的忠心",
+  "description.nightshade.faction.banner": "彰显对 Nightshade 派系的忠心",
+  "description.bumpkin.faction.banner": "彰显对 Bumpkin 派系的忠心",
+  "description.oil.reserve": "石油之源",
 
   // Clash of Factions
   "description.turbo.sprout": ENGLISH_TERMS["description.turbo.sprout"],
@@ -2290,6 +2287,14 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   //Home
   "description.homeOwnerPainting": "这个家的主人画像。",
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+
+  // Emblem
+  "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],
+  "description.goblin.emblem": ENGLISH_TERMS["description.goblin.emblem"],
+  "description.sunflorian.emblem":
+    ENGLISH_TERMS["description.sunflorian.emblem"],
+  "description.nightshade.emblem":
+    ENGLISH_TERMS["description.nightshade.emblem"],
 };
 
 const gameTerms: Record<GameTerms, string> = {

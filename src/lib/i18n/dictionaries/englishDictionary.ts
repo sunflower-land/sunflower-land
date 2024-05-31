@@ -301,6 +301,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Go to",
   "grant.wish": "Grant New Wish",
   greenhouse: "Greenhouse",
+  growing: "Growing",
   guide: "Guide",
   harvested: "Harvested",
   honey: "Honey",
@@ -1274,10 +1275,13 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend": "Fruitful Blend boosts each fruit yield by +0.1",
-  "compost.sproutMix": "Sprout Mix increases your crop yield by +0.2",
-  "compost.sproutMixBoosted": "Sprout Mix increases your crop yield by +0.4",
-  "compost.rapidRoot": "Rapid Root reduces crop growth time by 50%",
+  "compost.fruitfulBlend":
+    "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
+  "compost.sproutMix":
+    "Sprout Mix increases your crop yield from plots by +0.2",
+  "compost.sproutMixBoosted":
+    "Sprout Mix increases your crop yield from plots by +0.4",
+  "compost.rapidRoot": "Rapid Root reduces crop growth time from plots by 50%",
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -2539,6 +2543,12 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   //Home
   "description.homeOwnerPainting": "A painting of the owner of this home.",
+
+  // Emblems
+  "description.goblin.emblem": "Show your allegiance to the Goblins",
+  "description.sunflorian.emblem": "Show your allegiance to the Sunflorians",
+  "description.bumpkin.emblem": "Show your allegiance to the Bumpkins",
+  "description.nightshade.emblem": "Show your allegiance to the Nightshades",
 };
 
 const gameTerms: Record<GameTerms, string> = {

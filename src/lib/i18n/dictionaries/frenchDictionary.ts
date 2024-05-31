@@ -319,6 +319,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   goto: "Aller à",
   "grant.wish": "Exaucer un vœu",
   greenhouse: ENGLISH_TERMS["greenhouse"],
+  growing: ENGLISH_TERMS["growing"],
   guide: "Guide",
   harvested: "Récolté",
   "hoarding.check": "Vérification des stocks",
@@ -1318,14 +1319,10 @@ const community: Record<Community, string> = {
 };
 
 const compostDescription: Record<CompostDescription, string> = {
-  "compost.fruitfulBlend":
-    "Le Mélange Fertile augmente le rendement de chaque fruit de +0.1",
-  "compost.sproutMix":
-    "Le Mélange de Germination augmente le rendement de vos cultures de +0.2",
-  "compost.sproutMixBoosted":
-    "Le Mélange de Germination augmente le rendement de vos cultures de +0.4",
-  "compost.rapidRoot":
-    "La Croissance Rapide réduit le temps de croissance des cultures de 50%",
+  "compost.fruitfulBlend": ENGLISH_TERMS["compost.fruitfulBlend"],
+  "compost.sproutMix": ENGLISH_TERMS["compost.sproutMix"],
+  "compost.sproutMixBoosted": ENGLISH_TERMS["compost.sproutMixBoosted"],
+  "compost.rapidRoot": ENGLISH_TERMS["compost.rapidRoot"],
 };
 
 const composterDescription: Record<ComposterDescription, string> = {
@@ -2648,6 +2645,14 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Un tableau du propriétaire de cette maison.",
 
   "description.scroll": ENGLISH_TERMS["description.scroll"],
+
+  // Emblem
+  "description.bumpkin.emblem": ENGLISH_TERMS["description.bumpkin.emblem"],
+  "description.goblin.emblem": ENGLISH_TERMS["description.goblin.emblem"],
+  "description.sunflorian.emblem":
+    ENGLISH_TERMS["description.sunflorian.emblem"],
+  "description.nightshade.emblem":
+    ENGLISH_TERMS["description.nightshade.emblem"],
 };
 
 const gameTerms: Record<GameTerms, string> = {

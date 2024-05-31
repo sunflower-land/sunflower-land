@@ -122,6 +122,7 @@ export type GeneralTerms =
   | "goto"
   | "grant.wish"
   | "greenhouse"
+  | "growing"
   | "guide"
   | "harvested"
   | "honey"
@@ -1837,7 +1838,11 @@ export type GameDescriptions =
   | "description.pink.egg"
   | "description.purple.egg"
   //Home
-  | "description.homeOwnerPainting";
+  | "description.homeOwnerPainting"
+  | "description.goblin.emblem"
+  | "description.sunflorian.emblem"
+  | "description.bumpkin.emblem"
+  | "description.nightshade.emblem";
 
 export type GameTerms =
   | "auction.winner"
