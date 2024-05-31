@@ -848,8 +848,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  farmActivity: {},
-  milestones: {},
+  farmActivity: {
+    "Anchovy Caught": 1000,
+  },
+  milestones: {
+    "Advanced Angler": 1,
+  },
   catchTheKraken: {
     hunger: "Iron",
     weeklyCatches: {},

@@ -8,6 +8,7 @@ import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
+import chestIcon from "assets/icons/chest.png";
 import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
 import lockIcon from "assets/skills/lock.png";
@@ -46,6 +47,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -119,68 +121,65 @@ export const OrderCard: React.FC<{
               );
             })}
             <div className="flex items-center justify-between">
-              <Label
-                type="warning"
-                className="font-secondary"
-                style={{
-                  fontSize: "22px",
-                }}
-              >
-                {t("reward")}
-              </Label>
-              {order.reward.sfl !== undefined && (
-                <div className="flex items-center mr-1">
-                  <img src={sfl} className="w-4 h-auto mr-1" />
-                  <span className="font-secondary">
-                    {makeRewardAmountForLabel(order)}
-                  </span>
-                </div>
-              )}
-              {order.reward.coins !== undefined && (
-                <div className="flex items-center mr-1">
-                  <img src={coinsImg} className="w-4 h-auto mr-1" />
-                  <span className="font-secondary">
-                    {makeRewardAmountForLabel(order)}
-                  </span>
-                </div>
-              )}
-              {!!tickets && (
-                <div className="flex items-center space-x-3 mr-1">
-                  {game.faction && (
+              <div className="flex items-center mr-1">
+                <SquareIcon icon={chestIcon} width={7} />
+                <span className="font-secondary ml-1">{t("reward")}</span>
+              </div>
+              <Label type="warning" style={{ height: "25px" }}>
+                {order.reward.sfl !== undefined && (
+                  <div className="flex items-center mr-1">
+                    <img src={sfl} className="h-4 w-auto mr-1" />
+                    <span className="font-secondary">
+                      {makeRewardAmountForLabel(order)}
+                    </span>
+                  </div>
+                )}
+                {order.reward.coins !== undefined && (
+                  <div className="flex items-center mr-1">
+                    <img src={coinsImg} className="h-4 w-auto mr-1" />
+                    <span className="font-secondary">
+                      {makeRewardAmountForLabel(order)}
+                    </span>
+                  </div>
+                )}
+                {!!tickets && (
+                  <div className="flex items-center space-x-3 mr-1">
+                    {game.faction && (
+                      <div className="flex items-center">
+                        <span className="text-[22px] font-secondary mr-1">
+                          {tickets! * FACTION_POINT_MULTIPLIER}
+                        </span>
+                        <img
+                          src={
+                            game.faction
+                              ? FACTION_POINT_ICONS[game.faction.name]
+                              : factions
+                          }
+                          className="h-4 w-auto"
+                        />
+                      </div>
+                    )}
                     <div className="flex items-center">
-                      <span className="text-[22px] font-secondary mr-1">
-                        {tickets! * FACTION_POINT_MULTIPLIER}
+                      <span className="text-[22px] font-secondary mr-0.5">
+                        {tickets}
                       </span>
                       <img
-                        src={
-                          game.faction
-                            ? FACTION_POINT_ICONS[game.faction.name]
-                            : factions
-                        }
-                        className="w-5 h-auto"
+                        src={ITEM_DETAILS[getSeasonalTicket()].image}
+                        className="h-4 w-auto"
                       />
                     </div>
-                  )}
-                  <div className="flex items-center">
-                    <span className="text-[22px] font-secondary mr-0.5">
-                      {tickets}
-                    </span>
-                    <img
-                      src={ITEM_DETAILS[getSeasonalTicket()].image}
-                      className="w-5 h-auto"
-                    />
                   </div>
-                </div>
-              )}
-              {getKeys(order.reward.items ?? {}).map((item) => (
-                <div className="flex items-center" key={item}>
-                  <img
-                    src={ITEM_DETAILS[item].image}
-                    className="w-5 h-auto mr-1"
-                  />
-                  <span className="text-[22px] font-secondary">{item}</span>
-                </div>
-              ))}
+                )}
+                {getKeys(order.reward.items ?? {}).map((item) => (
+                  <div className="flex items-center" key={item}>
+                    <img
+                      src={ITEM_DETAILS[item].image}
+                      className="h-4 w-auto mr-1"
+                    />
+                    <span className="text-[22px] font-secondary">{item}</span>
+                  </div>
+                ))}
+              </Label>
             </div>
           </div>
         </div>

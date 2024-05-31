@@ -126,6 +126,11 @@
   src: url("https://sunflower-land.com/testnet-assets/fonts/Hint.ttf");
 }
 
+@font-face {
+  font-family: "HintBold";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/HintBold.ttf");
+}
+
 html {
   min-height: calc(100% + env(safe-area-inset-top));
 }
@@ -296,6 +301,7 @@ img {
 .scrollable::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 10px;
+  height: 10px;
   border-radius: 5px;
 }
 
