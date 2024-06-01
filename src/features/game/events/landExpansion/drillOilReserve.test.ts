@@ -93,6 +93,7 @@ describe("drillOilReserve", () => {
             },
           },
         },
+        createdAt: now,
       })
     ).toThrow("Oil reserve is still recovering");
   });
@@ -164,6 +165,7 @@ describe("drillOilReserve", () => {
           },
         },
       },
+      createdAt: now,
     });
 
     const reserve = game.oilReserves["1"];
@@ -206,6 +208,7 @@ describe("drillOilReserve", () => {
           },
         },
       },
+      createdAt: now,
     });
 
     // move time forward 21 hrs
@@ -216,7 +219,7 @@ describe("drillOilReserve", () => {
         id: "1",
         type: "oilReserve.drilled",
       },
-      createdAt: now + 21 * 60 * 60 * 1000,
+      createdAt: futureTime,
       state: {
         ...firstState,
       },
@@ -273,6 +276,7 @@ describe("drillOilReserve", () => {
           },
         },
       },
+      createdAt: now,
     });
 
     const reserve = game.oilReserves["1"];
@@ -320,6 +324,7 @@ describe("drillOilReserve", () => {
           },
         },
       },
+      createdAt: now,
     });
 
     const reserve = game.oilReserves["1"];
@@ -376,6 +381,7 @@ describe("drillOilReserve", () => {
           },
         },
       },
+      createdAt: now,
     });
 
     const reserve = game.oilReserves["1"];
