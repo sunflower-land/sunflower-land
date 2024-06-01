@@ -969,6 +969,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.vinny.boost": "+0.25 Grape",
   "description.rice.panda.boost": "+0.25 Rice",
   "description.olive.shirt.boost": "+0.25 Olive",
+  "description.tofu.mask.boost": "+0.1 Soybean",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

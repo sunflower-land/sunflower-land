@@ -930,6 +930,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.desertgnome.boost": "+10% 烹饪速度",
   "description.rice.panda.boost": "+0.25 稻米",
   "description.olive.shirt.boost": "+0.25 橄榄",
+  "description.tofu.mask.boost": "+0.1 大豆",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

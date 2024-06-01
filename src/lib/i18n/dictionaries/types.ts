@@ -663,7 +663,8 @@ export type BoostEffectDescriptions =
   | "description.pan.boost"
   | "description.vinny.boost"
   | "description.rice.panda.boost"
-  | "description.olive.shirt.boost";
+  | "description.olive.shirt.boost"
+  | "description.tofu.mask.boost";
 
 export type BountyDescription =
   | "description.clam.shell"
