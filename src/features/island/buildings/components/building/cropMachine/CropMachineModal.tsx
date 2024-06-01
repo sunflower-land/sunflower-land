@@ -220,9 +220,12 @@ export const CropMachineModal: React.FC<Props> = ({
   ];
 
   const readyPacks = queue.filter((pack) => isCropPackReady(pack));
-
+  const onHide = () => {
+    setOverlayScreen(undefined);
+    onClose();
+  };
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[{ icon: SUNNYSIDE.icons.seedling, name: "Crop Machine" }]}
         currentTab={tab}
