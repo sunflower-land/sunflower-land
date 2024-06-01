@@ -245,7 +245,7 @@ export const Box: React.FC<BoxProps> = ({
           >
             <Label
               type={countLabelType}
-              className="text-xxs"
+              className="font-pixel !text-[22px]"
               style={{
                 paddingLeft: "2.5px",
                 paddingRight: "1.5px",
@@ -272,7 +272,7 @@ export const Box: React.FC<BoxProps> = ({
           >
             <Label
               type="default"
-              className="px-0.5 text-xxs"
+              className="px-0.5 font-pixel !text-[22px]"
               style={{
                 paddingLeft: "2.5px",
                 paddingRight: "1.5px",
