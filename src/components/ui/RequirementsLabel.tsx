@@ -230,13 +230,13 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         <SquareIcon icon={getIcon()} width={7} />
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1 font-secondary">{"SFL"}</span>
+          <span className="text-xs ml-1 ">{"SFL"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1  font-secondary">{props.item}</span>
+          <span className="text-xs ml-1 ">{props.item}</span>
         )}
         {props.type === "coins" && props.showLabel && (
-          <span className="text-xs ml-1  font-secondary">{t("coins")}</span>
+          <span className="text-xs ml-1 ">{t("coins")}</span>
         )}
       </div>
 
