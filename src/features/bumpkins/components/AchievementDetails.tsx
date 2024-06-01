@@ -9,7 +9,7 @@ import {
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -46,7 +46,7 @@ export const AchievementDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   return (
     <div className="flex flex-col items-center">
-      <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
+      <InnerPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
             src={SUNNYSIDE.icons.arrow_left}
@@ -149,7 +149,7 @@ export const AchievementDetails: React.FC<Props> = ({
             <span>{t("claim")}</span>
           </Button>
         )}
-      </OuterPanel>
+      </InnerPanel>
     </div>
   );
 };

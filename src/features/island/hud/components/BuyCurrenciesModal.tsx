@@ -217,7 +217,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                           icon={sflIcon}
                           type="warning"
                           iconWidth={11}
-                          className="absolute h-7"
+                          className="absolute h-7 font-pixel"
                           style={{
                             width: "106%",
                             bottom: "-8px",
