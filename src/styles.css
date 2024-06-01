@@ -127,8 +127,8 @@
 }
 
 @font-face {
-  font-family: "HintBold";
-  src: url("https://sunflower-land.com/testnet-assets/fonts/HintBold.ttf");
+  font-family: "Secondary";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Secondary.ttf");
 }
 
 html {
@@ -1225,4 +1225,5 @@ a {
 .font-secondary {
   font-size: 22px;
   -webkit-font-smoothing: antialiased;
+  word-spacing: -2px;
 }
