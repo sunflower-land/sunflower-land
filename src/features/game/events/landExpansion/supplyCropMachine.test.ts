@@ -324,6 +324,7 @@ describe("supplyCropMachine", () => {
         type: "cropMachine.supplied",
         seeds: { type: "Sunflower Seed", amount: 5 },
       },
+      createdAt: now,
     });
 
     const result = supplyCropMachine({
@@ -536,6 +537,7 @@ describe("supplyCropMachine", () => {
         type: "cropMachine.supplied",
         oil: 10,
       },
+      createdAt: now,
     });
 
     const sunflowerTime = (60 * 100 * 1000) / CROP_MACHINE_PLOTS; // 5 plots;
