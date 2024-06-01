@@ -1161,7 +1161,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Mushroom Pants": () => false, // Not Launched
   "Mushroom Shield": () => false, // Not Launched
   "Mushroom Shoes": () => false, // Not Launched
-  "Mushroom Sweater": () => false, // Not Launched
+  "Mushroom Sweater": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Rash Vest": () => false, // Not Launched
   "Squid Hat": () => true,
   "Summer Top": () => true,
