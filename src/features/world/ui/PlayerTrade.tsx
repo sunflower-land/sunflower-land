@@ -10,7 +10,7 @@ import lock from "assets/skills/lock.png";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
@@ -205,7 +205,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
           );
 
         return (
-          <OuterPanel className="mb-2" key={index}>
+          <InnerPanel className="mb-2" key={index}>
             <div className="flex justify-between">
               <div className="flex flex-wrap">
                 {getKeys(listings[listingId].items).map((name) => (
@@ -226,7 +226,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                 </div>
               </div>
             </div>
-          </OuterPanel>
+          </InnerPanel>
         );
       })}
     </div>

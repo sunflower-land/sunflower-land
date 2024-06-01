@@ -34,7 +34,7 @@ export const Balances: React.FC<Props> = ({
           <div className="h-9 w-full bg-black opacity-30 absolute coins-bb-hud-backdrop" />
           {/* Coins */}
           <div className="flex items-center space-x-2">
-            <span>
+            <span className="balance-text">
               {coins % 1 !== 0 ? Math.floor(coins * 100) / 100 : coins}
             </span>
             <img
@@ -46,7 +46,7 @@ export const Balances: React.FC<Props> = ({
             />
           </div>
           <div className="flex items-center space-x-2">
-            <span>{blockBucks.toString()}</span>
+            <span className="balance-text">{blockBucks.toString()}</span>
             <img
               src={blockBucksIcon}
               alt="Block Bucks"
@@ -75,7 +75,7 @@ export const Balances: React.FC<Props> = ({
           onClick={() => setShowFullBalance(!showFullBalance)}
         >
           <div className="h-9 w-full bg-black opacity-25 absolute sfl-hud-backdrop -z-10" />
-          <span>
+          <span className="balance-text">
             {showFullBalance ? sfl.toString() : setPrecision(sfl).toString()}
           </span>
           <img

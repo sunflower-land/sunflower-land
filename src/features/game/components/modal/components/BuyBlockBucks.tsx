@@ -177,7 +177,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               </div>
               <Label
                 type="warning"
-                className="absolute h-8 -bottom-2"
+                className="absolute h-8 -bottom-2 font-pixel"
                 style={{
                   left: `${PIXEL_SCALE * -3}px`,
                   right: `${PIXEL_SCALE * -3}px`,

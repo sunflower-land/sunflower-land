@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import {
   BumpkinSkill,
   BumpkinSkillName,
@@ -142,7 +142,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
+      <InnerPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
@@ -212,7 +212,7 @@ export const SkillPathDetails: React.FC<Props> = ({
             </>
           )}
         </div>
-      </OuterPanel>
+      </InnerPanel>
       <span className="text-center my-2 text-sm">{`${selectedSkillPath} Skill Path`}</span>
       <SkillPath
         skillsInPath={skillsInPath}

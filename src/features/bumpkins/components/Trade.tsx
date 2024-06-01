@@ -17,7 +17,7 @@ import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
-import { ButtonPanel, OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
@@ -371,7 +371,7 @@ const TradeDetails: React.FC<{
   if (trade.boughtAt) {
     return (
       <div>
-        <OuterPanel>
+        <InnerPanel>
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap">
@@ -401,14 +401,14 @@ const TradeDetails: React.FC<{
               </Button>
             </div>
           </div>
-        </OuterPanel>
+        </InnerPanel>
       </div>
     );
   }
 
   return (
     <>
-      <OuterPanel>
+      <InnerPanel>
         <div className="flex justify-between">
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
@@ -433,7 +433,7 @@ const TradeDetails: React.FC<{
             </Button>
           </div>
         </div>
-      </OuterPanel>
+      </InnerPanel>
     </>
   );
 };
