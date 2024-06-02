@@ -1956,8 +1956,8 @@ const fishDescriptions: Record<FishDescriptions, string> = {
   // Fish
   "description.anchovy.one": "海洋里的袖珍飞镖，总是匆匆忙忙！",
   "description.anchovy.two": "鱼小味香！",
-  "description.butterflyfish.one": "时尚前卫的鱼，展示其鲜艳、时髦的条纹。",
-  "description.butterflyfish.two": "游弋在色彩和味道中！",
+  "description.butterflyfish.one": "时尚前卫的鱼，显摆其鲜艳、时髦的条纹。",
+  "description.butterflyfish.two": "游弋在色彩和美味间！",
   "description.blowfish.one": "海中的圆润喜剧演员，保证让你笑容满面。",
   "description.blowfish.two": "与危险共进晚餐，一个多刺的惊喜！",
   "description.clownfish.one": "水下的小丑，身着橘色礼服，充满小丑般的魅力。",
