@@ -891,11 +891,6 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
-  "bumpkin.delivery.haveFlower": "你有花要给我吗？得是我喜欢的。",
-  "bumpkin.delivery.notFavorite":
-    "唔，这不是我最喜欢的花。但我想重要的是心意。",
-  "bumpkin.delivery.loveFlower": "哇，谢谢！我喜欢这朵花！",
-  "bumpkin.delivery.favoriteFlower": "这是我最喜欢的花！非常感谢！",
   "bumpkin.delivery.selectFlower": "选择一朵花",
   "bumpkin.delivery.noFlowers": "哦不，你没有任何鲜花可以赠送！",
   "bumpkin.delivery.thanks": "天哪，谢谢你乡包佬！！！",

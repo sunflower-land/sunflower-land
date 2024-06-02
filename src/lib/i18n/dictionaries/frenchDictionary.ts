@@ -953,13 +953,6 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
-  "bumpkin.delivery.haveFlower":
-    "As-tu une fleur pour moi ? Assure-toi que c'est quelque chose que j'aime.",
-  "bumpkin.delivery.notFavorite":
-    "Hmmmm, cette fleur n'est pas ma préférée. Mais je suppose que c'est l'intention qui compte.",
-  "bumpkin.delivery.loveFlower": "Wow, merci ! J'adore cette fleur!",
-  "bumpkin.delivery.favoriteFlower":
-    "C'est ma fleur préférée ! Merci beaucoup!",
   "bumpkin.delivery.selectFlower": "Sélectionne une fleur",
   "bumpkin.delivery.noFlowers": "Oh non, tu n'as pas de fleurs à offrir!",
   "bumpkin.delivery.thanks": "Merci beaucoup, Bumpkin !!!",

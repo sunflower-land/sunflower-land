@@ -932,13 +932,6 @@ const buildingDescriptions: Record<BuildingDescriptions, string> = {
 };
 
 const bumpkinDelivery: Record<BumpkinDelivery, string> = {
-  "bumpkin.delivery.haveFlower":
-    "Benim için çiçek getirdin mi? Sevdiğim bir şey getirdiğine emin ol.",
-  "bumpkin.delivery.notFavorite":
-    "Hmmmm,bu benim favori çiçeğim değil. Ama sanırım önemli olan düşünce.",
-  "bumpkin.delivery.loveFlower": "Vay canına, teşekkürler! Bu çiçeği sevdim!",
-  "bumpkin.delivery.favoriteFlower":
-    "Bu benim favori çiçeğim! Çok teşekkürler!",
   "bumpkin.delivery.selectFlower": "Çiçek seç",
   "bumpkin.delivery.noFlowers":
     "Olamaz hayır, hediye edebilecek bir çiçeğin yok!",

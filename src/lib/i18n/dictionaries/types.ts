@@ -623,10 +623,6 @@ export type BuildingDescriptions =
   | "cooking.building.runtime";
 
 export type BumpkinDelivery =
-  | "bumpkin.delivery.haveFlower"
-  | "bumpkin.delivery.notFavorite"
-  | "bumpkin.delivery.loveFlower"
-  | "bumpkin.delivery.favoriteFlower"
   | "bumpkin.delivery.selectFlower"
   | "bumpkin.delivery.noFlowers"
   | "bumpkin.delivery.thanks"
