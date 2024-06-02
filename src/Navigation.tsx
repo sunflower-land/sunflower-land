@@ -27,6 +27,10 @@ import { Modal } from "components/ui/Modal";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
+import landing from "assets/brand/landing.webp";
+import greenBg from "assets/brand/green_bg.png";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+
 // Lazy load routes
 const World = lazy(() =>
   import("features/world/World").then((m) => ({ default: m.World }))
@@ -102,9 +106,53 @@ export const Navigation: React.FC = () => {
     setShowGame(_showGame);
   }, [state]);
 
+  const imageWidth = PIXEL_SCALE * 640;
+  const imageHeight = PIXEL_SCALE * 480;
+
   return (
     <>
       <Auth showOfflineModal={showConnectionModal} />
+
+      <div
+        style={{
+          width: "100vw", // Full width of the viewport
+          height: "100vh", // Full height of the viewport
+          position: "relative",
+          overflow: "hidden",
+          backgroundColor: "#63c74d", // Optional: to visualize the container
+          backgroundImage: `url(${greenBg})`,
+          backgroundRepeat: "repeat",
+          backgroundSize: `${PIXEL_SCALE * 64}px`,
+          imageRendering: "pixelated",
+          filter: "brightness(0.7)",
+        }}
+      >
+        <img
+          src={landing}
+          alt="Landing image"
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: `${PIXEL_SCALE * 640}px`,
+            maxWidth: "none", // Ensure the image maintains its original size
+            maxHeight: "none", // Ensure the image maintains its original size
+          }}
+        />
+      </div>
+
+      {/* <div className="absolute inset-0 z-10 w-max">
+        <img
+          src={landing}
+          style={{
+            width: `${PIXEL_SCALE * 640}px`,
+            height: `${PIXEL_SCALE * 480}px`,
+            filter: "brightness(0.8)",
+          }}
+        />
+      </div> */}
+
       {showGame ? (
         <PWAInstallProvider>
           <ZoomProvider>
