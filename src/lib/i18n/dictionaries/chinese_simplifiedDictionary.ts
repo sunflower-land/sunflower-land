@@ -1283,6 +1283,10 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.totalCrops": "{{cropName}} 总产出： {{total}}",
   "cropMachine.totalRuntime": "总运行时长： {{time}}",
   "cropMachine.totalSeeds": "总播下种子： {{total}}",
+  "cropMachine.running": ENGLISH_TERMS["cropMachine.running"],
+  "cropMachine.stopped": ENGLISH_TERMS["cropMachine.stopped"],
+  "cropMachine.idle": ENGLISH_TERMS["cropMachine.idle"],
+  "cropMachine.name": ENGLISH_TERMS["cropMachine.name"],
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
