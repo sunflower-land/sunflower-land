@@ -30,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import landing from "assets/brand/landing.webp";
 import greenBg from "assets/brand/green_bg.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import classNames from "classnames";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -59,6 +60,7 @@ export const Navigation: React.FC = () => {
   const [showConnectionModal, setShowConnectionModal] = useState(false);
   const orientation = useOrientation();
   const isPWA = useIsPWA();
+  const [landingImageLoaded, setLandingImageLoaded] = useState(false);
 
   // useEffect(() => {
   //   if (!isMobile) return;
@@ -131,6 +133,10 @@ export const Navigation: React.FC = () => {
           <img
             src={landing}
             alt="Landing image"
+            className={classNames("transition-opacity", {
+              "opacity-0": !landingImageLoaded,
+              "opacity-100": landingImageLoaded,
+            })}
             style={{
               position: "absolute",
               top: "50%",
@@ -139,7 +145,9 @@ export const Navigation: React.FC = () => {
               width: `${PIXEL_SCALE * 640}px`,
               maxWidth: "none", // Ensure the image maintains its original size
               maxHeight: "none", // Ensure the image maintains its original size
+              transitionDuration: "1s",
             }}
+            onLoad={() => setLandingImageLoaded(true)}
           />
         </div>
       )}
