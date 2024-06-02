@@ -2986,7 +2986,8 @@ const islandupgrade: Record<Islandupgrade, string> = {
     "This area of Sunflower Land is known for its exotic resources. Expand your land to discover fruit, flowers, bee hives & rare minerals!",
   "islandupgrade.desertResourcesDescription":
     "The harsh desert environment requires new technology to survive. Expand your land to discover new buildings and what's inside!",
-  "islandupgrade.requiredIsland": "Unlocks on {{islandType}} Island",
+  "islandupgrade.requiredIsland": "Unlocks at {{islandType}}",
+  "islandupgrade.otherIsland": "{{island}} Island",
 };
 
 const landscapeTerms: Record<LandscapeTerms, string> = {

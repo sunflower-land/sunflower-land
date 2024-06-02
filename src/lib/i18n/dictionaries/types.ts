@@ -2054,7 +2054,8 @@ export type Islandupgrade =
   | "islandupgrade.notReadyExpandMore"
   | "islandupgrade.exoticResourcesDescription"
   | "islandupgrade.desertResourcesDescription"
-  | "islandupgrade.requiredIsland";
+  | "islandupgrade.requiredIsland"
+  | "islandupgrade.otherIsland";
 
 export type InteractableModals =
   | "interactableModals.returnhome.message"
