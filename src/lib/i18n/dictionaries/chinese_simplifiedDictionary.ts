@@ -1167,6 +1167,8 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.fatChicken": "原汁原味的白肉再庞大的猎物也欲罢不能",
   "chumDetails.speedChicken": "利齿猎人的快餐甜点",
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
+  "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
+  "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -2012,6 +2014,7 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.zero.available": "0可用",
   "fishermanmodal.greeting":
     "嗨，岛上的朋友们！我是{{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
+  "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
