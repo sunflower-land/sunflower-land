@@ -2058,7 +2058,7 @@ const factions: Record<Factions, string> = {
     "The Nightshades are the mysterious and magical beings of Sunflower Land. Do you believe in magic and secrets?",
   "faction.countdown": "In {{timeUntil}} the faction battle begins.",
   "faction.join.confirm": "Do you want to join the {{faction}}?",
-  "faction.cannot.change": "You cannot change factions once you have chosen.",
+  "faction.cannot.change": "You cannot change factions.",
   "faction.joined.sunflorians.intro":
     "Greetings, noble Sunflorian! Join us as we rally our forces to claim supremacy and uphold the honor of our kingdom.",
   "faction.joined.bumpkins.intro":
@@ -2087,6 +2087,21 @@ const factions: Record<Factions, string> = {
   "faction.points.title": "Faction Points",
   "faction.points.pledge.warning":
     "Pledge a faction to receive faction points!",
+
+  // Kingdom NPCs
+  "faction.restrited.area":
+    "Hold up farmer! This castle is off limits to you. Only the {{faction}} are allowed here.",
+  "faction.not.pledged":
+    "Hmm. It looks like you haven't pledged to a faction yet. Would you like to join the {{faction}}?",
+  "faction.cost":
+    "Show your allegiance and join the {{faction}}. Entry to the faction costs {{cost}} SFL.",
+  "faction.pledge.reward":
+    "In exchange, you will receive a {{banner}} and {{emblems}} emblems.",
+  "faction.welcome": "Welcome to the {{faction}}!",
+  "faction.greeting.goblins": "Hail the Goblin King!",
+  "faction.greeting.sunflorians": "Our lineage will reign supreme!",
+  "faction.greeting.bumpkins": "We must unite the farmers!",
+  "faction.greeting.nightshades": "The shadows will guide us to victory!",
 };
 
 const festiveTree: Record<FestiveTree, string> = {

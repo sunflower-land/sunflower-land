@@ -42,7 +42,7 @@ const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
   },
 ];
 
-type FactionNPC = {
+export type FactionNPC = {
   npc: NPCName;
   x: number;
   y: number;

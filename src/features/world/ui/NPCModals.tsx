@@ -28,6 +28,7 @@ import { GarbageCollectorModal } from "features/helios/components/garbageCollect
 import { Hopper } from "./npcs/Hopper";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { ChickenRescue } from "./portals/ChickenRescue";
+import { JoinFactionModal } from "./factions/JoinFactionModal";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -196,6 +197,17 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "lady day" && <FactionModalContent onClose={closeModal} />}
         {npc === "robert" && <FactionModalContent onClose={closeModal} />}
         {npc === "grommy" && <FactionModalContent onClose={closeModal} />}
+
+        {npc === "barlow" && (
+          <JoinFactionModal npc={npc} onClose={closeModal} />
+        )}
+        {npc === "graxle" && (
+          <JoinFactionModal npc={npc} onClose={closeModal} />
+        )}
+        {npc === "nyx" && <JoinFactionModal npc={npc} onClose={closeModal} />}
+        {npc === "reginald" && (
+          <JoinFactionModal npc={npc} onClose={closeModal} />
+        )}
       </Modal>
       {npc === "Chun Long" && (
         <SpecialEventModal

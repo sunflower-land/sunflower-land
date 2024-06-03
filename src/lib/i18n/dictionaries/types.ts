@@ -1509,7 +1509,17 @@ export type Factions =
   | "faction.seasonal.delivery.start.at"
   | "faction.points.with.number"
   | "faction.points.title"
-  | "faction.points.pledge.warning";
+  | "faction.points.pledge.warning"
+  // Kingdom
+  | "faction.restrited.area"
+  | "faction.not.pledged"
+  | "faction.cost"
+  | "faction.pledge.reward"
+  | "faction.welcome"
+  | "faction.greeting.goblins"
+  | "faction.greeting.sunflorians"
+  | "faction.greeting.bumpkins"
+  | "faction.greeting.nightshades";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
