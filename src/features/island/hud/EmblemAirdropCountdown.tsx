@@ -13,7 +13,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 
 export const EMBLEM_AIRDROP_DATE = new Date("2024-06-14T00:00:00Z");
-const SHOW_COUNTDOWN = new Date("2024-06-01T00:00:00Z");
+const SHOW_COUNTDOWN = new Date("2024-06-10T00:00:00Z");
 
 const _faction = (state: MachineState) => state.context.state.faction;
 
