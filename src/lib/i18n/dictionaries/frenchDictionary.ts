@@ -1296,6 +1296,8 @@ const chumDetails: Record<ChumDetails, string> = {
     "Dessert de restauration rapide pour les chasseurs aux dents acérées.",
   "chumDetails.richChicken":
     "Délice pour la terreur au ventre lumineux de l'écran.",
+  "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
+  "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -2302,6 +2304,7 @@ const fishermanModal: Record<FishermanModal, string> = {
     "Apportez-moi de l'appât et des ressources, et nous attraperons les plus rares trésors que l'océan a à offrir!",
   "fishermanModal.crazyHappening":
     "Wow, quelque chose de fou se passe... C'est une frénésie de poissons!",
+  "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
   "fishermanModal.bonusFish":
     "Dépêchez-vous, vous obtiendrez un poisson bonus pour chaque capture!",
   "fishermanModal.dailyLimitReached":

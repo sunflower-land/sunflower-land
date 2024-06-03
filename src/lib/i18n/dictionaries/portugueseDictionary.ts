@@ -1280,6 +1280,8 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.richChicken": ENGLISH_TERMS["chumDetails.richChicken"],
   "chumDetails.speedChicken": ENGLISH_TERMS["chumDetails.speedChicken"],
   "chumDetails.redPansy": ENGLISH_TERMS["chumDetails.redPansy"],
+  "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
+  "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
 };
 
 const community: Record<Community, string> = {
@@ -2242,6 +2244,7 @@ const fishermanModal: Record<FishermanModal, string> = {
     "Traga-me isca e recursos e vamos pescar os prêmios mais raros que o oceano tem a oferecer!",
   "fishermanModal.crazyHappening":
     "Uau, algo louco está acontecendo... É uma loucura de peixe!",
+  "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
   "fishermanModal.bonusFish":
     "Rápido, você receberá um peixe bônus para cada captura!",
   "fishermanModal.dailyLimitReached":

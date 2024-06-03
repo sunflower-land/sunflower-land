@@ -672,7 +672,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
-    weather: "Sunny",
+    weather: "Full Moon",
     wharf: {},
     beach: {},
   },

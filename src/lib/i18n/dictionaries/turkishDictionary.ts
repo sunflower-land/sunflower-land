@@ -1257,6 +1257,8 @@ const chumDetails: Record<ChumDetails, string> = {
     "Balıkların en büyüğünün dayanamadığı orijinal beyaz et.",
   "chumDetails.speedChicken": "Keskin dişli avcılar için fast food tatlısı.",
   "chumDetails.richChicken": "Ekranın parlak terörüne karşı incelik.",
+  "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
+  "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -2224,6 +2226,7 @@ const fishermanModal: Record<FishermanModal, string> = {
     "Bana yem ve kaynaklar getirin, okyanusun sunabileceği en nadide ödüllerin tadını çıkaralım!",
   "fishermanModal.crazyHappening":
     "Vay be, çılgınca bir şeyler oluyor... Tam bir balık çılgınlığı!",
+  "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
   "fishermanModal.bonusFish":
     "Acele edin, her avınızda bir bonus balık kazanacaksınız!",
   "fishermanModal.dailyLimitReached":

@@ -1254,6 +1254,8 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.speedChicken": "Fast food dessert for sharp-teeth hunters.",
   "chumDetails.richChicken":
     "Delicacy for the bright-bellied terror of the screen.",
+  "chumDetails.sunfish": "Perfect for a full moon...",
+  "chumDetails.horseMackerel": "Only for the biggest appetites",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -2224,6 +2226,8 @@ const fishermanModal: Record<FishermanModal, string> = {
     "Bring me bait and resources and we'll reel in the rarest prizes that the ocean has to offer!",
   "fishermanModal.crazyHappening":
     "Wow, something crazy is happening......It is a fish frenzy!",
+  "fishermanModal.fullMoon":
+    "Wow, look at that full moon! I've heard rumours that during this time you have a chance to catch rare Marine Marvels.",
   "fishermanModal.bonusFish":
     "Hurry, you will get a bonus fish for each catch!",
   "fishermanModal.dailyLimitReached":

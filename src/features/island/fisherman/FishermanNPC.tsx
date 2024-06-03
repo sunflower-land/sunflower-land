@@ -116,7 +116,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
   const { scale } = useContext(ZoomContext);
 
-  const showFishFrenzy = fishing.weather === "Fish Frenzy";
+  const showSpecial =
+    fishing.weather === "Fish Frenzy" || fishing.weather === "Full Moon";
 
   const onIdleFinish = () => {
     // CAST
@@ -274,7 +275,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           </>
         )}
 
-        {!showReelLabel && showFishFrenzy && canFish && (
+        {!showReelLabel && showSpecial && canFish && (
           <img
             src={lightning}
             style={{
