@@ -135,7 +135,7 @@ const LandscapingHudComponent: React.FC<{
                 marginBottom: `${PIXEL_SCALE * 25}px`,
                 width: `${PIXEL_SCALE * 22}px`,
                 right: `${PIXEL_SCALE * 3}px`,
-                top: `${PIXEL_SCALE * 38}px`,
+                top: `${PIXEL_SCALE * 31}px`,
               }}
             >
               <div
