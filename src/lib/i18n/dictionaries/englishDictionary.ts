@@ -432,23 +432,41 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Singular
-  sec: "sec",
-  min: "min",
-  hr: "hr",
-  day: "day",
+  // Full Singular
+  "time.second.full": "second",
+  "time.minute.full": "minute",
+  "time.hour.full": "hour",
+  "time.day.full": "day",
 
-  // Plural
-  secs: "secs",
-  mins: "mins",
-  hrs: "hrs",
-  days: "days",
+  // Full Plural
+  "time.seconds.full": "seconds",
+  "time.minutes.full": "minutes",
+  "time.hours.full": "hours",
+  "time.days.full": "days",
 
-  // Short Form
-  "sec.short": "s",
-  "min.short": "m",
-  "hour.short": "h",
-  "day.short": "d",
+  // Medium Singular
+  "time.sec.med": "sec",
+  "time.min.med": "min",
+  "time.hr.med": "hr",
+  "time.day.med": "day",
+
+  // Medium Plural
+  "time.secs.med": "secs",
+  "time.mins.med": "mins",
+  "time.hrs.med": "hrs",
+  "time.days.med": "days",
+
+  // Short
+  "time.second.short": "s",
+  "time.minute.short": "m",
+  "time.hour.short": "h",
+  "time.day.short": "d",
+
+  // Relative Time
+  "time.seconds.ago": "{{time}} {{secondORseconds}} ago",
+  "time.minutes.ago": "{{time}} {{minuteORminutes}} ago ",
+  "time.hours.ago": "{{time}} {{hourORhours}} ago ",
+  "time.days.ago": "{{time}} {{dayORdays}} ago",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

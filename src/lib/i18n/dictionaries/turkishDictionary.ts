@@ -433,23 +433,41 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Singular
-  sec: "saniye",
-  min: "dakika",
-  hr: "saat",
-  day: "gün",
+  // Full Singular
+  "time.second.full": "",
+  "time.minute.full": "",
+  "time.hour.full": "",
+  "time.day.full": "",
 
-  // Plural
-  secs: "saniye",
-  mins: "dakika",
-  hrs: "saat",
-  days: "gün",
+  // Full Plural
+  "time.seconds.full": "",
+  "time.minutes.full": "",
+  "time.hours.full": "",
+  "time.days.full": "",
+
+  // Medium Singular
+  "time.sec.med": "",
+  "time.min.med": "",
+  "time.hr.med": "",
+  "time.day.med": "",
+
+  // Medium Plural
+  "time.secs.med": "",
+  "time.mins.med": "",
+  "time.hrs.med": "",
+  "time.days.med": "",
 
   // Short
-  "sec.short": "sn",
-  "min.short": "d",
-  "hour.short": "sa",
-  "day.short": "g",
+  "time.second.short": "",
+  "time.minute.short": "",
+  "time.hour.short": "",
+  "time.day.short": "",
+
+  // Relative Time
+  "time.seconds.ago": "",
+  "time.minutes.ago": "",
+  "time.hours.ago": "",
+  "time.days.ago": "",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
