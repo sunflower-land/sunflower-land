@@ -1383,4 +1383,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Sunflorian Sword": () => false,
   "Sunflorian Sabaton": () => false,
   "Sunflorian Pants": () => false,
+
+  "Cap n Bells": () => false,
+  "Knight Gambit": () => false,
+  "Pixel Perfect Hoodie": () => false,
+  "Queen's Crown": () => false,
+  "Royal Dress": () => false,
+  Motley: () => false,
 };

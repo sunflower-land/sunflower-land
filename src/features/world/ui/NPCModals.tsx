@@ -169,6 +169,9 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
         {npc === "raven" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "victoria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "jester" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "gambit" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "tywin" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "grimbly" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "grimtooth" && (

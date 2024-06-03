@@ -3461,6 +3461,114 @@ const npc: Record<Npc, string> = {
 };
 
 const npcDialogues: Record<NpcDialogues, string> = {
+  "npcDialogues.queenVictoria.intro1":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.intro1"],
+  "npcDialogues.queenVictoria.intro2":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.intro2"],
+  "npcDialogues.queenVictoria.intro3":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.intro3"],
+  "npcDialogues.queenVictoria.intro4":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.intro4"],
+  "npcDialogues.queenVictoria.intro5":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.intro5"],
+  "npcDialogues.queenVictoria.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.positiveDelivery1"],
+  "npcDialogues.queenVictoria.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.positiveDelivery2"],
+  "npcDialogues.queenVictoria.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.positiveDelivery3"],
+  "npcDialogues.queenVictoria.positiveDelivery4":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.positiveDelivery4"],
+  "npcDialogues.queenVictoria.positiveDelivery5":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.positiveDelivery5"],
+  "npcDialogues.queenVictoria.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.negativeDelivery1"],
+  "npcDialogues.queenVictoria.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.negativeDelivery2"],
+  "npcDialogues.queenVictoria.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.negativeDelivery3"],
+  "npcDialogues.queenVictoria.negativeDelivery4":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.negativeDelivery4"],
+  "npcDialogues.queenVictoria.negativeDelivery5":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.negativeDelivery5"],
+  "npcDialogues.queenVictoria.noOrder1":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.noOrder1"],
+  "npcDialogues.queenVictoria.noOrder2":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.noOrder2"],
+  "npcDialogues.queenVictoria.reward":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.reward"],
+  "npcDialogues.queenVictoria.flowerIntro":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.flowerIntro"],
+  "npcDialogues.queenVictoria.averageFlower":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.averageFlower"],
+  "npcDialogues.queenVictoria.badFlower":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.badFlower"],
+  "npcDialogues.queenVictoria.goodFlower":
+    ENGLISH_TERMS["npcDialogues.queenVictoria.goodFlower"],
+  "npcDialogues.gambit.intro1": ENGLISH_TERMS["npcDialogues.gambit.intro1"],
+  "npcDialogues.gambit.intro2": ENGLISH_TERMS["npcDialogues.gambit.intro2"],
+  "npcDialogues.gambit.intro3": ENGLISH_TERMS["npcDialogues.gambit.intro3"],
+  "npcDialogues.gambit.intro4": ENGLISH_TERMS["npcDialogues.gambit.intro4"],
+  "npcDialogues.gambit.intro5": ENGLISH_TERMS["npcDialogues.gambit.intro5"],
+  "npcDialogues.gambit.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.gambit.positiveDelivery1"],
+  "npcDialogues.gambit.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.gambit.positiveDelivery2"],
+  "npcDialogues.gambit.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.gambit.positiveDelivery3"],
+  "npcDialogues.gambit.positiveDelivery4":
+    ENGLISH_TERMS["npcDialogues.gambit.positiveDelivery4"],
+  "npcDialogues.gambit.positiveDelivery5":
+    ENGLISH_TERMS["npcDialogues.gambit.positiveDelivery5"],
+  "npcDialogues.gambit.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.gambit.negativeDelivery1"],
+  "npcDialogues.gambit.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.gambit.negativeDelivery2"],
+  "npcDialogues.gambit.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.gambit.negativeDelivery3"],
+  "npcDialogues.gambit.negativeDelivery4":
+    ENGLISH_TERMS["npcDialogues.gambit.negativeDelivery4"],
+  "npcDialogues.gambit.negativeDelivery5":
+    ENGLISH_TERMS["npcDialogues.gambit.negativeDelivery5"],
+  "npcDialogues.gambit.noOrder1": ENGLISH_TERMS["npcDialogues.gambit.noOrder1"],
+  "npcDialogues.gambit.noOrder2": ENGLISH_TERMS["npcDialogues.gambit.noOrder2"],
+  "npcDialogues.jester.intro1": ENGLISH_TERMS["npcDialogues.jester.intro1"],
+  "npcDialogues.jester.intro2": ENGLISH_TERMS["npcDialogues.jester.intro2"],
+  "npcDialogues.jester.intro3": ENGLISH_TERMS["npcDialogues.jester.intro3"],
+  "npcDialogues.jester.intro4": ENGLISH_TERMS["npcDialogues.jester.intro4"],
+  "npcDialogues.jester.intro5": ENGLISH_TERMS["npcDialogues.jester.intro5"],
+  "npcDialogues.jester.positiveDelivery1":
+    ENGLISH_TERMS["npcDialogues.jester.positiveDelivery1"],
+  "npcDialogues.jester.positiveDelivery2":
+    ENGLISH_TERMS["npcDialogues.jester.positiveDelivery2"],
+  "npcDialogues.jester.positiveDelivery3":
+    ENGLISH_TERMS["npcDialogues.jester.positiveDelivery3"],
+  "npcDialogues.jester.positiveDelivery4":
+    ENGLISH_TERMS["npcDialogues.jester.positiveDelivery4"],
+  "npcDialogues.jester.positiveDelivery5":
+    ENGLISH_TERMS["npcDialogues.jester.positiveDelivery5"],
+  "npcDialogues.jester.negativeDelivery1":
+    ENGLISH_TERMS["npcDialogues.jester.negativeDelivery1"],
+  "npcDialogues.jester.negativeDelivery2":
+    ENGLISH_TERMS["npcDialogues.jester.negativeDelivery2"],
+  "npcDialogues.jester.negativeDelivery3":
+    ENGLISH_TERMS["npcDialogues.jester.negativeDelivery3"],
+  "npcDialogues.jester.negativeDelivery4":
+    ENGLISH_TERMS["npcDialogues.jester.negativeDelivery4"],
+  "npcDialogues.jester.negativeDelivery5":
+    ENGLISH_TERMS["npcDialogues.jester.negativeDelivery5"],
+  "npcDialogues.jester.noOrder1": ENGLISH_TERMS["npcDialogues.jester.noOrder1"],
+  "npcDialogues.jester.noOrder2": ENGLISH_TERMS["npcDialogues.jester.noOrder2"],
+  "npcDialogues.jester.reward": ENGLISH_TERMS["npcDialogues.jester.reward"],
+  "npcDialogues.jester.flowerIntro":
+    ENGLISH_TERMS["npcDialogues.jester.flowerIntro"],
+  "npcDialogues.jester.averageFlower":
+    ENGLISH_TERMS["npcDialogues.jester.averageFlower"],
+  "npcDialogues.jester.badFlower":
+    ENGLISH_TERMS["npcDialogues.jester.badFlower"],
+  "npcDialogues.jester.goodFlower":
+    ENGLISH_TERMS["npcDialogues.jester.goodFlower"],
+
   // Blacksmith Intro
   "npcDialogues.blacksmith.intro1":
     "Ne istiyorsun? Hızlı konuşun; vakit nakittir.",
