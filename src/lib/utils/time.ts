@@ -186,8 +186,8 @@ export function getRelativeTime(timestamp: number): string {
       time: secondsAgo,
       secondORseconds:
         secondsAgo !== 1
-          ? translate("time.second.full")
-          : translate("time.seconds.full"),
+          ? translate("time.seconds.full")
+          : translate("time.second.full"),
     });
   } else if (secondsAgo < 3600) {
     const minutesAgo = Math.floor(secondsAgo / 60);
@@ -195,8 +195,8 @@ export function getRelativeTime(timestamp: number): string {
       time: minutesAgo,
       minuteORminutes:
         minutesAgo !== 1
-          ? translate("time.minute.full")
-          : translate("time.minutes.full"),
+          ? translate("time.minutes.full")
+          : translate("time.minute.full"),
     });
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
@@ -204,8 +204,8 @@ export function getRelativeTime(timestamp: number): string {
       time: hoursAgo,
       hourORhours:
         hoursAgo !== 1
-          ? translate("time.hour.full")
-          : translate("time.hours.full"),
+          ? translate("time.hours.full")
+          : translate("time.hour.full"),
     });
   } else {
     const daysAgo = Math.floor(secondsAgo / 86400);
@@ -213,8 +213,8 @@ export function getRelativeTime(timestamp: number): string {
       time: daysAgo,
       dayORdays:
         daysAgo !== 1
-          ? translate("time.day.full")
-          : translate("time.days.full"),
+          ? translate("time.days.full")
+          : translate("time.day.full"),
     });
   }
 }
