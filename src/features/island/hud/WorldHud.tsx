@@ -21,6 +21,7 @@ import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasFeatureAccess } from "lib/flags";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { EmblemAirdropCountdown } from "./EmblemAirdropCountdown";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -119,6 +120,7 @@ const HudComponent: React.FC = () => {
         }}
       >
         <AuctionCountdown />
+        <EmblemAirdropCountdown />
       </div>
 
       <BumpkinProfile isFullUser={isFullUser} />

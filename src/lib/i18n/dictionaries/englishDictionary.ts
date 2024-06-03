@@ -2090,6 +2090,7 @@ const factions: Record<Factions, string> = {
   "faction.points.title": "Faction Points",
   "faction.points.pledge.warning":
     "Pledge a faction to receive faction points!",
+  "faction.emblemAirdrop": "Emblem Airdrop",
 
   // Kingdom NPCs
   "faction.restrited.area":
