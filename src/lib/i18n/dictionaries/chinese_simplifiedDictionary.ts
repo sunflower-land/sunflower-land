@@ -1903,6 +1903,7 @@ const factions: Record<Factions, string> = {
   "faction.points.title": ENGLISH_TERMS["faction.points.title"],
   "faction.points.pledge.warning":
     ENGLISH_TERMS["faction.points.pledge.warning"],
+  "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
 
   // Kingdom
   "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],

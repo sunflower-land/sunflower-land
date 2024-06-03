@@ -1513,6 +1513,7 @@ export type Factions =
   | "faction.points.with.number"
   | "faction.points.title"
   | "faction.points.pledge.warning"
+  | "faction.emblemAirdrop"
   // Kingdom
   | "faction.restrited.area"
   | "faction.not.pledged"

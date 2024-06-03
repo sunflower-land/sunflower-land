@@ -11,6 +11,10 @@ const clashOfFactionsFeatureFlag = () => {
 
   return Date.now() > new Date("2024-05-01T00:00:00Z").getTime();
 };
+
+const timeBasedFeatureFlag = (date: Date) => () => {
+  return testnetFeatureFlag() || Date.now() > date.getTime();
+};
 /*
  * How to Use:
  * Add the feature name to this list when working on a new feature.
@@ -31,7 +35,8 @@ export type FeatureName =
   | "COOKING_BOOST"
   | "DESERT_RECIPES"
   | "KINGDOM"
-  | "FACTION_HOUSE";
+  | "FACTION_HOUSE"
+  | "EMBLEM_COUNTDOWN_TIMER";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -60,6 +65,9 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
   COOKING_BOOST: defaultFeatureFlag,
+  EMBLEM_COUNTDOWN_TIMER: timeBasedFeatureFlag(
+    new Date("2024-06-10T00:00:00Z")
+  ),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
