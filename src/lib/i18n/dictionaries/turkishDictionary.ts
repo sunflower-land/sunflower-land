@@ -4187,8 +4187,7 @@ const removeCropMachine: Record<RemoveCropMachine, string> = {
   "removeCropMachine.title": ENGLISH_TERMS["removeCropMachine.title"],
   "removeCropMachine.description":
     ENGLISH_TERMS["removeCropMachine.description"],
-  "removeCropMachine.removeSeeds":
-    ENGLISH_TERMS["removeCropMachine.removeSeeds"],
+  "removeCropMachine.removeOil": ENGLISH_TERMS["removeCropMachine.removeOil"],
 };
 
 const resale: Record<Resale, string> = {

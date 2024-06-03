@@ -2839,7 +2839,7 @@ export type RemoveKuebiko =
 export type RemoveCropMachine =
   | "removeCropMachine.title"
   | "removeCropMachine.description"
-  | "removeCropMachine.removeSeeds";
+  | "removeCropMachine.removeOil";
 
 export type Resale = "resale.actionText";
 

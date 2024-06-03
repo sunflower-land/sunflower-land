@@ -8,6 +8,8 @@ import {
   removeBuilding,
   REMOVE_BUILDING_ERRORS,
 } from "./removeBuilding";
+import { hasRemoveRestriction } from "features/game/types/removeables";
+import { BuildingName } from "features/game/types/buildings";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -114,40 +116,46 @@ describe("removeBuilding", () => {
   });
 
   it("does not remove a building that has a removal restriction that is not met", () => {
-    expect(() =>
-      removeBuilding({
-        state: {
-          ...GAME_STATE,
-          inventory: {
-            "Rusty Shovel": new Decimal(0),
-          },
-          buildings: {
-            "Crop Machine": [
+    const buildingName: BuildingName = "Crop Machine";
+    const id = "123";
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        "Rusty Shovel": new Decimal(0),
+      },
+      buildings: {
+        "Crop Machine": [
+          {
+            id: "123",
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            readyAt: 0,
+            queue: [
               {
-                id: "123",
-                coordinates: { x: 1, y: 1 },
-                createdAt: 0,
-                readyAt: 0,
-                queue: [
-                  {
-                    crop: "Sunflower",
-                    amount: 1,
-                    seeds: 1,
-                    totalGrowTime: 60,
-                    growTimeRemaining: 60,
-                  },
-                ],
+                crop: "Sunflower",
+                amount: 1,
+                seeds: 1,
+                totalGrowTime: 60,
+                growTimeRemaining: 60,
               },
             ],
           },
-        },
+        ],
+      },
+    };
+
+    const [_, error] = hasRemoveRestriction(buildingName, id, state);
+
+    expect(() =>
+      removeBuilding({
+        state,
         action: {
           type: "building.removed",
-          name: "Crop Machine",
-          id: "123",
+          name: buildingName,
+          id,
         },
       })
-    ).toThrow("Machine is in use");
+    ).toThrow(error);
   });
 
   it("removes a building and does not affect buildings of the same type", () => {
