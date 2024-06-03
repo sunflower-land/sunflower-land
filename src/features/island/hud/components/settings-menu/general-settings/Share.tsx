@@ -46,7 +46,7 @@ export const Share: React.FC = () => {
         <CopyField text={farmUrl} copyFieldMessage={t("share.CopyFarmURL")} />
       </div>
       <div className="flex space-x-1 text-sm">
-        <Button onClick={handleTweetClick}>{"Tweet"}</Button>
+        <Button onClick={handleTweetClick}>{t("share.Tweet")}</Button>
         <Button onClick={() => window.open(farmUrl, "_blank")}>
           {t("visit")}
         </Button>

@@ -368,7 +368,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   success: "成功！",
   "support.team": "运维小组",
   swapping: "兑换中",
-  syncing: "同步中",
+  syncing: "储存中",
   task: "任务",
   "thank.you": "谢谢你！",
   tools: "工具", // Basket
@@ -1167,6 +1167,8 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.fatChicken": "原汁原味的白肉再庞大的猎物也欲罢不能",
   "chumDetails.speedChicken": "利齿猎人的快餐甜点",
   "chumDetails.richChicken": "白肚银幕恐怖巨星的精美佳肴",
+  "chumDetails.horseMackerel": ENGLISH_TERMS["chumDetails.horseMackerel"],
+  "chumDetails.sunfish": ENGLISH_TERMS["chumDetails.sunfish"],
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
@@ -2012,6 +2014,7 @@ const fishermanModal: Record<FishermanModal, string> = {
   "fishermanModal.zero.available": "0可用",
   "fishermanmodal.greeting":
     "嗨，岛上的朋友们！我是{{name}}，你们信赖的岛上渔夫，我已经准备好迎接一个宏大的挑战——收集太阳下的每一种鱼！",
+  "fishermanModal.fullMoon": ENGLISH_TERMS["fishermanModal.fullMoon"],
 };
 
 const fishermanQuest: Record<FishermanQuest, string> = {
@@ -2337,14 +2340,14 @@ const genieLamp: Record<GenieLamp, string> = {
 };
 
 const getContent: Record<GetContent, string> = {
-  "getContent.error": ENGLISH_TERMS["getContent.error"],
-  "getContent.joining": ENGLISH_TERMS["getContent.joining"],
-  "getContent.accessGranted": ENGLISH_TERMS["getContent.accessGranted"],
-  "getContent.connectToDiscord": ENGLISH_TERMS["getContent.connectToDiscord"],
-  "getContent.connect": ENGLISH_TERMS["getContent.connect"],
-  "getContent.getAccess": ENGLISH_TERMS["getContent.getAccess"],
-  "getContent.requires": ENGLISH_TERMS["getContent.requires"],
-  "getContent.join": ENGLISH_TERMS["getContent.join"],
+  "getContent.error": "故障！",
+  "getContent.joining": "加入中",
+  "getContent.accessGranted": "您现在有权访问 Discord 频道。过去看看吧！",
+  "getContent.connectToDiscord": "您必须连接到 Discord 才能加入受限频道。",
+  "getContent.connect": "连接",
+  "getContent.getAccess": "获取 Discord 受限频道的访问权限",
+  "getContent.requires": "需要",
+  "getContent.join": "加入",
 };
 
 const getInputErrorMessage: Record<GetInputErrorMessage, string> = {
@@ -2855,7 +2858,7 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "dequipper.missingBumpkins": ENGLISH_TERMS["dequipper.missingBumpkins"],
   "dequipper.intro": ENGLISH_TERMS["dequipper.intro"],
   "dequipper.success": ENGLISH_TERMS["dequipper.success"],
-  "dequipper.dequip": ENGLISH_TERMS["dequipper.dequip"],
+  "dequipper.dequip": "解除装备",
   "dequipper.warning": ENGLISH_TERMS["dequipper.warning"],
   "dequipper.nude": ENGLISH_TERMS["dequipper.nude"],
   "noBumpkin.nude": ENGLISH_TERMS["noBumpkin.nude"],
@@ -3779,17 +3782,17 @@ const rulesTerms: Record<RulesTerms, string> = {
 };
 
 const pwaInstall: Record<PwaInstall, string> = {
-  "install.app": ENGLISH_TERMS["install.app"],
-  "magic.link": ENGLISH_TERMS["magic.link"],
-  "generating.link": ENGLISH_TERMS["generating.link"],
-  "generating.code": ENGLISH_TERMS["generating.code"],
+  "install.app": "安装应用程序",
+  "magic.link": "魔法链接",
+  "generating.link": "生成链接",
+  "generating.code": "生成二维码",
   "install.app.desktop.description":
-    ENGLISH_TERMS["install.app.desktop.description"],
+    "扫描下方的二维码即可在您的设备上安装该应用。请务必在 Safari 或 Chrome 中打开它。",
   "install.app.mobile.metamask.description":
-    ENGLISH_TERMS["install.app.mobile.metamask.description"],
-  "do.not.share.link": ENGLISH_TERMS["do.not.share.link"],
-  "do.not.share.code": ENGLISH_TERMS["do.not.share.code"],
-  "qr.code.not.working": ENGLISH_TERMS["qr.code.not.working"],
+    "复制下方的魔法链接，然后在 {{browser}} 中打开进行安装！",
+  "do.not.share.link": "请勿分享此链接！",
+  "do.not.share.code": "请勿分享此二维码！",
+  "qr.code.not.working": "二维码无法使用？",
 };
 
 const sceneDialogueKey: Record<SceneDialogueKey, string> = {
@@ -3825,11 +3828,11 @@ const seasonTerms: Record<SeasonTerms, string> = {
 
 const share: Record<Share, string> = {
   "share.TweetText": ENGLISH_TERMS["share.TweetText"],
-  "share.ShareYourFarmLink": ENGLISH_TERMS["share.ShareYourFarmLink"],
-  "share.ShowOffToFarmers": ENGLISH_TERMS["share.ShowOffToFarmers"],
+  "share.ShareYourFarmLink": "分享您的农场链接",
+  "share.ShowOffToFarmers": "通过分享您的农场链接来展示您的农场。",
   "share.FarmNFTImageAlt": ENGLISH_TERMS["share.FarmNFTImageAlt"],
   "share.CopyFarmURL": ENGLISH_TERMS["share.CopyFarmURL"],
-  "share.Tweet": ENGLISH_TERMS["share.Tweet"],
+  "share.Tweet": "推文",
   "share.chooseServer": ENGLISH_TERMS["share.chooseServer"],
   "share.FULL": ENGLISH_TERMS["share.FULL"],
   "share.exploreCustomIslands": ENGLISH_TERMS["share.exploreCustomIslands"],
@@ -3924,7 +3927,7 @@ const statements: Record<Statements, string> = {
   "statements.conversation.one": ENGLISH_TERMS["statements.conversation.one"],
   "statements.cooldown": ENGLISH_TERMS["statements.cooldown"],
   "statements.docs": ENGLISH_TERMS["statements.docs"],
-  "statements.dontRefresh": ENGLISH_TERMS["statements.dontRefresh"],
+  "statements.dontRefresh": "请勿刷新浏览器！",
   "statements.guide.one": ENGLISH_TERMS["statements.guide.one"],
   "statements.guide.two": ENGLISH_TERMS["statements.guide.two"],
   "statements.jigger.one": ENGLISH_TERMS["statements.jigger.one"],
@@ -3953,7 +3956,7 @@ const statements: Record<Statements, string> = {
   "statements.sflLim.two": ENGLISH_TERMS["statements.sflLim.two"],
   "statements.sniped": ENGLISH_TERMS["statements.sniped"],
   "statements.switchNetwork": ENGLISH_TERMS["statements.switchNetwork"],
-  "statements.sync": ENGLISH_TERMS["statements.sync"],
+  "statements.sync": "请耐心等待，我们会将您的进度存储在区块链上。",
   "statements.tapCont": "点击继续",
 
   "statements.tutorial.one": ENGLISH_TERMS["statements.tutorial.one"],
@@ -4075,14 +4078,12 @@ const transactionTerms: Record<TransactionTerms, string> = {
   "transaction.storeBlockBucks": ENGLISH_TERMS["transaction.storeBlockBucks"],
   "transaction.excludeFees": ENGLISH_TERMS["transaction.excludeFees"],
   "transaction.storeProgress.blockchain.one":
-    ENGLISH_TERMS["transaction.storeProgress.blockchain.one"],
+    "你想把你的进度存储在区块链上吗？",
   "transaction.storeProgress.blockchain.two":
-    ENGLISH_TERMS["transaction.storeProgress.blockchain.two"],
-  "transaction.storeProgress": ENGLISH_TERMS["transaction.storeProgress"],
-  "transaction.storeProgress.chain":
-    ENGLISH_TERMS["transaction.storeProgress.chain"],
-  "transaction.storeProgress.success":
-    ENGLISH_TERMS["transaction.storeProgress.success"],
+    "将您的进度存储在区块链上并不会补充市场或车间的库存。",
+  "transaction.storeProgress": "存储在区块链上",
+  "transaction.storeProgress.chain": "存储在区块链上",
+  "transaction.storeProgress.success": "哇喔！你的进度已存储在区块链上！",
   "transaction.trade.congrats": ENGLISH_TERMS["transaction.trade.congrats"],
   "transaction.processing": ENGLISH_TERMS["transaction.processing"],
   "transaction.pleaseWait": ENGLISH_TERMS["transaction.pleaseWait"],
@@ -4106,12 +4107,13 @@ const transactionTerms: Record<TransactionTerms, string> = {
 };
 
 const transfer: Record<Transfer, string> = {
-  "transfer.sure.adress": ENGLISH_TERMS["transfer.sure.adress"],
-  "transfer.Account": ENGLISH_TERMS["transfer.Account"],
-  "transfer.Farm": ENGLISH_TERMS["transfer.Farm"],
-  "transfer.Refresh": ENGLISH_TERMS["transfer.Refresh"],
-  "transfer.Taccount": ENGLISH_TERMS["transfer.Taccount"],
-  "transfer.address": ENGLISH_TERMS["transfer.address"],
+  "transfer.sure.adress":
+    "请确保您提供的钱包地址在 Polygon 区块链上，正确且归您所有。如果您输入错误的钱包地址，您将无法恢复您的农场。",
+  "transfer.Account": "您的农场 #{{farmID}} 已转移到 {{receivingAddress}}！",
+  "transfer.Farm": "您正在转移您的农场！",
+  "transfer.Refresh": "请勿刷新浏览器！",
+  "transfer.Taccount": "转移农场所有权",
+  "transfer.address": "接收钱包地址：",
 };
 
 const treasureModal: Record<TreasureModal, string> = {
@@ -4163,7 +4165,7 @@ const wallet: Record<Wallet, string> = {
   "wallet.walletAlreadyLinked": ENGLISH_TERMS["wallet.walletAlreadyLinked"],
   "wallet.linkAnotherWallet": ENGLISH_TERMS["wallet.linkAnotherWallet"],
   "wallet.transferFarm": ENGLISH_TERMS["wallet.transferFarm"],
-  "wallet.signRequest": ENGLISH_TERMS["wallet.signRequest"],
+  "wallet.signRequest": "签署",
   "wallet.signRequestInWallet": "请在你的钱包中签署请求以继续。",
 };
 
@@ -4305,50 +4307,43 @@ const leaderboardTerms: Record<Leaderboard, string> = {
 };
 
 const gameOptions: Record<GameOptions, string> = {
-  "gameOptions.title": ENGLISH_TERMS["gameOptions.title"],
+  "gameOptions.title": "游戏设置", // using “Game Settings"
   "gameOptions.howToPlay": ENGLISH_TERMS["gameOptions.howToPlay"],
-  "gameOptions.farmId": ENGLISH_TERMS["gameOptions.farmId"],
-  "gameOptions.logout": ENGLISH_TERMS["gameOptions.logout"],
-  "gameOptions.confirmLogout": ENGLISH_TERMS["gameOptions.confirmLogout"],
-  "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"],
+  "gameOptions.farmId": "农场 ID #{{farmId}}",
+  "gameOptions.logout": "登出",
+  "gameOptions.confirmLogout": "您确定要登出吗？",
+
+  // Testnet
+  "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"], // Testnet
   "gameOptions.amoyActions.timeMachine":
-    ENGLISH_TERMS["gameOptions.amoyActions.timeMachine"],
-  "gameOptions.blockchainSettings":
-    ENGLISH_TERMS["gameOptions.blockchainSettings"],
-  "gameOptions.blockchainSettings.refreshChain":
-    ENGLISH_TERMS["gameOptions.blockchainSettings.refreshChain"],
-  "gameOptions.blockchainSettings.storeOnChain":
-    ENGLISH_TERMS["gameOptions.blockchainSettings.storeOnChain"],
-  "gameOptions.blockchainSettings.swapMaticForSFL":
-    ENGLISH_TERMS["gameOptions.blockchainSettings.swapMaticForSFL"],
-  "gameOptions.blockchainSettings.transferOwnership":
-    ENGLISH_TERMS["gameOptions.blockchainSettings.transferOwnership"],
-  "gameOptions.generalSettings": ENGLISH_TERMS["gameOptions.generalSettings"],
+    ENGLISH_TERMS["gameOptions.amoyActions.timeMachine"], // Testnet
+
+  // Blockchain Settings
+  "gameOptions.blockchainSettings": "区块链设置",
+  "gameOptions.blockchainSettings.refreshChain": "从区块链刷新",
+  "gameOptions.blockchainSettings.storeOnChain": "存储在区块链上",
+  "gameOptions.blockchainSettings.swapMaticForSFL": "将 MATIC 换成 SFL",
+  "gameOptions.blockchainSettings.transferOwnership": "转移农场所有权",
+
+  // General Settings
+  "gameOptions.generalSettings": "通用设置",
   "gameOptions.generalSettings.connectDiscord":
     ENGLISH_TERMS["gameOptions.generalSettings.connectDiscord"],
   "gameOptions.generalSettings.assignRole":
     ENGLISH_TERMS["gameOptions.generalSettings.assignRole"],
-  "gameOptions.generalSettings.changeLanguage":
-    ENGLISH_TERMS["gameOptions.generalSettings.changeLanguage"],
-  "gameOptions.generalSettings.disableAnimations":
-    ENGLISH_TERMS["gameOptions.generalSettings.disableAnimations"],
-  "gameOptions.generalSettings.enableAnimations":
-    ENGLISH_TERMS["gameOptions.generalSettings.enableAnimations"],
-  "gameOptions.generalSettings.share":
-    ENGLISH_TERMS["gameOptions.generalSettings.share"],
-  "gameOptions.plazaSettings": ENGLISH_TERMS["gameOptions.plazaSettings"],
-  "gameOptions.plazaSettings.title.mutedPlayers":
-    ENGLISH_TERMS["gameOptions.plazaSettings.title.mutedPlayers"],
-  "gameOptions.plazaSettings.title.keybinds":
-    ENGLISH_TERMS["gameOptions.plazaSettings.title.keybinds"],
+  "gameOptions.generalSettings.changeLanguage": "更改语言",
+  "gameOptions.generalSettings.disableAnimations": "禁用动画",
+  "gameOptions.generalSettings.enableAnimations": "启用动画",
+  "gameOptions.generalSettings.share": "分享",
+  "gameOptions.plazaSettings": "广场设置",
+  "gameOptions.plazaSettings.title.mutedPlayers": "静音玩家",
+  "gameOptions.plazaSettings.title.keybinds": "按键绑定",
   "gameOptions.plazaSettings.mutedPlayers.description":
-    ENGLISH_TERMS["gameOptions.plazaSettings.mutedPlayers.description"],
+    "如果您使用 /mute 命令将某些玩家静音，您可以在此处查看并取消静音。",
   "gameOptions.plazaSettings.keybinds.description":
-    ENGLISH_TERMS["gameOptions.plazaSettings.keybinds.description"],
-  "gameOptions.plazaSettings.noMutedPlayers":
-    ENGLISH_TERMS["gameOptions.plazaSettings.noMutedPlayers"],
-  "gameOptions.plazaSettings.changeServer":
-    ENGLISH_TERMS["gameOptions.plazaSettings.changeServer"],
+    "想要知道有哪些按键绑定可用？请在此处查看。",
+  "gameOptions.plazaSettings.noMutedPlayers": "您没有将任何玩家静音。",
+  "gameOptions.plazaSettings.changeServer": "更改服务器",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
