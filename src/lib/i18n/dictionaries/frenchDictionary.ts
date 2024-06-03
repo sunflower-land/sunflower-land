@@ -434,40 +434,40 @@ const generalTerms: Record<GeneralTerms, string> = {
 
 const timeUnits: Record<TimeUnits, string> = {
   // Full Singular
-  "time.second.full": "",
-  "time.minute.full": "",
-  "time.hour.full": "",
-  "time.day.full": "",
+  "time.second.full": "seconde",
+  "time.minute.full": "minute",
+  "time.hour.full": "heure",
+  "time.day.full": "jour",
 
   // Full Plural
-  "time.seconds.full": "",
-  "time.minutes.full": "",
-  "time.hours.full": "",
-  "time.days.full": "",
+  "time.seconds.full": "secondes",
+  "time.minutes.full": "minutes",
+  "time.hours.full": "heures",
+  "time.days.full": "jours",
 
   // Medium Singular
-  "time.sec.med": "",
-  "time.min.med": "",
-  "time.hr.med": "",
-  "time.day.med": "",
+  "time.sec.med": "sec",
+  "time.min.med": "min",
+  "time.hr.med": "hr",
+  "time.day.med": "jr",
 
   // Medium Plural
-  "time.secs.med": "",
-  "time.mins.med": "",
-  "time.hrs.med": "",
-  "time.days.med": "",
+  "time.secs.med": "secs",
+  "time.mins.med": "mins",
+  "time.hrs.med": "hrs",
+  "time.days.med": "jrs",
 
   // Short
-  "time.second.short": "",
-  "time.minute.short": "",
-  "time.hour.short": "",
-  "time.day.short": "",
+  "time.second.short": "s",
+  "time.minute.short": "min",
+  "time.hour.short": "h",
+  "time.day.short": "j",
 
   // Relative Time
-  "time.seconds.ago": "",
-  "time.minutes.ago": "",
-  "time.hours.ago": "",
-  "time.days.ago": "",
+  "time.seconds.ago": ENGLISH_TERMS["time.seconds.ago"],
+  "time.minutes.ago": ENGLISH_TERMS["time.minutes.ago"],
+  "time.hours.ago": ENGLISH_TERMS["time.hours.ago"],
+  "time.days.ago": ENGLISH_TERMS["time.days.ago"],
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

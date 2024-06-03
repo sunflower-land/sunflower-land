@@ -434,40 +434,41 @@ const generalTerms: Record<GeneralTerms, string> = {
 
 const timeUnits: Record<TimeUnits, string> = {
   // Full Singular
-  "time.second.full": "",
-  "time.minute.full": "",
-  "time.hour.full": "",
-  "time.day.full": "",
+  "time.second.full": "saniye",
+  "time.minute.full": "dakika",
+  "time.hour.full": "saat",
+  "time.day.full": "gün",
 
   // Full Plural
-  "time.seconds.full": "",
-  "time.minutes.full": "",
-  "time.hours.full": "",
-  "time.days.full": "",
+  "time.seconds.full": "saniye",
+  "time.minutes.full": "dakika",
+  "time.hours.full": "saat",
+  "time.days.full": "gün",
 
   // Medium Singular
-  "time.sec.med": "",
-  "time.min.med": "",
-  "time.hr.med": "",
-  "time.day.med": "",
+  "time.sec.med": "sn",
+  "time.min.med": "dk",
+  "time.hr.med": "sa",
+  "time.day.med": "gnn",
 
   // Medium Plural
-  "time.secs.med": "",
-  "time.mins.med": "",
-  "time.hrs.med": "",
-  "time.days.med": "",
+  "time.secs.med": "sn",
+  "time.mins.med": "dk",
+  "time.hrs.med": "sa",
+  "time.days.med": "gn",
 
   // Short
-  "time.second.short": "",
-  "time.minute.short": "",
-  "time.hour.short": "",
-  "time.day.short": "",
+  "time.second.short": "sn",
+  "time.minute.short": "d",
+  "time.hour.short": "sa",
+  "time.day.short": "g",
 
   // Relative Time
-  "time.seconds.ago": "",
-  "time.minutes.ago": "",
-  "time.hours.ago": "",
-  "time.days.ago": "",
+  // Example: 5(time) minutes (singular or plural form) ago
+  "time.seconds.ago": "{{time}} saniye önce",
+  "time.minutes.ago": "{{time}} dakika önce ",
+  "time.hours.ago": "{{time}} saat önce ",
+  "time.days.ago": "{{time}} gün önce",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
