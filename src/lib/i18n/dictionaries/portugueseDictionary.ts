@@ -4205,8 +4205,6 @@ const removeCropMachine: Record<RemoveCropMachine, string> = {
   "removeCropMachine.title": ENGLISH_TERMS["removeCropMachine.title"],
   "removeCropMachine.description":
     ENGLISH_TERMS["removeCropMachine.description"],
-  "removeCropMachine.removeSeeds":
-    ENGLISH_TERMS["removeCropMachine.removeSeeds"],
 };
 
 const resale: Record<Resale, string> = {
@@ -4970,6 +4968,8 @@ const restrictionReason: Record<RestrictionReason, string> = {
     ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
   "restrictionReason.oilReserveDrilled":
     ENGLISH_TERMS["restrictionReason.oilReserveDrilled"],
+  "restrictionReason.buildingInUse":
+    ENGLISH_TERMS["restrictionReason.buildingInUse"],
 };
 
 export const leaderboardTerms: Record<Leaderboard, string> = {

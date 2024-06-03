@@ -3656,8 +3656,6 @@ const removeCropMachine: Record<RemoveCropMachine, string> = {
   "removeCropMachine.title": ENGLISH_TERMS["removeCropMachine.title"],
   "removeCropMachine.description":
     ENGLISH_TERMS["removeCropMachine.description"],
-  "removeCropMachine.removeSeeds":
-    ENGLISH_TERMS["removeCropMachine.removeSeeds"],
 };
 
 const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
@@ -3722,6 +3720,8 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.genieLampRubbed": "神灯已被摩擦",
   "restrictionReason.?cropGrowing": "{{crop}} is growing",
   "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
+  "restrictionReason.buildingInUse":
+    ENGLISH_TERMS["restrictionReason.buildingInUse"],
 };
 
 const restock: Record<Restock, string> = {

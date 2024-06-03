@@ -307,6 +307,14 @@ function areAnyOilReservesDrilled(game: GameState): Restriction {
   return [oilReservesDrilled, translate("restrictionReason.oilReserveDrilled")];
 }
 
+function hasSeedsCropsInMachine(game: GameState): Restriction {
+  const machine = game.buildings["Crop Machine"]?.[0];
+  return [
+    !!machine?.queue?.length,
+    translate("restrictionReason.buildingInUse"),
+  ];
+}
+
 export const REMOVAL_RESTRICTIONS: Partial<
   Record<InventoryItemName, RemoveCondition>
 > = {
@@ -419,6 +427,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Vinny: (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Grape Granny": (game) => greenhouseCropIsGrowing({ crop: "Grape", game }),
   "Rice Panda": (game) => greenhouseCropIsGrowing({ crop: "Rice", game }),
+
+  // Buildings
+  "Crop Machine": (game) => hasSeedsCropsInMachine(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<

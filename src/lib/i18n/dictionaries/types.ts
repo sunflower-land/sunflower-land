@@ -2852,8 +2852,7 @@ export type RemoveKuebiko =
 
 export type RemoveCropMachine =
   | "removeCropMachine.title"
-  | "removeCropMachine.description"
-  | "removeCropMachine.removeSeeds";
+  | "removeCropMachine.description";
 
 export type Resale = "resale.actionText";
 
@@ -3376,7 +3375,8 @@ export type RestrictionReason =
   | "restrictionReason.festiveSeason"
   | "restrictionReason.noRestriction"
   | "restrictionReason.genieLampRubbed"
-  | "restrictionReason.oilReserveDrilled";
+  | "restrictionReason.oilReserveDrilled"
+  | "restrictionReason.buildingInUse";
 
 export type Leaderboard =
   | "leaderboard.leaderboard"

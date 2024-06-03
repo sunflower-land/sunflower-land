@@ -32,7 +32,7 @@ export const RemoveCropMachineModal: React.FC<Props> = ({
         </div>
 
         <Button onClick={onRemove} className="mt-2">
-          {t("removeCropMachine.removeSeeds")}
+          {t("remove")}
         </Button>
       </CloseButtonPanel>
     </Modal>

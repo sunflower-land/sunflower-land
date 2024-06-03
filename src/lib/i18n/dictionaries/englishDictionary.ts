@@ -4212,8 +4212,7 @@ const removeHungryCaterpillar: Record<RemoveHungryCaterpillar, string> = {
 const removeCropMachine: Record<RemoveCropMachine, string> = {
   "removeCropMachine.title": "Remove Crop Machine?",
   "removeCropMachine.description":
-    "This action will remove oil and all the seeds stored in your crop machine.",
-  "removeCropMachine.removeSeeds": "Remove seeds",
+    "This action will remove all the oil stored in your crop machine.",
 };
 
 const resale: Record<Resale, string> = {
@@ -4909,6 +4908,7 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.noRestriction": "No restriction",
   "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
   "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
+  "restrictionReason.buildingInUse": "Building is in use",
 };
 
 export const leaderboardTerms: Record<Leaderboard, string> = {
