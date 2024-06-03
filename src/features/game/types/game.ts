@@ -968,6 +968,7 @@ export type FactionName =
 export type Faction = {
   name: FactionName;
   pledgedAt: number;
+  emblemsClaimedAt?: number;
   points: number;
   donated: {
     daily: {

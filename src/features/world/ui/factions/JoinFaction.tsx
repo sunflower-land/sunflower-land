@@ -17,6 +17,7 @@ import {
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
+import { ClaimEmblemAirdrop } from "./components/ClaimEmblemAirdrop";
 
 const FACTION_EMBLEM: Record<FactionName, FactionEmblem> = {
   sunflorians: "Sunflorian Emblem",
@@ -38,6 +39,7 @@ interface Props {
 }
 
 const _joinedFaction = (state: MachineState) => state.context.state.faction;
+const _username = (state: MachineState) => state.context.state.username;
 
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { gameService } = useContext(Context);
@@ -45,7 +47,11 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
 
+  const username = useSelector(gameService, _username);
   const joinedFaction = useSelector(gameService, _joinedFaction);
+  // Cheap way to memoize this value
+  const [emblemsClaimed] = useState(!!joinedFaction?.emblemsClaimedAt);
+
   const recruiterVoice = useSound(RECRUITER_VOICE[faction] as any);
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
@@ -89,6 +95,21 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
           </span>
         </div>
       </>
+    );
+  }
+
+  if (joinedFaction && !emblemsClaimed) {
+    return (
+      <div className="flex flex-col">
+        <div className="px-2 pt-1">
+          <Label type="default">{capitalize(faction)}</Label>
+        </div>
+        <ClaimEmblemAirdrop
+          faction={joinedFaction}
+          playerName={username}
+          onClose={onClose}
+        />
+      </div>
     );
   }
 
