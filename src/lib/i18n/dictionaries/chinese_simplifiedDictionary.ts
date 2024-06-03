@@ -3710,6 +3710,8 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.genieLampRubbed": "神灯已被摩擦",
   "restrictionReason.?cropGrowing": "{{crop}} is growing",
   "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
+  "restrictionReason.machineInUse":
+    ENGLISH_TERMS["restrictionReason.machineInUse"],
 };
 
 const restock: Record<Restock, string> = {

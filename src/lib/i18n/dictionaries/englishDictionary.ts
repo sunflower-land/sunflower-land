@@ -4889,6 +4889,7 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.noRestriction": "No restriction",
   "restrictionReason.genieLampRubbed": "Genie Lamp rubbed",
   "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
+  "restrictionReason.machineInUse": "Machine is in use",
 };
 
 export const leaderboardTerms: Record<Leaderboard, string> = {

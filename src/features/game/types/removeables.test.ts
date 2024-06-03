@@ -1460,4 +1460,33 @@ describe("canremove", () => {
 
     expect(restricted).toBe(true);
   });
+
+  it("prevents a user from removing a crop machine when crops are inside the machine", () => {
+    const [restricted] = hasRemoveRestriction("Crop Machine", "123", {
+      ...TEST_FARM,
+      buildings: {
+        "Crop Machine": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+            queue: [
+              {
+                crop: "Sunflower",
+                amount: 20,
+                seeds: 20,
+                growTimeRemaining: 0,
+                totalGrowTime: 1000,
+                startTime: Date.now(),
+                readyAt: Date.now() + 1000,
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    expect(restricted).toBe(true);
+  });
 });

@@ -5086,6 +5086,8 @@ const restrictionReason: Record<RestrictionReason, string> = {
     ENGLISH_TERMS["restrictionReason.genieLampRubbed"],
   "restrictionReason.oilReserveDrilled":
     ENGLISH_TERMS["restrictionReason.oilReserveDrilled"],
+  "restrictionReason.machineInUse":
+    ENGLISH_TERMS["restrictionReason.machineInUse"],
 };
 
 export const leaderboardTerms: Record<Leaderboard, string> = {
