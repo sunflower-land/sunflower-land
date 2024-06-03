@@ -311,7 +311,7 @@ function hasSeedsCropsInMachine(game: GameState): Restriction {
   const machine = game.buildings["Crop Machine"]?.[0];
   return [
     !!machine?.queue?.length,
-    translate("restrictionReason.machineInUse"),
+    translate("restrictionReason.buildingInUse"),
   ];
 }
 
