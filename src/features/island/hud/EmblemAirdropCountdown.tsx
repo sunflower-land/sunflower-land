@@ -45,7 +45,9 @@ const Countdown: React.FC<{ time: Date; onComplete: () => void }> = ({
           type="info"
           icon={SUNNYSIDE.icons.stopwatch}
           className={classNames("ml-1", { "mr-1": !!faction })}
-          secondaryIcon={faction && FACTION_POINT_ICONS[faction.name]}
+          secondaryIcon={
+            faction ? FACTION_POINT_ICONS[faction.name] : undefined
+          }
         >
           {t("faction.emblemAirdrop")}
         </Label>
