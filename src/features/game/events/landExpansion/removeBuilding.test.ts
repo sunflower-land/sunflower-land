@@ -115,7 +115,7 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   });
 
-  it("does not remove a building that has a removal restriction that is not met", () => {
+  it("does not remove a building that has a removal restriction", () => {
     const buildingName: BuildingName = "Crop Machine";
     const id = "123";
     const state: GameState = {
