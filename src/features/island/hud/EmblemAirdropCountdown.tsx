@@ -11,9 +11,10 @@ import { useSelector } from "@xstate/react";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
+import { hasFeatureAccess } from "lib/flags";
+import { TEST_FARM } from "features/game/lib/constants";
 
 export const EMBLEM_AIRDROP_DATE = new Date("2024-06-14T00:00:00Z");
-const SHOW_COUNTDOWN = new Date("2024-06-10T00:00:00Z");
 
 const _faction = (state: MachineState) => state.context.state.faction;
 
@@ -66,7 +67,10 @@ export const EmblemAirdropCountdown: React.FC = () => {
   const [airdropDate, setAirdropDate] = useState<Date>();
 
   useEffect(() => {
-    if (SHOW_COUNTDOWN.getTime() < Date.now()) {
+    if (
+      hasFeatureAccess(TEST_FARM, "EMBLEM_COUNTDOWN_TIMER") &&
+      EMBLEM_AIRDROP_DATE.getTime() > Date.now()
+    ) {
       setAirdropDate(EMBLEM_AIRDROP_DATE);
     }
   }, []);
