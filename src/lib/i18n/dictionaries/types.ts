@@ -2838,8 +2838,7 @@ export type RemoveKuebiko =
 
 export type RemoveCropMachine =
   | "removeCropMachine.title"
-  | "removeCropMachine.description"
-  | "removeCropMachine.removeOil";
+  | "removeCropMachine.description";
 
 export type Resale = "resale.actionText";
 

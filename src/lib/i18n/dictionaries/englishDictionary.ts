@@ -4193,7 +4193,6 @@ const removeCropMachine: Record<RemoveCropMachine, string> = {
   "removeCropMachine.title": "Remove Crop Machine?",
   "removeCropMachine.description":
     "This action will remove all the oil stored in your crop machine.",
-  "removeCropMachine.removeOil": "Remove oil",
 };
 
 const resale: Record<Resale, string> = {
