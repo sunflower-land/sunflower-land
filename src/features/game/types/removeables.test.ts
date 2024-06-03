@@ -813,6 +813,28 @@ describe("canremove", () => {
 
       expect(restricted).toBe(false);
     });
+
+    it("enables a user to remove a crop machine when there are no seeds or crops in the machine", () => {
+      const [restricted] = hasRemoveRestriction("Crop Machine", "1", {
+        ...TEST_FARM,
+        inventory: {
+          "Crop Machine": new Decimal(1),
+        },
+        buildings: {
+          "Crop Machine": [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: 0,
+              queue: [],
+              coordinates: { x: 1, y: 1 },
+            },
+          ],
+        },
+      });
+
+      expect(restricted).toBe(false);
+    });
   });
 
   it("enables a user to remove a peeled potato when not in use", () => {
