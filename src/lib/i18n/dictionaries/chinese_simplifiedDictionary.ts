@@ -433,16 +433,23 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Plural Forms
+  // Singular
   sec: "秒",
-  min: "分",
-  hr: "时",
+  min: "分中",
+  hr: "小时",
   day: "天",
 
+  // Plural
   secs: "秒",
-  mins: "分",
-  hrs: "时",
+  mins: "分中",
+  hrs: "小时",
   days: "天",
+
+  // Short
+  "sec.short": "秒",
+  "min.short": "分中",
+  "hour.short": "小时",
+  "day.short": "天",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

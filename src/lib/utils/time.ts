@@ -11,6 +11,7 @@ type TimeDuration = {
   value: number;
   unit: TimeUnit;
   pluralisedUnit: TimeUnit;
+  unitShort: TimeUnit;
 };
 
 /**
@@ -42,9 +43,10 @@ const timeUnitToString = (
   const value = duration.value;
   const unit = duration.unit;
   const pluralisedUnit = duration.pluralisedUnit;
+  const unitShort = duration.unitShort;
 
   if (options.isShortFormat) {
-    return `${value}${unit.substring(0, 1)}`;
+    return `${value}${unitShort}`;
   }
 
   const pluralizedUnit = value === 1 ? unit : pluralisedUnit;
@@ -64,21 +66,25 @@ export const secondsToString = (
     value: roundingFunction(seconds % ONE_MIN),
     unit: translate("sec"),
     pluralisedUnit: translate("secs"),
+    unitShort: translate("sec.short"),
   };
   const minutesValue = {
     value: roundingFunction((seconds / ONE_MIN) % ONE_MIN),
     unit: translate("min"),
     pluralisedUnit: translate("mins"),
+    unitShort: translate("min.short"),
   };
   const hoursValue = {
     value: roundingFunction((seconds / ONE_HR) % 24),
     unit: translate("hr"),
     pluralisedUnit: translate("hrs"),
+    unitShort: translate("hour.short"),
   };
   const daysValue = {
     value: roundingFunction(seconds / ONE_DAY),
     unit: translate("day"),
     pluralisedUnit: translate("days"),
+    unitShort: translate("day.short"),
   };
 
   // all time units that constitutes the full string

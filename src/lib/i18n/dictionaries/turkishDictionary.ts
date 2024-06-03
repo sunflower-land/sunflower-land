@@ -433,16 +433,23 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Time
+  // Singular
   sec: "saniye",
   min: "dakika",
   hr: "saat",
   day: "gün",
 
+  // Plural
   secs: "saniye",
   mins: "dakika",
   hrs: "saat",
   days: "gün",
+
+  // Short
+  "sec.short": "sn",
+  "min.short": "d",
+  "hour.short": "sa",
+  "day.short": "g",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

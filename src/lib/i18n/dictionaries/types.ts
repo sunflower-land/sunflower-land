@@ -261,7 +261,13 @@ export type TimeUnits =
   | "secs"
   | "mins"
   | "hrs"
-  | "days";
+  | "days"
+
+  // Short
+  | "sec.short"
+  | "min.short"
+  | "hour.short"
+  | "day.short";
 
 export type AchievementsTerms =
   | "breadWinner.description"
