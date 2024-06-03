@@ -7,16 +7,12 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import confetti from "canvas-confetti";
 import { Context } from "features/game/GameProvider";
-import { CONFIG } from "lib/config";
 import { useSelector } from "@xstate/react";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "features/game/lib/gameMachine";
+import classNames from "classnames";
 
-const ART_MODE = !CONFIG.API_URL;
-
-export const EMBLEM_AIRDROP_DATE = ART_MODE
-  ? new Date(Date.now() + 5000)
-  : new Date("2024-06-14T00:00:00Z");
+export const EMBLEM_AIRDROP_DATE = new Date("2024-06-14T00:00:00Z");
 
 const _faction = (state: MachineState) => state.context.state.faction;
 
@@ -47,10 +43,10 @@ const Countdown: React.FC<{ time: Date; onComplete: () => void }> = ({
         <Label
           type="info"
           icon={SUNNYSIDE.icons.stopwatch}
-          className="mx-1"
+          className={classNames("ml-1", { "mr-1": !!faction })}
           secondaryIcon={faction && FACTION_POINT_ICONS[faction.name]}
         >
-          {t("emblemCountdown.title")}
+          {t("faction.emblemAirdrop")}
         </Label>
         <img
           src={SUNNYSIDE.icons.close}
