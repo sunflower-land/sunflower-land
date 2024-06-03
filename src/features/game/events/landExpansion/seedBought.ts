@@ -9,6 +9,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -83,6 +84,15 @@ export function seedBought({ state, action }: Options) {
 
   if (stateCopy.stock[item]?.lt(amount)) {
     throw new Error("Not enough stock");
+  }
+
+  const requiredIsland = seed.requiredIsland;
+
+  if (
+    requiredIsland &&
+    !hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)
+  ) {
+    throw new Error("You do not have the required island expansion");
   }
 
   const price = getBuyPrice(item, seed, stateCopy.inventory, stateCopy);

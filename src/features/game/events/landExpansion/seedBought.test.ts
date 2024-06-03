@@ -372,6 +372,9 @@ describe("seedBought", () => {
             },
           ],
         },
+        island: {
+          type: "spring",
+        },
       },
       action: {
         item: "Lily Seed",
@@ -382,5 +385,110 @@ describe("seedBought", () => {
 
     expect(state.coins).toEqual(100);
     expect(state.inventory["Lily Seed"]).toEqual(new Decimal(1));
+  });
+
+  it("requires spring island to buy a flower seed", () => {
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+          coins: Infinity,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Lily Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("You do not have the required island expansion");
+
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+          coins: Infinity,
+          island: {
+            type: "spring",
+          },
+        },
+        action: {
+          type: "seed.bought",
+          item: "Lily Seed",
+          amount: 1,
+        },
+      })
+    ).not.toThrow();
+  });
+
+  it("requires desert island to buy a greenhouse crop seed", () => {
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+          coins: Infinity,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Rice Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("You do not have the required island expansion");
+
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+          coins: Infinity,
+          island: {
+            type: "desert",
+          },
+        },
+        action: {
+          type: "seed.bought",
+          item: "Rice Seed",
+          amount: 1,
+        },
+      })
+    ).not.toThrow();
+  });
+
+  it("requires desert island to buy a greenhouse fruit seed", () => {
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+          coins: Infinity,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Grape Seed",
+          amount: 1,
+        },
+      })
+    ).toThrow("You do not have the required island expansion");
+
+    expect(() =>
+      seedBought({
+        state: {
+          ...GAME_STATE,
+          bumpkin: { ...INITIAL_BUMPKIN, experience: 100000000 },
+          island: {
+            type: "desert",
+          },
+          coins: Infinity,
+        },
+        action: {
+          type: "seed.bought",
+          item: "Grape Seed",
+          amount: 1,
+        },
+      })
+    ).not.toThrow();
   });
 });
