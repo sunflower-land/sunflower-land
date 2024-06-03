@@ -3449,6 +3449,60 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Kraken's causing panic, Bumpkins missing. Help me gather its tentacles for their safety.",
   "npcMessages.shelly.msg8":
     "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
+
+  "npcMessages.gambit.msg1":
+    "Feeling lucky today? I've got a wager that might pique your interest!",
+  "npcMessages.gambit.msg2":
+    "Step right up! Ready to test your luck and play a game?",
+  "npcMessages.gambit.msg3":
+    "The stakes are high and the game is on. Are you in?",
+  "npcMessages.gambit.msg4":
+    "I've got a risky proposition for you. Care to place a bet?",
+  "npcMessages.gambit.msg5":
+    "Luck favors the bold! Let's see if you can outwit me.",
+  "npcMessages.gambit.msg6":
+    "Fancy a game of chance? The odds might be in your favor.",
+  "npcMessages.gambit.msg7":
+    "Ready for a gamble? I've got just the challenge for you.",
+  "npcMessages.gambit.msg8":
+    "Place your bets and let's see who comes out on top!",
+  "npcMessages.gambit.msg9":
+    "Feeling daring? I've got a high-stakes game just for you.",
+  "npcMessages.queenVictoria.msg1":
+    "Peasant, have you brought my taxes? The throne's coffers must be filled.",
+  "npcMessages.queenVictoria.msg2":
+    "I expect nothing less than perfection. Have you completed my orders?",
+  "npcMessages.queenVictoria.msg3":
+    "Do you have what I require, or are you wasting my time?",
+  "npcMessages.queenVictoria.msg4":
+    "The throne sits idle, and so do my coffers. Have you brought my dues?",
+  "npcMessages.queenVictoria.msg5":
+    "I trust you have brought what I asked for. Do not disappoint me.",
+  "npcMessages.queenVictoria.msg6":
+    "I have no time for idle chatter. Show me what you've brought.",
+  "npcMessages.queenVictoria.msg7":
+    "The kingdom's wealth must grow. Have you fulfilled your duty?",
+  "npcMessages.queenVictoria.msg8":
+    "Peasant, your queen awaits. Have you completed your task?",
+  "npcMessages.queenVictoria.msg9":
+    "I demand excellence. Have you brought my taxes?",
+  "npcMessages.jester.msg1":
+    "Welcome to the court! Ready for a jest or two about the royals?",
+  "npcMessages.jester.msg2":
+    "Ah, a new face! Fancy a laugh at the queen's expense?",
+  "npcMessages.jester.msg3": "The court's a lively place! Got any good jokes?",
+  "npcMessages.jester.msg4":
+    "Hello, adventurer! Let's share a laugh about the royals.",
+  "npcMessages.jester.msg5":
+    "Ahoy! Ready to hear the latest jest about our dear queen?",
+  "npcMessages.jester.msg6":
+    "Step into the court and enjoy the humor. Got any good jokes?",
+  "npcMessages.jester.msg7":
+    "Greetings, friend! The court is always lively with jesters around.",
+  "npcMessages.jester.msg8":
+    "Well, well, look who’s here! Got any funny stories?",
+  "npcMessages.jester.msg9":
+    "The queen loves a good laugh. Ready to join the fun?",
 };
 
 const npc: Record<Npc, string> = {

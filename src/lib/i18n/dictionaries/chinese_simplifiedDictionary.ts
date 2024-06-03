@@ -3004,6 +3004,42 @@ const npc_message: Record<NPC_MESSAGE, string> = {
   "npcMessages.shelly.msg6": ENGLISH_TERMS["npcMessages.shelly.msg6"],
   "npcMessages.shelly.msg7": ENGLISH_TERMS["npcMessages.shelly.msg7"],
   "npcMessages.shelly.msg8": ENGLISH_TERMS["npcMessages.shelly.msg8"],
+  "npcMessages.gambit.msg1": ENGLISH_TERMS["npcMessages.gambit.msg1"],
+  "npcMessages.gambit.msg2": ENGLISH_TERMS["npcMessages.gambit.msg2"],
+  "npcMessages.gambit.msg3": ENGLISH_TERMS["npcMessages.gambit.msg3"],
+  "npcMessages.gambit.msg4": ENGLISH_TERMS["npcMessages.gambit.msg4"],
+  "npcMessages.gambit.msg5": ENGLISH_TERMS["npcMessages.gambit.msg5"],
+  "npcMessages.gambit.msg6": ENGLISH_TERMS["npcMessages.gambit.msg6"],
+  "npcMessages.gambit.msg7": ENGLISH_TERMS["npcMessages.gambit.msg7"],
+  "npcMessages.gambit.msg8": ENGLISH_TERMS["npcMessages.gambit.msg8"],
+  "npcMessages.gambit.msg9": ENGLISH_TERMS["npcMessages.gambit.msg9"],
+  "npcMessages.queenVictoria.msg1":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg1"],
+  "npcMessages.queenVictoria.msg2":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg2"],
+  "npcMessages.queenVictoria.msg3":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg3"],
+  "npcMessages.queenVictoria.msg4":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg4"],
+  "npcMessages.queenVictoria.msg5":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg5"],
+  "npcMessages.queenVictoria.msg6":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg6"],
+  "npcMessages.queenVictoria.msg7":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg7"],
+  "npcMessages.queenVictoria.msg8":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg8"],
+  "npcMessages.queenVictoria.msg9":
+    ENGLISH_TERMS["npcMessages.queenVictoria.msg9"],
+  "npcMessages.jester.msg1": ENGLISH_TERMS["npcMessages.jester.msg1"],
+  "npcMessages.jester.msg2": ENGLISH_TERMS["npcMessages.jester.msg2"],
+  "npcMessages.jester.msg3": ENGLISH_TERMS["npcMessages.jester.msg3"],
+  "npcMessages.jester.msg4": ENGLISH_TERMS["npcMessages.jester.msg4"],
+  "npcMessages.jester.msg5": ENGLISH_TERMS["npcMessages.jester.msg5"],
+  "npcMessages.jester.msg6": ENGLISH_TERMS["npcMessages.jester.msg6"],
+  "npcMessages.jester.msg7": ENGLISH_TERMS["npcMessages.jester.msg7"],
+  "npcMessages.jester.msg8": ENGLISH_TERMS["npcMessages.jester.msg8"],
+  "npcMessages.jester.msg9": ENGLISH_TERMS["npcMessages.jester.msg9"],
 };
 
 const npc: Record<Npc, string> = {
