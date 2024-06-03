@@ -513,4 +513,61 @@ describe("Construct building", () => {
     expect(newState.inventory.Egg).toEqual(initialEggs.minus(eggsRequired));
     expect(newState.coins).toEqual(initialCoins - building.coins);
   });
+
+  it("requires desert island to build the crop machine", () => {
+    expect(() =>
+      constructBuilding({
+        state: {
+          ...GAME_STATE,
+          buildings: {},
+          coins: 8000,
+          inventory: {
+            Wood: new Decimal(1250),
+            Iron: new Decimal(125),
+            Crimstone: new Decimal(50),
+          },
+          bumpkin: { ...INITIAL_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+        },
+        action: {
+          type: "building.constructed",
+          id: "123",
+          name: "Crop Machine",
+          coordinates: {
+            x: 1,
+            y: 1,
+          },
+        },
+        createdAt: dateNow,
+      })
+    ).toThrow("You do not have the required island expansion");
+
+    expect(() =>
+      constructBuilding({
+        state: {
+          ...GAME_STATE,
+          buildings: {},
+          coins: 8000,
+          inventory: {
+            Wood: new Decimal(1250),
+            Iron: new Decimal(125),
+            Crimstone: new Decimal(50),
+          },
+          bumpkin: { ...INITIAL_BUMPKIN, experience: LEVEL_EXPERIENCE[64] },
+          island: {
+            type: "desert",
+          },
+        },
+        action: {
+          type: "building.constructed",
+          id: "123",
+          name: "Crop Machine",
+          coordinates: {
+            x: 1,
+            y: 1,
+          },
+        },
+        createdAt: dateNow,
+      })
+    ).not.toThrow();
+  });
 });
