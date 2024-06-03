@@ -13,6 +13,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 
 export const EMBLEM_AIRDROP_DATE = new Date("2024-06-14T00:00:00Z");
+const SHOW_COUNTDOWN = new Date("2024-06-01T00:00:00Z");
 
 const _faction = (state: MachineState) => state.context.state.faction;
 
@@ -60,11 +61,15 @@ const Countdown: React.FC<{ time: Date; onComplete: () => void }> = ({
 };
 
 export const EmblemAirdropCountdown: React.FC = () => {
-  const [halvening, setHalvening] = useState<Date | undefined>(
-    EMBLEM_AIRDROP_DATE
-  );
+  const [airdropDate, setAirdropDate] = useState<Date>();
 
-  if (!halvening) {
+  useEffect(() => {
+    if (SHOW_COUNTDOWN.getTime() < Date.now()) {
+      setAirdropDate(EMBLEM_AIRDROP_DATE);
+    }
+  }, []);
+
+  if (!airdropDate) {
     return null;
   }
 
@@ -72,7 +77,7 @@ export const EmblemAirdropCountdown: React.FC = () => {
     <InnerPanel className="flex justify-center" id="emblem-airdrop">
       <Countdown
         time={EMBLEM_AIRDROP_DATE}
-        onComplete={() => setHalvening(undefined)}
+        onComplete={() => setAirdropDate(undefined)}
       />
     </InnerPanel>
   );
