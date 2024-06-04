@@ -3208,6 +3208,8 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.welcomeMessage":
     "Sunflower Land’de hoş geldiniz. Henüz bir çiftliğiniz yok gibi görünüyor.",
   "noaccount.promoCodeLabel": "Promosyon kodu",
+  "noaccount.haveFarm": ENGLISH_TERMS["noaccount.haveFarm"],
+  "noaccount.letsGo": ENGLISH_TERMS["noaccount.letsGo"],
 };
 
 const noBumpkin: Record<NoBumpkin, string> = {
