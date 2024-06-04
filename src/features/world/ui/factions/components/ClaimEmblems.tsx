@@ -34,11 +34,6 @@ const TOTAL_FACTION_MEMBERS = 10_000;
 const TOTAL_FACTION_EMBLEMS = 1_500_000;
 const PERCENTILE = 6;
 
-// ("I just claimed an airdrop in Sunflower Land!");
-// ("Based on my rank, I got just claimed n emblems and n percent ownershop");
-// ("Long live the Sunflorians!")
-// ("play now reffferal")
-
 interface ClaimEmblemsProps {
   faction: Faction;
   playerName?: string;
