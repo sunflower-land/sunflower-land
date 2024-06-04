@@ -101,7 +101,7 @@ export const NoAccount: React.FC = () => {
           )}
         </div>
         <p className="text-sm mb-2">{`${t("noaccount.welcomeMessage")}`}</p>
-        {isAddress(authState.context.user.token?.address ?? "") && (
+        {/* {isAddress(authState.context.user.token?.address ?? "") && (
           <div className="mb-2">
             <a
               target="_blank"
@@ -112,13 +112,27 @@ export const NoAccount: React.FC = () => {
               {t("noaccount.alreadyHaveNFTFarm")}
             </a>
           </div>
-        )}
+        )} */}
       </div>
-      <div className="flex mt-1">
-        <Button onClick={() => authService.send("CREATE_FARM")}>
-          {t("start")}
-        </Button>
-      </div>
+      {isAddress(authState.context.user.token?.address ?? "") ? (
+        <div className="flex flex-col space-y-2">
+          <span className="px-2 text-sm">{`Would you like to create a new farm?`}</span>
+          <div className="space-y-1 mt-2">
+            <Button
+              onClick={() => authService.send("CREATE_FARM")}
+            >{`Yes create a new farm!`}</Button>
+            <Button
+              onClick={() => setShowClaimAccount(true)}
+            >{`No I have a farm already`}</Button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex mt-1">
+          <Button onClick={() => authService.send("CREATE_FARM")}>
+            {t("start")}
+          </Button>
+        </div>
+      )}
     </>
   );
 };
