@@ -3086,6 +3086,7 @@ const islandName: Record<IslandName, string> = {
   "island.home": "Accueil",
   "island.pumpkin.plaza": "Bumpkin Plaza",
   "island.beach": "Plage",
+  "island.kingdom": ENGLISH_TERMS["island.kingdom"],
   "island.woodlands": "Wood",
   "island.helios": "Helios",
   "island.goblin.retreat": "Retraite des Gobelins",

@@ -2136,6 +2136,7 @@ export type IslandName =
   | "island.home"
   | "island.pumpkin.plaza"
   | "island.beach"
+  | "island.kingdom"
   | "island.woodlands"
   | "island.helios"
   | "island.goblin.retreat";

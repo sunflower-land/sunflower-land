@@ -2960,6 +2960,7 @@ const islandName: Record<IslandName, string> = {
   "island.home": "Ev",
   "island.pumpkin.plaza": "Balkabağı Plazası",
   "island.beach": "Sahil",
+  "island.kingdom": ENGLISH_TERMS["island.kingdom"],
   "island.woodlands": "Ormanlık Alanlar",
   "island.helios": "Helios",
   "island.goblin.retreat": "Goblin Retreat",
