@@ -3183,8 +3183,10 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.createNewFarm": "Create new farm",
   "noaccount.selectNFTID": "Select your NFT ID:",
   "noaccount.welcomeMessage":
-    "Welcome to Sunflower Land. It looks like you don't have a farm yet.",
+    "Welcome to Sunflower Land. Do you want to create a farm?",
   "noaccount.promoCodeLabel": "Promo Code",
+  "noaccount.haveFarm": "No, I have one",
+  "noaccount.letsGo": "Yes, let's go!",
 };
 
 const noBumpkin: Record<NoBumpkin, string> = {

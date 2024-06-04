@@ -2841,6 +2841,8 @@ const noaccount: Record<Noaccount, string> = {
   "noaccount.selectNFTID": ENGLISH_TERMS["noaccount.selectNFTID"],
   "noaccount.welcomeMessage": "欢迎来到 Sunflower Land！ 看来你还没有农场。",
   "noaccount.promoCodeLabel": ENGLISH_TERMS["noaccount.promoCodeLabel"],
+  "noaccount.haveFarm": ENGLISH_TERMS["noaccount.haveFarm"],
+  "noaccount.letsGo": ENGLISH_TERMS["noaccount.letsGo"],
 };
 
 const noBumpkin: Record<NoBumpkin, string> = {

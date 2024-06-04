@@ -2264,7 +2264,9 @@ export type Noaccount =
   | "noaccount.createNewFarm"
   | "noaccount.selectNFTID"
   | "noaccount.welcomeMessage"
-  | "noaccount.promoCodeLabel";
+  | "noaccount.promoCodeLabel"
+  | "noaccount.haveFarm"
+  | "noaccount.letsGo";
 
 export type NoBumpkin =
   | "noBumpkin.readyToFarm"
