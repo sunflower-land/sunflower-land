@@ -3543,6 +3543,19 @@ export type Minigame =
 
 export type KitchenKeys = "kitchen.oilRemaining";
 
+export type EasterEggKeys =
+  | "easterEgg.lostKnight"
+  | "easterEgg.queensDiary"
+  | "easterEgg.jesterDiary"
+  | "easterEgg.tywinDiary"
+  | "easterEgg.kingDiary"
+  | "easterEgg.kingdomBook1"
+  | "easterEgg.kingdomBook2"
+  | "easterEgg.kingdomBook3"
+  | "easterEgg.kingdomBook4"
+  | "easterEgg.kingdomBook5"
+  | "easterEgg.knight";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3721,4 +3734,5 @@ export type TranslationKeys =
   | NyonStatue
   | Trading
   | RestrictionReason
-  | Leaderboard;
+  | Leaderboard
+  | EasterEggKeys;

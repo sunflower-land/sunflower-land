@@ -20,8 +20,8 @@ export const SPAWNS: () => SpawnLocation = () => ({
   kingdom: {
     // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 220 + randomXOffset,
-      y: 850 - randomYOffset,
+      x: 235,
+      y: 845,
     },
   },
   retreat: {
