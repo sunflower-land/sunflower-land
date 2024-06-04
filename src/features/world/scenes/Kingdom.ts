@@ -5,6 +5,23 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
+    x: 112,
+    y: 181,
+    npc: "jester",
+  },
+  {
+    x: 263,
+    y: 105,
+    npc: "victoria",
+    direction: "left",
+  },
+  {
+    x: 353,
+    y: 737,
+    npc: "gambit",
+    direction: "left",
+  },
+  {
     x: 110,
     y: 800,
     npc: "graxle",

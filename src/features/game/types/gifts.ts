@@ -54,6 +54,8 @@ export const BUMPKIN_FLOWER_BONUSES: Partial<Record<NPCName, GiftPoints>> = {
     "Blue Balloon Flower": 5,
   },
   tywin: { "Primula Enigma": 7, "Celestial Frostbloom": 6 },
+  victoria: { "Primula Enigma": 8 },
+  jester: { "Red Balloon Flower": 6, "Red Carnation": 6 },
 };
 
 export const DEFAULT_FLOWER_POINTS: Record<FlowerName, number> = {
@@ -467,6 +469,98 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     repeats: {
       friendshipPoints: 160,
       items: { "Luxury Key": 1 },
+      coins: 0,
+      wearables: {},
+    },
+  },
+
+  victoria: {
+    planned: [
+      {
+        friendshipPoints: 50,
+        items: {},
+        coins: 2560,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 140,
+        items: {
+          "Time Warp Totem": 1,
+        },
+        coins: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 340,
+        items: {},
+        coins: 0,
+        wearables: { "Royal Dress": 1 },
+      },
+      {
+        friendshipPoints: 520,
+        items: {},
+        coins: 16000,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 850,
+        items: {},
+        coins: 0,
+        wearables: {
+          "Queen's Crown": 1,
+        },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 160,
+      items: { "Rare Key": 1 },
+      coins: 0,
+      wearables: {},
+    },
+  },
+
+  jester: {
+    planned: [
+      {
+        friendshipPoints: 50,
+        items: {
+          "Time Warp Totem": 1,
+        },
+        coins: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 140,
+        items: {
+          "Rare Key": 1,
+        },
+        coins: 0,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 340,
+        items: {},
+        coins: 0,
+        wearables: { "Cap n Bells": 1 },
+      },
+      {
+        friendshipPoints: 520,
+        items: {},
+        coins: 16000,
+        wearables: {},
+      },
+      {
+        friendshipPoints: 740,
+        items: {},
+        coins: 0,
+        wearables: {
+          Motley: 1,
+        },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 90,
+      items: { "Treasure Key": 1 },
       coins: 0,
       wearables: {},
     },

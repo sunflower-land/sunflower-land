@@ -1,6 +1,9 @@
 import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
+  | "gambit"
+  | "victoria"
+  | "jester"
   | "gaucho"
   | "chicken"
   | "hopper"
@@ -81,6 +84,36 @@ export type NPCName =
   | "reginald"; // faction recruiter;
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  gambit: {
+    body: "Goblin Potion",
+    hair: "Sun Spots",
+    hat: "Knight Gambit",
+    pants: "Farmer Pants",
+    shirt: "Fire Shirt",
+    tool: "Goblin Puppet",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  jester: {
+    body: "Beige Farmer Potion",
+    hair: "Fire Hair",
+    suit: "Motley",
+    pants: "Farmer Overalls",
+    shirt: "Red Farmer Shirt",
+    tool: "Auction Megaphone",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+    hat: "Cap n Bells",
+  },
+  victoria: {
+    body: "Beige Farmer Potion",
+    hair: "Luscious Hair",
+    dress: "Royal Dress",
+    tool: "Royal Scepter",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+    hat: "Queen's Crown",
+  },
   gaucho: {
     body: "Beige Farmer Potion",
     hair: "Wise Hair",

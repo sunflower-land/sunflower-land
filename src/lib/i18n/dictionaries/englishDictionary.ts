@@ -3450,6 +3450,60 @@ const npc_message: Record<NPC_MESSAGE, string> = {
     "Kraken's causing panic, Bumpkins missing. Help me gather its tentacles for their safety.",
   "npcMessages.shelly.msg8":
     "Bumpkins' safety's my top priority, and I'm afraid the Kraken's involved. Tentacles can make a difference!",
+
+  "npcMessages.gambit.msg1":
+    "Feeling lucky today? I've got a wager that might pique your interest!",
+  "npcMessages.gambit.msg2":
+    "Step right up! Ready to test your luck and play a game?",
+  "npcMessages.gambit.msg3":
+    "The stakes are high and the game is on. Are you in?",
+  "npcMessages.gambit.msg4":
+    "I've got a risky proposition for you. Care to place a bet?",
+  "npcMessages.gambit.msg5":
+    "Luck favors the bold! Let's see if you can outwit me.",
+  "npcMessages.gambit.msg6":
+    "Fancy a game of chance? The odds might be in your favor.",
+  "npcMessages.gambit.msg7":
+    "Ready for a gamble? I've got just the challenge for you.",
+  "npcMessages.gambit.msg8":
+    "Place your bets and let's see who comes out on top!",
+  "npcMessages.gambit.msg9":
+    "Feeling daring? I've got a high-stakes game just for you.",
+  "npcMessages.queenVictoria.msg1":
+    "Peasant, have you brought my taxes? The throne's coffers must be filled.",
+  "npcMessages.queenVictoria.msg2":
+    "I expect nothing less than perfection. Have you completed my orders?",
+  "npcMessages.queenVictoria.msg3":
+    "Do you have what I require, or are you wasting my time?",
+  "npcMessages.queenVictoria.msg4":
+    "The throne sits idle, and so do my coffers. Have you brought my dues?",
+  "npcMessages.queenVictoria.msg5":
+    "I trust you have brought what I asked for. Do not disappoint me.",
+  "npcMessages.queenVictoria.msg6":
+    "I have no time for idle chatter. Show me what you've brought.",
+  "npcMessages.queenVictoria.msg7":
+    "The kingdom's wealth must grow. Have you fulfilled your duty?",
+  "npcMessages.queenVictoria.msg8":
+    "Peasant, your queen awaits. Have you completed your task?",
+  "npcMessages.queenVictoria.msg9":
+    "I demand excellence. Have you brought my taxes?",
+  "npcMessages.jester.msg1":
+    "Welcome to the court! Ready for a jest or two about the royals?",
+  "npcMessages.jester.msg2":
+    "Ah, a new face! Fancy a laugh at the queen's expense?",
+  "npcMessages.jester.msg3": "The court's a lively place! Got any good jokes?",
+  "npcMessages.jester.msg4":
+    "Hello, adventurer! Let's share a laugh about the royals.",
+  "npcMessages.jester.msg5":
+    "Ahoy! Ready to hear the latest jest about our dear queen?",
+  "npcMessages.jester.msg6":
+    "Step into the court and enjoy the humor. Got any good jokes?",
+  "npcMessages.jester.msg7":
+    "Greetings, friend! The court is always lively with jesters around.",
+  "npcMessages.jester.msg8":
+    "Well, well, look who’s here! Got any funny stories?",
+  "npcMessages.jester.msg9":
+    "The queen loves a good laugh. Ready to join the fun?",
 };
 
 const npc: Record<Npc, string> = {
@@ -3989,6 +4043,156 @@ const npcDialogues: Record<NpcDialogues, string> = {
     "Glinteye's my name, trading's my game! Browse or list, there's always a twist. What's your fancy today?",
   "npcDialogues.glinteye.intro4":
     "Hello there! I'm Glinteye, the goblin of trade. Explore player trades or list your items. Let's see what we can find together!",
+
+  // Queen Victoria Intro
+  "npcDialogues.queenVictoria.intro1":
+    "Oh, it's you. Do you have my taxes ready, peasant?",
+  "npcDialogues.queenVictoria.intro2":
+    "Greetings, subject. I trust you have brought the taxes I demanded?",
+  "npcDialogues.queenVictoria.intro3":
+    "What do you want, peasant? I'm busy worrying about the throne. Have you brought my taxes?",
+  "npcDialogues.queenVictoria.intro4":
+    "Oh, the things I must tolerate. Make it quick, peasant. Did you bring my taxes?",
+  "npcDialogues.queenVictoria.intro5":
+    "The throne sits idle, and here you are. I hope you brought my taxes, peasant.",
+
+  // Queen Victoria Positive Delivery
+  "npcDialogues.queenVictoria.positiveDelivery1":
+    "Finally, something done right. You've brought my taxes. Consider yourself acknowledged.",
+  "npcDialogues.queenVictoria.positiveDelivery2":
+    "Very well, this will suffice. You've brought the taxes. You may go now.",
+  "npcDialogues.queenVictoria.positiveDelivery3":
+    "Acceptable. You've brought my taxes. Perhaps you're not entirely useless.",
+  "npcDialogues.queenVictoria.positiveDelivery4":
+    "Impressive, for a peasant. The taxes are in order. You may leave.",
+  "npcDialogues.queenVictoria.positiveDelivery5":
+    "Good. You've managed to bring my taxes. The throne shall not remain empty forever.",
+
+  // Queen Victoria Negative Delivery
+  "npcDialogues.queenVictoria.negativeDelivery1":
+    "What is this? You haven't brought my taxes? How utterly disappointing.",
+  "npcDialogues.queenVictoria.negativeDelivery2":
+    "Pathetic. No taxes? How do you expect the kingdom to thrive?",
+  "npcDialogues.queenVictoria.negativeDelivery3":
+    "Disgraceful. You come to me without the taxes. This is unacceptable.",
+  "npcDialogues.queenVictoria.negativeDelivery4":
+    "Really? No taxes? I should have known not to expect much from peasants.",
+  "npcDialogues.queenVictoria.negativeDelivery5":
+    "Useless! Without the taxes, how can I maintain the kingdom's wealth?",
+
+  // Queen Victoria NoOrder
+  "npcDialogues.queenVictoria.noOrder1":
+    "Hmph, it seems I have no tasks for you at the moment. You're free to go, but don't forget who rules here.",
+  "npcDialogues.queenVictoria.noOrder2":
+    "No active orders for now, peasant. Consider yourself lucky. Be gone.",
+
+  // Queen Victoria gift dialogues
+  "npcDialogues.queenVictoria.reward":
+    "Very well, I suppose you deserve a token for your services. Don't expect this often.",
+  "npcDialogues.queenVictoria.flowerIntro":
+    "Have you laid eyes on the magnificent Primula Enigma? I desire one...",
+  "npcDialogues.queenVictoria.averageFlower":
+    "This is not what I envisioned, but I suppose it will do. Leave it here.",
+  "npcDialogues.queenVictoria.badFlower":
+    "This is utterly unsuitable. Find me a better one, peasant.",
+  "npcDialogues.queenVictoria.goodFlower":
+    "Ah, splendid! This Primula Enigma is precisely what I wanted. Well done, for once.",
+
+  // Gambit Intro
+  "npcDialogues.gambit.intro1":
+    "Hehe, what do we have here? Ready to play a game of chance, friend?",
+  "npcDialogues.gambit.intro2":
+    "Well, well, if it isn't my favorite risk-taker! Care to place a bet?",
+  "npcDialogues.gambit.intro3":
+    "Greetings, my fellow adventurer! Shall we test our luck today?",
+  "npcDialogues.gambit.intro4":
+    "Ah, a new face! Ready to gamble your way to fortune, or perhaps misfortune?",
+  "npcDialogues.gambit.intro5":
+    "Hey there! Fancy a game of wits and chance? The stakes are high, just the way I like it.",
+
+  // Gambit Positive Delivery
+  "npcDialogues.gambit.positiveDelivery1":
+    "Aha! You've come through! Seems luck is on your side today.",
+  "npcDialogues.gambit.positiveDelivery2":
+    "Well played! You've brought exactly what I needed. Fortune favors the bold!",
+  "npcDialogues.gambit.positiveDelivery3":
+    "Perfect! You've delivered just what I was hoping for. Let's see if your luck holds!",
+  "npcDialogues.gambit.positiveDelivery4":
+    "Excellent! You've got what I needed. Seems the odds were in your favor this time.",
+  "npcDialogues.gambit.positiveDelivery5":
+    "Bravo! You've brought what I asked for. Perhaps there's more fortune to be found.",
+
+  // Gambit Negative Delivery
+  "npcDialogues.gambit.negativeDelivery1":
+    "Oh, tough luck! You don't have what I need. Better luck next time!",
+  "npcDialogues.gambit.negativeDelivery2":
+    "Not quite what I was hoping for. Keep trying, and maybe the odds will be in your favor.",
+  "npcDialogues.gambit.negativeDelivery3":
+    "Ah, bad luck! You don't have it. But don't give up, there's always another chance!",
+  "npcDialogues.gambit.negativeDelivery4":
+    "Close, but not quite! You don't have what I'm looking for. Try again, the game isn't over.",
+  "npcDialogues.gambit.negativeDelivery5":
+    "Oops, seems you're out of luck this time. But don't worry, keep playing and you'll win eventually.",
+
+  // Gambit NoOrder
+  "npcDialogues.gambit.noOrder1":
+    "Looks like I don't have any bets for you right now. Come back later and we'll see what we can wager!",
+  "npcDialogues.gambit.noOrder2":
+    "No games for you today, my friend. But stick around, the stakes are always changing!",
+
+  // Jester Intro
+  "npcDialogues.jester.intro1":
+    "Ah, a new face in the court! Ready for a jest or two?",
+  "npcDialogues.jester.intro2":
+    "Greetings, friend! Fancy a laugh at the royals' expense?",
+  "npcDialogues.jester.intro3":
+    "Well, well, look who’s graced the court! Got any good jokes?",
+  "npcDialogues.jester.intro4":
+    "Hello, adventurer! Ready to hear the latest about our dear queen?",
+  "npcDialogues.jester.intro5":
+    "Ahoy! Step into the court and let's share a laugh or two about the royals.",
+
+  // Jester Positive Delivery
+  "npcDialogues.jester.positiveDelivery1":
+    "Haha! You've brought exactly what I need. You're funnier than I thought!",
+  "npcDialogues.jester.positiveDelivery2":
+    "Perfect! You've got just what I asked for. Maybe you should be the jester!",
+  "npcDialogues.jester.positiveDelivery3":
+    "Marvelous! You've delivered right on cue. The court will be delighted!",
+  "npcDialogues.jester.positiveDelivery4":
+    "Fantastic! You've brought the goods. The queen will be amused!",
+  "npcDialogues.jester.positiveDelivery5":
+    "Splendid! Just what I needed. You might have a knack for this!",
+
+  // Jester Negative Delivery
+  "npcDialogues.jester.negativeDelivery1":
+    "Oh dear, that's not what I needed. But hey, it's the thought that counts!",
+  "npcDialogues.jester.negativeDelivery2":
+    "Oops, not quite right! But don't worry, even the best jesters miss the mark sometimes.",
+  "npcDialogues.jester.negativeDelivery3":
+    "Oh no, that's not it! But don't fret, we'll laugh about this later.",
+  "npcDialogues.jester.negativeDelivery4":
+    "Haha, not what I asked for! But I appreciate the effort. Try again?",
+  "npcDialogues.jester.negativeDelivery5":
+    "Whoops, that's not what I needed. But hey, every joke has its off day!",
+
+  // Jester NoOrder
+  "npcDialogues.jester.noOrder1":
+    "No tasks for you right now, friend. But feel free to stick around and enjoy the court's humor!",
+  "npcDialogues.jester.noOrder2":
+    "No orders today, but don't be a stranger! The court is always lively with jesters around.",
+
+  // Jester gift dialogues
+  "npcDialogues.jester.reward":
+    "Bravo! Here’s a little something for your trouble. Keep the laughs coming!",
+  "npcDialogues.jester.flowerIntro":
+    "Ever seen a Red Balloon Flower or a Red Carnation? They always bring a smile to my face...",
+  "npcDialogues.jester.averageFlower":
+    "Hmm, not exactly a knee-slapper, but it'll do. Thanks!",
+  "npcDialogues.jester.badFlower":
+    "Oh no, this flower is as funny as a wet sock! Try again, will you?",
+  "npcDialogues.jester.goodFlower":
+    "Splendid! This flower is perfect. Almost as good as one of my jokes!",
 };
 
 const nyeButton: Record<NyeButton, string> = {
