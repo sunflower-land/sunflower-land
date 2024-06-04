@@ -11,57 +11,38 @@ module.exports = {
       pixel: ["Secondary"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
       speech: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
-      // body: '"Paytone One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
     },
     fontSize: {
       xxs: [
-        "0.9rem",
+        "0.6rem",
+        {
+          lineHeight: "0.65rem",
+        },
+      ],
+      xs: [
+        "0.7rem",
+        {
+          lineHeight: "0.8rem",
+          letterSpacing: "0.2px",
+        },
+      ],
+      sm: [
+        "0.8rem",
         {
           lineHeight: "0.9rem",
         },
       ],
-      xs: [
+      base: [
         "1rem",
         {
           lineHeight: "1rem",
         },
       ],
-      sm: [
-        "1.275rem",
-        {
-          lineHeight: "1.275rem",
-        },
-      ],
-      base: [
-        "1.6rem",
-        {
-          lineHeight: "1.4rem",
-          letterSpace: "-0.3px",
-        },
-      ],
 
       lg: [
-        "1.725rem",
+        "1.525rem",
         {
-          lineHeight: "1.75rem",
-        },
-      ],
-      xl: [
-        "3.25rem",
-        {
-          lineHeight: "3.25rem",
-        },
-      ],
-      "2xl": [
-        "4.375rem",
-        {
-          lineHeight: "5.25rem",
-        },
-      ],
-      "3xl": [
-        "1.875rem",
-        {
-          lineHeight: "5.25rem",
+          lineHeight: "1.55rem",
         },
       ],
     },
