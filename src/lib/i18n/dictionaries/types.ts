@@ -1523,7 +1523,22 @@ export type Factions =
   | "faction.greeting.goblins"
   | "faction.greeting.sunflorians"
   | "faction.greeting.bumpkins"
-  | "faction.greeting.nightshades";
+  | "faction.greeting.nightshades"
+  // Emblem Airdrop
+  | "faction.claimEmblems.alreadyClaimed"
+  | "faction.claimEmblems.emblemsEarned"
+  | "faction.claimEmblems.yourRank"
+  | "faction.claimEmblems.yourPercentile"
+  | "faction.claimEmblems.yourEmblems"
+  | "faction.claimEmblems.noContribution"
+  | "faction.claimEmblems.statistics"
+  | "faction.claimEmblems.thankYou"
+  | "faction.claimEmblems.claimMessage"
+  | "faction.claimEmblems.claim"
+  | "faction.claimEmblems.congratulations"
+  | "faction.claimEmblems.totalMembers"
+  | "faction.claimEmblems.totalEmblems"
+  | "faction.claimEmblems.percentile";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

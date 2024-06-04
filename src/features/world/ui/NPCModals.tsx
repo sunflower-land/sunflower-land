@@ -53,8 +53,7 @@ interface Props {
 }
 
 function getInitialNPC(scene: SceneId): NPCName | undefined {
-  // TODO REMOVE feat/emblem-airdrops
-  return "graxle";
+  return undefined;
 }
 
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {

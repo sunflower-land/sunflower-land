@@ -17,7 +17,7 @@ import {
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
-import { ClaimEmblemAirdrop } from "./components/ClaimEmblemAirdrop";
+import { ClaimEmblems } from "./components/ClaimEmblems";
 
 const FACTION_EMBLEM: Record<FactionName, FactionEmblem> = {
   sunflorians: "Sunflorian Emblem",
@@ -98,13 +98,13 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     );
   }
 
-  if (joinedFaction && !emblemsClaimed) {
+  if (joinedFaction && !emblemsClaimed && !!joinedFaction.points) {
     return (
       <div className="flex flex-col">
-        <div className="px-2 pt-1">
+        <div className="pt-1">
           <Label type="default">{capitalize(faction)}</Label>
         </div>
-        <ClaimEmblemAirdrop
+        <ClaimEmblems
           faction={joinedFaction}
           playerName={username}
           onClose={onClose}

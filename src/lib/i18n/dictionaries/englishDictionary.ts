@@ -2106,6 +2106,27 @@ const factions: Record<Factions, string> = {
   "faction.greeting.sunflorians": "Our lineage will reign supreme!",
   "faction.greeting.bumpkins": "We must unite the farmers!",
   "faction.greeting.nightshades": "The shadows will guide us to victory!",
+
+  // Faction Claim Emblems
+  "faction.claimEmblems.alreadyClaimed":
+    "Hey! We already rewarded you with your emblems!",
+  "faction.claimEmblems.emblemsEarned": "Emblems Earned",
+  "faction.claimEmblems.yourRank": "Your Rank",
+  "faction.claimEmblems.yourPercentile": "Your Percentile",
+  "faction.claimEmblems.yourEmblems": "Your Emblems",
+  "faction.claimEmblems.noContribution":
+    "You have not contributed any points to the faction.",
+  "faction.claimEmblems.statistics": "Statistics",
+  "faction.claimEmblems.thankYou":
+    "Thank you {{player}}for your contributions to the {{Faction}}! Take these emblems, they represent your ownership of the faction!",
+  "faction.claimEmblems.claimMessage":
+    "You contributed {{count}} faction points. You are rank was {{rank}}. You in the top {{percentile}}% of {{Faction}}.",
+  "faction.claimEmblems.claim": "Claim {{count}} Emblems",
+  "faction.claimEmblems.congratulations":
+    "Congratulations! You've received {{count}} emblems! Here is how you compare to your faction members.",
+  "faction.claimEmblems.totalMembers": "Total Faction Members",
+  "faction.claimEmblems.totalEmblems": "Total Faction Emblems",
+  "faction.claimEmblems.percentile": "Top {{percentile}}%",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4474,7 +4495,7 @@ const statements: Record<Statements, string> = {
   "statements.mutant.chicken":
     "Congratulations, your chicken has laid a very rare mutant chicken!",
   "statements.news":
-    "Recieve the latest news, complete chores & feed your Bumpkin.",
+    "Receive the latest news, complete chores & feed your Bumpkin.",
   "statements.ohNo": "Oh no! Something went wrong!",
   "statements.openGuide": "Open guide",
   "statements.patience": "Thank you for your patience.",
