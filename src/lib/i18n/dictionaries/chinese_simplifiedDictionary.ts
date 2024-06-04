@@ -374,8 +374,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "thank.you": "谢谢你！",
   tools: "工具", // Basket
   total: "总共",
-  trades: "买卖", // Bumpkin UI
-  trading: "买卖", // Map Selection Tag
+  trades: "交易", // Bumpkin UI
+  trading: "交易", // Map Selection Tag
   transfer: "转移", //Account
   "trash.collection": "垃圾回收", // Map Selection Tag
   travel: "旅行",
@@ -1072,8 +1072,8 @@ const bumpkinSkillsDescription: Record<BumpkinSkillsDescription, string> = {
 };
 
 const bumpkinTrade: Record<BumpkinTrade, string> = {
-  "bumpkinTrade.minLevel": "您必须到 10 级才能做买卖",
-  "bumpkinTrade.noTradeListed": "您还未挂单买卖",
+  "bumpkinTrade.minLevel": "您必须到 10 级才能挂单 P2P 交易",
+  "bumpkinTrade.noTradeListed": "您还未挂单交易",
   "bumpkinTrade.sell": "卖您的资源给其他玩家换 SFL",
   "bumpkinTrade.like.list": "您想上架什么呢",
   "bumpkinTrade.purchase": "请于 Goblin Retreat 购买",
@@ -1091,7 +1091,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.max": "最大: {{max}}",
   "bumpkinTrade.floorPrice": "底价：{{price}} SFL",
   "bumpkinTrade.price/unit": "{{price}} / 单位",
-  "bumpkinTrade.min": "您需到 10 级以参与买卖。",
+  "bumpkinTrade.min": "您需到 10 级以参与 P2P 交易。",
   "bumpkinTrade.minimumFloor": "最低单价： {{min}}",
   "bumpkinTrade.maximumFloor": "最高单价： {{max}}",
   "bumpkinTrade.sellConfirmation":
@@ -1904,46 +1904,46 @@ const factions: Record<Factions, string> = {
   "faction.points.with.number": "派系点数： {{points}}",
   "faction.points.title": "派系点数",
   "faction.points.pledge.warning": "请效忠一宗派系以获取派系点数！",
-    "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
+  "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
 
-    // Kingdom
-    "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],
-    "faction.not.pledged": ENGLISH_TERMS["faction.not.pledged"],
-    "faction.cost": ENGLISH_TERMS["faction.cost"],
-    "faction.pledge.reward": ENGLISH_TERMS["faction.pledge.reward"],
-    "faction.welcome": ENGLISH_TERMS["faction.welcome"],
-    "faction.greeting.bumpkins": ENGLISH_TERMS["faction.greeting.bumpkins"],
-    "faction.greeting.goblins": ENGLISH_TERMS["faction.greeting.goblins"],
-    "faction.greeting.nightshades": ENGLISH_TERMS["faction.greeting.nightshades"],
-    "faction.greeting.sunflorians": ENGLISH_TERMS["faction.greeting.sunflorians"],
-  
-    "faction.claimEmblems.alreadyClaimed":
-      ENGLISH_TERMS["faction.claimEmblems.alreadyClaimed"],
-    "faction.claimEmblems.emblemsEarned":
-      ENGLISH_TERMS["faction.claimEmblems.emblemsEarned"],
-    "faction.claimEmblems.yourRank":
-      ENGLISH_TERMS["faction.claimEmblems.yourRank"],
-    "faction.claimEmblems.yourPercentile":
-      ENGLISH_TERMS["faction.claimEmblems.yourPercentile"],
-    "faction.claimEmblems.yourEmblems":
-      ENGLISH_TERMS["faction.claimEmblems.yourEmblems"],
-    "faction.claimEmblems.noContribution":
-      ENGLISH_TERMS["faction.claimEmblems.noContribution"],
-    "faction.claimEmblems.statistics":
-      ENGLISH_TERMS["faction.claimEmblems.statistics"],
-    "faction.claimEmblems.thankYou":
-      ENGLISH_TERMS["faction.claimEmblems.thankYou"],
-    "faction.claimEmblems.claimMessage":
-      ENGLISH_TERMS["faction.claimEmblems.claimMessage"],
-    "faction.claimEmblems.claim": ENGLISH_TERMS["faction.claimEmblems.claim"],
-    "faction.claimEmblems.congratulations":
-      ENGLISH_TERMS["faction.claimEmblems.congratulations"],
-    "faction.claimEmblems.totalMembers":
-      ENGLISH_TERMS["faction.claimEmblems.totalMembers"],
-    "faction.claimEmblems.totalEmblems":
-      ENGLISH_TERMS["faction.claimEmblems.totalEmblems"],
-    "faction.claimEmblems.percentile":
-      ENGLISH_TERMS["faction.claimEmblems.percentile"],
+  // Kingdom
+  "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],
+  "faction.not.pledged": ENGLISH_TERMS["faction.not.pledged"],
+  "faction.cost": ENGLISH_TERMS["faction.cost"],
+  "faction.pledge.reward": ENGLISH_TERMS["faction.pledge.reward"],
+  "faction.welcome": ENGLISH_TERMS["faction.welcome"],
+  "faction.greeting.bumpkins": ENGLISH_TERMS["faction.greeting.bumpkins"],
+  "faction.greeting.goblins": ENGLISH_TERMS["faction.greeting.goblins"],
+  "faction.greeting.nightshades": ENGLISH_TERMS["faction.greeting.nightshades"],
+  "faction.greeting.sunflorians": ENGLISH_TERMS["faction.greeting.sunflorians"],
+
+  "faction.claimEmblems.alreadyClaimed":
+    ENGLISH_TERMS["faction.claimEmblems.alreadyClaimed"],
+  "faction.claimEmblems.emblemsEarned":
+    ENGLISH_TERMS["faction.claimEmblems.emblemsEarned"],
+  "faction.claimEmblems.yourRank":
+    ENGLISH_TERMS["faction.claimEmblems.yourRank"],
+  "faction.claimEmblems.yourPercentile":
+    ENGLISH_TERMS["faction.claimEmblems.yourPercentile"],
+  "faction.claimEmblems.yourEmblems":
+    ENGLISH_TERMS["faction.claimEmblems.yourEmblems"],
+  "faction.claimEmblems.noContribution":
+    ENGLISH_TERMS["faction.claimEmblems.noContribution"],
+  "faction.claimEmblems.statistics":
+    ENGLISH_TERMS["faction.claimEmblems.statistics"],
+  "faction.claimEmblems.thankYou":
+    ENGLISH_TERMS["faction.claimEmblems.thankYou"],
+  "faction.claimEmblems.claimMessage":
+    ENGLISH_TERMS["faction.claimEmblems.claimMessage"],
+  "faction.claimEmblems.claim": ENGLISH_TERMS["faction.claimEmblems.claim"],
+  "faction.claimEmblems.congratulations":
+    ENGLISH_TERMS["faction.claimEmblems.congratulations"],
+  "faction.claimEmblems.totalMembers":
+    ENGLISH_TERMS["faction.claimEmblems.totalMembers"],
+  "faction.claimEmblems.totalEmblems":
+    ENGLISH_TERMS["faction.claimEmblems.totalEmblems"],
+  "faction.claimEmblems.percentile":
+    ENGLISH_TERMS["faction.claimEmblems.percentile"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
