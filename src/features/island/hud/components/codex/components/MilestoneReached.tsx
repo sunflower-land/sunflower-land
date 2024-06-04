@@ -7,13 +7,13 @@ import {
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import {
   TwitterShareButton,
-  TwitterIcon,
   TelegramShareButton,
   TelegramIcon,
   FacebookShareButton,
   FacebookIcon,
   RedditShareButton,
   RedditIcon,
+  XIcon,
 } from "react-share";
 import { Button } from "components/ui/Button";
 import { Panel } from "components/ui/Panel";
@@ -69,7 +69,7 @@ export const MilestoneReached: React.FC<Props> = ({
             className="mr-1"
             onClick={() => clicked("Twitter")}
           >
-            <TwitterIcon size={40} round />
+            <XIcon size={40} round />
           </TwitterShareButton>
           <TelegramShareButton
             url={" "}
@@ -81,7 +81,6 @@ export const MilestoneReached: React.FC<Props> = ({
           </TelegramShareButton>
           <FacebookShareButton
             url={"sunflower-land.com"}
-            quote={shareMessage}
             className="mr-1"
             onClick={() => clicked("Facebook")}
           >

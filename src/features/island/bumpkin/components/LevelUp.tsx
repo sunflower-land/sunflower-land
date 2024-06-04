@@ -5,8 +5,8 @@ import {
   RedditShareButton,
   TelegramIcon,
   TelegramShareButton,
-  TwitterIcon,
   TwitterShareButton,
+  XIcon,
 } from "react-share";
 
 import React from "react";
@@ -215,7 +215,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
               className="mr-1"
               onClick={() => clicked("Twitter")}
             >
-              <TwitterIcon size={40} round />
+              <XIcon size={40} round />
             </TwitterShareButton>
             <TelegramShareButton
               url={" "}
@@ -227,7 +227,6 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
             </TelegramShareButton>
             <FacebookShareButton
               url={"sunflower-land.com"}
-              quote={shareMessage}
               className="mr-1"
               onClick={() => clicked("Facebook")}
             >
