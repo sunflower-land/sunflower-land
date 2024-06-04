@@ -2120,7 +2120,7 @@ const factions: Record<Factions, string> = {
   "faction.claimEmblems.thankYou":
     "Thank you {{player}}for your contributions to the {{Faction}}! Take these emblems, they represent your ownership of the faction!",
   "faction.claimEmblems.claimMessage":
-    "You contributed {{count}} faction points. You are rank was {{rank}}. You in the top {{percentile}}% of {{Faction}}.",
+    "You contributed {{count}} faction points. Your rank was {{rank}}. You in the top {{percentile}}% of {{Faction}}.",
   "faction.claimEmblems.claim": "Claim {{count}} Emblems",
   "faction.claimEmblems.congratulations":
     "Congratulations! You've received {{count}} emblems! Here is how you compare to your faction members.",
