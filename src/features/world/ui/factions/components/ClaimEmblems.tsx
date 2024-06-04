@@ -77,16 +77,6 @@ const Fireworks: React.FC = () => {
   return null;
 };
 
-const LoadingLabel: React.FC = () => {
-  const { t } = useTranslation();
-
-  return (
-    <Label type="default" className="loading">
-      {t("loading")}
-    </Label>
-  );
-};
-
 export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
   faction,
   farmId,
