@@ -38,6 +38,11 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 450 - randomYOffset,
     },
 
+    kingdom: {
+      x: 64,
+      y: 35,
+    },
+
     woodlands: {
       x: 850,
       y: 142,
