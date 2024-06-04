@@ -166,15 +166,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
                   className="flex mr-2  flex-col items-center justify-center relative"
                   onClick={() => setSelectedMilestone(name)}
                 >
-                  <span
-                    className="text-xs text-center"
-                    style={{
-                      fontSize: "9px",
-                      lineHeight: "10px",
-                    }}
-                  >
-                    {name}
-                  </span>
+                  <span className="text-xs text-center">{name}</span>
                   <img
                     src={claimed ? SUNNYSIDE.icons.confirm : giftIcon}
                     className="h-6 absolute -top-4 -right-4"

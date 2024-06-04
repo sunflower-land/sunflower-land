@@ -295,7 +295,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         right: `${PIXEL_SCALE * -3}px`,
                         width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                         fontSize: "22px",
-                        height: "30px",
+                        height: "25px",
                       }}
                     >
                       {`${`${makeRewardAmountForLabel(order)}`}`}
@@ -313,7 +313,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         right: `${PIXEL_SCALE * -3}px`,
                         width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                         fontSize: "22px",
-                        height: "30px",
+                        height: "25px",
                       }}
                     >
                       {`${makeRewardAmountForLabel(order)}`}
@@ -331,7 +331,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         right: `${PIXEL_SCALE * -3}px`,
                         width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                         fontSize: "22px",
-                        height: "30px",
+                        height: "25px",
                       }}
                     >
                       {tickets}
