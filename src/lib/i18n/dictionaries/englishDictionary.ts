@@ -4724,7 +4724,7 @@ const wallet: Record<Wallet, string> = {
     "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
   "wallet.uniqueFarmNFT":
     "A unique farm NFT will be minted to store your progress",
-  "wallet.mintFreeNFT": "Mint your free NFT",
+  "wallet.mintFreeNFT": "Mint your NFT",
   "wallet.wrongChain": "Wrong Chain",
   "wallet.walletAlreadyLinked": "Wallet already linked",
   "wallet.linkAnotherWallet": "Please link another wallet",
