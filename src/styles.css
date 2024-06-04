@@ -139,7 +139,7 @@ body {
   font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
   overflow: hidden;
   color: #181425;
-  font-size: 1rem;
+  font-size: 25px;
   word-spacing: 3px;
   line-height: 20px;
 }
@@ -263,8 +263,8 @@ img {
 .no-tadpoles {
   display: inline-block;
   overflow: hidden;
-  height: 1.5rem;
-  line-height: 1.5em;
+  height: 30px;
+  line-height: 37px;
   vertical-align: text-bottom;
   margin-left: 0.5rem;
 }

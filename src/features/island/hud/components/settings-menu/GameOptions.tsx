@@ -148,7 +148,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
       </>
       {!isPWA && (
-        <Button className="p-1 mb-2" onClick={handleInstallApp}>
+        <Button className="p-1 mb-1" onClick={handleInstallApp}>
           <span>{t("install.app")}</span>
         </Button>
       )}
@@ -165,24 +165,24 @@ const GameOptions: React.FC<ContentComponentProps> = ({
                     </div>
                   </Button>
                   </li> */}
-      <Button className="p-1 mb-2" onClick={refreshSession}>
+      <Button className="p-1 mb-1" onClick={refreshSession}>
         {t("gameOptions.blockchainSettings.refreshChain")}
       </Button>
       {CONFIG.NETWORK === "amoy" && (
-        <Button className="p-1 mb-2" onClick={() => onSubMenuClick("amoy")}>
+        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
           <span>{t("gameOptions.amoyActions")}</span>
         </Button>
       )}
-      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("blockchain")}>
+      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
         <span>{t("gameOptions.blockchainSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("general")}>
+      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("general")}>
         <span>{t("gameOptions.generalSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => onSubMenuClick("plaza")}>
+      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
         <span>{t("gameOptions.plazaSettings")}</span>
       </Button>
-      <Button className="p-1 mb-2" onClick={() => showConfirmLogoutModal(true)}>
+      <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
         {t("gameOptions.logout")}
       </Button>
       <p className="mx-1 text-xxs">

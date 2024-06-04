@@ -8,43 +8,37 @@ module.exports = {
       body: ['"Basic","LXGW WenKai TC"'],
       game: '"Sigmar One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
       secondary: ["Hint"],
-      pixel: ["Secondary"],
+      pixel: ["Hint"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
       speech: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
     },
     fontSize: {
       xxs: [
-        "0.6rem",
+        "16px",
         {
-          lineHeight: "0.65rem",
+          lineHeight: "10px",
         },
       ],
       xs: [
-        "0.7rem",
+        "20px",
         {
-          lineHeight: "0.8rem",
-          letterSpacing: "0.2px",
+          lineHeight: "12px",
         },
       ],
       sm: [
-        "0.8rem",
+        "25px",
         {
-          lineHeight: "0.9rem",
+          lineHeight: "14px",
         },
       ],
       base: [
-        "1rem",
+        "25px",
         {
-          lineHeight: "1rem",
+          lineHeight: "14px",
         },
       ],
 
-      lg: [
-        "1.525rem",
-        {
-          lineHeight: "1.55rem",
-        },
-      ],
+      lg: ["30px"],
     },
     // fontWeight: {
     //   thin: "100",
