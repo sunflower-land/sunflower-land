@@ -41,6 +41,7 @@ interface Props {
 
 const _joinedFaction = (state: MachineState) => state.context.state.faction;
 const _username = (state: MachineState) => state.context.state.username;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { gameService } = useContext(Context);
@@ -50,6 +51,8 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const username = useSelector(gameService, _username);
   const joinedFaction = useSelector(gameService, _joinedFaction);
+  const farmId = useSelector(gameService, _farmId);
+
   // Cheap way to memoize this value
   const [emblemsClaimed] = useState(!!joinedFaction?.emblemsClaimedAt);
 
@@ -112,8 +115,10 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
         </div>
         <ClaimEmblems
           faction={joinedFaction}
+          farmId={farmId}
           playerName={username}
           onClose={onClose}
+          onClaim={() => gameService.send("emblems.claimed")}
         />
       </div>
     );

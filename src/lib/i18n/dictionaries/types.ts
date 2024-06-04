@@ -1536,6 +1536,7 @@ export type Factions =
   | "faction.claimEmblems.claimMessage"
   | "faction.claimEmblems.claim"
   | "faction.claimEmblems.congratulations"
+  | "faction.claimEmblems.comparison"
   | "faction.claimEmblems.totalMembers"
   | "faction.claimEmblems.totalEmblems"
   | "faction.claimEmblems.percentile";
