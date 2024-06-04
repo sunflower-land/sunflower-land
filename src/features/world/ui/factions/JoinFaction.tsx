@@ -18,6 +18,7 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
 import { ClaimEmblems } from "./components/ClaimEmblems";
+import { hasFeatureAccess } from "lib/flags";
 
 const FACTION_EMBLEM: Record<FactionName, FactionEmblem> = {
   sunflorians: "Sunflorian Emblem",
@@ -98,7 +99,12 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     );
   }
 
-  if (joinedFaction && !emblemsClaimed && !!joinedFaction.points) {
+  if (
+    joinedFaction &&
+    !emblemsClaimed &&
+    !!joinedFaction.points &&
+    hasFeatureAccess(gameService.state.context.state, "CLAIM_EMBLEMS")
+  ) {
     return (
       <div className="flex flex-col">
         <div className="pt-1">

@@ -36,7 +36,8 @@ export type FeatureName =
   | "DESERT_RECIPES"
   | "KINGDOM"
   | "FACTION_HOUSE"
-  | "EMBLEM_COUNTDOWN_TIMER";
+  | "EMBLEM_COUNTDOWN_TIMER"
+  | "CLAIM_EMBLEMS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -68,6 +69,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   EMBLEM_COUNTDOWN_TIMER: timeBasedFeatureFlag(
     new Date("2024-06-10T00:00:00Z")
   ),
+  CLAIM_EMBLEMS: timeBasedFeatureFlag(new Date("2024-06-14T00:00:00Z")),
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
