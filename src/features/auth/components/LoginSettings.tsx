@@ -45,7 +45,10 @@ export const LoginSettings: React.FC = () => {
   return (
     <>
       <Modal show={showModal} onHide={close}>
-        <CloseButtonPanel title={t("settings")} onClose={close}>
+        <CloseButtonPanel
+          title={t("gameOptions.generalSettings")}
+          onClose={close}
+        >
           <Content />
         </CloseButtonPanel>
       </Modal>

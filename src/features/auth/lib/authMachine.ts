@@ -6,7 +6,6 @@ import { saveReferrerId } from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
 import { oauthorise } from "../actions/oauth";
 import { randomID } from "lib/utils/random";
-import { getOnboardingComplete } from "../actions/onboardingComplete";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { loadSession, savePromoCode } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
@@ -195,10 +194,6 @@ export const authMachine = createMachine(
           },
           {
             target: "welcome",
-            cond: () => !getOnboardingComplete(),
-          },
-          {
-            target: "signIn",
           },
         ],
         on: {
