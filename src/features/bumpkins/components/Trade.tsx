@@ -103,7 +103,7 @@ const ListTrade: React.FC<{
     !!sfl &&
     !!quantity &&
     !!floorPrices[selected] &&
-    new Decimal(floorPrices[selected] ?? 0).mul(1.2).lt(unitPrice);
+    new Decimal(floorPrices[selected] ?? 0).mul(1.5).lt(unitPrice);
 
   const isTooLow =
     !!sfl &&
