@@ -118,7 +118,7 @@
 
 @font-face {
   font-family: "Basic";
-  src: url("https://sunflower-land.com/testnet-assets/fonts/Basic.ttf");
+  src: url("https://sunflower-land.com/testnet-assets/fonts/Hint.ttf");
 }
 
 @font-face {
@@ -139,9 +139,10 @@ body {
   font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
   overflow: hidden;
   color: #181425;
-  font-size: 25px;
+  font-size: 30px;
   word-spacing: 3px;
-  line-height: 20px;
+  line-height: 26px;
+  -webkit-font-smoothing: antialiased;
 }
 
 body,
@@ -419,6 +420,9 @@ img {
   text-shadow: 1px 1px black;
   font-family: "Secondary";
   font-size: 32px;
+  paint-order: stroke;
+  -webkit-text-stroke: 3px black;
+  letter-spacing: 1px;
 }
 
 .sfl-hud-backdrop {

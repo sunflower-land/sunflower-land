@@ -78,7 +78,7 @@ const DepletingSunstoneComponent: React.FC<Props> = ({ resourceAmount }) => {
               width: `${PIXEL_SCALE * 13}px`,
             }}
           />
-          <span className="text-sm text-white">{`+${resourceAmount}`}</span>
+          <span className="balance-text text-white font-pixel">{`+${resourceAmount}`}</span>
         </div>
       )}
     </div>

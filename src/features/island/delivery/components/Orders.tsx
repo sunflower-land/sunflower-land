@@ -287,9 +287,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       type="warning"
                       iconWidth={8}
                       icon={sflIcon}
-                      className={
-                        "absolute -bottom-2 text-center p-1 font-pixel"
-                      }
+                      className={"absolute -bottom-2 text-center p-1 "}
                       style={{
                         left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
@@ -305,9 +303,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <Label
                       type="warning"
                       icon={coinsImg}
-                      className={
-                        "absolute -bottom-2 text-center p-1 font-pixel"
-                      }
+                      className={"absolute -bottom-2 text-center p-1 "}
                       style={{
                         left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
@@ -323,9 +319,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <Label
                       icon={ITEM_DETAILS[getSeasonalTicket()].image}
                       type="warning"
-                      className={
-                        "absolute -bottom-2 text-center p-1 font-pixel"
-                      }
+                      className={"absolute -bottom-2 text-center p-1 "}
                       style={{
                         left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
