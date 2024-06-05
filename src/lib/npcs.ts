@@ -84,7 +84,8 @@ export type NPCName =
   | "reginald" // faction recruiter;
   | "glinteye"
   | "solara"
-  | "dusk";
+  | "dusk"
+  | "haymitch";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   gambit: {
@@ -923,6 +924,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Nightshade Sword",
     background: "Farm Background",
     shoes: "Nightshade Sabaton",
+  },
+  haymitch: {
+    body: "Beige Farmer Potion",
+    hair: "Explorer Hair",
+    shirt: "Orange Monarch Shirt",
+    pants: "Bumpkin Pants",
+    tool: "Bumpkin Sword",
+    background: "Farm Background",
+    shoes: "Bumpkin Sabaton",
   },
 };
 

@@ -37,6 +37,15 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 200,
     },
   },
+  bumpkin_house: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      // x: 230 + randomXOffset,
+      // y: 420 - randomYOffset,
+      x: 410,
+      y: 200,
+    },
+  },
   faction_house: {
     // Make sure everyone doesn't spawn in same spot
     default: {

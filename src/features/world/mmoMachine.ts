@@ -26,6 +26,7 @@ export type Scenes = {
   goblin_house: Room<PlazaRoomState> | undefined;
   sunflorian_house: Room<PlazaRoomState> | undefined;
   nightshade_house: Room<PlazaRoomState> | undefined;
+  bumpkin_house: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
