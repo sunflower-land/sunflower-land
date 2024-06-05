@@ -7,38 +7,41 @@ module.exports = {
     fontFamily: {
       body: ['"Basic","LXGW WenKai TC"'],
       game: '"Sigmar One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
-      secondary: ["Hint"],
       pixel: ["Secondary"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
       speech: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
     },
     fontSize: {
       xxs: [
-        "18px",
+        "var(--text-xxs-size)",
         {
-          lineHeight: "12px",
+          lineHeight: "var(--text-xxs-line-height)",
         },
       ],
       xs: [
-        "24px",
+        "var(--text-xs-size)",
         {
-          lineHeight: "14px",
+          lineHeight: "var(--text-xs-line-height)",
         },
       ],
       sm: [
-        "30px",
+        "var(--text-sm-size)",
         {
-          lineHeight: "20px",
+          lineHeight: "var(--text-sm-line-height)",
         },
       ],
       base: [
-        "36px",
+        "var(--text-base-size)",
         {
-          lineHeight: "26px",
+          lineHeight: "var(--text-base-line-height)",
         },
       ],
-
-      lg: ["42px"],
+      lg: [
+        "var(--text-lg-size)",
+        {
+          lineHeight: "var(--text-lg-line-height)",
+        },
+      ],
     },
     // fontWeight: {
     //   thin: "100",

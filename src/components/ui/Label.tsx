@@ -104,7 +104,7 @@ export const Label: React.FC<Props> = ({
       onClick={onClick}
       className={classnames(
         className,
-        `w-fit justify-center flex items-center`,
+        `w-fit justify-center flex items-center text-xs`,
         {
           relative: !className?.includes("absolute"),
           "cursor-pointer": !!onClick,
@@ -117,7 +117,6 @@ export const Label: React.FC<Props> = ({
         paddingLeft: icon ? "14px" : "3px",
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
-        fontSize: `24px`,
         ...style,
 
         // Normal font styles

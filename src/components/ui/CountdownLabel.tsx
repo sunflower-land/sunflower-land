@@ -18,7 +18,6 @@ export const CountdownLabel: React.FC<Props> = ({ timeLeft, endText }) => {
     <Label
       type="info"
       className="font-secondary"
-      style={{ fontSize: "22px" }}
       icon={SUNNYSIDE.icons.stopwatch}
     >
       {secondsToString(timeLeft, { length: "medium" })}

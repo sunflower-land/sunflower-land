@@ -47,10 +47,7 @@ export const TimerDisplay = ({ time, fontSize = 40, color }: TimeObject) => {
     return value;
   });
   return (
-    <span
-      className="font-secondary"
-      style={{ fontSize: `${fontSize}px`, color }}
-    >
+    <span className="font-secondary text-base" style={{ color }}>
       {times.join(":")}
     </span>
   );

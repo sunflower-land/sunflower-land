@@ -25,6 +25,7 @@ import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { WalletInUse } from "./components/WalletInUse";
+import { LoginSettings } from "./components/LoginSettings";
 
 type Props = {
   showOfflineModal: boolean;
@@ -64,11 +65,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
               )}
 
               <div className="flex justify-center">
-                <Label
-                  type="default"
-                  className="font-secondary"
-                  style={{ fontSize: "22px" }}
-                >
+                <Label type="default" className="font-secondary text-sm">
                   {CONFIG.RELEASE_VERSION?.split("-")[0]}
                 </Label>
 
@@ -111,6 +108,8 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
           </Panel>
         )}
       </Modal>
+
+      <LoginSettings />
     </>
   );
 };

@@ -296,9 +296,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                           icon={buffLabel.boostTypeIcon}
                           secondaryIcon={buffLabel.boostedItemIcon}
                         >
-                          <p className="text-xxs">
-                            {buffLabel.shortDescription}
-                          </p>
+                          {buffLabel.shortDescription}
                         </Label>
                       </div>
                     )}
