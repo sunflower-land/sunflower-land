@@ -50,6 +50,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { FactionHouseScene } from "./scenes/FactionHouse";
 import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
+import { NightshadeHouseScene } from "./scenes/NightshadeHouse";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -133,6 +134,10 @@ export const PhaserComponent: React.FC<Props> = ({
     ...(hasHouseAccess(gameService.state.context.state, "sunflorians") &&
     hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [SunflorianHouseScene]
+      : []),
+    ...(hasHouseAccess(gameService.state.context.state, "nightshades") &&
+    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [NightshadeHouseScene]
       : []),
   ];
 

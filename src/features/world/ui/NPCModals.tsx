@@ -220,6 +220,10 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "solara" && (
           <EmblemsTrading onClose={closeModal} emblem="Sunflorian Emblem" />
         )}
+
+        {npc === "dusk" && (
+          <EmblemsTrading onClose={closeModal} emblem="Nightshade Emblem" />
+        )}
       </Modal>
 
       {npc === "hammerin harry" && (
