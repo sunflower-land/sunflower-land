@@ -112,7 +112,7 @@
 }
 
 :root {
-  --font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
+  --font-family: "Basic", sans-serif;
 
   /* Font Size Variables */
   --text-xxs-size: 18px;

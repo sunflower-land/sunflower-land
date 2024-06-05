@@ -14,7 +14,6 @@ import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
 import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
-import { changeFont } from "lib/utils/fonts";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
@@ -27,10 +26,6 @@ export const LanguageSwitcher: React.FC = () => {
     localStorage.setItem("language", languageCode);
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
-
-    if (languageCode === "zh-CN") {
-      changeFont("sans-serif");
-    }
   };
 
   return (
