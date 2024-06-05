@@ -4,6 +4,7 @@ import cloneDeep from "lodash.clonedeep";
 import { BuildingName, BUILDINGS } from "../../types/buildings";
 import { GameState, PlacedItem } from "../../types/game";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export enum CONSTRUCT_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -57,6 +58,15 @@ export function constructBuilding({
 
   if (coins < buildingToConstruct.coins) {
     throw new Error(CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_COINS);
+  }
+
+  const requiredIsland = buildingToConstruct.requiredIsland;
+
+  if (
+    requiredIsland &&
+    !hasRequiredIslandExpansion(stateCopy.island.type, requiredIsland)
+  ) {
+    throw new Error("You do not have the required island expansion");
   }
 
   let missingIngredients: string[] = [];

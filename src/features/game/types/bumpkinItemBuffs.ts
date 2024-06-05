@@ -234,4 +234,10 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Olive.image,
     },
+    "Tofu Mask": {
+      shortDescription: translate("description.tofu.mask.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS.Soybean.image,
+    },
   };

@@ -286,6 +286,88 @@ export const npcDialogues: Partial<Record<NPCName, DeliveryNPCDialogue>> = {
       translate("npcDialogues.pumpkinPete.noOrder2"),
     ],
   },
+
+  jester: {
+    intro: [
+      translate("npcDialogues.jester.intro1"),
+      translate("npcDialogues.jester.intro2"),
+      translate("npcDialogues.jester.intro3"),
+      translate("npcDialogues.jester.intro4"),
+      translate("npcDialogues.jester.intro5"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.jester.positiveDelivery1"),
+      translate("npcDialogues.jester.positiveDelivery2"),
+      translate("npcDialogues.jester.positiveDelivery3"),
+      translate("npcDialogues.jester.positiveDelivery4"),
+      translate("npcDialogues.jester.positiveDelivery5"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.jester.negativeDelivery1"),
+      translate("npcDialogues.jester.negativeDelivery2"),
+      translate("npcDialogues.jester.negativeDelivery3"),
+      translate("npcDialogues.jester.negativeDelivery4"),
+      translate("npcDialogues.jester.negativeDelivery5"),
+    ],
+    noOrder: [
+      translate("npcDialogues.jester.noOrder1"),
+      translate("npcDialogues.jester.noOrder2"),
+    ],
+  },
+  victoria: {
+    intro: [
+      translate("npcDialogues.queenVictoria.intro1"),
+      translate("npcDialogues.queenVictoria.intro2"),
+      translate("npcDialogues.queenVictoria.intro3"),
+      translate("npcDialogues.queenVictoria.intro4"),
+      translate("npcDialogues.queenVictoria.intro5"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.queenVictoria.positiveDelivery1"),
+      translate("npcDialogues.queenVictoria.positiveDelivery2"),
+      translate("npcDialogues.queenVictoria.positiveDelivery3"),
+      translate("npcDialogues.queenVictoria.positiveDelivery4"),
+      translate("npcDialogues.queenVictoria.positiveDelivery5"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.queenVictoria.negativeDelivery1"),
+      translate("npcDialogues.queenVictoria.negativeDelivery2"),
+      translate("npcDialogues.queenVictoria.negativeDelivery3"),
+      translate("npcDialogues.queenVictoria.negativeDelivery4"),
+      translate("npcDialogues.queenVictoria.negativeDelivery5"),
+    ],
+    noOrder: [
+      translate("npcDialogues.queenVictoria.noOrder1"),
+      translate("npcDialogues.queenVictoria.noOrder2"),
+    ],
+  },
+  gambit: {
+    intro: [
+      translate("npcDialogues.gambit.intro1"),
+      translate("npcDialogues.gambit.intro2"),
+      translate("npcDialogues.gambit.intro3"),
+      translate("npcDialogues.gambit.intro4"),
+      translate("npcDialogues.gambit.intro5"),
+    ],
+    positiveDelivery: [
+      translate("npcDialogues.gambit.positiveDelivery1"),
+      translate("npcDialogues.gambit.positiveDelivery2"),
+      translate("npcDialogues.gambit.positiveDelivery3"),
+      translate("npcDialogues.gambit.positiveDelivery4"),
+      translate("npcDialogues.gambit.positiveDelivery5"),
+    ],
+    negativeDelivery: [
+      translate("npcDialogues.gambit.negativeDelivery1"),
+      translate("npcDialogues.gambit.negativeDelivery2"),
+      translate("npcDialogues.gambit.negativeDelivery3"),
+      translate("npcDialogues.gambit.negativeDelivery4"),
+      translate("npcDialogues.gambit.negativeDelivery5"),
+    ],
+    noOrder: [
+      translate("npcDialogues.gambit.noOrder1"),
+      translate("npcDialogues.gambit.noOrder2"),
+    ],
+  },
 };
 
 export const defaultDialogue: DeliveryNPCDialogue = {

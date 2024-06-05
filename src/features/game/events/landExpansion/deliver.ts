@@ -12,7 +12,6 @@ import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
-import { translate } from "lib/i18n/translate";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -24,6 +23,7 @@ export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   timmy: 4,
   cornwell: 4,
   tywin: 5,
+  jester: 4,
 };
 
 export function generateDeliveryTickets({
@@ -116,7 +116,8 @@ export type QuestNPCName =
   | "cornwell"
   | "finn"
   | "finley"
-  | "miranda";
+  | "miranda"
+  | "jester";
 
 // All available quest npcs
 export const QUEST_NPC_NAMES: QuestNPCName[] = [
@@ -201,7 +202,7 @@ export function deliverOrder({
   const bumpkin = game.bumpkin;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const order = game.delivery.orders.find((order) => order.id === action.id);

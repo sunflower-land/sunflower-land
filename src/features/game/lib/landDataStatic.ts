@@ -676,7 +676,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
-    weather: "Sunny",
+    weather: "Full Moon",
     wharf: {},
     beach: {},
   },
@@ -1287,7 +1287,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   faction: {
     name: "goblins",
     pledgedAt: 0,
-    points: 0,
+    points: 100,
     donated: {
       daily: {
         sfl: {},

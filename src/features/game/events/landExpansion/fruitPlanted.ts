@@ -16,7 +16,6 @@ import cloneDeep from "lodash.clonedeep";
 import { getFruitYield } from "./fruitHarvested";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { isWearableActive } from "features/game/lib/wearables";
-import { translate } from "lib/i18n/translate";
 
 export type PlantFruitAction = {
   type: "fruit.planted";
@@ -120,7 +119,7 @@ export function plantFruit({
   const { fruitPatches, bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const patch = fruitPatches[action.index];

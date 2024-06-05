@@ -88,7 +88,12 @@ type InteractableName =
   | "goblins_faction"
   | "nightshades_faction"
   | "sunflorians_faction"
-  | "chicken_rescue";
+  | "chicken_rescue"
+  // to replace pledge factions
+  | "join_goblins"
+  | "join_sunflorians"
+  | "join_bumpkins"
+  | "join_nightshades";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;

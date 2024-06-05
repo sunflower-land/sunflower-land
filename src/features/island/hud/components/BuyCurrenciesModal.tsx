@@ -161,7 +161,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
             { icon: blockBuckIcon, name: `Block Bucks` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
             ...(hasFeatureAccess(state, "BANNER_SALES")
-              ? [{ icon: vipIcon, name: t("vip") }]
+              ? [{ icon: vipIcon, name: "VIP" }]
               : []),
           ]}
         >

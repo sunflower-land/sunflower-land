@@ -7,6 +7,7 @@ import cloneDeep from "lodash.clonedeep";
 import { getSupportedChickens } from "./utils";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { isBuildingEnabled } from "features/game/expansion/lib/buildingRequirements";
+import { hasRemoveRestriction } from "features/game/types/removeables";
 
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
@@ -158,6 +159,16 @@ export function removeBuilding({
 
   if (buildingToRemove.readyAt > createdAt) {
     throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
+  }
+
+  const [restricted, error] = hasRemoveRestriction(
+    action.name,
+    action.id,
+    stateCopy
+  );
+
+  if (restricted) {
+    throw new Error(error);
   }
 
   // TODO - remove once landscaping is launched

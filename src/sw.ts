@@ -31,12 +31,17 @@ precacheAndRoute(self.__WB_MANIFEST);
 if (import.meta.env.PROD) {
   // Game assets
   registerRoute(
-    ({ url }) => url.pathname.startsWith(GAME_ASSETS_PATH),
+    ({ url }) =>
+      url.pathname.startsWith(GAME_ASSETS_PATH) &&
+      !url.pathname.includes("map_extruded.png"),
     new StaleWhileRevalidate({
       cacheName: `${gameAssetsCacheName}`,
       plugins: [
         new ExpirationPlugin({
           maxAgeSeconds: 60 * 60 * 24 * 7, // 1 week
+        }),
+        new ExpirationPlugin({
+          maxEntries: 60,
         }),
       ],
     })

@@ -3,7 +3,6 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 import { CHICKEN_TIME_TO_EGG } from "../../lib/constants";
 import { Chicken, GameState } from "../../types/game";
-import { translate } from "lib/i18n/translate";
 
 export type LandExpansionCollectEggAction = {
   type: "chicken.collectEgg";
@@ -30,7 +29,7 @@ export function collectEggs({
   const chicken = chickens[action.id];
 
   if (stateCopy.bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (!chicken) {

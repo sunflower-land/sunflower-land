@@ -1161,7 +1161,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Mushroom Pants": () => false, // Not Launched
   "Mushroom Shield": () => false, // Not Launched
   "Mushroom Shoes": () => false, // Not Launched
-  "Mushroom Sweater": () => false, // Not Launched
+  "Mushroom Sweater": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Rash Vest": () => false, // Not Launched
   "Squid Hat": () => true,
   "Summer Top": () => true,
@@ -1296,7 +1296,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Santa Beard": () => true,
   "Santa Suit": () => true,
 
-  "Butterfly Wings": () => false,
+  "Butterfly Wings": () => canWithdrawTimebasedItem(new Date("2024-06-02")),
   "Cozy Hoodie": () => false,
   "New Years Tiara": () => true,
   "Northern Lights Background": () => false,
@@ -1311,7 +1311,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Beekeeper Hat": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Beekeeper Suit": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Crimstone Boots": () => false,
-  "Crimstone Pants": () => false,
+  "Crimstone Pants": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Crimstone Armor": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Gardening Overalls": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Crimstone Hammer": () => canWithdrawTimebasedItem(new Date("2024-04-13")), // Last Auction 2024/04/12 3pm UTC
@@ -1361,4 +1361,33 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Tofu Mask": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Olive Royalty Shirt": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Royal Scepter": () => false,
+
+  // Faction Items
+  "Bumpkin Armor": () => false,
+  "Bumpkin Helmet": () => false,
+  "Bumpkin Sword": () => false,
+  "Bumpkin Sabaton": () => false,
+  "Bumpkin Pants": () => false,
+  "Goblin Armor": () => false,
+  "Goblin Helmet": () => false,
+  "Goblin Axe": () => false,
+  "Goblin Sabaton": () => false,
+  "Goblin Pants": () => false,
+  "Nightshade Armor": () => false,
+  "Nightshade Helmet": () => false,
+  "Nightshade Sword": () => false,
+  "Nightshade Sabaton": () => false,
+  "Nightshade Pants": () => false,
+  "Sunflorian Armor": () => false,
+  "Sunflorian Helmet": () => false,
+  "Sunflorian Sword": () => false,
+  "Sunflorian Sabaton": () => false,
+  "Sunflorian Pants": () => false,
+
+  "Cap n Bells": () => false,
+  "Knight Gambit": () => false,
+  "Pixel Perfect Hoodie": () => false,
+  "Queen's Crown": () => false,
+  "Royal Dress": () => false,
+  Motley: () => false,
 };

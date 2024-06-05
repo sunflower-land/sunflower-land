@@ -100,24 +100,19 @@ export const NoAccount: React.FC = () => {
             </a>
           )}
         </div>
-        <p className="text-sm mb-2">{`${t("noaccount.welcomeMessage")}`}</p>
-        {isAddress(authState.context.user.token?.address ?? "") && (
-          <div className="mb-2">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-white text-xs cursor-pointer"
-              onClick={() => setShowClaimAccount(true)}
-            >
-              {t("noaccount.alreadyHaveNFTFarm")}
-            </a>
-          </div>
-        )}
       </div>
-      <div className="flex mt-1">
-        <Button onClick={() => authService.send("CREATE_FARM")}>
-          {t("start")}
-        </Button>
+      <div className="flex flex-col space-y-2">
+        <span className="px-2 text-sm">{t("noaccount.welcomeMessage")}</span>
+        <div className="flex space-x-1 mt-2.5">
+          {isAddress(authState.context.user.token?.address ?? "") && (
+            <Button onClick={() => setShowClaimAccount(true)}>
+              {t("noaccount.haveFarm")}
+            </Button>
+          )}
+          <Button onClick={() => authService.send("CREATE_FARM")}>
+            {`Yes, let's go!`}
+          </Button>
+        </div>
       </div>
     </>
   );

@@ -39,6 +39,7 @@ import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -49,6 +50,8 @@ export const BEACH_BUMPKINS: NPCName[] = [
   "finley",
   "miranda",
 ];
+
+export const KINGDOM_BUMPKINS: NPCName[] = ["victoria", "jester", "gambit"];
 
 export const RETREAT_BUMPKINS: NPCName[] = [
   "grubnuk",
@@ -82,7 +85,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
-    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
+    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1))
+    .filter(
+      (order) =>
+        hasFeatureAccess(gameService.state.context.state, "KINGDOM") ||
+        !KINGDOM_BUMPKINS.includes(order.from)
+    );
 
   useEffect(() => {
     acknowledgeOrders(delivery);
@@ -467,6 +475,10 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 ) : BEACH_BUMPKINS.includes(previewOrder.from) ? (
                   <Label type="default" icon={worldIcon} className="ml-1">
                     {t("island.beach")}
+                  </Label>
+                ) : KINGDOM_BUMPKINS.includes(previewOrder.from) ? (
+                  <Label type="default" icon={worldIcon} className="ml-1">
+                    {t("island.kingdom")}
                   </Label>
                 ) : (
                   <Label type="default" icon={worldIcon} className="ml-1">

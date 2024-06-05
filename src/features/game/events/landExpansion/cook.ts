@@ -141,7 +141,7 @@ export function cook({
   );
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (!building) {

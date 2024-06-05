@@ -4,7 +4,6 @@ import { ANIMALS } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { getSupportedChickens } from "./utils";
-import { translate } from "lib/i18n/translate";
 
 export type BuyChickenAction = {
   type: "chicken.bought";
@@ -25,19 +24,19 @@ export function buyChicken({ state, action }: Options): GameState {
   const { bumpkin, inventory, coins } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const price = ANIMALS.Chicken.price ?? 0;
 
   if (coins < price) {
-    throw new Error(translate("error.insufficientCoins"));
+    throw new Error("Insufficient Coins");
   }
 
   const previousChickens = inventory.Chicken || new Decimal(0);
 
   if (previousChickens.gte(getSupportedChickens(state))) {
-    throw new Error(translate("error.insufficientSpaceForChickens"));
+    throw new Error("Insufficient space for more chickens");
   }
 
   bumpkin.activity = trackActivity("Chicken Bought", bumpkin.activity);

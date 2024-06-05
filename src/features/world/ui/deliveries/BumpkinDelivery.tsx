@@ -264,6 +264,20 @@ const GIFT_RESPONSES: Partial<Record<NPCName, GiftResponse>> = {
     flowerPositive: "npcDialogues.tywin.goodFlower",
     reward: "npcDialogues.tywin.reward",
   },
+  jester: {
+    flowerIntro: "npcDialogues.jester.flowerIntro",
+    flowerAverage: "npcDialogues.jester.averageFlower",
+    flowerNegative: "npcDialogues.jester.badFlower",
+    flowerPositive: "npcDialogues.jester.goodFlower",
+    reward: "npcDialogues.jester.reward",
+  },
+  victoria: {
+    flowerIntro: "npcDialogues.queenVictoria.flowerIntro",
+    flowerAverage: "npcDialogues.queenVictoria.averageFlower",
+    flowerNegative: "npcDialogues.queenVictoria.badFlower",
+    flowerPositive: "npcDialogues.queenVictoria.goodFlower",
+    reward: "npcDialogues.queenVictoria.reward",
+  },
 };
 
 const DEFAULT_DIALOGUE: GiftResponse = {

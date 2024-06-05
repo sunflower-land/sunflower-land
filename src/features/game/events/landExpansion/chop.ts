@@ -13,7 +13,6 @@ import {
   Tree,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { translate } from "lib/i18n/translate";
 
 export enum CHOP_ERRORS {
   MISSING_AXE = "No axe",
@@ -102,7 +101,7 @@ export function chop({
   const { trees, bumpkin, collectibles, inventory } = stateCopy;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const requiredAxes = getRequiredAxeAmount(state.inventory, state);
