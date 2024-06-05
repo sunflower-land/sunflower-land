@@ -26,6 +26,8 @@ import { GoblinMarket } from "./market/GoblinMarket";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { VIPGift } from "./VIPGift";
 import { ChickenRescue } from "./portals/ChickenRescue";
+import { InlineDialogue } from "./TypingMessage";
+import { Label } from "components/ui/Label";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -93,7 +95,13 @@ type InteractableName =
   | "join_goblins"
   | "join_sunflorians"
   | "join_bumpkins"
-  | "join_nightshades";
+  | "join_nightshades"
+  | "kingdom_book_1"
+  | "kingdom_book_2"
+  | "kingdom_book_3"
+  | "kingdom_book_4"
+  | "kingdom_book_5"
+  | "kingdom_knight";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -598,6 +606,72 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         onHide={closeModal}
       >
         <FanArt name={interactable as FanArtNPC} onClose={closeModal} />
+      </Modal>
+
+      <Modal show={interactable === "kingdom_knight"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="h-32 p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.lostKnight")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.knight")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "kingdom_book_1"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="h-32 p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.queensDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.kingdomBook1")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "kingdom_book_2"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="h-32 p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.queensDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.kingdomBook2")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "kingdom_book_3"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="h-32 p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.jesterDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.kingdomBook3")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "kingdom_book_4"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="h-32 p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.kingDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.kingdomBook4")} />
+          </div>
+        </CloseButtonPanel>
+      </Modal>
+
+      <Modal show={interactable === "kingdom_book_5"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <div className="h-32 p-2">
+            <Label type="default" className="mb-2">
+              {t("easterEgg.tywinDiary")}
+            </Label>
+            <InlineDialogue message={t("easterEgg.kingdomBook5")} />
+          </div>
+        </CloseButtonPanel>
       </Modal>
 
       <Modal

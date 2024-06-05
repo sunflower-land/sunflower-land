@@ -27,8 +27,8 @@ export const KINGDOM_NPCS: NPCBumpkin[] = [
     npc: "graxle",
   },
   {
-    x: 350,
-    y: 460,
+    x: 413,
+    y: 459,
     npc: "barlow",
     direction: "left",
   },
