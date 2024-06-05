@@ -246,7 +246,6 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         })}
         type={requirementMet ? "transparent" : "danger"}
         style={{
-          fontSize: "24px",
           color:
             props.textColor ??
             LABEL_STYLES[requirementMet ? "transparent" : "danger"].textColour,

@@ -185,7 +185,6 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
               <Label
                 type="info"
                 className="font-secondary mb-2"
-                style={{ fontSize: "22px" }}
                 icon={SUNNYSIDE.icons.stopwatch}
               >
                 {"Resets in "}

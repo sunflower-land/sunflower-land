@@ -111,6 +111,51 @@
   }
 }
 
+:root {
+  --font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
+
+  /* Font Size Variables */
+  --text-xxs-size: 18px;
+  --text-xxs-line-height: 12px;
+
+  --text-xs-size: 24px;
+  --text-xs-line-height: 14px;
+
+  --text-sm-size: 30px;
+  --text-sm-line-height: 20px;
+
+  --text-base-size: 36px;
+  --text-base-line-height: 26px;
+
+  --text-lg-size: 42px;
+  /* Assuming line-height for lg is the default line-height */
+}
+
+.text-xxs {
+  font-size: var(--text-xxs-size);
+  line-height: var(--text-xxs-line-height);
+}
+
+.text-xs {
+  font-size: var(--text-xs-size);
+  line-height: var(--text-xs-line-height);
+}
+
+.text-sm {
+  font-size: var(--text-sm-size);
+  line-height: var(--text-sm-line-height);
+}
+
+.text-base {
+  font-size: var(--text-base-size);
+  line-height: var(--text-base-line-height);
+}
+
+.text-lg {
+  font-size: var(--text-lg-size);
+  line-height: var(--text-lg-line-height);
+}
+
 @font-face {
   font-family: "Teeny";
   src: url("https://sunflower-land.com/testnet-assets/fonts/Teeny.otf");
@@ -136,12 +181,13 @@ html {
 }
 
 body {
-  font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
+  /* font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive; */
+  font-family: var(--font-family);
   overflow: hidden;
   color: #181425;
-  font-size: 30px;
+  font-size: var(--text-sm-size);
   word-spacing: 3px;
-  line-height: 26px;
+  line-height: var(--text-sm-line-height);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1230,7 +1276,7 @@ a {
 }
 
 .font-secondary {
-  font-size: 22px;
+  font-size: var(--text-xs-size);
   -webkit-font-smoothing: antialiased;
   word-spacing: -2px;
 }

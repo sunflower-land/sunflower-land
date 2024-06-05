@@ -159,10 +159,9 @@ export const ToastPanel: React.FC = () => {
                       className="h-6"
                       src={getToastIcon(item, faction?.name)}
                     />
-                    <span
-                      className="text-sm mx-1 mb-0.5 font-secondary"
-                      style={{ fontSize: "26px" }}
-                    >{`${difference.greaterThan(0) ? "+" : ""}${diff}`}</span>
+                    <span className="text-sm mx-1 mb-0.5 font-secondary">{`${
+                      difference.greaterThan(0) ? "+" : ""
+                    }${diff}`}</span>
                   </div>
                 );
               })}
