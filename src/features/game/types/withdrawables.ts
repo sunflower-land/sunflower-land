@@ -1311,7 +1311,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Beekeeper Hat": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Beekeeper Suit": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Crimstone Boots": () => false,
-  "Crimstone Pants": () => false,
+  "Crimstone Pants": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Crimstone Armor": () => canWithdrawTimebasedItem(new Date("2024-03-01")),
   "Gardening Overalls": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Crimstone Hammer": () => canWithdrawTimebasedItem(new Date("2024-04-13")), // Last Auction 2024/04/12 3pm UTC
