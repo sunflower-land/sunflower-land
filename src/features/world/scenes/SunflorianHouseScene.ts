@@ -3,21 +3,21 @@ import mapJSON from "assets/map/faction_house.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 
-export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
+export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   {
     x: 410,
     y: 200,
-    npc: "glinteye",
+    npc: "solara",
     direction: "left",
   },
 ];
 
-export class GoblinHouseScene extends BaseScene {
-  sceneId: SceneId = "goblin_house";
+export class SunflorianHouseScene extends BaseScene {
+  sceneId: SceneId = "sunflorian_house";
 
   constructor() {
     super({
-      name: "goblin_house",
+      name: "sunflorian_house",
       map: { json: mapJSON },
       audio: { fx: { walk_key: "wood_footstep" } },
     });
@@ -33,6 +33,6 @@ export class GoblinHouseScene extends BaseScene {
       key: "faction_house",
     });
 
-    this.initialiseNPCs(GOBLIN_HOUSE_NPCS);
+    this.initialiseNPCs(SUNFLORIAN_HOUSE_NPCS);
   }
 }
