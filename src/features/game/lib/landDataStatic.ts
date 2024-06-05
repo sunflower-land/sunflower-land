@@ -752,7 +752,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   buildings: {
-    Greenhouse: [
+    "Town Center": [
       {
         coordinates: {
           x: -2,

@@ -25,7 +25,7 @@ export const Loading: React.FC<Props> = ({ text, className }) => {
 
   const { t } = useAppTranslation();
   return (
-    <span className={classNames(className, "relative")}>
+    <span className={classNames(className, "relative m-1")}>
       {text || t("loading")}
 
       <span
