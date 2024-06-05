@@ -48,6 +48,7 @@ import { RetreatScene } from "./scenes/RetreatScene";
 import { KingdomScene } from "./scenes/Kingdom";
 import { hasFeatureAccess } from "lib/flags";
 import { FactionHouseScene } from "./scenes/FactionHouse";
+import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -119,6 +120,9 @@ export const PhaserComponent: React.FC<Props> = ({
       : []),
     ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [FactionHouseScene]
+      : []),
+    ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [GoblinHouseScene]
       : []),
   ];
 

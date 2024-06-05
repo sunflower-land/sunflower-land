@@ -22,18 +22,13 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Label } from "components/ui/Label";
-import {
-  TRADE_LIMITS,
-  TRADE_MINIMUMS,
-} from "features/world/ui/trader/BuyPanel";
 import { FloorPrices } from "features/game/actions/getListingsFloorPrices";
 import { setPrecision } from "lib/utils/formatNumber";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
-import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
-import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
+import { TRADE_LIMITS, TRADE_MINIMUMS } from "./BuyPanel";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -59,9 +54,9 @@ const ListTrade: React.FC<{
   onCancel: () => void;
   isSaving: boolean;
   floorPrices: FloorPrices;
-}> = ({ inventory, onList, onCancel, isSaving, floorPrices }) => {
+  emblem: FactionEmblem;
+}> = ({ inventory, onList, onCancel, isSaving, floorPrices, emblem }) => {
   const { t } = useAppTranslation();
-  const [selected, setSelected] = useState<InventoryItemName>();
   const [quantityDisplay, setQuantityDisplay] = useState("");
   const [sflDisplay, setSflDisplay] = useState("");
 
@@ -70,65 +65,24 @@ const ListTrade: React.FC<{
 
   const maxSFL = sfl > MAX_SFL;
 
-  if (!selected) {
-    return (
-      <div className="space-y-2">
-        <div className="pl-2 pt-2">
-          <Label icon={SUNNYSIDE.icons.basket} type="default">
-            {t("bumpkinTrade.like.list")}
-          </Label>
-        </div>
-
-        <div className="flex flex-wrap ">
-          {getKeys(TRADE_LIMITS).map((name) => (
-            <div
-              key={name}
-              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2"
-            >
-              <ListingCategoryCard
-                itemName={name}
-                inventoryAmount={inventory?.[name] ?? new Decimal(0)}
-                pricePerUnit={floorPrices[name]}
-                onClick={() => setSelected(name)}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  const unitPrice = sfl / quantity;
-  const tooLittle = !!quantity && quantity < (TRADE_MINIMUMS[selected] ?? 0);
-
-  const isTooHigh =
-    !!sfl &&
-    !!quantity &&
-    !!floorPrices[selected] &&
-    new Decimal(floorPrices[selected] ?? 0).mul(1.5).lt(unitPrice);
-
-  const isTooLow =
-    !!sfl &&
-    !!quantity &&
-    !!floorPrices[selected] &&
-    new Decimal(floorPrices[selected] ?? 0).mul(0.8).gt(unitPrice);
+  const tooLittle = !!quantity && quantity < (TRADE_MINIMUMS[emblem] ?? 0);
 
   return (
     <>
       <div className="flex justify-between">
         <div className="flex items-center">
-          <Box image={ITEM_DETAILS[selected].image} disabled />
-          <span className="text-sm">{selected}</span>
+          <Box image={ITEM_DETAILS[emblem].image} disabled />
+          <span className="text-sm">{emblem}</span>
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
-            type={inventory[selected]?.lt(quantity) ? "danger" : "info"}
+            type={inventory[emblem]?.lt(quantity) ? "danger" : "info"}
             className="my-1"
           >
             {t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
-            {`${setPrecision(new Decimal(inventory?.[selected] ?? 0), 0)}`}
+            {`${setPrecision(new Decimal(inventory?.[emblem] ?? 0), 0)}`}
           </span>
         </div>
       </div>
@@ -136,38 +90,20 @@ const ListTrade: React.FC<{
       <div className="flex items-center justify-between">
         <Label
           type={
-            sfl / quantity < (floorPrices[selected] ?? 0)
+            sfl / quantity < (floorPrices[emblem] ?? 0)
               ? "danger"
-              : sfl / quantity > (floorPrices[selected] ?? 0)
+              : sfl / quantity > (floorPrices[emblem] ?? 0)
               ? "success"
               : "warning"
           }
           className="my-1"
         >
           {t("bumpkinTrade.floorPrice", {
-            price: floorPrices[selected]
-              ? setPrecision(new Decimal(floorPrices[selected] ?? 0))
+            price: floorPrices[emblem]
+              ? setPrecision(new Decimal(floorPrices[emblem] ?? 0))
               : "?",
           })}
         </Label>
-        {isTooLow && (
-          <Label type="danger" className="my-1 ml-2 mr-1">
-            {t("bumpkinTrade.minimumFloor", {
-              min: setPrecision(new Decimal(floorPrices[selected] ?? 0))
-                .mul(0.8)
-                .toNumber(),
-            })}
-          </Label>
-        )}
-        {isTooHigh && (
-          <Label type="danger" className="my-1 ml-2 mr-1">
-            {t("bumpkinTrade.maximumFloor", {
-              max: setPrecision(new Decimal(floorPrices[selected] ?? 0))
-                .mul(1.2)
-                .toNumber(),
-            })}
-          </Label>
-        )}
       </div>
 
       <div className="flex">
@@ -180,14 +116,14 @@ const ListTrade: React.FC<{
             >
               {t("bumpkinTrade.quantity")}
             </Label>
-            {quantity > (TRADE_LIMITS[selected] ?? 0) && (
+            {quantity > (TRADE_LIMITS[emblem] ?? 0) && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {t("bumpkinTrade.max", { max: TRADE_LIMITS[selected] ?? 0 })}
+                {t("bumpkinTrade.max", { max: TRADE_LIMITS[emblem] ?? 0 })}
               </Label>
             )}
             {tooLittle && (
               <Label type="danger" className="my-1 ml-2 mr-1">
-                {t("bumpkinTrade.min", { min: TRADE_MINIMUMS[selected] ?? 0 })}
+                {t("bumpkinTrade.min", { min: TRADE_MINIMUMS[emblem] ?? 0 })}
               </Label>
             )}
           </div>
@@ -217,9 +153,9 @@ const ListTrade: React.FC<{
                 setQuantityDisplay(amount);
 
                 // Auto generate price
-                if (floorPrices[selected]) {
+                if (floorPrices[emblem]) {
                   const estimated = setPrecision(
-                    new Decimal(floorPrices[selected] ?? 0).mul(amount)
+                    new Decimal(floorPrices[emblem] ?? 0).mul(amount)
                   );
                   setSflDisplay(estimated.toString());
                 }
@@ -229,8 +165,9 @@ const ListTrade: React.FC<{
               "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
                 "text-error":
-                  inventory[selected]?.lt(quantity) ||
-                  quantity > (TRADE_LIMITS[selected] ?? 0) ||
+                  inventory[emblem]?.lt(quantity) ||
+                  quantity > (TRADE_LIMITS[emblem] ?? 0) ||
+                  inventory[emblem]?.sub(quantity).lt(1) ||
                   quantity === 0,
               }
             )}
@@ -275,7 +212,7 @@ const ListTrade: React.FC<{
             className={classNames(
               "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
-                "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
+                "text-error": maxSFL || sfl === 0,
               }
             )}
           />
@@ -302,7 +239,7 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs">
-          {t("bumpkinTrade.pricePerUnit", { resource: selected })}
+          {t("bumpkinTrade.pricePerUnit", { resource: emblem })}
         </span>
         <p className="text-xs">
           {quantity === 0
@@ -340,15 +277,14 @@ const ListTrade: React.FC<{
         <Button
           disabled={
             tooLittle ||
-            isTooHigh ||
-            isTooLow ||
             maxSFL ||
-            (inventory[selected]?.lt(quantity) ?? false) ||
+            (inventory[emblem]?.lt(quantity) ?? false) ||
+            inventory[emblem]?.sub(quantity).lt(1) || // Disable when trying to sell all
             quantity === 0 || // Disable when quantity is 0
             sfl === 0 || // Disable when sfl is 0
             isSaving
           }
-          onClick={() => onList({ [selected]: quantity }, sfl)}
+          onClick={() => onList({ [emblem]: quantity }, sfl)}
         >
           {t("bumpkinTrade.list")}
         </Button>
@@ -435,9 +371,10 @@ const TradeDetails: React.FC<{
   );
 };
 
-export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
-  floorPrices,
-}) => {
+export const Trade: React.FC<{
+  floorPrices: FloorPrices;
+  emblem: FactionEmblem;
+}> = ({ floorPrices, emblem }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -501,6 +438,7 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
         onList={onList}
         isSaving={gameState.matches("autosaving")}
         floorPrices={floorPrices}
+        emblem={emblem}
       />
     );
   }
@@ -536,7 +474,6 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
             className="w-1/5 mx-auto my-2 img-highlight-heavy"
           />
           <p className="text-sm">{t("bumpkinTrade.noTradeListed")}</p>
-          <p className="text-xs mb-2">{t("bumpkinTrade.sell")}</p>
         </div>
 
         <Button
@@ -575,9 +512,9 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
       </div>
       {getKeys(trades)
         .filter((listingId) => {
-          const items = Object.keys(trades[listingId].items);
-          return !items.some((item) =>
-            Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem)
+          return (
+            makeListingType(trades[listingId].items) ===
+            makeListingType({ [emblem]: 0 })
           );
         })
         .map((listingId, index) => {

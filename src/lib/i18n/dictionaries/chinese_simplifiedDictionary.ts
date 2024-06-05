@@ -3551,11 +3551,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
     ENGLISH_TERMS["npcDialogues.default.goodFlower"],
   "npcDialogues.default.reward": ENGLISH_TERMS["npcDialogues.default.reward"],
   "npcDialogues.default.locked": ENGLISH_TERMS["npcDialogues.default.locked"],
-  // Glinteye
-  "npcDialogues.glinteye.intro1": ENGLISH_TERMS["npcDialogues.glinteye.intro1"],
-  "npcDialogues.glinteye.intro2": ENGLISH_TERMS["npcDialogues.glinteye.intro2"],
-  "npcDialogues.glinteye.intro3": ENGLISH_TERMS["npcDialogues.glinteye.intro3"],
-  "npcDialogues.glinteye.intro4": ENGLISH_TERMS["npcDialogues.glinteye.intro4"],
 };
 
 const nyeButton: Record<NyeButton, string> = {
