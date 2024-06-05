@@ -75,7 +75,7 @@ export const ListingCategoryCard: React.FC<Props> = ({
         }}
       >
         <span
-          className={classNames("text-[12px]", {
+          className={classNames("text-xs", {
             pulse: showPulse,
           })}
         >

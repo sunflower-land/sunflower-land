@@ -11,6 +11,7 @@ import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Loading } from "features/auth/components";
 
 export interface Price {
   amount: number;
@@ -116,7 +117,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
   if (isSaving) {
     return (
       <div className="flex justify-center">
-        <p className="loading text-center">{t("loading")}</p>
+        <Loading />
       </div>
     );
   }
@@ -149,7 +150,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
                 <img src={creditCard} className="w-1/5 sm:w-1/5" />
                 {price.amount === 1 && (
-                  <span className="text-[12px] italic">
+                  <span className="text-xs italic">
                     {`*${t("minimum")} 5 Block Bucks`}
                   </span>
                 )}

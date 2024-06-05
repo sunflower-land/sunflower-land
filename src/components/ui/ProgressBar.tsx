@@ -203,7 +203,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           }}
         >
           <span
-            className="font-pixel  !text-[18px] text-white text-center"
+            className="font-pixel  !text-[22px] text-white text-center"
             style={{
               padding: "0px 1px",
               height: "9px",

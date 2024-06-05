@@ -28,7 +28,7 @@ const FONT_CONFIG: Record<
 > = {
   Basic: {
     fontFamily: "Basic",
-    xxs: [24, 14],
+    xxs: [20, 14],
     xs: [24, 14],
     sm: [30, 20],
     base: [36, 26],

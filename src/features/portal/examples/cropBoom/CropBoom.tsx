@@ -20,6 +20,7 @@ import {
 } from "features/portal/examples/cropBoom/lib/portalUtil";
 import { CropBoomRules } from "./components/CropBoomRules";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 export const CropBoomApp: React.FC = () => {
   return (
@@ -55,7 +56,7 @@ export const CropBoom: React.FC = () => {
       {portalState.matches("loading") && (
         <Modal show>
           <Panel>
-            <span className="loading">{t("loading")}</span>
+            <Loading />
           </Panel>
         </Modal>
       )}
@@ -95,7 +96,7 @@ export const CropBoom: React.FC = () => {
       {portalState.matches("claiming") && (
         <Modal show>
           <Panel>
-            <p className="loading">{t("loading")}</p>
+            <Loading />
           </Panel>
         </Modal>
       )}

@@ -124,7 +124,7 @@ export const ChatText: React.FC<Props> = ({
       >
         <div
           className={classNames(
-            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words !text-[12px] p-2 ",
+            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words text-xs p-2 ",
             { "mb-1": hasMessages }
           )}
           style={{ fontFamily: "monospace" }}

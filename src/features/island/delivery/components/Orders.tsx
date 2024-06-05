@@ -40,6 +40,7 @@ import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { Loading } from "features/auth/components";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -382,9 +383,10 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               className="w-full !py-2 relative"
               style={{ height: "80px" }}
             >
-              <p className="text-center mb-0.5 mt-1 text-sm loading">
-                {t("skipping")}
-              </p>
+              <Loading
+                className="text-center mb-0.5 mt-1 text-sm loading"
+                text={t("skipping")}
+              />
             </OuterPanel>
           </div>
         )}

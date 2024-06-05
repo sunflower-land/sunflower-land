@@ -115,7 +115,7 @@
   --font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
 
   /* Font Size Variables */
-  --text-xxs-size: 18px;
+  --text-xxs-size: 20px;
   --text-xxs-line-height: 12px;
 
   --text-xs-size: 24px;
@@ -286,44 +286,15 @@ img {
   -webkit-box-orient: vertical;
 }
 
-/* Loading ellipsis animation that will be added to the end of text ie Loading... */
-
-.loading2 {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-}
-
-.loading2::after {
-  display: inline-block;
-  content: "...";
-  animation: loading2-keyframes 1.2s steps(4, jump-none) infinite;
-}
-
-@keyframes loading2-keyframes {
-  0% {
-    transform: translateX(-100%);
+@keyframes blink {
+  0%,
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
-
-.loading,
-.no-tadpoles {
-  display: inline-block;
-  overflow: hidden;
-  height: 30px;
-  line-height: 37px;
-  vertical-align: text-bottom;
-  margin-left: 0.5rem;
-}
-
-.loading::after {
-  display: inline-table;
-  white-space: pre;
-  text-align: left;
-  content: "\A.\A..\A...";
-  animation: ellipsis 1s steps(4) infinite;
-}
-
 .no-tadpoles {
   height: 2.25rem;
 }
@@ -1281,7 +1252,6 @@ a {
 }
 
 .font-secondary {
-  font-size: var(--text-xs-size);
   -webkit-font-smoothing: antialiased;
   word-spacing: -2px;
 }

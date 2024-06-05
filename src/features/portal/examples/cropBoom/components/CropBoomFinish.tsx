@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { PortalContext } from "../lib/PortalProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 interface Props {
   onClose: () => void;
@@ -18,7 +19,7 @@ export const CropBoomFinish: React.FC<Props> = ({ onClose }) => {
   };
 
   if (portalState.matches("claiming")) {
-    return <span className="loading">{t("loading")}</span>;
+    return <Loading text={t("loading")} />;
   }
 
   return (

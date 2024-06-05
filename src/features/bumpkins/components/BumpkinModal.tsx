@@ -246,7 +246,7 @@ export const BumpkinModal: React.FC<Props> = ({
               >
                 <div className="flex items-center mb-1 justify-between">
                   <div className="flex items-center">
-                    <span className="text-xs">{t("skills")}</span>
+                    <span className="text-sm">{t("skills")}</span>
                     {hasAvailableSP && !readonly && (
                       <img
                         src={SUNNYSIDE.icons.expression_alerted}
@@ -254,9 +254,7 @@ export const BumpkinModal: React.FC<Props> = ({
                       />
                     )}
                   </div>
-                  <span className="text-base underline font-secondary">
-                    {t("viewAll")}
-                  </span>
+                  <span className="text-sm underline">{t("viewAll")}</span>
                 </div>
                 <SkillBadges
                   inventory={inventory}
@@ -270,11 +268,9 @@ export const BumpkinModal: React.FC<Props> = ({
               >
                 <div className="flex items-center mb-1 justify-between">
                   <div className="flex items-center">
-                    <span className="text-xs">{t("achievements")}</span>
+                    <span className="text-sm">{t("achievements")}</span>
                   </div>
-                  <span className="underline font-secondary">
-                    {t("viewAll")}
-                  </span>
+                  <span className="underline text-sm">{t("viewAll")}</span>
                 </div>
                 <AchievementBadges achievements={bumpkin?.achievements} />
               </ButtonPanel>
