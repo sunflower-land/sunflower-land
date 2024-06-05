@@ -33,7 +33,6 @@ export const AchievementDetails: React.FC<Props> = ({
   onClaim,
   name,
   state,
-  readonly,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
@@ -144,7 +143,7 @@ export const AchievementDetails: React.FC<Props> = ({
             )}
           </>
         </div>
-        {!readonly && (
+        {!isAlreadyClaimed && (
           <Button className="text-xs" onClick={onClaim} disabled={!isComplete}>
             <span>{t("claim")}</span>
           </Button>
