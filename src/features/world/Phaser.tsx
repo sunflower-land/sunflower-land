@@ -140,7 +140,7 @@ export const PhaserComponent: React.FC<Props> = ({
     hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [NightshadeHouseScene]
       : []),
-    ...(true &&
+    ...(hasHouseAccess(gameService.state.context.state, "bumpkins") &&
     hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [BumpkinHouseScene]
       : []),
