@@ -117,7 +117,7 @@ export const Label: React.FC<Props> = ({
         paddingLeft: icon ? "14px" : "3px",
         paddingRight: secondaryIcon ? "14px" : icon ? "4px" : "3px",
         color: LABEL_STYLES[type].textColour,
-        fontSize: `20px`,
+        fontSize: `24px`,
         ...style,
 
         // Normal font styles
@@ -139,7 +139,7 @@ export const Label: React.FC<Props> = ({
         />
       )}
       <span
-        className="text-xs py-0.5"
+        className="text-xs pt-0 pb-0.5"
         style={{
           textAlign: "center",
           // Normal font styles

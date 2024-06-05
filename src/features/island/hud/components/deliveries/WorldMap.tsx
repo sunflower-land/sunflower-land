@@ -50,15 +50,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={{
-            textShadow:
-              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
-          }}
-        >
-          {t("world.home")}
-        </span>
+        <span className="balance-text">{t("world.home")}</span>
       </div>
 
       <div
@@ -77,15 +69,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={{
-            textShadow:
-              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
-          }}
-        >
-          {t("world.plaza")}
-        </span>
+        <span className="balance-text">{t("world.plaza")}</span>
       </div>
 
       {hasFeatureAccess(gameService.state.context.state, "KINGDOM") && (
@@ -134,15 +118,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={{
-            textShadow:
-              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
-          }}
-        >
-          {t("world.beach")}
-        </span>
+        <span className="balance-text">{t("world.beach")}</span>
       </div>
 
       <div
@@ -161,15 +137,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={{
-            textShadow:
-              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
-          }}
-        >
-          {t("world.woodlands")}
-        </span>
+        <span className="balance-text">{t("world.woodlands")}</span>
       </div>
 
       {/* <div
@@ -221,15 +189,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={{
-            textShadow:
-              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
-          }}
-        >
-          {t("world.retreat")}
-        </span>
+        <span className="balance-text">{t("world.retreat")}</span>
       </div>
     </OuterPanel>
   );

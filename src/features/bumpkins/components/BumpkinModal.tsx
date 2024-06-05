@@ -57,7 +57,7 @@ export const BumpkinLevel: React.FC<{ experience?: number }> = ({
   };
 
   return (
-    <div className="flex items-center mt-1">
+    <div className="flex items-center">
       <ResizableBar
         percentage={getProgressPercentage()}
         type="progress"
@@ -230,7 +230,7 @@ export const BumpkinModal: React.FC<Props> = ({
                     }}
                   />
                   <div>
-                    <p className="!text-[30px] font-pixel">
+                    <p className="!text-[30px] ">
                       {t("lvl")} {level}
                       {maxLevel ? " (Max)" : ""}
                     </p>
