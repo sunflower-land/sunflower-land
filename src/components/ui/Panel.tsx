@@ -131,15 +131,16 @@ type ButtonPanelProps = React.HTMLAttributes<HTMLDivElement>;
 /**
  * A panel with a single layered pixel effect
  */
-export const ButtonPanel: React.FC<ButtonPanelProps> = ({
-  children,
-  ...divProps
-}) => {
+export const ButtonPanel: React.FC<
+  ButtonPanelProps & { disabled?: boolean }
+> = ({ children, disabled, ...divProps }) => {
   const { className, style, ...otherDivProps } = divProps;
 
   return (
     <div
-      className={classNames(className, "hover:brightness-90 cursor-pointer")}
+      className={classNames(className, "hover:brightness-90 cursor-pointer", {
+        "opacity-50": !!disabled,
+      })}
       style={{
         ...pixelDarkBorderStyle,
         padding: `${PIXEL_SCALE * 1}px`,

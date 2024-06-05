@@ -274,7 +274,7 @@ const BaitSelection: React.FC<{
           <div className="flex p-1">
             <img src={ITEM_DETAILS[bait].image} className="h-10 mr-2" />
             <div>
-              <p className="text-sm">{bait}</p>
+              <p className="text-sm mb-1">{bait}</p>
               <p className="text-xs">{ITEM_DETAILS[bait].description}</p>
               {!items[bait] && bait !== "Fishing Lure" && (
                 <Label className="mt-1" type="default">
