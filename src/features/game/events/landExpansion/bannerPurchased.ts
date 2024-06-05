@@ -9,7 +9,6 @@ import {
   getSeasonByBanner,
   getSeasonalBanner,
 } from "features/game/types/seasons";
-import { translate } from "lib/i18n/translate";
 
 export type PurchaseBannerAction = {
   type: "banner.purchased";
@@ -78,7 +77,7 @@ export function purchaseBanner({
   const { bumpkin, inventory } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const currentBlockBucks = inventory["Block Buck"] ?? new Decimal(0);

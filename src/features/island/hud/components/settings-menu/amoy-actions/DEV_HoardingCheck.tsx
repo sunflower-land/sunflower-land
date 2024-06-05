@@ -176,7 +176,7 @@ export const DEV_HoardingCheck: React.FC<Props> = ({ network }) => {
         <HoarderCheck network={network} />
       </Modal>
       <Button onClick={() => setShow(!show)}>
-        {t("hoarding.check")}
+        {`Hoarding Check`}
         {" ("}
         {network}
         {")"}

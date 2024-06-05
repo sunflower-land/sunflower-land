@@ -34,7 +34,7 @@ export function collectRecipe({
   }
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const recipe = building.crafting;

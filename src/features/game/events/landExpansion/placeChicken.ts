@@ -2,7 +2,6 @@ import { getKeys } from "features/game/types/craftables";
 import cloneDeep from "lodash.clonedeep";
 import { GameState } from "../../types/game";
 import { getSupportedChickens } from "./utils";
-import { translate } from "lib/i18n/translate";
 
 export type PlaceChickenAction = {
   type: "chicken.placed";
@@ -28,7 +27,7 @@ export function placeChicken({
   const bumpkin = stateCopy.bumpkin;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const placedChickens = getKeys(stateCopy.chickens).filter(

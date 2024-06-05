@@ -11,7 +11,6 @@ import {
   FruitName,
   GREENHOUSE_FRUIT,
 } from "features/game/types/fruits";
-import { translate } from "lib/i18n/translate";
 
 export type SellableName = CropName | FruitName;
 export type SellableItem = Crop | Fruit;
@@ -40,7 +39,7 @@ export function sellCrop({ state, action }: Options): GameState {
   const { bumpkin } = game;
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (!(action.crop in SELLABLE)) {

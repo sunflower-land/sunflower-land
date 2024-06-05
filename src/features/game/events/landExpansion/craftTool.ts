@@ -15,7 +15,6 @@ import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
-import { translate } from "lib/i18n/translate";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 type CraftableToolName =
@@ -60,7 +59,7 @@ export function craftTool({ state, action }: Options) {
   }
 
   if (bumpkin === undefined) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
   const price = tool.price * amount;
 

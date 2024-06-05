@@ -7,7 +7,6 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
-import { translate } from "lib/i18n/translate";
 
 export enum FRUIT_TREE_REMOVED_ERRORS {
   MISSING_AXE = "No axe",
@@ -54,7 +53,7 @@ export function removeFruitTree({
   const { fruitPatches, bumpkin, inventory, collectibles } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   const patch = fruitPatches[action.index];

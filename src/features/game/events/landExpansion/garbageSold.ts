@@ -5,7 +5,6 @@ import { GARBAGE, GarbageName } from "features/game/types/garbage";
 
 import { setPrecision } from "lib/utils/formatNumber";
 import cloneDeep from "lodash.clonedeep";
-import { translate } from "lib/i18n/translate";
 
 export type SellGarbageAction = {
   type: "garbage.sold";
@@ -25,7 +24,7 @@ export function sellGarbage({ state, action }: Options) {
   const { bumpkin, inventory, coins } = game;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (!(item in GARBAGE)) {

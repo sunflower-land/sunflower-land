@@ -23,7 +23,7 @@ export function completeBertObsession({
   const { bumpkin } = stateCopy;
 
   if (!bumpkin) {
-    throw new Error(translate("no.have.bumpkin"));
+    throw new Error("You do not have a Bumpkin!");
   }
 
   if (!stateCopy.npcs) {
