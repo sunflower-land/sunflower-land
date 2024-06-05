@@ -187,7 +187,7 @@ export const LevelUp: React.FC<Props> = ({ level, onClose, wearables }) => {
         {LEVEL_UP_MESSAGES[level] ?? "Wow, I am lost for words!"}
       </p>
       {unlocks.length > 0 && (
-        <div className="mt-2 underline">
+        <div className="mt-2">
           <p className="text-xxs text-center">{t("unlocked")}</p>
           <div className="flex flex-wrap justify-center items-center mt-2 space-x-3">
             {unlocks.map((unlock) => (
