@@ -124,7 +124,7 @@ export const ChatText: React.FC<Props> = ({
       >
         <div
           className={classNames(
-            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words text-xs p-2 ",
+            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words !text-[12px] p-2 ",
             { "mb-1": hasMessages }
           )}
           style={{ fontFamily: "monospace" }}
@@ -183,8 +183,12 @@ export const ChatText: React.FC<Props> = ({
             e.preventDefault();
           }}
           placeholder="Type here..."
-          className="text-xs placeholder-white text-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
-          style={{ lineHeight: "12px", fontFamily: "monospace" }}
+          className=" placeholder-white text-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
+          style={{
+            lineHeight: "12px",
+            fontSize: "12px",
+            fontFamily: "monospace",
+          }}
         />
         <Validation />
       </div>

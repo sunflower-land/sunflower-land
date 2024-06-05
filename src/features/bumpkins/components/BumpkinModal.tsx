@@ -230,7 +230,7 @@ export const BumpkinModal: React.FC<Props> = ({
                     }}
                   />
                   <div>
-                    <p className="!text-[30px] ">
+                    <p>
                       {t("lvl")} {level}
                       {maxLevel ? " (Max)" : ""}
                     </p>

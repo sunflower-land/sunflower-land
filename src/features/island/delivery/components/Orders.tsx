@@ -292,7 +292,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
                         width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        fontSize: "22px",
                         height: "25px",
                       }}
                     >
@@ -308,7 +307,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
                         width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        fontSize: "22px",
                         height: "25px",
                       }}
                     >
@@ -324,7 +322,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                         left: `${PIXEL_SCALE * -3}px`,
                         right: `${PIXEL_SCALE * -3}px`,
                         width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                        fontSize: "22px",
                         height: "25px",
                       }}
                     >

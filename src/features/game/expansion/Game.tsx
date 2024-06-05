@@ -392,11 +392,7 @@ export const GameWrapper: React.FC = ({ children }) => {
                     <img id="logo" src={logo} className="w-full" />
                   )}
                   <div className="flex justify-center">
-                    <Label
-                      type="default"
-                      className="font-secondary"
-                      style={{ fontSize: "22px" }}
-                    >
+                    <Label type="default" className="font-secondary">
                       {CONFIG.RELEASE_VERSION?.split("-")[0]}
                     </Label>
                     {hasFeatureAccess(TEST_FARM, "EASTER") && (

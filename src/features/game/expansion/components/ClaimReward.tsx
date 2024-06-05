@@ -112,7 +112,6 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           type="success"
                           icon={powerup}
                           className="mr-2 font-secondary"
-                          style={{ fontSize: "22px" }}
                         >{`+${setPrecision(
                           new Decimal(
                             CONSUMABLES[name as ConsumableName].experience
@@ -129,7 +128,6 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                         icon={buff.boostTypeIcon}
                         secondaryIcon={buff.boostedItemIcon}
                         className="my-1 font-secondary"
-                        style={{ fontSize: "22px" }}
                       >
                         {buff.shortDescription}
                       </Label>

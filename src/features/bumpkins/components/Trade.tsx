@@ -17,7 +17,7 @@ import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
-import { ButtonPanel, InnerPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";

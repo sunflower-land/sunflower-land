@@ -5063,6 +5063,9 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.generalSettings.changeLanguage": "Change Language",
   "gameOptions.generalSettings.darkMode": "Dark Mode",
   "gameOptions.generalSettings.lightMode": "Light Mode",
+  "gameOptions.generalSettings.appearance": "Appearance Settings",
+  "gameOptions.generalSettings.font": "Font",
+
   "gameOptions.generalSettings.disableAnimations": "Disable Animations",
   "gameOptions.generalSettings.enableAnimations": "Enable Animations",
   "gameOptions.generalSettings.share": "Share",

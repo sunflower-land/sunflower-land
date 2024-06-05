@@ -1,46 +1,46 @@
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
-import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
+import { AppearanceSettings } from "./AppearanceSettings";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
 }) => {
   const { t } = useAppTranslation();
 
-  const { isDarkMode, toggleDarkMode } = useIsDarkMode();
-
   const { showAnimations, toggleAnimations } = useContext(Context);
+  const [showFonts, setShowFonts] = useState(false);
 
   const onToggleAnimations = () => {
     toggleAnimations();
   };
 
+  if (showFonts) {
+    return <AppearanceSettings />;
+  }
+
   return (
     <>
-      <Button onClick={() => onSubMenuClick("discord")} className="mb-2">
+      <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
         <span>{`Discord`}</span>
       </Button>
-      <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-2">
+      <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-1">
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
-      <Button className="mb-2" onClick={toggleDarkMode}>
-        <span>
-          {isDarkMode
-            ? t("gameOptions.generalSettings.darkMode")
-            : t("gameOptions.generalSettings.lightMode")}
-        </span>
+
+      <Button className="mb-1" onClick={() => setShowFonts(true)}>
+        <span>{t("gameOptions.generalSettings.appearance")}</span>
       </Button>
-      <Button className="mb-2" onClick={onToggleAnimations}>
+      <Button className="mb-1" onClick={onToggleAnimations}>
         <span>
           {showAnimations
             ? t("gameOptions.generalSettings.disableAnimations")
             : t("gameOptions.generalSettings.enableAnimations")}
         </span>
       </Button>
-      <Button onClick={() => onSubMenuClick("share")} className="mb-2">
+      <Button onClick={() => onSubMenuClick("share")} className="mb-1">
         <span>{t("gameOptions.generalSettings.share")}</span>
       </Button>
     </>

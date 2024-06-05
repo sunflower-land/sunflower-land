@@ -3424,6 +3424,8 @@ export type GameOptions =
   | "gameOptions.generalSettings.changeLanguage"
   | "gameOptions.generalSettings.darkMode"
   | "gameOptions.generalSettings.lightMode"
+  | "gameOptions.generalSettings.font"
+  | "gameOptions.generalSettings.appearance"
   | "gameOptions.generalSettings.disableAnimations"
   | "gameOptions.generalSettings.enableAnimations"
   | "gameOptions.generalSettings.share"

@@ -168,7 +168,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           }}
         />
         <div
-          className={`col-start-1 row-start-1 flex justify-center  !text-[22px]  z-20 text-xxs`}
+          className={`col-start-1 row-start-1 flex justify-center   z-20 text-xxs`}
           style={{
             width: `${DIMENSIONS.level.width}px`,
             height: `${DIMENSIONS.level.height}px`,

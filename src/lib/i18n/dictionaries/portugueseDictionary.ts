@@ -5079,9 +5079,12 @@ const gameOptions: Record<GameOptions, string> = {
     ENGLISH_TERMS["gameOptions.generalSettings.darkMode"],
   "gameOptions.generalSettings.lightMode":
     ENGLISH_TERMS["gameOptions.generalSettings.lightMode"],
+  "gameOptions.generalSettings.font":
+    ENGLISH_TERMS["gameOptions.generalSettings.font"],
   "gameOptions.generalSettings.disableAnimations": "Desativar Animações",
   "gameOptions.generalSettings.enableAnimations": "Ativar Animações",
   "gameOptions.generalSettings.share": "Compartilhar",
+  "gameOptions.generalSettings.appearance": "Appearance Settings",
 
   // Plaza Settings
   "gameOptions.plazaSettings": "Configurações do Plaza",

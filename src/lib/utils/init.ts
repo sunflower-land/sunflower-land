@@ -1,5 +1,6 @@
 import util from "util";
 import Decimal from "decimal.js-light";
+import { initialiseFont } from "./fonts";
 
 export function initialise() {
   /**
@@ -12,4 +13,6 @@ export function initialise() {
    */
   Decimal.set({ toExpPos: 30 });
   Decimal.set({ toExpNeg: -30 });
+
+  initialiseFont();
 }
