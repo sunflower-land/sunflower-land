@@ -1722,7 +1722,7 @@ describe("getTotalOilMillisInMachine", () => {
     const queue = machine.queue as CropMachineQueueItem[];
     const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
 
-    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime);
+    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
     expect(result).toBe(sunflowerPackGrowTime);
   });
 
@@ -1759,7 +1759,7 @@ describe("getTotalOilMillisInMachine", () => {
     const queue = machine.queue as CropMachineQueueItem[];
     const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
 
-    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime);
+    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
     expect(result).toBe(0);
   });
 
@@ -1796,7 +1796,7 @@ describe("getTotalOilMillisInMachine", () => {
     const queue = machine.queue as CropMachineQueueItem[];
     const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
 
-    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime);
+    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
     expect(result).toBe(0);
   });
 
@@ -1836,7 +1836,7 @@ describe("getTotalOilMillisInMachine", () => {
     const queue = machine.queue as CropMachineQueueItem[];
     const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
 
-    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime);
+    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
     expect(result).toBe(0);
   });
 
@@ -1884,7 +1884,7 @@ describe("getTotalOilMillisInMachine", () => {
     const queue = machine.queue as CropMachineQueueItem[];
     const unallocatedOilTime = machine.unallocatedOilTime ?? 0;
 
-    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime);
+    const result = getTotalOilMillisInMachine(queue, unallocatedOilTime, now);
     expect(result).toBe(packGrowTime + 1000);
   });
 });

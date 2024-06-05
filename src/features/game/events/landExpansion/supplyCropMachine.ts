@@ -32,10 +32,9 @@ export const MAX_OIL_CAPACITY_IN_MILLIS = 48 * 60 * 60 * 1000;
 
 export function getTotalOilMillisInMachine(
   queue: CropMachineQueueItem[],
-  unallocatedOilTime: number
+  unallocatedOilTime: number,
+  now: number = Date.now()
 ) {
-  const now = Date.now();
-
   const oil = queue.reduce((totalOil, item) => {
     // There is no oil to allocated to this pack
     if (!item.startTime) return totalOil;
