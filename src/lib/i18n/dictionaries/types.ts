@@ -976,7 +976,11 @@ export type CropMachine =
   | "cropMachine.harvestAllCrops"
   | "cropMachine.maxRuntime"
   | "cropMachine.oilToAdd"
-  | "cropMachine.totalRuntime";
+  | "cropMachine.totalRuntime"
+  | "cropMachine.running"
+  | "cropMachine.stopped"
+  | "cropMachine.idle"
+  | "cropMachine.name";
 
 export type DeliveryItem =
   | "deliveryitem.inventory"

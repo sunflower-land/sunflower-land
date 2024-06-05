@@ -143,14 +143,14 @@ export const CropMachineModal: React.FC<Props> = ({
 
   const getMachineStatusLabel = () => {
     if (running) {
-      return <Label type="default">{`Crop machine is running`}</Label>;
+      return <Label type="default">{t("cropMachine.running")}</Label>;
     }
 
     if (paused) {
-      return <Label type="warning">{`Crop machine has stopped`}</Label>;
+      return <Label type="warning">{t("cropMachine.stopped")}</Label>;
     }
 
-    return <Label type="default">{`Crop machine is idle`}</Label>;
+    return <Label type="default">{t("cropMachine.idle")}</Label>;
   };
 
   const getQueueItemCountLabelType = (
@@ -220,11 +220,14 @@ export const CropMachineModal: React.FC<Props> = ({
   ];
 
   const readyPacks = queue.filter((pack) => isCropPackReady(pack));
-
+  const onHide = () => {
+    setOverlayScreen(undefined);
+    onClose();
+  };
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: SUNNYSIDE.icons.seedling, name: "Crop Machine" }]}
+        tabs={[{ icon: SUNNYSIDE.icons.seedling, name: t("cropMachine.name") }]}
         currentTab={tab}
         setCurrentTab={setTab}
         onClose={onClose}

@@ -1386,6 +1386,10 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.maxRuntime": "Max runtime: {{time}}",
   "cropMachine.oilToAdd": "Oil to add: {{amount}}",
   "cropMachine.totalRuntime": "Total runtime: {{time}}",
+  "cropMachine.running": "Crop Machine is running",
+  "cropMachine.stopped": "Crop Machine has stopped",
+  "cropMachine.idle": "Crop Machine is idle",
+  "cropMachine.name": "Crop Machine",
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
