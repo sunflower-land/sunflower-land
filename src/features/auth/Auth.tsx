@@ -109,7 +109,9 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
         )}
       </Modal>
 
-      <LoginSettings />
+      {!authState.matches("connected") && !authState.matches("visiting") && (
+        <LoginSettings />
+      )}
     </>
   );
 };
