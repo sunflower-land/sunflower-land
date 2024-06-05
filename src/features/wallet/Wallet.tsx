@@ -17,6 +17,7 @@ import { shortAddress } from "lib/utils/shortAddress";
 import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
 import { WalletContext } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 interface Props {
   action: WalletAction;
@@ -257,7 +258,7 @@ export const Wallet: React.FC<Props> = ({
       return <NFTMigrating />;
     }
 
-    return <p className="loading">{t("connecting")}</p>;
+    return <Loading text={t("connecting")} />;
   };
 
   const Wrapper = wrapper;

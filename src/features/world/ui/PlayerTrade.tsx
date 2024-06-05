@@ -18,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
+import { Loading } from "features/auth/components";
 
 interface Props {
   farmId: number;
@@ -74,7 +75,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   }
 
   if (isLoading) {
-    return <p className="loading">{t("loading")}</p>;
+    return <Loading />;
   }
 
   if (!listings || getKeys(listings).length === 0)

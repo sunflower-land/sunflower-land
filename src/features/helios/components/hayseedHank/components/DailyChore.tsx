@@ -22,6 +22,7 @@ import { FACTION_POINT_MULTIPLIER } from "features/game/events/landExpansion/del
 import classNames from "classnames";
 import { generateChoreTickets } from "features/game/events/landExpansion/completeChore";
 import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
+import { Loading } from "features/auth/components";
 
 const isDateOnSameDayAsToday = (date: Date) => {
   const today = new Date();
@@ -83,7 +84,7 @@ export const DailyChore: React.FC<Props> = ({
   if (isSkipping && autosaving) {
     return (
       <InnerPanel className="!p-2 mb-2 text-xs">
-        <span className="loading text-sm">{t("skipping")}</span>
+        <Loading text={t("skipping")} />
       </InnerPanel>
     );
   }
@@ -96,7 +97,7 @@ export const DailyChore: React.FC<Props> = ({
     id: farmId,
   });
 
-  const descriptionTextClass = isCodex ? "text-xxs sm:text-xs" : "text-xs";
+  const descriptionTextClass = isCodex ? "sm:text-xs" : "text-xs";
 
   const tickets = generateChoreTickets({
     game: gameService.state.context.state,

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import minting from "assets/npcs/minting.gif";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 interface Props {
   readyAt: number;
@@ -59,7 +60,7 @@ export const NFTMinting: React.FC = () => {
           </Label>
         </div>
 
-        <p className="text-sm loading">{t("minting")}</p>
+        <Loading text={t("minting")} />
 
         <img src={minting} className="w-40 mt-2" />
       </div>
@@ -78,7 +79,7 @@ export const NFTMigrating: React.FC = () => {
           </Label>
         </div>
 
-        <p className="text-sm loading">{t("nftminting.almostThere")}</p>
+        <Loading text={t("nftminting.almostThere")} />
 
         <img src={minting} className="w-40 mt-2" />
       </div>

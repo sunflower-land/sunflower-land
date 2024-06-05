@@ -90,7 +90,7 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
             {t("somethingWentWrong.askingCommunity")}
           </p>
         </div>
-        <div className="flex flex-col w-full text-left mb-2 text-[12px] overflow-hidden">
+        <div className="flex flex-col w-full text-left mb-2 text-xs overflow-hidden">
           {farmId && (
             <p className="leading-3">
               {t("farm")}

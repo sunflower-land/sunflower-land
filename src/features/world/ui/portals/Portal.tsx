@@ -15,6 +15,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 
 import { portal } from "../community/actions/portal";
+import { Loading } from "features/auth/components";
 
 interface Props {
   portalName: MinigameName;
@@ -137,7 +138,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   };
 
   if (loading) {
-    return <span className="loading">{t("loading")}</span>;
+    return <Loading />;
   }
 
   if (isComplete) {
@@ -196,7 +197,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           </div>,
           document.body
         )}
-      <span className="loading  z-10 left-0 top-0">{t("loading")}</span>
+      <Loading className="z-10 left-0 top-0" />
     </>
   );
 };

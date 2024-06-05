@@ -4,6 +4,7 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { Message, SpeakingModal } from "features/game/components/SpeakingModal";
 import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 type CommunityModal = {
   npc: {
@@ -76,7 +77,7 @@ export const CommunityModals: React.FC = () => {
         )}
         {modal?.type === "loading" && (
           <Panel>
-            <span className="loading">{t("loading")}</span>
+            <Loading />
           </Panel>
         )}
       </Modal>

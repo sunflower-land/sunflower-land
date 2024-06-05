@@ -353,7 +353,7 @@ const DepositOptions: React.FC<Props> = ({
       {status === "loaded" && emptyWallet && (
         <div className="p-2 space-y-2">
           <p>{t("deposit.noSflOrCollectibles")}</p>
-          <div className="flex text-[12px] sm:text-xs mb-3 space-x-1">
+          <div className="flex text-xs sm:text-xs mb-3 space-x-1">
             <span className="whitespace-nowrap">
               {t("deposit.farmAddress")}
             </span>

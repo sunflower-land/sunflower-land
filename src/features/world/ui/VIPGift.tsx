@@ -11,6 +11,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { Revealed } from "features/game/components/Revealed";
+import { Loading } from "features/auth/components";
 
 interface Props {
   onClose: () => void;
@@ -59,7 +60,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
     return (
       <Panel>
-        <p className="loading text-sm">{t("loading")}</p>
+        <Loading />
       </Panel>
     );
   }

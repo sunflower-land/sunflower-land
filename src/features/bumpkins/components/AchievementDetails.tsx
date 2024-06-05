@@ -75,7 +75,7 @@ export const AchievementDetails: React.FC<Props> = ({
                 />
               </div>
               <div className="flex flex-col items-center justify-center w-full">
-                <div className="flex-1 mt-2 text-xxs sm:text-xs flex-wrap justify-center items-center text-center w-full">
+                <div className="flex-1 mt-2 sm:text-xs flex-wrap justify-center items-center text-center w-full">
                   <p className="text-xs mb-2">{achievement.description}</p>
                   <div className="flex items-center justify-center border-t border-white pt-1 w-full">
                     {!isAlreadyClaimed && (

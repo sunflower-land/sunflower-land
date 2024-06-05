@@ -52,6 +52,7 @@ import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
 import { NightshadeHouseScene } from "./scenes/NightshadeHouse";
 import { BumpkinHouseScene } from "./scenes/BumpkinHouse";
+import { Loading } from "features/auth/components";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -520,13 +521,13 @@ export const PhaserComponent: React.FC<Props> = ({
         backdrop={false}
       >
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
 
       <Modal show={mmoState === "joinRoom"} backdrop={false}>
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
     </div>

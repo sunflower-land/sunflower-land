@@ -25,6 +25,7 @@ import { useActor } from "@xstate/react";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
+import { Loading } from "./Loading";
 
 const CONTENT_HEIGHT = 355;
 
@@ -326,7 +327,7 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
   if (showLoading) {
     return (
       <div className="">
-        <p className="text-sm loading">{t("loading")}</p>
+        <Loading />
       </div>
     );
   }

@@ -13,6 +13,7 @@ import { isAddress } from "web3-utils";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "./Loading";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
@@ -145,7 +146,7 @@ export const ClaimAccount: React.FC<{
     load();
   }, []);
 
-  if (isLoading) return <p className="loading">{t("loading")}</p>;
+  if (isLoading) return <Loading />;
 
   if (tokenIds.length === 0) {
     return (
