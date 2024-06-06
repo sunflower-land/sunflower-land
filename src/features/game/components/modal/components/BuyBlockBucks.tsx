@@ -126,7 +126,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
     return (
       <>
         <div className="px-1">
-          <div className="flex items-center text-[14px] sm:text-sm justify-between mt-2 mb-3">
+          <div className="flex items-center sm:text-sm justify-between mt-2 mb-3">
             <div className="flex items-center space-x-2">
               <span className="text-xs">
                 {t("item")} {price.amount} {"x"}
@@ -178,7 +178,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               </div>
               <Label
                 type="warning"
-                className="absolute h-8 -bottom-2 font-pixel"
+                className="absolute h-8 -bottom-2"
                 style={{
                   left: `${PIXEL_SCALE * -3}px`,
                   right: `${PIXEL_SCALE * -3}px`,
@@ -199,8 +199,8 @@ export const BuyBlockBucks: React.FC<Props> = ({
   return (
     <>
       <div className="flex flex-col w-full p-1">
-        <p className="text-xxs italic pb-2">{t("transaction.excludeFees")}</p>
-        <div className="grid grid-cols-3 gap-1 gap-y-2 text-[14px] sm:text-sm sm:gap-2">
+        <p className="text-xs italic pb-2">{t("transaction.excludeFees")}</p>
+        <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price) => (
             <ButtonPanel
               key={JSON.stringify(price)}

@@ -76,7 +76,9 @@ export const Balances: React.FC<Props> = ({
         >
           <div className="h-9 w-full bg-black opacity-25 absolute sfl-hud-backdrop -z-10" />
           <span className="balance-text">
-            {showFullBalance ? sfl.toString() : setPrecision(sfl).toString()}
+            {showFullBalance
+              ? setPrecision(sfl, 8).toString()
+              : setPrecision(sfl).toString()}
           </span>
           <img
             src={sflIcon}

@@ -9,7 +9,7 @@ export const AppearanceSettings: React.FC = () => {
   const { t } = useAppTranslation();
   const { isDarkMode, toggleDarkMode } = useIsDarkMode();
 
-  const fonts: Font[] = ["Basic", "Secondary", "sans-serif"];
+  const fonts: Font[] = ["Default", "Bold", "Sans Serif"];
 
   return (
     <>

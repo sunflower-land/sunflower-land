@@ -375,7 +375,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   coins: 10,
-  balance: new Decimal(100),
+  balance: new Decimal(100.1023810291823),
   previousBalance: new Decimal(0),
   previousInventory: {
     Wood: new Decimal(10),
@@ -763,7 +763,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Market: [
+    "Hen House": [
       {
         coordinates: {
           x: -5,
