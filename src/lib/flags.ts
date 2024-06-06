@@ -32,7 +32,6 @@ export type FeatureName =
   | "PRESTIGE_DESERT"
   | "CHICKEN_RESCUE"
   | "CROP_MACHINE"
-  | "COOKING_BOOST"
   | "DESERT_RECIPES"
   | "KINGDOM"
   | "FACTION_HOUSE"
@@ -65,7 +64,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PRESTIGE_DESERT: defaultFeatureFlag,
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
-  COOKING_BOOST: defaultFeatureFlag,
   EMBLEM_COUNTDOWN_TIMER: timeBasedFeatureFlag(
     new Date("2024-06-10T00:00:00Z")
   ),
