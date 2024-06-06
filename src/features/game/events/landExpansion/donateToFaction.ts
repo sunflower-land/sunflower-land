@@ -5,6 +5,8 @@ import { getDayOfYear } from "lib/utils/time";
 
 const DAILY_SFL_DONATION_LIMIT = 500;
 
+export const FACTION_POINT_CUTOFF = new Date("2024-06-14T00:00:00Z");
+
 type DonationType = "resources" | "sfl";
 
 const POINTS_PER_TYPE: Record<DonationType, number> = {
