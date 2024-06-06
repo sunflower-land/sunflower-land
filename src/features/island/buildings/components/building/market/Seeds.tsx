@@ -18,7 +18,7 @@ import { Decimal } from "decimal.js-light";
 import { getBuyPrice } from "features/game/events/landExpansion/seedBought";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { INVENTORY_LIMIT } from "features/game/lib/constants";
-import { makeBulkBuyAll, makeBulkBuyAmount } from "./lib/makeBulkBuyAmount";
+import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
 import { Bumpkin, IslandType } from "features/game/types/game";
@@ -47,8 +47,8 @@ import {
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { capitalize } from "lib/utils/capitalize";
 import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
+import { Panel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -98,20 +98,12 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  const bulkSeedBuyAmount = makeBulkBuyAmount(stock);
-  const bulkSeedBuyAll = makeBulkBuyAll(stock);
-  const bulkBuyLimit =
-    (INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0)).toNumber() -
-    (inventory[selectedName] ?? new Decimal(0)).toNumber();
+  const inventoryLimit = INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0);
+  const inventoryAmount = inventory[selectedName] ?? new Decimal(0);
+  const bulkBuyLimit = inventoryLimit.minus(inventoryAmount);
   // Calculates the difference between amount in inventory and the inventory limit
+  const bulkSeedBuyAmount = makeBulkBuySeeds(stock, bulkBuyLimit);
 
-  const bulkBuy = () => {
-    if (bulkBuyLimit < bulkSeedBuyAll) {
-      return buy(bulkBuyLimit), showConfirmBuyModal(false); // buys difference between inventory amount and inventory limit
-    } else {
-      return buy(bulkSeedBuyAll), showConfirmBuyModal(false); // buys all available seeds
-    }
-  };
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
@@ -157,74 +149,61 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
     // return buy buttons otherwise
     return (
-      <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-        <Button
-          disabled={lessFunds() || stock.lessThan(1)}
-          onClick={() => buy(1)}
-        >
-          {t("buy")} {"1"}
-        </Button>
-        {bulkSeedBuyAmount > 1 && (
+      <>
+        <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
           <Button
-            disabled={lessFunds(bulkSeedBuyAmount)}
-            onClick={() => buy(bulkSeedBuyAmount)}
+            disabled={lessFunds() || stock.lessThan(1)}
+            onClick={() => buy(1)}
           >
-            {t("buy")} {bulkSeedBuyAmount}
+            {t("buy")} {"1"}
           </Button>
-        )}
-        {bulkSeedBuyAll > 10 && bulkBuyLimit > 10 && (
-          <>
-            <Button
-              disabled={
-                bulkBuyLimit < bulkSeedBuyAll
-                  ? lessFunds(bulkBuyLimit)
-                  : lessFunds(bulkSeedBuyAll)
-              }
-              onClick={() => showConfirmBuyModal(true)}
-            >
-              {t("buy")}{" "}
-              {bulkBuyLimit < bulkSeedBuyAll ? bulkBuyLimit : bulkSeedBuyAll}
+          {bulkSeedBuyAmount > 10 && (
+            <Button disabled={lessFunds(10)} onClick={() => buy(10)}>
+              {t("buy")} {`10`}
             </Button>
-            <Modal
-              show={confirmBuyModal}
-              onHide={() => showConfirmBuyModal(false)}
+          )}
+          {bulkSeedBuyAmount > 1 && (
+            <Button
+              disabled={lessFunds(bulkSeedBuyAmount)}
+              onClick={() => {
+                if (bulkSeedBuyAmount <= 10) {
+                  buy(bulkSeedBuyAmount);
+                } else {
+                  showConfirmBuyModal(true);
+                }
+              }}
             >
-              <CloseButtonPanel
-                className="sm:w-4/5 m-auto"
-                bumpkinParts={NPC_WEARABLES.betty}
+              {t("buy")} {bulkSeedBuyAmount}
+            </Button>
+          )}
+        </div>
+        <Modal show={confirmBuyModal} onHide={() => showConfirmBuyModal(false)}>
+          <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
+            <div className="flex flex-col p-2">
+              <span className="text-sm text-center">
+                {t("confirmation.buyCrops", {
+                  coinAmount: price * bulkSeedBuyAmount,
+                  seedNo: bulkSeedBuyAmount,
+                  seedName: selectedName,
+                })}
+              </span>
+            </div>
+            <div className="flex justify-content-around mt-2 space-x-1">
+              <Button
+                onClick={() => {
+                  buy(bulkSeedBuyAmount);
+                  showConfirmBuyModal(false);
+                }}
               >
-                <div className="flex flex-col p-2">
-                  <span className="text-sm text-center">
-                    {t("confirmation.buyCrops", {
-                      coinAmount:
-                        price *
-                        (bulkBuyLimit < bulkSeedBuyAll
-                          ? bulkBuyLimit
-                          : bulkSeedBuyAll),
-                      seedNo:
-                        bulkBuyLimit < bulkSeedBuyAll
-                          ? bulkBuyLimit
-                          : bulkSeedBuyAll,
-                      seedName: selectedName,
-                    })}
-                  </span>
-                </div>
-                <div className="flex justify-content-around mt-2 space-x-1">
-                  <Button onClick={bulkBuy}>
-                    {t("buy")}{" "}
-                    {bulkBuyLimit < bulkSeedBuyAll
-                      ? bulkBuyLimit
-                      : bulkSeedBuyAll}
-                  </Button>
-                  <Button onClick={() => showConfirmBuyModal(false)}>
-                    {t("cancel")}
-                  </Button>
-                </div>
-              </CloseButtonPanel>
-            </Modal>
-          </>
-        )}
-      </div>
+                {t("buy")} {bulkSeedBuyAmount}
+              </Button>
+              <Button onClick={() => showConfirmBuyModal(false)}>
+                {t("cancel")}
+              </Button>
+            </div>
+          </Panel>
+        </Modal>
+      </>
     );
   };
 
