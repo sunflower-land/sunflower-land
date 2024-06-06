@@ -2021,7 +2021,9 @@ const factions: Record<Factions, string> = {
     "You contributed {{count}} faction points. Your rank was {{rank}}. You in the top {{percentile}}% of {{Faction}}.",
   "faction.claimEmblems.claim": "Claim {{count}} Emblems",
   "faction.claimEmblems.congratulations":
-    "Congratulations! You've received {{count}} emblems! Here is how you compare to your faction members.",
+    "Congratulations! You've received {{count}} emblems!",
+  "faction.claimEmblems.comparison":
+    "Here is how you compare to your faction members.",
   "faction.claimEmblems.totalMembers": "Total Faction Members",
   "faction.claimEmblems.totalEmblems": "Total Faction Emblems",
   "faction.claimEmblems.percentile": "Top {{percentile}}%",

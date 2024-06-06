@@ -32,7 +32,7 @@ export const FACTION_BANNERS: Record<FactionName, FactionBanner> = {
   nightshades: "Nightshade Faction Banner",
 };
 
-const FACTION_EMBLEMS: Record<FactionName, FactionEmblem> = {
+export const FACTION_EMBLEMS: Record<FactionName, FactionEmblem> = {
   bumpkins: "Bumpkin Emblem",
   sunflorians: "Sunflorian Emblem",
   goblins: "Goblin Emblem",

@@ -2,6 +2,7 @@ import mapJSON from "assets/map/kingdom.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -58,6 +59,10 @@ export class KingdomScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    // Preload the leaderboard data (async).
+    // This is used by the faction spruikers when claiming emblems.
+    fetchLeaderboardData(this.id);
   }
 
   create() {
