@@ -1063,6 +1063,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.price/unit": "{{price}} / unit",
   "bumpkinTrade.sellConfirmation":
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
+  "bumpkinTrade.cant.sell.all": "Can't sell all",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {

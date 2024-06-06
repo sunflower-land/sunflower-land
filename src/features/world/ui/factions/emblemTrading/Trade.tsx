@@ -67,6 +67,7 @@ const ListTrade: React.FC<{
 
   const tooLittle = !!quantity && quantity < (TRADE_MINIMUMS[emblem] ?? 0);
 
+  const cantSellAll = inventory[emblem]?.sub(quantity).lt(1);
   return (
     <>
       <div className="flex justify-between">
@@ -76,10 +77,14 @@ const ListTrade: React.FC<{
         </div>
         <div className="flex flex-col items-end pr-1">
           <Label
-            type={inventory[emblem]?.lt(quantity) ? "danger" : "info"}
+            type={
+              inventory[emblem]?.lt(quantity) || cantSellAll ? "danger" : "info"
+            }
             className="my-1"
           >
-            {t("bumpkinTrade.available")}
+            {inventory[emblem]?.sub(quantity).lt(1)
+              ? `Can't sell all`
+              : t("bumpkinTrade.available")}
           </Label>
           <span className="text-sm mr-1">
             {`${setPrecision(new Decimal(inventory?.[emblem] ?? 0), 0)}`}

@@ -744,7 +744,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.minimumFloor"
   | "bumpkinTrade.maximumFloor"
   | "bumpkinTrade.floorPrice"
-  | "bumpkinTrade.sellConfirmation";
+  | "bumpkinTrade.sellConfirmation"
+  | "bumpkinTrade.cant.sell.all";
 
 export type GoblinTrade =
   | "goblinTrade.select"

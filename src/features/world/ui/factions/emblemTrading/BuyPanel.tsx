@@ -259,6 +259,7 @@ export const BuyPanel: React.FC<{
                 className="mt-2"
                 onClick={() => {
                   setLoading(false);
+                  onSearch();
                 }}
               >
                 {t("continue")}
