@@ -5,8 +5,7 @@ import { getDayOfYear } from "lib/utils/time";
 
 const DAILY_SFL_DONATION_LIMIT = 500;
 
-// TODO eat/faction-point-cutover Set this before merge
-export const FACTION_POINT_CUTOFF = new Date("2024-05-14T00:00:00Z");
+export const FACTION_POINT_CUTOFF = new Date("2024-06-14T00:00:00Z");
 
 type DonationType = "resources" | "sfl";
 
