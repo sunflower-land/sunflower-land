@@ -158,28 +158,29 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               {t("buy")} {`10`}
             </Button>
           )}
+        </div>
+        <div>
           {bulkSeedBuyAmount > 1 && (
-            <>
-              <Button
-                disabled={lessFunds(bulkSeedBuyAmount)}
-                onClick={() => {
-                  if (bulkSeedBuyAmount <= 10) {
-                    buy(bulkSeedBuyAmount);
-                  } else {
-                    showConfirmBuyModal(true);
-                  }
-                }}
-              >
-                {t("buy")} {bulkSeedBuyAmount}
-              </Button>
-            </>
-          )}
-          {bulkSeedBuyAmount < stock.toNumber() && (
-            <p className="text-xxs text-center mb-1">
-              {t("seeds.reachingInventoryLimit")}
-            </p>
+            <Button
+              className="mt-1"
+              disabled={lessFunds(bulkSeedBuyAmount)}
+              onClick={() => {
+                if (bulkSeedBuyAmount <= 10) {
+                  buy(bulkSeedBuyAmount);
+                } else {
+                  showConfirmBuyModal(true);
+                }
+              }}
+            >
+              {t("buy")} {bulkSeedBuyAmount}
+            </Button>
           )}
         </div>
+        {bulkSeedBuyAmount < stock.toNumber() && (
+          <p className="text-xxs text-center mb-1">
+            {t("seeds.reachingInventoryLimit")}
+          </p>
+        )}
         <Modal show={confirmBuyModal} onHide={() => showConfirmBuyModal(false)}>
           <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
             <div className="flex flex-col p-2">
