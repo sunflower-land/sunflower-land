@@ -4288,6 +4288,7 @@ const restock: Record<Restock, string> = {
     "Você vai usar 1 Block Buck para reabastecer todos os itens da loja no jogo.",
   "restock.sure": "Você tem certeza de que deseja reabastecer?",
   "restock.tooManySeeds": "Você tem muitas sementes em sua cesta!",
+  "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

@@ -2883,7 +2883,8 @@ export type ResourceTerms =
 export type Restock =
   | "restock.one.buck"
   | "restock.sure"
-  | "restock.tooManySeeds";
+  | "restock.tooManySeeds"
+  | "seeds.reachingInventoryLimit";
 
 export type RetreatTerms =
   | "retreatTerms.lookingForRareItems"
