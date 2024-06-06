@@ -29,7 +29,7 @@ export const LanguageSwitcher: React.FC = () => {
     setLanguage(languageCode);
 
     if (languageCode === "zh-CN") {
-      changeFont("sans-serif");
+      changeFont("Sans Serif");
     }
   };
 
