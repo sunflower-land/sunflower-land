@@ -163,7 +163,7 @@ export const Recipes: React.FC<Props> = ({
               />
             ))}
           </div>
-          {hasFeatureAccess(state, "COOKING_BOOST") && buildingId ? (
+          {buildingId ? (
             <BuildingOilTank
               buildingName={buildingName}
               buildingId={buildingId}
