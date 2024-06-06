@@ -744,7 +744,8 @@ export type BumpkinTrade =
   | "bumpkinTrade.minimumFloor"
   | "bumpkinTrade.maximumFloor"
   | "bumpkinTrade.floorPrice"
-  | "bumpkinTrade.sellConfirmation";
+  | "bumpkinTrade.sellConfirmation"
+  | "bumpkinTrade.cant.sell.all";
 
 export type GoblinTrade =
   | "goblinTrade.select"
@@ -2662,12 +2663,6 @@ export type NpcDialogues =
   | "npcDialogues.tywin.badFlower"
   | "npcDialogues.tywin.goodFlower"
 
-  // Glinteye dialogue
-  | "npcDialogues.glinteye.intro1"
-  | "npcDialogues.glinteye.intro2"
-  | "npcDialogues.glinteye.intro3"
-  | "npcDialogues.glinteye.intro4"
-
   // Queen Victoria NoOrde
   | "npcDialogues.queenVictoria.intro1"
   | "npcDialogues.queenVictoria.intro2"
@@ -2731,7 +2726,8 @@ export type NpcDialogues =
   | "npcDialogues.jester.flowerIntro"
   | "npcDialogues.jester.averageFlower"
   | "npcDialogues.jester.badFlower"
-  | "npcDialogues.jester.goodFlower";
+  | "npcDialogues.jester.goodFlower"
+  | "npcDialogues.tywin.goodFlower";
 
 export type NyeButton = "plaza.magicButton.query";
 

@@ -57,6 +57,11 @@ export function joinFaction({
     throw new Error("You already pledged a faction");
   }
 
+  // not enough SFL
+  if (stateCopy.balance.lt(SFL_COST)) {
+    throw new Error("Not enough SFL");
+  }
+
   stateCopy.faction = {
     name: action.faction,
     pledgedAt: createdAt,

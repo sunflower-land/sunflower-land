@@ -999,6 +999,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.maximumFloor": "最高单价： {{max}}",
   "bumpkinTrade.sellConfirmation":
     "确认卖出 {{quantity}} {{resource}} 以赚 {{price}} SFL？",
+  "bumpkinTrade.cant.sell.all": ENGLISH_TERMS["bumpkinTrade.cant.sell.all"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -3551,11 +3552,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
     ENGLISH_TERMS["npcDialogues.default.goodFlower"],
   "npcDialogues.default.reward": ENGLISH_TERMS["npcDialogues.default.reward"],
   "npcDialogues.default.locked": ENGLISH_TERMS["npcDialogues.default.locked"],
-  // Glinteye
-  "npcDialogues.glinteye.intro1": ENGLISH_TERMS["npcDialogues.glinteye.intro1"],
-  "npcDialogues.glinteye.intro2": ENGLISH_TERMS["npcDialogues.glinteye.intro2"],
-  "npcDialogues.glinteye.intro3": ENGLISH_TERMS["npcDialogues.glinteye.intro3"],
-  "npcDialogues.glinteye.intro4": ENGLISH_TERMS["npcDialogues.glinteye.intro4"],
 };
 
 const nyeButton: Record<NyeButton, string> = {

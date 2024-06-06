@@ -23,12 +23,12 @@ import { Stylist } from "./stylist/Stylist";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { SpecialEventModal } from "./SpecialEventModal";
 import { GarbageCollectorModal } from "features/helios/components/garbageCollector/components/GarbageCollectorModal";
 import { Hopper } from "./npcs/Hopper";
 import { FactionModalContent } from "./factions/FactionModalContent";
 import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
+import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -201,6 +201,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "robert" && <FactionModalContent onClose={closeModal} />}
         {npc === "grommy" && <FactionModalContent onClose={closeModal} />}
 
+        {/* Kingdom NPCs */}
         {npc === "barlow" && (
           <JoinFactionModal npc={npc} onClose={closeModal} />
         )}
@@ -211,15 +212,20 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "reginald" && (
           <JoinFactionModal npc={npc} onClose={closeModal} />
         )}
+
+        {npc === "glinteye" && (
+          <EmblemsTrading onClose={closeModal} emblem="Goblin Emblem" />
+        )}
+        {npc === "solara" && (
+          <EmblemsTrading onClose={closeModal} emblem="Sunflorian Emblem" />
+        )}
+        {npc === "dusk" && (
+          <EmblemsTrading onClose={closeModal} emblem="Nightshade Emblem" />
+        )}
+        {npc === "haymitch" && (
+          <EmblemsTrading onClose={closeModal} emblem="Nightshade Emblem" />
+        )}
       </Modal>
-      {npc === "Chun Long" && (
-        <SpecialEventModal
-          onClose={closeModal}
-          show={npc === "Chun Long"}
-          npc={npc}
-          eventName="Lunar New Year"
-        />
-      )}
 
       {npc === "hammerin harry" && (
         <AuctionHouseModal

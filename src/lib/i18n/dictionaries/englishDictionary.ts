@@ -1063,6 +1063,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.price/unit": "{{price}} / unit",
   "bumpkinTrade.sellConfirmation":
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
+  "bumpkinTrade.cant.sell.all": "Can't sell all",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -3957,16 +3958,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Wow, thanks Bumpkin. Here is a small gift for your help!",
   "npcDialogues.default.locked": "Please come back tomorrow.",
-
-  // Glinteye Intro
-  "npcDialogues.glinteye.intro1":
-    "Ah, adventurer! Glinteye at your service. Ready to trade secrets and resources? Dive into my listings or add your own. Let's make a deal!",
-  "npcDialogues.glinteye.intro2":
-    "Welcome, curious soul! I'm Glinteye, your guide to trading wonders. Seek or list resources with me; fortune favors the bold!",
-  "npcDialogues.glinteye.intro3":
-    "Glinteye's my name, trading's my game! Browse or list, there's always a twist. What's your fancy today?",
-  "npcDialogues.glinteye.intro4":
-    "Hello there! I'm Glinteye, the goblin of trade. Explore player trades or list your items. Let's see what we can find together!",
 
   // Queen Victoria Intro
   "npcDialogues.queenVictoria.intro1":

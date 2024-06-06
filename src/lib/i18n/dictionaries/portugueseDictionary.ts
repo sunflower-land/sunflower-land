@@ -1076,6 +1076,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.price/unit": ENGLISH_TERMS["bumpkinTrade.price/unit"],
   "bumpkinTrade.sellConfirmation":
     ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
+  "bumpkinTrade.cant.sell.all": ENGLISH_TERMS["bumpkinTrade.cant.sell.all"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -4067,16 +4068,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Uau, obrigado Bumpkin. Aqui está um pequeno presente pela sua ajuda!",
   "npcDialogues.default.locked": "Por favor, volte amanhã.",
-
-  // Glinteye Intro
-  "npcDialogues.glinteye.intro1":
-    "Ah, aventureiro! Glinteye à sua disposição. Pronto para negociar segredos e recursos? Mergulhe em minhas listagens ou adicione as suas. Vamos fazer um acordo!",
-  "npcDialogues.glinteye.intro2":
-    "Bem-vindo, alma curiosa! Sou Glinteye, seu guia para trocar maravilhas. Procure ou liste recursos comigo; a sorte favorece os ousados!",
-  "npcDialogues.glinteye.intro3":
-    "Glinteye é meu nome, trocar é meu lema! Navegue ou liste, sempre uma trama. O que te agrada hoje?",
-  "npcDialogues.glinteye.intro4":
-    "Olá! Sou Glinteye, o goblin do comércio. Explore trocas de jogadores ou liste seus itens. Vamos ver o que podemos encontrar juntos!",
 };
 
 const nyeButton: Record<NyeButton, string> = {

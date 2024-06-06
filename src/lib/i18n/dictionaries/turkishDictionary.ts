@@ -1060,6 +1060,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.maximumFloor": ENGLISH_TERMS["bumpkinTrade.maximumFloor"],
   "bumpkinTrade.sellConfirmation":
     ENGLISH_TERMS["bumpkinTrade.sellConfirmation"],
+  "bumpkinTrade.cant.sell.all": ENGLISH_TERMS["bumpkinTrade.cant.sell.all"],
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -4059,15 +4060,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
   "npcDialogues.default.reward":
     "Vay be, teşekkürler Bumpkin.  İşte yardımınız için küçük bir hediye!",
   "npcDialogues.default.locked": "Lütfen yarın tekrar gelin.",
-  // Glinteye Intro
-  "npcDialogues.glinteye.intro1":
-    "Ah, maceracı!  Glinteye hizmetinizde. Sırları ve kaynakları takas etmeye hazır mısınız?  Listelerime dalın veya kendinizinkini ekleyin.  Bir anlaşma yapalım!",
-  "npcDialogues.glinteye.intro2":
-    "Hoş geldin meraklı ruh!  Ben Glinteye, ticaret harikaları rehberiniz.  Kaynakları benimle arayın veya listeleyin;  şans cesurdan yanadır!",
-  "npcDialogues.glinteye.intro3":
-    "Benim adım Glinteye, ticaret benim oyunum! Göz atın veya listeleyin, her zaman bir değişiklik vardır. Bugünkü hayalin ne?",
-  "npcDialogues.glinteye.intro4":
-    "Selamlar! Ben Glinteye, ticaretin gobliniyim. Oyuncu takaslarını keşfedin veya eşyalarınızı listeleyin. Gelin birlikte neler bulabileceğimize bakalım!",
 };
 
 const nyeButton: Record<NyeButton, string> = {

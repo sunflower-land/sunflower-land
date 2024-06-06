@@ -81,7 +81,11 @@ export type NPCName =
   | "graxle" // faction recruiter;
   | "barlow" // faction recruiter;
   | "nyx" // faction recruiter;
-  | "reginald"; // faction recruiter;
+  | "reginald" // faction recruiter;
+  | "glinteye"
+  | "solara"
+  | "dusk"
+  | "haymitch";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   gambit: {
@@ -889,6 +893,46 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Sunflorian Sword",
     background: "Farm Background",
     shoes: "Sunflorian Sabaton",
+  },
+
+  glinteye: {
+    body: "Goblin Potion",
+    hair: "Greyed Glory",
+    shirt: "Fancy Top",
+    pants: "Fancy Pants",
+    beard: "Wise Beard",
+    tool: "Auction Megaphone",
+    shoes: "Black Farmer Boots",
+    background: "Farm Background",
+  },
+
+  solara: {
+    body: "Sunburst Potion",
+    hair: "Blondie",
+    shirt: "Fancy Top",
+    pants: "Sunflorian Pants",
+    tool: "Sunflorian Sword",
+    background: "Farm Background",
+    shoes: "Sunflorian Sabaton",
+  },
+
+  dusk: {
+    body: "Pale Potion",
+    hair: "Red Long Hair",
+    shirt: "Olive Royalty Shirt",
+    pants: "Nightshade Pants",
+    tool: "Nightshade Sword",
+    background: "Farm Background",
+    shoes: "Nightshade Sabaton",
+  },
+  haymitch: {
+    body: "Beige Farmer Potion",
+    hair: "Explorer Hair",
+    shirt: "Orange Monarch Shirt",
+    pants: "Bumpkin Pants",
+    tool: "Bumpkin Sword",
+    background: "Farm Background",
+    shoes: "Bumpkin Sabaton",
   },
 };
 

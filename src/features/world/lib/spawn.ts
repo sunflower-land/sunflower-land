@@ -10,6 +10,34 @@ const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
+  goblin_house: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 230 + randomXOffset,
+      y: 420 - randomYOffset,
+    },
+  },
+  sunflorian_house: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 230 + randomXOffset,
+      y: 420 - randomYOffset,
+    },
+  },
+  nightshade_house: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 230 + randomXOffset,
+      y: 420 - randomYOffset,
+    },
+  },
+  bumpkin_house: {
+    // Make sure everyone doesn't spawn in same spot
+    default: {
+      x: 230 + randomXOffset,
+      y: 420 - randomYOffset,
+    },
+  },
   faction_house: {
     // Make sure everyone doesn't spawn in same spot
     default: {
