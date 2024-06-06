@@ -63,6 +63,7 @@ describe("claimEmblems", () => {
       action: {
         type: "emblems.claimed",
       },
+      createdAt: now,
     });
 
     expect(state.faction?.emblemsClaimedAt).toEqual(now);
