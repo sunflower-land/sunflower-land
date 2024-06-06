@@ -13,6 +13,7 @@ import { PledgeFaction } from "./PledgeFaction";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 
 interface Props {
   representativeFaction?: FactionName;
@@ -32,6 +33,7 @@ export const FactionModalContent: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const joinedFaction = useSelector(gameService, _faction);
+  const factionPointsDisabled = FACTION_POINT_CUTOFF.getTime() < Date.now();
   const showPledge = !joinedFaction && representativeFaction;
 
   return (
@@ -41,7 +43,7 @@ export const FactionModalContent: React.FC<Props> = ({
           name: t("faction"),
           icon: factionsIcon,
         },
-        ...(joinedFaction
+        ...(joinedFaction && !factionPointsDisabled
           ? [
               {
                 name: t("donations"),
