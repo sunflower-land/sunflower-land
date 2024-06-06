@@ -23,6 +23,7 @@ import { FACTION_POINT_MULTIPLIER } from "features/game/events/landExpansion/del
 import classNames from "classnames";
 import { hasFeatureAccess } from "lib/flags";
 import { generateChoreTickets } from "features/game/events/landExpansion/completeChore";
+import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 
 const isDateOnSameDayAsToday = (date: Date) => {
   const today = new Date();
@@ -136,21 +137,24 @@ export const DailyChore: React.FC<Props> = ({
                 width={6}
               />
             </div>
-            {hasFeatureAccess({} as GameState, "FACTIONS") && (
-              <div className="flex items-center justify-end space-x-1">
-                <span
-                  className={classNames("mb-0.5 text-white", {
-                    "text-error": !faction,
-                  })}
-                >
-                  {tickets * FACTION_POINT_MULTIPLIER}
-                </span>
-                <SquareIcon
-                  icon={faction ? FACTION_POINT_ICONS[faction.name] : factions}
-                  width={6}
-                />
-              </div>
-            )}
+            {hasFeatureAccess({} as GameState, "FACTIONS") &&
+              Date.now() < FACTION_POINT_CUTOFF.getTime() && (
+                <div className="flex items-center justify-end space-x-1">
+                  <span
+                    className={classNames("mb-0.5 text-white", {
+                      "text-error": !faction,
+                    })}
+                  >
+                    {tickets * FACTION_POINT_MULTIPLIER}
+                  </span>
+                  <SquareIcon
+                    icon={
+                      faction ? FACTION_POINT_ICONS[faction.name] : factions
+                    }
+                    width={6}
+                  />
+                </div>
+              )}
           </div>
         )}
         {chore.completedAt && (

@@ -1771,7 +1771,8 @@ export type GameDescriptions =
   | "description.goblin.emblem"
   | "description.sunflorian.emblem"
   | "description.bumpkin.emblem"
-  | "description.nightshade.emblem";
+  | "description.nightshade.emblem"
+  | "description.faction.mark";
 
 export type GameTerms =
   | "auction.winner"

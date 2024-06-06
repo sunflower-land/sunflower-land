@@ -2231,6 +2231,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     ENGLISH_TERMS["description.sunflorian.emblem"],
   "description.nightshade.emblem":
     ENGLISH_TERMS["description.nightshade.emblem"],
+  "description.faction.mark": ENGLISH_TERMS["description.faction.mark"],
 };
 
 const gameTerms: Record<GameTerms, string> = {
