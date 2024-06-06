@@ -248,7 +248,6 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
               <span
                 className={classNames("min-w-[80px] flex justify-end text-sm", {
                   "text-red-500": !getHasEnoughSFL(),
-                  "text-white": getHasEnoughSFL(),
                 })}
               >{`${sflTotal}`}</span>
               <SquareIcon icon={sflIcon} width={7} className="ml-1 mt-0.5" />

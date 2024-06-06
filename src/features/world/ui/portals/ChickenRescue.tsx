@@ -99,9 +99,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           <Label type="default" className="mb-1" icon={factions}>
             {t("minigame.chickenRescue")}
           </Label>
-          <div className="h-6">
-            <InlineDialogue message={t("minigame.comingSoon")} />
-          </div>
+          <InlineDialogue message={t("minigame.comingSoon")} />
         </div>
       </>
     );
@@ -169,9 +167,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           <Label type="default" className="mb-1" icon={factions}>
             {t("minigame.chickenRescue")}
           </Label>
-          <div className="h-6">
-            <InlineDialogue message={t("minigame.chickenRescueHelp")} />
-          </div>
+          <InlineDialogue message={t("minigame.chickenRescueHelp")} />
         </div>
 
         <MinigamePrizeUI prize={prize} history={dailyAttempt} />

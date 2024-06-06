@@ -123,30 +123,30 @@ export const OrderCard: React.FC<{
             <div className="flex items-center justify-between">
               <div className="flex items-center mr-1">
                 <SquareIcon icon={chestIcon} width={7} />
-                <span className="font-secondary ml-1">{t("reward")}</span>
+                <span className="text-xs ml-1">{t("reward")}</span>
               </div>
               <Label type="warning" style={{ height: "25px" }}>
                 {order.reward.sfl !== undefined && (
                   <div className="flex items-center mr-1">
-                    <img src={sfl} className="h-4 w-auto mr-1" />
-                    <span className="font-secondary">
+                    <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>
+                    <img src={sfl} className="h-4 w-auto ml-1" />
                   </div>
                 )}
                 {order.reward.coins !== undefined && (
                   <div className="flex items-center mr-1">
-                    <img src={coinsImg} className="h-4 w-auto mr-1" />
-                    <span className="font-secondary">
+                    <span className="text-xs">
                       {makeRewardAmountForLabel(order)}
                     </span>
+                    <img src={coinsImg} className="h-4 w-auto ml-1" />
                   </div>
                 )}
                 {!!tickets && (
                   <div className="flex items-center space-x-3 mr-1">
                     {game.faction && (
                       <div className="flex items-center">
-                        <span className="text-[22px] font-secondary mr-1">
+                        <span className="text-xs mr-1">
                           {tickets! * FACTION_POINT_MULTIPLIER}
                         </span>
                         <img
@@ -160,9 +160,7 @@ export const OrderCard: React.FC<{
                       </div>
                     )}
                     <div className="flex items-center">
-                      <span className="text-[22px] font-secondary mr-0.5">
-                        {tickets}
-                      </span>
+                      <span className="text-xs mr-1">{tickets}</span>
                       <img
                         src={ITEM_DETAILS[getSeasonalTicket()].image}
                         className="h-4 w-auto"
@@ -172,11 +170,11 @@ export const OrderCard: React.FC<{
                 )}
                 {getKeys(order.reward.items ?? {}).map((item) => (
                   <div className="flex items-center" key={item}>
+                    <span className="text-xs">{item}</span>
                     <img
                       src={ITEM_DETAILS[item].image}
-                      className="h-4 w-auto mr-1"
+                      className="h-4 w-auto ml-1"
                     />
-                    <span className="text-[22px] font-secondary">{item}</span>
                   </div>
                 ))}
               </Label>
@@ -646,14 +644,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   if (gift) {
     return (
-      <ClaimReward
-        reward={gift}
-        onClose={() => setGift(undefined)}
-        onClaim={() => {
-          gameService.send("gift.claimed", { bumpkin: npc });
-          onClose && onClose();
-        }}
-      />
+      <InnerPanel>
+        <ClaimReward
+          reward={gift}
+          onClose={() => setGift(undefined)}
+          onClaim={() => {
+            gameService.send("gift.claimed", { bumpkin: npc });
+            onClose && onClose();
+          }}
+        />
+      </InnerPanel>
     );
   }
 

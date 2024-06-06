@@ -121,7 +121,7 @@ export const DailyChore: React.FC<Props> = ({
                 height: 7,
               }}
             />
-            <span className="text-xxs ml-2 font-secondary">{`${setPrecision(
+            <span className="text-xs ml-2 font-secondary">{`${setPrecision(
               new Decimal(progress)
             )}/${chore.requirement}`}</span>
           </div>
@@ -139,7 +139,7 @@ export const DailyChore: React.FC<Props> = ({
             {faction && Date.now() < FACTION_POINT_CUTOFF.getTime() && (
               <div className="flex items-center justify-end space-x-1">
                 <span
-                  className={classNames("mb-0.5 text-white", {
+                  className={classNames("mb-0.5 ", {
                     "text-error": !faction,
                   })}
                 >
