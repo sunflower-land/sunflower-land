@@ -2,18 +2,14 @@ import React, { useContext, useState } from "react";
 
 import plus from "assets/icons/plus.png";
 import boxChicken from "assets/animals/chickens/box_chicken.png";
-import coins from "assets/icons/coins.webp";
 
-import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
-import { Tab } from "components/ui/Tab";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
-import classNames from "classnames";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getSupportedChickens } from "features/game/events/landExpansion/utils";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -110,7 +106,7 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
             <span className="text-center">{t("chicken")}</span>
             <img
               src={SUNNYSIDE.resource.chicken}
-              className="h-16 img-highlight mt-1"
+              className="h-16 img-highlight"
               alt="chicken"
             />
             <span className="text-center mt-2 text-sm">

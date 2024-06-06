@@ -7,16 +7,16 @@ export function cacheFont(font: Font) {
 export function getCachedFont(): Font {
   const cached = localStorage.getItem(LOCAL_STORAGE_KEY);
 
-  if (!cached || !FONT_CONFIG[cached]) {
-    return "Basic";
+  if (!cached || !FONT_CONFIG[cached as Font]) {
+    return "Default";
   }
 
   return cached as Font;
 }
 
-export type Font = "Basic" | "Secondary" | "sans-serif";
+export type Font = "Default" | "Bold" | "Sans Serif";
 const FONT_CONFIG: Record<
-  string,
+  Font,
   {
     fontFamily: string;
     xxs: [number, number];
@@ -26,7 +26,7 @@ const FONT_CONFIG: Record<
     lg: [number, number];
   }
 > = {
-  Basic: {
+  Default: {
     fontFamily: "Basic",
     xxs: [20, 14],
     xs: [24, 14],
@@ -34,7 +34,7 @@ const FONT_CONFIG: Record<
     base: [36, 26],
     lg: [42, 32],
   },
-  "sans-serif": {
+  "Sans Serif": {
     fontFamily: "sans-serif",
     xxs: [14, 14],
     xs: [16, 16],
@@ -42,7 +42,7 @@ const FONT_CONFIG: Record<
     base: [25, 25],
     lg: [30, 30],
   },
-  Secondary: {
+  Bold: {
     fontFamily: "Secondary",
     xxs: [18, 12],
     xs: [24, 14],
@@ -55,7 +55,7 @@ const FONT_CONFIG: Record<
 export function initialiseFont() {
   const font = getCachedFont();
 
-  if (font !== "Basic") {
+  if (font !== "Default") {
     changeFont(font);
   }
 }

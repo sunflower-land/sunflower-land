@@ -116,7 +116,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
               -1
             )} ${t("leaderboard.leaderboard")}`}</Label>
           </div>
-          <p className="font-secondary">
+          <p className="font-secondary text-xs">
             {t("last.updated")} {getRelativeTime(data.lastUpdated)}
           </p>
         </div>
@@ -150,7 +150,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
             </>
           )}
           <div className="flex justify-end">
-            <p className="font-secondary">
+            <p className="font-secondary text-xs">
               {`${t("leaderboard.factionMembers")}: ${formatNumber(
                 data.totalMembers?.[selected] ?? 0
               )}`}
@@ -235,7 +235,7 @@ const Faction: React.FC<FactionProps> = ({
                     src={FACTION_POINT_ICONS[name]}
                     className="w-4 h-4 inline-block mx-1"
                   />
-                  <span className="font-secondary">
+                  <span className="font-secondary text-xs">
                     {formatNumber(totalTickets ?? 0)}
                   </span>
                 </div>
@@ -250,7 +250,7 @@ const Faction: React.FC<FactionProps> = ({
                     src={FACTION_POINT_ICONS[name]}
                     className="w-4 h-4 inline-block mx-1"
                   />
-                  <span className="font-secondary">
+                  <span className="font-secondary text-xs">
                     {formatNumber(totalTickets ?? 0)}
                   </span>
                 </div>

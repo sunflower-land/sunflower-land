@@ -199,7 +199,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
               </Label>
               {/* Exchange packages */}
               {!exchangePackageId && (
-                <div className="flex px-1 pb-2 justify-between gap-1 text-[14px] sm:text-sm sm:gap-2">
+                <div className="flex px-1 pb-2 justify-between gap-1  sm:text-sm sm:gap-2">
                   {Object.keys(SFL_TO_COIN_PACKAGES).map((packageId, index) => {
                     const option = SFL_TO_COIN_PACKAGES[Number(packageId)];
 

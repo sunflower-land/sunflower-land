@@ -47,8 +47,6 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
-import { hasFeatureAccess } from "lib/flags";
-import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 export const OrderCard: React.FC<{
@@ -536,7 +534,7 @@ const BumpkinGiftBar: React.FC<{
           )}
         >
           <img src={SUNNYSIDE.icons.happy} className="w-4 h-auto mr-1" />
-          <span className="text-xs">{`+${bonus}`}</span>
+          <span className="text-xs yield-text">{`+${bonus}`}</span>
         </div>
       </div>
     </>

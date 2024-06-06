@@ -7,7 +7,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ButtonPanel, OuterPanel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { Box } from "components/ui/Box";
 import Decimal from "decimal.js-light";
 import token from "assets/icons/sfl.webp";
@@ -479,7 +479,7 @@ export const BuyPanel: React.FC<{
           )}
         </div>
         <div className="flex flex-col min-h-[150px] items-start justify-between">
-          {isSearching && <p className="loading mt-1">{t("searching")}</p>}
+          {isSearching && <Loading text={t("searching")} />}
           {!isSearching && (
             <div className="flex overflow-y-auto relative w-full scrollable">
               {view === "search" && searchView()}
