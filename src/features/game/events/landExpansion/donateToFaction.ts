@@ -34,6 +34,10 @@ export function donateToFaction({
   action,
   createdAt = Date.now(),
 }: Options) {
+  if (createdAt > FACTION_POINT_CUTOFF.getTime()) {
+    throw new Error("Faction donations are no longer allowed");
+  }
+
   const game: GameState = cloneDeep(state);
   const today = getDayOfYear(new Date(createdAt));
 
