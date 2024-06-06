@@ -2484,6 +2484,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.sunflorian.emblem": "Show your allegiance to the Sunflorians",
   "description.bumpkin.emblem": "Show your allegiance to the Bumpkins",
   "description.nightshade.emblem": "Show your allegiance to the Nightshades",
+  "description.faction.mark": "Use these in the faction shop",
 };
 
 const gameTerms: Record<GameTerms, string> = {

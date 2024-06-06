@@ -48,6 +48,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
 import { hasFeatureAccess } from "lib/flags";
+import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -748,7 +749,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                   onDeliver={deliver}
                 />
                 {isTicketOrder &&
-                  hasFeatureAccess({} as GameState, "FACTIONS") && (
+                  hasFeatureAccess({} as GameState, "FACTIONS") &&
+                  Date.now() < FACTION_POINT_CUTOFF.getTime() && (
                     <div className="flex items-center justify-between my-1 mt-2">
                       <Label
                         type={game.faction ? "warning" : "danger"}

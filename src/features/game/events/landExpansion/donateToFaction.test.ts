@@ -1,5 +1,5 @@
 import { Faction, GameState } from "features/game/types/game";
-import { donateToFaction } from "./donateToFaction";
+import { FACTION_POINT_CUTOFF, donateToFaction } from "./donateToFaction";
 import { TEST_FARM } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { getDayOfYear } from "lib/utils/time";
@@ -22,6 +22,11 @@ const GAME_STATE: GameState = {
 
 describe("donateToFaction", () => {
   beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2024-05-01"));
+  });
+
+  afterEach(() => {
     jest.useRealTimers();
   });
 
@@ -562,5 +567,31 @@ describe("donateToFaction", () => {
     });
 
     expect(state.faction?.points).toBe(15);
+  });
+
+  it("throws after faction points are disabled", () => {
+    jest.setSystemTime(new Date(FACTION_POINT_CUTOFF.getTime() + 1));
+
+    expect(() =>
+      donateToFaction({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            Apple: new Decimal(120),
+          },
+          dailyFactionDonationRequest: {
+            resource: "Apple",
+            amount: new Decimal(40),
+          },
+        },
+        action: {
+          type: "faction.donated",
+          faction: "sunflorians",
+          donation: {
+            resources: 100,
+          },
+        },
+      })
+    ).toThrow("Faction donations are no longer allowed");
   });
 });

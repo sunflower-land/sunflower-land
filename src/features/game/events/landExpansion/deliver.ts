@@ -12,6 +12,7 @@ import { NPCName } from "lib/npcs";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import cloneDeep from "lodash.clonedeep";
 import { isWearableActive } from "features/game/lib/wearables";
+import { FACTION_POINT_CUTOFF } from "./donateToFaction";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -293,7 +294,7 @@ export function deliverOrder({
 
     game.inventory[seasonalTicket] = count.add(amount);
 
-    if (game.faction) {
+    if (game.faction && createdAt < FACTION_POINT_CUTOFF.getTime()) {
       game.faction.points =
         game.faction.points +
         new Decimal(amount).mul(FACTION_POINT_MULTIPLIER).toNumber();
