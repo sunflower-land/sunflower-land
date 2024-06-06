@@ -3807,7 +3807,7 @@ const restrictionReason: Record<RestrictionReason, string> = {
 const restock: Record<Restock, string> = {
   "restock.one.buck": "你将使用1个Blockbuck来补充游戏中所有商店的物品。",
   "restock.sure": "你确定要补货吗？",
-  "restock.seed.buy": "你的篮子里的种子太多了！",
+  "restock.tooManySeeds": "你的篮子里的种子太多了！",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

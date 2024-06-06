@@ -4446,7 +4446,7 @@ const restock: Record<Restock, string> = {
   "restock.one.buck":
     "Vous allez utiliser 1 Block Buck pour recharger tous les articles du magasin dans le jeu",
   "restock.sure": "Êtes-vous sûr de vouloir recharger ?",
-  "restock.seed.buy": "Vous avez trop de graines dans votre panier!",
+  "restock.tooManySeeds": "Vous avez trop de graines dans votre panier!",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

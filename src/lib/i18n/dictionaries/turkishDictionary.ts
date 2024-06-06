@@ -4293,7 +4293,7 @@ const restock: Record<Restock, string> = {
   "restock.one.buck":
     "Tüm mağaza ürünlerini yenilemek için 1 Block Bucks kullanacaksınız.",
   "restock.sure": "Yenilemek istediğinizden emin misiniz?",
-  "restock.seed.buy": "Sepetinizde fazla tohum var!",
+  "restock.tooManySeeds": "Sepetinizde fazla tohum var!",
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

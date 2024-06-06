@@ -2880,7 +2880,10 @@ export type ResourceTerms =
   | "wildMushroom.description"
   | "honey.description";
 
-export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
+export type Restock =
+  | "restock.one.buck"
+  | "restock.sure"
+  | "restock.tooManySeeds";
 
 export type RetreatTerms =
   | "retreatTerms.lookingForRareItems"

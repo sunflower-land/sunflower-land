@@ -137,13 +137,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
     }
 
     // return message if inventory is full
-    if (
-      (inventory[selectedName] ?? new Decimal(0)).greaterThan(
-        INVENTORY_LIMIT(state)[selectedName] ?? new Decimal(0)
-      )
-    ) {
+    if (inventoryAmount.greaterThanOrEqualTo(inventoryLimit)) {
       return (
-        <p className="text-xxs text-center mb-1">{t("restock.seed.buy")}</p>
+        <p className="text-xxs text-center mb-1">{t("restock.tooManySeeds")}</p>
       );
     }
 
