@@ -101,6 +101,11 @@ export const BUD_BOX_REWARDS: ChestReward[] = [
   { wearables: { "Seedling Hat": 1 }, weighting: 1 },
   { items: { "Prize Ticket": 1 }, weighting: 10 },
   { items: { "Oil Drill": 2 }, weighting: 5 },
+  { items: { "Shroom Syrup": 1 }, weighting: 5 },
+  { items: { Antipasto: 1, "Steamed Red Rice": 1 }, weighting: 5 },
+  { items: { "Beetroot Blaze": 1, "Rapid Roast": 1 }, weighting: 5 },
+  { items: { "White Carrot": 1 }, weighting: 10 },
+  { items: { "Warty Goblin Pumpkin": 1 }, weighting: 5 },
 ];
 
 export const GIFT_GIVER_REWARDS: ChestReward[] = [
