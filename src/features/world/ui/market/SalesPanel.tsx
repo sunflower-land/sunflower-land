@@ -6,7 +6,6 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { ButtonPanel } from "components/ui/Panel";
 import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -29,7 +28,6 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const MARKET_BUNDLES: Record<TradeableName, number> = {
   Sunflower: 2000,
@@ -62,9 +60,9 @@ const LastUpdated: React.FC<{ cachedAt: number }> = ({ cachedAt }) => {
 
   useUiRefresher();
   return (
-    <span className="text- font-secondary">{`${t(
-      "last.updated"
-    )} ${getRelativeTime(cachedAt)}`}</span>
+    <span className="text-xs">{`${t("last.updated")} ${getRelativeTime(
+      cachedAt
+    )}`}</span>
   );
 };
 
