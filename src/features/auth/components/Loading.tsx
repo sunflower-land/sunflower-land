@@ -25,7 +25,13 @@ export const Loading: React.FC<Props> = ({ text, className }) => {
 
   const { t } = useAppTranslation();
   return (
-    <span className={classNames("text-base", className, "relative m-1")}>
+    <span
+      className={classNames(
+        "text-base",
+        className,
+        "relative mb-1 mx- block w-fit"
+      )}
+    >
       {text || t("loading")}
 
       <span

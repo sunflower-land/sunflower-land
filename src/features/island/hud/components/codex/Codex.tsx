@@ -218,7 +218,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
             {currentTab === 4 && (
               <InnerPanel
-                className={classNames("flex flex-col h-full overflow-hidden ")}
+                className={classNames(
+                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+                )}
               >
                 <TicketsLeaderboard
                   id={id}

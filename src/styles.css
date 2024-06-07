@@ -234,6 +234,9 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+input {
+  background: #ead4aa !important;
+}
 
 input[type="number"] {
   -moz-appearance: textfield;
