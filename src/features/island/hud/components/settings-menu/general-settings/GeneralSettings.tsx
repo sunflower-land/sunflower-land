@@ -1,9 +1,8 @@
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
-import { AppearanceSettings } from "./AppearanceSettings";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -11,15 +10,10 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   const { showAnimations, toggleAnimations } = useContext(Context);
-  const [showFonts, setShowFonts] = useState(false);
 
   const onToggleAnimations = () => {
     toggleAnimations();
   };
-
-  if (showFonts) {
-    return <AppearanceSettings />;
-  }
 
   return (
     <>
@@ -30,7 +24,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
 
-      <Button className="mb-1" onClick={() => setShowFonts(true)}>
+      <Button className="mb-1" onClick={() => onSubMenuClick("appearance")}>
         <span>{t("gameOptions.generalSettings.appearance")}</span>
       </Button>
       <Button className="mb-1" onClick={onToggleAnimations}>
