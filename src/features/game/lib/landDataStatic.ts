@@ -465,7 +465,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Bumpkin Nutcracker": new Decimal(1),
     "Festive Tree": new Decimal(1),
     "Town Center": new Decimal(1),
-    Warehouse: new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(3),
@@ -523,7 +522,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunpetal Seed": new Decimal(20),
     "Bloom Seed": new Decimal(10),
     "Lily Seed": new Decimal(5),
-    "Sunflower Seed": new Decimal(1000),
+    "Sunflower Seed": new Decimal(992),
 
     // Foods
     "Pumpkin Soup": new Decimal(1),
