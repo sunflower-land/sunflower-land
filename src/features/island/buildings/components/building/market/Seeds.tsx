@@ -159,23 +159,25 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             </Button>
           )}
         </div>
-        <div>
-          {bulkSeedBuyAmount > 1 && (
-            <Button
-              className="mt-1"
-              disabled={lessFunds(bulkSeedBuyAmount)}
-              onClick={() => {
-                if (bulkSeedBuyAmount <= 10) {
-                  buy(bulkSeedBuyAmount);
-                } else {
-                  showConfirmBuyModal(true);
-                }
-              }}
-            >
-              {t("buy")} {bulkSeedBuyAmount}
-            </Button>
-          )}
-        </div>
+        {!!inventory.Warehouse && (
+          <div>
+            {bulkSeedBuyAmount > 1 && (
+              <Button
+                className="mt-1"
+                disabled={lessFunds(bulkSeedBuyAmount)}
+                onClick={() => {
+                  if (bulkSeedBuyAmount <= 10) {
+                    buy(bulkSeedBuyAmount);
+                  } else {
+                    showConfirmBuyModal(true);
+                  }
+                }}
+              >
+                {t("buy")} {bulkSeedBuyAmount}
+              </Button>
+            )}
+          </div>
+        )}
         {bulkSeedBuyAmount < stock.toNumber() && (
           <p className="text-xxs text-center mb-1">
             {t("seeds.reachingInventoryLimit")}

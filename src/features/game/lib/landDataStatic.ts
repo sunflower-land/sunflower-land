@@ -773,17 +773,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Warehouse: [
-      {
-        coordinates: {
-          x: -5,
-          y: 0,
-        },
-        id: "1",
-        readyAt: 0,
-        createdAt: 0,
-      },
-    ],
     Workbench: [
       {
         coordinates: {
