@@ -1221,6 +1221,7 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 
 const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
+  "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
 };
 
 const conversations: Record<Conversations, string> = {
@@ -4286,7 +4287,8 @@ const restock: Record<Restock, string> = {
   "restock.one.buck":
     "Você vai usar 1 Block Buck para reabastecer todos os itens da loja no jogo.",
   "restock.sure": "Você tem certeza de que deseja reabastecer?",
-  "restock.seed.buy": "Você tem muitas sementes em sua cesta!",
+  "restock.tooManySeeds": "Você tem muitas sementes em sua cesta!",
+  "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

@@ -12,7 +12,7 @@ import { getKeys } from "features/game/types/craftables";
 import { Restock } from "features/island/buildings/components/building/market/Restock";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
-import { makeBulkBuyAmount } from "../../market/lib/makeBulkBuyAmount";
+import { makeBulkBuyTools } from "../../market/lib/makeBulkBuyAmount";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
@@ -73,7 +73,7 @@ export const Tools: React.FC<Props> = ({ onClose }) => {
 
   const stock = state.stock[selectedName] || new Decimal(0);
 
-  const bulkToolCraftAmount = makeBulkBuyAmount(stock);
+  const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const { t } = useAppTranslation();
   const getAction = () => {
     if (

@@ -836,7 +836,9 @@ export type ComposterDescription =
 
 export type ConfirmSkill = "confirm.skillClaim";
 
-export type ConfirmationTerms = "confirmation.sellCrops";
+export type ConfirmationTerms =
+  | "confirmation.sellCrops"
+  | "confirmation.buyCrops";
 
 export type Conversations =
   | "hank-intro.headline"
@@ -2878,7 +2880,11 @@ export type ResourceTerms =
   | "wildMushroom.description"
   | "honey.description";
 
-export type Restock = "restock.one.buck" | "restock.sure" | "restock.seed.buy";
+export type Restock =
+  | "restock.one.buck"
+  | "restock.sure"
+  | "restock.tooManySeeds"
+  | "seeds.reachingInventoryLimit";
 
 export type RetreatTerms =
   | "retreatTerms.lookingForRareItems"

@@ -1105,6 +1105,8 @@ const composterDescription: Record<ComposterDescription, string> = {
 const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops":
     "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
+  "confirmation.buyCrops":
+    "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -3805,7 +3807,8 @@ const restrictionReason: Record<RestrictionReason, string> = {
 const restock: Record<Restock, string> = {
   "restock.one.buck": "你将使用1个Blockbuck来补充游戏中所有商店的物品。",
   "restock.sure": "你确定要补货吗？",
-  "restock.seed.buy": "你的篮子里的种子太多了！",
+  "restock.tooManySeeds": "你的篮子里的种子太多了！",
+  "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
