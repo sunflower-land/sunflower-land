@@ -995,24 +995,39 @@ export type FactionName =
   | "goblins"
   | "nightshades";
 
+export type ResourceRequest = {
+  item: InventoryItemName;
+  quantity: number;
+  deliveryCount: number;
+};
+
+type FactionKitchen = {
+  points: number;
+  week: number;
+  resources: ResourceRequest[];
+};
+
+export type FactionDonated = {
+  daily: {
+    sfl: {
+      day?: number;
+      amount?: number;
+    };
+    resources: {
+      day?: number;
+      amount?: number;
+    };
+  };
+  totalItems: Partial<Record<InventoryItemName | "sfl", number>>;
+};
+
 export type Faction = {
   name: FactionName;
   pledgedAt: number;
   emblemsClaimedAt?: number;
   points: number;
-  donated: {
-    daily: {
-      sfl: {
-        day?: number;
-        amount?: number;
-      };
-      resources: {
-        day?: number;
-        amount?: number;
-      };
-    };
-    totalItems: Partial<Record<InventoryItemName | "sfl", number>>;
-  };
+  donated: FactionDonated;
+  kitchen?: FactionKitchen;
 };
 
 export type DonationItemName =
