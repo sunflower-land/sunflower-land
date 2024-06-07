@@ -17,6 +17,11 @@ export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
     npc: "grizzle",
     direction: "right",
   },
+  {
+    x: 115,
+    y: 249,
+    npc: "chef tuck",
+  },
 ];
 
 export class GoblinHouseScene extends BaseScene {

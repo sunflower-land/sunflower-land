@@ -16,6 +16,11 @@ export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
     npc: "flora",
     direction: "right",
   },
+  {
+    x: 115,
+    y: 249,
+    npc: "chef lumen",
+  },
 ];
 
 export class SunflorianHouseScene extends BaseScene {

@@ -5,7 +5,6 @@ import { BaseScene } from "./BaseScene";
 
 export class FactionHouseScene extends BaseScene {
   sceneId: SceneId = "faction_house";
-
   constructor() {
     super({
       name: "faction_house",

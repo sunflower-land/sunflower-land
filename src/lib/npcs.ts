@@ -109,7 +109,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   "chef maple": {
     body: "Light Brown Farmer Potion",
-    hair: "Tangerine Hair",
+    hair: "Brown Long Hair",
     hat: "Chef Hat",
     shirt: "Bumpkin Armor",
     pants: "Bumpkin Pants",
@@ -130,8 +130,8 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     coat: "Chef Apron",
   },
   "chef lumen": {
-    body: "Sunburst Potion",
-    hair: "Blondie",
+    body: "Beige Farmer Potion",
+    hair: "Parlour Hair",
     hat: "Chef Hat",
     shirt: "Sunflorian Armor",
     pants: "Sunflorian Pants",
