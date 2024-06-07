@@ -212,9 +212,11 @@ export const PromotingModal: React.FC<Props> = ({
                     <p className="ml-2">{price}</p>
                   </div>
                   <Label type="danger">
-                    {`${secondsToString(secondsLeft, {
-                      length: "medium",
-                    })} left!`}
+                    {t("megaStore.timeRemaining", {
+                      timeRemaining: secondsToString(secondsLeft, {
+                        length: "medium",
+                      }),
+                    })}
                   </Label>
                 </>
               ) : (

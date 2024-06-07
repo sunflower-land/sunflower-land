@@ -105,7 +105,6 @@ export type GeneralTerms =
   | "item"
   | "land"
   | "last.updated"
-  | "left"
   | "lets.go"
   | "linked.wallet"
   | "limit"
@@ -1809,7 +1808,9 @@ export type GameTerms =
   | "compost.complete"
   | "aoe.locked"
   | "sunflowerLandCodex"
-  | "visiting.farmId";
+  | "visiting.farmId"
+  | "stock.left"
+  | "stock.inStock";
 
 export type GarbageCollector =
   | "garbageCollector.welcome"
@@ -3114,7 +3115,6 @@ export type Statements =
   | "statements.water.well.needed.one"
   | "statements.water.well.needed.two"
   | "statements.soldOut"
-  | "statements.inStock"
   | "statements.soldOutWearables"
   | "statements.wallet.to.inventory.transfer"
   | "statements.crop.water"

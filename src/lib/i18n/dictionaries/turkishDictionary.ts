@@ -283,7 +283,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "Öğe",
   land: "Ada",
   "last.updated": "Son güncelleme:",
-  left: "Çıktı",
   "lets.go": "Hadi Gidelim!",
   limit: "Sınır",
   "linked.wallet": "Bağlantılı Cüzdan",
@@ -2515,6 +2514,8 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
   "harvest.number": ENGLISH_TERMS["harvest.number"],
   "level.number": ENGLISH_TERMS["level.number"],
+  "stock.left": ENGLISH_TERMS["stock.left"],
+  "stock.inStock": ENGLISH_TERMS["stock.inStock"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4597,7 +4598,6 @@ const statements: Record<Statements, string> = {
   "statements.water.well.needed.two":
     "Daha fazla mahsulü desteklemek için bir kuyu inşa edin.",
   "statements.soldOut": "Hepsi satıldı",
-  "statements.inStock": "Stokta var",
   "statements.soldOutWearables": "Tükenen giyilebilir ürünleri görüntüle",
   "statements.craft.composter": "Composter'da üret",
   "statements.wallet.to.inventory.transfer": "Cüzdanınızdan eşya yatırma",

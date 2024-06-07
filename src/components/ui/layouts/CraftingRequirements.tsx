@@ -163,12 +163,14 @@ export const CraftingRequirements: React.FC<Props> = ({
     const { count, limit } = getDetails(gameState, details);
 
     const isInventoryFull =
-      limit === undefined ? false : count.greaterThan(limit);
+      limit === undefined ? false : count.greaterThanOrEqualTo(limit);
 
     return (
       <div className="flex justify-center mt-0 sm:mb-1">
         <Label type={isInventoryFull ? "danger" : "info"}>
-          {`${stock} ${isLimitedItem ? t("left") : t("statements.inStock")}`}
+          {isLimitedItem
+            ? t("stock.left", { stock: stock })
+            : t("stock.inStock", { stock: stock })}
         </Label>
       </div>
     );

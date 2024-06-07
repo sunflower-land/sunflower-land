@@ -158,7 +158,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               {t("buy")} {`10`}
             </Button>
           )}
-          {bulkSeedBuyAmount <= 10 && (
+          {bulkSeedBuyAmount > 1 && bulkSeedBuyAmount <= 10 && (
             <Button
               disabled={lessFunds(bulkSeedBuyAmount)}
               onClick={() => buy(bulkSeedBuyAmount)}
@@ -172,7 +172,13 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <Button
               className="mt-1"
               disabled={lessFunds(bulkSeedBuyAmount)}
-              onClick={() => showConfirmBuyModal(true)}
+              onClick={() => {
+                if (price > 0) {
+                  showConfirmBuyModal(true);
+                } else {
+                  buy(bulkSeedBuyAmount);
+                }
+              }}
             >
               {t("buy")} {bulkSeedBuyAmount}
             </Button>

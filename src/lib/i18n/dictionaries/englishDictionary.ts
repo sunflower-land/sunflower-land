@@ -284,7 +284,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "Item:",
   land: "Land",
   "last.updated": "Last updated:",
-  left: "Left",
   "lets.go": "Let's Go!",
   limit: "Limit",
   "linked.wallet": "Linked wallet",
@@ -2522,6 +2521,8 @@ const gameTerms: Record<GameTerms, string> = {
   "aoe.locked": "AOE Locked",
   sunflowerLandCodex: "Sunflower Land Codex",
   "visiting.farmId": "Visting #{{farmId}}",
+  "stock.inStock": "{{stock}} in stock",
+  "stock.left": "{{stock}} left",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4662,7 +4663,6 @@ const statements: Record<Statements, string> = {
   "statements.water.well.needed.two":
     "In order to support more crops, build a well.",
   "statements.soldOut": "Sold out",
-  "statements.inStock": "in stock",
   "statements.soldOutWearables": "View sold out wearables",
   "statements.craft.composter": "Craft at Composter",
   "statements.wallet.to.inventory.transfer": "Deposit items from your wallet",
