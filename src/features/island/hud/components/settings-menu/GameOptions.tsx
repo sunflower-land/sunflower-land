@@ -42,6 +42,7 @@ import { AmoyTestnetActions } from "./amoy-actions/AmoyTestnetActions";
 import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
+import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -271,7 +272,8 @@ export type SettingMenuId =
   // General Settings
   | "discord"
   | "changeLanguage"
-  | "share";
+  | "share"
+  | "appearance";
 
 interface SettingMenu {
   title: string;
@@ -354,5 +356,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("share.ShareYourFarmLink"),
     parent: "general",
     content: Share,
+  },
+  appearance: {
+    title: translate("gameOptions.generalSettings.appearance"),
+    parent: "general",
+    content: AppearanceSettings,
   },
 };
