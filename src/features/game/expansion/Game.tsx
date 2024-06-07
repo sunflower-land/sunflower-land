@@ -69,6 +69,7 @@ import { PriceChange } from "../components/PriceChange";
 import { VIPOffer } from "../components/modal/components/VIPItems";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
+import { FontReward } from "./components/FontReward";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -99,6 +100,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositing: true,
   introduction: false,
   specialOffer: true,
+  fontReward: false,
   transacting: true,
   minting: true,
   auctionResults: false,
@@ -177,6 +179,7 @@ const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
+const hasFontReward = (state: MachineState) => state.matches("fontReward");
 const isPlaying = (state: MachineState) => state.matches("playing");
 const isProvingPersonhood = (state: MachineState) =>
   state.matches("provingPersonhood");
@@ -305,6 +308,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const blacklisted = useSelector(gameService, isBlacklisted);
   const airdrop = useSelector(gameService, hasAirdrop);
   const specialOffer = useSelector(gameService, hasSpecialOffer);
+  const fontReward = useSelector(gameService, hasFontReward);
   const playing = useSelector(gameService, isPlaying);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
@@ -472,6 +476,8 @@ export const GameWrapper: React.FC = ({ children }) => {
             {withdrawn && <Withdrawn />}
           </Panel>
         </Modal>
+
+        <Modal show={!!fontReward}>{fontReward && <FontReward />}</Modal>
 
         {claimingAuction && <ClaimAuction />}
         {refundAuction && <RefundAuction />}

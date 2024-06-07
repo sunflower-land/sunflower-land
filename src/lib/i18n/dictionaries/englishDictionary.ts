@@ -1828,6 +1828,13 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.freeGift":
     "The best part...everyone who joins gets a free gift!",
   "discord.bonus.connect": "Connect to Discord",
+  "fontReward.bonus.claim":
+    "Sunflower Land has had a makeover! Thanks for everyone involved in this beautiful update. For extra customisation, you can go to Settings > Appearance.",
+  "fontReward.bonus.intro1": "Huh...something strange has happened.",
+  "fontReward.bonus.intro2":
+    "Sunflower Land feels different. I wonder what it is?",
+  "fontReward.bonus.intro3":
+    "Ah ah! It's the font - I can see everything clearly now!",
 };
 
 const donation: Record<Donation, string> = {
