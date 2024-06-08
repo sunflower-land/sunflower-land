@@ -132,8 +132,15 @@ export function revealLand({
       width: 1,
       x: coords.x + origin.x,
       y: coords.y + origin.y,
+      // Preload sunflowers
+      crop: {
+        name: "Sunflower",
+        amount: 1,
+        plantedAt: 0,
+      },
     };
   });
+
   inventory["Crop Plot"] = (inventory["Crop Plot"] || new Decimal(0)).add(
     land.plots?.length ?? 0
   );
@@ -343,28 +350,6 @@ export function getRewards({
   const expansions = inventory["Basic Land"] ?? new Decimal(0);
 
   let airdrops: Airdrop[] = [];
-
-  // Tutorial Reward
-  if (expansions.eq(4) && game.island.type === "basic") {
-    airdrops = [
-      ...airdrops,
-      {
-        createdAt,
-        id: "expansion-four-airdrop",
-        items: {
-          Shovel: 1,
-          "Block Buck": 1,
-        },
-        sfl: 0,
-        coins: 0,
-        wearables: {},
-        coordinates: {
-          x: 0,
-          y: 8,
-        },
-      },
-    ];
-  }
 
   // Tutorial Reward
   if (expansions.eq(5) && game.island.type === "basic") {

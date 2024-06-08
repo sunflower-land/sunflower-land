@@ -8,6 +8,8 @@ import {
   PlacedItem,
 } from "../types/game";
 import { getKeys } from "../types/craftables";
+import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { Equipped } from "../types/bumpkin";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -204,24 +206,340 @@ export const GENESIS_LAND_EXPANSION: ExpansionConstruction = {
   readyAt: 0,
 };
 
+export const TREE_RECOVERY_TIME = 2 * 60 * 60;
+export const STONE_RECOVERY_TIME = 4 * 60 * 60;
+export const IRON_RECOVERY_TIME = 8 * 60 * 60;
+export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
+export const CRIMSTONE_RECOVERY_TIME = 24 * 60 * 60;
+export const SUNSTONE_RECOVERY_TIME = 3 * 24 * 60 * 60;
+
+export const INITIAL_RESOURCES: Pick<
+  GameState,
+  | "crops"
+  | "trees"
+  | "stones"
+  | "iron"
+  | "gold"
+  | "fruitPatches"
+  | "flowers"
+  | "crimstones"
+  | "sunstones"
+  | "beehives"
+  | "oilReserves"
+> = {
+  crops: {},
+  trees: {
+    1: {
+      createdAt: Date.now(),
+      wood: {
+        amount: 2,
+        choppedAt: 0,
+      },
+      x: -3,
+      y: 3,
+      height: 2,
+      width: 2,
+    },
+    2: {
+      createdAt: Date.now(),
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+      x: 7,
+      y: 0,
+      height: 2,
+      width: 2,
+    },
+
+    3: {
+      createdAt: Date.now(),
+      wood: {
+        amount: 2,
+        choppedAt: 0,
+      },
+      x: 7,
+      y: 9,
+      height: 2,
+      width: 2,
+    },
+  },
+  stones: {
+    1: {
+      createdAt: Date.now(),
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 7,
+      y: 3,
+      height: 1,
+      width: 1,
+    },
+    2: {
+      createdAt: Date.now(),
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      x: 3,
+      y: 6,
+      height: 1,
+      width: 1,
+    },
+  },
+  fruitPatches: {},
+  gold: {},
+  iron: {},
+  crimstones: {},
+  flowers: {
+    discovered: {},
+    flowerBeds: {},
+  },
+  sunstones: {},
+  beehives: {},
+  oilReserves: {},
+};
+
+export const INITIAL_EXPANSIONS = 3;
+
+const INITIAL_EQUIPMENT: BumpkinParts = {
+  background: "Farm Background",
+  body: "Beige Farmer Potion",
+  hair: "Basic Hair",
+  shoes: "Black Farmer Boots",
+  pants: "Farmer Overalls",
+  tool: "Farmer Pitchfork",
+  shirt: "Red Farmer Shirt",
+};
+
 export const INITIAL_BUMPKIN: Bumpkin = {
-  id: 1,
+  equipped: INITIAL_EQUIPMENT as Equipped,
   experience: 0,
-  tokenUri: "bla",
-  equipped: {
-    body: "Light Brown Farmer Potion",
-    hair: "Basic Hair",
-    shirt: "Red Farmer Shirt",
-    pants: "Farmer Pants",
-    shoes: "Black Farmer Boots",
-    tool: "Farmer Pitchfork",
-    background: "Farm Background",
-  },
+
+  id: 1,
   skills: {},
-  achievements: {
-    "Busy Bumpkin": 1,
-  },
+  tokenUri: `1_${tokenUriBuilder(INITIAL_EQUIPMENT)}`,
+  achievements: {},
+
   activity: {},
+};
+
+export const INITIAL_FARM: GameState = {
+  coins: 0,
+  balance: new Decimal(0),
+  previousBalance: new Decimal(0),
+  inventory: {
+    "Town Center": new Decimal(1),
+    Market: new Decimal(1),
+    "Fire Pit": new Decimal(1),
+    Workbench: new Decimal(1),
+    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
+    "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
+    Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
+    "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
+    Axe: new Decimal(10),
+    "Block Buck": new Decimal(1),
+    Rug: new Decimal(1),
+    Wardrobe: new Decimal(1),
+    Shovel: new Decimal(1),
+  },
+  previousInventory: {},
+  wardrobe: {},
+  previousWardrobe: {},
+
+  bumpkin: INITIAL_BUMPKIN,
+
+  minigames: {
+    games: {},
+    prizes: {},
+  },
+
+  megastore: {
+    available: {
+      from: 0,
+      to: 0,
+    },
+    collectibles: [],
+    wearables: [],
+  },
+
+  mysteryPrizes: {},
+  stockExpiry: {},
+  mushrooms: {
+    mushrooms: {},
+    spawnedAt: 0,
+  },
+
+  island: {
+    type: "basic",
+  },
+
+  home: {
+    collectibles: {
+      Wardrobe: [
+        {
+          id: "1",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 1,
+            y: 3,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+      Rug: [
+        {
+          id: "2",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 0,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+    },
+  },
+  farmHands: { bumpkins: {} },
+  greenhouse: {
+    oil: 100,
+    pots: {},
+  },
+
+  createdAt: new Date().getTime(),
+
+  ...INITIAL_RESOURCES,
+
+  conversations: ["hank-intro"],
+
+  fishing: {
+    dailyAttempts: {},
+    weather: "Sunny",
+    wharf: {},
+    beach: {},
+  },
+  mailbox: {
+    read: [],
+  },
+
+  stock: INITIAL_STOCK(),
+  chickens: {},
+  trades: {},
+  buildings: {
+    "Town Center": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 2,
+          y: 3,
+        },
+        createdAt: 0,
+      },
+    ],
+    Workbench: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: 8,
+        },
+        createdAt: 0,
+      },
+    ],
+
+    Market: [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 6,
+          y: 5,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Fire Pit": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 3,
+          y: -1,
+        },
+        createdAt: 0,
+      },
+    ],
+  },
+  collectibles: {},
+  pumpkinPlaza: {},
+  treasureIsland: {
+    holes: {},
+  },
+  auctioneer: {},
+  delivery: {
+    fulfilledCount: 0,
+    orders: [
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "betty",
+        reward: {
+          items: {},
+          coins: 64,
+        },
+        id: "1",
+        items: {
+          Sunflower: 30,
+        },
+      },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "grubnuk",
+        reward: {
+          items: {},
+          coins: 64,
+        },
+        id: "2",
+        items: {
+          "Pumpkin Soup": 1,
+        },
+      },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "grimbly",
+        reward: {
+          items: {},
+          coins: 48,
+        },
+        id: "3",
+        items: {
+          "Mashed Potato": 2,
+        },
+      },
+    ],
+    milestone: {
+      goal: 10,
+      total: 10,
+    },
+  },
+  farmActivity: {},
+  milestones: {},
+  catchTheKraken: {
+    hunger: "Sunflower",
+    weeklyCatches: {},
+  },
+  specialEvents: {
+    history: {},
+    current: {},
+  },
+  goblinMarket: {
+    resources: {},
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -409,19 +727,7 @@ export const TEST_FARM: GameState = {
       },
     ],
   },
-  airdrops: [
-    {
-      createdAt: Date.now(),
-      id: "123",
-      items: {
-        "Rapid Growth": 5,
-      },
-      wearables: {},
-      sfl: 3,
-      coins: 0,
-      message: "You are a legend!",
-    },
-  ],
+  airdrops: [],
   collectibles: {},
   warCollectionOffer: {
     warBonds: 10,
@@ -610,345 +916,6 @@ export const EMPTY: GameState = {
   specialEvents: {
     current: {},
     history: {},
-  },
-  goblinMarket: {
-    resources: {},
-  },
-};
-
-export const TREE_RECOVERY_TIME = 2 * 60 * 60;
-export const STONE_RECOVERY_TIME = 4 * 60 * 60;
-export const IRON_RECOVERY_TIME = 8 * 60 * 60;
-export const GOLD_RECOVERY_TIME = 24 * 60 * 60;
-export const CRIMSTONE_RECOVERY_TIME = 24 * 60 * 60;
-export const SUNSTONE_RECOVERY_TIME = 3 * 24 * 60 * 60;
-
-export const INITIAL_RESOURCES: Pick<
-  GameState,
-  | "crops"
-  | "trees"
-  | "stones"
-  | "iron"
-  | "gold"
-  | "fruitPatches"
-  | "flowers"
-  | "crimstones"
-  | "sunstones"
-  | "beehives"
-  | "oilReserves"
-> = {
-  crops: {
-    1: {
-      createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-      x: -2,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    2: {
-      createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-      x: -1,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    3: {
-      createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
-      x: 0,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    4: {
-      createdAt: Date.now(),
-      x: -2,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    5: {
-      createdAt: Date.now(),
-      x: -1,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    6: {
-      createdAt: Date.now(),
-      x: 0,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-
-    7: {
-      createdAt: Date.now(),
-      x: -2,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    8: {
-      createdAt: Date.now(),
-      x: -1,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    9: {
-      createdAt: Date.now(),
-      x: 0,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-  },
-  trees: {
-    1: {
-      createdAt: Date.now(),
-      wood: {
-        amount: 2,
-        choppedAt: 0,
-      },
-      x: -3,
-      y: 3,
-      height: 2,
-      width: 2,
-    },
-    2: {
-      createdAt: Date.now(),
-      wood: {
-        amount: 1,
-        choppedAt: 0,
-      },
-      x: 7,
-      y: 0,
-      height: 2,
-      width: 2,
-    },
-
-    3: {
-      createdAt: Date.now(),
-      wood: {
-        amount: 2,
-        choppedAt: 0,
-      },
-      x: 7,
-      y: 9,
-      height: 2,
-      width: 2,
-    },
-  },
-  stones: {
-    1: {
-      createdAt: Date.now(),
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: 7,
-      y: 3,
-      height: 1,
-      width: 1,
-    },
-    2: {
-      createdAt: Date.now(),
-      stone: {
-        amount: 1,
-        minedAt: 0,
-      },
-      x: 3,
-      y: 6,
-      height: 1,
-      width: 1,
-    },
-  },
-  fruitPatches: {},
-  gold: {},
-  iron: {},
-  crimstones: {},
-  flowers: {
-    discovered: {},
-    flowerBeds: {},
-  },
-  sunstones: {},
-  beehives: {},
-  oilReserves: {},
-};
-
-export const INITIAL_EXPANSIONS = 3;
-
-export const INITIAL_FARM: GameState = {
-  coins: 0,
-  balance: new Decimal(0),
-  previousBalance: new Decimal(0),
-  inventory: {
-    "Town Center": new Decimal(1),
-    Market: new Decimal(1),
-    "Fire Pit": new Decimal(1),
-    Workbench: new Decimal(1),
-    "Basic Land": new Decimal(INITIAL_EXPANSIONS),
-    "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
-    Tree: new Decimal(getKeys(INITIAL_RESOURCES.trees).length),
-    "Stone Rock": new Decimal(getKeys(INITIAL_RESOURCES.stones).length),
-    Axe: new Decimal(10),
-    "Block Buck": new Decimal(1),
-    Rug: new Decimal(1),
-    Wardrobe: new Decimal(1),
-  },
-  previousInventory: {},
-  wardrobe: {},
-  previousWardrobe: {},
-
-  minigames: {
-    games: {},
-    prizes: {},
-  },
-
-  megastore: {
-    available: {
-      from: 0,
-      to: 0,
-    },
-    collectibles: [],
-    wearables: [],
-  },
-
-  mysteryPrizes: {},
-  stockExpiry: {},
-  mushrooms: {
-    mushrooms: {},
-    spawnedAt: 0,
-  },
-
-  island: {
-    type: "basic",
-  },
-
-  home: {
-    collectibles: {
-      Wardrobe: [
-        {
-          id: "1",
-          createdAt: Date.now(),
-          coordinates: {
-            x: 1,
-            y: 3,
-          },
-          readyAt: Date.now(),
-        },
-      ],
-      Rug: [
-        {
-          id: "2",
-          createdAt: Date.now(),
-          coordinates: {
-            x: 0,
-            y: 2,
-          },
-          readyAt: Date.now(),
-        },
-      ],
-    },
-  },
-  farmHands: { bumpkins: {} },
-  greenhouse: {
-    oil: 100,
-    pots: {},
-  },
-
-  createdAt: new Date().getTime(),
-
-  ...INITIAL_RESOURCES,
-
-  conversations: ["hank-intro"],
-
-  fishing: {
-    dailyAttempts: {},
-    weather: "Sunny",
-    wharf: {},
-    beach: {},
-  },
-  mailbox: {
-    read: [],
-  },
-
-  stock: INITIAL_STOCK(),
-  chickens: {},
-  trades: {},
-  buildings: {
-    "Town Center": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 2,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 8,
-        },
-        createdAt: 0,
-      },
-    ],
-
-    Market: [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 5,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 3,
-          y: -1,
-        },
-        createdAt: 0,
-      },
-    ],
-  },
-  collectibles: {},
-  pumpkinPlaza: {},
-  treasureIsland: {
-    holes: {},
-  },
-  auctioneer: {},
-  delivery: {
-    fulfilledCount: 0,
-    orders: [],
-    milestone: {
-      goal: 10,
-      total: 10,
-    },
-  },
-  farmActivity: {},
-  milestones: {},
-  catchTheKraken: {
-    hunger: "Sunflower",
-    weeklyCatches: {},
-  },
-  specialEvents: {
-    history: {},
-    current: {},
   },
   goblinMarket: {
     resources: {},

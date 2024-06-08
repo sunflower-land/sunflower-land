@@ -34,6 +34,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 interface ExpandIconProps {
   onOpen: () => void;
@@ -232,6 +233,8 @@ export const UpcomingExpansion: React.FC = () => {
   const [gameState] = useActor(gameService);
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
+  const { openModal } = useContext(ModalContext);
+
   const state = gameState.context.state;
 
   const requirements = expansionRequirements({ game: state });
@@ -267,6 +270,10 @@ export const UpcomingExpansion: React.FC = () => {
     gameService.send("SAVE");
 
     if (showAnimations) confetti();
+
+    if (expansions === 4) {
+      openModal("BETTY");
+    }
   };
 
   const nextPosition =
