@@ -451,6 +451,7 @@ export type PlantedFruit = {
 
 export type Tree = {
   wood: Wood;
+  createdAt?: number;
 } & Position;
 
 export type Stone = {
@@ -465,6 +466,7 @@ export type FiniteResource = {
 
 export type Rock = {
   stone: Stone;
+  createdAt?: number;
 } & Position;
 
 export type Oil = {
