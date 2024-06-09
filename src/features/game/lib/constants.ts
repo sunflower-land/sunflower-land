@@ -432,8 +432,8 @@ export const INITIAL_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 2,
-          y: 3,
+          x: -1,
+          y: 1,
         },
         createdAt: 0,
       },
@@ -466,8 +466,8 @@ export const INITIAL_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 3,
-          y: -1,
+          x: 4,
+          y: 1,
         },
         createdAt: 0,
       },
