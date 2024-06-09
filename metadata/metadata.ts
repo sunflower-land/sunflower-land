@@ -7535,7 +7535,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     description: "",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: `../public/erc1155/images/2018.png`,
+    image: `../public/erc1155/images/2033.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Bullseye Board": {
@@ -7562,7 +7562,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
-    image: "../public/erc1155/images/2021.png",
+    image: "../public/erc1155/images/2018.png",
   },
   "Golden Gallant": {
     name: "Golden Gallant",
@@ -7673,7 +7673,7 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
 
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: `../public/erc1155/images/2033.png`,
+    image: `../public/erc1155/images/2021.png`,
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
   "Grape Seed": {
