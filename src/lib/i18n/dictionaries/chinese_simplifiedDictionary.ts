@@ -2274,6 +2274,9 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
   "stock.left": "剩下 {{stock}} 个",
   "stock.inStock": "库存 {{stock}} 个",
+  "plantingSpot.requirement": "种植在 {{plantingSpot}} {{preposition}}",
+  "plantingSpot.requirement.in": "里",
+  "plantingSpot.requirement.on": "上",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {

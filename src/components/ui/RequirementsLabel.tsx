@@ -217,9 +217,13 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         })}`;
       }
       case "plantingSpot": {
-        return `Plant ${props.plantingSpot === "Greenhouse" ? `in` : `on`} ${
-          props.plantingSpot
-        }`;
+        return `${t("plantingSpot.requirement", {
+          preposition:
+            props.plantingSpot === "Greenhouse"
+              ? t("plantingSpot.requirement.in")
+              : t("plantingSpot.requirement.on"),
+          plantingSpot: props.plantingSpot,
+        })}`;
       }
     }
   };

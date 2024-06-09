@@ -2627,6 +2627,9 @@ const gameTerms: Record<GameTerms, string> = {
   "level.number": ENGLISH_TERMS["level.number"],
   "stock.left": ENGLISH_TERMS["stock.left"],
   "stock.inStock": ENGLISH_TERMS["stock.inStock"],
+  "plantingSpot.requirement": ENGLISH_TERMS["plantingSpot.requirement"],
+  "plantingSpot.requirement.in": ENGLISH_TERMS["plantingSpot.requirement.in"],
+  "plantingSpot.requirement.on": ENGLISH_TERMS["plantingSpot.requirement.on"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {

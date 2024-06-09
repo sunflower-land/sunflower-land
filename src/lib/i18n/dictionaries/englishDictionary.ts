@@ -2509,6 +2509,9 @@ const gameTerms: Record<GameTerms, string> = {
   "granting.wish": "Granting your wish",
   "harvest.number": "{{minHarvest}}-{{maxHarvest}} harvests",
   "level.number": "Level {{level}}",
+  "plantingSpot.requirement": "Plant {{preposition}} {{plantingSpot}}", // Omit {{preposition}} (in/on) if not needed in your language
+  "plantingSpot.requirement.in": "in",
+  "plantingSpot.requirement.on": "on",
   "new.delivery.in": "New deliveries:",
   "new.delivery.levelup": "Level up to unlock more deliveries.",
   "no.sfl": "No SFL tokens found",
