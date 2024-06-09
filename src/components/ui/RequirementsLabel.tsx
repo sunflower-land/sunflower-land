@@ -12,6 +12,7 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { setPrecision } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ResourceName } from "features/game/types/resources";
 
 /**
  * The props for SFL requirement label. Use this when the item costs SFL.
@@ -119,6 +120,16 @@ interface HarvestsProps {
 }
 
 /**
+ * The props to tell where the seed can be planted
+ * @param type The type is plantingSpot.
+ * @param plantingSpot The spot where the seed can be planted
+ */
+interface PlantingSpotProps {
+  type: "plantingSpot";
+  plantingSpot: ResourceName | "Greenhouse";
+}
+
+/**
  * The default props.
  * @param className The class name for the label.
  */
@@ -137,6 +148,7 @@ type Props = (
   | XPProps
   | LevelProps
   | HarvestsProps
+  | PlantingSpotProps
 ) &
   defaultProps;
 
@@ -165,6 +177,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return levelup;
       case "harvests":
         return SUNNYSIDE.icons.seedling;
+      case "plantingSpot":
+        return ITEM_DETAILS[props.plantingSpot].image;
     }
   };
 
@@ -202,6 +216,11 @@ export const RequirementLabel: React.FC<Props> = (props) => {
           maxHarvest: props.maxHarvest,
         })}`;
       }
+      case "plantingSpot": {
+        return `Plant ${props.plantingSpot === "Greenhouse" ? `in` : `on`} ${
+          props.plantingSpot
+        }`;
+      }
     }
   };
 
@@ -220,6 +239,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "time":
       case "xp":
       case "harvests":
+        return true;
+      case "plantingSpot":
         return true;
     }
   };

@@ -16,6 +16,7 @@ import {
 } from "./fruits";
 import { FLOWER_SEEDS, FlowerSeedName } from "./flowers";
 import { IslandType } from "./game";
+import { ResourceName } from "./resources";
 
 export type SeedName =
   | CropSeedName
@@ -29,6 +30,7 @@ export type Seed = {
   description: string;
   plantSeconds: number;
   bumpkinLevel: number;
+  plantingSpot: ResourceName | "Greenhouse";
   yield?:
     | CropName
     | FruitName

@@ -104,6 +104,8 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   // Calculates the difference between amount in inventory and the inventory limit
   const bulkSeedBuyAmount = makeBulkBuySeeds(stock, bulkBuyLimit);
 
+  const plantingSpot = selected.plantingSpot;
+
   const isSeedLocked = (seedName: SeedName) => {
     const seed = SEEDS()[seedName];
     return getBumpkinLevel(state.bumpkin?.experience ?? 0) < seed.bumpkinLevel;
@@ -287,6 +289,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 }
               : undefined,
             timeSeconds: getPlantSeconds(),
+            plantingSpot: plantingSpot,
           }}
           actionView={Action()}
         />

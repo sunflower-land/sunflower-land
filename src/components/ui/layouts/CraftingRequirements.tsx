@@ -19,6 +19,7 @@ import { NPC } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { ResourceName } from "features/game/types/resources";
 
 /**
  * The props for the details for items.
@@ -73,6 +74,7 @@ interface RequirementsProps {
   xp?: Decimal;
   timeSeconds?: number;
   level?: number;
+  plantingSpot?: ResourceName | "Greenhouse";
 }
 
 /**
@@ -301,6 +303,13 @@ export const CraftingRequirements: React.FC<Props> = ({
             type="level"
             currentLevel={getBumpkinLevel(gameState.bumpkin?.experience ?? 0)}
             requirement={requirements.level}
+          />
+        )}
+        {/*location requiremnet */}
+        {!!requirements.plantingSpot && (
+          <RequirementLabel
+            type="plantingSpot"
+            plantingSpot={requirements.plantingSpot}
           />
         )}
       </div>
