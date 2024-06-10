@@ -182,7 +182,7 @@ export const ChatText: React.FC<Props> = ({
             e.preventDefault();
           }}
           placeholder="Type here..."
-          className=" placeholder-white text-white text-shadow text-xs text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
+          className=" placeholder-white text-white text-shadow text-xs text-shadow w-full !bg-black !bg-opacity-10 px-2 py-2 rounded-md max-h-min"
         />
         <Validation />
       </div>
