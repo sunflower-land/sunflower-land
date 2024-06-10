@@ -2,6 +2,7 @@ import "lib/__mocks__/configMock";
 
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { completeKingdomChore } from "./completeKingdomChore";
+import Decimal from "decimal.js-light";
 
 describe("kingdomChore.completed", () => {
   beforeEach(() => {
@@ -243,5 +244,46 @@ describe("kingdomChore.completed", () => {
     });
 
     expect(result.kingdomChores?.choresCompleted).toBe(1);
+  });
+
+  it("rewards Faction Marks", () => {
+    const result = completeKingdomChore({
+      action: {
+        type: "kingdomChore.completed",
+        id: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 30,
+          },
+        },
+        kingdomChores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            1: {
+              activity: "Sunflower Harvested",
+              description: "Harvest 30 Sunflowers",
+              createdAt: 1000,
+              bumpkinId: INITIAL_BUMPKIN.id,
+              startCount: 0,
+              requirement: 30,
+              marks: 3,
+              resource: "Sunflower",
+              active: true,
+            },
+          },
+          week: 1,
+          weeklyChores: 0,
+          weeklyChoresCompleted: 0,
+          weeklyChoresSkipped: 0,
+        },
+      },
+    });
+
+    expect(result.inventory["Faction Mark"]).toStrictEqual(new Decimal(3));
   });
 });

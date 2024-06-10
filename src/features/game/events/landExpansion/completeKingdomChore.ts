@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
@@ -20,7 +21,7 @@ export function completeKingdomChore({
 }: Options): GameState {
   const game = cloneDeep<GameState>(state);
   const { id } = action;
-  const { kingdomChores, bumpkin } = game;
+  const { kingdomChores, bumpkin, inventory } = game;
 
   if (kingdomChores === undefined) {
     throw new Error("No kingdom chores found");
@@ -56,5 +57,9 @@ export function completeKingdomChore({
 
   chore.completedAt = createdAt;
   kingdomChores.choresCompleted += 1;
+
+  const previousMarks = inventory["Faction Mark"] ?? new Decimal(0);
+  inventory["Faction Mark"] = previousMarks.add(chore.marks);
+
   return game;
 }
