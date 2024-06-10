@@ -120,4 +120,45 @@ describe("kingdomChore.completed", () => {
       })
     ).toThrow("Chore is not complete");
   });
+
+  it("throws an error if chore is already completed", () => {
+    expect(() =>
+      completeKingdomChore({
+        action: {
+          type: "kingdomChore.completed",
+          id: 1,
+        },
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            activity: {
+              "Sunflower Harvested": 30,
+            },
+          },
+          kingdomChores: {
+            choresCompleted: 0,
+            choresSkipped: 0,
+            chores: {
+              1: {
+                activity: "Sunflower Harvested",
+                description: "Harvest 30 Sunflowers",
+                createdAt: 1000,
+                bumpkinId: INITIAL_BUMPKIN.id,
+                startCount: 0,
+                requirement: 30,
+                marks: 3,
+                resource: "Sunflower",
+                completedAt: 1000,
+              },
+            },
+            week: 1,
+            weeklyChores: 0,
+            weeklyChoresCompleted: 0,
+            weeklyChoresSkipped: 0,
+          },
+        },
+      })
+    ).toThrow("Chore is already completed");
+  });
 });

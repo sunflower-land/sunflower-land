@@ -32,7 +32,7 @@ export function completeKingdomChore({
     throw new Error("Chore not found");
   }
 
-  if (!chore.active) {
+  if (!chore.active && !chore.completedAt) {
     throw new Error("Chore is not active");
   }
 
@@ -40,6 +40,10 @@ export function completeKingdomChore({
 
   if (progress < chore.requirement) {
     throw new Error("Chore is not completed");
+  }
+
+  if ((chore.completedAt ?? 0) > 0) {
+    throw new Error("Chore is already completed");
   }
 
   return game;
