@@ -95,12 +95,6 @@ export const ModalProvider: FC = ({ children }) => {
             {
               text: translate("betty.market-intro.two"),
             },
-            {
-              text: translate("betty.market-intro.three"),
-            },
-            {
-              text: translate("betty.market-intro.four"),
-            },
           ]}
           onClose={handleClose}
           bumpkinParts={NPC_WEARABLES.betty}

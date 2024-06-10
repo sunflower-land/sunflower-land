@@ -1992,6 +1992,7 @@ const LAND_5_REQUIREMENTS: Requirements = {
   },
   seconds: 5,
   bumpkinLevel: 2,
+  coins: 0.25,
 };
 
 const LAND_6_REQUIREMENTS: Requirements = {

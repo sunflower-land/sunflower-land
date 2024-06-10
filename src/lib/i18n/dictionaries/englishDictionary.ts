@@ -1213,11 +1213,12 @@ const conversations: Record<Conversations, string> = {
   "betty-intro.three":
     "You need seeds? From potatoes to parsnips, I've got you covered!",
   "betty.market-intro.one":
-    "Hey there, Bumpkin! It's Betty from the farmer's market. I travel between islands to buy crops and sell fresh seeds.",
+    "Great work Bumpkin! Your island is growing faster than a fox in a henhouse. You've just discovered Crops!",
   "betty.market-intro.two":
-    "Good news: you just stumbled upon a shiny new shovel! Bad news: we've hit a bit of a crop shortage.",
+    "You can harvest and sell them at my market to earn coins and grow your farming empire.",
+
   "betty.market-intro.three":
-    "For a limited time I am offering newcomers double the money for any crops you bring to me.",
+    "You can harvest them and sell them at my market to earn coins and grow your farming empire",
   "betty.market-intro.four":
     "Harvest those Sunflowers and let's start your farming empire.",
   "bruce-intro.headline": "Cooking Introduction",
