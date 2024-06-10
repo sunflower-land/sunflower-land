@@ -26,8 +26,14 @@ export function completeKingdomChore({
     throw new Error("No kingdom chores found");
   }
 
-  if (kingdomChores.chores[id] === undefined) {
+  const chore = kingdomChores.chores[id];
+
+  if (chore === undefined) {
     throw new Error("Chore not found");
+  }
+
+  if (!chore.active) {
+    throw new Error("Chore is not active");
   }
 
   return game;
