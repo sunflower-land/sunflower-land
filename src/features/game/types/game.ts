@@ -782,6 +782,29 @@ export type ChoreV2 = {
   startCount: number;
 };
 
+export type KingdomChores = {
+  chores: Record<number, KingdomChore>;
+  week: number;
+  choresCompleted: number;
+  choresSkipped: number;
+  weeklyChoresCompleted: number;
+  weeklyChoresSkipped: number;
+  weeklyChores: number;
+};
+
+export type KingdomChore = {
+  activity: BumpkinActivityName;
+  description: string;
+  resource: InventoryItemName;
+  createdAt: number;
+  completedAt?: number;
+  requirement: number;
+  bumpkinId: number;
+  startCount: number;
+  marks: number;
+  active?: boolean;
+};
+
 export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export type MazeAttempt = {

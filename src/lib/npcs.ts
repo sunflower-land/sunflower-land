@@ -85,7 +85,11 @@ export type NPCName =
   | "glinteye"
   | "solara"
   | "dusk"
-  | "haymitch";
+  | "haymitch"
+  | "grizzle"
+  | "buttercup"
+  | "shadow"
+  | "flora";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   gambit: {
@@ -894,7 +898,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Sunflorian Sabaton",
   },
-
   glinteye: {
     body: "Goblin Potion",
     hair: "Greyed Glory",
@@ -905,7 +908,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Black Farmer Boots",
     background: "Farm Background",
   },
-
   solara: {
     body: "Sunburst Potion",
     hair: "Blondie",
@@ -915,7 +917,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Sunflorian Sabaton",
   },
-
   dusk: {
     body: "Pale Potion",
     hair: "Red Long Hair",
@@ -933,6 +934,44 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Bumpkin Sword",
     background: "Farm Background",
     shoes: "Bumpkin Sabaton",
+  },
+  grizzle: {
+    body: "Goblin Potion",
+    hat: "Warrior Helmet",
+    hair: "Brown Long Hair",
+    shirt: "Fancy Top",
+    pants: "Fancy Pants",
+    beard: "Santa Beard",
+    tool: "Auction Megaphone",
+    shoes: "Black Farmer Boots",
+    background: "Farm Background",
+  },
+  buttercup: {
+    body: "Beige Farmer Potion",
+    hair: "Brown Long Hair",
+    shirt: "Daisy Tee",
+    pants: "Bumpkin Pants",
+    tool: "Dawn Lamp",
+    background: "Farm Background",
+    shoes: "Bumpkin Sabaton",
+  },
+  shadow: {
+    body: "Pale Potion",
+    hair: "White Long Hair",
+    shirt: "Mushroom Sweater",
+    pants: "Nightshade Pants",
+    tool: "Beehive Staff",
+    background: "Farm Background",
+    shoes: "Nightshade Sabaton",
+  },
+  flora: {
+    body: "Sunburst Potion",
+    hair: "Luscious Hair",
+    shirt: "Wise Robes",
+    pants: "Sunflorian Pants",
+    tool: "Mushroom Lamp",
+    background: "Farm Background",
+    shoes: "Sunflorian Sabaton",
   },
 };
 
