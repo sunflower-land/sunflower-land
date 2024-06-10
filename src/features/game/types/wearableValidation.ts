@@ -11,6 +11,7 @@ import {
   cropIsGrowing,
   greenhouseCropIsGrowing,
   isProducingHoney,
+  isBeehivesFull,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -112,6 +113,10 @@ export const canWithdrawBoostedWearable = (
 
   if (name === "Oil Can") {
     return !areAnyOilReservesDrilled(state)[0];
+  }
+
+  if (name === "Hornet Mask") {
+    return isBeehivesFull(state)[0];
   }
 
   // Safety check
