@@ -36,5 +36,11 @@ export function completeKingdomChore({
     throw new Error("Chore is not active");
   }
 
+  const progress = bumpkin?.activity?.[chore.activity] ?? 0 - chore.startCount;
+
+  if (progress < chore.requirement) {
+    throw new Error("Chore is not completed");
+  }
+
   return game;
 }
