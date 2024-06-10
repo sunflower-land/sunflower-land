@@ -286,4 +286,47 @@ describe("kingdomChore.completed", () => {
 
     expect(result.inventory["Faction Mark"]).toStrictEqual(new Decimal(3));
   });
+
+  it("marks the chore as completed", () => {
+    const now = Date.now();
+    const result = completeKingdomChore({
+      action: {
+        type: "kingdomChore.completed",
+        id: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 30,
+          },
+        },
+        kingdomChores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            1: {
+              activity: "Sunflower Harvested",
+              description: "Harvest 30 Sunflowers",
+              createdAt: 1000,
+              bumpkinId: INITIAL_BUMPKIN.id,
+              startCount: 0,
+              requirement: 30,
+              marks: 3,
+              resource: "Sunflower",
+              active: true,
+            },
+          },
+          week: 1,
+          weeklyChores: 0,
+          weeklyChoresCompleted: 0,
+          weeklyChoresSkipped: 0,
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(result.kingdomChores?.chores[1].completedAt).toBe(now);
+  });
 });
