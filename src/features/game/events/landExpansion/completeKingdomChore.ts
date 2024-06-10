@@ -32,6 +32,10 @@ export function completeKingdomChore({
     throw new Error("Chore not found");
   }
 
+  if (!bumpkin) {
+    throw new Error("No bumpkin found");
+  }
+
   if (!chore.active && !chore.completedAt) {
     throw new Error("Chore is not active");
   }
@@ -44,6 +48,10 @@ export function completeKingdomChore({
 
   if ((chore.completedAt ?? 0) > 0) {
     throw new Error("Chore is already completed");
+  }
+
+  if (bumpkin.id !== chore.bumpkinId) {
+    throw new Error("Not the same bumpkin");
   }
 
   return game;
