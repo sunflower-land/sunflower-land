@@ -54,5 +54,7 @@ export function completeKingdomChore({
     throw new Error("Not the same bumpkin");
   }
 
+  chore.completedAt = createdAt;
+  kingdomChores.choresCompleted += 1;
   return game;
 }
