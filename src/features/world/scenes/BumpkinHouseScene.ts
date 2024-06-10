@@ -10,6 +10,12 @@ export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
     npc: "haymitch",
     direction: "left",
   },
+  {
+    x: 57,
+    y: 360,
+    npc: "buttercup",
+    direction: "right",
+  },
 ];
 
 export class BumpkinHouseScene extends BaseScene {

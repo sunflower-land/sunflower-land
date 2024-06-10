@@ -5,10 +5,17 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
+    // Trader
     x: 410,
     y: 200,
     npc: "glinteye",
     direction: "left",
+  },
+  {
+    x: 57,
+    y: 360,
+    npc: "grizzle",
+    direction: "right",
   },
 ];
 

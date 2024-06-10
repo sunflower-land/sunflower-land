@@ -29,6 +29,7 @@ import { FactionModalContent } from "./factions/FactionModalContent";
 import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
+import { ChoresModal } from "./factions/chores/ChoresModal";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -213,6 +214,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <JoinFactionModal npc={npc} onClose={closeModal} />
         )}
 
+        {/* Emblem Traders */}
         {npc === "glinteye" && (
           <EmblemsTrading onClose={closeModal} emblem="Goblin Emblem" />
         )}
@@ -225,6 +227,12 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "haymitch" && (
           <EmblemsTrading onClose={closeModal} emblem="Nightshade Emblem" />
         )}
+
+        {/* Faction Chores */}
+        {npc === "grizzle" && <ChoresModal onClose={closeModal} npc={npc} />}
+        {npc === "buttercup" && <ChoresModal onClose={closeModal} npc={npc} />}
+        {npc === "shadow" && <ChoresModal onClose={closeModal} npc={npc} />}
+        {npc === "flora" && <ChoresModal onClose={closeModal} npc={npc} />}
       </Modal>
 
       {npc === "hammerin harry" && (
