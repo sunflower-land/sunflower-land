@@ -572,21 +572,7 @@ export function startGame(authContext: AuthContext) {
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
-        announcements: {
-          coins: {
-            content: [
-              {
-                text: "Hello",
-              },
-            ],
-            reward: {
-              coins: 100,
-              items: {},
-            },
-            from: "betty",
-            headline: "reward",
-          },
-        },
+        announcements: {},
         moderation: {
           muted: [],
           kicked: [],

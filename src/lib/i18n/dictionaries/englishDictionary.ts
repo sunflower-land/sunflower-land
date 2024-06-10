@@ -1212,15 +1212,19 @@ const conversations: Record<Conversations, string> = {
     "Bring me your finest harvest, and I will give you a fair price for them!",
   "betty-intro.three":
     "You need seeds? From potatoes to parsnips, I've got you covered!",
-  "betty.market-intro.one":
-    "Great work Bumpkin! Your island is growing faster than a fox in a henhouse. You've just discovered Crops!",
+  "betty.market-intro.one": "Great work Bumpkin! You've just discovered Crops!",
   "betty.market-intro.two":
-    "You can harvest and sell them at my market to earn coins and grow your farming empire.",
+    "You can harvest and sell them at my market to earn coins and grow your island.",
 
   "betty.market-intro.three":
     "You can harvest them and sell them at my market to earn coins and grow your farming empire",
   "betty.market-intro.four":
     "Harvest those Sunflowers and let's start your farming empire.",
+
+  "firepit-intro.one": "Congratulations Bumpkin...You're a natural!",
+  "firepit-intro.two":
+    "If you want to level up & unlock new abilities, gather crops and visit my fire pit. I can cook some nutritious food for you.",
+
   "bruce-intro.headline": "Cooking Introduction",
   "bruce-intro.one": "I'm the owner of this lovely little bistro.",
   "bruce-intro.two":
@@ -1245,9 +1249,9 @@ const conversations: Record<Conversations, string> = {
     "Head over to the work bench and craft a scarecrow to speed up those Sunflowers.",
   "pete.levelthree.one": "Congratulations, your green thumb is truly shining!",
   "pete.levelthree.two":
-    "It's high time we head to the Plaza, where your farming prowess can shine even brighter.",
+    "It looks like you've got some deliveries in the Plaza to complete.",
   "pete.levelthree.three":
-    "At the plaza you can deliver your resources for rewards, craft magical items & trade with other players.",
+    "View your deliveries in the bottom left of the screen. Once you've gathered the resources, you can travel and deliver the items to the Bumpkins.",
   "pete.levelthree.four":
     "You can travel by clicking on the world icon in the bottom left.",
   "pete.help.zero": "Visit the fire pit, cook food and eat to level up.",

@@ -78,8 +78,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       show={isOpen}
       onHide={() => {
         onClose();
-        if (showLevelUp && bumpkinLevel.current === 3) {
-          openModal("THIRD_LEVEL");
+        if (showLevelUp && bumpkinLevel.current === 2) {
+          openModal("SECOND_LEVEL");
         }
 
         setTimeout(() => setShowLevelUp(false), 500);
@@ -90,8 +90,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
           onClose={() => {
             onClose();
 
-            if (bumpkinLevel.current === 3) {
-              openModal("THIRD_LEVEL");
+            if (bumpkinLevel.current === 2) {
+              openModal("SECOND_LEVEL");
             }
 
             setTimeout(() => setShowLevelUp(false), 500);
@@ -104,8 +104,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onClose={() => {
               onClose();
 
-              if (bumpkinLevel.current === 3) {
-                openModal("THIRD_LEVEL");
+              if (bumpkinLevel.current === 2) {
+                openModal("SECOND_LEVEL");
               }
 
               setTimeout(() => setShowLevelUp(false), 500);

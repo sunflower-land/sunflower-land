@@ -274,6 +274,10 @@ export const UpcomingExpansion: React.FC = () => {
     if (expansions === 4) {
       openModal("BETTY");
     }
+
+    if (expansions === 5) {
+      openModal("FIREPIT");
+    }
   };
 
   const nextPosition =

@@ -857,6 +857,8 @@ export type Conversations =
   | "betty.market-intro.two"
   | "betty.market-intro.three"
   | "betty.market-intro.four"
+  | "firepit-intro.one"
+  | "firepit-intro.two"
   | "bruce-intro.headline"
   | "bruce-intro.one"
   | "bruce-intro.two"

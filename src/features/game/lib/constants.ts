@@ -246,7 +246,7 @@ export const INITIAL_RESOURCES: Pick<
         amount: 1,
         choppedAt: 0,
       },
-      x: 7,
+      x: 5,
       y: 0,
       height: 2,
       width: 2,
@@ -272,7 +272,7 @@ export const INITIAL_RESOURCES: Pick<
         minedAt: 0,
       },
       x: 7,
-      y: 3,
+      y: 5,
       height: 1,
       width: 1,
     },
@@ -332,7 +332,6 @@ export const INITIAL_FARM: GameState = {
   inventory: {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
-    "Fire Pit": new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(INITIAL_EXPANSIONS),
     "Crop Plot": new Decimal(getKeys(INITIAL_RESOURCES.crops).length),
@@ -455,19 +454,8 @@ export const INITIAL_FARM: GameState = {
         id: "123",
         readyAt: 0,
         coordinates: {
-          x: 6,
-          y: 5,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "123",
-        readyAt: 0,
-        coordinates: {
-          x: 4,
-          y: 1,
+          x: 5,
+          y: 3,
         },
         createdAt: 0,
       },
