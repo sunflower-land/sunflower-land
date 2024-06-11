@@ -31,6 +31,7 @@ export type BumpkinBody =
   | "Elf Potion";
 
 export type BumpkinHair =
+  | "Royal Braids"
   | "Basic Hair"
   | "Rancher Hair"
   | "Explorer Hair"
@@ -728,6 +729,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Queen's Crown": 343,
   "Royal Dress": 344,
   Motley: 345,
+  "Royal Braids": 346,
 };
 
 // The reverse of above
@@ -1132,4 +1134,5 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Queen's Crown": "hat",
   "Royal Dress": "dress",
   Motley: "suit",
+  "Royal Braids": "hair",
 };

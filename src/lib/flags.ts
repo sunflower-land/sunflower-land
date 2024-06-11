@@ -1,3 +1,4 @@
+import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -48,7 +49,15 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
-  KINGDOM: defaultFeatureFlag,
+  KINGDOM: (game) => {
+    const hasCastleBud = getKeys(game.buds ?? {}).some(
+      (id) => game.buds?.[id].type === "Castle"
+    );
+
+    if (hasCastleBud) return true;
+
+    return defaultFeatureFlag(game);
+  },
   FACTION_HOUSE: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended

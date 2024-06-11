@@ -115,7 +115,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   },
   victoria: {
     body: "Beige Farmer Potion",
-    hair: "Luscious Hair",
+    hair: "Royal Braids",
     dress: "Royal Dress",
     tool: "Royal Scepter",
     background: "Farm Background",

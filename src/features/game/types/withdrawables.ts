@@ -1391,4 +1391,5 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Queen's Crown": () => false,
   "Royal Dress": () => false,
   Motley: () => false,
+  "Royal Braids": () => false,
 };
