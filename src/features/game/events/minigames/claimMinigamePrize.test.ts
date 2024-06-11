@@ -227,13 +227,13 @@ describe("minigame.prizeClaimed", () => {
     ).toEqual(date.getTime());
   });
 
-  it("claims a faction marks prize", () => {
+  it("claims a marks prize", () => {
     const date = new Date("2024-05-05T00:00:00");
     const state = claimMinigamePrize({
       state: {
         ...TEST_FARM,
         inventory: {
-          "Faction Mark": new Decimal(10),
+          Mark: new Decimal(10),
         },
         faction: {
           name: "bumpkins",
@@ -267,7 +267,7 @@ describe("minigame.prizeClaimed", () => {
               coins: 100,
               startAt: date.getTime() - 100,
               endAt: date.getTime() + 1000,
-              factionMarks: 10,
+              marks: 10,
               score: 20,
             },
           },
@@ -281,7 +281,7 @@ describe("minigame.prizeClaimed", () => {
     });
 
     expect(state.coins).toEqual(100);
-    expect(state.inventory["Faction Mark"]?.toNumber()).toEqual(20);
+    expect(state.inventory["Mark"]?.toNumber()).toEqual(20);
 
     expect(
       state.minigames.games["chicken-rescue"]?.history?.[
