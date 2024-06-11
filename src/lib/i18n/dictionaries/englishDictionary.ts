@@ -1993,6 +1993,7 @@ const factions: Record<Factions, string> = {
   "faction.points.pledge.warning":
     "Pledge a faction to receive faction points!",
   "faction.emblemAirdrop": "Emblem Airdrop",
+  "faction.emblemAirdrop.closes": "Airdrop Ends: {{date}}",
 
   // Kingdom NPCs
   "faction.restrited.area":
@@ -2031,6 +2032,9 @@ const factions: Record<Factions, string> = {
   "faction.claimEmblems.totalMembers": "Total Faction Members",
   "faction.claimEmblems.totalEmblems": "Total Faction Emblems",
   "faction.claimEmblems.percentile": "Top {{percentile}}%",
+  "faction.claimEmblems.travelNow": "Travel Now",
+  "faction.claimEmblems.visitMe":
+    "Visit me, {{recruiterName}}, in the Kingdom to claim your emblems.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {

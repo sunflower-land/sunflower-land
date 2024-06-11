@@ -1428,6 +1428,7 @@ export type Factions =
   | "faction.points.title"
   | "faction.points.pledge.warning"
   | "faction.emblemAirdrop"
+  | "faction.emblemAirdrop.closes"
   // Kingdom
   | "faction.restrited.area"
   | "faction.not.pledged"
@@ -1453,7 +1454,9 @@ export type Factions =
   | "faction.claimEmblems.comparison"
   | "faction.claimEmblems.totalMembers"
   | "faction.claimEmblems.totalEmblems"
-  | "faction.claimEmblems.percentile";
+  | "faction.claimEmblems.percentile"
+  | "faction.claimEmblems.travelNow"
+  | "faction.claimEmblems.visitMe";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
