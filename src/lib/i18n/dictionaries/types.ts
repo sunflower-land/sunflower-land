@@ -3331,7 +3331,11 @@ export type WornDescription =
 export type World =
   | "world.intro.one"
   | "world.intro.two"
-  | "world.intro.three"
+  | "world.intro.missingDelivery"
+  | "world.intro.delivery"
+  | "world.intro.findNPC"
+  | "world.intro.find"
+  | "world.intro.levelUpToTravel"
   | "world.intro.visit"
   | "world.intro.craft"
   | "world.intro.carf.limited"
@@ -3346,7 +3350,10 @@ export type World =
   | "world.retreat"
   | "world.woodlands"
   | "world.home"
-  | "world.kingdom";
+  | "world.kingdom"
+  | "world.retreatShort"
+  | "world.plazaShort"
+  | "world.travelTo";
 
 export type Event =
   | "event.christmas"

@@ -11,7 +11,7 @@ import coinsImg from "assets/icons/coins.webp";
 import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
 import chest from "assets/icons/chest.png";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -21,13 +21,17 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { Order } from "features/game/types/game";
+import { Inventory, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
-import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
+import {
+  DELIVERY_LEVELS,
+  acknowledgeOrders,
+  generateDeliveryMessage,
+} from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -41,6 +45,8 @@ import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { Loading } from "features/auth/components";
+import { useNavigate } from "react-router-dom";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -71,8 +77,34 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _sfl = (state: MachineState) => state.context.state.balance;
 const _coins = (state: MachineState) => state.context.state.coins;
 
+export function hasOrderRequirements({
+  order,
+  sfl,
+  coins,
+  inventory,
+}: {
+  sfl: Decimal;
+  coins: number;
+  inventory: Inventory;
+  order?: Order;
+}) {
+  if (!order) return false;
+
+  return getKeys(order.items).every((name) => {
+    if (name === "coins") return coins >= (order.items[name] ?? 0);
+    if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
+
+    const amount = order.items[name] || new Decimal(0);
+    const count = inventory[name] || new Decimal(0);
+
+    return count.gte(amount);
+  });
+}
+
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
+
+  const navigate = useNavigate();
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
@@ -110,20 +142,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     setShowSkipDialog(false);
     gameService.send("order.skipped", { id: previewOrder?.id });
     gameService.send("SAVE");
-  };
-
-  const hasRequirements = (order?: Order) => {
-    if (!order) return false;
-
-    return getKeys(order.items).every((name) => {
-      if (name === "coins") return coins >= (order.items[name] ?? 0);
-      if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
-
-      const amount = order.items[name] || new Decimal(0);
-      const count = inventory[name] || new Decimal(0);
-
-      return count.gte(amount);
-    });
   };
 
   const select = (id: string) => {
@@ -167,6 +185,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     tasksCloseAt,
     ticketTasksAreFrozen,
   } = getSeasonChangeover({ id: gameService.state.context.farmId });
+
+  const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
+  const nextNpcUnlock = getKeys(DELIVERY_LEVELS).find(
+    (npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0)
+  );
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
@@ -238,12 +261,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   })}
                   style={{ paddingBottom: "20px" }}
                 >
-                  {hasRequirements(order) && !order.completedAt && (
-                    <img
-                      src={SUNNYSIDE.icons.heart}
-                      className="absolute top-0.5 right-0.5 w-3 sm:w-4"
-                    />
-                  )}
+                  {hasOrderRequirements({ order, coins, sfl, inventory }) &&
+                    !order.completedAt && (
+                      <img
+                        src={SUNNYSIDE.icons.heart}
+                        className="absolute top-0.5 right-0.5 w-3 sm:w-4"
+                      />
+                    )}
 
                   <div className="flex flex-col pb-2">
                     <div className="flex items-center my-1">
@@ -356,6 +380,45 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </div>
             );
           })}
+          {nextNpcUnlock && (
+            <div className="py-1 px-2">
+              <ButtonPanel
+                disabled
+                className={classNames(
+                  "w-full  !py-2 relative h-full flex items-center justify-center cursor-not-allowed"
+                )}
+                style={{ paddingBottom: "20px" }}
+              >
+                <div className="flex flex-col pb-2">
+                  <div className="flex items-center my-1">
+                    <div className="relative mb-2 mr-0.5 -ml-1">
+                      <NPCIcon parts={NPC_WEARABLES[nextNpcUnlock]} />
+                    </div>
+                    <div className="flex-1 flex justify-center h-8 items-center w-6 ">
+                      <img
+                        src={SUNNYSIDE.icons.expression_confused}
+                        className="h-6 img-highlight"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Label
+                  type="formula"
+                  icon={lockIcon}
+                  className={"absolute -bottom-2 text-center p-1 "}
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    height: "25px",
+                  }}
+                >
+                  {`Lvl ${DELIVERY_LEVELS[nextNpcUnlock]}`}
+                </Label>
+              </ButtonPanel>
+            </div>
+          )}
         </div>
         {nextOrder && !skippedOrder && (
           <div className="w-1/2 sm:w-1/3 p-1">
@@ -390,13 +453,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </OuterPanel>
           </div>
         )}
-
-        <div className="flex items-center mb-1 mt-2">
-          <div className="w-6">
-            <img src={lockIcon} className="h-4 mx-auto" />
-          </div>
-          <span className="text-xs">{t("new.delivery.levelup")}</span>
-        </div>
       </InnerPanel>
       {previewOrder && (
         <InnerPanel
@@ -558,6 +614,43 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   );
                 })}
               </div>
+              {hasOrderRequirements({
+                order: previewOrder,
+                sfl,
+                coins,
+                inventory,
+              }) && (
+                <Button
+                  className="!text-xs !mt-0 !-mb-1"
+                  onClick={() => {
+                    if (
+                      RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
+                      navigate("/world/retreat");
+                    } else if (
+                      BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
+                      navigate("/world/beach");
+                    } else if (
+                      KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
+                      navigate("/world/kingdom");
+                    } else {
+                      navigate("/world/plaza");
+                    }
+                  }}
+                >
+                  {`${t("world.travelTo")} ${
+                    RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
+                      ? t("world.retreatShort")
+                      : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                      ? t("world.beach")
+                      : KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
+                      ? t("world.kingdom")
+                      : t("world.plazaShort")
+                  }`}
+                </Button>
+              )}
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />

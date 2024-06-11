@@ -4345,7 +4345,11 @@ const withdraw: Record<Withdraw, string> = {
 const world: Record<World, string> = {
   "world.intro.one": "你好，旅行者！欢迎来到南瓜广场。",
   "world.intro.two": "广场上住着一群饥饿的乡巴佬和妖精，他们需要你的帮助！",
-  "world.intro.three": "踏上旅程之前，请注意以下几点：",
+  "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
+  "world.intro.find": ENGLISH_TERMS["world.intro.find"],
+  "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
+  "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],
   "world.intro.visit":
     "与非玩家角色进行互动并成功完成运送任务以获取 SFL 和特殊奖励。",
   "world.intro.craft": "在不同的商店制作稀有的收藏品、可穿戴物品和装饰品。",
@@ -4366,6 +4370,9 @@ const world: Record<World, string> = {
   "world.home": "家园",
   "world.kingdom": "王国",
   "world.woodlands": "林地",
+  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
+  "world.plazaShort": ENGLISH_TERMS["world.plazaShort"],
+  "world.retreatShort": ENGLISH_TERMS["world.retreatShort"],
 };
 
 const wornDescription: Record<WornDescription, string> = {

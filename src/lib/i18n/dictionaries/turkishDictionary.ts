@@ -4917,7 +4917,11 @@ const world: Record<World, string> = {
   "world.intro.one": "Merhaba Gezgin! Balkabağı Plazasına hoş geldiniz.",
   "world.intro.two":
     "Plaza, yardımınıza ihtiyacı olan çok çeşitli aç Bumpkins ve Goblinlere ev sahipliği yapıyor!",
-  "world.intro.three": "Maceranıza başlamadan önce birkaç kısa ipucu:",
+  "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
+  "world.intro.find": ENGLISH_TERMS["world.intro.find"],
+  "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
+  "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],
   "world.intro.visit":
     "NPC'leri ziyaret edin ve teslimatları tamamlayarak SFL, Coins ve nadir ödüller kazanın.",
   "world.intro.craft":
@@ -4941,6 +4945,9 @@ const world: Record<World, string> = {
   "world.woodlands": ENGLISH_TERMS["world.woodlands"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
+  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
+  "world.plazaShort": ENGLISH_TERMS["world.plazaShort"],
+  "world.retreatShort": ENGLISH_TERMS["world.retreatShort"],
 };
 
 const wornDescription: Record<WornDescription, string> = {

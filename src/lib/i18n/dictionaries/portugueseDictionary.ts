@@ -4922,7 +4922,11 @@ const world: Record<World, string> = {
   "world.intro.one": "Olá Viajante! Bem-vindo à Pumpkin Plaza!",
   "world.intro.two":
     "A praça é lar de um grupo diversificado de Bumpkins e Goblins famintos que precisam da sua ajuda!",
-  "world.intro.three": "Algumas dicas rápidas antes de começar sua aventura:",
+  "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
+  "world.intro.find": ENGLISH_TERMS["world.intro.find"],
+  "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
+  "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],
   "world.intro.visit":
     "Visite NPCs e complete entregas para ganhar SFL, Coins e recompensas raras.",
   "world.intro.craft":
@@ -4945,6 +4949,9 @@ const world: Record<World, string> = {
   "world.woodlands": ENGLISH_TERMS["world.woodlands"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
+  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
+  "world.plazaShort": ENGLISH_TERMS["world.plazaShort"],
+  "world.retreatShort": ENGLISH_TERMS["world.retreatShort"],
 };
 
 const wornDescription: Record<WornDescription, string> = {
