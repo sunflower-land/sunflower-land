@@ -114,7 +114,16 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
         onHide={() => setShowBumpkinModal(false)}
         size="lg"
       >
-        <CloseButtonPanel bumpkinParts={game.bumpkin?.equipped}>
+        <CloseButtonPanel
+          bumpkinParts={game.bumpkin?.equipped}
+          onClose={() => setShowBumpkinModal(false)}
+          tabs={[
+            {
+              icon: SUNNYSIDE.icons.wardrobe,
+              name: t("equip"),
+            },
+          ]}
+        >
           <BumpkinEquip
             game={game}
             equipment={game.bumpkin?.equipped as BumpkinParts}
@@ -134,6 +143,13 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
       >
         <CloseButtonPanel
           bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}
+          onClose={() => setSelectedFarmHandId(undefined)}
+          tabs={[
+            {
+              icon: SUNNYSIDE.icons.wardrobe,
+              name: t("equip"),
+            },
+          ]}
         >
           <BumpkinEquip
             game={game}
