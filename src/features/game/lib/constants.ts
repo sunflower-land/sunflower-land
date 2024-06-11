@@ -315,7 +315,7 @@ const INITIAL_EQUIPMENT: BumpkinParts = {
 
 export const INITIAL_BUMPKIN: Bumpkin = {
   equipped: INITIAL_EQUIPMENT as Equipped,
-  experience: 0,
+  experience: 100,
 
   id: 1,
   skills: {},
@@ -342,6 +342,9 @@ export const INITIAL_FARM: GameState = {
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
+
+    Sunflower: new Decimal(100),
+    "Pumpkin Soup": new Decimal(100),
   },
   previousInventory: {},
   wardrobe: {},

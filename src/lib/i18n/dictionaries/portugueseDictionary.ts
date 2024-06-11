@@ -4945,6 +4945,9 @@ const world: Record<World, string> = {
   "world.woodlands": ENGLISH_TERMS["world.woodlands"],
   "world.home": ENGLISH_TERMS["world.home"],
   "world.kingdom": ENGLISH_TERMS["world.kingdom"],
+  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
+  "world.plazaShort": ENGLISH_TERMS["world.plazaShort"],
+  "world.retreatShort": ENGLISH_TERMS["world.retreatShort"],
 };
 
 const wornDescription: Record<WornDescription, string> = {

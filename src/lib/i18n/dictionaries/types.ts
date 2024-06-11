@@ -3346,7 +3346,10 @@ export type World =
   | "world.retreat"
   | "world.woodlands"
   | "world.home"
-  | "world.kingdom";
+  | "world.kingdom"
+  | "world.retreatShort"
+  | "world.plazaShort"
+  | "world.travelTo";
 
 export type Event =
   | "event.christmas"

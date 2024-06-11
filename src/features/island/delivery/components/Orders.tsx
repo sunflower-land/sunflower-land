@@ -11,7 +11,7 @@ import coinsImg from "assets/icons/coins.webp";
 import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
 import chest from "assets/icons/chest.png";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -27,7 +27,11 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
-import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
+import {
+  DELIVERY_LEVELS,
+  acknowledgeOrders,
+  generateDeliveryMessage,
+} from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
@@ -41,6 +45,8 @@ import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { Loading } from "features/auth/components";
+import { useNavigate } from "react-router-dom";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -73,6 +79,8 @@ const _coins = (state: MachineState) => state.context.state.coins;
 
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
+
+  const navigate = useNavigate();
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
@@ -167,6 +175,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     tasksCloseAt,
     ticketTasksAreFrozen,
   } = getSeasonChangeover({ id: gameService.state.context.farmId });
+
+  const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
+  const nextNpcUnlock = getKeys(DELIVERY_LEVELS).find(
+    (npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0)
+  );
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
@@ -356,6 +369,45 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               </div>
             );
           })}
+          {nextNpcUnlock && (
+            <div className="py-1 px-2">
+              <ButtonPanel
+                disabled
+                className={classNames(
+                  "w-full  !py-2 relative h-full flex items-center justify-center cursor-not-allowed"
+                )}
+                style={{ paddingBottom: "20px" }}
+              >
+                <div className="flex flex-col pb-2">
+                  <div className="flex items-center my-1">
+                    <div className="relative mb-2 mr-0.5 -ml-1">
+                      <NPCIcon parts={NPC_WEARABLES[nextNpcUnlock]} />
+                    </div>
+                    <div className="flex-1 flex justify-center h-8 items-center w-6 ">
+                      <img
+                        src={SUNNYSIDE.icons.expression_confused}
+                        className="h-6 img-highlight"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Label
+                  type="formula"
+                  icon={lockIcon}
+                  className={"absolute -bottom-2 text-center p-1 "}
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    height: "25px",
+                  }}
+                >
+                  {`Lvl ${DELIVERY_LEVELS[nextNpcUnlock]}`}
+                </Label>
+              </ButtonPanel>
+            </div>
+          )}
         </div>
         {nextOrder && !skippedOrder && (
           <div className="w-1/2 sm:w-1/3 p-1">
@@ -390,13 +442,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
             </OuterPanel>
           </div>
         )}
-
-        <div className="flex items-center mb-1 mt-2">
-          <div className="w-6">
-            <img src={lockIcon} className="h-4 mx-auto" />
-          </div>
-          <span className="text-xs">{t("new.delivery.levelup")}</span>
-        </div>
       </InnerPanel>
       {previewOrder && (
         <InnerPanel
@@ -558,6 +603,32 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   );
                 })}
               </div>
+              {hasRequirements(previewOrder) && (
+                <Button
+                  className="!text-xs !mt-0 !-mb-1"
+                  onClick={() => {
+                    if (RETREAT_BUMPKINS.includes(previewOrder.from)) {
+                      navigate("/world/retreat");
+                    } else if (BEACH_BUMPKINS.includes(previewOrder.from)) {
+                      navigate("/world/beach");
+                    } else if (KINGDOM_BUMPKINS.includes(previewOrder.from)) {
+                      navigate("/world/kingdom");
+                    } else {
+                      navigate("/world/plaza");
+                    }
+                  }}
+                >
+                  {`${t("world.travelTo")} ${
+                    RETREAT_BUMPKINS.includes(previewOrder.from)
+                      ? t("world.retreatShort")
+                      : BEACH_BUMPKINS.includes(previewOrder.from)
+                      ? t("world.beach")
+                      : KINGDOM_BUMPKINS.includes(previewOrder.from)
+                      ? t("world.kingdom")
+                      : t("world.plazaShort")
+                  }`}
+                </Button>
+              )}
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />

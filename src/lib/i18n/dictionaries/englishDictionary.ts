@@ -4996,6 +4996,9 @@ const world: Record<World, string> = {
   "world.retreat": "Retreat",
   "world.home": "Home",
   "world.kingdom": "Kingdom",
+  "world.travelTo": "Travel to",
+  "world.plazaShort": "Plaza",
+  "world.retreatShort": "Retreat",
 };
 
 const wornDescription: Record<WornDescription, string> = {
