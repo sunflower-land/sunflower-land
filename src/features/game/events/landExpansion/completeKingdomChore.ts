@@ -51,10 +51,6 @@ export function completeKingdomChore({
     throw new Error("Chore is already completed");
   }
 
-  if (bumpkin.id !== chore.bumpkinId) {
-    throw new Error("Not the same bumpkin");
-  }
-
   chore.completedAt = createdAt;
   kingdomChores.choresCompleted += 1;
 

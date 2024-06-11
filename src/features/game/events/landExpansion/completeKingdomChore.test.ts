@@ -161,48 +161,6 @@ describe("kingdomChore.completed", () => {
     ).toThrow("Chore is already completed");
   });
 
-  it("throws if the bumpkin changed", () => {
-    expect(() =>
-      completeKingdomChore({
-        action: {
-          type: "kingdomChore.completed",
-          id: 1,
-        },
-        state: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...INITIAL_BUMPKIN,
-            id: 2,
-            activity: {
-              "Sunflower Harvested": 30,
-            },
-          },
-          kingdomChores: {
-            choresCompleted: 0,
-            choresSkipped: 0,
-            chores: {
-              1: {
-                activity: "Sunflower Harvested",
-                description: "Harvest 30 Sunflowers",
-                createdAt: 1000,
-                bumpkinId: 1,
-                startCount: 0,
-                requirement: 30,
-                marks: 3,
-                resource: "Sunflower",
-                active: true,
-              },
-            },
-            week: 1,
-            weeklyChores: 0,
-            weeklyChoresCompleted: 0,
-            weeklyChoresSkipped: 0,
-          },
-        },
-      })
-    ).toThrow("Not the same bumpkin");
-  });
-
   it("adds to the completed count", () => {
     const result = completeKingdomChore({
       action: {
