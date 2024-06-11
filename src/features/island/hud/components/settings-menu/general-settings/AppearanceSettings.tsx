@@ -8,6 +8,7 @@ import { Font, changeFont } from "lib/utils/fonts";
 export const AppearanceSettings: React.FC = () => {
   const { t } = useAppTranslation();
   const { isDarkMode, toggleDarkMode } = useIsDarkMode();
+  const currentLanguage = localStorage.getItem("language") || "en";
 
   const fonts: Font[] = ["Default", "Bold", "Sans Serif"];
 
@@ -24,7 +25,12 @@ export const AppearanceSettings: React.FC = () => {
         {t("gameOptions.generalSettings.font")}
       </Label>
       {fonts.map((font) => (
-        <Button key={font} className="mb-1" onClick={() => changeFont(font)}>
+        <Button
+          key={font}
+          className="mb-1"
+          disabled={currentLanguage === "zh-CN"}
+          onClick={() => changeFont(font)}
+        >
           <span>{font}</span>
         </Button>
       ))}
