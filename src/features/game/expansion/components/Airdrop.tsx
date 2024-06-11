@@ -23,10 +23,6 @@ export const AirdropModal: React.FC<{
       id: airdrop.id,
     });
 
-    if (airdrop.id === "expansion-four-airdrop") {
-      openModal("BETTY");
-    }
-
     if (airdrop.items["Time Warp Totem"]) {
       gameService.send("LANDSCAPE", {
         placeable: "Time Warp Totem",

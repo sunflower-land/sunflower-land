@@ -15,6 +15,21 @@ import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
+import { CropName } from "features/game/types/crops";
+
+// Preloaded crops that will appear on plots when they reveal
+const EXPANSION_CROPS: Record<number, CropName> = {
+  4: "Sunflower",
+  5: "Potato", // We need Potatos at expansion 5 for cooking
+  6: "Pumpkin",
+  7: "Carrot",
+  8: "Cabbage",
+  9: "Cauliflower",
+  10: "Kale",
+  11: "Radish",
+  12: "Eggplant",
+  13: "Parsnip",
+};
 
 export type RevealLandAction = {
   type: "land.revealed";
@@ -132,8 +147,14 @@ export function revealLand({
       width: 1,
       x: coords.x + origin.x,
       y: coords.y + origin.y,
+      crop: {
+        name: EXPANSION_CROPS[landCount] ?? "Sunflower",
+        amount: 1,
+        plantedAt: 0,
+      },
     };
   });
+
   inventory["Crop Plot"] = (inventory["Crop Plot"] || new Decimal(0)).add(
     land.plots?.length ?? 0
   );
@@ -291,6 +312,19 @@ export function revealLand({
     };
   }, {} as GameState["crimstones"]);
 
+  // Add fire pit on expansion 5
+  if (landCount >= 5 && !game.inventory["Fire Pit"]) {
+    game.inventory["Fire Pit"] = new Decimal(1);
+    game.buildings["Fire Pit"] = [
+      {
+        coordinates: { x: -6, y: 8 },
+        createdAt,
+        id: "123",
+        readyAt: createdAt,
+      },
+    ];
+  }
+
   // Add any rewards
   const rewards = getRewards({ game, createdAt });
   const previous = game.airdrops ?? [];
@@ -344,45 +378,23 @@ export function getRewards({
 
   let airdrops: Airdrop[] = [];
 
-  // Tutorial Reward
-  if (expansions.eq(4) && game.island.type === "basic") {
+  if (expansions.eq(6) && game.island.type === "basic") {
     airdrops = [
       ...airdrops,
       {
         createdAt,
-        id: "expansion-four-airdrop",
-        items: {
-          Shovel: 1,
-          "Block Buck": 1,
-        },
-        sfl: 0,
-        coins: 0,
-        wearables: {},
-        coordinates: {
-          x: 0,
-          y: 8,
-        },
-      },
-    ];
-  }
-
-  // Tutorial Reward
-  if (expansions.eq(5) && game.island.type === "basic") {
-    airdrops = [
-      ...airdrops,
-      {
-        createdAt,
-        id: "expansion-fifth-airdrop",
+        id: "expansion-sixth-airdrop",
         items: {
           "Time Warp Totem": 1,
           "Block Buck": 1,
         },
+        message: "Woohoo, you discovered a gift!",
         sfl: 0,
         coins: 0,
         wearables: {},
         coordinates: {
           x: -7,
-          y: 7,
+          y: -2,
         },
       },
     ];
@@ -397,17 +409,6 @@ export function getRewards({
     coins: 0,
     wearables: {},
   };
-
-  if (expansions.eq(6) && game.island.type === "basic") {
-    airdrops = [
-      ...airdrops,
-      {
-        ...blockBuckAirdrop,
-        coordinates: { x: -7, y: 0 },
-        id: "expansion-six-airdrop",
-      },
-    ];
-  }
 
   if (expansions.eq(7) && game.island.type === "basic") {
     airdrops = [

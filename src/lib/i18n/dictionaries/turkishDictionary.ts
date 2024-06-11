@@ -1197,6 +1197,8 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
+  "firepit-intro.one": ENGLISH_TERMS["firepit-intro.one"],
+  "firepit-intro.two": ENGLISH_TERMS["firepit-intro.two"],
   "hank-intro.headline": "Yaşlı bir adama yardım mı edeceksin?",
   "hank-intro.one": "Selam Bumpkin! Küçük cennet bölgemize hoş geldiniz.",
   "hank-intro.two":

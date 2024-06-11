@@ -133,7 +133,7 @@ describe("totalExpansions", () => {
     // Starting nodes
     const nodes: Nodes = {
       "Crimstone Rock": 0,
-      "Crop Plot": 9,
+      "Crop Plot": 0,
       "Flower Bed": 0,
       "Fruit Patch": 0,
       "Gold Rock": 0,
@@ -367,8 +367,8 @@ describe("revealLand", () => {
       },
     });
 
-    expect(state.inventory["Crop Plot"]).toEqual(new Decimal(17));
-    expect(Object.values(state.crops ?? {})).toHaveLength(17);
+    expect(state.inventory["Crop Plot"]).toEqual(new Decimal(9));
+    expect(Object.values(state.crops ?? {})).toHaveLength(9);
   });
 
   it("adds sunstones", () => {
@@ -482,74 +482,6 @@ describe("revealLand", () => {
 
     expect(state.inventory["Sunstone Rock"]).toEqual(new Decimal(1));
     expect(Object.values(state.sunstones ?? {})).toHaveLength(1);
-  });
-
-  it("adds a reward on first expansion", () => {
-    const now = Date.now();
-    const state = revealLand({
-      action: {
-        type: "land.revealed",
-      },
-      farmId: 3,
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Basic Land": new Decimal(3),
-        },
-        expansionConstruction: { createdAt: 0, readyAt: 0 },
-      },
-      createdAt: now,
-    });
-
-    expect(state.airdrops).toContainEqual({
-      createdAt: now,
-      id: "expansion-four-airdrop",
-      items: {
-        Shovel: 1,
-        "Block Buck": 1,
-      },
-      sfl: 0,
-      coins: 0,
-      wearables: {},
-      coordinates: {
-        x: 0,
-        y: 8,
-      },
-    });
-  });
-
-  it("adds a reward on second expansion", () => {
-    const now = Date.now();
-    const state = revealLand({
-      action: {
-        type: "land.revealed",
-      },
-      farmId: 3,
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Basic Land": new Decimal(4),
-        },
-        expansionConstruction: { createdAt: 0, readyAt: 0 },
-      },
-      createdAt: now,
-    });
-
-    expect(state.airdrops).toContainEqual({
-      createdAt: now,
-      id: "expansion-fifth-airdrop",
-      items: {
-        "Time Warp Totem": 1,
-        "Block Buck": 1,
-      },
-      sfl: 0,
-      coins: 0,
-      wearables: {},
-      coordinates: {
-        x: -7,
-        y: 7,
-      },
-    });
   });
 
   it("replenishes trees", () => {
