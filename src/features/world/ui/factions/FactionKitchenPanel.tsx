@@ -63,17 +63,16 @@ export const FactionKitchenPanel: React.FC<Props> = ({
           <div className="flex justify-between">
             <Label type="default">{`Kitchen`}</Label>
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`Opens in: ${secondsToString(
-                (FACTION_KITCHEN_START_TIME - now) / 1000,
-                {
-                  length: "medium",
-                  removeTrailingZeros: true,
-                }
-              )}`}
+              {t("faction.kitchen.opensIn", {
+                time: secondsToString(
+                  (FACTION_KITCHEN_START_TIME - now) / 1000,
+                  { length: "medium", removeTrailingZeros: true }
+                ),
+              })}
             </Label>
           </div>
           <TypingMessage
-            message={`Ahhh I love your enthusiasm! However, the kitchen is not open yet. Please come back later.`}
+            message={t("faction.kitchen.notReady")}
             onMessageEnd={() => undefined}
           />
         </div>
@@ -113,12 +112,16 @@ export const FactionKitchenPanel: React.FC<Props> = ({
         </div>
         {!showConfirm && (
           <>
-            <p className="block sm:hidden text-xs pb-1">{`So many new recruits... how will we feed them all! Can you help me gather some resources?`}</p>
+            <p className="block sm:hidden text-xs pb-1">
+              {t("faction.kitchen.gatherResources")}
+            </p>
             <SplitScreenView
               mobileReversePanelOrder
               content={
                 <div className="flex flex-col space-y-2 w-full">
-                  <p className="hidden sm:block text-xs p-1 pb-2">{`So many new recruits... how will we feed them all! Can you help me gather some resources?`}</p>
+                  <p className="hidden sm:block text-xs p-1 pb-2">
+                    {t("faction.kitchen.gatherResources")}
+                  </p>
                   <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
                     {kitchen.requests.map((request, idx) => (
                       <OuterPanel
@@ -214,9 +217,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({
                       requirement={new Decimal(selectedRequest.amount)}
                     />
                   </div>
-                  <Button
-                    onClick={() => setShowConfirm(true)}
-                  >{`Deliver ${selectedRequest.amount}`}</Button>
+                  <Button onClick={() => setShowConfirm(true)}>{`${t(
+                    "deliver"
+                  )} ${selectedRequest.amount}`}</Button>
                 </div>
               }
             />
