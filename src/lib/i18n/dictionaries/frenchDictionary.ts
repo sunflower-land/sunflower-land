@@ -5088,6 +5088,7 @@ const world: Record<World, string> = {
   "world.intro.two":
     "Explorez la Plaza et trouvez des Bumpkins qui attendent vos livraisons. En échange, ils vous donneront des récompenses !",
   "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
   "world.intro.find": ENGLISH_TERMS["world.intro.find"],
   "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
   "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],

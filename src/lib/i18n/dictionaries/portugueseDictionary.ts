@@ -4923,6 +4923,7 @@ const world: Record<World, string> = {
   "world.intro.two":
     "A praça é lar de um grupo diversificado de Bumpkins e Goblins famintos que precisam da sua ajuda!",
   "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
   "world.intro.find": ENGLISH_TERMS["world.intro.find"],
   "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
   "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],

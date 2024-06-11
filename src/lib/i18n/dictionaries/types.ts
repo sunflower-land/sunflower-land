@@ -3335,6 +3335,7 @@ export type World =
   | "world.intro.delivery"
   | "world.intro.findNPC"
   | "world.intro.find"
+  | "world.intro.levelUpToTravel"
   | "world.intro.visit"
   | "world.intro.craft"
   | "world.intro.carf.limited"

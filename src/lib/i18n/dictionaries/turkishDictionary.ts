@@ -4918,6 +4918,7 @@ const world: Record<World, string> = {
   "world.intro.two":
     "Plaza, yardımınıza ihtiyacı olan çok çeşitli aç Bumpkins ve Goblinlere ev sahipliği yapıyor!",
   "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
   "world.intro.find": ENGLISH_TERMS["world.intro.find"],
   "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
   "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],

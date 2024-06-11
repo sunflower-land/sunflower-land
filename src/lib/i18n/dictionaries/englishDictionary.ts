@@ -4977,6 +4977,7 @@ const world: Record<World, string> = {
     "Hmmm, it looks like you haven't gathered resources for a delivery yet. You can still explore in the meantime.",
   "world.intro.delivery":
     "Oh great, it looks like you've got the resources for a delivery!",
+  "world.intro.levelUpToTravel": "Level up to travel",
   "world.intro.findNPC": "Explore the plaza and find {{name}}.",
   "world.intro.find": "Find",
   "world.intro.visit":

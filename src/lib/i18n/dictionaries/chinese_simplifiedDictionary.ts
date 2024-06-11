@@ -4346,6 +4346,7 @@ const world: Record<World, string> = {
   "world.intro.one": "你好，旅行者！欢迎来到南瓜广场。",
   "world.intro.two": "广场上住着一群饥饿的乡巴佬和妖精，他们需要你的帮助！",
   "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
   "world.intro.find": ENGLISH_TERMS["world.intro.find"],
   "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
   "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],
