@@ -58,8 +58,8 @@ export function completeKingdomChore({
   chore.completedAt = createdAt;
   kingdomChores.choresCompleted += 1;
 
-  const previousMarks = inventory["Faction Mark"] ?? new Decimal(0);
-  inventory["Faction Mark"] = previousMarks.add(chore.marks);
+  const previousMarks = inventory["Mark"] ?? new Decimal(0);
+  inventory["Mark"] = previousMarks.add(chore.marks);
 
   return game;
 }

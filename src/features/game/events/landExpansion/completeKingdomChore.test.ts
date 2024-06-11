@@ -244,7 +244,7 @@ describe("kingdomChore.completed", () => {
     expect(result.kingdomChores?.choresCompleted).toBe(1);
   });
 
-  it("rewards Faction Marks", () => {
+  it("rewards Marks", () => {
     const result = completeKingdomChore({
       action: {
         type: "kingdomChore.completed",
@@ -282,7 +282,7 @@ describe("kingdomChore.completed", () => {
       },
     });
 
-    expect(result.inventory["Faction Mark"]).toStrictEqual(new Decimal(3));
+    expect(result.inventory["Mark"]).toStrictEqual(new Decimal(3));
   });
 
   it("marks the chore as completed", () => {
