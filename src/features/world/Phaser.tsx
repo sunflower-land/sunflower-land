@@ -50,11 +50,9 @@ import { hasFeatureAccess } from "lib/flags";
 import { FactionHouseScene } from "./scenes/FactionHouse";
 import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
+import { Loading } from "features/auth/components";
 import { NightshadeHouseScene } from "./scenes/NightshadeHouseScene";
 import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
-import { NightshadeHouseScene } from "./scenes/NightshadeHouse";
-import { BumpkinHouseScene } from "./scenes/BumpkinHouse";
-import { Loading } from "features/auth/components";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;

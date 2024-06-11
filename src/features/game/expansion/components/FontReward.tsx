@@ -46,7 +46,6 @@ export const FontReward: React.FC = () => {
             message: t("fontReward.bonus.claim"),
           }}
           onClaim={claim}
-          onClose={claim}
         />
       </Panel>
     );

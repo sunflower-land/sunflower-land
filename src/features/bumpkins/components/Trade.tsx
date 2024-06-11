@@ -34,7 +34,6 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
