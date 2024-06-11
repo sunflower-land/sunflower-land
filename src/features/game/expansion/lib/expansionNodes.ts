@@ -38,7 +38,7 @@ type ExpansionNode = Record<IslandType, Record<number, Nodes>>;
 export const TOTAL_EXPANSION_NODES: ExpansionNode = {
   basic: {
     3: {
-      "Crop Plot": 9,
+      "Crop Plot": 0,
       Tree: 3,
       "Stone Rock": 2,
       "Iron Rock": 0,
@@ -51,7 +51,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Oil Reserve": 0,
     },
     4: {
-      "Crop Plot": 17,
+      "Crop Plot": 9,
       Tree: 5,
       "Stone Rock": 3,
       "Iron Rock": 1,
@@ -64,7 +64,7 @@ export const TOTAL_EXPANSION_NODES: ExpansionNode = {
       "Oil Reserve": 0,
     },
     5: {
-      "Crop Plot": 21,
+      "Crop Plot": 17,
       Tree: 6,
       "Stone Rock": 4,
       "Iron Rock": 2,

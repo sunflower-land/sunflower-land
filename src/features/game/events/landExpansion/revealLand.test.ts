@@ -367,8 +367,8 @@ describe("revealLand", () => {
       },
     });
 
-    expect(state.inventory["Crop Plot"]).toEqual(new Decimal(17));
-    expect(Object.values(state.crops ?? {})).toHaveLength(17);
+    expect(state.inventory["Crop Plot"]).toEqual(new Decimal(9));
+    expect(Object.values(state.crops ?? {})).toHaveLength(9);
   });
 
   it("adds sunstones", () => {
