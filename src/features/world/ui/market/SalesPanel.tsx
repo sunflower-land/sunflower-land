@@ -216,12 +216,10 @@ export const SalesPanel: React.FC<{
                 {t("goblinTrade.conversion")}
               </Label>
             </div>
-            <div className="flex justify-between items-center px-2 pt-1">
-              <span
-                className={classNames("text-xs font-secondary text-[30px]", {
-                  "text-red-500": !canSell,
-                })}
-              >{`${MARKET_BUNDLES[selected]}`}</span>
+            <div className="flex justify-between items-center px-1 pt-2">
+              <Label type={!canSell ? "danger" : "success"}>
+                {`${MARKET_BUNDLES[selected]}`}
+              </Label>
               <span className="font-secondary text-[30px]">
                 {t("bumpkinTrade.price/unit", {
                   price: setPrecision(new Decimal(unitPrice)).toFixed(4),
