@@ -1993,7 +1993,7 @@ const factions: Record<Factions, string> = {
   "faction.points.pledge.warning":
     "Pledge a faction to receive faction points!",
   "faction.emblemAirdrop": "Emblem Airdrop",
-  "faction.emblemAirdrop.closes": "Airdrop Ends: {{date}}",
+  "faction.emblemAirdrop.closes": "Ends: {{date}}",
 
   // Kingdom NPCs
   "faction.restrited.area":
