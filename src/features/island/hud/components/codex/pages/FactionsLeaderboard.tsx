@@ -2,7 +2,7 @@ import React from "react";
 
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import { FactionLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -116,7 +116,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
               -1
             )} ${t("leaderboard.leaderboard")}`}</Label>
           </div>
-          <p className="text-[12px]">
+          <p className="font-secondary text-xs">
             {t("last.updated")} {getRelativeTime(data.lastUpdated)}
           </p>
         </div>
@@ -150,7 +150,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
             </>
           )}
           <div className="flex justify-end">
-            <p className="text-[12px]">
+            <p className="font-secondary text-xs">
               {`${t("leaderboard.factionMembers")}: ${formatNumber(
                 data.totalMembers?.[selected] ?? 0
               )}`}
@@ -201,13 +201,10 @@ const Faction: React.FC<FactionProps> = ({
 
   return (
     <div className="py-1 px-2" key={name}>
-      <OuterPanel
+      <ButtonPanel
         onClick={onClick}
         className={classNames(
-          "w-full cursor-pointer hover:bg-brown-200 pt-2 relative",
-          {
-            "bg-brown-200 img-highlight": isSelected,
-          }
+          "w-full cursor-pointer hover:bg-brown-200 pt-2 relative"
         )}
         style={{ paddingBottom: "20px" }}
       >
@@ -238,7 +235,7 @@ const Faction: React.FC<FactionProps> = ({
                     src={FACTION_POINT_ICONS[name]}
                     className="w-4 h-4 inline-block mx-1"
                   />
-                  <span className="text-xxs">
+                  <span className="font-secondary text-xs">
                     {formatNumber(totalTickets ?? 0)}
                   </span>
                 </div>
@@ -253,7 +250,7 @@ const Faction: React.FC<FactionProps> = ({
                     src={FACTION_POINT_ICONS[name]}
                     className="w-4 h-4 inline-block mx-1"
                   />
-                  <span className="text-xxs">
+                  <span className="font-secondary text-xs">
                     {formatNumber(totalTickets ?? 0)}
                   </span>
                 </div>
@@ -291,7 +288,7 @@ const Faction: React.FC<FactionProps> = ({
             />
           </div>
         )}
-      </OuterPanel>
+      </ButtonPanel>
     </div>
   );
 };

@@ -7,9 +7,11 @@ import creditCard from "assets/icons/credit_card.png";
 import blockBucksIcon from "assets/icons/block_buck.png";
 import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { Loading } from "features/auth/components";
 
 export interface Price {
   amount: number;
@@ -115,7 +117,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
   if (isSaving) {
     return (
       <div className="flex justify-center">
-        <p className="loading text-center">{t("loading")}</p>
+        <Loading />
       </div>
     );
   }
@@ -124,7 +126,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
     return (
       <>
         <div className="px-1">
-          <div className="flex items-center text-[14px] sm:text-sm justify-between mt-2 mb-3">
+          <div className="flex items-center sm:text-sm justify-between mt-2 mb-3">
             <div className="flex items-center space-x-2">
               <span className="text-xs">
                 {t("item")} {price.amount} {"x"}
@@ -134,7 +136,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
             <span className="text-xs">{`${t("total")}: US$${price.usd}`}</span>
           </div>
           <div className="grid grid-cols-2 gap-3 mb-3">
-            <OuterPanel
+            <ButtonPanel
               onClick={price.amount > 1 ? onCreditCardBuy : undefined}
               className={classNames(
                 "flex relative flex-col flex-1 items-center p-2",
@@ -148,7 +150,7 @@ export const BuyBlockBucks: React.FC<Props> = ({
               <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
                 <img src={creditCard} className="w-1/5 sm:w-1/5" />
                 {price.amount === 1 && (
-                  <span className="text-[12px] italic">
+                  <span className="text-xs italic">
                     {`*${t("minimum")} 5 Block Bucks`}
                   </span>
                 )}
@@ -156,12 +158,17 @@ export const BuyBlockBucks: React.FC<Props> = ({
 
               <Label
                 type={price.amount === 1 ? "danger" : "warning"}
-                className="absolute w-[108%] sm:w-[105%] -bottom-2 h-8"
+                className="absolute -bottom-2 h-8"
+                style={{
+                  left: `${PIXEL_SCALE * -3}px`,
+                  right: `${PIXEL_SCALE * -3}px`,
+                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                }}
               >
                 {t("transaction.payCash")}
               </Label>
-            </OuterPanel>
-            <OuterPanel
+            </ButtonPanel>
+            <ButtonPanel
               onClick={() => setShowMaticConfirm(true)}
               className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
             >
@@ -171,11 +178,16 @@ export const BuyBlockBucks: React.FC<Props> = ({
               </div>
               <Label
                 type="warning"
-                className="absolute h-8 w-[108%] sm:w-[105%] -bottom-2"
+                className="absolute h-8 -bottom-2"
+                style={{
+                  left: `${PIXEL_SCALE * -3}px`,
+                  right: `${PIXEL_SCALE * -3}px`,
+                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                }}
               >
                 {t("transaction.payMatic")}
               </Label>
-            </OuterPanel>
+            </ButtonPanel>
           </div>
           <p className="text-xxs italic mb-2">{t("transaction.excludeFees")}</p>
         </div>
@@ -187,10 +199,10 @@ export const BuyBlockBucks: React.FC<Props> = ({
   return (
     <>
       <div className="flex flex-col w-full p-1">
-        <p className="text-xxs italic pb-2">{t("transaction.excludeFees")}</p>
-        <div className="grid grid-cols-3 gap-1 gap-y-2 text-[14px] sm:text-sm sm:gap-2">
+        <p className="text-xs italic pb-2">{t("transaction.excludeFees")}</p>
+        <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price) => (
-            <OuterPanel
+            <ButtonPanel
               key={JSON.stringify(price)}
               className="flex flex-col items-center relative cursor-pointer hover:bg-brown-300"
               onClick={() => setPrice(price)}
@@ -202,11 +214,16 @@ export const BuyBlockBucks: React.FC<Props> = ({
               <Label
                 type="warning"
                 iconWidth={11}
-                className="absolute h-7 w-[110%] sm:w-[108%] -bottom-1"
+                className="absolute h-7  -bottom-2"
+                style={{
+                  left: `${PIXEL_SCALE * -3}px`,
+                  right: `${PIXEL_SCALE * -3}px`,
+                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                }}
               >
                 {`US$${price.usd}`}
               </Label>
-            </OuterPanel>
+            </ButtonPanel>
           ))}
         </div>
       </div>

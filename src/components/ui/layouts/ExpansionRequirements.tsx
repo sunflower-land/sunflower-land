@@ -14,7 +14,7 @@ import lockIcon from "assets/skills/lock.png";
 
 import { Label } from "../Label";
 import { secondsToString } from "lib/utils/time";
-import { OuterPanel } from "../Panel";
+import { InnerPanel } from "../Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 /**
  * The props for the component.
@@ -89,7 +89,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
           </Label>
         </div>
 
-        <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
+        <InnerPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5">
           {!!requirements.coins && (
             <RequirementLabel
               key={"coins"}
@@ -111,7 +111,7 @@ export const ExpansionRequirements: React.FC<Props> = ({
               />
             );
           })}
-        </OuterPanel>
+        </InnerPanel>
 
         {!hasLevel && (
           <>

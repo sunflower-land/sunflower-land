@@ -23,7 +23,7 @@ export const IntroPage: React.FC<IntroProps> = ({ onClose }) => {
   return (
     <>
       <div className="p-2 pt-0 flex flex-col h-full">
-        <div className="text-[18px] leading-5 space-y-2 mb-3 -mt-2">
+        <div className="text-xs space-y-2 mb-3 -mt-2">
           <div className="relative mt-2 float-left w-1/3">
             {loaded && (
               <Spritesheet

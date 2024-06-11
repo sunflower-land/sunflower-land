@@ -24,6 +24,7 @@ import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
 import { WorldHud } from "features/island/hud/WorldHud";
+import { Loading } from "features/auth/components";
 
 interface Props {
   isCommunity?: boolean;
@@ -167,7 +168,7 @@ export const TravelScreen: React.FC<TravelProps> = ({ mmoService }) => {
     <Ocean>
       <Modal show backdrop={false}>
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
     </Ocean>

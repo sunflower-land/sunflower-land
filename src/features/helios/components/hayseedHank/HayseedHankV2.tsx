@@ -15,6 +15,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 // UTC
 export function secondsTillReset() {
@@ -75,53 +76,62 @@ export const HayseedHankV2: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <CloseButtonPanel bumpkinParts={NPC_WEARABLES.hank} onClose={onClose}>
-      <div className="px-1.5 mb-1 flex w-full h-8 items-center">
+    <CloseButtonPanel
+      bumpkinParts={NPC_WEARABLES.hank}
+      onClose={onClose}
+      container={OuterPanel}
+    >
+      <div className="px-1.5 mb-2 flex w-full h-8 items-center">
         <p>{t("hayseedHankv2.title")}</p>
       </div>
       <div
-        style={{ maxHeight: "300px" }}
-        className="overflow-y-auto pr-1 divide-brown-600 scrollable"
+        className="scrollable overflow-y-auto overflow-x-hidden pr-1"
+        style={{ maxHeight: "350px" }}
       >
-        {ticketTasksAreFrozen && (
-          <div
-            style={{
-              minHeight: "65px",
-            }}
-            className="px-1.5 mb-2"
-          >
-            <InlineDialogue
-              trail={25}
-              // key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
-              message={t("hank.choresFrozen")}
-            />
+        <InnerPanel className="mb-1">
+          <div className="divide-brown-600">
+            {ticketTasksAreFrozen && (
+              <div
+                style={{
+                  minHeight: "65px",
+                }}
+                className="px-1.5 mb-2"
+              >
+                <InlineDialogue
+                  trail={25}
+                  // key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
+                  message={`Well shucks, looks like we're all caught up for today. Take yourself a little breather and enjoy the rest of the day!`}
+                />
+              </div>
+            )}
+            {!ticketTasksAreFrozen && (
+              <div className="space-y-1 mb-2">
+                <div className="flex items-center space-x-1 px-1.5">
+                  <SquareIcon
+                    icon={SUNNYSIDE.icons.timer}
+                    width={5}
+                    className="mt-0.5"
+                  />
+                  <span className="text-xs">{`${t(
+                    "hayseedHankv2.newChoresAvailable"
+                  )} ${secondsToString(secondsTillReset(), {
+                    length: "full",
+                  })}`}</span>
+                </div>
+                <div className="flex items-center space-x-1 px-1.5">
+                  <SquareIcon
+                    icon={SUNNYSIDE.icons.heart}
+                    width={5}
+                    className="mt-0.5"
+                  />
+                  <span className="text-xs">
+                    {t("hayseedHankv2.skipChores")}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
-        )}
-        {!ticketTasksAreFrozen && (
-          <div className="space-y-1 mb-2">
-            <div className="flex items-center space-x-1 px-1.5">
-              <SquareIcon
-                icon={SUNNYSIDE.icons.timer}
-                width={5}
-                className="mt-0.5"
-              />
-              <span className="text-xs">{`${t(
-                "hayseedHankv2.newChoresAvailable"
-              )} ${secondsToString(secondsTillReset(), {
-                length: "full",
-              })}`}</span>
-            </div>
-            <div className="flex items-center space-x-1 px-1.5">
-              <SquareIcon
-                icon={SUNNYSIDE.icons.heart}
-                width={5}
-                className="mt-0.5"
-              />
-              <span className="text-xs">{t("hayseedHankv2.skipChores")}</span>
-            </div>
-          </div>
-        )}
-
+        </InnerPanel>
         <ChoreV2 />
       </div>
     </CloseButtonPanel>

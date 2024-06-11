@@ -120,14 +120,13 @@ export const ChatText: React.FC<Props> = ({
           "bg-gray-900 bg-opacity-25 relative rounded-md w-64 sm:w-96 pt-1",
           { "mt-2": hasMessages }
         )}
-        style={{ lineHeight: "10px" }}
+        style={{ lineHeight: "10px", fontSize: "14px" }}
       >
         <div
           className={classNames(
-            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words text-xxs p-2 ",
+            "min-h-[60px] max-h-48 overflow-y-scroll flex flex-col-reverse break-words text-xs p-2 text-shadow",
             { "mb-1": hasMessages }
           )}
-          style={{ fontFamily: "monospace" }}
         >
           {messages
             .slice(0, 1000)
@@ -142,7 +141,7 @@ export const ChatText: React.FC<Props> = ({
 
               if (message.username)
                 return (
-                  <p key={`${i}-${message.farmId}`}>
+                  <p key={`${i}-${message.farmId}`} className="text-white">
                     {message.username}
                     {":"} {message.text}
                   </p>
@@ -151,7 +150,7 @@ export const ChatText: React.FC<Props> = ({
               return (
                 <p
                   key={`${i}-${message.farmId}`}
-                  className="pt-0.5 -indent-6 pl-6"
+                  className="pt-0.5 -indent-6 pl-6 text-white"
                 >
                   {`[${message.farmId}]`}
                   {":"} {message.text}
@@ -183,8 +182,7 @@ export const ChatText: React.FC<Props> = ({
             e.preventDefault();
           }}
           placeholder="Type here..."
-          className="text-xxs placeholder-white text-shadow w-full bg-black bg-opacity-10 px-2 py-2 rounded-md max-h-min"
-          style={{ lineHeight: "12px", fontFamily: "monospace" }}
+          className=" placeholder-white text-white text-shadow text-xs text-shadow w-full !bg-black !bg-opacity-10 px-2 py-2 rounded-md max-h-min"
         />
         <Validation />
       </div>

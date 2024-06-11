@@ -6,6 +6,7 @@ import { CONFIG } from "lib/config";
 import { Context } from "../lib/Provider";
 import { wallet } from "lib/blockchain/wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "./Loading";
 
 export const Verifying: React.FC = () => {
   const { authService } = useContext(Context);
@@ -61,7 +62,7 @@ export const Verifying: React.FC = () => {
         id="iframe"
         style={{ height: 0 }}
       ></iframe>
-      <span className="text-shadow loading">{t("loading")}</span>
+      <Loading />
     </>
   );
 };

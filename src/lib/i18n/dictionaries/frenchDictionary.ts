@@ -1911,6 +1911,10 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.freeGift":
     "La meilleure partie... tout le monde qui rejoint obtient un cadeau gratuit!",
   "discord.bonus.connect": "Connectez-vous à Discord",
+  "fontReward.bonus.claim": ENGLISH_TERMS["fontReward.bonus.claim"],
+  "fontReward.bonus.intro1": ENGLISH_TERMS["fontReward.bonus.intro1"],
+  "fontReward.bonus.intro2": ENGLISH_TERMS["fontReward.bonus.intro2"],
+  "fontReward.bonus.intro3": ENGLISH_TERMS["fontReward.bonus.intro3"],
 };
 
 const donation: Record<Donation, string> = {
@@ -5208,9 +5212,16 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.generalSettings.assignRole":
     ENGLISH_TERMS["gameOptions.generalSettings.assignRole"],
   "gameOptions.generalSettings.changeLanguage": "Changer de Langue",
+  "gameOptions.generalSettings.darkMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.darkMode"],
+  "gameOptions.generalSettings.lightMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.lightMode"],
+  "gameOptions.generalSettings.font":
+    ENGLISH_TERMS["gameOptions.generalSettings.font"],
   "gameOptions.generalSettings.disableAnimations": "Désactiver les animations",
   "gameOptions.generalSettings.enableAnimations": "Activer les animations",
   "gameOptions.generalSettings.share": "Partager",
+  "gameOptions.generalSettings.appearance": "Appearance Settings",
 
   // Plaza Settings
   "gameOptions.plazaSettings": "Paramètres de la Place",

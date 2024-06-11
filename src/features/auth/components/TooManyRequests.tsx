@@ -6,7 +6,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const TooManyRequests: React.FC = () => {
   const { t } = useAppTranslation();
   return (
-    <div className="flex flex-col text-center text-shadow items-center p-1">
+    <div className="flex flex-col text-center items-center p-1">
       <div className="flex mb-3 items-center ml-8">
         <img src={humanDeath} alt="Warning" className="w-full" />
       </div>

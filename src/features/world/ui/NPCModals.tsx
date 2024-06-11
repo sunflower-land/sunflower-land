@@ -30,6 +30,7 @@ import { ChickenRescue } from "./portals/ChickenRescue";
 import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { ChoresModal } from "./factions/chores/ChoresModal";
+import { OuterPanel } from "components/ui/Panel";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -126,6 +127,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <CloseButtonPanel
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.garbo}
+            container={OuterPanel}
           >
             <GarbageCollectorModal />
           </CloseButtonPanel>

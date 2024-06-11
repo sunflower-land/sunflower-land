@@ -50,14 +50,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
+        <span className="balance-text text-xxs sm:text-sm">
           {t("world.home")}
         </span>
       </div>
@@ -78,14 +71,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
+        <span className="balance-text text-xxs sm:text-sm">
           {t("world.plaza")}
         </span>
       </div>
@@ -107,14 +93,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             onClose();
           }}
         >
-          <span
-            className="text-xs sm:text-sm"
-            style={
-              {
-                "-webkit-text-stroke": "1px black",
-              } as any
-            }
-          >
+          <span className="balance-text text-xxs sm:text-sm">
             {t("world.kingdom")}
           </span>
         </div>
@@ -136,14 +115,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
+        <span className="balance-text text-xxs sm:text-sm">
           {t("world.beach")}
         </span>
       </div>
@@ -164,14 +136,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
+        <span className="balance-text text-xxs sm:text-sm">
           {t("world.woodlands")}
         </span>
       </div>
@@ -192,10 +157,15 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         >
         <span
-          className="text-xs sm:text-sm"
+                   className="text-xs sm:text-sm"
+          style={{
+             textShadow:
+              "1px 1px 0 white, -1px 1px 0 white, 1px -1px 0 white,-1px -1px 0 white,1px 0 0 white,-1px 0 0 white,0 1px 0 white,0 -1px 0 white",
+           
+          }}
           style={
             {
-              "-webkit-text-stroke": "1px black",
+              
             } as any
           }
         >
@@ -220,14 +190,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
+        <span className="balance-text text-xxs sm:text-sm">
           {t("world.retreat")}
         </span>
       </div>

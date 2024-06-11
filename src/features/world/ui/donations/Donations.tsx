@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 
 import { donationMachine } from "features/community/merchant/lib/donationMachine";
 import { useMachine } from "@xstate/react";
-import { roundToOneDecimal } from "features/auth/components";
+import { Loading, roundToOneDecimal } from "features/auth/components";
 import { CONFIG } from "lib/config";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -118,7 +118,7 @@ export const CommunityDonations: React.FC = () => {
                 />
               </div>
             </div>
-            <span className="text-xs text-shadow my-2">
+            <span className="text-xs font-secondary my-2">
               {t("amount.matic")}
             </span>
           </div>
@@ -140,7 +140,7 @@ export const CommunityDonations: React.FC = () => {
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">{t("donating")}</p>
+          <Loading className="mb-4" text={t("donating")} />
         </div>
       )}
       {state.matches("donated") && (
@@ -249,7 +249,7 @@ export const SpecialEventDonations: React.FC = () => {
       )}
       {state.matches("donating") && (
         <div className="flex flex-col items-center">
-          <p className="loading mb-4">{t("donating")}</p>
+          <Loading className=" mb-4" text={t("donating")} />
         </div>
       )}
       {state.matches("donated") && (

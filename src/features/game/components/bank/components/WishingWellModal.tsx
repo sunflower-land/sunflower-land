@@ -34,6 +34,7 @@ import { Label } from "components/ui/Label";
 import giftIcon from "assets/icons/gift.png";
 import { Context } from "features/game/GameProvider";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { Loading } from "features/auth/components";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -192,7 +193,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
             alt="player address"
             className="w-6"
           />
-          <span className="ml-2">
+          <span className="ml-2 font-secondary">
             {shortAddress(wallet.myAccount as string)}
           </span>
         </div>
@@ -200,7 +201,7 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
           <p className="mb-2 text-sm">{t("wishingWell.info.three")}</p>
         ) : (
           <p className="mb-2 text-sm">
-            {`${t("statements.wishing.well.look.like")}`}
+            {`${t("statements.wishing.well.look.like")} `}
             <a
               className="underline"
               href="https://docs.sunflower-land.com/fundamentals/wishing-well#what-is-in-the-wishing-well"
@@ -303,15 +304,11 @@ export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
             </div>
           )}
         >
-          {machine.matches("loading") && (
-            <span className="loading mt-1">{t("loading")}</span>
-          )}
+          {machine.matches("loading") && <Loading />}
           {(machine.matches("granting") || machine.matches("signing")) && (
-            <span className="loading mt-1">{t("granting.wish")}</span>
+            <Loading text={t("granting.wish")} />
           )}
-          {machine.matches("wishing") && (
-            <span className="loading mt-1">{t("making.wish")}</span>
-          )}
+          {machine.matches("wishing") && <Loading text={t("making.wish")} />}
           {machine.matches("error") && (
             <div>
               {errorCode === "NO_TOKENS" ? (

@@ -14,6 +14,7 @@ import { BUMPKIN_EXPANSIONS_LEVEL } from "features/game/types/expansions";
 import { useActor } from "@xstate/react";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 export const NoBumpkin: React.FC = () => {
   const { t } = useAppTranslation();
@@ -83,7 +84,7 @@ export const NoBumpkin: React.FC = () => {
   if (isLoading) {
     return (
       <div className="p-2">
-        <p className="loading">{t("loading")}</p>
+        <Loading />
       </div>
     );
   }
@@ -111,7 +112,7 @@ export const NoBumpkin: React.FC = () => {
             {t("warning.level.required", { lvl: requiredLevel })}
           </Label>
           <p className="text-sm my-2">{t("noBumpkin.mintBumpkin")}</p>
-          <p className="text-xs sm:text-sm text-shadow text-white p-1">
+          <p className="text-xs sm:text-sm text-white p-1">
             <a
               className="underline"
               href={

@@ -1308,7 +1308,11 @@ export type DiscordBonus =
   | "discord.bonus.communityInfo"
   | "discord.bonus.farmingTips"
   | "discord.bonus.freeGift"
-  | "discord.bonus.connect";
+  | "discord.bonus.connect"
+  | "fontReward.bonus.claim"
+  | "fontReward.bonus.intro1"
+  | "fontReward.bonus.intro2"
+  | "fontReward.bonus.intro3";
 
 export type DraftBid =
   | "draftBid.howAuctionWorks"
@@ -3422,6 +3426,10 @@ export type GameOptions =
   | "gameOptions.generalSettings.connectDiscord"
   | "gameOptions.generalSettings.assignRole"
   | "gameOptions.generalSettings.changeLanguage"
+  | "gameOptions.generalSettings.darkMode"
+  | "gameOptions.generalSettings.lightMode"
+  | "gameOptions.generalSettings.font"
+  | "gameOptions.generalSettings.appearance"
   | "gameOptions.generalSettings.disableAnimations"
   | "gameOptions.generalSettings.enableAnimations"
   | "gameOptions.generalSettings.share"

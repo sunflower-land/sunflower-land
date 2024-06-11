@@ -147,13 +147,8 @@ export const BuyPanel: React.FC<{
     }
 
     return (
-      <div className="flex flex-col pl-2 pt-2">
-        {hasPurchasesRemaining && (
-          <Label type="default" icon={SUNNYSIDE.icons.basket} className="ml-2">
-            {t("trading.select.resources")}
-          </Label>
-        )}
-        <div className="flex flex-wrap flex-1 pr-2 overflow-y-auto scrollable mt-2">
+      <div className="p-2">
+        <div className="flex flex-wrap mt-2">
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
               key={name}
@@ -484,9 +479,9 @@ export const BuyPanel: React.FC<{
           )}
         </div>
         <div className="flex flex-col min-h-[150px] items-start justify-between">
-          {isSearching && <p className="loading mt-1">{t("searching")}</p>}
+          {isSearching && <Loading text={t("searching")} />}
           {!isSearching && (
-            <div className="flex overflow-y-auto relative w-full">
+            <div className="flex overflow-y-auto relative w-full scrollable">
               {view === "search" && searchView()}
               {view === "list" && listView(listings)}
             </div>

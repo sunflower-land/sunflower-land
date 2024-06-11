@@ -81,28 +81,40 @@ export const SpeakingModal: React.FC<Props> = ({
   const showActions =
     (currentTextEnded || forceShowFullMessage) &&
     message[currentMessage]?.actions;
+
+  const longestMessageText = message
+    .map((m) => m.text)
+    .reduce((a, b) => (a.length > b.length ? a : b));
+
   return (
     <Panel
       className={classNames("relative w-full", className)}
       bumpkinParts={bumpkinParts}
     >
-      <div style={{ minHeight: `${lines * 25}px` }} className="flex flex-col">
+      <div className="flex flex-col">
         <div
-          className={classNames("flex-1 p-1 flex flex-col mb-1", {
+          className={classNames("flex-1 p-1 flex flex-col mb-1 relative", {
             "cursor-pointer": !currentTextEnded || !showActions,
           })}
           onClick={handleClick}
         >
-          <TypingMessage
-            message={message[currentMessage]?.text ?? ""}
-            key={currentMessage}
-            onMessageEnd={() => setCurrentTextEnded(true)}
-            forceShowFullMessage={forceShowFullMessage}
-          />
+          {/* We render the longest message (hidden), so it always sets the correct max height that will occur */}
+          <div className="text-sm opacity-0">{longestMessageText}</div>
+          <div className="absolute">
+            <TypingMessage
+              message={message[currentMessage]?.text ?? ""}
+              key={currentMessage}
+              onMessageEnd={() => setCurrentTextEnded(true)}
+              forceShowFullMessage={forceShowFullMessage}
+            />
+          </div>
           {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right p-1">
+          <p
+            className="text-xxs italic float-right p-1 font-secondary text-[22px] cursor-pointer"
+            onClick={handleClick}
+          >
             {t("statements.tapCont")}
           </p>
         )}
@@ -200,7 +212,7 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
           {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (
-          <p className="text-xxs italic float-right">
+          <p className="text-xxs italic float-right font-secondary text-[22px]">
             {t("statements.tapCont")}
           </p>
         )}

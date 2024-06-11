@@ -178,7 +178,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           <img src={SUNNYSIDE.icons.player} className="h-8 mr-2" />
           <div>
             <p className="text-sm">{t("withdraw.send.wallet")}</p>
-            <p className="text-sm">
+            <p className="text-sm font-secondary">
               {shortAddress(wallet.myAccount || "XXXX")}
             </p>
           </div>

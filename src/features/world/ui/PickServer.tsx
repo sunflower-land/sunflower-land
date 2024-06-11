@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import {
@@ -89,7 +89,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
           <>
             {servers.map((server, index) => {
               return (
-                <OuterPanel
+                <ButtonPanel
                   className={classNames(
                     "flex relative items-center justify-between !p-2 mb-1 cursor-pointer hover:bg-brown-200",
                     {
@@ -130,7 +130,7 @@ export const PickServer: React.FC<Props> = ({ mmoService }) => {
                       className="h-5 ml-2"
                     />
                   </div>
-                </OuterPanel>
+                </ButtonPanel>
               );
             })}
           </>

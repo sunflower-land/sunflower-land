@@ -46,8 +46,8 @@ const DIMENSIONS = {
   level: {
     width: 24,
     height: 12,
-    marginLeft: 108,
-    marginTop: 84,
+    marginLeft: 109,
+    marginTop: 82.5,
   },
   username: {
     width: 200,
@@ -168,7 +168,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           }}
         />
         <div
-          className={`col-start-1 row-start-1 flex justify-center text-white text-xxs z-20`}
+          className={`col-start-1 row-start-1 flex justify-center   z-20 text-xs`}
           style={{
             width: `${DIMENSIONS.level.width}px`,
             height: `${DIMENSIONS.level.height}px`,
@@ -178,19 +178,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
         >
           {level}
         </div>
-        {username && (
-          <div
-            className={`col-start-1 row-start-1 flex justify-center text-white text-xxs z-20`}
-            style={{
-              width: `${DIMENSIONS.username.width}px`,
-              height: `${DIMENSIONS.username.height}px`,
-              marginLeft: `${DIMENSIONS.username.marginLeft}px`,
-              marginTop: `${DIMENSIONS.username.marginTop}px`,
-            }}
-          >
-            {username}
-          </div>
-        )}
+
         {showSkillPointAlert && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}

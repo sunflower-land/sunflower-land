@@ -33,7 +33,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     2: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
       x: -1,
       y: 0,
       height: 1,
@@ -41,7 +41,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Pumpkin", plantedAt: 0, amount: 1 },
+      crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
       x: 0,
       y: 0,
       height: 1,
@@ -374,8 +374,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  coins: 10000000,
-  balance: new Decimal(100),
+  coins: 10,
+  balance: new Decimal(100.1023810291823),
   previousBalance: new Decimal(0),
   previousInventory: {
     Wood: new Decimal(10),
@@ -409,6 +409,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    Axe: new Decimal(100),
+    Pickaxe: new Decimal(100),
     Wheat: new Decimal(100),
     Oil: new Decimal(500),
     Manor: new Decimal(1),
@@ -750,7 +752,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   buildings: {
-    Greenhouse: [
+    "Town Center": [
       {
         coordinates: {
           x: -2,
@@ -761,7 +763,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Market: [
+    "Hen House": [
       {
         coordinates: {
           x: -5,
@@ -871,8 +873,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  farmActivity: {},
-  milestones: {},
+  farmActivity: {
+    "Anchovy Caught": 1000,
+  },
+  milestones: {
+    "Advanced Angler": 1,
+  },
   catchTheKraken: {
     hunger: "Iron",
     weeklyCatches: {},

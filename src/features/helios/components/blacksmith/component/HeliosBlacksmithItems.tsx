@@ -112,7 +112,9 @@ export const HeliosBlacksmithItems: React.FC = () => {
           }}
           actionView={
             isAlreadyCrafted ? (
-              <p className="text-xxs text-center mb-1">{t("alr.crafted")}</p>
+              <p className="text-xxs text-center mb-2 font-secondary">
+                {t("alr.crafted")}
+              </p>
             ) : (
               <>
                 <Button

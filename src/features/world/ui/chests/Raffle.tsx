@@ -54,9 +54,9 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
             {t("raffle.title")}
           </Label>
         </div>
-        <p className="text-xs mb-1">{t("raffle.description")}</p>
-        <p className="text-xs mb-1">{`- 5 x 1000 SFL winners`}</p>
-        <p className="text-xs mb-2">{`- 2 Bud NFTs`}</p>
+        <p className="text-xs mb-2">{t("raffle.description")}</p>
+        <p className="text-xs mb-1 font-secondary">{`- 5 x 1000 SFL winners`}</p>
+        <p className="text-xs mb-2 font-secondary">{`- 2 Bud NFTs`}</p>
         <div className="flex justify-between items-center">
           <Label
             icon={SUNNYSIDE.icons.stopwatch}
@@ -72,7 +72,7 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
           )}
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center space-x-1">
           <Box image={ITEM_DETAILS["Prize Ticket"].image} count={tickets} />
           <div>
             {!tickets.gte(1) && (

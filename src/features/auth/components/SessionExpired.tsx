@@ -14,7 +14,7 @@ export const SessionExpired: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col text-center text-shadow items-center p-1">
+      <div className="flex flex-col text-center items-center p-1">
         <div className="flex mb-3 items-center ml-8">
           <img src={humanDeath} alt="Warning" className="w-full" />
         </div>

@@ -150,7 +150,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   return (
     <>
       <div className="p-2 flex flex-col justify-center space-y-1">
-        <span className="text-shadow text-sm mb-1">{t("withdraw.sync")}</span>
+        <span className="text-sm mb-1">{t("withdraw.sync")}</span>
         <div className="flex space-x-1">
           <Button onClick={() => setPage("tokens")}>
             <div className="flex">

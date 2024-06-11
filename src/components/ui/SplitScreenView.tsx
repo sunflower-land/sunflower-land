@@ -1,5 +1,5 @@
 import React from "react";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
 /**
@@ -37,7 +37,7 @@ export const SplitScreenView: React.FC<Props> = ({
 }: Props) => {
   return (
     <div className="flex flex-col-reverse sm:flex-row">
-      <div
+      <InnerPanel
         className={classNames(
           "w-full sm:w-3/5 h-fit sm:max-h-96 p-1 mt-1 sm:mt-0 flex",
           {
@@ -49,18 +49,18 @@ export const SplitScreenView: React.FC<Props> = ({
             "flex-col": !contentScrollable,
           }
         )}
-        ref={divRef}
+        divRef={divRef}
       >
         {content}
-      </div>
+      </InnerPanel>
       {showHeader && (
-        <OuterPanel
-          className={classNames("w-full sm:w-2/5", {
+        <InnerPanel
+          className={classNames("w-full sm:w-2/5 h-fit", {
             "lg:w-1/4": wideModal,
           })}
         >
           {header}
-        </OuterPanel>
+        </InnerPanel>
       )}
     </div>
   );

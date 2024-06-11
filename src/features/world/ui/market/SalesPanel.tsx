@@ -202,7 +202,7 @@ export const SalesPanel: React.FC<{
                 <Label type={!canSell ? "danger" : "info"} className="my-1">
                   {t("bumpkinTrade.available")}
                 </Label>
-                <span className="text-sm mr-1">
+                <span className="text-sm mr-1 font-secondary text-[30px]">
                   {state.inventory?.[selected]?.toFixed(0, 1) ?? 0}
                 </span>
               </div>
@@ -218,9 +218,11 @@ export const SalesPanel: React.FC<{
             </div>
             <div className="flex justify-between items-center px-2 pt-1">
               <span
-                className={classNames("text-xs", { "text-red-500": !canSell })}
+                className={classNames("text-xs font-secondary text-[30px]", {
+                  "text-red-500": !canSell,
+                })}
               >{`${MARKET_BUNDLES[selected]}`}</span>
-              <span className="text-[12px]">
+              <span className="font-secondary text-[30px]">
                 {t("bumpkinTrade.price/unit", {
                   price: setPrecision(new Decimal(unitPrice)).toFixed(4),
                 })}

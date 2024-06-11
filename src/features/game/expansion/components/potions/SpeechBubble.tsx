@@ -15,9 +15,7 @@ export const SpeechBubble: React.FC<Props> = ({ text, className }) => {
       className={`relative flex items-center ${className}`}
       style={{ ...pixelSpeechBubbleBorderStyle }}
     >
-      <span className="text-[12px] leading-4 font-speech text-shadow-none text-black">
-        {text}
-      </span>
+      <span className="text-xs  text-shadow-none">{text}</span>
       <img
         src={speechBubbleBottom}
         className="absolute"

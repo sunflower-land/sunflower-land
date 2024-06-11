@@ -10,6 +10,7 @@ import Decimal from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 export const VALID_NUMBER = new RegExp(/^\d*\.?\d*$/);
 export const INPUT_MAX_CHAR = 10;
@@ -90,7 +91,7 @@ export const AddSFL: React.FC = () => {
   );
 
   if (isLoading) {
-    return <span className="loading">{t("loading")}</span>;
+    return <Loading text={t("loading")} />;
   }
 
   return (

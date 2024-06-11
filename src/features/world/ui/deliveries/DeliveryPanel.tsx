@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Panel } from "components/ui/Panel";
+import { OuterPanel } from "components/ui/Panel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import React from "react";
 import { DeliveryPanelContent } from "./DeliveryPanelContent";
@@ -12,11 +12,11 @@ interface Props {
 
 export const DeliveryPanel: React.FC<Props> = ({ npc, className, onClose }) => {
   return (
-    <Panel
+    <OuterPanel
       className={classNames("relative w-full", className)}
       bumpkinParts={NPC_WEARABLES[npc]}
     >
       <DeliveryPanelContent npc={npc} onClose={onClose} />
-    </Panel>
+    </OuterPanel>
   );
 };

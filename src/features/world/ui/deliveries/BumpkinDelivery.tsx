@@ -8,15 +8,15 @@ import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
 import giftIcon from "assets/icons/gift.png";
+import chestIcon from "assets/icons/chest.png";
 import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
-import chest from "assets/icons/chest.png";
 import lockIcon from "assets/skills/lock.png";
 import factions from "assets/icons/factions.webp";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { getKeys } from "features/game/types/craftables";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
@@ -47,8 +47,7 @@ import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
-import { hasFeatureAccess } from "lib/flags";
-import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -84,7 +83,7 @@ export const OrderCard: React.FC<{
             "opacity-50 cursor-default": !canDeliver,
           })}
         >
-          <OuterPanel className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 pb-2">
+          <div className="-ml-2 -mr-2 relative flex flex-col space-y-0.5 ">
             {getKeys(order.items).map((itemName) => {
               if (itemName === "coins") {
                 return (
@@ -122,57 +121,65 @@ export const OrderCard: React.FC<{
               );
             })}
             <div className="flex items-center justify-between">
-              <Label icon={chest} type="warning" className="ml-1.5">
-                {t("reward")}
+              <div className="flex items-center mr-1">
+                <SquareIcon icon={chestIcon} width={7} />
+                <span className="text-xs ml-1">{t("reward")}</span>
+              </div>
+              <Label type="warning" style={{ height: "25px" }}>
+                {order.reward.sfl !== undefined && (
+                  <div className="flex items-center mr-1">
+                    <span className="text-xs">
+                      {makeRewardAmountForLabel(order)}
+                    </span>
+                    <img src={sfl} className="h-4 w-auto ml-1" />
+                  </div>
+                )}
+                {order.reward.coins !== undefined && (
+                  <div className="flex items-center mr-1">
+                    <span className="text-xs">
+                      {makeRewardAmountForLabel(order)}
+                    </span>
+                    <img src={coinsImg} className="h-4 w-auto ml-1" />
+                  </div>
+                )}
+                {!!tickets && (
+                  <div className="flex items-center space-x-3 mr-1">
+                    {game.faction && (
+                      <div className="flex items-center">
+                        <span className="text-xs mr-1">
+                          {tickets! * FACTION_POINT_MULTIPLIER}
+                        </span>
+                        <img
+                          src={
+                            game.faction
+                              ? FACTION_POINT_ICONS[game.faction.name]
+                              : factions
+                          }
+                          className="h-4 w-auto"
+                        />
+                      </div>
+                    )}
+                    <div className="flex items-center">
+                      <span className="text-xs mr-1">{tickets}</span>
+                      <img
+                        src={ITEM_DETAILS[getSeasonalTicket()].image}
+                        className="h-4 w-auto"
+                      />
+                    </div>
+                  </div>
+                )}
+                {getKeys(order.reward.items ?? {}).map((item) => (
+                  <div className="flex items-center" key={item}>
+                    <span className="text-xs">{item}</span>
+                    <img
+                      src={ITEM_DETAILS[item].image}
+                      className="h-4 w-auto ml-1"
+                    />
+                  </div>
+                ))}
               </Label>
-              {order.reward.sfl !== undefined && (
-                <div className="flex items-center mr-1">
-                  <img src={sfl} className="w-4 h-auto mr-1" />
-                  <span
-                    style={{
-                      // Match labels
-                      lineHeight: "15px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    {makeRewardAmountForLabel(order)}
-                  </span>
-                </div>
-              )}
-              {order.reward.coins !== undefined && (
-                <div className="flex items-center mr-1">
-                  <img src={coinsImg} className="w-4 h-auto mr-1" />
-                  <span
-                    style={{
-                      // Match labels
-                      lineHeight: "15px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    {makeRewardAmountForLabel(order)}
-                  </span>
-                </div>
-              )}
-              {!!tickets && (
-                <div className="flex items-center">
-                  <img
-                    src={ITEM_DETAILS[getSeasonalTicket()].image}
-                    className="w-5 h-auto mr-1"
-                  />
-                  <span className="text-xs">{tickets}</span>
-                </div>
-              )}
-              {getKeys(order.reward.items ?? {}).map((item) => (
-                <div className="flex items-center" key={item}>
-                  <img
-                    src={ITEM_DETAILS[item].image}
-                    className="w-5 h-auto mr-1"
-                  />
-                  <span className="text-xs">{item}</span>
-                </div>
-              ))}
             </div>
-          </OuterPanel>
+          </div>
         </div>
       </div>
     </>
@@ -349,42 +356,40 @@ export const Gifts: React.FC<{
 
   return (
     <>
-      <div className="p-2">
-        <div className="flex justify-between items-center mb-2">
-          <Label
-            type="default"
-            icon={SUNNYSIDE.icons.player}
-            className="capitalize"
-          >
-            {name}
-          </Label>
+      <InnerPanel className="mb-1">
+        <div className="p-2">
+          <div className="flex justify-between items-center mb-2">
+            <Label
+              type="default"
+              icon={SUNNYSIDE.icons.player}
+              className="capitalize"
+            >
+              {name}
+            </Label>
 
-          <div className="flex">
-            <BumpkinGiftBar onOpen={onOpen} game={game} npc={name} />
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="h-7 ml-2 cursor-pointer"
-              onClick={onClose}
+            <div className="flex">
+              <BumpkinGiftBar onOpen={onOpen} game={game} npc={name} />
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="h-7 ml-2 cursor-pointer"
+                onClick={onClose}
+              />
+            </div>
+          </div>
+          <div className="mb-2">
+            <InlineDialogue
+              trail={25}
+              key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
+              message={translated}
             />
           </div>
         </div>
-        <div
-          style={{
-            minHeight: "65px",
-          }}
-          className="mb-2"
-        >
-          <InlineDialogue
-            trail={25}
-            key={(game.npcs?.[name]?.friendship?.points ?? 0).toString()}
-            message={translated}
-          />
-        </div>
-
+      </InnerPanel>
+      <InnerPanel className="mb-1">
         <div className="flex justify-between">
           <Label
             type="default"
-            className="mb-2"
+            className="mb-2 ml-1"
             icon={ITEM_DETAILS["White Pansy"].image}
           >
             {t("bumpkin.delivery.selectFlower")}
@@ -416,7 +421,7 @@ export const Gifts: React.FC<{
             ))}
           </div>
         )}
-      </div>
+      </InnerPanel>
 
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
@@ -527,7 +532,7 @@ const BumpkinGiftBar: React.FC<{
           )}
         >
           <img src={SUNNYSIDE.icons.happy} className="w-4 h-auto mr-1" />
-          <span className="text-xs">{`+${bonus}`}</span>
+          <span className="text-xs yield-text">{`+${bonus}`}</span>
         </div>
       </div>
     </>
@@ -535,7 +540,7 @@ const BumpkinGiftBar: React.FC<{
 };
 
 interface Props {
-  onClose: () => void;
+  onClose?: () => void;
   npc: NPCName;
 }
 
@@ -639,14 +644,16 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   if (gift) {
     return (
-      <ClaimReward
-        reward={gift}
-        onClose={() => setGift(undefined)}
-        onClaim={() => {
-          gameService.send("gift.claimed", { bumpkin: npc });
-          onClose();
-        }}
-      />
+      <InnerPanel>
+        <ClaimReward
+          reward={gift}
+          onClose={() => setGift(undefined)}
+          onClaim={() => {
+            gameService.send("gift.claimed", { bumpkin: npc });
+            onClose && onClose();
+          }}
+        />
+      </InnerPanel>
     );
   }
 
@@ -662,137 +669,103 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       )}
       {!showFlowers && (
         <>
-          <div className="p-2 pb-1">
-            <div className="flex justify-between items-center mb-3">
-              <Label
-                type="default"
-                icon={SUNNYSIDE.icons.player}
-                className="capitalize"
-              >
-                {npc}
-              </Label>
-              <div className="flex">
-                <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
-                <img
-                  src={SUNNYSIDE.icons.close}
-                  className="h-7 ml-2 cursor-pointer"
-                  onClick={onClose}
+          <InnerPanel className="mb-1">
+            <div className="p-2 pb-1">
+              <div className="flex justify-between items-center mb-3">
+                <Label
+                  type="default"
+                  icon={SUNNYSIDE.icons.player}
+                  className="capitalize"
+                >
+                  {npc}
+                </Label>
+                <div className="flex">
+                  <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
+                  {onClose && (
+                    <img
+                      src={SUNNYSIDE.icons.close}
+                      className="h-7 ml-2 cursor-pointer"
+                      onClick={onClose}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="mb-2">
+                <InlineDialogue
+                  trail={25}
+                  key={delivery?.completedAt ? "1" : "2"}
+                  message={message}
                 />
               </div>
             </div>
-            <div
-              style={{
-                minHeight: "65px",
-              }}
-              className="mb-2"
-            >
-              <InlineDialogue
-                trail={25}
-                key={delivery?.completedAt ? "1" : "2"}
-                message={message}
-              />
-            </div>
+          </InnerPanel>
 
-            <div className="flex justify-between items-center mb-2">
-              <div className="flex w-full justify-between">
-                <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
-                  {t("delivery")}
-                </Label>
+          <InnerPanel>
+            <div className="px-2 ">
+              <div className="flex justify-between items-center mb-2">
+                <div className="flex w-full justify-between">
+                  <Label type="default" icon={SUNNYSIDE.icons.expression_chat}>
+                    {t("delivery")}
+                  </Label>
+                </div>
+
+                {delivery?.completedAt && (
+                  <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
+                    {t("completed")}
+                  </Label>
+                )}
+                {isLocked && (
+                  <Label type="danger" icon={lockIcon}>
+                    {t("locked")}
+                  </Label>
+                )}
+                {missingVIPAccess && (
+                  <Label type="danger" icon={lockIcon}>
+                    {t("goblinTrade.vipRequired")}
+                  </Label>
+                )}
+                {!delivery?.completedAt && requiresSeasonPass && (
+                  <VIPAccess
+                    isVIP={hasVIP}
+                    onUpgrade={() => {
+                      onClose && onClose();
+                      openModal("BUY_BANNER");
+                    }}
+                  />
+                )}
               </div>
 
-              {delivery?.completedAt && (
-                <Label type="success" secondaryIcon={SUNNYSIDE.icons.confirm}>
-                  {t("completed")}
-                </Label>
+              {!delivery && !isLocked && (
+                <p className="text-xs mb-1">{t("no.delivery.avl")}</p>
               )}
+
               {isLocked && (
-                <Label type="danger" icon={lockIcon}>
-                  {t("locked")}
-                </Label>
+                <>
+                  <p className="text-xs mb-2">
+                    {t("bumpkin.delivery.proveYourself", {
+                      missingExpansions: missingExpansions,
+                    })}
+                  </p>
+                </>
               )}
-              {missingVIPAccess && (
-                <Label type="danger" icon={lockIcon}>
-                  {t("goblinTrade.vipRequired")}
-                </Label>
+
+              {delivery && !deliveryFrozen && (
+                <>
+                  <OrderCard
+                    game={gameState.context.state}
+                    order={delivery as Order}
+                    hasRequirementsCheck={() => true}
+                    onDeliver={deliver}
+                  />
+                </>
               )}
-              {!delivery?.completedAt && requiresSeasonPass && (
-                <VIPAccess
-                  isVIP={hasVIP}
-                  onUpgrade={() => {
-                    onClose();
-                    openModal("BUY_BANNER");
-                  }}
-                />
+              {isTicketOrder && ticketTasksAreFrozen && (
+                <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
+                  {t("orderhelp.ticket.deliveries.closed")}
+                </Label>
               )}
             </div>
-
-            {!delivery && !isLocked && (
-              <p className="text-xs">{t("no.delivery.avl")}</p>
-            )}
-
-            {isLocked && (
-              <>
-                <p className="text-xs mb-2">
-                  {t("bumpkin.delivery.proveYourself", {
-                    missingExpansions: missingExpansions,
-                  })}
-                </p>
-              </>
-            )}
-
-            {delivery && !deliveryFrozen && (
-              <>
-                <OrderCard
-                  game={gameState.context.state}
-                  order={delivery as Order}
-                  hasRequirementsCheck={() => true}
-                  onDeliver={deliver}
-                />
-                {isTicketOrder &&
-                  hasFeatureAccess({} as GameState, "FACTIONS") &&
-                  Date.now() < FACTION_POINT_CUTOFF.getTime() && (
-                    <div className="flex items-center justify-between my-1 mt-2">
-                      <Label
-                        type={game.faction ? "warning" : "danger"}
-                        icon={factions}
-                      >
-                        {t("faction.points.title")}
-                      </Label>
-                      <div className="flex items-center">
-                        <img
-                          src={
-                            game.faction
-                              ? FACTION_POINT_ICONS[game.faction.name]
-                              : factions
-                          }
-                          className="w-4 h-auto mr-1"
-                        />
-                        <span
-                          className={classNames("text-xs", {
-                            "text-error": isTicketOrder && !game.faction,
-                          })}
-                        >
-                          {/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion*/}
-                          {tickets! * FACTION_POINT_MULTIPLIER}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                {isTicketOrder &&
-                  !game.faction &&
-                  hasFeatureAccess({} as GameState, "FACTIONS") && (
-                    <Label type="danger" icon={factions}>
-                      {t("faction.points.pledge.warning")}
-                    </Label>
-                  )}
-              </>
-            )}
-            {isTicketOrder && ticketTasksAreFrozen && (
-              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-                {t("orderhelp.ticket.deliveries.closed")}
-              </Label>
-            )}
-          </div>
+          </InnerPanel>
 
           <div className="flex mt-1">
             {acceptGifts && (

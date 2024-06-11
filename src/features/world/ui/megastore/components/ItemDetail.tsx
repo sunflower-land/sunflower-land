@@ -8,7 +8,7 @@ import {
   WearablesItem,
 } from "features/game/types/game";
 
-import bg from "assets/ui/brown_background.png";
+import bg from "assets/ui/grey_background.png";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -211,16 +211,20 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                 <div className="flex">
                   <div
                     className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
-                    style={{
-                      backgroundImage: `url(${bg})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
+                    style={
+                      item?.type === "collectible"
+                        ? {
+                            backgroundImage: `url(${bg})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }
+                        : {}
+                    }
                   >
                     <img
                       src={image}
                       alt={item?.name}
-                      className={classNames()}
+                      className={"w-full"}
                       style={{
                         width: `${imageWidth}px`,
                       }}

@@ -1657,6 +1657,10 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.farmingTips": "要是您正苦苦寻觅农业技巧和窍门，来这儿就对了！",
   "discord.bonus.freeGift": "最妙的是……每个加入的人都会得到一份礼物！",
   "discord.bonus.connect": "连接 Discord",
+  "fontReward.bonus.claim": ENGLISH_TERMS["fontReward.bonus.claim"],
+  "fontReward.bonus.intro1": ENGLISH_TERMS["fontReward.bonus.intro1"],
+  "fontReward.bonus.intro2": ENGLISH_TERMS["fontReward.bonus.intro2"],
+  "fontReward.bonus.intro3": ENGLISH_TERMS["fontReward.bonus.intro3"],
 };
 
 const donation: Record<Donation, string> = {
@@ -4391,6 +4395,10 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.logout": "登出",
   "gameOptions.confirmLogout": "您确定要登出吗？",
 
+  "gameOptions.generalSettings.darkMode": "酷黑",
+  "gameOptions.generalSettings.font": "字体",
+  "gameOptions.generalSettings.lightMode": "明亮",
+
   // Testnet
   "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"], // Testnet
   "gameOptions.amoyActions.timeMachine":
@@ -4416,6 +4424,7 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.plazaSettings": "广场设置",
   "gameOptions.plazaSettings.title.mutedPlayers": "静音玩家",
   "gameOptions.plazaSettings.title.keybinds": "按键绑定",
+  "gameOptions.generalSettings.appearance": "外观",
   "gameOptions.plazaSettings.mutedPlayers.description":
     "如果您使用 /mute 命令将某些玩家静音，您可以在此处查看并取消静音。",
   "gameOptions.plazaSettings.keybinds.description":

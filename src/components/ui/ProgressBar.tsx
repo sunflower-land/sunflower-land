@@ -202,7 +202,18 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
             width: `${PIXEL_SCALE * 15}px`,
           }}
         >
-          <span className="text-xxs text-white text-center">
+          <span
+            className="font-pixel  !text-[22px] text-white text-center"
+            style={{
+              padding: "0px 1px",
+              height: "9px",
+              lineHeight: "7px",
+              top: "6px",
+              position: "relative",
+              backdropFilter: "blur(5px)",
+              textShadow: "1px 1px black",
+            }}
+          >
             {secondsToString(seconds, {
               length: formatLength,
               isShortFormat: true,
@@ -210,6 +221,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           </span>
         </div>
       )}
+
       <div className="absolute">
         <Bar percentage={percentage} type={type} />
       </div>

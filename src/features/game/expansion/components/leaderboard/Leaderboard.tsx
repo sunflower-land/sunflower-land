@@ -72,7 +72,7 @@ export const Leaderboard: React.FC<Props> = ({ farmId, username }) => {
               <div>
                 <div className="p-1 mb-1 space-y-1">
                   <p className="text-sm">{`${seasonTicket} Leaderboard`}</p>
-                  <p className="text-[12px]">
+                  <p className="text-xs">
                     {t("last.updated")} {getRelativeTime(data.lastUpdated)}
                   </p>
                 </div>

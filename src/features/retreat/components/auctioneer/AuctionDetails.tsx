@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "components/ui/Button";
 import token from "assets/icons/sfl.webp";
-import bg from "assets/ui/brown_background.png";
+import bg from "assets/ui/grey_background.png";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -17,6 +17,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import classNames from "classnames";
 
 type Props = {
   item: Auction;
@@ -37,11 +38,7 @@ type TimeObject = {
   color?: string;
 };
 
-export const TimerDisplay = ({
-  time,
-  fontSize = 20,
-  color = "white",
-}: TimeObject) => {
+export const TimerDisplay = ({ time, fontSize = 40, color }: TimeObject) => {
   const timeKeys = getKeys(time);
 
   const times = timeKeys.map((key) => {
@@ -50,7 +47,7 @@ export const TimerDisplay = ({
     return value;
   });
   return (
-    <span style={{ fontFamily: "monospace", fontSize: `${fontSize}px`, color }}>
+    <span className="font-secondary text-base" style={{ color }}>
       {times.join(":")}
     </span>
   );
@@ -148,11 +145,18 @@ export const AuctionDetails: React.FC<Props> = ({
         )} */}
 
         <div className="relative mb-2">
-          <img src={bg} className="w-48 object-contain rounded-md" />
-          <div className="absolute inset-0">
+          {item.type === "collectible" && (
+            <img src={bg} className="absolute inset-0 w-48 h-48  rounded-md" />
+          )}
+          <div className="w-48 h-48 relative">
             <img
               src={image}
-              className="absolute w-1/2 h-1/2 z-20 object-contain mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              className={classNames({
+                "absolute w-1/2 h-1/2 z-20 object-contain mb-2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2":
+                  item.type === "collectible",
+                "w-48 h-48 rounded-md z-20 object-contain":
+                  item.type !== "collectible",
+              })}
             />
             <Label type="default" className="mb-2 absolute top-2 right-2">
               {`${item.supply} available`}
@@ -183,7 +187,7 @@ export const AuctionDetails: React.FC<Props> = ({
             href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs  underline mb-0.5"
+            className="text-xs  underline mb-1"
           >
             {t("auction.start")}
           </a>
@@ -200,7 +204,7 @@ export const AuctionDetails: React.FC<Props> = ({
             href="https://docs.sunflower-land.com/player-guides/auctions#auction-period"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs  underline mb-0.5"
+            className="text-xs  underline mb-1"
           >
             {t("auction.period")}
           </a>

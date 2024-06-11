@@ -630,7 +630,7 @@ const birdiePlaza: Record<BirdiePlaza, string> = {
   "birdieplaza.collectTickets":
     "Collect enough {{seasonalTicket}}s and you can craft rare NFTs. That's how I got this rare outfit!",
   "birdieplaza.whatIsSeason": "What is a season?",
-  "birdieplaza.howToEarnTickets": "How do I earn {{seasonalTicket}}s?",
+  "birdieplaza.howToEarnTickets": "{{seasonalTicket}}s?",
   "birdieplaza.earnTicketsVariety":
     "You can earn {{seasonalTicket}} in a variety of ways.",
   "birdieplaza.commonMethod":
@@ -747,15 +747,13 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.genie.lamp":
     "A magical lamp that contains a genie who will grant you three wishes.",
   "description.basic.scarecrow":
-    "Choosy defender of your farm's VIP (Very Important Plants)",
+    "Boost nearby Sunflowers, Potatoes and Pumpkins.",
   "description.scary.mike":
-    "The veggie whisperer and champion of frightfully good harvests!",
+    "Boost nearby Carrots, Cabbages, Beetroots and Cauliflowers",
   "description.laurie.chuckle.crow":
-    "With her disconcerting chuckle, she shooes peckers away from your crops!",
-  "description.immortal.pear":
-    "A long-lived pear that makes fruit trees growing in patches last longer.",
-  "description.bale":
-    "A poultry's favorite neighbor, providing a cozy retreat for chickens",
+    "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
+  "description.immortal.pear": "Increase the survival of your fruit patches.",
+  "description.bale": "Boost nearby chickens.",
   "description.sir.goldensnout":
     "A royal member, Sir Goldensnout infuses your farm with sovereign prosperity through its golden manure.",
   "description.freya.fox":
@@ -770,15 +768,11 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.freya.fox.boost": "+0.5 Pumpkin",
   "description.sir.goldensnout.boost": "+0.5 Crop (AOE 4x4)",
   "description.maximus.boost": "+1 Eggplant",
-  "description.basic.scarecrow.boost":
-    "-20% Basic Crop Growth Time: Sunflower, Potato and Pumpkin (AOE 3x3)",
-  "description.scary.mike.boost":
-    "+0.2 Medium Crop: Carrot, Cabbage, Soybean, Beetroot, Cauliflower and Parsnip (AOE 3x3)",
-  "description.laurie.chuckle.crow.boost":
-    "+0.2 Advanced Crop: Eggplant, Corn, Radish, Wheat, Kale (AOE 3x3)",
-  "description.bale.boost": "+0.2 Egg (AOE 4x4)",
-  "description.immortal.pear.boost":
-    "+1 Fruit Harvest for fruit seeds growing on Fruit Patches",
+  "description.basic.scarecrow.boost": "-20% Growth Time",
+  "description.scary.mike.boost": "+0.2 Medium Crops",
+  "description.laurie.chuckle.crow.boost": "+0.2 Advanced Crops",
+  "description.bale.boost": "+0.2 Eggs",
+  "description.immortal.pear.boost": "+1 Fruit Harvest per seed",
   "description.treasure.map.boost": "+20% Coins on Treasure Bounty Sales",
   "description.poppy.boost": "+0.1 Corn",
   "description.kernaldo.boost": "-25% Corn Growth Time",
@@ -1060,10 +1054,10 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.minimumFloor": "Min unit price: {{min}}",
   "bumpkinTrade.maximumFloor": "Max unit price: {{max}}",
   "bumpkinTrade.floorPrice": "Floor Price: {{price}} SFL",
-  "bumpkinTrade.price/unit": "{{price}} / unit",
   "bumpkinTrade.sellConfirmation":
     "Sell {{quantity}} {{resource}} for {{price}} SFL?",
   "bumpkinTrade.cant.sell.all": "Can't sell all",
+  "bumpkinTrade.price/unit": "{{price}}/unit",
 };
 
 const goblinTrade: Record<GoblinTrade, string> = {
@@ -1834,6 +1828,13 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.freeGift":
     "The best part...everyone who joins gets a free gift!",
   "discord.bonus.connect": "Connect to Discord",
+  "fontReward.bonus.claim":
+    "Sunflower Land has had a makeover! Thanks for everyone involved in this beautiful update. For extra customisation, you can go to Settings > Appearance.",
+  "fontReward.bonus.intro1": "Huh...something strange has happened.",
+  "fontReward.bonus.intro2":
+    "Sunflower Land feels different. I wonder what it is?",
+  "fontReward.bonus.intro3":
+    "Ah ah! It's the font - I can see everything clearly now!",
 };
 
 const donation: Record<Donation, string> = {
@@ -2701,7 +2702,7 @@ const hayseedHankV2: Record<HayseedHankV2, string> = {
     "However, my bones ain't what they used to be. If you can help me with my daily chores, I will reward you with {{seasonalTicket}}.",
   "hayseedHankv2.action": "Let's do it",
   "hayseedHankv2.title": "Hank's Daily Chores",
-  "hayseedHankv2.newChoresAvailable": "New chores available in",
+  "hayseedHankv2.newChoresAvailable": "New chores:",
   "hayseedHankv2.skipChores": "You can skip chores each new day",
   "hayseedHankv2.greeting":
     "Well, howdy there, young whippersnappers! I'm Hayseed Hank...",
@@ -2860,7 +2861,7 @@ const interactableModals: Record<InteractableModals, string> = {
     "Rumour has it they are searching for Bumpkin apprentices to grow mutant crops with them.",
   "interactableModals.guildHouse.message":
     "Hold on Bumpkin! You need a Bud if you want to enter the Guild House.",
-  "interactableModals.guildHouse.budsCollection": "Buds Collection on Opensea",
+  "interactableModals.guildHouse.budsCollection": "Opensea",
   "interactableModals.bettyHome.message":
     "Oh, sweetie, as much as I love my crops, my house is a private space, not open to visitors right now.",
   "interactableModals.bertHome.message":
@@ -5067,6 +5068,11 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.generalSettings.connectDiscord": "Connect to Discord",
   "gameOptions.generalSettings.assignRole": "Assign Discord Role",
   "gameOptions.generalSettings.changeLanguage": "Change Language",
+  "gameOptions.generalSettings.darkMode": "Dark Mode",
+  "gameOptions.generalSettings.lightMode": "Light Mode",
+  "gameOptions.generalSettings.appearance": "Appearance",
+  "gameOptions.generalSettings.font": "Font",
+
   "gameOptions.generalSettings.disableAnimations": "Disable Animations",
   "gameOptions.generalSettings.enableAnimations": "Enable Animations",
   "gameOptions.generalSettings.share": "Share",

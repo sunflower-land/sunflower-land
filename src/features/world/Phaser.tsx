@@ -50,6 +50,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { FactionHouseScene } from "./scenes/FactionHouse";
 import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
+import { Loading } from "features/auth/components";
 import { NightshadeHouseScene } from "./scenes/NightshadeHouseScene";
 import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
 
@@ -520,13 +521,13 @@ export const PhaserComponent: React.FC<Props> = ({
         backdrop={false}
       >
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
 
       <Modal show={mmoState === "joinRoom"} backdrop={false}>
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
     </div>

@@ -6,6 +6,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { NPC_WEARABLES } from "lib/npcs";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   show: boolean;
@@ -26,6 +27,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         currentTab={tab}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
+        container={OuterPanel}
       >
         {tab === 0 && <LandscapingDecorations onClose={onHide} />}
       </CloseButtonPanel>

@@ -1840,6 +1840,10 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.freeGift":
     "En iyi yanı... Katılan herkese ücretsiz bir hediye verilecek!",
   "discord.bonus.connect": "Discord'a bağlan",
+  "fontReward.bonus.claim": ENGLISH_TERMS["fontReward.bonus.claim"],
+  "fontReward.bonus.intro1": ENGLISH_TERMS["fontReward.bonus.intro1"],
+  "fontReward.bonus.intro2": ENGLISH_TERMS["fontReward.bonus.intro2"],
+  "fontReward.bonus.intro3": ENGLISH_TERMS["fontReward.bonus.intro3"],
 };
 
 const donation: Record<Donation, string> = {
@@ -5051,9 +5055,16 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.generalSettings.assignRole":
     ENGLISH_TERMS["gameOptions.generalSettings.assignRole"],
   "gameOptions.generalSettings.changeLanguage": "Dili değiştir",
+  "gameOptions.generalSettings.darkMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.darkMode"],
+  "gameOptions.generalSettings.lightMode":
+    ENGLISH_TERMS["gameOptions.generalSettings.lightMode"],
+  "gameOptions.generalSettings.font":
+    ENGLISH_TERMS["gameOptions.generalSettings.font"],
   "gameOptions.generalSettings.disableAnimations": "Animasyonları Kapat",
   "gameOptions.generalSettings.enableAnimations": "Animasyonları Etkinleştir",
   "gameOptions.generalSettings.share": "Paylaş",
+  "gameOptions.generalSettings.appearance": "Appearance Settings",
 
   // Plaza Settings
   "gameOptions.plazaSettings": "Plaza Ayarları",

@@ -115,7 +115,7 @@ export const DequipBumpkin: React.FC = () => {
   return (
     <>
       <div className="p-2">
-        <Label className="my-2" type="default" icon={walletIcon}>
+        <Label className="my-2 font-secondary" type="default" icon={walletIcon}>
           {shortAddress(wallet.myAccount as string)}
         </Label>
         <p className="mb-3 text-sm">{t("dequipper.intro")}</p>

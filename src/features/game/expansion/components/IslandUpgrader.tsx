@@ -32,6 +32,7 @@ import { Transition } from "@headlessui/react";
 import { formatDateTime } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
+import { Loading } from "features/auth/components";
 
 const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
   state
@@ -273,7 +274,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
             style={{ zIndex: 9999999 }}
             className="bg-black absolute z-10 inset-0 pointer-events-none flex justify-center items-center"
           >
-            <span className="loading">{t("islandupgrade.exploring")}</span>
+            <Loading text={t("islandupgrade.exploring")} />
           </div>
         </Transition>,
         document.body
