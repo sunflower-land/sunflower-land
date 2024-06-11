@@ -623,11 +623,17 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 <Button
                   className="!text-xs !mt-0 !-mb-1"
                   onClick={() => {
-                    if (RETREAT_BUMPKINS.includes(previewOrder.from)) {
+                    if (
+                      RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
                       navigate("/world/retreat");
-                    } else if (BEACH_BUMPKINS.includes(previewOrder.from)) {
+                    } else if (
+                      BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
                       navigate("/world/beach");
-                    } else if (KINGDOM_BUMPKINS.includes(previewOrder.from)) {
+                    } else if (
+                      KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
                       navigate("/world/kingdom");
                     } else {
                       navigate("/world/plaza");
@@ -635,11 +641,11 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   }}
                 >
                   {`${t("world.travelTo")} ${
-                    RETREAT_BUMPKINS.includes(previewOrder.from)
+                    RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
                       ? t("world.retreatShort")
-                      : BEACH_BUMPKINS.includes(previewOrder.from)
+                      : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
                       ? t("world.beach")
-                      : KINGDOM_BUMPKINS.includes(previewOrder.from)
+                      : KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
                       ? t("world.kingdom")
                       : t("world.plazaShort")
                   }`}
