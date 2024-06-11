@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
-import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -17,7 +16,7 @@ import { InventoryItemName, KingdomChores } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 
 interface Props {
-  chores: KingdomChores;
+  chores: KingdomChores | undefined;
   onClose: () => void;
 }
 
@@ -39,8 +38,17 @@ export const Chores: React.FC<Props> = ({ chores }) => {
   const bumpkin = useSelector(gameService, _bumpkin);
 
   const handleComplete = (id: any) => {
+    gameService.send("kingdomChore.completed", { id: Number(id) });
     gameService.send("SAVE");
   };
+
+  if (chores === undefined) {
+    return (
+      <OuterPanel className="!p-2 mb-2 text-xs">
+        <span className="text-sm">{`No chores found`}</span>
+      </OuterPanel>
+    );
+  }
 
   const choreSelected = chores.chores[selected];
 
@@ -48,11 +56,11 @@ export const Chores: React.FC<Props> = ({ chores }) => {
     (bumpkin?.activity?.[chores.chores[id].activity] ?? 0) -
     chores.chores[id].startCount;
 
-  const handleSkip = (id: any) => {
-    setIsSkipping(true);
-    gameService.send("chore.skipped", { id: Number(id) });
-    gameService.send("SAVE");
-  };
+  // const handleSkip = (id: any) => {
+  //   setIsSkipping(true);
+  //   gameService.send("chore.skipped", { id: Number(id) });
+  //   gameService.send("SAVE");
+  // };
 
   const canComplete = getProgress(selected) >= choreSelected.requirement;
 
@@ -70,7 +78,7 @@ export const Chores: React.FC<Props> = ({ chores }) => {
         <Panel
           canComplete={canComplete}
           description={choreSelected.description}
-          onComplete={() => handleComplete}
+          onComplete={() => handleComplete(selected)}
           resource={choreSelected.resource}
           marks={choreSelected.marks}
         />
@@ -90,7 +98,11 @@ export const Chores: React.FC<Props> = ({ chores }) => {
             }
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {getKeys(chores.chores)
-                .filter((choreId) => chores.chores[choreId].active)
+                .filter(
+                  (choreId) =>
+                    chores.chores[choreId].active &&
+                    chores.chores[choreId].completedAt === undefined
+                )
                 .map((choreId) => (
                   <Box
                     key={choreId}
@@ -99,7 +111,6 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                     }}
                     isSelected={selected === choreId}
                     image={ITEM_DETAILS[chores.chores[choreId].resource].image}
-                    count={new Decimal(getProgress(choreId))}
                   />
                 ))}
             </div>
@@ -127,7 +138,6 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                     }}
                     isSelected={selected === choreId}
                     image={ITEM_DETAILS[chores.chores[choreId].resource].image}
-                    count={new Decimal(getProgress(choreId))}
                   />
                 ))}
             </div>
