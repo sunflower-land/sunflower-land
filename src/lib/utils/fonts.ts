@@ -14,7 +14,7 @@ export function getCachedFont(): Font {
   return cached as Font;
 }
 
-export type Font = "Default" | "Bold" | "Sans Serif";
+export type Font = "Default" | "Bold" | "Sans Serif" | "Chunky (Old)";
 const FONT_CONFIG: Record<
   Font,
   {
@@ -49,6 +49,14 @@ const FONT_CONFIG: Record<
     sm: [30, 20],
     base: [36, 26],
     lg: [42, 32],
+  },
+  "Chunky (Old)": {
+    fontFamily: "Paytone One",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
   },
 };
 

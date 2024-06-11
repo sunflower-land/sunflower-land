@@ -10,7 +10,7 @@ export const AppearanceSettings: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useIsDarkMode();
   const currentLanguage = localStorage.getItem("language") || "en";
 
-  const fonts: Font[] = ["Default", "Bold", "Sans Serif"];
+  const fonts: Font[] = ["Default", "Bold", "Sans Serif", "Chunky (Old)"];
 
   return (
     <>
