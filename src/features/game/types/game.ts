@@ -188,7 +188,7 @@ export type Coupons =
   | "Rare Key"
   | "Luxury Key"
   | "Prize Ticket"
-  | "Faction Mark"
+  | "Mark"
   | SeasonalTicket
   | FactionEmblem;
 
@@ -286,7 +286,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Nightshade Emblem": {
     description: translate("description.nightshade.emblem"),
   },
-  "Faction Mark": {
+  Mark: {
     description: translate("description.faction.mark"),
   },
 };
@@ -857,7 +857,7 @@ export type MinigamePrize = {
   score: number;
   coins: number;
   factionPoints?: number;
-  factionMarks?: number;
+  marks?: number;
 };
 
 export type MinigameHistory = {

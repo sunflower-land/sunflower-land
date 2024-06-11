@@ -129,7 +129,7 @@ export const maxItems: Inventory = {
   "Bumpkin Emblem": new Decimal(90_000),
   "Sunflorian Emblem": new Decimal(90_000),
   "Nightshade Emblem": new Decimal(90_000),
-  "Faction Mark": new Decimal(500),
+  Mark: new Decimal(500),
 
   // Stock limits
   Axe: new Decimal("900"),

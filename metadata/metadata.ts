@@ -7930,9 +7930,9 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/743.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
-  "Faction Mark": {
-    name: "Faction Mark",
-    description: "Currency of the Factions. Use this in the Faction Shop.",
+  Mark: {
+    name: "Mark",
+    description: "Currency of the Factions. Use this in the Marks Shop.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/745.png",

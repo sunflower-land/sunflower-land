@@ -113,9 +113,9 @@ export function claimMinigamePrize({
     game.faction.points += prize.factionPoints;
   }
 
-  if (prize.factionMarks) {
-    const previousMarks = game.inventory["Faction Mark"] ?? new Decimal(0);
-    game.inventory["Faction Mark"] = previousMarks.add(prize.factionMarks);
+  if (prize.marks) {
+    const previousMarks = game.inventory["Mark"] ?? new Decimal(0);
+    game.inventory["Mark"] = previousMarks.add(prize.marks);
   }
 
   return game;

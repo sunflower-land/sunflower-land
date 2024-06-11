@@ -317,7 +317,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         endAt: new Date("2025-01-01").getTime(),
         score: 2,
         factionPoints: undefined,
-        factionMarks: 15,
+        marks: 15,
       },
     },
   },
