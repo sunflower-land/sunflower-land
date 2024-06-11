@@ -1139,6 +1139,7 @@ export interface GameState {
     bid?: Bid;
   };
   chores?: ChoresV2;
+  kingdomChores?: KingdomChores;
   mushrooms: Mushrooms;
   catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;

@@ -3,9 +3,10 @@ import React, { useContext } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { Chores } from "./Chores";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { KingdomChores } from "features/game/types/game";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   onClose: () => void;
@@ -86,16 +87,17 @@ const CHORES: KingdomChores = {
   weeklyChores: 6,
 };
 
+const _chores = (state: MachineState) => state.context.state.kingdomChores;
+
 export const ChoresModal: React.FC<Props> = ({ onClose, npc }) => {
-  // const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [
     {
       context: { state },
     },
   ] = useActor(gameService);
-  // const chores = useSelector(gameService, _chores);
-  const chores = CHORES;
+
+  const chores = useSelector(gameService, _chores);
 
   return (
     <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES[npc]}>
