@@ -782,7 +782,8 @@ export type ChoresStart =
   | "chores.helpWithTrees"
   | "chores.noChore"
   | "chores.newSeason"
-  | "chores.choresFrozen";
+  | "chores.choresFrozen"
+  | "chores.left";
 
 export type ChumDetails =
   | "chumDetails.gold"
