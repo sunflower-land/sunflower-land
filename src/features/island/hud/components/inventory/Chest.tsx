@@ -132,7 +132,7 @@ export const Chest: React.FC<Props> = ({
 
   if (chestIsEmpty) {
     return (
-      <InnerPanel className="flex flex-col justify-evenly items-center p-2">
+      <InnerPanel className="flex flex-col justify-evenly items-center px-2 !py-[50px]">
         <img
           src={chest}
           alt="Empty Chest"
