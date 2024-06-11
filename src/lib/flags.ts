@@ -36,7 +36,6 @@ export type FeatureName =
   | "DESERT_RECIPES"
   | "KINGDOM"
   | "FACTION_HOUSE"
-  | "EMBLEM_COUNTDOWN_TIMER"
   | "CLAIM_EMBLEMS";
 
 // Used for testing production features
@@ -73,9 +72,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PRESTIGE_DESERT: defaultFeatureFlag,
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
-  EMBLEM_COUNTDOWN_TIMER: timeBasedFeatureFlag(
-    new Date("2024-06-10T00:00:00Z")
-  ),
   CLAIM_EMBLEMS: timeBasedFeatureFlag(new Date("2024-06-14T00:00:00Z")),
 };
 

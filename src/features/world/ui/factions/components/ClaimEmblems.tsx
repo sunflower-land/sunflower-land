@@ -23,7 +23,7 @@ import { ShareClaimedEmblems } from "./ShareClaimedEmblems";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import Decimal from "decimal.js-light";
 
-const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
+export const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
   bumpkins: bumpkinEmblem,
   sunflorians: sunflorianEmblem,

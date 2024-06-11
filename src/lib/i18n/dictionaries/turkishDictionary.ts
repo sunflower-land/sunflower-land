@@ -2000,6 +2000,7 @@ const factions: Record<Factions, string> = {
   "faction.points.pledge.warning":
     ENGLISH_TERMS["faction.points.pledge.warning"],
   "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
+  "faction.emblemAirdrop.closes": ENGLISH_TERMS["faction.emblemAirdrop.closes"],
 
   // Kingdom
   "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],
@@ -2040,6 +2041,9 @@ const factions: Record<Factions, string> = {
     ENGLISH_TERMS["faction.claimEmblems.totalEmblems"],
   "faction.claimEmblems.percentile":
     ENGLISH_TERMS["faction.claimEmblems.percentile"],
+  "faction.claimEmblems.travelNow":
+    ENGLISH_TERMS["faction.claimEmblems.travelNow"],
+  "faction.claimEmblems.visitMe": ENGLISH_TERMS["faction.claimEmblems.visitMe"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {

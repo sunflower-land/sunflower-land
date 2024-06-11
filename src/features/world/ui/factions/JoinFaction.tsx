@@ -20,8 +20,12 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
 import { ClaimEmblems } from "./components/ClaimEmblems";
 import { hasFeatureAccess } from "lib/flags";
+import { NPCName } from "lib/npcs";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { EMBLEM_AIRDROP_CLOSES } from "features/island/hud/EmblemAirdropCountdown";
+import { formatDateTime } from "lib/utils/time";
 
-const RECRUITER_VOICE: Record<FactionName, string> = {
+export const FACTION_RECRUITERS: Record<FactionName, NPCName> = {
   goblins: "graxle",
   bumpkins: "barlow",
   sunflorians: "reginald",
@@ -50,7 +54,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   // Cheap way to memoize this value
   const [emblemsClaimed] = useState(!!joinedFaction?.emblemsClaimedAt);
 
-  const recruiterVoice = useSound(RECRUITER_VOICE[faction] as any);
+  const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
   const hasSFL = gameService.state.context.state.balance.gte(SFL_COST);
@@ -101,12 +105,20 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     joinedFaction &&
     !emblemsClaimed &&
     !!joinedFaction.points &&
-    hasFeatureAccess(gameService.state.context.state, "CLAIM_EMBLEMS")
+    hasFeatureAccess(gameService.state.context.state, "CLAIM_EMBLEMS") &&
+    EMBLEM_AIRDROP_CLOSES.getTime() > Date.now()
   ) {
     return (
       <div className="flex flex-col">
-        <div className="pt-1">
-          <Label type="default">{capitalize(faction)}</Label>
+        <div className="flex justify-between px-1 pt-1">
+          <Label type="default" className="capitalize">
+            {FACTION_RECRUITERS[faction]}
+          </Label>
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("faction.emblemAirdrop.closes", {
+              date: formatDateTime(EMBLEM_AIRDROP_CLOSES.toISOString()),
+            })}
+          </Label>
         </div>
         <ClaimEmblems
           faction={joinedFaction}
