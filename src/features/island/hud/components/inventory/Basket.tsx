@@ -15,6 +15,7 @@ import {
   CROPS,
   GREENHOUSE_CROPS,
   GREENHOUSE_SEEDS,
+  GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getKeys } from "features/game/types/craftables";
@@ -55,6 +56,10 @@ import { Label } from "components/ui/Label";
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUILDING_ORDER } from "features/island/bumpkin/components/NPCModal";
+import {
+  SEED_TO_PLANT,
+  getGreenhouseCropTime,
+} from "features/game/events/landExpansion/plantGreenhouse";
 
 interface Prop {
   gameState: GameState;
@@ -96,7 +101,9 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const isSeed = (selected: InventoryItemName): selected is SeedName =>
     isFruitSeed(selected) ||
     selected in CROP_SEEDS() ||
-    selected in FLOWER_SEEDS();
+    selected in FLOWER_SEEDS() ||
+    selected in GREENHOUSE_SEEDS() ||
+    selected in GREENHOUSE_FRUIT_SEEDS();
   const isFood = (selected: InventoryItemName) => selected in CONSUMABLES;
 
   const getHarvestTime = (seedName: SeedName) => {
@@ -110,6 +117,17 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
         gameState,
         (gameState.bumpkin as Bumpkin)?.equipped ?? {}
       );
+    }
+    if (
+      seedName in GREENHOUSE_SEEDS() ||
+      seedName in GREENHOUSE_FRUIT_SEEDS()
+    ) {
+      const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
+      const seconds = getGreenhouseCropTime({
+        crop: plant,
+        game: gameState,
+      });
+      return seconds;
     }
 
     const crop = SEEDS()[seedName].yield as CropName;
