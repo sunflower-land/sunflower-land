@@ -210,7 +210,6 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
               lineHeight: "7px",
               top: "6px",
               position: "relative",
-              backdropFilter: "blur(5px)",
               textShadow: "1px 1px black",
             }}
           >
