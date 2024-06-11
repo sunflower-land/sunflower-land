@@ -3331,7 +3331,10 @@ export type WornDescription =
 export type World =
   | "world.intro.one"
   | "world.intro.two"
-  | "world.intro.three"
+  | "world.intro.missingDelivery"
+  | "world.intro.delivery"
+  | "world.intro.findNPC"
+  | "world.intro.find"
   | "world.intro.visit"
   | "world.intro.craft"
   | "world.intro.carf.limited"

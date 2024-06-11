@@ -21,7 +21,7 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { Order } from "features/game/types/game";
+import { Inventory, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
@@ -77,6 +77,30 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _sfl = (state: MachineState) => state.context.state.balance;
 const _coins = (state: MachineState) => state.context.state.coins;
 
+export function hasOrderRequirements({
+  order,
+  sfl,
+  coins,
+  inventory,
+}: {
+  sfl: Decimal;
+  coins: number;
+  inventory: Inventory;
+  order?: Order;
+}) {
+  if (!order) return false;
+
+  return getKeys(order.items).every((name) => {
+    if (name === "coins") return coins >= (order.items[name] ?? 0);
+    if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
+
+    const amount = order.items[name] || new Decimal(0);
+    const count = inventory[name] || new Decimal(0);
+
+    return count.gte(amount);
+  });
+}
+
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
 
@@ -118,20 +142,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     setShowSkipDialog(false);
     gameService.send("order.skipped", { id: previewOrder?.id });
     gameService.send("SAVE");
-  };
-
-  const hasRequirements = (order?: Order) => {
-    if (!order) return false;
-
-    return getKeys(order.items).every((name) => {
-      if (name === "coins") return coins >= (order.items[name] ?? 0);
-      if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
-
-      const amount = order.items[name] || new Decimal(0);
-      const count = inventory[name] || new Decimal(0);
-
-      return count.gte(amount);
-    });
   };
 
   const select = (id: string) => {
@@ -251,12 +261,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   })}
                   style={{ paddingBottom: "20px" }}
                 >
-                  {hasRequirements(order) && !order.completedAt && (
-                    <img
-                      src={SUNNYSIDE.icons.heart}
-                      className="absolute top-0.5 right-0.5 w-3 sm:w-4"
-                    />
-                  )}
+                  {hasOrderRequirements({ order, coins, sfl, inventory }) &&
+                    !order.completedAt && (
+                      <img
+                        src={SUNNYSIDE.icons.heart}
+                        className="absolute top-0.5 right-0.5 w-3 sm:w-4"
+                      />
+                    )}
 
                   <div className="flex flex-col pb-2">
                     <div className="flex items-center my-1">
@@ -603,7 +614,12 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   );
                 })}
               </div>
-              {hasRequirements(previewOrder) && (
+              {hasOrderRequirements({
+                order: previewOrder,
+                sfl,
+                coins,
+                inventory,
+              }) && (
                 <Button
                   className="!text-xs !mt-0 !-mb-1"
                   onClick={() => {
