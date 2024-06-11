@@ -25,7 +25,6 @@ interface SFLProps {
   requirement: Decimal;
   showLabel?: boolean;
 }
-
 /**
  * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
  * @param type The type is sell for SFL.
@@ -125,6 +124,7 @@ interface HarvestsProps {
 interface defaultProps {
   className?: string;
   textColor?: string;
+  hideIcon?: boolean;
 }
 
 type Props = (
@@ -226,9 +226,14 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   return (
-    <div className={classNames(props.className, "flex justify-between")}>
+    <div
+      className={classNames(
+        props.className,
+        "flex justify-between min-h-[26px]"
+      )}
+    >
       <div className="flex items-center">
-        <SquareIcon icon={getIcon()} width={7} />
+        {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
         {props.type === "sfl" && props.showLabel && (
           <span className="text-xs ml-1 ">{"SFL"}</span>
         )}

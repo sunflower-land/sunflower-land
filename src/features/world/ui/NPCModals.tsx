@@ -31,6 +31,7 @@ import { JoinFactionModal } from "./factions/JoinFactionModal";
 import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { ChoresModal } from "./factions/chores/ChoresModal";
 import { OuterPanel } from "components/ui/Panel";
+import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -61,7 +62,7 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
 
-  const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
+  const [npc, setNpc] = useState<NPCName | undefined>("chef ebon");
 
   useEffect(() => {
     npcModalManager.listen((npc) => {
@@ -235,6 +236,30 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "buttercup" && <ChoresModal onClose={closeModal} npc={npc} />}
         {npc === "shadow" && <ChoresModal onClose={closeModal} npc={npc} />}
         {npc === "flora" && <ChoresModal onClose={closeModal} npc={npc} />}
+        {npc === "chef ebon" && (
+          <FactionKitchenPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["chef ebon"]}
+          />
+        )}
+        {npc === "chef tuck" && (
+          <FactionKitchenPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["chef tuck"]}
+          />
+        )}
+        {npc === "chef maple" && (
+          <FactionKitchenPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["chef maple"]}
+          />
+        )}
+        {npc === "chef lumen" && (
+          <FactionKitchenPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES["chef lumen"]}
+          />
+        )}
       </Modal>
 
       {npc === "hammerin harry" && (

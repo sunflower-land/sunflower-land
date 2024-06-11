@@ -67,7 +67,7 @@ describe("factionKitchenDeliver", () => {
             ...(GAME_STATE.faction as Faction),
             kitchen: {
               week: 1,
-              resources: [],
+              requests: [],
               points: 0,
             },
           },
@@ -91,7 +91,7 @@ describe("factionKitchenDeliver", () => {
             ...(GAME_STATE.faction as Faction),
             kitchen: {
               week: 1,
-              resources: [{ item: "Honey", quantity: 1, deliveryCount: 0 }],
+              requests: [{ item: "Honey", amount: 1, deliveryCount: 0 }],
               points: 0,
             },
           },
@@ -114,7 +114,7 @@ describe("factionKitchenDeliver", () => {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
             week: 1,
-            resources: [{ item: "Honey", quantity: 1, deliveryCount: 0 }],
+            requests: [{ item: "Honey", amount: 1, deliveryCount: 0 }],
             points: 0,
           },
         },
@@ -138,7 +138,7 @@ describe("factionKitchenDeliver", () => {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
             week: 1,
-            resources: [{ item: "Honey", quantity: 1, deliveryCount: 0 }],
+            requests: [{ item: "Honey", amount: 1, deliveryCount: 0 }],
             points: 0,
           },
         },
@@ -150,7 +150,7 @@ describe("factionKitchenDeliver", () => {
       createdAt: new Date("2024-07-01T00:00:00Z").getTime(),
     });
 
-    expect(state.faction?.kitchen?.resources[0].deliveryCount).toBe(1);
+    expect(state.faction?.kitchen?.requests[0].deliveryCount).toBe(1);
   });
 
   it("adds 20 weekly points and marks for the first delivery", () => {
@@ -162,7 +162,7 @@ describe("factionKitchenDeliver", () => {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
             week: 1,
-            resources: [{ item: "Honey", quantity: 1, deliveryCount: 0 }],
+            requests: [{ item: "Honey", amount: 1, deliveryCount: 0 }],
             points: 0,
           },
         },
@@ -187,7 +187,7 @@ describe("factionKitchenDeliver", () => {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
             week: 1,
-            resources: [{ item: "Honey", quantity: 1, deliveryCount: 1 }],
+            requests: [{ item: "Honey", amount: 1, deliveryCount: 1 }],
             points: 20,
           },
         },
@@ -212,7 +212,7 @@ describe("factionKitchenDeliver", () => {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
             week: 1,
-            resources: [{ item: "Honey", quantity: 1, deliveryCount: 10 }],
+            requests: [{ item: "Honey", amount: 1, deliveryCount: 10 }],
             points: 110,
           },
         },
@@ -237,7 +237,7 @@ describe("factionKitchenDeliver", () => {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
             week: 1,
-            resources: [{ item: "Honey", quantity: 1, deliveryCount: 11 }],
+            requests: [{ item: "Honey", amount: 1, deliveryCount: 11 }],
             points: 111,
           },
         },
@@ -261,7 +261,7 @@ describe("factionKitchenDeliver", () => {
         ...(GAME_STATE.faction as Faction),
         kitchen: {
           week: 1,
-          resources: [{ item: "Honey", quantity: 1, deliveryCount: 0 }],
+          requests: [{ item: "Honey", amount: 1, deliveryCount: 0 }],
           points: 0,
         },
       },

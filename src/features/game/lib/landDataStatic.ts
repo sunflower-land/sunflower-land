@@ -1320,5 +1320,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
       totalItems: {},
     },
+    kitchen: {
+      week: 1,
+      requests: [
+        { item: "Sunflower", amount: 1, deliveryCount: 0 },
+        { item: "Honey", amount: 1, deliveryCount: 0 },
+        { item: "Tuna", amount: 1, deliveryCount: 0 },
+      ],
+      points: 0,
+    },
   },
 };

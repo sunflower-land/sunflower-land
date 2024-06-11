@@ -997,14 +997,14 @@ export type FactionName =
 
 export type ResourceRequest = {
   item: InventoryItemName;
-  quantity: number;
+  amount: number;
   deliveryCount: number;
 };
 
-type FactionKitchen = {
+export type FactionKitchen = {
   points: number;
   week: number;
-  resources: ResourceRequest[];
+  requests: ResourceRequest[];
 };
 
 export type FactionDonated = {

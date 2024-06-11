@@ -13,7 +13,7 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
 export const FACTION_KITCHEN_START_TIME = new Date(
   "2024-07-01T00:00:00Z"
 ).getTime();
-const BASE_POINTS = 20;
+export const BASE_POINTS = 20;
 
 export type DeliverFactionKitchenAction = {
   type: "factionKitchen.delivered";
@@ -48,7 +48,7 @@ export function deliverFactionKitchen({
     throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_KITCHEN_DATA);
   }
 
-  const { resources } = kitchen;
+  const { requests: resources } = kitchen;
 
   if (!resources[action.resourceIndex]) {
     throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_RESOURCE_FOUND);
@@ -58,11 +58,11 @@ export function deliverFactionKitchen({
 
   const resourceBalance = inventory[request.item] ?? new Decimal(0);
 
-  if (resourceBalance.lt(request.quantity)) {
+  if (resourceBalance.lt(request.amount)) {
     throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.INSUFFICIENT_RESOURCES);
   }
 
-  inventory[request.item] = resourceBalance.minus(request.quantity);
+  inventory[request.item] = resourceBalance.minus(request.amount);
 
   const marksBalance = inventory["Faction Mark"] ?? new Decimal(0);
 
