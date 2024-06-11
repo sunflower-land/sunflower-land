@@ -4395,12 +4395,9 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.logout": "登出",
   "gameOptions.confirmLogout": "您确定要登出吗？",
 
-  "gameOptions.generalSettings.darkMode":
-    ENGLISH_TERMS["gameOptions.generalSettings.darkMode"],
-  "gameOptions.generalSettings.font":
-    ENGLISH_TERMS["gameOptions.generalSettings.font"],
-  "gameOptions.generalSettings.lightMode":
-    ENGLISH_TERMS["gameOptions.generalSettings.lightMode"],
+  "gameOptions.generalSettings.darkMode": "酷黑",
+  "gameOptions.generalSettings.font": "字体",
+  "gameOptions.generalSettings.lightMode": "明亮",
 
   // Testnet
   "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"], // Testnet
@@ -4427,7 +4424,7 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.plazaSettings": "广场设置",
   "gameOptions.plazaSettings.title.mutedPlayers": "静音玩家",
   "gameOptions.plazaSettings.title.keybinds": "按键绑定",
-  "gameOptions.generalSettings.appearance": "Appearance Settings",
+  "gameOptions.generalSettings.appearance": "外观",
   "gameOptions.plazaSettings.mutedPlayers.description":
     "如果您使用 /mute 命令将某些玩家静音，您可以在此处查看并取消静音。",
   "gameOptions.plazaSettings.keybinds.description":
