@@ -11,7 +11,7 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
 }
 
 export const FACTION_KITCHEN_START_TIME = new Date(
-  "2024-07-01T00:00:00Z"
+  "2024-06-01T00:00:00Z"
 ).getTime();
 export const BASE_POINTS = 20;
 
@@ -64,15 +64,15 @@ export function deliverFactionKitchen({
 
   inventory[request.item] = resourceBalance.minus(request.amount);
 
-  const marksBalance = inventory["Faction Mark"] ?? new Decimal(0);
+  const marksBalance = inventory["Mark"] ?? new Decimal(0);
 
   const points = BASE_POINTS - request.deliveryCount * 2;
   if (points < 2) {
     kitchen.points += 1;
-    inventory["Faction Mark"] = marksBalance.plus(1);
+    inventory["Mark"] = marksBalance.plus(1);
   } else {
     kitchen.points += points;
-    inventory["Faction Mark"] = marksBalance.plus(points);
+    inventory["Mark"] = marksBalance.plus(points);
   }
 
   request.deliveryCount += 1;

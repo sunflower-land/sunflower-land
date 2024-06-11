@@ -11,6 +11,7 @@ import classNames from "classnames";
  * @param contentScrollable Whether the content view is scrollable or not.
  * @param panel The top or right panel view.
  * @param content The bottom or left content view.
+ * @param mobileReversePanelOrder Whether to show the panel below the content on mobile.
  */
 interface Props {
   divRef?: React.RefObject<HTMLDivElement>;
@@ -20,6 +21,7 @@ interface Props {
   contentScrollable?: boolean;
   panel: JSX.Element;
   content: JSX.Element;
+  mobileReversePanelOrder?: boolean;
 }
 
 /**
@@ -32,23 +34,27 @@ export const SplitScreenView: React.FC<Props> = ({
   wideModal = false,
   showPanel: showHeader = true,
   contentScrollable = true,
+  mobileReversePanelOrder = false,
   panel: header,
   content,
 }: Props) => {
   return (
-    <div className="flex flex-col-reverse sm:flex-row">
+    <div
+      className={classNames("flex sm:flex-row", {
+        "flex-col": mobileReversePanelOrder,
+        "flex-col-reverse": !mobileReversePanelOrder,
+      })}
+    >
       <InnerPanel
-        className={classNames(
-          "w-full sm:w-3/5 h-fit sm:max-h-96 p-1 mt-1 sm:mt-0 flex",
-          {
-            "max-h-80": tallMobileContent,
-            "max-h-56": !tallMobileContent,
-            "lg:w-3/4": wideModal,
-            "flex-wrap overflow-y-auto scrollable overflow-x-hidden sm:mr-1":
-              contentScrollable,
-            "flex-col": !contentScrollable,
-          }
-        )}
+        className={classNames("w-full sm:w-3/5 h-fit sm:max-h-96 p-1 flex", {
+          "max-h-80": tallMobileContent,
+          "max-h-56": !tallMobileContent,
+          "lg:w-3/4": wideModal,
+          "flex-wrap overflow-y-auto scrollable overflow-x-hidden sm:mr-1":
+            contentScrollable,
+          "flex-col": !contentScrollable,
+          "mt-1 sm:mt-0": !mobileReversePanelOrder,
+        })}
         divRef={divRef}
       >
         {content}
@@ -57,6 +63,7 @@ export const SplitScreenView: React.FC<Props> = ({
         <InnerPanel
           className={classNames("w-full sm:w-2/5 h-fit", {
             "lg:w-1/4": wideModal,
+            "mt-1 sm:mt-0": mobileReversePanelOrder,
           })}
         >
           {header}

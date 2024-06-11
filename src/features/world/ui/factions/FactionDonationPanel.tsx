@@ -363,6 +363,7 @@ export const FactionDonationPanel: React.FC<Props> = ({ onClose }) => {
             <span className="text-xs sm:text-sm">
               {t("faction.donation.confirm", {
                 factionPoints: getTotalPointsDue(),
+                reward: "faction points",
               })}
             </span>
             <div className="flex flex-col space-y-1">

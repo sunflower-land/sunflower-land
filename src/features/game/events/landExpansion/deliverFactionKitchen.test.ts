@@ -175,14 +175,14 @@ describe("factionKitchenDeliver", () => {
     });
 
     expect(state.faction?.kitchen?.points).toBe(20);
-    expect(state.inventory["Faction Mark"]?.toNumber()).toBe(20);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(20);
   });
 
   it("reduces the points and marks amount by 2 for each subsequent delivery", () => {
     const state = deliverFactionKitchen({
       state: {
         ...GAME_STATE,
-        inventory: { Honey: new Decimal(5), "Faction Mark": new Decimal(20) },
+        inventory: { Honey: new Decimal(5), Mark: new Decimal(20) },
         faction: {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
@@ -200,14 +200,14 @@ describe("factionKitchenDeliver", () => {
     });
 
     expect(state.faction?.kitchen?.points).toBe(38);
-    expect(state.inventory["Faction Mark"]?.toNumber()).toBe(38);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(38);
   });
 
   it("adds 1 point and 1 mark for the 11th delivery", () => {
     const state = deliverFactionKitchen({
       state: {
         ...GAME_STATE,
-        inventory: { Honey: new Decimal(5), "Faction Mark": new Decimal(110) },
+        inventory: { Honey: new Decimal(5), Mark: new Decimal(110) },
         faction: {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
@@ -225,14 +225,14 @@ describe("factionKitchenDeliver", () => {
     });
 
     expect(state.faction?.kitchen?.points).toBe(111);
-    expect(state.inventory["Faction Mark"]?.toNumber()).toBe(111);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(111);
   });
 
   it("adds 1 point for the 12th delivery", () => {
     const state = deliverFactionKitchen({
       state: {
         ...GAME_STATE,
-        inventory: { Honey: new Decimal(5), "Faction Mark": new Decimal(111) },
+        inventory: { Honey: new Decimal(5), Mark: new Decimal(111) },
         faction: {
           ...(GAME_STATE.faction as Faction),
           kitchen: {
@@ -250,7 +250,7 @@ describe("factionKitchenDeliver", () => {
     });
 
     expect(state.faction?.kitchen?.points).toBe(112);
-    expect(state.inventory["Faction Mark"]?.toNumber()).toBe(112);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(112);
   });
 
   it("adds 111 points for 11 deliveries", () => {
@@ -279,6 +279,6 @@ describe("factionKitchenDeliver", () => {
     }
 
     expect(state.faction?.kitchen?.points).toBe(111);
-    expect(state.inventory["Faction Mark"]?.toNumber()).toBe(111);
+    expect(state.inventory["Mark"]?.toNumber()).toBe(111);
   });
 });
