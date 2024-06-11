@@ -391,7 +391,7 @@ const coupons: Record<Coupons, () => boolean> = {
   "Goblin Emblem": () => false,
   "Nightshade Emblem": () => false,
   "Sunflorian Emblem": () => false,
-  "Faction Mark": () => false,
+  Mark: () => false,
 };
 
 const buildings: Record<BuildingName, () => boolean> = {

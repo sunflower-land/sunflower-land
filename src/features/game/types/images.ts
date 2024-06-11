@@ -259,7 +259,7 @@ import goblinEmblem from "assets/icons/goblin_emblem.webp";
 import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
 import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
-import factionMark from "assets/icons/faction_mark.webp";
+import mark from "assets/icons/faction_mark.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
@@ -2467,8 +2467,8 @@ export const ITEM_DETAILS: Items = {
     image: sunflorianEmblem,
     description: translate("description.sunflorian.emblem"),
   },
-  "Faction Mark": {
-    image: factionMark,
+  Mark: {
+    image: mark,
     description: translate("description.faction.mark"),
   },
 
