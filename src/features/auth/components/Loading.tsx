@@ -29,7 +29,7 @@ export const Loading: React.FC<Props> = ({ text, className }) => {
       className={classNames(
         "text-base",
         className,
-        "relative mb-1 mx- block w-fit"
+        "relative mb-1 mx-1 block w-fit"
       )}
     >
       {text || t("loading")}
@@ -37,7 +37,7 @@ export const Loading: React.FC<Props> = ({ text, className }) => {
       <span
         className="absolute top-0"
         style={{
-          left: "calc(100% - 10px)",
+          left: "calc(100% - 12px)",
         }}
       >
         {dots}
