@@ -1873,15 +1873,16 @@ export type GOBLIN_MESSAGES =
 export type GoldTooth = "goldTooth.intro.part1" | "goldTooth.intro.part2";
 
 export type GuideCompost =
-  | "guide.compost.add.eggs.speed"
-  | "guide.compost.add.eggs"
+  | "guide.compost.addEggs.speed"
+  | "guide.compost.addEggs"
   | "guide.compost.eggs"
   | "guide.compost.cropGrowthTime"
   | "guide.compost.fishingBait"
   | "guide.compost.placeCrops"
   | "guide.compost.compostCycle"
   | "guide.compost.yieldsWorms"
-  | "guide.compost.useEggs";
+  | "guide.compost.useEggs"
+  | "guide.compost.addEggs.confirmation";
 
 export type GuideTerms =
   | "guide.intro"

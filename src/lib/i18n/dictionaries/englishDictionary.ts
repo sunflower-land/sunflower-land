@@ -2606,8 +2606,8 @@ const goldTooth: Record<GoldTooth, string> = {
 };
 
 const guideCompost: Record<GuideCompost, string> = {
-  "guide.compost.add.eggs.speed": "Add eggs to speed up production",
-  "guide.compost.add.eggs": "Add Eggs",
+  "guide.compost.addEggs.speed": "Add eggs to speed up production",
+  "guide.compost.addEggs": "Add Eggs",
   "guide.compost.eggs": "Eggs",
   "guide.compost.cropGrowthTime": "-50% Crop Growth Time",
   "guide.compost.fishingBait": "Fishing bait",
@@ -2618,6 +2618,8 @@ const guideCompost: Record<GuideCompost, string> = {
     "Each compost yields worms that can be used as bait for fishing",
   "guide.compost.useEggs":
     "Tired of waiting? Use Eggs to speed up the compost production",
+  "guide.compost.addEggs.confirmation":
+    "Are you sure you want to add {{noEggs}} Eggs to reduce compost production time by {{time}}?",
 };
 
 const guideTerms: Record<GuideTerms, string> = {

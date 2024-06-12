@@ -2625,8 +2625,8 @@ const goldTooth: Record<GoldTooth, string> = {
 };
 
 const guideCompost: Record<GuideCompost, string> = {
-  "guide.compost.add.eggs.speed": "Adicione ovos para acelerar a produção",
-  "guide.compost.add.eggs": "Adicione ovos",
+  "guide.compost.addEggs.speed": "Adicione ovos para acelerar a produção",
+  "guide.compost.addEggs": "Adicione ovos",
   "guide.compost.eggs": "Ovos",
   "guide.compost.cropGrowthTime": "-50% Tempo de crescimento da plantação",
   "guide.compost.fishingBait": "Isca de pesca",
@@ -2638,6 +2638,8 @@ const guideCompost: Record<GuideCompost, string> = {
     "Cada compostagem produz minhocas que podem ser usadas como isca para pesca",
   "guide.compost.useEggs":
     "Cansado de esperar? Use ovos para acelerar a produção de compostagem",
+  "guide.compost.addEggs.confirmation":
+    ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {

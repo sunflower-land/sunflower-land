@@ -2602,8 +2602,8 @@ const goldTooth: Record<GoldTooth, string> = {
 };
 
 const guideCompost: Record<GuideCompost, string> = {
-  "guide.compost.add.eggs.speed": "Üretimi hızlandırmak için yumurta ekleyin",
-  "guide.compost.add.eggs": "Yumurta Ekle",
+  "guide.compost.addEggs.speed": "Üretimi hızlandırmak için yumurta ekleyin",
+  "guide.compost.addEggs": "Yumurta Ekle",
   "guide.compost.eggs": "Yumurtalar",
   "guide.compost.cropGrowthTime": "-50% Mahsul Büyüme Süresi",
   "guide.compost.fishingBait": "Balık yemi",
@@ -2615,6 +2615,8 @@ const guideCompost: Record<GuideCompost, string> = {
     "Her kompost, balık tutmak için yem olarak kullanılabilecek solucanlar üretir",
   "guide.compost.useEggs":
     "Beklemekten yoruldunuz mu? Kompost üretimini hızlandırmak için Yumurta kullanın",
+  "guide.compost.addEggs.confirmation":
+    ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {
