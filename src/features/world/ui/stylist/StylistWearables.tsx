@@ -22,11 +22,10 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { GameState } from "features/game/types/game";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 function isNotReady(name: BumpkinItem, state: GameState) {
   const wearable = STYLIST_WEARABLES[name] as StylistWearable;
@@ -136,28 +135,17 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
         >
           {t("buy")}
         </Button>
-        <Modal show={isConfirmBuyModalOpen} onHide={closeConfirmationModal}>
-          <CloseButtonPanel className="sm:w-4/5 m-auto">
-            <div className="flex flex-col p-2">
-              <span className="text-sm text-center">
-                {t("statements.sure.buy", { item: selected })}
-              </span>
-            </div>
-            <div className="flex justify-content-around mt-2 space-x-1">
-              <Button
-                disabled={
-                  isNotReady(selected, state) ||
-                  lessFunds() ||
-                  lessIngredients()
-                }
-                onClick={handleBuy}
-              >
-                {t("buy")}
-              </Button>
-              <Button onClick={closeConfirmationModal}>{t("cancel")}</Button>
-            </div>
-          </CloseButtonPanel>
-        </Modal>
+        <ConfirmationModal
+          show={isConfirmBuyModalOpen}
+          onHide={closeConfirmationModal}
+          messages={[t("statements.sure.buy", { item: selected })]}
+          onCancel={closeConfirmationModal}
+          onConfirm={handleBuy}
+          confirmButtonLabel={t("buy")}
+          disabled={
+            isNotReady(selected, state) || lessFunds() || lessIngredients()
+          }
+        />
       </>
     );
   };
