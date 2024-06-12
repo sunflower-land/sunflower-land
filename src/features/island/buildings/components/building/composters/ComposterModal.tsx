@@ -36,6 +36,8 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { setImageWidth } from "lib/images";
+import { Loading } from "features/auth/components";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -347,12 +349,16 @@ export const ComposterModal: React.FC<Props> = ({
     if (getKeys(requires).length === 0) {
       return (
         <>
-          <div className="flex p-2 -mt-2">
+          <div className="flex p-2 -mt-2 items-center">
             <img
               src={COMPOSTER_IMAGES[composterName].ready}
-              className="w-14 object-contain mr-2"
+              className="object-contain mr-2"
+              onLoad={(e) => setImageWidth(e.currentTarget)}
+              style={{
+                opacity: 0,
+              }}
             />
-            <span className="mt-2 text-sm loading">{t("loading")}</span>
+            <Loading text={t("loading")} />
           </div>
         </>
       );
