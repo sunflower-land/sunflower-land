@@ -430,6 +430,9 @@ export const REMOVAL_RESTRICTIONS: Partial<
 
   // Buildings
   "Crop Machine": (game) => hasSeedsCropsInMachine(game),
+  "Compost Bin": (game) => areAnyCropsGrowing(game),
+  "Turbo Composter": (game) => areAnyCropsGrowing(game),
+  "Premium Composter": (game) => areAnyCropsGrowing(game),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
