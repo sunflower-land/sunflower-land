@@ -15,6 +15,7 @@ import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
 import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
+import russiaFlag from "assets/sfts/flags/russia_flag.gif";
 import { changeFont } from "lib/utils/fonts";
 import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
 
@@ -124,6 +125,20 @@ export const LanguageSwitcher: React.FC = () => {
             alt="Chinese Flag"
           />
           {"简体中文"}
+        </Button>
+        <Button
+          onClick={() => {
+            setSelected("ru");
+            setConfirmModal(true);
+          }}
+          disabled={language === "ru"}
+        >
+          <img
+            style={{ display: "inline-block", marginRight: "5px" }}
+            src={russiaFlag}
+            alt="Russian Flag"
+          />
+          {"Русский"}
         </Button>
         <span>
           <a
