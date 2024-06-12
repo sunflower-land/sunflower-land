@@ -19,6 +19,7 @@ const FONT_CONFIG: Record<
   Font,
   {
     fontFamily: string;
+    fontFamilyCyrillic?: string;
     xxs: [number, number];
     xs: [number, number];
     sm: [number, number];
@@ -28,6 +29,7 @@ const FONT_CONFIG: Record<
 > = {
   Default: {
     fontFamily: "Basic",
+    fontFamilyCyrillic: "Basis33",
     xxs: [20, 14],
     xs: [24, 14],
     sm: [30, 20],
@@ -44,6 +46,7 @@ const FONT_CONFIG: Record<
   },
   Bold: {
     fontFamily: "Secondary",
+    fontFamilyCyrillic: "Born2bSporty",
     xxs: [18, 12],
     xs: [24, 14],
     sm: [30, 20],
@@ -52,6 +55,7 @@ const FONT_CONFIG: Record<
   },
   "Chunky (Old)": {
     fontFamily: "Paytone One",
+    fontFamilyCyrillic: "Russo One",
     xxs: [14, 14],
     xs: [16, 16],
     sm: [18, 18],
@@ -70,56 +74,59 @@ export function initialiseFont() {
 
 export function changeFont(font: Font) {
   const config = FONT_CONFIG[font];
+  const lang = localStorage.getItem("language") || "en";
 
   document.documentElement.style.setProperty(
     "--font-family",
-    config.fontFamily,
+    lang === "ru" && config.fontFamilyCyrillic
+      ? config.fontFamilyCyrillic
+      : config.fontFamily
   );
 
   document.documentElement.style.setProperty(
     "--text-xxs-size",
-    config.xxs[0] + "px",
+    config.xxs[0] + "px"
   );
   document.documentElement.style.setProperty(
     "--text-xxs-line-height",
-    config.xxs[1] + "px",
+    config.xxs[1] + "px"
   );
 
   document.documentElement.style.setProperty(
     "--text-xs-size",
-    config.xs[0] + "px",
+    config.xs[0] + "px"
   );
   document.documentElement.style.setProperty(
     "--text-xs-line-height",
-    config.xs[1] + "px",
+    config.xs[1] + "px"
   );
 
   document.documentElement.style.setProperty(
     "--text-sm-size",
-    config.sm[0] + "px",
+    config.sm[0] + "px"
   );
   document.documentElement.style.setProperty(
     "--text-sm-line-height",
-    config.sm[1] + "px",
+    config.sm[1] + "px"
   );
 
   document.documentElement.style.setProperty(
     "--text-base-size",
-    config.base[0] + "px",
+    config.base[0] + "px"
   );
   document.documentElement.style.setProperty(
     "--text-base-line-height",
-    config.base[1] + "px",
+    config.base[1] + "px"
   );
 
   document.documentElement.style.setProperty(
     "--text-lg-size",
-    config.lg[0] + "px",
+    config.lg[0] + "px"
   );
 
   document.documentElement.style.setProperty(
     "--text-lg-line-height",
-    config.lg[1] + "px",
+    config.lg[1] + "px"
   );
 
   cacheFont(font);
