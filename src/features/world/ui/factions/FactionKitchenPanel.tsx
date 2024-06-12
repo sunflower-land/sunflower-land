@@ -6,11 +6,7 @@ import { SplitScreenView } from "components/ui/SplitScreenView";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import {
-  Faction,
-  FactionKitchen,
-  ResourceRequest,
-} from "features/game/types/game";
+import { Faction, ResourceRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
 import {
@@ -34,23 +30,19 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   bumpkinParts: Equipped;
-  onClose: () => void;
 }
 
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-export const FactionKitchenPanel: React.FC<Props> = ({
-  bumpkinParts,
-  onClose,
-}) => {
+export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
   const inventory = useSelector(gameService, _inventory);
   const faction = useSelector(gameService, _faction);
-  const kitchen = faction.kitchen as FactionKitchen;
+  const kitchen = faction.kitchen;
   const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
@@ -80,6 +72,20 @@ export const FactionKitchenPanel: React.FC<Props> = ({
     );
   }
 
+  if (!kitchen) {
+    return (
+      <CloseButtonPanel bumpkinParts={bumpkinParts}>
+        <div className="p-1 space-y-2">
+          <Label type="default">{`Kitchen`}</Label>
+          <TypingMessage
+            message={t("faction.kitchen.preparing")}
+            onMessageEnd={() => undefined}
+          />
+        </div>
+      </CloseButtonPanel>
+    );
+  }
+
   const handleDeliver = () => {
     gameService.send({
       type: "factionKitchen.delivered",
@@ -98,15 +104,21 @@ export const FactionKitchenPanel: React.FC<Props> = ({
     1
   );
 
+  const canFulfillRequest = (
+    inventory[selectedRequest.item] ?? new Decimal(0)
+  ).gte(selectedRequest.amount);
+
   return (
     <CloseButtonPanel bumpkinParts={bumpkinParts}>
       <div className="p-1 space-y-2">
         <div className="flex justify-between">
           <Label type="default">{`Kitchen`}</Label>
-          <Label type="info">
-            {secondsToString(secondsTillWeekEnd, {
-              length: "medium",
-              removeTrailingZeros: true,
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("faction.kitchen.newRequests", {
+              time: secondsToString(secondsTillWeekEnd, {
+                length: "medium",
+                removeTrailingZeros: true,
+              }),
             })}
           </Label>
         </div>
@@ -217,9 +229,10 @@ export const FactionKitchenPanel: React.FC<Props> = ({
                       requirement={new Decimal(selectedRequest.amount)}
                     />
                   </div>
-                  <Button onClick={() => setShowConfirm(true)}>{`${t(
-                    "deliver"
-                  )} ${selectedRequest.amount}`}</Button>
+                  <Button
+                    disabled={!canFulfillRequest}
+                    onClick={() => setShowConfirm(true)}
+                  >{`${t("deliver")} ${selectedRequest.amount}`}</Button>
                 </div>
               }
             />

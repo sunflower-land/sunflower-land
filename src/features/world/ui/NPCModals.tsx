@@ -237,28 +237,16 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "shadow" && <ChoresModal onClose={closeModal} npc={npc} />}
         {npc === "flora" && <ChoresModal onClose={closeModal} npc={npc} />}
         {npc === "chef ebon" && (
-          <FactionKitchenPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["chef ebon"]}
-          />
+          <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef ebon"]} />
         )}
         {npc === "chef tuck" && (
-          <FactionKitchenPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["chef tuck"]}
-          />
+          <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef tuck"]} />
         )}
         {npc === "chef maple" && (
-          <FactionKitchenPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["chef maple"]}
-          />
+          <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef maple"]} />
         )}
         {npc === "chef lumen" && (
-          <FactionKitchenPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["chef lumen"]}
-          />
+          <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef lumen"]} />
         )}
       </Modal>
 

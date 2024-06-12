@@ -1444,6 +1444,8 @@ export type Factions =
   | "faction.kitchen.opensIn"
   | "faction.kitchen.notReady"
   | "faction.kitchen.gatherResources"
+  | "faction.kitchen.preparing"
+  | "faction.kitchen.newRequests"
   // Emblem Airdrop
   | "faction.claimEmblems.alreadyClaimed"
   | "faction.claimEmblems.emblemsEarned"
