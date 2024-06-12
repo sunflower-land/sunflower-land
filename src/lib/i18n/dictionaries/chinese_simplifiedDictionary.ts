@@ -177,6 +177,7 @@ import {
   RemoveCropMachine,
   Username,
   EasterEggKeys,
+  ChangeLanguage,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1036,6 +1037,13 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
   "buyFarmHand.notEnoughSpace": "空间不足——升阶您的岛屿",
   "buyFarmHand.buyBumpkin": "购买乡包佬",
   "buyFarmHand.newFarmhandGreeting": "我是您的新雇农。我已经等不及要开干了！",
+};
+
+const changeLanguage: Record<ChangeLanguage, string> = {
+  "changeLanguage.confirm": "此操作将刷新您的浏览器。您确定要更改语言吗？",
+  "changeLanguage.contribute": ENGLISH_TERMS["changeLanguage.contribute"],
+  "changeLanguage.contribute.message":
+    ENGLISH_TERMS["changeLanguage.contribute.message"],
 };
 
 const chat: Record<Chat, string> = {
@@ -4119,11 +4127,7 @@ const statements: Record<Statements, string> = {
   "statements.startgame": ENGLISH_TERMS["statements.startgame"],
   "statements.session.expired": ENGLISH_TERMS["statements.session.expired"],
   "statements.price.change": ENGLISH_TERMS["statements.price.change"],
-  "statements.translation.contribution":
-    ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord": "加入 Discord",
-  "statements.translation.want2contribute":
-    ENGLISH_TERMS["statements.translation.want2contribute"],
 };
 
 const stopGoblin: Record<StopGoblin, string> = {
@@ -4547,6 +4551,7 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...bumpkinSkillsDescription,
   ...bumpkinTrade,
   ...buyFarmHand,
+  ...changeLanguage,
   ...chat,
   ...chickenWinner,
   ...choresStart,

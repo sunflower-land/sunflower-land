@@ -176,6 +176,7 @@ import {
   RemoveCropMachine,
   Username,
   EasterEggKeys,
+  ChangeLanguage,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1106,6 +1107,14 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
   "buyFarmHand.buyBumpkin": "Buy Bumpkin",
   "buyFarmHand.newFarmhandGreeting":
     "I am your new farmhand. I can't wait to get to work!",
+};
+
+const changeLanguage: Record<ChangeLanguage, string> = {
+  "changeLanguage.confirm":
+    "This action will refresh the browser. Are you sure you want to change your language?",
+  "changeLanguage.contribute": "Want to contribute your Language?",
+  "changeLanguage.contribute.message":
+    "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
 };
 
 const chat: Record<Chat, string> = {
@@ -4705,9 +4714,6 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "It looks like your session has expired. Please refresh the page to continue playing.",
-  "statements.translation.want2contribute": "Want to contribute your Language?",
-  "statements.translation.contribution":
-    "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
   "statements.translation.joinDiscord": "Join Discord",
 };
 
@@ -5194,6 +5200,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...bumpkinSkillsDescription,
   ...bumpkinTrade,
   ...buyFarmHand,
+  ...changeLanguage,
   ...chat,
   ...chickenWinner,
   ...choresStart,

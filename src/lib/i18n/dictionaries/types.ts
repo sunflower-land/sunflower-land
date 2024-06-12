@@ -3152,8 +3152,6 @@ export type Statements =
   | "statements.startgame"
   | "statements.session.expired"
   | "statements.price.change"
-  | "statements.translation.want2contribute"
-  | "statements.translation.contribution"
   | "statements.translation.joinDiscord";
 
 export type StopGoblin =
@@ -3514,6 +3512,11 @@ export type EasterEggKeys =
   | "easterEgg.kingdomBook5"
   | "easterEgg.knight";
 
+export type ChangeLanguage =
+  | "changeLanguage.confirm"
+  | "changeLanguage.contribute"
+  | "changeLanguage.contribute.message";
+
 export type TranslationKeys =
   | AchievementsTerms
   | Auction
@@ -3534,11 +3537,12 @@ export type TranslationKeys =
   | BumpkinSkillsDescription
   | BumpkinTrade
   | BuyFarmHand
-  | ClaimAchievement
+  | ChangeLanguage
   | Chat
   | ChickenWinner
   | ChoresStart
   | ChumDetails
+  | ClaimAchievement
   | Community
   | CompostDescription
   | ComposterDescription

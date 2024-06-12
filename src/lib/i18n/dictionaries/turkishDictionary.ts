@@ -177,6 +177,7 @@ import {
   RemoveCropMachine,
   Username,
   EasterEggKeys,
+  ChangeLanguage,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -1109,6 +1110,13 @@ const buyFarmHand: Record<BuyFarmHand, string> = {
   "buyFarmHand.buyBumpkin": "Bumpkin satın al",
   "buyFarmHand.newFarmhandGreeting":
     "Ben senin yeni çiftçinim. İşe gitmek için sabırsızlanıyorum!",
+};
+
+const changeLanguage: Record<ChangeLanguage, string> = {
+  "changeLanguage.confirm": ENGLISH_TERMS["changeLanguage.confirm"],
+  "changeLanguage.contribute": ENGLISH_TERMS["changeLanguage.contribute"],
+  "changeLanguage.contribute.message":
+    ENGLISH_TERMS["changeLanguage.contribute.message"],
 };
 
 const chat: Record<Chat, string> = {
@@ -4641,10 +4649,6 @@ const statements: Record<Statements, string> = {
 
   "statements.session.expired":
     "Oturumunuzun süresi dolmuş gibi görünüyor. Oynamaya devam etmek için lütfen sayfayı yenileyin.",
-  "statements.translation.want2contribute":
-    ENGLISH_TERMS["statements.translation.want2contribute"],
-  "statements.translation.contribution":
-    ENGLISH_TERMS["statements.translation.contribution"],
   "statements.translation.joinDiscord":
     ENGLISH_TERMS["statements.translation.joinDiscord"],
 };
@@ -5175,6 +5179,7 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...bumpkinSkillsDescription,
   ...bumpkinTrade,
   ...buyFarmHand,
+  ...changeLanguage,
   ...chat,
   ...chickenWinner,
   ...choresStart,

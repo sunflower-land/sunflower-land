@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { Panel } from "components/ui/Panel";
 
 import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -15,18 +16,22 @@ import franceFlag from "assets/sfts/flags/france_flag.gif";
 import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import { changeFont } from "lib/utils/fonts";
+import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
 
   const initialLanguage = localStorage.getItem("language") || "en";
   const [language, setLanguage] = useState(initialLanguage);
+  const [selected, setSelected] = useState<LanguageCode>("en");
+  const [isConfirmModalOpen, setConfirmModal] = useState(false);
   const [showContributeLanguage, setShowContributeLanguage] = useState(false);
 
-  const handleChangeLanguage = (languageCode: string) => {
+  const handleChangeLanguage = (languageCode: LanguageCode) => {
     localStorage.setItem("language", languageCode);
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
+    location.reload();
 
     if (languageCode === "zh-CN") {
       changeFont("Sans Serif");
@@ -41,7 +46,10 @@ export const LanguageSwitcher: React.FC = () => {
     <>
       <div className="p-1 space-y-2">
         <Button
-          onClick={() => handleChangeLanguage("en")}
+          onClick={() => {
+            setSelected("en");
+            setConfirmModal(true);
+          }}
           disabled={language === "en"}
         >
           <img
@@ -57,7 +65,10 @@ export const LanguageSwitcher: React.FC = () => {
           {"English"}
         </Button>
         <Button
-          onClick={() => handleChangeLanguage("fr")}
+          onClick={() => {
+            setSelected("fr");
+            setConfirmModal(true);
+          }}
           disabled={language === "fr"}
         >
           <img
@@ -68,7 +79,10 @@ export const LanguageSwitcher: React.FC = () => {
           {"Français"}
         </Button>
         <Button
-          onClick={() => handleChangeLanguage("pt")}
+          onClick={() => {
+            setSelected("pt");
+            setConfirmModal(true);
+          }}
           disabled={language === "pt"}
         >
           <img
@@ -84,7 +98,10 @@ export const LanguageSwitcher: React.FC = () => {
           {"Português"}
         </Button>
         <Button
-          onClick={() => handleChangeLanguage("tk")}
+          onClick={() => {
+            setSelected("tk");
+            setConfirmModal(true);
+          }}
           disabled={language === "tk"}
         >
           <img
@@ -95,7 +112,10 @@ export const LanguageSwitcher: React.FC = () => {
           {"Türkçe"}
         </Button>
         <Button
-          onClick={() => handleChangeLanguage("zh-CN")}
+          onClick={() => {
+            setSelected("zh-CN");
+            setConfirmModal(true);
+          }}
           disabled={language === "zh-CN"}
         >
           <img
@@ -112,32 +132,49 @@ export const LanguageSwitcher: React.FC = () => {
             className="underline text-xs cursor-pointer"
             onClick={() => setShowContributeLanguage(true)}
           >
-            {t("statements.translation.want2contribute")}
+            {t("changeLanguage.contribute")}
           </a>
-          <Modal
-            show={showContributeLanguage}
-            onHide={() => setShowContributeLanguage(false)}
-          >
-            <CloseButtonPanel className="sm:w-4/5 m-auto">
-              <div className="flex flex-col p-2">
-                <span className="text-sm text-center">
-                  <p>{t("statements.translation.contribution")}</p>
-                  <p>
-                    <a
-                      className="underline hover:text-white"
-                      href="https://discord.gg/sunflowerland"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      {t("statements.translation.joinDiscord")}
-                    </a>
-                  </p>
-                </span>
-              </div>
-            </CloseButtonPanel>
-          </Modal>
         </span>
       </div>
+      <Modal
+        show={showContributeLanguage}
+        onHide={() => setShowContributeLanguage(false)}
+      >
+        <Panel className="sm:w-4/5 m-auto">
+          <div className="flex flex-col p-2">
+            <span className="text-sm text-center">
+              <p>{t("changeLanguage.contribute.message")}</p>
+              <p>
+                <a
+                  className="underline hover:text-white"
+                  href="https://discord.gg/sunflowerland"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t("statements.translation.joinDiscord")}
+                </a>
+              </p>
+            </span>
+          </div>
+        </Panel>
+      </Modal>
+      <Modal show={isConfirmModalOpen} onHide={() => setConfirmModal(false)}>
+        <Panel className="sm:w-4/5 m-auto">
+          <div className="flex flex-col p-2">
+            <span className="text-sm text-center">
+              {t("changeLanguage.confirm")}
+            </span>
+          </div>
+          <div className="flex justify-content-around mt-2 space-x-1">
+            <Button onClick={() => setConfirmModal(false)}>
+              {t("cancel")}
+            </Button>
+            <Button onClick={() => handleChangeLanguage(selected)}>
+              {t("confirm")}
+            </Button>
+          </div>
+        </Panel>
+      </Modal>
     </>
   );
 };
