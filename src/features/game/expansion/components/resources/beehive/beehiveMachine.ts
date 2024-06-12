@@ -10,6 +10,7 @@ export type AttachedFlower = {
 
 export interface BeehiveContext {
   honeyProduced: number;
+  currentSpeed: number;
   hive: Beehive;
   isProducing?: boolean;
   attachedFlower?: AttachedFlower;
@@ -63,6 +64,7 @@ export const getActiveFlower = (hive: Beehive) => {
 
   return activeFlower;
 };
+
 export const getCurrentHoneyProduced = (hive: Beehive) => {
   const attachedFlowers = hive.flowers.sort(
     (a, b) => a.attachedAt - b.attachedAt
@@ -77,6 +79,18 @@ export const getCurrentHoneyProduced = (hive: Beehive) => {
 
     return (produced += honey);
   }, hive.honey.produced);
+};
+
+export const getCurrentSpeed = (hive: Beehive) => {
+  const attachedFlowers = hive.flowers.sort(
+    (a, b) => a.attachedAt - b.attachedAt
+  );
+
+  return attachedFlowers.reduce((rate, attachedFlower) => {
+    if (attachedFlower.attachedUntil <= Date.now()) return rate;
+
+    return (rate += attachedFlower.rate ?? 1);
+  }, 0);
 };
 
 export const beehiveMachine = createMachine<
@@ -134,7 +148,29 @@ export const beehiveMachine = createMachine<
         },
       },
       showBeeAnimation: {
+        invoke: {
+          src: "startHive",
+        },
         on: {
+          BUZZ: [
+            {
+              target: "honeyReady",
+              cond: "isFull",
+              actions: "checkAndUpdateHoney",
+            },
+            {
+              cond: "isFlowerReady",
+              actions: ["checkAndUpdateHoney", "removeActiveFlower"],
+            },
+            {
+              target: "showBeeAnimation",
+              cond: "hasNewActiveFlower",
+              actions: "updateActiveFlower",
+            },
+            {
+              actions: "checkAndUpdateHoney",
+            },
+          ],
           BEE_ANIMATION_DONE: {
             target: "hiveBuzzing",
           },
@@ -169,6 +205,7 @@ export const beehiveMachine = createMachine<
     actions: {
       checkAndUpdateHoney: assign({
         honeyProduced: ({ hive }) => getCurrentHoneyProduced(hive),
+        currentSpeed: ({ hive }) => getCurrentSpeed(hive),
         isProducing: ({ attachedFlower }) => {
           if (!attachedFlower) return false;
           if (attachedFlower.attachedAt > Date.now()) return false;

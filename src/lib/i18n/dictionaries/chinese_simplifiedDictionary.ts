@@ -634,6 +634,14 @@ const beehive: Record<Beehive, string> = {
   "beehive.beeSwarm": "蜂群",
   "beehive.pollinationCelebration":
     "授粉庆典！友善的蜂群给你的庄稼带来了 0.2 的增益！",
+  "beehive.honeyProductionPaused": "蜂蜜生产暂停",
+  "beehive.yield": "产量",
+  "beehive.honeyPerFullHive": "1 蜂蜜 / 满蜂窝",
+  "beehive.speed": "速度",
+  "beehive.fullHivePerDay": "每天 {{speed}} 个{{hive}}",
+  "beehive.estimatedFull": "预计满员",
+  "beehive.hive.singular": "蜂窝",
+  "beehive.hives.plural": "蜂窝",
 };
 
 const birdiePlaza: Record<BirdiePlaza, string> = {

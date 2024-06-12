@@ -22,6 +22,7 @@ import {
   MachineInterpreter,
   beehiveMachine,
   getCurrentHoneyProduced,
+  getCurrentSpeed,
 } from "./beehiveMachine";
 import { Bee } from "./Bee";
 import { Modal } from "components/ui/Modal";
@@ -39,6 +40,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import Decimal from "decimal.js-light";
+import { secondsToString } from "lib/utils/time";
+import { setPrecision } from "lib/utils/formatNumber";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getHoneyMultiplier } from "features/game/events/landExpansion/harvestBeehive";
 
 interface Props {
   id: string;
@@ -57,6 +62,8 @@ const _honeyReady = (state: BeehiveMachineState) => state.matches("honeyReady");
 const _isProducing = (state: BeehiveMachineState) => state.context.isProducing;
 const _honeyProduced = (state: BeehiveMachineState) =>
   state.context.honeyProduced;
+const _currentSpeed = (state: BeehiveMachineState) =>
+  state.context.currentSpeed;
 const _currentFlowerId = (state: BeehiveMachineState) =>
   state.context.attachedFlower?.id;
 const _showBeeAnimation = (state: BeehiveMachineState) =>
@@ -81,6 +88,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     gameState: gameState.context.state,
     hive,
     honeyProduced: getCurrentHoneyProduced(hive),
+    currentSpeed: getCurrentSpeed(hive),
   };
 
   const beehiveService = useInterpret(beehiveMachine, {
@@ -90,8 +98,11 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const honeyReady = useSelector(beehiveService, _honeyReady);
   const isProducing = useSelector(beehiveService, _isProducing);
   const honeyProduced = useSelector(beehiveService, _honeyProduced);
+  const currentSpeed = useSelector(beehiveService, _currentSpeed);
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
+
+  const honeyMultiplier = getHoneyMultiplier(gameState.context.state);
 
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
@@ -112,7 +123,6 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   };
 
   const handleHiveClick = () => {
-    if (showBeeAnimation) return;
     if (!honeyProduced) return;
 
     setShowHoneyLevelModal(true);
@@ -124,7 +134,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (!honeyReady && !showBeeAnimation) {
+    if (!honeyReady) {
       setShowHoneyLevelPopover(true);
     }
   };
@@ -175,14 +185,27 @@ export const Beehive: React.FC<Props> = ({ id }) => {
     .todp(4, Decimal.ROUND_DOWN)
     .toNumber();
 
+  const honeyPercentage = setPrecision(
+    new Decimal(honeyAmount * 100),
+    2
+  ).toFixed(2);
+
   const percentage = (honeyProduced / DEFAULT_HONEY_PRODUCTION_TIME) * 100;
   const showQuantityBar =
     showTimers && !landscaping && !showBeeAnimation && honeyProduced > 0;
 
+  const secondsLeftUntilFull =
+    currentSpeed === 0
+      ? undefined
+      : Math.max(
+          0,
+          (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000
+        );
+
   return (
     <>
       <div
-        className={!showBeeAnimation ? "cursor-pointer" : ""}
+        className="cursor-pointer"
         onMouseEnter={handleHover}
         onMouseLeave={handleMouseLeave}
         onClick={handleHiveClick}
@@ -190,9 +213,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
         <img
           src={beehive}
           alt="Beehive"
-          className={classNames("absolute bottom-0", {
-            "hover:img-highlight": !showBeeAnimation,
-          })}
+          className="absolute bottom-0 hover:img-highlight"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}
@@ -202,7 +223,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           src={honeyDrop}
           alt="Honey Drop"
           className={classNames(
-            "absolute top-0 right-1 transition-transform duration-700",
+            "absolute top-0 transition-transform duration-700",
             {
               "scale-0": !honeyReady,
               "scale-100 honey-drop-ready": honeyReady,
@@ -210,22 +231,26 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           )}
           style={{
             width: `${PIXEL_SCALE * 7}px`,
+            right: `${PIXEL_SCALE * 2}px`,
           }}
         />
         {/* Bee to indicate honey is currently being produced */}
-        {!showBeeAnimation && !landscaping && showProducingBee !== undefined && (
-          <img
-            src={bee}
-            alt="Bee"
-            className={classNames("absolute left-1/2 -translate-x-1/2", {
-              "animate-enter-hive": !showProducingBee,
-              "animate-exit-hive": showProducingBee,
-            })}
-            style={{
-              width: `${PIXEL_SCALE * 7}px`,
-            }}
-          />
-        )}
+        {!showBeeAnimation &&
+          !landscaping &&
+          showProducingBee !== undefined &&
+          !honeyReady && (
+            <img
+              src={bee}
+              alt="Bee"
+              className={classNames("absolute left-1/2 -translate-x-1/2", {
+                "animate-enter-hive": !showProducingBee,
+                "animate-exit-hive": showProducingBee,
+              })}
+              style={{
+                width: `${PIXEL_SCALE * 7}px`,
+              }}
+            />
+          )}
         {/* Progress bar for honey production */}
         {showQuantityBar && (
           <div
@@ -274,7 +299,10 @@ export const Beehive: React.FC<Props> = ({ id }) => {
               <img src={ITEM_DETAILS.Honey.image} className="w-4 mr-1" />
               <span>
                 {t("honey")}
-                {":"} {Number(honeyAmount) < 1 ? honeyAmount : t("full")}
+                {":"}{" "}
+                {Number(honeyAmount) < 1
+                  ? `${honeyPercentage}% ${t("full")}`
+                  : t("full")}
               </span>
             </div>
           </InfoPopover>
@@ -332,12 +360,59 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                       }
                     )}
                   >
-                    {Number(honeyAmount) < 1 ? honeyAmount : t("full")}
+                    {Number(honeyAmount) < 1
+                      ? `${honeyPercentage}%`
+                      : t("full")}
                   </p>
                 </div>
               </div>
             </div>
-            <Button onClick={handleHarvestHoney}>
+            {currentSpeed > 0 && !!secondsLeftUntilFull && (
+              <>
+                <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                  <Label type="default" icon={honeyDrop}>
+                    {t("beehive.yield")}
+                  </Label>
+                  <div className="text-xs mb-0.5">
+                    {t("beehive.honeyPerFullHive", {
+                      multiplier: setPrecision(new Decimal(honeyMultiplier)),
+                    })}
+                  </div>
+                </div>
+                <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                  <Label type="default" icon={lightning}>
+                    {t("beehive.speed")}
+                  </Label>
+                  <div className="text-xs mb-0.5">
+                    {t("beehive.fullHivePerDay", {
+                      speed: setPrecision(new Decimal(currentSpeed)),
+                      hive:
+                        new Decimal(currentSpeed).toNumber() > 1
+                          ? t("beehive.hives.plural")
+                          : t("beehive.hive.singular"),
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+            {currentSpeed === 0 && (
+              <Label type="warning" className="m-1 mb-2">
+                {t("beehive.honeyProductionPaused")}
+              </Label>
+            )}
+            {!!secondsLeftUntilFull && (
+              <div className="flex px-2 py-1 items-center gap-x-2 gap-y-1 flex-wrap">
+                <Label type="default" icon={SUNNYSIDE.icons.stopwatch}>
+                  {t("beehive.estimatedFull")}
+                </Label>
+                <div className="text-xs mb-0.5">
+                  {secondsToString(secondsLeftUntilFull, {
+                    length: "medium",
+                  })}
+                </div>
+              </div>
+            )}
+            <Button className="mt-1" onClick={handleHarvestHoney}>
               {t("beehive.harvestHoney")}
             </Button>
           </>

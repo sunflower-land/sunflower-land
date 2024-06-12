@@ -160,7 +160,7 @@ const BeeComponent: React.FC<Props> = ({
 
   return (
     <animated.div
-      className="absolute z-50"
+      className="absolute z-50 pointer-events-none"
       style={{
         width: `${PIXEL_SCALE * 7}px`,
         height: `${PIXEL_SCALE * 7}px`,
