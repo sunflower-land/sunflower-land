@@ -78,7 +78,7 @@ export const DepletedOilReserve: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 7}px`,
           }}
         />
-        <span className="text-sm">{`+${oilAmount}`}</span>
+        <span className="yield-text text-white font-pixel">{`+${oilAmount}`}</span>
       </Transition>
     </div>
   );
