@@ -25,11 +25,13 @@ import { useSound } from "lib/utils/hooks/useSound";
 import trophy from "assets/icons/trophy.png";
 import factions from "assets/icons/factions.webp";
 import chores from "assets/icons/chores.webp";
+import factionMark from "assets/icons/faction_mark.webp";
 import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { hasFeatureAccess } from "lib/flags";
 import { FactionsLeaderboard } from "./pages/FactionsLeaderboard";
+import { MarksLeaderboard } from "./pages/MarksLeaderboard";
 
 interface Props {
   show: boolean;
@@ -123,22 +125,28 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       icon: ITEM_DETAILS["Red Pansy"].image,
       count: 0,
     },
-    ...(hasFeatureAccess(state, "FACTION_LEADERBOARD")
+
+    {
+      name: "Leaderboard" as const,
+      icon: trophy,
+      count: 0,
+    },
+    ...(state.faction
       ? [
           {
-            name: "Leaderboard" as const,
-            icon: trophy,
+            name: "Factions" as const,
+            icon: factions,
             count: 0,
           },
-          ...(state.faction
-            ? [
-                {
-                  name: "Factions" as const,
-                  icon: factions,
-                  count: 0,
-                },
-              ]
-            : []),
+        ]
+      : []),
+    ...(hasFeatureAccess(state, "CLAIM_EMBLEMS")
+      ? [
+          {
+            name: "Marks" as const,
+            icon: factionMark,
+            count: 0,
+          },
         ]
       : []),
   ];
@@ -243,7 +251,20 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 />
               </InnerPanel>
             )}
-            {/* </InnerPanel> */}
+            {currentTab === 6 && state.faction && (
+              <InnerPanel
+                className={classNames(
+                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+                )}
+              >
+                <MarksLeaderboard
+                  id={id}
+                  faction={state.faction.name}
+                  isLoading={data === undefined}
+                  data={data?.factions ?? null}
+                />
+              </InnerPanel>
+            )}
           </div>
         </OuterPanel>
         {showMilestoneReached && (

@@ -28,7 +28,6 @@ export type FeatureName =
   | "PORTALS"
   | "EASTER"
   | "FACTIONS"
-  | "FACTION_LEADERBOARD"
   | "BANNER_SALES"
   | "PRESTIGE_DESERT"
   | "CHICKEN_RESCUE"
@@ -75,7 +74,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
     return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
   },
   FACTIONS: clashOfFactionsFeatureFlag,
-  FACTION_LEADERBOARD: clashOfFactionsFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
   PRESTIGE_DESERT: defaultFeatureFlag,
   // Just in case we need to disable the crop machine, leave the flag in temporarily
