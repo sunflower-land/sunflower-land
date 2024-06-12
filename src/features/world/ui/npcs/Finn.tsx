@@ -8,6 +8,7 @@ import { useRandomItem } from "lib/utils/hooks/useRandomItem";
 import { npcDialogues, defaultDialogue } from "../deliveries/dialogues";
 import { BeachBaitShop } from "../beach/BeachBaitShop";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -53,6 +54,7 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.finn}
+      container={OuterPanel}
       tabs={[
         { icon: SUNNYSIDE.icons.heart, name: t("buy") },
         { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
@@ -61,7 +63,7 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       currentTab={tab}
     >
       {tab === 0 && <BeachBaitShop />}
-      {tab === 1 && <DeliveryPanelContent npc="finn" onClose={onClose} />}
+      {tab === 1 && <DeliveryPanelContent npc="finn" />}
     </CloseButtonPanel>
   );
 };

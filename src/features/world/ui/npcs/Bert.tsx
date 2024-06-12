@@ -11,7 +11,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
-import bg from "assets/ui/brown_background.png";
+import bg from "assets/ui/grey_background.png";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { secondsToString } from "lib/utils/time";
@@ -113,7 +113,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             reward > 0 ? "s" : ""
           }`}
         </Button>
-        <span className="text-xs">
+        <span className="text-xs font-secondary text-center">
           {t("bert.day", { seasonalTicket: getSeasonalTicket() })}
         </span>
       </>
@@ -165,9 +165,9 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
     >
       {tab === 0 && <DeliveryPanelContent npc="bert" onClose={onClose} />}
       {tab === 1 && (
-        <div className="w-full flex flex-col items-center">
+        <div className="w-full flex flex-col items-center pt-0.5">
           {!currentObsession && (
-            <p className="text-center text-sm mb-3">{t("no.obsessions")}</p>
+            <p className="text-center text-sm my-3">{t("no.obsessions")}</p>
           )}
           {currentObsession && (
             <div className="w-full flex flex-col items-center mx-auto">
@@ -182,17 +182,16 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
                   />
                 </div>
               </div>
-              <Label type="warning" className="my-1 mx-auto">
-                <div className="flex items-center">
-                  <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
-                  <span>
-                    {"Reset in "}
-                    {secondsToString(resetSeconds, {
-                      length: "medium",
-                      removeTrailingZeros: true,
-                    })}
-                  </span>
-                </div>
+              <Label
+                type="info"
+                className="font-secondary mb-2"
+                icon={SUNNYSIDE.icons.stopwatch}
+              >
+                {"Resets in "}
+                {secondsToString(resetSeconds, {
+                  length: "medium",
+                  removeTrailingZeros: true,
+                })}
               </Label>
             </div>
           )}

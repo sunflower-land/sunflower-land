@@ -96,6 +96,7 @@ import {
 } from "../actions/sellMarketResource";
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
 import { MinigameName } from "../types/minigames";
+import { getBumpkinLevel } from "./level";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -455,6 +456,7 @@ export type BlockchainState = {
     | "transacting"
     | "depositing"
     | "landscaping"
+    | "fontReward"
     | "specialOffer"
     | "promo"
     | "trading"
@@ -570,21 +572,7 @@ export function startGame(authContext: AuthContext) {
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
-        announcements: {
-          coins: {
-            content: [
-              {
-                text: "Hello",
-              },
-            ],
-            reward: {
-              coins: 100,
-              items: {},
-            },
-            from: "betty",
-            headline: "reward",
-          },
-        },
+        announcements: {},
         moderation: {
           muted: [],
           kicked: [],
@@ -790,6 +778,7 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+
             // TODO - FIX
             // {
             //   target: "mailbox",
@@ -831,6 +820,22 @@ export function startGame(authContext: AuthContext) {
             },
 
             {
+              target: "fontReward",
+              cond: (context) => {
+                return (
+                  // Not a new account
+                  context.state.createdAt < new Date("2024-06-09").getTime() &&
+                  // Claims before period ends
+                  Date.now() < new Date("2024-06-15").getTime() &&
+                  // Has played a bit
+                  getBumpkinLevel(context.state.bumpkin?.experience ?? 0) >=
+                    10 &&
+                  !context.state.wardrobe["Pixel Perfect Hoodie"]
+                );
+              },
+            },
+
+            {
               // auctionResults needs to be the last check as it transitions directly
               // to playing. It does not target notifying.
               target: "auctionResults",
@@ -858,6 +863,14 @@ export function startGame(authContext: AuthContext) {
             ],
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+        fontReward: {
+          on: {
+            "bonus.claimed": (GAME_EVENT_HANDLERS as any)["bonus.claimed"],
+            ACKNOWLEDGE: {
+              target: "autosaving",
             },
           },
         },

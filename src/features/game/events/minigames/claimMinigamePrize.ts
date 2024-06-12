@@ -4,6 +4,8 @@ import {
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
 import cloneDeep from "lodash.clonedeep";
+import { FACTION_POINT_CUTOFF } from "../landExpansion/donateToFaction";
+import Decimal from "decimal.js-light";
 
 export function isMinigameComplete({
   game,
@@ -105,7 +107,15 @@ export function claimMinigamePrize({
 
   // Claim points
   if (!!prize.factionPoints && game.faction) {
+    if (createdAt > FACTION_POINT_CUTOFF.getTime()) {
+      throw new Error("Cannot claim faction points after cutoff");
+    }
     game.faction.points += prize.factionPoints;
+  }
+
+  if (prize.marks) {
+    const previousMarks = game.inventory["Mark"] ?? new Decimal(0);
+    game.inventory["Mark"] = previousMarks.add(prize.marks);
   }
 
   return game;

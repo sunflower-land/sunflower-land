@@ -1,7 +1,18 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { claimMinigamePrize } from "./claimMinigamePrize";
+import { FACTION_POINT_CUTOFF } from "../landExpansion/donateToFaction";
+import Decimal from "decimal.js-light";
 
 describe("minigame.prizeClaimed", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2024-05-01"));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it("requires minigame exists", () => {
     expect(() =>
       claimMinigamePrize({
@@ -155,7 +166,7 @@ describe("minigame.prizeClaimed", () => {
     ).toThrow("Already claimed chicken-rescue prize");
   });
 
-  it("claims a prize", () => {
+  it("claims a faction points prize", () => {
     const date = new Date("2024-05-05T00:00:00");
     const state = claimMinigamePrize({
       state: {
@@ -214,5 +225,122 @@ describe("minigame.prizeClaimed", () => {
         date.toISOString().substring(0, 10)
       ].prizeClaimedAt
     ).toEqual(date.getTime());
+  });
+
+  it("claims a marks prize", () => {
+    const date = new Date("2024-05-05T00:00:00");
+    const state = claimMinigamePrize({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          Mark: new Decimal(10),
+        },
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 10002000,
+          points: 0,
+          donated: {
+            daily: {
+              resources: {},
+              sfl: {
+                amount: 0,
+                day: 0,
+              },
+            },
+            totalItems: {},
+          },
+        },
+        minigames: {
+          games: {
+            "chicken-rescue": {
+              highscore: 30,
+              history: {
+                [date.toISOString().substring(0, 10)]: {
+                  attempts: 2,
+                  highscore: 30,
+                },
+              },
+            },
+          },
+          prizes: {
+            "chicken-rescue": {
+              coins: 100,
+              startAt: date.getTime() - 100,
+              endAt: date.getTime() + 1000,
+              marks: 10,
+              score: 20,
+            },
+          },
+        },
+      },
+      action: {
+        id: "chicken-rescue",
+        type: "minigame.prizeClaimed",
+      },
+      createdAt: date.getTime(),
+    });
+
+    expect(state.coins).toEqual(100);
+    expect(state.inventory["Mark"]?.toNumber()).toEqual(20);
+
+    expect(
+      state.minigames.games["chicken-rescue"]?.history?.[
+        date.toISOString().substring(0, 10)
+      ].prizeClaimedAt
+    ).toEqual(date.getTime());
+  });
+
+  it("throws if claiming faction points after cutoff", () => {
+    const date = new Date(FACTION_POINT_CUTOFF.getTime() + 1);
+
+    expect(() =>
+      claimMinigamePrize({
+        state: {
+          ...TEST_FARM,
+          faction: {
+            name: "bumpkins",
+            pledgedAt: 10002000,
+            points: 0,
+            donated: {
+              daily: {
+                resources: {},
+                sfl: {
+                  amount: 0,
+                  day: 0,
+                },
+              },
+              totalItems: {},
+            },
+          },
+          minigames: {
+            games: {
+              "chicken-rescue": {
+                highscore: 30,
+                history: {
+                  [date.toISOString().substring(0, 10)]: {
+                    attempts: 2,
+                    highscore: 30,
+                  },
+                },
+              },
+            },
+            prizes: {
+              "chicken-rescue": {
+                coins: 100,
+                startAt: date.getTime() - 100,
+                endAt: date.getTime() + 1000,
+                factionPoints: 10,
+                score: 20,
+              },
+            },
+          },
+        },
+        action: {
+          id: "chicken-rescue",
+          type: "minigame.prizeClaimed",
+        },
+        createdAt: date.getTime(),
+      })
+    ).toThrow("Cannot claim faction points after cutoff");
   });
 });

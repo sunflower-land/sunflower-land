@@ -18,25 +18,30 @@ import goblinEmblem from "assets/icons/goblin_emblem.webp";
 import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
 import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
-import { formatNumber } from "lib/utils/formatNumber";
+import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { ShareClaimedEmblems } from "./ShareClaimedEmblems";
+import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import Decimal from "decimal.js-light";
 
-const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
+export const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
   bumpkins: bumpkinEmblem,
   sunflorians: sunflorianEmblem,
   nightshades: nightshadeEmblem,
 };
 
-// TODO feat/emblem-airdrops
-const RANK = 10;
-const TOTAL_FACTION_MEMBERS = 10_000;
-const TOTAL_FACTION_EMBLEMS = 1_500_000;
-const PERCENTILE = 6;
+interface Statistics {
+  yourRank: number;
+  yourPercentile: number;
+  totalMembers: number;
+  totalEmblems: number;
+}
 
 interface ClaimEmblemsProps {
   faction: Faction;
+  farmId: number;
   playerName?: string;
+  onClaim: () => void;
   onClose: () => void;
 }
 
@@ -74,25 +79,64 @@ const Fireworks: React.FC = () => {
 
 export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
   faction,
+  farmId,
   playerName,
+  onClaim,
   onClose,
 }) => {
+  const { t } = useTranslation();
+
   const [screen, setScreen] = useState<"claiming" | "claimed" | "sharing">(
     "claiming"
   );
 
-  const { t } = useTranslation();
+  const [statistics, setStatistics] = useState<Statistics | null | undefined>(
+    undefined
+  );
 
-  const alreadyClaimed = !!faction.emblemsClaimedAt;
+  useEffect(() => {
+    const fetchLeaderboards = async () => {
+      try {
+        const data = await fetchLeaderboardData(farmId);
 
-  // Failsafe we player already claimed emblems. Should not happen.
-  if (alreadyClaimed) {
-    return (
-      <div className="p-2">
-        <InlineDialogue message={t("faction.claimEmblems.alreadyClaimed")} />
-      </div>
-    );
-  }
+        // Error
+        if (!data) {
+          setStatistics(null);
+          return;
+        }
+
+        const rankDetails = data.factions.farmRankingDetails?.find(
+          (rank) => rank.id === playerName
+        );
+        const yourRank = rankDetails?.rank;
+
+        if (yourRank) {
+          const totalMembers = data.factions.totalMembers[faction.name];
+          const totalEmblems = data.factions.totalTickets[faction.name];
+
+          const yourPercentile = (yourRank / totalMembers) * 100;
+
+          setStatistics({
+            yourRank,
+            yourPercentile,
+            totalMembers,
+            totalEmblems,
+          });
+        } else {
+          // Something went wrong searching for the leaderboard
+          // Default to the basic screens without statistics
+          setStatistics(null);
+        }
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Error loading leaderboards", e);
+
+        if (!statistics) setStatistics(null);
+      }
+    };
+
+    fetchLeaderboards();
+  }, []);
 
   // Failsafe if player has no faction points. Should not happen.
   if (!faction.points) {
@@ -104,7 +148,7 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
   }
 
   const claim = () => {
-    // TODO claim emblems event here
+    onClaim();
     setScreen("claimed");
   };
 
@@ -115,63 +159,71 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
         <div
           className="p-2"
           style={{
-            minHeight: "65px",
+            minHeight: statistics ? "65px" : "32px",
           }}
         >
           <InlineDialogue
             key="claimed"
-            message={t("faction.claimEmblems.congratulations", {
+            message={`${t("faction.claimEmblems.congratulations", {
               count: faction.points,
-            })}
+            })} ${statistics ? t("faction.claimEmblems.comparison") : ""}`}
           />
         </div>
 
-        <div className="py-2">
-          <Label type="default">{t("faction.claimEmblems.statistics")}</Label>
-        </div>
-        <OuterPanel>
-          <div className="space-y-1">
-            <div className="flex items-center justify-between">
-              <Label type="transparent">
-                {t("faction.claimEmblems.totalMembers")}
-              </Label>
-              <Label type="transparent">
-                {formatNumber(TOTAL_FACTION_MEMBERS)}
-              </Label>
-            </div>
-            <div className="flex items-center justify-between">
-              <Label type="transparent">
-                {t("faction.claimEmblems.yourRank")}
-              </Label>
-              <Label type="transparent">{RANK}</Label>
-            </div>
-            <div className="flex items-center justify-between">
-              <Label type="transparent">
-                {t("faction.claimEmblems.yourPercentile")}
-              </Label>
-              <Label type="transparent">
-                {t("faction.claimEmblems.percentile", {
-                  percentile: PERCENTILE,
-                })}
+        {statistics && (
+          <>
+            <div className="py-2">
+              <Label type="default">
+                {t("faction.claimEmblems.statistics")}
               </Label>
             </div>
 
-            <div className="flex items-center justify-between">
-              <Label type="transparent">
-                {t("faction.claimEmblems.totalEmblems")}
-              </Label>
-              <div className="flex items-center">
-                <img
-                  src={FACTION_EMBLEM_ICONS[faction.name]}
-                  className="w-4 h-auto"
-                />
-                <Label type="transparent">
-                  {formatNumber(TOTAL_FACTION_EMBLEMS)}
-                </Label>
+            <OuterPanel>
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <Label type="transparent">
+                    {t("faction.claimEmblems.totalMembers")}
+                  </Label>
+                  <Label type="transparent">{statistics.totalMembers}</Label>
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label type="transparent">
+                    {t("faction.claimEmblems.yourRank")}
+                  </Label>
+                  <Label type="transparent">{statistics.yourRank}</Label>
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label type="transparent">
+                    {t("faction.claimEmblems.yourPercentile")}
+                  </Label>
+                  <Label type="transparent">
+                    {t("faction.claimEmblems.percentile", {
+                      percentile: setPrecision(
+                        new Decimal(statistics.yourPercentile),
+                        2
+                      ).toString(),
+                    })}
+                  </Label>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <Label type="transparent">
+                    {t("faction.claimEmblems.totalEmblems")}
+                  </Label>
+                  <div className="flex items-center">
+                    <img
+                      src={FACTION_EMBLEM_ICONS[faction.name]}
+                      className="w-4 h-auto"
+                    />
+                    <Label type="transparent">
+                      {formatNumber(statistics.totalEmblems)}
+                    </Label>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </OuterPanel>
+            </OuterPanel>
+          </>
+        )}
 
         <div className="flex items-center justify-between py-2 pr-1">
           <Label
@@ -227,36 +279,43 @@ export const ClaimEmblems: React.FC<ClaimEmblemsProps> = ({
         />
       </div>
 
-      <OuterPanel className="space-y-1 ">
-        <div className="flex items-center justify-between">
-          <Label className="ml-2" type="info" icon={trophy}>
-            {t("faction.claimEmblems.yourRank")}
-          </Label>
-          <Label type="transparent">{RANK}</Label>
-        </div>
-        <div className="flex items-center justify-between">
-          <Label className="ml-2" type="warning" icon={factions}>
-            {t("faction.points.title")}
-          </Label>
+      {statistics && (
+        <>
+          <OuterPanel className="space-y-1 ">
+            <div className="flex items-center justify-between">
+              <Label className="ml-2" type="info" icon={trophy}>
+                {t("faction.claimEmblems.yourRank")}
+              </Label>
+              <Label type="transparent">{statistics.yourRank}</Label>
+            </div>
+            <div className="flex items-center justify-between">
+              <Label className="ml-2" type="warning" icon={factions}>
+                {t("faction.points.title")}
+              </Label>
 
-          <div className="flex items-center">
-            <img
-              src={FACTION_POINT_ICONS[faction.name]}
-              className="w-4 h-auto"
-            />
-            <Label type="transparent">{faction.points}</Label>
-          </div>
-        </div>
-      </OuterPanel>
+              <div className="flex items-center">
+                <img
+                  src={FACTION_POINT_ICONS[faction.name]}
+                  className="w-4 h-auto"
+                />
+                <Label type="transparent">{faction.points}</Label>
+              </div>
+            </div>
+          </OuterPanel>
 
-      <span className="leading-[1] text-[16px] p-2">
-        {t("faction.claimEmblems.claimMessage", {
-          count: faction.points,
-          Faction: capitalize(faction.name),
-          rank: RANK,
-          percentile: PERCENTILE,
-        })}
-      </span>
+          <span className="leading-[1] text-[16px] p-2">
+            {t("faction.claimEmblems.claimMessage", {
+              count: faction.points,
+              Faction: capitalize(faction.name),
+              rank: statistics.yourRank,
+              percentile: setPrecision(
+                new Decimal(statistics.yourPercentile),
+                2
+              ).toString(),
+            })}
+          </span>
+        </>
+      )}
 
       <div className="flex items-center justify-between pr-1">
         <Label

@@ -104,7 +104,9 @@ export const IslandBlacksmithItems: React.FC = () => {
           }}
           actionView={
             isAlreadyCrafted ? (
-              <p className="text-xxs text-center mb-1">{t("alr.crafted")}</p>
+              <p className="text-xxs text-center mb-1 font-secondary">
+                {t("alr.crafted")}
+              </p>
             ) : (
               <Button disabled={lessIngredients()} onClick={craft}>
                 {t("craft")}
@@ -141,9 +143,11 @@ export const IslandBlacksmithItems: React.FC = () => {
               );
             })}
           </div>
-          <div className="flex mt-2">
+          <div className="flex mt-2 mb-1">
             <img src={worldIcon} className="h-5 mr-2" />
-            <p className="text-xs">{t("statements.blacksmith.plaza")}</p>
+            <p className="font-secondary text-[20px] leading-[14px]">
+              {t("statements.blacksmith.plaza")}
+            </p>
           </div>
         </div>
       }

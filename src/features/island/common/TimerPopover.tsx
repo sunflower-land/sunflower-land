@@ -27,12 +27,12 @@ export const TimerPopover: React.FC<Props> = ({
         }
       )}
     >
-      <div className="flex flex-col text-xxs mx-2">
+      <div className="flex flex-col text-xs mx-2">
         <div className="flex flex-1 items-center justify-center">
           <img src={image} className="w-4 mr-1" />
           <span>{description}</span>
         </div>
-        <span className="flex-1 text-center">
+        <span className="flex-1 text-center font-secondary">
           {secondsToString(timeLeft, { length: "medium" })}
         </span>
       </div>

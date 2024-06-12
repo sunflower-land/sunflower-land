@@ -313,7 +313,7 @@ export const SpecialEventModalContent: React.FC<{
 
                     <div className="flex flex-col justify-center items-center">
                       <span className="text-xs capitalize text-center mb-1">
-                        {t("day")} {index + 1}
+                        {t("time.day.full")} {index + 1}
                       </span>
                       <div className="flex justify-start ml-2 h-8 items-center w-6 mb-5">
                         {getKeys(task.requirements.items).map((name) => (
@@ -366,7 +366,7 @@ export const SpecialEventModalContent: React.FC<{
             <OuterPanel className="relative flex flex-col space-y-0.5 my-2">
               <div className="flex justify-between items-center">
                 <Label type="default" className="capitalize">
-                  {t("day")} {selectedIndex + 1}
+                  {t("time.day.full")} {selectedIndex + 1}
                 </Label>
                 {selected.completedAt && (
                   <Label type="success" icon={SUNNYSIDE.icons.confirm}>

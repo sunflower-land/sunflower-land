@@ -23,7 +23,7 @@ export type LabelType =
   | "formula"
   | "chill";
 
-const LABEL_STYLES: Record<
+export const LABEL_STYLES: Record<
   LabelType,
   { background: string; textColour: string; borderStyle: React.CSSProperties }
 > = {
@@ -52,7 +52,7 @@ const LABEL_STYLES: Record<
   transparent: {
     background: "none",
     borderStyle: {},
-    textColour: "#ffffff",
+    textColour: "#181425",
   },
   // Special
   vibrant: {
@@ -64,7 +64,7 @@ const LABEL_STYLES: Record<
   warning: {
     background: "#f09100",
     borderStyle: pixelOrangeBorderStyle,
-    textColour: "#ffffff",
+    textColour: "#3e2731",
   },
   chill: {
     background: "#e4a672",
@@ -104,7 +104,7 @@ export const Label: React.FC<Props> = ({
       onClick={onClick}
       className={classnames(
         className,
-        `w-fit justify-center flex items-center`,
+        `w-fit justify-center flex items-center text-xs`,
         {
           relative: !className?.includes("absolute"),
           "cursor-pointer": !!onClick,
@@ -120,14 +120,10 @@ export const Label: React.FC<Props> = ({
         ...style,
 
         // Normal font styles
-        textShadow:
-          LABEL_STYLES[type].textColour === "#ffffff"
-            ? "1px 1px #1f1f1f"
-            : "none",
-
-        // Pixel Font styles
-        // fontFamily: "TinyFont",
-        // textShadow: "none",
+        // textShadow:
+        //   LABEL_STYLES[type].textColour === "#ffffff"
+        //     ? "1px 1px #1f1f1f"
+        //     : "none",
       }}
     >
       {icon && (
@@ -142,16 +138,15 @@ export const Label: React.FC<Props> = ({
         />
       )}
       <span
+        className="text-xs pt-0 pb-0.5"
         style={{
           textAlign: "center",
-          lineHeight: "15px",
           // Normal font styles
-          fontSize: "13px",
-          marginTop: "-2px",
 
           // Pixel Font styles
           // paddingTop: "2px",
-          // fontSize: `10px`,
+          // fontSize: `22px`,
+          fontSize: "inherit",
         }}
       >
         {children}

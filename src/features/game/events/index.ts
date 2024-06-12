@@ -318,6 +318,11 @@ import {
   HarvestCropMachineAction,
 } from "./landExpansion/harvestCropMachine";
 import { joinFaction, JoinFactionAction } from "./landExpansion/joinFaction";
+import { claimEmblems, ClaimEmblemsAction } from "./landExpansion/claimEmblems";
+import {
+  completeKingdomChore,
+  CompleteKingdomChoreAction,
+} from "./landExpansion/completeKingdomChore";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -410,7 +415,9 @@ export type PlayingEvent =
   | HarvestCropMachineAction
   | SupplyCookingOilAction
   | PledgeFactionAction
-  | JoinFactionAction;
+  | JoinFactionAction
+  | ClaimEmblemsAction
+  | CompleteKingdomChoreAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -569,6 +576,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,
   "cookingOil.supplied": supplyCookingOil,
+  "emblems.claimed": claimEmblems,
+  "kingdomChore.completed": completeKingdomChore,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

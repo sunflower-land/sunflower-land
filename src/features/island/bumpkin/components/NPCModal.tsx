@@ -19,6 +19,7 @@ import { Equipped } from "features/game/types/bumpkin";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BuildingName } from "features/game/types/buildings";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   isOpen: boolean;
@@ -77,8 +78,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
       show={isOpen}
       onHide={() => {
         onClose();
-        if (showLevelUp && bumpkinLevel.current === 3) {
-          openModal("THIRD_LEVEL");
+        if (showLevelUp && bumpkinLevel.current === 2) {
+          openModal("SECOND_LEVEL");
         }
 
         setTimeout(() => setShowLevelUp(false), 500);
@@ -89,8 +90,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
           onClose={() => {
             onClose();
 
-            if (bumpkinLevel.current === 3) {
-              openModal("THIRD_LEVEL");
+            if (bumpkinLevel.current === 2) {
+              openModal("SECOND_LEVEL");
             }
 
             setTimeout(() => setShowLevelUp(false), 500);
@@ -103,8 +104,8 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
             onClose={() => {
               onClose();
 
-              if (bumpkinLevel.current === 3) {
-                openModal("THIRD_LEVEL");
+              if (bumpkinLevel.current === 2) {
+                openModal("SECOND_LEVEL");
               }
 
               setTimeout(() => setShowLevelUp(false), 500);
@@ -117,6 +118,7 @@ export const NPCModal: React.FC<Props> = ({ isOpen, onClose }) => {
           onClose={onClose}
           tabs={[{ icon: foodIcon, name: t("feed.bumpkin") }]}
           bumpkinParts={state.bumpkin?.equipped}
+          container={OuterPanel}
         >
           <Feed food={availableFood} />
         </CloseButtonPanel>

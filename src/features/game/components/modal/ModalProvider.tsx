@@ -14,7 +14,8 @@ type GlobalModal =
   | "STORE_ON_CHAIN"
   | "FIRST_EXPANSION"
   | "NEXT_EXPANSION"
-  | "THIRD_LEVEL"
+  | "SECOND_LEVEL"
+  | "FIREPIT"
   | "BETTY"
   | "BLACKSMITH";
 
@@ -95,17 +96,27 @@ export const ModalProvider: FC = ({ children }) => {
             {
               text: translate("betty.market-intro.two"),
             },
-            {
-              text: translate("betty.market-intro.three"),
-            },
-            {
-              text: translate("betty.market-intro.four"),
-            },
           ]}
           onClose={handleClose}
           bumpkinParts={NPC_WEARABLES.betty}
         />
       </Modal>
+
+      <Modal show={opened === "FIREPIT"}>
+        <SpeakingModal
+          message={[
+            {
+              text: translate("firepit-intro.one"),
+            },
+            {
+              text: translate("firepit-intro.two"),
+            },
+          ]}
+          onClose={handleClose}
+          bumpkinParts={NPC_WEARABLES.bruce}
+        />
+      </Modal>
+
       <Modal show={opened === "BLACKSMITH"}>
         <SpeakingModal
           message={[
@@ -123,7 +134,7 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
-      <Modal show={opened === "THIRD_LEVEL"}>
+      <Modal show={opened === "SECOND_LEVEL"}>
         <SpeakingModal
           message={[
             {
@@ -134,9 +145,6 @@ export const ModalProvider: FC = ({ children }) => {
             },
             {
               text: translate("pete.levelthree.three"),
-            },
-            {
-              text: translate("pete.levelthree.four"),
             },
           ]}
           onClose={handleClose}

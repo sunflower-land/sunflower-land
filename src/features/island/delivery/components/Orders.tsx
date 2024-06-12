@@ -11,7 +11,7 @@ import coinsImg from "assets/icons/coins.webp";
 import worldIcon from "assets/icons/world_small.png";
 import heartBg from "assets/ui/heart_bg.png";
 import chest from "assets/icons/chest.png";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";
@@ -21,16 +21,20 @@ import {
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import { Order } from "features/game/types/game";
+import { Inventory, Order } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
-import { acknowledgeOrders, generateDeliveryMessage } from "../lib/delivery";
+import {
+  DELIVERY_LEVELS,
+  acknowledgeOrders,
+  generateDeliveryMessage,
+} from "../lib/delivery";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Button } from "components/ui/Button";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -40,6 +44,9 @@ import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
+import { Loading } from "features/auth/components";
+import { useNavigate } from "react-router-dom";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -70,8 +77,34 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _sfl = (state: MachineState) => state.context.state.balance;
 const _coins = (state: MachineState) => state.context.state.coins;
 
+export function hasOrderRequirements({
+  order,
+  sfl,
+  coins,
+  inventory,
+}: {
+  sfl: Decimal;
+  coins: number;
+  inventory: Inventory;
+  order?: Order;
+}) {
+  if (!order) return false;
+
+  return getKeys(order.items).every((name) => {
+    if (name === "coins") return coins >= (order.items[name] ?? 0);
+    if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
+
+    const amount = order.items[name] || new Decimal(0);
+    const count = inventory[name] || new Decimal(0);
+
+    return count.gte(amount);
+  });
+}
+
 export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
   const { gameService } = useContext(Context);
+
+  const navigate = useNavigate();
 
   const delivery = useSelector(gameService, _delivery);
   const inventory = useSelector(gameService, _inventory);
@@ -111,20 +144,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     gameService.send("SAVE");
   };
 
-  const hasRequirements = (order?: Order) => {
-    if (!order) return false;
-
-    return getKeys(order.items).every((name) => {
-      if (name === "coins") return coins >= (order.items[name] ?? 0);
-      if (name === "sfl") return sfl.gte(order.items[name] ?? 0);
-
-      const amount = order.items[name] || new Decimal(0);
-      const count = inventory[name] || new Decimal(0);
-
-      return count.gte(amount);
-    });
-  };
-
   const select = (id: string) => {
     setShowSkipDialog(false);
     onSelect(id);
@@ -139,16 +158,6 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     delivery.milestone.goal -
       (delivery.milestone.total - delivery.fulfilledCount)
   );
-
-  const reachMilestone = () => {
-    gameService.send("REVEAL", {
-      event: {
-        type: "delivery.milestoneReached",
-        createdAt: new Date(),
-      },
-    });
-    setIsRevealing(true);
-  };
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
@@ -177,18 +186,42 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
     ticketTasksAreFrozen,
   } = getSeasonChangeover({ id: gameService.state.context.farmId });
 
+  const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
+  const nextNpcUnlock = getKeys(DELIVERY_LEVELS).find(
+    (npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0)
+  );
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
-      <div
-        className={classNames("md:flex flex-col w-full md:w-2/3 h-full", {
-          hidden: selectedId,
-        })}
+      <InnerPanel
+        className={classNames(
+          "flex flex-col h-full overflow-hidden overflow-y-auto scrollable md:flex flex-col w-full md:w-2/3 h-full",
+          {
+            hidden: selectedId,
+          }
+        )}
       >
+        <div className="p-1">
+          <div className="flex justify-between">
+            <Label type="default">{t("deliveries")}</Label>
+            {!ticketTasksAreFrozen && (
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                {`${t("new.delivery.in")} ${secondsToString(
+                  secondsTillReset(),
+                  {
+                    length: "short",
+                  }
+                )}`}
+              </Label>
+            )}
+          </div>
+          <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
+        </div>
         {
           // Give 24 hours heads up before tasks close
           ticketTasksAreClosing && (
             <div className="flex flex-col mx-2 mb-1 space-y-1.5">
-              <p className="text-xxs">{t("orderhelp.New.Season")}</p>
+              <p className="text-xs">{t("orderhelp.New.Season")}</p>
               <Label type="info" icon={SUNNYSIDE.icons.timer} className="mt-1">
                 {secondsToString((tasksCloseAt - Date.now()) / 1000, {
                   length: "full",
@@ -199,7 +232,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
         }
         {ticketTasksAreFrozen && (
           <div className="flex flex-col mx-2 mb-1 space-y-1.5">
-            <p className="text-xxs">{t("orderhelp.New.Season.arrival")}</p>
+            <p className="text-xs">{t("orderhelp.New.Season.arrival")}</p>
             <Label
               type="info"
               icon={SUNNYSIDE.icons.stopwatch}
@@ -221,23 +254,20 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
 
             return (
               <div className="py-1 px-2" key={order.id}>
-                <OuterPanel
+                <ButtonPanel
                   onClick={() => select(order.id)}
-                  className={classNames(
-                    "w-full cursor-pointer hover:bg-brown-200 !py-2 relative",
-                    {
-                      "sm:!bg-brown-200 sm:img-highlight":
-                        order.id === previewOrder?.id,
-                    }
-                  )}
+                  className={classNames("w-full  !py-2 relative", {
+                    "sm:!bg-brown-200": order.id === previewOrder?.id,
+                  })}
                   style={{ paddingBottom: "20px" }}
                 >
-                  {hasRequirements(order) && !order.completedAt && (
-                    <img
-                      src={SUNNYSIDE.icons.heart}
-                      className="absolute top-0.5 right-0.5 w-3 sm:w-4"
-                    />
-                  )}
+                  {hasOrderRequirements({ order, coins, sfl, inventory }) &&
+                    !order.completedAt && (
+                      <img
+                        src={SUNNYSIDE.icons.heart}
+                        className="absolute top-0.5 right-0.5 w-3 sm:w-4"
+                      />
+                    )}
 
                   <div className="flex flex-col pb-2">
                     <div className="flex items-center my-1">
@@ -282,8 +312,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       type="warning"
                       iconWidth={8}
                       icon={sflIcon}
-                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                      style={{ width: "calc(100% + 15px)" }}
+                      className={"absolute -bottom-2 text-center p-1 "}
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        height: "25px",
+                      }}
                     >
                       {`${`${makeRewardAmountForLabel(order)}`}`}
                     </Label>
@@ -292,8 +327,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <Label
                       type="warning"
                       icon={coinsImg}
-                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                      style={{ width: "calc(100% + 15px)" }}
+                      className={"absolute -bottom-2 text-center p-1 "}
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        height: "25px",
+                      }}
                     >
                       {`${makeRewardAmountForLabel(order)}`}
                     </Label>
@@ -302,8 +342,13 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     <Label
                       icon={ITEM_DETAILS[getSeasonalTicket()].image}
                       type="warning"
-                      className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-                      style={{ width: "calc(100% + 15px)" }}
+                      className={"absolute -bottom-2 text-center p-1 "}
+                      style={{
+                        left: `${PIXEL_SCALE * -3}px`,
+                        right: `${PIXEL_SCALE * -3}px`,
+                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                        height: "25px",
+                      }}
                     >
                       {tickets}
                     </Label>
@@ -331,10 +376,49 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       />
                     </div>
                   )}
-                </OuterPanel>
+                </ButtonPanel>
               </div>
             );
           })}
+          {nextNpcUnlock && (
+            <div className="py-1 px-2">
+              <ButtonPanel
+                disabled
+                className={classNames(
+                  "w-full  !py-2 relative h-full flex items-center justify-center cursor-not-allowed"
+                )}
+                style={{ paddingBottom: "20px" }}
+              >
+                <div className="flex flex-col pb-2">
+                  <div className="flex items-center my-1">
+                    <div className="relative mb-2 mr-0.5 -ml-1">
+                      <NPCIcon parts={NPC_WEARABLES[nextNpcUnlock]} />
+                    </div>
+                    <div className="flex-1 flex justify-center h-8 items-center w-6 ">
+                      <img
+                        src={SUNNYSIDE.icons.expression_confused}
+                        className="h-6 img-highlight"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <Label
+                  type="formula"
+                  icon={lockIcon}
+                  className={"absolute -bottom-2 text-center p-1 "}
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    height: "25px",
+                  }}
+                >
+                  {`Lvl ${DELIVERY_LEVELS[nextNpcUnlock]}`}
+                </Label>
+              </ButtonPanel>
+            </div>
+          )}
         </div>
         {nextOrder && !skippedOrder && (
           <div className="w-1/2 sm:w-1/3 p-1">
@@ -362,34 +446,27 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
               className="w-full !py-2 relative"
               style={{ height: "80px" }}
             >
-              <p className="text-center mb-0.5 mt-1 text-sm loading">
-                {t("skipping")}
-              </p>
+              <Loading
+                className="text-center mb-0.5 mt-1 text-sm loading"
+                text={t("skipping")}
+              />
             </OuterPanel>
           </div>
         )}
-
-        <div className="flex items-center mb-1 mt-2">
-          <div className="w-6">
-            <img src={lockIcon} className="h-4 mx-auto" />
-          </div>
-          <span className="text-xs">{t("new.delivery.levelup")}</span>
-        </div>
-      </div>
+      </InnerPanel>
       {previewOrder && (
-        <OuterPanel
+        <InnerPanel
           className={classNames(
-            "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-full w-full",
+            "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-auto w-full",
             {
               hidden: !selectedId,
-              "mt-[24px] md:mt-0": true,
             }
           )}
         >
           <img
             src={SUNNYSIDE.icons.arrow_left}
             className={classNames(
-              "absolute -top-9 left-0 h-6 w-6 cursor-pointer md:hidden z-10",
+              "absolute top-2 left-2 h-6 w-6 cursor-pointer md:hidden z-10",
               {
                 hidden: !selectedId,
                 block: !!selectedId,
@@ -405,7 +482,14 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 "linear-gradient(0deg, rgba(4,159,224,1) 0%, rgba(31,109,213,1) 100%)",
             }}
           >
-            <p className="z-10 absolute bottom-1 right-1.5 capitalize text-xs">
+            <p
+              className="z-10 absolute bottom-1 right-1.5 capitalize text-xs"
+              style={{
+                background: "#ffffff9e",
+                padding: "2px",
+                borderRadius: "3px",
+              }}
+            >
               {previewOrder.from}
             </p>
 
@@ -431,7 +515,9 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {canSkip && <p className="text-xs">{t("choose.wisely")}</p>}
                 {!canSkip && (
                   <>
-                    <p className="text-xs">{t("orderhelp.SkipIn")}</p>
+                    <p className="text-xs font-secondary">
+                      {`${t("orderhelp.SkipIn")}:`}
+                    </p>
                     <div className="flex-1">
                       <RequirementLabel
                         type="time"
@@ -528,6 +614,43 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   );
                 })}
               </div>
+              {hasOrderRequirements({
+                order: previewOrder,
+                sfl,
+                coins,
+                inventory,
+              }) && (
+                <Button
+                  className="!text-xs !mt-0 !-mb-1"
+                  onClick={() => {
+                    if (
+                      RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
+                      navigate("/world/retreat");
+                    } else if (
+                      BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
+                      navigate("/world/beach");
+                    } else if (
+                      KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
+                    ) {
+                      navigate("/world/kingdom");
+                    } else {
+                      navigate("/world/plaza");
+                    }
+                  }}
+                >
+                  {`${t("world.travelTo")} ${
+                    RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
+                      ? t("world.retreatShort")
+                      : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                      ? t("world.beach")
+                      : KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
+                      ? t("world.kingdom")
+                      : t("world.plazaShort")
+                  }`}
+                </Button>
+              )}
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />
@@ -535,7 +658,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 </div>
               ) : (
                 <p
-                  className="underline text-xxs pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
+                  className="underline font-secondary text-[20px] pb-1 pt-0.5 cursor-pointer hover:text-blue-500"
                   onClick={() => setShowSkipDialog(true)}
                 >
                   {t("skip.order")}
@@ -557,7 +680,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                 {t("deliveries.closed")}
               </Label>
             )}
-        </OuterPanel>
+        </InnerPanel>
       )}
     </div>
   );

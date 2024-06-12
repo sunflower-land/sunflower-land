@@ -77,7 +77,7 @@ const DepletingTreeComponent: React.FC<Props> = ({ resourceAmount }) => {
               width: `${PIXEL_SCALE * 11}px`,
             }}
           />
-          <span className="text-sm">{`+${resourceAmount}`}</span>
+          <span className="yield-text text-white font-pixel">{`+${resourceAmount}`}</span>
         </div>
       )}
     </div>

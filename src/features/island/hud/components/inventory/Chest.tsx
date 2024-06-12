@@ -42,6 +42,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TREE_VARIANTS } from "features/island/resources/Resource";
 import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
+import { InnerPanel } from "components/ui/Panel";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -131,7 +132,7 @@ export const Chest: React.FC<Props> = ({
 
   if (chestIsEmpty) {
     return (
-      <div className="flex flex-col justify-evenly items-center p-2">
+      <InnerPanel className="flex flex-col justify-evenly items-center px-2 !py-[50px]">
         <img
           src={chest}
           alt="Empty Chest"
@@ -153,7 +154,7 @@ export const Chest: React.FC<Props> = ({
             {t("statements.wallet.to.inventory.transfer")}
           </p>
         )}
-      </div>
+      </InnerPanel>
     );
   }
 

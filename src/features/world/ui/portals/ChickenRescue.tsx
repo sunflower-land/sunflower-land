@@ -10,6 +10,7 @@ import { Label } from "components/ui/Label";
 import coins from "assets/icons/coins.webp";
 import factions from "assets/icons/factions.webp";
 import flagIcon from "assets/icons/faction_point.webp";
+import markIcon from "assets/icons/faction_mark.webp";
 
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
@@ -62,6 +63,11 @@ export const MinigamePrizeUI: React.FC<{
                 {`${prize.factionPoints} Faction Points`}
               </Label>
             )}
+            {prize.marks && (
+              <Label icon={markIcon} type="warning">
+                {`${prize.marks} Marks`}
+              </Label>
+            )}
             {!!prize.coins && (
               <Label icon={coins} type="warning">
                 {prize.coins}
@@ -93,9 +99,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           <Label type="default" className="mb-1" icon={factions}>
             {t("minigame.chickenRescue")}
           </Label>
-          <div className="h-6">
-            <InlineDialogue message={t("minigame.comingSoon")} />
-          </div>
+          <InlineDialogue message={t("minigame.comingSoon")} />
         </div>
       </>
     );
@@ -163,9 +167,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           <Label type="default" className="mb-1" icon={factions}>
             {t("minigame.chickenRescue")}
           </Label>
-          <div className="h-6">
-            <InlineDialogue message={t("minigame.chickenRescueHelp")} />
-          </div>
+          <InlineDialogue message={t("minigame.chickenRescueHelp")} />
         </div>
 
         <MinigamePrizeUI prize={prize} history={dailyAttempt} />

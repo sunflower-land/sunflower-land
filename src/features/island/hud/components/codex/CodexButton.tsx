@@ -27,7 +27,11 @@ export const CodexButton: React.FC = () => {
   const deliveries = useSelector(gameService, _delivery);
   const level = useSelector(gameService, _level);
 
-  const hasDeliveries = hasNewOrders(deliveries) && level >= 2;
+  const hasDeliveries =
+    // Show if any new orders has popped up (but not for new players)
+    (hasNewOrders(deliveries) && level >= 2) ||
+    // For new players, always show until they fulfill a delivery
+    (level >= 2 && deliveries.fulfilledCount === 0);
 
   const { t } = useAppTranslation();
 

@@ -36,7 +36,7 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
         <Label type="default">{`${seasonTicket} ${t(
           "leaderboard.leaderboard"
         )}`}</Label>
-        <p className="text-[12px]">
+        <p className="font-secondary text-xs">
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
         </p>
       </div>

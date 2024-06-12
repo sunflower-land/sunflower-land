@@ -176,6 +176,7 @@ import {
   CropMachine,
   RemoveCropMachine,
   Username,
+  EasterEggKeys,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -264,7 +265,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "物品：",
   land: "农场",
   "last.updated": "最近更新时间：",
-  left: "剩余", // context is amount of stock left, Megashop time left
   "lets.go": "走吧！",
   limit: "上限", // Megastore error message, Limit: Balance / Limit
   list: "上架",
@@ -432,16 +432,41 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Plural Forms
-  sec: "秒",
-  min: "分",
-  hr: "时",
-  day: "天",
+  // Full Singular
+  "time.second.full": "秒",
+  "time.minute.full": "分钟",
+  "time.hour.full": "小时",
+  "time.day.full": "天",
 
-  secs: "秒",
-  mins: "分",
-  hrs: "时",
-  days: "天",
+  // Full Plural
+  "time.seconds.full": "秒",
+  "time.minutes.full": "分钟",
+  "time.hours.full": "小时",
+  "time.days.full": "天",
+
+  // Medium Singular
+  "time.sec.med": "秒",
+  "time.min.med": "分钟",
+  "time.hr.med": "小时",
+  "time.day.med": "天",
+
+  // Medium Plural
+  "time.secs.med": "秒",
+  "time.mins.med": "分钟",
+  "time.hrs.med": "小时",
+  "time.days.med": "天",
+
+  // Short
+  "time.second.short": "秒",
+  "time.minute.short": "分钟",
+  "time.hour.short": "小时",
+  "time.day.short": "天",
+
+  // Relative Time
+  "time.seconds.ago": "{{time}} {{secondORseconds}} 前",
+  "time.minutes.ago": "{{time}} {{minuteORminutes}} 前",
+  "time.hours.ago": "{{time}} {{hourORhours}} 前",
+  "time.days.ago": "{{time}} {{dayORdays}} 前",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {
@@ -1006,6 +1031,7 @@ const bumpkinTrade: Record<BumpkinTrade, string> = {
   "bumpkinTrade.maximumFloor": "最高单价： {{max}}",
   "bumpkinTrade.sellConfirmation":
     "确认卖出 {{quantity}} {{resource}} 以赚 {{price}} SFL？",
+  "bumpkinTrade.cant.sell.all": ENGLISH_TERMS["bumpkinTrade.cant.sell.all"],
 };
 
 const buyFarmHand: Record<BuyFarmHand, string> = {
@@ -1045,6 +1071,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason": "新时季就要来临，日常农活暂时停单。",
   "chores.choresFrozen":
     "新时季日常农活即将发单。先前时季的日常农活与进度会被重置。",
+  "chores.left": ENGLISH_TERMS["chores.left"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -1111,6 +1138,8 @@ const composterDescription: Record<ComposterDescription, string> = {
 const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops":
     "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
+  "confirmation.buyCrops":
+    "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -1118,6 +1147,8 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
+  "firepit-intro.one": ENGLISH_TERMS["firepit-intro.one"],
+  "firepit-intro.two": ENGLISH_TERMS["firepit-intro.two"],
   "hank-intro.headline": "帮帮老人家？",
   "hank-intro.one": "好喂，乡包佬！欢迎来到我们这小块桃园天堂。",
   "hank-intro.two": "我在这儿耕地已有 50 余年了，但帮手当然也不嫌少。",
@@ -1291,6 +1322,10 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.totalCrops": "{{cropName}} 总产出： {{total}}",
   "cropMachine.totalRuntime": "总运行时长： {{time}}",
   "cropMachine.totalSeeds": "总播下种子： {{total}}",
+  "cropMachine.running": ENGLISH_TERMS["cropMachine.running"],
+  "cropMachine.stopped": ENGLISH_TERMS["cropMachine.stopped"],
+  "cropMachine.idle": ENGLISH_TERMS["cropMachine.idle"],
+  "cropMachine.name": ENGLISH_TERMS["cropMachine.name"],
 };
 
 const decorationDescriptions: Record<DecorationDescriptions, string> = {
@@ -1657,6 +1692,10 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.farmingTips": "要是您正苦苦寻觅农业技巧和窍门，来这儿就对了！",
   "discord.bonus.freeGift": "最妙的是……每个加入的人都会得到一份礼物！",
   "discord.bonus.connect": "连接 Discord",
+  "fontReward.bonus.claim": ENGLISH_TERMS["fontReward.bonus.claim"],
+  "fontReward.bonus.intro1": ENGLISH_TERMS["fontReward.bonus.intro1"],
+  "fontReward.bonus.intro2": ENGLISH_TERMS["fontReward.bonus.intro2"],
+  "fontReward.bonus.intro3": ENGLISH_TERMS["fontReward.bonus.intro3"],
 };
 
 const donation: Record<Donation, string> = {
@@ -1807,6 +1846,7 @@ const factions: Record<Factions, string> = {
   "faction.points.title": "派系点数",
   "faction.points.pledge.warning": "请效忠一宗派系以获取派系点数！",
   "faction.emblemAirdrop": ENGLISH_TERMS["faction.emblemAirdrop"],
+  "faction.emblemAirdrop.closes": ENGLISH_TERMS["faction.emblemAirdrop.closes"],
 
   // Kingdom
   "faction.restrited.area": ENGLISH_TERMS["faction.restrited.area"],
@@ -1840,12 +1880,17 @@ const factions: Record<Factions, string> = {
   "faction.claimEmblems.claim": ENGLISH_TERMS["faction.claimEmblems.claim"],
   "faction.claimEmblems.congratulations":
     ENGLISH_TERMS["faction.claimEmblems.congratulations"],
+  "faction.claimEmblems.comparison":
+    ENGLISH_TERMS["faction.claimEmblems.comparison"],
   "faction.claimEmblems.totalMembers":
     ENGLISH_TERMS["faction.claimEmblems.totalMembers"],
   "faction.claimEmblems.totalEmblems":
     ENGLISH_TERMS["faction.claimEmblems.totalEmblems"],
   "faction.claimEmblems.percentile":
     ENGLISH_TERMS["faction.claimEmblems.percentile"],
+  "faction.claimEmblems.travelNow":
+    ENGLISH_TERMS["faction.claimEmblems.travelNow"],
+  "faction.claimEmblems.visitMe": ENGLISH_TERMS["faction.claimEmblems.visitMe"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -2234,6 +2279,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     ENGLISH_TERMS["description.sunflorian.emblem"],
   "description.nightshade.emblem":
     ENGLISH_TERMS["description.nightshade.emblem"],
+  "description.faction.mark": ENGLISH_TERMS["description.faction.mark"],
 };
 
 const gameTerms: Record<GameTerms, string> = {
@@ -2259,6 +2305,8 @@ const gameTerms: Record<GameTerms, string> = {
   "harvest.number": ENGLISH_TERMS["harvest.number"],
   "level.number": ENGLISH_TERMS["level.number"],
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "stock.left": "剩下 {{stock}} 个",
+  "stock.inStock": "库存 {{stock}} 个",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -2316,8 +2364,8 @@ const goldTooth: Record<GoldTooth, string> = {
 };
 
 const guideCompost: Record<GuideCompost, string> = {
-  "guide.compost.add.eggs.speed": "添加鸡蛋以加快生产速度",
-  "guide.compost.add.eggs": "添加鸡蛋",
+  "guide.compost.addEggs.speed": "添加鸡蛋以加快生产速度",
+  "guide.compost.addEggs": "添加鸡蛋",
   "guide.compost.eggs": "鸡蛋",
   "guide.compost.cropGrowthTime": "-50% 庄稼生长时间",
   "guide.compost.fishingBait": "鱼饵",
@@ -2326,6 +2374,8 @@ const guideCompost: Record<GuideCompost, string> = {
     "一个堆肥周期可以生产多个肥料，可用来促进你的作物和水果生长",
   "guide.compost.yieldsWorms": "每个堆肥产出的蚯蚓可以用作钓鱼的饵",
   "guide.compost.useEggs": "厌倦了等待？使用鸡蛋来加速堆肥生产",
+  "guide.compost.addEggs.confirmation":
+    ENGLISH_TERMS["guide.compost.addEggs.confirmation"],
 };
 
 const guideTerms: Record<GuideTerms, string> = {
@@ -3552,11 +3602,6 @@ const npcDialogues: Record<NpcDialogues, string> = {
     ENGLISH_TERMS["npcDialogues.default.goodFlower"],
   "npcDialogues.default.reward": ENGLISH_TERMS["npcDialogues.default.reward"],
   "npcDialogues.default.locked": ENGLISH_TERMS["npcDialogues.default.locked"],
-  // Glinteye
-  "npcDialogues.glinteye.intro1": ENGLISH_TERMS["npcDialogues.glinteye.intro1"],
-  "npcDialogues.glinteye.intro2": ENGLISH_TERMS["npcDialogues.glinteye.intro2"],
-  "npcDialogues.glinteye.intro3": ENGLISH_TERMS["npcDialogues.glinteye.intro3"],
-  "npcDialogues.glinteye.intro4": ENGLISH_TERMS["npcDialogues.glinteye.intro4"],
 };
 
 const nyeButton: Record<NyeButton, string> = {
@@ -3804,12 +3849,15 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
   "restrictionReason.buildingInUse":
     ENGLISH_TERMS["restrictionReason.buildingInUse"],
+  "restrictionReason.beehiveInUse":
+    ENGLISH_TERMS["restrictionReason.beehiveInUse"],
 };
 
 const restock: Record<Restock, string> = {
   "restock.one.buck": "你将使用1个Blockbuck来补充游戏中所有商店的物品。",
   "restock.sure": "你确定要补货吗？",
-  "restock.seed.buy": "你的篮子里的种子太多了！",
+  "restock.tooManySeeds": "你的篮子里的种子太多了！",
+  "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
@@ -4065,7 +4113,6 @@ const statements: Record<Statements, string> = {
   "statements.water.well.needed.two":
     "为了支持更多的庄稼，建造更多的 Water Well。",
   "statements.soldOut": "售罄",
-  "statements.inStock": "库存",
   "statements.soldOutWearables": ENGLISH_TERMS["statements.soldOutWearables"],
   "statements.craft.composter": ENGLISH_TERMS["statements.craft.composter"],
   "statements.wallet.to.inventory.transfer":
@@ -4336,7 +4383,11 @@ const withdraw: Record<Withdraw, string> = {
 const world: Record<World, string> = {
   "world.intro.one": "你好，旅行者！欢迎来到南瓜广场。",
   "world.intro.two": "广场上住着一群饥饿的乡巴佬和妖精，他们需要你的帮助！",
-  "world.intro.three": "踏上旅程之前，请注意以下几点：",
+  "world.intro.delivery": ENGLISH_TERMS["world.intro.delivery"],
+  "world.intro.levelUpToTravel": ENGLISH_TERMS["world.intro.levelUpToTravel"],
+  "world.intro.find": ENGLISH_TERMS["world.intro.find"],
+  "world.intro.findNPC": ENGLISH_TERMS["world.intro.findNPC"],
+  "world.intro.missingDelivery": ENGLISH_TERMS["world.intro.missingDelivery"],
   "world.intro.visit":
     "与非玩家角色进行互动并成功完成运送任务以获取 SFL 和特殊奖励。",
   "world.intro.craft": "在不同的商店制作稀有的收藏品、可穿戴物品和装饰品。",
@@ -4357,6 +4408,9 @@ const world: Record<World, string> = {
   "world.home": "家园",
   "world.kingdom": "王国",
   "world.woodlands": "林地",
+  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
+  "world.plazaShort": ENGLISH_TERMS["world.plazaShort"],
+  "world.retreatShort": ENGLISH_TERMS["world.retreatShort"],
 };
 
 const wornDescription: Record<WornDescription, string> = {
@@ -4392,6 +4446,10 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.logout": "登出",
   "gameOptions.confirmLogout": "您确定要登出吗？",
 
+  "gameOptions.generalSettings.darkMode": "酷黑",
+  "gameOptions.generalSettings.font": "字体",
+  "gameOptions.generalSettings.lightMode": "明亮",
+
   // Testnet
   "gameOptions.amoyActions": ENGLISH_TERMS["gameOptions.amoyActions"], // Testnet
   "gameOptions.amoyActions.timeMachine":
@@ -4417,6 +4475,7 @@ const gameOptions: Record<GameOptions, string> = {
   "gameOptions.plazaSettings": "广场设置",
   "gameOptions.plazaSettings.title.mutedPlayers": "静音玩家",
   "gameOptions.plazaSettings.title.keybinds": "按键绑定",
+  "gameOptions.generalSettings.appearance": "外观",
   "gameOptions.plazaSettings.mutedPlayers.description":
     "如果您使用 /mute 命令将某些玩家静音，您可以在此处查看并取消静音。",
   "gameOptions.plazaSettings.keybinds.description":
@@ -4461,6 +4520,20 @@ const minigame: Record<Minigame, string> = {
   "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
   "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
   "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
+};
+
+export const easterEggTerms: Record<EasterEggKeys, string> = {
+  "easterEgg.queensDiary": "Victoria's Diary",
+  "easterEgg.jesterDiary": "Jester's Diary",
+  "easterEgg.tywinDiary": "Tywin's Diary",
+  "easterEgg.kingDiary": "King's Diary",
+  "easterEgg.knight": ENGLISH_TERMS["easterEgg.knight"],
+  "easterEgg.lostKnight": ENGLISH_TERMS["easterEgg.lostKnight"],
+  "easterEgg.kingdomBook1": ENGLISH_TERMS["easterEgg.kingdomBook1"],
+  "easterEgg.kingdomBook2": ENGLISH_TERMS["easterEgg.kingdomBook2"],
+  "easterEgg.kingdomBook3": ENGLISH_TERMS["easterEgg.kingdomBook3"],
+  "easterEgg.kingdomBook4": ENGLISH_TERMS["easterEgg.kingdomBook4"],
+  "easterEgg.kingdomBook5": ENGLISH_TERMS["easterEgg.kingdomBook5"],
 };
 
 export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
@@ -4639,4 +4712,5 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...greenhouse,
   ...minigame,
   ...username,
+  ...easterEggTerms,
 };

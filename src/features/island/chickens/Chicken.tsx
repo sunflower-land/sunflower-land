@@ -84,7 +84,7 @@ const TimeToEgg = ({ showTimeToEgg, service }: TimeToEggProps) => {
           <img src={SUNNYSIDE.resource.egg} className="w-4 mr-1" />
           <span>{t("egg")}</span>
         </div>
-        <span className="flex-1">
+        <span className="flex-1 font-secondary">
           {secondsToString(timeToEgg - timeElapsed, {
             length: "medium",
           })}

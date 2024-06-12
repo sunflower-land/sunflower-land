@@ -8,10 +8,11 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
-import { FactionEmblem, FactionName } from "features/game/types/game";
+import { FactionName } from "features/game/types/game";
 import { FACTION_BANNERS } from "features/game/events/landExpansion/pledgeFaction";
 import {
   EMBLEM_QTY,
+  FACTION_EMBLEMS,
   SFL_COST,
 } from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
@@ -19,15 +20,12 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
 import { ClaimEmblems } from "./components/ClaimEmblems";
 import { hasFeatureAccess } from "lib/flags";
+import { NPCName } from "lib/npcs";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { EMBLEM_AIRDROP_CLOSES } from "features/island/hud/EmblemAirdropCountdown";
+import { formatDateTime } from "lib/utils/time";
 
-const FACTION_EMBLEM: Record<FactionName, FactionEmblem> = {
-  sunflorians: "Sunflorian Emblem",
-  bumpkins: "Bumpkin Emblem",
-  goblins: "Goblin Emblem",
-  nightshades: "Nightshade Emblem",
-};
-
-const RECRUITER_VOICE: Record<FactionName, string> = {
+export const FACTION_RECRUITERS: Record<FactionName, NPCName> = {
   goblins: "graxle",
   bumpkins: "barlow",
   sunflorians: "reginald",
@@ -41,6 +39,7 @@ interface Props {
 
 const _joinedFaction = (state: MachineState) => state.context.state.faction;
 const _username = (state: MachineState) => state.context.state.username;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const { gameService } = useContext(Context);
@@ -50,12 +49,15 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const username = useSelector(gameService, _username);
   const joinedFaction = useSelector(gameService, _joinedFaction);
+  const farmId = useSelector(gameService, _farmId);
+
   // Cheap way to memoize this value
   const [emblemsClaimed] = useState(!!joinedFaction?.emblemsClaimedAt);
 
-  const recruiterVoice = useSound(RECRUITER_VOICE[faction] as any);
+  const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
+  const hasSFL = gameService.state.context.state.balance.gte(SFL_COST);
 
   useEffect(() => {
     if (sameFaction) {
@@ -103,17 +105,27 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     joinedFaction &&
     !emblemsClaimed &&
     !!joinedFaction.points &&
-    hasFeatureAccess(gameService.state.context.state, "CLAIM_EMBLEMS")
+    hasFeatureAccess(gameService.state.context.state, "CLAIM_EMBLEMS") &&
+    EMBLEM_AIRDROP_CLOSES.getTime() > Date.now()
   ) {
     return (
       <div className="flex flex-col">
-        <div className="pt-1">
-          <Label type="default">{capitalize(faction)}</Label>
+        <div className="flex justify-between px-1 pt-1">
+          <Label type="default" className="capitalize">
+            {FACTION_RECRUITERS[faction]}
+          </Label>
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("faction.emblemAirdrop.closes", {
+              date: formatDateTime(EMBLEM_AIRDROP_CLOSES.toISOString()),
+            })}
+          </Label>
         </div>
         <ClaimEmblems
           faction={joinedFaction}
+          farmId={farmId}
           playerName={username}
           onClose={onClose}
+          onClaim={() => gameService.send("emblems.claimed")}
         />
       </div>
     );
@@ -142,7 +154,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
           <div className="flex flex-col p-2 pt-1 space-y-2">
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction)}</Label>
-              <Label type="warning" icon={sflIcon}>
+              <Label type={hasSFL ? "warning" : "danger"} icon={sflIcon}>
                 {`${SFL_COST} SFL`}
               </Label>
             </div>
@@ -161,7 +173,9 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
           </Label>
           <div className="flex space-x-1">
             <Button onClick={onClose}>{t("cancel")}</Button>
-            <Button onClick={() => setConfirmed(true)}>{t("continue")}</Button>
+            <Button disabled={!hasSFL} onClick={() => setConfirmed(true)}>
+              {t("continue")}
+            </Button>
           </div>
         </>
       )}
@@ -174,7 +188,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
               factionPoints: 0,
               items: {
                 [FACTION_BANNERS[faction]]: 1,
-                [FACTION_EMBLEM[faction]]: EMBLEM_QTY,
+                [FACTION_EMBLEMS[faction]]: EMBLEM_QTY,
               },
               coins: 0,
               createdAt: new Date().getTime(),

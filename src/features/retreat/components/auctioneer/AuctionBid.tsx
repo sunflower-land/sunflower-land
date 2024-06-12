@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import bg from "assets/ui/brown_background.png";
+import bg from "assets/ui/grey_background.png";
 import token from "assets/icons/sfl.webp";
 
 import { Button } from "components/ui/Button";

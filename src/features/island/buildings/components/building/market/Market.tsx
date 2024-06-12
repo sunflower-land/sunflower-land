@@ -68,7 +68,7 @@ export const Market: React.FC<BuildingProps> = ({
     !hasBoughtCropsBefore(gameState.context.state.bumpkin) && !!hasSoldBefore;
 
   const showHelper =
-    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 3 &&
+    gameState.context.state.bumpkin?.activity?.["Sunflower Harvested"] === 9 &&
     !gameState.context.state.bumpkin?.activity?.["Sunflower Sold"];
 
   return (

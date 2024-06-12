@@ -10,7 +10,7 @@ import lock from "assets/skills/lock.png";
 import { Context } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { hasMaxItems } from "features/game/lib/processEvent";
@@ -18,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
+import { Loading } from "features/auth/components";
 
 interface Props {
   farmId: number;
@@ -74,7 +75,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
   }
 
   if (isLoading) {
-    return <p className="loading">{t("loading")}</p>;
+    return <Loading />;
   }
 
   if (!listings || getKeys(listings).length === 0)
@@ -205,7 +206,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
           );
 
         return (
-          <OuterPanel className="mb-2" key={index}>
+          <InnerPanel className="mb-2" key={index}>
             <div className="flex justify-between">
               <div className="flex flex-wrap">
                 {getKeys(listings[listingId].items).map((name) => (
@@ -221,12 +222,12 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                 {Action(listingId)}
 
                 <div className="flex items-center mt-1  justify-end mr-0.5">
-                  <p className="text-xs">{`${listings[listingId].sfl} SFL`}</p>
+                  <p className="font-secondary">{`${listings[listingId].sfl} SFL`}</p>
                   <img src={token} className="h-6 ml-1" />
                 </div>
               </div>
             </div>
-          </OuterPanel>
+          </InnerPanel>
         );
       })}
     </div>

@@ -6,6 +6,7 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/craftables";
 import {
+  FactionEmblem,
   Inventory,
   InventoryItemName,
   TradeListing,
@@ -16,7 +17,7 @@ import token from "assets/icons/sfl.webp";
 import lock from "assets/skills/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import Decimal from "decimal.js-light";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
@@ -32,6 +33,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { getDayOfYear } from "lib/utils/time";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
+import { FACTION_EMBLEMS } from "features/game/events/landExpansion/joinFaction";
 
 const VALID_INTEGER = new RegExp(/^\d+$/);
 const VALID_FOUR_DECIMAL_NUMBER = new RegExp(/^\d*(\.\d{0,4})?$/);
@@ -81,7 +83,7 @@ const ListTrade: React.FC<{
           {getKeys(TRADE_LIMITS).map((name) => (
             <div
               key={name}
-              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2"
+              className="w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 pr-1 pb-1 mb-2 px-1"
             >
               <ListingCategoryCard
                 itemName={name}
@@ -103,7 +105,7 @@ const ListTrade: React.FC<{
     !!sfl &&
     !!quantity &&
     !!floorPrices[selected] &&
-    new Decimal(floorPrices[selected] ?? 0).mul(1.2).lt(unitPrice);
+    new Decimal(floorPrices[selected] ?? 0).mul(1.5).lt(unitPrice);
 
   const isTooLow =
     !!sfl &&
@@ -125,7 +127,7 @@ const ListTrade: React.FC<{
           >
             {t("bumpkinTrade.available")}
           </Label>
-          <span className="text-sm mr-1">
+          <span className="text-sm mr-1 font-secondary">
             {`${setPrecision(new Decimal(inventory?.[selected] ?? 0), 0)}`}
           </span>
         </div>
@@ -194,6 +196,7 @@ const ListTrade: React.FC<{
             style={{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
               border: "2px solid #ead4aa",
+              fontSize: "36px",
             }}
             type="number"
             placeholder="0"
@@ -224,7 +227,7 @@ const ListTrade: React.FC<{
               }
             }}
             className={classNames(
-              "mb-2 text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
+              "mb-2  mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
               {
                 "text-error":
                   inventory[selected]?.lt(quantity) ||
@@ -250,6 +253,7 @@ const ListTrade: React.FC<{
               boxShadow: "#b96e50 0px 1px 1px 1px inset",
               border: "2px solid #ead4aa",
               textAlign: "right",
+              fontSize: "36px",
             }}
             type="number"
             placeholder="0"
@@ -271,7 +275,7 @@ const ListTrade: React.FC<{
               }
             }}
             className={classNames(
-              "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
+              "mb-2  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error font-secondary",
               {
                 "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
               }
@@ -288,9 +292,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.listingPrice")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl)).toFixed(
-          4
-        )} SFL`}</p>
+        <p className="text-xs font-secondary">{`${setPrecision(
+          new Decimal(sfl)
+        ).toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -302,7 +306,7 @@ const ListTrade: React.FC<{
         <span className="text-xs">
           {t("bumpkinTrade.pricePerUnit", { resource: selected })}
         </span>
-        <p className="text-xs">
+        <p className="text-xs font-secondary">
           {quantity === 0
             ? "0.0000 SFL"
             : `${setPrecision(new Decimal(sfl / quantity)).toFixed(4)} SFL`}
@@ -316,9 +320,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.1)).toFixed(
-          4
-        )} SFL`}</p>
+        <p className="text-xs font-secondary">{`${setPrecision(
+          new Decimal(sfl * 0.1)
+        ).toFixed(4)} SFL`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -327,9 +331,9 @@ const ListTrade: React.FC<{
         }}
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
-        <p className="text-xs">{`${setPrecision(new Decimal(sfl * 0.9)).toFixed(
-          4
-        )} SFL`}</p>
+        <p className="text-xs font-secondary">{`${setPrecision(
+          new Decimal(sfl * 0.9)
+        ).toFixed(4)} SFL`}</p>
       </div>
       <div className="flex mt-2">
         <Button onClick={onCancel} className="mr-1">
@@ -366,7 +370,7 @@ const TradeDetails: React.FC<{
   if (trade.boughtAt) {
     return (
       <div>
-        <OuterPanel>
+        <InnerPanel>
           <div className="flex justify-between">
             <div>
               <div className="flex flex-wrap">
@@ -396,14 +400,14 @@ const TradeDetails: React.FC<{
               </Button>
             </div>
           </div>
-        </OuterPanel>
+        </InnerPanel>
       </div>
     );
   }
 
   return (
     <>
-      <OuterPanel>
+      <InnerPanel>
         <div className="flex justify-between">
           <div className="flex flex-wrap">
             {getKeys(trade.items).map((name) => (
@@ -428,7 +432,7 @@ const TradeDetails: React.FC<{
             </Button>
           </div>
         </div>
-      </OuterPanel>
+      </InnerPanel>
     </>
   );
 };
@@ -571,25 +575,32 @@ export const Trade: React.FC<{ floorPrices: FloorPrices }> = ({
           </Label>
         )}
       </div>
-      {getKeys(trades).map((listingId, index) => {
-        return (
-          <div className="mt-2" key={index}>
-            <TradeDetails
-              onCancel={() =>
-                onCancel(listingId, makeListingType(trades[listingId].items))
-              }
-              onClaim={() => {
-                gameService.send("trade.received", {
-                  tradeId: listingId,
-                });
-                gameService.send("SAVE");
-              }}
-              trade={trades[listingId]}
-              isOldListing={listingId.length < 38}
-            />
-          </div>
-        );
-      })}
+      {getKeys(trades)
+        .filter((listingId) => {
+          const items = Object.keys(trades[listingId].items);
+          return !items.some((item) =>
+            Object.values(FACTION_EMBLEMS).includes(item as FactionEmblem)
+          );
+        })
+        .map((listingId, index) => {
+          return (
+            <div className="mt-2" key={index}>
+              <TradeDetails
+                onCancel={() =>
+                  onCancel(listingId, makeListingType(trades[listingId].items))
+                }
+                onClaim={() => {
+                  gameService.send("trade.received", {
+                    tradeId: listingId,
+                  });
+                  gameService.send("SAVE");
+                }}
+                trade={trades[listingId]}
+                isOldListing={listingId.length < 38}
+              />
+            </div>
+          );
+        })}
       {getKeys(trades).length < 3 && (
         <div className="relative mt-2">
           <Button

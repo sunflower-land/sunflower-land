@@ -11,6 +11,7 @@ type TimeDuration = {
   value: number;
   unit: TimeUnit;
   pluralisedUnit: TimeUnit;
+  unitShort: TimeUnit;
 };
 
 /**
@@ -42,9 +43,10 @@ const timeUnitToString = (
   const value = duration.value;
   const unit = duration.unit;
   const pluralisedUnit = duration.pluralisedUnit;
+  const unitShort = duration.unitShort;
 
   if (options.isShortFormat) {
-    return `${value}${unit.substring(0, 1)}`;
+    return `${value}${unitShort}`;
   }
 
   const pluralizedUnit = value === 1 ? unit : pluralisedUnit;
@@ -62,23 +64,27 @@ export const secondsToString = (
   // time durations
   const secondsValue = {
     value: roundingFunction(seconds % ONE_MIN),
-    unit: translate("sec"),
-    pluralisedUnit: translate("secs"),
+    unit: translate("time.sec.med"),
+    pluralisedUnit: translate("time.secs.med"),
+    unitShort: translate("time.second.short"),
   };
   const minutesValue = {
     value: roundingFunction((seconds / ONE_MIN) % ONE_MIN),
-    unit: translate("min"),
-    pluralisedUnit: translate("mins"),
+    unit: translate("time.min.med"),
+    pluralisedUnit: translate("time.mins.med"),
+    unitShort: translate("time.minute.short"),
   };
   const hoursValue = {
     value: roundingFunction((seconds / ONE_HR) % 24),
-    unit: translate("hr"),
-    pluralisedUnit: translate("hrs"),
+    unit: translate("time.hr.med"),
+    pluralisedUnit: translate("time.hrs.med"),
+    unitShort: translate("time.hour.short"),
   };
   const daysValue = {
     value: roundingFunction(seconds / ONE_DAY),
-    unit: translate("day"),
-    pluralisedUnit: translate("days"),
+    unit: translate("time.day.med"),
+    pluralisedUnit: translate("time.days.med"),
+    unitShort: translate("time.day.short"),
   };
 
   // all time units that constitutes the full string
@@ -176,16 +182,40 @@ export function getRelativeTime(timestamp: number): string {
   if (secondsAgo === 0) {
     return "now";
   } else if (secondsAgo < 60) {
-    return `${secondsAgo} seconds ago`;
+    return translate("time.seconds.ago", {
+      time: secondsAgo,
+      secondORseconds:
+        secondsAgo !== 1
+          ? translate("time.seconds.full")
+          : translate("time.second.full"),
+    });
   } else if (secondsAgo < 3600) {
     const minutesAgo = Math.floor(secondsAgo / 60);
-    return `${minutesAgo} minute${minutesAgo !== 1 ? "s" : ""} ago`;
+    return translate("time.minutes.ago", {
+      time: minutesAgo,
+      minuteORminutes:
+        minutesAgo !== 1
+          ? translate("time.minutes.full")
+          : translate("time.minute.full"),
+    });
   } else if (secondsAgo < 86400) {
     const hoursAgo = Math.floor(secondsAgo / 3600);
-    return `${hoursAgo} hour${hoursAgo !== 1 ? "s" : ""} ago`;
+    return translate("time.hours.ago", {
+      time: hoursAgo,
+      hourORhours:
+        hoursAgo !== 1
+          ? translate("time.hours.full")
+          : translate("time.hour.full"),
+    });
   } else {
     const daysAgo = Math.floor(secondsAgo / 86400);
-    return `${daysAgo} day${daysAgo !== 1 ? "s" : ""} ago`;
+    return translate("time.days.ago", {
+      time: daysAgo,
+      dayORdays:
+        daysAgo !== 1
+          ? translate("time.days.full")
+          : translate("time.day.full"),
+    });
   }
 }
 
@@ -260,16 +290,28 @@ export function getTimeUntil(timestamp: Date, now = new Date()) {
   const days = Math.floor(hours / 24);
 
   if (days > 0) {
-    return `${days} ${days === 1 ? "day" : "days"}`;
+    return `${days} ${
+      days === 1 ? translate("time.day.full") : translate("time.days.full")
+    }`;
   }
 
   if (hours > 0) {
-    return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    return `${hours} ${
+      hours === 1 ? translate("time.hour.full") : translate("time.hours.full")
+    }`;
   }
 
   if (minutes > 0) {
-    return `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+    return `${minutes} ${
+      minutes === 1
+        ? translate("time.minute.full")
+        : translate("time.minutes.full")
+    }`;
   }
 
-  return `${seconds} ${seconds === 1 ? "second" : "seconds"}`;
+  return `${seconds} ${
+    seconds === 1
+      ? translate("time.second.full")
+      : translate("time.seconds.full")
+  }`;
 }

@@ -142,7 +142,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
               width: `${PIXEL_SCALE * 7}px`,
             }}
           />
-          <span className="text-sm">{`+${harvested.current?.amount.toFixed(
+          <span className="text-sm yield-text">{`+${harvested.current?.amount.toFixed(
             2
           )}`}</span>
         </Transition>

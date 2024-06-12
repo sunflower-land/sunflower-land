@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import {
   BumpkinSkill,
   BumpkinSkillName,
@@ -36,10 +36,8 @@ const RequiredSkillPoints = ({
         "text-error": missingPointRequirement,
       })}
     >
-      <span className="text-center text-xxs sm:text-xs">
-        {t("reqSkillPts")}
-      </span>
-      <span className="text-xxs sm:text-xs text-center">
+      <span className="text-center sm:text-xs">{t("reqSkillPts")}</span>
+      <span className="sm:text-xs text-center">
         {" "}
         {`${availableSkillPoints}/${pointsRequired}`}
       </span>
@@ -61,7 +59,7 @@ const RequiredSkill = ({
         "text-error": missingSkillRequirement,
       })}
     >
-      <span className="text-center text-xxs sm:text-xs">{t("reqSkills")} </span>
+      <span className="text-center sm:text-xs">{t("reqSkills")} </span>
       <img
         src={requiredSkillImage}
         style={{ opacity: 0, marginLeft: `${PIXEL_SCALE * 4}px` }}
@@ -142,7 +140,7 @@ export const SkillPathDetails: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col">
-      <OuterPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
+      <InnerPanel className="relative flex-1 min-w-[42%] flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           {showConfirmButton && (
             <div className="flex flex-col">
@@ -152,13 +150,13 @@ export const SkillPathDetails: React.FC<Props> = ({
               <div className="flex space-x-1">
                 <Button
                   onClick={() => setShowConfirmButton(false)}
-                  className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                  className="sm:text-xs mt-1 whitespace-nowrap"
                 >
                   {t("cancel")}
                 </Button>
                 <Button
                   onClick={handleClaim}
-                  className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                  className="sm:text-xs mt-1 whitespace-nowrap"
                 >
                   {t("claim")}
                 </Button>
@@ -178,7 +176,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                 />
               </div>
 
-              <span className="text-center mt-1 text-xxs sm:text-xs mb-1">
+              <span className="text-center mt-1 sm:text-xs mb-1">
                 {BUMPKIN_SKILL_TREE[selectedSkill].boosts}
               </span>
               {comingSoon && <p className="text-xs mt-1">{t("coming.soon")}</p>}
@@ -203,7 +201,7 @@ export const SkillPathDetails: React.FC<Props> = ({
                     disabled={
                       missingPointRequirement || missingSkillRequirement
                     }
-                    className="text-xxs sm:text-xs mt-1 whitespace-nowrap"
+                    className="sm:text-xs mt-1 whitespace-nowrap"
                   >
                     {t("claim.skill")}
                   </Button>
@@ -212,7 +210,7 @@ export const SkillPathDetails: React.FC<Props> = ({
             </>
           )}
         </div>
-      </OuterPanel>
+      </InnerPanel>
       <span className="text-center my-2 text-sm">{`${selectedSkillPath} Skill Path`}</span>
       <SkillPath
         skillsInPath={skillsInPath}

@@ -214,7 +214,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
           ></BumpkinPartGroup>
         </div>
 
-        <div className="flex-1 flex max-h-[300px] sm:max-h-[294px]">
+        <div className="flex-1 flex max-h-[300px] sm:max-h-[306px]">
           <OuterPanel className="w-full flex flex-col !pt-1 !pb-0 !px-1 min-h-[106px]">
             <div className="w-full pb-1">
               <Label type="default">{`${t(
@@ -296,9 +296,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                           icon={buffLabel.boostTypeIcon}
                           secondaryIcon={buffLabel.boostedItemIcon}
                         >
-                          <p className="text-xxs">
-                            {buffLabel.shortDescription}
-                          </p>
+                          {buffLabel.shortDescription}
                         </Label>
                       </div>
                     )}

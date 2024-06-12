@@ -63,7 +63,7 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
         </div>
 
         {player?.id && (
-          <div className="flex-auto self-start text-right text-xs mr-3 f-10">
+          <div className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary">
             {"#"}
             {player?.id}
           </div>

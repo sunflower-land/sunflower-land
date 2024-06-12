@@ -1,9 +1,12 @@
 import React from "react";
 import classnames from "classnames";
-import { pixelLightBorderStyle } from "features/game/lib/style";
-import { useLongPress } from "lib/utils/hooks/useLongPress";
 import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
+
+import primaryButton from "assets/ui/light_button.png";
+
+import { useLongPress } from "lib/utils/hooks/useLongPress";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {
   onClick?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
@@ -50,12 +53,22 @@ export const Button: React.FC<Props> = ({
   return (
     <button
       className={classnames(
-        "bg-brown-200 w-full p-1 text-xs object-contain justify-center items-center hover:bg-brown-300 cursor-pointer flex disabled:opacity-50",
-        className
+        "w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50 ",
+        className,
+        { "cursor-not-allowed": disabled }
       )}
       type={type}
       disabled={disabled}
-      style={pixelLightBorderStyle}
+      style={{
+        borderImage: `url(${primaryButton})`,
+        borderStyle: "solid",
+        borderWidth: `8px 8px 10px 8px`,
+        borderImageSlice: "3 3 4 3 fill",
+        imageRendering: "pixelated",
+        borderImageRepeat: "stretch",
+        borderRadius: `${PIXEL_SCALE * 5}px`,
+        color: "#674544",
+      }}
       {...clickEvents}
     >
       <div className="mb-1">{children}</div>

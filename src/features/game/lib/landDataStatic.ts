@@ -33,7 +33,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     2: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
       x: -1,
       y: 0,
       height: 1,
@@ -41,7 +41,7 @@ export const INITIAL_RESOURCES: Pick<
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Pumpkin", plantedAt: 0, amount: 1 },
+      crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
       x: 0,
       y: 0,
       height: 1,
@@ -316,7 +316,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
         startAt: new Date("2023-01-01").getTime(),
         endAt: new Date("2025-01-01").getTime(),
         score: 2,
-        factionPoints: 15,
+        factionPoints: undefined,
+        marks: 15,
       },
     },
   },
@@ -373,8 +374,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
       type: "Woodlands",
     },
   },
-  coins: 10000000,
-  balance: new Decimal(100),
+  coins: 10,
+  balance: new Decimal(100.1023810291823),
   previousBalance: new Decimal(0),
   previousInventory: {
     Wood: new Decimal(10),
@@ -408,6 +409,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    Axe: new Decimal(100),
+    Pickaxe: new Decimal(100),
     Wheat: new Decimal(100),
     Oil: new Decimal(500),
     Manor: new Decimal(1),
@@ -466,8 +469,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(25),
-    Gold: new Decimal(13),
+    "Basic Land": new Decimal(3),
     "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
@@ -498,11 +500,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Egg: new Decimal(12),
     Beehive: new Decimal(1),
     Banana: new Decimal(12),
-    Wood: new Decimal(500),
     Crimstone: new Decimal(20),
     "Block Buck": new Decimal(200),
-    Stone: new Decimal(100),
-    Iron: new Decimal(100),
+    Gold: new Decimal("400"),
+    Iron: new Decimal("800"),
+    Stone: new Decimal("1600"),
+    Wood: new Decimal("8000"),
     "Mermaid Scale": new Decimal(1000),
     "Humming Bird": new Decimal(1),
     "Queen Bee": new Decimal(1),
@@ -522,7 +525,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunpetal Seed": new Decimal(20),
     "Bloom Seed": new Decimal(10),
     "Lily Seed": new Decimal(5),
-    "Sunflower Seed": new Decimal(1000),
+    "Sunflower Seed": new Decimal(992),
 
     // Foods
     "Pumpkin Soup": new Decimal(1),
@@ -753,7 +756,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   buildings: {
-    Greenhouse: [
+    "Town Center": [
       {
         coordinates: {
           x: -2,
@@ -764,7 +767,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Market: [
+    "Hen House": [
       {
         coordinates: {
           x: -5,
@@ -773,6 +776,28 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
         id: "1",
         readyAt: 0,
+      },
+    ],
+    Workbench: [
+      {
+        coordinates: {
+          x: -5,
+          y: -4,
+        },
+        id: "1",
+        readyAt: 0,
+        createdAt: 0,
+      },
+    ],
+    Toolshed: [
+      {
+        coordinates: {
+          x: -5,
+          y: -6,
+        },
+        id: "1",
+        readyAt: 0,
+        createdAt: 0,
       },
     ],
   },
@@ -852,8 +877,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
-  farmActivity: {},
-  milestones: {},
+  farmActivity: {
+    "Anchovy Caught": 1000,
+  },
+  milestones: {
+    "Advanced Angler": 1,
+  },
   catchTheKraken: {
     hunger: "Iron",
     weeklyCatches: {},

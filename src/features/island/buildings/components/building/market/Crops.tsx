@@ -178,7 +178,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
           <div className="pl-1">
             <div className="flex">
               <Label
-                className="mr-3 ml-1 mb-1"
+                className="mr-3 ml-2 mb-1"
                 icon={CROP_LIFECYCLE.Sunflower.crop}
                 type="default"
               >
@@ -232,7 +232,7 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
                 ))}
             </div>
             <div className="flex">
-              <Label className="mr-3 ml-2" icon={lightning} type="default">
+              <Label className="mr-3 ml-2 mb-1" icon={lightning} type="default">
                 {t("exotics")}
               </Label>
             </div>
@@ -257,7 +257,11 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
 
             <>
               <div className="flex">
-                <Label className="mr-3 ml-2" icon={greenhouse} type="default">
+                <Label
+                  className="mr-3 ml-2 mb-1"
+                  icon={greenhouse}
+                  type="default"
+                >
                   {t("greenhouse")}
                 </Label>
               </div>

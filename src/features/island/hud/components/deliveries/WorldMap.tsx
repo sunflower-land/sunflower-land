@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import worldMap from "assets/map/world_map.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -8,6 +9,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useNavigate } from "react-router-dom";
 import { OuterPanel } from "components/ui/Panel";
 import { useSound } from "lib/utils/hooks/useSound";
+import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Label } from "components/ui/Label";
 
 const showDebugBorders = false;
 
@@ -23,9 +27,27 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     gameService.send("SAVE");
   }, []);
 
+  const level = getBumpkinLevel(
+    gameService.state.context.state.bumpkin?.experience ?? 0
+  );
+
   return (
     <OuterPanel className="w-full relative shadow-xl">
       <img src={worldMap} className="w-full" />
+
+      {level < 2 && (
+        <Label
+          type="danger"
+          className="absolute bottom-2"
+          icon={lockIcon}
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+        >
+          {t("world.intro.levelUpToTravel")}
+        </Label>
+      )}
 
       <img
         src={SUNNYSIDE.icons.close}
@@ -49,14 +71,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
+        <span className="balance-text text-xxs sm:text-sm">
           {t("world.home")}
         </span>
       </div>
@@ -72,22 +87,48 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          if (level < 2) return;
           travel.play();
           navigate("/world/plaza");
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.plaza")}
-        </span>
+        {level < 2 ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.plaza")}
+          </span>
+        )}
       </div>
+
+      {hasFeatureAccess(gameService.state.context.state, "KINGDOM") && (
+        <div
+          style={{
+            width: "18%",
+            height: "24%",
+            border: showDebugBorders ? "2px solid red" : "",
+            position: "absolute",
+            left: "35%",
+            bottom: "50%",
+          }}
+          className="flex justify-center items-center cursor-pointer"
+          onClick={() => {
+            if (level < 7) return;
+            travel.play();
+            navigate("/world/kingdom");
+            onClose();
+          }}
+        >
+          {level < 7 ? (
+            <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+          ) : (
+            <span className="balance-text text-xxs sm:text-sm">
+              {t("world.kingdom")}
+            </span>
+          )}
+        </div>
+      )}
 
       <div
         style={{
@@ -100,21 +141,19 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          if (level < 4) return;
           travel.play();
           navigate("/world/beach");
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.beach")}
-        </span>
+        {level < 4 ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.beach")}
+          </span>
+        )}
       </div>
 
       <div
@@ -128,50 +167,20 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          if (level < 6) return;
           travel.play();
           navigate("/world/woodlands");
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.woodlands")}
-        </span>
+        {level < 6 ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.woodlands")}
+          </span>
+        )}
       </div>
-
-      {/* <div
-        style={{
-          width: "18%",
-          height: "24%",
-          border: showDebugBorders ? "2px solid red" : "",
-          position: "absolute",
-          left: "35%",
-          bottom: "50%",
-        }}
-        className="flex justify-center items-center cursor-pointer"
-        onClick={() => {
-          navigate("...");
-          onClose();
-        }}
-        >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.kingdom")}
-
-        </span>
-      </div> */}
 
       <div
         style={{
@@ -184,21 +193,19 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }}
         className="flex justify-center items-center cursor-pointer"
         onClick={() => {
+          if (level < 5) return;
           travel.play();
           navigate("/world/retreat");
           onClose();
         }}
       >
-        <span
-          className="text-xs sm:text-sm"
-          style={
-            {
-              "-webkit-text-stroke": "1px black",
-            } as any
-          }
-        >
-          {t("world.retreat")}
-        </span>
+        {level < 5 ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.retreat")}
+          </span>
+        )}
       </div>
     </OuterPanel>
   );

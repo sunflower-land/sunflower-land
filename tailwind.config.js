@@ -5,61 +5,41 @@ module.exports = {
   content: ["./src/**/*.tsx"],
   theme: {
     fontFamily: {
-      body: ['"Paytone One","LXGW WenKai TC"'],
+      body: ['"Basic","LXGW WenKai TC"'],
       game: '"Sigmar One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+      pixel: ["Secondary"],
       error: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
       speech: `ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;`,
-      // body: '"Paytone One", cursive, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
     },
     fontSize: {
       xxs: [
-        "0.9rem",
+        "var(--text-xxs-size)",
         {
-          lineHeight: "0.9rem",
+          lineHeight: "var(--text-xxs-line-height)",
         },
       ],
       xs: [
-        "1rem",
+        "var(--text-xs-size)",
         {
-          lineHeight: "1rem",
+          lineHeight: "var(--text-xs-line-height)",
         },
       ],
       sm: [
-        "1.275rem",
+        "var(--text-sm-size)",
         {
-          lineHeight: "1.275rem",
+          lineHeight: "var(--text-sm-line-height)",
         },
       ],
       base: [
-        "1.6rem",
+        "var(--text-base-size)",
         {
-          lineHeight: "1.4rem",
-          letterSpace: "-0.3px",
+          lineHeight: "var(--text-base-line-height)",
         },
       ],
-
       lg: [
-        "1.725rem",
+        "var(--text-lg-size)",
         {
-          lineHeight: "1.75rem",
-        },
-      ],
-      xl: [
-        "3.25rem",
-        {
-          lineHeight: "3.25rem",
-        },
-      ],
-      "2xl": [
-        "4.375rem",
-        {
-          lineHeight: "5.25rem",
-        },
-      ],
-      "3xl": [
-        "1.875rem",
-        {
-          lineHeight: "5.25rem",
+          lineHeight: "var(--text-lg-line-height)",
         },
       ],
     },

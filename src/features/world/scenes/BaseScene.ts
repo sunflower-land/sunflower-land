@@ -328,6 +328,8 @@ export abstract class BaseScene extends Phaser.Scene {
       "Building Layer 3",
       "Building Layer 4",
       "Club House Roof",
+      "Building Layer 4",
+      "Building Decorations 2",
     ];
     this.map.layers.forEach((layerData, idx) => {
       if (layerData.name === "Crows") return;

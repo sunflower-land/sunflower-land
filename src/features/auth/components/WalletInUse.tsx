@@ -43,7 +43,7 @@ export const WalletInUse: React.FC = () => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="underline text-white text-xs cursor-pointer"
+              className="underline  text-xs cursor-pointer"
               onClick={() => setShowClaimAccount(true)}
             >
               {t("noaccount.alreadyHaveNFTFarm")}

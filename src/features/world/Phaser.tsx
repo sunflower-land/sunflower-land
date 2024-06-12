@@ -40,7 +40,7 @@ import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
-import { Inventory } from "features/game/types/game";
+import { FactionName, GameState, Inventory } from "features/game/types/game";
 import { FishingModal } from "./ui/FishingModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { HudContainer } from "components/ui/HudContainer";
@@ -48,6 +48,11 @@ import { RetreatScene } from "./scenes/RetreatScene";
 import { KingdomScene } from "./scenes/Kingdom";
 import { hasFeatureAccess } from "lib/flags";
 import { FactionHouseScene } from "./scenes/FactionHouse";
+import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
+import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
+import { Loading } from "features/auth/components";
+import { NightshadeHouseScene } from "./scenes/NightshadeHouseScene";
+import { BumpkinHouseScene } from "./scenes/BumpkinHouseScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -108,6 +113,10 @@ export const PhaserComponent: React.FC<Props> = ({
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);
 
+  const hasHouseAccess = (gameState: GameState, factionHouse: FactionName) => {
+    return gameState.faction?.name === factionHouse;
+  };
+
   const scenes = [
     Preloader,
     new WoodlandsScene({ gameState: gameService.state.context.state }),
@@ -119,6 +128,22 @@ export const PhaserComponent: React.FC<Props> = ({
       : []),
     ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [FactionHouseScene]
+      : []),
+    ...(hasHouseAccess(gameService.state.context.state, "goblins") &&
+    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [GoblinHouseScene]
+      : []),
+    ...(hasHouseAccess(gameService.state.context.state, "sunflorians") &&
+    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [SunflorianHouseScene]
+      : []),
+    ...(hasHouseAccess(gameService.state.context.state, "nightshades") &&
+    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [NightshadeHouseScene]
+      : []),
+    ...(hasHouseAccess(gameService.state.context.state, "bumpkins") &&
+    hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
+      ? [BumpkinHouseScene]
       : []),
   ];
 
@@ -496,13 +521,13 @@ export const PhaserComponent: React.FC<Props> = ({
         backdrop={false}
       >
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
 
       <Modal show={mmoState === "joinRoom"} backdrop={false}>
         <Panel>
-          <p className="loading">{t("loading")}</p>
+          <Loading />
         </Panel>
       </Modal>
     </div>

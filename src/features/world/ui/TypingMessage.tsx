@@ -38,7 +38,7 @@ export const TypingMessage: React.FC<Props> = ({
     };
   }, [message, forceShowFullMessage, trail, currentIndex, onMessageEnd]);
 
-  return <div className="leading-[1] text-sm">{displayedMessage}</div>;
+  return <div className="text-sm">{displayedMessage}</div>;
 };
 
 export const InlineDialogue: React.FC<{
@@ -64,5 +64,11 @@ export const InlineDialogue: React.FC<{
     };
   }, [message, trail, currentIndex]);
 
-  return <div className="leading-[1] text-[16px]">{displayedMessage}</div>;
+  return (
+    <div className="relative">
+      <div className="text-sm absolute inset-0">{displayedMessage}</div>
+      {/* Render a hidden message so the container gets the correct height initially */}
+      <div className="text-sm opacity-0">{message}</div>
+    </div>
+  );
 };

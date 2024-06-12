@@ -6,6 +6,7 @@ import { completeChore } from "./completeChore";
 import { ChoreV2 } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 import cloneDeep from "lodash.clonedeep";
+import { FACTION_POINT_CUTOFF } from "./donateToFaction";
 
 describe("chore.completed", () => {
   beforeEach(() => {
@@ -496,6 +497,61 @@ describe("chore.completed", () => {
     });
 
     expect(state.faction?.points).toBe(5);
+  });
+
+  it("does not reward faction points after the faction point cutover", () => {
+    const now = Date.now();
+
+    const chore: ChoreV2 = {
+      activity: "Sunflower Harvested",
+      description: "Harvest 30 Sunflowers",
+      createdAt: now,
+      bumpkinId: INITIAL_BUMPKIN.id,
+      startCount: 0,
+      requirement: 30,
+    };
+
+    const state = completeChore({
+      createdAt: new Date(FACTION_POINT_CUTOFF.getTime() + 1).getTime(),
+      action: {
+        type: "chore.completed",
+        id: 1,
+      },
+      state: {
+        ...TEST_FARM,
+        faction: {
+          name: "bumpkins",
+          pledgedAt: 0,
+          points: 0,
+          donated: {
+            daily: {
+              sfl: {},
+              resources: {},
+            },
+            totalItems: {},
+          },
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          activity: {
+            "Sunflower Harvested": 50,
+          },
+        },
+        chores: {
+          choresCompleted: 0,
+          choresSkipped: 0,
+          chores: {
+            "1": chore,
+            "2": chore,
+            "3": chore,
+            "4": chore,
+            "5": chore,
+          },
+        },
+      },
+    });
+
+    expect(state.faction?.points).toBe(0);
   });
 
   it("rewards easy tickets", () => {

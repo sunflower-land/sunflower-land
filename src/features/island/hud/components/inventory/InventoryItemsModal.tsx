@@ -9,6 +9,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { BudName } from "features/game/types/buds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   show: boolean;
@@ -57,6 +58,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}
+        container={OuterPanel}
       >
         {currentTab === 0 && (
           <Basket

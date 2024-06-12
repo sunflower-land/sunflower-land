@@ -1,5 +1,5 @@
 import { useActor } from "@xstate/react";
-import { OuterPanel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import React, { useContext } from "react";
 import { NPCFixed } from "features/island/bumpkin/components/NPC";
@@ -67,7 +67,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
           (item) => item.id === id
         );
         return (
-          <OuterPanel
+          <ButtonPanel
             key={id}
             onClick={() => open(id)}
             className="flex cursor-pointer hover:bg-brown-200 mb-1 relative"
@@ -91,7 +91,7 @@ export const Mail: React.FC<Props> = ({ setSelected, announcements }) => {
                 className="w-6 animate-pulsate img-highlight-heavy absolute right-1 top-1"
               />
             )}
-          </OuterPanel>
+          </ButtonPanel>
         );
       })}
     </div>

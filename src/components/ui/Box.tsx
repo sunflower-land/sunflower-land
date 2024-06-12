@@ -243,7 +243,14 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type={countLabelType} className="px-0.5 text-xxs">
+            <Label
+              type={countLabelType}
+              style={{
+                paddingLeft: "2.5px",
+                paddingRight: "1.5px",
+                height: "24px",
+              }}
+            >
               {isHover && !showHiddenCountLabel
                 ? precisionCount.toString()
                 : shortCount}
@@ -262,7 +269,15 @@ export const Box: React.FC<BoxProps> = ({
               pointerEvents: "none",
             }}
           >
-            <Label type="default" className="px-0.5 text-xxs">
+            <Label
+              type="default"
+              className="px-0.5"
+              style={{
+                paddingLeft: "2.5px",
+                paddingRight: "1.5px",
+                height: "24px",
+              }}
+            >
               {precisionCount.toString()}
             </Label>
           </div>

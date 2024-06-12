@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 import React from "react";
-import { Label } from "./Label";
+import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
@@ -124,6 +124,7 @@ interface HarvestsProps {
  */
 interface defaultProps {
   className?: string;
+  textColor?: string;
 }
 
 type Props = (
@@ -190,7 +191,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       }
       case "xp": {
         const roundedDownXp = setPrecision(props.xp, 1);
-        return `${roundedDownXp} XP`;
+        return `${roundedDownXp}XP`;
       }
       case "level": {
         return `${t("level.number", { level: props.requirement })}`;
@@ -225,23 +226,30 @@ export const RequirementLabel: React.FC<Props> = (props) => {
   const requirementMet = isRequirementMet();
 
   return (
-    <div className={props.className ?? "flex justify-between"}>
+    <div className={classNames(props.className, "flex justify-between")}>
       <div className="flex items-center">
         <SquareIcon icon={getIcon()} width={7} />
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1">{"SFL"}</span>
+          <span className="text-xs ml-1 ">{"SFL"}</span>
         )}
         {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1">{props.item}</span>
+          <span className="text-xs ml-1 ">{props.item}</span>
         )}
         {props.type === "coins" && props.showLabel && (
-          <span className="text-xs ml-1">{t("coins")}</span>
+          <span className="text-xs ml-1 ">{t("coins")}</span>
         )}
       </div>
 
       <Label
-        className={classNames("whitespace-nowrap", { "ml-1": !requirementMet })}
+        className={classNames("whitespace-nowrap font-secondary relative", {
+          "ml-1": !requirementMet,
+        })}
         type={requirementMet ? "transparent" : "danger"}
+        style={{
+          color:
+            props.textColor ??
+            LABEL_STYLES[requirementMet ? "transparent" : "danger"].textColour,
+        }}
       >
         {getText()}
       </Label>

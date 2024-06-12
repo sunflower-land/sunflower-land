@@ -17,6 +17,8 @@ import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { getFlowerBySeed } from "../lib/utils";
 import { Detail } from "../components/Detail";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { InnerPanel } from "components/ui/Panel";
+import classNames from "classnames";
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
 const _milestones = (state: MachineState) => state.context.state.milestones;
@@ -118,7 +120,9 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
   }
 
   return (
-    <>
+    <InnerPanel
+      className={classNames("flex flex-col h-full overflow-y-auto scrollable")}
+    >
       <div className="space-y-2 mt-1">
         <div className="flex flex-col space-y-2">
           <Label type="formula" className="ml-1.5">
@@ -178,6 +182,6 @@ export const Flowers: React.FC<Props> = ({ onMilestoneReached }) => {
           })}
         </div>
       </div>
-    </>
+    </InnerPanel>
   );
 };

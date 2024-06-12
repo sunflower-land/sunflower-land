@@ -18,6 +18,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
+import { Loading } from "features/auth/components";
 
 interface Props {
   gameState: GameState;
@@ -72,7 +73,7 @@ export const AuctioneerModal: React.FC<Props> = ({
     return (
       <Modal show={isOpen} onHide={onClose}>
         <Panel bumpkinParts={NPC_WEARABLES["hammerin harry"]}>
-          <span className="loading">{t("loading")}</span>
+          <Loading />
         </Panel>
       </Modal>
     );

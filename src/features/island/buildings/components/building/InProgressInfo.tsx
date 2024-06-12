@@ -8,6 +8,8 @@ import { secondsToString } from "lib/utils/time";
 import React from "react";
 import { MachineInterpreter } from "../../lib/craftingMachine";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   craftingService: MachineInterpreter;
@@ -36,7 +38,13 @@ export const InProgressInfo: React.FC<Props> = ({
 
   return (
     <div className="flex flex-col mb-2">
-      <p className="text-sm">{t("in.progress")}</p>
+      <Label
+        className="mr-3 ml-2 mb-1"
+        icon={SUNNYSIDE.icons.stopwatch}
+        type="default"
+      >
+        {t("in.progress")}
+      </Label>
       <div className="flex">
         <Box image={ITEM_DETAILS[name].image} />
         <div

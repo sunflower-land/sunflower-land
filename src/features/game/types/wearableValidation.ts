@@ -2,10 +2,16 @@ import { BumpkinItem } from "./bumpkin";
 import { getDailyFishingCount } from "./fishing";
 import {
   areAnyChickensFed,
+  areAnyCrimstonesMined,
   areAnyCropsGrowing,
   areAnyFruitsGrowing,
+  areAnyOilReservesDrilled,
+  areFlowersGrowing,
   areFruitsGrowing,
   cropIsGrowing,
+  greenhouseCropIsGrowing,
+  isProducingHoney,
+  isBeehivesFull,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -48,11 +54,23 @@ export const canWithdrawBoostedWearable = (
     return !cropIsGrowing({ item: "Corn", game: state })[0];
   }
 
+  if (name === "Tofu Mask") {
+    return !cropIsGrowing({ item: "Soybean", game: state })[0];
+  }
+
+  if (name === "Non La Hat") {
+    return !greenhouseCropIsGrowing({ crop: "Rice", game: state })[0];
+  }
+
+  if (name === "Olive Shield") {
+    return !greenhouseCropIsGrowing({ crop: "Olive", game: state })[0];
+  }
+
   if (name === "Fruit Picker Apron") {
     return !areAnyFruitsGrowing(state)[0];
   }
 
-  if (name === "Banana Amulet") {
+  if (name === "Banana Amulet" || name === "Banana Onesie") {
     return !areFruitsGrowing(state, "Banana")[0];
   }
 
@@ -75,6 +93,30 @@ export const canWithdrawBoostedWearable = (
 
   if (name === "Ancient Rod") {
     return getDailyFishingCount(state) == 0;
+  }
+
+  if (name === "Flower Crown") {
+    return !areFlowersGrowing(state)[0];
+  }
+
+  if (
+    name === "Beekeeper Hat" ||
+    name === "Bee Suit" ||
+    name === "Honeycomb Shield"
+  ) {
+    return !isProducingHoney(state)[0];
+  }
+
+  if (name === "Crimstone Amulet" || name === "Crimstone Armor") {
+    return !areAnyCrimstonesMined(state)[0];
+  }
+
+  if (name === "Oil Can") {
+    return !areAnyOilReservesDrilled(state)[0];
+  }
+
+  if (name === "Hornet Mask") {
+    return isBeehivesFull(state)[0];
   }
 
   // Safety check

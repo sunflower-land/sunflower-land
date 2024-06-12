@@ -1,6 +1,6 @@
 import { GameState, InventoryItemName, Wardrobe } from "./game";
 
-export type BonusName = "discord-signup" | "2024-nye-bonus";
+export type BonusName = "discord-signup" | "pixel-font-bonus";
 
 export type Bonus = {
   isClaimed: (game: GameState) => boolean;
@@ -23,11 +23,11 @@ export const BONUSES: Record<BonusName, Bonus> = {
       },
     },
   },
-  "2024-nye-bonus": {
-    isClaimed: (game) => !!game.wardrobe["New Years Tiara"],
+  "pixel-font-bonus": {
+    isClaimed: (game) => !!game.wardrobe["Pixel Perfect Hoodie"],
     reward: {
       wearables: {
-        "New Years Tiara": 1,
+        "Pixel Perfect Hoodie": 1,
       },
       inventory: {},
     },

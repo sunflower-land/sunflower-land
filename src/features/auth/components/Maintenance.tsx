@@ -5,7 +5,7 @@ import React from "react";
 export const Maintenance: React.FC = () => {
   const { t } = useAppTranslation();
   return (
-    <div className="flex flex-col text-center text-shadow items-center p-1">
+    <div className="flex flex-col text-center items-center p-1">
       <p className="text-center mb-3">{t("maintenance")}</p>
 
       <img

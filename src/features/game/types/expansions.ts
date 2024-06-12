@@ -194,24 +194,8 @@ export const LAND_4_LAYOUT: () => Layout = () => ({
   id: "4",
   plots: [
     {
-      x: -2,
-      y: 1,
-    },
-    {
-      x: -2,
-      y: 0,
-    },
-    {
-      x: -1,
-      y: 1,
-    },
-    {
       x: -1,
       y: 0,
-    },
-    {
-      x: 0,
-      y: 1,
     },
     {
       x: 0,
@@ -219,11 +203,32 @@ export const LAND_4_LAYOUT: () => Layout = () => ({
     },
     {
       x: 1,
+      y: 0,
+    },
+    {
+      x: -1,
+      y: -1,
+    },
+    {
+      x: 0,
+      y: -1,
+    },
+    {
+      x: 1,
+      y: -1,
+    },
+
+    {
+      x: -1,
+      y: 1,
+    },
+    {
+      x: 0,
       y: 1,
     },
     {
       x: 1,
-      y: 0,
+      y: 1,
     },
   ],
   fruitPatches: [],
@@ -256,11 +261,19 @@ export const LAND_5_LAYOUT: () => Layout = () => ({
   id: "5",
   plots: [
     {
-      x: 0,
+      x: -2,
+      y: -2,
+    },
+    {
+      x: -2,
       y: -1,
     },
     {
-      x: 1,
+      x: -1,
+      y: -2,
+    },
+    {
+      x: -1,
       y: -1,
     },
     {
@@ -268,15 +281,23 @@ export const LAND_5_LAYOUT: () => Layout = () => ({
       y: -2,
     },
     {
+      x: 0,
+      y: -1,
+    },
+    {
       x: 1,
       y: -2,
+    },
+    {
+      x: 1,
+      y: -1,
     },
   ],
   fruitPatches: [],
   gold: [
     {
-      x: 1,
-      y: 2,
+      x: -1,
+      y: 3,
     },
   ],
   iron: [
@@ -287,7 +308,7 @@ export const LAND_5_LAYOUT: () => Layout = () => ({
   ],
   stones: [
     {
-      x: -2,
+      x: -3,
       y: -1,
     },
   ],
@@ -298,7 +319,6 @@ export const LAND_5_LAYOUT: () => Layout = () => ({
     },
   ],
 });
-
 export const LAND_6_LAYOUT: () => Layout = () => ({
   id: "6",
   plots: [
@@ -318,6 +338,22 @@ export const LAND_6_LAYOUT: () => Layout = () => ({
       x: -2,
       y: 0,
     },
+    {
+      x: -1,
+      y: 1,
+    },
+    {
+      x: -1,
+      y: 0,
+    },
+    {
+      x: 0,
+      y: 1,
+    },
+    {
+      x: 0,
+      y: 0,
+    },
   ],
   fruitPatches: [],
   gold: [],
@@ -330,7 +366,7 @@ export const LAND_6_LAYOUT: () => Layout = () => ({
   ],
   trees: [
     {
-      x: 0,
+      x: 1,
       y: 2,
     },
   ],
@@ -1969,16 +2005,17 @@ const LAND_5_REQUIREMENTS: Requirements = {
     Wood: 5,
   },
   seconds: 5,
-  bumpkinLevel: 2,
+  bumpkinLevel: 1,
+  coins: 0.25,
 };
 
 const LAND_6_REQUIREMENTS: Requirements = {
   resources: {
-    Wood: 5,
     Stone: 1,
   },
+  coins: 60,
   seconds: 60,
-  bumpkinLevel: 4,
+  bumpkinLevel: 2,
 };
 
 const LAND_7_REQUIREMENTS: Requirements = {
@@ -1987,7 +2024,7 @@ const LAND_7_REQUIREMENTS: Requirements = {
     Iron: 1,
   },
   seconds: 30 * 60,
-  bumpkinLevel: 6,
+  bumpkinLevel: 5,
 };
 
 const LAND_8_REQUIREMENTS: Requirements = {

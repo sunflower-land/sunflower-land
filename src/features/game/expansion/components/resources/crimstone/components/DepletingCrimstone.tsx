@@ -92,7 +92,7 @@ const DepletingCrimstoneComponent: React.FC<Props> = ({
               width: `${PIXEL_SCALE * 9}px`,
             }}
           />
-          <span className="text-sm">{`+${resourceAmount}`}</span>
+          <span className="yield-text text-white font-pixel">{`+${resourceAmount}`}</span>
         </div>
       )}
     </div>

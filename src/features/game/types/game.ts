@@ -188,6 +188,7 @@ export type Coupons =
   | "Rare Key"
   | "Luxury Key"
   | "Prize Ticket"
+  | "Mark"
   | SeasonalTicket
   | FactionEmblem;
 
@@ -284,6 +285,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Nightshade Emblem": {
     description: translate("description.nightshade.emblem"),
+  },
+  Mark: {
+    description: translate("description.faction.mark"),
   },
 };
 
@@ -447,6 +451,7 @@ export type PlantedFruit = {
 
 export type Tree = {
   wood: Wood;
+  createdAt?: number;
 } & Position;
 
 export type Stone = {
@@ -461,6 +466,7 @@ export type FiniteResource = {
 
 export type Rock = {
   stone: Stone;
+  createdAt?: number;
 } & Position;
 
 export type Oil = {
@@ -778,6 +784,29 @@ export type ChoreV2 = {
   startCount: number;
 };
 
+export type KingdomChores = {
+  chores: Record<number, KingdomChore>;
+  week: number;
+  choresCompleted: number;
+  choresSkipped: number;
+  weeklyChoresCompleted: number;
+  weeklyChoresSkipped: number;
+  weeklyChores: number;
+};
+
+export type KingdomChore = {
+  activity: BumpkinActivityName;
+  description: string;
+  resource: InventoryItemName;
+  createdAt: number;
+  completedAt?: number;
+  requirement: number;
+  bumpkinId: number;
+  startCount: number;
+  marks: number;
+  active?: boolean;
+};
+
 export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
 
 export type MazeAttempt = {
@@ -829,7 +858,8 @@ export type MinigamePrize = {
   endAt: number;
   score: number;
   coins: number;
-  factionPoints: number;
+  factionPoints?: number;
+  marks?: number;
 };
 
 export type MinigameHistory = {
@@ -1111,6 +1141,7 @@ export interface GameState {
     bid?: Bid;
   };
   chores?: ChoresV2;
+  kingdomChores?: KingdomChores;
   mushrooms: Mushrooms;
   catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;

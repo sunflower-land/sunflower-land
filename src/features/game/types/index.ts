@@ -380,6 +380,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bumpkin Emblem": 742,
   "Sunflorian Emblem": 743,
   "Nightshade Emblem": 744,
+  Mark: 745,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -686,10 +687,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Clock: 2015,
   Vinny: 2016,
   "Desert Gnome": 2017,
-  "Battlecry Drum": 2018,
+  "Gaucho Rug": 2018,
   "Bullseye Board": 2019,
   "Chess Rug": 2020,
-  "Gaucho Rug": 2021,
+  Cluckapult: 2021,
   "Golden Gallant": 2022,
   "Golden Garrison": 2023,
   "Golden Guardian": 2024,
@@ -701,7 +702,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Silver Stallion": 2030,
   "Trainee Target": 2031,
   "Twister Rug": 2032,
-  Cluckapult: 2033,
+  "Battlecry Drum": 2033,
   "Rice Panda": 2034,
 };
 

@@ -9,7 +9,7 @@ import {
 import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { GameState } from "features/game/types/game";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -33,7 +33,6 @@ export const AchievementDetails: React.FC<Props> = ({
   onClaim,
   name,
   state,
-  readonly,
 }) => {
   const achievement = ACHIEVEMENTS()[name];
   const progress = achievement.progress(state);
@@ -46,7 +45,7 @@ export const AchievementDetails: React.FC<Props> = ({
   const { t } = useAppTranslation();
   return (
     <div className="flex flex-col items-center">
-      <OuterPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
+      <InnerPanel className="relative flex-1 w-full flex flex-col justify-between items-center">
         <div className="flex flex-col justify-center items-center p-2 relative w-full">
           <img
             src={SUNNYSIDE.icons.arrow_left}
@@ -76,7 +75,7 @@ export const AchievementDetails: React.FC<Props> = ({
                 />
               </div>
               <div className="flex flex-col items-center justify-center w-full">
-                <div className="flex-1 mt-2 text-xxs sm:text-xs flex-wrap justify-center items-center text-center w-full">
+                <div className="flex-1 mt-2 sm:text-xs flex-wrap justify-center items-center text-center w-full">
                   <p className="text-xs mb-2">{achievement.description}</p>
                   <div className="flex items-center justify-center border-t border-white pt-1 w-full">
                     {!isAlreadyClaimed && (
@@ -144,12 +143,12 @@ export const AchievementDetails: React.FC<Props> = ({
             )}
           </>
         </div>
-        {!readonly && (
+        {!isAlreadyClaimed && (
           <Button className="text-xs" onClick={onClaim} disabled={!isComplete}>
             <span>{t("claim")}</span>
           </Button>
         )}
-      </OuterPanel>
+      </InnerPanel>
     </div>
   );
 };

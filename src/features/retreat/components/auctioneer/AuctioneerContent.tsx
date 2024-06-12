@@ -21,6 +21,7 @@ import { TieBreaker } from "./TieBreaker";
 import { AuctionsComingSoon } from "./AuctionsComingSoon";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Loading } from "features/auth/components";
 
 interface Props {
   auctionService: MachineInterpreter;
@@ -103,7 +104,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("bidding")) {
-    return <span className="loading">{t("placing.bid")}</span>;
+    return <Loading text={t("placing.bid")} />;
   }
 
   if (auctioneerState.matches("refunded")) {
@@ -129,7 +130,7 @@ export const AuctioneerContent: React.FC<Props> = ({
   }
 
   if (auctioneerState.matches("checkingResults")) {
-    return <span className="loading">{t("loading")}</span>;
+    return <Loading />;
   }
 
   if (auctioneerState.matches("pending")) {

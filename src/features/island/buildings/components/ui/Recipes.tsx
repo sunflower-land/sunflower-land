@@ -5,6 +5,7 @@ import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
+import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getKeys } from "features/game/types/craftables";
 import {
@@ -30,6 +31,7 @@ import {
 import { FeatureName, hasFeatureAccess } from "lib/flags";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
+import pumpkinSoup from "assets/food/pumpkin_soup.png";
 
 interface Props {
   selected: Cookable;
@@ -96,7 +98,7 @@ export const Recipes: React.FC<Props> = ({
           {t("cook")}
         </Button>
         {crafting && (
-          <p className="text-xxs sm:text-xs text-center my-1">
+          <p className="sm:text-xs text-center my-1">
             {t("sceneDialogues.chefIsBusy")}
           </p>
         )}
@@ -124,6 +126,7 @@ export const Recipes: React.FC<Props> = ({
           details={{
             item: selected.name,
           }}
+          hideDescription
           requirements={{
             resources: selected.ingredients,
             xp: new Decimal(
@@ -151,7 +154,17 @@ export const Recipes: React.FC<Props> = ({
               onClose={onClose}
             />
           )}
-          {crafting && <p className="mb-2 w-full">{t("recipes")}</p>}
+          {crafting && (
+            <div className="w-full">
+              <Label
+                className="mr-3 ml-2 mb-1"
+                icon={pumpkinSoup}
+                type="default"
+              >
+                {t("recipes")}
+              </Label>
+            </div>
+          )}
           <div className="flex flex-wrap h-fit">
             {validRecipes.map((item) => (
               <Box
@@ -163,7 +176,7 @@ export const Recipes: React.FC<Props> = ({
               />
             ))}
           </div>
-          {hasFeatureAccess(state, "COOKING_BOOST") && buildingId ? (
+          {buildingId ? (
             <BuildingOilTank
               buildingName={buildingName}
               buildingId={buildingId}
