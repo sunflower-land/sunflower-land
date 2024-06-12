@@ -299,8 +299,8 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
               {t("confirmation.sellCrops", {
                 cropAmount: cropAmount,
                 cropName: selected.name,
-                coinAmount: Math.floor(
-                  displaySellPrice(selected) * Number(cropAmount)
+                coinAmount: setPrecision(
+                  new Decimal(displaySellPrice(selected)).mul(cropAmount)
                 ),
               })}
             </span>

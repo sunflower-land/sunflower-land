@@ -122,6 +122,7 @@ export const Fish: React.FC<Props> = ({ onMilestoneReached }) => {
         farmActivity={farmActivity}
         onClaim={() => handleClaimReward(selectedMilestone)}
         onBack={() => setSelectedMilestone(undefined)}
+        isClaimed={!!milestones[selectedMilestone]}
       />
     );
   }

@@ -49,6 +49,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { Modal } from "components/ui/Modal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Panel } from "components/ui/Panel";
+import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
   onClose: () => void;
@@ -194,13 +195,18 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             <div className="flex flex-col p-2">
               <span className="text-sm text-center">
                 {t("confirmation.buyCrops", {
-                  coinAmount: price * bulkSeedBuyAmount,
+                  coinAmount: setPrecision(
+                    new Decimal(price).mul(bulkSeedBuyAmount)
+                  ).toNumber(),
                   seedNo: bulkSeedBuyAmount,
                   seedName: selectedName,
                 })}
               </span>
             </div>
             <div className="flex justify-content-around mt-2 space-x-1">
+              <Button onClick={() => showConfirmBuyModal(false)}>
+                {t("cancel")}
+              </Button>
               <Button
                 onClick={() => {
                   buy(bulkSeedBuyAmount);
@@ -208,9 +214,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 }}
               >
                 {t("buy")} {bulkSeedBuyAmount}
-              </Button>
-              <Button onClick={() => showConfirmBuyModal(false)}>
-                {t("cancel")}
               </Button>
             </div>
           </Panel>

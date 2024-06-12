@@ -98,7 +98,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
       )}
 
       {showLabel ? (
-        <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
+        <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1 mb-1">
           <div className="flex items-center">
             {/** Show Back Button on Mobile  */}
             {isMobile && mobileFullScreen && (

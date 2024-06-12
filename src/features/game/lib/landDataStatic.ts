@@ -411,6 +411,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     Axe: new Decimal(100),
     Pickaxe: new Decimal(100),
+    Warehouse: new Decimal(1),
     Wheat: new Decimal(100),
     Oil: new Decimal(500),
     Manor: new Decimal(1),
@@ -452,7 +453,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Yellow Daffodil": new Decimal(3),
     "White Daffodil": new Decimal(3),
     "Red Daffodil": new Decimal(3),
-    Sunflower: new Decimal(5000),
+    Sunflower: new Decimal(7),
     Scarecrow: new Decimal(1),
     Shovel: new Decimal(1),
     Carrot: new Decimal(500),
@@ -778,7 +779,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    Workbench: [
+    Market: [
       {
         coordinates: {
           x: -5,
@@ -789,7 +790,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Toolshed: [
+    Warehouse: [
       {
         coordinates: {
           x: -5,

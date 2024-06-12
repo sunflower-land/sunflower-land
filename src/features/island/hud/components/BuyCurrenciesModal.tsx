@@ -32,6 +32,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasFeatureAccess } from "lib/flags";
 import { VIPItems } from "../../../game/components/modal/components/VIPItems";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -199,7 +200,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
               </Label>
               {/* Exchange packages */}
               {!exchangePackageId && (
-                <div className="flex px-1 pb-2 justify-between gap-1  sm:text-sm sm:gap-2">
+                <div className="flex px-1 pb-2 justify-between gap-1  sm:text-sm sm:gap-2 overflow-x-scroll overflow-y-hidden scrollable">
                   {Object.keys(SFL_TO_COIN_PACKAGES).map((packageId, index) => {
                     const option = SFL_TO_COIN_PACKAGES[Number(packageId)];
 
@@ -217,11 +218,11 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                           icon={sflIcon}
                           type="warning"
                           iconWidth={11}
-                          className="absolute h-7 "
+                          className="absolute h-7  -bottom-2"
                           style={{
-                            width: "106%",
-                            bottom: "-8px",
-                            left: "-2px",
+                            left: `${PIXEL_SCALE * -3}px`,
+                            right: `${PIXEL_SCALE * -3}px`,
+                            width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                           }}
                         >
                           {`${option.sfl} SFL`}
