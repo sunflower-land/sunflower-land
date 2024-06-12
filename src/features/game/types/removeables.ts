@@ -40,7 +40,7 @@ type CanRemoveGreenhouseCropsArgs = {
   game: GameState;
 };
 
-function greenhouseCropIsGrowing({
+export function greenhouseCropIsGrowing({
   crop,
   game,
 }: CanRemoveGreenhouseCropsArgs): Restriction {
@@ -161,7 +161,7 @@ function areAnyGoldsMined(game: GameState): Restriction {
   return [goldMined, translate("restrictionReason.goldMined")];
 }
 
-function areAnyCrimstonessMined(game: GameState): Restriction {
+export function areAnyCrimstonesMined(game: GameState): Restriction {
   const crimstoneMined = Object.values(game.crimstones ?? {}).some(
     (crimstone) => !canMine(crimstone)
   );
@@ -220,7 +220,7 @@ function hasFishedToday(game: GameState): Restriction {
   ];
 }
 
-function areFlowersGrowing(game: GameState): Restriction {
+export function areFlowersGrowing(game: GameState): Restriction {
   const flowerGrowing = Object.values(game.flowers.flowerBeds).some(
     (flowerBed) => {
       const flower = flowerBed.flower;
@@ -246,7 +246,7 @@ function isBeehivesFull(game: GameState): boolean {
   );
 }
 
-function isProducingHoney(game: GameState): Restriction {
+export function isProducingHoney(game: GameState): Restriction {
   return [
     areFlowersGrowing(game)[0] && !isBeehivesFull(game),
     translate("restrictionReason.beesBusy"),
@@ -297,7 +297,7 @@ function hasShakenTree(game: GameState): Restriction {
   return [hasShakenRecently, translate("restrictionReason.festiveSeason")];
 }
 
-function areAnyOilReservesDrilled(game: GameState): Restriction {
+export function areAnyOilReservesDrilled(game: GameState): Restriction {
   const now = Date.now();
 
   const oilReservesDrilled = Object.values(game.oilReserves).some(
@@ -330,7 +330,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   Rooster: (game) => areAnyChickensFed(game),
   Bale: (game) => areAnyChickensFed(game),
   "Banana Chicken": (game) => areFruitsGrowing(game, "Banana"),
-  "Crim Peckster": (game) => areAnyCrimstonessMined(game),
+  "Crim Peckster": (game) => areAnyCrimstonesMined(game),
 
   // Crop Boosts
   Nancy: (game) => areAnyCropsGrowing(game),
