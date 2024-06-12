@@ -8,6 +8,8 @@ import { getKeys } from "features/game/types/craftables";
 import { BumpkinEquip } from "features/bumpkins/components/BumpkinEquip";
 import { Context } from "features/game/GameProvider";
 import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   game: GameState;
@@ -20,6 +22,8 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const bumpkin = game.bumpkin as Bumpkin;
 
   const farmHands = game.farmHands.bumpkins;
+
+  const { t } = useAppTranslation();
 
   return (
     <>
@@ -50,6 +54,13 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
       >
         <CloseButtonPanel
           bumpkinParts={farmHands[selectedFarmHandId as string]?.equipped}
+          onClose={() => setSelectedFarmHandId(undefined)}
+          tabs={[
+            {
+              icon: SUNNYSIDE.icons.wardrobe,
+              name: t("equip"),
+            },
+          ]}
         >
           <BumpkinEquip
             game={game}
