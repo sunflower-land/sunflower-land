@@ -680,17 +680,19 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                       }
                     }}
                   >
-                    {`${t("world.travelTo")} ${
-                      RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
-                        ? t("world.retreatShort")
+                    {t("world.travelTo", {
+                      location: RETREAT_BUMPKINS.includes(
+                        previewOrder?.from as NPCName
+                      )
+                        ? t("world.retreat")
                         : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
                         ? t("world.beach")
                         : KINGDOM_BUMPKINS.includes(
                             previewOrder?.from as NPCName
                           )
                         ? t("world.kingdom")
-                        : t("world.plazaShort")
-                    }`}
+                        : t("world.plaza"),
+                    })}
                   </Button>
                 )}
               {previewOrder.completedAt ? (
