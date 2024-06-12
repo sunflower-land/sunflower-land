@@ -432,16 +432,41 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Plural Forms
-  sec: "秒",
-  min: "分",
-  hr: "时",
-  day: "天",
+  // Full Singular
+  "time.second.full": "秒",
+  "time.minute.full": "分钟",
+  "time.hour.full": "小时",
+  "time.day.full": "天",
 
-  secs: "秒",
-  mins: "分",
-  hrs: "时",
-  days: "天",
+  // Full Plural
+  "time.seconds.full": "秒",
+  "time.minutes.full": "分钟",
+  "time.hours.full": "小时",
+  "time.days.full": "天",
+
+  // Medium Singular
+  "time.sec.med": "秒",
+  "time.min.med": "分钟",
+  "time.hr.med": "小时",
+  "time.day.med": "天",
+
+  // Medium Plural
+  "time.secs.med": "秒",
+  "time.mins.med": "分钟",
+  "time.hrs.med": "小时",
+  "time.days.med": "天",
+
+  // Short
+  "time.second.short": "秒",
+  "time.minute.short": "分钟",
+  "time.hour.short": "小时",
+  "time.day.short": "天",
+
+  // Relative Time
+  "time.seconds.ago": "{{time}} {{secondORseconds}} 前",
+  "time.minutes.ago": "{{time}} {{minuteORminutes}} 前",
+  "time.hours.ago": "{{time}} {{hourORhours}} 前",
+  "time.days.ago": "{{time}} {{dayORdays}} 前",
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

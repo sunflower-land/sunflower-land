@@ -250,17 +250,41 @@ export type GeneralTerms =
   | "vipAccess";
 
 export type TimeUnits =
-  // Singular
-  | "sec"
-  | "min"
-  | "hr"
-  | "day"
+  // Full Singular
+  | "time.second.full"
+  | "time.minute.full"
+  | "time.hour.full"
+  | "time.day.full"
 
-  //Plural
-  | "secs"
-  | "mins"
-  | "hrs"
-  | "days";
+  // Full Plural
+  | "time.seconds.full"
+  | "time.minutes.full"
+  | "time.hours.full"
+  | "time.days.full"
+
+  // Medium Singular
+  | "time.sec.med"
+  | "time.min.med"
+  | "time.hr.med"
+  | "time.day.med"
+
+  // Medium Plural
+  | "time.secs.med"
+  | "time.mins.med"
+  | "time.hrs.med"
+  | "time.days.med"
+
+  // Short
+  | "time.second.short"
+  | "time.minute.short"
+  | "time.hour.short"
+  | "time.day.short"
+
+  // Relative time
+  | "time.seconds.ago"
+  | "time.minutes.ago"
+  | "time.hours.ago"
+  | "time.days.ago";
 
 export type AchievementsTerms =
   | "breadWinner.description"

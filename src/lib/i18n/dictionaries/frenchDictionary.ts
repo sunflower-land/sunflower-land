@@ -432,16 +432,41 @@ const generalTerms: Record<GeneralTerms, string> = {
 };
 
 const timeUnits: Record<TimeUnits, string> = {
-  // Time
-  sec: "sec",
-  min: "min",
-  hr: "hr",
-  day: "Jour",
+  // Full Singular
+  "time.second.full": "seconde",
+  "time.minute.full": "minute",
+  "time.hour.full": "heure",
+  "time.day.full": "jour",
 
-  secs: "secondes",
-  mins: "minutes",
-  hrs: "hrs",
-  days: "Jours",
+  // Full Plural
+  "time.seconds.full": "secondes",
+  "time.minutes.full": "minutes",
+  "time.hours.full": "heures",
+  "time.days.full": "jours",
+
+  // Medium Singular
+  "time.sec.med": "sec",
+  "time.min.med": "min",
+  "time.hr.med": "hr",
+  "time.day.med": "jr",
+
+  // Medium Plural
+  "time.secs.med": "secs",
+  "time.mins.med": "mins",
+  "time.hrs.med": "hrs",
+  "time.days.med": "jrs",
+
+  // Short
+  "time.second.short": "s",
+  "time.minute.short": "min",
+  "time.hour.short": "h",
+  "time.day.short": "j",
+
+  // Relative Time
+  "time.seconds.ago": ENGLISH_TERMS["time.seconds.ago"],
+  "time.minutes.ago": ENGLISH_TERMS["time.minutes.ago"],
+  "time.hours.ago": ENGLISH_TERMS["time.hours.ago"],
+  "time.days.ago": ENGLISH_TERMS["time.days.ago"],
 };
 
 const achievementTerms: Record<AchievementsTerms, string> = {

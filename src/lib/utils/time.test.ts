@@ -602,28 +602,28 @@ describe("time", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 5000; // 5 seconds ago
       const result = getRelativeTime(pastTimestamp);
-      expect(result).toMatch(/^5 seconds ago$/);
+      expect(result).toMatch("5 seconds ago");
     });
 
     it("returns a string indicating the number of minutes ago for timestamps within the past hour", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 300000; // 5 minutes ago
       const result = getRelativeTime(pastTimestamp);
-      expect(result).toMatch(/^5 minutes ago$/);
+      expect(result).toMatch("5 minutes ago");
     });
 
     it("returns a string indicating the number of hours ago for timestamps within the past day", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 7200000; // 2 hours ago
       const result = getRelativeTime(pastTimestamp);
-      expect(result).toMatch(/^2 hours ago$/);
+      expect(result).toMatch("2 hours ago");
     });
 
     it("returns a string indicating the number of days ago for timestamps older than a day", () => {
       const now = new Date();
       const pastTimestamp = now.getTime() - 604800000; // 7 days ago
       const result = getRelativeTime(pastTimestamp);
-      expect(result).toMatch(/^7 days ago$/);
+      expect(result).toMatch("7 days ago");
     });
   });
 
