@@ -201,6 +201,9 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
               </span>
             </div>
             <div className="flex justify-content-around mt-2 space-x-1">
+              <Button onClick={() => showConfirmBuyModal(false)}>
+                {t("cancel")}
+              </Button>
               <Button
                 onClick={() => {
                   buy(bulkSeedBuyAmount);
@@ -208,9 +211,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
                 }}
               >
                 {t("buy")} {bulkSeedBuyAmount}
-              </Button>
-              <Button onClick={() => showConfirmBuyModal(false)}>
-                {t("cancel")}
               </Button>
             </div>
           </Panel>

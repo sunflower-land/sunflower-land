@@ -207,10 +207,10 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={onLogout}>{t("gameOptions.logout")}</Button>
             <Button onClick={() => showConfirmLogoutModal(false)}>
               {t("cancel")}
             </Button>
+            <Button onClick={onLogout}>{t("gameOptions.logout")}</Button>
           </div>
         </CloseButtonPanel>
       </Modal>

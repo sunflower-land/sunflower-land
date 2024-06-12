@@ -135,14 +135,14 @@ export const HeliosBlacksmithItems: React.FC = () => {
                       </span>
                     </div>
                     <div className="flex justify-content-around mt-2 space-x-1">
+                      <Button onClick={closeConfirmationModal}>
+                        {t("cancel")}
+                      </Button>
                       <Button
                         disabled={lessIngredients() || isNotReady(selectedItem)}
                         onClick={handleBuy}
                       >
                         {t("craft")}
-                      </Button>
-                      <Button onClick={closeConfirmationModal}>
-                        {t("cancel")}
                       </Button>
                     </div>
                   </CloseButtonPanel>

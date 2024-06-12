@@ -144,6 +144,7 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
               </span>
             </div>
             <div className="flex justify-content-around mt-2 space-x-1">
+              <Button onClick={closeConfirmationModal}>{t("cancel")}</Button>
               <Button
                 disabled={
                   isNotReady(selected, state) ||
@@ -154,7 +155,6 @@ export const StylistWearables: React.FC<Props> = ({ wearables }) => {
               >
                 {t("buy")}
               </Button>
-              <Button onClick={closeConfirmationModal}>{t("cancel")}</Button>
             </div>
           </CloseButtonPanel>
         </Modal>

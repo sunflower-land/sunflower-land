@@ -302,6 +302,9 @@ export const ComposterModal: React.FC<Props> = ({
                       </span>
                     </div>
                     <div className="flex justify-content-around mt-2 space-x-1">
+                      <Button onClick={() => showConfirmBoostModal(false)}>
+                        {t("cancel")}
+                      </Button>
                       <Button
                         disabled={
                           !state.inventory.Egg?.gte(
@@ -311,9 +314,6 @@ export const ComposterModal: React.FC<Props> = ({
                         onClick={applyBoost}
                       >
                         {t("guide.compost.addEggs")}
-                      </Button>
-                      <Button onClick={() => showConfirmBoostModal(false)}>
-                        {t("cancel")}
                       </Button>
                     </div>
                   </CloseButtonPanel>

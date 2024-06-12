@@ -129,14 +129,14 @@ export const DecorationItems: React.FC<Props> = ({ items }) => {
                     </span>
                   </div>
                   <div className="flex justify-content-around mt-2 space-x-1">
+                    <Button onClick={closeConfirmationModal}>
+                      {t("cancel")}
+                    </Button>
                     <Button
                       disabled={lessFunds() || lessIngredients()}
                       onClick={handleBuy}
                     >
                       {t("buy")}
-                    </Button>
-                    <Button onClick={closeConfirmationModal}>
-                      {t("cancel")}
                     </Button>
                   </div>
                 </CloseButtonPanel>
