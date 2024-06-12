@@ -19,9 +19,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 function isNotReady(collectible: CraftableCollectible) {
   return (
@@ -123,30 +122,15 @@ export const HeliosBlacksmithItems: React.FC = () => {
                 >
                   {t("craft")}
                 </Button>
-                <Modal
+                <ConfirmationModal
                   show={isConfirmBuyModalOpen}
                   onHide={closeConfirmationModal}
-                >
-                  <CloseButtonPanel className="sm:w-4/5 m-auto">
-                    <div className="flex flex-col p-2">
-                      <span className="text-sm text-center">
-                        {t("confirmation.craft")} {`${selectedName}`}
-                        {"?"}
-                      </span>
-                    </div>
-                    <div className="flex justify-content-around mt-2 space-x-1">
-                      <Button
-                        disabled={lessIngredients() || isNotReady(selectedItem)}
-                        onClick={handleBuy}
-                      >
-                        {t("craft")}
-                      </Button>
-                      <Button onClick={closeConfirmationModal}>
-                        {t("cancel")}
-                      </Button>
-                    </div>
-                  </CloseButtonPanel>
-                </Modal>
+                  messages={[t("confirmation.craft", { item: selectedName })]}
+                  onCancel={closeConfirmationModal}
+                  onConfirm={handleBuy}
+                  confirmButtonLabel={t("craft")}
+                  disabled={lessIngredients() || isNotReady(selectedItem)}
+                />
               </>
             )
           }
