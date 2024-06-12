@@ -152,7 +152,7 @@ export const CloseButtonPanel: React.FC<Props> = ({
       )}
 
       {/* Content */}
-      <div className="overflow-x-hidden">
+      <div>
         {title && (
           <div className="flex text-center">
             {(showCloseButton || showBackButton) && !tabs && (

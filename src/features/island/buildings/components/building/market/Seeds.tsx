@@ -296,7 +296,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           <Label
             icon={CROP_LIFECYCLE.Sunflower.crop}
             type="default"
-            className="ml-1 mb-1"
+            className="ml-2 mb-1"
           >
             {t("crops")}
           </Label>
