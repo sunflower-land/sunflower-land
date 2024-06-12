@@ -46,9 +46,8 @@ import {
 } from "features/game/events/landExpansion/plantGreenhouse";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { capitalize } from "lib/utils/capitalize";
-import { Modal } from "components/ui/Modal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { Panel } from "components/ui/Panel";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { setPrecision } from "lib/utils/formatNumber";
 
 interface Props {
@@ -190,34 +189,27 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
             {t("seeds.reachingInventoryLimit")}
           </p>
         )}
-        <Modal show={confirmBuyModal} onHide={() => showConfirmBuyModal(false)}>
-          <Panel className="sm:w-4/5 m-auto" bumpkinParts={NPC_WEARABLES.betty}>
-            <div className="flex flex-col p-2">
-              <span className="text-sm text-center">
-                {t("confirmation.buyCrops", {
-                  coinAmount: setPrecision(
-                    new Decimal(price).mul(bulkSeedBuyAmount)
-                  ).toNumber(),
-                  seedNo: bulkSeedBuyAmount,
-                  seedName: selectedName,
-                })}
-              </span>
-            </div>
-            <div className="flex justify-content-around mt-2 space-x-1">
-              <Button onClick={() => showConfirmBuyModal(false)}>
-                {t("cancel")}
-              </Button>
-              <Button
-                onClick={() => {
-                  buy(bulkSeedBuyAmount);
-                  showConfirmBuyModal(false);
-                }}
-              >
-                {t("buy")} {bulkSeedBuyAmount}
-              </Button>
-            </div>
-          </Panel>
-        </Modal>
+        <ConfirmationModal
+          show={confirmBuyModal}
+          onHide={() => showConfirmBuyModal(false)}
+          messages={[
+            t("confirmation.buyCrops", {
+              coinAmount: setPrecision(
+                new Decimal(price).mul(bulkSeedBuyAmount)
+              ).toNumber(),
+              seedNo: bulkSeedBuyAmount,
+              seedName: selectedName,
+            }),
+          ]}
+          onCancel={() => showConfirmBuyModal(false)}
+          onConfirm={() => {
+            buy(bulkSeedBuyAmount);
+            showConfirmBuyModal(false);
+          }}
+          confirmButtonLabel={`${t("buy")} ${bulkSeedBuyAmount}`}
+          bumpkinParts={NPC_WEARABLES.betty}
+          disabled={lessFunds(bulkSeedBuyAmount)}
+        />
       </>
     );
   };
