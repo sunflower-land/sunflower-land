@@ -17,6 +17,7 @@ import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
 import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import { changeFont } from "lib/utils/fonts";
 import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
@@ -158,23 +159,14 @@ export const LanguageSwitcher: React.FC = () => {
           </div>
         </Panel>
       </Modal>
-      <Modal show={isConfirmModalOpen} onHide={() => setConfirmModal(false)}>
-        <Panel className="sm:w-4/5 m-auto">
-          <div className="flex flex-col p-2">
-            <span className="text-sm text-center">
-              {t("changeLanguage.confirm")}
-            </span>
-          </div>
-          <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={() => setConfirmModal(false)}>
-              {t("cancel")}
-            </Button>
-            <Button onClick={() => handleChangeLanguage(selected)}>
-              {t("confirm")}
-            </Button>
-          </div>
-        </Panel>
-      </Modal>
+      <ConfirmationModal
+        show={isConfirmModalOpen}
+        onHide={() => setConfirmModal(false)}
+        messages={[t("changeLanguage.confirm")]}
+        onCancel={() => setConfirmModal(false)}
+        onConfirm={() => handleChangeLanguage(selected)}
+        confirmButtonLabel={t("confirm")}
+      />
     </>
   );
 };
