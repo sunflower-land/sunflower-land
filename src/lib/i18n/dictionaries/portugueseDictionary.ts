@@ -277,7 +277,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "Item",
   land: "Terra",
   "last.updated": "Última atualização",
-  left: "Esquerda",
   "lets.go": "Vamos lá!",
   limit: "Limite",
   list: "Listar",
@@ -1134,6 +1133,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason":
     "Uma nova temporada se aproxima, as tarefas serão temporariamente encerradas.",
   "chores.noChore": "Desculpe, não tenho tarefas para fazer agora.",
+  "chores.left": ENGLISH_TERMS["chores.left"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2544,6 +2544,8 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
   "harvest.number": ENGLISH_TERMS["harvest.number"],
   "level.number": ENGLISH_TERMS["level.number"],
+  "stock.left": ENGLISH_TERMS["stock.left"],
+  "stock.inStock": ENGLISH_TERMS["stock.inStock"],
 };
 
 const genieLamp: Record<GenieLamp, string> = {
@@ -4605,7 +4607,6 @@ const statements: Record<Statements, string> = {
   "statements.water.well.needed.two":
     "Para suportar mais culturas, construa um poço.",
   "statements.soldOut": "Esgotado",
-  "statements.inStock": "em estoque",
   "statements.soldOutWearables": "Ver wearables esgotados",
   "statements.craft.composter": "Produzir no Composter",
   "statements.wallet.to.inventory.transfer": "Deposite itens de sua carteira",

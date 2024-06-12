@@ -301,7 +301,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   land: "Île",
   "last.updated": "Dernière mise à jour",
   layouts: "Mises en page",
-  left: "Restant",
   "lets.go": "C'est parti!",
   limit: "Limite",
   "linked.wallet": "Portefeuille lié",
@@ -1144,6 +1143,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason":
     "Une nouvelle saison approche, les tâches seront temporairement fermées.",
   "chores.choresFrozen": ENGLISH_TERMS["chores.choresFrozen"],
+  "chores.left": ENGLISH_TERMS["chores.left"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2625,6 +2625,8 @@ const gameTerms: Record<GameTerms, string> = {
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
   "harvest.number": ENGLISH_TERMS["harvest.number"],
   "level.number": ENGLISH_TERMS["level.number"],
+  "stock.left": ENGLISH_TERMS["stock.left"],
+  "stock.inStock": ENGLISH_TERMS["stock.inStock"],
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4758,7 +4760,6 @@ const statements: Record<Statements, string> = {
   "statements.water.well.needed.two":
     "Pour soutenir davantage de cultures, construisez un puits.",
   "statements.soldOut": "Épuisé",
-  "statements.inStock": "En stock",
   "statements.soldOutWearables": "Voir les articles épuisés",
   "statements.craft.composter": "Fabriquez au composteur",
   "statements.wallet.to.inventory.transfer":

@@ -265,7 +265,6 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "物品：",
   land: "农场",
   "last.updated": "最近更新时间：",
-  left: "剩余", // context is amount of stock left, Megashop time left
   "lets.go": "走吧！",
   limit: "上限", // Megastore error message, Limit: Balance / Limit
   list: "上架",
@@ -1039,6 +1038,7 @@ const choresStart: Record<ChoresStart, string> = {
   "chores.newSeason": "新时季就要来临，日常农活暂时停单。",
   "chores.choresFrozen":
     "新时季日常农活即将发单。先前时季的日常农活与进度会被重置。",
+  "chores.left": ENGLISH_TERMS["chores.left"],
 };
 
 const chumDetails: Record<ChumDetails, string> = {
@@ -2272,6 +2272,8 @@ const gameTerms: Record<GameTerms, string> = {
   "harvest.number": ENGLISH_TERMS["harvest.number"],
   "level.number": ENGLISH_TERMS["level.number"],
   "visiting.farmId": ENGLISH_TERMS["visiting.farmId"],
+  "stock.left": "剩下 {{stock}} 个",
+  "stock.inStock": "库存 {{stock}} 个",
 };
 
 const garbageCollector: Record<GarbageCollector, string> = {
@@ -4074,7 +4076,6 @@ const statements: Record<Statements, string> = {
   "statements.water.well.needed.two":
     "为了支持更多的庄稼，建造更多的 Water Well。",
   "statements.soldOut": "售罄",
-  "statements.inStock": "库存",
   "statements.soldOutWearables": ENGLISH_TERMS["statements.soldOutWearables"],
   "statements.craft.composter": ENGLISH_TERMS["statements.craft.composter"],
   "statements.wallet.to.inventory.transfer":

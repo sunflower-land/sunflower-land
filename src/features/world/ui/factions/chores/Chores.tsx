@@ -122,8 +122,9 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                   {`Upcoming`}
                 </Label>
                 <p className="text-xxs">
-                  {chores.weeklyChores - chores.weeklyChoresCompleted}{" "}
-                  {t("left")}
+                  {t("chores.left", {
+                    chores: chores.weeklyChores - chores.weeklyChoresCompleted,
+                  })}
                 </p>
               </div>
             }
