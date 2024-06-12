@@ -3814,6 +3814,8 @@ const restrictionReason: Record<RestrictionReason, string> = {
   "restrictionReason.oilReserveDrilled": "Oil reserves are drilled",
   "restrictionReason.buildingInUse":
     ENGLISH_TERMS["restrictionReason.buildingInUse"],
+  "restrictionReason.beehiveInUse":
+    ENGLISH_TERMS["restrictionReason.beehiveInUse"],
 };
 
 const restock: Record<Restock, string> = {

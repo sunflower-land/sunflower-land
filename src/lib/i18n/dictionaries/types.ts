@@ -3415,7 +3415,8 @@ export type RestrictionReason =
   | "restrictionReason.noRestriction"
   | "restrictionReason.genieLampRubbed"
   | "restrictionReason.oilReserveDrilled"
-  | "restrictionReason.buildingInUse";
+  | "restrictionReason.buildingInUse"
+  | "restrictionReason.beehiveInUse";
 
 export type Leaderboard =
   | "leaderboard.leaderboard"

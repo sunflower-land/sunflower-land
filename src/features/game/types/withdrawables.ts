@@ -1328,7 +1328,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Propeller Hat": () => true,
   "Honeycomb Shield": (state) =>
     canWithdrawBoostedWearable("Honeycomb Shield", state), // Last Auction 2024/04/09 5pm UTC
-  "Hornet Mask": () => true,
+  "Hornet Mask": (state) => canWithdrawBoostedWearable("Hornet Mask", state),
   "Flower Crown": (state) => canWithdrawBoostedWearable("Flower Crown", state),
   "Blue Monarch Dress": () => true,
   "Green Monarch Dress": () => false,

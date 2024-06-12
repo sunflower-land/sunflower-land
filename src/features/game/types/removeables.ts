@@ -238,17 +238,19 @@ export function areFlowersGrowing(game: GameState): Restriction {
   return [flowerGrowing, translate("restrictionReason.flowersGrowing")];
 }
 
-function isBeehivesFull(game: GameState): boolean {
+export function isBeehivesFull(game: GameState): Restriction {
   // 0.9 Small buffer in case of any rounding errors
-  return Object.values(game.beehives).every(
+  const beehiveProducing = Object.values(game.beehives).every(
     (hive) =>
       getCurrentHoneyProduced(hive) >= DEFAULT_HONEY_PRODUCTION_TIME * 0.9
   );
+
+  return [beehiveProducing, translate("restrictionReason.beehiveInUse")];
 }
 
 export function isProducingHoney(game: GameState): Restriction {
   return [
-    areFlowersGrowing(game)[0] && !isBeehivesFull(game),
+    areFlowersGrowing(game)[0] && !isBeehivesFull(game)[0],
     translate("restrictionReason.beesBusy"),
   ];
 }
