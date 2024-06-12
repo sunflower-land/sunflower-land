@@ -97,9 +97,7 @@ const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
 export function initialiseFont() {
   const font = getCachedFont();
 
-  if (font !== "Default") {
-    changeFont(font);
-  }
+  changeFont(font);
 }
 
 export function changeFont(font: Font) {
