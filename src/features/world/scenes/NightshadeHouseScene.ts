@@ -16,6 +16,11 @@ export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
     npc: "shadow",
     direction: "right",
   },
+  {
+    x: 115,
+    y: 249,
+    npc: "chef ebon",
+  },
 ];
 
 export class NightshadeHouseScene extends BaseScene {

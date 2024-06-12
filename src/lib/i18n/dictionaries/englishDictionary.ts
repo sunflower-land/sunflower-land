@@ -2025,7 +2025,7 @@ const factions: Record<Factions, string> = {
   "faction.donation.bulk.resources.unlimited.per.day":
     "{{donatedToday}}/unlimited per day",
   "faction.donation.confirm":
-    "Are you sure you want to donate the following for a total of {{factionPoints}} faction points?",
+    "Are you sure you want to donate the following for a total of {{factionPoints}} {{reward}}?",
   "faction.seasonal.delivery.start.at": "Seasonal Deliveries begin in {{days}}",
   "faction.points.with.number": "Faction points: {{points}}",
   "faction.points.title": "Faction Points",
@@ -2074,6 +2074,15 @@ const factions: Record<Factions, string> = {
   "faction.claimEmblems.travelNow": "Travel Now",
   "faction.claimEmblems.visitMe":
     "Visit me, {{recruiterName}}, in the Kingdom to claim your emblems.",
+
+  "faction.kitchen.opensIn": "Opens in {{time}}",
+  "faction.kitchen.notReady":
+    "Ahhh I love your enthusiasm! However, the kitchen is not open yet. Please come back later.",
+  "faction.kitchen.gatherResources":
+    "So many new recruits... how will we feed them all! Can you help me gather some resources?",
+  "faction.kitchen.preparing":
+    "I'm still preparing my orders! Please come back in a few minutes.",
+  "faction.kitchen.newRequests": "New requests: {{time}}",
 };
 
 const festiveTree: Record<FestiveTree, string> = {

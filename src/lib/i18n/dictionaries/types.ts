@@ -1465,6 +1465,11 @@ export type Factions =
   | "faction.greeting.sunflorians"
   | "faction.greeting.bumpkins"
   | "faction.greeting.nightshades"
+  | "faction.kitchen.opensIn"
+  | "faction.kitchen.notReady"
+  | "faction.kitchen.gatherResources"
+  | "faction.kitchen.preparing"
+  | "faction.kitchen.newRequests"
   // Emblem Airdrop
   | "faction.claimEmblems.alreadyClaimed"
   | "faction.claimEmblems.emblemsEarned"

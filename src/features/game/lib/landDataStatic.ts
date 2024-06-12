@@ -1310,7 +1310,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     amount: new Decimal(1000),
   },
   faction: {
-    name: "goblins",
+    name: "nightshades",
     pledgedAt: 0,
     points: 100,
     donated: {
@@ -1319,6 +1319,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
         resources: {},
       },
       totalItems: {},
+    },
+    kitchen: {
+      week: 1,
+      requests: [
+        { item: "Sunflower", amount: 1, deliveryCount: 0 },
+        { item: "Honey", amount: 1, deliveryCount: 0 },
+        { item: "Tuna", amount: 1, deliveryCount: 0 },
+      ],
+      points: 0,
     },
   },
 };

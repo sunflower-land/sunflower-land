@@ -48,7 +48,6 @@ import { isSwarming } from "../events/detectBot";
 import { generateTestLand } from "../expansion/actions/generateLand";
 
 import { loadGameStateForVisit } from "../actions/loadGameStateForVisit";
-import { OFFLINE_FARM } from "./landData";
 import { randomID } from "lib/utils/random";
 
 import { buySFL } from "../actions/buySFL";
@@ -97,6 +96,7 @@ import {
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
 import { MinigameName } from "../types/minigames";
 import { getBumpkinLevel } from "./level";
+import { DYNAMIC_OFFLINE_FARM } from "./landDataDynamic";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -592,7 +592,7 @@ export function startGame(authContext: AuthContext) {
               target: "notifying",
               cond: () => ART_MODE,
               actions: assign({
-                state: (_context) => OFFLINE_FARM,
+                state: (_context) => DYNAMIC_OFFLINE_FARM,
               }),
             },
           ],

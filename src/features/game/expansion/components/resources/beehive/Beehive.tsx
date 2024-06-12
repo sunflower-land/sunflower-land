@@ -328,7 +328,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
                       {
                         "-translate-x-[80px]":
                           percentage > 70 && percentage < 100,
-                        "-translate-x-16": percentage === 100,
+                        "-translate-x-16": percentage >= 100,
                       }
                     )}
                   >

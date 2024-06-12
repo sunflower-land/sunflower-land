@@ -82,6 +82,10 @@ export type NPCName =
   | "barlow" // faction recruiter;
   | "nyx" // faction recruiter;
   | "reginald" // faction recruiter;
+  | "chef tuck" // goblin chef
+  | "chef ebon" // nightshade chef
+  | "chef maple" // bumpkins chef
+  | "chef lumen" // sunflorian chef
   | "glinteye"
   | "solara"
   | "dusk"
@@ -92,6 +96,50 @@ export type NPCName =
   | "flora";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  "chef tuck": {
+    body: "Goblin Potion",
+    hair: "Wise Hair",
+    hat: "Chef Hat",
+    shirt: "Goblin Armor",
+    pants: "Goblin Pants",
+    tool: "Skinning Knife",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    coat: "Chef Apron",
+  },
+  "chef maple": {
+    body: "Light Brown Farmer Potion",
+    hair: "Brown Long Hair",
+    hat: "Chef Hat",
+    shirt: "Bumpkin Armor",
+    pants: "Bumpkin Pants",
+    tool: "Pan",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    coat: "Chef Apron",
+  },
+  "chef ebon": {
+    body: "Dark Brown Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Chef Hat",
+    shirt: "Nightshade Armor",
+    pants: "Nightshade Pants",
+    tool: "Golden Spatula",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    coat: "Chef Apron",
+  },
+  "chef lumen": {
+    body: "Beige Farmer Potion",
+    hair: "Parlour Hair",
+    hat: "Chef Hat",
+    shirt: "Sunflorian Armor",
+    pants: "Sunflorian Pants",
+    tool: "Parsnip",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    coat: "Chef Apron",
+  },
   gambit: {
     body: "Goblin Potion",
     hair: "Sun Spots",
