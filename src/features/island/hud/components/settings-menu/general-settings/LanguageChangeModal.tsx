@@ -166,11 +166,11 @@ export const LanguageSwitcher: React.FC = () => {
             </span>
           </div>
           <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={() => handleChangeLanguage(selected)}>
-              {t("gameOptions.generalSettings.changeLanguage")}
-            </Button>
             <Button onClick={() => setConfirmModal(false)}>
               {t("cancel")}
+            </Button>
+            <Button onClick={() => handleChangeLanguage(selected)}>
+              {t("confirm")}
             </Button>
           </div>
         </Panel>
