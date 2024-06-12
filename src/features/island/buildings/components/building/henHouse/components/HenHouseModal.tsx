@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import plus from "assets/icons/plus.png";
 import boxChicken from "assets/animals/chickens/box_chicken.png";
 
-import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
 import { useActor } from "@xstate/react";
@@ -15,7 +14,8 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { SplitScreenView } from "components/ui/SplitScreenView";
+import { GenericItemDetails } from "components/ui/layouts/GenericItemDetails";
 
 interface Props {
   onClose: () => void;
@@ -98,84 +98,86 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const Details = () => {
+  const itemDetails =
+    selectedChicken === "buy"
+      ? {
+          icon: SUNNYSIDE.resource.chicken,
+          title: t("chicken"),
+          description: t("henHouse.text.one"),
+          coinsRequirement: price,
+        }
+      : selectedChicken === "lazy"
+      ? {
+          icon: boxChicken,
+          title: t("henHouse.text.two"),
+          description: t("henHouse.text.three"),
+        }
+      : {
+          icon: SUNNYSIDE.resource.chicken,
+          title: t("henHouse.text.four"),
+          description: t("henHouse.text.five"),
+        };
+
+  const getAction = () => {
     if (selectedChicken === "buy") {
       return (
-        <>
-          <div className="flex flex-col justify-center items-center p-2 relative">
-            <span className="text-center">{t("chicken")}</span>
-            <img
-              src={SUNNYSIDE.resource.chicken}
-              className="h-16 img-highlight"
-              alt="chicken"
-            />
-            <span className="text-center mt-2 text-sm">
-              {t("henHouse.text.one")}
-            </span>
-            <>
-              <div className="border-t border-white w-full mt-2 pt-1">
-                <div className="flex justify-center mt-2 items-center">
-                  <RequirementLabel
-                    type="coins"
-                    balance={state.coins}
-                    requirement={price ?? 0}
-                  />
-                </div>
-              </div>
-            </>
-          </div>
-          <Button
-            disabled={!canBuyChicken || autosaving}
-            className="text-xs mt-3 whitespace-nowrap"
-            onClick={handleBuy}
-          >
-            {autosaving ? t("saving") : t("buy")}
-          </Button>
-        </>
+        <Button disabled={!canBuyChicken || autosaving} onClick={handleBuy}>
+          {autosaving ? t("saving") : t("buy")}
+        </Button>
       );
     }
 
     if (selectedChicken === "lazy") {
       return (
-        <>
-          <div className="flex flex-col justify-center items-center p-2 relative">
-            <span className="text-center">{t("henHouse.text.two")}</span>
-            <img
-              src={boxChicken}
-              className="h-16 img-highlight mt-1"
-              alt="chicken"
-            />
-            <div className="flex mt-2 relative">
-              <span className="text-center text-sm">
-                {t("henHouse.text.three")}
-              </span>
-            </div>
-          </div>
-          <Button
-            className="text-xs mt-3 whitespace-nowrap"
-            onClick={handlePlace}
-            disabled={!canPlaceLazyChicken || autosaving}
-          >
-            {autosaving ? t("saving") : "Place"}
-          </Button>
-        </>
+        <Button
+          onClick={handlePlace}
+          disabled={!canPlaceLazyChicken || autosaving}
+        >
+          {autosaving ? t("saving") : "Place"}
+        </Button>
       );
     }
 
-    return (
-      <div className="flex flex-col justify-center items-center p-2 relative">
-        <span className="text-center">{t("henHouse.text.four")}</span>
-        <img
-          src={SUNNYSIDE.resource.chicken}
-          className="h-16 img-highlight mt-1"
-          alt="chicken"
-        />
-        <span className="text-center mt-2 text-xs">
-          {t("henHouse.text.five")}
-        </span>
-      </div>
-    );
+    return <></>;
   };
+
+  const getContent = () => (
+    <>
+      <div className="flex flex-wrap mb-2">
+        <Box
+          isSelected={selectedChicken === "working"}
+          key="working-chicken"
+          count={workingChickenCount}
+          onClick={() => setSelectedChicken("working")}
+          image={SUNNYSIDE.resource.chicken}
+        />
+        <Box
+          isSelected={selectedChicken === "lazy"}
+          key="lazy-chicken"
+          count={lazyChickenCount}
+          onClick={() => setSelectedChicken("lazy")}
+          image={boxChicken}
+        />
+        <Box
+          isSelected={selectedChicken === "buy"}
+          key="buy-chicken"
+          onClick={() => setSelectedChicken("buy")}
+          image={plus}
+        />
+      </div>
+      <div className="flex flex-col items-baseline w-full">
+        <Label
+          type={workingCapacityFull ? "danger" : "info"}
+          className="sm:mr-auto m-1"
+        >
+          {`Capacity ${workingChickenCount}/${availableSpots}`}
+        </Label>
+        {workingCapacityFull && (
+          <p className="text-xs mx-1 mb-1">{t("henHouse.text.six")}</p>
+        )}
+      </div>
+    </>
+  );
 
   return (
     <CloseButtonPanel
@@ -186,54 +188,26 @@ export const HenHouseModal: React.FC<Props> = ({ onClose }) => {
           name: t("henHouse.chickens"),
         },
       ]}
-      container={OuterPanel}
     >
-      <div
-        className="flex"
-        style={{
-          minHeight: "200px",
-        }}
-      >
-        <InnerPanel
-          className="w-full sm:w-3/5 h-fit overflow-y-auto scrollable overflow-x-hidden p-1 mt-1 sm:mt-0 sm:mr-1 flex flex-wrap"
-          style={{ maxHeight: 400 }}
-        >
-          <div className="flex flex-wrap">
-            <Box
-              isSelected={selectedChicken === "working"}
-              key="working-chicken"
-              count={workingChickenCount}
-              onClick={() => setSelectedChicken("working")}
-              image={SUNNYSIDE.resource.chicken}
-            />
-            <Box
-              isSelected={selectedChicken === "lazy"}
-              key="lazy-chicken"
-              count={lazyChickenCount}
-              onClick={() => setSelectedChicken("lazy")}
-              image={boxChicken}
-            />
-            <Box
-              isSelected={selectedChicken === "buy"}
-              key="buy-chicken"
-              onClick={() => setSelectedChicken("buy")}
-              image={plus}
-            />
-          </div>
-          <div className="flex flex-col items-baseline w-full">
-            <Label
-              type={workingCapacityFull ? "danger" : "info"}
-              className="sm:mr-auto m-1"
-            >
-              {`Capacity ${workingChickenCount}/${availableSpots}`}
-            </Label>
-            {workingCapacityFull && (
-              <p className="text-xs mx-1 mb-1">{t("henHouse.text.six")}</p>
-            )}
-          </div>
-        </InnerPanel>
-        <InnerPanel className="w-full flex-1">{Details()}</InnerPanel>
-      </div>
+      <SplitScreenView
+        panel={
+          <GenericItemDetails
+            gameState={state}
+            details={{
+              icon: itemDetails.icon,
+              title: itemDetails.title,
+              description: itemDetails.description,
+            }}
+            requirements={
+              itemDetails.coinsRequirement
+                ? { coins: itemDetails.coinsRequirement }
+                : undefined
+            }
+            actionView={getAction()}
+          />
+        }
+        content={getContent()}
+      />
     </CloseButtonPanel>
   );
 };

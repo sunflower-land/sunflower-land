@@ -39,9 +39,12 @@ export const BudDetails: React.FC<Props> = ({
     <div className="flex flex-col justify-between h-full">
       <div className="flex flex-col justify-center px-1 py-0">
         <div
-          className={classNames("flex space-x-2 justify-start items-center", {
-            "sm:flex-col-reverse md:space-x-0": !wideLayout,
-          })}
+          className={classNames(
+            "flex mb-1 space-x-2 justify-start items-center",
+            {
+              "sm:flex-col-reverse md:space-x-0": !wideLayout,
+            }
+          )}
         >
           {icon && (
             <div className={classNames("", { "sm:mt-2": !wideLayout })}>
@@ -58,7 +61,7 @@ export const BudDetails: React.FC<Props> = ({
         </div>
         <div
           className={classNames(
-            "border-t border-white w-full my-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap",
+            "border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap",
             { "sm:flex-col sm:items-center sm:flex-nowrap": !wideLayout }
           )}
         >

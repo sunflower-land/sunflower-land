@@ -1,36 +1,38 @@
-import { InventoryItemName } from "features/game/types/game";
-import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { SquareIcon } from "../SquareIcon";
-import Decimal from "decimal.js-light";
+import { GameState } from "features/game/types/game";
 
 /**
  * The props for the details for items.
- * @param item The item.
+ * @param icon The item icon.
+ * @param title The item title.
+ * @param description The item description.
  */
 interface ItemDetailsProps {
-  item: InventoryItemName;
+  icon: string;
+  title: string;
+  description: string;
 }
 
 /**
- * The props for selling the item.
- * @param coins The coins gained for selling the item.
+ * The props for the requirements.
+ * @param coins The Coins requirements.
  */
-interface PropertiesProps {
+interface RequirementsProps {
   coins?: number;
-  sfl?: Decimal;
 }
 
 /**
  * The props for the component.
  * @param details The item details.
- * @param requirements The item properties.
- * @param actionView The view for displaying the crafting action.
+ * @param requirements The item requirements.
+ * @param actionView The view for displaying the feed action.
  */
 interface Props {
+  gameState: GameState;
   details: ItemDetailsProps;
-  properties?: PropertiesProps;
+  requirements?: RequirementsProps;
   actionView?: JSX.Element;
 }
 
@@ -38,16 +40,16 @@ interface Props {
  * The view for displaying item name, details, properties and action.
  * @props The component props.
  */
-export const ShopSellDetails: React.FC<Props> = ({
+export const GenericItemDetails: React.FC<Props> = ({
+  gameState,
   details,
-  properties,
+  requirements,
   actionView,
 }: Props) => {
   const getItemDetail = () => {
-    const item = ITEM_DETAILS[details.item];
-    const icon = item.image;
-    const title = details.item;
-    const description = item.description;
+    const icon = details.icon;
+    const title = details.title;
+    const description = details.description;
 
     return (
       <>
@@ -66,30 +68,28 @@ export const ShopSellDetails: React.FC<Props> = ({
     );
   };
 
-  const getProperties = () => {
-    if (!properties) return <></>;
+  const getRequirements = () => {
+    if (!requirements) return <></>;
 
     return (
       <div className="border-t border-white w-full mb-2 pt-2 flex justify-between gap-x-3 gap-y-2 flex-wrap sm:flex-col sm:items-center sm:flex-nowrap">
-        {/* Price display */}
-        {properties.coins !== undefined && (
+        {/* Coins requirement */}
+        {requirements.coins !== undefined && requirements.coins > 0 && (
           <RequirementLabel
-            type="sellForCoins"
-            requirement={properties.coins}
+            type="coins"
+            balance={gameState.coins}
+            requirement={requirements.coins}
           />
-        )}
-        {!!properties.sfl && (
-          <RequirementLabel type="sellForSfl" requirement={properties.sfl} />
         )}
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col h-full justify-center">
-      <div className="flex flex-col h-full px-1 py-0">
+    <div className="flex flex-col justify-center">
+      <div className="flex flex-col justify-center px-1 py-0">
         {getItemDetail()}
-        {getProperties()}
+        {getRequirements()}
       </div>
       {actionView}
     </div>
