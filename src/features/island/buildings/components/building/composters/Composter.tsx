@@ -82,7 +82,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
     <>
       <BuildingImageWrapper name={name} onClick={handleClick} ready={ready}>
         <div
-          className="absolute cursor-pointer hover:img-highlight"
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * width}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
@@ -93,7 +93,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
             style={{
               width: `${PIXEL_SCALE * width}px`,
               bottom: `${PIXEL_SCALE * 0}px`,
-              left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
+              left: `${PIXEL_SCALE * Math.round((32 - width) / 2)}px`,
             }}
             className="absolute"
             alt={name}

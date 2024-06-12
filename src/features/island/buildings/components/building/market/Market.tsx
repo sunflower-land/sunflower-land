@@ -79,7 +79,6 @@ export const Market: React.FC<BuildingProps> = ({
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,
-            height: `${PIXEL_SCALE * 38}px`,
           }}
         />
 

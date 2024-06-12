@@ -223,18 +223,20 @@ export const READONLY_BUILDINGS: (
   "Hen House": () => (
     <img
       src={HEN_HOUSE_VARIANTS[island]}
-      className="absolute"
-      style={{ width: `${PIXEL_SCALE * 61}px`, bottom: 0 }}
+      className="absolute bottom-0"
+      style={{
+        width: `${PIXEL_SCALE * 61}px`,
+        left: `${PIXEL_SCALE * 1}px`,
+      }}
     />
   ),
   "Town Center": () => (
     <img
       src={ITEM_DETAILS["Town Center"].image}
-      className="relative"
+      className="absolute bottom-0"
       style={{
         width: `${PIXEL_SCALE * 62}px`,
-        left: `${PIXEL_SCALE * 2}px`,
-        bottom: `${PIXEL_SCALE * 11}px`,
+        left: `${PIXEL_SCALE * 1}px`,
       }}
     />
   ),
@@ -286,7 +288,7 @@ export const READONLY_BUILDINGS: (
       style={{
         width: `${PIXEL_SCALE * 27}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
     >
       <img
