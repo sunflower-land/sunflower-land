@@ -32,7 +32,7 @@ export const LanguageSwitcher: React.FC = () => {
     localStorage.setItem("language", languageCode);
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
-    location.reload();
+    setConfirmModal(false);
 
     if (languageCode === "zh-CN") {
       changeFont("Sans Serif");
@@ -41,6 +41,8 @@ export const LanguageSwitcher: React.FC = () => {
     if (languageCode !== "zh-CN") {
       changeFont("Default");
     }
+
+    location.reload();
   };
 
   return (
@@ -132,6 +134,7 @@ export const LanguageSwitcher: React.FC = () => {
             setConfirmModal(true);
           }}
           disabled={language === "ru"}
+          className="font-[Basis33]"
         >
           <img
             style={{ display: "inline-block", marginRight: "5px" }}
