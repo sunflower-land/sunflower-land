@@ -1496,7 +1496,12 @@ export type Factions =
   | "faction.claimEmblems.percentile"
   | "faction.claimEmblems.travelNow"
   | "faction.claimEmblems.visitMe"
-  | "faction.openingSoon";
+  | "faction.openingSoon"
+  | "faction.emblems"
+  | "faction.emblems.intro.one"
+  | "faction.emblems.intro.two"
+  | "faction.emblems.intro.three"
+  | "faction.tradeEmblems";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

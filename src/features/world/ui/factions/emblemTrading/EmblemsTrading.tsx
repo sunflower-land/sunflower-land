@@ -13,18 +13,30 @@ import {
 } from "features/game/actions/getListingsFloorPrices";
 import { BuyPanel } from "./BuyPanel";
 import { Trade } from "./Trade";
-import { FactionEmblem } from "features/game/types/game";
+import { FactionEmblem, FactionName } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Emblems } from "./Emblems";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 
 interface Props {
   onClose: () => void;
   emblem: FactionEmblem;
 }
 
+const EMBLEM_TO_FACTION: Record<FactionEmblem, FactionName> = {
+  "Bumpkin Emblem": "bumpkins",
+  "Goblin Emblem": "goblins",
+  "Nightshade Emblem": "nightshades",
+  "Sunflorian Emblem": "sunflorians",
+};
+
 export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
+  const [showIntro, setShowIntro] = useState(true);
   const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
@@ -45,18 +57,56 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
     load();
   }, []);
 
+  const faction = gameState.context.state.faction?.name;
+
+  if (!faction || EMBLEM_TO_FACTION[emblem] !== faction) {
+    return (
+      <SpeakingModal
+        message={[
+          {
+            text: t("faction.restrited.area", {
+              faction: EMBLEM_TO_FACTION[emblem],
+            }),
+          },
+        ]}
+        onClose={onClose}
+      />
+    );
+  }
+
+  if (showIntro) {
+    return (
+      <SpeakingModal
+        message={[
+          {
+            text: t("faction.emblems.intro.one"),
+          },
+          {
+            text: t("faction.emblems.intro.two"),
+          },
+          {
+            text: t("faction.emblems.intro.three"),
+          },
+        ]}
+        onClose={() => setShowIntro(false)}
+      />
+    );
+  }
+
   return (
     <CloseButtonPanel
       onClose={notCloseable ? undefined : onClose}
       tabs={[
+        { icon: ITEM_DETAILS[emblem].image, name: t("faction.emblems") },
         { icon: SUNNYSIDE.icons.search, name: t("buy") },
         { icon: tradeIcon, name: t("sell") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <BuyPanel emblem={emblem} />}
-      {tab === 1 && <Trade floorPrices={floorPrices} emblem={emblem} />}
+      {tab === 0 && <Emblems emblem={emblem} />}
+      {tab === 1 && <BuyPanel emblem={emblem} />}
+      {tab === 2 && <Trade floorPrices={floorPrices} emblem={emblem} />}
     </CloseButtonPanel>
   );
 };

@@ -10,6 +10,7 @@ import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "features/game/lib/audio";
+import { npcModalManager } from "../ui/NPCModals";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -98,6 +99,11 @@ export class KingdomScene extends BaseScene {
       frameWidth: 32,
       frameHeight: 32,
     });
+
+    this.load.image("goblin_board", "world/goblin_board.png");
+    this.load.image("bumpkin_board", "world/bumpkin_board.png");
+    this.load.image("sunflorian_board", "world/sunflorian_board.png");
+    this.load.image("nightshade_board", "world/nightshade_board.png");
   }
 
   create() {
@@ -131,6 +137,42 @@ export class KingdomScene extends BaseScene {
         } else {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
+      });
+
+    const board1 = this.add.sprite(328, 620, "sunflorian_board");
+
+    board1
+      .setDepth(622)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("solara");
+      });
+
+    const board2 = this.add.sprite(142, 420, "nightshade_board");
+
+    board2
+      .setDepth(1000000)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("dusk");
+      });
+
+    const board3 = this.add.sprite(315, 425, "bumpkin_board");
+
+    board3
+      .setDepth(444)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("haymitch");
+      });
+
+    const board4 = this.add.sprite(148, 760, "goblin_board");
+
+    board4
+      .setDepth(763)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("glinteye");
       });
 
     const bud1 = this.add.sprite(285, 857, "castle_bud_1");
