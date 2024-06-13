@@ -95,7 +95,7 @@ describe("joinFaction", () => {
     expect(state.balance).toEqual(new Decimal(90));
   });
 
-  it("adds 5 Emblems to the players inventory", () => {
+  it("adds 1 Emblem to the players inventory", () => {
     const state = joinFaction({
       state: { ...TEST_FARM, balance: new Decimal(20) },
       action: {
@@ -104,7 +104,7 @@ describe("joinFaction", () => {
       },
     });
 
-    expect(state.inventory["Sunflorian Emblem"]).toEqual(new Decimal(5));
+    expect(state.inventory["Sunflorian Emblem"]).toEqual(new Decimal(1));
   });
   it("throws an error if the player doesn't have enough SFL", () => {
     expect(() =>
