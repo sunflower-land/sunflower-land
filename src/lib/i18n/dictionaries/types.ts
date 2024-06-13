@@ -1495,7 +1495,8 @@ export type Factions =
   | "faction.claimEmblems.totalEmblems"
   | "faction.claimEmblems.percentile"
   | "faction.claimEmblems.travelNow"
-  | "faction.claimEmblems.visitMe";
+  | "faction.claimEmblems.visitMe"
+  | "faction.openingSoon";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
@@ -3508,7 +3509,9 @@ export type Minigame =
   | "minigame.confirm"
   | "minigame.purchase"
   | "minigame.comingSoon"
-  | "minigame.chickenRescueHelp";
+  | "minigame.chickenRescueHelp"
+  | "minigame.discovered.one"
+  | "minigame.discovered.two";
 
 export type KitchenKeys = "kitchen.oilRemaining";
 

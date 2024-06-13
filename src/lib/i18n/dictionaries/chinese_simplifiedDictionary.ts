@@ -1905,6 +1905,8 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
   "faction.kitchen.preparing": ENGLISH_TERMS["faction.kitchen.preparing"],
   "faction.kitchen.newRequests": ENGLISH_TERMS["faction.kitchen.newRequests"],
+
+  "faction.openingSoon": ENGLISH_TERMS["faction.openingSoon"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -4530,6 +4532,8 @@ const minigame: Record<Minigame, string> = {
   "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
   "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
   "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
+  "minigame.discovered.one": ENGLISH_TERMS["minigame.discovered.one"],
+  "minigame.discovered.two": ENGLISH_TERMS["minigame.discovered.two"],
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {

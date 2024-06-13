@@ -2020,6 +2020,7 @@ const exoticShopItems: Record<ExoticShopItems, string> = {
 };
 
 const factions: Record<Factions, string> = {
+  "faction.openingSoon": ENGLISH_TERMS["faction.openingSoon"],
   "faction.join": ENGLISH_TERMS["faction.join"],
   "faction.description.bumpkins": ENGLISH_TERMS["faction.description.bumpkins"],
   "faction.description.goblins": ENGLISH_TERMS["faction.description.goblins"],
@@ -5183,6 +5184,8 @@ const minigame: Record<Minigame, string> = {
   "minigame.playNow": ENGLISH_TERMS["minigame.playNow"],
   "minigame.purchase": ENGLISH_TERMS["minigame.purchase"],
   "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
+  "minigame.discovered.one": ENGLISH_TERMS["minigame.discovered.one"],
+  "minigame.discovered.two": ENGLISH_TERMS["minigame.discovered.two"],
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {

@@ -2091,6 +2091,8 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.preparing":
     "I'm still preparing my orders! Please come back in a few minutes.",
   "faction.kitchen.newRequests": "New requests: {{time}}",
+  "faction.openingSoon":
+    "Faction houses are opening on July 1st. Earn marks, compete for glory and claim rewards!",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -5176,6 +5178,9 @@ const minigame: Record<Minigame, string> = {
   "minigame.playNow": "Play now",
   "minigame.purchase": "Purchase",
   "minigame.chickenRescueHelp": "Can you help me rescue the chickens?",
+  "minigame.discovered.one": "Howdy Bumpkin, you've discovered a portal!",
+  "minigame.discovered.two":
+    "Step into the magical realm to earn rewards and glory. Good luck!",
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {

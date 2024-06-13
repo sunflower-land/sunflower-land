@@ -150,11 +150,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "birdie",
     direction: "left",
   },
-  {
-    x: 188,
-    y: 362,
-    npc: "billy",
-  },
+
   {
     x: 214,
     y: 295,
@@ -222,11 +218,6 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("easter_egg", "world/easter_donation.png", {
       frameWidth: 16,
       frameHeight: 19,
-    });
-
-    this.load.spritesheet("portal", "world/portal_well_sheet.png", {
-      frameWidth: 20,
-      frameHeight: 25,
     });
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -799,27 +790,6 @@ export class PlazaScene extends BaseScene {
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(chest, 75)) {
           interactableModalManager.open("clubhouse_reward");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    const chickenRescuePortal = this.add.sprite(210, 375, "portal");
-    this.anims.create({
-      key: "portal_anim",
-      frames: this.anims.generateFrameNumbers("portal", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    chickenRescuePortal.play("portal_anim", true);
-    chickenRescuePortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(chickenRescuePortal, 40)) {
-          interactableModalManager.open("chicken_rescue");
         } else {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }

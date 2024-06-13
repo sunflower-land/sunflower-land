@@ -3,8 +3,16 @@ import mapJSON from "assets/map/kingdom.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { interactableModalManager } from "../ui/InteractableModals";
+import { translate } from "lib/i18n/translate";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
+  {
+    x: 305,
+    y: 500,
+    npc: "billy",
+    direction: "left",
+  },
   {
     x: 112,
     y: 181,
@@ -28,19 +36,19 @@ export const KINGDOM_NPCS: NPCBumpkin[] = [
     npc: "graxle",
   },
   {
-    x: 413,
-    y: 459,
+    x: 400,
+    y: 452,
     npc: "barlow",
     direction: "left",
   },
   {
-    x: 360,
+    x: 370,
     y: 630,
     npc: "reginald",
     direction: "left",
   },
   {
-    x: 135,
+    x: 100,
     y: 440,
     npc: "nyx",
   },
@@ -63,6 +71,11 @@ export class KingdomScene extends BaseScene {
     // Preload the leaderboard data (async).
     // This is used by the faction spruikers when claiming emblems.
     fetchLeaderboardData(this.id);
+
+    this.load.spritesheet("portal", "world/portal_well_sheet.png", {
+      frameWidth: 20,
+      frameHeight: 25,
+    });
 
     this.load.spritesheet("castle_bud_1", "world/castle_bud_1.webp", {
       frameWidth: 32,
@@ -87,6 +100,31 @@ export class KingdomScene extends BaseScene {
     });
 
     this.initialiseNPCs(KINGDOM_NPCS);
+
+    this.onCollision["faction_door"] = async (obj1, obj2) => {
+      interactableModalManager.open("faction_launch");
+    };
+
+    const chickenRescuePortal = this.add.sprite(285, 515, "portal");
+    this.anims.create({
+      key: "portal_anim",
+      frames: this.anims.generateFrameNumbers("portal", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+    chickenRescuePortal.play("portal_anim", true);
+    chickenRescuePortal
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        if (this.checkDistanceToSprite(chickenRescuePortal, 40)) {
+          interactableModalManager.open("chicken_rescue");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
 
     const bud1 = this.add.sprite(285, 857, "castle_bud_1");
     this.anims.create({

@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { SpeakingModal } from "features/game/components/SpeakingModal";
+import {
+  SpeakingModal,
+  SpeakingText,
+} from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { KrakenIntro } from "./npcs/Shelly";
 import { AuctionHouseModal } from "./AuctionHouseModal";
@@ -34,6 +37,7 @@ export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 type InteractableName =
   | FanArtNPC
   | "vip_chest"
+  | "faction_launch"
   | "donations"
   | "garbage_collector"
   | "basic_chest"
@@ -594,6 +598,19 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "crop_boom_finish"} onHide={closeModal}>
         <Panel bumpkinParts={NPC_WEARABLES.wizard}>
           <CropBoomFinish onClose={closeModal} />
+        </Panel>
+      </Modal>
+
+      <Modal show={interactable === "faction_launch"} onHide={closeModal}>
+        <Panel>
+          <SpeakingText
+            message={[
+              {
+                text: t("faction.openingSoon"),
+              },
+            ]}
+            onClose={closeModal}
+          />
         </Panel>
       </Modal>
 

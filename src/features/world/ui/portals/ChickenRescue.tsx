@@ -19,7 +19,7 @@ import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { hasFeatureAccess } from "lib/flags";
+import { SpeakingText } from "features/game/components/SpeakingModal";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -88,25 +88,30 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const minigame = gameState.context.state.minigames.games["chicken-rescue"];
+
+  const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { t } = useAppTranslation();
 
-  if (!hasFeatureAccess(gameState.context.state, "CHICKEN_RESCUE")) {
+  if (showIntro) {
     return (
-      <>
-        <div className="mb-1 p-2">
-          <Label type="default" className="mb-1" icon={factions}>
-            {t("minigame.chickenRescue")}
-          </Label>
-          <InlineDialogue message={t("minigame.comingSoon")} />
-        </div>
-      </>
+      <SpeakingText
+        message={[
+          {
+            text: t("minigame.discovered.one"),
+          },
+          {
+            text: t("minigame.discovered.two"),
+          },
+        ]}
+        onClose={() => setShowIntro(false)}
+      />
     );
   }
 
   const dateKey = new Date().toISOString().slice(0, 10);
-  const minigame = gameState.context.state.minigames.games["chicken-rescue"];
   const history = minigame?.history ?? {};
 
   const dailyAttempt = history[dateKey] ?? {
