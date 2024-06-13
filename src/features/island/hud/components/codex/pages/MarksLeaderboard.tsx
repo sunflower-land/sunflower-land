@@ -9,9 +9,8 @@ import { getRelativeTime } from "lib/utils/time";
 
 import { FactionName } from "features/game/types/game";
 
-import chevron from "assets/icons/factions/chevron.webp";
-import goblin_chevron from "assets/icons/factions/goblin_chevron.webp";
-import nightshade_chevron from "assets/icons/factions/nightshade_chevron.webp";
+import chevron from "assets/icons/factions/sunflorians/chevron_one.webp";
+
 import mark from "assets/icons/faction_mark.webp";
 import factions from "assets/icons/factions.webp";
 
@@ -260,10 +259,10 @@ export const MarksLeaderboard: React.FC = () => {
                     <div className="flex items-center space-x-1">
                       <span className="p-1.5">{username}</span>
                       {faction === "nightshades" && (
-                        <img src={nightshade_chevron} className="h-auto" />
+                        <img src={chevron} className="h-auto" />
                       )}
                       {faction === "goblins" && (
-                        <img src={goblin_chevron} className="h-auto" />
+                        <img src={chevron} className="h-auto" />
                       )}
                       {faction === "bumpkins" && (
                         <img src={chevron} className="h-auto" />
