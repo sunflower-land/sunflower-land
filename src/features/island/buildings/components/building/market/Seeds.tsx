@@ -168,7 +168,7 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
           )}
         </div>
         <div>
-          {!!inventory.Warehouse && bulkSeedBuyAmount > 10 && (
+          {state.island.type !== "basic" && bulkSeedBuyAmount > 10 && (
             <Button
               className="mt-1"
               disabled={lessFunds(bulkSeedBuyAmount)}
