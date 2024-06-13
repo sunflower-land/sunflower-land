@@ -157,6 +157,7 @@ export function cook({
     stateCopy,
     action.buildingId
   ).oilConsumed;
+
   stateCopy.inventory = getKeys(ingredients).reduce((inventory, ingredient) => {
     const count = inventory[ingredient] || new Decimal(0);
     const amount = ingredients[ingredient] || new Decimal(0);
@@ -171,10 +172,6 @@ export function cook({
     };
   }, stateCopy.inventory);
 
-  const previousOilRemaining = building.oil || 0;
-
-  building.oil = previousOilRemaining - oilConsumed;
-
   building.crafting = {
     name: action.item,
     boost: { Oil: oilConsumed },
@@ -186,6 +183,10 @@ export function cook({
       game: stateCopy,
     }),
   };
+
+  const previousOilRemaining = building.oil || 0;
+
+  building.oil = previousOilRemaining - oilConsumed;
 
   return stateCopy;
 }
