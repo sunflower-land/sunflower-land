@@ -79,7 +79,17 @@ export async function getLeaderboard<T>({
 export async function fetchLeaderboardData(
   farmId: number
 ): Promise<Leaderboards | null> {
-  const cachedLeaderboardData = getCachedLeaderboardData();
+  let cachedLeaderboardData = getCachedLeaderboardData();
+
+  // This is only required for one hour after kingdom launch
+  // If reading this comment after kingdom launch, June 14th, 2024, delete this conditional
+  // and update `let` to `const` above.
+  if (
+    cachedLeaderboardData !== null &&
+    !("percentiles" in cachedLeaderboardData.factions)
+  ) {
+    cachedLeaderboardData = null;
+  }
 
   if (cachedLeaderboardData) return cachedLeaderboardData;
 
