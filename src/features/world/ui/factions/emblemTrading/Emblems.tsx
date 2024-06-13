@@ -361,7 +361,7 @@ export const Emblems: React.FC<Props> = ({ emblem }) => {
           ))}
         </tbody>
       </table>
-      <div>{t("faction.marksBoost")}</div>
+      <span className="text-xs pt-1">{t("faction.marksBoost")}</span>
     </div>
   );
 };
