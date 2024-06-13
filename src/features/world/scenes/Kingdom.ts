@@ -10,6 +10,7 @@ import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
 } from "features/game/lib/audio";
+import { npcModalManager } from "../ui/NPCModals";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -98,6 +99,11 @@ export class KingdomScene extends BaseScene {
       frameWidth: 32,
       frameHeight: 32,
     });
+
+    this.load.image("goblin_board", "world/goblin_board.png");
+    this.load.image("bumpkin_board", "world/bumpkin_board.png");
+    this.load.image("sunflorian_board", "world/sunflorian_board.png");
+    this.load.image("nightshade_board", "world/nightshade_board.png");
   }
 
   create() {
@@ -132,6 +138,50 @@ export class KingdomScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
+
+    if (this.gameState.faction?.name === "goblins") {
+      const board = this.add.sprite(148, 763, "goblin_board");
+
+      board
+        .setDepth(1000000)
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          npcModalManager.open("glinteye");
+        });
+    }
+
+    if (this.gameState.faction?.name === "bumpkins") {
+      const board = this.add.sprite(347, 444, "bumpkin_board");
+
+      board
+        .setDepth(1000000)
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          npcModalManager.open("haymitch");
+        });
+    }
+
+    if (this.gameState.faction?.name === "sunflorians") {
+      const board = this.add.sprite(328, 622, "sunflorian_board");
+
+      board
+        .setDepth(1000000)
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          npcModalManager.open("solara");
+        });
+    }
+
+    if (this.gameState.faction?.name === "nightshades") {
+      const board = this.add.sprite(142, 420, "nightshade_board");
+
+      board
+        .setDepth(1000000)
+        .setInteractive({ cursor: "pointer" })
+        .on("pointerdown", () => {
+          npcModalManager.open("dusk");
+        });
+    }
 
     const bud1 = this.add.sprite(285, 857, "castle_bud_1");
     this.anims.create({

@@ -228,7 +228,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           <EmblemsTrading onClose={closeModal} emblem="Nightshade Emblem" />
         )}
         {npc === "haymitch" && (
-          <EmblemsTrading onClose={closeModal} emblem="Nightshade Emblem" />
+          <EmblemsTrading onClose={closeModal} emblem="Bumpkin Emblem" />
         )}
 
         {/* Faction Chores */}

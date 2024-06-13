@@ -14,6 +14,8 @@ import {
 import { BuyPanel } from "./BuyPanel";
 import { Trade } from "./Trade";
 import { FactionEmblem } from "features/game/types/game";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Emblems } from "./Emblems";
 
 interface Props {
   onClose: () => void;
@@ -25,6 +27,7 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
@@ -45,18 +48,22 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
     load();
   }, []);
 
+  // const faction = gameState.context.state.faction?.name;
+
   return (
     <CloseButtonPanel
       onClose={notCloseable ? undefined : onClose}
       tabs={[
+        { icon: ITEM_DETAILS[emblem].image, name: t("emblem") },
         { icon: SUNNYSIDE.icons.search, name: t("buy") },
         { icon: tradeIcon, name: t("sell") },
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <BuyPanel emblem={emblem} />}
-      {tab === 1 && <Trade floorPrices={floorPrices} emblem={emblem} />}
+      {tab === 0 && <Emblems emblem={emblem} />}
+      {tab === 1 && <BuyPanel emblem={emblem} />}
+      {tab === 2 && <Trade floorPrices={floorPrices} emblem={emblem} />}
     </CloseButtonPanel>
   );
 };
