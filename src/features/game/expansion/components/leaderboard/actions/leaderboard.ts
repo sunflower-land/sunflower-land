@@ -11,7 +11,7 @@ const API_URL = CONFIG.API_URL;
 
 type Options = {
   farmId: number;
-  leaderboardName: "maze" | "tickets" | "factions";
+  leaderboardName: "maze" | "tickets" | "factions" | "kingdom";
 };
 
 export type RankData = {
@@ -31,7 +31,19 @@ export type TicketLeaderboard = {
   farmRankingDetails?: RankData[] | null;
 };
 
+type Percentiles = 1 | 5 | 10 | 20 | 50 | 80 | 100;
+export type PercentileData = Record<Percentiles, number>;
+
 export type FactionLeaderboard = {
+  percentiles: Record<FactionName, PercentileData>;
+  topTens: Record<FactionName, RankData[]>;
+  totalMembers: Record<FactionName, number>;
+  totalTickets: Record<FactionName, number>;
+  lastUpdated: number;
+  farmRankingDetails?: RankData[] | null;
+};
+
+export type KingdomLeaderboard = {
   topTens: Record<FactionName, RankData[]>;
   totalMembers: Record<FactionName, number>;
   totalTickets: Record<FactionName, number>;
@@ -67,24 +79,40 @@ export async function getLeaderboard<T>({
 export async function fetchLeaderboardData(
   farmId: number
 ): Promise<Leaderboards | null> {
-  const cachedLeaderboardData = getCachedLeaderboardData();
+  let cachedLeaderboardData = getCachedLeaderboardData();
+
+  // This is only required for one hour after kingdom launch
+  // If reading this comment after kingdom launch, June 14th, 2024, delete this conditional
+  // and update `let` to `const` above.
+  if (
+    cachedLeaderboardData !== null &&
+    !("percentiles" in cachedLeaderboardData.factions)
+  ) {
+    cachedLeaderboardData = null;
+  }
 
   if (cachedLeaderboardData) return cachedLeaderboardData;
 
   try {
-    const [ticketLeaderboard, factionsLeaderboard] = await Promise.all([
-      getLeaderboard<TicketLeaderboard>({
-        farmId: Number(farmId),
-        leaderboardName: "tickets",
-      }),
-      getLeaderboard<FactionLeaderboard>({
-        farmId: Number(farmId),
-        leaderboardName: "factions",
-      }),
-    ]);
+    const [ticketLeaderboard, factionsLeaderboard, kingdomLeaderboard] =
+      await Promise.all([
+        getLeaderboard<TicketLeaderboard>({
+          farmId: Number(farmId),
+          leaderboardName: "tickets",
+        }),
+        getLeaderboard<FactionLeaderboard>({
+          farmId: Number(farmId),
+          leaderboardName: "factions",
+        }),
+        getLeaderboard<KingdomLeaderboard>({
+          farmId: Number(farmId),
+          leaderboardName: "kingdom",
+        }),
+      ]);
 
     // Leaderboard are created at the same time, so if one is missing, the other is too
-    if (!ticketLeaderboard || !factionsLeaderboard) return null;
+    if (!ticketLeaderboard || !factionsLeaderboard || !kingdomLeaderboard)
+      return null;
 
     // Likewise, their lastUpdated timestamps should be the same
     const lastUpdated = ticketLeaderboard.lastUpdated;
@@ -92,12 +120,14 @@ export async function fetchLeaderboardData(
     cacheLeaderboardData({
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
+      kingdom: kingdomLeaderboard,
       lastUpdated,
     });
 
     return {
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
+      kingdom: kingdomLeaderboard,
       lastUpdated,
     };
   } catch (error) {

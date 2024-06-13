@@ -1911,6 +1911,7 @@ const factions: Record<Factions, string> = {
   "faction.emblems.intro.three": ENGLISH_TERMS["faction.emblems.intro.three"],
   "faction.emblems.intro.two": ENGLISH_TERMS["faction.emblems.intro.two"],
   "faction.tradeEmblems": ENGLISH_TERMS["faction.tradeEmblems"],
+  "faction.marksBoost": ENGLISH_TERMS["faction.marksBoost"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
