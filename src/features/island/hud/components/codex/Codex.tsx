@@ -47,7 +47,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
-  const [currentTab, setCurrentTab] = useState<number>(0);
+  // TODO feat/marks-leaderboard SET currentTab = 0
+  const [currentTab, setCurrentTab] = useState<number>(6);
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
@@ -152,7 +153,12 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   ];
 
   return (
-    <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
+    // TODO feat/marks-leaderboard REMOVE SHOW
+    <Modal
+      show={show || true}
+      onHide={handleHide}
+      dialogClassName="md:max-w-3xl"
+    >
       <div className="h-[500px] relative">
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">
@@ -251,20 +257,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 />
               </InnerPanel>
             )}
-            {currentTab === 6 && state.faction && (
-              <InnerPanel
-                className={classNames(
-                  "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
-                )}
-              >
-                <MarksLeaderboard
-                  id={id}
-                  faction={state.faction.name}
-                  isLoading={data === undefined}
-                  data={data?.factions ?? null}
-                />
-              </InnerPanel>
-            )}
+            {currentTab === 6 && state.faction && <MarksLeaderboard />}
           </div>
         </OuterPanel>
         {showMilestoneReached && (

@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { ButtonPanel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
 import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
 import {
@@ -24,274 +24,374 @@ import { isMobile } from "mobile-device-detect";
 import maximus from "assets/sfts/maximus.gif";
 import trophy from "assets/icons/trophy.png";
 import shadow from "assets/npcs/shadow.png";
+import chevron from "assets/icons/factions/chevron.webp";
+import goblin_chevron from "assets/icons/factions/goblin_chevron.webp";
+import nightshade_chevron from "assets/icons/factions/nightshade_chevron.webp";
+import mark from "assets/icons/faction_mark.webp";
+import factions from "assets/icons/factions.webp";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
 import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { useSound } from "lib/utils/hooks/useSound";
+import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
+import { SquareIcon } from "components/ui/SquareIcon";
+import { getKeys } from "features/game/types/craftables";
 
 const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
-interface LeaderboardProps {
-  id: string;
+interface LeaderboardEntry {
+  username: string;
+  marks: number;
+  emblems: number;
   faction: FactionName;
-  isLoading: boolean;
-  data: MarkLeaderboard | null;
+  rank: 1 | 2 | 3 | 4;
+  farmId: 1 | 2 | 3 | 4;
 }
 
-export const MarksLeaderboard: React.FC<LeaderboardProps> = ({
-  id,
+/* TODO feat/marks-leaderboard REPLACE with real data */
+
+const PLAYER_ID = 1;
+const PLAYER_FACTION = "nightshades";
+const DATA: LeaderboardEntry[] = [
+  {
+    username: "Parsley",
+    marks: 100,
+    emblems: 10,
+    faction: "nightshades",
+    rank: 1,
+    farmId: 1,
+  },
+  {
+    username: "Sage",
+    marks: 50,
+    faction: "bumpkins",
+    rank: 2,
+    farmId: 2,
+    emblems: 5,
+  },
+  {
+    username: "Rosemary",
+    marks: 25,
+    faction: "goblins",
+    rank: 3,
+    farmId: 3,
+    emblems: 20000,
+  },
+  {
+    username: "Thyme",
+    marks: 10,
+    faction: "sunflorians",
+    rank: 4,
+    farmId: 4,
+    emblems: 60000,
+  },
+  {
+    username: "Parsley",
+    marks: 100,
+    emblems: 10,
+    faction: "nightshades",
+    rank: 1,
+    farmId: 1,
+  },
+  {
+    username: "Sage",
+    marks: 50,
+    faction: "bumpkins",
+    rank: 2,
+    farmId: 2,
+    emblems: 5,
+  },
+  {
+    username: "Rosemary",
+    marks: 25,
+    faction: "goblins",
+    rank: 3,
+    farmId: 3,
+    emblems: 20000,
+  },
+  {
+    username: "Thyme",
+    marks: 10,
+    faction: "sunflorians",
+    rank: 4,
+    farmId: 4,
+    emblems: 60000,
+  },
+  {
+    username: "Parsley",
+    marks: 100,
+    emblems: 10,
+    faction: "nightshades",
+    rank: 1,
+    farmId: 1,
+  },
+  {
+    username: "Sage",
+    marks: 50,
+    faction: "bumpkins",
+    rank: 2,
+    farmId: 2,
+    emblems: 5,
+  },
+  {
+    username: "Rosemary",
+    marks: 25,
+    faction: "goblins",
+    rank: 3,
+    farmId: 3,
+    emblems: 20000,
+  },
+  {
+    username: "Thyme",
+    marks: 10,
+    faction: "sunflorians",
+    rank: 4,
+    farmId: 4,
+    emblems: 60000,
+  },
+];
+
+/* END TODO */
+
+interface FilterCheckboxProps {
+  faction: FactionName;
+  selected: boolean;
+  onClick: () => void;
+}
+
+const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
   faction,
-  isLoading,
-  data,
-}) => {
+  selected,
+  onClick,
+}) => (
+  <OuterPanel
+    className={classNames(
+      "flex items-center relative p-0.5 mb-1 cursor-pointer"
+    )}
+    onClick={onClick}
+    style={{
+      background: selected ? "#ead4aa" : undefined,
+    }}
+  >
+    <SquareIcon icon={FACTION_EMBLEM_ICONS[faction]} width={9} />
+  </OuterPanel>
+);
+
+interface LeaderboardProps {}
+
+export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
   const { t } = useAppTranslation();
 
-  const tab = useSound("tab");
-
-  // TODO FACTION - get faction from game state
-  const [selected, setSelected] = React.useState<FactionName>(faction);
-  const [mobileFullScreen, setMobileFullScreen] =
-    React.useState<boolean>(false);
-
-  const back = () => {
-    setSelected(faction);
-    setMobileFullScreen(false);
-  };
+  const [selected, setSelected] = useState({
+    nightshades: true,
+    bumpkins: true,
+    goblins: true,
+    sunflorians: true,
+  });
+  const [leaderboard, setLeaderboard] = useState<"marks" | "emblems">("marks");
 
   const select = (faction: FactionName) => {
-    setSelected(faction);
-    setMobileFullScreen(true);
-    tab.play();
+    const updated = { ...selected, [faction]: !selected[faction] };
+    // At least one must be true
+    if (!Object.values(updated).some((s) => s)) return;
+
+    setSelected(updated);
   };
 
-  if (isLoading && !data) return <Loading />;
-
-  if (!data)
-    return (
-      <div className="p-1">
-        <Label type="danger">{t("leaderboard.error")}</Label>
-      </div>
-    );
-
-  const topTen = data.topTens[selected];
-
-  const sortedFactions = Object.entries(data.totalTickets)
-    .sort((a, b) => b[1] - a[1])
-    .map(([key], i) => [key, POSITION_LABELS[i]]);
-
-  const showLabel = !isMobile || mobileFullScreen || data.farmRankingDetails;
-
   return (
-    <>
-      {(!isMobile || !mobileFullScreen) && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 w-full justify-between pl-1">
-          {sortedFactions.map(([faction, position]) => (
-            <Faction
-              key={faction}
-              name={faction as FactionName}
-              position={position}
-              isSelected={selected === faction}
-              onClick={() => select(faction as FactionName)}
-              totalTickets={data.totalTickets[faction as FactionName]}
+    <InnerPanel
+      className={classNames(
+        "flex flex-col h-full overflow-hidden overflow-y-auto scrollable"
+      )}
+    >
+      <div className="flex justify-between">
+        <div>
+          <Label type="default">Kingdom</Label>
+          <span className="text-xs flex-nowrap pl-1">
+            {leaderboard === "marks" ? "Marks" : "Emblems"}
+          </span>
+        </div>
+        <div className="flex space-x-1">
+          {getKeys(FACTION_EMBLEM_ICONS).map((faction) => (
+            <FilterCheckbox
+              faction={faction}
+              selected={selected[faction]}
+              onClick={() => select(faction)}
             />
           ))}
         </div>
-      )}
+      </div>
+      <div className="flex justify-end pb-1"></div>
+      <table className="w-full text-xs table-auto border-collapse">
+        <thead>
+          <tr>
+            <th className="w-4">
+              <div
+                className="flex text-xxs"
+                onClick={() =>
+                  setLeaderboard((prev) =>
+                    prev === "marks" ? "emblems" : "marks"
+                  )
+                }
+              >
+                <OuterPanel
+                  className={classNames(
+                    "flex items-center relative cursor-pointer"
+                  )}
+                  style={{
+                    background: leaderboard === "marks" ? "#ead4aa" : undefined,
+                  }}
+                >
+                  {leaderboard === "marks" && (
+                    <SquareIcon icon={factions} width={9} />
+                  )}
+                  {leaderboard === "emblems" && (
+                    <SquareIcon icon={mark} width={9} />
+                  )}
+                </OuterPanel>
+              </div>
+            </th>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+              <p>{t("player")}</p>
+            </th>
+            <th style={{ border: "1px solid #b96f50" }} className="w-2/5 p-1.5">
+              {leaderboard === "marks" && <p>Marks</p>}
+              {leaderboard === "emblems" && <p>Emblems</p>}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {DATA.filter(({ faction }) => selected[faction])
+            .slice(0, 7)
+            .map(
+              ({ farmId, rank, marks, username, faction, emblems }, index) => (
+                <tr
+                  key={index}
+                  className={classNames({
+                    "bg-[#ead4aa]": farmId === PLAYER_ID,
+                  })}
+                >
+                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                    {rank ?? index + 1}
+                  </td>
+                  <td
+                    style={{ border: "1px solid #b96f50" }}
+                    className="p-1.5 truncate"
+                  >
+                    <div className="flex items-center space-x-1">
+                      <span>{username}</span>
+                      {faction === "nightshades" && (
+                        <img src={nightshade_chevron} className="h-auto" />
+                      )}
+                      {faction === "goblins" && (
+                        <img src={goblin_chevron} className="h-auto" />
+                      )}
+                      {faction === "bumpkins" && (
+                        <img src={chevron} className="h-auto" />
+                      )}
+                    </div>
+                  </td>
 
-      {showLabel ? (
-        <div className="flex flex-col md:flex-row md:items-center justify-between px-1 pt-1">
-          <div className="flex items-center">
-            {/** Show Back Button on Mobile  */}
-            {isMobile && mobileFullScreen && (
-              <img
-                src={SUNNYSIDE.icons.arrow_left}
-                className="cursor-pointer mr-2"
-                onClick={back}
-                style={{
-                  width: `${PIXEL_SCALE * 8}px`,
-                }}
-              />
+                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                    <div className="flex items-center space-x-1 justify-end">
+                      {/* <img
+                        src={FACTION_EMBLEM_ICONS[faction]}
+                        className="w-4"
+                      /> */}
+                      {leaderboard === "emblems" && (
+                        <>
+                          <span>{emblems}</span>
+                          <img
+                            src={FACTION_EMBLEM_ICONS[faction]}
+                            className="h-4"
+                          />
+                        </>
+                      )}
+                      {leaderboard === "marks" && (
+                        <>
+                          <span>{marks}</span>
+                          <img src={mark} className="h-4" />
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              )
             )}
-            <Label type="default" className="capitalize">{`${selected.slice(
-              0,
-              -1
-            )} ${t("leaderboard.leaderboard")}`}</Label>
-          </div>
-          <p className="font-secondary text-xs">
-            {t("last.updated")} {getRelativeTime(data.lastUpdated)}
-          </p>
-        </div>
-      ) : (
-        <div className="p-1 pt-2">
-          <Label type="info">{t("leaderboard.initialising")}</Label>
-        </div>
-      )}
-
-      {(!isMobile || mobileFullScreen) && (
-        <div className="scrollable overflow-y-auto max-h-full p-1">
-          {selected === faction && data.farmRankingDetails && (
-            <div className="mb-3">
-              <Label type="info" className="my-2">
-                {t("leaderboard.yourPosition")}
-              </Label>
-              <TicketTable
-                showHeader={true}
-                rankings={data.farmRankingDetails}
-                id={id}
-              />
-            </div>
-          )}
-
-          {topTen && (
-            <>
-              <Label type="info" className="my-2">
-                {t("leaderboard.topTen")}
-              </Label>
-              <TicketTable rankings={topTen} id={id} />
-            </>
-          )}
-          <div className="flex justify-end">
-            <p className="font-secondary text-xs">
-              {`${t("leaderboard.factionMembers")}: ${formatNumber(
-                data.totalMembers?.[selected] ?? 0
-              )}`}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {isMobile && !mobileFullScreen && (
-        <>
-          {data.farmRankingDetails && (
-            <TicketTable
-              showHeader={true}
-              rankings={data.farmRankingDetails}
-              id={id}
-            />
-          )}
-          <div className="flex flex-col h-full justify-end">
-            <Button onClick={() => setMobileFullScreen(true)}>
-              {t("leaderboard.topTen")}
-            </Button>
-          </div>
-        </>
-      )}
-    </>
-  );
-};
-
-interface FactionProps {
-  name: FactionName;
-  position: string;
-  totalTickets: number;
-  isSelected: boolean;
-  onClick: () => void;
-}
-const Faction: React.FC<FactionProps> = ({
-  name,
-  onClick,
-  isSelected,
-  position,
-  totalTickets,
-}) => {
-  const npcs: Record<Exclude<FactionName, "nightshades">, NPCName> = {
-    bumpkins: "robert",
-    goblins: "grommy",
-    sunflorians: "lady day",
-  };
-
-  return (
-    <div className="py-1 px-2" key={name}>
-      <ButtonPanel
-        onClick={onClick}
-        className={classNames(
-          "w-full cursor-pointer hover:bg-brown-200 pt-2 relative"
-        )}
-        style={{ paddingBottom: "20px" }}
-      >
-        <div className="flex flex-col items-center space-y-1">
-          <span className="text-xs capitalize">{name}</span>
-          <div className="h-11">
-            {name === "nightshades" ? (
+          <tr>
+            <td colSpan={3}>
               <div className="flex justify-center items-center">
-                <div>
-                  <img
-                    src={maximus}
-                    className="-scale-x-100"
-                    style={{ width: 14 * PIXEL_SCALE }}
-                  />
-                  <div className="relative flex justify-center">
-                    <img
-                      src={shadow}
-                      style={{
-                        width: `${PIXEL_SCALE * 12}px`,
-                        bottom: `${PIXEL_SCALE * -2}px`,
-                      }}
-                      className="absolute pointer-events-none"
-                    />
-                  </div>
-                </div>
-                <div className="flex pt-2">
-                  <img
-                    src={FACTION_POINT_ICONS[name]}
-                    className="w-4 h-4 inline-block mx-1"
-                  />
-                  <span className="font-secondary text-xs">
-                    {formatNumber(totalTickets ?? 0)}
-                  </span>
-                </div>
+                <p className="mb-[10px]">{"..."}</p>
               </div>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <div className="relative">
-                  <NPCIcon parts={NPC_WEARABLES[npcs[name]]} />
-                </div>
-                <div className="flex pt-1">
-                  <img
-                    src={FACTION_POINT_ICONS[name]}
-                    className="w-4 h-4 inline-block mx-1"
-                  />
-                  <span className="font-secondary text-xs">
-                    {formatNumber(totalTickets ?? 0)}
-                  </span>
-                </div>
-              </div>
+            </td>
+          </tr>
+          {DATA.filter(({ faction }) => selected[faction])
+            .slice(0, 3)
+            .map(
+              ({ farmId, rank, marks, username, faction, emblems }, index) => (
+                <tr
+                  key={index}
+                  className={classNames({
+                    "bg-[#ead4aa]": farmId === PLAYER_ID,
+                  })}
+                >
+                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                    {rank ?? index + 1}
+                  </td>
+                  <td
+                    style={{ border: "1px solid #b96f50" }}
+                    className="p-1.5 truncate"
+                  >
+                    <div className="flex items-center space-x-1">
+                      <span>{username}</span>
+                      {faction === "nightshades" && (
+                        <img src={nightshade_chevron} className="h-auto" />
+                      )}
+                      {faction === "goblins" && (
+                        <img src={goblin_chevron} className="h-auto" />
+                      )}
+                      {faction === "bumpkins" && (
+                        <img src={chevron} className="h-auto" />
+                      )}
+                    </div>
+                  </td>
+
+                  <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
+                    <div className="flex items-center space-x-1 justify-end">
+                      {/* <img
+                        src={FACTION_EMBLEM_ICONS[faction]}
+                        className="w-4"
+                      /> */}
+                      {leaderboard === "emblems" && (
+                        <>
+                          <span>{emblems}</span>
+                          <img
+                            src={FACTION_EMBLEM_ICONS[faction]}
+                            className="h-4"
+                          />
+                        </>
+                      )}
+                      {leaderboard === "marks" && (
+                        <>
+                          <span>{marks}</span>
+                          <img src={mark} className="h-4" />
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              )
             )}
-          </div>
-        </div>
-        <Label
-          type="success"
-          icon={position === "1st" ? trophy : undefined}
-          className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10 h-6"
-          style={{ width: "calc(100% + 15px)" }}
-        >
-          {position}
-        </Label>
-        {isSelected && (
-          <div id="select-box" className="hidden md:block">
-            <img
-              className="absolute pointer-events-none"
-              src={selectBoxTL}
-              style={{
-                top: `${PIXEL_SCALE * -3}px`,
-                left: `${PIXEL_SCALE * -3}px`,
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-            <img
-              className="absolute pointer-events-none"
-              src={selectBoxTR}
-              style={{
-                top: `${PIXEL_SCALE * -3}px`,
-                right: `${PIXEL_SCALE * -3}px`,
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-          </div>
-        )}
-      </ButtonPanel>
-    </div>
+        </tbody>
+      </table>
+      <div className="flex justify-between font-secondary text-xs pt-1">
+        <span>
+          {t("last.updated")} {getRelativeTime(Date.now())}
+        </span>
+        <span>Total: 123k</span>
+      </div>
+    </InnerPanel>
   );
 };
