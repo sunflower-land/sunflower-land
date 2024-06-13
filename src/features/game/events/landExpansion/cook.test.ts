@@ -226,7 +226,7 @@ describe("cook", () => {
     expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
   });
 
-  it("adds the crafting state to the building data structure", () => {
+  it("applies partial boost if not enough oil", () => {
     const dateNow = Date.now();
     const state = cook({
       state: {
