@@ -51,14 +51,14 @@ export const ResourceDropAnimatorComponent: React.FC<Props> = ({
           {/* Resource count display */}
           <span
             ref={textRef}
-            className="text-sm p-1"
+            className="yield-text text-white font-pixel"
             style={{ opacity: 0 }}
           >{`+${setPrecision(new Decimal(resourceAmount))}`}</span>
 
           {/* Resource image */}
           <img
             src={ITEM_DETAILS[resourceName].image}
-            className={`img-highlight-extra-heavy`}
+            className={`img-highlight-heavy`}
             style={{ opacity: 0 }}
             onLoad={(e) => {
               setImageWidth(e.currentTarget);
