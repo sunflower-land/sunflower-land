@@ -71,6 +71,7 @@ export const RETREAT_BUMPKINS: NPCName[] = [
 interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
+  onClose: () => void;
 }
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
@@ -102,7 +103,11 @@ export function hasOrderRequirements({
   });
 }
 
-export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
+export const DeliveryOrders: React.FC<Props> = ({
+  selectedId,
+  onSelect,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
 
   const navigate = useNavigate();
@@ -663,20 +668,27 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   <Button
                     className="!text-xs !mt-0 !-mb-1"
                     onClick={() => {
-                      if (
-                        RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
-                      ) {
-                        navigate("/world/retreat");
-                      } else if (
-                        BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                      ) {
-                        navigate("/world/beach");
-                      } else if (
-                        KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
-                      ) {
-                        navigate("/world/kingdom");
-                      } else {
-                        navigate("/world/plaza");
+                      onClose();
+                      {
+                        if (
+                          RETREAT_BUMPKINS.includes(
+                            previewOrder?.from as NPCName
+                          )
+                        ) {
+                          navigate("/world/retreat");
+                        } else if (
+                          BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                        ) {
+                          navigate("/world/beach");
+                        } else if (
+                          KINGDOM_BUMPKINS.includes(
+                            previewOrder?.from as NPCName
+                          )
+                        ) {
+                          navigate("/world/kingdom");
+                        } else {
+                          navigate("/world/plaza");
+                        }
                       }
                     }}
                   >

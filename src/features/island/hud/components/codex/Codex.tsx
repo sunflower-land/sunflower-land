@@ -217,7 +217,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 "overflow-y-auto scrollable": currentTab !== 5,
               })}
             > */}
-            {currentTab === 0 && <Deliveries />}
+            {currentTab === 0 && <Deliveries onClose={onHide} />}
             {currentTab === 1 && <Chores farmId={farmId} />}
             {currentTab === 2 && (
               <Fish onMilestoneReached={handleMilestoneReached} />
