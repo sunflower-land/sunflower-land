@@ -16,6 +16,7 @@ import { Trade } from "./Trade";
 import { FactionEmblem } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Emblems } from "./Emblems";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
 
 interface Props {
   onClose: () => void;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
+  const [showIntro, setShowIntro] = useState(true);
   const [tab, setTab] = useState(0);
   const { t } = useAppTranslation();
 
@@ -48,13 +50,30 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
     load();
   }, []);
 
-  // const faction = gameState.context.state.faction?.name;
+  if (showIntro) {
+    return (
+      <SpeakingModal
+        message={[
+          {
+            text: t("faction.emblems.intro.one"),
+          },
+          {
+            text: t("faction.emblems.intro.two"),
+          },
+          {
+            text: t("faction.emblems.intro.three"),
+          },
+        ]}
+        onClose={() => setShowIntro(false)}
+      />
+    );
+  }
 
   return (
     <CloseButtonPanel
       onClose={notCloseable ? undefined : onClose}
       tabs={[
-        { icon: ITEM_DETAILS[emblem].image, name: t("emblem") },
+        { icon: ITEM_DETAILS[emblem].image, name: t("faction.emblems") },
         { icon: SUNNYSIDE.icons.search, name: t("buy") },
         { icon: tradeIcon, name: t("sell") },
       ]}

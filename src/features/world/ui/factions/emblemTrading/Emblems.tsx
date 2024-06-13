@@ -5,6 +5,7 @@ import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
 import { FactionEmblem } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 
 type Rank = {
@@ -41,23 +42,23 @@ export const Emblems: React.FC<Props> = ({ emblem }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { t } = useAppTranslation();
+
   const emblems = gameState.context.state.inventory[emblem] ?? new Decimal(0);
   const playerRank = RANKS.find((r) => emblems.gte(r.emblemsRequired));
 
   return (
     <div className="p-2">
-      <Label type="info" className="-ml-1 mb-2">
-        Faction House Opens July 1st
+      <Label type="default" className="-ml-1 mb-2">
+        {playerRank?.name}
       </Label>
-      <p className="mb-2">
-        Get ready to compete for glory, earn marks and claim rewards.
-      </p>
-      <p className="mb-2">Trade emblems and climb the ranks to attain perks.</p>
+      <p className="mb-2">{t("faction.tradeEmblems")}</p>
 
       <table className="w-full text-xs table-fixed border-collapse">
         <tbody>
           {RANKS.map((rank) => (
             <tr
+              key={rank.name}
               className={classNames({
                 "bg-[#ead4aa]": rank.name === playerRank?.name,
               })}
@@ -72,7 +73,7 @@ export const Emblems: React.FC<Props> = ({ emblem }) => {
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 truncate"
               >
-                {rank.emblemsRequired} Emblems
+                {rank.emblemsRequired} {t("faction.emblems")}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
