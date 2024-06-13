@@ -323,10 +323,10 @@ export const MarksLeaderboard: React.FC = () => {
                     <div className="flex items-center space-x-1">
                       <span className="p-1.5">{username}</span>
                       {faction === "nightshades" && (
-                        <img src={nightshade_chevron} className="h-auto" />
+                        <img src={chevron} className="h-auto" />
                       )}
                       {faction === "goblins" && (
-                        <img src={goblin_chevron} className="h-auto" />
+                        <img src={chevron} className="h-auto" />
                       )}
                       {faction === "bumpkins" && (
                         <img src={chevron} className="h-auto" />
