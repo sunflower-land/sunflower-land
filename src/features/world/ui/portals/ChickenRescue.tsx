@@ -149,9 +149,11 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
           message:
             "Congratulations, you rescued the chickens! Here is your reward.",
           createdAt: Date.now(),
-          factionPoints: 10,
+          factionPoints: 0,
           id: "discord-bonus",
-          items: {},
+          items: {
+            Mark: prize?.marks ?? 0,
+          },
           wearables: {},
           sfl: 0,
           coins: 0,

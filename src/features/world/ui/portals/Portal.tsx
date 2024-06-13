@@ -142,6 +142,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   }
 
   if (isComplete) {
+    const prize = gameState.context.state.minigames.prizes["chicken-rescue"];
     return (
       <ClaimReward
         onClaim={onClaim}
@@ -149,9 +150,11 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           message:
             "Congratulations, you rescued the chickens! Here is your reward.",
           createdAt: Date.now(),
-          factionPoints: 10,
+          factionPoints: 0,
           id: "discord-bonus",
-          items: {},
+          items: {
+            Mark: prize?.marks ?? 0,
+          },
           wearables: {},
           sfl: 0,
           coins: 0,
