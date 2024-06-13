@@ -20,6 +20,7 @@ const RANKS: Rank[] = [
     name: "Peasant",
     icon: ITEM_DETAILS.Sunflower.image,
     emblemsRequired: 0,
+    boost: "?",
   },
   {
     name: "Serf",
@@ -79,11 +80,7 @@ export const Emblems: React.FC<Props> = ({ emblem }) => {
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 relative"
               >
-                {rank.boost && (
-                  <Label type="vibrant" className=" absolute right-2 top-0">
-                    {rank.boost}
-                  </Label>
-                )}
+                {rank.boost && <Label type="vibrant">{rank.boost}</Label>}
               </td>
             </tr>
           ))}
