@@ -5,6 +5,11 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
+import {
+  AudioLocalStorageKeys,
+  getCachedAudioSetting,
+} from "features/game/lib/audio";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -67,6 +72,8 @@ export class KingdomScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    this.load.audio("royal_farms", SOUNDS.songs.royal_farms);
 
     // Preload the leaderboard data (async).
     // This is used by the faction spruikers when claiming emblems.
@@ -161,5 +168,25 @@ export class KingdomScene extends BaseScene {
       frameRate: 10,
     });
     bud3.setScale(-1, 1).play("castle_bud_3_anim", true);
+
+    const audioMuted = getCachedAudioSetting<boolean>(
+      AudioLocalStorageKeys.audioMuted,
+      false
+    );
+
+    if (!audioMuted) {
+      // Ambience SFX
+      if (!this.sound.get("royal_farms")) {
+        const nature1 = this.sound.add("royal_farms");
+        nature1.play({ loop: true, volume: 0.3 });
+      }
+    }
+
+    // Shut down the sound when the scene changes
+    this.events.once("shutdown", () => {
+      this.sound.getAllPlaying().forEach((sound) => {
+        sound.destroy();
+      });
+    });
   }
 }

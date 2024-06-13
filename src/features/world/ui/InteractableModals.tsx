@@ -628,7 +628,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "kingdom_knight"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
-          <div className="h-32 p-2">
+          <div className="p-2">
             <Label type="default" className="mb-2">
               {t("easterEgg.lostKnight")}
             </Label>
@@ -639,7 +639,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "kingdom_book_1"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
-          <div className="h-32 p-2">
+          <div className="p-2">
             <Label type="default" className="mb-2">
               {t("easterEgg.queensDiary")}
             </Label>
@@ -650,7 +650,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "kingdom_book_2"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
-          <div className="h-32 p-2">
+          <div className="p-2">
             <Label type="default" className="mb-2">
               {t("easterEgg.queensDiary")}
             </Label>
@@ -661,7 +661,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "kingdom_book_3"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
-          <div className="h-32 p-2">
+          <div className="p-2">
             <Label type="default" className="mb-2">
               {t("easterEgg.jesterDiary")}
             </Label>
@@ -672,7 +672,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "kingdom_book_4"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
-          <div className="h-32 p-2">
+          <div className="p-2">
             <Label type="default" className="mb-2">
               {t("easterEgg.kingDiary")}
             </Label>
@@ -683,7 +683,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "kingdom_book_5"} onHide={closeModal}>
         <CloseButtonPanel onClose={closeModal}>
-          <div className="h-32 p-2">
+          <div className="p-2">
             <Label type="default" className="mb-2">
               {t("easterEgg.tywinDiary")}
             </Label>
