@@ -139,49 +139,41 @@ export class KingdomScene extends BaseScene {
         }
       });
 
-    if (this.gameState.faction?.name === "goblins") {
-      const board = this.add.sprite(148, 763, "goblin_board");
+    const board1 = this.add.sprite(328, 620, "sunflorian_board");
 
-      board
-        .setDepth(1000000)
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          npcModalManager.open("glinteye");
-        });
-    }
+    board1
+      .setDepth(622)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("solara");
+      });
 
-    if (this.gameState.faction?.name === "bumpkins") {
-      const board = this.add.sprite(347, 444, "bumpkin_board");
+    const board2 = this.add.sprite(142, 420, "nightshade_board");
 
-      board
-        .setDepth(1000000)
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          npcModalManager.open("haymitch");
-        });
-    }
+    board2
+      .setDepth(1000000)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("dusk");
+      });
 
-    if (this.gameState.faction?.name === "sunflorians") {
-      const board = this.add.sprite(328, 622, "sunflorian_board");
+    const board3 = this.add.sprite(315, 425, "bumpkin_board");
 
-      board
-        .setDepth(1000000)
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          npcModalManager.open("solara");
-        });
-    }
+    board3
+      .setDepth(444)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("haymitch");
+      });
 
-    if (this.gameState.faction?.name === "nightshades") {
-      const board = this.add.sprite(142, 420, "nightshade_board");
+    const board4 = this.add.sprite(148, 760, "goblin_board");
 
-      board
-        .setDepth(1000000)
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          npcModalManager.open("dusk");
-        });
-    }
+    board4
+      .setDepth(763)
+      .setInteractive({ cursor: "pointer" })
+      .on("pointerdown", () => {
+        npcModalManager.open("glinteye");
+      });
 
     const bud1 = this.add.sprite(285, 857, "castle_bud_1");
     this.anims.create({
