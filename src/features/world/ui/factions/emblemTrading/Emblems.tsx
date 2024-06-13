@@ -1,15 +1,11 @@
 import { useActor } from "@xstate/react";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
-import {
-  PercentileData,
-  fetchLeaderboardData,
-} from "features/game/expansion/components/leaderboard/actions/leaderboard";
+
 import { FactionEmblem, FactionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import sunflorians_chevron_zero from "assets/icons/factions/sunflorians/chevron_zero.webp";
 import sunflorians_chevron_one from "assets/icons/factions/sunflorians/chevron_one.webp";
@@ -42,10 +38,11 @@ import goblins_chevron_three from "assets/icons/factions/goblins/chevron_three.w
 import goblins_chevron_four from "assets/icons/factions/goblins/chevron_four.webp";
 import goblins_chevron_five from "assets/icons/factions/goblins/chevron_five.webp";
 import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp";
+import Decimal from "decimal.js-light";
 
 type Rank = {
   name: string;
-  percentile: 1 | 5 | 10 | 20 | 50 | 80 | 100;
+  emblemsRequired: number;
   icon: string;
   boost?: string;
 };
@@ -53,43 +50,43 @@ type Rank = {
 const BUMPKIN_RANKS: Rank[] = [
   {
     name: "Forager",
-    percentile: 100,
+    emblemsRequired: 0,
     icon: bumpkins_chevron_zero,
   },
   {
     name: "Rancher",
     icon: bumpkins_chevron_one,
-    percentile: 80,
+    emblemsRequired: 35,
     boost: "1.05x Marks",
   },
   {
     name: "Agrarian",
     icon: bumpkins_chevron_two,
-    percentile: 50,
+    emblemsRequired: 300,
     boost: "2.5x Marks",
   },
   {
     name: "Steward",
     icon: bumpkins_chevron_three,
-    percentile: 20,
+    emblemsRequired: 2500,
     boost: "4x Marks",
   },
   {
     name: "Sentinel",
     icon: bumpkins_chevron_four,
-    percentile: 10,
+    emblemsRequired: 5000,
     boost: "4.5x Marks",
   },
   {
     name: "Warden",
     icon: bumpkins_chevron_five,
-    percentile: 5,
+    emblemsRequired: 9000,
     boost: "4.8x Marks",
   },
   {
     name: "Overseer",
     icon: bumpkins_chevron_six,
-    percentile: 1,
+    emblemsRequired: 16000,
     boost: "5x Marks",
   },
 ];
@@ -97,43 +94,43 @@ const BUMPKIN_RANKS: Rank[] = [
 const NIGHTSHADE_RANKS: Rank[] = [
   {
     name: "Pagan",
-    percentile: 100,
+    emblemsRequired: 0,
     icon: nightshades_chevron_zero,
   },
   {
     name: "Occultist",
     icon: nightshades_chevron_one,
-    percentile: 80,
+    emblemsRequired: 35,
     boost: "1.05x Marks",
   },
   {
     name: "Enchanter",
     icon: nightshades_chevron_two,
-    percentile: 50,
+    emblemsRequired: 350,
     boost: "2.5x Marks",
   },
   {
     name: "Raver",
     icon: nightshades_chevron_three,
-    percentile: 20,
+    emblemsRequired: 2700,
     boost: "4x Marks",
   },
   {
     name: "Witch",
     icon: nightshades_chevron_four,
-    percentile: 10,
+    emblemsRequired: 5500,
     boost: "4.5x Marks",
   },
   {
     name: "Sorcerer",
     icon: nightshades_chevron_five,
-    percentile: 5,
+    emblemsRequired: 8500,
     boost: "4.8x Marks",
   },
   {
     name: "Lich",
     icon: nightshades_chevron_six,
-    percentile: 1,
+    emblemsRequired: 15000,
     boost: "5x Marks",
   },
 ];
@@ -141,43 +138,43 @@ const NIGHTSHADE_RANKS: Rank[] = [
 const GOBLIN_RANKS: Rank[] = [
   {
     name: "Hobgoblin",
-    percentile: 100,
+    emblemsRequired: 0,
     icon: goblins_chevron_zero,
   },
   {
     name: "Grunt",
     icon: goblins_chevron_one,
-    percentile: 80,
+    emblemsRequired: 45,
     boost: "1.05x Marks",
   },
   {
     name: "Marauder",
     icon: goblins_chevron_two,
-    percentile: 50,
+    emblemsRequired: 500,
     boost: "2.5x Marks",
   },
   {
     name: "Elite",
     icon: goblins_chevron_three,
-    percentile: 20,
+    emblemsRequired: 4200,
     boost: "4x Marks",
   },
   {
     name: "Commander",
     icon: goblins_chevron_four,
-    percentile: 10,
+    emblemsRequired: 8000,
     boost: "4.5x Marks",
   },
   {
     name: "Warchief",
     icon: goblins_chevron_five,
-    percentile: 5,
+    emblemsRequired: 13000,
     boost: "4.8x Marks",
   },
   {
     name: "Warlord",
     icon: goblins_chevron_six,
-    percentile: 1,
+    emblemsRequired: 17000,
     boost: "5x Marks",
   },
 ];
@@ -185,43 +182,43 @@ const GOBLIN_RANKS: Rank[] = [
 const SUNFLORIAN_RANKS: Rank[] = [
   {
     name: "Initiate",
-    percentile: 100,
+    emblemsRequired: 0,
     icon: sunflorians_chevron_zero,
   },
   {
     name: "Squire",
     icon: sunflorians_chevron_one,
-    percentile: 80,
+    emblemsRequired: 45,
     boost: "1.05x Marks",
   },
   {
     name: "Captain",
     icon: sunflorians_chevron_two,
-    percentile: 50,
+    emblemsRequired: 400,
     boost: "2.5x Marks",
   },
   {
     name: "Knight",
     icon: sunflorians_chevron_three,
-    percentile: 20,
+    emblemsRequired: 3000,
     boost: "4x Marks",
   },
   {
     name: "Guardian",
     icon: sunflorians_chevron_four,
-    percentile: 10,
+    emblemsRequired: 6000,
     boost: "4.5x Marks",
   },
   {
     name: "Paladin",
     icon: sunflorians_chevron_five,
-    percentile: 5,
+    emblemsRequired: 11000,
     boost: "4.8x Marks",
   },
   {
     name: "Archduke",
     icon: sunflorians_chevron_six,
-    percentile: 1,
+    emblemsRequired: 17000,
     boost: "5x Marks",
   },
 ];
@@ -235,91 +232,19 @@ const RANKS: Record<FactionName, Rank[]> = {
 
 interface Props {
   emblem: FactionEmblem;
+  factionName: FactionName;
 }
 
-export const Emblems: React.FC<Props> = ({ emblem }) => {
+export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const {
-    context: {
-      state: { username, faction },
-      farmId,
-    },
-  } = gameState;
-
-  const playerName = username ?? farmId;
 
   const { t } = useAppTranslation();
 
-  const [percentileData, setPercentileData] = useState<
-    { yourPercentile: number; percentiles: PercentileData } | null | undefined
-  >(undefined);
-
-  useEffect(() => {
-    const fetchLeaderboards = async () => {
-      try {
-        // If the player doesn't have a faction return
-        if (!faction) {
-          setPercentileData(null);
-          return;
-        }
-
-        const data = await fetchLeaderboardData(farmId);
-
-        // Error
-        if (!data) {
-          setPercentileData(null);
-          return;
-        }
-
-        const rankDetails = data.factions.farmRankingDetails?.find(
-          (rank) => rank.id === playerName
-        );
-        const yourRank = rankDetails?.rank;
-
-        if (yourRank) {
-          const totalMembers = data.factions.totalMembers[faction.name];
-
-          const yourPercentile = (yourRank / totalMembers) * 100;
-
-          setPercentileData({
-            yourPercentile,
-            percentiles: data.factions.percentiles[faction.name],
-          });
-        } else {
-          // Something went wrong searching for the leaderboard
-          // Default to the basic screens without statistics
-          setPercentileData(null);
-        }
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        console.error("Error loading leaderboards", e);
-
-        if (!percentileData) setPercentileData(null);
-      }
-    };
-
-    fetchLeaderboards();
-  }, []);
-
-  if (percentileData === undefined) {
-    return <Loading />;
-  }
-
-  if (!faction || percentileData === null) {
-    return (
-      <div className="p-2">
-        <Label type="default" className="-ml-1 mb-2">
-          {t("faction.emblems")}
-        </Label>
-        <p>{t("faction.tradeEmblems")}</p>
-      </div>
-    );
-  }
-
-  const playerRank = [...RANKS[faction.name]]
-    .reverse()
-    .find((r) => r.percentile >= percentileData.yourPercentile);
+  const emblems = gameState.context.state.inventory[emblem] ?? new Decimal(0);
+  const playerRank = RANKS[factionName].find((r) =>
+    emblems.gte(r.emblemsRequired)
+  );
 
   return (
     <div className="p-2">
@@ -330,7 +255,7 @@ export const Emblems: React.FC<Props> = ({ emblem }) => {
 
       <table className="w-full text-xs table-fixed border-collapse">
         <tbody>
-          {RANKS[faction.name].map((rank) => (
+          {RANKS[factionName].map((rank) => (
             <tr
               key={rank.name}
               className={classNames({
@@ -347,9 +272,7 @@ export const Emblems: React.FC<Props> = ({ emblem }) => {
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 truncate"
               >
-                {`${percentileData.percentiles[rank.percentile]} ${t(
-                  "faction.emblems"
-                )}`}
+                {`${rank.emblemsRequired} ${t("faction.emblems")}`}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}

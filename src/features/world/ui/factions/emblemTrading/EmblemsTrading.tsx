@@ -114,7 +114,7 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <Emblems emblem={emblem} />}
+      {tab === 0 && <Emblems emblem={emblem} factionName={faction} />}
       {tab === 1 && <BuyPanel emblem={emblem} />}
       {tab === 2 && <Trade floorPrices={floorPrices} emblem={emblem} />}
     </CloseButtonPanel>
