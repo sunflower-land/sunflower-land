@@ -50,7 +50,7 @@ interface LeaderboardEntry {
   farmId: 1 | 2 | 3 | 4;
 }
 
-/* TODO feat/marks-leaderboard REPLACE with real data */
+/* TODO feat/marks-leaderboard REPLACE with real data  */
 
 const PLAYER_ID = 1;
 const PLAYER_FACTION = "nightshades";
@@ -278,10 +278,10 @@ export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
                   </td>
                   <td
                     style={{ border: "1px solid #b96f50" }}
-                    className="p-1.5 truncate"
+                    className="truncate"
                   >
                     <div className="flex items-center space-x-1">
-                      <span>{username}</span>
+                      <span className="p-1.5">{username}</span>
                       {faction === "nightshades" && (
                         <img src={nightshade_chevron} className="h-auto" />
                       )}
@@ -342,10 +342,10 @@ export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
                   </td>
                   <td
                     style={{ border: "1px solid #b96f50" }}
-                    className="p-1.5 truncate"
+                    className="truncate"
                   >
                     <div className="flex items-center space-x-1">
-                      <span>{username}</span>
+                      <span className="p-1.5">{username}</span>
                       {faction === "nightshades" && (
                         <img src={nightshade_chevron} className="h-auto" />
                       )}
