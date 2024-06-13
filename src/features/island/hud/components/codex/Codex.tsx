@@ -47,8 +47,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     },
   ] = useActor(gameService);
 
-  // TODO feat/marks-leaderboard SET currentTab = 0
-  const [currentTab, setCurrentTab] = useState<number>(6);
+  const [currentTab, setCurrentTab] = useState<number>(0);
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
   const [milestoneName, setMilestoneName] = useState<MilestoneName>();
 
@@ -141,7 +140,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    ...(hasFeatureAccess(state, "CLAIM_EMBLEMS")
+    ...(hasFeatureAccess(state, "MARKS_LEADERBOARD")
       ? [
           {
             name: "Marks" as const,
@@ -153,12 +152,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
   ];
 
   return (
-    // TODO feat/marks-leaderboard REMOVE SHOW
-    <Modal
-      show={show || true}
-      onHide={handleHide}
-      dialogClassName="md:max-w-3xl"
-    >
+    // TODO feat/marks-leaderboard ADD SHOW
+    <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
       <div className="h-[500px] relative">
         {/* Header */}
         <OuterPanel className="flex flex-col h-full">

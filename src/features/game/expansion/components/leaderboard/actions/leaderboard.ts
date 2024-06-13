@@ -11,7 +11,7 @@ const API_URL = CONFIG.API_URL;
 
 type Options = {
   farmId: number;
-  leaderboardName: "maze" | "tickets" | "factions" | "marks";
+  leaderboardName: "maze" | "tickets" | "factions" | "kingdom";
 };
 
 export type RankData = {
@@ -31,7 +31,11 @@ export type TicketLeaderboard = {
   farmRankingDetails?: RankData[] | null;
 };
 
+type Percentiles = 1 | 5 | 10 | 20 | 50 | 80 | 100;
+export type PercentileData = Record<Percentiles, number>;
+
 export type FactionLeaderboard = {
+  percentiles: Record<FactionName, PercentileData>;
   topTens: Record<FactionName, RankData[]>;
   totalMembers: Record<FactionName, number>;
   totalTickets: Record<FactionName, number>;
@@ -39,7 +43,7 @@ export type FactionLeaderboard = {
   farmRankingDetails?: RankData[] | null;
 };
 
-export type MarkLeaderboard = {
+export type KingdomLeaderboard = {
   topTens: Record<FactionName, RankData[]>;
   totalMembers: Record<FactionName, number>;
   totalTickets: Record<FactionName, number>;
@@ -80,7 +84,7 @@ export async function fetchLeaderboardData(
   if (cachedLeaderboardData) return cachedLeaderboardData;
 
   try {
-    const [ticketLeaderboard, factionsLeaderboard, marksLeaderboard] =
+    const [ticketLeaderboard, factionsLeaderboard, kingdomLeaderboard] =
       await Promise.all([
         getLeaderboard<TicketLeaderboard>({
           farmId: Number(farmId),
@@ -90,14 +94,14 @@ export async function fetchLeaderboardData(
           farmId: Number(farmId),
           leaderboardName: "factions",
         }),
-        getLeaderboard<MarkLeaderboard>({
+        getLeaderboard<KingdomLeaderboard>({
           farmId: Number(farmId),
-          leaderboardName: "marks",
+          leaderboardName: "kingdom",
         }),
       ]);
 
     // Leaderboard are created at the same time, so if one is missing, the other is too
-    if (!ticketLeaderboard || !factionsLeaderboard || !marksLeaderboard)
+    if (!ticketLeaderboard || !factionsLeaderboard || !kingdomLeaderboard)
       return null;
 
     // Likewise, their lastUpdated timestamps should be the same
@@ -106,14 +110,14 @@ export async function fetchLeaderboardData(
     cacheLeaderboardData({
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
-      marks: marksLeaderboard,
+      kingdom: kingdomLeaderboard,
       lastUpdated,
     });
 
     return {
       tickets: ticketLeaderboard,
       factions: factionsLeaderboard,
-      marks: marksLeaderboard,
+      kingdom: kingdomLeaderboard,
       lastUpdated,
     };
   } catch (error) {

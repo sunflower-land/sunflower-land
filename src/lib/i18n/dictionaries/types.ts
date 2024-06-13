@@ -1501,7 +1501,8 @@ export type Factions =
   | "faction.emblems.intro.one"
   | "faction.emblems.intro.two"
   | "faction.emblems.intro.three"
-  | "faction.tradeEmblems";
+  | "faction.tradeEmblems"
+  | "faction.marksBoost";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

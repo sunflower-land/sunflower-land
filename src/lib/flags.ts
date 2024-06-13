@@ -36,7 +36,8 @@ export type FeatureName =
   | "KINGDOM"
   | "FACTION_HOUSE"
   | "CLAIM_EMBLEMS"
-  | "EMBLEM_TRADING";
+  | "EMBLEM_TRADING"
+  | "MARKS_LEADERBOARD";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -79,6 +80,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
   CLAIM_EMBLEMS: timeBasedFeatureFlag(new Date("2024-06-14T00:00:00Z")),
+  MARKS_LEADERBOARD: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {

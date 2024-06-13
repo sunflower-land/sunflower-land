@@ -2,44 +2,22 @@ import React, { useState } from "react";
 
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
-import { Loading } from "features/auth/components";
-import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
-import {
-  FactionLeaderboard,
-  MarkLeaderboard,
-} from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { FactionName } from "features/game/types/game";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { isMobile } from "mobile-device-detect";
 
-import maximus from "assets/sfts/maximus.gif";
-import trophy from "assets/icons/trophy.png";
-import shadow from "assets/npcs/shadow.png";
 import chevron from "assets/icons/factions/chevron.webp";
 import goblin_chevron from "assets/icons/factions/goblin_chevron.webp";
 import nightshade_chevron from "assets/icons/factions/nightshade_chevron.webp";
 import mark from "assets/icons/faction_mark.webp";
 import factions from "assets/icons/factions.webp";
 
-import { Button } from "components/ui/Button";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { formatNumber } from "lib/utils/formatNumber";
-import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
-import { useSound } from "lib/utils/hooks/useSound";
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { getKeys } from "features/game/types/craftables";
-
-const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
 interface LeaderboardEntry {
   username: string;
@@ -179,9 +157,7 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
   </OuterPanel>
 );
 
-interface LeaderboardProps {}
-
-export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
+export const MarksLeaderboard: React.FC = () => {
   const { t } = useAppTranslation();
 
   const [selected, setSelected] = useState({
@@ -208,14 +184,15 @@ export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
     >
       <div className="flex justify-between">
         <div>
-          <Label type="default">Kingdom</Label>
+          <Label type="default">{`Kingdom`}</Label>
           <span className="text-xs flex-nowrap pl-1">
-            {leaderboard === "marks" ? "Marks" : "Emblems"}
+            {`${leaderboard === "marks" ? "Marks" : "Emblems"}`}
           </span>
         </div>
         <div className="flex space-x-1">
           {getKeys(FACTION_EMBLEM_ICONS).map((faction) => (
             <FilterCheckbox
+              key={`faction-${faction}`}
               faction={faction}
               selected={selected[faction]}
               onClick={() => select(faction)}
@@ -257,8 +234,8 @@ export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
               <p>{t("player")}</p>
             </th>
             <th style={{ border: "1px solid #b96f50" }} className="w-2/5 p-1.5">
-              {leaderboard === "marks" && <p>Marks</p>}
-              {leaderboard === "emblems" && <p>Emblems</p>}
+              {leaderboard === "marks" && <p>{`Marks`}</p>}
+              {leaderboard === "emblems" && <p>{`Emblems`}</p>}
             </th>
           </tr>
         </thead>
@@ -390,7 +367,7 @@ export const MarksLeaderboard: React.FC<LeaderboardProps> = ({}) => {
         <span>
           {t("last.updated")} {getRelativeTime(Date.now())}
         </span>
-        <span>Total: 123k</span>
+        <span>{`Total: 123k`}</span>
       </div>
     </InnerPanel>
   );

@@ -2101,6 +2101,8 @@ const factions: Record<Factions, string> = {
   "faction.emblems.intro.three":
     "The more emblems you have, the higher your rank and more marks you can earn.",
   "faction.tradeEmblems": "Trade emblems to climb the ranks and attain perks.",
+  "faction.marksBoost":
+    "Marks boost applies to faction activities coming July 1st.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
