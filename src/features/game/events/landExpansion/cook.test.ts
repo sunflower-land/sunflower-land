@@ -225,6 +225,49 @@ describe("cook", () => {
     const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
     expect(state.buildings["Fire Pit"]?.[0].oil).toEqual(10 - oilconsumed);
   });
+
+  it("adds the crafting state to the building data structure", () => {
+    const dateNow = Date.now();
+    const state = cook({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Egg: new Decimal(20),
+          Sunflower: new Decimal(1000),
+          Potato: new Decimal(1000),
+        },
+        buildings: {
+          Deli: [
+            {
+              coordinates: {
+                x: 2,
+                y: 3,
+              },
+              readyAt: 1660563190206,
+              createdAt: 1660563160206,
+              id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              oil: 10,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.cooked",
+        item: "Fancy Fries",
+        buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+      },
+      createdAt: dateNow,
+    });
+
+    const readyAt = dateNow + 60 * 60 * 16 * 1000;
+
+    expect(state.buildings["Deli"]?.[0].crafting).toEqual(
+      expect.objectContaining({
+        name: "Fancy Fries",
+        readyAt: readyAt,
+      })
+    );
+  });
 });
 
 describe("getReadyAt", () => {

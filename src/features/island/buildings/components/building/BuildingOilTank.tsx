@@ -18,7 +18,7 @@ import {
   BUILDING_OIL_BOOSTS,
   isCookingBuilding,
 } from "features/game/events/landExpansion/cook";
-import { COOKABLES, CookableName } from "features/game/types/consumables";
+import { CookableName } from "features/game/types/consumables";
 import { Context } from "features/game/GameProvider";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
@@ -135,26 +135,7 @@ export const BuildingOilTank = ({
       return 0;
     }
 
-    const readyAt = building?.crafting?.readyAt;
-
-    if (!readyAt || !currentlyCooking)
-      return getOilTimeInMillis(oilRemainingInBuilding) / 1000;
-
-    const secondsTillReady = (readyAt - Date.now()) / 1000;
-
-    const cookingSeconds = COOKABLES[currentlyCooking]?.cookingSeconds;
-
-    const oilInRecipe = building?.crafting?.boost?.["Oil"] ?? 0;
-
-    const percentageCooked = secondsTillReady / cookingSeconds;
-
-    const oilAllocatedRemaining = oilInRecipe * percentageCooked;
-
-    // Calculate the building remaining oil time
-    const remainingOilTime =
-      getOilTimeInMillis(oilRemainingInBuilding + oilAllocatedRemaining) / 1000;
-
-    return remainingOilTime;
+    return getOilTimeInMillis(oilRemainingInBuilding) / 1000;
   };
 
   const oilInTank = calculatePercentageFull(buildingName);

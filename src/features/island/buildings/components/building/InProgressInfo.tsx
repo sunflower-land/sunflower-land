@@ -14,11 +14,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 interface Props {
   craftingService: MachineInterpreter;
   onClose: () => void;
+  isOilBoosted: boolean;
 }
 
 export const InProgressInfo: React.FC<Props> = ({
   craftingService,
   onClose,
+  isOilBoosted,
 }) => {
   const { t } = useAppTranslation();
 
@@ -46,7 +48,11 @@ export const InProgressInfo: React.FC<Props> = ({
         {t("in.progress")}
       </Label>
       <div className="flex">
-        <Box image={ITEM_DETAILS[name].image} />
+        <Box
+          image={ITEM_DETAILS[name].image}
+          // alternateIcon={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
+          secondaryImage={isOilBoosted ? ITEM_DETAILS["Oil"].image : null}
+        />
         <div
           className="relative flex flex-col w-full"
           style={{

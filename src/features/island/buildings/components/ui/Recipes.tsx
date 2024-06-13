@@ -118,6 +118,9 @@ export const Recipes: React.FC<Props> = ({
     );
   });
 
+  const isOilBoosted =
+    state.buildings?.[buildingName]?.[0].crafting?.boost?.["Oil"];
+
   return (
     <SplitScreenView
       panel={
@@ -152,6 +155,7 @@ export const Recipes: React.FC<Props> = ({
             <InProgressInfo
               craftingService={craftingService}
               onClose={onClose}
+              isOilBoosted={!!isOilBoosted}
             />
           )}
           {crafting && (
