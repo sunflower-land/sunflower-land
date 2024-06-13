@@ -36,7 +36,8 @@ export type FeatureName =
   | "DESERT_RECIPES"
   | "KINGDOM"
   | "FACTION_HOUSE"
-  | "CLAIM_EMBLEMS";
+  | "CLAIM_EMBLEMS"
+  | "EMBLEM_TRADING";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -48,6 +49,11 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
+  EMBLEM_TRADING: (game) => {
+    if (defaultFeatureFlag(game)) return true;
+
+    return Date.now() > new Date("2024-06-14T01:00:00Z").getTime();
+  },
   KINGDOM: (game) => {
     const hasCastleBud = getKeys(game.buds ?? {}).some(
       (id) => game.buds?.[id].type === "Castle"
@@ -55,7 +61,9 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
 
     if (hasCastleBud) return true;
 
-    return defaultFeatureFlag(game);
+    if (defaultFeatureFlag(game)) return true;
+
+    return Date.now() > new Date("2024-06-14T00:00:00Z").getTime();
   },
   FACTION_HOUSE: defaultFeatureFlag,
   EASTER: (game) => {
