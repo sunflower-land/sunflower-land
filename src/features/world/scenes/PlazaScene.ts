@@ -190,11 +190,11 @@ export class PlazaScene extends BaseScene {
   private chosenFaction: FactionName | undefined;
 
   constructor({ gameState }: { gameState: GameState }) {
-    const IS_FACTIONS = hasFeatureAccess(gameState, "FACTIONS");
+    const isPreparingKingdom = FACTION_POINT_CUTOFF.getTime() < Date.now();
     super({
       name: "plaza",
       map: {
-        json: IS_FACTIONS ? factionMapJson : mapJson,
+        json: isPreparingKingdom ? factionMapJson : mapJson,
         imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
