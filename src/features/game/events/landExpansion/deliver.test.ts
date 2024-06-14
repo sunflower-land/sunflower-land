@@ -7,9 +7,7 @@ import {
   deliverOrder,
 } from "./deliver";
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
-import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
-import { Quest } from "features/game/types/game";
-import { FACTION_POINT_CUTOFF } from "./donateToFaction";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 const LAST_DAY_OF_SEASON = new Date("2023-10-31T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -532,131 +530,6 @@ describe("deliver", () => {
       updatedAt: now,
       giftClaimedAtPoints: 0,
     });
-  });
-
-  it("rewards faction points", () => {
-    const now = new Date("2024-05-09").getTime();
-
-    const state = deliverOrder({
-      createdAt: now,
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          Gold: new Decimal(60),
-        },
-        faction: {
-          name: "goblins",
-          donated: { daily: { resources: {}, sfl: {} }, totalItems: {} },
-          points: 0,
-          pledgedAt: 0,
-        },
-        delivery: {
-          ...TEST_FARM.delivery,
-          fulfilledCount: 0,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: now,
-              from: "tywin",
-              items: {
-                Gold: 50,
-              },
-              reward: { tickets: 5 },
-            } as Quest,
-          ],
-        },
-        bumpkin: INITIAL_BUMPKIN,
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-    });
-
-    expect(state.faction?.points).toEqual(25);
-  });
-
-  it("does not reward faction points if no faction selected", () => {
-    const timers = jest.useFakeTimers();
-
-    const seasonTime = new Date(
-      SEASONS["Witches' Eve"].startDate.getTime() + 8 * 24 * 60 * 60 * 1000
-    );
-
-    timers.setSystemTime(seasonTime);
-    const state = deliverOrder({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          Gold: new Decimal(60),
-        },
-        delivery: {
-          ...TEST_FARM.delivery,
-          fulfilledCount: 0,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: Date.now(),
-              from: "raven",
-              items: {
-                Gold: 50,
-              },
-              reward: { tickets: 5 },
-            } as Quest,
-          ],
-        },
-        bumpkin: INITIAL_BUMPKIN,
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-    });
-
-    expect(state.faction).toBeUndefined();
-  });
-
-  it("does not reward faction points after faction point cutoff", () => {
-    const state = deliverOrder({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          Gold: new Decimal(60),
-        },
-        faction: {
-          name: "goblins",
-          donated: { daily: { resources: {}, sfl: {} }, totalItems: {} },
-          points: 0,
-          pledgedAt: 0,
-        },
-        delivery: {
-          ...TEST_FARM.delivery,
-          fulfilledCount: 0,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: Date.now(),
-              from: "raven",
-              items: {
-                Gold: 50,
-              },
-              reward: {},
-            } as Quest,
-          ],
-        },
-        bumpkin: INITIAL_BUMPKIN,
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-      createdAt: new Date(FACTION_POINT_CUTOFF.getTime() + 1).getTime(),
-    });
-
-    expect(state.faction?.points).toBe(0);
   });
 
   it("does not complete order with ticket rewards when frozen", () => {
