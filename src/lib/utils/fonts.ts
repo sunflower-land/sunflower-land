@@ -15,17 +15,16 @@ export function getCachedFont(): Font {
 }
 
 export type Font = "Default" | "Bold" | "Sans Serif" | "Chunky (Old)";
-const FONT_CONFIG: Record<
-  Font,
-  {
-    fontFamily: string;
-    xxs: [number, number];
-    xs: [number, number];
-    sm: [number, number];
-    base: [number, number];
-    lg: [number, number];
-  }
-> = {
+
+interface FontSettings {
+  fontFamily: string;
+  xxs: [number, number];
+  xs: [number, number];
+  sm: [number, number];
+  base: [number, number];
+  lg: [number, number];
+}
+const FONT_CONFIG: Record<Font, FontSettings> = {
   Default: {
     fontFamily: "Basic",
     xxs: [20, 14],
@@ -60,16 +59,52 @@ const FONT_CONFIG: Record<
   },
 };
 
+const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
+  Default: {
+    fontFamily: "Basis33",
+    xxs: [20, 14],
+    xs: [24, 14],
+    sm: [30, 20],
+    base: [36, 26],
+    lg: [42, 32],
+  },
+  "Sans Serif": {
+    fontFamily: "sans-serif",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+  Bold: {
+    fontFamily: "Born2bSporty",
+    xxs: [18, 12],
+    xs: [24, 14],
+    sm: [30, 20],
+    base: [36, 26],
+    lg: [42, 32],
+  },
+  "Chunky (Old)": {
+    fontFamily: "Russo One",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+};
+
 export function initialiseFont() {
   const font = getCachedFont();
 
-  if (font !== "Default") {
-    changeFont(font);
-  }
+  changeFont(font);
 }
 
 export function changeFont(font: Font) {
-  const config = FONT_CONFIG[font];
+  const lang = localStorage.getItem("language") || "en";
+  const config = ["ru"].includes(lang)
+    ? CYRILLIC_FONT_CONFIG[font]
+    : FONT_CONFIG[font];
 
   document.documentElement.style.setProperty(
     "--font-family",
