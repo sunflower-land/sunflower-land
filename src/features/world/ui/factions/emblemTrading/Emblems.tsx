@@ -223,7 +223,7 @@ const SUNFLORIAN_RANKS: Rank[] = [
   },
 ];
 
-const RANKS: Record<FactionName, Rank[]> = {
+export const RANKS: Record<FactionName, Rank[]> = {
   bumpkins: BUMPKIN_RANKS,
   nightshades: NIGHTSHADE_RANKS,
   goblins: GOBLIN_RANKS,

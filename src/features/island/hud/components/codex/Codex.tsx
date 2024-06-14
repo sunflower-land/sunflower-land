@@ -248,7 +248,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   id={id}
                   faction={state.faction.name}
                   isLoading={data === undefined}
-                  data={data?.factions ?? null}
+                  data={data?.kingdom.emblems ?? null}
+                  lastUpdated={data?.kingdom.lastUpdated ?? null}
                 />
               </InnerPanel>
             )}
