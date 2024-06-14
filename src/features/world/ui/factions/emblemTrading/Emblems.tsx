@@ -242,9 +242,9 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const { t } = useAppTranslation();
 
   const emblems = gameState.context.state.inventory[emblem] ?? new Decimal(0);
-  const playerRank = RANKS[factionName].find((r) =>
-    emblems.gte(r.emblemsRequired)
-  );
+  const playerRank = [...RANKS[factionName]]
+    .reverse()
+    .find((r) => emblems.gte(r.emblemsRequired));
 
   return (
     <div className="p-2">
