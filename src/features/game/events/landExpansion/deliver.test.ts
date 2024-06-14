@@ -9,7 +9,6 @@ import {
 import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { SEASONS, getSeasonalTicket } from "features/game/types/seasons";
 import { Quest } from "features/game/types/game";
-import { FACTION_POINT_CUTOFF } from "./donateToFaction";
 
 const LAST_DAY_OF_SEASON = new Date("2023-10-31T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -653,7 +652,7 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: new Date(FACTION_POINT_CUTOFF.getTime() + 1).getTime(),
+      createdAt: new Date().getTime(),
     });
 
     expect(state.faction?.points).toBe(0);
