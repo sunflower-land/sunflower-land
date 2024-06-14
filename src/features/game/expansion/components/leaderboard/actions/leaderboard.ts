@@ -44,11 +44,19 @@ export type FactionLeaderboard = {
 };
 
 export type KingdomLeaderboard = {
-  topTens: Record<FactionName, RankData[]>;
-  totalMembers: Record<FactionName, number>;
-  totalTickets: Record<FactionName, number>;
+  emblems: {
+    topTens: Record<FactionName, RankData[]>;
+    totalMembers: Record<FactionName, number>;
+    totalTickets: Record<FactionName, number>;
+    emblemRankingData?: RankData[] | null;
+  };
+  marks: {
+    topTens: Record<FactionName, RankData[]>;
+    totalMembers: Record<FactionName, number>;
+    totalTickets: Record<FactionName, number>;
+    marksRankingData?: RankData[] | null;
+  };
   lastUpdated: number;
-  farmRankingDetails?: RankData[] | null;
 };
 
 export async function getLeaderboard<T>({

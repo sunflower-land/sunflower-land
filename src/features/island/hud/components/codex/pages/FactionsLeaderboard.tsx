@@ -4,8 +4,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import { Loading } from "features/auth/components";
-import { TicketTable } from "features/game/expansion/components/leaderboard/TicketTable";
-import { FactionLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { KingdomLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
@@ -25,8 +24,9 @@ import shadow from "assets/npcs/shadow.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { formatNumber } from "lib/utils/formatNumber";
-import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { useSound } from "lib/utils/hooks/useSound";
+import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
+import { FactionTicketsTable } from "features/game/expansion/components/leaderboard/FactionTicketTable";
 
 const POSITION_LABELS = ["1st", "2nd", "3rd", "4th"];
 
@@ -34,7 +34,8 @@ interface LeaderboardProps {
   id: string;
   faction: FactionName;
   isLoading: boolean;
-  data: FactionLeaderboard | null;
+  data: KingdomLeaderboard["emblems"] | null;
+  lastUpdated: number | null;
 }
 
 export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
@@ -42,6 +43,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
   faction,
   isLoading,
   data,
+  lastUpdated,
 }) => {
   const { t } = useAppTranslation();
 
@@ -78,7 +80,7 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
     .sort((a, b) => b[1] - a[1])
     .map(([key], i) => [key, POSITION_LABELS[i]]);
 
-  const showLabel = !isMobile || mobileFullScreen || data.farmRankingDetails;
+  const showLabel = !isMobile || mobileFullScreen || data.emblemRankingData;
 
   return (
     <>
@@ -116,9 +118,11 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
               -1
             )} ${t("leaderboard.leaderboard")}`}</Label>
           </div>
-          <p className="font-secondary text-xs">
-            {t("last.updated")} {getRelativeTime(data.lastUpdated)}
-          </p>
+          {lastUpdated && (
+            <p className="font-secondary text-xs">
+              {t("last.updated")} {getRelativeTime(lastUpdated)}
+            </p>
+          )}
         </div>
       ) : (
         <div className="p-1 pt-2">
@@ -128,15 +132,16 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
 
       {(!isMobile || mobileFullScreen) && (
         <div className="scrollable overflow-y-auto max-h-full p-1">
-          {selected === faction && data.farmRankingDetails && (
+          {selected === faction && data.emblemRankingData && (
             <div className="mb-3">
               <Label type="info" className="my-2">
                 {t("leaderboard.yourPosition")}
               </Label>
-              <TicketTable
+              <FactionTicketsTable
                 showHeader={true}
-                rankings={data.farmRankingDetails}
+                rankings={data.emblemRankingData}
                 id={id}
+                factionName={selected}
               />
             </div>
           )}
@@ -146,7 +151,11 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
               <Label type="info" className="my-2">
                 {t("leaderboard.topTen")}
               </Label>
-              <TicketTable rankings={topTen} id={id} />
+              <FactionTicketsTable
+                rankings={topTen}
+                id={id}
+                factionName={selected}
+              />
             </>
           )}
           <div className="flex justify-end">
@@ -161,11 +170,12 @@ export const FactionsLeaderboard: React.FC<LeaderboardProps> = ({
 
       {isMobile && !mobileFullScreen && (
         <>
-          {data.farmRankingDetails && (
-            <TicketTable
+          {data.emblemRankingData && (
+            <FactionTicketsTable
               showHeader={true}
-              rankings={data.farmRankingDetails}
+              rankings={data.emblemRankingData}
               id={id}
+              factionName={selected}
             />
           )}
           <div className="flex flex-col h-full justify-end">
@@ -232,7 +242,7 @@ const Faction: React.FC<FactionProps> = ({
                 </div>
                 <div className="flex pt-2">
                   <img
-                    src={FACTION_POINT_ICONS[name]}
+                    src={FACTION_EMBLEM_ICONS[name]}
                     className="w-4 h-4 inline-block mx-1"
                   />
                   <span className="font-secondary text-xs">
@@ -247,7 +257,7 @@ const Faction: React.FC<FactionProps> = ({
                 </div>
                 <div className="flex pt-1">
                   <img
-                    src={FACTION_POINT_ICONS[name]}
+                    src={FACTION_EMBLEM_ICONS[name]}
                     className="w-4 h-4 inline-block mx-1"
                   />
                   <span className="font-secondary text-xs">
