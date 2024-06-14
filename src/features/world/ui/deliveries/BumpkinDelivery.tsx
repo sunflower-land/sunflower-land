@@ -12,7 +12,6 @@ import chestIcon from "assets/icons/chest.png";
 import sfl from "assets/icons/sfl.webp";
 import coinsImg from "assets/icons/coins.webp";
 import lockIcon from "assets/skills/lock.png";
-import factions from "assets/icons/factions.webp";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";
@@ -38,7 +37,6 @@ import { NpcDialogues } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BUMPKIN_FLOWER_BONUSES } from "features/game/types/gifts";
 import {
-  FACTION_POINT_MULTIPLIER,
   generateDeliveryTickets,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
@@ -46,7 +44,6 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
-import { FACTION_POINT_ICONS } from "../factions/FactionDonationPanel";
 import { SquareIcon } from "components/ui/SquareIcon";
 
 export const OrderCard: React.FC<{
@@ -144,23 +141,8 @@ export const OrderCard: React.FC<{
                 )}
                 {!!tickets && (
                   <div className="flex items-center space-x-3 mr-1">
-                    {game.faction && (
-                      <div className="flex items-center">
-                        <span className="text-xs mr-1">
-                          {tickets! * FACTION_POINT_MULTIPLIER}
-                        </span>
-                        <img
-                          src={
-                            game.faction
-                              ? FACTION_POINT_ICONS[game.faction.name]
-                              : factions
-                          }
-                          className="h-4 w-auto"
-                        />
-                      </div>
-                    )}
                     <div className="flex items-center">
-                      <span className="text-xs mr-1">{tickets}</span>
+                      <span className="text-xs mx-1">{tickets}</span>
                       <img
                         src={ITEM_DETAILS[getSeasonalTicket()].image}
                         className="h-4 w-auto"
