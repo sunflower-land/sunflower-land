@@ -9,7 +9,6 @@ import { Label } from "components/ui/Label";
 
 import coins from "assets/icons/coins.webp";
 import factions from "assets/icons/factions.webp";
-import flagIcon from "assets/icons/faction_point.webp";
 import markIcon from "assets/icons/faction_mark.webp";
 
 import { Portal } from "./Portal";
@@ -58,14 +57,9 @@ export const MinigamePrizeUI: React.FC<{
           )}
 
           <div className="flex items-center space-x-2">
-            {prize.factionPoints && (
-              <Label icon={flagIcon} type="warning">
-                {`${prize.factionPoints} Faction Points`}
-              </Label>
-            )}
             {prize.marks && (
               <Label icon={markIcon} type="warning">
-                {`${prize.marks} Marks`}
+                {`Reward: ${prize.marks} Marks`}
               </Label>
             )}
             {!!prize.coins && (
