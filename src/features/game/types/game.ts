@@ -796,25 +796,20 @@ export type ChoreV2 = {
 
 export type KingdomChores = {
   chores: Record<number, KingdomChore>;
-  week: number;
   choresCompleted: number;
   choresSkipped: number;
-  weeklyChoresCompleted: number;
-  weeklyChoresSkipped: number;
-  weeklyChores: number;
+  weeklyChoresCompleted: number[];
+  weeklyChoresSkipped: number[];
+  activeChores: Record<number, { startCount: number; startedAt: number }>;
+  resetsAt: number | undefined;
 };
 
 export type KingdomChore = {
   activity: BumpkinActivityName;
   description: string;
-  resource: InventoryItemName;
-  createdAt: number;
-  completedAt?: number;
+  image: InventoryItemName;
   requirement: number;
-  bumpkinId: number;
-  startCount: number;
   marks: number;
-  active?: boolean;
 };
 
 export type SeasonWeek = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
@@ -1203,7 +1198,7 @@ export interface GameState {
     bid?: Bid;
   };
   chores?: ChoresV2;
-  kingdomChores?: KingdomChores;
+  kingdomChores: KingdomChores;
   mushrooms: Mushrooms;
   catchTheKraken: CatchTheKraken;
   potionHouse?: PotionHouse;

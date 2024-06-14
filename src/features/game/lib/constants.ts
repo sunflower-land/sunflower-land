@@ -559,6 +559,14 @@ export const TEST_FARM: GameState = {
     games: {},
     prizes: {},
   },
+  kingdomChores: {
+    activeChores: {},
+    chores: {},
+    choresCompleted: 0,
+    choresSkipped: 0,
+    weeklyChoresCompleted: [],
+    weeklyChoresSkipped: [],
+  },
   stock: INITIAL_STOCK(),
   chickens: {},
   farmActivity: {},
@@ -840,6 +848,14 @@ export const EMPTY: GameState = {
   conversations: [],
   farmHands: {
     bumpkins: {},
+  },
+  kingdomChores: {
+    activeChores: {},
+    chores: {},
+    choresCompleted: 0,
+    choresSkipped: 0,
+    weeklyChoresCompleted: [],
+    weeklyChoresSkipped: [],
   },
   greenhouse: {
     pots: {},

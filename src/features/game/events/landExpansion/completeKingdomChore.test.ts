@@ -16,10 +16,19 @@ describe("kingdomChore.completed", () => {
         },
         state: {
           ...TEST_FARM,
-          kingdomChores: undefined,
+          bumpkin: INITIAL_BUMPKIN,
+          kingdomChores: {
+            choresCompleted: 0,
+            choresSkipped: 0,
+            chores: {},
+            weeklyChoresCompleted: [],
+            weeklyChoresSkipped: [],
+            activeChores: {},
+            resetsAt: 0,
+          },
         },
-      }),
-    ).toThrow("No kingdom chores found");
+      })
+    ).toThrow("Chore not found");
   });
 
   it("throws if the chore does not exist", () => {
@@ -31,17 +40,18 @@ describe("kingdomChore.completed", () => {
         },
         state: {
           ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
             chores: {},
-            week: 1,
-            weeklyChores: 0,
-            weeklyChoresCompleted: 0,
-            weeklyChoresSkipped: 0,
+            weeklyChoresCompleted: [],
+            weeklyChoresSkipped: [],
+            activeChores: {},
+            resetsAt: 0,
           },
         },
-      }),
+      })
     ).toThrow("Chore not found");
   });
 
@@ -54,6 +64,7 @@ describe("kingdomChore.completed", () => {
         },
         state: {
           ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
           kingdomChores: {
             choresCompleted: 0,
             choresSkipped: 0,
@@ -61,21 +72,18 @@ describe("kingdomChore.completed", () => {
               1: {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
-                createdAt: 1000,
-                bumpkinId: INITIAL_BUMPKIN.id,
-                startCount: 0,
                 requirement: 30,
                 marks: 3,
-                resource: "Sunflower",
+                image: "Sunflower",
               },
             },
-            week: 1,
-            weeklyChores: 0,
-            weeklyChoresCompleted: 0,
-            weeklyChoresSkipped: 0,
+            weeklyChoresCompleted: [],
+            weeklyChoresSkipped: [],
+            activeChores: {},
+            resetsAt: 0,
           },
         },
-      }),
+      })
     ).toThrow("Chore is not active");
   });
 
@@ -101,22 +109,18 @@ describe("kingdomChore.completed", () => {
               1: {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
-                createdAt: 1000,
-                bumpkinId: INITIAL_BUMPKIN.id,
-                startCount: 0,
                 requirement: 30,
                 marks: 3,
-                resource: "Sunflower",
-                active: true,
+                image: "Sunflower",
               },
             },
-            week: 1,
-            weeklyChores: 0,
-            weeklyChoresCompleted: 0,
-            weeklyChoresSkipped: 0,
+            weeklyChoresCompleted: [],
+            weeklyChoresSkipped: [],
+            activeChores: { 1: { startCount: 0, startedAt: 0 } },
+            resetsAt: 0,
           },
         },
-      }),
+      })
     ).toThrow("Chore is not complete");
   });
 
@@ -142,23 +146,56 @@ describe("kingdomChore.completed", () => {
               1: {
                 activity: "Sunflower Harvested",
                 description: "Harvest 30 Sunflowers",
-                createdAt: 1000,
-                bumpkinId: INITIAL_BUMPKIN.id,
-                startCount: 0,
                 requirement: 30,
                 marks: 3,
-                resource: "Sunflower",
-                completedAt: 1000,
+                image: "Sunflower",
               },
             },
-            week: 1,
-            weeklyChores: 0,
-            weeklyChoresCompleted: 0,
-            weeklyChoresSkipped: 0,
+            weeklyChoresCompleted: [1],
+            weeklyChoresSkipped: [],
+            activeChores: {},
+            resetsAt: 0,
           },
         },
-      }),
+      })
     ).toThrow("Chore is already completed");
+  });
+
+  it("throws an error if chore is skipped", () => {
+    expect(() =>
+      completeKingdomChore({
+        action: {
+          type: "kingdomChore.completed",
+          id: 1,
+        },
+        state: {
+          ...TEST_FARM,
+          bumpkin: {
+            ...INITIAL_BUMPKIN,
+            activity: {
+              "Sunflower Harvested": 30,
+            },
+          },
+          kingdomChores: {
+            choresCompleted: 0,
+            choresSkipped: 0,
+            chores: {
+              1: {
+                activity: "Sunflower Harvested",
+                description: "Harvest 30 Sunflowers",
+                requirement: 30,
+                marks: 3,
+                image: "Sunflower",
+              },
+            },
+            weeklyChoresCompleted: [],
+            weeklyChoresSkipped: [1],
+            activeChores: {},
+            resetsAt: 0,
+          },
+        },
+      })
+    ).toThrow("Chore was already skipped");
   });
 
   it("adds to the completed count", () => {
@@ -182,19 +219,15 @@ describe("kingdomChore.completed", () => {
             1: {
               activity: "Sunflower Harvested",
               description: "Harvest 30 Sunflowers",
-              createdAt: 1000,
-              bumpkinId: INITIAL_BUMPKIN.id,
-              startCount: 0,
               requirement: 30,
               marks: 3,
-              resource: "Sunflower",
-              active: true,
+              image: "Sunflower",
             },
           },
-          week: 1,
-          weeklyChores: 0,
-          weeklyChoresCompleted: 0,
-          weeklyChoresSkipped: 0,
+          weeklyChoresCompleted: [],
+          weeklyChoresSkipped: [],
+          activeChores: { 1: { startCount: 0, startedAt: 0 } },
+          resetsAt: 0,
         },
       },
     });
@@ -223,19 +256,15 @@ describe("kingdomChore.completed", () => {
             1: {
               activity: "Sunflower Harvested",
               description: "Harvest 30 Sunflowers",
-              createdAt: 1000,
-              bumpkinId: INITIAL_BUMPKIN.id,
-              startCount: 0,
               requirement: 30,
               marks: 3,
-              resource: "Sunflower",
-              active: true,
+              image: "Sunflower",
             },
           },
-          week: 1,
-          weeklyChores: 0,
-          weeklyChoresCompleted: 0,
-          weeklyChoresSkipped: 0,
+          weeklyChoresCompleted: [],
+          weeklyChoresSkipped: [],
+          activeChores: { 1: { startCount: 0, startedAt: 0 } },
+          resetsAt: 0,
         },
       },
     });
@@ -265,24 +294,20 @@ describe("kingdomChore.completed", () => {
             1: {
               activity: "Sunflower Harvested",
               description: "Harvest 30 Sunflowers",
-              createdAt: 1000,
-              bumpkinId: INITIAL_BUMPKIN.id,
-              startCount: 0,
               requirement: 30,
               marks: 3,
-              resource: "Sunflower",
-              active: true,
+              image: "Sunflower",
             },
           },
-          week: 1,
-          weeklyChores: 0,
-          weeklyChoresCompleted: 0,
-          weeklyChoresSkipped: 0,
+          weeklyChoresCompleted: [],
+          weeklyChoresSkipped: [],
+          activeChores: { 1: { startCount: 0, startedAt: 0 } },
+          resetsAt: 0,
         },
       },
       createdAt: now,
     });
 
-    expect(result.kingdomChores?.chores[1].completedAt).toBe(now);
+    expect(result.kingdomChores?.weeklyChoresCompleted).toStrictEqual([1]);
   });
 });

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -14,25 +14,23 @@ import { OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { InventoryItemName, KingdomChores } from "features/game/types/game";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
-  chores: KingdomChores | undefined;
+  chores: KingdomChores;
   onClose: () => void;
 }
 
+const WEEKLY_CHORES = 21;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 
 export const Chores: React.FC<Props> = ({ chores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [selected, setSelected] = useState<number>(1);
+  const [selected, setSelected] = useState<number>(getKeys(chores.chores)[0]);
   const [isSkipping, setIsSkipping] = useState(false);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
 
   const autosaving = useSelector(gameService, _autosaving);
   const bumpkin = useSelector(gameService, _bumpkin);
@@ -52,9 +50,14 @@ export const Chores: React.FC<Props> = ({ chores }) => {
 
   const choreSelected = chores.chores[selected];
 
-  const getProgress = (id: number) =>
-    (bumpkin?.activity?.[chores.chores[id].activity] ?? 0) -
-    chores.chores[id].startCount;
+  const getProgress = (id: number) => {
+    if (!chores.activeChores[id]) return 0;
+
+    return (
+      (bumpkin?.activity?.[chores.chores[id].activity] ?? 0) -
+      (chores.activeChores[id].startCount ?? 0)
+    );
+  };
 
   // const handleSkip = (id: any) => {
   //   setIsSkipping(true);
@@ -79,8 +82,9 @@ export const Chores: React.FC<Props> = ({ chores }) => {
           canComplete={canComplete}
           description={choreSelected.description}
           onComplete={() => handleComplete(selected)}
-          resource={choreSelected.resource}
+          image={choreSelected.image}
           marks={choreSelected.marks}
+          resetsAt={chores.resetsAt}
         />
       }
       content={
@@ -92,17 +96,13 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                   {`Chores`}
                 </Label>
                 <p className="text-xxs">
-                  {chores.weeklyChoresCompleted} {t("completed")}
+                  {chores.weeklyChoresCompleted.length} {t("completed")}
                 </p>
               </div>
             }
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {getKeys(chores.chores)
-                .filter(
-                  (choreId) =>
-                    chores.chores[choreId].active &&
-                    chores.chores[choreId].completedAt === undefined,
-                )
+                .filter((choreId) => chores.activeChores[choreId] !== undefined)
                 .map((choreId) => (
                   <Box
                     key={choreId}
@@ -110,7 +110,7 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                       setSelected(choreId);
                     }}
                     isSelected={selected === choreId}
-                    image={ITEM_DETAILS[chores.chores[choreId].resource].image}
+                    image={ITEM_DETAILS[chores.chores[choreId].image].image}
                   />
                 ))}
             </div>
@@ -123,14 +123,15 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                 </Label>
                 <p className="text-xxs">
                   {t("chores.left", {
-                    chores: chores.weeklyChores - chores.weeklyChoresCompleted,
+                    chores: WEEKLY_CHORES - chores.weeklyChoresCompleted.length,
                   })}
                 </p>
               </div>
             }
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {getKeys(chores.chores)
-                .filter((choreId) => !chores.chores[choreId].active)
+                .filter((choreId) => chores.activeChores[choreId] === undefined)
+                .slice(0, 3)
                 .map((choreId) => (
                   <Box
                     key={choreId}
@@ -138,7 +139,7 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                       setSelected(choreId);
                     }}
                     isSelected={selected === choreId}
-                    image={ITEM_DETAILS[chores.chores[choreId].resource].image}
+                    image={ITEM_DETAILS[chores.chores[choreId].image].image}
                   />
                 ))}
             </div>
@@ -151,21 +152,36 @@ export const Chores: React.FC<Props> = ({ chores }) => {
 
 type PanelProps = {
   canComplete: boolean;
-  resource: InventoryItemName;
+  image: InventoryItemName;
   description: string;
   onComplete: () => void;
   marks: number;
+  resetsAt: number | undefined;
 };
 
 const Panel: React.FC<PanelProps> = ({
   canComplete,
-  resource,
+  image: resource,
   description,
   marks,
+  resetsAt,
   onComplete,
 }: PanelProps) => {
   return (
     <div className="flex flex-col justify-center">
+      {resetsAt ? (
+        <Label
+          type="info"
+          className="font-secondary mb-2"
+          icon={SUNNYSIDE.icons.stopwatch}
+        >
+          {"Resets in "}
+          {secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
+            length: "medium",
+            removeTrailingZeros: true,
+          })}
+        </Label>
+      ) : null}
       <div className="flex flex-col justify-center px-1 py-1">
         <div className="flex space-x-2 justify-start items-center sm:flex-col-reverse md:space-x-0">
           {ITEM_DETAILS[resource].image && (
