@@ -186,7 +186,6 @@ body {
   overflow: hidden;
   color: #181425;
   font-size: var(--text-sm-size);
-  word-spacing: 3px;
   line-height: var(--text-sm-line-height);
   -webkit-font-smoothing: antialiased;
 }

@@ -39,15 +39,19 @@ export function isCropShortage({ game }: { game: GameState }) {
   return true;
 }
 
+export const CROP_SHORTAGE_HOURS = 2;
+
 /**
  * How much SFL an item is worth
  */
 export const getSellPrice = ({
   item,
   game,
+  now = new Date(),
 }: {
   item: SellableItem;
   game: GameState;
+  now?: Date;
 }) => {
   let price = item.sellPrice;
 
@@ -61,10 +65,10 @@ export const getSellPrice = ({
   }
 
   // Crop Shortage during initial gameplay
-  if (
-    ["Sunflower", "Potato", "Pumpkin"].includes(item.name) &&
-    isCropShortage({ game })
-  ) {
+  const isCropShortage =
+    game.createdAt + CROP_SHORTAGE_HOURS * 60 * 60 * 1000 > now.getTime();
+
+  if (item.name in CROPS() && isCropShortage) {
     price = price * 2;
   }
 

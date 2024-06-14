@@ -180,7 +180,7 @@ import {
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
-  "2x.sale": "2x Sale",
+  "2x.sale": "2x Coins",
   achievements: "Achievements",
   "amount.matic": "Amount in MATIC",
   deposit: "Deposit",
