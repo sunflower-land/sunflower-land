@@ -142,7 +142,7 @@ export const FIRE_PIT_COOKABLES: Record<FirePitCookableName, Cookable> = {
     name: "Reindeer Carrot",
     description: translate("description.reindeer.carrot"),
     building: "Fire Pit",
-    experience: 10,
+    experience: 36,
     cookingSeconds: 60 * 5,
     ingredients: {
       Carrot: new Decimal(5),

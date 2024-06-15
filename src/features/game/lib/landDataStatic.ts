@@ -790,7 +790,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Warehouse: [
+    "Fire Pit": [
       {
         coordinates: {
           x: -5,

@@ -891,6 +891,7 @@ export type Conversations =
   | "betty.market-intro.four"
   | "firepit-intro.one"
   | "firepit-intro.two"
+  | "firepit.increasedXP"
   | "bruce-intro.headline"
   | "bruce-intro.one"
   | "bruce-intro.two"
