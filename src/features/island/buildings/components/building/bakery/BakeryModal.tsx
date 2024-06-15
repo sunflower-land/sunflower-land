@@ -32,7 +32,7 @@ export const BakeryModal: React.FC<Props> = ({
   buildingId,
 }) => {
   const cakeRecipes = Object.values(BAKERY_COOKABLES).sort(
-    (a, b) => a.cookingSeconds - b.cookingSeconds // Sorts Foods based on their cooking time
+    (a, b) => a.experience - b.experience // Sorts Foods based on their cooking time
   );
   const [selected, setSelected] = useState<Cookable>(
     cakeRecipes.find((recipe) => recipe.name === itemInProgress) ||

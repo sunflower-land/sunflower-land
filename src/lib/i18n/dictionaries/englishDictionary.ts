@@ -1266,7 +1266,7 @@ const conversations: Record<Conversations, string> = {
   "firepit-intro.one": "Congratulations Bumpkin...You're a natural!",
   "firepit-intro.two":
     "If you want to level up & unlock new abilities, gather crops and visit my fire pit. I can cook some nutritious food for you.",
-
+  "firepit.increasedXP": "Increased XP",
   "bruce-intro.headline": "Cooking Introduction",
   "bruce-intro.one": "I'm the owner of this lovely little bistro.",
   "bruce-intro.two":

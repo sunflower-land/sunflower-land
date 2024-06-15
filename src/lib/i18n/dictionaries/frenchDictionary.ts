@@ -1284,6 +1284,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
 const conversations: Record<Conversations, string> = {
   "firepit-intro.one": ENGLISH_TERMS["firepit-intro.one"],
   "firepit-intro.two": ENGLISH_TERMS["firepit-intro.two"],
+  "firepit.increasedXP": ENGLISH_TERMS["firepit.increasedXP"],
   "hank-intro.headline": "Aider un vieil homme?",
   "hank-intro.one":
     "Salut Bumpkin ! Bienvenue dans notre petit coin de paradis.",

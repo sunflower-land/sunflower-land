@@ -1157,6 +1157,7 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 const conversations: Record<Conversations, string> = {
   "firepit-intro.one": ENGLISH_TERMS["firepit-intro.one"],
   "firepit-intro.two": ENGLISH_TERMS["firepit-intro.two"],
+  "firepit.increasedXP": ENGLISH_TERMS["firepit.increasedXP"],
   "hank-intro.headline": "帮帮老人家？",
   "hank-intro.one": "好喂，乡包佬！欢迎来到我们这小块桃园天堂。",
   "hank-intro.two": "我在这儿耕地已有 50 余年了，但帮手当然也不嫌少。",
