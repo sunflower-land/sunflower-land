@@ -603,6 +603,9 @@ const availableSeeds: Record<AvailableSeeds, string> = {
     "Qual semente você gostaria de selecionar e plantar?",
   "quickSelect.empty": ENGLISH_TERMS["quickSelect.empty"],
   "quickSelect.label": ENGLISH_TERMS["quickSelect.label"],
+  "quickSelect.cropSeeds": ENGLISH_TERMS["quickSelect.cropSeeds"],
+  "quickSelect.greenhouseSeeds": ENGLISH_TERMS["quickSelect.greenhouseSeeds"],
+  "quickSelect.purchase": ENGLISH_TERMS["quickSelect.purchase"],
 };
 
 const base: Record<Base, string> = {

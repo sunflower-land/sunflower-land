@@ -470,7 +470,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(3),
+    "Basic Land": new Decimal(10),
     "Gold Pass": new Decimal(1),
     "Crop Plot": new Decimal(OFFLINE_FARM_CROPS),
     "Water Well": new Decimal(4),
@@ -526,7 +526,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunpetal Seed": new Decimal(20),
     "Bloom Seed": new Decimal(10),
     "Lily Seed": new Decimal(5),
-    "Sunflower Seed": new Decimal(992),
+    // "Sunflower Seed": new Decimal(992),
 
     // Foods
     "Pumpkin Soup": new Decimal(1),
@@ -768,7 +768,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    "Hen House": [
+    Greenhouse: [
       {
         coordinates: {
           x: -5,
