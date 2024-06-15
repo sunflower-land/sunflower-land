@@ -142,9 +142,9 @@ const RecoveredGoldComponent: React.FC<Props> = ({ hasTool, touchCount }) => {
           }}
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="text-xxs mx-1 p-1">
+            <div className="text-xs mx-1 p-1">
               <span>
-                {t("equip")} {tool.toLowerCase()}
+                {t("craft")} {tool.toLowerCase()}
               </span>
             </div>
           </InnerPanel>

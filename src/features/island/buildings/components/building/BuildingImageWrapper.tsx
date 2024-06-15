@@ -117,7 +117,7 @@ export const BuildingImageWrapper: React.FC<Props> = ({
           }}
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="text-xxs mx-1 p-1">
+            <div className="text-xs mx-1 p-1">
               <span>
                 {t("bumpkin.level")} {bumpkinLevelRequired} {t("required")}
                 {"."}

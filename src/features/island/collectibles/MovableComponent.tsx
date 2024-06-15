@@ -450,7 +450,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                     }}
                   >
                     <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-                      <div className="text-xxs mx-1 p-1">
+                      <div className="text-xs mx-1 p-1">
                         <span>{restrictionReason}</span>
                       </div>
                     </InnerPanel>

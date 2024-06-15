@@ -54,8 +54,8 @@ export const RecoveredOilReserve: React.FC<Props> = ({ hasDrill, onDrill }) => {
           }}
         >
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="text-xxs mx-1 p-1">
-              <span>{`${t("equip")} oil drill`}</span>
+            <div className="text-xs mx-1 p-1">
+              <span>{`${t("craft")} oil drill`}</span>
             </div>
           </InnerPanel>
         </div>
