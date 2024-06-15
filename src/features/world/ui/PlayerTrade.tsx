@@ -194,42 +194,56 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
         <p className="text-xs mb-1 ml-0.5">{t("playerTrade.sale")}</p>
         <Label type="info">{t("beta")}</Label>
       </div>
-      {getKeys(listings).map((listingId, index) => {
-        if (listingId.length < 38)
-          return (
-            <div className="p-2">
-              <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
-              <p className="text-sm mb-2 text-center">
-                {t("playerTrade.no.trade")}
-              </p>
-            </div>
+      {getKeys(listings)
+        .filter((id) => {
+          const listing = listings[id];
+
+          return getKeys(listing.items).every(
+            (name) =>
+              ![
+                "Bumpkin Emblem",
+                "Goblin Emblem",
+                "Nightshade Emblem",
+                "Sunflorian Emblem",
+              ].includes(name)
           );
-
-        return (
-          <InnerPanel className="mb-2" key={index}>
-            <div className="flex justify-between">
-              <div className="flex flex-wrap">
-                {getKeys(listings[listingId].items).map((name) => (
-                  <Box
-                    image={ITEM_DETAILS[name].image}
-                    count={new Decimal(listings[listingId].items[name] ?? 0)}
-                    disabled
-                    key={name}
-                  />
-                ))}
+        })
+        .map((listingId, index) => {
+          if (listingId.length < 38)
+            return (
+              <div className="p-2">
+                <img src={SUNNYSIDE.icons.sad} className="mx-auto w-1/5 my-2" />
+                <p className="text-sm mb-2 text-center">
+                  {t("playerTrade.no.trade")}
+                </p>
               </div>
-              <div className="w-28">
-                {Action(listingId)}
+            );
 
-                <div className="flex items-center mt-1  justify-end mr-0.5">
-                  <p className="font-secondary">{`${listings[listingId].sfl} SFL`}</p>
-                  <img src={token} className="h-6 ml-1" />
+          return (
+            <InnerPanel className="mb-2" key={index}>
+              <div className="flex justify-between">
+                <div className="flex flex-wrap">
+                  {getKeys(listings[listingId].items).map((name) => (
+                    <Box
+                      image={ITEM_DETAILS[name].image}
+                      count={new Decimal(listings[listingId].items[name] ?? 0)}
+                      disabled
+                      key={name}
+                    />
+                  ))}
+                </div>
+                <div className="w-28">
+                  {Action(listingId)}
+
+                  <div className="flex items-center mt-1  justify-end mr-0.5">
+                    <p className="font-secondary">{`${listings[listingId].sfl} SFL`}</p>
+                    <img src={token} className="h-6 ml-1" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </InnerPanel>
-        );
-      })}
+            </InnerPanel>
+          );
+        })}
     </div>
   );
 };
