@@ -96,7 +96,7 @@ import {
 import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache";
 import { MinigameName } from "../types/minigames";
 import { getBumpkinLevel } from "./level";
-import { DYNAMIC_OFFLINE_FARM } from "./landDataDynamic";
+import { OFFLINE_FARM } from "./landData";
 
 const getPortal = () => {
   const code = new URLSearchParams(window.location.search).get("portal");
@@ -592,7 +592,7 @@ export function startGame(authContext: AuthContext) {
               target: "notifying",
               cond: () => ART_MODE,
               actions: assign({
-                state: (_context) => DYNAMIC_OFFLINE_FARM,
+                state: (_context) => OFFLINE_FARM,
               }),
             },
           ],

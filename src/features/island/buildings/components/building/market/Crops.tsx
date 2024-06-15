@@ -26,7 +26,6 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -35,9 +34,7 @@ export const isExoticCrop = (
 ): item is ExoticCrop => {
   return item.name in EXOTIC_CROPS;
 };
-export const Crops: React.FC<{ cropShortage: boolean }> = ({
-  cropShortage,
-}) => {
+export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<Crop | Fruit | ExoticCrop>(
     CROPS().Sunflower
   );
@@ -144,35 +141,37 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
       <SplitScreenView
         divRef={divRef}
         panel={
-          <ShopSellDetails
-            details={{
-              item: selected.name,
-            }}
-            properties={{
-              coins: displaySellPrice(selected),
-            }}
-            actionView={
-              <>
-                <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
-                  <Button
-                    disabled={cropAmount.lessThanOrEqualTo(0)}
-                    onClick={handleSellOneOrLess}
-                  >
-                    {sellOneButtonText()}
+          <>
+            <ShopSellDetails
+              details={{
+                item: selected.name,
+              }}
+              properties={{
+                coins: displaySellPrice(selected),
+              }}
+              actionView={
+                <>
+                  <div className="flex space-x-1 mb-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
+                    <Button
+                      disabled={cropAmount.lessThanOrEqualTo(0)}
+                      onClick={handleSellOneOrLess}
+                    >
+                      {sellOneButtonText()}
+                    </Button>
+                    <Button
+                      disabled={cropAmount.lessThan(10)}
+                      onClick={handleSellTen}
+                    >
+                      {t("sell.ten")}
+                    </Button>
+                  </div>
+                  <Button disabled={noCrop} onClick={openConfirmationModal}>
+                    {t("sell.all")}
                   </Button>
-                  <Button
-                    disabled={cropAmount.lessThan(10)}
-                    onClick={handleSellTen}
-                  >
-                    {t("sell.ten")}
-                  </Button>
-                </div>
-                <Button disabled={noCrop} onClick={openConfirmationModal}>
-                  {t("sell.all")}
-                </Button>
-              </>
-            }
-          />
+                </>
+              }
+            />
+          </>
         }
         content={
           <div className="pl-1">
@@ -184,11 +183,6 @@ export const Crops: React.FC<{ cropShortage: boolean }> = ({
               >
                 {t("crops")}
               </Label>
-              {cropShortage && (
-                <Label type="vibrant" icon={SUNNYSIDE.icons.stopwatch}>
-                  {t("2x.sale")}
-                </Label>
-              )}
             </div>
             <div className="flex flex-wrap mb-2">
               {cropsAndFruits

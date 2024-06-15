@@ -11,6 +11,7 @@ const GAME_STATE: GameState = {
   bumpkin: INITIAL_BUMPKIN,
   balance: new Decimal(0),
   inventory: {},
+  createdAt: new Date("2023-04-04").getTime(),
 };
 
 describe("sell", () => {

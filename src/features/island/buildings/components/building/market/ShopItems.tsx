@@ -42,12 +42,8 @@ export const ShopItems: React.FC<Props> = ({
   onClose,
   hasSoldBefore,
   showBuyHelper,
-  cropShortage,
 }) => {
   const [tab, setTab] = useState(0);
-  const [showShortageEnd, setShowShortageEnd] = React.useState(
-    !hasRead() && !cropShortage
-  );
   const [showIntro, setShowIntro] = React.useState(!hasReadIntro());
   const { t } = useAppTranslation();
 
@@ -82,31 +78,6 @@ export const ShopItems: React.FC<Props> = ({
           ]}
           onClose={() => {
             acknowledgeRead();
-            setShowShortageEnd(false);
-          }}
-        />
-      </Panel>
-    );
-  }
-
-  if (showShortageEnd) {
-    return (
-      <Panel bumpkinParts={NPC_WEARABLES.betty}>
-        <SpeakingText
-          message={[
-            {
-              text: t("betty.post.sale.one"),
-            },
-            {
-              text: t("betty.post.sale.two"),
-            },
-            {
-              text: t("betty.post.sale.three"),
-            },
-          ]}
-          onClose={() => {
-            acknowledgeRead();
-            setShowShortageEnd(false);
           }}
         />
       </Panel>
@@ -134,7 +105,7 @@ export const ShopItems: React.FC<Props> = ({
       container={OuterPanel}
     >
       {tab === 0 && <Seeds onClose={onClose} />}
-      {tab === 1 && <Crops cropShortage={!!cropShortage} />}
+      {tab === 1 && <Crops />}
     </CloseButtonPanel>
   );
 };
