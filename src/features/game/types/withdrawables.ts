@@ -1162,7 +1162,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Dawn Lamp": () => true,
   "Eggplant Onesie": (state) =>
     canWithdrawBoostedWearable("Eggplant Onesie", state),
-  "Fox Hat": () => false, // Not Launched
+  "Fox Hat": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Grave Diggers Shovel": () => true,
   "Infected Potion": () => true,
   "Mushroom Hat": () => true,
@@ -1229,7 +1229,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Gothic Twilight": () => false, // Not Launched
   "Dark Enchantment Gown": () => false, // Not Launched
   "Goth Hair": () => false, // Not Launched
-  "Pale Potion": () => false, // Not Launched
+  "Pale Potion": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
   "Stretched Jeans": () => false, // Not Launched
   "Skull Shirt": () => true, // Halloween is over
   "Victorian Hat": () => false, // Not Launched
@@ -1351,7 +1351,7 @@ export const BUMPKIN_WITHDRAWABLES: Record<
 
   "Lucky Red Hat": () => true,
   "Lucky Red Suit": () => true,
-  "Chicken Hat": () => false,
+  "Chicken Hat": () => canWithdrawTimebasedItem(new Date("2024-05-01")),
 
   "Love's Topper": () => true,
   "Valentine's Field Background": () => true,
