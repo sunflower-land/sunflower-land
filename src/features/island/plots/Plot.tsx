@@ -35,6 +35,20 @@ import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
+import { setPrecision } from "lib/utils/formatNumber";
+import Decimal from "decimal.js-light";
+
+export function getYieldColour(yieldAmount: number) {
+  if (yieldAmount <= 1) {
+    return "white";
+  }
+
+  if (yieldAmount <= 1.5) {
+    return "#ffeb37";
+  }
+
+  return "#71e358";
+}
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -98,6 +112,9 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const harvestCount = useSelector(gameService, selectHarvests);
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
+  const harvested = useRef<PlantedCrop>();
+  const [showHarvested, setShowHarvested] = useState(false);
+
   const { openModal } = useContext(ModalContext);
 
   const crop = crops?.[id]?.crop;
@@ -122,10 +139,11 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   if (!isFertile) return <NonFertilePlot />;
 
-  const harvestCrop = (crop: PlantedCrop) => {
+  const harvestCrop = async (crop: PlantedCrop) => {
     const newState = gameService.send("crop.harvested", {
       index: id,
     });
+
     if (newState.matches("hoarding")) return;
 
     harvestAudio.play();
@@ -159,6 +177,14 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         event: "Tutorial:SunflowerHarvested:Completed",
       });
     }
+
+    harvested.current = crop;
+
+    setShowHarvested(true);
+
+    await new Promise((res) => setTimeout(res, 2000));
+
+    setShowHarvested(false);
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
@@ -345,6 +371,30 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           })
         }
       />
+
+      {/* Harvest Animation */}
+      <Transition
+        appear={true}
+        id="oil-reserve-collected-amount"
+        show={showHarvested}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0 translate-y-4"
+        enterTo="opacity-100 -translate-y-0"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex -top-2 left-[40%] absolute z-40 pointer-events-none"
+      >
+        <span
+          className="text-sm yield-text"
+          style={{
+            color: getYieldColour(harvested.current?.amount ?? 0),
+          }}
+        >{`+${setPrecision(
+          new Decimal(harvested.current?.amount ?? 0),
+          2
+        )}`}</span>
+      </Transition>
     </>
   );
 };
