@@ -16,8 +16,7 @@ import { Context } from "features/game/GameProvider";
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
     !state.context.state.inventory["Basic Scarecrow"] &&
-    (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6 &&
-    !state.context.state.inventory["Sunflower Seed"]?.gt(0);
+    (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 1;
 
   if (missingScarecrow) {
     return true;
