@@ -47,6 +47,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router-dom";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -572,7 +573,7 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   </Label>
                 )}
               </div>
-              <div className="pt-1 pb-2">
+              <div className="">
                 {getKeys(previewOrder.items).map((itemName, index) => {
                   if (itemName === "sfl") {
                     return (
@@ -613,6 +614,44 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                     />
                   );
                 })}
+              </div>
+              <div
+                className="flex justify-between w-full"
+                style={{
+                  marginTop: "2px",
+                  paddingTop: "3px",
+                  borderStyle: "dashed",
+                  borderTop: "1px dashed #ead4aa",
+                  marginBottom: "6px",
+                }}
+              >
+                <div className="flex items-center">
+                  <SquareIcon
+                    icon={
+                      previewOrder.reward.coins
+                        ? coinsImg
+                        : previewOrder.reward.sfl
+                        ? sflIcon
+                        : ITEM_DETAILS[getSeasonalTicket()].image
+                    }
+                    width={7}
+                  />
+                  <span className="text-xs ml-1">{t("reward")}</span>
+                </div>
+                <Label type="warning">
+                  <span>{`${
+                    generateDeliveryTickets({
+                      game: gameState,
+                      npc: previewOrder.from,
+                    }) || makeRewardAmountForLabel(previewOrder)
+                  } ${
+                    previewOrder.reward.coins
+                      ? t("coins")
+                      : previewOrder.reward.sfl
+                      ? "SFL"
+                      : `${getSeasonalTicket()}s`
+                  }`}</span>
+                </Label>
               </div>
               {hasOrderRequirements({
                 order: previewOrder,
