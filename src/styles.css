@@ -113,6 +113,7 @@
 
 :root {
   --font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
+  --secondary-font-family: "Teeny", sans-serif, "LXGW WenKai TC", cursive;
 
   /* Font Size Variables */
   --text-xxs-size: 20px;
@@ -436,12 +437,11 @@ img {
 
 .balance-text {
   color: white;
-  /* text-shadow: 1px 1px black; */
-  font-family: "Secondary";
-  /* paint-order: stroke;
-  -webkit-text-stroke: 3px black; */
-  letter-spacing: 1px;
-  font-size: 28px !important;
+  font-family: var(--secondary-font-family);
+  font-size: 14px !important;
+  position: relative;
+  top: 2px;
+  text-transform: uppercase;
 
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
     1px 1px 0 black, -2px 0 0 black, 2px 0 0 black, 0 -2px 0 black,
@@ -449,15 +449,18 @@ img {
     2px 2px 0 black;
 }
 
+.map-text {
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0px 3px 3px;
+  border-radius: 3px;
+  text-shadow: 1px 1px black;
+}
 .yield-text {
   color: white;
-  /* text-shadow: 1px 1px black; */
-  font-family: Teeny;
+  font-family: var(--secondary-font-family);
   font-size: 12px !important;
-  /* paint-order: stroke;
-  -webkit-text-stroke: 3px black; */
-  letter-spacing: 1px;
-
+  /* letter-spacing: 1px; */
   text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black,
     1px 1px 0 black, -2px 0 0 black, 2px 0 0 black, 0 -2px 0 black,
     0 2px 0 black, -2px -2px 0 black, 2px -2px 0 black, -2px 2px 0 black,

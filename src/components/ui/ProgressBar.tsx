@@ -203,7 +203,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           }}
         >
           <span
-            className="font-pixel  !text-[22px] text-white text-center"
+            className="yield-text  text-white text-center"
             style={{
               padding: "0px 1px",
               height: "9px",
@@ -211,6 +211,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
               top: "6px",
               position: "relative",
               textShadow: "1px 1px black",
+              fontSize: "10px",
             }}
           >
             {secondsToString(seconds, {

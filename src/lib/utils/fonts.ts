@@ -24,6 +24,7 @@ const FONT_CONFIG: Record<
     sm: [number, number];
     base: [number, number];
     lg: [number, number];
+    secondaryFontFamily: string;
   }
 > = {
   Default: {
@@ -33,6 +34,7 @@ const FONT_CONFIG: Record<
     sm: [30, 20],
     base: [36, 26],
     lg: [42, 32],
+    secondaryFontFamily: "Teeny",
   },
   "Sans Serif": {
     fontFamily: "sans-serif",
@@ -41,6 +43,7 @@ const FONT_CONFIG: Record<
     sm: [18, 18],
     base: [25, 25],
     lg: [30, 30],
+    secondaryFontFamily: "Teeny",
   },
   Bold: {
     fontFamily: "Secondary",
@@ -49,6 +52,7 @@ const FONT_CONFIG: Record<
     sm: [30, 20],
     base: [36, 26],
     lg: [42, 32],
+    secondaryFontFamily: "Teeny",
   },
   "Chunky (Old)": {
     fontFamily: "Paytone One",
@@ -57,6 +61,7 @@ const FONT_CONFIG: Record<
     sm: [18, 18],
     base: [25, 25],
     lg: [30, 30],
+    secondaryFontFamily: "Teeny",
   },
 };
 
@@ -73,6 +78,11 @@ export function changeFont(font: Font) {
 
   document.documentElement.style.setProperty(
     "--font-family",
+    config.fontFamily
+  );
+
+  document.documentElement.style.setProperty(
+    "--secondary-font-family",
     config.fontFamily
   );
 

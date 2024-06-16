@@ -25,7 +25,7 @@ export const INITIAL_RESOURCES: Pick<
   crops: new Array(10)
     .fill({
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
       x: -2,
       y: 0,
       height: 1,
@@ -38,7 +38,7 @@ export const INITIAL_RESOURCES: Pick<
           ...crop,
           x: index % 10,
           y: 5 + Math.floor(index / 10),
-          crop: { name: "Sunflower", plantedAt: 0, amount: 1 + index },
+          crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 + index },
         },
       }),
       {}
