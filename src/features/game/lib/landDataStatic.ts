@@ -783,6 +783,20 @@ export const STATIC_OFFLINE_FARM: GameState = {
           Pumpkin: 20,
         },
       },
+      {
+        createdAt: Date.now(),
+        readyAt: Date.now(),
+        from: "victoria",
+        reward: {
+          coins: 10000,
+        },
+        id: "12",
+        items: {
+          Sunflower: 20,
+          Potato: 20,
+          Pumpkin: 20,
+        },
+      },
       // {
       //   createdAt: Date.now(),
       //   readyAt: Date.now(),
