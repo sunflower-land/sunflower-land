@@ -13,8 +13,17 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-const hasScarecrow = (state: MachineState) => {
-  return !!state.context.state.inventory["Basic Scarecrow"];
+const needsHelp = (state: MachineState) => {
+  const missingScarecrow =
+    !state.context.state.inventory["Basic Scarecrow"] &&
+    (state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0) >= 6 &&
+    !state.context.state.inventory["Sunflower Seed"]?.gt(0);
+
+  if (missingScarecrow) {
+    return true;
+  }
+
+  return false;
 };
 
 interface Props {
@@ -23,7 +32,7 @@ interface Props {
 
 export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const showCrafting = useSelector(gameService, hasScarecrow);
+  const showCrafting = useSelector(gameService, needsHelp);
   const [tab, setTab] = useState(showCrafting ? 1 : 0);
   const { t } = useAppTranslation();
 
