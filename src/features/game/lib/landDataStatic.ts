@@ -22,75 +22,27 @@ export const INITIAL_RESOURCES: Pick<
   | "beehives"
   | "oilReserves"
 > = {
-  crops: {
-    1: {
+  crops: new Array(10)
+    .fill({
       createdAt: Date.now(),
       crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
       x: -2,
       y: 0,
       height: 1,
       width: 1,
-    },
-    2: {
-      createdAt: Date.now(),
-      crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
-      x: -1,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    3: {
-      createdAt: Date.now(),
-      crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
-      x: 0,
-      y: 0,
-      height: 1,
-      width: 1,
-    },
-    4: {
-      createdAt: Date.now(),
-      x: -2,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    5: {
-      createdAt: Date.now(),
-      x: -1,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-    6: {
-      createdAt: Date.now(),
-      x: 0,
-      y: -1,
-      height: 1,
-      width: 1,
-    },
-
-    7: {
-      createdAt: Date.now(),
-      x: -2,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    8: {
-      createdAt: Date.now(),
-      x: -1,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-    9: {
-      createdAt: Date.now(),
-      x: 0,
-      y: 1,
-      height: 1,
-      width: 1,
-    },
-  },
+    })
+    .reduce(
+      (acc, crop, index) => ({
+        ...acc,
+        [index]: {
+          ...crop,
+          x: index % 10,
+          y: 5 + Math.floor(index / 10),
+          crop: { name: "Sunflower", plantedAt: 0, amount: 1 + index },
+        },
+      }),
+      {}
+    ),
   trees: {
     1: {
       wood: {
