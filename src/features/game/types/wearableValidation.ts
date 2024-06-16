@@ -12,6 +12,7 @@ import {
   greenhouseCropIsGrowing,
   isProducingHoney,
   isBeehivesFull,
+  isCrimstoneHammerActive,
 } from "./removeables";
 import { GameState } from "./game";
 
@@ -109,6 +110,10 @@ export const canWithdrawBoostedWearable = (
 
   if (name === "Crimstone Amulet" || name === "Crimstone Armor") {
     return !areAnyCrimstonesMined(state)[0];
+  }
+
+  if (name === "Crimstone Hammer") {
+    return !isCrimstoneHammerActive(state)[0];
   }
 
   if (name === "Oil Can") {
