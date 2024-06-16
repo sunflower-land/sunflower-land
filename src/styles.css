@@ -112,7 +112,7 @@
 }
 
 :root {
-  --font-family: "Basic", sans-serif;
+  --font-family: "Basic", "Ark", sans-serif;
 
   /* Font Size Variables */
   --text-xxs-size: 20px;

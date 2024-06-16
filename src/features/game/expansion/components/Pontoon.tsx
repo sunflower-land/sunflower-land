@@ -85,6 +85,7 @@ export const Pontoon: React.FC<Props> = ({ expansion, onDone }) => {
           style={{
             top: `${PIXEL_SCALE * 82}px`,
             left: `${PIXEL_SCALE * 45}px`,
+            whiteSpace: "nowrap",
           }}
         />
       )}

@@ -197,6 +197,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   seconds = 0,
   ...divProps
 }) => {
+  const currentLanguage = localStorage.getItem("language") || "en";
+
   return (
     <div className="absolute" {...divProps}>
       {seconds > 0 && (
@@ -208,7 +210,9 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           }}
         >
           <span
-            className="font-pixel  !text-[22px] text-white text-center"
+            className={`text-white text-center ${
+              currentLanguage === "zh-CN" ? "font-黑体" : "font-pixel"
+            }`}
             style={{
               padding: "0px 1px",
               height: "9px",
@@ -216,6 +220,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
               top: "6px",
               position: "relative",
               textShadow: "1px 1px black",
+              whiteSpace: "nowrap",
             }}
           >
             {secondsToString(seconds, {
