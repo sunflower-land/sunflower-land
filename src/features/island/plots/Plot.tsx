@@ -248,7 +248,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
         return;
       }
 
-      const state = gameService.send("seed.planted", {
+      const newState = gameService.send("seed.planted", {
         index: id,
         item: seed,
         cropId: uuidv4().slice(0, 8),
@@ -257,7 +257,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       plantAudio.play();
 
       const planted =
-        state.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
+        newState.context.state.bumpkin?.activity?.["Sunflower Planted"] ?? 0;
 
       if (planted === 1) {
         gameAnalytics.trackMilestone({
@@ -268,8 +268,8 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       if (
         planted >= 3 &&
         selectedItem === "Sunflower Seed" &&
-        !state.context.state.inventory["Sunflower Seed"]?.gt(0) &&
-        !state.context.state.inventory["Basic Scarecrow"]
+        !newState.context.state.inventory["Sunflower Seed"]?.gt(0) &&
+        !newState.context.state.inventory["Basic Scarecrow"]
       ) {
         openModal("BLACKSMITH");
       }
