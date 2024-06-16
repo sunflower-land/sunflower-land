@@ -12,6 +12,7 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Loading } from "features/auth/components";
+import { SquareIcon } from "components/ui/SquareIcon";
 
 export interface Price {
   amount: number;
@@ -200,6 +201,29 @@ export const BuyBlockBucks: React.FC<Props> = ({
     <>
       <div className="flex flex-col w-full p-1">
         <p className="text-xs italic pb-2">{t("transaction.excludeFees")}</p>
+        <ButtonPanel
+          onClick={() => setPrice({ amount: 25, usd: 0.99 })}
+          className="w-full mb-1"
+        >
+          <div className="flex justify-between">
+            <Label type="vibrant">Starter Offer</Label>
+            <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
+              23 hrs left
+            </Label>
+          </div>
+          <div className="flex w-full">
+            <div>
+              <div className="flex items-center">
+                <SquareIcon icon={blockBucksIcon} width={10} />
+                <span className="ml-1 text-sm">{`25 x Block Bucks`}</span>
+              </div>
+            </div>
+            <div className="flex flex-col justify-end flex-1 items-end">
+              <span className="text-sm mb-1 line-through">$3.99</span>
+              <Label type="warning">{`US$0.99`}</Label>
+            </div>
+          </div>
+        </ButtonPanel>
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price) => (
             <ButtonPanel
