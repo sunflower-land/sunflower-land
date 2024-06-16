@@ -112,7 +112,7 @@
 }
 
 :root {
-  --font-family: "Basic", sans-serif, "LXGW WenKai TC", cursive;
+  --font-family: "Basic", sans-serif;
 
   /* Font Size Variables */
   --text-xxs-size: 20px;
@@ -184,6 +184,16 @@
 @font-face {
   font-family: "Basis33";
   src: url("https://sunflower-land.com/testnet-assets/fonts/basis33.ttf");
+}
+
+@font-face {
+  font-family: "Ark";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/ark-pixel-zh_cn.ttf");
+}
+
+@font-face {
+  font-family: "黑体";
+  src: url("https://sunflower-land.com/testnet-assets/fonts/YeZiGongChangTangYingHei-2.ttf");
 }
 
 html {
@@ -1340,6 +1350,12 @@ a {
 
 .font-pixel {
   font-size: 22px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-黑体 {
+  font-family: "黑体", sans-serif;
+  font-size: 12px;
   -webkit-font-smoothing: antialiased;
 }
 

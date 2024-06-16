@@ -5,7 +5,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Panel } from "components/ui/Panel";
 import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { changeFont } from "lib/utils/fonts";
 import {
   LanguageCode,
   languageDetails,
@@ -25,12 +24,6 @@ export const LanguageSwitcher: React.FC = () => {
     i18n.changeLanguage(languageCode);
     setLanguage(languageCode);
     location.reload();
-
-    if (languageCode === "zh-CN") {
-      changeFont("Sans Serif");
-    } else {
-      changeFont("Default");
-    }
   };
 
   const languageArray = Object.keys(languageDetails) as LanguageCode[];

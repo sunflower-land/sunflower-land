@@ -94,6 +94,43 @@ const CYRILLIC_FONT_CONFIG: Record<Font, FontSettings> = {
   },
 };
 
+const CHINESE_FONT_CONFIG: Record<Font, FontSettings> = {
+  Default: {
+    // Pixel
+    fontFamily: "Ark",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+  Bold: {
+    fontFamily: "Secondary",
+    xxs: [18, 12],
+    xs: [24, 14],
+    sm: [30, 20],
+    base: [36, 26],
+    lg: [42, 32],
+  },
+  "Chunky (Old)": {
+    // Chunky
+    fontFamily: "黑体",
+    xxs: [15, 15],
+    xs: [17, 17],
+    sm: [19, 19],
+    base: [26, 26],
+    lg: [31, 31],
+  },
+  "Sans Serif": {
+    fontFamily: "sans-serif",
+    xxs: [14, 14],
+    xs: [16, 16],
+    sm: [18, 18],
+    base: [25, 25],
+    lg: [30, 30],
+  },
+};
+
 export function initialiseFont() {
   const font = getCachedFont();
 
@@ -104,7 +141,9 @@ export function changeFont(font: Font) {
   const lang = localStorage.getItem("language") || "en";
   const config = ["ru"].includes(lang)
     ? CYRILLIC_FONT_CONFIG[font]
-    : FONT_CONFIG[font];
+    : ["zh-CN"].includes(lang)
+      ? CHINESE_FONT_CONFIG[font]
+      : FONT_CONFIG[font];
 
   document.documentElement.style.setProperty(
     "--font-family",
