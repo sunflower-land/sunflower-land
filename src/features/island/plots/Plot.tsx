@@ -37,6 +37,7 @@ import { Transition } from "@headlessui/react";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { setPrecision } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
+import { hasFeatureAccess } from "lib/flags";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount <= 1) {
@@ -238,9 +239,10 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
     // plant
     if (!crop) {
       if (
-        !selectedItem ||
-        !(selectedItem in CROP_SEEDS()) ||
-        !inventory[selectedItem]?.gte(1)
+        hasFeatureAccess(state, "CROP_QUICK_SELECT") &&
+        (!selectedItem ||
+          !(selectedItem in CROP_SEEDS()) ||
+          !inventory[selectedItem]?.gte(1))
       ) {
         setShowQuickSelect(true);
         return;

@@ -37,6 +37,7 @@ export type FeatureName =
   | "FACTION_HOUSE"
   | "CLAIM_EMBLEMS"
   | "EMBLEM_TRADING"
+  | "CROP_QUICK_SELECT"
   | "MARKS_LEADERBOARD";
 
 // Used for testing production features
@@ -45,6 +46,7 @@ export const ADMIN_IDS = [1, 2, 3, 39488];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  CROP_QUICK_SELECT: defaultFeatureFlag,
   CHICKEN_RESCUE: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
