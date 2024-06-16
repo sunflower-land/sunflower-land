@@ -1,8 +1,13 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Reward, PlantedCrop, PlacedItem } from "features/game/types/game";
-import { CROPS } from "features/game/types/crops";
+import {
+  Reward,
+  PlantedCrop,
+  PlacedItem,
+  InventoryItemName,
+} from "features/game/types/game";
+import { CROPS, CROP_SEEDS } from "features/game/types/crops";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import { harvestAudio, plantAudio } from "lib/utils/sfx";
 import {
@@ -22,18 +27,14 @@ import { BuildingName } from "features/game/types/buildings";
 import { ZoomContext } from "components/ZoomProvider";
 import { CROP_COMPOST } from "features/game/types/composters";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SeedName } from "features/game/types/seeds";
-import { SeedSelection } from "./components/SeedSelection";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import lockIcon from "assets/skills/lock.png";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Transition } from "@headlessui/react";
+import { QuickSelect } from "features/greenhouse/QuickSelect";
 
 const selectCrops = (state: MachineState) => state.context.state.crops;
 const selectBuildings = (state: MachineState) => state.context.state.buildings;
@@ -85,11 +86,10 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   } = useContext(Context);
   const [procAnimation, setProcAnimation] = useState<JSX.Element>();
   const [touchCount, setTouchCount] = useState(0);
-  const [showMissingSeeds, setShowMissingSeeds] = useState(false);
-  const [showSeedNotSelected, setShowSeedNotSelected] = useState(false);
+  const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [reward, setReward] = useState<Omit<Reward, "sfl">>();
-  const [showMissingShovel, setShowMissingShovel] = useState(false);
   const clickedAt = useRef<number>(0);
+  const [pulsating, setPulsating] = useState(false);
 
   const crops = useSelector(gameService, selectCrops, (prev, next) => {
     return JSON.stringify(prev[id]) === JSON.stringify(next[id]);
@@ -164,10 +164,6 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
     const now = Date.now();
 
-    if (!inventory.Shovel) {
-      setShowMissingShovel(true);
-      return;
-    }
     // small buffer to prevent accidental double clicks
     if (now - clickedAt.current < 100) {
       return;
@@ -215,26 +211,14 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     // plant
     if (!crop) {
-      // TEMP Disable
-      // const hasSeeds = getKeys(inventory).some(
-      //   (name) =>
-      //     inventory[name]?.gte(1) && name in SEEDS() && !(name in FRUIT_SEEDS())
-      // );
-      // if (!hasSeeds && !isMobile) {
-      //   setShowMissingSeeds(true);
-      //   return;
-      // }
-
-      // const seedIsReady =
-      //   seed &&
-      //   inventory[seed]?.gte(1) &&
-      //   seed in SEEDS() &&
-      //   !(seed in FRUIT_SEEDS());
-
-      // if (!seedIsReady && !isMobile) {
-      //   setShowSeedNotSelected(true);
-      //   return;
-      // }
+      if (
+        !selectedItem ||
+        !(selectedItem in CROP_SEEDS()) ||
+        !inventory[selectedItem]?.gte(1)
+      ) {
+        setShowQuickSelect(true);
+        return;
+      }
 
       const state = gameService.send("seed.planted", {
         index: id,
@@ -284,57 +268,29 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
   return (
     <>
-      <Modal show={showMissingSeeds} onHide={() => setShowMissingSeeds(false)}>
-        <CloseButtonPanel onClose={() => setShowMissingSeeds(false)}>
-          <div className="flex flex-col items-center">
-            <Label className="mt-2" icon={SUNNYSIDE.icons.seeds} type="danger">
-              {t("onCollectReward.Missing.Seed")}
-            </Label>
-            <img
-              src={ITEM_DETAILS.Market.image}
-              className="w-10 mx-auto my-2"
-            />
-            <p className="text-center text-sm mb-2">
-              {t("onCollectReward.Market")}
-            </p>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-      <Modal
-        show={showSeedNotSelected}
-        onHide={() => setShowSeedNotSelected(false)}
+      <Transition
+        appear={true}
+        show={showQuickSelect}
+        enter="transition-opacity transition-transform duration-200"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-100"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        className="flex top-[-255%] left-[-90px] absolute z-40 shadow-md"
       >
-        <CloseButtonPanel onClose={() => setShowSeedNotSelected(false)}>
-          <SeedSelection
-            onPlant={(seed) => {
-              shortcutItem(seed);
-              onClick(seed);
-              setShowSeedNotSelected(false);
-            }}
-            inventory={inventory}
-          />
-        </CloseButtonPanel>
-      </Modal>
+        <QuickSelect
+          icon={SUNNYSIDE.icons.seeds}
+          options={getKeys(CROP_SEEDS()).map((seed) => ({
+            name: seed as InventoryItemName,
+            icon: CROP_SEEDS()[seed].yield as InventoryItemName,
+          }))}
+          onClose={() => setShowQuickSelect(false)}
+          onSelected={() => setPulsating(true)}
+          type={t("quickSelect.cropSeeds")}
+        />
+      </Transition>
 
-      <Modal
-        show={showMissingShovel}
-        onHide={() => setShowMissingShovel(false)}
-      >
-        <CloseButtonPanel onClose={() => setShowMissingShovel(false)}>
-          <div className="flex flex-col items-center">
-            <Label className="mt-2" icon={lockIcon} type="danger">
-              {t("onCollectReward.Missing.Shovel")}
-            </Label>
-            <img
-              src={ITEM_DETAILS.Shovel.image}
-              className="w-10 mx-auto my-2"
-            />
-            <p className="text-sm mb-2 text-center">
-              {t("onCollectReward.Missing.Shovel.description")}
-            </p>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
       <div onClick={() => onClick()} className="w-full h-full relative">
         {harvestCount < 3 &&
           harvestCount + 1 === Number(id) &&
@@ -376,6 +332,7 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
           procAnimation={procAnimation}
           touchCount={touchCount}
           showTimers={showTimers}
+          pulsating={showQuickSelect && pulsating}
         />
       </div>
       <ChestReward

@@ -14,6 +14,7 @@ interface Props {
   options: { name: InventoryItemName; icon?: InventoryItemName }[];
   onClose: () => void;
   onSelected?: (name: InventoryItemName) => void;
+  type: string;
 }
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
@@ -23,6 +24,7 @@ export const QuickSelect: React.FC<Props> = ({
   options,
   onClose,
   onSelected,
+  type,
 }) => {
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
   const ref = useRef<HTMLDivElement>(null); // Create a ref to the component
@@ -56,8 +58,11 @@ export const QuickSelect: React.FC<Props> = ({
   const available = options.filter((option) => inventory[option.name]?.gte(1));
 
   return (
-    <div ref={ref} style={{ minWidth: "190px" }}>
-      <InnerPanel>
+    <div ref={ref}>
+      <InnerPanel
+        style={{ width: "195px" }}
+        className="overflow-x-auto scrollable shadow-2xl"
+      >
         <Label className="absolute -top-3 left-4" type="default" icon={icon}>
           {t("quickSelect.label")}
         </Label>
@@ -75,7 +80,7 @@ export const QuickSelect: React.FC<Props> = ({
           ))}
           {available.length === 0 && (
             <span className="text-xs p-0.5 py-1 font-secondary">
-              {t("quickSelect.empty")}
+              {t("quickSelect.purchase", { name: type })}
             </span>
           )}
         </div>

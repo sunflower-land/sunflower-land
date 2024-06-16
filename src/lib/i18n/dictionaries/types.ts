@@ -378,7 +378,10 @@ export type AvailableSeeds =
   | "availableSeeds.select"
   | "availableSeeds.select.plant"
   | "quickSelect.label"
-  | "quickSelect.empty";
+  | "quickSelect.empty"
+  | "quickSelect.purchase"
+  | "quickSelect.cropSeeds"
+  | "quickSelect.greenhouseSeeds";
 
 export type Base = "base.far.away" | "base.iam.far.away";
 

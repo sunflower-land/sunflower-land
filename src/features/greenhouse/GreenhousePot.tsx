@@ -168,6 +168,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             ]}
             onClose={() => setShowQuickSelect(false)}
             onSelected={() => setPulsating(true)}
+            type={t("quickSelect.greenhouseSeeds")}
           />
         </Transition>
 
