@@ -1239,6 +1239,12 @@ const confirmSkill: Record<ConfirmSkill, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
+  "home-intro.one":
+    "Howdy Bumpkin, welcome to your home...It's not much, but we all have to start somewhere!",
+  "home-intro.two":
+    "Throughout your adventures you will be able to store rare collectibles you find here.",
+  "home-intro.three":
+    "The bigger your home, the more Bumpkins that can live on your island.",
   "hank-intro.headline": "Help an old man?",
   "hank-intro.one": "Howdy Bumpkin! Welcome to our little patch of paradise.",
   "hank-intro.two":
