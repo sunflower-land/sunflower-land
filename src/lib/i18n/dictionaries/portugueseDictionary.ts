@@ -1270,6 +1270,9 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
 };
 
 const conversations: Record<Conversations, string> = {
+  "home-intro.one": ENGLISH_TERMS["home-intro.one"],
+  "home-intro.three": ENGLISH_TERMS["home-intro.three"],
+  "home-intro.two": ENGLISH_TERMS["home-intro.two"],
   "firepit-intro.one": ENGLISH_TERMS["firepit-intro.one"],
   "firepit-intro.two": ENGLISH_TERMS["firepit-intro.two"],
   "firepit.increasedXP": ENGLISH_TERMS["firepit.increasedXP"],

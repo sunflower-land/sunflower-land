@@ -30,6 +30,8 @@ import { HOME_BOUNDS } from "features/game/expansion/placeable/lib/collisionDete
 import { Bud } from "features/island/buds/Bud";
 import { InteriorBumpkins } from "./components/InteriorBumpkins";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SpeakingModal } from "features/game/components/SpeakingModal";
+import { NPC_WEARABLES } from "lib/npcs";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -40,7 +42,17 @@ const BACKGROUND_IMAGE: Record<IslandType, string> = {
   desert: manor,
 };
 
+function hasReadIntro() {
+  return !!localStorage.getItem("home.intro");
+}
+
+function acknowledgeIntro() {
+  return localStorage.setItem("home.intro", new Date().toISOString());
+}
+
 export const Home: React.FC = () => {
+  const [showIntro, setShowIntro] = useState(!hasReadIntro());
+
   const { gameService, showTimers } = useContext(Context);
 
   const { t } = useAppTranslation();
@@ -138,6 +150,26 @@ export const Home: React.FC = () => {
   return (
     <>
       <>
+        <Modal show={showIntro}>
+          <SpeakingModal
+            bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
+            message={[
+              {
+                text: t("home-intro.one"),
+              },
+              {
+                text: t("home-intro.two"),
+              },
+              {
+                text: t("home-intro.three"),
+              },
+            ]}
+            onClose={() => {
+              setShowIntro(false);
+              acknowledgeIntro();
+            }}
+          />
+        </Modal>
         <div
           className="absolute bg-[#181425]"
           style={{
