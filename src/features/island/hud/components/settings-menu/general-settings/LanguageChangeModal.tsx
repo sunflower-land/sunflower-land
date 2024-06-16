@@ -34,7 +34,6 @@ export const LanguageSwitcher: React.FC = () => {
   };
 
   const languageArray = Object.keys(languageDetails) as LanguageCode[];
-
   return (
     <>
       <div className="p-1 space-y-2">
@@ -46,6 +45,11 @@ export const LanguageSwitcher: React.FC = () => {
               setConfirmModal(true);
             }}
             disabled={language === languageCode}
+            className={`${
+              languageCode === "zh-CN" && language !== "zh-CN"
+                ? "!text-[18px]"
+                : ""
+            }`}
           >
             {languageDetails[languageCode].languageImage.map((img, index) => (
               <img
