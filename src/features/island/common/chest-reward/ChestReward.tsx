@@ -13,6 +13,8 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import classNames from "classnames";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
   collectedItem?: InventoryItemName;
@@ -23,6 +25,10 @@ interface Props {
 
 type Challenge = "goblins" | "chest";
 
+// Consider new during first 24 hours
+const isNewGame = (state: MachineState) =>
+  state.context.state.createdAt + 24 * 60 * 60 * 1000 > Date.now();
+
 export const ChestReward: React.FC<Props> = ({
   collectedItem,
   reward,
@@ -30,14 +36,15 @@ export const ChestReward: React.FC<Props> = ({
   onOpen,
 }) => {
   const { gameService } = useContext(Context);
-  const [opened, setOpened] = useState(false);
+  const isNew = useSelector(gameService, isNewGame);
+  const [opened, setOpened] = useState(isNew);
   const [loading, setLoading] = useState(false);
   const challenge = useRef<Challenge>(
     Math.random() > 0.3 ? "chest" : "goblins"
   );
 
   useEffect(() => {
-    if (reward) {
+    if (reward && !isNew) {
       setLoading(true);
       setTimeout(() => setLoading(false), 500);
     }

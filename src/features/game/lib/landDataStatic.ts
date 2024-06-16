@@ -22,27 +22,24 @@ export const INITIAL_RESOURCES: Pick<
   | "beehives"
   | "oilReserves"
 > = {
-  crops: new Array(10)
-    .fill({
+  crops: {
+    1: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: {
+        name: "Sunflower",
+        plantedAt: 0,
+        amount: 1,
+        reward: {
+          coins: 100,
+          // items: {},
+        },
+      },
       x: -2,
       y: 0,
       height: 1,
       width: 1,
-    })
-    .reduce(
-      (acc, crop, index) => ({
-        ...acc,
-        [index]: {
-          ...crop,
-          x: index % 10,
-          y: 5 + Math.floor(index / 10),
-          crop: { name: "Sunflower", plantedAt: 0, amount: 1 + index },
-        },
-      }),
-      {}
-    ),
+    },
+  },
   trees: {
     1: {
       wood: {
@@ -626,7 +623,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Sunflower Amulet": 2,
   },
 
-  createdAt: new Date().getTime(),
+  createdAt: new Date("2024-06-16").getTime(),
 
   conversations: ["hank-intro"],
 
