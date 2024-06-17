@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
@@ -13,6 +13,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Loading } from "features/auth/components";
 import { SquareIcon } from "components/ui/SquareIcon";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { secondsToString } from "lib/utils/time";
 
 export interface Price {
   amount: number;
@@ -54,6 +58,19 @@ const PRICES: Price[] = [
   },
 ];
 
+const _starterOfferSecondsLeft = (state: MachineState) => {
+  const hasPurchased = state.context.purchases.length > 0;
+
+  if (hasPurchased) return 0;
+
+  return (
+    (new Date(state.context.state.createdAt).getTime() +
+      24 * 60 * 60 * 1000 -
+      Date.now()) /
+    1000
+  );
+};
+
 interface Props {
   isSaving: boolean;
   price?: { usd: number; amount: number };
@@ -71,6 +88,12 @@ export const BuyBlockBucks: React.FC<Props> = ({
   onCreditCardBuy,
   onHideBuyBBLabel,
 }) => {
+  const { gameService } = useContext(Context);
+  const startOfferSecondsLeft = useSelector(
+    gameService,
+    _starterOfferSecondsLeft
+  );
+
   const [showMaticConfirm, setShowMaticConfirm] = useState(false);
   const { t } = useAppTranslation();
 
@@ -200,30 +223,34 @@ export const BuyBlockBucks: React.FC<Props> = ({
   return (
     <>
       <div className="flex flex-col w-full p-1">
-        <p className="text-xs italic pb-2">{t("transaction.excludeFees")}</p>
-        <ButtonPanel
-          onClick={() => setPrice({ amount: 25, usd: 0.99 })}
-          className="w-full mb-1"
-        >
-          <div className="flex justify-between">
-            <Label type="vibrant">Starter Offer</Label>
-            <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
-              23 hrs left
-            </Label>
-          </div>
-          <div className="flex w-full">
-            <div>
-              <div className="flex items-center">
-                <SquareIcon icon={blockBucksIcon} width={10} />
-                <span className="ml-1 text-sm">{`25 x Block Bucks`}</span>
+        {startOfferSecondsLeft > 0 && (
+          <ButtonPanel
+            onClick={() => setPrice({ amount: 25, usd: 0.99 })}
+            className="w-full mb-1"
+          >
+            <div className="flex justify-between">
+              <Label type="vibrant">{t("transaction.starterOffer")}</Label>
+              <Label icon={SUNNYSIDE.icons.stopwatch} type="info">
+                {`${secondsToString(startOfferSecondsLeft, {
+                  length: "short",
+                })} left`}
+              </Label>
+            </div>
+            <div className="flex w-full">
+              <div>
+                <div className="flex items-center">
+                  <SquareIcon icon={blockBucksIcon} width={10} />
+                  <span className="ml-1 text-sm">{`25 x Block Bucks`}</span>
+                </div>
+              </div>
+              <div className="flex flex-col justify-end flex-1 items-end">
+                <span className="text-sm mb-1 line-through">{`$3.99`}</span>
+                <Label type="warning">{`US$0.99`}</Label>
               </div>
             </div>
-            <div className="flex flex-col justify-end flex-1 items-end">
-              <span className="text-sm mb-1 line-through">$3.99</span>
-              <Label type="warning">{`US$0.99`}</Label>
-            </div>
-          </div>
-        </ButtonPanel>
+          </ButtonPanel>
+        )}
+
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price) => (
             <ButtonPanel

@@ -3,7 +3,7 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
-import { GameState } from "../types/game";
+import { GameState, Purchase } from "../types/game";
 import { Announcements } from "../types/announcements";
 import {
   getReferrerId,
@@ -35,6 +35,7 @@ type Response = {
   linkedWallet?: string;
   wallet?: string;
   nftId?: number;
+  purchases: Purchase[];
 };
 
 const API_URL = CONFIG.API_URL;
@@ -93,6 +94,7 @@ export async function loadSession(request: Request): Promise<Response> {
     linkedWallet,
     wallet,
     nftId,
+    purchases,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -111,6 +113,7 @@ export async function loadSession(request: Request): Promise<Response> {
     nftId?: number;
     linkedWallet?: string;
     wallet?: string;
+    purchases: Purchase[];
   }>(response);
 
   saveSession(farm.id);
@@ -131,6 +134,7 @@ export async function loadSession(request: Request): Promise<Response> {
     linkedWallet,
     wallet,
     nftId,
+    purchases,
   };
 }
 

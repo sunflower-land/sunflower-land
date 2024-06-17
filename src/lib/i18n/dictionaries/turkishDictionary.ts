@@ -4738,6 +4738,7 @@ const trader: Record<Trader, string> = {
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
+  "transaction.starterOffer": ENGLISH_TERMS["transaction.starterOffer"],
   "transaction.t&c.one":
     "Sunflower Land'de oturum açmak için şartlar ve koşulları kabul edin.",
   "transaction.t&c.two": "Şartlar ve Koşulları kabul edin",

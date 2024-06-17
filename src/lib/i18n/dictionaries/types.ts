@@ -3218,6 +3218,7 @@ export type TransactionTerms =
   | "transaction.creditCard"
   | "transaction.estimated.fee"
   | "transaction.excludeFees"
+  | "transaction.starterOffer"
   | "transaction.id"
   | "transaction.termsOfService"
   | "transaction.matic"

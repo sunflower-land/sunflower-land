@@ -291,6 +291,13 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
 };
 
+export type Purchase = {
+  id: string;
+  usd: number;
+  purchasedAt: number;
+  method: "MATIC" | "XSOLLA";
+};
+
 export type Points = "Human War Point" | "Goblin War Point";
 
 export type WarBanner = "Human War Banner" | "Goblin War Banner";
