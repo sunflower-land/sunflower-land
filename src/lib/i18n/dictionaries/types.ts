@@ -3407,8 +3407,6 @@ export type World =
   | "world.woodlands"
   | "world.home"
   | "world.kingdom"
-  | "world.retreatShort"
-  | "world.plazaShort"
   | "world.travelTo";
 
 export type Event =

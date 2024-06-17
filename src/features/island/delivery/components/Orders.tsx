@@ -71,6 +71,7 @@ export const RETREAT_BUMPKINS: NPCName[] = [
 interface Props {
   selectedId?: string;
   onSelect: (id?: string) => void;
+  onClose: () => void;
 }
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
@@ -102,7 +103,11 @@ export function hasOrderRequirements({
   });
 }
 
-export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
+export const DeliveryOrders: React.FC<Props> = ({
+  selectedId,
+  onSelect,
+  onClose,
+}) => {
   const { gameService } = useContext(Context);
 
   const navigate = useNavigate();
@@ -653,43 +658,55 @@ export const DeliveryOrders: React.FC<Props> = ({ selectedId, onSelect }) => {
                   }`}</span>
                 </Label>
               </div>
-              {hasOrderRequirements({
-                order: previewOrder,
-                sfl,
-                coins,
-                inventory,
-              }) && (
-                <Button
-                  className="!text-xs !mt-0 !-mb-1"
-                  onClick={() => {
-                    if (
-                      RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
-                    ) {
-                      navigate("/world/retreat");
-                    } else if (
-                      BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                    ) {
-                      navigate("/world/beach");
-                    } else if (
-                      KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
-                    ) {
-                      navigate("/world/kingdom");
-                    } else {
-                      navigate("/world/plaza");
-                    }
-                  }}
-                >
-                  {`${t("world.travelTo")} ${
-                    RETREAT_BUMPKINS.includes(previewOrder?.from as NPCName)
-                      ? t("world.retreatShort")
-                      : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
-                      ? t("world.beach")
-                      : KINGDOM_BUMPKINS.includes(previewOrder?.from as NPCName)
-                      ? t("world.kingdom")
-                      : t("world.plazaShort")
-                  }`}
-                </Button>
-              )}
+              {!previewOrder.completedAt &&
+                hasOrderRequirements({
+                  order: previewOrder,
+                  sfl,
+                  coins,
+                  inventory,
+                }) && (
+                  <Button
+                    className="!text-xs !mt-0 !-mb-1"
+                    onClick={() => {
+                      onClose();
+                      {
+                        if (
+                          RETREAT_BUMPKINS.includes(
+                            previewOrder?.from as NPCName
+                          )
+                        ) {
+                          navigate("/world/retreat");
+                        } else if (
+                          BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                        ) {
+                          navigate("/world/beach");
+                        } else if (
+                          KINGDOM_BUMPKINS.includes(
+                            previewOrder?.from as NPCName
+                          )
+                        ) {
+                          navigate("/world/kingdom");
+                        } else {
+                          navigate("/world/plaza");
+                        }
+                      }
+                    }}
+                  >
+                    {t("world.travelTo", {
+                      location: RETREAT_BUMPKINS.includes(
+                        previewOrder?.from as NPCName
+                      )
+                        ? t("world.retreat")
+                        : BEACH_BUMPKINS.includes(previewOrder?.from as NPCName)
+                        ? t("world.beach")
+                        : KINGDOM_BUMPKINS.includes(
+                            previewOrder?.from as NPCName
+                          )
+                        ? t("world.kingdom")
+                        : t("world.plaza"),
+                    })}
+                  </Button>
+                )}
               {previewOrder.completedAt ? (
                 <div className="flex">
                   <img src={SUNNYSIDE.icons.confirm} className="mr-2 h-4" />

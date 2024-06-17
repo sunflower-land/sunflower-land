@@ -4436,9 +4436,7 @@ const world: Record<World, string> = {
   "world.home": "家园",
   "world.kingdom": "王国",
   "world.woodlands": "林地",
-  "world.travelTo": ENGLISH_TERMS["world.travelTo"],
-  "world.plazaShort": ENGLISH_TERMS["world.plazaShort"],
-  "world.retreatShort": ENGLISH_TERMS["world.retreatShort"],
+  "world.travelTo": "前往{{location}}",
 };
 
 const wornDescription: Record<WornDescription, string> = {
