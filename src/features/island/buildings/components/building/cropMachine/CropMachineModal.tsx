@@ -122,12 +122,12 @@ export const CropMachineModal: React.FC<Props> = ({
     return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS;
   };
 
-  const incrementSeeds = () => {
-    setTotalSeeds((prev) => prev + SEED_INCREMENT_AMOUNT);
+  const incrementSeeds = (amount = 1) => {
+    setTotalSeeds((prev) => prev + amount);
   };
 
-  const decrementSeeds = () => {
-    setTotalSeeds((prev) => Math.max(prev - SEED_INCREMENT_AMOUNT, 0));
+  const decrementSeeds = (amount = 1) => {
+    setTotalSeeds((prev) => Math.max(prev - amount, 0));
   };
 
   const incrementOil = () => {
@@ -382,14 +382,28 @@ export const CropMachineModal: React.FC<Props> = ({
                         <div className="flex items-center space-x-1">
                           <Button
                             disabled={totalSeeds === 0}
-                            onClick={decrementSeeds}
+                            onClick={() =>
+                              decrementSeeds(SEED_INCREMENT_AMOUNT)
+                            }
                             className="px-2"
                           >{`-${SEED_INCREMENT_AMOUNT}`}</Button>
                           <Button
-                            onClick={incrementSeeds}
+                            onClick={() =>
+                              incrementSeeds(SEED_INCREMENT_AMOUNT)
+                            }
                             disabled={!canIncrementSeeds()}
                             className="px-2"
                           >{`+${SEED_INCREMENT_AMOUNT}`}</Button>
+                          <Button
+                            onClick={() =>
+                              incrementSeeds(
+                                (inventory[selectedSeed]?.toNumber() ?? 0) -
+                                  totalSeeds
+                              )
+                            }
+                            disabled={!canIncrementSeeds()}
+                            className="px-2"
+                          >{`All`}</Button>
                         </div>
                       </div>
                     </div>
