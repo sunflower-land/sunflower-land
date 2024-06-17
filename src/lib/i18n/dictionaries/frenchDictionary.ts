@@ -791,12 +791,10 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Une carte enchantée qui guide son détenteur vers un trésor précieux. +20% de profit sur les objets de la chasse à la plage.",
   "description.genie.lamp":
     "Une lampe magique contenant un génie qui vous accordera trois vœux.",
-  "description.basic.scarecrow":
-    "Défenseur exigeant des plantes très importantes de votre ferme",
-  "description.scary.mike":
-    "Le chuchoteur de légumes et champion des récoltes effroyablement bonnes!",
+  "description.basic.scarecrow": ENGLISH_TERMS["description.basic.scarecrow"],
+  "description.scary.mike": ENGLISH_TERMS["description.scary.mike"],
   "description.laurie.chuckle.crow":
-    "Avec son rire déconcertant, elle chasse les picoreurs de vos cultures!",
+    ENGLISH_TERMS["description.laurie.chuckle.crow"],
   "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Le voisin préféré de la volaille, offrant une retraite confortable aux poules",

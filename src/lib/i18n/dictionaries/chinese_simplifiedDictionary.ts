@@ -745,11 +745,10 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "一张魔法地图，能引领持有者找到珍贵的财宝。沙岸财宝的利润 +20 %",
   "description.genie.lamp":
     "一盏有魔力的灯，里面有一个能帮你实现三个愿望的精灵",
-  "description.basic.scarecrow":
-    "您农场 VIP (Very Important Plants)的挑剔守护者",
-  "description.scary.mike": "蔬菜私语者和惊人丰盛收成的冠军！",
+  "description.basic.scarecrow": ENGLISH_TERMS["description.basic.scarecrow"],
+  "description.scary.mike": ENGLISH_TERMS["description.scary.mike"],
   "description.laurie.chuckle.crow":
-    "她那令人不安的笑声，将啄食你庄稼的鸟儿赶走！",
+    ENGLISH_TERMS["description.laurie.chuckle.crow"],
   "description.immortal.pear": "一种能使果树寿命变长的长寿梨",
   "description.bale": "家禽们最喜欢的邻居，为鸡们提供一个舒适的休息地",
   "description.sir.goldensnout":

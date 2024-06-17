@@ -776,12 +776,10 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Um mapa encantado que leva o portador a tesouros valiosos. +20% de lucro com a venda de itens de recompensa da praia.",
   "description.genie.lamp":
     "Uma lâmpada mágica que contém um gênio que concederá três desejos.",
-  "description.basic.scarecrow":
-    "Defensor seletivo das plantas VIP (Muito Importantes) de sua fazenda",
-  "description.scary.mike":
-    "O sussurrador de vegetais e campeão de colheitas assustadoramente boas!",
+  "description.basic.scarecrow": ENGLISH_TERMS["description.basic.scarecrow"],
+  "description.scary.mike": ENGLISH_TERMS["description.scary.mike"],
   "description.laurie.chuckle.crow":
-    "Com sua risada desconcertante, ela espanta bicadas de suas colheitas!",
+    ENGLISH_TERMS["description.laurie.chuckle.crow"],
   "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",

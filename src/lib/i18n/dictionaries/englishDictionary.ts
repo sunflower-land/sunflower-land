@@ -785,7 +785,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.basic.scarecrow":
     "Boost nearby Sunflowers, Potatoes and Pumpkins.",
   "description.scary.mike":
-    "Boost nearby Carrots, Cabbages, Beetroots and Cauliflowers",
+    "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
   "description.laurie.chuckle.crow":
     "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
   "description.immortal.pear": "Increase the survival of your fruit patches.",
