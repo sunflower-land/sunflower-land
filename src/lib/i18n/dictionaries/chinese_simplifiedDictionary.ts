@@ -1370,6 +1370,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.addOil": "添加石油",
   "cropMachine.addSeedPack": "添加种子袋",
   "cropMachine.addSeeds": "添加 {{seedType}}",
+  "cropMachine.all": "加完",
   "cropMachine.availableInventory": "库存有 {{amount}}",
   "cropMachine.boosted": "已享增益",
   "cropMachine.growTime": "生长时长： {{time}}",

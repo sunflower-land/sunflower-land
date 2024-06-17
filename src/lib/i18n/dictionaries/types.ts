@@ -1029,6 +1029,7 @@ export type CropMachine =
   | "cropMachine.moreOilRequired"
   | "cropMachine.oilTank"
   | "cropMachine.addOil"
+  | "cropMachine.all"
   | "cropMachine.oil.description"
   | "cropMachine.machineRuntime"
   | "cropMachine.growTimeRemaining"

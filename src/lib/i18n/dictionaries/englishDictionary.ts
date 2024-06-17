@@ -1461,6 +1461,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.availableInventory": "Available {{amount}}",
   "cropMachine.seeds": "Seeds: {{amount}}",
   "cropMachine.growTime": "Grow time: {{time}}",
+  "cropMachine.all": "All",
   "cropMachine.addSeedPack": "Add seed pack",
   "cropMachine.notStartedYet": "Not started yet",
   "cropMachine.seedPacks": "Seed packs",

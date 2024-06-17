@@ -403,7 +403,9 @@ export const CropMachineModal: React.FC<Props> = ({
                             }
                             disabled={!canIncrementSeeds()}
                             className="px-2"
-                          >{`All`}</Button>
+                          >
+                            {t("cropMachine.all")}
+                          </Button>
                         </div>
                       </div>
                     </div>
