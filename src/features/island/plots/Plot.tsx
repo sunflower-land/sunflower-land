@@ -181,11 +181,13 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
 
     harvested.current = crop;
 
-    setShowHarvested(true);
+    if (showAnimations) {
+      setShowHarvested(true);
 
-    await new Promise((res) => setTimeout(res, 2000));
+      await new Promise((res) => setTimeout(res, 2000));
 
-    setShowHarvested(false);
+      setShowHarvested(false);
+    }
   };
 
   const onClick = (seed: SeedName = selectedItem as SeedName) => {
@@ -375,28 +377,30 @@ export const Plot: React.FC<Props> = ({ id, index }) => {
       />
 
       {/* Harvest Animation */}
-      <Transition
-        appear={true}
-        id="oil-reserve-collected-amount"
-        show={showHarvested}
-        enter="transition-opacity transition-transform duration-200"
-        enterFrom="opacity-0 translate-y-4"
-        enterTo="opacity-100 -translate-y-0"
-        leave="transition-opacity duration-100"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-        className="flex -top-2 left-[40%] absolute z-40 pointer-events-none"
-      >
-        <span
-          className="text-sm yield-text"
-          style={{
-            color: getYieldColour(harvested.current?.amount ?? 0),
-          }}
-        >{`+${setPrecision(
-          new Decimal(harvested.current?.amount ?? 0),
-          2
-        )}`}</span>
-      </Transition>
+      {showAnimations && (
+        <Transition
+          appear={true}
+          id="oil-reserve-collected-amount"
+          show={showHarvested}
+          enter="transition-opacity transition-transform duration-200"
+          enterFrom="opacity-0 translate-y-4"
+          enterTo="opacity-100 -translate-y-0"
+          leave="transition-opacity duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+          className="flex -top-2 left-[40%] absolute z-40 pointer-events-none"
+        >
+          <span
+            className="text-sm yield-text"
+            style={{
+              color: getYieldColour(harvested.current?.amount ?? 0),
+            }}
+          >{`+${setPrecision(
+            new Decimal(harvested.current?.amount ?? 0),
+            2
+          )}`}</span>
+        </Transition>
+      )}
     </>
   );
 };
