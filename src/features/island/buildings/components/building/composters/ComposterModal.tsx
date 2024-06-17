@@ -38,6 +38,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { setImageWidth } from "lib/images";
 import { Loading } from "features/auth/components";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 const WORM_OUTPUT: Record<ComposterName, string> = {
   "Compost Bin": "2-4",
@@ -283,41 +284,29 @@ export const ComposterModal: React.FC<Props> = ({
                 >
                   {t("guide.compost.addEggs")}
                 </Button>
-                <Modal
+                <ConfirmationModal
                   show={isConfirmBoostModalOpen}
                   onHide={() => showConfirmBoostModal(false)}
-                >
-                  <CloseButtonPanel className="sm:w-full m-auto">
-                    <div className="flex flex-col p-2">
-                      <span className="text-sm text-left">
-                        {t("guide.compost.addEggs.confirmation", {
-                          noEggs: composterInfo.eggBoostRequirements,
-                          time: secondsToString(
-                            composterInfo.eggBoostMilliseconds / 1000,
-                            {
-                              length: "short",
-                            }
-                          ),
-                        })}
-                      </span>
-                    </div>
-                    <div className="flex justify-content-around mt-2 space-x-1">
-                      <Button
-                        disabled={
-                          !state.inventory.Egg?.gte(
-                            composterInfo.eggBoostRequirements
-                          )
+                  messages={[
+                    t("guide.compost.addEggs.confirmation", {
+                      noEggs: composterInfo.eggBoostRequirements,
+                      time: secondsToString(
+                        composterInfo.eggBoostMilliseconds / 1000,
+                        {
+                          length: "short",
                         }
-                        onClick={applyBoost}
-                      >
-                        {t("guide.compost.addEggs")}
-                      </Button>
-                      <Button onClick={() => showConfirmBoostModal(false)}>
-                        {t("cancel")}
-                      </Button>
-                    </div>
-                  </CloseButtonPanel>
-                </Modal>
+                      ),
+                    }),
+                  ]}
+                  onCancel={() => showConfirmBoostModal(false)}
+                  onConfirm={applyBoost}
+                  confirmButtonLabel={t("guide.compost.addEggs")}
+                  disabled={
+                    !state.inventory.Egg?.gte(
+                      composterInfo.eggBoostRequirements
+                    )
+                  }
+                />
               </OuterPanel>
             </>
           )}

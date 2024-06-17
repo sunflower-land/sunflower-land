@@ -2805,7 +2805,7 @@ const heliosSunflower: Record<HeliosSunflower, string> = {
   "heliosSunflower.title": "Clytie the Sunflower",
   "heliosSunflower.description":
     "Only the true saviour can return and harvest this Sunflower.",
-  "confirmation.craft": "Are you sure you want to craft",
+  "confirmation.craft": "Are you sure you want to craft {{item}}?",
 };
 
 const helper: Record<Helper, string> = {

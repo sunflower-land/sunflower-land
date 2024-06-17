@@ -5,12 +5,12 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import ticket from "assets/icons/block_buck_detailed.png";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { NPC_WEARABLES } from "lib/npcs";
 
 interface Props {
   onClose: () => void;
@@ -87,28 +87,19 @@ export const Restock: React.FC<Props> = ({ onClose }) => {
           </div>
         </Button>
       )}
-      <Modal show={showConfirm} onHide={() => setShowConfirm(false)}>
-        <CloseButtonPanel className="md:w-4/5 m-auto">
-          <div className="flex flex-col p-2 items-center">
-            <img
-              src={ticket}
-              style={{
-                width: `${PIXEL_SCALE * 19}px`,
-              }}
-            />
-            <span className="text-sm text-start w-full mt-2">
-              {t("restock.one.buck")}
-            </span>
-            <span className="text-sm text-start w-full mt-3">
-              {t("restock.sure")}
-            </span>
-          </div>
-          <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
-            <Button onClick={handleRestock}>{t("restock")}</Button>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
+      <ConfirmationModal
+        show={showConfirm}
+        onHide={() => setShowConfirm(false)}
+        messages={[t("restock.one.buck"), t("restock.sure")]}
+        icon={ticket}
+        imageStyle={{
+          width: `${PIXEL_SCALE * 19}px`,
+        }}
+        onCancel={() => setShowConfirm(false)}
+        onConfirm={handleRestock}
+        confirmButtonLabel={t("restock")}
+        bumpkinParts={NPC_WEARABLES.betty}
+      />
     </>
   );
 };

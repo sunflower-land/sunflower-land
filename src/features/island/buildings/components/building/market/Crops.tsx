@@ -5,14 +5,12 @@ import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { Crop, CROPS, GREENHOUSE_CROPS } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
-import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSellPrice } from "features/game/expansion/lib/boosts";
 import { setPrecision } from "lib/utils/formatNumber";
 import { Fruit, FRUIT, GREENHOUSE_FRUIT } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getBumpkinLevel } from "features/game/lib/level";
 import lock from "assets/skills/lock.png";
 import lightning from "assets/icons/lightning.png";
@@ -28,6 +26,8 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { NPC_WEARABLES } from "lib/npcs";
 
 export const isExoticCrop = (
   item: Crop | Fruit | ExoticCrop
@@ -286,29 +286,24 @@ export const Crops: React.FC = () => {
           </div>
         }
       />
-      <Modal show={isSellAllModalOpen} onHide={closeConfirmationModal}>
-        <CloseButtonPanel className="sm:w-4/5 m-auto">
-          <div className="flex flex-col p-2">
-            <span className="text-sm text-center">
-              {t("confirmation.sellCrops", {
-                cropAmount: cropAmount,
-                cropName: selected.name,
-                coinAmount: setPrecision(
-                  new Decimal(displaySellPrice(selected)).mul(cropAmount)
-                ),
-              })}
-            </span>
-          </div>
-          <div className="flex justify-content-around mt-2 space-x-1">
-            <Button disabled={noCrop} onClick={closeConfirmationModal}>
-              {t("cancel")}
-            </Button>
-            <Button disabled={noCrop} onClick={handleSellAll}>
-              {t("sell.all")}
-            </Button>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
+      <ConfirmationModal
+        show={isSellAllModalOpen}
+        onHide={closeConfirmationModal}
+        messages={[
+          t("confirmation.sellCrops", {
+            cropAmount: cropAmount,
+            cropName: selected.name,
+            coinAmount: setPrecision(
+              new Decimal(displaySellPrice(selected)).mul(cropAmount)
+            ),
+          }),
+        ]}
+        onCancel={closeConfirmationModal}
+        onConfirm={handleSellAll}
+        confirmButtonLabel={t("sell.all")}
+        disabled={noCrop}
+        bumpkinParts={NPC_WEARABLES.betty}
+      />
     </>
   );
 };

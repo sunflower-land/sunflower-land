@@ -43,6 +43,7 @@ import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
 import { AppearanceSettings } from "./general-settings/AppearanceSettings";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -196,24 +197,14 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           {CONFIG.RELEASE_VERSION?.split("-")[0]}
         </a>
       </p>
-      <Modal
+      <ConfirmationModal
         show={isConfirmLogoutModalOpen}
         onHide={() => showConfirmLogoutModal(false)}
-      >
-        <CloseButtonPanel className="sm:w-4/5 m-auto">
-          <div className="flex flex-col p-2">
-            <span className="text-sm text-center">
-              {t("gameOptions.confirmLogout")}
-            </span>
-          </div>
-          <div className="flex justify-content-around mt-2 space-x-1">
-            <Button onClick={onLogout}>{t("gameOptions.logout")}</Button>
-            <Button onClick={() => showConfirmLogoutModal(false)}>
-              {t("cancel")}
-            </Button>
-          </div>
-        </CloseButtonPanel>
-      </Modal>
+        messages={[t("gameOptions.confirmLogout")]}
+        onCancel={() => showConfirmLogoutModal(false)}
+        onConfirm={onLogout}
+        confirmButtonLabel={t("gameOptions.logout")}
+      />
     </>
   );
 };
