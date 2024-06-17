@@ -777,12 +777,10 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Sahibini değerli bir hazineye götüren gizemli bir harita. Plaj ödül eşyalarından +20% kar.",
   "description.genie.lamp":
     "İçinde sana 3 dilek hakkı verecek bir cin içeren sihirli bir lamba.",
-  "description.basic.scarecrow":
-    "Çiftliğinizin ÇÖB’ünün seçici savunucusu (Çok Önemli Bitkiler)",
-  "description.scary.mike":
-    "Sebzelere fısıldayan ve korkunç derecede iyi hasatların şampiyonu!",
+  "description.basic.scarecrow": ENGLISH_TERMS["description.basic.scarecrow"],
+  "description.scary.mike": ENGLISH_TERMS["description.scary.mike"],
   "description.laurie.chuckle.crow":
-    "Rahatsız edici kıkırdaması ile gagalayanları mahsullerinden kaçırıyor!",
+    ENGLISH_TERMS["description.laurie.chuckle.crow"],
   "description.immortal.pear": ENGLISH_TERMS["description.immortal.pear"],
   "description.bale":
     "Tavuklar için konforlu bir sığınak sağlayan,kümes hayvanlarının en sevdiği komşusu.",
