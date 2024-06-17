@@ -61,7 +61,7 @@ interface Props {
 }
 
 export const Tree: React.FC<Props> = ({ id }) => {
-  const { gameService, shortcutItem } = useContext(Context);
+  const { gameService, shortcutItem, showAnimations } = useContext(Context);
 
   const [touchCount, setTouchCount] = useState(0);
   const [reward, setReward] = useState<Reward>();
@@ -148,13 +148,18 @@ export const Tree: React.FC<Props> = ({ id }) => {
     });
 
     if (!newState.matches("hoarding")) {
-      setCollecting(true);
-      setCollectedAmount(resource.wood.amount);
+      if (showAnimations) {
+        setCollecting(true);
+        setCollectedAmount(resource.wood.amount);
+      }
+
       treeFallAudio.play();
 
-      await new Promise((res) => setTimeout(res, 3000));
-      setCollecting(false);
-      setCollectedAmount(undefined);
+      if (showAnimations) {
+        await new Promise((res) => setTimeout(res, 3000));
+        setCollecting(false);
+        setCollectedAmount(undefined);
+      }
     }
 
     if (newState.context.state.bumpkin?.activity?.["Tree Chopped"] === 1) {
