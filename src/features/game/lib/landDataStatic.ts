@@ -358,6 +358,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     } as Record<ChoreV2Name, ChoreV2>,
   },
   inventory: {
+    "Splendor Flag": new Decimal(5),
+    "Benevolence Flag": new Decimal(1),
+    "Generosity Flag": new Decimal(1),
+    "Devotion Flag": new Decimal(1),
     Axe: new Decimal(100),
     Pickaxe: new Decimal(100),
     Warehouse: new Decimal(1),

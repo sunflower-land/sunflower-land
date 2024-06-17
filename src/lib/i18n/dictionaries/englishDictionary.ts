@@ -1805,6 +1805,14 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.vinny":
     "Vinny, a friendly grapevine, is always ready for a chat.",
   "description.ricePanda": "A smart panda never forgets to water the rice.",
+  "description.benevolenceFlag":
+    "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
+  "description.devotionFlag":
+    "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
+  "description.generosityFlag":
+    "For players who have donated substantial resources to the Goblins.",
+  "description.splendorFlag":
+    "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

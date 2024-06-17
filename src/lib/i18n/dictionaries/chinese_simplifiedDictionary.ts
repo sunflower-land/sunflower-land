@@ -1639,6 +1639,10 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.twisterRug": ENGLISH_TERMS["description.twisterRug"],
   "description.gauchoRug": "纪念驰援南巴西的地毯。",
   "description.ricePanda": "熊猫很聪明，从不忘记给稻米浇水。",
+  "description.benevolenceFlag": ENGLISH_TERMS["description.benevolenceFlag"],
+  "description.devotionFlag": ENGLISH_TERMS["description.devotionFlag"],
+  "description.generosityFlag": ENGLISH_TERMS["description.generosityFlag"],
+  "description.splendorFlag": ENGLISH_TERMS["description.splendorFlag"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

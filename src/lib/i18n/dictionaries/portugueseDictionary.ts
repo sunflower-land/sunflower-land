@@ -1852,6 +1852,10 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.traineeTarget": ENGLISH_TERMS["description.traineeTarget"],
   "description.twisterRug": ENGLISH_TERMS["description.twisterRug"],
   "description.ricePanda": ENGLISH_TERMS["description.ricePanda"],
+  "description.benevolenceFlag": ENGLISH_TERMS["description.benevolenceFlag"],
+  "description.devotionFlag": ENGLISH_TERMS["description.devotionFlag"],
+  "description.generosityFlag": ENGLISH_TERMS["description.generosityFlag"],
+  "description.splendorFlag": ENGLISH_TERMS["description.splendorFlag"],
 };
 
 const delivery: Record<Delivery, string> = {

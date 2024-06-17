@@ -280,11 +280,19 @@ import { DesertGnome } from "./components/DesertGnome";
 
 // TODO: Remove partial once all placeable treasures have been added (waiting on artwork)
 import { RicePanda } from "./components/RicePanda";
+import { BenevolenceFlag } from "./components/BenevolenceFlag";
+import { DevotionFlag } from "./components/DevotionFlag";
+import { GenerosityFlag } from "./components/GenerosityFlag";
+import { SplendorFlag } from "./components/SplendorFlag";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Benevolence Flag": BenevolenceFlag,
+  "Devotion Flag": DevotionFlag,
+  "Generosity Flag": GenerosityFlag,
+  "Splendor Flag": SplendorFlag,
   "Gaucho Rug": GauchoRug,
 
   "Hungry Hare": HungryHare,

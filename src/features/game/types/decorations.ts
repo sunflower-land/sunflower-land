@@ -78,6 +78,10 @@ export type SeasonalDecorationName =
   | "Silver Stallion";
 
 export type EventDecorationName =
+  | "Generosity Flag"
+  | "Benevolence Flag"
+  | "Devotion Flag"
+  | "Splendor Flag"
   | "Community Egg"
   | "Hungry Hare"
   | "Baozi"
@@ -116,6 +120,22 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Benevolence Flag": {
+    width: 1,
+    height: 1,
+  },
+  "Devotion Flag": {
+    width: 1,
+    height: 1,
+  },
+  "Generosity Flag": {
+    width: 1,
+    height: 1,
+  },
+  "Splendor Flag": {
+    width: 1,
+    height: 1,
+  },
   "Gaucho Rug": {
     width: 3,
     height: 2,

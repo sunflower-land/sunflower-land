@@ -814,6 +814,10 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Grinx's Hammer": () => true,
   "White Festive Fox": () => true,
   "Earn Alliance Banner": () => true,
+  "Benevolence Flag": () => true,
+  "Devotion Flag": () => true,
+  "Generosity Flag": () => true,
+  "Splendor Flag": () => true,
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
