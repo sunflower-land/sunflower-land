@@ -26,6 +26,7 @@ import {
   Inventory,
   InventoryItemName,
   PlacedLamp,
+  Purchase,
 } from "../types/game";
 import { getPromoCode, loadSession } from "../actions/loadSession";
 import { EMPTY } from "./constants";
@@ -144,6 +145,7 @@ export interface Context {
   nftId?: number;
   paused?: boolean;
   verified?: boolean;
+  purchases: Purchase[];
 }
 
 export type Moderation = {
@@ -579,6 +581,7 @@ export function startGame(authContext: AuthContext) {
         },
         saveQueued: false,
         verified: !CONFIG.API_URL,
+        purchases: [],
       },
       states: {
         loading: {
@@ -629,6 +632,7 @@ export function startGame(authContext: AuthContext) {
                 nftId: response.nftId,
                 wallet: response.wallet,
                 verified: response.verified,
+                purchases: response.purchases,
               };
             },
             onDone: [
@@ -1084,6 +1088,15 @@ export function startGame(authContext: AuthContext) {
                     ).add(event.amount),
                   },
                 },
+                purchases: [
+                  ...context.purchases,
+                  {
+                    id: "Block Buck",
+                    method: "XSOLLA",
+                    purchasedAt: Date.now(),
+                    usd: 1, // Placeholder
+                  } as Purchase,
+                ],
               })),
             },
             UPDATE: {
@@ -1285,6 +1298,15 @@ export function startGame(authContext: AuthContext) {
                     ).add(event.data.amount),
                   },
                 },
+                purchases: [
+                  ...context.purchases,
+                  {
+                    id: `${event.data.amount} Block Buck`,
+                    method: "MATIC",
+                    purchasedAt: Date.now(),
+                    usd: 1, // Placeholder
+                  },
+                ],
               })),
             },
             onError: [
@@ -2117,6 +2139,7 @@ export function startGame(authContext: AuthContext) {
           wallet: (_, event) => event.data.wallet,
           nftId: (_, event) => event.data.nftId,
           verified: (_, event) => event.data.verified,
+          purchases: (_, event) => event.data.purchases,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

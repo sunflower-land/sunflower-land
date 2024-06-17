@@ -4749,6 +4749,7 @@ const trader: Record<Trader, string> = {
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
+  "transaction.starterOffer": ENGLISH_TERMS["transaction.starterOffer"],
   "transaction.t&c.one":
     "Aceite os termos e condições para entrar no Sunflower Land.",
   "transaction.t&c.two": "Aceitar Termos e Condições",

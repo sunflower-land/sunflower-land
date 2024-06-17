@@ -4817,6 +4817,7 @@ const trader: Record<Trader, string> = {
 };
 
 const transactionTerms: Record<TransactionTerms, string> = {
+  "transaction.starterOffer": "Starter offer",
   "transaction.t&c.one":
     "Accept the terms and conditions to sign in to Sunflower Land.",
   "transaction.t&c.two": "Accept Terms and Conditions",

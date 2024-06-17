@@ -77,7 +77,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
   const farmId = useSelector(gameService, _farmId);
   const autosaving = useSelector(gameService, _autosaving);
 
-  useEffect(() => {
+  const showStarter = useEffect(() => {
     // Trigger an autosave in case they have changes so user can sync right away
     gameService.send("SAVE");
 
