@@ -704,6 +704,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Twister Rug": 2032,
   "Battlecry Drum": 2033,
   "Rice Panda": 2034,
+  "Benevolence Flag": 2035,
+  "Devotion Flag": 2036,
+  "Generosity Flag": 2037,
+  "Splendor Flag": 2038,
 };
 
 // The reverse of above

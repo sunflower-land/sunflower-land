@@ -1307,7 +1307,11 @@ export type DecorationDescriptions =
   | "description.fancy.rug"
   | "description.clock"
   | "description.vinny"
-  | "description.ricePanda";
+  | "description.ricePanda"
+  | "description.splendorFlag"
+  | "description.benevolenceFlag"
+  | "description.devotionFlag"
+  | "description.generosityFlag";
 
 export type Delivery =
   | "delivery.resource"

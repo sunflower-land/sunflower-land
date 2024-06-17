@@ -7938,4 +7938,40 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/745.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Benevolence Flag": {
+    name: "Benevolence Flag",
+    description:
+      "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2035.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Devotion Flag": {
+    name: "Devotion Flag",
+    description:
+      "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2036.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Generosity Flag": {
+    name: "Generosity Flag",
+    description:
+      "For players who have donated substantial resources to the Goblins.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2037.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Splendor Flag": {
+    name: "Splendor Flag",
+    description:
+      "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2037.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };

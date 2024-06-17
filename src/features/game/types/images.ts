@@ -173,6 +173,11 @@ import romanian_flag from "assets/sfts/flags/romanian_flag.gif";
 import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.gif";
 import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
 
+import generosityFlag from "assets/sfts/generosity_flag.png";
+import splendorFlag from "assets/sfts/splendor_flag.png";
+import benevolenceFlag from "assets/sfts/benevolence_flag.png";
+import devotionFlag from "assets/sfts/devotion_flag.png";
+
 // Resources
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
@@ -3641,5 +3646,21 @@ export const ITEM_DETAILS: Items = {
   "Rice Panda": {
     image: ricePanda,
     description: translate("description.ricePanda"),
+  },
+  "Benevolence Flag": {
+    image: benevolenceFlag,
+    description: translate("description.benevolenceFlag"),
+  },
+  "Devotion Flag": {
+    image: devotionFlag,
+    description: translate("description.devotionFlag"),
+  },
+  "Generosity Flag": {
+    image: generosityFlag,
+    description: translate("description.generosityFlag"),
+  },
+  "Splendor Flag": {
+    image: splendorFlag,
+    description: translate("description.splendorFlag"),
   },
 };
