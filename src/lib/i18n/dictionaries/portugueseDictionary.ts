@@ -738,8 +738,8 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.observatory":
     "Explore as estrelas e melhore o desenvolvimento científico",
   "description.engine.core": "O poder do girassol",
-  "description.time.warp.totem":
-    "Velocidade 2x para plantações, árvores, cozimento e minerais. Dura apenas 2 horas",
+  "description.time.warp.totem": ENGLISH_TERMS["description.time.warp.totem"],
+  //"Velocidade 2x para plantações, árvores, cozimento e minerais. Dura apenas 2 horas",
   "description.time.warp.totem.expired":
     "Seu Totem de Dobra Temporal expirou. Vá para a Pumpkin Plaza para descobrir e criar mais itens mágicos para impulsionar suas habilidades agrícolas!",
   "description.time.warp.totem.temporarily":
@@ -904,7 +904,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.christmas.festive.tree.boost": "Presente Grátis no Natal",
   "description.grinxs.hammer.boost": "Reduz pela Metade os Custos de Expansão",
   "description.time.warp.totem.boost":
-    "Redução de 50% no Tempo de Plantações, Mineral, Cozimento e Árvore",
+    ENGLISH_TERMS["description.time.warp.totem.boost"],
+  //"Redução de 50% no Tempo de Plantações, Mineral, Cozimento e Árvore",
   "description.radiant.ray.boost": "+0.1 Ferro",
   "description.babyPanda.boost": "2x XP Mar 2024",
   "description.flower.fox.boost": "-10% Tempo de Crescimento de Flores",

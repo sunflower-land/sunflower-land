@@ -744,7 +744,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Explore the stars and improve scientific development",
   "description.engine.core": "The power of the sunflower",
   "description.time.warp.totem":
-    "2x speed for crops, trees, cooking & minerals. Only lasts for 2 hours",
+    "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
   "description.time.warp.totem.expired":
     "Your Time Warp Totem has expired. Head to the Pumpkin Plaza to discover and craft more magical items to boost your farming abilities!",
   "description.time.warp.totem.temporarily":
@@ -893,7 +893,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.christmas.festive.tree.boost": "Free Gift at Christmas",
   "description.grinxs.hammer.boost": "Halves expansion costs",
   "description.time.warp.totem.boost":
-    "50% Reduction to Crop, Mineral, Cooking and Tree Time",
+    "50% Reduction to Crop, Mineral, Fruit, Cooking and Tree Time",
   "description.radiant.ray.boost": "+0.1 Iron",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
   "description.hungryHare.boost": "Fermented Carrots 2x XP",
