@@ -1815,6 +1815,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.devotionFlag": ENGLISH_TERMS["description.devotionFlag"],
   "description.generosityFlag": ENGLISH_TERMS["description.generosityFlag"],
   "description.splendorFlag": ENGLISH_TERMS["description.splendorFlag"],
+  "description.jellyLamp": ENGLISH_TERMS["description.jellyLamp"],
+  "description.paintCan": ENGLISH_TERMS["description.paintCan"],
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {

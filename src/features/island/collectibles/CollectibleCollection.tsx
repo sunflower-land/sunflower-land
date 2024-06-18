@@ -284,11 +284,15 @@ import { BenevolenceFlag } from "./components/BenevolenceFlag";
 import { DevotionFlag } from "./components/DevotionFlag";
 import { GenerosityFlag } from "./components/GenerosityFlag";
 import { SplendorFlag } from "./components/SplendorFlag";
+import { PaintCan } from "./components/PaintCan";
+import { JellyLamp } from "./components/JellyLamp";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
   React.FC<CollectibleProps>
 > = {
+  "Jelly Lamp": JellyLamp,
+  "Paint Can": PaintCan,
   "Benevolence Flag": BenevolenceFlag,
   "Devotion Flag": DevotionFlag,
   "Generosity Flag": GenerosityFlag,

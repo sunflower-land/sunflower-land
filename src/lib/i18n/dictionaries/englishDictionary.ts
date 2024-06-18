@@ -1813,6 +1813,8 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
     "For players who have donated substantial resources to the Goblins.",
   "description.splendorFlag":
     "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
+  "description.jellyLamp": "A lamp that brings a touch of luxury to any room.",
+  "description.paintCan": "A paint can discovered in the festival of colors",
 };
 
 const defaultDialogue: Record<DefaultDialogue, string> = {
