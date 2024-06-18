@@ -2,6 +2,7 @@ import { getKeys } from "./craftables";
 import { CropName } from "./crops";
 import { FruitName } from "./fruits";
 import { translate } from "lib/i18n/translate";
+import { ResourceName } from "./resources";
 
 type PansyName =
   | "Red Pansy"
@@ -57,6 +58,7 @@ export type FlowerSeed = {
   description: string;
   plantSeconds: number;
   disabled: boolean;
+  plantingSpot: ResourceName | "Greenhouse";
 };
 
 type FlowerSeeds = {
@@ -81,6 +83,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     description: translate("description.sunpetal.seed"),
     disabled: false,
     requiredIsland: "spring",
+    plantingSpot: "Flower Bed",
   },
   "Bloom Seed": {
     price: 32,
@@ -89,6 +92,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     description: translate("description.bloom.seed"),
     disabled: false,
     requiredIsland: "spring",
+    plantingSpot: "Flower Bed",
   },
   "Lily Seed": {
     price: 48,
@@ -97,6 +101,7 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     description: translate("description.lily.seed"),
     disabled: false,
     requiredIsland: "spring",
+    plantingSpot: "Flower Bed",
   },
 });
 
