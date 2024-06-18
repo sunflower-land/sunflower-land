@@ -1432,8 +1432,8 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.seedPacks": "Seed packs",
   "cropMachine.readyCropPacks": "Ready crop packs",
   "cropMachine.readyCropPacks.description":
-    "You currently have {{totalReady}} crop packs to harvest! Click the harvest button to collect all your crops.",
-  "cropMachine.harvestAllCrops": "Harvest all crops",
+    "You currently have {{totalReady}} crop packs to harvest! Click the the pack you want to harvest.",
+  "cropMachine.harvestCropPack": "Harvest crop pack",
   "cropMachine.addOil": "Add oil",
   "cropMachine.oil.description":
     "Your machine needs oil to run. Every seed pack will require a certain amount of oil based on how long the crops take to grow. As you add oil you can see how long the machine will run when given that amount.",

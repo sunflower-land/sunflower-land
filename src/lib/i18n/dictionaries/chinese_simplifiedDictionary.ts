@@ -1316,7 +1316,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.growTime": "生长时长： {{time}}",
   "cropMachine.growTimeRemaining": "生长剩余时长: {{time}}",
   "cropMachine.harvest": "收割",
-  "cropMachine.harvestAllCrops": "收割所有庄稼",
+  "cropMachine.harvestCropPack": "收割所有庄稼",
   "cropMachine.machineRuntime": "机器运作时长： {{time}}",
   "cropMachine.maxRuntime": "最高运作时长: {{time}}",
   "cropMachine.moreOilRequired": "需要更多的石油",

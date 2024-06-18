@@ -98,8 +98,11 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
     });
   };
 
-  const handleHarvest = () => {
-    const updated = gameService.send({ type: "cropMachine.harvested" });
+  const handleHarvestPack = (packIndex: number) => {
+    const updated = gameService.send({
+      type: "cropMachine.harvested",
+      packIndex,
+    });
 
     const machines = updated.context.state.buildings[
       "Crop Machine"
@@ -219,7 +222,7 @@ export const CropMachine: React.FC<Props> = ({ id }) => {
         show={showModal}
         onClose={() => setShowModal(false)}
         onAddSeeds={handleAddSeeds}
-        onHarvest={handleHarvest}
+        onHarvestPack={handleHarvestPack}
         onAddOil={handleAddOil}
       />
     </>

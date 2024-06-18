@@ -1437,7 +1437,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.growTimeRemaining":
     ENGLISH_TERMS["cropMachine.growTimeRemaining"],
   "cropMachine.harvest": ENGLISH_TERMS["cropMachine.harvest"],
-  "cropMachine.harvestAllCrops": ENGLISH_TERMS["cropMachine.harvestAllCrops"],
+  "cropMachine.harvestCropPack": ENGLISH_TERMS["cropMachine.harvestCropPack"],
   "cropMachine.machineRuntime": ENGLISH_TERMS["cropMachine.machineRuntime"],
   "cropMachine.maxRuntime": ENGLISH_TERMS["cropMachine.maxRuntime"],
   "cropMachine.moreOilRequired": ENGLISH_TERMS["cropMachine.moreOilRequired"],
