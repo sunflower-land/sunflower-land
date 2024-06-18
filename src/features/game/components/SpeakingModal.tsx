@@ -193,6 +193,10 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
     (currentTextEnded || forceShowFullMessage) &&
     message[currentMessage]?.actions;
 
+  const longestMessageText = message
+    .map((m) => m.text)
+    .reduce((a, b) => (a.length > b.length ? a : b));
+
   return (
     <>
       <div
@@ -202,13 +206,23 @@ export const SpeakingText: React.FC<Pick<Props, "message" | "onClose">> = ({
         onClick={handleClick}
         style={{ minHeight: `${lines * 25}px` }}
       >
-        <div className="flex-1 pb-2">
-          <TypingMessage
+        <div className="flex-1 pb-2 relative">
+          <div className="text-sm opacity-0">{longestMessageText}</div>
+          <div className="absolute top-0">
+            <TypingMessage
+              message={message[currentMessage]?.text ?? ""}
+              key={currentMessage}
+              onMessageEnd={() => setCurrentTextEnded(true)}
+              forceShowFullMessage={forceShowFullMessage}
+            />
+          </div>
+
+          {/* <TypingMessage
             message={message[currentMessage]?.text}
             key={currentMessage}
             onMessageEnd={() => setCurrentTextEnded(true)}
             forceShowFullMessage={forceShowFullMessage}
-          />
+          /> */}
           {currentTextEnded && message[currentMessage]?.jsx}
         </div>
         {!showActions && (

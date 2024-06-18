@@ -2,9 +2,9 @@ import mapJson from "assets/map/plaza.json";
 import factionMapJson from "assets/map/plaza_faction_pledge.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, FACTION_NAME_COLORS, NPCBumpkin } from "./BaseScene";
+import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
-import { FanArtNPC, interactableModalManager } from "../ui/InteractableModals";
+import { interactableModalManager } from "../ui/InteractableModals";
 import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
@@ -14,34 +14,10 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
-import { capitalize } from "lib/utils/capitalize";
 import { translate } from "lib/i18n/translate";
 import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
-
-const FAN_NPCS: { name: FanArtNPC; x: number; y: number }[] = [
-  {
-    name: "fan_npc_1",
-    x: 110,
-    y: 137,
-  },
-  {
-    name: "fan_npc_2",
-    x: 130,
-    y: 118,
-  },
-  {
-    name: "fan_npc_3",
-    x: 172,
-    y: 118,
-  },
-  {
-    name: "fan_npc_4",
-    x: 210,
-    y: 137,
-  },
-];
 
 export type FactionNPC = {
   npc: NPCName;
@@ -215,9 +191,9 @@ export class PlazaScene extends BaseScene {
     this.load.image("timer_icon", "world/timer_icon.png");
     this.load.image("trade_icon", "world/trade_icon.png");
 
-    this.load.spritesheet("easter_egg", "world/easter_donation.png", {
-      frameWidth: 16,
-      frameHeight: 19,
+    this.load.spritesheet("color_portal", "world/color_portal.webp", {
+      frameWidth: 47,
+      frameHeight: 47,
     });
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
@@ -253,13 +229,6 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("fat_chicken", "world/fat_chicken.png", {
       frameWidth: 17,
       frameHeight: 21,
-    });
-
-    FAN_NPCS.map((npc) => {
-      this.load.spritesheet(npc.name, `world/${npc.name}.png`, {
-        frameWidth: 20,
-        frameHeight: 19,
-      });
     });
 
     this.load.image("chest", "world/rare_chest.png");
@@ -316,228 +285,6 @@ export class PlazaScene extends BaseScene {
     });
   }
 
-  setUpFactionNPCS() {
-    const maximus = this.add.sprite(33, 200, "maximus");
-    maximus.flipX = true;
-    maximus.setSize(23, 26);
-    maximus.setDepth(200);
-    this.physics.world.enable(maximus);
-    (maximus.body as Phaser.Physics.Arcade.Body).setImmovable(true);
-    this.colliders?.add(maximus);
-    // make maximus immoveable
-    this.anims.create({
-      key: "maximus_animation",
-      frames: this.anims.generateFrameNumbers("maximus", {
-        start: 0,
-        end: 8,
-      }),
-      repeat: -1,
-      frameRate: 10,
-    });
-    maximus.play("maximus_animation", true);
-    const shadow = this.add.sprite(33, 212, "shadow");
-    shadow.setSize(23, 10);
-
-    this.nightshadesFactionNPC = maximus;
-
-    FACTION_NPCS.forEach(({ npc, x, y, direction = "right", faction }) => {
-      const container = new BumpkinContainer({
-        scene: this,
-        x,
-        y,
-        clothing: {
-          ...NPC_WEARABLES[npc],
-          updatedAt: 0,
-        },
-        direction,
-      });
-
-      container.setDepth(y);
-      (container.body as Phaser.Physics.Arcade.Body)
-        .setSize(16, 20)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-
-      this.physics.world.enable(container);
-      this.colliders?.add(container);
-      this.triggerColliders?.add(container);
-
-      switch (faction) {
-        case "bumpkins":
-          this.bumpkinsFactionNPC = container;
-          break;
-        case "goblins":
-          this.goblinsFactionNPC = container;
-          break;
-        case "sunflorians":
-          this.sunfloriansFactionNPC = container;
-          break;
-      }
-    });
-  }
-
-  setUpFactionBanners() {
-    // Add banners
-    this.bumpkinsBanner = this.add
-      .image(15, 125, "bumpkins_banner")
-      .setDepth(125);
-    this.goblinsBanner = this.add.image(16, 88, "goblins_banner").setDepth(90);
-    this.nightshadesBanner = this.add
-      .image(15, 197, "nightshades_banner")
-      .setDepth(190);
-    this.sunfloriansBanner = this.add
-      .image(15, 160, "sunflorians_banner")
-      .setDepth(160);
-
-    if (!this.chosenFaction) {
-      // Make banners interactive
-      this.bumpkinsBanner
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("pledge_bumpkin");
-        });
-      this.goblinsBanner
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("pledge_goblin");
-        });
-      this.nightshadesBanner
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("pledge_nightshade");
-        });
-      this.sunfloriansBanner
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          interactableModalManager.open("pledge_sunflorian");
-        });
-    } else {
-      this.makeChosenFactionBannerInteractive(String(this.chosenFaction));
-    }
-  }
-
-  makeAllFactionNPCsInteractive() {
-    this.bumpkinsFactionNPC?.addOnClick(() =>
-      interactableModalManager.open("pledge_bumpkin")
-    );
-    this.goblinsFactionNPC?.addOnClick(() =>
-      interactableModalManager.open("pledge_goblin")
-    );
-    this.sunfloriansFactionNPC?.addOnClick(() =>
-      interactableModalManager.open("pledge_sunflorian")
-    );
-    this.nightshadesFactionNPC
-      ?.setInteractive({ cursor: "pointer" })
-      .on("pointerdown", (p: Phaser.Input.Pointer) => {
-        if (p.downElement.nodeName === "CANVAS") {
-          interactableModalManager.open("pledge_nightshade");
-        }
-      });
-  }
-
-  makeChosenFactionNPCInteractive(chosenFaction: string) {
-    switch (chosenFaction) {
-      case "bumpkins":
-        this.bumpkinsFactionNPC?.addOnClick(() =>
-          interactableModalManager.open("bumpkins_faction")
-        );
-
-        break;
-      case "goblins":
-        this.goblinsFactionNPC?.addOnClick(() =>
-          interactableModalManager.open("goblins_faction")
-        );
-        break;
-      case "sunflorians":
-        this.sunfloriansFactionNPC?.addOnClick(() =>
-          interactableModalManager.open("sunflorians_faction")
-        );
-        break;
-      case "nightshades":
-        this.nightshadesFactionNPC
-          ?.setInteractive({ cursor: "pointer" })
-          .on("pointerdown", (p: Phaser.Input.Pointer) => {
-            if (p.downElement.nodeName === "CANVAS") {
-              interactableModalManager.open("nightshades_faction");
-            }
-          });
-        break;
-    }
-  }
-
-  makeChosenFactionBannerInteractive(chosenFaction: string) {
-    switch (chosenFaction) {
-      case "bumpkins":
-        this.bumpkinsBanner
-          ?.setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            interactableModalManager.open("bumpkins_faction");
-          });
-        break;
-      case "goblins":
-        this.goblinsBanner
-          ?.setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            interactableModalManager.open("goblins_faction");
-          });
-        break;
-      case "nightshades":
-        this.nightshadesBanner
-          ?.setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            interactableModalManager.open("nightshades_faction");
-          });
-        break;
-      case "sunflorians":
-        this.sunfloriansBanner
-          ?.setInteractive({ cursor: "pointer" })
-          .on("pointerdown", () => {
-            interactableModalManager.open("sunflorians_faction");
-          });
-        break;
-    }
-  }
-
-  updateFactionBannerInteractionsOnPledge(chosenFaction: string) {
-    this.bumpkinsBanner?.disableInteractive();
-    this.goblinsBanner?.disableInteractive();
-    this.nightshadesBanner?.disableInteractive();
-    this.sunfloriansBanner?.disableInteractive();
-
-    this.makeChosenFactionBannerInteractive(chosenFaction);
-  }
-
-  updateFactionNPCInteractionsOnPledge(chosenFaction: string) {
-    this.bumpkinsFactionNPC?.disableInteractive();
-    this.goblinsFactionNPC?.disableInteractive();
-    this.sunfloriansFactionNPC?.disableInteractive();
-    this.nightshadesFactionNPC?.disableInteractive();
-
-    this.makeChosenFactionNPCInteractive(chosenFaction);
-  }
-
-  addFactionNameToPlayer(faction: string) {
-    const color = FACTION_NAME_COLORS[faction as FactionName];
-    const factionTag = this.createPlayerText({
-      x: 0,
-      y: 0,
-      text: `<${capitalize(faction)}>`,
-      color,
-    });
-
-    factionTag.name = "factionTag";
-    this.currentPlayer?.add(factionTag);
-
-    const nameTag = this.currentPlayer?.getByName(
-      "nameTag"
-    ) as Phaser.GameObjects.Text;
-
-    if (!nameTag) return;
-
-    nameTag.setPosition(0, 16);
-  }
-
   updateColyseus(faction: string) {
     this.mmoService?.state.context.server?.send(0, {
       faction,
@@ -546,22 +293,6 @@ export class PlazaScene extends BaseScene {
 
   async create() {
     super.create();
-
-    // Faction setup
-    if (
-      hasFeatureAccess(this.gameState, "FACTIONS") &&
-      Date.now() < FACTION_POINT_CUTOFF.getTime()
-    ) {
-      this.chosenFaction = this.gameService.state.context.state?.faction?.name;
-      this.setUpFactionBanners();
-      this.setUpFactionNPCS();
-
-      if (this.chosenFaction) {
-        this.makeChosenFactionNPCInteractive(this.chosenFaction);
-      } else {
-        this.makeAllFactionNPCsInteractive();
-      }
-    }
 
     const tradingBoard = this.add.sprite(725, 260, "trading_board");
     tradingBoard.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
@@ -602,13 +333,13 @@ export class PlazaScene extends BaseScene {
     });
 
     if (this.gameState.inventory["Treasure Key"]) {
-      this.add.sprite(152, 140, "key_disc").setDepth(1000000000);
+      this.add.sprite(112, 140, "key_disc").setDepth(1000000000);
     } else {
-      this.add.sprite(152, 140, "locked_disc").setDepth(1000000000);
+      this.add.sprite(112, 140, "locked_disc").setDepth(1000000000);
     }
 
     // Sprites
-    const basicChest = this.add.sprite(152, 160, "basic_chest");
+    const basicChest = this.add.sprite(112, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
@@ -641,6 +372,32 @@ export class PlazaScene extends BaseScene {
     clubHouseLabel.setPosition(152, 262);
     clubHouseLabel.setDepth(10000000);
     this.add.existing(clubHouseLabel);
+
+    // Color Portal
+    // Plaza Bud
+    const colorPortal = this.add.sprite(150, 150, "color_portal");
+    this.anims.create({
+      key: "color_portal_anim",
+      frames: this.anims.generateFrameNumbers("color_portal", {
+        start: 0,
+        end: 11,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+
+    colorPortal.play("color_portal_anim", true);
+    colorPortal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(colorPortal, 75)) {
+        interactableModalManager.open("festival_of_colors");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    if (!hasFeatureAccess(this.gameState, "FESTIVAL_OF_COLORS")) {
+      this.add.sprite(150, 150, "locked_disc").setDepth(1000000000);
+    }
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");
@@ -683,37 +440,6 @@ export class PlazaScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
-
-    // Art NPCs
-    FAN_NPCS.map((npc, index) => {
-      this.add.sprite(npc.x, npc.y + 8, "shadow");
-
-      const fanNPC = this.add.sprite(npc.x, npc.y, npc.name);
-      this.anims.create({
-        key: `${npc.name}_animation`,
-        frames: this.anims.generateFrameNumbers(npc.name, {
-          start: 0,
-          end: 8,
-        }),
-        repeat: -1,
-        frameRate: 10,
-      });
-      fanNPC.play(`${npc.name}_animation`, true);
-
-      // Face left
-      if (index >= 2) {
-        fanNPC.setScale(-1, 1);
-      }
-
-      // On click
-      fanNPC.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        if (this.checkDistanceToSprite(fanNPC, 75)) {
-          interactableModalManager.open(npc.name);
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-    });
 
     // Banner
     this.add.image(400, 225, "banner").setDepth(100000000000);
@@ -893,17 +619,6 @@ export class PlazaScene extends BaseScene {
 
     if (this.movementAngle && this.arrows) {
       this.arrows.setVisible(false);
-    }
-
-    // Update newly pledged faction
-    const faction = this.gameService.state.context.state.faction?.name;
-
-    if (!!faction && !this.chosenFaction) {
-      this.chosenFaction = faction;
-      this.updateFactionBannerInteractionsOnPledge(faction);
-      this.updateFactionNPCInteractionsOnPledge(faction);
-      this.addFactionNameToPlayer(faction);
-      this.updateColyseus(faction);
     }
   }
 }
