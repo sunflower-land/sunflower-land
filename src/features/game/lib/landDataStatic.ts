@@ -369,6 +369,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Oil: new Decimal(500),
     Manor: new Decimal(1),
     House: new Decimal(1),
+    "Sunflower Seed": new Decimal(100),
     "Rice Seed": new Decimal(10),
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
@@ -710,6 +711,29 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   buildings: {
+    "Crop Machine": [
+      {
+        coordinates: {
+          x: -2,
+          y: 6,
+        },
+        createdAt: 0,
+        id: "1",
+        readyAt: 0,
+        oil: 100,
+        queue: [
+          {
+            amount: 10,
+            crop: "Sunflower",
+            readyAt: Date.now() - 1000,
+            startTime: Date.now() - 61500,
+            seeds: 10,
+            totalGrowTime: 60000,
+            growTimeRemaining: 0,
+          },
+        ],
+      },
+    ],
     "Town Center": [
       {
         coordinates: {

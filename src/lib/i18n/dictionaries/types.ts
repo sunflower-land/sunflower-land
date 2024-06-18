@@ -1017,7 +1017,7 @@ export type CropMachine =
   | "cropMachine.seedPacks"
   | "cropMachine.readyCropPacks"
   | "cropMachine.readyCropPacks.description"
-  | "cropMachine.harvestAllCrops"
+  | "cropMachine.harvestCropPack"
   | "cropMachine.maxRuntime"
   | "cropMachine.oilToAdd"
   | "cropMachine.totalRuntime"

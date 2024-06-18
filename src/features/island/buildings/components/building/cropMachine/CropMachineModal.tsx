@@ -35,7 +35,6 @@ import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import lightning from "assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
@@ -50,11 +49,9 @@ interface Props {
   service: MachineInterpreter;
   onClose: () => void;
   onAddSeeds: (seeds: AddSeedsInput) => void;
-  onHarvest: () => void;
+  onHarvestPack: (packIndex: number) => void;
   onAddOil: (oil: number) => void;
 }
-
-type OverlayScreen = "harvestCrops" | "addOil";
 
 const ALLOWED_SEEDS: CropSeedName[] = getKeys(CROP_SEEDS()).filter((seed) => {
   const crop = seed.split(" ")[0] as CropName;
@@ -76,7 +73,7 @@ export const CropMachineModal: React.FC<Props> = ({
   unallocatedOilTime,
   onClose,
   onAddSeeds,
-  onHarvest,
+  onHarvestPack: onHarvestPack,
   onAddOil,
 }) => {
   const { gameService } = useContext(Context);
@@ -91,7 +88,7 @@ export const CropMachineModal: React.FC<Props> = ({
     growingCropPackIndex ?? 0
   );
   const [selectedSeed, setSelectedSeed] = useState<CropSeedName>();
-  const [overlayScreen, setOverlayScreen] = useState<OverlayScreen>();
+  const [showOverlayScreen, setShowOverlayScreen] = useState<boolean>(false);
   const [totalSeeds, setTotalSeeds] = useState(0);
   const [totalOil, setTotalOil] = useState(0);
   const [tab, setTab] = useState(0);
@@ -196,21 +193,25 @@ export const CropMachineModal: React.FC<Props> = ({
     setTotalSeeds(0);
   };
 
-  const handleHarvestAllCrops = () => {
-    onHarvest();
-    setOverlayScreen(undefined);
+  const handleHarvestCropPack = () => {
+    onHarvestPack(selectedPackIndex);
     setSelectedPackIndex(0);
   };
 
   const handleAddOil = () => {
     onAddOil(totalOil);
     setTotalOil(0);
-    setOverlayScreen(undefined);
+    setShowOverlayScreen(false);
   };
 
   const handlePickSeed = (seed: CropSeedName) => {
     setSelectedSeed(seed);
     setTotalSeeds(0);
+  };
+
+  const handleHide = () => {
+    setShowOverlayScreen(false);
+    onClose();
   };
 
   const selectedPack = queue[selectedPackIndex];
@@ -219,13 +220,8 @@ export const CropMachineModal: React.FC<Props> = ({
     ...new Array(MAX_QUEUE_SIZE - queue.length).fill(null),
   ];
 
-  const readyPacks = queue.filter((pack) => isCropPackReady(pack));
-  const onHide = () => {
-    setOverlayScreen(undefined);
-    onClose();
-  };
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={handleHide}>
       <CloseButtonPanel
         tabs={[{ icon: SUNNYSIDE.icons.seedling, name: t("cropMachine.name") }]}
         currentTab={tab}
@@ -306,15 +302,8 @@ export const CropMachineModal: React.FC<Props> = ({
                     </span>
                   </div>
                 </div>
-                <Button
-                  className="w-full"
-                  onClick={
-                    readyPacks.length > 1
-                      ? () => setOverlayScreen("harvestCrops")
-                      : onHarvest
-                  }
-                >
-                  {t("cropMachine.harvest")}
+                <Button className="w-full" onClick={handleHarvestCropPack}>
+                  {t("cropMachine.harvestCropPack")}
                 </Button>
               </div>
             )}
@@ -509,143 +498,100 @@ export const CropMachineModal: React.FC<Props> = ({
                 onAddOil={() => {
                   // Reset Oil Before showing Overlay to Prevent accidental adding
                   setTotalOil(0);
-                  setOverlayScreen("addOil");
+                  setShowOverlayScreen(true);
                 }}
               />
             )}
           </div>
         </div>
         <ModalOverlay
-          show={overlayScreen !== undefined}
+          show={showOverlayScreen}
           className="top-11"
-          onBackdropClick={() => setOverlayScreen(undefined)}
+          onBackdropClick={() => setShowOverlayScreen(false)}
         >
           <InnerPanel>
-            {overlayScreen === "harvestCrops" && (
-              <div className="flex flex-col space-y-2">
-                <div className="flex justify-between">
+            <div className="flex flex-col space-y-1.5">
+              <div className="flex justify-between">
+                <div className="flex space-x-2">
                   <Label
                     type="default"
-                    icon={CROP_LIFECYCLE.Sunflower.crop}
-                    className="ml-1.5 mt-2 mb-1"
+                    icon={ITEM_DETAILS.Oil.image}
+                    className="m-1.5"
                   >
-                    {t("cropMachine.readyCropPacks")}
+                    {t("cropMachine.addOil")}
                   </Label>
-                  <img
-                    src={SUNNYSIDE.icons.close}
-                    className="cursor-pointer m-0.5"
-                    onClick={() => setOverlayScreen(undefined)}
-                    style={{
-                      width: `${PIXEL_SCALE * 9}px`,
-                      height: `${PIXEL_SCALE * 9}px`,
-                    }}
-                  />
                 </div>
-                <span className="text-xs px-2 pb-2">
-                  {t("cropMachine.readyCropPacks.description", {
-                    totalReady: readyPacks.length,
+                <img
+                  src={SUNNYSIDE.icons.close}
+                  className="cursor-pointer m-0.5"
+                  onClick={() => setShowOverlayScreen(false)}
+                  style={{
+                    width: `${PIXEL_SCALE * 9}px`,
+                    height: `${PIXEL_SCALE * 9}px`,
+                  }}
+                />
+              </div>
+              <span className="px-2 text-xs pb-1">
+                {t("cropMachine.oil.description")}
+              </span>
+              <div className="flex justify-between items-center">
+                <Label
+                  type={
+                    (inventory.Oil?.toNumber() ?? 0) < 1 ? "danger" : "info"
+                  }
+                  className="mx-1.5 mt-2"
+                >
+                  {t("cropMachine.availableInventory", {
+                    amount: setPrecision(
+                      new Decimal((inventory.Oil?.toNumber() ?? 0) - totalOil)
+                    ),
                   })}
-                </span>
-                <div className="flex">
-                  {readyPacks.map((pack, index) => (
-                    <Box
-                      key={index}
-                      image={ITEM_DETAILS[pack.crop].image}
-                      count={new Decimal(pack.amount)}
-                      countLabelType="success"
-                    />
-                  ))}
-                </div>
-
-                <Button onClick={handleHarvestAllCrops}>
-                  {t("cropMachine.harvestAllCrops")}
-                </Button>
+                </Label>
+                <Label
+                  type={!canAddOneHourOfOil() ? "danger" : "info"}
+                  className="mx-1.5 mt-2"
+                >
+                  {t("cropMachine.maxRuntime", { time: `48hrs` })}
+                </Label>
               </div>
-            )}
-            {overlayScreen === "addOil" && (
-              <div className="flex flex-col space-y-1.5">
-                <div className="flex justify-between">
-                  <div className="flex space-x-2">
-                    <Label
-                      type="default"
-                      icon={ITEM_DETAILS.Oil.image}
-                      className="m-1.5"
-                    >
-                      {t("cropMachine.addOil")}
-                    </Label>
+              <div className="flex ml-1">
+                <Box image={oilBarrel} />
+                <div className="flex w-full justify-between">
+                  <div className="flex flex-col justify-center text-xs space-y-1">
+                    <span>
+                      {t("cropMachine.oilToAdd", { amount: totalOil })}
+                    </span>
+                    <span>
+                      {t("cropMachine.totalRuntime", {
+                        time: secondsToString(
+                          getOilTimeInMillis(totalOil) / 1000,
+                          {
+                            length: "full",
+                            isShortFormat: true,
+                            removeTrailingZeros: true,
+                          }
+                        ),
+                      })}
+                    </span>
                   </div>
-                  <img
-                    src={SUNNYSIDE.icons.close}
-                    className="cursor-pointer m-0.5"
-                    onClick={() => setOverlayScreen(undefined)}
-                    style={{
-                      width: `${PIXEL_SCALE * 9}px`,
-                      height: `${PIXEL_SCALE * 9}px`,
-                    }}
-                  />
-                </div>
-                <span className="px-2 text-xs pb-1">
-                  {t("cropMachine.oil.description")}
-                </span>
-                <div className="flex justify-between items-center">
-                  <Label
-                    type={
-                      (inventory.Oil?.toNumber() ?? 0) < 1 ? "danger" : "info"
-                    }
-                    className="mx-1.5 mt-2"
-                  >
-                    {t("cropMachine.availableInventory", {
-                      amount: setPrecision(
-                        new Decimal((inventory.Oil?.toNumber() ?? 0) - totalOil)
-                      ),
-                    })}
-                  </Label>
-                  <Label
-                    type={!canAddOneHourOfOil() ? "danger" : "info"}
-                    className="mx-1.5 mt-2"
-                  >
-                    {t("cropMachine.maxRuntime", { time: `48hrs` })}
-                  </Label>
-                </div>
-                <div className="flex ml-1">
-                  <Box image={oilBarrel} />
-                  <div className="flex w-full justify-between">
-                    <div className="flex flex-col justify-center text-xs space-y-1">
-                      <span>
-                        {t("cropMachine.oilToAdd", { amount: totalOil })}
-                      </span>
-                      <span>
-                        {t("cropMachine.totalRuntime", {
-                          time: secondsToString(
-                            getOilTimeInMillis(totalOil) / 1000,
-                            {
-                              length: "full",
-                              isShortFormat: true,
-                              removeTrailingZeros: true,
-                            }
-                          ),
-                        })}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-1 mr-2">
-                      <Button
-                        className="w-11"
-                        disabled={totalOil === 0}
-                        onClick={decrementOil}
-                      >{`-${OIL_INCREMENT_AMOUNT}`}</Button>
-                      <Button
-                        className="w-11"
-                        onClick={incrementOil}
-                        disabled={!canIncrementOil()}
-                      >{`+${OIL_INCREMENT_AMOUNT}`}</Button>
-                    </div>
+                  <div className="flex items-center space-x-1 mr-2">
+                    <Button
+                      className="w-11"
+                      disabled={totalOil === 0}
+                      onClick={decrementOil}
+                    >{`-${OIL_INCREMENT_AMOUNT}`}</Button>
+                    <Button
+                      className="w-11"
+                      onClick={incrementOil}
+                      disabled={!canIncrementOil()}
+                    >{`+${OIL_INCREMENT_AMOUNT}`}</Button>
                   </div>
                 </div>
-                <Button disabled={totalOil === 0} onClick={handleAddOil}>
-                  {t("cropMachine.addOil")}
-                </Button>
               </div>
-            )}
+              <Button disabled={totalOil === 0} onClick={handleAddOil}>
+                {t("cropMachine.addOil")}
+              </Button>
+            </div>
           </InnerPanel>
         </ModalOverlay>
       </CloseButtonPanel>

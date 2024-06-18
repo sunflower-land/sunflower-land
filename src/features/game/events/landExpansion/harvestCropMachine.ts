@@ -5,6 +5,7 @@ import cloneDeep from "lodash.clonedeep";
 
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
+  packIndex: number;
 };
 
 type Options = {
@@ -34,29 +35,28 @@ export function harvestCropMachine({
     throw new Error("Nothing in the queue");
   }
 
-  if (
-    !machine.queue?.some((pack) => pack.readyAt && pack.readyAt < createdAt)
-  ) {
-    throw new Error("There are no crops to collect");
+  if (!machine.queue[action.packIndex]) {
+    throw new Error("Pack does not exist");
   }
 
-  // Harvest the crops
-  machine.queue.forEach((pack) => {
-    if (pack.readyAt && pack.readyAt <= createdAt) {
-      const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
+  const pack = machine.queue[action.packIndex];
 
-      stateCopy.inventory[pack.crop] = cropsInInventory.add(pack.amount);
-      bumpkin.activity = trackActivity(
-        `${pack.crop} Harvested`,
-        bumpkin.activity,
-        new Decimal(pack.seeds)
-      );
-    }
-  });
+  if (!pack.readyAt || (pack.readyAt && pack.readyAt > createdAt)) {
+    throw new Error("The pack is not ready yet");
+  }
+
+  // Harvest the crops from pack
+  const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
+  stateCopy.inventory[pack.crop] = cropsInInventory.add(pack.amount);
+  bumpkin.activity = trackActivity(
+    `${pack.crop} Harvested`,
+    bumpkin.activity,
+    new Decimal(pack.seeds)
+  );
 
   // Filter out the harvested crops and add them to the player's inventory
   machine.queue = machine.queue.filter(
-    (pack) => !(pack.readyAt && pack.readyAt <= createdAt)
+    (_, index) => index !== action.packIndex
   );
 
   return stateCopy;
