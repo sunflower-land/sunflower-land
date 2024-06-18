@@ -91,7 +91,7 @@ export function claimMinigamePrize({
   }
 
   // Has already claimed
-  if (!!history.prizeClaimedAt) {
+  if (history.prizeClaimedAt) {
     throw new Error(`Already claimed ${action.id} prize`);
   }
 
@@ -99,7 +99,7 @@ export function claimMinigamePrize({
   history.prizeClaimedAt = createdAt;
 
   // Claim coins
-  if (!!prize.coins) {
+  if (prize.coins) {
     game.coins += prize.coins;
   }
 

@@ -10,7 +10,6 @@ import { Label } from "components/ui/Label";
 import coins from "assets/icons/coins.webp";
 import giftIcon from "assets/icons/gift.png";
 import factions from "assets/icons/factions.webp";
-import markIcon from "assets/icons/faction_mark.webp";
 
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
