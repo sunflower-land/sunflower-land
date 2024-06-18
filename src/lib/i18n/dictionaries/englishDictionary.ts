@@ -3215,9 +3215,9 @@ const noBumpkin: Record<NoBumpkin, string> = {
   "noBumpkin.play": "Play",
   "noBumpkin.missingBumpkin": "You are missing your Bumpkin",
   "noBumpkin.bumpkinNFT":
-    "A Bumpkin is an NFT that is minted on the Blockchain.",
+    "Hmmm, that's strange. It looks like you are playing on a legacy account without a Bumpkin.",
   "noBumpkin.bumpkinHelp":
-    "You need a Bumpkin to help you plant, harvest, chop, mine and expand your land.",
+    "You need a Bumpkin to help you plant, harvest, chop, mine and expand your land. Support is coming soon to add a Bumpkin!.",
   "noBumpkin.mintBumpkin": "You can get a Bumpkin from OpenSea:",
   "noBumpkin.allBumpkins": "Wow, look at all those Bumpkins!",
   "noBumpkin.chooseBumpkin": "Which Bumpkin would you like to play with?",
