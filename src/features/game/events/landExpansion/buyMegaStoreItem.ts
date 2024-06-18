@@ -88,12 +88,6 @@ export function buyMegaStoreItem({
     }
 
     stateCopy.inventory[currency] = inventoryBalance.sub(item.price);
-
-    // TODO: Add items to bought event
-    // stateCopy.bumpkin.activity = trackActivity(
-    //   `${name} Bought`,
-    //   stateCopy.bumpkin.activity,
-    // );
   }
 
   // Wearable

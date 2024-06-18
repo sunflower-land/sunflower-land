@@ -327,6 +327,10 @@ import {
   DeliverFactionKitchenAction,
   deliverFactionKitchen,
 } from "./landExpansion/deliverFactionKitchen";
+import {
+  BuyFactionShopItemAction,
+  buyFactionShopItem,
+} from "./landExpansion/buyFactionShopItem";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -422,7 +426,8 @@ export type PlayingEvent =
   | JoinFactionAction
   | ClaimEmblemsAction
   | CompleteKingdomChoreAction
-  | DeliverFactionKitchenAction;
+  | DeliverFactionKitchenAction
+  | BuyFactionShopItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -584,6 +589,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "emblems.claimed": claimEmblems,
   "kingdomChore.completed": completeKingdomChore,
   "factionKitchen.delivered": deliverFactionKitchen,
+  "factionShopItem.bought": buyFactionShopItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

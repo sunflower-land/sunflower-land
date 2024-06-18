@@ -14,6 +14,7 @@ import { BeachBountyTreasure, TreasureName } from "./treasure";
 import { CompostName, ComposterName } from "./composters";
 import { PurchaseableBait } from "./fishing";
 import { FlowerName, FlowerSeedName } from "./flowers";
+import { FactionShopItemName } from "./factionShop";
 
 type BuyableName = SeedName | Animal | DecorationName | BeanName;
 type SellableName =
@@ -23,7 +24,8 @@ type SellableName =
   | BeachBountyTreasure
   | FruitName
   | GarbageName
-  | ExoticCropName;
+  | ExoticCropName
+  | FactionShopItemName;
 
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;
