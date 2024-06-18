@@ -61,6 +61,7 @@ import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
+import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 
 export type Reward = {
   coins?: number;
@@ -865,8 +866,8 @@ export type MinigamePrize = {
   endAt: number;
   score: number;
   coins: number;
-  factionPoints?: number;
-  marks?: number;
+  items: Partial<Record<InventoryItemName, number>>;
+  wearables: Wardrobe;
 };
 
 export type MinigameHistory = {
@@ -877,7 +878,11 @@ export type MinigameHistory = {
 
 export type Minigame = {
   highscore: number;
-  purchases?: { sfl: number; purchasedAt: number }[];
+  purchases?: {
+    sfl: number;
+    items?: Partial<Record<MinigameCurrency, number>>;
+    purchasedAt: number;
+  }[];
   history: Record<string, MinigameHistory>;
 };
 

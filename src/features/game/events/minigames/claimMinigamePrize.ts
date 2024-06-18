@@ -1,43 +1,11 @@
-import { GameState } from "features/game/types/game";
+import cloneDeep from "lodash.clonedeep";
+import Decimal from "decimal.js-light";
 import {
   MinigameName,
   SUPPORTED_MINIGAMES,
 } from "features/game/types/minigames";
-import cloneDeep from "lodash.clonedeep";
-import { FACTION_POINT_CUTOFF } from "../landExpansion/donateToFaction";
-import Decimal from "decimal.js-light";
-
-export function isMinigameComplete({
-  game,
-  name,
-  now = new Date(),
-}: {
-  game: GameState;
-  name: MinigameName;
-  now?: Date;
-}) {
-  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
-  const { games, prizes } = minigames;
-
-  const todayKey = new Date(now).toISOString().slice(0, 10);
-
-  // Get todays prize
-  const prize = prizes[name];
-
-  if (!prize) {
-    return false;
-  }
-
-  const minigame = games[name];
-  const history = minigame?.history[todayKey];
-
-  if (!history) {
-    return false;
-  }
-
-  // Has reached score
-  return history.highscore >= prize.score;
-}
+import { GameState } from "features/game/types/game";
+import { getKeys } from "features/game/types/craftables";
 
 export type ClaimMinigamePrizeAction = {
   type: "minigame.prizeClaimed";
@@ -86,14 +54,12 @@ export function claimMinigamePrize({
   }
 
   // Has reached score
-  if (
-    !isMinigameComplete({ game, name: action.id, now: new Date(createdAt) })
-  ) {
+  if (history.highscore < prize.score) {
     throw new Error(`Score ${history.highscore} is less than ${prize.score}`);
   }
 
   // Has already claimed
-  if (history.prizeClaimedAt) {
+  if (!!history.prizeClaimedAt) {
     throw new Error(`Already claimed ${action.id} prize`);
   }
 
@@ -101,22 +67,23 @@ export function claimMinigamePrize({
   history.prizeClaimedAt = createdAt;
 
   // Claim coins
-  if (prize.coins) {
+  if (!!prize.coins) {
     game.coins += prize.coins;
   }
 
-  // Claim points
-  if (!!prize.factionPoints && game.faction) {
-    if (createdAt > FACTION_POINT_CUTOFF.getTime()) {
-      throw new Error("Cannot claim faction points after cutoff");
-    }
-    game.faction.points += prize.factionPoints;
-  }
+  // Claims items
+  getKeys(prize.items).forEach((name) => {
+    const count = game.inventory[name] ?? new Decimal(0);
 
-  if (prize.marks) {
-    const previousMarks = game.inventory["Mark"] ?? new Decimal(0);
-    game.inventory["Mark"] = previousMarks.add(prize.marks);
-  }
+    game.inventory[name] = count.add(prize.items[name] ?? 0);
+  });
+
+  // Claims wearables
+  getKeys(prize.wearables).forEach((name) => {
+    const count = game.wardrobe[name] ?? 0;
+
+    game.wardrobe[name] = count + (prize.wearables[name] ?? 0);
+  });
 
   return game;
 }

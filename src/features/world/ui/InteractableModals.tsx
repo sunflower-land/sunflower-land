@@ -31,6 +31,7 @@ import { VIPGift } from "./VIPGift";
 import { ChickenRescue } from "./portals/ChickenRescue";
 import { InlineDialogue } from "./TypingMessage";
 import { Label } from "components/ui/Label";
+import { FestivalOfColors } from "./portals/FestivalOfColors";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
@@ -95,6 +96,7 @@ type InteractableName =
   | "nightshades_faction"
   | "sunflorians_faction"
   | "chicken_rescue"
+  | "festival_of_colors"
   // to replace pledge factions
   | "join_goblins"
   | "join_sunflorians"
@@ -129,7 +131,8 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>();
+  const [interactable, setInteractable] =
+    useState<InteractableName>("festival_of_colors");
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -399,6 +402,16 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <ChickenRescue onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
+
+      <Modal show={interactable === "festival_of_colors"} onHide={closeModal}>
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES.billy}
+        >
+          <FestivalOfColors onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
+
       <Modal show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
