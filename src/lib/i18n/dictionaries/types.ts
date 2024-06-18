@@ -1515,7 +1515,8 @@ export type Factions =
   | "faction.emblems.intro.two"
   | "faction.emblems.intro.three"
   | "faction.tradeEmblems"
-  | "faction.marksBoost";
+  | "faction.marksBoost"
+  | "faction.shop.onlyFor";
 
 export type FestiveTree =
   | "festivetree.greedyBumpkin"

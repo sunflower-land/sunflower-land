@@ -2113,6 +2113,9 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.notReady": ENGLISH_TERMS["faction.kitchen.notReady"],
   "faction.kitchen.preparing": ENGLISH_TERMS["faction.kitchen.preparing"],
   "faction.kitchen.newRequests": ENGLISH_TERMS["faction.kitchen.newRequests"],
+
+  // Faction Shop
+  "faction.shop.onlyFor": ENGLISH_TERMS["faction.shop.onlyFor"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {

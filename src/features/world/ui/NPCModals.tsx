@@ -17,7 +17,6 @@ import {
 import { Finn } from "./npcs/Finn";
 import { GoldTooth } from "./npcs/GoldTooth";
 import { Mayor } from "./npcs/Mayor";
-import { FlowerShop } from "./flowerShop/FlowerShop";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
 import { Stylist } from "./stylist/Stylist";
 import { AuctionHouseModal } from "./AuctionHouseModal";
@@ -32,7 +31,12 @@ import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { ChoresModal } from "./factions/chores/ChoresModal";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
+<<<<<<< HEAD
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
+=======
+import { FlowerShop } from "./flowerShop/FlowerShop";
+import { FactionShop } from "./factionShop/FactionShop";
+>>>>>>> d27dbe71f ([FEAT] Initial shop setup)
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -249,6 +253,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "chef lumen" && (
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef lumen"]} />
         )}
+        {npc === "old mate" && <FactionShop onClose={closeModal} />}
       </Modal>
 
       {npc === "hammerin harry" && (

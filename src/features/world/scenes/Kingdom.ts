@@ -58,6 +58,7 @@ export const KINGDOM_NPCS: NPCBumpkin[] = [
     y: 440,
     npc: "nyx",
   },
+  { npc: "old mate", x: 107, y: 598 },
 ];
 
 export class KingdomScene extends BaseScene {
