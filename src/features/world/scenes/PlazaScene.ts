@@ -395,7 +395,10 @@ export class PlazaScene extends BaseScene {
       }
     });
 
-    if (!hasFeatureAccess(this.gameState, "FESTIVAL_OF_COLORS")) {
+    if (
+      !hasFeatureAccess(this.gameState, "FESTIVAL_OF_COLORS") &&
+      Date.now() < new Date("2024-06-30T00:00:00Z").getTime()
+    ) {
       this.add.sprite(150, 150, "locked_disc").setDepth(1000000000);
     }
 

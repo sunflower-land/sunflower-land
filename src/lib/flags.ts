@@ -48,7 +48,7 @@ type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
   FESTIVAL_OF_COLORS: (game) => {
-    if (testnetFeatureFlag()) return true;
+    if (defaultFeatureFlag(game)) return true;
 
     return Date.now() > new Date("2024-06-25T00:00:00Z").getTime();
   },
