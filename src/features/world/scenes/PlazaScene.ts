@@ -2,9 +2,9 @@ import mapJson from "assets/map/plaza.json";
 import factionMapJson from "assets/map/plaza_faction_pledge.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, FACTION_NAME_COLORS, NPCBumpkin } from "./BaseScene";
+import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { Label } from "../containers/Label";
-import { FanArtNPC, interactableModalManager } from "../ui/InteractableModals";
+import { interactableModalManager } from "../ui/InteractableModals";
 import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,
@@ -14,9 +14,8 @@ import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
-import { NPCName, NPC_WEARABLES } from "lib/npcs";
+import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
-import { capitalize } from "lib/utils/capitalize";
 import { translate } from "lib/i18n/translate";
 import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 
@@ -334,13 +333,13 @@ export class PlazaScene extends BaseScene {
     });
 
     if (this.gameState.inventory["Treasure Key"]) {
-      this.add.sprite(152, 140, "key_disc").setDepth(1000000000);
+      this.add.sprite(112, 140, "key_disc").setDepth(1000000000);
     } else {
-      this.add.sprite(152, 140, "locked_disc").setDepth(1000000000);
+      this.add.sprite(112, 140, "locked_disc").setDepth(1000000000);
     }
 
     // Sprites
-    const basicChest = this.add.sprite(152, 160, "basic_chest");
+    const basicChest = this.add.sprite(112, 160, "basic_chest");
     basicChest.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(basicChest, 75)) {
         interactableModalManager.open("basic_chest");
@@ -386,6 +385,7 @@ export class PlazaScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
+
     colorPortal.play("color_portal_anim", true);
     colorPortal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(colorPortal, 75)) {
@@ -394,6 +394,10 @@ export class PlazaScene extends BaseScene {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
     });
+
+    if (!hasFeatureAccess(this.gameState, "FESTIVAL_OF_COLORS")) {
+      this.add.sprite(150, 150, "locked_disc").setDepth(1000000000);
+    }
 
     // Plaza Bud
     const fatChicken = this.add.sprite(106, 352, "fat_chicken");

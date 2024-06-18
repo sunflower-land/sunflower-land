@@ -5207,6 +5207,13 @@ const minigame: Record<Minigame, string> = {
   "minigame.discovered.one": "Howdy Bumpkin, you've discovered a portal!",
   "minigame.discovered.two":
     "Step into the magical realm to earn rewards and glory. Good luck!",
+  "minigame.communityEvent": "Community event",
+  "minigame.festivalOfColors": "Festival of colors",
+  "minigame.festivalOfColors.comingSoon":
+    "A community event is coming on the 25th of June...",
+  "minigame.festivalOfColors.intro":
+    "Celebrate the season of colors in this community designed event.",
+  "minigame.festivalOfColors.mission": "Find the paint bombs!",
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {

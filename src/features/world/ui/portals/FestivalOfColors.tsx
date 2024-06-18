@@ -4,23 +4,15 @@ import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
-import coins from "assets/icons/coins.webp";
 import factions from "assets/icons/factions.webp";
-import markIcon from "assets/icons/faction_mark.webp";
 
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { MinigameHistory, MinigamePrize } from "features/game/types/game";
-import { secondsToString } from "lib/utils/time";
-import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
-import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { MinigamePrizeUI } from "./ChickenRescue";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -37,6 +29,19 @@ export const FestivalOfColors: React.FC<Props> = ({ onClose }) => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const { t } = useAppTranslation();
+
+  if (!hasFeatureAccess(gameState.context.state, "FESTIVAL_OF_COLORS")) {
+    return (
+      <SpeakingText
+        message={[
+          {
+            text: t("minigame.festivalOfColors.comingSoon"),
+          },
+        ]}
+        onClose={() => setShowIntro(false)}
+      />
+    );
+  }
 
   if (showIntro) {
     return (

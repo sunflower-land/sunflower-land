@@ -5200,6 +5200,14 @@ const minigame: Record<Minigame, string> = {
   "minigame.chickenRescueHelp": ENGLISH_TERMS["minigame.chickenRescueHelp"],
   "minigame.discovered.one": ENGLISH_TERMS["minigame.discovered.one"],
   "minigame.discovered.two": ENGLISH_TERMS["minigame.discovered.two"],
+  "minigame.communityEvent": ENGLISH_TERMS["minigame.communityEvent"],
+  "minigame.festivalOfColors": ENGLISH_TERMS["minigame.festivalOfColors"],
+  "minigame.festivalOfColors.comingSoon":
+    ENGLISH_TERMS["minigame.festivalOfColors.comingSoon"],
+  "minigame.festivalOfColors.intro":
+    ENGLISH_TERMS["minigame.festivalOfColors.intro"],
+  "minigame.festivalOfColors.mission":
+    ENGLISH_TERMS["minigame.festivalOfColors.mission"],
 };
 
 export const easterEggTerms: Record<EasterEggKeys, string> = {

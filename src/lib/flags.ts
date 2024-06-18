@@ -38,7 +38,8 @@ export type FeatureName =
   | "CLAIM_EMBLEMS"
   | "EMBLEM_TRADING"
   | "CROP_QUICK_SELECT"
-  | "MARKS_LEADERBOARD";
+  | "MARKS_LEADERBOARD"
+  | "FESTIVAL_OF_COLORS";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -46,6 +47,11 @@ export const ADMIN_IDS = [1, 2, 3, 39488];
 type FeatureFlag = (game: GameState) => boolean;
 
 const featureFlags: Record<FeatureName, FeatureFlag> = {
+  FESTIVAL_OF_COLORS: (game) => {
+    if (testnetFeatureFlag()) return true;
+
+    return Date.now() > new Date("2024-06-25T00:00:00Z").getTime();
+  },
   CROP_QUICK_SELECT: defaultFeatureFlag,
   CHICKEN_RESCUE: defaultFeatureFlag,
   PORTALS: testnetFeatureFlag,

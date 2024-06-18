@@ -3527,7 +3527,12 @@ export type Minigame =
   | "minigame.comingSoon"
   | "minigame.chickenRescueHelp"
   | "minigame.discovered.one"
-  | "minigame.discovered.two";
+  | "minigame.discovered.two"
+  | "minigame.festivalOfColors"
+  | "minigame.communityEvent"
+  | "minigame.festivalOfColors.intro"
+  | "minigame.festivalOfColors.mission"
+  | "minigame.festivalOfColors.comingSoon";
 
 export type KitchenKeys = "kitchen.oilRemaining";
 
