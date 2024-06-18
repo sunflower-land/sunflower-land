@@ -12,7 +12,8 @@ export type BumpkinBackground =
   | "Dawn Breaker Background"
   | "Mushroom Lights Background"
   | "Northern Lights Background"
-  | "Valentine's Field Background";
+  | "Valentine's Field Background"
+  | "Festival of Colors Background";
 
 export type BumpkinBody =
   | "Beige Farmer Potion"
@@ -198,6 +199,7 @@ export type BumpkinNecklace =
   | "Crimstone Amulet";
 
 export type BumpkinHat =
+  | "Painter's Cap"
   | "Queen's Crown"
   | "Knight Gambit"
   | "Cap n Bells"
@@ -730,6 +732,8 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Royal Dress": 344,
   Motley: 345,
   "Royal Braids": 346,
+  "Painter's Cap": 347,
+  "Festival of Colors Background": 348,
 };
 
 // The reverse of above
@@ -794,6 +798,8 @@ export const BUMPKIN_ITEMS: Record<string, number> = Object.assign(
 export const BUMPKIN_ITEMS_IDS = Object.values(ITEM_IDS);
 
 export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
+  "Festival of Colors Background": "background",
+  "Painter's Cap": "hat",
   "Soybean Onesie": "onesie",
   "Beige Farmer Potion": "body",
   "Dark Brown Farmer Potion": "body",

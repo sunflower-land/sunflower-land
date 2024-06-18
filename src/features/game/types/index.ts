@@ -708,6 +708,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Devotion Flag": 2036,
   "Generosity Flag": 2037,
   "Splendor Flag": 2038,
+  "Jelly Lamp": 2039,
+  "Paint Can": 2040,
 };
 
 // The reverse of above

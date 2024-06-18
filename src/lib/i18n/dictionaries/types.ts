@@ -1311,7 +1311,9 @@ export type DecorationDescriptions =
   | "description.splendorFlag"
   | "description.benevolenceFlag"
   | "description.devotionFlag"
-  | "description.generosityFlag";
+  | "description.generosityFlag"
+  | "description.jellyLamp"
+  | "description.paintCan";
 
 export type Delivery =
   | "delivery.resource"

@@ -818,6 +818,8 @@ const eventDecoration: Record<EventDecorationName, () => boolean> = {
   "Devotion Flag": () => true,
   "Generosity Flag": () => true,
   "Splendor Flag": () => true,
+  "Jelly Lamp": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Paint Can": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
 };
 
 const lanterns: Record<LanternName, () => boolean> = {
@@ -1032,6 +1034,9 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   BumpkinItem,
   (state?: GameState) => boolean
 > = {
+  "Festival of Colors Background": () =>
+    canWithdrawTimebasedItem(new Date("2024-07-01")),
+  "Painter's Cap": () => canWithdrawTimebasedItem(new Date("2024-07-01")),
   "Gift Giver": () => false,
   "Beige Farmer Potion": () => false,
   "Dark Brown Farmer Potion": () => false,

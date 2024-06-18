@@ -7974,4 +7974,21 @@ export const OPEN_SEA_ITEMS: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2037.png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+  "Jelly Lamp": {
+    name: "Jelly Lamp",
+    description:
+      "A decorative lamp that emits a light that emits a light that emits a light.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2039.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
+  "Paint Can": {
+    name: "Paint Can",
+    description: "A can of paint found during the Festival of Colors.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2040.png",
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+  },
 };

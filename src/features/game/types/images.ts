@@ -178,6 +178,9 @@ import splendorFlag from "assets/sfts/splendor_flag.png";
 import benevolenceFlag from "assets/sfts/benevolence_flag.png";
 import devotionFlag from "assets/sfts/devotion_flag.png";
 
+import paintCan from "assets/sfts/paint_can.png";
+import jellyLamp from "assets/sfts/jelly_lamp.webp";
+
 // Resources
 import iron from "assets/resources/iron_ore.png";
 import gold from "assets/resources/gold_ore.png";
@@ -3662,5 +3665,13 @@ export const ITEM_DETAILS: Items = {
   "Splendor Flag": {
     image: splendorFlag,
     description: translate("description.splendorFlag"),
+  },
+  "Jelly Lamp": {
+    image: jellyLamp,
+    description: translate("description.jellyLamp"),
+  },
+  "Paint Can": {
+    image: paintCan,
+    description: translate("description.paintCan"),
   },
 };

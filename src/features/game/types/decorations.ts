@@ -78,6 +78,8 @@ export type SeasonalDecorationName =
   | "Silver Stallion";
 
 export type EventDecorationName =
+  | "Jelly Lamp"
+  | "Paint Can"
   | "Generosity Flag"
   | "Benevolence Flag"
   | "Devotion Flag"
@@ -120,6 +122,14 @@ export type DecorationName =
   | InteriorDecorationName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  "Jelly Lamp": {
+    width: 1,
+    height: 1,
+  },
+  "Paint Can": {
+    width: 2,
+    height: 1,
+  },
   "Benevolence Flag": {
     width: 1,
     height: 1,
