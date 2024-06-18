@@ -63,10 +63,10 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      let baseUrl = `https://${portalName}.sunflower-land.com`;
+      const baseUrl = `https://${portalName}.sunflower-land.com`;
 
       // If testing a local portal, uncomment this line
-      baseUrl = `http://localhost:3001`;
+      // baseUrl = `http://localhost:3001`;
 
       const language = localStorage.getItem("language") || "en";
 
