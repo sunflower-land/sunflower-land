@@ -7,6 +7,38 @@ import {
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 
+export function isMinigameComplete({
+  game,
+  name,
+  now = new Date(),
+}: {
+  game: GameState;
+  name: MinigameName;
+  now?: Date;
+}) {
+  const minigames = (game.minigames ?? {}) as Required<GameState>["minigames"];
+  const { games, prizes } = minigames;
+
+  const todayKey = new Date(now).toISOString().slice(0, 10);
+
+  // Get todays prize
+  const prize = prizes[name];
+
+  if (!prize) {
+    return false;
+  }
+
+  const minigame = games[name];
+  const history = minigame?.history[todayKey];
+
+  if (!history) {
+    return false;
+  }
+
+  // Has reached score
+  return history.highscore >= prize.score;
+}
+
 export type ClaimMinigamePrizeAction = {
   type: "minigame.prizeClaimed";
   id: MinigameName;

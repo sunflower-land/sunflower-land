@@ -20,6 +20,7 @@ import { isMinigameComplete } from "features/game/events/minigames/claimMinigame
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { MinigamePrizeUI } from "./ChickenRescue";
 
 interface Props {
   onClose: () => void;
@@ -29,7 +30,8 @@ export const FestivalOfColors: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const minigame = gameState.context.state.minigames.games["chicken-rescue"];
+  const minigame =
+    gameState.context.state.minigames.games["festival-of-colors"];
 
   const [showIntro, setShowIntro] = useState(!minigame?.history);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -41,7 +43,10 @@ export const FestivalOfColors: React.FC<Props> = ({ onClose }) => {
       <SpeakingText
         message={[
           {
-            text: "intro",
+            text: t("minigame.discovered.one"),
+          },
+          {
+            text: t("minigame.discovered.two"),
           },
         ]}
         onClose={() => setShowIntro(false)}
@@ -61,22 +66,33 @@ export const FestivalOfColors: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  const dateKey = new Date().toISOString().slice(0, 10);
+  const history = minigame?.history ?? {};
+
+  const dailyAttempt = history[dateKey] ?? {
+    attempts: 0,
+    highscore: 0,
+  };
+
+  const prize = gameState.context.state.minigames.prizes["festival-of-colors"];
+
   return (
     <>
       <div className="mb-1">
         <div className="p-2">
-          <div className="flex flex-wrap mb-1 ">
+          <div className="flex flex-wrap items-center mb-1 ">
             <Label type="default" className="mr-1" icon={factions}>
-              Festival of colors
+              {t("minigame.festivalOfColors")}
             </Label>
-            <Label type="info">
-              {`${secondsToString(secondsTillReset(), {
-                length: "short",
-              })} left`}
-            </Label>
+            <Label type="vibrant">{t("minigame.communityEvent")}</Label>
           </div>
-          <InlineDialogue message={t("Howdy howdy howdy")} />
+          <InlineDialogue message={t("minigame.festivalOfColors.intro")} />
         </div>
+        <MinigamePrizeUI
+          prize={prize}
+          history={dailyAttempt}
+          mission={t("minigame.festivalOfColors.mission")} //"Find the paint bombs!"
+        />
       </div>
       <Button onClick={playNow}>{t("minigame.playNow")}</Button>
     </>
