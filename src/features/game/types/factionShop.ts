@@ -32,14 +32,17 @@ export type FactionShopCollectibleName =
   | "Nightshade Right Wall Candle"
   | "Goblin Right Wall Candle"
   | "Bumpkin Right Wall Candle"
-  | "Cooking Totem"
-  | "Crop Totem"
-  | "Wood Totem"
-  | "Mineral Totem"
-  | "Fruit Totem"
-  | "Flower Totem"
-  | "Fish Totem"
-  | "Oil Totem";
+  | "Cooking Boost"
+  | "Crop Boost"
+  | "Wood Boost"
+  | "Mineral Boost"
+  | "Fruit Boost"
+  | "Flower Boost"
+  | "Fish Boost"
+  | "Sunflorian Faction Rug"
+  | "Nightshade Faction Rug"
+  | "Goblin Faction Rug"
+  | "Bumpkin Faction Rug";
 
 export type FactionShopWearableName =
   | "Goblin Armor"
@@ -562,32 +565,32 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       shortDescription: "Royal braids from the Royals.",
       type: "wearable",
     },
-    "Cooking Totem": {
-      name: "Cooking Totem",
+    "Cooking Boost": {
+      name: "Cooking Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
       shortDescription: "Reduces cooking time by 50% for 4 hours.",
       type: "collectible",
     },
-    "Crop Totem": {
-      name: "Crop Totem",
+    "Crop Boost": {
+      name: "Crop Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
       shortDescription: "Reduces crop growth time by 25% for 6 hours.",
       type: "collectible",
     },
-    "Wood Totem": {
-      name: "Wood Totem",
+    "Wood Boost": {
+      name: "Wood Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
       shortDescription: "Reduces tree growth time by 25% for 4 hours.",
       type: "collectible",
     },
-    "Mineral Totem": {
-      name: "Mineral Totem",
+    "Mineral Boost": {
+      name: "Mineral Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
@@ -595,37 +598,64 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
         "Reduces mineral replenish cooldown by 50% for 3 hours.",
       type: "collectible",
     },
-    "Fruit Totem": {
-      name: "Fruit Totem",
+    "Fruit Boost": {
+      name: "Fruit Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
       shortDescription: "Reduces fruit growth time by 25% for 6 hours.",
       type: "collectible",
     },
-    "Fish Totem": {
-      name: "Fish Totem",
+    "Fish Boost": {
+      name: "Fish Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
       shortDescription: "Gives a 50% chance of +1 fish for 4 hours.",
       type: "collectible",
     },
-    "Flower Totem": {
-      name: "Flower Totem",
+    "Flower Boost": {
+      name: "Flower Boost",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
       shortDescription: "Increases flower growth time by 25% for 4 hours.",
       type: "collectible",
     },
-    "Oil Totem": {
-      name: "Oil Totem",
+    "Sunflorian Faction Rug": {
+      name: "Sunflorian Faction Rug",
       price: new Decimal(100),
       limit: null,
       currency: "Mark",
-      shortDescription:
-        "Reduces reserve replenish cooldown by 50% for 3 hours.",
+      shortDescription: "A rug from the Sunflorian faction.",
       type: "collectible",
+      faction: "sunflorians",
+    },
+    "Nightshade Faction Rug": {
+      name: "Nightshade Faction Rug",
+      price: new Decimal(100),
+      limit: null,
+      currency: "Mark",
+      shortDescription: "A rug from the Nightshade faction.",
+      type: "collectible",
+      faction: "nightshades",
+    },
+    "Goblin Faction Rug": {
+      name: "Goblin Faction Rug",
+      price: new Decimal(100),
+      limit: null,
+      currency: "Mark",
+      shortDescription: "A rug from the Goblin faction.",
+      type: "collectible",
+      faction: "goblins",
+    },
+    "Bumpkin Faction Rug": {
+      name: "Bumpkin Faction Rug",
+      price: new Decimal(100),
+      limit: null,
+      currency: "Mark",
+      shortDescription: "A rug from the Bumpkin faction.",
+      type: "collectible",
+      faction: "bumpkins",
     },
   };
