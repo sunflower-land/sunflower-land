@@ -65,7 +65,20 @@ const ListTrade: React.FC<{
 
   const maxSFL = sfl > MAX_SFL;
 
+  const unitPrice = sfl / quantity;
   const tooLittle = !!quantity && quantity < (TRADE_MINIMUMS[emblem] ?? 0);
+
+  const isTooHigh =
+    !!sfl &&
+    !!quantity &&
+    !!floorPrices[emblem] &&
+    new Decimal(floorPrices[emblem] ?? 0).mul(1.2).lt(unitPrice);
+
+  const isTooLow =
+    !!sfl &&
+    !!quantity &&
+    !!floorPrices[emblem] &&
+    new Decimal(floorPrices[emblem] ?? 0).mul(0.8).gt(unitPrice);
 
   const cantSellAll = inventory[emblem]?.sub(quantity).lt(1);
   return (
@@ -109,6 +122,24 @@ const ListTrade: React.FC<{
               : "?",
           })}
         </Label>
+        {isTooLow && (
+          <Label type="danger" className="my-1 ml-2 mr-1">
+            {t("bumpkinTrade.minimumFloor", {
+              min: setPrecision(new Decimal(floorPrices[emblem] ?? 0))
+                .mul(0.8)
+                .toNumber(),
+            })}
+          </Label>
+        )}
+        {isTooHigh && (
+          <Label type="danger" className="my-1 ml-2 mr-1">
+            {t("bumpkinTrade.maximumFloor", {
+              max: setPrecision(new Decimal(floorPrices[emblem] ?? 0))
+                .mul(1.2)
+                .toNumber(),
+            })}
+          </Label>
+        )}
       </div>
 
       <div className="flex">
@@ -217,7 +248,7 @@ const ListTrade: React.FC<{
             className={classNames(
               "mb-2 text-shadow  rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10 placeholder-error",
               {
-                "text-error": maxSFL || sfl === 0,
+                "text-error": maxSFL || sfl === 0 || isTooHigh || isTooLow,
               }
             )}
           />
@@ -282,6 +313,8 @@ const ListTrade: React.FC<{
         <Button
           disabled={
             tooLittle ||
+            isTooHigh ||
+            isTooLow ||
             maxSFL ||
             (inventory[emblem]?.lt(quantity) ?? false) ||
             inventory[emblem]?.sub(quantity).lt(1) || // Disable when trying to sell all
