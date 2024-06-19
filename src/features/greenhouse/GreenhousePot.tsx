@@ -89,18 +89,20 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const pot = pots[id];
 
-  const plant = async () => {
+  const plant = async (
+    seed: GreenHouseCropSeedName = selectedItem as GreenHouseCropSeedName
+  ) => {
     if (
-      !selectedItem ||
-      !SEED_TO_PLANT[selectedItem as GreenHouseCropSeedName] ||
-      !inventory[selectedItem]?.gte(1)
+      !seed ||
+      !SEED_TO_PLANT[seed as GreenHouseCropSeedName] ||
+      !inventory[seed]?.gte(1)
     ) {
       setShowQuickSelect(true);
       return;
     }
 
     if (
-      OIL_USAGE[selectedItem as GreenHouseCropSeedName] >
+      OIL_USAGE[seed as GreenHouseCropSeedName] >
       gameService.state.context.state.greenhouse.oil
     ) {
       setShowOilWarning(true);
@@ -111,7 +113,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
     gameService.send("greenhouse.planted", {
       id,
-      seed: selectedItem,
+      seed,
     });
   };
 
@@ -151,13 +153,13 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         <Transition
           appear={true}
           show={showQuickSelect}
-          enter="transition-opacity transition-transform duration-200"
+          enter="transition-opacity  duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"
-          leave="transition-opacity duration-100"
+          leave="transition-opacity duration-300"
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
-          className="flex top-[-200%] absolute z-40 shadow-md"
+          className="flex top-[-200%] left-[50%] absolute z-40 shadow-md"
         >
           <QuickSelect
             icon={SUNNYSIDE.icons.seeds}
@@ -167,7 +169,10 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
               { name: "Olive Seed", icon: "Olive" },
             ]}
             onClose={() => setShowQuickSelect(false)}
-            onSelected={() => setPulsating(true)}
+            onSelected={(seed) => {
+              plant(seed as GreenHouseCropSeedName);
+              setShowQuickSelect(false);
+            }}
             type={t("quickSelect.greenhouseSeeds")}
           />
         </Transition>
@@ -199,7 +204,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           style={{
             width: `${PIXEL_SCALE * 28}px`,
           }}
-          onClick={plant}
+          onClick={() => plant()}
         />
       </div>
     );

@@ -25,15 +25,6 @@ export const INITIAL_RESOURCES: Pick<
   crops: {
     1: {
       createdAt: Date.now(),
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-        amount: 1,
-        reward: {
-          coins: 100,
-          // items: {},
-        },
-      },
       x: -2,
       y: 0,
       height: 1,
@@ -382,6 +373,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Manor: new Decimal(1),
     House: new Decimal(1),
     "Sunflower Seed": new Decimal(100),
+    "Pumpkin Seed": new Decimal(100),
+    "Potato Seed": new Decimal(100),
+    "Kale Seed": new Decimal(100),
+    "Parsnip Seed": new Decimal(100),
+    "Radish Seed": new Decimal(100),
+    "Soybean Seed": new Decimal(100),
+    "Wheat Seed": new Decimal(100),
+    "Corn Seed": new Decimal(100),
     "Rice Seed": new Decimal(10),
     "Grape Seed": new Decimal(10),
     "Olive Seed": new Decimal(10),
