@@ -1,3 +1,4 @@
+import PubSub from "pubsub-js";
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
@@ -56,7 +57,8 @@ export const QuickSelect: React.FC<Props> = ({
   };
 
   const onOpenBasket = () => {
-    // console.log("TODO");
+    PubSub.publish("OPEN_INVENTORY");
+    onClose();
   };
 
   const available = options.filter((option) => inventory[option.name]?.gte(1));

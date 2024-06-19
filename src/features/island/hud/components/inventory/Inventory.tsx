@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import PubSub from "pubsub-js";
+import React, { useEffect, useState } from "react";
 import { Box } from "components/ui/Box";
 import { InventoryItemsModal } from "./InventoryItemsModal";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -40,6 +41,16 @@ export const Inventory: React.FC<Props> = ({
   const { pathname } = useLocation();
 
   const inventory = useSound("inventory");
+
+  useEffect(() => {
+    const eventSubscription = PubSub.subscribe("OPEN_INVENTORY", () => {
+      setIsOpen(true);
+    });
+
+    return () => {
+      PubSub.unsubscribe(eventSubscription);
+    };
+  }, []);
 
   // The actions included in this more buttons should not be shown if the player is in goblin retreat or visiting another farm
   const limitedInventory =
