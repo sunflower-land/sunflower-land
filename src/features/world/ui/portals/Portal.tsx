@@ -167,7 +167,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
           items: prize?.items ?? {},
           wearables: prize?.wearables ?? {},
           sfl: 0,
-          coins: prize.coins,
+          coins: prize?.coins ?? 0,
         }}
       />
     );
