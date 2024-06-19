@@ -685,6 +685,50 @@ import nightshadeFactionBanner from "assets/decorations/banners/factions/nightsh
 import bumpkinFactionBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
 import goblinFactionBanner from "assets/decorations/banners/factions/goblins_banner.webp";
 
+// Faction Shop
+
+import sunflorianThrone from "assets/factions/sunflorian_throne.png";
+import nightshadeThrone from "assets/factions/nightshade_throne.webp";
+import goblinThrone from "assets/factions/goblin_throne.webp";
+import bumpkinThrone from "assets/factions/bumpkin_throne.webp";
+import goldenSunflorianEgg from "assets/factions/golden_sunflorian_egg.webp";
+import goblinMischiefEgg from "assets/factions/goblin_mischief_egg.webp";
+import bumpkinCharmEgg from "assets/factions/bumpkin_charm_egg.webp";
+import nightshadeVeilEgg from "assets/factions/nightshade_veil_egg.webp";
+import emeraldGoblinGoblet from "assets/factions/emerald_goblin_goblet.webp";
+import opalSunflorianGoblet from "assets/factions/opal_sunflorian_goblet.webp";
+import sapphireBumpkinGoblet from "assets/factions/sapphire_bumpkin_goblet.webp";
+import amethystNightshadeGoblet from "assets/factions/amethyst_nightshade_goblet.webp";
+import goldenFactionGoblet from "assets/factions/golden_faction_goblet.webp";
+import rubyFactionGoblet from "assets/factions/ruby_faction_goblet.webp";
+import sunflorianVictoryBunting from "assets/factions/sunflorian_victory_bunting.webp";
+import nightshadeVictoryBunting from "assets/factions/nightshade_victory_bunting.webp";
+import goblinVictoryBunting from "assets/factions/goblin_victory_bunting.webp";
+import bumpkinVictoryBunting from "assets/factions/bumpkin_victory_bunting.webp";
+import sunflorianCandles from "assets/factions/sunflorian_candles.webp";
+import nightshadeCandles from "assets/factions/nightshade_candles.webp";
+import goblinCandles from "assets/factions/goblin_candles.webp";
+import bumpkinCandles from "assets/factions/bumpkin_candles.webp";
+import sunflorianLeftWall from "assets/factions/sunflorian_left_wall_candle.webp";
+import nightshadeLeftWall from "assets/factions/nightshade_left_wall_candle.webp";
+import goblinLeftWall from "assets/factions/goblin_left_wall_candle.webp";
+import bumpkinLeftWall from "assets/factions/bumpkin_left_wall_candle.webp";
+import sunflorianRightWall from "assets/factions/sunflorian_right_wall_candle.webp";
+import nightshadeRightWall from "assets/factions/sunflorian_right_wall_candle.webp";
+import goblinRightWall from "assets/factions/goblin_right_wall_candle.webp";
+import bumpkinRightWall from "assets/factions/bumpkin_right_wall_candle.webp";
+import cookingBoost from "assets/factions/boosts/cooking_boost_full.webp";
+import cropBoost from "assets/factions/boosts/crop_boost_full.webp";
+import woodBoost from "assets/factions/boosts/wood_boost_full.webp";
+import mineralBoost from "assets/factions/boosts/mineral_boost_full.webp";
+import fruitBoost from "assets/factions/boosts/fruit_boost_full.webp";
+import flowerBoost from "assets/factions/boosts/flower_boost_full.webp";
+import fishBoost from "assets/factions/boosts/fish_boost_full.webp";
+import sunflorianFactionRug from "assets/factions/sunflorian_faction_rug.webp";
+import nightshadeFactionRug from "assets/factions/nightshade_faction_rug.webp";
+import goblinFactionRug from "assets/factions/goblin_faction_rug.webp";
+import bumpkinFactionRug from "assets/factions/bumpkin_faction_rug.webp";
+
 import { COUPONS, FERTILISERS, InventoryItemName } from "./game";
 import {
   FOODS,
@@ -3673,5 +3717,170 @@ export const ITEM_DETAILS: Items = {
   "Paint Can": {
     image: paintCan,
     description: translate("description.paintCan"),
+  },
+  // Faction Shop
+  "Sunflorian Throne": {
+    image: sunflorianThrone,
+    description: translate("description.factionShop.sunflorianThrone"),
+  },
+  "Nightshade Throne": {
+    image: nightshadeThrone,
+    description: translate("description.factionShop.nightshadeThrone"),
+  },
+  "Goblin Throne": {
+    image: goblinThrone,
+    description: translate("description.factionShop.goblinThrone"),
+  },
+  "Bumpkin Throne": {
+    image: bumpkinThrone,
+    description: translate("description.factionShop.bumpkinThrone"),
+  },
+  "Golden Sunflorian Egg": {
+    image: goldenSunflorianEgg,
+    description: translate("description.factionShop.goldenSunflorianEgg"),
+  },
+  "Goblin Mischief Egg": {
+    image: goblinMischiefEgg,
+    description: translate("description.factionShop.goblinMischiefEgg"),
+  },
+  "Bumpkin Charm Egg": {
+    image: bumpkinCharmEgg,
+    description: translate("description.factionShop.bumpkinCharmEgg"),
+  },
+  "Nightshade Veil Egg": {
+    image: nightshadeVeilEgg,
+    description: translate("description.factionShop.nightshadeVeilEgg"),
+  },
+  "Emerald Goblin Goblet": {
+    image: emeraldGoblinGoblet,
+    description: translate("description.factionShop.emeraldGoblinGoblet"),
+  },
+  "Opal Sunflorian Goblet": {
+    image: opalSunflorianGoblet,
+    description: translate("description.factionShop.opalSunflorianGoblet"),
+  },
+  "Sapphire Bumpkin Goblet": {
+    image: sapphireBumpkinGoblet,
+    description: translate("description.factionShop.sapphireBumpkinGoblet"),
+  },
+  "Amethyst Nightshade Goblet": {
+    image: amethystNightshadeGoblet,
+    description: translate("description.factionShop.amethystNightshadeGoblet"),
+  },
+  "Golden Faction Goblet": {
+    image: goldenFactionGoblet,
+    description: translate("description.factionShop.goldenFactionGoblet"),
+  },
+  "Ruby Faction Goblet": {
+    image: rubyFactionGoblet,
+    description: translate("description.factionShop.rubyFactionGoblet"),
+  },
+  "Sunflorian Victory Bunting": {
+    image: sunflorianVictoryBunting,
+    description: translate("description.factionShop.sunflorianVictoryBunting"),
+  },
+  "Nightshade Victory Bunting": {
+    image: nightshadeVictoryBunting,
+    description: translate("description.factionShop.nightshadeVictoryBunting"),
+  },
+  "Goblin Victory Bunting": {
+    image: goblinVictoryBunting,
+    description: translate("description.factionShop.goblinVictoryBunting"),
+  },
+  "Bumpkin Victory Bunting": {
+    image: bumpkinVictoryBunting,
+    description: translate("description.factionShop.bumpkinVictoryBunting"),
+  },
+  "Sunflorian Candles": {
+    image: sunflorianCandles,
+    description: translate("description.factionShop.sunflorianCandles"),
+  },
+  "Nightshade Candles": {
+    image: nightshadeCandles,
+    description: translate("description.factionShop.nightshadeCandles"),
+  },
+  "Goblin Candles": {
+    image: goblinCandles,
+    description: translate("description.factionShop.goblinCandles"),
+  },
+  "Bumpkin Candles": {
+    image: bumpkinCandles,
+    description: translate("description.factionShop.bumpkinCandles"),
+  },
+  "Sunflorian Left Wall Candle": {
+    image: sunflorianLeftWall,
+    description: translate("description.factionShop.sunflorianLeftWall"),
+  },
+  "Nightshade Left Wall Candle": {
+    image: nightshadeLeftWall,
+    description: translate("description.factionShop.nightshadeLeftWall"),
+  },
+  "Goblin Left Wall Candle": {
+    image: goblinLeftWall,
+    description: translate("description.factionShop.goblinLeftWall"),
+  },
+  "Bumpkin Left Wall Candle": {
+    image: bumpkinLeftWall,
+    description: translate("description.factionShop.bumpkinLeftWall"),
+  },
+  "Sunflorian Right Wall Candle": {
+    image: sunflorianRightWall,
+    description: translate("description.factionShop.sunflorianRightWall"),
+  },
+  "Nightshade Right Wall Candle": {
+    image: nightshadeRightWall,
+    description: translate("description.factionShop.nightshadeRightWall"),
+  },
+  "Goblin Right Wall Candle": {
+    image: goblinRightWall,
+    description: translate("description.factionShop.goblinRightWall"),
+  },
+  "Bumpkin Right Wall Candle": {
+    image: bumpkinRightWall,
+    description: translate("description.factionShop.bumpkinRightWall"),
+  },
+  "Cooking Boost": {
+    image: cookingBoost,
+    description: translate("description.factionShop.cookingBoost"),
+  },
+  "Crop Boost": {
+    image: cropBoost,
+    description: translate("description.factionShop.cropBoost"),
+  },
+  "Wood Boost": {
+    image: woodBoost,
+    description: translate("description.factionShop.woodBoost"),
+  },
+  "Mineral Boost": {
+    image: mineralBoost,
+    description: translate("description.factionShop.mineralBoost"),
+  },
+  "Fruit Boost": {
+    image: fruitBoost,
+    description: translate("description.factionShop.fruitBoost"),
+  },
+  "Flower Boost": {
+    image: flowerBoost,
+    description: translate("description.factionShop.flowerBoost"),
+  },
+  "Fish Boost": {
+    image: fishBoost,
+    description: translate("description.factionShop.fishBoost"),
+  },
+  "Sunflorian Faction Rug": {
+    image: sunflorianFactionRug,
+    description: translate("description.factionShop.sunflorianFactionRug"),
+  },
+  "Nightshade Faction Rug": {
+    image: nightshadeFactionRug,
+    description: translate("description.factionShop.nightshadeFactionRug"),
+  },
+  "Goblin Faction Rug": {
+    image: goblinFactionRug,
+    description: translate("description.factionShop.goblinFactionRug"),
+  },
+  "Bumpkin Faction Rug": {
+    image: bumpkinFactionRug,
+    description: translate("description.factionShop.bumpkinFactionRug"),
   },
 };

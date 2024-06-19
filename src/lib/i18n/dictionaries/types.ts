@@ -1518,6 +1518,49 @@ export type Factions =
   | "faction.marksBoost"
   | "faction.shop.onlyFor";
 
+export type FactionShopDescription =
+  | "description.factionShop.sunflorianThrone"
+  | "description.factionShop.nightshadeThrone"
+  | "description.factionShop.goblinThrone"
+  | "description.factionShop.bumpkinThrone"
+  | "description.factionShop.goldenSunflorianEgg"
+  | "description.factionShop.goblinMischiefEgg"
+  | "description.factionShop.bumpkinCharmEgg"
+  | "description.factionShop.nightshadeVeilEgg"
+  | "description.factionShop.emeraldGoblinGoblet"
+  | "description.factionShop.opalSunflorianGoblet"
+  | "description.factionShop.sapphireBumpkinGoblet"
+  | "description.factionShop.amethystNightshadeGoblet"
+  | "description.factionShop.goldenFactionGoblet"
+  | "description.factionShop.rubyFactionGoblet"
+  | "description.factionShop.sunflorianVictoryBunting"
+  | "description.factionShop.nightshadeVictoryBunting"
+  | "description.factionShop.goblinVictoryBunting"
+  | "description.factionShop.bumpkinVictoryBunting"
+  | "description.factionShop.sunflorianCandles"
+  | "description.factionShop.nightshadeCandles"
+  | "description.factionShop.goblinCandles"
+  | "description.factionShop.bumpkinCandles"
+  | "description.factionShop.sunflorianLeftWall"
+  | "description.factionShop.nightshadeLeftWall"
+  | "description.factionShop.goblinLeftWall"
+  | "description.factionShop.bumpkinLeftWall"
+  | "description.factionShop.sunflorianRightWall"
+  | "description.factionShop.nightshadeRightWall"
+  | "description.factionShop.goblinRightWall"
+  | "description.factionShop.bumpkinRightWall"
+  | "description.factionShop.cookingBoost"
+  | "description.factionShop.cropBoost"
+  | "description.factionShop.woodBoost"
+  | "description.factionShop.mineralBoost"
+  | "description.factionShop.fruitBoost"
+  | "description.factionShop.flowerBoost"
+  | "description.factionShop.fishBoost"
+  | "description.factionShop.sunflorianFactionRug"
+  | "description.factionShop.nightshadeFactionRug"
+  | "description.factionShop.goblinFactionRug"
+  | "description.factionShop.bumpkinFactionRug";
+
 export type FestiveTree =
   | "festivetree.greedyBumpkin"
   | "festivetree.alreadyGifted"
@@ -3610,6 +3653,7 @@ export type TranslationKeys =
   | ErrorAndAccess
   | ErrorTerms
   | ExoticShopItems
+  | FactionShopDescription
   | FestiveTree
   | FishDescriptions
   | FishermanModal

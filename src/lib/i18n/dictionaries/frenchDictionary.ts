@@ -178,6 +178,7 @@ import {
   Username,
   EasterEggKeys,
   ChangeLanguage,
+  FactionShopDescription,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -2186,6 +2187,91 @@ const factions: Record<Factions, string> = {
   "faction.kitchen.newRequests": ENGLISH_TERMS["faction.kitchen.newRequests"],
 
   "faction.shop.onlyFor": ENGLISH_TERMS["faction.shop.onlyFor"],
+};
+
+const factionShopDescription: Record<FactionShopDescription, string> = {
+  "description.factionShop.sunflorianThrone":
+    ENGLISH_TERMS["description.factionShop.sunflorianThrone"],
+  "description.factionShop.nightshadeThrone":
+    ENGLISH_TERMS["description.factionShop.nightshadeThrone"],
+  "description.factionShop.goblinThrone":
+    ENGLISH_TERMS["description.factionShop.goblinThrone"],
+  "description.factionShop.bumpkinThrone":
+    ENGLISH_TERMS["description.factionShop.bumpkinThrone"],
+  "description.factionShop.goldenSunflorianEgg":
+    ENGLISH_TERMS["description.factionShop.goldenSunflorianEgg"],
+  "description.factionShop.goblinMischiefEgg":
+    ENGLISH_TERMS["description.factionShop.goblinMischiefEgg"],
+  "description.factionShop.bumpkinCharmEgg":
+    ENGLISH_TERMS["description.factionShop.bumpkinCharmEgg"],
+  "description.factionShop.nightshadeVeilEgg":
+    ENGLISH_TERMS["description.factionShop.nightshadeVeilEgg"],
+  "description.factionShop.emeraldGoblinGoblet":
+    ENGLISH_TERMS["description.factionShop.emeraldGoblinGoblet"],
+  "description.factionShop.opalSunflorianGoblet":
+    ENGLISH_TERMS["description.factionShop.opalSunflorianGoblet"],
+  "description.factionShop.sapphireBumpkinGoblet":
+    ENGLISH_TERMS["description.factionShop.sapphireBumpkinGoblet"],
+  "description.factionShop.amethystNightshadeGoblet":
+    ENGLISH_TERMS["description.factionShop.amethystNightshadeGoblet"],
+  "description.factionShop.goldenFactionGoblet":
+    ENGLISH_TERMS["description.factionShop.goldenFactionGoblet"],
+  "description.factionShop.rubyFactionGoblet":
+    ENGLISH_TERMS["description.factionShop.rubyFactionGoblet"],
+  "description.factionShop.sunflorianVictoryBunting":
+    ENGLISH_TERMS["description.factionShop.sunflorianVictoryBunting"],
+  "description.factionShop.nightshadeVictoryBunting":
+    ENGLISH_TERMS["description.factionShop.nightshadeVictoryBunting"],
+  "description.factionShop.goblinVictoryBunting":
+    ENGLISH_TERMS["description.factionShop.goblinVictoryBunting"],
+  "description.factionShop.bumpkinVictoryBunting":
+    ENGLISH_TERMS["description.factionShop.bumpkinVictoryBunting"],
+  "description.factionShop.sunflorianCandles":
+    ENGLISH_TERMS["description.factionShop.sunflorianCandles"],
+  "description.factionShop.nightshadeCandles":
+    ENGLISH_TERMS["description.factionShop.nightshadeCandles"],
+  "description.factionShop.goblinCandles":
+    ENGLISH_TERMS["description.factionShop.goblinCandles"],
+  "description.factionShop.bumpkinCandles":
+    ENGLISH_TERMS["description.factionShop.bumpkinCandles"],
+  "description.factionShop.sunflorianLeftWall":
+    ENGLISH_TERMS["description.factionShop.sunflorianLeftWall"],
+  "description.factionShop.nightshadeLeftWall":
+    ENGLISH_TERMS["description.factionShop.nightshadeLeftWall"],
+  "description.factionShop.goblinLeftWall":
+    ENGLISH_TERMS["description.factionShop.goblinLeftWall"],
+  "description.factionShop.bumpkinLeftWall":
+    ENGLISH_TERMS["description.factionShop.bumpkinLeftWall"],
+  "description.factionShop.sunflorianRightWall":
+    ENGLISH_TERMS["description.factionShop.sunflorianRightWall"],
+  "description.factionShop.nightshadeRightWall":
+    ENGLISH_TERMS["description.factionShop.nightshadeRightWall"],
+  "description.factionShop.goblinRightWall":
+    ENGLISH_TERMS["description.factionShop.goblinRightWall"],
+  "description.factionShop.bumpkinRightWall":
+    ENGLISH_TERMS["description.factionShop.bumpkinRightWall"],
+  "description.factionShop.cookingBoost":
+    ENGLISH_TERMS["description.factionShop.cookingBoost"],
+  "description.factionShop.cropBoost":
+    ENGLISH_TERMS["description.factionShop.cropBoost"],
+  "description.factionShop.woodBoost":
+    ENGLISH_TERMS["description.factionShop.woodBoost"],
+  "description.factionShop.mineralBoost":
+    ENGLISH_TERMS["description.factionShop.mineralBoost"],
+  "description.factionShop.fruitBoost":
+    ENGLISH_TERMS["description.factionShop.fruitBoost"],
+  "description.factionShop.flowerBoost":
+    ENGLISH_TERMS["description.factionShop.flowerBoost"],
+  "description.factionShop.fishBoost":
+    ENGLISH_TERMS["description.factionShop.fishBoost"],
+  "description.factionShop.sunflorianFactionRug":
+    ENGLISH_TERMS["description.factionShop.sunflorianFactionRug"],
+  "description.factionShop.nightshadeFactionRug":
+    ENGLISH_TERMS["description.factionShop.nightshadeFactionRug"],
+  "description.factionShop.goblinFactionRug":
+    ENGLISH_TERMS["description.factionShop.goblinFactionRug"],
+  "description.factionShop.bumpkinFactionRug":
+    ENGLISH_TERMS["description.factionShop.bumpkinFactionRug"],
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -5411,6 +5497,7 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...event,
   ...exoticShopItems,
   ...factions,
+  ...factionShopDescription,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,

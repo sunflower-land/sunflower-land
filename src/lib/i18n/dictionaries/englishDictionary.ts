@@ -177,6 +177,7 @@ import {
   Username,
   EasterEggKeys,
   ChangeLanguage,
+  FactionShopDescription,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -2126,6 +2127,72 @@ const factions: Record<Factions, string> = {
 =======
   "faction.shop.onlyFor": "{{faction}} only",
 >>>>>>> d27dbe71f ([FEAT] Initial shop setup)
+};
+
+const factionShopDescription: Record<FactionShopDescription, string> = {
+  "description.factionShop.sunflorianThrone": "A throne fit for a Sunflorian.",
+  "description.factionShop.nightshadeThrone": "A throne fit for a Nightshade.",
+  "description.factionShop.goblinThrone": "A throne fit for a Goblin.",
+  "description.factionShop.bumpkinThrone": "A throne fit for a Bumpkin.",
+  "description.factionShop.goldenSunflorianEgg":
+    "A jewelled egg created by the House of Sunflorian.",
+  "description.factionShop.goblinMischiefEgg":
+    "A jewelled egg created by the House of Goblin.",
+  "description.factionShop.bumpkinCharmEgg":
+    "A jewelled egg created by the House of Bumpkin.",
+  "description.factionShop.nightshadeVeilEgg":
+    "A jewelled egg created by the House of Nightshade.",
+  "description.factionShop.emeraldGoblinGoblet": "An emerald goblet.",
+  "description.factionShop.opalSunflorianGoblet": "An opal goblet",
+  "description.factionShop.sapphireBumpkinGoblet": "A sapphire goblet",
+  "description.factionShop.amethystNightshadeGoblet": "An amethyst goblet",
+  "description.factionShop.goldenFactionGoblet": "A golden goblet",
+  "description.factionShop.rubyFactionGoblet": "A ruby goblet",
+  "description.factionShop.sunflorianVictoryBunting":
+    "Celebratory bunting for the Sunflorian faction.",
+  "description.factionShop.nightshadeVictoryBunting":
+    "Celebratory bunting for the Nightshade faction.",
+  "description.factionShop.goblinVictoryBunting":
+    "Celebratory bunting for the Goblin faction.",
+  "description.factionShop.bumpkinVictoryBunting":
+    "Celebratory bunting for the Bumpkin faction.",
+  "description.factionShop.sunflorianCandles": "Sunflorian faction candles.",
+  "description.factionShop.nightshadeCandles": "Nightshade faction candles.",
+  "description.factionShop.goblinCandles": "Goblin faction candles.",
+  "description.factionShop.bumpkinCandles": "Bumpkin faction candles.",
+  "description.factionShop.sunflorianLeftWall":
+    "Sunflorian faction wall candle.",
+  "description.factionShop.nightshadeLeftWall":
+    "Nightshade faction wall candle.",
+  "description.factionShop.goblinLeftWall": "Goblin faction wall candle.",
+  "description.factionShop.bumpkinLeftWall": "Bumpkin faction wall candle.",
+  "description.factionShop.sunflorianRightWall":
+    "Sunflorian faction wall candle.",
+  "description.factionShop.nightshadeRightWall":
+    "Nightshade faction wall candle.",
+  "description.factionShop.goblinRightWall": "Goblin faction wall candle.",
+  "description.factionShop.bumpkinRightWall": "Bumpkin faction wall candle.",
+  "description.factionShop.cookingBoost":
+    "Reduces cooking time by 50% for 4 hours.",
+  "description.factionShop.cropBoost":
+    "Reduces crop growth time by 25% for 6 hours.",
+  "description.factionShop.woodBoost":
+    "Reduces tree growth time by 25% for 4 hours.",
+  "description.factionShop.mineralBoost":
+    "Reduces mineral replenish cooldown by 50% for 3 hours.",
+  "description.factionShop.fruitBoost":
+    "Reduces fruit growth time by 25% for 6 hours.",
+  "description.factionShop.flowerBoost":
+    "Increases flower growth time by 25% for 4 hours.",
+  "description.factionShop.fishBoost":
+    "Gives a 50% chance of +1 fish for 4 hours.",
+  "description.factionShop.sunflorianFactionRug":
+    "A rug from the Sunflorian faction.",
+  "description.factionShop.nightshadeFactionRug":
+    "A rug from the Nightshade faction.",
+  "description.factionShop.goblinFactionRug": "A rug from the Goblin faction.",
+  "description.factionShop.bumpkinFactionRug":
+    "A rug from the Bumpkin faction.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -5294,6 +5361,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...event,
   ...exoticShopItems,
   ...factions,
+  ...factionShopDescription,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,
