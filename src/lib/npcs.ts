@@ -95,7 +95,7 @@ export type NPCName =
   | "buttercup"
   | "shadow"
   | "flora"
-  | "old mate";
+  | "eldric";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "chef tuck": {
@@ -1034,16 +1034,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Farm Background",
     shoes: "Sunflorian Sabaton",
   },
-  "old mate": {
+  eldric: {
     background: "Farm Background",
-    body: "Pirate Potion",
+    body: "Dark Brown Farmer Potion",
+    beard: "Wise Beard",
     hair: "Buzz Cut",
     shirt: "Nightshade Armor",
     hat: "Knight Gambit",
     pants: "Bumpkin Pants",
     shoes: "Sunflorian Sabaton",
     tool: "Goblin Axe",
-    coat: "Pirate General Coat",
+    coat: "Royal Robe",
   },
 };
 

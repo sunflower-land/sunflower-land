@@ -690,7 +690,7 @@ import goblinFactionBanner from "assets/decorations/banners/factions/goblins_ban
 import sunflorianThrone from "assets/factions/sunflorian_throne.png";
 import nightshadeThrone from "assets/factions/nightshade_throne.webp";
 import goblinThrone from "assets/factions/goblin_throne.webp";
-import bumpkinThrone from "assets/factions/bumpkin_throne.webp";
+import bumpkinThrone from "assets/factions/bumpkins_throne.webp";
 import goldenSunflorianEgg from "assets/factions/golden_sunflorian_egg.webp";
 import goblinMischiefEgg from "assets/factions/goblin_mischief_egg.webp";
 import bumpkinCharmEgg from "assets/factions/bumpkin_charm_egg.webp";

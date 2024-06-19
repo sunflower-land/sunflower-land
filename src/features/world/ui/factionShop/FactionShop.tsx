@@ -89,7 +89,7 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES["old mate"]}
+      bumpkinParts={NPC_WEARABLES["eldric"]}
       tabs={[{ icon: shopIcon, name: "Faction Shop" }]}
       onClose={onClose}
     >

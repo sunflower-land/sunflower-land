@@ -4,13 +4,11 @@ import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
-import { getSeasonalTicket } from "features/game/types/seasons";
 
-import token from "assets/icons/sfl.webp";
 import lightning from "assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Currency, InventoryItemName } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -56,15 +54,6 @@ export const ItemsList: React.FC<Props> = ({
     ).toNumber();
   };
 
-  const getCurrencyIcon = (currency: Currency) => {
-    if (currency === "SFL") return token;
-
-    const currencyItem =
-      currency === "Seasonal Ticket" ? getSeasonalTicket() : currency;
-
-    return ITEM_DETAILS[currencyItem as InventoryItemName].image;
-  };
-
   const sortedItems = items.sort((a, b) => Number(a.price.sub(b.price)));
   const { t } = useAppTranslation();
 
@@ -85,7 +74,7 @@ export const ItemsList: React.FC<Props> = ({
 
             return (
               <div
-                id={`mega-store-item-${item.name}`}
+                id={`faction-shop-item-${item.name}`}
                 key={item.name}
                 className="flex flex-col space-y-1"
               >
@@ -108,6 +97,16 @@ export const ItemsList: React.FC<Props> = ({
                         alt="crop"
                       />
                     )}
+                    {item.faction && (
+                      <img
+                        src={lightning}
+                        className="absolute -left-2 -top-2 object-contain"
+                        style={{
+                          width: `${PIXEL_SCALE * 7}px`,
+                        }}
+                        alt="crop"
+                      />
+                    )}
                     {balanceOfItem > 0 && (
                       <Label
                         type="default"
@@ -120,7 +119,12 @@ export const ItemsList: React.FC<Props> = ({
                 </div>
                 {/* Price */}
                 <div className="flex items-center space-x-1">
-                  <SquareIcon icon={getCurrencyIcon(item.currency)} width={7} />
+                  <SquareIcon
+                    icon={
+                      ITEM_DETAILS[item.currency as InventoryItemName].image
+                    }
+                    width={7}
+                  />
                   <span className="text-xxs">
                     {formatNumber(item.price.toNumber())}
                   </span>

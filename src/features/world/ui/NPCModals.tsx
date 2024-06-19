@@ -253,7 +253,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "chef lumen" && (
           <FactionKitchenPanel bumpkinParts={NPC_WEARABLES["chef lumen"]} />
         )}
-        {npc === "old mate" && <FactionShop onClose={closeModal} />}
+        {npc === "eldric" && <FactionShop onClose={closeModal} />}
       </Modal>
 
       {npc === "hammerin harry" && (
