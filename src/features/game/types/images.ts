@@ -3863,7 +3863,7 @@ export const ITEM_DETAILS: Items = {
     image: blossomHourglass,
     description: translate("description.factionShop.flowerBoost"),
   },
-  "Fisher’s Hourglass": {
+  "Fisher's Hourglass": {
     image: fishersHourglass,
     description: translate("description.factionShop.fishBoost"),
   },
