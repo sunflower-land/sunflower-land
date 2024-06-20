@@ -24,7 +24,10 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const [showTooltip, setShowTooltip] = useState(false);
-  const manekiNekos = gameState.context.state.collectibles["Maneki Neko"] ?? [];
+  const manekiNekos =
+    gameState.context.state.collectibles["Maneki Neko"] ??
+    gameState.context.state.home.collectibles["Maneki Neko"] ??
+    [];
 
   useUiRefresher();
 
