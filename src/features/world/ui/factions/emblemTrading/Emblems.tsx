@@ -40,6 +40,9 @@ import goblins_chevron_five from "assets/icons/factions/goblins/chevron_five.web
 import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp";
 import Decimal from "decimal.js-light";
 
+import mark from "assets/icons/faction_mark.webp";
+import lightning from "assets/icons/lightning.png";
+
 type Rank = {
   name: string;
   emblemsRequired: number;
@@ -253,7 +256,20 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
       </Label>
       <p className="mb-2">{t("faction.tradeEmblems")}</p>
 
-      <table className="w-full text-xs table-fixed border-collapse">
+      <table className="w-full text-xxs sm:text-xs table-fixed border-collapse">
+        <thead>
+          <tr>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/3">
+              <p>{t("rank")}</p>
+            </th>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/4">
+              <p>{t("faction.emblems")}</p>
+            </th>
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
+              <p>{t("buff")}</p>
+            </th>
+          </tr>
+        </thead>
         <tbody>
           {RANKS[factionName].map((rank) => (
             <tr
@@ -264,21 +280,27 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
             >
               <td style={{ border: "1px solid #b96f50" }}>
                 <div className="flex items-center">
-                  <img src={rank.icon} className="mx-2" />
-                  <p className="p-1.5">{rank.name}</p>
+                  <img src={rank.icon} className="mx-1 sm:mx-2" />
+                  <p className="p-1.5 truncate">{rank.name}</p>
                 </div>
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 truncate"
               >
-                {`${rank.emblemsRequired} ${t("faction.emblems")}`}
+                {rank.emblemsRequired}
               </td>
               <td
                 style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 relative"
               >
-                {rank.boost && <Label type="vibrant">{rank.boost}</Label>}
+                {rank.boost && (
+                  <Label type="vibrant" icon={lightning} secondaryIcon={mark}>
+                    <span className="text-xxs sm:text-xs whitespace-nowrap">
+                      {rank.boost}
+                    </span>
+                  </Label>
+                )}
               </td>
             </tr>
           ))}
