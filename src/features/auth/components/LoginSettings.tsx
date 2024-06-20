@@ -1,53 +1,63 @@
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { AppearanceSettings } from "features/island/hud/components/settings-menu/general-settings/AppearanceSettings";
-import { LanguageSwitcher } from "features/island/hud/components/settings-menu/general-settings/LanguageChangeModal";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 
 import settingsIcon from "assets/icons/settings_disc.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { createPortal } from "react-dom";
+import {
+  SettingMenuId,
+  settingMenus,
+} from "features/island/hud/components/settings-menu/GameOptions";
 
 export const LoginSettings: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const [showLanguage, setShowLanguage] = useState(false);
-  const [showFonts, setShowFonts] = useState(false);
+  const [currentMenu, setMenu] = useState<SettingMenuId | "login">("login");
 
   const { t } = useAppTranslation();
 
   const close = () => {
-    setShowLanguage(false);
-    setShowFonts(false);
     setShowModal(false);
+    setMenu("login");
   };
-  const Content = () => {
-    if (showFonts) {
-      return <AppearanceSettings />;
-    }
 
-    if (showLanguage) {
-      return <LanguageSwitcher />;
+  const Content = () => {
+    if (currentMenu !== "login") {
+      const SelectedMenu = settingMenus[currentMenu].content;
+      return <SelectedMenu onSubMenuClick={setMenu} onClose={close} />;
     }
 
     return (
       <>
-        <Button onClick={() => setShowLanguage(true)} className="mb-1">
+        <Button onClick={() => setMenu("changeLanguage")} className="mb-1">
           <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
         </Button>
-        <Button className="mb-1" onClick={() => setShowFonts(true)}>
+        <Button className="mb-1" onClick={() => setMenu("appearance")}>
           <span>{t("gameOptions.generalSettings.appearance")}</span>
         </Button>
       </>
     );
   };
+
   return (
     <>
       <Modal show={showModal} onHide={close}>
         <CloseButtonPanel
-          title={t("gameOptions.generalSettings")}
+          title={
+            currentMenu !== "login"
+              ? settingMenus[currentMenu].title
+              : t("gameOptions.generalSettings")
+          }
           onClose={close}
+          onBack={
+            currentMenu === "font"
+              ? () => setMenu("appearance")
+              : currentMenu !== "login"
+              ? () => setMenu("login")
+              : undefined
+          }
         >
           <Content />
         </CloseButtonPanel>
