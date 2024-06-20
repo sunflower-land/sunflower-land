@@ -44,7 +44,9 @@ export function buyFactionShopItem({
 
   const item = FACTION_SHOP_ITEMS[action.item];
 
-  if (!item) throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.ITEM_NOT_FOUND);
+  if (!item) {
+    throw new Error(BUY_FACTION_SHOP_ITEM_ERRORS.ITEM_NOT_FOUND);
+  }
 
   const { faction: requiredFaction, price, type } = item;
 
