@@ -1,19 +1,25 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 
 import { Preloader } from "features/world/scenes/Preloader";
-import { MushroomForestScene } from "./MushroomForestScene";
-import { OFFLINE_FARM } from "features/game/lib/landData";
+import { PortalContext } from "./lib/PortalProvider";
+import { useActor } from "@xstate/react";
+import { PortalExampleScene } from "./PortalExampleScene";
+import { NPCModals } from "features/world/ui/NPCModals";
 
-export const MushroomForest: React.FC = () => {
+export const PortalExamplePhaser: React.FC = () => {
+  const { portalService } = useContext(PortalContext);
+  const [portalState] = useActor(portalService);
+
   const [loaded, setLoaded] = useState(false);
+
   const game = useRef<Game>();
 
-  const scene = "mushroom_forest";
+  const scene = "festival_of_colors";
 
-  const scenes = [Preloader, MushroomForestScene];
+  const scenes = [Preloader, PortalExampleScene];
 
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
@@ -63,9 +69,9 @@ export const MushroomForest: React.FC = () => {
     });
 
     game.current.registry.set("initialScene", scene);
-
-    game.current.registry.set("initialScene", scene);
-    game.current.registry.set("gameState", OFFLINE_FARM);
+    game.current.registry.set("gameState", portalState.context.state);
+    game.current.registry.set("id", portalState.context.id);
+    game.current.registry.set("portalService", portalService);
 
     setLoaded(true);
 
@@ -79,6 +85,11 @@ export const MushroomForest: React.FC = () => {
   return (
     <div>
       <div id="game-content" ref={ref} />
+      <NPCModals
+        id={portalState.context.id as number}
+        scene={scene}
+        onNavigate={() => {}}
+      />
     </div>
   );
 };

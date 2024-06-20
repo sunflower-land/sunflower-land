@@ -119,7 +119,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   mailbox: false,
   blacklisted: true,
   airdrop: true,
-  portalling: true,
   provingPersonhood: false,
   withdrawing: true,
   withdrawn: true,
@@ -127,9 +126,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
 };
 
 // State change selectors
-const isLoading = (state: MachineState) =>
-  state.matches("loading") || state.matches("portalling");
-const isPortalling = (state: MachineState) => state.matches("portalling");
+const isLoading = (state: MachineState) => state.matches("loading");
 const isTrading = (state: MachineState) => state.matches("trading");
 const isTraded = (state: MachineState) => state.matches("traded");
 const isListing = (state: MachineState) => state.matches("listing");
@@ -274,7 +271,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const provingPersonhood = useSelector(gameService, isProvingPersonhood);
   const withdrawing = useSelector(gameService, isWithdrawing);
   const withdrawn = useSelector(gameService, isWithdrawn);
-  const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
   const listing = useSelector(gameService, isListing);
@@ -360,7 +356,7 @@ export const GameWrapper: React.FC = ({ children }) => {
     }
   }, [playing, pwaInstallRef, showPWAInstallPrompt]);
 
-  if (loadingSession || loadingLandToVisit || portalling) {
+  if (loadingSession || loadingLandToVisit) {
     return (
       <>
         <div

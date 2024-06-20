@@ -78,7 +78,6 @@ import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
 import { portal } from "features/world/ui/community/actions/portal";
 import { listRequest } from "../actions/listTrade";
 import { deleteListingRequest } from "../actions/deleteListing";
@@ -437,7 +436,6 @@ export type BlockchainState = {
     | "landToVisitNotFound"
     | "visiting"
     | "gameRules"
-    | "portalling"
     | "introduction"
     | "playing"
     | "autosaving"
@@ -641,11 +639,6 @@ export function startGame(authContext: AuthContext) {
                 cond: (_, event) => event.data.isBlacklisted,
               },
               {
-                target: "portalling",
-                cond: () => !!getPortal(),
-                actions: ["assignGame"],
-              },
-              {
                 target: "notifying",
                 actions: ["assignGame", "assignUrl", "initialiseAnalytics"],
               },
@@ -666,31 +659,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
         blacklisted: {},
-        portalling: {
-          id: "portalling",
-          invoke: {
-            src: async (context) => {
-              const portalId = getPortal() as MinigameName;
-              const { token } = await portal({
-                portalId,
-                token: authContext.user.rawToken as string,
-                farmId: context.farmId,
-              });
-
-              const redirect = getRedirect() as string;
-
-              if (!isValidRedirect(redirect)) {
-                throw new Error("Invalid redirect");
-              }
-
-              window.location.href = `${redirect}?jwt=${token}`;
-            },
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {

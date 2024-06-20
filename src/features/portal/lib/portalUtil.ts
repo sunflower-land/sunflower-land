@@ -1,13 +1,45 @@
+import { InventoryItemName } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
 const isInIframe = window.self !== window.top;
 
-export function goHome() {
+export function complete() {
   if (isInIframe) {
-    window.parent.postMessage("closePortal", "*");
+    window.parent.postMessage({ event: "claimPrize" }, "*");
   } else {
     window.location.href = CONFIG.PORTAL_GAME_URL;
   }
+}
+
+export function goHome() {
+  if (isInIframe) {
+    window.parent.postMessage({ event: "closePortal" }, "*");
+  } else {
+    window.location.href = CONFIG.PORTAL_GAME_URL;
+  }
+}
+
+export function purchase({
+  sfl,
+  items,
+}: {
+  sfl: number;
+  items: Partial<Record<InventoryItemName, number>>;
+}) {
+  if (!isInIframe) {
+    console.error(`Sunflower Land not available - are you in an iframe?`);
+  }
+
+  console.log("SEND OFF PURCHASE");
+  window.parent.postMessage({ event: "purchase", sfl, items }, "*");
+}
+
+export function played({ score }: { score: number }) {
+  if (!isInIframe) {
+    console.error(`Sunflower Land not available - are you in an iframe?`);
+  }
+
+  window.parent.postMessage({ event: "played", score }, "*");
 }
 
 export function authorisePortal() {

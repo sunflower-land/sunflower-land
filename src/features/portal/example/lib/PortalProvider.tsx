@@ -15,6 +15,7 @@ export const PortalProvider: React.FC = ({ children }) => {
     portalMachine
   ) as unknown as MachineInterpreter;
 
+  console.log({ provided: portalService });
   return (
     <PortalContext.Provider value={{ portalService }}>
       {children}

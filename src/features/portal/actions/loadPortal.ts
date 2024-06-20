@@ -4,26 +4,34 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
 type Request = {
+  portalId: string;
   token: string;
 };
 
-const API_URL = CONFIG.API_URL;
+export const getUrl = () => {
+  const network = new URLSearchParams(window.location.search).get("network");
 
-export async function claimArcadeToken(request: Request) {
+  if (network && network === "mainnet") {
+    return "https://api.sunflower-land.com";
+  }
+
+  if (network) {
+    return "https://api-dev.sunflower-land.com";
+  }
+
+  return CONFIG.API_URL;
+};
+
+export async function loadPortal(request: Request) {
   // Uses same autosave event driven endpoint
   const response = await window.fetch(
-    `${API_URL}/portal/${CONFIG.PORTAL_APP}/mint`,
+    `${getUrl()}/portal/${request.portalId}/player`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
         "content-type": "application/json;charset=UTF-8",
         Authorization: `Bearer ${request.token}`,
       },
-      body: JSON.stringify({
-        items: {
-          "Arcade Token": 1,
-        },
-      }),
     }
   );
 
@@ -31,9 +39,9 @@ export async function claimArcadeToken(request: Request) {
     throw new Error(ERRORS.PORTAL_LOGIN_ERROR);
   }
 
-  const data: { game: GameState } = await response.json();
+  const data: { farm: GameState } = await response.json();
 
-  const game = makeGame(data.game);
+  const game = makeGame(data.farm);
 
   return { game };
 }

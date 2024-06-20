@@ -12,7 +12,6 @@ import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
 import { OuterPanel, Panel } from "components/ui/Panel";
-import { CropBoomFinish } from "features/portal/examples/cropBoom/components/CropBoomFinish";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
@@ -606,11 +605,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "nye_button"} onHide={closeModal}>
         <NyeButton onClose={closeModal} />
-      </Modal>
-      <Modal show={interactable === "crop_boom_finish"} onHide={closeModal}>
-        <Panel bumpkinParts={NPC_WEARABLES.wizard}>
-          <CropBoomFinish onClose={closeModal} />
-        </Panel>
       </Modal>
 
       <Modal show={interactable === "faction_launch"} onHide={closeModal}>
