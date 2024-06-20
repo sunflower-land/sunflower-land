@@ -2121,12 +2121,11 @@ const factions: Record<Factions, string> = {
   "faction.emblems.intro.three":
     "The more emblems you have, the higher your rank and more marks you can earn.",
   "faction.tradeEmblems": "Trade emblems to climb the ranks and attain perks.",
-<<<<<<< HEAD
   "faction.marksBoost":
     "Marks boost applies to faction activities coming July 1st.",
-=======
   "faction.shop.onlyFor": "{{faction}} only",
->>>>>>> d27dbe71f ([FEAT] Initial shop setup)
+  "faction.shop.welcome":
+    "Welcome to the Faction Shop! Use your marks to purchase temporary boosts, stylish wearables, and rare collectibles. Dive in and find your next great addition!",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {
@@ -2142,36 +2141,45 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
     "A jewelled egg created by the House of Bumpkin.",
   "description.factionShop.nightshadeVeilEgg":
     "A jewelled egg created by the House of Nightshade.",
-  "description.factionShop.emeraldGoblinGoblet": "An emerald goblet.",
-  "description.factionShop.opalSunflorianGoblet": "An opal goblet",
-  "description.factionShop.sapphireBumpkinGoblet": "A sapphire goblet",
-  "description.factionShop.amethystNightshadeGoblet": "An amethyst goblet",
+  "description.factionShop.emeraldGoblinGoblet": "An emerald encrusted goblet.",
+  "description.factionShop.opalSunflorianGoblet": "An opal encrusted goblet",
+  "description.factionShop.sapphireBumpkinGoblet":
+    "A sapphire encrusted goblet",
+  "description.factionShop.amethystNightshadeGoblet":
+    "An amethyst encrusted goblet",
   "description.factionShop.goldenFactionGoblet": "A golden goblet",
-  "description.factionShop.rubyFactionGoblet": "A ruby goblet",
-  "description.factionShop.sunflorianVictoryBunting":
-    "Celebratory bunting for the Sunflorian faction.",
-  "description.factionShop.nightshadeVictoryBunting":
-    "Celebratory bunting for the Nightshade faction.",
-  "description.factionShop.goblinVictoryBunting":
-    "Celebratory bunting for the Goblin faction.",
-  "description.factionShop.bumpkinVictoryBunting":
-    "Celebratory bunting for the Bumpkin faction.",
-  "description.factionShop.sunflorianCandles": "Sunflorian faction candles.",
-  "description.factionShop.nightshadeCandles": "Nightshade faction candles.",
-  "description.factionShop.goblinCandles": "Goblin faction candles.",
-  "description.factionShop.bumpkinCandles": "Bumpkin faction candles.",
-  "description.factionShop.sunflorianLeftWall":
-    "Sunflorian faction wall candle.",
-  "description.factionShop.nightshadeLeftWall":
-    "Nightshade faction wall candle.",
-  "description.factionShop.goblinLeftWall": "Goblin faction wall candle.",
-  "description.factionShop.bumpkinLeftWall": "Bumpkin faction wall candle.",
-  "description.factionShop.sunflorianRightWall":
-    "Sunflorian faction wall candle.",
-  "description.factionShop.nightshadeRightWall":
-    "Nightshade faction wall candle.",
-  "description.factionShop.goblinRightWall": "Goblin faction wall candle.",
-  "description.factionShop.bumpkinRightWall": "Bumpkin faction wall candle.",
+  "description.factionShop.rubyFactionGoblet": "A ruby encrusted goblet",
+  "description.factionShop.sunflorianBunting":
+    "Colorful flags celebrating the Sunflorian Faction.",
+  "description.factionShop.nightshadeBunting":
+    "Colorful flags celebrating the Nightshade faction.",
+  "description.factionShop.goblinBunting":
+    "Colorful flags celebrating the Goblin faction.",
+  "description.factionShop.bumpkinBunting":
+    "Colorful flags celebrating the Bumpkin faction.",
+  "description.factionShop.sunflorianCandles":
+    "Sunflorian Faction decorative candles.",
+  "description.factionShop.nightshadeCandles":
+    "Nightshade Faction decorative candles.",
+  "description.factionShop.goblinCandles": "Goblin Faction decorative candles.",
+  "description.factionShop.bumpkinCandles":
+    "Bumpkin Faction decorative candles.",
+  "description.factionShop.sunflorianLeftWallSconce":
+    "Illuminate your living quarters with a Sunflorian Wall Sconce.",
+  "description.factionShop.nightshadeLeftWallSconce":
+    "Illuminate your living quarters with a Nightshade Wall Sconce.",
+  "description.factionShop.goblinLeftWallSconce":
+    "Illuminate your living quarters with a Goblin Wall Sconce.",
+  "description.factionShop.bumpkinLeftWallSconce":
+    "Illuminate your living quarters with a Bumpkin Wall Sconce.",
+  "description.factionShop.sunflorianRightWallSconce":
+    "Illuminate your living quarters with a Sunflorian Wall Sconce.",
+  "description.factionShop.nightshadeRightWallSconce":
+    "Illuminate your living quarters with a Nightshade Wall Sconce.",
+  "description.factionShop.goblinRightWallSconce":
+    "Illuminate your living quarters with a Goblin Wall Sconce.",
+  "description.factionShop.bumpkinRightWallSconce":
+    "Illuminate your living quarters with a Bumpkin Wall Sconce.",
   "description.factionShop.cookingBoost":
     "Reduces cooking time by 50% for 4 hours.",
   "description.factionShop.cropBoost":
@@ -2187,12 +2195,58 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.fishBoost":
     "Gives a 50% chance of +1 fish for 4 hours.",
   "description.factionShop.sunflorianFactionRug":
-    "A rug from the Sunflorian faction.",
+    "A magnificent rug made by the talented Sunflorian faction artisans.",
   "description.factionShop.nightshadeFactionRug":
-    "A rug from the Nightshade faction.",
-  "description.factionShop.goblinFactionRug": "A rug from the Goblin faction.",
+    "A rug made by the talented Nightshade faction artisans.",
+  "description.factionShop.goblinFactionRug":
+    "A rug made by the talented Goblin faction artisans.",
   "description.factionShop.bumpkinFactionRug":
-    "A rug from the Bumpkin faction.",
+    "A rug made by the talented Bumpkin faction artisans.",
+  "description.factionShop.goblinArmor":
+    "Rugged and rowdy, Goblin-approved protection.",
+  "description.factionShop.goblinHelmet":
+    "Strong and sturdy, crafted for fearless adventures in untamed lands.",
+  "description.factionShop.goblinPants":
+    "These pants blend agility with Goblin craftsmanship for swift maneuvers.",
+  "description.factionShop.goblinSabatons":
+    "Designed to outpace and outlast any foe.",
+  "description.factionShop.goblinAxe":
+    "This axe is a testament to Goblin strength and unmatched battle prowess.",
+  "description.factionShop.sunflorianArmor":
+    "A shimmering protection that mirrors the sun's strength.",
+  "description.factionShop.sunflorianHelmet":
+    "This helmet is a beacon of light and guardian against shadows.",
+  "description.factionShop.sunflorianPants":
+    "Stride confidently in attire that captures the warmth and energy of all Sunflorians.",
+  "description.factionShop.sunflorianSabatons":
+    "Each step taken in these shoes resonating with the power and vitality.",
+  "description.factionShop.sunflorianSword":
+    "A blade ablaze with the courage and brilliance of the sun.",
+  "description.factionShop.bumpkinArmor":
+    "A sturdy protection that honors tradition and strength.",
+  "description.factionShop.bumpkinHelmet":
+    "Adorn your head with a symbol of rustic fortitude and unwavering resolve.",
+  "description.factionShop.bumpkinPants":
+    "Navigate countryside and city alike blending comfort with the spirit of adventure.",
+  "description.factionShop.bumpkinSabatons":
+    "Stampede through fields in this sturdy footwear echoing the resilience of rural life.",
+  "description.factionShop.bumpkinSword":
+    "A weapon forged in fields and forests, ready for any challenge.",
+  "description.factionShop.nightshadeArmor":
+    "An Armor, crafted for stealth and resilience in the shadows.",
+  "description.factionShop.nightshadeHelmet":
+    "A strong helmet of secrecy and silent strength.",
+  "description.factionShop.nightshadePants":
+    "These pants are blending agility with the mystery of the night.",
+  "description.factionShop.nightshadeSabatons":
+    "Perfect design where every step is a whisper in the dark.",
+  "description.factionShop.nightshadeSword":
+    "A blade that strikes with the precision of moonlit steel.",
+  "description.factionShop.knightGambit":
+    "Don this hat and be ready to charge into adventure with a playful twist of strategy and style.",
+  "description.factionShop.motley":
+    "A riot of colors stitched together in merry defiance of fashion norms.",
+  "description.factionShop.royalBraids": "A hairstyle fit for a royal.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
