@@ -16,6 +16,8 @@ export const LoginSettings: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentMenu, setMenu] = useState<SettingMenuId | "login">("login");
 
+  const buttons: SettingMenuId[] = ["changeLanguage", "appearance"];
+
   const { t } = useAppTranslation();
 
   const close = () => {
@@ -31,12 +33,11 @@ export const LoginSettings: React.FC = () => {
 
     return (
       <>
-        <Button onClick={() => setMenu("changeLanguage")} className="mb-1">
-          <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
-        </Button>
-        <Button className="mb-1" onClick={() => setMenu("appearance")}>
-          <span>{t("gameOptions.generalSettings.appearance")}</span>
-        </Button>
+        {buttons.map((button) => (
+          <Button key={button} className="mb-1" onClick={() => setMenu(button)}>
+            {settingMenus[button].title}
+          </Button>
+        ))}
       </>
     );
   };
