@@ -32,13 +32,13 @@ export const FactionTicketsTable: React.FC<Props> = ({
             <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
               <p>{t("player")}</p>
             </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
+            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/4">
               <p>{t("total")}</p>
             </th>
           </tr>
         </thead>
       )}
-      <tbody>
+      <tbody className="text-xxs sm:text-xs">
         {rankings.map(({ id, count, rank }, index) => {
           const playerRank = [...RANKS[faction]]
             .reverse()
