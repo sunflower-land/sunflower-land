@@ -28,7 +28,7 @@ interface Props {
 
 type PortalPurchase = {
   sfl: number;
-  items: Partial<Record<InventoryItemName, number>>;
+  items?: Partial<Record<InventoryItemName, number>>;
 };
 
 export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
@@ -211,8 +211,8 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
                     <span className="ml-1">{`${purchase.sfl} x  SFL`}</span>
                   </div>
                 )}
-                {getKeys(purchase.items).map((key) => {
-                  const item = purchase.items[key];
+                {getKeys(purchase.items ?? {}).map((key) => {
+                  const item = purchase.items?.[key] ?? 0;
                   return (
                     <div className="flex mb-1 items-center" key={key}>
                       <Box image={ITEM_DETAILS[key].image} />
