@@ -4,7 +4,6 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { getUrl, loadPortal } from "../../actions/loadPortal";
 import { CONFIG } from "lib/config";
 import { decodeToken } from "features/auth/actions/login";
-import { played } from "../../lib/portalUtil";
 
 const getJWT = () => {
   const code = new URLSearchParams(window.location.search).get("jwt");
@@ -17,7 +16,7 @@ export interface Context {
   state: GameState;
 }
 
-export type PortalEvent = { type: "PURCHASE" };
+export type PortalEvent = { type: "PURCHASED" } | { type: "RETRY" };
 
 export type PortalState = {
   value: "initialising" | "error" | "unauthorised" | "loading" | "playing";
@@ -93,8 +92,13 @@ export const portalMachine = createMachine({
     playing: {
       on: {
         PURCHASED: {
-          actions: assign({ hasPurchased: (context: any) => true }),
-        } as any,
+          actions: [
+            () => {
+              // Put your logic once purchase is complete
+              alert("Thank you for purchasing!");
+            },
+          ],
+        },
       },
     },
 

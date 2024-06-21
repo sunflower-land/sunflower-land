@@ -36,12 +36,17 @@ export function purchase({
   items: Partial<Record<InventoryItemName, number>>;
 }) {
   if (!isInIframe) {
-    alert(
-      `You are running in test mode - purchase ${sfl} SFL & ${JSON.stringify(
-        items
-      )}.`
+    // Auto confirmed - Simulate the event that would come from the parent
+    window.postMessage(
+      {
+        event: "purchased",
+        sfl,
+        items,
+      },
+      "*"
     );
   } else {
+    // Ask parent to confirm
     window.parent.postMessage({ event: "purchase", sfl, items }, "*");
   }
 }
