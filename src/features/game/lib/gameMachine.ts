@@ -78,7 +78,6 @@ import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
-import { isValidRedirect } from "features/portal/examples/cropBoom/lib/portalUtil";
 import { portal } from "features/world/ui/community/actions/portal";
 import { listRequest } from "../actions/listTrade";
 import { deleteListingRequest } from "../actions/deleteListing";
@@ -98,12 +97,10 @@ import { setCachedMarketPrices } from "features/world/ui/market/lib/marketCache"
 import { MinigameName } from "../types/minigames";
 import { getBumpkinLevel } from "./level";
 import { OFFLINE_FARM } from "./landData";
+import { isValidRedirect } from "features/portal/lib/portalUtil";
 
-const getPortal = () => {
-  const code = new URLSearchParams(window.location.search).get("portal");
-
-  return code;
-};
+// Run at startup in case removed from query params
+const portalName = new URLSearchParams(window.location.search).get("portal");
 
 const getRedirect = () => {
   const code = new URLSearchParams(window.location.search).get("redirect");
@@ -642,7 +639,7 @@ export function startGame(authContext: AuthContext) {
               },
               {
                 target: "portalling",
-                cond: () => !!getPortal(),
+                cond: () => !!portalName,
                 actions: ["assignGame"],
               },
               {
@@ -670,7 +667,7 @@ export function startGame(authContext: AuthContext) {
           id: "portalling",
           invoke: {
             src: async (context) => {
-              const portalId = getPortal() as MinigameName;
+              const portalId = portalName as MinigameName;
               const { token } = await portal({
                 portalId,
                 token: authContext.user.rawToken as string,

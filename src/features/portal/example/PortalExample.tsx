@@ -12,7 +12,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { PortalExampleHUD } from "./components/PortalExampleHUD";
 import { PortalExamplePhaser } from "./PortalExamplePhaser";
 
-import { goHome } from "../lib/portalUtil";
+import { authorisePortal } from "../lib/portalUtil";
 import { PortalMachineState } from "./lib/portalMachine";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
@@ -53,7 +53,7 @@ export const PortalExample: React.FC = () => {
             <Label type="danger">{t("error")}</Label>
             <span className="text-sm my-2">{t("session.expired")}</span>
           </div>
-          <Button onClick={goHome}>{t("close")}</Button>
+          <Button onClick={authorisePortal}>{t("welcome.login")}</Button>
         </Panel>
       </Modal>
     );
