@@ -1,8 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
 import { translate } from "lib/i18n/translate";
-import { SFLDiscount } from "../lib/SFLDiscount";
-import { getCurrentSeason } from "./seasons";
 
 export type CollectibleLocation = "farm" | "home";
 
@@ -202,12 +200,6 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
 });
 
-export type GoblinBlacksmithCraftable = CraftableCollectible & {
-  supply?: number;
-  disabled?: boolean;
-  sfl?: Decimal;
-};
-
 export type GoblinPirateCraftable = CraftableCollectible & {
   supply: number;
   disabled?: boolean;
@@ -288,62 +280,6 @@ export const GOBLIN_PIRATE_ITEMS: Record<
       "Block Buck": new Decimal(1),
     },
   },
-};
-
-export const GOBLIN_BLACKSMITH_ITEMS: (
-  state?: GameState
-) => Record<GoblinBlacksmithItemName, GoblinBlacksmithCraftable> = (state) => {
-  return {
-    "Mushroom House": {
-      description: translate("description.mushroom.house"),
-      // 50 Team supply + giveaways
-      supply: 2000 + 50,
-      sfl: SFLDiscount(state, new Decimal(50)),
-      boost: translate("description.mushroom.house.boost"),
-      ingredients: {
-        "Wild Mushroom": new Decimal(50),
-        Gold: new Decimal(10),
-      },
-      // only available when SEASONS["DAWN_BREAKER"] starts
-      disabled: getCurrentSeason() !== "Dawn Breaker",
-    },
-    Maximus: {
-      description: translate("description.maximus"),
-      // 50 Team Supply + giveaways
-      supply: 350 + 50,
-      coins: 20000,
-      boost: translate("description.maximus.boost"),
-      ingredients: {
-        Eggplant: new Decimal(100),
-        "Dawn Breaker Ticket": new Decimal(3200),
-      },
-      disabled: getCurrentSeason() !== "Dawn Breaker",
-    },
-    Obie: {
-      description: translate("description.obie"),
-      // 100 Team Supply + Giveaways
-      supply: 2500 + 100,
-      sfl: SFLDiscount(state, new Decimal(6.25)),
-      boost: translate("description.obie.boost"),
-      ingredients: {
-        Eggplant: new Decimal(150),
-        "Dawn Breaker Ticket": new Decimal(1200),
-      },
-      disabled: getCurrentSeason() !== "Dawn Breaker",
-    },
-    "Purple Trail": {
-      description: translate("description.purple.trail"),
-
-      sfl: SFLDiscount(state, new Decimal(2.5)),
-      supply: 10000,
-      boost: translate("description.purple.trail.boost"),
-      ingredients: {
-        Eggplant: new Decimal(25),
-        "Dawn Breaker Ticket": new Decimal(500),
-      },
-      disabled: getCurrentSeason() !== "Dawn Breaker",
-    },
-  };
 };
 
 export type PotionHouseItem = CraftableCollectible & {
