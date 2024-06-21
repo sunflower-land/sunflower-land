@@ -18,6 +18,7 @@ import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
 import { WalletContext } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
+import { PortalContext } from "features/portal/example/lib/PortalProvider";
 
 interface Props {
   action: WalletAction;
