@@ -431,6 +431,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   requirements: ENGLISH_TERMS.requirements,
   "max.reached": ENGLISH_TERMS["max.reached"],
   bought: ENGLISH_TERMS.bought,
+  "time.remaining": ENGLISH_TERMS["time.remaining"],
+  expired: ENGLISH_TERMS.expired,
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -933,6 +935,10 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
     ENGLISH_TERMS["description.fishers.hourglass.boost"],
   "description.blossom.hourglass.boost":
     ENGLISH_TERMS["description.blossom.hourglass.boost"],
+  "description.hourglass.expired":
+    ENGLISH_TERMS["description.hourglass.expired"],
+  "description.hourglass.running":
+    ENGLISH_TERMS["description.hourglass.running"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
