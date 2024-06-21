@@ -29,7 +29,6 @@ export type FeatureName =
   | "EASTER"
   | "FACTIONS"
   | "BANNER_SALES"
-  | "PRESTIGE_DESERT"
   | "CHICKEN_RESCUE"
   | "CROP_MACHINE"
   | "DESERT_RECIPES"
@@ -84,7 +83,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   },
   FACTIONS: clashOfFactionsFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,
-  PRESTIGE_DESERT: defaultFeatureFlag,
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
   CLAIM_EMBLEMS: timeBasedFeatureFlag(new Date("2024-06-14T00:00:00Z")),

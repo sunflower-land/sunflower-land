@@ -30,7 +30,6 @@ import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transition } from "@headlessui/react";
 import { formatDateTime } from "lib/utils/time";
-import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 
@@ -38,9 +37,7 @@ const UPGRADE_DATES: (state: GameState) => Record<IslandType, number | null> = (
   state
 ) => ({
   basic: new Date(0).getTime(),
-  spring: hasFeatureAccess(state, "PRESTIGE_DESERT")
-    ? new Date(0).getTime()
-    : new Date("2024-05-15T00:00:00Z").getTime(),
+  spring: new Date("2024-05-15T00:00:00Z").getTime(),
   desert: null, // Next prestige after desert
 });
 
