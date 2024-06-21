@@ -702,7 +702,27 @@ export type BumpkinItemBuff =
   | "bumpkinItemBuff.crimstone.armor"
   | "bumpkinItemBuff.hornet.mask"
   | "bumpkinItemBuff.honeycomb.shield"
-  | "bumpkinItemBuff.flower.crown";
+  | "bumpkinItemBuff.flower.crown"
+  | "bumpkinItemBuff.goblin.armor"
+  | "bumpkinItemBuff.goblin.helmet"
+  | "bumpkinItemBuff.goblin.axe"
+  | "bumpkinItemBuff.goblin.pants"
+  | "bumpkinItemBuff.goblin.sabatons"
+  | "bumpkinItemBuff.nightshade.armor"
+  | "bumpkinItemBuff.nightshade.helmet"
+  | "bumpkinItemBuff.nightshade.sword"
+  | "bumpkinItemBuff.nightshade.pants"
+  | "bumpkinItemBuff.nightshade.sabatons"
+  | "bumpkinItemBuff.sunflorian.armor"
+  | "bumpkinItemBuff.sunflorian.helmet"
+  | "bumpkinItemBuff.sunflorian.sword"
+  | "bumpkinItemBuff.sunflorian.pants"
+  | "bumpkinItemBuff.sunflorian.sabatons"
+  | "bumpkinItemBuff.bumpkin.armor"
+  | "bumpkinItemBuff.bumpkin.helmet"
+  | "bumpkinItemBuff.bumpkin.sword"
+  | "bumpkinItemBuff.bumpkin.pants"
+  | "bumpkinItemBuff.bumpkin.sabatons";
 
 export type BumpkinPart =
   | "equip.background"

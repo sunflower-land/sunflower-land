@@ -1017,6 +1017,26 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.hornet.mask": "2x chance Bee Swarm",
   "bumpkinItemBuff.honeycomb.shield": "+1 Honey per Full Beehive",
   "bumpkinItemBuff.flower.crown": "-50% Flower Growth Time",
+  "bumpkinItemBuff.goblin.armor": "+20% Marks",
+  "bumpkinItemBuff.goblin.helmet": "+10% Marks",
+  "bumpkinItemBuff.goblin.axe": "+10% Marks",
+  "bumpkinItemBuff.goblin.pants": "+5% Marks",
+  "bumpkinItemBuff.goblin.sabatons": "+5% Marks",
+  "bumpkinItemBuff.nightshade.armor": "+20% Marks",
+  "bumpkinItemBuff.nightshade.helmet": "+10% Marks",
+  "bumpkinItemBuff.nightshade.sword": "+10% Marks",
+  "bumpkinItemBuff.nightshade.pants": "+5% Marks",
+  "bumpkinItemBuff.nightshade.sabatons": "+5% Marks",
+  "bumpkinItemBuff.sunflorian.armor": "+20% Marks",
+  "bumpkinItemBuff.sunflorian.helmet": "+10% Marks",
+  "bumpkinItemBuff.sunflorian.sword": "+10% Marks",
+  "bumpkinItemBuff.sunflorian.pants": "+5% Marks",
+  "bumpkinItemBuff.sunflorian.sabatons": "+5% Marks",
+  "bumpkinItemBuff.bumpkin.armor": "+20% Marks",
+  "bumpkinItemBuff.bumpkin.helmet": "+10% Marks",
+  "bumpkinItemBuff.bumpkin.sword": "+10% Marks",
+  "bumpkinItemBuff.bumpkin.pants": "+5% Marks",
+  "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -2210,45 +2230,45 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.bumpkinFactionRug":
     "A rug made by the talented Bumpkin faction artisans.",
   "description.factionShop.goblinArmor":
-    "Rugged and rowdy, Goblin-approved protection.",
+    "Rugged and rowdy, Goblin-approved protection. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.goblinHelmet":
-    "Strong and sturdy, crafted for fearless adventures in untamed lands.",
+    "Strong and sturdy, crafted for fearless adventures in untamed lands. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.goblinPants":
-    "These pants blend agility with Goblin craftsmanship for swift maneuvers.",
+    "These pants blend agility with Goblin craftsmanship for swift maneuvers. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.goblinSabatons":
-    "Designed to outpace and outlast any foe.",
+    "Designed to outpace and outlast any foe. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.goblinAxe":
-    "This axe is a testament to Goblin strength and unmatched battle prowess.",
+    "This axe is a testament to Goblin strength and unmatched battle prowess. Earn +10% marks",
   "description.factionShop.sunflorianArmor":
-    "A shimmering protection that mirrors the sun's strength.",
+    "A shimmering protection that mirrors the sun's strength. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.sunflorianHelmet":
-    "This helmet is a beacon of light and guardian against shadows.",
+    "This helmet is a beacon of light and guardian against shadows. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.sunflorianPants":
-    "Stride confidently in attire that captures the warmth and energy of all Sunflorians.",
+    "Stride confidently in attire that captures the warmth and energy of all Sunflorians. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.sunflorianSabatons":
-    "Each step taken in these shoes resonating with the power and vitality.",
+    "Each step taken in these shoes resonating with the power and vitality. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.sunflorianSword":
-    "A blade ablaze with the courage and brilliance of the sun.",
+    "A blade ablaze with the courage and brilliance of the sun. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.bumpkinArmor":
-    "A sturdy protection that honors tradition and strength.",
+    "A sturdy protection that honors tradition and strength. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.bumpkinHelmet":
-    "Adorn your head with a symbol of rustic fortitude and unwavering resolve.",
+    "Adorn your head with a symbol of rustic fortitude and unwavering resolve. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.bumpkinPants":
-    "Navigate countryside and city alike blending comfort with the spirit of adventure.",
+    "Navigate countryside and city alike blending comfort with the spirit of adventure. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.bumpkinSabatons":
-    "Stampede through fields in this sturdy footwear echoing the resilience of rural life.",
+    "Stampede through fields in this sturdy footwear echoing the resilience of rural life. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.bumpkinSword":
-    "A weapon forged in fields and forests, ready for any challenge.",
+    "A weapon forged in fields and forests, ready for any challenge. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.nightshadeArmor":
-    "An Armor, crafted for stealth and resilience in the shadows.",
+    "An Armor, crafted for stealth and resilience in the shadows. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.nightshadeHelmet":
-    "A strong helmet of secrecy and silent strength.",
+    "A strong helmet of secrecy and silent strength. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.nightshadePants":
-    "These pants are blending agility with the mystery of the night.",
+    "These pants are blending agility with the mystery of the night. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.nightshadeSabatons":
-    "Perfect design where every step is a whisper in the dark.",
+    "Perfect design where every step is a whisper in the dark. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.nightshadeSword":
-    "A blade that strikes with the precision of moonlit steel.",
+    "A blade that strikes with the precision of moonlit steel. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.knightGambit":
     "Don this hat and be ready to charge into adventure with a playful twist of strategy and style.",
   "description.factionShop.motley":
