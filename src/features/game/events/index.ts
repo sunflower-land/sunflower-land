@@ -276,10 +276,6 @@ import {
   PlaceOilReserveAction,
 } from "./landExpansion/placeOilReserve";
 import {
-  donateToFaction,
-  DonateToFactionAction,
-} from "./landExpansion/donateToFaction";
-import {
   drillOilReserve,
   DrillOilReserveAction,
 } from "./landExpansion/drillOilReserve";
@@ -410,7 +406,6 @@ export type PlayingEvent =
   | ClaimGiftAction
   | EnterRaffleAction
   | ExchangeSFLtoCoinsAction
-  | DonateToFactionAction
   | DrillOilReserveAction
   | ClaimMinigamePrizeAction
   | PurchaseMinigameAction
@@ -576,7 +571,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "faction.pledged": pledgeFaction,
   // To replace pledgeFaction
   "faction.joined": joinFaction,
-  "faction.donated": donateToFaction,
   "oilReserve.drilled": drillOilReserve,
   "cropMachine.supplied": supplyCropMachine,
   "cropMachine.harvested": harvestCropMachine,

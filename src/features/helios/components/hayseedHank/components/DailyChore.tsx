@@ -15,13 +15,10 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { FACTION_POINT_ICONS } from "features/world/ui/factions/FactionDonationPanel";
 import { MachineState } from "features/game/lib/gameMachine";
 
-import { FACTION_POINT_MULTIPLIER } from "features/game/events/landExpansion/deliver";
 import classNames from "classnames";
 import { generateChoreTickets } from "features/game/events/landExpansion/completeChore";
-import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 import { Loading } from "features/auth/components";
 
 const isDateOnSameDayAsToday = (date: Date) => {
@@ -44,7 +41,6 @@ interface Props {
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _farmId = (state: MachineState) => state.context.farmId;
-const _faction = (state: MachineState) => state.context.state.faction;
 
 export const DailyChore: React.FC<Props> = ({
   id,
@@ -60,7 +56,6 @@ export const DailyChore: React.FC<Props> = ({
   const autosaving = useSelector(gameService, _autosaving);
   const bumpkin = useSelector(gameService, _bumpkin);
   const farmId = useSelector(gameService, _farmId);
-  const faction = useSelector(gameService, _faction);
 
   useEffect(() => {
     if (isSkipping && !autosaving) {
@@ -136,21 +131,6 @@ export const DailyChore: React.FC<Props> = ({
                 width={6}
               />
             </div>
-            {faction && Date.now() < FACTION_POINT_CUTOFF.getTime() && (
-              <div className="flex items-center justify-end space-x-1">
-                <span
-                  className={classNames("mb-0.5 ", {
-                    "text-error": !faction,
-                  })}
-                >
-                  {tickets * FACTION_POINT_MULTIPLIER}
-                </span>
-                <SquareIcon
-                  icon={FACTION_POINT_ICONS[faction.name]}
-                  width={6}
-                />
-              </div>
-            )}
           </div>
         )}
         {chore.completedAt && (

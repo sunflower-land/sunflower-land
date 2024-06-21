@@ -5,8 +5,6 @@ import {
   getSeasonalBanner,
   getSeasonalTicket,
 } from "features/game/types/seasons";
-import { FACTION_POINT_MULTIPLIER } from "./deliver";
-import { FACTION_POINT_CUTOFF } from "./donateToFaction";
 
 const CHORE_TICKETS: Record<ChoreV2Name, number> = {
   "1": 1,
@@ -105,11 +103,6 @@ export function completeChore({
   const ticket = getSeasonalTicket();
   const previous = game.inventory[ticket] ?? new Decimal(0);
   game.inventory[ticket] = previous.add(tickets);
-
-  if (game.faction && createdAt < FACTION_POINT_CUTOFF.getTime()) {
-    game.faction.points =
-      game.faction.points + tickets * FACTION_POINT_MULTIPLIER;
-  }
 
   chore.completedAt = createdAt;
   chores.choresCompleted += 1;
