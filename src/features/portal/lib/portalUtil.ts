@@ -3,22 +3,31 @@ import { CONFIG } from "lib/config";
 
 const isInIframe = window.self !== window.top;
 
-export function complete() {
+/**
+ * A player has finished your game and can claim a prize (if one exists)
+ */
+export function claimPrize() {
   if (isInIframe) {
     window.parent.postMessage({ event: "claimPrize" }, "*");
   } else {
-    window.location.href = CONFIG.PORTAL_GAME_URL;
+    alert("You are running in test mode - no prize to claim.");
   }
 }
 
+/**
+ * Exit the portal
+ */
 export function goHome() {
   if (isInIframe) {
     window.parent.postMessage({ event: "closePortal" }, "*");
   } else {
-    window.location.href = CONFIG.PORTAL_GAME_URL;
+    alert("You are running in test mode - no where to go.");
   }
 }
 
+/**
+ * Allow a player to spend SFL or items in your game
+ */
 export function purchase({
   sfl,
   items,
@@ -27,19 +36,25 @@ export function purchase({
   items: Partial<Record<InventoryItemName, number>>;
 }) {
   if (!isInIframe) {
-    console.error(`Sunflower Land not available - are you in an iframe?`);
+    alert(
+      `You are running in test mode - purchase ${sfl} SFL & ${JSON.stringify(
+        items
+      )}.`
+    );
+  } else {
+    window.parent.postMessage({ event: "purchase", sfl, items }, "*");
   }
-
-  console.log("SEND OFF PURCHASE");
-  window.parent.postMessage({ event: "purchase", sfl, items }, "*");
 }
 
+/**
+ * When to want to store the score
+ */
 export function played({ score }: { score: number }) {
   if (!isInIframe) {
-    console.error(`Sunflower Land not available - are you in an iframe?`);
+    alert(`Sunflower Land running in test mode - score submitted`);
+  } else {
+    window.parent.postMessage({ event: "played", score }, "*");
   }
-
-  window.parent.postMessage({ event: "played", score }, "*");
 }
 
 export function authorisePortal() {

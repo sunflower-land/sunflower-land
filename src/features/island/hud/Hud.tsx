@@ -131,6 +131,7 @@ const HudComponent: React.FC<{
             onDepositClick={() => setShowDepositModal(true)}
             isSaving={autosaving}
             isFarming={isFarming}
+            hideActions={false}
           />
         </div>
 

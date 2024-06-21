@@ -5,9 +5,10 @@ import { MachineInterpreter } from "./lib/portalMachine";
 
 export const NPCS: NPCBumpkin[] = [
   {
-    x: 100,
-    y: 100,
-    npc: "billy",
+    x: 380,
+    y: 400,
+    // View NPCModals.tsx for implementation of pop up modal
+    npc: "portaller",
   },
 ];
 

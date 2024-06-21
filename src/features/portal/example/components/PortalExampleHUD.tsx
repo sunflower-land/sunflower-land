@@ -33,6 +33,7 @@ export const PortalExampleHUD: React.FC = () => {
           state={portalState.context.state}
           isFarming={false}
           isFullUser={false}
+          hideActions
         />
 
         <div

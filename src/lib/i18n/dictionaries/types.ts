@@ -2897,7 +2897,12 @@ export type PlayerTrade =
   | "playerTrade.sale"
   | "playerTrade.title.congrat";
 
-export type Portal = "portal.wrong" | "portal.unauthorised";
+export type Portal =
+  | "portal.wrong"
+  | "portal.unauthorised"
+  | "portal.example.intro"
+  | "portal.example.purchase"
+  | "portal.example.claimPrize";
 
 export type PurchaseableBaitTranslation =
   | "purchaseableBait.fishingLure.description";

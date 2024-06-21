@@ -1,11 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { useActor, useSelector } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 
-import { PortalContext, PortalProvider } from "./lib/PortalProvider";
+import { PortalContext } from "./lib/PortalProvider";
 import { Label } from "components/ui/Label";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -16,11 +16,6 @@ import { goHome } from "../lib/portalUtil";
 import { PortalMachineState } from "./lib/portalMachine";
 import { Loading } from "features/auth/components";
 import { CONFIG } from "lib/config";
-import { WalletProvider } from "features/wallet/WalletProvider";
-import {
-  SpeakingModal,
-  SpeakingText,
-} from "features/game/components/SpeakingModal";
 
 const _gameState = (state: PortalMachineState) => state.context.state;
 

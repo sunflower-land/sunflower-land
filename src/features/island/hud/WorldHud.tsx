@@ -20,6 +20,7 @@ import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { EmblemAirdropCountdown } from "./EmblemAirdropCountdown";
+import { useLocation } from "react-router-dom";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -34,6 +35,7 @@ const HudComponent: React.FC = () => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
+  const { pathname } = useLocation();
   const farmId = Number(gameState.context.farmId);
   const username = gameState.context.state.username;
 
@@ -73,6 +75,11 @@ const HudComponent: React.FC = () => {
         onDepositClick={() => setShowDepositModal(true)}
         isSaving={autosaving}
         isFarming={false}
+        hideActions={
+          pathname.includes("retreat") ||
+          pathname.includes("visit") ||
+          pathname.includes("dawn-breaker")
+        }
       />
 
       <Balances
