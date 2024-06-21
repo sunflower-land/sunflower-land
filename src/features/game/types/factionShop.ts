@@ -92,7 +92,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
   {
     "Sunflorian Throne": {
       name: "Sunflorian Throne",
-      price: new Decimal(100),
+      price: new Decimal(75000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianThrone"),
@@ -101,7 +101,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Throne": {
       name: "Nightshade Throne",
-      price: new Decimal(100),
+      price: new Decimal(75000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeThrone"),
@@ -110,7 +110,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Throne": {
       name: "Goblin Throne",
-      price: new Decimal(100),
+      price: new Decimal(75000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinThrone"),
@@ -119,7 +119,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Throne": {
       name: "Bumpkin Throne",
-      price: new Decimal(100),
+      price: new Decimal(75000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinThrone"),
@@ -128,7 +128,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Golden Sunflorian Egg": {
       name: "Golden Sunflorian Egg",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -139,7 +139,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Mischief Egg": {
       name: "Goblin Mischief Egg",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinMischiefEgg"),
@@ -148,7 +148,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Charm Egg": {
       name: "Bumpkin Charm Egg",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinCharmEgg"),
@@ -157,7 +157,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Veil Egg": {
       name: "Nightshade Veil Egg",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeVeilEgg"),
@@ -166,7 +166,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Emerald Goblin Goblet": {
       name: "Emerald Goblin Goblet",
-      price: new Decimal(100),
+      price: new Decimal(18750),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -177,7 +177,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Opal Sunflorian Goblet": {
       name: "Opal Sunflorian Goblet",
-      price: new Decimal(100),
+      price: new Decimal(18750),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -188,7 +188,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sapphire Bumpkin Goblet": {
       name: "Sapphire Bumpkin Goblet",
-      price: new Decimal(100),
+      price: new Decimal(18750),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -199,7 +199,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Amethyst Nightshade Goblet": {
       name: "Amethyst Nightshade Goblet",
-      price: new Decimal(100),
+      price: new Decimal(18750),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -210,7 +210,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Golden Faction Goblet": {
       name: "Golden Faction Goblet",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -220,7 +220,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Ruby Faction Goblet": {
       name: "Ruby Faction Goblet",
-      price: new Decimal(100),
+      price: new Decimal(75000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.rubyFactionGoblet"),
@@ -228,7 +228,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Bunting": {
       name: "Sunflorian Bunting",
-      price: new Decimal(100),
+      price: new Decimal(7500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianBunting"),
@@ -237,7 +237,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Bunting": {
       name: "Nightshade Bunting",
-      price: new Decimal(100),
+      price: new Decimal(7500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeBunting"),
@@ -246,7 +246,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Bunting": {
       name: "Goblin Bunting",
-      price: new Decimal(100),
+      price: new Decimal(7500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinBunting"),
@@ -255,7 +255,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Bunting": {
       name: "Bumpkin Bunting",
-      price: new Decimal(100),
+      price: new Decimal(7500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinBunting"),
@@ -264,7 +264,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Candles": {
       name: "Sunflorian Candles",
-      price: new Decimal(100),
+      price: new Decimal(750),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianCandles"),
@@ -273,7 +273,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Candles": {
       name: "Nightshade Candles",
-      price: new Decimal(100),
+      price: new Decimal(750),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeCandles"),
@@ -282,7 +282,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Candles": {
       name: "Goblin Candles",
-      price: new Decimal(100),
+      price: new Decimal(750),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinCandles"),
@@ -291,7 +291,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Candles": {
       name: "Bumpkin Candles",
-      price: new Decimal(100),
+      price: new Decimal(750),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinCandles"),
@@ -300,7 +300,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Left Wall Sconce": {
       name: "Sunflorian Left Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -311,7 +311,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Left Wall Sconce": {
       name: "Nightshade Left Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -322,7 +322,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Left Wall Sconce": {
       name: "Goblin Left Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -333,7 +333,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Left Wall Sconce": {
       name: "Bumpkin Left Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -344,7 +344,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Right Wall Sconce": {
       name: "Sunflorian Right Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -355,7 +355,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Right Wall Sconce": {
       name: "Nightshade Right Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -366,7 +366,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Right Wall Sconce": {
       name: "Goblin Right Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -377,7 +377,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Right Wall Sconce": {
       name: "Bumpkin Right Wall Sconce",
-      price: new Decimal(100),
+      price: new Decimal(375),
       limit: null,
       currency: "Mark",
       shortDescription: translate(
@@ -388,7 +388,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Armor": {
       name: "Goblin Armor",
-      price: new Decimal(100),
+      price: new Decimal(112500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinArmor"),
@@ -397,7 +397,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Helmet": {
       name: "Goblin Helmet",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinHelmet"),
@@ -406,7 +406,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Pants": {
       name: "Goblin Pants",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinPants"),
@@ -415,7 +415,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Sabatons": {
       name: "Goblin Sabatons",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinSabatons"),
@@ -424,7 +424,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Goblin Axe": {
       name: "Goblin Axe",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.goblinAxe"),
@@ -433,7 +433,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Armor": {
       name: "Nightshade Armor",
-      price: new Decimal(100),
+      price: new Decimal(112500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeArmor"),
@@ -442,7 +442,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Helmet": {
       name: "Nightshade Helmet",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeHelmet"),
@@ -451,7 +451,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Pants": {
       name: "Nightshade Pants",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadePants"),
@@ -460,7 +460,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Sabatons": {
       name: "Nightshade Sabatons",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeSabatons"),
@@ -469,7 +469,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Nightshade Sword": {
       name: "Nightshade Sword",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.nightshadeSword"),
@@ -478,7 +478,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Armor": {
       name: "Bumpkin Armor",
-      price: new Decimal(100),
+      price: new Decimal(112500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinArmor"),
@@ -487,7 +487,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Helmet": {
       name: "Bumpkin Helmet",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinHelmet"),
@@ -496,7 +496,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Sword": {
       name: "Bumpkin Sword",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinSword"),
@@ -505,7 +505,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Pants": {
       name: "Bumpkin Pants",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinPants"),
@@ -514,7 +514,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Bumpkin Sabatons": {
       name: "Bumpkin Sabatons",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.bumpkinSabatons"),
@@ -523,7 +523,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Armor": {
       name: "Sunflorian Armor",
-      price: new Decimal(100),
+      price: new Decimal(112500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianArmor"),
@@ -532,7 +532,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Sword": {
       name: "Sunflorian Sword",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianSword"),
@@ -541,7 +541,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Helmet": {
       name: "Sunflorian Helmet",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianHelmet"),
@@ -550,7 +550,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Pants": {
       name: "Sunflorian Pants",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianPants"),
@@ -559,7 +559,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Sunflorian Sabatons": {
       name: "Sunflorian Sabatons",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.sunflorianSabatons"),
@@ -568,7 +568,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Knight Gambit": {
       name: "Knight Gambit",
-      price: new Decimal(100),
+      price: new Decimal(56250),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.knightGambit"),
@@ -576,7 +576,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     Motley: {
       name: "Motley",
-      price: new Decimal(100),
+      price: new Decimal(22500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.motley"),
@@ -584,7 +584,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Royal Braids": {
       name: "Royal Braids",
-      price: new Decimal(100),
+      price: new Decimal(37500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.royalBraids"),
@@ -592,7 +592,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Gourmet Hourglass": {
       name: "Gourmet Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(1500),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.cookingBoost"),
@@ -600,7 +600,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Harvest Hourglass": {
       name: "Harvest Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(5000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.cropBoost"),
@@ -608,7 +608,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Timber Hourglass": {
       name: "Timber Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(4000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.woodBoost"),
@@ -616,7 +616,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Ore Hourglass": {
       name: "Ore Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(8000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.mineralBoost"),
@@ -624,7 +624,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Orchard Hourglass": {
       name: "Orchard Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(4000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.fruitBoost"),
@@ -632,7 +632,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Fisher's Hourglass": {
       name: "Fisher's Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(2000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.fishBoost"),
@@ -640,7 +640,7 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
     },
     "Blossom Hourglass": {
       name: "Blossom Hourglass",
-      price: new Decimal(100),
+      price: new Decimal(2000),
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.flowerBoost"),
