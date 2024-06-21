@@ -1,6 +1,7 @@
 import { Equipped } from "features/game/types/bumpkin";
 
 export type NPCName =
+  | "portaller"
   | "gambit"
   | "victoria"
   | "jester"
@@ -146,6 +147,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     hat: "Knight Gambit",
     pants: "Farmer Pants",
     shirt: "Fire Shirt",
+    tool: "Goblin Puppet",
+    background: "Farm Background",
+    shoes: "Brown Boots",
+  },
+  portaller: {
+    body: "Beige Farmer Potion",
+    hair: "Sun Spots",
+    hat: "Knight Gambit",
+    pants: "Farmer Pants",
+    shirt: "Fire Shirt",
+    suit: "Motley",
     tool: "Goblin Puppet",
     background: "Farm Background",
     shoes: "Brown Boots",

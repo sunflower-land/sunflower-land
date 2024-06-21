@@ -4420,6 +4420,9 @@ const playerTrade: Record<PlayerTrade, string> = {
 const portal: Record<Portal, string> = {
   "portal.wrong": "Quelque chose s'est mal passé",
   "portal.unauthorised": "non autorisé",
+  "portal.example.intro": ENGLISH_TERMS["portal.example.intro"],
+  "portal.example.claimPrize": ENGLISH_TERMS["portal.example.claimPrize"],
+  "portal.example.purchase": ENGLISH_TERMS["portal.example.purchase"],
 };
 
 const promo: Record<Promo, string> = {

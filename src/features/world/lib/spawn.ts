@@ -10,6 +10,12 @@ const randomXOffset = Math.random() * 60;
 const randomYOffset = Math.random() * 20;
 
 export const SPAWNS: () => SpawnLocation = () => ({
+  portal_example: {
+    default: {
+      x: 400 + randomXOffset,
+      y: 450 - randomYOffset,
+    },
+  },
   goblin_house: {
     // Make sure everyone doesn't spawn in same spot
     default: {
