@@ -123,9 +123,7 @@ export const PhaserComponent: React.FC<Props> = ({
     BeachScene,
     new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
-    ...(hasFeatureAccess(gameService.state.context.state, "KINGDOM")
-      ? [KingdomScene]
-      : []),
+    KingdomScene,
     ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [FactionHouseScene]
       : []),
