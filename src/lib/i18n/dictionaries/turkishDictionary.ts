@@ -918,6 +918,21 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.olive.shirt.boost":
     ENGLISH_TERMS["description.olive.shirt.boost"],
   "description.tofu.mask.boost": ENGLISH_TERMS["description.tofu.mask.boost"],
+
+  "description.gourmet.hourglass.boost":
+    ENGLISH_TERMS["description.gourmet.hourglass.boost"],
+  "description.harvest.hourglass.boost":
+    ENGLISH_TERMS["description.harvest.hourglass.boost"],
+  "description.timber.hourglass.boost":
+    ENGLISH_TERMS["description.timber.hourglass.boost"],
+  "description.ore.hourglass.boost":
+    ENGLISH_TERMS["description.ore.hourglass.boost"],
+  "description.orchard.hourglass.boost":
+    ENGLISH_TERMS["description.orchard.hourglass.boost"],
+  "description.fishers.hourglass.boost":
+    ENGLISH_TERMS["description.fishers.hourglass.boost"],
+  "description.blossom.hourglass.boost":
+    ENGLISH_TERMS["description.blossom.hourglass.boost"],
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

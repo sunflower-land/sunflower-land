@@ -613,7 +613,14 @@ export type BoostEffectDescriptions =
   | "description.vinny.boost"
   | "description.rice.panda.boost"
   | "description.olive.shirt.boost"
-  | "description.tofu.mask.boost";
+  | "description.tofu.mask.boost"
+  | "description.gourmet.hourglass.boost"
+  | "description.harvest.hourglass.boost"
+  | "description.timber.hourglass.boost"
+  | "description.ore.hourglass.boost"
+  | "description.orchard.hourglass.boost"
+  | "description.fishers.hourglass.boost"
+  | "description.blossom.hourglass.boost";
 
 export type BountyDescription =
   | "description.clam.shell"

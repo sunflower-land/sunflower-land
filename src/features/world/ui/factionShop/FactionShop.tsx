@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Label } from "components/ui/Label";
+import React, { useEffect, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -9,9 +8,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
-import { Context } from "features/game/GameProvider";
 
-import lightning from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -59,8 +56,6 @@ export const getItemBuffLabel = (
 };
 
 export const FactionShop: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-
   const [selectedItem, setSelectedItem] = useState<
     FactionShopWearable | FactionShopCollectible | null
   >(null);
@@ -94,13 +89,8 @@ export const FactionShop: React.FC<Props> = ({ onClose }) => {
       onClose={onClose}
     >
       <div className="relative h-full w-full">
-        <div className="flex justify-between px-2 pb-2">
-          <Label type="vibrant" icon={lightning}>
-            {t("megaStore.month.sale")}
-          </Label>
-        </div>
         <div className="flex flex-col p-2 pt-1 space-y-3 overflow-y-auto scrollable max-h-[300px]">
-          <span className="text-xs pb-2">{t("megaStore.message")}</span>
+          <span className="text-xs">{t("faction.shop.welcome")}</span>
           {/* Wearables */}
           <ItemsList
             itemsLabel="Wearables"

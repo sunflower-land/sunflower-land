@@ -910,6 +910,13 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rice.panda.boost": "+0.25 Rice",
   "description.olive.shirt.boost": "+0.25 Olive",
   "description.tofu.mask.boost": "+0.1 Soybean",
+  "description.gourmet.hourglass.boost": "+50% Cooking Speed (4hrs)",
+  "description.harvest.hourglass.boost": "-25% Crop Growth Time (6hrs)",
+  "description.timber.hourglass.boost": "-25% Tree Recovery Time (4hrs)",
+  "description.ore.hourglass.boost": "-50% Mineral Recovery Time (3hrs)",
+  "description.orchard.hourglass.boost": "-25% Fruit Growth Time (6hrs)",
+  "description.fishers.hourglass.boost": "50% Chance of +1 Fish (4hrs)",
+  "description.blossom.hourglass.boost": "-25% Flower Growth Time (4hrs)",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -2185,13 +2192,13 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.cropBoost":
     "Reduces crop growth time by 25% for 6 hours.",
   "description.factionShop.woodBoost":
-    "Reduces tree growth time by 25% for 4 hours.",
+    "Reduces tree recovery time by 25% for 4 hours.",
   "description.factionShop.mineralBoost":
     "Reduces mineral replenish cooldown by 50% for 3 hours.",
   "description.factionShop.fruitBoost":
     "Reduces fruit growth time by 25% for 6 hours.",
   "description.factionShop.flowerBoost":
-    "Increases flower growth time by 25% for 4 hours.",
+    "Reduces flower growth time by 25% for 4 hours.",
   "description.factionShop.fishBoost":
     "Gives a 50% chance of +1 fish for 4 hours.",
   "description.factionShop.sunflorianFactionRug":

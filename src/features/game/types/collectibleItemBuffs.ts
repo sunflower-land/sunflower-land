@@ -591,4 +591,41 @@ export const COLLECTIBLE_BUFF_LABELS: Partial<
     boostTypeIcon: powerup,
     boostedItemIcon: ITEM_DETAILS["Fermented Carrots"].image,
   },
+
+  // Faction Shop
+  "Gourmet Hourglass": {
+    shortDescription: translate("description.gourmet.hourglass.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+  "Harvest Hourglass": {
+    shortDescription: translate("description.harvest.hourglass.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+  "Timber Hourglass": {
+    shortDescription: translate("description.timber.hourglass.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+  "Ore Hourglass": {
+    shortDescription: translate("description.ore.hourglass.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+  "Orchard Hourglass": {
+    shortDescription: translate("description.orchard.hourglass.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
+  "Fisher's Hourglass": {
+    shortDescription: translate("description.fishers.hourglass.boost"),
+    labelType: "success",
+    boostTypeIcon: powerup,
+  },
+  "Blossom Hourglass": {
+    shortDescription: translate("description.blossom.hourglass.boost"),
+    labelType: "info",
+    boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+  },
 };
