@@ -1386,11 +1386,7 @@ export type DiscordBonus =
   | "discord.bonus.communityInfo"
   | "discord.bonus.farmingTips"
   | "discord.bonus.freeGift"
-  | "discord.bonus.connect"
-  | "fontReward.bonus.claim"
-  | "fontReward.bonus.intro1"
-  | "fontReward.bonus.intro2"
-  | "fontReward.bonus.intro3";
+  | "discord.bonus.connect";
 
 export type DraftBid =
   | "draftBid.howAuctionWorks"
