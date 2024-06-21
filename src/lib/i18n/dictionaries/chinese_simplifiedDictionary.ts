@@ -66,7 +66,6 @@ import {
   GoldTooth,
   GuideCompost,
   GuideTerms,
-  HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
   HayseedHankPlaza,
@@ -2462,16 +2461,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "chores.intro": ENGLISH_TERMS["chores.intro"],
 };
 
-const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching":
-    ENGLISH_TERMS["halveningCountdown.approaching"],
-  "halveningCountdown.description":
-    ENGLISH_TERMS["halveningCountdown.description"],
-  "halveningCountdown.preparation":
-    ENGLISH_TERMS["halveningCountdown.preparation"],
-  "halveningCountdown.title": ENGLISH_TERMS["halveningCountdown.title"],
-};
-
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.notPlaced": ENGLISH_TERMS["harvestBeeHive.notPlaced"],
   "harvestBeeHive.noHoney": ENGLISH_TERMS["harvestBeeHive.noHoney"],
@@ -4646,7 +4635,6 @@ export const CHINESE_SIMPLIFIED_TERMS: Record<TranslationKeys, string> = {
   ...goldTooth,
   ...guideCompost,
   ...guideTerms,
-  ...halveningCountdown,
   ...harvestBeeHive,
   ...harvestflower,
   ...hayseedHankPlaza,

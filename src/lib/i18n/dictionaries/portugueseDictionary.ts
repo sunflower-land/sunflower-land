@@ -67,7 +67,6 @@ import {
   GoldTooth,
   GuideCompost,
   GuideTerms,
-  HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
   HayseedHankPlaza,
@@ -2775,14 +2774,6 @@ const guideTerms: Record<GuideTerms, string> = {
 //     "Ganhe 10 Tickets de Temporada para cada refeição.",
 // };
 
-const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching": "O Halvening está se Aproximando!",
-  "halveningCountdown.description":
-    "No Halvening, todos os preços de culturas e certos recursos são reduzidos pela metade. Isso torna mais difícil obter SFL.",
-  "halveningCountdown.preparation": "Certifique-se de estar preparado!",
-  "halveningCountdown.title": "Halvening!",
-};
-
 const harvestflower: Record<Harvestflower, string> = {
   "harvestflower.noFlowerBed": "Canteiro de flores não existe",
   "harvestflower.noFlower": "O canteiro de flores não tem uma flor",
@@ -5300,7 +5291,6 @@ export const PORTUGUESE_TERMS: Record<TranslationKeys, string> = {
   ...greenhouse,
   ...guideTerms,
   ...guideCompost,
-  ...halveningCountdown,
   ...harvestflower,
   ...harvestBeeHive,
   ...hayseedHankPlaza,

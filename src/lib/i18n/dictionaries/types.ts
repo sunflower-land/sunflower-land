@@ -1959,12 +1959,6 @@ export type GuideTerms =
   | "pete.teaser.seven"
   | "pete.teaser.eight";
 
-export type HalveningCountdown =
-  | "halveningCountdown.approaching"
-  | "halveningCountdown.description"
-  | "halveningCountdown.preparation"
-  | "halveningCountdown.title";
-
 export type Harvestflower =
   | "harvestflower.noFlowerBed"
   | "harvestflower.noFlower"
@@ -3631,7 +3625,6 @@ export type TranslationKeys =
   | GuideCompost
   | GuideCompost
   | Factions
-  | HalveningCountdown
   | Harvestflower
   | HarvestBeeHive
   | HayseedHankPlaza
