@@ -479,6 +479,7 @@ export type BlockchainState = {
     | "withdrawing"
     | "withdrawn"
     | "provingPersonhood"
+    | "somethingArrived"
     | "randomising"; // TEST ONLY
   context: Context;
 };
@@ -797,6 +798,10 @@ export function startGame(authContext: AuthContext) {
                 !context.state.collectibles["Clash of Factions Banner"] &&
                 !getSeasonPassRead(),
             },
+            {
+              target: "somethingArrived",
+              cond: (context) => !!context.revealed,
+            },
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
@@ -864,6 +869,16 @@ export function startGame(authContext: AuthContext) {
             ],
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+        somethingArrived: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+              actions: assign((context: Context) => ({
+                revealed: undefined,
+              })),
             },
           },
         },
@@ -1475,6 +1490,9 @@ export function startGame(authContext: AuthContext) {
           on: {
             CONTINUE: {
               target: "playing",
+              actions: assign((_, event) => ({
+                revealed: undefined,
+              })),
             },
           },
         },
@@ -1501,6 +1519,7 @@ export function startGame(authContext: AuthContext) {
                       "Genie Lamp": newLamps,
                     },
                   },
+                  revealed: undefined,
                 };
               }),
             },
@@ -1525,6 +1544,7 @@ export function startGame(authContext: AuthContext) {
                       "Magic Bean": newBeans,
                     },
                   },
+                  revealed: undefined,
                 };
               }),
             },
@@ -1809,18 +1829,21 @@ export function startGame(authContext: AuthContext) {
           entry: "setTransactionId",
           invoke: {
             src: async (context, e) => {
-              const { success } = await reset({
+              const { success, changeset } = await reset({
                 farmId: context.farmId,
                 token: authContext.user.rawToken as string,
                 fingerprint: context.fingerprint as string,
                 transactionId: context.transactionId as string,
               });
 
-              return { success };
+              return { success, changeset };
             },
             onDone: [
               {
                 target: "loading",
+                actions: assign({
+                  revealed: (_, event) => event.data.changeset,
+                }),
               },
             ],
             onError: {

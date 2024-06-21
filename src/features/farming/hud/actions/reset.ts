@@ -1,3 +1,4 @@
+import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -26,7 +27,14 @@ export async function reset(request: Request) {
     throw new Error(ERRORS.RESET_SERVER_ERROR);
   }
 
-  const data: { success: boolean } = await response.json();
+  const data: {
+    success: boolean;
+    changeset: {
+      balance: number;
+      inventory: Record<InventoryItemName, number>;
+      wardrobe: Wardrobe;
+    };
+  } = await response.json();
 
   return data;
 }

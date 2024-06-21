@@ -70,6 +70,7 @@ import { VIPOffer } from "../components/modal/components/VIPItems";
 import { GreenhouseInside } from "features/greenhouse/GreenhouseInside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { FontReward } from "./components/FontReward";
+import { SomethingArrived } from "./components/SomethingArrived";
 
 export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
@@ -124,6 +125,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   withdrawing: true,
   withdrawn: true,
   sellMarketResource: false,
+  somethingArrived: true,
 };
 
 // State change selectors
@@ -181,6 +183,8 @@ const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const hasSpecialOffer = (state: MachineState) => state.matches("specialOffer");
 const hasFontReward = (state: MachineState) => state.matches("fontReward");
 const isPlaying = (state: MachineState) => state.matches("playing");
+const somethingArrived = (state: MachineState) =>
+  state.matches("somethingArrived");
 const isProvingPersonhood = (state: MachineState) =>
   state.matches("provingPersonhood");
 
@@ -310,6 +314,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const specialOffer = useSelector(gameService, hasSpecialOffer);
   const fontReward = useSelector(gameService, hasFontReward);
   const playing = useSelector(gameService, isPlaying);
+  const hasSomethingArrived = useSelector(gameService, somethingArrived);
 
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
 
@@ -474,6 +479,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {specialOffer && <VIPOffer />}
             {withdrawing && <Withdrawing />}
             {withdrawn && <Withdrawn />}
+            {hasSomethingArrived && <SomethingArrived />}
           </Panel>
         </Modal>
 
