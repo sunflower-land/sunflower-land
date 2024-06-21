@@ -8,7 +8,7 @@ import { formatNumber } from "lib/utils/formatNumber";
 import lightning from "assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
+import { FactionName, InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -20,6 +20,7 @@ import {
   FactionShopWearable,
   FactionShopCollectible,
 } from "features/game/types/factionShop";
+import { capitalize } from "lib/utils/capitalize";
 
 interface Props {
   itemsLabel: string;
@@ -54,12 +55,18 @@ export const ItemsList: React.FC<Props> = ({
     ).toNumber();
   };
 
+  const getFactionEmblemIcon = (factionName: FactionName): string => {
+    const singular = capitalize(factionName.slice(0, -1));
+
+    return ITEM_DETAILS[`${singular} Emblem` as InventoryItemName].image;
+  };
+
   const sortedItems = items.sort((a, b) => Number(a.price.sub(b.price)));
   const { t } = useAppTranslation();
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className=" sticky -top-1 pb-1 z-10">
+      <div className="bg-brown-200 sticky -top-1 pb-1 z-10">
         <Label type="default">{itemsLabel}</Label>
       </div>
       <div className="flex gap-2 flex-wrap">
@@ -99,12 +106,12 @@ export const ItemsList: React.FC<Props> = ({
                     )}
                     {item.faction && (
                       <img
-                        src={lightning}
-                        className="absolute -left-2 -top-2 object-contain"
+                        src={getFactionEmblemIcon(item.faction)}
+                        className="absolute -right-2 -top-2 object-contain"
                         style={{
                           width: `${PIXEL_SCALE * 7}px`,
                         }}
-                        alt="crop"
+                        alt={`${item.faction} emblem`}
                       />
                     )}
                     {balanceOfItem > 0 && (

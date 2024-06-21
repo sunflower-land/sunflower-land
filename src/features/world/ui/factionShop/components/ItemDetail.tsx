@@ -37,6 +37,8 @@ interface ItemOverlayProps {
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+const _pledgedFaction = (state: MachineState) =>
+  state.context.state.faction?.name;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -48,8 +50,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
+
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
+  const pledgedFaction = useSelector(gameService, _pledgedFaction);
+
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
@@ -91,8 +96,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     if (item.limit && getBalanceOfItem(item) >= item.limit) return false;
 
+    if (item.faction && item.faction !== pledgedFaction) return false;
+
     return (
-      inventory[currency as InventoryItemName] ?? new Decimal(0)
+      inventory[item.currency as InventoryItemName] ?? new Decimal(0)
     ).greaterThanOrEqualTo(item.price);
   };
 
@@ -125,7 +132,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (!item) return;
 
     gameService.send("factionShopItem.bought", {
-      name: item.name,
+      item: item.name,
     });
 
     if (!isWearable) {
@@ -179,9 +186,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     const name = `${singular} Emblem` as InventoryItemName;
 
     return (
-      <Label type="warning" icon={ITEM_DETAILS[name].image}>{`${capitalize(
+      <Label type="danger" icon={ITEM_DETAILS[name].image}>{`${capitalize(
         faction
-      )} Only`}</Label>
+      )} Only!`}</Label>
     );
   };
 
@@ -237,7 +244,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   </div>
                   <div className="flex flex-col space-y-2">
                     <div className="flex content-start flex-col sm:flex-row sm:flex-wrap gap-2">
-                      {!!item?.faction && getFactionOnlyLabel(item.faction)}
+                      {!!item?.faction &&
+                        item.faction !== pledgedFaction &&
+                        getFactionOnlyLabel(item.faction)}
                       {!!buff && (
                         <Label
                           type={buff.labelType}
@@ -284,8 +293,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             </div>
           )}
           {showSuccess && (
-            <div className="flex flex-col space-y-1">
-              <span className="p-2 text-xs">{getSuccessCopy()}</span>
+            <div className="flex flex-col items-center space-y-1">
+              <img
+                src={SUNNYSIDE.icons.confirm}
+                alt="Success"
+                className="mt-1.5 w-8"
+              />
+              <span className="p-2 pt-1 text-xs">{getSuccessCopy()}</span>
               <Button onClick={onClose}>{t("ok")}</Button>
             </div>
           )}
