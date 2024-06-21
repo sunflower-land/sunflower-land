@@ -9,128 +9,15 @@ import { getRelativeTime } from "lib/utils/time";
 
 import { FactionName } from "features/game/types/game";
 
-import chevron from "assets/icons/factions/sunflorians/chevron_one.webp";
-
 import mark from "assets/icons/faction_mark.webp";
 import factions from "assets/icons/factions.webp";
 
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { getKeys } from "features/game/types/craftables";
-
-interface LeaderboardEntry {
-  username: string;
-  marks: number;
-  emblems: number;
-  faction: FactionName;
-  rank: 1 | 2 | 3 | 4;
-  farmId: 1 | 2 | 3 | 4;
-}
-
-/* TODO feat/marks-leaderboard REPLACE with real data  */
-
-const PLAYER_ID = 1;
-const PLAYER_FACTION = "nightshades";
-const DATA: LeaderboardEntry[] = [
-  {
-    username: "Parsley",
-    marks: 100,
-    emblems: 10,
-    faction: "nightshades",
-    rank: 1,
-    farmId: 1,
-  },
-  {
-    username: "Sage",
-    marks: 50,
-    faction: "bumpkins",
-    rank: 2,
-    farmId: 2,
-    emblems: 5,
-  },
-  {
-    username: "Rosemary",
-    marks: 25,
-    faction: "goblins",
-    rank: 3,
-    farmId: 3,
-    emblems: 20000,
-  },
-  {
-    username: "Thyme",
-    marks: 10,
-    faction: "sunflorians",
-    rank: 4,
-    farmId: 4,
-    emblems: 60000,
-  },
-  {
-    username: "Parsley",
-    marks: 100,
-    emblems: 10,
-    faction: "nightshades",
-    rank: 1,
-    farmId: 1,
-  },
-  {
-    username: "Sage",
-    marks: 50,
-    faction: "bumpkins",
-    rank: 2,
-    farmId: 2,
-    emblems: 5,
-  },
-  {
-    username: "Rosemary",
-    marks: 25,
-    faction: "goblins",
-    rank: 3,
-    farmId: 3,
-    emblems: 20000,
-  },
-  {
-    username: "Thyme",
-    marks: 10,
-    faction: "sunflorians",
-    rank: 4,
-    farmId: 4,
-    emblems: 60000,
-  },
-  {
-    username: "Parsley",
-    marks: 100,
-    emblems: 10,
-    faction: "nightshades",
-    rank: 1,
-    farmId: 1,
-  },
-  {
-    username: "Sage",
-    marks: 50,
-    faction: "bumpkins",
-    rank: 2,
-    farmId: 2,
-    emblems: 5,
-  },
-  {
-    username: "Rosemary",
-    marks: 25,
-    faction: "goblins",
-    rank: 3,
-    farmId: 3,
-    emblems: 20000,
-  },
-  {
-    username: "Thyme",
-    marks: 10,
-    faction: "sunflorians",
-    rank: 4,
-    farmId: 4,
-    emblems: 60000,
-  },
-];
-
-/* END TODO */
+import { KingdomLeaderboard } from "features/game/expansion/components/leaderboard/actions/leaderboard";
+import { Loading } from "features/auth/components";
+import { RANKS } from "features/game/lib/factionRanks";
 
 interface FilterCheckboxProps {
   faction: FactionName;
@@ -156,24 +43,43 @@ const FilterCheckbox: React.FC<FilterCheckboxProps> = ({
   </OuterPanel>
 );
 
-export const MarksLeaderboard: React.FC = () => {
+interface MarksLeaderboardProps {
+  isLoading: boolean;
+  data: KingdomLeaderboard | null;
+  id: string;
+}
+
+export const MarksLeaderboard: React.FC<MarksLeaderboardProps> = ({
+  data,
+  isLoading,
+  id: playerId,
+}) => {
   const { t } = useAppTranslation();
 
-  const [selected, setSelected] = useState({
-    nightshades: true,
-    bumpkins: true,
-    goblins: true,
-    sunflorians: true,
-  });
+  const [selected, setSelected] = useState<FactionName>();
   const [leaderboard, setLeaderboard] = useState<"marks" | "emblems">("marks");
 
   const select = (faction: FactionName) => {
-    const updated = { ...selected, [faction]: !selected[faction] };
-    // At least one must be true
-    if (!Object.values(updated).some((s) => s)) return;
-
-    setSelected(updated);
+    setSelected((prevFaction) =>
+      prevFaction === faction ? undefined : faction
+    );
   };
+
+  if (isLoading && !data) return <Loading />;
+
+  if (!data)
+    return (
+      <div className="p-1">
+        <Label type="danger">{t("leaderboard.error")}</Label>
+      </div>
+    );
+
+  const topN = Object.entries(data[leaderboard].topTens)
+    .filter(([faction]) => !selected || selected === faction)
+    .flatMap(([faction, entries]) =>
+      entries.map((entry) => ({ ...entry, faction }))
+    )
+    .sort((a, b) => (b.count ?? 0) - (a.count ?? 0));
 
   return (
     <InnerPanel
@@ -193,7 +99,7 @@ export const MarksLeaderboard: React.FC = () => {
             <FilterCheckbox
               key={`faction-${faction}`}
               faction={faction}
-              selected={selected[faction]}
+              selected={selected === faction}
               onClick={() => select(faction)}
             />
           ))}
@@ -239,14 +145,16 @@ export const MarksLeaderboard: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {DATA.filter(({ faction }) => selected[faction])
+          {topN
             .slice(0, 7)
-            .map(
-              ({ farmId, rank, marks, username, faction, emblems }, index) => (
+            .map(({ id, rank, count, faction, factionRank }, index) => {
+              const playerRank = RANKS[factionRank];
+
+              return (
                 <tr
                   key={index}
                   className={classNames({
-                    "bg-[#ead4aa]": farmId === PLAYER_ID,
+                    "bg-[#ead4aa]": id === playerId,
                   })}
                 >
                   <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
@@ -257,45 +165,33 @@ export const MarksLeaderboard: React.FC = () => {
                     className="truncate"
                   >
                     <div className="flex items-center space-x-1">
-                      <span className="p-1.5">{username}</span>
-                      {faction === "nightshades" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                      {faction === "goblins" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
-                      {faction === "bumpkins" && (
-                        <img src={chevron} className="h-auto" />
-                      )}
+                      <span className="p-1.5">{id}</span>
+                      <img src={playerRank?.icon} className="h-auto" />
                     </div>
                   </td>
 
                   <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                     <div className="flex items-center space-x-1 justify-end">
-                      {/* <img
-                        src={FACTION_EMBLEM_ICONS[faction]}
-                        className="w-4"
-                      /> */}
                       {leaderboard === "emblems" && (
                         <>
-                          <span>{emblems}</span>
+                          <span>{count}</span>
                           <img
-                            src={FACTION_EMBLEM_ICONS[faction]}
+                            src={FACTION_EMBLEM_ICONS[faction as FactionName]}
                             className="h-4"
                           />
                         </>
                       )}
                       {leaderboard === "marks" && (
                         <>
-                          <span>{marks}</span>
+                          <span>{count}</span>
                           <img src={mark} className="h-4" />
                         </>
                       )}
                     </div>
                   </td>
                 </tr>
-              )
-            )}
+              );
+            })}
           <tr>
             <td colSpan={3}>
               <div className="flex justify-center items-center">
@@ -303,7 +199,7 @@ export const MarksLeaderboard: React.FC = () => {
               </div>
             </td>
           </tr>
-          {DATA.filter(({ faction }) => selected[faction])
+          {/* {DATA.filter(({ faction }) => selected[faction])
             .slice(0, 3)
             .map(
               ({ farmId, rank, marks, username, faction, emblems }, index) => (
@@ -336,15 +232,11 @@ export const MarksLeaderboard: React.FC = () => {
 
                   <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                     <div className="flex items-center space-x-1 justify-end">
-                      {/* <img
-                        src={FACTION_EMBLEM_ICONS[faction]}
-                        className="w-4"
-                      /> */}
                       {leaderboard === "emblems" && (
                         <>
                           <span>{emblems}</span>
                           <img
-                            src={FACTION_EMBLEM_ICONS[faction]}
+                            src={FACTION_EMBLEM_ICONS[faction as FactionName]}
                             className="h-4"
                           />
                         </>
@@ -359,7 +251,7 @@ export const MarksLeaderboard: React.FC = () => {
                   </td>
                 </tr>
               )
-            )}
+            )} */}
         </tbody>
       </table>
       <div className="flex justify-between font-secondary text-xs pt-1">
