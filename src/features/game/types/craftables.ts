@@ -1059,24 +1059,6 @@ export const getEntries = Object.entries as <T extends object>(
   obj: T
 ) => Entries<T>[];
 
-export const LIMITED_ITEMS = {
-  ...BLACKSMITH_ITEMS,
-  ...BARN_ITEMS,
-  ...MARKET_ITEMS,
-  ...FLAGS,
-  ...MOM_EVENT_ITEMS,
-  ...QUEST_ITEMS,
-  ...MUTANT_CHICKENS,
-  ...SALESMAN_ITEMS,
-  ...WAR_TENT_ITEMS,
-};
-
-export const isLimitedItem = (itemName: any) => {
-  return !!getKeys(LIMITED_ITEMS).find(
-    (limitedItemName) => limitedItemName === itemName
-  );
-};
-
 export type Dimensions = { width: number; height: number };
 
 const flagsDimension = getKeys(FLAGS).reduce(
