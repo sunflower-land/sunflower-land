@@ -256,6 +256,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   exotics: "Exotics",
   "expand.land": "Expand your Land",
   expand: "Expand",
+  expired: "Expired",
   explore: "Explore",
   faction: "Faction",
   farm: "Farm",
@@ -379,6 +380,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Task",
   test: "Test",
   "thank.you": "Thank you!",
+  "time.remaining": "Time remaining: {{time}}",
   tools: "Tools",
   total: "Total",
   trades: "Trades",
@@ -917,6 +919,10 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.orchard.hourglass.boost": "-25% Fruit Growth Time (6hrs)",
   "description.fishers.hourglass.boost": "50% Chance of +1 Fish (4hrs)",
   "description.blossom.hourglass.boost": "-25% Flower Growth Time (4hrs)",
+  "description.hourglass.running":
+    "This {{hourglass}} provides a temporary boost of {{boost}}.",
+  "description.hourglass.expired":
+    "Your {{hourglass}} has expired. Time to grab another one!",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {

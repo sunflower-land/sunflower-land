@@ -19,7 +19,7 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   location,
 }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
+  const { gameService, showTimers } = useContext(Context);
 
   const [_, setRender] = useState(0);
 
@@ -97,15 +97,17 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
           onClick={() => setShowModal(true)}
         />
       )}
-      <div className="absolute bottom-0 left-0">
-        <LiveProgressBar
-          startAt={createdAt}
-          endAt={expiresAt}
-          formatLength="medium"
-          type={"buff"}
-          onComplete={() => setRender((r) => r + 1)}
-        />
-      </div>
+      {showTimers && (
+        <div className="absolute bottom-0 left-0">
+          <LiveProgressBar
+            startAt={createdAt}
+            endAt={expiresAt}
+            formatLength="medium"
+            type={"buff"}
+            onComplete={() => setRender((r) => r + 1)}
+          />
+        </div>
+      )}
 
       <img
         src={tikiTotem}

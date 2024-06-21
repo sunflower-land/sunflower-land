@@ -687,7 +687,7 @@ import goblinFactionBanner from "assets/decorations/banners/factions/goblins_ban
 
 // Faction Shop
 
-import sunflorianThrone from "assets/factions/sunflorian_throne.png";
+import sunflorianThrone from "assets/factions/sunflorian_throne.webp";
 import nightshadeThrone from "assets/factions/nightshade_throne.webp";
 import goblinThrone from "assets/factions/goblin_throne.webp";
 import bumpkinThrone from "assets/factions/bumpkins_throne.webp";

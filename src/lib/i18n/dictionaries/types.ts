@@ -75,6 +75,7 @@ export type GeneralTerms =
   | "exotics"
   | "expand.land"
   | "expand"
+  | "expired"
   | "explore"
   | "faction"
   | "farm"
@@ -199,6 +200,7 @@ export type GeneralTerms =
   | "task"
   | "test"
   | "thank.you"
+  | "time.remaining"
   | "tools"
   | "total"
   | "trades"
@@ -620,7 +622,9 @@ export type BoostEffectDescriptions =
   | "description.ore.hourglass.boost"
   | "description.orchard.hourglass.boost"
   | "description.fishers.hourglass.boost"
-  | "description.blossom.hourglass.boost";
+  | "description.blossom.hourglass.boost"
+  | "description.hourglass.expired"
+  | "description.hourglass.running";
 
 export type BountyDescription =
   | "description.clam.shell"
