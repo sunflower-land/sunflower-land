@@ -1054,6 +1054,7 @@ const changeLanguage: Record<ChangeLanguage, string> = {
   "changeLanguage.contribute": ENGLISH_TERMS["changeLanguage.contribute"],
   "changeLanguage.contribute.message":
     ENGLISH_TERMS["changeLanguage.contribute.message"],
+  "changeLanguage.currentLanguage": "（当前语言）",
 };
 
 const chat: Record<Chat, string> = {

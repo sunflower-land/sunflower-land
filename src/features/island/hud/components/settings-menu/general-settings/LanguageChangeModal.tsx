@@ -55,7 +55,8 @@ export const LanguageSwitcher: React.FC = () => {
                 alt={languageDetails[languageCode].imageAlt[index]}
               />
             ))}
-            {languageDetails[languageCode].languageName}
+            {languageDetails[languageCode].languageName}{" "}
+            {language === languageCode && t("changeLanguage.currentLanguage")}
           </Button>
         ))}
         <span>

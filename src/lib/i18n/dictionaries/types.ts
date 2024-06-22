@@ -3554,7 +3554,8 @@ export type EasterEggKeys =
 export type ChangeLanguage =
   | "changeLanguage.confirm"
   | "changeLanguage.contribute"
-  | "changeLanguage.contribute.message";
+  | "changeLanguage.contribute.message"
+  | "changeLanguage.currentLanguage";
 
 export type TranslationKeys =
   | AchievementsTerms

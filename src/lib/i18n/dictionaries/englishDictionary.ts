@@ -1126,6 +1126,7 @@ const changeLanguage: Record<ChangeLanguage, string> = {
   "changeLanguage.contribute": "Want to contribute your Language?",
   "changeLanguage.contribute.message":
     "If you are interested in contributing translations for your preferred language, please contact one of the Moderators in the Sunflower Land Discord Server:",
+  "changeLanguage.currentLanguage": "(Current Language)",
 };
 
 const chat: Record<Chat, string> = {
