@@ -105,6 +105,15 @@ export class KingdomScene extends BaseScene {
     this.load.image("bumpkin_board", "world/bumpkin_board.png");
     this.load.image("sunflorian_board", "world/sunflorian_board.png");
     this.load.image("nightshade_board", "world/nightshade_board.png");
+    this.load.image("goblin_throne", "world/goblin_throne.png");
+    this.load.image("knights_gambit", "world/knights_gambit.png");
+    this.load.image("sunflorian_helmet", "world/sunflorian_helmet.png");
+  }
+
+  addShopDisplayItems() {
+    this.add.image(40, 562, "goblin_throne");
+    this.add.image(96, 553, "knights_gambit");
+    this.add.image(161, 554, "sunflorian_helmet");
   }
 
   create() {
@@ -114,6 +123,7 @@ export class KingdomScene extends BaseScene {
     });
 
     this.initialiseNPCs(KINGDOM_NPCS);
+    this.addShopDisplayItems();
 
     this.onCollision["faction_door"] = async (obj1, obj2) => {
       interactableModalManager.open("faction_launch");
