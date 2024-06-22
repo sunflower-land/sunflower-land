@@ -94,9 +94,21 @@ export type NPCName =
   | "grizzle"
   | "buttercup"
   | "shadow"
-  | "flora";
+  | "flora"
+  | "peggy";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  peggy: {
+    body: "Beige Farmer Potion",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    coat: "Chef Apron",
+    hair: "Royal Braids",
+    hat: "Chef Hat",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Parsnip",
+  },
   "chef tuck": {
     body: "Goblin Potion",
     hair: "Wise Hair",
