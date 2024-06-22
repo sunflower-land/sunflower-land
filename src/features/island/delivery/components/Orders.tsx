@@ -29,6 +29,7 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { getDayOfYear, secondsToString } from "lib/utils/time";
 import {
   DELIVERY_LEVELS,
+  DeliveryNpcName,
   acknowledgeOrders,
   generateDeliveryMessage,
 } from "../lib/delivery";
@@ -186,9 +187,9 @@ export const DeliveryOrders: React.FC<Props> = ({
   } = getSeasonChangeover({ id: gameService.state.context.farmId });
 
   const level = getBumpkinLevel(gameState.bumpkin?.experience ?? 0);
-  const nextNpcUnlock = getKeys(DELIVERY_LEVELS).find(
-    (npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0),
-  );
+  const nextNpcUnlock = getKeys(DELIVERY_LEVELS)
+    .sort((a, b) => (DELIVERY_LEVELS[a] > DELIVERY_LEVELS[b] ? 1 : -1))
+    .find((npc) => level < (DELIVERY_LEVELS?.[npc] ?? 0));
 
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
@@ -548,7 +549,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               <div className="text-xs space-y-2">
                 <p>
                   {generateDeliveryMessage({
-                    from: previewOrder?.from,
+                    from: previewOrder?.from as DeliveryNpcName,
                     id: previewOrder.id,
                   })}
                 </p>

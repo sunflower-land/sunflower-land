@@ -97,7 +97,8 @@ export type NPCName =
   | "flora"
   | "eldric"
   | "jafar" // desert merchant
-  | "pet"; // faction pet
+  | "pet" // faction pet
+  | "peggy";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   digby: {
@@ -109,6 +110,17 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Grave Diggers Shovel",
     background: "Farm Background",
     shoes: "Black Farmer Boots",
+  },
+  peggy: {
+    body: "Beige Farmer Potion",
+    shirt: "Red Farmer Shirt",
+    pants: "Farmer Pants",
+    coat: "Chef Apron",
+    hair: "Royal Braids",
+    hat: "Chef Hat",
+    background: "Farm Background",
+    shoes: "Black Farmer Boots",
+    tool: "Parsnip",
   },
   "chef tuck": {
     body: "Goblin Potion",

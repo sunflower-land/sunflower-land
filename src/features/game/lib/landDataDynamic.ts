@@ -5,7 +5,7 @@ import { BumpkinLevel } from "features/game/lib/level";
 import { INITIAL_BUMPKIN_LEVEL, INITIAL_EXPANSIONS } from "./bumpkinData";
 import { getEnabledNodeCount } from "../expansion/lib/expansionNodes";
 import { INITIAL_RESOURCES } from "./landDataStatic";
-import { INITIAL_BUMPKIN } from "./bumpkinData";
+import { TEST_BUMPKIN } from "./bumpkinData";
 import { STATIC_OFFLINE_FARM } from "./landDataStatic";
 import { getBuildingBumpkinLevelRequired } from "../expansion/lib/buildingRequirements";
 
@@ -149,7 +149,7 @@ const DYNAMIC_INITIAL_RESOURCES: Pick<
 };
 
 const DYNAMIC_INITIAL_BUMPKIN: Bumpkin = {
-  ...INITIAL_BUMPKIN,
+  ...TEST_BUMPKIN,
   experience: LEVEL_EXPERIENCE[INITIAL_BUMPKIN_LEVEL as BumpkinLevel],
 };
 

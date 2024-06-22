@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { getFlowerTime, plantFlower } from "./plantFlower";
 import { GameState } from "features/game/types/game";
 import { TEST_FARM } from "features/game/lib/constants";
-import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
@@ -10,7 +10,7 @@ import {
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
-  bumpkin: INITIAL_BUMPKIN,
+  bumpkin: TEST_BUMPKIN,
   flowers: {
     discovered: {},
     flowerBeds: {
@@ -93,7 +93,7 @@ describe("plantFlower", () => {
   it("does not plant an invalid seed", () => {
     expect(() =>
       plantFlower({
-        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN },
+        state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: dateNow,
         action: {
           type: "flower.planted",
@@ -108,7 +108,7 @@ describe("plantFlower", () => {
   it("does not plant if user does not have seeds", () => {
     expect(() =>
       plantFlower({
-        state: { ...GAME_STATE, bumpkin: INITIAL_BUMPKIN },
+        state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: dateNow,
         action: {
           type: "flower.planted",
@@ -125,7 +125,7 @@ describe("plantFlower", () => {
       plantFlower({
         state: {
           ...GAME_STATE,
-          bumpkin: INITIAL_BUMPKIN,
+          bumpkin: TEST_BUMPKIN,
           inventory: { "Sunpetal Seed": new Decimal(1) },
         },
         createdAt: dateNow,
@@ -147,7 +147,7 @@ describe("plantFlower", () => {
     const state = plantFlower({
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: TEST_BUMPKIN,
         inventory: {
           "Sunpetal Seed": seedAmount,
           Sunflower: new Decimal(100),
@@ -178,7 +178,7 @@ describe("plantFlower", () => {
     const state = plantFlower({
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: TEST_BUMPKIN,
         inventory: {
           "Sunpetal Seed": new Decimal(1),
           Sunflower: new Decimal(100),
@@ -198,7 +198,7 @@ describe("plantFlower", () => {
   it("deducts the seed from the inventory", () => {
     const initialState = {
       ...GAME_STATE,
-      bumpkin: INITIAL_BUMPKIN,
+      bumpkin: TEST_BUMPKIN,
       inventory: {
         "Sunpetal Seed": new Decimal(1),
         Sunflower: new Decimal(100),
@@ -223,7 +223,7 @@ describe("plantFlower", () => {
   it("deducts the amount of cross breed required", () => {
     const initialState = {
       ...GAME_STATE,
-      bumpkin: INITIAL_BUMPKIN,
+      bumpkin: TEST_BUMPKIN,
       inventory: {
         "Sunpetal Seed": new Decimal(1),
         Sunflower: new Decimal(100),
@@ -257,8 +257,8 @@ describe("plantFlower", () => {
       state: {
         ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_BUMPKIN,
-          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Flower Crown" },
+          ...TEST_BUMPKIN,
+          equipped: { ...TEST_BUMPKIN.equipped, hat: "Flower Crown" },
         },
         inventory: {
           "Sunpetal Seed": seedAmount,
@@ -327,8 +327,8 @@ describe("plantFlower", () => {
       state: {
         ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_BUMPKIN,
-          equipped: { ...INITIAL_BUMPKIN.equipped, hat: "Flower Crown" },
+          ...TEST_BUMPKIN,
+          equipped: { ...TEST_BUMPKIN.equipped, hat: "Flower Crown" },
         },
         inventory: {
           "Sunpetal Seed": seedAmount,
