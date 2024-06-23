@@ -105,8 +105,8 @@ const ListTrade: React.FC<{
     !!sfl &&
     !!quantity &&
     !!floorPrices[selected] &&
-    // new Decimal(floorPrices[selected] ?? 0).mul(1.5).lt(unitPrice); // Either we change the label to 1.5, or change this limit to 1.2
     new Decimal(floorPrices[selected] ?? 0).mul(1.2).lt(unitPrice);
+
   const isTooLow =
     !!sfl &&
     !!quantity &&
@@ -163,7 +163,6 @@ const ListTrade: React.FC<{
           <Label type="danger" className="my-1 ml-2 mr-1">
             {t("bumpkinTrade.maximumFloor", {
               max: setPrecision(new Decimal(floorPrices[selected] ?? 0))
-                //.mul(1.5) // Either we change the label to 1.5, or change the limit to 1.2
                 .mul(1.2)
                 .toNumber(),
             })}
