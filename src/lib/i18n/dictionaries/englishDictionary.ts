@@ -177,6 +177,7 @@ import {
   Username,
   EasterEggKeys,
   ChangeLanguage,
+  FactionShopDescription,
 } from "./types";
 
 const generalTerms: Record<GeneralTerms, string> = {
@@ -255,6 +256,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   exotics: "Exotics",
   "expand.land": "Expand your Land",
   expand: "Expand",
+  expired: "Expired",
   explore: "Explore",
   faction: "Faction",
   farm: "Farm",
@@ -378,6 +380,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   task: "Task",
   test: "Test",
   "thank.you": "Thank you!",
+  "time.remaining": "Time remaining: {{time}}",
   tools: "Tools",
   total: "Total",
   trades: "Trades",
@@ -909,6 +912,17 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.rice.panda.boost": "+0.25 Rice",
   "description.olive.shirt.boost": "+0.25 Olive",
   "description.tofu.mask.boost": "+0.1 Soybean",
+  "description.gourmet.hourglass.boost": "+50% Cooking Speed (4hrs)",
+  "description.harvest.hourglass.boost": "-25% Crop Growth Time (6hrs)",
+  "description.timber.hourglass.boost": "-25% Tree Recovery Time (4hrs)",
+  "description.ore.hourglass.boost": "-50% Mineral Recovery Time (3hrs)",
+  "description.orchard.hourglass.boost": "-25% Fruit Growth Time (6hrs)",
+  "description.fishers.hourglass.boost": "50% Chance of +1 Fish (4hrs)",
+  "description.blossom.hourglass.boost": "-25% Flower Growth Time (4hrs)",
+  "description.hourglass.running":
+    "This {{hourglass}} provides a temporary boost of {{boost}}.",
+  "description.hourglass.expired":
+    "Your {{hourglass}} has expired. Time to grab another one!",
 };
 
 const bountyDescription: Record<BountyDescription, string> = {
@@ -1009,6 +1023,26 @@ const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
   "bumpkinItemBuff.hornet.mask": "2x chance Bee Swarm",
   "bumpkinItemBuff.honeycomb.shield": "+1 Honey per Full Beehive",
   "bumpkinItemBuff.flower.crown": "-50% Flower Growth Time",
+  "bumpkinItemBuff.goblin.armor": "+20% Marks",
+  "bumpkinItemBuff.goblin.helmet": "+10% Marks",
+  "bumpkinItemBuff.goblin.axe": "+10% Marks",
+  "bumpkinItemBuff.goblin.pants": "+5% Marks",
+  "bumpkinItemBuff.goblin.sabatons": "+5% Marks",
+  "bumpkinItemBuff.nightshade.armor": "+20% Marks",
+  "bumpkinItemBuff.nightshade.helmet": "+10% Marks",
+  "bumpkinItemBuff.nightshade.sword": "+10% Marks",
+  "bumpkinItemBuff.nightshade.pants": "+5% Marks",
+  "bumpkinItemBuff.nightshade.sabatons": "+5% Marks",
+  "bumpkinItemBuff.sunflorian.armor": "+20% Marks",
+  "bumpkinItemBuff.sunflorian.helmet": "+10% Marks",
+  "bumpkinItemBuff.sunflorian.sword": "+10% Marks",
+  "bumpkinItemBuff.sunflorian.pants": "+5% Marks",
+  "bumpkinItemBuff.sunflorian.sabatons": "+5% Marks",
+  "bumpkinItemBuff.bumpkin.armor": "+20% Marks",
+  "bumpkinItemBuff.bumpkin.helmet": "+10% Marks",
+  "bumpkinItemBuff.bumpkin.sword": "+10% Marks",
+  "bumpkinItemBuff.bumpkin.pants": "+5% Marks",
+  "bumpkinItemBuff.bumpkin.sabatons": "+5% Marks",
 };
 
 const bumpkinPart: Record<BumpkinPart, string> = {
@@ -2122,6 +2156,130 @@ const factions: Record<Factions, string> = {
   "faction.tradeEmblems": "Trade emblems to climb the ranks and attain perks.",
   "faction.marksBoost":
     "Marks boost applies to faction activities coming July 1st.",
+  "faction.shop.onlyFor": "{{faction}} only",
+  "faction.shop.welcome":
+    "Welcome to the Faction Shop! Use your marks to purchase temporary boosts, stylish wearables, and rare collectibles. Dive in and find your next great addition!",
+};
+
+const factionShopDescription: Record<FactionShopDescription, string> = {
+  "description.factionShop.sunflorianThrone": "A throne fit for a Sunflorian.",
+  "description.factionShop.nightshadeThrone": "A throne fit for a Nightshade.",
+  "description.factionShop.goblinThrone": "A throne fit for a Goblin.",
+  "description.factionShop.bumpkinThrone": "A throne fit for a Bumpkin.",
+  "description.factionShop.goldenSunflorianEgg":
+    "A jewelled egg created by the House of Sunflorian.",
+  "description.factionShop.goblinMischiefEgg":
+    "A jewelled egg created by the House of Goblin.",
+  "description.factionShop.bumpkinCharmEgg":
+    "A jewelled egg created by the House of Bumpkin.",
+  "description.factionShop.nightshadeVeilEgg":
+    "A jewelled egg created by the House of Nightshade.",
+  "description.factionShop.emeraldGoblinGoblet": "An emerald encrusted goblet.",
+  "description.factionShop.opalSunflorianGoblet": "An opal encrusted goblet.",
+  "description.factionShop.sapphireBumpkinGoblet":
+    "A sapphire encrusted goblet.",
+  "description.factionShop.amethystNightshadeGoblet":
+    "An amethyst encrusted goblet.",
+  "description.factionShop.goldenFactionGoblet": "A golden goblet.",
+  "description.factionShop.rubyFactionGoblet": "A ruby encrusted goblet.",
+  "description.factionShop.sunflorianBunting":
+    "Colorful flags celebrating the Sunflorian Faction.",
+  "description.factionShop.nightshadeBunting":
+    "Colorful flags celebrating the Nightshade faction.",
+  "description.factionShop.goblinBunting":
+    "Colorful flags celebrating the Goblin faction.",
+  "description.factionShop.bumpkinBunting":
+    "Colorful flags celebrating the Bumpkin faction.",
+  "description.factionShop.sunflorianCandles":
+    "Sunflorian Faction decorative candles.",
+  "description.factionShop.nightshadeCandles":
+    "Nightshade Faction decorative candles.",
+  "description.factionShop.goblinCandles": "Goblin Faction decorative candles.",
+  "description.factionShop.bumpkinCandles":
+    "Bumpkin Faction decorative candles.",
+  "description.factionShop.sunflorianLeftWallSconce":
+    "Illuminate your living quarters with a Sunflorian Wall Sconce.",
+  "description.factionShop.nightshadeLeftWallSconce":
+    "Illuminate your living quarters with a Nightshade Wall Sconce.",
+  "description.factionShop.goblinLeftWallSconce":
+    "Illuminate your living quarters with a Goblin Wall Sconce.",
+  "description.factionShop.bumpkinLeftWallSconce":
+    "Illuminate your living quarters with a Bumpkin Wall Sconce.",
+  "description.factionShop.sunflorianRightWallSconce":
+    "Illuminate your living quarters with a Sunflorian Wall Sconce.",
+  "description.factionShop.nightshadeRightWallSconce":
+    "Illuminate your living quarters with a Nightshade Wall Sconce.",
+  "description.factionShop.goblinRightWallSconce":
+    "Illuminate your living quarters with a Goblin Wall Sconce.",
+  "description.factionShop.bumpkinRightWallSconce":
+    "Illuminate your living quarters with a Bumpkin Wall Sconce.",
+  "description.factionShop.cookingBoost":
+    "Reduces cooking time by 50% for 4 hours.",
+  "description.factionShop.cropBoost":
+    "Reduces crop growth time by 25% for 6 hours.",
+  "description.factionShop.woodBoost":
+    "Reduces tree recovery time by 25% for 4 hours.",
+  "description.factionShop.mineralBoost":
+    "Reduces mineral replenish cooldown by 50% for 3 hours.",
+  "description.factionShop.fruitBoost":
+    "Reduces fruit growth time by 25% for 6 hours.",
+  "description.factionShop.flowerBoost":
+    "Reduces flower growth time by 25% for 4 hours.",
+  "description.factionShop.fishBoost":
+    "Gives a 50% chance of +1 fish for 4 hours.",
+  "description.factionShop.sunflorianFactionRug":
+    "A magnificent rug made by the talented Sunflorian faction artisans.",
+  "description.factionShop.nightshadeFactionRug":
+    "A magnificent rug made by the talented Nightshade faction artisans.",
+  "description.factionShop.goblinFactionRug":
+    "A magnificent rug made by the talented Goblin faction artisans.",
+  "description.factionShop.bumpkinFactionRug":
+    "A magnificent rug made by the talented Bumpkin faction artisans.",
+  "description.factionShop.goblinArmor":
+    "Rugged and rowdy, Goblin-approved protection. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.goblinHelmet":
+    "Strong and sturdy, crafted for fearless adventures in untamed lands. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.goblinPants":
+    "These pants blend agility with Goblin craftsmanship for swift maneuvers. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.goblinSabatons":
+    "Designed to outpace and outlast any foe. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.goblinAxe":
+    "This axe is a testament to Goblin strength and unmatched battle prowess. Earn +10% marks",
+  "description.factionShop.sunflorianArmor":
+    "A shimmering protection that mirrors the sun's strength. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.sunflorianHelmet":
+    "This helmet is a beacon of light and guardian against shadows. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.sunflorianPants":
+    "Stride confidently in attire that captures the warmth and energy of all Sunflorians. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.sunflorianSabatons":
+    "Each step taken in these shoes resonating with the power and vitality. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.sunflorianSword":
+    "A blade ablaze with the courage and brilliance of the sun. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.bumpkinArmor":
+    "A sturdy protection that honors tradition and strength. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.bumpkinHelmet":
+    "Adorn your head with a symbol of rustic fortitude and unwavering resolve. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.bumpkinPants":
+    "Navigate countryside and city alike blending comfort with the spirit of adventure. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.bumpkinSabatons":
+    "Stampede through fields in this sturdy footwear echoing the resilience of rural life. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.bumpkinSword":
+    "A weapon forged in fields and forests, ready for any challenge. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.nightshadeArmor":
+    "An Armor, crafted for stealth and resilience in the shadows. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.nightshadeHelmet":
+    "A strong helmet of secrecy and silent strength. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.nightshadePants":
+    "These pants are blending agility with the mystery of the night. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.nightshadeSabatons":
+    "Perfect design where every step is a whisper in the dark. Earn +5% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.nightshadeSword":
+    "A blade that strikes with the precision of moonlit steel. Earn +10% marks when pledged to this faction. Multiples of this item do not stack.",
+  "description.factionShop.knightGambit":
+    "Don this hat and be ready to charge into adventure with a playful twist of strategy and style.",
+  "description.factionShop.motley":
+    "A riot of colors stitched together in merry defiance of fashion norms.",
+  "description.factionShop.royalBraids": "A hairstyle fit for a royal.",
 };
 
 const festiveTree: Record<FestiveTree, string> = {
@@ -5290,6 +5448,7 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...event,
   ...exoticShopItems,
   ...factions,
+  ...factionShopDescription,
   ...festiveTree,
   ...fishDescriptions,
   ...fishermanModal,

@@ -62,6 +62,7 @@ import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
+import { FactionShopCollectibleName } from "./factionShop";
 
 export type Reward = {
   coins?: number;
@@ -379,7 +380,8 @@ export type InventoryItemName =
   | FlowerName
   | MegaStoreCollectibleName
   | FactionBanner
-  | WorkbenchToolName;
+  | WorkbenchToolName
+  | FactionShopCollectibleName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -925,9 +927,10 @@ export type Currency =
   | "Block Buck"
   | "Crimstone"
   | "Sunstone"
-  | "Seasonal Ticket";
+  | "Seasonal Ticket"
+  | "Mark";
 
-type ItemBase = {
+export type ShopItemBase = {
   shortDescription: string;
   currency: Currency;
   price: Decimal;
@@ -937,11 +940,11 @@ type ItemBase = {
 
 export type WearablesItem = {
   name: BumpkinItem;
-} & ItemBase;
+} & ShopItemBase;
 
 export type CollectiblesItem = {
   name: InventoryItemName;
-} & ItemBase;
+} & ShopItemBase;
 
 export type MegaStoreItemName = BumpkinItem | InventoryItemName;
 

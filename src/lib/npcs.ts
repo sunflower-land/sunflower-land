@@ -94,7 +94,8 @@ export type NPCName =
   | "grizzle"
   | "buttercup"
   | "shadow"
-  | "flora";
+  | "flora"
+  | "eldric";
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   "chef tuck": {
@@ -926,7 +927,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Bumpkin Pants",
     tool: "Bumpkin Sword",
     background: "Farm Background",
-    shoes: "Bumpkin Sabaton",
+    shoes: "Bumpkin Sabatons",
   },
   graxle: {
     body: "Goblin Potion",
@@ -936,7 +937,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Goblin Pants",
     tool: "Goblin Axe",
     background: "Farm Background",
-    shoes: "Goblin Sabaton",
+    shoes: "Goblin Sabatons",
   },
   nyx: {
     body: "Pale Potion",
@@ -946,7 +947,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Nightshade Pants",
     tool: "Nightshade Sword",
     background: "Farm Background",
-    shoes: "Nightshade Sabaton",
+    shoes: "Nightshade Sabatons",
   },
   reginald: {
     body: "Sunburst Potion",
@@ -956,7 +957,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Sunflorian Pants",
     tool: "Sunflorian Sword",
     background: "Farm Background",
-    shoes: "Sunflorian Sabaton",
+    shoes: "Sunflorian Sabatons",
   },
   glinteye: {
     body: "Goblin Potion",
@@ -975,7 +976,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Sunflorian Pants",
     tool: "Sunflorian Sword",
     background: "Farm Background",
-    shoes: "Sunflorian Sabaton",
+    shoes: "Sunflorian Sabatons",
   },
   dusk: {
     body: "Pale Potion",
@@ -984,7 +985,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Nightshade Pants",
     tool: "Nightshade Sword",
     background: "Farm Background",
-    shoes: "Nightshade Sabaton",
+    shoes: "Nightshade Sabatons",
   },
   haymitch: {
     body: "Beige Farmer Potion",
@@ -993,7 +994,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Bumpkin Pants",
     tool: "Bumpkin Sword",
     background: "Farm Background",
-    shoes: "Bumpkin Sabaton",
+    shoes: "Bumpkin Sabatons",
   },
   grizzle: {
     body: "Goblin Potion",
@@ -1013,7 +1014,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Bumpkin Pants",
     tool: "Dawn Lamp",
     background: "Farm Background",
-    shoes: "Bumpkin Sabaton",
+    shoes: "Bumpkin Sabatons",
   },
   shadow: {
     body: "Pale Potion",
@@ -1022,7 +1023,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Nightshade Pants",
     tool: "Beehive Staff",
     background: "Farm Background",
-    shoes: "Nightshade Sabaton",
+    shoes: "Nightshade Sabatons",
   },
   flora: {
     body: "Sunburst Potion",
@@ -1031,7 +1032,19 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Sunflorian Pants",
     tool: "Mushroom Lamp",
     background: "Farm Background",
-    shoes: "Sunflorian Sabaton",
+    shoes: "Sunflorian Sabatons",
+  },
+  eldric: {
+    background: "Farm Background",
+    body: "Dark Brown Farmer Potion",
+    beard: "Wise Beard",
+    hair: "Buzz Cut",
+    shirt: "Nightshade Armor",
+    hat: "Knight Gambit",
+    pants: "Bumpkin Pants",
+    shoes: "Sunflorian Sabatons",
+    tool: "Goblin Axe",
+    coat: "Royal Robe",
   },
 };
 

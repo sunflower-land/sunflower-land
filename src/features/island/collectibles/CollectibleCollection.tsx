@@ -286,6 +286,41 @@ import { GenerosityFlag } from "./components/GenerosityFlag";
 import { SplendorFlag } from "./components/SplendorFlag";
 import { PaintCan } from "./components/PaintCan";
 import { JellyLamp } from "./components/JellyLamp";
+import { SunflorianThrone } from "./components/SunflorianThrone";
+import { NightshadeThrone } from "./components/NightshadeThrone";
+import { GoblinThrone } from "./components/GoblinThrone";
+import { BumpkinThrone } from "./components/BumpkinThrone";
+import { GoldenSunflorianEgg } from "./components/GoldenSunflorianEgg";
+import { GoblinMischiefEgg } from "./GoblinMischiefEgg";
+import { BumpkinCharmEgg } from "./BumpkinCharmEgg";
+import { NightshadeVeilEgg } from "./NightshadeVeilEgg";
+import { EmeraldGoblinGoblet } from "./components/EmeralGoblinGoblet";
+import { OpalSunflorianGoblet } from "./OpalSunflorianGoblet";
+import { SapphireBumpkinGoblet } from "./SapphireBumpkinGoblet";
+import { AmethystNightshadeGoblet } from "./components/AmethystNightshadeGoblet";
+import { GoldenFactionGoblet } from "./components/GoldenFactionGoblet";
+import { RubyFactionGoblet } from "./components/RubyFactionGoblet";
+import { SunflorianBunting } from "./components/SunflorianBunting";
+import { NightshadeBunting } from "./components/NightshadeBunting";
+import { GoblinBunting } from "./components/GoblilnBunting";
+import { BumpkinBunting } from "./components/BumpkinBunting";
+import { SunflorianCandles } from "./components/SunflorianCandles";
+import { NightshadeCandles } from "./components/NightshadeCandles";
+import { GoblinCandles } from "./components/GoblinCandles";
+import { BumpkinCandles } from "./components/BumpkinCandles";
+import { SunflorianRightWallSconce } from "./components/SunflorianRightWallSconce";
+import { SunflorianLeftWallSconce } from "./components/SunflorianLeftWallSconce";
+import { NightshadeLeftWallSconce } from "./components/NightshadeLeftWallSconce";
+import { GoblinLeftWallSconce } from "./components/GoblinLeftWallSconce";
+import { BumpkinLeftWallSconce } from "./components/BumpkinLeftWallSconce";
+import { NightshadeRightWallSconce } from "./components/NightshadeRightWallSconce";
+import { GoblinRightWallSconce } from "./components/GoblinRightWallSconce";
+import { Hourglass } from "./components/Hourglass";
+import { NightshadeFactionRug } from "./components/NightshadeFactionRug";
+import { SunflorianFactionRug } from "./components/SunflorianFactionRug";
+import { GoblinFactionRug } from "./components/GoblinFactionRug";
+import { BumpkinFactionRug } from "./components/BumpkinFactionRug";
+import { BumpkinRightWallSconce } from "./components/BumpkinRightWallSconce";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -617,6 +652,61 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Twister Rug": TwisterRug,
   Cluckapult: Cluckapult,
   "Rice Panda": RicePanda,
+  "Sunflorian Throne": SunflorianThrone,
+  "Nightshade Throne": NightshadeThrone,
+  "Goblin Throne": GoblinThrone,
+  "Bumpkin Throne": BumpkinThrone,
+  "Golden Sunflorian Egg": GoldenSunflorianEgg,
+  "Goblin Mischief Egg": GoblinMischiefEgg,
+  "Bumpkin Charm Egg": BumpkinCharmEgg,
+  "Nightshade Veil Egg": NightshadeVeilEgg,
+  "Emerald Goblin Goblet": EmeraldGoblinGoblet,
+  "Opal Sunflorian Goblet": OpalSunflorianGoblet,
+  "Sapphire Bumpkin Goblet": SapphireBumpkinGoblet,
+  "Amethyst Nightshade Goblet": AmethystNightshadeGoblet,
+  "Golden Faction Goblet": GoldenFactionGoblet,
+  "Ruby Faction Goblet": RubyFactionGoblet,
+  "Sunflorian Bunting": SunflorianBunting,
+  "Nightshade Bunting": NightshadeBunting,
+  "Goblin Bunting": GoblinBunting,
+  "Bumpkin Bunting": BumpkinBunting,
+  "Sunflorian Candles": SunflorianCandles,
+  "Nightshade Candles": NightshadeCandles,
+  "Goblin Candles": GoblinCandles,
+  "Bumpkin Candles": BumpkinCandles,
+  "Sunflorian Left Wall Sconce": SunflorianLeftWallSconce,
+  "Nightshade Left Wall Sconce": NightshadeLeftWallSconce,
+  "Goblin Left Wall Sconce": GoblinLeftWallSconce,
+  "Bumpkin Left Wall Sconce": BumpkinLeftWallSconce,
+  "Sunflorian Right Wall Sconce": SunflorianRightWallSconce,
+  "Nightshade Right Wall Sconce": NightshadeRightWallSconce,
+  "Goblin Right Wall Sconce": GoblinRightWallSconce,
+  "Bumpkin Right Wall Sconce": BumpkinRightWallSconce,
+  "Gourmet Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Gourmet Hourglass" {...props} />
+  ),
+  "Harvest Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Harvest Hourglass" {...props} />
+  ),
+  "Timber Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Timber Hourglass" {...props} />
+  ),
+  "Orchard Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Orchard Hourglass" {...props} />
+  ),
+  "Blossom Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Blossom Hourglass" {...props} />
+  ),
+  "Fisher's Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Fisher's Hourglass" {...props} />
+  ),
+  "Ore Hourglass": (props: CollectibleProps) => (
+    <Hourglass hourglass="Ore Hourglass" {...props} />
+  ),
+  "Sunflorian Faction Rug": SunflorianFactionRug,
+  "Nightshade Faction Rug": NightshadeFactionRug,
+  "Goblin Faction Rug": GoblinFactionRug,
+  "Bumpkin Faction Rug": BumpkinFactionRug,
 };
 // Need readonly versions for some troublesome components while in design mode
 

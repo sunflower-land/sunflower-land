@@ -41,7 +41,7 @@ export const ModalOverlay: React.FC<Props> = ({
       >
         <div
           id="overlay-mine"
-          className={`bg-brown-300 opacity-70 absolute inset-1 top-8 z-20 ${className}`}
+          className={`bg-brown-300 opacity-70 absolute inset-1 top-1 z-20 ${className}`}
           style={{
             boxShadow: "rgb(194 134 105) 0px 0px 5px 6px",
           }}

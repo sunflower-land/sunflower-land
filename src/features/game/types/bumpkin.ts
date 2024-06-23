@@ -184,10 +184,10 @@ export type BumpkinShoe =
   | "Elf Shoes"
   | "Crimstone Boots"
   | "Fairy Sandals"
-  | "Goblin Sabaton"
-  | "Nightshade Sabaton"
-  | "Sunflorian Sabaton"
-  | "Bumpkin Sabaton";
+  | "Goblin Sabatons"
+  | "Nightshade Sabatons"
+  | "Sunflorian Sabatons"
+  | "Bumpkin Sabatons";
 
 export type BumpkinNecklace =
   | "Sunflower Amulet"
@@ -708,23 +708,23 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Goblin Armor": 320,
   "Goblin Helmet": 321,
   "Goblin Pants": 322,
-  "Goblin Sabaton": 323,
+  "Goblin Sabatons": 323,
   "Goblin Axe": 324,
   "Nightshade Armor": 325,
   "Nightshade Helmet": 326,
   "Nightshade Pants": 327,
-  "Nightshade Sabaton": 328,
+  "Nightshade Sabatons": 328,
   "Nightshade Sword": 329,
   "Bumpkin Armor": 330,
   "Bumpkin Helmet": 331,
   "Bumpkin Sword": 332,
   "Bumpkin Pants": 333,
-  "Bumpkin Sabaton": 334,
+  "Bumpkin Sabatons": 334,
   "Sunflorian Armor": 335,
   "Sunflorian Sword": 336,
   "Sunflorian Helmet": 337,
   "Sunflorian Pants": 338,
-  "Sunflorian Sabaton": 339,
+  "Sunflorian Sabatons": 339,
   "Cap n Bells": 340,
   "Knight Gambit": 341,
   "Pixel Perfect Hoodie": 342,
@@ -1118,21 +1118,21 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Bumpkin Helmet": "hat",
   "Bumpkin Sword": "tool",
   "Bumpkin Pants": "pants",
-  "Bumpkin Sabaton": "shoes",
+  "Bumpkin Sabatons": "shoes",
   "Sunflorian Armor": "shirt",
   "Sunflorian Sword": "tool",
   "Sunflorian Helmet": "hat",
   "Sunflorian Pants": "pants",
-  "Sunflorian Sabaton": "shoes",
+  "Sunflorian Sabatons": "shoes",
   "Goblin Armor": "shirt",
   "Goblin Helmet": "hat",
   "Goblin Pants": "pants",
-  "Goblin Sabaton": "shoes",
+  "Goblin Sabatons": "shoes",
   "Goblin Axe": "tool",
   "Nightshade Armor": "shirt",
   "Nightshade Helmet": "hat",
   "Nightshade Pants": "pants",
-  "Nightshade Sabaton": "shoes",
+  "Nightshade Sabatons": "shoes",
   "Nightshade Sword": "tool",
   "Cap n Bells": "hat",
   "Knight Gambit": "hat",

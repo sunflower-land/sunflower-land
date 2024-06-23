@@ -70,6 +70,7 @@ import { CompostName } from "./composters";
 import { FishName, FishingBait, MarineMarvelName } from "./fishing";
 import { canWithdrawBoostedWearable } from "./wearableValidation";
 import { FlowerName, FlowerSeedName } from "./flowers";
+import { FactionShopCollectibleName } from "./factionShop";
 
 const canWithdrawTimebasedItem = (availableAt: Date) => {
   const now = new Date();
@@ -968,6 +969,53 @@ const greenHouseCrop: Record<GreenHouseCropName, () => boolean> = {
   Rice: () => false,
 };
 
+const factionShopCollectibles: Record<
+  FactionShopCollectibleName,
+  () => boolean
+> = {
+  "Sunflorian Throne": () => false,
+  "Nightshade Throne": () => false,
+  "Goblin Throne": () => false,
+  "Bumpkin Throne": () => false,
+  "Golden Sunflorian Egg": () => false,
+  "Goblin Mischief Egg": () => false,
+  "Bumpkin Charm Egg": () => false,
+  "Nightshade Veil Egg": () => false,
+  "Emerald Goblin Goblet": () => false,
+  "Opal Sunflorian Goblet": () => false,
+  "Sapphire Bumpkin Goblet": () => false,
+  "Amethyst Nightshade Goblet": () => false,
+  "Golden Faction Goblet": () => false,
+  "Ruby Faction Goblet": () => false,
+  "Sunflorian Bunting": () => false,
+  "Nightshade Bunting": () => false,
+  "Goblin Bunting": () => false,
+  "Bumpkin Bunting": () => false,
+  "Sunflorian Candles": () => false,
+  "Nightshade Candles": () => false,
+  "Goblin Candles": () => false,
+  "Bumpkin Candles": () => false,
+  "Sunflorian Left Wall Sconce": () => false,
+  "Nightshade Left Wall Sconce": () => false,
+  "Goblin Left Wall Sconce": () => false,
+  "Bumpkin Left Wall Sconce": () => false,
+  "Sunflorian Right Wall Sconce": () => false,
+  "Nightshade Right Wall Sconce": () => false,
+  "Goblin Right Wall Sconce": () => false,
+  "Bumpkin Right Wall Sconce": () => false,
+  "Gourmet Hourglass": () => false,
+  "Harvest Hourglass": () => false,
+  "Timber Hourglass": () => false,
+  "Ore Hourglass": () => false,
+  "Orchard Hourglass": () => false,
+  "Blossom Hourglass": () => false,
+  "Fisher's Hourglass": () => false,
+  "Bumpkin Faction Rug": () => false,
+  "Goblin Faction Rug": () => false,
+  "Nightshade Faction Rug": () => false,
+  "Sunflorian Faction Rug": () => false,
+};
+
 export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...greenHouseCrop,
   ...greenHouseCropSeed,
@@ -1028,6 +1076,7 @@ export const WITHDRAWABLES: Record<InventoryItemName, () => boolean> = {
   ...fish,
   ...interiors,
   ...factionBanners,
+  ...factionShopCollectibles,
 };
 
 export const BUMPKIN_WITHDRAWABLES: Record<
@@ -1385,22 +1434,22 @@ export const BUMPKIN_WITHDRAWABLES: Record<
   "Bumpkin Armor": () => false,
   "Bumpkin Helmet": () => false,
   "Bumpkin Sword": () => false,
-  "Bumpkin Sabaton": () => false,
+  "Bumpkin Sabatons": () => false,
   "Bumpkin Pants": () => false,
   "Goblin Armor": () => false,
   "Goblin Helmet": () => false,
   "Goblin Axe": () => false,
-  "Goblin Sabaton": () => false,
+  "Goblin Sabatons": () => false,
   "Goblin Pants": () => false,
   "Nightshade Armor": () => false,
   "Nightshade Helmet": () => false,
   "Nightshade Sword": () => false,
-  "Nightshade Sabaton": () => false,
+  "Nightshade Sabatons": () => false,
   "Nightshade Pants": () => false,
   "Sunflorian Armor": () => false,
   "Sunflorian Helmet": () => false,
   "Sunflorian Sword": () => false,
-  "Sunflorian Sabaton": () => false,
+  "Sunflorian Sabatons": () => false,
   "Sunflorian Pants": () => false,
 
   "Cap n Bells": () => false,
