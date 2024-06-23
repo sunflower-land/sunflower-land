@@ -320,6 +320,7 @@ import { NightshadeFactionRug } from "./components/NightshadeFactionRug";
 import { SunflorianFactionRug } from "./components/SunflorianFactionRug";
 import { GoblinFactionRug } from "./components/GoblinFactionRug";
 import { BumpkinFactionRug } from "./components/BumpkinFactionRug";
+import { BumpkinRightWallSconce } from "./components/BumpkinRightWallSconce";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -680,7 +681,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Sunflorian Right Wall Sconce": SunflorianRightWallSconce,
   "Nightshade Right Wall Sconce": NightshadeRightWallSconce,
   "Goblin Right Wall Sconce": GoblinRightWallSconce,
-  "Bumpkin Right Wall Sconce": BumpkinLeftWallSconce,
+  "Bumpkin Right Wall Sconce": BumpkinRightWallSconce,
   "Gourmet Hourglass": (props: CollectibleProps) => (
     <Hourglass hourglass="Gourmet Hourglass" {...props} />
   ),

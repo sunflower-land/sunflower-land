@@ -714,7 +714,7 @@ import nightshadeLeftWall from "assets/factions/nightshade_left_wall_candle.webp
 import goblinLeftWall from "assets/factions/goblin_left_wall_candle.webp";
 import bumpkinLeftWall from "assets/factions/bumpkin_left_wall_candle.webp";
 import sunflorianRightWall from "assets/factions/sunflorian_right_wall_candle.webp";
-import nightshadeRightWall from "assets/factions/sunflorian_right_wall_candle.webp";
+import nightshadeRightWall from "assets/factions/nightshade_right_wall_candle.webp";
 import goblinRightWall from "assets/factions/goblin_right_wall_candle.webp";
 import bumpkinRightWall from "assets/factions/bumpkin_right_wall_candle.webp";
 import gourmetHourglass from "assets/factions/boosts/cooking_boost_full.webp";
