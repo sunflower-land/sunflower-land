@@ -5,14 +5,22 @@ import image from "assets/factions/bumpkins_throne.webp";
 
 export const BumpkinThrone: React.FC = () => {
   return (
-    <img
-      src={image}
+    <div
       style={{
         width: `${PIXEL_SCALE * 17}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
       className="absolute left-1/2 transform -translate-x-1/2"
-      alt="Bumpkin Throne"
-    />
+    >
+      <img
+        src={image}
+        style={{
+          width: `${PIXEL_SCALE * 17}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+        className="absolute left-1/2 transform -translate-x-1/2"
+        alt="Bumpkin Throne"
+      />
+    </div>
   );
 };
