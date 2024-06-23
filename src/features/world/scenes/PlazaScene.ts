@@ -11,7 +11,6 @@ import {
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
@@ -128,18 +127,6 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  private bumpkinsBanner: Phaser.GameObjects.Image | undefined;
-  private goblinsBanner: Phaser.GameObjects.Image | undefined;
-  private nightshadesBanner: Phaser.GameObjects.Image | undefined;
-  private sunfloriansBanner: Phaser.GameObjects.Image | undefined;
-
-  private bumpkinsFactionNPC: BumpkinContainer | undefined;
-  private goblinsFactionNPC: BumpkinContainer | undefined;
-  private nightshadesFactionNPC: Phaser.GameObjects.Sprite | undefined;
-  private sunfloriansFactionNPC: BumpkinContainer | undefined;
-
-  private chosenFaction: FactionName | undefined;
-
   constructor({ gameState }: { gameState: GameState }) {
     const isPreparingKingdom = FACTION_POINT_CUTOFF.getTime() < Date.now();
     super({
@@ -228,17 +215,6 @@ export class PlazaScene extends BaseScene {
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
       frameHeight: 7,
-    });
-
-    // Factions
-    this.load.image("goblins_banner", "world/goblins_banner.webp");
-    this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
-    this.load.image("nightshades_banner", "world/nightshades_banner.webp");
-    this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
-
-    this.load.spritesheet("maximus", "world/maximus.png", {
-      frameWidth: 23,
-      frameHeight: 26,
     });
 
     super.preload();
