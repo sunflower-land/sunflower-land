@@ -27,27 +27,6 @@ export type FactionNPC = {
   faction: Omit<FactionName, "nightshades">;
 };
 
-const FACTION_NPCS: FactionNPC[] = [
-  {
-    x: 32,
-    y: 166,
-    npc: "lady day",
-    faction: "sunflorians",
-  },
-  {
-    x: 32,
-    y: 132,
-    npc: "robert",
-    faction: "bumpkins",
-  },
-  {
-    x: 32,
-    y: 96,
-    npc: "grommy",
-    faction: "goblins",
-  },
-];
-
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
     x: 600,
