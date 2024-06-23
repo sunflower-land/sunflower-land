@@ -5,14 +5,22 @@ import image from "assets/factions/nightshade_throne.webp";
 
 export const NightshadeThrone: React.FC = () => {
   return (
-    <img
-      src={image}
+    <div
       style={{
         width: `${PIXEL_SCALE * 18}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
       className="absolute left-1/2 transform -translate-x-1/2"
-      alt="Nightshade Throne"
-    />
+    >
+      <img
+        src={image}
+        style={{
+          width: `${PIXEL_SCALE * 18}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+        className="absolute left-1/2 transform -translate-x-1/2"
+        alt="Nightshade Throne"
+      />
+    </div>
   );
 };
