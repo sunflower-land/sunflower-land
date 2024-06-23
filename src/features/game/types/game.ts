@@ -61,11 +61,8 @@ import { FlowerCrossBreedName, FlowerName, FlowerSeedName } from "./flowers";
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
-<<<<<<< HEAD
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
-=======
 import { FactionShopCollectibleName } from "./factionShop";
->>>>>>> d27dbe71f ([FEAT] Initial shop setup)
 
 export type Reward = {
   coins?: number;

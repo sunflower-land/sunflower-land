@@ -31,12 +31,9 @@ import { EmblemsTrading } from "./factions/emblemTrading/EmblemsTrading";
 import { ChoresModal } from "./factions/chores/ChoresModal";
 import { OuterPanel } from "components/ui/Panel";
 import { FactionKitchenPanel } from "./factions/FactionKitchenPanel";
-<<<<<<< HEAD
 import { PortalNPCExample } from "features/portal/example/components/PortalNPCExample";
-=======
 import { FlowerShop } from "./flowerShop/FlowerShop";
 import { FactionShop } from "./factionShop/FactionShop";
->>>>>>> d27dbe71f ([FEAT] Initial shop setup)
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
