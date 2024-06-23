@@ -2175,13 +2175,13 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.nightshadeVeilEgg":
     "A jewelled egg created by the House of Nightshade.",
   "description.factionShop.emeraldGoblinGoblet": "An emerald encrusted goblet.",
-  "description.factionShop.opalSunflorianGoblet": "An opal encrusted goblet",
+  "description.factionShop.opalSunflorianGoblet": "An opal encrusted goblet.",
   "description.factionShop.sapphireBumpkinGoblet":
-    "A sapphire encrusted goblet",
+    "A sapphire encrusted goblet.",
   "description.factionShop.amethystNightshadeGoblet":
-    "An amethyst encrusted goblet",
-  "description.factionShop.goldenFactionGoblet": "A golden goblet",
-  "description.factionShop.rubyFactionGoblet": "A ruby encrusted goblet",
+    "An amethyst encrusted goblet.",
+  "description.factionShop.goldenFactionGoblet": "A golden goblet.",
+  "description.factionShop.rubyFactionGoblet": "A ruby encrusted goblet.",
   "description.factionShop.sunflorianBunting":
     "Colorful flags celebrating the Sunflorian Faction.",
   "description.factionShop.nightshadeBunting":
@@ -2230,11 +2230,11 @@ const factionShopDescription: Record<FactionShopDescription, string> = {
   "description.factionShop.sunflorianFactionRug":
     "A magnificent rug made by the talented Sunflorian faction artisans.",
   "description.factionShop.nightshadeFactionRug":
-    "A rug made by the talented Nightshade faction artisans.",
+    "A magnificent rug made by the talented Nightshade faction artisans.",
   "description.factionShop.goblinFactionRug":
-    "A rug made by the talented Goblin faction artisans.",
+    "A magnificent rug made by the talented Goblin faction artisans.",
   "description.factionShop.bumpkinFactionRug":
-    "A rug made by the talented Bumpkin faction artisans.",
+    "A magnificent rug made by the talented Bumpkin faction artisans.",
   "description.factionShop.goblinArmor":
     "Rugged and rowdy, Goblin-approved protection. Earn +20% marks when pledged to this faction. Multiples of this item do not stack.",
   "description.factionShop.goblinHelmet":
