@@ -296,8 +296,8 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 src={fullMoon}
                 style={{
                   width: `${PIXEL_SCALE * 12}px`,
-                  left: `${PIXEL_SCALE * 3}px`,
-                  top: `${PIXEL_SCALE * -20}px`,
+                  left: `${PIXEL_SCALE * 2}px`,
+                  top: `${PIXEL_SCALE * -19}px`,
 
                   imageRendering: "pixelated",
                 }}
