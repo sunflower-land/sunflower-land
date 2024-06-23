@@ -1,3 +1,8 @@
+import {
+  QuestNPCName,
+  TICKET_REWARDS,
+} from "features/game/events/landExpansion/deliver";
+import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
 import { Delivery } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { NPCName } from "lib/npcs";
@@ -46,6 +51,36 @@ export type CoinNPCName =
   | "victoria";
 
 export type DeliveryNpcName = TicketNPCName | GoblinNPCName | CoinNPCName;
+
+export const COIN_NPC_NAMES: CoinNPCName[] = [
+  "betty",
+  "corale",
+  "blacksmith",
+  "tango",
+  "victoria",
+  "peggy",
+];
+
+export function isCoinNPC(value: string): value is CoinNPCName {
+  return (COIN_NPC_NAMES as string[]).includes(value);
+}
+
+export const GOBLIN_NPC_NAMES: GoblinNPCName[] = [
+  "grimbly",
+  "grimtooth",
+  "grubnuk",
+  "gordo",
+  "guria",
+  "gambit",
+];
+
+export function isSFLNPC(value: string): value is GoblinNPCName {
+  return (GOBLIN_NPC_NAMES as string[]).includes(value);
+}
+
+export function isTicketNPC(value: string): value is QuestNPCName {
+  return !!TICKET_REWARDS[value as QuestNPCName];
+}
 
 const NPC_MESSAGES: Record<DeliveryNpcName, string[]> = {
   betty: [
