@@ -22,6 +22,8 @@ import fisherHourglassFull from "src/assets/factions/boosts/fish_boost_full.webp
 import fisherHourglassHalf from "src/assets/factions/boosts/fish_boost_half.webp";
 import fisherHourglassDone from "src/assets/factions/boosts/fish_boost_done.webp";
 
+import shadow from "src/assets/npcs/shadow.png";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -240,12 +242,21 @@ export const Hourglass: React.FC<HourglassProps> = ({
       )}
 
       <img
+        src={shadow}
+        alt="shadow"
+        style={{
+          width: `${PIXEL_SCALE * 12}px`,
+          bottom: `-${PIXEL_SCALE * 1.6}px`,
+        }}
+        className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+      />
+      <img
         src={getHourglassImage()}
         style={{
           width: `${PIXEL_SCALE * 11}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
         }}
-        className="absolute cursor-pointer left-1/2 -translate-x-1/2 group-hover:img-highlight"
+        className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
         alt={hourglass}
         onClick={() => setShowModal(true)}
       />

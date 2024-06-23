@@ -58,7 +58,7 @@ export const KINGDOM_NPCS: NPCBumpkin[] = [
     y: 440,
     npc: "nyx",
   },
-  { npc: "eldric", x: 107, y: 598 },
+  { npc: "eldric", x: 118, y: 558 },
 ];
 
 export class KingdomScene extends BaseScene {
@@ -108,12 +108,14 @@ export class KingdomScene extends BaseScene {
     this.load.image("goblin_throne", "world/goblin_throne.png");
     this.load.image("knights_gambit", "world/knights_gambit.png");
     this.load.image("sunflorian_helmet", "world/sunflorian_helmet.png");
+    this.load.image("shop_icon", "world/shop_disc.png");
   }
 
   addShopDisplayItems() {
     this.add.image(40, 562, "goblin_throne");
     this.add.image(96, 553, "knights_gambit");
     this.add.image(161, 554, "sunflorian_helmet");
+    this.add.image(118, 529, "shop_icon").setDepth(1000000);
   }
 
   create() {
