@@ -853,24 +853,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
   auctioneer: {},
   delivery: {
     fulfilledCount: 10,
-    orders: getKeys(DELIVERY_LEVELS)
-      .filter(
-        (name) =>
-          getBumpkinLevel(TEST_BUMPKIN.experience) >= DELIVERY_LEVELS[name]
-      )
-      .map((name) => ({
+    orders: [
+      {
         createdAt: Date.now(),
         readyAt: Date.now(),
-        from: name,
+        from: "betty",
         reward: {
           items: {},
           coins: 100,
         },
-        id: `${name}-delivery`,
+        id: `betty-delivery`,
         items: {
           Sunflower: 20,
         },
-      })),
+      },
+    ],
 
     milestone: {
       goal: 10,
