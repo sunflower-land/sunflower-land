@@ -212,6 +212,10 @@ const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Green Field Rug",
   "Fancy Rug",
   "Gaucho Rug",
+  "Sunflorian Faction Rug",
+  "Bumpkin Faction Rug",
+  "Goblin Faction Rug",
+  "Nightshade Faction Rug",
 ];
 function detectHomeCollision({
   state,
