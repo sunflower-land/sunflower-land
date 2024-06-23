@@ -5,14 +5,22 @@ import image from "assets/factions/golden_sunflorian_egg.webp";
 
 export const GoldenSunflorianEgg: React.FC = () => {
   return (
-    <img
-      src={image}
+    <div
       style={{
         width: `${PIXEL_SCALE * 22}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
       }}
       className="absolute left-1/2 transform -translate-x-1/2"
-      alt="Golden Sunflorian Egg"
-    />
+    >
+      <img
+        src={image}
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          bottom: `${PIXEL_SCALE * 0}px`,
+        }}
+        className="absolute left-1/2 transform -translate-x-1/2"
+        alt="Golden Sunflorian Egg"
+      />
+    </div>
   );
 };
