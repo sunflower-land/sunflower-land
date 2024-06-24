@@ -710,8 +710,8 @@ const soldOut: Record<SoldOutCollectibleName, () => boolean> = {
   "Hungry Caterpillar": () => true,
   "Queen Bee": () => true,
   "Turbo Sprout": () => canWithdrawTimebasedItem(new Date("2024-07-12")), // Last Auction 2024/07/11
-  Soybliss: () => canWithdrawTimebasedItem(new Date("2024-06-24")), // Last Auction 2024/06/23
-  "Grape Granny": () => canWithdrawTimebasedItem(new Date("2024-06-30")), // Last Auction 2024/06/29
+  Soybliss: () => canWithdrawTimebasedItem(new Date("2024-06-27")), // Last Auction 2024/06/26
+  "Grape Granny": () => canWithdrawTimebasedItem(new Date("2024-07-03")), // Last Auction 2024/07/02
   "Royal Throne": () => canWithdrawTimebasedItem(new Date("2024-07-09")), // Last Auction 2024/07/08,
   "Lily Egg": () => canWithdrawTimebasedItem(new Date("2024-06-21")), // Last Auction 2024/06/20
   Goblet: () => canWithdrawTimebasedItem(new Date("2024-07-15")), // Last Auction 2024/07/14
@@ -1410,11 +1410,11 @@ export const BUMPKIN_WITHDRAWABLES: Record<
 
   // Clash of Factions Auction
   "Non La Hat": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-06-27")) &&
-    canWithdrawBoostedWearable("Non La Hat", state), // Last Auction 2024/06/26
+    canWithdrawTimebasedItem(new Date("2024-06-30")) &&
+    canWithdrawBoostedWearable("Non La Hat", state), // Last Auction 2024/06/29
   "Oil Can": (state) =>
-    canWithdrawTimebasedItem(new Date("2024-07-07")) &&
-    canWithdrawBoostedWearable("Oil Can", state), // Last Auction 2024/07/06
+    canWithdrawTimebasedItem(new Date("2024-07-18")) &&
+    canWithdrawBoostedWearable("Oil Can", state), // Last Auction 2024/07/17
   "Olive Shield": (state) =>
     canWithdrawTimebasedItem(new Date("2024-07-06")) &&
     canWithdrawBoostedWearable("Olive Shield", state), // Last Auction 2024/07/05
