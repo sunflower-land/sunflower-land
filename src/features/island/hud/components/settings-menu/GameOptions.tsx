@@ -43,6 +43,7 @@ import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
 import { AppearanceSettings } from "./general-settings/AppearanceSettings";
+import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 export interface ContentComponentProps {
@@ -264,7 +265,8 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance";
+  | "appearance"
+  | "font";
 
 interface SettingMenu {
   title: string;
@@ -352,5 +354,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.appearance"),
     parent: "general",
     content: AppearanceSettings,
+  },
+  font: {
+    title: translate("gameOptions.generalSettings.font"),
+    parent: "appearance",
+    content: FontSettings,
   },
 };
