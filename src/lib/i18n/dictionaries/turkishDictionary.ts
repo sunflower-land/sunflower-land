@@ -745,8 +745,8 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
     "Savaşın talihsiz bir kaybı. Yumurta veriminde 10% artış.",
   "description.observatory": "Yıldızları keşfedin ve bilimsel gelişimi artırın",
   "description.engine.core": "Ayçiçeğinin gücü",
-  "description.time.warp.totem":
-    "Mahsuller,ağaçlar,yemek pişirme ve mineraller için 2 kat hız. Sadece 2 saat geçerli",
+  "description.time.warp.totem": ENGLISH_TERMS["description.time.warp.totem"],
+  //"Mahsuller,ağaçlar,yemek pişirme ve mineraller için 2 kat hız. Sadece 2 saat geçerli",
   "description.time.warp.totem.expired":
     "Zaman bükme toteminin süresi doldu. Çiftçilik yeteneklerini geliştirecek daha fazla sihirli eşya keşfetmek ve üretmek için Balkabağı Plazasına git!",
   "description.time.warp.totem.temporarily":
@@ -898,7 +898,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.christmas.festive.tree.boost": "Noelde Ücretsiz Hediye",
   "description.grinxs.hammer.boost": "Genişleme maliyetlerini yarıya indirir",
   "description.time.warp.totem.boost":
-    "Mahsul, Pişirme, Mineral ve Ağaç Yenilenme Sürelerinde 50% azalma",
+    ENGLISH_TERMS["description.time.warp.totem.boost"],
+  //"Mahsul, Pişirme, Mineral ve Ağaç Yenilenme Sürelerinde 50% azalma",
   "description.radiant.ray.boost": "+0.1 Demir",
   "description.beekeeper.hat.boost": "+0.2 Bal Üretim Hızı",
   "description.babyPanda.boost": "Başlangıç 2x XP Takviyesi",

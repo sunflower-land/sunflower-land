@@ -718,7 +718,7 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.observatory": "探索星辰，科技飞跃",
   "description.engine.core": "向日葵之力",
   "description.time.warp.totem":
-    "庄稼、树木、烹饪和基矿的速度加倍。仅持续2小时（请在开始计时/收获资源前放置）",
+    "庄稼、树木、水果、烹饪和基矿的速度加倍。仅持续2小时（请在开始计时/收获资源前放置）",
   "description.time.warp.totem.expired":
     "你的 Time Warp Totem 已过期。前往 Pumpkin Plaza 发现并锻造更多魔法物品以提升你的耕作能力吧！",
   "description.time.warp.totem.temporarily":
@@ -857,7 +857,7 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.christmas.festive.tree.boost": "圣诞节期间免费礼物",
   "description.grinxs.hammer.boost": "拓张成本减半",
   "description.time.warp.totem.boost":
-    "庄稼生长、基矿、烹饪和树木冷却时间减少 50 %(请在开始计时/收获资源前放置)",
+    "庄稼生长、基矿、水果、烹饪和树木冷却时间减少 50 %(请在开始计时/收获资源前放置)",
   "description.radiant.ray.boost": "+0.1 铁矿",
   "description.beekeeper.hat.boost": "+20 % 蜂蜜生产速度",
   "description.flower.fox.boost": "-10 % 花朵 生长时间",

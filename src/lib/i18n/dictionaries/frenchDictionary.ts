@@ -755,8 +755,8 @@ const boostDescriptions: Record<BoostDescriptions, string> = {
   "description.observatory":
     "Explorez les étoiles et améliorez le développement scientifique",
   "description.engine.core": "Le pouvoir du tournesol",
-  "description.time.warp.totem":
-    "Vitesse x2 pour les cultures, les arbres, la cuisine et les minéraux. Ne dure que 2 heures",
+  "description.time.warp.totem": ENGLISH_TERMS["description.time.warp.totem"],
+  // "Vitesse x2 pour les cultures, les arbres, la cuisine et les minéraux. Ne dure que 2 heures",
   "description.time.warp.totem.expired":
     "Votre Totem de Déformation Temporelle a expiré. Rendez-vous à la Pumpkin Plaza pour découvrir et fabriquer plus d'objets magiques pour booster vos capacités agricoles!",
   "description.time.warp.totem.temporarily":
@@ -915,7 +915,8 @@ const boostEffectDescriptions: Record<BoostEffectDescriptions, string> = {
   "description.christmas.festive.tree.boost": "Cadeau gratuit à Noël",
   "description.grinxs.hammer.boost": "Réduit de moitié les coûts d'expansion",
   "description.time.warp.totem.boost":
-    "Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
+    ENGLISH_TERMS["description.time.warp.totem.boost"],
+  //"Réduction de 50% du temps de croissance des cultures, minéraux, cuisine et arbres",
   "description.radiant.ray.boost": "+0.1 Fer",
   "description.babyPanda.boost": "Beginner 2x XP Boost",
   "description.hungryHare.boost": "Fermented Carrots 2x XP",
