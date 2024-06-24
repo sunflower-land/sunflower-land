@@ -214,17 +214,6 @@ export class PlazaScene extends BaseScene {
       frameHeight: 7,
     });
 
-    // Factions
-    this.load.image("goblins_banner", "world/goblins_banner.webp");
-    this.load.image("bumpkins_banner", "world/bumpkins_banner.webp");
-    this.load.image("nightshades_banner", "world/nightshades_banner.webp");
-    this.load.image("sunflorians_banner", "world/sunflorians_banner.webp");
-
-    this.load.spritesheet("maximus", "world/maximus.png", {
-      frameWidth: 23,
-      frameHeight: 26,
-    });
-
     super.preload();
 
     const audioMuted = getCachedAudioSetting<boolean>(
