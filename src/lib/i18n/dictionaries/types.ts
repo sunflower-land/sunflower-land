@@ -682,7 +682,9 @@ export type BumpkinDelivery =
   | "bumpkin.delivery.noFlowers"
   | "bumpkin.delivery.thanks"
   | "bumpkin.delivery.waiting"
-  | "bumpkin.delivery.proveYourself";
+  | "bumpkin.delivery.proveYourself"
+  | "bumpkin.delivery.earnScrolls"
+  | "bumpkin.delivery.earnSFL";
 
 export type BumpkinItemBuff =
   | "bumpkinItemBuff.chef.apron.boost"

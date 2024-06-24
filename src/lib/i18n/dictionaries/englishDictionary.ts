@@ -997,6 +997,8 @@ const bumpkinDelivery: Record<BumpkinDelivery, string> = {
     "I've been waiting for this. Thanks a bunch! Come back soon for more deliveries.",
   "bumpkin.delivery.proveYourself":
     "Prove yourself worthy. Expand your island {{missingExpansions}} more times.",
+  "bumpkin.delivery.earnScrolls": "Earn scrolls to craft exclusive items.",
+  "bumpkin.delivery.earnSFL": "Earn SFL to trade & build your empire.",
 };
 
 const bumpkinItemBuff: Record<BumpkinItemBuff, string> = {
