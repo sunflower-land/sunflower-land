@@ -82,7 +82,6 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     plantSeconds: 1 * 24 * 60 * 60,
     description: translate("description.sunpetal.seed"),
     disabled: false,
-    requiredIsland: "spring",
     plantingSpot: "Flower Bed",
   },
   "Bloom Seed": {
@@ -91,7 +90,6 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     plantSeconds: 2 * 24 * 60 * 60,
     description: translate("description.bloom.seed"),
     disabled: false,
-    requiredIsland: "spring",
     plantingSpot: "Flower Bed",
   },
   "Lily Seed": {
@@ -100,7 +98,6 @@ export const FLOWER_SEEDS: () => Record<FlowerSeedName, FlowerSeed> = () => ({
     plantSeconds: 5 * 24 * 60 * 60,
     description: translate("description.lily.seed"),
     disabled: false,
-    requiredIsland: "spring",
     plantingSpot: "Flower Bed",
   },
 });
