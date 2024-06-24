@@ -34,7 +34,7 @@ describe("buyFactionShopItem", () => {
         },
         action: {
           type: "factionShopItem.bought",
-          item: "Motley",
+          item: "Knight Gambit",
         },
       })
     ).toThrow("Bumpkin not found");
@@ -47,7 +47,7 @@ describe("buyFactionShopItem", () => {
           ...GAME_STATE,
           faction: undefined,
         },
-        action: { type: "factionShopItem.bought", item: "Motley" },
+        action: { type: "factionShopItem.bought", item: "Knight Gambit" },
       })
     ).toThrow("Player does not belong to a faction");
   });
