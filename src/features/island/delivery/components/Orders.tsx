@@ -49,7 +49,6 @@ import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router-dom";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -147,7 +146,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   });
 
   return (
-    <div className="py-1 px-2" key={order.id}>
+    <div className="py-1 px-1" key={order.id}>
       <ButtonPanel
         onClick={() => onClick(order.id)}
         className={classNames("w-full  !py-2 relative", {
@@ -273,7 +272,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
 
 export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
   return (
-    <div className="py-1 px-2">
+    <div className="py-1 px-1">
       <ButtonPanel
         disabled
         className={classNames(
@@ -306,7 +305,7 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
             height: "25px",
           }}
         >
-          {`Lvl ${DELIVERY_LEVELS[npc]}`}
+          {`Lvl ${DELIVERY_LEVELS[npc as DeliveryNpcName]}`}
         </Label>
       </ButtonPanel>
     </div>
@@ -501,9 +500,11 @@ export const DeliveryOrders: React.FC<Props> = ({
               {`${getSeasonalTicket()}s`}
             </Label>
           </div>
-          <span className="text-xs mb-2">
-            Earn scrolls to craft exclusive items.
-          </span>
+          {level <= 8 && (
+            <span className="text-xs mb-2">
+              {t("bumpkin.delivery.earnScrolls")}
+            </span>
+          )}
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
           {ticketOrders.map((order) => {
@@ -526,9 +527,11 @@ export const DeliveryOrders: React.FC<Props> = ({
               {`SFL`}
             </Label>
           </div>
-          <span className="text-xs mb-2">
-            Earn SFL to trade & build your empire.
-          </span>
+          {level <= 12 && (
+            <span className="text-xs mb-2">
+              {t("bumpkin.delivery.earnSFL")}
+            </span>
+          )}
         </div>
 
         <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">

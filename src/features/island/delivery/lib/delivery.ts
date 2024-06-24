@@ -2,10 +2,8 @@ import {
   QuestNPCName,
   TICKET_REWARDS,
 } from "features/game/events/landExpansion/deliver";
-import { TICKETS_REWARDED } from "features/game/events/landExpansion/tradeFlowerShop";
 import { Delivery } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { NPCName } from "lib/npcs";
 
 export type DeliveryMessage = { from: DeliveryNpcName; id: string };
 
