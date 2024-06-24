@@ -66,7 +66,6 @@ export const GREENHOUSE_SEEDS: () => Record<
     description: "A staple food for many.",
     bumpkinLevel: 40,
     plantSeconds: 32 * 60 * 60,
-    requiredIsland: "desert",
     plantingSpot: "Greenhouse",
   },
   "Olive Seed": {
@@ -74,7 +73,6 @@ export const GREENHOUSE_SEEDS: () => Record<
     description: "Zesty with a rich history.",
     bumpkinLevel: 40,
     plantSeconds: 44 * 60 * 60,
-    requiredIsland: "desert",
     plantingSpot: "Greenhouse",
   },
 });

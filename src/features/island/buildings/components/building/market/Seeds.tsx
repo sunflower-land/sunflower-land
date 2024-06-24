@@ -21,7 +21,7 @@ import { INVENTORY_LIMIT } from "features/game/lib/constants";
 import { makeBulkBuySeeds } from "./lib/makeBulkBuyAmount";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { SEEDS, SeedName } from "features/game/types/seeds";
-import { Bumpkin, IslandType } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import {
   FRUIT,
   FRUIT_SEEDS,
@@ -44,8 +44,6 @@ import {
   SEED_TO_PLANT,
   getGreenhouseCropTime,
 } from "features/game/events/landExpansion/plantGreenhouse";
-import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
-import { capitalize } from "lib/utils/capitalize";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -112,23 +110,6 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   };
 
   const Action = () => {
-    if (
-      !hasRequiredIslandExpansion(state.island.type, selected.requiredIsland)
-    ) {
-      return (
-        <Label type="danger">
-          {t("islandupgrade.requiredIsland", {
-            islandType:
-              selected.requiredIsland === "spring"
-                ? "Petal Paradise"
-                : t("islandupgrade.otherIsland", {
-                    island: capitalize(selected.requiredIsland as IslandType),
-                  }),
-          })}
-        </Label>
-      );
-    }
-
     if (!inventory[plantingSpot]) {
       return <Label type="danger">{`${plantingSpot} Needed`}</Label>;
     }
