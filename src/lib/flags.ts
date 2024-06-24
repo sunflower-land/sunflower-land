@@ -1,4 +1,3 @@
-import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -33,10 +32,7 @@ export type FeatureName =
   | "CHICKEN_RESCUE"
   | "CROP_MACHINE"
   | "DESERT_RECIPES"
-  | "KINGDOM"
   | "FACTION_HOUSE"
-  | "CLAIM_EMBLEMS"
-  | "EMBLEM_TRADING"
   | "CROP_QUICK_SELECT"
   | "MARKS_LEADERBOARD"
   | "FESTIVAL_OF_COLORS";
@@ -57,22 +53,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PORTALS: testnetFeatureFlag,
   JEST_TEST: defaultFeatureFlag,
   DESERT_RECIPES: defaultFeatureFlag,
-  EMBLEM_TRADING: (game) => {
-    if (defaultFeatureFlag(game)) return true;
-
-    return Date.now() > new Date("2024-06-14T01:00:00Z").getTime();
-  },
-  KINGDOM: (game) => {
-    const hasCastleBud = getKeys(game.buds ?? {}).some(
-      (id) => game.buds?.[id].type === "Castle"
-    );
-
-    if (hasCastleBud) return true;
-
-    if (defaultFeatureFlag(game)) return true;
-
-    return Date.now() > new Date("2024-06-14T00:00:00Z").getTime();
-  },
   FACTION_HOUSE: defaultFeatureFlag,
   EASTER: (game) => {
     // Event ended
@@ -87,7 +67,6 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   PRESTIGE_DESERT: defaultFeatureFlag,
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
-  CLAIM_EMBLEMS: timeBasedFeatureFlag(new Date("2024-06-14T00:00:00Z")),
   MARKS_LEADERBOARD: defaultFeatureFlag,
 };
 

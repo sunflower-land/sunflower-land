@@ -43,7 +43,6 @@ import { Revealed } from "features/game/components/Revealed";
 import { Label } from "components/ui/Label";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { Loading } from "features/auth/components";
 import { useNavigate } from "react-router-dom";
 import { getBumpkinLevel } from "features/game/lib/level";
@@ -124,12 +123,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const orders = delivery.orders
     .filter((order) => Date.now() >= order.readyAt)
-    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1))
-    .filter(
-      (order) =>
-        hasFeatureAccess(gameService.state.context.state, "KINGDOM") ||
-        !KINGDOM_BUMPKINS.includes(order.from)
-    );
+    .sort((a, b) => (a.createdAt < b.createdAt ? -1 : 1));
 
   useEffect(() => {
     acknowledgeOrders(delivery);

@@ -19,7 +19,6 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
 import { ClaimEmblems } from "./components/ClaimEmblems";
-import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { EMBLEM_AIRDROP_CLOSES } from "features/island/hud/EmblemAirdropCountdown";
@@ -105,7 +104,6 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     joinedFaction &&
     !emblemsClaimed &&
     !!joinedFaction.points &&
-    hasFeatureAccess(gameService.state.context.state, "CLAIM_EMBLEMS") &&
     EMBLEM_AIRDROP_CLOSES.getTime() > Date.now()
   ) {
     return (

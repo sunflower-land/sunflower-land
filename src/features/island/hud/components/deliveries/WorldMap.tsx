@@ -9,7 +9,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useNavigate } from "react-router-dom";
 import { OuterPanel } from "components/ui/Panel";
 import { useSound } from "lib/utils/hooks/useSound";
-import { hasFeatureAccess } from "lib/flags";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 
@@ -102,33 +101,31 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         )}
       </div>
 
-      {hasFeatureAccess(gameService.state.context.state, "KINGDOM") && (
-        <div
-          style={{
-            width: "18%",
-            height: "24%",
-            border: showDebugBorders ? "2px solid red" : "",
-            position: "absolute",
-            left: "35%",
-            bottom: "50%",
-          }}
-          className="flex justify-center items-center cursor-pointer"
-          onClick={() => {
-            if (level < 7) return;
-            travel.play();
-            navigate("/world/kingdom");
-            onClose();
-          }}
-        >
-          {level < 7 ? (
-            <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
-          ) : (
-            <span className="balance-text text-xxs sm:text-sm">
-              {t("world.kingdom")}
-            </span>
-          )}
-        </div>
-      )}
+      <div
+        style={{
+          width: "18%",
+          height: "24%",
+          border: showDebugBorders ? "2px solid red" : "",
+          position: "absolute",
+          left: "35%",
+          bottom: "50%",
+        }}
+        className="flex justify-center items-center cursor-pointer"
+        onClick={() => {
+          if (level < 7) return;
+          travel.play();
+          navigate("/world/kingdom");
+          onClose();
+        }}
+      >
+        {level < 7 ? (
+          <img src={lockIcon} className="h-6 ml-1 img-highlight-heavy" />
+        ) : (
+          <span className="balance-text text-xxs sm:text-sm">
+            {t("world.kingdom")}
+          </span>
+        )}
+      </div>
 
       <div
         style={{
