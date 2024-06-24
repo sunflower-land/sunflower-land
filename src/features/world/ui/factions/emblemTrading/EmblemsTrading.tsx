@@ -17,8 +17,6 @@ import { FactionEmblem, FactionName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Emblems } from "./Emblems";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { hasFeatureAccess } from "lib/flags";
-import { EmblemCountdown } from "./EmblemCountdown";
 
 interface Props {
   onClose: () => void;
@@ -92,14 +90,6 @@ export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
         ]}
         onClose={() => setShowIntro(false)}
       />
-    );
-  }
-
-  if (!hasFeatureAccess(gameState.context.state, "EMBLEM_TRADING")) {
-    return (
-      <CloseButtonPanel onClose={onClose}>
-        <EmblemCountdown emblem={emblem} />
-      </CloseButtonPanel>
     );
   }
 
