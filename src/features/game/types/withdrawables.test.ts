@@ -310,6 +310,27 @@ describe("withdrawables", () => {
       const enabled = BUMPKIN_WITHDRAWABLES["Infernal Pitchfork"](state);
       expect(enabled).toBeFalsy();
     });
+    it("prevents withdrawal of Crimstone Hammer if less than 7 days after last crimstone mine", () => {
+      const state: GameState = {
+        ...TEST_FARM,
+        crimstones: {
+          "1": {
+            minesLeft: 5,
+            createdAt: 1715732768907,
+            x: 9,
+            width: 2,
+            y: 3,
+            height: 2,
+            stone: {
+              minedAt: Date.now(),
+              amount: 1.25,
+            },
+          },
+        },
+      };
+      const enabled = BUMPKIN_WITHDRAWABLES["Crimstone Hammer"](state);
+      expect(enabled).toBeFalsy();
+    });
   });
 
   describe("enables", () => {
@@ -539,6 +560,27 @@ describe("withdrawables", () => {
     };
 
     const enabled = BUMPKIN_WITHDRAWABLES["Infernal Pitchfork"](state);
+    expect(enabled).toBeTruthy();
+  });
+  it("enables withdrawal of Crimstone Hammer 7 days after last crimstone mine", () => {
+    const state: GameState = {
+      ...TEST_FARM,
+      crimstones: {
+        "1": {
+          minesLeft: 5,
+          createdAt: 1680494833651,
+          x: 9,
+          width: 2,
+          y: 3,
+          height: 2,
+          stone: {
+            minedAt: Date.now() - 7 * 24 * 60 * 60 * 1001,
+            amount: 1.25,
+          },
+        },
+      },
+    };
+    const enabled = BUMPKIN_WITHDRAWABLES["Crimstone Hammer"](state);
     expect(enabled).toBeTruthy();
   });
 });
