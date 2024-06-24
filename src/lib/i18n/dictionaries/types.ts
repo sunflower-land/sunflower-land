@@ -105,6 +105,7 @@ export type GeneralTerms =
   | "info"
   | "item"
   | "land"
+  | "landscaping"
   | "last.updated"
   | "lets.go"
   | "linked.wallet"

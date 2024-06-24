@@ -277,6 +277,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   info: "Informações",
   item: "Item",
   land: "Terra",
+  landscaping: ENGLISH_TERMS.landscaping,
   "last.updated": "Última atualização",
   "lets.go": "Vamos lá!",
   limit: "Limite",
