@@ -113,7 +113,6 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
               }
             />
           ))}
-          <span className="text-xxs mt-2">{t("statements.frankie.plaza")}</span>
         </>
       }
     />

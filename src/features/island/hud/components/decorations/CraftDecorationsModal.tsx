@@ -7,6 +7,9 @@ import { Modal } from "components/ui/Modal";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { OuterPanel } from "components/ui/Panel";
+import { DecorationItems } from "features/helios/components/decorations/component/DecorationItems";
+import { BASIC_DECORATIONS } from "features/game/types/decorations";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   show: boolean;
@@ -22,7 +25,10 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: sunflower, name: "Landscaping" }]}
+        tabs={[
+          { icon: sunflower, name: "Landscaping" },
+          { icon: SUNNYSIDE.icons.heart, name: "Decorations" },
+        ]}
         setCurrentTab={setTab}
         currentTab={tab}
         onClose={onHide}
@@ -30,6 +36,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         container={OuterPanel}
       >
         {tab === 0 && <LandscapingDecorations onClose={onHide} />}
+        {tab === 1 && <DecorationItems items={BASIC_DECORATIONS()} />}
       </CloseButtonPanel>
     </Modal>
   );
