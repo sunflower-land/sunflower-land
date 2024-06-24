@@ -1,27 +1,19 @@
 import React, { useState } from "react";
-
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Panel } from "components/ui/Panel";
-
 import i18n from "lib/i18n";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-
-import british_flag from "assets/sfts/flags/british_flag.gif";
-import usaFlag from "assets/sfts/flags/usa_flag.gif";
-import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
-import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
-import franceFlag from "assets/sfts/flags/france_flag.gif";
-import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
-import chinaFlag from "assets/sfts/flags/china_flag.gif";
 import { changeFont } from "lib/utils/fonts";
-import { LanguageCode } from "lib/i18n/dictionaries/dictionary";
+import {
+  LanguageCode,
+  languageDetails,
+} from "lib/i18n/dictionaries/dictionary";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 export const LanguageSwitcher: React.FC = () => {
   const { t } = useAppTranslation();
-
   const initialLanguage = localStorage.getItem("language") || "en";
   const [language, setLanguage] = useState(initialLanguage);
   const [selected, setSelected] = useState<LanguageCode>("en");
@@ -36,96 +28,37 @@ export const LanguageSwitcher: React.FC = () => {
 
     if (languageCode === "zh-CN") {
       changeFont("Sans Serif");
-    }
-
-    if (languageCode !== "zh-CN") {
+    } else {
       changeFont("Default");
     }
   };
 
+  const languageArray = Object.keys(languageDetails) as LanguageCode[];
+
   return (
     <>
       <div className="p-1 space-y-2">
-        <Button
-          onClick={() => {
-            setSelected("en");
-            setConfirmModal(true);
-          }}
-          disabled={language === "en"}
-        >
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={british_flag}
-            alt="British Flag"
-          />
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={usaFlag}
-            alt="American Flag"
-          />
-          {"English"}
-        </Button>
-        <Button
-          onClick={() => {
-            setSelected("fr");
-            setConfirmModal(true);
-          }}
-          disabled={language === "fr"}
-        >
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={franceFlag}
-            alt="French Flag"
-          />
-          {"Français"}
-        </Button>
-        <Button
-          onClick={() => {
-            setSelected("pt");
-            setConfirmModal(true);
-          }}
-          disabled={language === "pt"}
-        >
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={brazilFlag}
-            alt="Brazillian Flag"
-          />
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={portugalFlag}
-            alt="Portuguese Flag"
-          />
-          {"Português"}
-        </Button>
-        <Button
-          onClick={() => {
-            setSelected("tk");
-            setConfirmModal(true);
-          }}
-          disabled={language === "tk"}
-        >
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={turkeyFlag}
-            alt="Turkish Flag"
-          />
-          {"Türkçe"}
-        </Button>
-        <Button
-          onClick={() => {
-            setSelected("zh-CN");
-            setConfirmModal(true);
-          }}
-          disabled={language === "zh-CN"}
-        >
-          <img
-            style={{ display: "inline-block", marginRight: "5px" }}
-            src={chinaFlag}
-            alt="Chinese Flag"
-          />
-          {"简体中文"}
-        </Button>
+        {languageArray.map((languageCode) => (
+          <Button
+            key={languageCode}
+            onClick={() => {
+              setSelected(languageCode);
+              setConfirmModal(true);
+            }}
+            disabled={language === languageCode}
+          >
+            {languageDetails[languageCode].languageImage.map((img, index) => (
+              <img
+                key={index}
+                style={{ display: "inline-block", marginRight: "5px" }}
+                src={img}
+                alt={languageDetails[languageCode].imageAlt[index]}
+              />
+            ))}
+            {languageDetails[languageCode].languageName}{" "}
+            {language === languageCode && t("changeLanguage.currentLanguage")}
+          </Button>
+        ))}
         <span>
           <a
             target="_blank"
