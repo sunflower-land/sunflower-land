@@ -68,7 +68,6 @@ import {
   GoldTooth,
   GuideCompost,
   GuideTerms,
-  HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
   HayseedHankPlaza,
@@ -2933,14 +2932,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": "Yemek pişirin ve seviye atlayın",
 };
 
-const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching": "Yarılanma Yaklaşıyor!",
-  "halveningCountdown.description":
-    "Halving'de tüm mahsullerin ve belirli kaynakların fiyatları yarıya iner. Bu, SFL’ye ulaşmayı daha da zorlaştırır.",
-  "halveningCountdown.preparation": "Hazır olduğunuzdan emin olun!",
-  "halveningCountdown.title": "Yarınlanma",
-};
-
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.notPlaced": "Bu arı kovanı yerleştirilmemiş.",
   "harvestBeeHive.noHoney": "Bu arı kovanında bal yok.",
@@ -5471,7 +5462,6 @@ export const TURKISH_TERMS: Record<TranslationKeys, string> = {
   ...greenhouse,
   ...guideCompost,
   ...guideTerms,
-  ...halveningCountdown,
   ...harvestBeeHive,
   ...harvestflower,
   ...hayseedHankPlaza,

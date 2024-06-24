@@ -17,7 +17,6 @@ import { AuctionCountdown } from "features/retreat/components/auctioneer/Auction
 import { getBumpkinLevel } from "features/game/lib/level";
 import { CollectibleLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
-import { HalveningCountdown } from "./HalveningCountdown";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
@@ -165,7 +164,6 @@ const HudComponent: React.FC<{
           }}
         >
           <AuctionCountdown />
-          <HalveningCountdown />
           <EmblemAirdropCountdown />
         </div>
 

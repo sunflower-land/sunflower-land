@@ -68,7 +68,6 @@ import {
   GoldTooth,
   GuideCompost,
   GuideTerms,
-  HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
   HayseedHankPlaza,
@@ -3049,14 +3048,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": "Cuisinez de la nourriture et montez de niveau",
 };
 
-const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching": "La Réduction approche!",
-  "halveningCountdown.description":
-    "À la Réduction, tous les prix des cultures et de certaines ressources sont réduits de moitié. Cela rend plus difficile l'obtention de SFL.",
-  "halveningCountdown.preparation": "Assurez-vous d'être prêt!",
-  "halveningCountdown.title": "Réduction",
-};
-
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.notPlaced": "Cette ruche n'est pas placée.",
   "harvestBeeHive.noHoney": "Cette ruche n'a pas de Honey.",
@@ -5625,7 +5616,6 @@ export const FRENCH_TERMS: Record<TranslationKeys, string> = {
   ...greenhouse,
   ...guideCompost,
   ...guideTerms,
-  ...halveningCountdown,
   ...harvestBeeHive,
   ...harvestflower,
   ...hayseedHankPlaza,

@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "./game";
 import { translate } from "lib/i18n/translate";
-import { marketRate } from "../lib/halvening";
 import { SFLDiscount } from "../lib/SFLDiscount";
 import { getCurrentSeason } from "./seasons";
 
@@ -324,7 +323,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
       description: translate("description.obie"),
       // 100 Team Supply + Giveaways
       supply: 2500 + 100,
-      sfl: SFLDiscount(state, marketRate(2000)),
+      sfl: SFLDiscount(state, new Decimal(6.25)),
       boost: translate("description.obie.boost"),
       ingredients: {
         Eggplant: new Decimal(150),
@@ -335,7 +334,7 @@ export const GOBLIN_BLACKSMITH_ITEMS: (
     "Purple Trail": {
       description: translate("description.purple.trail"),
 
-      sfl: SFLDiscount(state, marketRate(800)),
+      sfl: SFLDiscount(state, new Decimal(2.5)),
       supply: 10000,
       boost: translate("description.purple.trail.boost"),
       ingredients: {

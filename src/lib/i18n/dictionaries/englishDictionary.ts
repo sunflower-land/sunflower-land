@@ -68,7 +68,6 @@ import {
   GoldTooth,
   GuideCompost,
   GuideTerms,
-  HalveningCountdown,
   Harvestflower,
   HarvestBeeHive,
   HayseedHankPlaza,
@@ -2913,14 +2912,6 @@ const guideTerms: Record<GuideTerms, string> = {
   "pete.teaser.eight": "Cook food and level up",
 };
 
-const halveningCountdown: Record<HalveningCountdown, string> = {
-  "halveningCountdown.approaching": "The Halvening is Approaching!",
-  "halveningCountdown.description":
-    "At the Halvening, all prices of crops & certain resources are halved. This makes it more difficult to attain SFL.",
-  "halveningCountdown.preparation": "Make sure you are prepared!",
-  "halveningCountdown.title": "Halvening",
-};
-
 const harvestBeeHive: Record<HarvestBeeHive, string> = {
   "harvestBeeHive.notPlaced": "This beehive is not placed.",
   "harvestBeeHive.noHoney": "This beehive has no honey.",
@@ -5467,7 +5458,6 @@ export const ENGLISH_TERMS: Record<TranslationKeys, string> = {
   ...greenhouse,
   ...guideCompost,
   ...guideTerms,
-  ...halveningCountdown,
   ...harvestBeeHive,
   ...harvestflower,
   ...hayseedHankPlaza,
