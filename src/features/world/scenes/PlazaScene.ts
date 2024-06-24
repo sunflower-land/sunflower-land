@@ -1,5 +1,4 @@
 import mapJson from "assets/map/plaza.json";
-import factionMapJson from "assets/map/plaza_faction_pledge.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -11,13 +10,11 @@ import {
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { BumpkinContainer } from "../containers/BumpkinContainer";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
-import { FACTION_POINT_CUTOFF } from "features/game/events/landExpansion/donateToFaction";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -26,27 +23,6 @@ export type FactionNPC = {
   direction?: "left" | "right";
   faction: Omit<FactionName, "nightshades">;
 };
-
-const FACTION_NPCS: FactionNPC[] = [
-  {
-    x: 32,
-    y: 166,
-    npc: "lady day",
-    faction: "sunflorians",
-  },
-  {
-    x: 32,
-    y: 132,
-    npc: "robert",
-    faction: "bumpkins",
-  },
-  {
-    x: 32,
-    y: 96,
-    npc: "grommy",
-    faction: "goblins",
-  },
-];
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
@@ -149,24 +125,11 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  private bumpkinsBanner: Phaser.GameObjects.Image | undefined;
-  private goblinsBanner: Phaser.GameObjects.Image | undefined;
-  private nightshadesBanner: Phaser.GameObjects.Image | undefined;
-  private sunfloriansBanner: Phaser.GameObjects.Image | undefined;
-
-  private bumpkinsFactionNPC: BumpkinContainer | undefined;
-  private goblinsFactionNPC: BumpkinContainer | undefined;
-  private nightshadesFactionNPC: Phaser.GameObjects.Sprite | undefined;
-  private sunfloriansFactionNPC: BumpkinContainer | undefined;
-
-  private chosenFaction: FactionName | undefined;
-
   constructor({ gameState }: { gameState: GameState }) {
-    const isPreparingKingdom = FACTION_POINT_CUTOFF.getTime() < Date.now();
     super({
       name: "plaza",
       map: {
-        json: isPreparingKingdom ? factionMapJson : mapJson,
+        json: mapJson,
         imageKey: "tileset",
       },
       audio: { fx: { walk_key: "dirt_footstep" } },
