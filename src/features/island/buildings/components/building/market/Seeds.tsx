@@ -112,9 +112,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
   const Action = () => {
     if (!inventory[plantingSpot]) {
       return (
-        <Label type="danger">
-          {t("seeds.plantingSpot.needed", { plantingSpot: plantingSpot })}
-        </Label>
+        <div className="flex justify-center">
+          <Label className="mb-1" type="danger">
+            {t("seeds.plantingSpot.needed", { plantingSpot: plantingSpot })}
+          </Label>
+        </div>
       );
     }
 
