@@ -1771,10 +1771,6 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.farmingTips": "要是您正苦苦寻觅农业技巧和窍门，来这儿就对了！",
   "discord.bonus.freeGift": "最妙的是……每个加入的人都会得到一份礼物！",
   "discord.bonus.connect": "连接 Discord",
-  "fontReward.bonus.claim": ENGLISH_TERMS["fontReward.bonus.claim"],
-  "fontReward.bonus.intro1": ENGLISH_TERMS["fontReward.bonus.intro1"],
-  "fontReward.bonus.intro2": ENGLISH_TERMS["fontReward.bonus.intro2"],
-  "fontReward.bonus.intro3": ENGLISH_TERMS["fontReward.bonus.intro3"],
 };
 
 const donation: Record<Donation, string> = {

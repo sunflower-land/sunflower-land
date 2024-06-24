@@ -2026,10 +2026,6 @@ const discordBonus: Record<DiscordBonus, string> = {
   "discord.bonus.freeGift":
     "La meilleure partie... tout le monde qui rejoint obtient un cadeau gratuit!",
   "discord.bonus.connect": "Connectez-vous à Discord",
-  "fontReward.bonus.claim": ENGLISH_TERMS["fontReward.bonus.claim"],
-  "fontReward.bonus.intro1": ENGLISH_TERMS["fontReward.bonus.intro1"],
-  "fontReward.bonus.intro2": ENGLISH_TERMS["fontReward.bonus.intro2"],
-  "fontReward.bonus.intro3": ENGLISH_TERMS["fontReward.bonus.intro3"],
 };
 
 const donation: Record<Donation, string> = {
