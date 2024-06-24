@@ -111,7 +111,11 @@ export const Seeds: React.FC<Props> = ({ onClose }) => {
 
   const Action = () => {
     if (!inventory[plantingSpot]) {
-      return <Label type="danger">{`${plantingSpot} Needed`}</Label>;
+      return (
+        <Label type="danger">
+          {t("seeds.plantingSpot.needed", { plantingSpot: plantingSpot })}
+        </Label>
+      );
     }
 
     if (isSeedLocked(selectedName)) {
