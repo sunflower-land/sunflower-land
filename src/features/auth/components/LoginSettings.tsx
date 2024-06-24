@@ -25,22 +25,8 @@ export const LoginSettings: React.FC = () => {
     setMenu("login");
   };
 
-  const Content = () => {
-    if (currentMenu !== "login") {
-      const SelectedMenu = settingMenus[currentMenu].content;
-      return <SelectedMenu onSubMenuClick={setMenu} onClose={close} />;
-    }
-
-    return (
-      <>
-        {buttons.map((button) => (
-          <Button key={button} className="mb-1" onClick={() => setMenu(button)}>
-            {settingMenus[button].title}
-          </Button>
-        ))}
-      </>
-    );
-  };
+  const SelectedMenu =
+    currentMenu !== "login" && settingMenus[currentMenu].content;
 
   return (
     <>
@@ -60,7 +46,22 @@ export const LoginSettings: React.FC = () => {
               : undefined
           }
         >
-          <Content />
+          {currentMenu === "login" && (
+            <>
+              {buttons.map((button) => (
+                <Button
+                  key={button}
+                  className="mb-1"
+                  onClick={() => setMenu(button)}
+                >
+                  {settingMenus[button].title}
+                </Button>
+              ))}
+            </>
+          )}
+          {currentMenu !== "login" && SelectedMenu && (
+            <SelectedMenu onSubMenuClick={setMenu} onClose={close} />
+          )}
         </CloseButtonPanel>
       </Modal>
 
