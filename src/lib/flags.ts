@@ -7,9 +7,7 @@ const defaultFeatureFlag = ({ inventory }: GameState) =>
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
 const clashOfFactionsFeatureFlag = () => {
-  if (testnetFeatureFlag()) return true;
-
-  return Date.now() > new Date("2024-05-01T00:00:00Z").getTime();
+  return true;
 };
 
 const timeBasedFeatureFlag = (date: Date) => () => {
@@ -55,12 +53,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   DESERT_RECIPES: defaultFeatureFlag,
   FACTION_HOUSE: defaultFeatureFlag,
   EASTER: (game) => {
-    // Event ended
-    if (Date.now() > new Date("2024-04-08T00:00:00Z").getTime()) return false;
-
-    if (defaultFeatureFlag(game)) return true;
-
-    return Date.now() > new Date("2024-03-31T00:00:00Z").getTime();
+    return false;
   },
   FACTIONS: clashOfFactionsFeatureFlag,
   BANNER_SALES: clashOfFactionsFeatureFlag,

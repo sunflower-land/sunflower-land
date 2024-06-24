@@ -138,9 +138,7 @@ export const SalesPanel: React.FC<{
     return progress.gt(MAX_SESSION_SFL);
   };
 
-  const hasVIP =
-    Date.now() < new Date("2024-05-01T00:00:00Z").getTime() ||
-    hasVipAccess(state.inventory);
+  const hasVIP = hasVipAccess(state.inventory);
 
   const unitPrice = marketPrices?.prices?.currentPrices?.[selected] || "0.0000";
   const bundlePrice = (MARKET_BUNDLES[selected] * Number(unitPrice))?.toFixed(
