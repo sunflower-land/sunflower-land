@@ -40,6 +40,7 @@ import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { setPrecision } from "lib/utils/formatNumber";
+import { isMobile } from "mobile-device-detect";
 
 interface Props {
   show: boolean;
@@ -385,15 +386,23 @@ export const CropMachineModal: React.FC<Props> = ({
                             onClick={() =>
                               decrementSeeds(SEED_INCREMENT_AMOUNT)
                             }
-                            className="px-2"
-                          >{`-${SEED_INCREMENT_AMOUNT}`}</Button>
+                            className={isMobile ? "" : "px-2"}
+                          >
+                            <span className={isMobile ? "text-xs" : "text-sm"}>
+                              {`-${SEED_INCREMENT_AMOUNT}`}
+                            </span>
+                          </Button>
                           <Button
                             onClick={() =>
                               incrementSeeds(SEED_INCREMENT_AMOUNT)
                             }
                             disabled={!canIncrementSeeds()}
-                            className="px-2"
-                          >{`+${SEED_INCREMENT_AMOUNT}`}</Button>
+                            className={isMobile ? "" : "px-2"}
+                          >
+                            <span className={isMobile ? "text-xs" : "text-sm"}>
+                              {`+${SEED_INCREMENT_AMOUNT}`}
+                            </span>
+                          </Button>
                           <Button
                             onClick={() =>
                               incrementSeeds(
@@ -402,9 +411,13 @@ export const CropMachineModal: React.FC<Props> = ({
                               )
                             }
                             disabled={!canIncrementSeeds()}
-                            className="px-2"
+                            className={`px-2 ${
+                              isMobile ? "" : "px-2"
+                            } w-auto min-w-min`}
                           >
-                            {t("cropMachine.all")}
+                            <span className={isMobile ? "text-xs" : "text-sm"}>
+                              {t("cropMachine.all")}
+                            </span>
                           </Button>
                         </div>
                       </div>
