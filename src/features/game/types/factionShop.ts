@@ -67,7 +67,6 @@ export type FactionShopWearableName =
   | "Sunflorian Pants"
   | "Sunflorian Sabatons"
   | "Knight Gambit"
-  | "Motley"
   | "Royal Braids";
 
 type FactionItemBase = {
@@ -572,14 +571,6 @@ export const FACTION_SHOP_ITEMS: Record<FactionShopItemName, FactionShopItem> =
       limit: null,
       currency: "Mark",
       shortDescription: translate("description.factionShop.knightGambit"),
-      type: "wearable",
-    },
-    Motley: {
-      name: "Motley",
-      price: new Decimal(22500),
-      limit: null,
-      currency: "Mark",
-      shortDescription: translate("description.factionShop.motley"),
       type: "wearable",
     },
     "Royal Braids": {
