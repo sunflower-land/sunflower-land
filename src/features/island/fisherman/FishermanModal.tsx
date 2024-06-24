@@ -4,6 +4,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import plus from "assets/icons/plus.png";
 import lightning from "assets/icons/lightning.png";
+import fullMoon from "assets/icons/full_moon.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -219,7 +220,7 @@ const BaitSelection: React.FC<{
       <InnerPanel>
         <div className="p-2">
           <div className="flex items-center justify-between flex-wrap">
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
               {tide === "Dusktide" ? (
                 <Label
                   icon={SUNNYSIDE.icons.stopwatch}
@@ -238,11 +239,16 @@ const BaitSelection: React.FC<{
                 </Label>
               )}
 
-              {weather === "Fish Frenzy" || weather === "Full Moon" ? (
+              {weather === "Fish Frenzy" && (
                 <Label icon={lightning} type="vibrant">
                   {weather}
                 </Label>
-              ) : null}
+              )}
+              {weather === "Full Moon" && (
+                <Label icon={fullMoon} type="vibrant">
+                  {weather}
+                </Label>
+              )}
             </div>
 
             <Label icon={SUNNYSIDE.tools.fishing_rod} type="default">

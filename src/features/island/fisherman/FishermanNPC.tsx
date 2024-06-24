@@ -5,6 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import reel from "assets/ui/reel.png";
 import lightning from "assets/icons/lightning.png";
 import lockIcon from "assets/skills/lock.png";
+import fullMoon from "assets/icons/full_moon.png";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {
@@ -275,18 +276,35 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
           </>
         )}
 
-        {!showReelLabel && showSpecial && canFish && (
-          <img
-            src={lightning}
-            style={{
-              width: `${PIXEL_SCALE * 8}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-              top: `${PIXEL_SCALE * -17}px`,
+        {!showReelLabel && canFish && (
+          <>
+            {fishing.weather === "Fish Frenzy" && (
+              <img
+                src={lightning}
+                style={{
+                  width: `${PIXEL_SCALE * 8}px`,
+                  left: `${PIXEL_SCALE * 5}px`,
+                  top: `${PIXEL_SCALE * -17}px`,
 
-              imageRendering: "pixelated",
-            }}
-            className="absolute pointer-events-none"
-          />
+                  imageRendering: "pixelated",
+                }}
+                className="absolute pointer-events-none"
+              />
+            )}
+            {fishing.weather === "Full Moon" && (
+              <img
+                src={fullMoon}
+                style={{
+                  width: `${PIXEL_SCALE * 12}px`,
+                  left: `${PIXEL_SCALE * 2}px`,
+                  top: `${PIXEL_SCALE * -19}px`,
+
+                  imageRendering: "pixelated",
+                }}
+                className="absolute pointer-events-none"
+              />
+            )}
+          </>
         )}
 
         {showReelLabel && (
