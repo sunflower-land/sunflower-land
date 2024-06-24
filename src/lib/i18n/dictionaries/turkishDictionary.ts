@@ -4571,6 +4571,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Yenilemek istediğinizden emin misiniz?",
   "restock.tooManySeeds": "Sepetinizde fazla tohum var!",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "seeds.plantingSpot.needed": ENGLISH_TERMS["seeds.plantingSpot.needed"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {

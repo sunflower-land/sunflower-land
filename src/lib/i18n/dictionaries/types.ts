@@ -3055,7 +3055,8 @@ export type Restock =
   | "restock.one.buck"
   | "restock.sure"
   | "restock.tooManySeeds"
-  | "seeds.reachingInventoryLimit";
+  | "seeds.reachingInventoryLimit"
+  | "seeds.plantingSpot.needed";
 
 export type RetreatTerms =
   | "retreatTerms.lookingForRareItems"
