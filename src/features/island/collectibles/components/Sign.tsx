@@ -31,7 +31,9 @@ export const Sign: React.FC = () => {
       >
         <p className="text-xxs mt-2 font-pixel">
           {"#"}
-          {gameState.context.nftId}
+          {gameState.context.nftId
+            ? gameState.context.nftId
+            : gameState.context.farmId}
         </p>
       </div>
     </div>
