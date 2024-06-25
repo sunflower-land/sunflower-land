@@ -291,5 +291,51 @@ describe("mineIron", () => {
 
       expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
     });
+
+    it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
+      const now = Date.now();
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Ore Hourglass": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    });
+
+    it("does not apply an Ore Hourglass boost if expired", () => {
+      const now = Date.now();
+      const fourHoursAgo = now - 4 * 60 * 60 * 1000;
+
+      const time = getMinedAt({
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Ore Hourglass": [
+              {
+                id: "123",
+                createdAt: fourHoursAgo,
+                coordinates: { x: 1, y: 1 },
+                readyAt: fourHoursAgo,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+      });
+
+      expect(time).toEqual(now);
+    });
   });
 });
