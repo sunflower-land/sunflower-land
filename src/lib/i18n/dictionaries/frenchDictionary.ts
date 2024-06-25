@@ -2828,35 +2828,36 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   // Coupons
   "description.community.coin":
-    "Une pièce de valeur pouvant être échangée contre des récompenses",
+    "(WIP) Une pièce de valeur pouvant être échangée contre des récompenses",
   "description.bud.seedling":
-    "Une jeune pousse à échanger contre un NFT Bud gratuit",
+    "(LEGACY) Une jeune pousse à échanger contre un NFT Bud gratuit",
   "description.gold.pass":
-    "Un laissez-passer exclusif permettant au détenteur de fabriquer des NFT rares, de commercer, de retirer et d'accéder à du contenu bonus.",
+    "(LEGACY) Un laissez-passer exclusif permettant au détenteur de fabriquer des NFT rares, de commercer, de retirer et d'accéder à du contenu bonus.",
   "description.rapid.growth":
-    "À appliquer sur une culture pour une croissance deux fois plus rapide",
+    "(LEGACY) À appliquer sur une culture pour une croissance deux fois plus rapide",
   "description.bud.ticket":
-    "Une place garantie pour frapper un Bud lors de la distribution des NFT Sunflower Land Buds.",
+    "(LEGACY) Une place garantie pour frapper un Bud lors de la distribution des NFT Sunflower Land Buds.",
   "description.potion.ticket":
     "Une récompense de la Maison des Potions. Utilisez-la pour acheter des articles auprès de Garth.",
-  "description.trading.ticket": "Échanges gratuits ! Hourra!",
+  "description.trading.ticket": "(LEGACY) Échanges gratuits ! Hourra!",
   "description.block.buck": "Un jeton précieux dans Sunflower Land!",
   "description.beta.pass":
-    "Accédez en avant-première à des fonctionnalités pour les tester.",
-  "description.war.bond": "La marque d'un vrai guerrier",
-  "description.allegiance": "Une déclaration d'allégeance",
-  "description.jack.o.lantern": "Un objet spécial d'événement d'Halloween",
-  "description.golden.crop": "Une culture dorée étincelante",
-  "description.red.envelope": "Wow, vous avez de la chance!",
-  "description.love.letter": "Transmettez des sentiments d'amour",
+    "(EXCLUSIVE) Accédez en avant-première à des fonctionnalités pour les tester.",
+  "description.war.bond": "(LEGACY) La marque d'un vrai guerrier",
+  "description.allegiance": "(LEGACY) Une déclaration d'allégeance",
+  "description.jack.o.lantern":
+    "(LEGACY) Un objet spécial d'événement d'Halloween",
+  "description.golden.crop": "(LEGACY) Une culture dorée étincelante",
+  "description.red.envelope": "(LEGACY) Wow, vous avez de la chance!",
+  "description.love.letter": "(LEGACY) Transmettez des sentiments d'amour",
   "description.solar.flare.ticket":
-    "Un billet utilisé pendant la saison des Éruptions Solaires",
+    "(LEGACY) Un billet utilisé pendant la saison des Éruptions Solaires",
   "description.dawn.breaker.ticket":
-    "Un billet utilisé pendant la saison de l'Éclaireur de l'Aube",
+    "(LEGACY) Un billet utilisé pendant la saison de l'Éclaireur de l'Aube",
   "description.crow.feather":
-    "Un billet utilisé pendant la saison des Billets de la Veille des Sorcières",
+    "(LEGACY) Un billet utilisé pendant la saison des Billets de la Veille des Sorcières",
   "description.mermaid.scale":
-    "Un billet utilisé pendant la saison de la Chasse au Kraken",
+    "(LEGACY) Un billet utilisé pendant la saison de la Chasse au Kraken",
   "description.sunflower.supporter":
     "La marque d'un véritable supporter du jeu!",
   "description.arcade.coin":
@@ -2865,7 +2866,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
     "Un coupon à échanger contre un ouvrier agricole de votre choix.",
   "description.farmhand": "Un Bumpkin adopté dans votre ferme.",
   "description.tulip.bulb":
-    "Un billet utilisé pendant la Floraison du Printemps.",
+    "(LEGACY) Un billet utilisé pendant la Floraison du Printemps.",
   "description.treasure.key":
     "Visitez la place pour débloquer votre récompense",
   "description.rare.key": "Visitez la plage pour débloquer votre récompense",

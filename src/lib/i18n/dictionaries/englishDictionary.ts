@@ -2714,32 +2714,34 @@ const gameDescriptions: Record<GameDescriptions, string> = {
 
   // Coupons
   "description.community.coin":
-    "A valued coin that can be exchanged for rewards",
-  "description.bud.seedling": "A seedling to be exchanged for a free Bud NFT",
+    "(WIP) A valued coin that can be exchanged for rewards",
+  "description.bud.seedling":
+    "(LEGACY) A seedling to be exchanged for a free Bud NFT",
   "description.gold.pass":
-    "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
-  "description.rapid.growth": "Apply to a crop to grow twice as fast",
+    "(LEGACY) An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
+  "description.rapid.growth": "(LEGACY) Apply to a crop to grow twice as fast",
   "description.bud.ticket":
-    "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
+    "(LEGACY) A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
   "description.potion.ticket":
     "A reward from the Potion House. Use this to buy items from Garth.",
-  "description.trading.ticket": "Free Trades! Woohoo!",
+  "description.trading.ticket": "(LEGACY) Free Trades! Woohoo!",
   "description.block.buck": "A valuable token in Sunflower Land!",
-  "description.beta.pass": "Gain early access to features for testing.",
-  "description.war.bond": "A mark of a true warrior",
-  "description.allegiance": "A display of allegiance",
-  "description.jack.o.lantern": "A Halloween special event item",
-  "description.golden.crop": "A shiny golden crop",
-  "description.red.envelope": "Wow, you are lucky!",
-  "description.love.letter": "Convey feelings of love",
+  "description.beta.pass":
+    "(EXCLUSIVE) Gain early access to features for testing.",
+  "description.war.bond": "(LEGACY) A mark of a true warrior",
+  "description.allegiance": "(LEGACY) A display of allegiance",
+  "description.jack.o.lantern": "(LEGACY) A Halloween special event item",
+  "description.golden.crop": "(LEGACY) A shiny golden crop",
+  "description.red.envelope": "(LEGACY) Wow, you are lucky!",
+  "description.love.letter": "(LEGACY) Convey feelings of love",
   "description.solar.flare.ticket":
-    "A ticket used during the Solar Flare Season",
+    "(LEGACY) A ticket used during the Solar Flare Season",
   "description.dawn.breaker.ticket":
-    "A ticket used during the Dawn Breaker Season",
+    "(LEGACY) A ticket used during the Dawn Breaker Season",
   "description.crow.feather":
-    "A ticket used during the Witches' Eve Ticket Season",
+    "(LEGACY) A ticket used during the Witches' Eve Ticket Season",
   "description.mermaid.scale":
-    "A ticket used during the Catch the Kraken Season",
+    "(LEGACY) A ticket used during the Catch the Kraken Season",
   "description.sunflower.supporter":
     "The mark of a true supporter of the game!",
   "description.arcade.coin":
@@ -2747,7 +2749,7 @@ const gameDescriptions: Record<GameDescriptions, string> = {
   "description.farmhand.coupon":
     "A coupon to exchange for a farm hand of your choice.",
   "description.farmhand": "An adopted Bumpkin on your farm",
-  "description.tulip.bulb": "A ticket used during the Spring Blossom",
+  "description.tulip.bulb": "(LEGACY) A ticket used during the Spring Blossom",
   "description.treasure.key": "Visit the plaza to unlock your reward",
   "description.rare.key": "Visit the beach to unlock your reward",
   "description.luxury.key":
