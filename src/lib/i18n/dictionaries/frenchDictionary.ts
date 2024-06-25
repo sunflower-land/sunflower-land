@@ -300,6 +300,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   item: "Objet",
   labels: "Étiquettes",
   land: "Île",
+  landscaping: ENGLISH_TERMS.landscaping,
   "last.updated": "Dernière mise à jour",
   layouts: "Mises en page",
   "lets.go": "C'est parti!",

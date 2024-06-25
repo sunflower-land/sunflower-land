@@ -283,6 +283,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   info: "Bilgi",
   item: "Öğe",
   land: "Ada",
+  landscaping: ENGLISH_TERMS.landscaping,
   "last.updated": "Son güncelleme:",
   "lets.go": "Hadi Gidelim!",
   limit: "Sınır",

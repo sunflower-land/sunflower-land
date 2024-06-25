@@ -45,6 +45,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import ticket from "assets/icons/ticket.png";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -99,7 +100,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     <>
       {/* Root menu */}
       <>
-        <div className="flex flex-wrap items-center justify-start mx-2">
+        <div className="flex flex-wrap items-center justify-between mx-2">
           <Label
             type="default"
             icon={SUNNYSIDE.icons.search}
@@ -118,7 +119,7 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           {gameService.state?.context?.nftId !== undefined && (
             <Label
               type="default"
-              icon={SUNNYSIDE.icons.search}
+              icon={ticket}
               className="mb-1 mr-4"
               onClick={() => {
                 copypaste.play();

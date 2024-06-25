@@ -265,6 +265,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   info: "概览",
   item: "物品：",
   land: "农场",
+  landscaping: "景观美化",
   "last.updated": "最近更新时间：",
   "lets.go": "走吧！",
   limit: "上限", // Megastore error message, Limit: Balance / Limit
