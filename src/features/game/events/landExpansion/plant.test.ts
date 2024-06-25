@@ -2565,5 +2565,75 @@ describe("getCropYield", () => {
 
       expect(time).toEqual(now - 30 * 1000);
     });
+
+    it("applies the harvest hourglass boost of -25% crop growth time for 6 hours", () => {
+      const now = Date.now();
+      const baseHarvestSeconds = CROPS()["Corn"].harvestSeconds;
+
+      const time = getPlantedAt({
+        crop: "Corn",
+        buds: {},
+        inventory: {},
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Harvest Hourglass": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      const boost = baseHarvestSeconds * 0.25 * 1000;
+
+      expect(time).toEqual(now - boost);
+    });
+
+    it("does not apply a boost if the harvest hourglass has expired", () => {
+      const now = Date.now();
+      const sevenHoursAgo = now - 7 * 60 * 60 * 1000;
+
+      const time = getPlantedAt({
+        crop: "Corn",
+        buds: {},
+        inventory: {},
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Harvest Hourglass": [
+              {
+                id: "123",
+                createdAt: sevenHoursAgo,
+                coordinates: { x: 1, y: 1 },
+                readyAt: sevenHoursAgo,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          height: 1,
+          width: 1,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
   });
 });
