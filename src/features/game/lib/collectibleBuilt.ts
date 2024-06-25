@@ -23,6 +23,13 @@ export function isCollectibleBuilt({
 
 export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
   "Time Warp Totem": 2 * 60 * 60 * 1000,
+  "Gourmet Hourglass": 4 * 60 * 60 * 1000,
+  "Harvest Hourglass": 6 * 60 * 60 * 1000,
+  "Timber Hourglass": 4 * 60 * 60 * 1000,
+  "Ore Hourglass": 3 * 60 * 60 * 1000,
+  "Orchard Hourglass": 6 * 60 * 60 * 1000,
+  "Blossom Hourglass": 4 * 60 * 60 * 1000,
+  "Fisher's Hourglass": 4 * 60 * 60 * 1000,
 };
 
 /**
