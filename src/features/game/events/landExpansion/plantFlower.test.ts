@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { plantFlower } from "./plantFlower";
+import { getFlowerTime, plantFlower } from "./plantFlower";
 import { GameState } from "features/game/types/game";
 import { TEST_FARM } from "features/game/lib/constants";
 import { INITIAL_BUMPKIN } from "features/game/lib/bumpkinData";
@@ -358,5 +358,52 @@ describe("plantFlower", () => {
     expect(state.flowers.flowerBeds[bedIndex].flower?.plantedAt).toEqual(
       dateNow - FLOWER_SEEDS()["Sunpetal Seed"].plantSeconds * 1000 * 0.55
     );
+  });
+});
+
+describe("getFlowerTime", () => {
+  it("applies a Blossom Hourglass boost of -25% flower growth time for 4 hours", () => {
+    const now = Date.now();
+    const seed = "Bloom Seed";
+    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+
+    const time = getFlowerTime(seed, {
+      ...GAME_STATE,
+      collectibles: {
+        "Blossom Hourglass": [
+          {
+            id: "1",
+            createdAt: now,
+            readyAt: now + 4 * 60 * 60 * 1000,
+            coordinates: { x: 0, y: 0 },
+          },
+        ],
+      },
+    });
+
+    expect(time).toEqual(growSeconds * 0.75);
+  });
+
+  it("does not apply a Blossom Hourglass boost if it has expired", () => {
+    const now = Date.now();
+    const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
+    const seed = "Bloom Seed";
+    const growSeconds = FLOWER_SEEDS()[seed].plantSeconds;
+
+    const time = getFlowerTime(seed, {
+      ...GAME_STATE,
+      collectibles: {
+        "Blossom Hourglass": [
+          {
+            id: "1",
+            createdAt: fiveHoursAgo,
+            readyAt: fiveHoursAgo,
+            coordinates: { x: 0, y: 0 },
+          },
+        ],
+      },
+    });
+
+    expect(time).toEqual(growSeconds);
   });
 });

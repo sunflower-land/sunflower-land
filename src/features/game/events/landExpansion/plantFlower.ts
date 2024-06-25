@@ -40,6 +40,10 @@ export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
     seconds *= 0.9;
   }
 
+  if (isCollectibleBuilt({ name: "Blossom Hourglass", game })) {
+    seconds *= 0.75;
+  }
+
   return seconds;
 };
 
