@@ -31,10 +31,9 @@ export const SPAWNS: () => SpawnLocation = () => ({
     },
   },
   nightshade_house: {
-    // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 230 + randomXOffset,
-      y: 420 - randomYOffset,
+      x: 240,
+      y: 432,
     },
   },
   bumpkin_house: {
@@ -56,6 +55,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
     default: {
       x: 235,
       y: 845,
+    },
+    nightshade_house: {
+      x: 120,
+      y: 448,
     },
   },
   retreat: {

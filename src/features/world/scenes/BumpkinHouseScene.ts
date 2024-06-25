@@ -1,4 +1,4 @@
-import mapJSON from "assets/map/faction_house.json";
+import mapJSON from "assets/map/bumpkin_house.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

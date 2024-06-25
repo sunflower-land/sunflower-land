@@ -47,7 +47,6 @@ import { HudContainer } from "components/ui/HudContainer";
 import { RetreatScene } from "./scenes/RetreatScene";
 import { KingdomScene } from "./scenes/Kingdom";
 import { hasFeatureAccess } from "lib/flags";
-import { FactionHouseScene } from "./scenes/FactionHouse";
 import { GoblinHouseScene } from "./scenes/GoblinHouseScene";
 import { SunflorianHouseScene } from "./scenes/SunflorianHouseScene";
 import { Loading } from "features/auth/components";
@@ -124,9 +123,6 @@ export const PhaserComponent: React.FC<Props> = ({
     new PlazaScene({ gameState: gameService.state.context.state }),
     RetreatScene,
     KingdomScene,
-    ...(hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
-      ? [FactionHouseScene]
-      : []),
     ...(hasHouseAccess(gameService.state.context.state, "goblins") &&
     hasFeatureAccess(gameService.state.context.state, "FACTION_HOUSE")
       ? [GoblinHouseScene]
