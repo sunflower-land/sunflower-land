@@ -26,12 +26,14 @@ interface ClaimRewardProps {
   reward: IAirdrop;
   onClaim?: () => void;
   onClose?: () => void;
+  label?: string;
 }
 
 export const ClaimReward: React.FC<ClaimRewardProps> = ({
   reward: airdrop,
   onClaim,
   onClose,
+  label,
 }) => {
   const { t } = useAppTranslation();
   const itemNames = getKeys(airdrop.items);
@@ -50,7 +52,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
           type="warning"
           icon={SUNNYSIDE.decorations.treasure_chest}
         >
-          {t("reward.discovered")}
+          {label ?? t("reward.discovered")}
         </Label>
         {airdrop.message && (
           <div className="mb-2 ml-1">

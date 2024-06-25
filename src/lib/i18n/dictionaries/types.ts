@@ -173,6 +173,7 @@ export type GeneralTerms =
   | "retry"
   | "reward"
   | "reward.discovered"
+  | "reward.whatsNew"
   | "save"
   | "saving"
   | "searching"

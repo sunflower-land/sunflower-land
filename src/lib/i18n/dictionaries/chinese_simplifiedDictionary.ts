@@ -313,6 +313,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   restock: "补货",
   retry: "重试",
   "reward.discovered": "奖励揭晓",
+  "reward.whatsNew": ENGLISH_TERMS["reward.whatsNew"],
   save: "保存",
   saving: "保存中",
   seeds: "种子", // Basket

@@ -330,6 +330,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   restock: "Reabastecer",
   retry: "Tentar Novamente",
   "reward.discovered": "Recompensa Descoberta",
+  "reward.whatsNew": ENGLISH_TERMS["reward.whatsNew"],
   save: "Salvar",
   saving: "Salvando",
   searching: "Buscando",
