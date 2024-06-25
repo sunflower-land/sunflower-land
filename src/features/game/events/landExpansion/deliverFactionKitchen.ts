@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { isWearableActive } from "features/game/lib/wearables";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { FactionName, GameState } from "features/game/types/game";
+import { capitalize } from "lib/utils/capitalize";
 import cloneDeep from "lodash.clonedeep";
 
 export enum DELIVER_FACTION_KITCHEN_ERRORS {
@@ -25,6 +28,63 @@ type Options = {
   action: DeliverFactionKitchenAction;
   createdAt?: number;
 };
+
+function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
+  const factionName = game.faction?.name as FactionName;
+  const singularFactionName = capitalize(
+    factionName.slice(0, -1).toLowerCase()
+  );
+  const toolNoun = factionName === "goblins" ? "Axe" : "Sword";
+
+  let points = 0;
+
+  if (
+    isWearableActive({
+      game,
+      name: `${singularFactionName} Pants` as BumpkinItem,
+    })
+  ) {
+    points += basePoints * 0.05;
+  }
+
+  if (
+    isWearableActive({
+      game,
+      name: `${singularFactionName} Sabatons` as BumpkinItem,
+    })
+  ) {
+    points += basePoints * 0.05;
+  }
+
+  if (
+    isWearableActive({
+      game,
+      name: `${singularFactionName} ${toolNoun}` as BumpkinItem,
+    })
+  ) {
+    points += basePoints * 0.1;
+  }
+
+  if (
+    isWearableActive({
+      game,
+      name: `${singularFactionName} Helmet` as BumpkinItem,
+    })
+  ) {
+    points += basePoints * 0.1;
+  }
+
+  if (
+    isWearableActive({
+      game,
+      name: `${singularFactionName} Armor` as BumpkinItem,
+    })
+  ) {
+    points += basePoints * 0.2;
+  }
+
+  return points;
+}
 
 export function deliverFactionKitchen({
   state,
@@ -65,14 +125,16 @@ export function deliverFactionKitchen({
   inventory[request.item] = resourceBalance.minus(request.amount);
 
   const marksBalance = inventory["Mark"] ?? new Decimal(0);
-
   const points = BASE_POINTS - request.deliveryCount * 2;
-  if (points < 2) {
+  const boostPoints = getFactionWearableBoostAmount(stateCopy, points);
+  const totalPoints = points + boostPoints;
+
+  if (totalPoints < 2) {
     kitchen.points += 1;
     inventory["Mark"] = marksBalance.plus(1);
   } else {
-    kitchen.points += points;
-    inventory["Mark"] = marksBalance.plus(points);
+    kitchen.points += totalPoints;
+    inventory["Mark"] = marksBalance.plus(totalPoints);
   }
 
   request.deliveryCount += 1;
