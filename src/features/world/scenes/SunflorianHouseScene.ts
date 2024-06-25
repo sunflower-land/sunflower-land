@@ -5,20 +5,20 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   {
-    x: 410,
-    y: 200,
+    x: 136,
+    y: 325,
     npc: "solara",
     direction: "left",
   },
   {
-    x: 57,
-    y: 360,
+    x: 390,
+    y: 223,
     npc: "flora",
-    direction: "right",
+    direction: "left",
   },
   {
-    x: 115,
-    y: 249,
+    x: 94,
+    y: 212,
     npc: "chef lumen",
   },
 ];

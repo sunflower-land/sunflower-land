@@ -5,21 +5,22 @@ import { BaseScene, NPCBumpkin } from "./BaseScene";
 
 export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
-    x: 410,
-    y: 200,
+    x: 384,
+    y: 199,
     npc: "haymitch",
     direction: "left",
   },
   {
-    x: 57,
-    y: 360,
+    x: 182,
+    y: 160,
     npc: "buttercup",
     direction: "right",
   },
   {
-    x: 115,
-    y: 249,
+    x: 389,
+    y: 335,
     npc: "chef maple",
+    direction: "left",
   },
 ];
 

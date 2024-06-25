@@ -17,17 +17,15 @@ export const SPAWNS: () => SpawnLocation = () => ({
     },
   },
   goblin_house: {
-    // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 230 + randomXOffset,
-      y: 420 - randomYOffset,
+      x: 239,
+      y: 436,
     },
   },
   sunflorian_house: {
-    // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 230 + randomXOffset,
-      y: 420 - randomYOffset,
+      x: 239,
+      y: 432,
     },
   },
   nightshade_house: {
@@ -37,10 +35,9 @@ export const SPAWNS: () => SpawnLocation = () => ({
     },
   },
   bumpkin_house: {
-    // Make sure everyone doesn't spawn in same spot
     default: {
-      x: 230 + randomXOffset,
-      y: 420 - randomYOffset,
+      x: 240,
+      y: 434,
     },
   },
   faction_house: {
@@ -59,6 +56,18 @@ export const SPAWNS: () => SpawnLocation = () => ({
     nightshade_house: {
       x: 120,
       y: 448,
+    },
+    sunflorian_house: {
+      x: 344,
+      y: 651,
+    },
+    goblin_house: {
+      x: 122,
+      y: 786,
+    },
+    bumpkin_house: {
+      x: 376,
+      y: 462,
     },
   },
   retreat: {
