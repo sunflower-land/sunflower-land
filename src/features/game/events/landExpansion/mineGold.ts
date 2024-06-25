@@ -41,6 +41,10 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
     totalSeconds = totalSeconds * 0.5;
   }
 
+  if (isCollectibleActive({ name: "Ore Hourglass", game })) {
+    totalSeconds = totalSeconds * 0.5;
+  }
+
   const buff = GOLD_RECOVERY_TIME - totalSeconds;
 
   return createdAt - buff * 1000;
