@@ -468,4 +468,56 @@ describe("getChoppedAt", () => {
 
     expect(time).toEqual(now - buff * 1000);
   });
+
+  it("applies a Timber Hourglass boost of -25% recovery time for 4 hours", () => {
+    const now = Date.now();
+
+    const createdAt = getChoppedAt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Timber Hourglass": [
+            {
+              id: "123",
+              createdAt: now - 100,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 100,
+            },
+          ],
+        },
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    const boostedRecoveryTime =
+      (TREE_RECOVERY_TIME - TREE_RECOVERY_TIME * 0.75) * 1000;
+
+    expect(createdAt).toEqual(now - boostedRecoveryTime);
+  });
+
+  it("does not apply a Timber Hourglass boost if it has expired", () => {
+    const now = Date.now();
+    const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
+
+    const createdAt = getChoppedAt({
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Timber Hourglass": [
+            {
+              id: "123",
+              createdAt: fiveHoursAgo,
+              coordinates: { x: 1, y: 1 },
+              readyAt: fiveHoursAgo,
+            },
+          ],
+        },
+      },
+      skills: {},
+      createdAt: now,
+    });
+
+    expect(createdAt).toEqual(now);
+  });
 });

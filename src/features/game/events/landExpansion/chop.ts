@@ -69,6 +69,10 @@ export function getChoppedAt({
     totalSeconds = totalSeconds * 0.5;
   }
 
+  if (isCollectibleActive({ name: "Timber Hourglass", game })) {
+    totalSeconds = totalSeconds * 0.75;
+  }
+
   const buff = TREE_RECOVERY_TIME - totalSeconds;
 
   return createdAt - buff * 1000;
