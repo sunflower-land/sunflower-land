@@ -12,14 +12,14 @@ export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 57,
-    y: 360,
+    x: 378,
+    y: 336,
     npc: "grizzle",
-    direction: "right",
+    direction: "left",
   },
   {
-    x: 115,
-    y: 249,
+    x: 110,
+    y: 239,
     npc: "chef tuck",
   },
 ];
