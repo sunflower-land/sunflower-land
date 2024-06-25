@@ -12,7 +12,10 @@ import {
 import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { translate } from "lib/i18n/translate";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -40,7 +43,7 @@ export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
     seconds *= 0.9;
   }
 
-  if (isCollectibleBuilt({ name: "Blossom Hourglass", game })) {
+  if (isCollectibleActive({ name: "Blossom Hourglass", game })) {
     seconds *= 0.75;
   }
 

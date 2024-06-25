@@ -46,6 +46,10 @@ export function getMinedAt({
     totalSeconds = totalSeconds * 0.5;
   }
 
+  if (isCollectibleActive({ name: "Ore Hourglass", game })) {
+    totalSeconds = totalSeconds * 0.5;
+  }
+
   const buff = STONE_RECOVERY_TIME - totalSeconds;
 
   return createdAt - buff * 1000;
