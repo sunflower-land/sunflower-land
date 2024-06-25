@@ -265,6 +265,7 @@ const generalTerms: Record<GeneralTerms, string> = {
   info: "概览",
   item: "物品：",
   land: "农场",
+  landscaping: "景观美化",
   "last.updated": "最近更新时间：",
   "lets.go": "走吧！",
   limit: "上限", // Megastore error message, Limit: Balance / Limit
@@ -1371,6 +1372,7 @@ const cropMachine: Record<CropMachine, string> = {
   "cropMachine.addOil": "添加石油",
   "cropMachine.addSeedPack": "添加种子袋",
   "cropMachine.addSeeds": "添加 {{seedType}}",
+  "cropMachine.all": "加完",
   "cropMachine.availableInventory": "库存有 {{amount}}",
   "cropMachine.boosted": "已享增益",
   "cropMachine.growTime": "生长时长： {{time}}",

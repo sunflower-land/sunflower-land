@@ -24,14 +24,16 @@ export const Sign: React.FC = () => {
         style={{
           color: "#ead4aa",
           left: 0,
-          top: 0,
+          top: "2px",
           textAlign: "center",
           textShadow: "1px 1px #723e39",
         }}
       >
-        <p className="text-xxs mt-2">
+        <p className="text-xxs mt-2 font-pixel">
           {"#"}
-          {gameState.context.farmId}
+          {gameState.context.nftId
+            ? gameState.context.nftId
+            : gameState.context.farmId}
         </p>
       </div>
     </div>

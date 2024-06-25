@@ -40,6 +40,7 @@ import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { setPrecision } from "lib/utils/formatNumber";
+import { isMobile } from "mobile-device-detect";
 
 interface Props {
   show: boolean;
@@ -122,12 +123,12 @@ export const CropMachineModal: React.FC<Props> = ({
     return newProjectedTotalOilTime <= MAX_OIL_CAPACITY_IN_MILLIS;
   };
 
-  const incrementSeeds = () => {
-    setTotalSeeds((prev) => prev + SEED_INCREMENT_AMOUNT);
+  const incrementSeeds = (amount = 1) => {
+    setTotalSeeds((prev) => prev + amount);
   };
 
-  const decrementSeeds = () => {
-    setTotalSeeds((prev) => Math.max(prev - SEED_INCREMENT_AMOUNT, 0));
+  const decrementSeeds = (amount = 1) => {
+    setTotalSeeds((prev) => Math.max(prev - amount, 0));
   };
 
   const incrementOil = () => {
@@ -382,14 +383,42 @@ export const CropMachineModal: React.FC<Props> = ({
                         <div className="flex items-center space-x-1">
                           <Button
                             disabled={totalSeeds === 0}
-                            onClick={decrementSeeds}
-                            className="px-2"
-                          >{`-${SEED_INCREMENT_AMOUNT}`}</Button>
+                            onClick={() =>
+                              decrementSeeds(SEED_INCREMENT_AMOUNT)
+                            }
+                            className={isMobile ? "" : "px-2"}
+                          >
+                            <span className={isMobile ? "text-xs" : "text-sm"}>
+                              {`-${SEED_INCREMENT_AMOUNT}`}
+                            </span>
+                          </Button>
                           <Button
-                            onClick={incrementSeeds}
+                            onClick={() =>
+                              incrementSeeds(SEED_INCREMENT_AMOUNT)
+                            }
                             disabled={!canIncrementSeeds()}
-                            className="px-2"
-                          >{`+${SEED_INCREMENT_AMOUNT}`}</Button>
+                            className={isMobile ? "" : "px-2"}
+                          >
+                            <span className={isMobile ? "text-xs" : "text-sm"}>
+                              {`+${SEED_INCREMENT_AMOUNT}`}
+                            </span>
+                          </Button>
+                          <Button
+                            onClick={() =>
+                              incrementSeeds(
+                                (inventory[selectedSeed]?.toNumber() ?? 0) -
+                                  totalSeeds
+                              )
+                            }
+                            disabled={!canIncrementSeeds()}
+                            className={`px-2 ${
+                              isMobile ? "" : "px-2"
+                            } w-auto min-w-min`}
+                          >
+                            <span className={isMobile ? "text-xs" : "text-sm"}>
+                              {t("cropMachine.all")}
+                            </span>
+                          </Button>
                         </div>
                       </div>
                     </div>
