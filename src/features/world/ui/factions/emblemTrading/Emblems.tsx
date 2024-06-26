@@ -61,7 +61,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
                 <td style={{ border: "1px solid #b96f50" }}>
                   <div className="flex items-center">
                     <img src={rank.icon} className="mx-1 sm:mx-2" />
-                    <p className="p-1.5 truncate">{rank.name}</p>
+                    <p className="p-1.5 truncate capitalize">{rank.name}</p>
                   </div>
                 </td>
                 <td
