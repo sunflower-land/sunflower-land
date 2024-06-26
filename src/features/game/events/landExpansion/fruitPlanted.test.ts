@@ -711,4 +711,53 @@ describe("getFruitTime", () => {
     );
     expect(time).toEqual(orangePlantSeconds * 0.8);
   });
+
+  it("applies a Orchard Hourglass boost of -25% fruit growth time for 6 hours", () => {
+    const now = Date.now();
+    const seed = "Banana Plant";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        collectibles: {
+          "Orchard Hourglass": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: now,
+              id: "123",
+              readyAt: now,
+            },
+          ],
+        },
+      },
+      INITIAL_BUMPKIN.equipped
+    );
+    expect(time).toEqual(plantSeconds * 0.75);
+  });
+
+  it("does not apply a Orchard Hourglass boost if its expired", () => {
+    const now = Date.now();
+    const sevenHoursAgo = now - 1000 * 60 * 60 * 7;
+    const seed = "Banana Plant";
+    const plantSeconds = FRUIT_SEEDS()[seed].plantSeconds;
+    const time = getFruitPatchTime(
+      seed,
+      {
+        ...TEST_FARM,
+        collectibles: {
+          "Orchard Hourglass": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: sevenHoursAgo,
+              id: "123",
+              readyAt: sevenHoursAgo,
+            },
+          ],
+        },
+      },
+      INITIAL_BUMPKIN.equipped
+    );
+    expect(time).toEqual(plantSeconds);
+  });
 });

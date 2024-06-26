@@ -59,6 +59,10 @@ export function getFruitTime({
     seconds = seconds * 0.5;
   }
 
+  if (isCollectibleActive({ name: "Orchard Hourglass", game })) {
+    seconds = seconds * 0.75;
+  }
+
   return seconds;
 }
 

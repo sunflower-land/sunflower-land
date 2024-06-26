@@ -256,4 +256,52 @@ describe("getMinedAt", () => {
 
     expect(time).toEqual(now - buff * 1000);
   });
+
+  it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
+    const now = Date.now();
+    const time = getMinedAt({
+      skills: {},
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Ore Hourglass": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it("does not apply an Ore Hourglass boost if expired", () => {
+    const now = Date.now();
+    const fourHoursAgo = now - 4 * 60 * 60 * 1000;
+
+    const time = getMinedAt({
+      skills: {},
+      createdAt: now,
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Ore Hourglass": [
+            {
+              id: "123",
+              createdAt: fourHoursAgo,
+              coordinates: { x: 1, y: 1 },
+              readyAt: fourHoursAgo,
+            },
+          ],
+        },
+      },
+    });
+
+    expect(time).toEqual(now);
+  });
 });

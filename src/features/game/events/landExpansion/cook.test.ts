@@ -411,6 +411,97 @@ describe("getReadyAt", () => {
 
     expect(result).toEqual(readyAt);
   });
+
+  it("applies Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2024-01-01T00:00:00Z").getTime());
+
+    const now = Date.now();
+
+    const state: GameState = {
+      ...GAME_STATE,
+      buildings: {
+        Kitchen: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 0,
+          },
+        ],
+      },
+      collectibles: {
+        "Gourmet Hourglass": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: Date.now(),
+          },
+        ],
+      },
+    };
+
+    const boostedTime = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      createdAt: now,
+      game: state,
+    });
+
+    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.5;
+
+    const readyAt =
+      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
+
+    expect(boostedTime).toEqual(readyAt);
+
+    jest.useRealTimers();
+  });
+
+  it("does not apply expired Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {
+    const now = Date.now();
+    const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
+
+    const state: GameState = {
+      ...GAME_STATE,
+      buildings: {
+        Kitchen: [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: Date.now(),
+            id: "1",
+            readyAt: 0,
+            oil: 0,
+          },
+        ],
+      },
+      collectibles: {
+        "Gourmet Hourglass": [
+          {
+            coordinates: { x: 1, y: 1 },
+            createdAt: fiveHoursAgo,
+            id: "1",
+            readyAt: fiveHoursAgo,
+          },
+        ],
+      },
+    };
+
+    const time = getReadyAt({
+      buildingId: "1",
+      item: "Boiled Eggs",
+      bumpkin: INITIAL_BUMPKIN,
+      createdAt: now,
+      game: state,
+    });
+
+    const readyAt = now + COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
+
+    expect(time).toEqual(readyAt);
+  });
 });
 
 describe("getCookingOilBoost", () => {
