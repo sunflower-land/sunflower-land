@@ -46,6 +46,7 @@ import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
+import { DEV_HoarderCheck } from "./amoy-actions/DEV_HoardingCheck";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -267,7 +268,11 @@ export type SettingMenuId =
   | "changeLanguage"
   | "share"
   | "appearance"
-  | "font";
+  | "font"
+
+  // Amoy Testnet Actions
+  | "mainnetHoardingCheck"
+  | "amoyHoardingCheck";
 
 interface SettingMenu {
   title: string;
@@ -360,5 +365,17 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.generalSettings.font"),
     parent: "appearance",
     content: FontSettings,
+  },
+
+  // Amoy Testnet Actions
+  mainnetHoardingCheck: {
+    title: "Hoarding Check (Mainnet)",
+    parent: "amoy",
+    content: (props) => <DEV_HoarderCheck {...props} network="mainnet" />,
+  },
+  amoyHoardingCheck: {
+    title: "Hoarding Check (Amoy)",
+    parent: "amoy",
+    content: (props) => <DEV_HoarderCheck {...props} network="amoy" />,
   },
 };
