@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { isWearableActive } from "features/game/lib/wearables";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { FactionName, GameState } from "features/game/types/game";
-import { capitalize } from "lib/utils/capitalize";
 import cloneDeep from "lodash.clonedeep";
 
 export enum DELIVER_FACTION_KITCHEN_ERRORS {
@@ -29,19 +28,48 @@ type Options = {
   createdAt?: number;
 };
 
+type OutfitPart = "hat" | "shirt" | "pants" | "shoes" | "tool";
+
+const FACTION_OUTFITS: Record<FactionName, Record<OutfitPart, BumpkinItem>> = {
+  bumpkins: {
+    hat: "Bumpkin Helmet",
+    shirt: "Bumpkin Armor",
+    pants: "Bumpkin Pants",
+    shoes: "Bumpkin Sabatons",
+    tool: "Bumpkin Sword",
+  },
+  goblins: {
+    hat: "Goblin Helmet",
+    shirt: "Goblin Armor",
+    pants: "Goblin Pants",
+    shoes: "Goblin Sabatons",
+    tool: "Goblin Axe",
+  },
+  sunflorians: {
+    hat: "Sunflorian Helmet",
+    shirt: "Sunflorian Armor",
+    pants: "Sunflorian Pants",
+    shoes: "Sunflorian Sabatons",
+    tool: "Sunflorian Sword",
+  },
+  nightshades: {
+    hat: "Nightshade Helmet",
+    shirt: "Nightshade Armor",
+    pants: "Nightshade Pants",
+    shoes: "Nightshade Sabatons",
+    tool: "Nightshade Sword",
+  },
+};
+
 function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
   const factionName = game.faction?.name as FactionName;
-  const singularFactionName = capitalize(
-    factionName.slice(0, -1).toLowerCase()
-  );
-  const toolNoun = factionName === "goblins" ? "Axe" : "Sword";
 
   let points = 0;
 
   if (
     isWearableActive({
       game,
-      name: `${singularFactionName} Pants` as BumpkinItem,
+      name: FACTION_OUTFITS[factionName].pants,
     })
   ) {
     points += basePoints * 0.05;
@@ -50,7 +78,7 @@ function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
   if (
     isWearableActive({
       game,
-      name: `${singularFactionName} Sabatons` as BumpkinItem,
+      name: FACTION_OUTFITS[factionName].shoes,
     })
   ) {
     points += basePoints * 0.05;
@@ -59,7 +87,7 @@ function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
   if (
     isWearableActive({
       game,
-      name: `${singularFactionName} ${toolNoun}` as BumpkinItem,
+      name: FACTION_OUTFITS[factionName].tool,
     })
   ) {
     points += basePoints * 0.1;
@@ -68,7 +96,7 @@ function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
   if (
     isWearableActive({
       game,
-      name: `${singularFactionName} Helmet` as BumpkinItem,
+      name: FACTION_OUTFITS[factionName].hat,
     })
   ) {
     points += basePoints * 0.1;
@@ -77,7 +105,7 @@ function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
   if (
     isWearableActive({
       game,
-      name: `${singularFactionName} Armor` as BumpkinItem,
+      name: FACTION_OUTFITS[factionName].shirt,
     })
   ) {
     points += basePoints * 0.2;
