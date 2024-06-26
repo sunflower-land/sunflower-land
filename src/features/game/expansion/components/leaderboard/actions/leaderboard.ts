@@ -6,7 +6,6 @@ import {
   getCachedLeaderboardData,
 } from "./cache";
 import { FactionName, MazeAttempt } from "features/game/types/game";
-import { FactionRank } from "features/game/lib/factionRanks";
 
 const API_URL = CONFIG.API_URL;
 
@@ -19,7 +18,6 @@ export type RankData = {
   id: string;
   count: number;
   rank?: number;
-  factionRank: FactionRank;
 };
 
 export type MazeAttemptStat = Pick<MazeAttempt, "time" | "health"> & {
