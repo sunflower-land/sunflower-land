@@ -4,7 +4,7 @@ import { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { FactionName } from "features/game/types/game";
-import { RANKS } from "features/game/lib/factionRanks";
+import { getFactionRanking } from "features/game/lib/factionRanks";
 
 interface Props {
   rankings: RankData[];
@@ -39,8 +39,8 @@ export const FactionTicketsTable: React.FC<Props> = ({
         </thead>
       )}
       <tbody className="text-xxs sm:text-xs">
-        {rankings.map(({ id, count, rank, factionRank }, index) => {
-          const playerRank = RANKS[factionRank];
+        {rankings.map(({ id, count, rank }, index) => {
+          const playerRank = getFactionRanking(faction, count);
 
           return (
             <tr

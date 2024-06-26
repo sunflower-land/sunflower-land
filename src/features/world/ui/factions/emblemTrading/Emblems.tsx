@@ -29,7 +29,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
 
   return (
     <div className="p-2">
-      <Label type="default" className="-ml-1 mb-2">
+      <Label type="default" className="-ml-1 mb-2 capitalize">
         {playerRank?.name}
       </Label>
       <p className="mb-2">{t("faction.tradeEmblems")}</p>
