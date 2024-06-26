@@ -10,7 +10,7 @@ import React, { useContext } from "react";
 import Decimal from "decimal.js-light";
 
 import mark from "assets/icons/faction_mark.webp";
-import lightning from "assets/icons/lightning.png";
+import powerup from "assets/icons/level_up.png";
 import { RANKS, getFactionRanking } from "features/game/lib/factionRanks";
 
 interface Props {
@@ -75,7 +75,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
                   className="p-1.5 relative"
                 >
                   {rank.boost && (
-                    <Label type="vibrant" icon={lightning} secondaryIcon={mark}>
+                    <Label type="success" icon={powerup} secondaryIcon={mark}>
                       <span className="text-xxs sm:text-xs whitespace-nowrap">
                         {rank.boost}
                       </span>
