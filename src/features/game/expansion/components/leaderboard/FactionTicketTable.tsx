@@ -3,8 +3,8 @@ import classNames from "classnames";
 import { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
-import { RANKS } from "features/world/ui/factions/emblemTrading/Emblems";
 import { FactionName } from "features/game/types/game";
+import { getFactionRanking } from "features/game/lib/factionRanks";
 
 interface Props {
   rankings: RankData[];
@@ -40,9 +40,7 @@ export const FactionTicketsTable: React.FC<Props> = ({
       )}
       <tbody className="text-xxs sm:text-xs">
         {rankings.map(({ id, count, rank }, index) => {
-          const playerRank = [...RANKS[faction]]
-            .reverse()
-            .find((r) => count >= r.emblemsRequired);
+          const playerRank = getFactionRanking(faction, count);
 
           return (
             <tr
