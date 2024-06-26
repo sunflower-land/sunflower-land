@@ -1232,8 +1232,9 @@ const chumDetails: Record<ChumDetails, string> = {
   "chumDetails.speedChicken": "Fast food dessert for sharp-teeth hunters.",
   "chumDetails.richChicken":
     "Delicacy for the bright-bellied terror of the screen.",
-  "chumDetails.sunfish": "Perfect for a full moon...",
   "chumDetails.horseMackerel": "Only for the biggest appetites",
+  "chumDetails.sunfish": "Perfect for a full moon...",
+  "chumDetails.zebraFish": "Marvelous delicacy for rare appetites.",
 };
 
 const claimAchievement: Record<ClaimAchievement, string> = {
