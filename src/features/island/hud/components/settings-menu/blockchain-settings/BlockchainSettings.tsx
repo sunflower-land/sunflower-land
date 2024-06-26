@@ -30,33 +30,26 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 mb-2">
-      <Button onClick={() => onSubMenuClick("deposit")}>{t("deposit")}</Button>
-      <Button onClick={storeOnChain}>
-        {t("gameOptions.blockchainSettings.storeOnChain")}
-      </Button>
-      <Button onClick={() => onSubMenuClick("swapSFL")}>
-        {t("gameOptions.blockchainSettings.swapMaticForSFL")}
-      </Button>
-      <Button onClick={() => onSubMenuClick("dequip")}>
-        {t("dequipper.dequip")}
-      </Button>
-      {isFullUser && (
-        <Button onClick={() => onSubMenuClick("transfer")}>
-          {t("gameOptions.blockchainSettings.transferOwnership")}
-        </Button>
-      )}
-    </div>
-  );
-};
-
-export const BlockchainSettingsModal: React.FC<ContentComponentProps> = ({
-  onSubMenuClick,
-  onClose,
-}) => {
-  return (
     <GameWallet action="connectWallet">
-      <BlockchainSettings onSubMenuClick={onSubMenuClick} onClose={onClose} />
+      <div className="flex flex-col gap-2 mb-2">
+        <Button onClick={() => onSubMenuClick("deposit")}>
+          {t("deposit")}
+        </Button>
+        <Button onClick={storeOnChain}>
+          {t("gameOptions.blockchainSettings.storeOnChain")}
+        </Button>
+        <Button onClick={() => onSubMenuClick("swapSFL")}>
+          {t("gameOptions.blockchainSettings.swapMaticForSFL")}
+        </Button>
+        <Button onClick={() => onSubMenuClick("dequip")}>
+          {t("dequipper.dequip")}
+        </Button>
+        {isFullUser && (
+          <Button onClick={() => onSubMenuClick("transfer")}>
+            {t("gameOptions.blockchainSettings.transferOwnership")}
+          </Button>
+        )}
+      </div>
     </GameWallet>
   );
 };
