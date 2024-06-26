@@ -253,13 +253,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 />
               </InnerPanel>
             )}
-            {currentTab === 6 && state.faction && (
-              <MarksLeaderboard
-                id={id}
-                isLoading={data === undefined}
-                data={data?.kingdom ?? null}
-              />
-            )}
+            {currentTab === 6 && state.faction && <MarksLeaderboard />}
           </div>
         </OuterPanel>
         {showMilestoneReached && (
