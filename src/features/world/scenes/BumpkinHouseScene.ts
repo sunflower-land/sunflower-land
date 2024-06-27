@@ -1,10 +1,7 @@
 import mapJSON from "assets/map/bumpkin_house.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
-import { interactableModalManager } from "../ui/InteractableModals";
-import { translate } from "lib/i18n/translate";
-import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
+import { NPCBumpkin } from "./BaseScene";
 import { FactionHouseScene } from "./FactionHouseScene";
 
 export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
