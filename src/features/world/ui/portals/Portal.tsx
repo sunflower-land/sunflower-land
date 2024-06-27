@@ -22,6 +22,7 @@ import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import sflIcon from "assets/icons/sfl.webp";
+import { IPortalDonation, PortalDonation } from "./PortalDonation";
 
 interface Props {
   portalName: MinigameName;
@@ -48,6 +49,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const [purchase, setPurchase] = useState<PortalPurchase | undefined>(
     undefined
   );
+  const [donation, setDonation] = useState<IPortalDonation | undefined>();
 
   const { t } = useAppTranslation();
 
@@ -95,11 +97,18 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
       // Close the modal when the message is received
       setLoading(false);
       setIsComplete(true);
+      return;
     }
 
     if (event.data.event === "purchase") {
       // Purchase the item
       setPurchase(event.data);
+      return;
+    }
+
+    if (event.data.event === "donated") {
+      setDonation(event.data);
+      return;
     }
 
     if (event.data.event === "played") {
@@ -109,6 +118,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         id: portalName,
       });
       gameService.send("SAVE");
+      return;
     }
   };
 
@@ -181,7 +191,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         <div
           data-html2canvas-ignore="true"
           aria-label="Hud"
-          className="fixed inset-safe-area z-50"
+          className="fixed inset-0 z-50"
         >
           <iframe
             src={url}
@@ -224,6 +234,27 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
                 })}
               </div>
               <Button onClick={confirmPurchase}> {t("confirm")}</Button>
+            </CloseButtonPanel>
+          </div>,
+          document.body
+        )}
+
+      {!!donation &&
+        createPortal(
+          <div
+            data-html2canvas-ignore="true"
+            aria-label="Hud"
+            className="fixed inset-safe-area z-[60] flex items-center justify-center"
+            style={{
+              background: "rgb(0 0 0 / 56%)",
+            }}
+          >
+            <CloseButtonPanel onClose={() => setDonation(undefined)}>
+              <PortalDonation
+                donation={donation}
+                name={portalName}
+                onClose={() => setDonation(undefined)}
+              />
             </CloseButtonPanel>
           </div>,
           document.body

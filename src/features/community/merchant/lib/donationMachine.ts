@@ -86,13 +86,7 @@ export const donationMachine = createMachine<Context, Event, DonationState>({
         },
       },
     },
-    donated: {
-      after: {
-        1000: {
-          target: "idle",
-        },
-      },
-    },
+    donated: {},
     error: {},
   },
 });
