@@ -1984,6 +1984,8 @@ const factions: Record<Factions, string> = {
   "faction.marksBoost": ENGLISH_TERMS["faction.marksBoost"],
   "faction.shop.onlyFor": ENGLISH_TERMS["faction.shop.onlyFor"],
   "faction.shop.welcome": ENGLISH_TERMS["faction.shop.welcome"],
+  "faction.goodLuck": ENGLISH_TERMS["faction.goodLuck"],
+  "faction.noPrizeFound": ENGLISH_TERMS["faction.noPrizeFound"],
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {

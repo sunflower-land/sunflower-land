@@ -1547,7 +1547,9 @@ export type Factions =
   | "faction.tradeEmblems"
   | "faction.marksBoost"
   | "faction.shop.onlyFor"
-  | "faction.shop.welcome";
+  | "faction.shop.welcome"
+  | "faction.noPrizeFound"
+  | "faction.goodLuck";
 
 export type FactionShopDescription =
   | "description.factionShop.sunflorianThrone"

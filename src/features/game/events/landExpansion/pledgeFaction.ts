@@ -50,6 +50,7 @@ export function pledgeFaction({
     name: action.faction,
     pledgedAt: createdAt,
     points: 0,
+    history: {},
     donated: {
       daily: {
         resources: {},

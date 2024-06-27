@@ -5,8 +5,9 @@ import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { getKeys } from "features/game/types/craftables";
-import { FactionPrize, GameState } from "features/game/types/game";
-import React, { useContext, useRef, useState } from "react";
+import { GameState } from "features/game/types/game";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import React, { useContext, useRef } from "react";
 
 export function getFactionPrize({ game }: { game: GameState }) {
   const history = game.faction?.history ?? {};
@@ -28,6 +29,8 @@ export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
+  const { t } = useAppTranslation();
+
   const { history, week, prize } = getFactionPrize({
     game: gameState.context.state,
   });
@@ -40,11 +43,11 @@ export const FactionWeeklyPrize: React.FC<Props> = ({ onClose }) => {
       <Panel>
         <div className="p-2">
           <Label type="danger" className="mb-2">
-            No prize found
+            {t("faction.noPrizeFound")}
           </Label>
-          <span className="text-sm mb-2">Good luck this week!</span>
+          <span className="text-sm mb-2">{t("faction.noPrizeFound")}</span>
         </div>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t("close")}</Button>
       </Panel>
     );
   }

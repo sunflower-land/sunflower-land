@@ -22,6 +22,7 @@ describe("claimEmblems", () => {
           faction: {
             name: "bumpkins",
             pledgedAt: 1,
+            history: {},
             emblemsClaimedAt: 2,
             points: 10,
             donated: {
@@ -48,6 +49,7 @@ describe("claimEmblems", () => {
         ...TEST_FARM,
         faction: {
           name: "bumpkins",
+          history: {},
           pledgedAt: 1,
           points: 10,
           donated: {
@@ -77,6 +79,7 @@ describe("claimEmblems", () => {
         ...TEST_FARM,
         faction: {
           name: faction,
+          history: {},
           pledgedAt: 1,
           points,
           donated: {

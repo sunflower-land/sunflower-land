@@ -25,6 +25,7 @@ describe("pledgeFaction", () => {
             name: "bumpkins",
             pledgedAt: Date.now() - 1000,
             points: 0,
+            history: {},
             donated: {
               daily: {
                 resources: {},
