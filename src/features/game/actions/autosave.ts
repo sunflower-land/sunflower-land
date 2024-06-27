@@ -94,6 +94,8 @@ export async function autosaveRequest(
   });
 }
 
+let autosaveErrors = 0;
+
 export async function autosave(request: Request) {
   if (!API_URL) return { verified: true };
 
@@ -105,6 +107,10 @@ export async function autosave(request: Request) {
 
   if (actions.length === 0) {
     return { verified: true };
+  }
+
+  if (autosaveErrors) {
+    await new Promise((res) => setTimeout(res, autosaveErrors * 5000));
   }
 
   const response = await autosaveRequest({
@@ -131,8 +137,12 @@ export async function autosave(request: Request) {
   if (response.status !== 200 || !response.ok) {
     const data = await response.json();
 
+    autosaveErrors += 1;
+
     throw new Error(ERRORS.AUTOSAVE_SERVER_ERROR);
   }
+
+  autosaveErrors = 0;
 
   const { farm, changeset, announcements } = await sanitizeHTTPResponse<{
     farm: any;
