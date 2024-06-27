@@ -151,7 +151,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       : []),
   ];
 
-  console.log({ currentTab, faction: state.faction });
   return (
     // TODO feat/marks-leaderboard ADD SHOW
     <Modal show={show} onHide={handleHide} dialogClassName="md:max-w-3xl">
