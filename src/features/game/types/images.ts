@@ -759,7 +759,7 @@ import { FRUIT, FRUIT_SEEDS } from "./fruits";
 import { CONSUMABLES } from "./consumables";
 //Golden Crop Event
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
-import { GOBLIN_PIRATE_ITEMS, POTION_HOUSE_ITEMS } from "./collectibles";
+import { POTION_HOUSE_ITEMS } from "./collectibles";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
@@ -2417,7 +2417,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Iron Idol": {
     image: ironIdol,
-    description: GOBLIN_PIRATE_ITEMS["Iron Idol"].description,
+    description: translate("description.iron.idol"),
   },
   "Genie Lamp": {
     image: genieLamp,
@@ -2427,11 +2427,11 @@ export const ITEM_DETAILS: Items = {
   // AoE items
   "Emerald Turtle": {
     image: emeraldTurtle,
-    description: GOBLIN_PIRATE_ITEMS["Emerald Turtle"].description,
+    description: translate("description.emerald.turtle"),
   },
   "Tin Turtle": {
     image: tinTurtle,
-    description: GOBLIN_PIRATE_ITEMS["Tin Turtle"].description,
+    description: translate("description.tin.turtle"),
   },
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
@@ -2545,7 +2545,7 @@ export const ITEM_DETAILS: Items = {
   },
   Karkinos: {
     image: karkinos,
-    description: GOBLIN_PIRATE_ITEMS["Karkinos"].description,
+    description: translate("description.Karkinos"),
   },
 
   // Dawn Breaker Season
