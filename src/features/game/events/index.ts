@@ -327,6 +327,10 @@ import {
   BuyFactionShopItemAction,
   buyFactionShopItem,
 } from "./landExpansion/buyFactionShopItem";
+import {
+  claimFactionPrize,
+  ClaimFactionPrizeAction,
+} from "./landExpansion/claimFactionPrize";
 
 export type PlayingEvent =
   | OilGreenhouseAction
@@ -422,7 +426,8 @@ export type PlayingEvent =
   | ClaimEmblemsAction
   | CompleteKingdomChoreAction
   | DeliverFactionKitchenAction
-  | BuyFactionShopItemAction;
+  | BuyFactionShopItemAction
+  | ClaimFactionPrizeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -488,6 +493,7 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "faction.prizeClaimed": claimFactionPrize,
   "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
