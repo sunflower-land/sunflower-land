@@ -1419,7 +1419,7 @@ const decorationDescriptions: Record<DecorationDescriptions, string> = {
   "description.potted.pumpkin": "南瓜属于乡包佬",
   "description.cactus": "节约用水并让您的农场美丽惊人！",
   "description.basic.bear":
-    "这是一只普通的熊。用它在哥布林退留地制作一只熊吧！",
+    "这是一只普通的熊。用它在哥布林聚居地制作一只熊吧！",
   "description.bonnies.tombstone":
     "在任何农场都显诡怪的添饰，Bonnie 的人类墓碑叫人寒凉刺骨",
   "description.grubnashs.tombstone": "让 Grubnash 的哥布林墓碑带来些许诡魅",
@@ -4651,7 +4651,7 @@ const world: Record<World, string> = {
 
   "world.plaza": "广场",
   "world.beach": "沙滩",
-  "world.retreat": "安置区", //Retreat -> Residence
+  "world.retreat": "聚居地", //Retreat -> Residence
   "world.home": "家园",
   "world.kingdom": "王城",
   "world.woodlands": "林地",
