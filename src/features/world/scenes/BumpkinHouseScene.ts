@@ -2,6 +2,10 @@ import mapJSON from "assets/map/bumpkin_house.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { interactableModalManager } from "../ui/InteractableModals";
+import { translate } from "lib/i18n/translate";
+import { getFactionPrize } from "../ui/factions/weeklyPrize/FactionWeeklyPrize";
+import { FactionHouseScene } from "./FactionHouseScene";
 
 export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -24,7 +28,7 @@ export const BUMPKIN_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
-export class BumpkinHouseScene extends BaseScene {
+export class BumpkinHouseScene extends FactionHouseScene {
   sceneId: SceneId = "bumpkin_house";
 
   constructor() {
@@ -37,6 +41,8 @@ export class BumpkinHouseScene extends BaseScene {
 
   preload() {
     super.preload();
+
+    this.load.image("basic_chest", "world/basic_chest.png");
   }
 
   create() {
@@ -46,5 +52,7 @@ export class BumpkinHouseScene extends BaseScene {
     });
 
     this.initialiseNPCs(BUMPKIN_HOUSE_NPCS);
+
+    this.setupPrize({ x: 240, y: 368 });
   }
 }

@@ -2,6 +2,7 @@ import mapJSON from "assets/map/sunflorian_house.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { FactionHouseScene } from "./FactionHouseScene";
 
 export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -23,7 +24,7 @@ export const SUNFLORIAN_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
-export class SunflorianHouseScene extends BaseScene {
+export class SunflorianHouseScene extends FactionHouseScene {
   sceneId: SceneId = "sunflorian_house";
 
   constructor() {
@@ -45,5 +46,7 @@ export class SunflorianHouseScene extends BaseScene {
     });
 
     this.initialiseNPCs(SUNFLORIAN_HOUSE_NPCS);
+
+    this.setupPrize({ x: 240, y: 384 });
   }
 }

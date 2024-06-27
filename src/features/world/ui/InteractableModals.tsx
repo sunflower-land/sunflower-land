@@ -132,9 +132,7 @@ interface Props {
 }
 
 export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
-  const [interactable, setInteractable] = useState<InteractableName>(
-    "weekly_faction_prize"
-  );
+  const [interactable, setInteractable] = useState<InteractableName>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
