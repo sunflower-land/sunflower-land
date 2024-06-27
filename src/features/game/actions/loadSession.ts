@@ -40,7 +40,13 @@ type Response = {
 
 const API_URL = CONFIG.API_URL;
 
+let loadSessionErrors = 0;
+
 export async function loadSession(request: Request): Promise<Response> {
+  if (loadSessionErrors) {
+    await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
+  }
+
   const promoCode = getPromoCode();
   const referrerId = getReferrerId();
   const signUpMethod = getSignupMethod();
@@ -75,8 +81,12 @@ export async function loadSession(request: Request): Promise<Response> {
   }
 
   if (response.status >= 400) {
+    loadSessionErrors += 1;
+
     throw new Error(ERRORS.SESSION_SERVER_ERROR);
   }
+
+  loadSessionErrors = 0;
 
   const {
     farm,
