@@ -77,7 +77,7 @@ function generateWearables() {
 
     metadata.description = `# Description\n\n${metadata.description}\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)`;
 
-    const oldPath = "../public/erc1155/images/";
+    const oldPath = "../public/wearables/images/";
     const imageFileName = metadata.image.slice(oldPath.length);
 
     metadata.image = `https://sunflower-land.com/play/wearables/images/${imageFileName}`;
@@ -129,5 +129,5 @@ function generateWearables() {
   });
 }
 
-// generateWearables();
-generateCollectibles();
+generateWearables();
+// generateCollectibles();

@@ -1,0 +1,11 @@
+{
+  "description": "# Description\n\nStand out from the crowd with Harry's vibrant tangerine hair, spiked to perfection and crowned with a mustache of authority.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
+  "decimals": 0,
+  "attributes": [
+    { "trait_type": "Part", "value": "Hair" },
+    { "trait_type": "Tradable", "value": "No" }
+  ],
+  "external_url": "https://bumpkins.io",
+  "image": "https://sunflower-land.com/play/wearables/images/",
+  "name": "Tangerine Hair"
+}

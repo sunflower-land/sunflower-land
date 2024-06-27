@@ -1,0 +1,11 @@
+{
+  "description": "# Description\n\nGet ready for some fun in the sun with this stylish and practical rash vest that's perfect for staying safe and comfortable while you're out on the water.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
+  "decimals": 0,
+  "attributes": [
+    { "trait_type": "Part", "value": "Shirt" },
+    { "trait_type": "Tradable", "value": "No" }
+  ],
+  "external_url": "https://bumpkins.io",
+  "image": "https://sunflower-land.com/play/wearables/images/",
+  "name": "Rash Vest"
+}
