@@ -2141,17 +2141,17 @@ const factions: Record<Factions, string> = {
     "I'm still preparing my orders! Please come back in a few minutes.",
   "faction.kitchen.newRequests": "New requests: {{time}}",
   "faction.openingSoon":
-    "Faction houses are opening on July 1st. Earn marks, compete for glory and claim rewards!",
+    "Faction houses are opening on July 8th. Earn marks, compete for glory and claim rewards!",
   "faction.emblems": "Emblems",
   "faction.emblems.intro.one":
     "Wow, look at all those emblems. You are a true warrior!",
   "faction.emblems.intro.two":
-    "On July 1st the Faction House will open. You will be able to complete tasks, earn marks and claim rewards.",
+    "On July 8th the Faction House will open. You will be able to complete tasks, earn marks and claim rewards.",
   "faction.emblems.intro.three":
     "The more emblems you have, the higher your rank and more marks you can earn.",
   "faction.tradeEmblems": "Trade emblems to climb the ranks and attain perks.",
   "faction.marksBoost":
-    "Marks boost applies to faction activities coming July 1st.",
+    "Marks boost applies to faction activities coming July 8th.",
   "faction.shop.onlyFor": "{{faction}} only",
   "faction.shop.welcome":
     "Welcome to the Faction Shop! Use your marks to purchase temporary boosts, stylish wearables, and rare collectibles. Dive in and find your next great addition!",
