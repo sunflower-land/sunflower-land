@@ -10,12 +10,15 @@ import { getKeys } from "features/game/types/craftables";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { InventoryItemName, KingdomChores } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
+import { SpeakingText } from "features/game/components/SpeakingModal";
+import { InlineDialogue } from "../../TypingMessage";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   chores: KingdomChores;
@@ -29,7 +32,8 @@ const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 export const Chores: React.FC<Props> = ({ chores }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [selected, setSelected] = useState<number>(getKeys(chores.chores)[0]);
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+
   const [isSkipping, setIsSkipping] = useState(false);
 
   const autosaving = useSelector(gameService, _autosaving);
@@ -40,15 +44,30 @@ export const Chores: React.FC<Props> = ({ chores }) => {
     gameService.send("SAVE");
   };
 
-  if (chores === undefined) {
+  const numChores = getKeys(chores.chores ?? {}).length;
+
+  if (numChores === 0) {
     return (
-      <OuterPanel className="!p-2 mb-2 text-xs">
-        <span className="text-sm">{`No chores found`}</span>
-      </OuterPanel>
+      <InnerPanel>
+        <div
+          className="p-2"
+          style={{
+            minHeight: "65px",
+          }}
+        >
+          <InlineDialogue
+            message={"I'm sorry, no chores are available right now!"}
+          />
+        </div>
+      </InnerPanel>
     );
   }
 
+  const choreIndex = Math.min(selectedIndex, numChores - 1);
+  const selected = getKeys(chores.chores)[choreIndex];
   const choreSelected = chores.chores[selected];
+
+  console.log({ chores, selected, choreSelected });
 
   const getProgress = (id: number) => {
     if (!chores.activeChores[id]) return 0;
@@ -103,12 +122,10 @@ export const Chores: React.FC<Props> = ({ chores }) => {
             <div className="flex mb-2 flex-wrap -ml-1.5">
               {getKeys(chores.chores)
                 .filter((choreId) => chores.activeChores[choreId] !== undefined)
-                .map((choreId) => (
+                .map((choreId, i) => (
                   <Box
                     key={choreId}
-                    onClick={() => {
-                      setSelected(choreId);
-                    }}
+                    onClick={() => setSelectedIndex(i)}
                     isSelected={selected === choreId}
                     image={ITEM_DETAILS[chores.chores[choreId].image].image}
                   />
@@ -132,12 +149,10 @@ export const Chores: React.FC<Props> = ({ chores }) => {
               {getKeys(chores.chores)
                 .filter((choreId) => chores.activeChores[choreId] === undefined)
                 .slice(0, 3)
-                .map((choreId) => (
+                .map((choreId, i) => (
                   <Box
                     key={choreId}
-                    onClick={() => {
-                      setSelected(choreId);
-                    }}
+                    onClick={() => setSelectedIndex(i)}
                     isSelected={selected === choreId}
                     image={ITEM_DETAILS[chores.chores[choreId].image].image}
                   />
@@ -172,7 +187,7 @@ const Panel: React.FC<PanelProps> = ({
       {resetsAt ? (
         <Label
           type="info"
-          className="font-secondary mb-2"
+          className="font-secondary mb-2 whitespace-nowrap"
           icon={SUNNYSIDE.icons.stopwatch}
         >
           {"Resets in "}
