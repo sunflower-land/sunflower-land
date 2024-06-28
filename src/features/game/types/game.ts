@@ -1036,6 +1036,22 @@ export type FactionDonated = {
   totalItems: Partial<Record<InventoryItemName | "sfl", number>>;
 };
 
+export type FactionPrize = {
+  coins: number;
+  sfl: number;
+  items: Partial<Record<InventoryItemName, number>>;
+};
+
+export type FactionHistory = {
+  score: number;
+
+  results?: {
+    rank: number;
+    reward?: FactionPrize;
+    claimedAt?: number;
+  };
+};
+
 export type Faction = {
   name: FactionName;
   pledgedAt: number;
@@ -1043,6 +1059,7 @@ export type Faction = {
   points: number;
   donated: FactionDonated;
   kitchen?: FactionKitchen;
+  history: Record<string, FactionHistory>;
 };
 
 export type DonationItemName =

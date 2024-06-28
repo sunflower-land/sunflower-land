@@ -424,6 +424,7 @@ describe("chore.completed", () => {
         faction: {
           name: "bumpkins",
           pledgedAt: 0,
+          history: {},
           points: 0,
           donated: {
             daily: {
@@ -480,6 +481,7 @@ describe("chore.completed", () => {
         faction: {
           name: "bumpkins",
           pledgedAt: 0,
+          history: {},
           points: 0,
           donated: {
             daily: {
@@ -539,6 +541,7 @@ describe("chore.completed", () => {
         faction: {
           name: "bumpkins",
           pledgedAt: 0,
+          history: {},
           points: 0,
           donated: {
             daily: {
@@ -597,6 +600,7 @@ describe("chore.completed", () => {
         faction: {
           name: "bumpkins",
           pledgedAt: 0,
+          history: {},
           points: 0,
           donated: {
             daily: {

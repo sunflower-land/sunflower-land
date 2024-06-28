@@ -1,7 +1,8 @@
 import mapJSON from "assets/map/nightshade_house.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { NPCBumpkin } from "./BaseScene";
+import { FactionHouseScene } from "./FactionHouseScene";
 
 export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -24,7 +25,7 @@ export const NIGHTSHADE_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
-export class NightshadeHouseScene extends BaseScene {
+export class NightshadeHouseScene extends FactionHouseScene {
   sceneId: SceneId = "nightshade_house";
 
   constructor() {
@@ -65,5 +66,7 @@ export class NightshadeHouseScene extends BaseScene {
     });
     fire.play("fire_anim", true);
     fire2.play("fire_anim", true);
+
+    this.setupPrize({ x: 240, y: 416 });
   }
 }

@@ -192,6 +192,7 @@ describe("minigame.prizeClaimed", () => {
             },
             totalItems: {},
           },
+          history: {},
         },
         minigames: {
           games: {

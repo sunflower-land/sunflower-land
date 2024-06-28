@@ -31,12 +31,14 @@ import { ChickenRescue } from "./portals/ChickenRescue";
 import { InlineDialogue } from "./TypingMessage";
 import { Label } from "components/ui/Label";
 import { FestivalOfColors } from "./portals/FestivalOfColors";
+import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
 
 export type FanArtNPC = "fan_npc_1" | "fan_npc_2" | "fan_npc_3" | "fan_npc_4";
 
 type InteractableName =
   | FanArtNPC
   | "vip_chest"
+  | "weekly_faction_prize"
   | "faction_launch"
   | "donations"
   | "garbage_collector"
@@ -147,6 +149,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
   return (
     <>
+      <Modal show={interactable === "weekly_faction_prize"} onHide={closeModal}>
+        <FactionWeeklyPrize onClose={closeModal} />
+      </Modal>
       <Modal show={interactable === "vip_chest"} onHide={closeModal}>
         <VIPGift onClose={closeModal} />
       </Modal>

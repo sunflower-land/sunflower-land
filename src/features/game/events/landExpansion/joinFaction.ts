@@ -66,6 +66,8 @@ export function joinFaction({
     name: action.faction,
     pledgedAt: createdAt,
     points: 0,
+    history: {},
+
     donated: {
       daily: {
         resources: {},

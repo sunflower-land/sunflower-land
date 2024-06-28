@@ -2156,6 +2156,8 @@ const factions: Record<Factions, string> = {
   "faction.shop.onlyFor": "{{faction}} only",
   "faction.shop.welcome":
     "Welcome to the Faction Shop! Use your marks to purchase temporary boosts, stylish wearables, and rare collectibles. Dive in and find your next great addition!",
+  "faction.goodLuck": "Good luck this week!",
+  "faction.noPrizeFound": "No prize found",
 };
 
 const factionShopDescription: Record<FactionShopDescription, string> = {

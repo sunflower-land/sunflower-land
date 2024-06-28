@@ -412,7 +412,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Pickaxe: new Decimal(100),
     Warehouse: new Decimal(1),
     Wheat: new Decimal(100),
-    Oil: new Decimal(500),
+    Oil: new Decimal(100),
     Manor: new Decimal(1),
     House: new Decimal(1),
     "Sunflower Seed": new Decimal(100),
@@ -1336,7 +1336,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     amount: new Decimal(1000),
   },
   faction: {
-    name: "bumpkins",
+    name: "nightshades",
     pledgedAt: 0,
     points: 100,
     donated: {
@@ -1345,6 +1345,21 @@ export const STATIC_OFFLINE_FARM: GameState = {
         resources: {},
       },
       totalItems: {},
+    },
+    history: {
+      "2024-06-24": {
+        score: 200,
+        results: {
+          rank: 10,
+          reward: {
+            sfl: 100,
+            coins: 200,
+            items: {
+              Mark: 100,
+            },
+          },
+        },
+      },
     },
     kitchen: {
       week: 1,

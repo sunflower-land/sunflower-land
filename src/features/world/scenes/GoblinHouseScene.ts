@@ -1,7 +1,8 @@
 import mapJSON from "assets/map/goblin_house.json";
 
 import { SceneId } from "../mmoMachine";
-import { BaseScene, NPCBumpkin } from "./BaseScene";
+import { NPCBumpkin } from "./BaseScene";
+import { FactionHouseScene } from "./FactionHouseScene";
 
 export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   {
@@ -24,7 +25,7 @@ export const GOBLIN_HOUSE_NPCS: NPCBumpkin[] = [
   },
 ];
 
-export class GoblinHouseScene extends BaseScene {
+export class GoblinHouseScene extends FactionHouseScene {
   sceneId: SceneId = "goblin_house";
 
   constructor() {
@@ -46,5 +47,7 @@ export class GoblinHouseScene extends BaseScene {
     });
 
     this.initialiseNPCs(GOBLIN_HOUSE_NPCS);
+
+    this.setupPrize({ x: 240, y: 416 });
   }
 }
