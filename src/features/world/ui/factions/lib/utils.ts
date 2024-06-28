@@ -1,4 +1,4 @@
-import { FACTION_KITCHEN_START_TIME } from "features/game/events/landExpansion/deliverFactionKitchen";
+import { START_DATE } from "features/game/lib/factions";
 
 /**
  *
@@ -7,7 +7,7 @@ import { FACTION_KITCHEN_START_TIME } from "features/game/events/landExpansion/d
  * @returns
  */
 export function factionKitchenWeekEndTime({
-  startTimeMs = FACTION_KITCHEN_START_TIME,
+  startTimeMs = START_DATE.getTime(),
   now = Date.now(),
 }: {
   startTimeMs?: number;
@@ -34,7 +34,7 @@ export function factionKitchenWeekEndTime({
  * @returns number of weeks since the faction kitchen started or undefined if the faction kitchen has not started yet
  */
 export function getCurrentWeekNumber({
-  startTimeMs = FACTION_KITCHEN_START_TIME,
+  startTimeMs = START_DATE.getTime(),
   now = Date.now(),
 }: {
   startTimeMs?: number;
