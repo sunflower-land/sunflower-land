@@ -38,6 +38,16 @@ export class GoblinHouseScene extends FactionHouseScene {
 
   preload() {
     super.preload();
+
+    this.load.image("pet_sleeping", "world/sunflorian_pet_sleeping.webp");
+    this.load.image("pet_satiated", "world/sunflorian_pet_happy.webp");
+    this.load.image("pet_hungry", "world/sunflorian_pet_hungry.webp");
+  }
+
+  setUpPet() {
+    // check game state to determine the pet status
+    // render the correct pet
+    this.add.image(240, 230, "pet_sleeping");
   }
 
   create() {
@@ -49,5 +59,9 @@ export class GoblinHouseScene extends FactionHouseScene {
     this.initialiseNPCs(GOBLIN_HOUSE_NPCS);
 
     this.setupPrize({ x: 240, y: 416 });
+    this.setUpPet();
+  }
+  update() {
+    super.update();
   }
 }
