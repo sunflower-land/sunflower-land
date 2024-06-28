@@ -1013,12 +1013,26 @@ export type FactionName =
 export type ResourceRequest = {
   item: InventoryItemName;
   amount: number;
-  deliveryCount: number;
+  dailyFulfilled: {
+    [day: number]: number;
+  };
 };
 
-export type FactionKitchen = {
-  points: number;
+export type FactionPetRequest = {
+  food: ConsumableName;
+  quantity: Decimal;
+  dailyFulfilled: {
+    [day: number]: number;
+  };
+};
+
+type FactionPet = {
   week: number;
+  requests: FactionPetRequest[];
+};
+
+type FactionKitchen = {
+  week: string;
   requests: ResourceRequest[];
 };
 
@@ -1044,7 +1058,7 @@ export type FactionPrize = {
 
 export type FactionHistory = {
   score: number;
-
+  petXP: number;
   results?: {
     rank: number;
     reward?: FactionPrize;
@@ -1059,6 +1073,7 @@ export type Faction = {
   points: number;
   donated: FactionDonated;
   kitchen?: FactionKitchen;
+  pet?: FactionPet;
   history: Record<string, FactionHistory>;
 };
 
