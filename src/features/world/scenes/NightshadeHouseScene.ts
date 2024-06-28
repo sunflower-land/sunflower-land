@@ -43,6 +43,16 @@ export class NightshadeHouseScene extends FactionHouseScene {
       frameWidth: 8,
       frameHeight: 12,
     });
+
+    this.load.image("pet_sleeping", "world/nightshade_pet_sleeping.webp");
+    this.load.image("pet_satiated", "world/nightshade_pet_happy.webp");
+    this.load.image("pet_hungry", "world/nightshade_pet_hungry.webp");
+  }
+
+  setUpPet() {
+    // check game state to determine the pet status
+    // render the correct pet
+    this.add.image(240, 293, "pet_hungry");
   }
 
   create() {
@@ -68,5 +78,10 @@ export class NightshadeHouseScene extends FactionHouseScene {
     fire2.play("fire_anim", true);
 
     this.setupPrize({ x: 240, y: 416 });
+    this.setUpPet();
+  }
+
+  update() {
+    super.update();
   }
 }

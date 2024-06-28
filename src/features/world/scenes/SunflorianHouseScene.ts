@@ -46,7 +46,7 @@ export class SunflorianHouseScene extends FactionHouseScene {
   setUpPet() {
     // check game state to determine the pet status
     // render the correct pet
-    this.add.image(240, 230, "pet_sleeping");
+    this.add.image(240, 230, "pet_hungry");
   }
 
   create() {

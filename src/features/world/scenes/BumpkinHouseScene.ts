@@ -47,7 +47,7 @@ export class BumpkinHouseScene extends FactionHouseScene {
   setUpPet() {
     // check game state to determine the pet status
     // render the correct pet
-    this.add.image(240, 230, "pet_sleeping");
+    this.add.image(240, 293, "pet_hungry");
   }
 
   create() {
