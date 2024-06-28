@@ -1351,6 +1351,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     history: {
       "2024-06-24": {
         score: 200,
+        petXP: 0,
         results: {
           rank: 10,
           reward: {
@@ -1364,13 +1365,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
     kitchen: {
-      week: 1,
+      week: "2024-06-24",
       requests: [
-        { item: "Sunflower", amount: 1, deliveryCount: 0 },
-        { item: "Honey", amount: 1, deliveryCount: 0 },
-        { item: "Tuna", amount: 1, deliveryCount: 0 },
+        { item: "Sunflower", amount: 1, dailyFulfilled: {} },
+        { item: "Honey", amount: 1, dailyFulfilled: {} },
+        { item: "Tuna", amount: 1, dailyFulfilled: {} },
       ],
-      points: 0,
     },
   },
 };
