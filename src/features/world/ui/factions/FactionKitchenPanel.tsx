@@ -9,10 +9,7 @@ import { useSelector } from "@xstate/react";
 import { Faction, ResourceRequest } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SquareIcon } from "components/ui/SquareIcon";
-import {
-  BASE_POINTS,
-  FACTION_KITCHEN_START_TIME,
-} from "features/game/events/landExpansion/deliverFactionKitchen";
+import { BASE_POINTS } from "features/game/events/landExpansion/deliverFactionKitchen";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -27,14 +24,20 @@ import { factionKitchenWeekEndTime } from "./lib/utils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TypingMessage } from "../TypingMessage";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { calculatePoints, getFactionWeekday } from "features/game/lib/factions";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   bumpkinParts: Equipped;
 }
 
+const FACTION_KITCHEN_START_TIME = new Date("2024-07-08T00:00:00Z").getTime();
+
 const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+// TODO: Remove when feature released
+const _game = (state: MachineState) => state.context.state;
 
 export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const { gameService } = useContext(Context);
@@ -46,9 +49,14 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   const [selectedRequestIdx, setSelectedRequestIdx] = useState<number>(0);
   const [showConfirm, setShowConfirm] = useState<boolean>(false);
 
+  // TODO: Remove when feature rel
+  const game = useSelector(gameService, _game);
   const now = Date.now();
 
-  if (now < FACTION_KITCHEN_START_TIME) {
+  if (
+    now < FACTION_KITCHEN_START_TIME &&
+    !hasFeatureAccess(game, "FACTION_KITCHEN")
+  ) {
     return (
       <CloseButtonPanel bumpkinParts={bumpkinParts}>
         <div className="p-1 space-y-2 mb-1">
@@ -58,7 +66,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
               {t("faction.kitchen.opensIn", {
                 time: secondsToString(
                   (FACTION_KITCHEN_START_TIME - now) / 1000,
-                  { length: "medium", removeTrailingZeros: true },
+                  { length: "medium", removeTrailingZeros: true }
                 ),
               })}
             </Label>
@@ -99,10 +107,9 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
   ] as ResourceRequest;
 
   const secondsTillWeekEnd = (factionKitchenWeekEndTime({ now }) - now) / 1000;
-  const selectedRequestReward = Math.max(
-    BASE_POINTS - selectedRequest.deliveryCount * 2,
-    1,
-  );
+  const day = getFactionWeekday(now);
+  const fulfilled = selectedRequest.dailyFulfilled[day] ?? 0;
+  const selectedRequestReward = calculatePoints(fulfilled, BASE_POINTS);
 
   const canFulfillRequest = (
     inventory[selectedRequest.item] ?? new Decimal(0)
@@ -135,63 +142,65 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                     {t("faction.kitchen.gatherResources")}
                   </p>
                   <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
-                    {kitchen.requests.map((request, idx) => (
-                      <OuterPanel
-                        key={JSON.stringify(request)}
-                        className={classNames(
-                          "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
-                          {
-                            "img-highlight": selectedRequestIdx === idx,
-                          },
-                        )}
-                        onClick={() => setSelectedRequestIdx(idx)}
-                      >
-                        <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
-                          <SquareIcon
-                            width={24}
-                            icon={ITEM_DETAILS[request.item].image}
-                          />
-                          <Label
-                            icon={ITEM_DETAILS["Mark"].image}
-                            type="warning"
-                            className="absolute h-6"
-                            iconWidth={10}
-                            style={{
-                              width: isMobile ? "113%" : "117%",
-                              bottom: "-24px",
-                              left: "-4px",
-                            }}
-                          >
-                            {Math.max(
-                              BASE_POINTS - request.deliveryCount * 2,
-                              1,
-                            )}
-                          </Label>
-                        </div>
-                        {selectedRequestIdx === idx && (
-                          <div id="select-box">
-                            <img
-                              className="absolute pointer-events-none"
-                              src={selectBoxTL}
-                              style={{
-                                top: `${PIXEL_SCALE * -3}px`,
-                                left: `${PIXEL_SCALE * -3}px`,
-                                width: `${PIXEL_SCALE * 8}px`,
-                              }}
+                    {kitchen.requests.map((request, idx) => {
+                      const fulfilled = request.dailyFulfilled[day] ?? 0;
+                      const points = calculatePoints(fulfilled, BASE_POINTS);
+
+                      return (
+                        <OuterPanel
+                          key={JSON.stringify(request)}
+                          className={classNames(
+                            "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
+                            {
+                              "img-highlight": selectedRequestIdx === idx,
+                            }
+                          )}
+                          onClick={() => setSelectedRequestIdx(idx)}
+                        >
+                          <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
+                            <SquareIcon
+                              width={24}
+                              icon={ITEM_DETAILS[request.item].image}
                             />
-                            <img
-                              className="absolute pointer-events-none"
-                              src={selectBoxTR}
+                            <Label
+                              icon={ITEM_DETAILS["Mark"].image}
+                              type="warning"
+                              className="absolute h-6"
+                              iconWidth={10}
                               style={{
-                                top: `${PIXEL_SCALE * -3}px`,
-                                right: `${PIXEL_SCALE * -3}px`,
-                                width: `${PIXEL_SCALE * 8}px`,
+                                width: isMobile ? "113%" : "117%",
+                                bottom: "-24px",
+                                left: "-4px",
                               }}
-                            />
+                            >
+                              {points}
+                            </Label>
                           </div>
-                        )}
-                      </OuterPanel>
-                    ))}
+                          {selectedRequestIdx === idx && (
+                            <div id="select-box">
+                              <img
+                                className="absolute pointer-events-none"
+                                src={selectBoxTL}
+                                style={{
+                                  top: `${PIXEL_SCALE * -3}px`,
+                                  left: `${PIXEL_SCALE * -3}px`,
+                                  width: `${PIXEL_SCALE * 8}px`,
+                                }}
+                              />
+                              <img
+                                className="absolute pointer-events-none"
+                                src={selectBoxTR}
+                                style={{
+                                  top: `${PIXEL_SCALE * -3}px`,
+                                  right: `${PIXEL_SCALE * -3}px`,
+                                  width: `${PIXEL_SCALE * 8}px`,
+                                }}
+                              />
+                            </div>
+                          )}
+                        </OuterPanel>
+                      );
+                    })}
                   </div>
                 </div>
               }
@@ -217,7 +226,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         "flex justify-between items-center sm:justify-center",
                         {
                           "-mt-1": isMobile,
-                        },
+                        }
                       )}
                       showLabel={isMobile}
                       hideIcon={!isMobile}
