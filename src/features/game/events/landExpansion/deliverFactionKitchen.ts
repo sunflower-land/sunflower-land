@@ -1,7 +1,11 @@
 import Decimal from "decimal.js-light";
-import { isWearableActive } from "features/game/lib/wearables";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import { FactionName, GameState } from "features/game/types/game";
+import {
+  START_DATE,
+  getFactionWearableBoostAmount,
+  getFactionWeek,
+  getFactionWeekday,
+} from "features/game/lib/factions";
+import { GameState } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 
 export enum DELIVER_FACTION_KITCHEN_ERRORS {
@@ -12,10 +16,7 @@ export enum DELIVER_FACTION_KITCHEN_ERRORS {
   INSUFFICIENT_RESOURCES = "Insufficient resources",
 }
 
-export const FACTION_KITCHEN_START_TIME = new Date(
-  "2024-07-01T00:00:00Z"
-).getTime();
-export const BASE_POINTS = 20;
+const BASE_POINTS = 20;
 
 export type DeliverFactionKitchenAction = {
   type: "factionKitchen.delivered";
@@ -27,92 +28,6 @@ type Options = {
   action: DeliverFactionKitchenAction;
   createdAt?: number;
 };
-
-type OutfitPart = "hat" | "shirt" | "pants" | "shoes" | "tool";
-
-const FACTION_OUTFITS: Record<FactionName, Record<OutfitPart, BumpkinItem>> = {
-  bumpkins: {
-    hat: "Bumpkin Helmet",
-    shirt: "Bumpkin Armor",
-    pants: "Bumpkin Pants",
-    shoes: "Bumpkin Sabatons",
-    tool: "Bumpkin Sword",
-  },
-  goblins: {
-    hat: "Goblin Helmet",
-    shirt: "Goblin Armor",
-    pants: "Goblin Pants",
-    shoes: "Goblin Sabatons",
-    tool: "Goblin Axe",
-  },
-  sunflorians: {
-    hat: "Sunflorian Helmet",
-    shirt: "Sunflorian Armor",
-    pants: "Sunflorian Pants",
-    shoes: "Sunflorian Sabatons",
-    tool: "Sunflorian Sword",
-  },
-  nightshades: {
-    hat: "Nightshade Helmet",
-    shirt: "Nightshade Armor",
-    pants: "Nightshade Pants",
-    shoes: "Nightshade Sabatons",
-    tool: "Nightshade Sword",
-  },
-};
-
-function getFactionWearableBoostAmount(game: GameState, basePoints: number) {
-  const factionName = game.faction?.name as FactionName;
-
-  let points = 0;
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].pants,
-    })
-  ) {
-    points += basePoints * 0.05;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shoes,
-    })
-  ) {
-    points += basePoints * 0.05;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].tool,
-    })
-  ) {
-    points += basePoints * 0.1;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].hat,
-    })
-  ) {
-    points += basePoints * 0.1;
-  }
-
-  if (
-    isWearableActive({
-      game,
-      name: FACTION_OUTFITS[factionName].shirt,
-    })
-  ) {
-    points += basePoints * 0.2;
-  }
-
-  return points;
-}
 
 export function deliverFactionKitchen({
   state,
@@ -126,7 +41,7 @@ export function deliverFactionKitchen({
     throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.NO_FACTION);
   }
 
-  if (createdAt < FACTION_KITCHEN_START_TIME) {
+  if (createdAt < START_DATE.getTime()) {
     throw new Error(DELIVER_FACTION_KITCHEN_ERRORS.FACTION_KITCHEN_NOT_STARTED);
   }
 
@@ -143,7 +58,6 @@ export function deliverFactionKitchen({
   }
 
   const request = resources[action.resourceIndex];
-
   const resourceBalance = inventory[request.item] ?? new Decimal(0);
 
   if (resourceBalance.lt(request.amount)) {
@@ -152,20 +66,35 @@ export function deliverFactionKitchen({
 
   inventory[request.item] = resourceBalance.minus(request.amount);
 
+  const week = getFactionWeek({ date: new Date(createdAt) });
+  const day = getFactionWeekday(createdAt);
   const marksBalance = inventory["Mark"] ?? new Decimal(0);
-  const points = BASE_POINTS - request.deliveryCount * 2;
+  const fulfilledToday = request.dailyFulfilled[day] ?? 0;
+
+  const points = BASE_POINTS - fulfilledToday * 2;
   const boostPoints = getFactionWearableBoostAmount(stateCopy, points);
   const totalPoints = points + boostPoints;
 
+  const leaderboard = faction.history[week] ?? {
+    score: 0,
+    petXP: 0,
+  };
+
   if (totalPoints < 2) {
-    kitchen.points += 1;
+    faction.history[week] = {
+      ...leaderboard,
+      score: leaderboard.score + 1,
+    };
     inventory["Mark"] = marksBalance.plus(1);
   } else {
-    kitchen.points += totalPoints;
+    faction.history[week] = {
+      ...leaderboard,
+      score: leaderboard.score + totalPoints,
+    };
     inventory["Mark"] = marksBalance.plus(totalPoints);
   }
 
-  request.deliveryCount += 1;
+  request.dailyFulfilled[day] = fulfilledToday + 1;
 
   return stateCopy;
 }
