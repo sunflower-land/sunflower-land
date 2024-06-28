@@ -39,9 +39,9 @@ export class GoblinHouseScene extends FactionHouseScene {
   preload() {
     super.preload();
 
-    this.load.image("pet_sleeping", "world/sunflorian_pet_sleeping.webp");
-    this.load.image("pet_satiated", "world/sunflorian_pet_happy.webp");
-    this.load.image("pet_hungry", "world/sunflorian_pet_hungry.webp");
+    this.load.image("pet_sleeping", "world/goblin_pet_sleeping.webp");
+    this.load.image("pet_satiated", "world/goblin_pet_happy.webp");
+    this.load.image("pet_hungry", "world/goblin_pet_hungry.webp");
   }
 
   setUpPet() {
