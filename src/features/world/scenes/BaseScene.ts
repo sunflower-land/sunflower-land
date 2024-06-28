@@ -84,7 +84,7 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
   sunflorians: "#fee761",
   bumpkins: "#528ec9",
   goblins: "#669c82",
-  nightshades: "#a878ac",
+  nightshades: "#b65088",
 };
 
 export abstract class BaseScene extends Phaser.Scene {
