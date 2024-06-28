@@ -32,7 +32,8 @@ export type FeatureName =
   | "FACTION_HOUSE"
   | "CROP_QUICK_SELECT"
   | "MARKS_LEADERBOARD"
-  | "FESTIVAL_OF_COLORS";
+  | "FESTIVAL_OF_COLORS"
+  | "FACTION_KITCHEN";
 
 // Used for testing production features
 export const ADMIN_IDS = [1, 2, 3, 39488];
@@ -59,6 +60,7 @@ const featureFlags: Record<FeatureName, FeatureFlag> = {
   // Just in case we need to disable the crop machine, leave the flag in temporarily
   CROP_MACHINE: () => true,
   MARKS_LEADERBOARD: defaultFeatureFlag,
+  FACTION_KITCHEN: defaultFeatureFlag,
 };
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
