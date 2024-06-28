@@ -1,0 +1,17 @@
+{
+  "description": "# Description\n\nA shield that embodies the spirit of the wild.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
+  "decimals": 0,
+  "attributes": [
+    { "trait_type": "Part", "value": "SecondaryTool" },
+    {
+      "display_type": "boost_percentage",
+      "trait_type": "Increase Faction Pet feeding XP",
+      "value": 25
+    },
+    { "trait_type": "Boost", "value": "Faction Pet Feeding XP" },
+    { "trait_type": "Tradable", "value": "Yes" }
+  ],
+  "external_url": "https://bumpkins.io",
+  "image": "https://sunflower-land.com/play/wearables/images/",
+  "name": "Paw Shield"
+}

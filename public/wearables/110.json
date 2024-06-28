@@ -1,0 +1,11 @@
+{
+  "description": "# Description\n\nStay agile and ready to jump into action with our Lifeguard Pants! With multiple pockets, you can easily store your lifeguarding essentials like a whistle, sunscreen, and gloves. Whether you're patrolling the beach, pool, or waterpark, our Lifeguard Pants are the perfect addition to your lifeguarding gear.\n\n### Contributor\n\nSunflower Land is a community game built by a hundreds of developers and artists across the globe.\nCome join us on [Github](https://github.com/sunflower-land/sunflower-land)",
+  "decimals": 0,
+  "attributes": [
+    { "trait_type": "Part", "value": "Pants" },
+    { "trait_type": "Tradable", "value": "No" }
+  ],
+  "external_url": "https://bumpkins.io",
+  "image": "https://sunflower-land.com/play/wearables/images/",
+  "name": "Lifeguard Pants"
+}
