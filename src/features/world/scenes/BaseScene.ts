@@ -84,7 +84,7 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
   sunflorians: "#fee761",
   bumpkins: "#528ec9",
   goblins: "#669c82",
-  nightshades: "#b65088",
+  nightshades: "#a878ac",
 };
 
 export abstract class BaseScene extends Phaser.Scene {
@@ -583,6 +583,7 @@ export abstract class BaseScene extends Phaser.Scene {
           text: `<${capitalize(faction)}>`,
           color,
         });
+        factionTag.setShadow(1, 1, "#161424", 0, false, true);
 
         // Move name tag down
         nameTagYPosition = 4;
@@ -596,6 +597,7 @@ export abstract class BaseScene extends Phaser.Scene {
         y: nameTagYPosition,
         text: username ? username : `#${farmId}`,
       });
+      nameTag.setShadow(1, 1, "#161424", 0, false, true);
       nameTag.name = "nameTag";
       entity.add(nameTag);
     }

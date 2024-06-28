@@ -39,15 +39,15 @@ export class GoblinHouseScene extends FactionHouseScene {
   preload() {
     super.preload();
 
-    this.load.image("pet_sleeping", "world/goblin_pet_sleeping.webp");
-    this.load.image("pet_satiated", "world/goblin_pet_happy.webp");
-    this.load.image("pet_hungry", "world/goblin_pet_hungry.webp");
+    this.load.image("pet_sleeping", "world/goblins_pet_sleeping.webp");
+    this.load.image("pet_satiated", "world/goblins_pet_happy.webp");
+    this.load.image("pet_hungry", "world/goblins_pet_hungry.webp");
   }
 
   setUpPet() {
     // check game state to determine the pet status
     // render the correct pet
-    this.add.image(240, 230, "pet_hungry");
+    this.add.image(242, 236, "pet_hungry");
   }
 
   create() {
