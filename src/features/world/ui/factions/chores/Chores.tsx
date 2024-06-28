@@ -16,9 +16,7 @@ import { InventoryItemName, KingdomChores } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
-import { SpeakingText } from "features/game/components/SpeakingModal";
 import { InlineDialogue } from "../../TypingMessage";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface Props {
   chores: KingdomChores;
@@ -44,6 +42,14 @@ export const Chores: React.FC<Props> = ({ chores }) => {
     gameService.send("SAVE");
   };
 
+  const findAndSetIndex = (choreId: number) => {
+    const index = getKeys(chores.chores ?? {}).findIndex(
+      (chore) => Number(chore) === Number(choreId)
+    );
+
+    setSelectedIndex(Math.max(index, 0));
+  };
+
   const numChores = getKeys(chores.chores ?? {}).length;
 
   if (numChores === 0) {
@@ -66,8 +72,6 @@ export const Chores: React.FC<Props> = ({ chores }) => {
   const choreIndex = Math.min(selectedIndex, numChores - 1);
   const selected = getKeys(chores.chores)[choreIndex];
   const choreSelected = chores.chores[selected];
-
-  console.log({ chores, selected, choreSelected });
 
   const getProgress = (id: number) => {
     if (!chores.activeChores[id]) return 0;
@@ -125,7 +129,7 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                 .map((choreId, i) => (
                   <Box
                     key={choreId}
-                    onClick={() => setSelectedIndex(i)}
+                    onClick={() => findAndSetIndex(choreId)}
                     isSelected={selected === choreId}
                     image={ITEM_DETAILS[chores.chores[choreId].image].image}
                   />
@@ -152,7 +156,7 @@ export const Chores: React.FC<Props> = ({ chores }) => {
                 .map((choreId, i) => (
                   <Box
                     key={choreId}
-                    onClick={() => setSelectedIndex(i)}
+                    onClick={() => findAndSetIndex(choreId)}
                     isSelected={selected === choreId}
                     image={ITEM_DETAILS[chores.chores[choreId].image].image}
                   />
@@ -190,7 +194,7 @@ const Panel: React.FC<PanelProps> = ({
           className="font-secondary mb-2 whitespace-nowrap"
           icon={SUNNYSIDE.icons.stopwatch}
         >
-          {"Resets in "}
+          {"Reset: "}
           {secondsToString(Math.round((resetsAt - Date.now()) / 1000), {
             length: "medium",
             removeTrailingZeros: true,
