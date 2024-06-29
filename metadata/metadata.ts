@@ -8340,7 +8340,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/1.png",
+    image: "../public/wearables/images/1.png",
     name: "Beige Farmer Potion",
   },
   "Light Brown Farmer Potion": {
@@ -8352,7 +8352,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/3.png",
+    image: "../public/wearables/images/3.png",
     name: "Light Brown Farmer Potion",
   },
   "Dark Brown Farmer Potion": {
@@ -8364,7 +8364,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/2.png",
+    image: "../public/wearables/images/2.png",
     name: "Dark Brown Farmer Potion",
   },
   "Goblin Potion": {
@@ -8376,7 +8376,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/4.png",
+    image: "../public/wearables/images/4.png",
     name: "Goblin Potion",
   },
   "Basic Hair": {
@@ -8388,7 +8388,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/5.png",
+    image: "../public/wearables/images/5.png",
     name: "Basic Hair",
   },
   "Rancher Hair": {
@@ -8400,7 +8400,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/6.png",
+    image: "../public/wearables/images/6.png",
     name: "Rancher Hair",
   },
   "Explorer Hair": {
@@ -8412,7 +8412,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/7.png",
+    image: "../public/wearables/images/7.png",
     name: "Explorer Hair",
   },
   "Buzz Cut": {
@@ -8423,7 +8423,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/42.png",
+    image: "../public/wearables/images/42.png",
     name: "Buzz Cut",
   },
   "Parlour Hair": {
@@ -8434,7 +8434,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/43.png",
+    image: "../public/wearables/images/43.png",
     name: "Parlour Hair",
   },
   "Sun Spots": {
@@ -8446,7 +8446,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/51.png",
+    image: "../public/wearables/images/51.png",
     name: "Sun Spots",
   },
   "Red Farmer Shirt": {
@@ -8458,7 +8458,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/13.png",
+    image: "../public/wearables/images/13.png",
     name: "Red Farmer Shirt",
   },
   "Yellow Farmer Shirt": {
@@ -8470,7 +8470,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/14.png",
+    image: "../public/wearables/images/14.png",
     name: "Yellow Farmer Shirt",
   },
   "Blue Farmer Shirt": {
@@ -8482,7 +8482,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/15.png",
+    image: "../public/wearables/images/15.png",
     name: "Blue Farmer Shirt",
   },
   "Chef Apron": {
@@ -8500,7 +8500,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/16.png",
+    image: "../public/wearables/images/16.png",
     name: "Chef Apron",
   },
   "Warrior Shirt": {
@@ -8512,7 +8512,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/17.png",
+    image: "../public/wearables/images/17.png",
     name: "Warrior Shirt",
   },
   "Fancy Top": {
@@ -8524,7 +8524,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/33.png",
+    image: "../public/wearables/images/33.png",
     name: "Fancy Top",
   },
   "Farmer Overalls": {
@@ -8535,7 +8535,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/18.png",
+    image: "../public/wearables/images/18.png",
     name: "Farmer Overalls",
   },
   "Lumberjack Overalls": {
@@ -8547,7 +8547,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/19.png",
+    image: "../public/wearables/images/19.png",
     name: "Lumberjack Overalls",
   },
   "Farmer Pants": {
@@ -8558,7 +8558,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/20.png",
+    image: "../public/wearables/images/20.png",
     name: "Farmer Pants",
   },
   "Warrior Pants": {
@@ -8570,7 +8570,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/21.png",
+    image: "../public/wearables/images/21.png",
     name: "Warrior Pants",
   },
   "Black Farmer Boots": {
@@ -8582,7 +8582,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/22.png",
+    image: "../public/wearables/images/22.png",
     name: "Black Farmer Boots",
   },
   "Farmer Pitchfork": {
@@ -8594,7 +8594,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/23.png",
+    image: "../public/wearables/images/23.png",
     name: "Farmer Pitchfork",
   },
   Axe: {
@@ -8605,7 +8605,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/44.png",
+    image: "../public/wearables/images/44.png",
     name: "Axe",
   },
   Sword: {
@@ -8616,7 +8616,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/45.png",
+    image: "../public/wearables/images/45.png",
     name: "Sword",
   },
   "Farmer Hat": {
@@ -8628,7 +8628,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/24.png",
+    image: "../public/wearables/images/24.png",
     name: "Farmer Hat",
   },
   "Chef Hat": {
@@ -8640,7 +8640,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/25.png",
+    image: "../public/wearables/images/25.png",
     name: "Chef Hat",
   },
   "Warrior Helmet": {
@@ -8652,7 +8652,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/26.png",
+    image: "../public/wearables/images/26.png",
     name: "Warrior Helmet",
   },
   "Sunflower Amulet": {
@@ -8670,7 +8670,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/27.png",
+    image: "../public/wearables/images/27.png",
     name: "Sunflower Amulet",
   },
   "Carrot Amulet": {
@@ -8688,7 +8688,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/28.png",
+    image: "../public/wearables/images/28.png",
     name: "Carrot Amulet",
   },
   "Beetroot Amulet": {
@@ -8705,7 +8705,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/29.png",
+    image: "../public/wearables/images/29.png",
     name: "Beetroot Amulet",
   },
   "Green Amulet": {
@@ -8727,7 +8727,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/30.png",
+    image: "../public/wearables/images/30.png",
     name: "Green Amulet",
   },
   "Sunflower Shield": {
@@ -8745,7 +8745,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/31.png",
+    image: "../public/wearables/images/31.png",
     name: "Sunflower Shield",
   },
   "Farm Background": {
@@ -8757,7 +8757,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/32.png",
+    image: "../public/wearables/images/32.png",
     name: "Farm Background",
   },
   "Brown Boots": {
@@ -8768,7 +8768,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/34.png",
+    image: "../public/wearables/images/34.png",
     name: "Brown Boots",
   },
   "Brown Suspenders": {
@@ -8780,7 +8780,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/35.png",
+    image: "../public/wearables/images/35.png",
     name: "Brown Suspenders",
   },
   "Fancy Pants": {
@@ -8791,7 +8791,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/36.png",
+    image: "../public/wearables/images/36.png",
     name: "Fancy Pants",
   },
   "Maiden Skirt": {
@@ -8803,7 +8803,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/37.png",
+    image: "../public/wearables/images/37.png",
     name: "Maiden Skirt",
   },
   "Maiden Top": {
@@ -8815,7 +8815,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/38.png",
+    image: "../public/wearables/images/38.png",
     name: "Maiden Top",
   },
   "Peasant Skirt": {
@@ -8826,7 +8826,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/39.png",
+    image: "../public/wearables/images/39.png",
     name: "Peasant Skirt",
   },
   "SFL T-Shirt": {
@@ -8837,7 +8837,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/40.png",
+    image: "../public/wearables/images/40.png",
     name: "SFL T-Shirt",
   },
   "Yellow Boots": {
@@ -8848,7 +8848,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/41.png",
+    image: "../public/wearables/images/41.png",
     name: "Yellow Boots",
   },
   "Blue Suspenders": {
@@ -8859,7 +8859,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/46.png",
+    image: "../public/wearables/images/46.png",
     name: "Blue Suspenders",
   },
   "Brown Long Hair": {
@@ -8870,7 +8870,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/50.png",
+    image: "../public/wearables/images/50.png",
     name: "Brown Long Hair",
   },
   "Forest Background": {
@@ -8881,7 +8881,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/47.png",
+    image: "../public/wearables/images/47.png",
     name: "Forest Background",
   },
   "Seashore Background": {
@@ -8893,7 +8893,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/48.png",
+    image: "../public/wearables/images/48.png",
     name: "Seashore Background",
   },
   "White Long Hair": {
@@ -8905,7 +8905,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/52.png",
+    image: "../public/wearables/images/52.png",
     name: "White Long Hair",
   },
   Blondie: {
@@ -8916,7 +8916,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/49.png",
+    image: "../public/wearables/images/49.png",
     name: "Blondie",
   },
   "Cemetery Background": {
@@ -8928,7 +8928,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/53.png",
+    image: "../public/wearables/images/53.png",
     name: "Cemetery Background",
   },
   "Golden Spatula": {
@@ -8946,7 +8946,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/58.png",
+    image: "../public/wearables/images/58.png",
     name: "Golden Spatula",
   },
   "Jail Background": {
@@ -8957,7 +8957,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/57.png",
+    image: "../public/wearables/images/57.png",
     name: "Jail Background",
   },
   "Space Background": {
@@ -8968,7 +8968,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/55.png",
+    image: "../public/wearables/images/55.png",
     name: "Space Background",
   },
   "Teal Mohawk": {
@@ -8979,7 +8979,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/54.png",
+    image: "../public/wearables/images/54.png",
     name: "Teal Mohawk",
   },
   Parsnip: {
@@ -8997,7 +8997,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/56.png",
+    image: "../public/wearables/images/56.png",
     name: "Parsnip",
   },
   "Artist Scarf": {
@@ -9009,7 +9009,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/59.png",
+    image: "../public/wearables/images/59.png",
     name: "Artist Scarf",
   },
   "Bumpkin Art Competition Merch": {
@@ -9021,7 +9021,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/60.png",
+    image: "../public/wearables/images/60.png",
     name: "Bumpkin Art Competition Merch",
   },
   "Developer Hoodie": {
@@ -9033,7 +9033,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/62.png",
+    image: "../public/wearables/images/62.png",
     name: "Developer Hoodie",
   },
   "Project Dignity Hoodie": {
@@ -9045,7 +9045,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/61.png",
+    image: "../public/wearables/images/61.png",
     name: "Project Dignity Hoodie",
   },
   "Blacksmith Hair": {
@@ -9056,7 +9056,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/63.png",
+    image: "../public/wearables/images/63.png",
     name: "Blacksmith Hair",
   },
   Hammer: {
@@ -9067,7 +9067,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/64.png",
+    image: "../public/wearables/images/64.png",
     name: "Hammer",
   },
   "Bumpkin Boots": {
@@ -9078,7 +9078,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/65.png",
+    image: "../public/wearables/images/65.png",
     name: "Bumpkin Boots",
   },
   "Fire Shirt": {
@@ -9089,7 +9089,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/66.png",
+    image: "../public/wearables/images/66.png",
     name: "Fire Shirt",
   },
   "Red Long Hair": {
@@ -9100,7 +9100,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/67.png",
+    image: "../public/wearables/images/67.png",
     name: "Red Long Hair",
   },
   "Snowman Onesie": {
@@ -9111,7 +9111,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/68.png",
+    image: "../public/wearables/images/68.png",
     name: "Snowman Onesie",
   },
   "Reindeer Suit": {
@@ -9122,7 +9122,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/69.png",
+    image: "../public/wearables/images/69.png",
     name: "Reindeer Suit",
   },
   "Ancient Goblin Sword": {
@@ -9134,7 +9134,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/77.png",
+    image: "../public/wearables/images/77.png",
     name: "Ancient Goblin Sword",
   },
   "Ancient War Hammer": {
@@ -9146,7 +9146,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/76.png",
+    image: "../public/wearables/images/76.png",
     name: "Ancient War Hammer",
   },
   "Angel Wings": {
@@ -9163,7 +9163,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/73.png",
+    image: "../public/wearables/images/73.png",
     name: "Angel Wings",
   },
   "Devil Wings": {
@@ -9181,7 +9181,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/72.png",
+    image: "../public/wearables/images/72.png",
     name: "Devil Wings",
   },
   "Christmas Background": {
@@ -9193,7 +9193,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/71.png",
+    image: "../public/wearables/images/71.png",
     name: "Christmas Background",
   },
   "Fire Hair": {
@@ -9204,7 +9204,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/74.png",
+    image: "../public/wearables/images/74.png",
     name: "Fire Hair",
   },
   "Luscious Hair": {
@@ -9215,7 +9215,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/75.png",
+    image: "../public/wearables/images/75.png",
     name: "Luscious Hair",
   },
   "Mountain View Background": {
@@ -9227,7 +9227,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/78.png",
+    image: "../public/wearables/images/78.png",
     name: "Mountain View Background",
   },
   "Reindeer Antlers": {
@@ -9239,7 +9239,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/80.png",
+    image: "../public/wearables/images/80.png",
     name: "Reindeer Antlers",
   },
   "Shark Onesie": {
@@ -9250,7 +9250,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/70.png",
+    image: "../public/wearables/images/70.png",
     name: "Shark Onesie",
   },
   "Skull Hat": {
@@ -9262,7 +9262,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/79.png",
+    image: "../public/wearables/images/79.png",
     name: "Skull Hat",
   },
   "Santa Hat": {
@@ -9273,7 +9273,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/81.png",
+    image: "../public/wearables/images/81.png",
     name: "Santa Hat",
   },
   "Pineapple Shirt": {
@@ -9285,7 +9285,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/82.png",
+    image: "../public/wearables/images/82.png",
     name: "Pineapple Shirt",
   },
   "China Town Background": {
@@ -9296,7 +9296,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/83.png",
+    image: "../public/wearables/images/83.png",
     name: "China Town Background",
   },
   "Lion Dance Mask": {
@@ -9307,7 +9307,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/84.png",
+    image: "../public/wearables/images/84.png",
     name: "Lion Dance Mask",
   },
   "Fruit Bowl": {
@@ -9318,7 +9318,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/87.png",
+    image: "../public/wearables/images/87.png",
     name: "Fruit Bowl",
   },
   "Fruit Picker Apron": {
@@ -9336,7 +9336,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/86.png",
+    image: "../public/wearables/images/86.png",
     name: "Fruit Picker Apron",
   },
   "Fruit Picker Shirt": {
@@ -9348,7 +9348,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/85.png",
+    image: "../public/wearables/images/85.png",
     name: "Fruit Picker Shirt",
   },
   "Striped Blue Shirt": {
@@ -9360,7 +9360,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/88.png",
+    image: "../public/wearables/images/88.png",
     name: "Striped Blue Shirt",
   },
   "Peg Leg": {
@@ -9371,7 +9371,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/89.png",
+    image: "../public/wearables/images/89.png",
     name: "Peg Leg",
   },
   "Pirate Potion": {
@@ -9389,7 +9389,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/90.png",
+    image: "../public/wearables/images/90.png",
     name: "Pirate Potion",
   },
   "Pirate Hat": {
@@ -9401,7 +9401,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/91.png",
+    image: "../public/wearables/images/91.png",
     name: "Pirate Hat",
   },
   "Crab Claw": {
@@ -9413,7 +9413,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/95.png",
+    image: "../public/wearables/images/95.png",
     name: "Crab Claw",
   },
   "Pirate General Coat": {
@@ -9424,7 +9424,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/92.png",
+    image: "../public/wearables/images/92.png",
     name: "Pirate General Coat",
   },
   "Pirate Leather Polo": {
@@ -9435,7 +9435,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/94.png",
+    image: "../public/wearables/images/94.png",
     name: "Pirate Leather Polo",
   },
   "Pirate Pants": {
@@ -9447,7 +9447,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/93.png",
+    image: "../public/wearables/images/93.png",
     name: "Pirate Pants",
   },
   "Pirate Scimitar": {
@@ -9459,7 +9459,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/96.png",
+    image: "../public/wearables/images/96.png",
     name: "Pirate Scimitar",
   },
   "Cupid Hair": {
@@ -9471,7 +9471,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/97.png",
+    image: "../public/wearables/images/97.png",
     name: "Cupid Hair",
   },
   "Cupid Dress": {
@@ -9483,7 +9483,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/98.png",
+    image: "../public/wearables/images/98.png",
     name: "Cupid Dress",
   },
   "Cupid Sandals": {
@@ -9495,7 +9495,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/99.png",
+    image: "../public/wearables/images/99.png",
     name: "Cupid Sandals",
   },
   "Love Quiver": {
@@ -9507,7 +9507,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/100.png",
+    image: "../public/wearables/images/100.png",
     name: "Love Quiver",
   },
   "Bear Onesie": {
@@ -9519,7 +9519,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/105.png",
+    image: "../public/wearables/images/105.png",
     name: "Bear Onesie",
   },
   "Bumpkin Puppet": {
@@ -9531,7 +9531,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/102.png",
+    image: "../public/wearables/images/102.png",
     name: "Bumpkin Puppet",
   },
   "Goblin Puppet": {
@@ -9543,7 +9543,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/103.png",
+    image: "../public/wearables/images/103.png",
     name: "Goblin Puppet",
   },
   "Frog Onesie": {
@@ -9555,7 +9555,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/106.png",
+    image: "../public/wearables/images/106.png",
     name: "Frog Onesie",
   },
   "Hawaiian Shirt": {
@@ -9567,7 +9567,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/104.png",
+    image: "../public/wearables/images/104.png",
     name: "Hawaiian Shirt",
   },
   "SFL Office Background": {
@@ -9579,7 +9579,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/101.png",
+    image: "../public/wearables/images/101.png",
     name: "SFL Office Background",
   },
   "Tiger Onesie": {
@@ -9590,7 +9590,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/107.png",
+    image: "../public/wearables/images/107.png",
     name: "Tiger Onesie",
   },
   "Lifeguard Hat": {
@@ -9602,7 +9602,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/109.png",
+    image: "../public/wearables/images/109.png",
     name: "Lifeguard Hat",
   },
   "Lifeguard Shirt": {
@@ -9614,7 +9614,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/111.png",
+    image: "../public/wearables/images/111.png",
     name: "Lifeguard Shirt",
   },
   "Lifeguard Pants": {
@@ -9626,7 +9626,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/110.png",
+    image: "../public/wearables/images/110.png",
     name: "Lifeguard Pants",
   },
   "Beach Sarong": {
@@ -9638,7 +9638,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/108.png",
+    image: "../public/wearables/images/108.png",
     name: "Beach Sarong",
   },
   "Tropical Sarong": {
@@ -9650,7 +9650,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/113.png",
+    image: "../public/wearables/images/113.png",
     name: "Tropical Sarong",
   },
   "Sleeping Otter": {
@@ -9662,7 +9662,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/112.png",
+    image: "../public/wearables/images/112.png",
     name: "Sleeping Otter",
   },
   "Sequence Hat": {
@@ -9674,7 +9674,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/114.png",
+    image: "../public/wearables/images/114.png",
     name: "Sequence Hat",
   },
   "Sequence Shirt": {
@@ -9686,7 +9686,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/115.png",
+    image: "../public/wearables/images/115.png",
     name: "Sequence Shirt",
   },
   "St Patricks Hat": {
@@ -9698,7 +9698,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/116.png",
+    image: "../public/wearables/images/116.png",
     name: "St Patricks Hat",
   },
   "Bunny Onesie": {
@@ -9710,7 +9710,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/117.png",
+    image: "../public/wearables/images/117.png",
     name: "Bunny Onesie",
   },
   "Polkastarter Shirt": {
@@ -9722,7 +9722,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/119.png",
+    image: "../public/wearables/images/119.png",
     name: "Polkastarter Shirt",
   },
   "Light Brown Worried Farmer Potion": {
@@ -9733,7 +9733,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/118.png",
+    image: "../public/wearables/images/118.png",
     name: "Light Brown Worried Farmer Potion",
   },
   "Beach Trunks": {
@@ -9745,7 +9745,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/120.png",
+    image: "../public/wearables/images/120.png",
     name: "Beach Trunks",
   },
   "Club Polo": {
@@ -9757,7 +9757,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/121.png",
+    image: "../public/wearables/images/121.png",
     name: "Club Polo",
   },
   "Dawn Breaker Background": {
@@ -9769,7 +9769,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/122.png",
+    image: "../public/wearables/images/122.png",
     name: "Dawn Breaker Background",
   },
   "Dawn Lamp": {
@@ -9781,7 +9781,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/123.png",
+    image: "../public/wearables/images/123.png",
     name: "Dawn Lamp",
   },
   "Eggplant Onesie": {
@@ -9799,7 +9799,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/124.png",
+    image: "../public/wearables/images/124.png",
     name: "Eggplant Onesie",
   },
   "Fox Hat": {
@@ -9811,7 +9811,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/125.png",
+    image: "../public/wearables/images/125.png",
     name: "Fox Hat",
   },
   "Grave Diggers Shovel": {
@@ -9823,7 +9823,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/126.png",
+    image: "../public/wearables/images/126.png",
     name: "Grave Diggers Shovel",
   },
   "Infected Potion": {
@@ -9835,7 +9835,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/127.png",
+    image: "../public/wearables/images/127.png",
     name: "Infected Potion",
   },
   "Mushroom Hat": {
@@ -9853,7 +9853,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/128.png",
+    image: "../public/wearables/images/128.png",
     name: "Mushroom Hat",
   },
   "Mushroom Lamp": {
@@ -9865,7 +9865,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/129.png",
+    image: "../public/wearables/images/129.png",
     name: "Mushroom Lamp",
   },
   "Mushroom Lights Background": {
@@ -9877,7 +9877,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/130.png",
+    image: "../public/wearables/images/130.png",
     name: "Mushroom Lights Background",
   },
   "Mushroom Pants": {
@@ -9889,7 +9889,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/131.png",
+    image: "../public/wearables/images/131.png",
     name: "Mushroom Pants",
   },
   "Mushroom Shield": {
@@ -9901,7 +9901,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/132.png",
+    image: "../public/wearables/images/132.png",
     name: "Mushroom Shield",
   },
   "Mushroom Shoes": {
@@ -9913,7 +9913,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/133.png",
+    image: "../public/wearables/images/133.png",
     name: "Mushroom Shoes",
   },
   "Mushroom Sweater": {
@@ -9925,7 +9925,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/134.png",
+    image: "../public/wearables/images/134.png",
     name: "Mushroom Sweater",
   },
   "Rash Vest": {
@@ -9937,7 +9937,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/135.png",
+    image: "../public/wearables/images/135.png",
     name: "Rash Vest",
   },
   "Squid Hat": {
@@ -9949,7 +9949,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/136.png",
+    image: "../public/wearables/images/136.png",
     name: "Squid Hat",
   },
   "Striped Red Shirt": {
@@ -9961,7 +9961,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/137.png",
+    image: "../public/wearables/images/137.png",
     name: "Striped Red Shirt",
   },
   "Striped Yellow Shirt": {
@@ -9973,7 +9973,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/138.png",
+    image: "../public/wearables/images/138.png",
     name: "Striped Yellow Shirt",
   },
   "Summer Top": {
@@ -9985,7 +9985,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/139.png",
+    image: "../public/wearables/images/139.png",
     name: "Summer Top",
   },
   "Sunburst Potion": {
@@ -9997,7 +9997,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/140.png",
+    image: "../public/wearables/images/140.png",
     name: "Sunburst Potion",
   },
   "Water Gun": {
@@ -10009,7 +10009,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/141.png",
+    image: "../public/wearables/images/141.png",
     name: "Water Gun",
   },
   "Wavy Pants": {
@@ -10020,7 +10020,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/142.png",
+    image: "../public/wearables/images/142.png",
     name: "Wavy Pants",
   },
   "White Turtle Neck": {
@@ -10032,7 +10032,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/143.png",
+    image: "../public/wearables/images/143.png",
     name: "White Turtle Neck",
   },
   "Trial Tee": {
@@ -10043,7 +10043,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/144.png",
+    image: "../public/wearables/images/144.png",
     name: "Trial Tee",
   },
   "Auction Megaphone": {
@@ -10055,7 +10055,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/145.png",
+    image: "../public/wearables/images/145.png",
     name: "Auction Megaphone",
   },
   "Auctioneer Slacks": {
@@ -10067,7 +10067,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/146.png",
+    image: "../public/wearables/images/146.png",
     name: "Auctioneer Slacks",
   },
   "Bidder's Brocade": {
@@ -10079,7 +10079,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/147.png",
+    image: "../public/wearables/images/147.png",
     name: "Bidder's Brocade",
   },
   "Harry's Hat": {
@@ -10091,7 +10091,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/148.png",
+    image: "../public/wearables/images/148.png",
     name: "Harry's Hat",
   },
   "Leather Shoes": {
@@ -10103,7 +10103,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/149.png",
+    image: "../public/wearables/images/149.png",
     name: "Leather Shoes",
   },
   "Tangerine Hair": {
@@ -10115,7 +10115,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/150.png",
+    image: "../public/wearables/images/150.png",
     name: "Tangerine Hair",
   },
   "Witching Wardrobe": {
@@ -10127,7 +10127,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/155.png",
+    image: "../public/wearables/images/155.png",
     name: "Witching Wardrobe",
   },
   "Witch's Broom": {
@@ -10139,7 +10139,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/156.png",
+    image: "../public/wearables/images/156.png",
     name: "Witch's Broom",
   },
   "Infernal Bumpkin Potion": {
@@ -10150,7 +10150,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/157.png",
+    image: "../public/wearables/images/157.png",
     name: "Infernal Bumpkin Potion",
   },
   "Infernal Goblin Potion": {
@@ -10161,7 +10161,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/158.png",
+    image: "../public/wearables/images/158.png",
     name: "Infernal Goblin Potion",
   },
   "Imp Costume": {
@@ -10173,7 +10173,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/159.png",
+    image: "../public/wearables/images/159.png",
     name: "Imp Costume",
   },
   "Ox Costume": {
@@ -10185,7 +10185,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/160.png",
+    image: "../public/wearables/images/160.png",
     name: "Ox Costume",
   },
   "Luna's Hat": {
@@ -10203,7 +10203,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/161.png",
+    image: "../public/wearables/images/161.png",
     name: "Luna's Hat",
   },
   "Infernal Pitchfork": {
@@ -10221,7 +10221,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/162.png",
+    image: "../public/wearables/images/162.png",
     name: "Infernal Pitchfork",
   },
   "Infernal Horns": {
@@ -10233,7 +10233,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/163.png",
+    image: "../public/wearables/images/163.png",
     name: "Infernal Horns",
   },
   Cattlegrim: {
@@ -10251,7 +10251,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/164.png",
+    image: "../public/wearables/images/164.png",
     name: "Cattlegrim",
   },
   "Crumple Crown": {
@@ -10263,7 +10263,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/165.png",
+    image: "../public/wearables/images/165.png",
     name: "Crumple Crown",
   },
   "Merch Bucket Hat": {
@@ -10274,7 +10274,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/166.png",
+    image: "../public/wearables/images/166.png",
     name: "Merch Bucket Hat",
   },
   "Merch Coffee Mug": {
@@ -10285,7 +10285,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/167.png",
+    image: "../public/wearables/images/167.png",
     name: "Merch Coffee Mug",
   },
   "Dawn Breaker Tee": {
@@ -10296,7 +10296,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/168.png",
+    image: "../public/wearables/images/168.png",
     name: "Dawn Breaker Tee",
   },
   "Merch Tee": {
@@ -10307,7 +10307,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/169.png",
+    image: "../public/wearables/images/169.png",
     name: "Merch Tee",
   },
   "Merch Hoodie": {
@@ -10318,7 +10318,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/170.png",
+    image: "../public/wearables/images/170.png",
     name: "Merch Hoodie",
   },
   "Birthday Hat": {
@@ -10329,7 +10329,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/171.png",
+    image: "../public/wearables/images/171.png",
     name: "Birthday Hat",
   },
   "Double Harvest Cap": {
@@ -10340,7 +10340,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/172.png",
+    image: "../public/wearables/images/172.png",
     name: "Double Harvest Cap",
   },
   "Streamer Helmet": {
@@ -10351,7 +10351,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/173.png",
+    image: "../public/wearables/images/173.png",
     name: "Streamer Helmet",
   },
   "Corn Onesie": {
@@ -10368,7 +10368,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/174.png",
+    image: "../public/wearables/images/174.png",
     name: "Corn Onesie",
   },
   "Crow Wings": {
@@ -10379,7 +10379,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/175.png",
+    image: "../public/wearables/images/175.png",
     name: "Crow Wings",
   },
   "Witches' Eve Tee": {
@@ -10390,7 +10390,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/176.png",
+    image: "../public/wearables/images/176.png",
     name: "Witches' Eve Tee",
   },
   "Wise Beard": {
@@ -10401,7 +10401,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/177.png",
+    image: "../public/wearables/images/177.png",
     name: "Wise Beard",
   },
   "Pumpkin Hat": {
@@ -10412,7 +10412,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/178.png",
+    image: "../public/wearables/images/178.png",
     name: "Pumpkin Hat",
   },
   "Wise Book": {
@@ -10423,7 +10423,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/179.png",
+    image: "../public/wearables/images/179.png",
     name: "Wise Book",
   },
   "Wise Hair": {
@@ -10434,7 +10434,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/180.png",
+    image: "../public/wearables/images/180.png",
     name: "Wise Hair",
   },
   "Wise Robes": {
@@ -10445,7 +10445,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/181.png",
+    image: "../public/wearables/images/181.png",
     name: "Wise Robes",
   },
   "Wise Slacks": {
@@ -10456,7 +10456,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/182.png",
+    image: "../public/wearables/images/182.png",
     name: "Wise Slacks",
   },
   "Wise Staff": {
@@ -10467,7 +10467,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/183.png",
+    image: "../public/wearables/images/183.png",
     name: "Wise Staff",
   },
   "Greyed Glory": {
@@ -10478,7 +10478,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/184.png",
+    image: "../public/wearables/images/184.png",
     name: "Greyed Glory",
   },
   "Tattered Jacket": {
@@ -10489,7 +10489,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/185.png",
+    image: "../public/wearables/images/185.png",
     name: "Tattered Jacket",
   },
   "Hoary Chin": {
@@ -10500,7 +10500,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/186.png",
+    image: "../public/wearables/images/186.png",
     name: "Hoary Chin",
   },
   "Tattered Slacks": {
@@ -10511,7 +10511,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/187.png",
+    image: "../public/wearables/images/187.png",
     name: "Tattered Slacks",
   },
   "Old Shoes": {
@@ -10522,7 +10522,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/188.png",
+    image: "../public/wearables/images/188.png",
     name: "Old Shoes",
   },
   "Bat Wings": {
@@ -10533,7 +10533,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/189.png",
+    image: "../public/wearables/images/189.png",
     name: "Bat Wings",
   },
   "Gothic Twilight": {
@@ -10544,7 +10544,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/190.png",
+    image: "../public/wearables/images/190.png",
     name: "Gothic Twilight",
   },
   "Dark Enchantment Gown": {
@@ -10555,7 +10555,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/191.png",
+    image: "../public/wearables/images/191.png",
     name: "Dark Enchantment Gown",
   },
   "Goth Hair": {
@@ -10566,7 +10566,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/192.png",
+    image: "../public/wearables/images/192.png",
     name: "Goth Hair",
   },
   "Pale Potion": {
@@ -10577,7 +10577,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/193.png",
+    image: "../public/wearables/images/193.png",
     name: "Pale Potion",
   },
   "Stretched Jeans": {
@@ -10588,7 +10588,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/194.png",
+    image: "../public/wearables/images/194.png",
     name: "Stretched Jeans",
   },
   "Skull Shirt": {
@@ -10599,7 +10599,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/195.png",
+    image: "../public/wearables/images/195.png",
     name: "Skull Shirt",
   },
   "Victorian Hat": {
@@ -10610,7 +10610,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/196.png",
+    image: "../public/wearables/images/196.png",
     name: "Victorian Hat",
   },
   "Boater Hat": {
@@ -10621,7 +10621,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/197.png",
+    image: "../public/wearables/images/197.png",
     name: "Boater Hat",
   },
   "Antique Dress": {
@@ -10632,7 +10632,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/198.png",
+    image: "../public/wearables/images/198.png",
     name: "Antique Dress",
   },
   "Crimson Skirt": {
@@ -10643,7 +10643,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/199.png",
+    image: "../public/wearables/images/199.png",
     name: "Crimson Skirt",
   },
   "Chic Gala Blouse": {
@@ -10654,7 +10654,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/200.png",
+    image: "../public/wearables/images/200.png",
     name: "Chic Gala Blouse",
   },
   "Ash Ponytail": {
@@ -10665,7 +10665,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/201.png",
+    image: "../public/wearables/images/201.png",
     name: "Ash Ponytail",
   },
   "Pink Ponytail": {
@@ -10676,7 +10676,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/202.png",
+    image: "../public/wearables/images/202.png",
     name: "Pink Ponytail",
   },
   "Silver Streaks": {
@@ -10687,7 +10687,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/203.png",
+    image: "../public/wearables/images/203.png",
     name: "Silver Streaks",
   },
   "Straw Hat": {
@@ -10698,7 +10698,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/151.png",
+    image: "../public/wearables/images/151.png",
     name: "Straw Hat",
   },
   "Traveller's Backpack": {
@@ -10710,7 +10710,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/152.png",
+    image: "../public/wearables/images/152.png",
     name: "Traveller's Backpack",
   },
   "Traveller's Pants": {
@@ -10721,7 +10721,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/153.png",
+    image: "../public/wearables/images/153.png",
     name: "Traveller's Pants",
   },
   "Traveller's Shirt": {
@@ -10732,7 +10732,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/154.png",
+    image: "../public/wearables/images/154.png",
     name: "Traveller's Shirt",
   },
   "Potato Suit": {
@@ -10744,7 +10744,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/206.png",
+    image: "../public/wearables/images/206.png",
     name: "Potato Suit",
   },
   "Parsnip Horns": {
@@ -10756,7 +10756,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/205.png",
+    image: "../public/wearables/images/205.png",
     name: "Parsnip Horns",
   },
   "Brown Rancher Hair": {
@@ -10768,7 +10768,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/204.png",
+    image: "../public/wearables/images/204.png",
     name: "Brown Rancher Hair",
   },
   "Whale Hat": {
@@ -10780,7 +10780,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/207.png",
+    image: "../public/wearables/images/207.png",
     name: "Whale Hat",
   },
   "Pumpkin Shirt": {
@@ -10792,7 +10792,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/208.png",
+    image: "../public/wearables/images/208.png",
     name: "Pumpkin Shirt",
   },
   Halo: {
@@ -10804,7 +10804,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/209.png",
+    image: "../public/wearables/images/209.png",
     name: "Halo",
   },
   Kama: {
@@ -10815,7 +10815,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/210.png",
+    image: "../public/wearables/images/210.png",
     name: "Kama",
   },
   "Grey Merch Hoodie": {
@@ -10826,7 +10826,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/211.png",
+    image: "../public/wearables/images/211.png",
     name: "Grey Merch Hoodie",
   },
   "Unicorn Horn": {
@@ -10837,7 +10837,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/212.png",
+    image: "../public/wearables/images/212.png",
     name: "Unicorn Horn",
   },
   "Unicorn Hat": {
@@ -10848,7 +10848,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "no" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/213.png",
+    image: "../public/wearables/images/213.png",
     name: "Unicorn Hat",
   },
   "Feather Hat": {
@@ -10860,7 +10860,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/214.png",
+    image: "../public/wearables/images/214.png",
     name: "Feather Hat",
   },
   "Valoria Wreath": {
@@ -10871,7 +10871,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/215.png",
+    image: "../public/wearables/images/215.png",
     name: "Valoria Wreath",
   },
   "Earn Alliance Sombrero": {
@@ -10882,7 +10882,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/216.png",
+    image: "../public/wearables/images/216.png",
     name: "Earn Alliance Sombrero",
   },
   "Fresh Catch Vest": {
@@ -10894,7 +10894,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/217.png",
+    image: "../public/wearables/images/217.png",
     name: "Fresh Catch Vest",
   },
   "Fish Pro Vest": {
@@ -10905,7 +10905,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/218.png",
+    image: "../public/wearables/images/218.png",
     name: "Fish Pro Vest",
   },
   "Reel Fishing Vest": {
@@ -10917,7 +10917,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/219.png",
+    image: "../public/wearables/images/219.png",
     name: "Reel Fishing Vest",
   },
   "Clown Shirt": {
@@ -10929,7 +10929,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/220.png",
+    image: "../public/wearables/images/220.png",
     name: "Clown Shirt",
   },
   "Luminous Anglerfish Topper": {
@@ -10946,7 +10946,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/221.png",
+    image: "../public/wearables/images/221.png",
     name: "Luminous Anglerfish Topper",
   },
   "Abyssal Angler Hat": {
@@ -10957,7 +10957,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/222.png",
+    image: "../public/wearables/images/222.png",
     name: "Abyssal Angler Hat",
   },
   Harpoon: {
@@ -10969,7 +10969,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/223.png",
+    image: "../public/wearables/images/223.png",
     name: "Harpoon",
   },
   "Ancient Rod": {
@@ -10986,7 +10986,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/224.png",
+    image: "../public/wearables/images/224.png",
     name: "Ancient Rod",
   },
   "Fishing Hat": {
@@ -10998,7 +10998,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/225.png",
+    image: "../public/wearables/images/225.png",
     name: "Fishing Hat",
   },
   "Saw Fish": {
@@ -11010,7 +11010,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/238.png",
+    image: "../public/wearables/images/238.png",
     name: "Saw Fish",
   },
   Trident: {
@@ -11032,7 +11032,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/226.png",
+    image: "../public/wearables/images/226.png",
     name: "Trident",
   },
   "Bucket O' Worms": {
@@ -11050,7 +11050,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/228.png",
+    image: "../public/wearables/images/228.png",
     name: "Bucket O' Worms",
   },
   "Coconut Mask": {
@@ -11061,7 +11061,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/229.png",
+    image: "../public/wearables/images/229.png",
     name: "Coconut Mask",
   },
   "Crab Trap": {
@@ -11072,7 +11072,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/230.png",
+    image: "../public/wearables/images/230.png",
     name: "Crab Trap",
   },
   "Seaside Tank Top": {
@@ -11084,7 +11084,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/231.png",
+    image: "../public/wearables/images/231.png",
     name: "Seaside Tank Top",
   },
   "Fish Trap": {
@@ -11095,7 +11095,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/232.png",
+    image: "../public/wearables/images/232.png",
     name: "Fish Trap",
   },
   "Fishing Pants": {
@@ -11107,7 +11107,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/233.png",
+    image: "../public/wearables/images/233.png",
     name: "Fishing Pants",
   },
   "Angler Waders": {
@@ -11125,7 +11125,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/234.png",
+    image: "../public/wearables/images/234.png",
     name: "Angler Waders",
   },
   "Fishing Spear": {
@@ -11137,7 +11137,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/235.png",
+    image: "../public/wearables/images/235.png",
     name: "Fishing Spear",
   },
   "Flip Flops": {
@@ -11149,7 +11149,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/236.png",
+    image: "../public/wearables/images/236.png",
     name: "Flip Flops",
   },
   Wellies: {
@@ -11161,7 +11161,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/237.png",
+    image: "../public/wearables/images/237.png",
     name: "Wellies",
   },
   "Skinning Knife": {
@@ -11173,7 +11173,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/239.png",
+    image: "../public/wearables/images/239.png",
     name: "Skinning Knife",
   },
   "Sunflower Rod": {
@@ -11196,7 +11196,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/240.png",
+    image: "../public/wearables/images/240.png",
     name: "Sunflower Rod",
   },
   "Tackle Box": {
@@ -11208,7 +11208,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/241.png",
+    image: "../public/wearables/images/241.png",
     name: "Tackle Box",
   },
   "Infernal Rod": {
@@ -11219,7 +11219,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/227.png",
+    image: "../public/wearables/images/227.png",
     name: "Infernal Rod",
   },
   "Mermaid Potion": {
@@ -11230,7 +11230,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/242.png",
+    image: "../public/wearables/images/242.png",
     name: "Mermaid Potion",
   },
   "Squirrel Monkey Potion": {
@@ -11241,7 +11241,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/243.png",
+    image: "../public/wearables/images/243.png",
     name: "Squirrel Monkey Potion",
   },
   "Koi Fish Hat": {
@@ -11253,7 +11253,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/244.png",
+    image: "../public/wearables/images/244.png",
     name: "Koi Fish Hat",
   },
   "Normal Fish Hat": {
@@ -11264,7 +11264,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/245.png",
+    image: "../public/wearables/images/245.png",
     name: "Normal Fish Hat",
   },
   "Stockeye Salmon Onesie": {
@@ -11276,7 +11276,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/246.png",
+    image: "../public/wearables/images/246.png",
     name: "Stockeye Salmon Onesie",
   },
   "Tiki Armor": {
@@ -11288,7 +11288,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/247.png",
+    image: "../public/wearables/images/247.png",
     name: "Tiki Armor",
   },
   "Tiki Mask": {
@@ -11300,7 +11300,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/248.png",
+    image: "../public/wearables/images/248.png",
     name: "Tiki Mask",
   },
   "Tiki Pants": {
@@ -11312,7 +11312,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/249.png",
+    image: "../public/wearables/images/249.png",
     name: "Tiki Pants",
   },
   "Banana Amulet": {
@@ -11330,7 +11330,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/250.png",
+    image: "../public/wearables/images/250.png",
     name: "Banana Amulet",
   },
   "Banana Onesie": {
@@ -11348,7 +11348,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/251.png",
+    image: "../public/wearables/images/251.png",
     name: "Banana Onesie",
   },
   "Basic Dumbo": {
@@ -11360,7 +11360,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/252.png",
+    image: "../public/wearables/images/252.png",
     name: "Basic Dumbo",
   },
   "Companion Cap": {
@@ -11372,7 +11372,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/253.png",
+    image: "../public/wearables/images/253.png",
     name: "Companion Cap",
   },
   "Dazzling Dumbo": {
@@ -11384,7 +11384,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/254.png",
+    image: "../public/wearables/images/254.png",
     name: "Dazzling Dumbo",
   },
   "Deep Sea Helm": {
@@ -11402,7 +11402,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/255.png",
+    image: "../public/wearables/images/255.png",
     name: "Deep Sea Helm",
   },
   "Gloomy Dumbo": {
@@ -11414,7 +11414,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/256.png",
+    image: "../public/wearables/images/256.png",
     name: "Gloomy Dumbo",
   },
   "Pickaxe Shark": {
@@ -11426,7 +11426,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/257.png",
+    image: "../public/wearables/images/257.png",
     name: "Pickaxe Shark",
   },
   "Seedling Hat": {
@@ -11438,7 +11438,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/258.png",
+    image: "../public/wearables/images/258.png",
     name: "Seedling Hat",
   },
   "Stormy Dumbo": {
@@ -11450,7 +11450,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/259.png",
+    image: "../public/wearables/images/259.png",
     name: "Stormy Dumbo",
   },
   "Ugly Christmas Sweater": {
@@ -11461,7 +11461,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/260.png",
+    image: "../public/wearables/images/260.png",
     name: "Ugly Christmas Sweater",
   },
   "Candy Cane": {
@@ -11472,7 +11472,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/261.png",
+    image: "../public/wearables/images/261.png",
     name: "Candy Cane",
   },
   "Elf Hat": {
@@ -11483,7 +11483,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/262.png",
+    image: "../public/wearables/images/262.png",
     name: "Elf Hat",
   },
   "Elf Potion": {
@@ -11494,7 +11494,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/263.png",
+    image: "../public/wearables/images/263.png",
     name: "Elf Potion",
   },
   "Elf Shoes": {
@@ -11505,7 +11505,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/264.png",
+    image: "../public/wearables/images/264.png",
     name: "Elf Shoes",
   },
   "Elf Suit": {
@@ -11516,7 +11516,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/265.png",
+    image: "../public/wearables/images/265.png",
     name: "Elf Suit",
   },
   "Santa Beard": {
@@ -11527,7 +11527,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/266.png",
+    image: "../public/wearables/images/266.png",
     name: "Santa Beard",
   },
   "Santa Suit": {
@@ -11538,7 +11538,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/267.png",
+    image: "../public/wearables/images/267.png",
     name: "Santa Suit",
   },
   "Butterfly Wings": {
@@ -11549,7 +11549,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/268.png",
+    image: "../public/wearables/images/268.png",
     name: "Butterfly Wings",
   },
   "Cozy Hoodie": {
@@ -11561,7 +11561,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/269.png",
+    image: "../public/wearables/images/269.png",
     name: "Cozy Hoodie",
   },
   "New Years Tiara": {
@@ -11573,7 +11573,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/270.png",
+    image: "../public/wearables/images/270.png",
     name: "New Years Tiara",
   },
   "Northern Lights Background": {
@@ -11585,7 +11585,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/271.png",
+    image: "../public/wearables/images/271.png",
     name: "Northern Lights Background",
   },
   "Short Shorts": {
@@ -11596,7 +11596,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/272.png",
+    image: "../public/wearables/images/272.png",
     name: "Short Shorts",
   },
   "Winter Jacket": {
@@ -11608,7 +11608,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/273.png",
+    image: "../public/wearables/images/273.png",
     name: "Winter Jacket",
   },
   "Beehive Staff": {
@@ -11619,7 +11619,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/274.png",
+    image: "../public/wearables/images/274.png",
     name: "Beehive Staff",
   },
   "Bee Smoker": {
@@ -11630,7 +11630,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/275.png",
+    image: "../public/wearables/images/275.png",
     name: "Bee Smoker",
   },
   "Bee Suit": {
@@ -11647,7 +11647,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/276.png",
+    image: "../public/wearables/images/276.png",
     name: "Bee Suit",
   },
   "Bee Wings": {
@@ -11658,7 +11658,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/277.png",
+    image: "../public/wearables/images/277.png",
     name: "Bee Wings",
   },
   "Beekeeper Hat": {
@@ -11675,7 +11675,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/278.png",
+    image: "../public/wearables/images/278.png",
     name: "Beekeeper Hat",
   },
   "Beekeeper Suit": {
@@ -11686,7 +11686,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/279.png",
+    image: "../public/wearables/images/279.png",
     name: "Beekeeper Suit",
   },
   "Crimstone Boots": {
@@ -11697,7 +11697,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/280.png",
+    image: "../public/wearables/images/280.png",
     name: "Crimstone Boots",
   },
   "Crimstone Pants": {
@@ -11708,7 +11708,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/281.png",
+    image: "../public/wearables/images/281.png",
     name: "Crimstone Pants",
   },
   "Crimstone Armor": {
@@ -11725,7 +11725,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/282.png",
+    image: "../public/wearables/images/282.png",
     name: "Crimstone Armor",
   },
   "Gardening Overalls": {
@@ -11736,7 +11736,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/283.png",
+    image: "../public/wearables/images/283.png",
     name: "Gardening Overalls",
   },
   "Crimstone Hammer": {
@@ -11753,7 +11753,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/284.png",
+    image: "../public/wearables/images/284.png",
     name: "Crimstone Hammer",
   },
   "Crimstone Amulet": {
@@ -11770,7 +11770,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/285.png",
+    image: "../public/wearables/images/285.png",
     name: "Crimstone Amulet",
   },
   "Full Bloom Shirt": {
@@ -11781,7 +11781,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/286.png",
+    image: "../public/wearables/images/286.png",
     name: "Full Bloom Shirt",
   },
   "Blue Blossom Shirt": {
@@ -11793,7 +11793,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/287.png",
+    image: "../public/wearables/images/287.png",
     name: "Blue Blossom Shirt",
   },
   "Fairy Sandals": {
@@ -11804,7 +11804,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/288.png",
+    image: "../public/wearables/images/288.png",
     name: "Fairy Sandals",
   },
   "Daisy Tee": {
@@ -11816,7 +11816,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/289.png",
+    image: "../public/wearables/images/289.png",
     name: "Daisy Tee",
   },
   "Propeller Hat": {
@@ -11828,7 +11828,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/290.png",
+    image: "../public/wearables/images/290.png",
     name: "Propeller Hat",
   },
   "Honeycomb Shield": {
@@ -11845,7 +11845,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/291.png",
+    image: "../public/wearables/images/291.png",
     name: "Honeycomb Shield",
   },
   "Hornet Mask": {
@@ -11863,7 +11863,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/292.png",
+    image: "../public/wearables/images/292.png",
     name: "Hornet Mask",
   },
   "Flower Crown": {
@@ -11880,7 +11880,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/293.png",
+    image: "../public/wearables/images/293.png",
     name: "Flower Crown",
   },
   "Blue Monarch Dress": {
@@ -11891,7 +11891,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/294.png",
+    image: "../public/wearables/images/294.png",
     name: "Blue Monarch Dress",
   },
   "Green Monarch Dress": {
@@ -11903,7 +11903,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/295.png",
+    image: "../public/wearables/images/295.png",
     name: "Green Monarch Dress",
   },
   "Orange Monarch Dress": {
@@ -11914,7 +11914,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/296.png",
+    image: "../public/wearables/images/296.png",
     name: "Orange Monarch Dress",
   },
   "Blue Monarch Shirt": {
@@ -11925,7 +11925,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/297.png",
+    image: "../public/wearables/images/297.png",
     name: "Blue Monarch Shirt",
   },
   "Green Monarch Shirt": {
@@ -11936,7 +11936,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/298.png",
+    image: "../public/wearables/images/298.png",
     name: "Green Monarch Shirt",
   },
   "Orange Monarch Shirt": {
@@ -11947,7 +11947,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/299.png",
+    image: "../public/wearables/images/299.png",
     name: "Orange Monarch Shirt",
   },
   "Queen Bee Crown": {
@@ -11958,7 +11958,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/300.png",
+    image: "../public/wearables/images/300.png",
     name: "Queen Bee Crown",
   },
   "Rose Dress": {
@@ -11969,7 +11969,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/301.png",
+    image: "../public/wearables/images/301.png",
     name: "Rose Dress",
   },
   "Blue Rose Dress": {
@@ -11981,7 +11981,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/302.png",
+    image: "../public/wearables/images/302.png",
     name: "Blue Rose Dress",
   },
   "Chicken Hat": {
@@ -11992,7 +11992,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/303.png",
+    image: "../public/wearables/images/303.png",
     name: "Chicken Hat",
   },
   "Lucky Red Hat": {
@@ -12003,7 +12003,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/304.png",
+    image: "../public/wearables/images/304.png",
     name: "Lucky Red Hat",
   },
   "Lucky Red Suit": {
@@ -12015,7 +12015,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/305.png",
+    image: "../public/wearables/images/305.png",
     name: "Lucky Red Suit",
   },
   "Love's Topper": {
@@ -12026,7 +12026,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/307.png",
+    image: "../public/wearables/images/307.png",
     name: "Love's Topper",
   },
   "Valentine's Field Background": {
@@ -12037,7 +12037,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/306.png",
+    image: "../public/wearables/images/306.png",
     name: "Valentine's Field Background",
   },
   "Non La Hat": {
@@ -12054,7 +12054,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/309.png",
+    image: "../public/wearables/images/309.png",
     name: "Non La Hat",
   },
   "Oil Can": {
@@ -12071,7 +12071,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/308.png",
+    image: "../public/wearables/images/308.png",
     name: "Oil Can",
   },
   "Olive Shield": {
@@ -12088,7 +12088,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/310.png",
+    image: "../public/wearables/images/310.png",
     name: "Olive Shield",
   },
   "Paw Shield": {
@@ -12105,7 +12105,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/311.png",
+    image: "../public/wearables/images/311.png",
     name: "Paw Shield",
   },
   "Royal Robe": {
@@ -12116,7 +12116,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/312.png",
+    image: "../public/wearables/images/312.png",
     name: "Royal Robe",
   },
   Crown: {
@@ -12127,7 +12127,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/313.png",
+    image: "../public/wearables/images/313.png",
     name: "Crown",
   },
   Pan: {
@@ -12144,7 +12144,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/314.png",
+    image: "../public/wearables/images/314.png",
     name: "Pan",
   },
   "Gift Giver": {
@@ -12155,7 +12155,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/316.png",
+    image: "../public/wearables/images/316.png",
     name: "Gift Giver",
   },
   "Soybean Onesie": {
@@ -12166,7 +12166,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/315.png",
+    image: "../public/wearables/images/315.png",
     name: "Soybean Onesie",
   },
   "Olive Royalty Shirt": {
@@ -12177,7 +12177,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/317.png",
+    image: "../public/wearables/images/317.png",
     name: "Olive Royalty Shirt",
   },
   "Royal Scepter": {
@@ -12188,7 +12188,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/318.png",
+    image: "../public/wearables/images/318.png",
     name: "Royal Scepter",
   },
   "Tofu Mask": {
@@ -12199,7 +12199,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/319.png",
+    image: "../public/wearables/images/319.png",
     name: "Tofu Mask",
   },
   "Cap n Bells": {
@@ -12210,7 +12210,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/340.png",
+    image: "../public/wearables/images/340.png",
     name: "Cap n Bells",
   },
   "Pixel Perfect Hoodie": {
@@ -12221,7 +12221,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/342.png",
+    image: "../public/wearables/images/342.png",
     name: "Pixel Perfect Hoodie",
   },
   "Queen's Crown": {
@@ -12232,7 +12232,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/343.png",
+    image: "../public/wearables/images/343.png",
     name: "Queen's Crown",
   },
   "Royal Dress": {
@@ -12243,7 +12243,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/344.png",
+    image: "../public/wearables/images/344.png",
     name: "Royal Dress",
   },
   Motley: {
@@ -12254,7 +12254,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/345.png",
+    image: "../public/wearables/images/345.png",
     name: "Motley",
   },
   "Goblin Armor": {
@@ -12266,7 +12266,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/320.png",
+    image: "../public/wearables/images/320.png",
     name: "Goblin Armor",
   },
   "Goblin Helmet": {
@@ -12278,7 +12278,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/321.png",
+    image: "../public/wearables/images/321.png",
     name: "Goblin Helmet",
   },
   "Goblin Pants": {
@@ -12290,7 +12290,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/322.png",
+    image: "../public/wearables/images/322.png",
     name: "Goblin Pants",
   },
   "Goblin Sabatons": {
@@ -12302,7 +12302,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/323.png",
+    image: "../public/wearables/images/323.png",
     name: "Goblin Sabatons",
   },
   "Goblin Axe": {
@@ -12314,7 +12314,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/324.png",
+    image: "../public/wearables/images/324.png",
     name: "Goblin Axe",
   },
   "Nightshade Armor": {
@@ -12326,7 +12326,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/325.png",
+    image: "../public/wearables/images/325.png",
     name: "Nightshade Armor",
   },
   "Nightshade Helmet": {
@@ -12338,7 +12338,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/326.png",
+    image: "../public/wearables/images/326.png",
     name: "Nightshade Helmet",
   },
   "Nightshade Pants": {
@@ -12350,7 +12350,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/327.png",
+    image: "../public/wearables/images/327.png",
     name: "Nightshade Pants",
   },
   "Nightshade Sabatons": {
@@ -12362,7 +12362,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/328.png",
+    image: "../public/wearables/images/328.png",
     name: "Nightshade Sabatons",
   },
   "Nightshade Sword": {
@@ -12374,7 +12374,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/329.png",
+    image: "../public/wearables/images/329.png",
     name: "Nightshade Sword",
   },
   "Bumpkin Armor": {
@@ -12386,7 +12386,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/330.png",
+    image: "../public/wearables/images/330.png",
     name: "Bumpkin Armor",
   },
   "Bumpkin Helmet": {
@@ -12398,7 +12398,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/331.png",
+    image: "../public/wearables/images/331.png",
     name: "Bumpkin Helmet",
   },
   "Bumpkin Sword": {
@@ -12410,7 +12410,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/332.png",
+    image: "../public/wearables/images/332.png",
     name: "Bumpkin Sword",
   },
   "Bumpkin Pants": {
@@ -12422,7 +12422,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/333.png",
+    image: "../public/wearables/images/333.png",
     name: "Bumpkin Pants",
   },
   "Bumpkin Sabatons": {
@@ -12434,7 +12434,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/334.png",
+    image: "../public/wearables/images/334.png",
     name: "Bumpkin Sabatons",
   },
   "Sunflorian Armor": {
@@ -12446,7 +12446,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/335.png",
+    image: "../public/wearables/images/335.png",
     name: "Sunflorian Armor",
   },
   "Sunflorian Sword": {
@@ -12458,7 +12458,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/336.png",
+    image: "../public/wearables/images/336.png",
     name: "Sunflorian Sword",
   },
   "Sunflorian Helmet": {
@@ -12470,7 +12470,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/337.png",
+    image: "../public/wearables/images/337.png",
     name: "Sunflorian Helmet",
   },
   "Sunflorian Pants": {
@@ -12482,7 +12482,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/338.png",
+    image: "../public/wearables/images/338.png",
     name: "Sunflorian Pants",
   },
   "Sunflorian Sabatons": {
@@ -12494,7 +12494,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/339.png",
+    image: "../public/wearables/images/339.png",
     name: "Sunflorian Sabatons",
   },
   "Knight Gambit": {
@@ -12506,7 +12506,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/341.png",
+    image: "../public/wearables/images/341.png",
     name: "Knight Gambit",
   },
   "Royal Braids": {
@@ -12517,7 +12517,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/346.png",
+    image: "../public/wearables/images/346.png",
     name: "Royal Braids",
   },
   "Painter's Cap": {
@@ -12528,7 +12528,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/347.png",
+    image: "../public/wearables/images/347.png",
     name: "Painter's Cap",
   },
   "Festival of Colors Background": {
@@ -12539,7 +12539,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "Yes" },
     ],
     external_url: "https://bumpkins.io",
-    image: "../public/wearables/348.png",
+    image: "../public/wearables/images/348.png",
     name: "Festival of Colors Background",
   },
 };
