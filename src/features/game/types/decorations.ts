@@ -3,6 +3,15 @@ import { Dimensions } from "./buildings";
 import { Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
+import { Template } from "./templates";
+
+
+/**
+ * getKeys is a ref to Object.keys, but the return is typed literally.
+ */
+export const getKeys = Object.keys as <T extends object>(
+  obj: T
+) => Array<keyof T>;
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -111,6 +120,28 @@ export type PotionHouseDecorationName =
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
+
+export const DECORATION_TEMPLATES = {
+  "Goblin Gold Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Goblin Silver Champion": {
+    dimensions: {
+      width: 2,
+      height: 1,
+      offsetY: 2,
+    },
+    isWithdrawable: () => false,
+  },
+} satisfies Record<string, Template>;
+
+export type TemplateDecorationName= keyof typeof DECORATION_TEMPLATES
+
 export type DecorationName =
   | AchievementDecorationName
   | ShopDecorationName
@@ -119,13 +150,25 @@ export type DecorationName =
   | BoostTreasure
   | SeasonalDecorationName
   | PotionHouseDecorationName
-  | InteriorDecorationName;
+  | InteriorDecorationName
+  | TemplateDecorationName;
+
+
+
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+
   "Jelly Lamp": {
     width: 1,
     height: 1,
   },
+  ...(getKeys(DECORATION_TEMPLATES) as TemplateDecorationName[]).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: DECORATION_TEMPLATES[name].dimensions,
+    }),
+    {} as Record<TemplateDecorationName, Dimensions> 
+  ),
   "Paint Can": {
     width: 2,
     height: 1,

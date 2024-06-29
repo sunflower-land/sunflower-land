@@ -6,7 +6,7 @@ import { BumpkinItem } from "./bumpkin";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import bee from "assets/icons/bee.webp";
-import { ITEM_DETAILS } from "./images";
+import { ITEM_DETAILS } from "./itemDetails";
 import { translate } from "lib/i18n/translate";
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<Record<BumpkinItem, BuffLabel>> =

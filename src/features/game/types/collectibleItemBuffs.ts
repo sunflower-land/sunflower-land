@@ -4,7 +4,7 @@ import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ITEM_DETAILS } from "./images";
+import { ITEM_DETAILS } from "./itemDetails";
 import { translate } from "lib/i18n/translate";
 
 export const COLLECTIBLE_BUFF_LABELS: Partial<

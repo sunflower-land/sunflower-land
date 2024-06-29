@@ -753,6 +753,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Nightshade Faction Rug": 2079,
   "Goblin Faction Rug": 2080,
   "Bumpkin Faction Rug": 2081,
+  "Goblin Gold Champion": 2082,
+  "Goblin Silver Champion": 2083,
 };
 
 // The reverse of above

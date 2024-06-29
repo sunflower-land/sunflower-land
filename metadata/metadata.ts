@@ -1,6 +1,11 @@
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { InventoryItemName } from "../src/features/game/types/game";
 import { Attribute } from "./models";
+import { getKeys } from "features/game/types/craftables";
+import {
+  DECORATION_TEMPLATES,
+  TemplateDecorationName,
+} from "features/game/types/decorations";
 
 type Metadata = {
   description: string;
@@ -8328,6 +8333,22 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2081png",
     attributes: [{ trait_type: "Purpose", value: "Decoration" }],
   },
+
+  // TODO
+  ...getKeys(DECORATION_TEMPLATES).reduce(
+    (acc, key) => ({
+      ...acc,
+      [key]: {
+        description: "TODO",
+        decimals: 0,
+        attributes: [],
+        external_url: "https://bumpkins.io",
+        image: "TODO",
+        name: "TODO",
+      },
+    }),
+    {} as Record<TemplateDecorationName, Metadata>
+  ),
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
