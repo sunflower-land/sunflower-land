@@ -11,6 +11,7 @@ import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
+import { translateTerms } from "lib/i18n/translate";
 
 /**
  * Base Layout for Collectible Item Details Page in Codex
@@ -124,7 +125,7 @@ export const Detail: React.FC<Props> = ({
       </InnerPanel>
       <InnerPanel>
         <div className="p-1">
-          <p className="text-xs">{description}</p>
+          <p className="text-xs">{translateTerms(description)}</p>
           <div className="border-b-[1px] border-brown-600 mt-3" />
           {howToGetItem.length > 0 && (
             <div className="flex flex-col mt-2">
@@ -133,7 +134,7 @@ export const Detail: React.FC<Props> = ({
                 {howToGetItem.map((text, index) => (
                   <li className="flex" key={`how-to-obtain-${index}`}>
                     <div className="mr-1">{"-"}</div>
-                    <span>{text}</span>
+                    <span>{translateTerms(text)}</span>
                   </li>
                 ))}
               </ul>

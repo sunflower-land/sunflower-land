@@ -12,6 +12,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { Label } from "../Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
+import { translateTerms } from "lib/i18n/translate";
 
 /**
  * The props for the details for items.
@@ -77,7 +78,8 @@ export const InventoryItemDetails: React.FC<Props> = ({
     const icon = ITEM_ICONS(game.island.type)[details.item] ?? item.image;
     const title = details.item;
 
-    let description = item.description;
+    let description = translateTerms(item.description);
+
     if (item.boostedDescriptions) {
       for (const boostedDescription of item.boostedDescriptions) {
         if (

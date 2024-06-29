@@ -21,6 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { translateTerms } from "lib/i18n/translate";
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -122,7 +123,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                       )}
                     </div>
                     <p className="text-xs mt-0.5">
-                      {ITEM_DETAILS[name].description}
+                      {translateTerms(ITEM_DETAILS[name].description)}
                     </p>
                     {buff && (
                       <Label

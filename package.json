@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "jest",
     "metadata": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateMetadata.ts",
+    "convert": "NODE_PATH=./src NODE_ENV=metadata ts-node --project metadata/node.tsconfig.json metadata/generateItemTranslations.ts",
     "prepare": "husky install"
   },
   "browserslist": [
