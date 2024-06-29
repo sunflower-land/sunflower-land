@@ -731,9 +731,6 @@ import bumpkinFactionRug from "assets/factions/bumpkin_faction_rug.webp";
 
 import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 
-import goblinGoldChampion from "assets/sfts/goblin_gold_champion.png";
-import goblinSilverChampion from "assets/sfts/goblin_silver_champion.png";
-
 import { InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS } from "./crops";
@@ -8657,7 +8654,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Gold Champion": {
-    image: goblinGoldChampion,
+    image: "public/sfts/goblin_gold_champion.png",
     description: {
       en: "TODO",
       pt: "TODO",
@@ -8667,7 +8664,7 @@ export const ITEM_DETAILS: Items = {
     },
   },
   "Goblin Silver Champion": {
-    image: goblinSilverChampion,
+    image: "public/sfts/goblin_silver_champion.png",
     description: {
       en: "TODO",
       pt: "TODO",
