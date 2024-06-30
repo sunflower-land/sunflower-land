@@ -1,6 +1,6 @@
 import React from "react";
 
-import pottedPumpkin from "assets/decorations/potted_pumpkin.webp";
+import pottedPumpkin from "public/assets/decorations/potted_pumpkin.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PottedPumpkin: React.FC = () => {

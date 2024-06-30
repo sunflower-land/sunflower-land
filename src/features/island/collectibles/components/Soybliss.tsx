@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import soybliss from "assets/sfts/soybliss.webp";
+import soybliss from "public/assets/sfts/soybliss.webp";
 
 export const Soybliss: React.FC = () => {
   return (

@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { useActor } from "@xstate/react";
 
-import progressBarSprite from "assets/ui/profile/progress_bar_sprite.png";
-import whiteBg from "assets/ui/profile/bg.png";
+import progressBarSprite from "public/assets/ui/profile/progress_bar_sprite.png";
+import whiteBg from "public/assets/ui/profile/bg.png";
 
 import { BumpkinModal } from "features/bumpkins/components/BumpkinModal";
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";

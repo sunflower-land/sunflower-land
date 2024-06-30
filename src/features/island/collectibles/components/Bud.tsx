@@ -3,7 +3,7 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONFIG } from "lib/config";
 
-import shadow from "assets/npcs/shadow.png";
+import shadow from "public/assets/npcs/shadow.png";
 import { TypeTrait } from "features/game/types/buds";
 import classNames from "classnames";
 

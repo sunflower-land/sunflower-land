@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import saveIcon from "assets/icons/save.webp";
-import loadingIcon from "assets/icons/timer.gif";
+import saveIcon from "public/assets/icons/save.webp";
+import loadingIcon from "public/assets/icons/timer.gif";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import classNames from "classnames";

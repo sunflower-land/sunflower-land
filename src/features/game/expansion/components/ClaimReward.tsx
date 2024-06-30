@@ -2,10 +2,10 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
-import token from "src/assets/icons/sfl.webp";
-import coins from "src/assets/icons/coins.webp";
-import powerup from "assets/icons/level_up.png";
-import factionPoint from "assets/icons/faction_point.webp";
+import token from "public/assets/icons/sfl.webp";
+import coins from "public/assets/icons/coins.webp";
+import powerup from "public/assets/icons/level_up.png";
+import factionPoint from "public/assets/icons/faction_point.webp";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";

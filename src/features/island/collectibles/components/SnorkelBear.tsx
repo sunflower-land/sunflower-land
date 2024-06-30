@@ -1,6 +1,6 @@
 import React from "react";
 
-import snorkelBear from "assets/sfts/bears/snorkel_bear.webp";
+import snorkelBear from "public/assets/sfts/bears/snorkel_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SnorkelBear: React.FC = () => {

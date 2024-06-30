@@ -1,5 +1,5 @@
 import React from "react";
-import celestialFrostbloom from "assets/flowers/celestial_frostbloom.webp";
+import celestialFrostbloom from "public/assets/flowers/celestial_frostbloom.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CelestialFrostbloom: React.FC = () => {

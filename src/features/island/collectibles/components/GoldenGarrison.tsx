@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/golden_garrison.webp";
+import image from "public/assets/sfts/golden_garrison.webp";
 
 export const GoldenGarrison: React.FC = () => {
   return (

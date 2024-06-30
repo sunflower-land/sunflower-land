@@ -12,8 +12,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
-import shadow from "assets/npcs/shadow.png";
-import silhouette from "assets/npcs/silhouette.webp";
+import shadow from "public/assets/npcs/shadow.png";
+import silhouette from "public/assets/npcs/silhouette.webp";
 import { ZoomContext } from "components/ZoomProvider";
 import { SpringValue } from "react-spring";
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import humanBear from "assets/sfts/bears/human_bear.webp";
+import humanBear from "public/assets/sfts/bears/human_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HumanBear: React.FC = () => {

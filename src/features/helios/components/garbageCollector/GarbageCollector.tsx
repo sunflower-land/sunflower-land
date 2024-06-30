@@ -2,8 +2,8 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/buildings/garbage.png";
-import stall from "assets/buildings/garbage_stall.png";
+import building from "public/assets/buildings/garbage.png";
+import stall from "public/assets/buildings/garbage_stall.png";
 
 import { Modal } from "components/ui/Modal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";

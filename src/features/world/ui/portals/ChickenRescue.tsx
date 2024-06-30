@@ -7,9 +7,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
-import coins from "assets/icons/coins.webp";
-import giftIcon from "assets/icons/gift.png";
-import factions from "assets/icons/factions.webp";
+import coins from "public/assets/icons/coins.webp";
+import giftIcon from "public/assets/icons/gift.png";
+import factions from "public/assets/icons/factions.webp";
 
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";

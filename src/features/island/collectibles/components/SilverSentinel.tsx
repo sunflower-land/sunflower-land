@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/silver_sentinel.webp";
+import image from "public/assets/sfts/silver_sentinel.webp";
 
 export const SilverSentinel: React.FC = () => {
   return (

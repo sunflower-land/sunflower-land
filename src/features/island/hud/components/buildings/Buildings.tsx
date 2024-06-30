@@ -8,7 +8,7 @@ import { Button } from "components/ui/Button";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 
-import lock from "assets/skills/lock.png";
+import lock from "public/assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";

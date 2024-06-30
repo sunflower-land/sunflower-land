@@ -1,6 +1,6 @@
 import React from "react";
 
-import shrub from "assets/decorations/shrub.png";
+import shrub from "public/assets/decorations/shrub.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Shrub: React.FC = () => {

@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import plus from "assets/icons/plus.png";
-import boxChicken from "assets/animals/chickens/box_chicken.png";
+import plus from "public/assets/icons/plus.png";
+import boxChicken from "public/assets/animals/chickens/box_chicken.png";
 
 import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";

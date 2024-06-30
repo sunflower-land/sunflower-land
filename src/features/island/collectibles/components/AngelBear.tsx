@@ -1,6 +1,6 @@
 import React from "react";
 
-import bear from "assets/sfts/bears/angel_bear.png";
+import bear from "public/assets/sfts/bears/angel_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const AngelBear: React.FC = () => {

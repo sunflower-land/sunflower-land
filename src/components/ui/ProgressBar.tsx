@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import emptyBar from "assets/ui/progress/empty_bar.png";
+import emptyBar from "public/assets/ui/progress/empty_bar.png";
 import { secondsToString, TimeFormatLength } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { progressBarBorderStyle } from "features/game/lib/style";

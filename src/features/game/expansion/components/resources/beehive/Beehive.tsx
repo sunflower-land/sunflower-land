@@ -5,10 +5,10 @@ import React, {
   useRef,
   useState,
 } from "react";
-import beehive from "assets/sfts/beehive.webp";
-import honeyDrop from "assets/sfts/honey_drop.webp";
-import bee from "assets/icons/bee.webp";
-import lightning from "assets/icons/lightning.png";
+import beehive from "public/assets/sfts/beehive.webp";
+import honeyDrop from "public/assets/sfts/honey_drop.webp";
+import bee from "public/assets/icons/bee.webp";
+import lightning from "public/assets/icons/lightning.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import townCenter from "assets/buildings/town_center.png";
+import townCenter from "public/assets/buildings/town_center.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";

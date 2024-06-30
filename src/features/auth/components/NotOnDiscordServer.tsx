@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import humanDeath from "assets/npcs/human_death.gif";
+import humanDeath from "public/assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { redirectOAuth } from "../actions/oauth";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

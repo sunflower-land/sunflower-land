@@ -1,7 +1,7 @@
 import React from "react";
 
-import kitchen from "assets/buildings/bakery_building.png";
-import pumpkinSoup from "assets/sfts/pumpkin_soup.png";
+import kitchen from "public/assets/buildings/bakery_building.png";
+import pumpkinSoup from "public/assets/sfts/pumpkin_soup.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

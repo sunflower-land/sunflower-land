@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import rug from "assets/sfts/gaucho_rug.webp";
+import rug from "public/assets/sfts/gaucho_rug.webp";
 
 export const GauchoRug: React.FC = () => {
   return (

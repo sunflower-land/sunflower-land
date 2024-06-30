@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import harvesting from "assets/cropMachine/stage5_collector_cut_plants_sheet.webp";
+import harvesting from "public/assets/cropMachine/stage5_collector_cut_plants_sheet.webp";
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 

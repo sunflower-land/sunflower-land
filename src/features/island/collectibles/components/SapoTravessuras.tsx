@@ -1,6 +1,6 @@
 import React from "react";
 
-import frog from "assets/sfts/sapo_travessura.gif";
+import frog from "public/assets/sfts/sapo_travessura.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SapoTravessuras: React.FC = () => {

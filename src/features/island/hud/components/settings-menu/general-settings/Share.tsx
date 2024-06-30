@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 
-import farmImg from "assets/brand/nft.png";
+import farmImg from "public/assets/brand/nft.png";
 import { CopyField } from "components/ui/CopyField";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";

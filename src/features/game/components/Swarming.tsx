@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import goblin3 from "assets/npcs/goblin_female.gif";
+import goblin3 from "public/assets/npcs/goblin_female.gif";
 
 import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";

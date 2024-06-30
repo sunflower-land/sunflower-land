@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 
-import logo from "assets/brand/logo_v2.png";
-import easterlogo from "assets/brand/easterlogo.png";
-import sparkle from "assets/fx/sparkle2.gif";
+import logo from "public/assets/brand/logo_v2.png";
+import easterlogo from "public/assets/brand/easterlogo.png";
+import sparkle from "public/assets/fx/sparkle2.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 

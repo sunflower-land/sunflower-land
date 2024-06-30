@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "assets/decorations/banners/lifetime_farmer_banner.png";
+import banner from "public/assets/decorations/banners/lifetime_farmer_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const LifetimeFarmerBanner: React.FC = () => {

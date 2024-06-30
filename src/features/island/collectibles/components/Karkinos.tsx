@@ -1,6 +1,6 @@
 import React from "react";
 
-import karkinos from "assets/seasons/solar-flare/karkinos.png";
+import karkinos from "public/assets/seasons/solar-flare/karkinos.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Karkinos: React.FC = () => {

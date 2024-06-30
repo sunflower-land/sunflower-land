@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/sfts/blossom_beard.webp";
+import image from "public/assets/sfts/blossom_beard.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Blossombeard: React.FC = () => {

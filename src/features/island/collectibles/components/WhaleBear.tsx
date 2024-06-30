@@ -1,6 +1,6 @@
 import React from "react";
 
-import whaleBear from "assets/sfts/bears/whale_bear.webp";
+import whaleBear from "public/assets/sfts/bears/whale_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WhaleBear: React.FC = () => {

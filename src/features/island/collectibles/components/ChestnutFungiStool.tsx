@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/decorations/chestnut_fungi_stool.png";
+import image from "public/assets/decorations/chestnut_fungi_stool.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ChestnutFungiStool: React.FC = () => {

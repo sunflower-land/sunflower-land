@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/sfts/hoot.png";
+import image from "public/assets/sfts/hoot.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Hoot: React.FC = () => {

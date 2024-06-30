@@ -1,4 +1,4 @@
-import mapJson from "assets/map/plaza.json";
+import mapJson from "public/assets/map/plaza.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -10,7 +10,7 @@ import {
 } from "../../game/lib/audio";
 import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
-import { SOUNDS } from "assets/sound-effects/soundEffects";
+import { SOUNDS } from "public/assets/sound-effects/soundEffects";
 import { hasFeatureAccess } from "lib/flags";
 import { NPCName } from "lib/npcs";
 import { FactionName, GameState } from "features/game/types/game";

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import greenhouse from "assets/buildings/greenhouse.webp";
+import greenhouse from "public/assets/buildings/greenhouse.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";

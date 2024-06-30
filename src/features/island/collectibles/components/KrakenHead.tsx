@@ -1,6 +1,6 @@
 import React from "react";
 
-import krakenHead from "assets/sfts/kraken_head.webp";
+import krakenHead from "public/assets/sfts/kraken_head.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const KrakenHead: React.FC = () => {

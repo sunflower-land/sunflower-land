@@ -1,6 +1,6 @@
 import React from "react";
 
-import syncingAnimation from "assets/npcs/syncing.gif";
+import syncingAnimation from "public/assets/npcs/syncing.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Syncing: React.FC = () => {

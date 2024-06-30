@@ -1,6 +1,6 @@
 import React from "react";
 
-import trivia from "assets/npcs/trivia.gif";
+import trivia from "public/assets/npcs/trivia.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Refunded: React.FC = () => {

@@ -8,7 +8,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
 
-import withdrawIcon from "assets/icons/withdraw.png";
+import withdrawIcon from "public/assets/icons/withdraw.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

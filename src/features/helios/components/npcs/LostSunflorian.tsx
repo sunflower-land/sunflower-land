@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import sunflorian from "assets/npcs/lost_sunflorian.gif";
-import shadow from "assets/npcs/shadow.png";
+import sunflorian from "public/assets/npcs/lost_sunflorian.gif";
+import shadow from "public/assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";

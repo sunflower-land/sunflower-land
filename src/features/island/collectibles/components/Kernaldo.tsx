@@ -1,6 +1,6 @@
 import React from "react";
 
-import kernaldo from "assets/sfts/kernaldo.png";
+import kernaldo from "public/assets/sfts/kernaldo.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Kernaldo: React.FC = () => {

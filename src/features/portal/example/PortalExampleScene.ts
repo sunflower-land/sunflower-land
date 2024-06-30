@@ -1,4 +1,4 @@
-import mapJson from "assets/map/plaza.json";
+import mapJson from "public/assets/map/plaza.json";
 import { SceneId } from "features/world/mmoMachine";
 import { BaseScene, NPCBumpkin } from "features/world/scenes/BaseScene";
 import { MachineInterpreter } from "./lib/portalMachine";

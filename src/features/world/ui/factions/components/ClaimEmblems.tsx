@@ -9,15 +9,15 @@ import { FACTION_POINT_ICONS } from "../FactionDonationPanel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 
-import factions from "assets/icons/factions.webp";
-import trophy from "assets/icons/trophy.png";
+import factions from "public/assets/icons/factions.webp";
+import trophy from "public/assets/icons/trophy.png";
 import confetti from "canvas-confetti";
 import { useTranslation } from "react-i18next";
 
-import goblinEmblem from "assets/icons/goblin_emblem.webp";
-import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
-import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
-import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
+import goblinEmblem from "public/assets/icons/goblin_emblem.webp";
+import bumpkinEmblem from "public/assets/icons/bumpkin_emblem.webp";
+import sunflorianEmblem from "public/assets/icons/sunflorian_emblem.webp";
+import nightshadeEmblem from "public/assets/icons/nightshade_emblem.webp";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { ShareClaimedEmblems } from "./ShareClaimedEmblems";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";

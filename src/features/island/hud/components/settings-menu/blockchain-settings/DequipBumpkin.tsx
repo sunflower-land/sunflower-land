@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import walletIcon from "assets/icons/wallet.png";
-import lockIcon from "assets/skills/lock.png";
+import walletIcon from "public/assets/icons/wallet.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";

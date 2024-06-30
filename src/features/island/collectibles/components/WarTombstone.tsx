@@ -1,6 +1,6 @@
 import React from "react";
 
-import tombstone from "assets/decorations/war_tombstone.png";
+import tombstone from "public/assets/decorations/war_tombstone.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const WarTombstone: React.FC = () => {
   return (

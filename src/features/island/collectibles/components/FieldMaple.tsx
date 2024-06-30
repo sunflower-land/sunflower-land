@@ -1,6 +1,6 @@
 import React from "react";
 
-import fieldMaple from "assets/decorations/field_maple.webp";
+import fieldMaple from "public/assets/decorations/field_maple.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FieldMaple: React.FC = () => {

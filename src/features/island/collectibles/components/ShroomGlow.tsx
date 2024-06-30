@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/decorations/shroom_glow.png";
+import image from "public/assets/decorations/shroom_glow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ShroomGlow: React.FC = () => {

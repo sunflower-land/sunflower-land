@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import mailboxImg from "assets/decorations/mailbox.png";
+import mailboxImg from "public/assets/decorations/mailbox.png";
 
 import classNames from "classnames";
 
@@ -16,8 +16,8 @@ import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import letterDisc from "assets/icons/letter_disc.png";
-import letter from "assets/icons/letter.png";
+import letterDisc from "public/assets/icons/letter_disc.png";
+import letter from "public/assets/icons/letter.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";

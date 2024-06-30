@@ -1,5 +1,5 @@
 import React from "react";
-import primulaEnigma from "assets/flowers/primula_enigma.webp";
+import primulaEnigma from "public/assets/flowers/primula_enigma.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PrimulaEnigma: React.FC = () => {

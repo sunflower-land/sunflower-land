@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import maturing from "assets/cropMachine/stage4_collector_mature_plants_sheet.webp";
+import maturing from "public/assets/cropMachine/stage4_collector_mature_plants_sheet.webp";
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 

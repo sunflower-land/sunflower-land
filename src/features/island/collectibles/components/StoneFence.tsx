@@ -3,26 +3,26 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 
-import topAndRightEdge from "assets/decorations/stoneFence/top_right.png";
-import topAndLeftEdge from "assets/decorations/stoneFence/top_left.png";
-import bottomAndLeftEdge from "assets/decorations/stoneFence/bottom_left.png";
-import bottomAndRightEdge from "assets/decorations/stoneFence/bottom_right.png";
-import topAndLeftAndRightAndBottom from "assets/decorations/stoneFence/top_left_right_bottom.png";
-import topAndLeftAndRight from "assets/decorations/stoneFence/top_left_right.png";
-import bottomAndLeftAndRight from "assets/decorations/stoneFence/bottom_left_right.png";
-import rightTopAndBottom from "assets/decorations/stoneFence/right_top_bottom.png";
-import leftTopAndBottom from "assets/decorations/stoneFence/left_top_bottom.png";
-import bottom from "assets/decorations/stoneFence/bottom.png";
+import topAndRightEdge from "public/assets/decorations/stoneFence/top_right.png";
+import topAndLeftEdge from "public/assets/decorations/stoneFence/top_left.png";
+import bottomAndLeftEdge from "public/assets/decorations/stoneFence/bottom_left.png";
+import bottomAndRightEdge from "public/assets/decorations/stoneFence/bottom_right.png";
+import topAndLeftAndRightAndBottom from "public/assets/decorations/stoneFence/top_left_right_bottom.png";
+import topAndLeftAndRight from "public/assets/decorations/stoneFence/top_left_right.png";
+import bottomAndLeftAndRight from "public/assets/decorations/stoneFence/bottom_left_right.png";
+import rightTopAndBottom from "public/assets/decorations/stoneFence/right_top_bottom.png";
+import leftTopAndBottom from "public/assets/decorations/stoneFence/left_top_bottom.png";
+import bottom from "public/assets/decorations/stoneFence/bottom.png";
 
-import horizontalOne from "assets/decorations/stoneFence/x_1.png";
-import horizontalTwo from "assets/decorations/stoneFence/x_2.png";
-import horizontalThree from "assets/decorations/stoneFence/x_3.png";
-import horizontalFour from "assets/decorations/stoneFence/x_4.png";
+import horizontalOne from "public/assets/decorations/stoneFence/x_1.png";
+import horizontalTwo from "public/assets/decorations/stoneFence/x_2.png";
+import horizontalThree from "public/assets/decorations/stoneFence/x_3.png";
+import horizontalFour from "public/assets/decorations/stoneFence/x_4.png";
 
-import verticalOne from "assets/decorations/stoneFence/y_1.png";
-import verticalTwo from "assets/decorations/stoneFence/y_2.png";
-import verticalThree from "assets/decorations/stoneFence/y_3.png";
-import verticalFour from "assets/decorations/stoneFence/y_2.png";
+import verticalOne from "public/assets/decorations/stoneFence/y_1.png";
+import verticalTwo from "public/assets/decorations/stoneFence/y_2.png";
+import verticalThree from "public/assets/decorations/stoneFence/y_3.png";
+import verticalFour from "public/assets/decorations/stoneFence/y_2.png";
 
 type Edges = {
   top: boolean;

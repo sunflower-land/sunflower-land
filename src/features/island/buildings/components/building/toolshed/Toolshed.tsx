@@ -1,6 +1,6 @@
 import React from "react";
 
-import toolshed from "assets/buildings/toolshed.png";
+import toolshed from "public/assets/buildings/toolshed.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";

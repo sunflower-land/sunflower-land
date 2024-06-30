@@ -1,4 +1,4 @@
-import windmillFloorJSON from "assets/map/windmill_floor.json";
+import windmillFloorJSON from "public/assets/map/windmill_floor.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

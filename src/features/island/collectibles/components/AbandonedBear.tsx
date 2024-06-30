@@ -1,6 +1,6 @@
 import React from "react";
 
-import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
+import abandonedBear from "public/assets/sfts/bears/abandoned_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const AbandonedBear: React.FC = () => {

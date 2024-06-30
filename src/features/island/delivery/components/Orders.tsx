@@ -4,14 +4,14 @@ import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import sflIcon from "assets/icons/sfl.webp";
-import coinsImg from "assets/icons/coins.webp";
-import worldIcon from "assets/icons/world_small.png";
-import heartBg from "assets/ui/heart_bg.png";
-import chest from "assets/icons/chest.png";
-import lockIcon from "assets/icons/lock.png";
+import selectBoxTL from "public/assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "public/assets/ui/select/selectbox_tr.png";
+import sflIcon from "public/assets/icons/sfl.webp";
+import coinsImg from "public/assets/icons/coins.webp";
+import worldIcon from "public/assets/icons/world_small.png";
+import heartBg from "public/assets/ui/heart_bg.png";
+import chest from "public/assets/icons/chest.png";
+import lockIcon from "public/assets/icons/lock.png";
 
 import { DynamicNFT } from "features/bumpkins/components/DynamicNFT";
 import { Context } from "features/game/GameProvider";

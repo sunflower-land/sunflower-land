@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { getSunstoneStage } from "../Sunstone";
-import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
-import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
-import sunstone_3 from "assets/resources/sunstone/sunstone_rock_3.webp";
-import sunstone_4 from "assets/resources/sunstone/sunstone_rock_4.webp";
-import sunstone_5 from "assets/resources/sunstone/sunstone_rock_5.webp";
-import sunstone_6 from "assets/resources/sunstone/sunstone_rock_6.webp";
-import sunstone_7 from "assets/resources/sunstone/sunstone_rock_7.webp";
-import sunstone_8 from "assets/resources/sunstone/sunstone_rock_8.webp";
-import sunstone_9 from "assets/resources/sunstone/sunstone_rock_9.webp";
-import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
+import sunstone_1 from "public/assets/resources/sunstone/sunstone_rock_1.webp";
+import sunstone_2 from "public/assets/resources/sunstone/sunstone_rock_2.webp";
+import sunstone_3 from "public/assets/resources/sunstone/sunstone_rock_3.webp";
+import sunstone_4 from "public/assets/resources/sunstone/sunstone_rock_4.webp";
+import sunstone_5 from "public/assets/resources/sunstone/sunstone_rock_5.webp";
+import sunstone_6 from "public/assets/resources/sunstone/sunstone_rock_6.webp";
+import sunstone_7 from "public/assets/resources/sunstone/sunstone_rock_7.webp";
+import sunstone_8 from "public/assets/resources/sunstone/sunstone_rock_8.webp";
+import sunstone_9 from "public/assets/resources/sunstone/sunstone_rock_9.webp";
+import sunstone_10 from "public/assets/resources/sunstone/sunstone_rock_10.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {

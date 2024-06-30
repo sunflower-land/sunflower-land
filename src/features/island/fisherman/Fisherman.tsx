@@ -1,6 +1,6 @@
 import { useSelector } from "@xstate/react";
-import bubbles from "assets/decorations/water_bubbles.png";
-import fishSilhoutte from "assets/decorations/fish_silhouette.png";
+import bubbles from "public/assets/decorations/water_bubbles.png";
+import fishSilhoutte from "public/assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";

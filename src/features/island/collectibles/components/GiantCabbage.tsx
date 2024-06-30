@@ -1,6 +1,6 @@
 import React from "react";
 
-import giantCabbage from "assets/sfts/giant_cabbage.png";
+import giantCabbage from "public/assets/sfts/giant_cabbage.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GiantCabbage: React.FC = () => {

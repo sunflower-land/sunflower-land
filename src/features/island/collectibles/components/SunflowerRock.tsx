@@ -1,6 +1,6 @@
 import React from "react";
 
-import sunflowerRock from "assets/sfts/sunflower_rock.png";
+import sunflowerRock from "public/assets/sfts/sunflower_rock.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SunflowerRock: React.FC = () => {

@@ -3,7 +3,7 @@ import React from "react";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Button } from "components/ui/Button";
-import hungryCaterpillar from "assets/sfts/hungry_caterpillar.webp";
+import hungryCaterpillar from "public/assets/sfts/hungry_caterpillar.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

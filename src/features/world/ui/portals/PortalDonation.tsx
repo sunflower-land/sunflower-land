@@ -6,7 +6,7 @@ import { Loading } from "features/auth/components";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import walletIcon from "assets/icons/wallet.png";
+import walletIcon from "public/assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";

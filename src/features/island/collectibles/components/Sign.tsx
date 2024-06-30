@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import sign from "assets/decorations/woodsign.png";
+import sign from "public/assets/decorations/woodsign.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";

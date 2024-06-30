@@ -1,7 +1,7 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useState } from "react";
 
-import festiveTreeImage from "assets/sfts/festive_tree.png";
+import festiveTreeImage from "public/assets/sfts/festive_tree.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";

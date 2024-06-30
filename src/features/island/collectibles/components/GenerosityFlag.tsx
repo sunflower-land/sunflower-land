@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/generosity_flag.png";
+import image from "public/assets/sfts/generosity_flag.png";
 
 export const GenerosityFlag: React.FC = () => {
   return (

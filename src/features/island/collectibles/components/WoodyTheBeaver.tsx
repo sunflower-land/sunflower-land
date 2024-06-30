@@ -1,8 +1,8 @@
 import React from "react";
 
-import woodyTheBeaver from "assets/sfts/beaver.gif";
+import woodyTheBeaver from "public/assets/sfts/beaver.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import shadow from "assets/npcs/shadow.png";
+import shadow from "public/assets/npcs/shadow.png";
 
 export const WoodyTheBeaver: React.FC = () => {
   return (

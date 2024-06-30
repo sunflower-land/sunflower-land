@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/sfts/maximus.png";
+import image from "public/assets/sfts/maximus.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Maximus: React.FC = () => {

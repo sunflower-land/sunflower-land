@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/golden_gallant.webp";
+import image from "public/assets/sfts/golden_gallant.webp";
 
 export const GoldenGallant: React.FC = () => {
   return (

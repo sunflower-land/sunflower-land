@@ -1,6 +1,6 @@
 import React from "react";
 
-import grainGrinder from "assets/sfts/grain_grinder.png";
+import grainGrinder from "public/assets/sfts/grain_grinder.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GrainGrinder: React.FC = () => {

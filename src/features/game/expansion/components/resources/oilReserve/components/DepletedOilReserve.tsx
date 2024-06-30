@@ -4,8 +4,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { Transition } from "@headlessui/react";
-import oil from "assets/resources/oil.webp";
-import emptyOilReserve from "assets/resources/oil/oil_reserve_empty.webp";
+import oil from "public/assets/resources/oil.webp";
+import emptyOilReserve from "public/assets/resources/oil/oil_reserve_empty.webp";
 import classNames from "classnames";
 
 interface Props {

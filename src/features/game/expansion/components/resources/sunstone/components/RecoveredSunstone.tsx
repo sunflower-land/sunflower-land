@@ -4,7 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/sunstone/sunstone_rock_spark.png";
+import strikeSheet from "public/assets/resources/sunstone/sunstone_rock_spark.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -12,16 +12,16 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import sunstone_1 from "assets/resources/sunstone/sunstone_rock_1.webp";
-import sunstone_2 from "assets/resources/sunstone/sunstone_rock_2.webp";
-import sunstone_3 from "assets/resources/sunstone/sunstone_rock_3.webp";
-import sunstone_4 from "assets/resources/sunstone/sunstone_rock_4.webp";
-import sunstone_5 from "assets/resources/sunstone/sunstone_rock_5.webp";
-import sunstone_6 from "assets/resources/sunstone/sunstone_rock_6.webp";
-import sunstone_7 from "assets/resources/sunstone/sunstone_rock_7.webp";
-import sunstone_8 from "assets/resources/sunstone/sunstone_rock_8.webp";
-import sunstone_9 from "assets/resources/sunstone/sunstone_rock_9.webp";
-import sunstone_10 from "assets/resources/sunstone/sunstone_rock_10.webp";
+import sunstone_1 from "public/assets/resources/sunstone/sunstone_rock_1.webp";
+import sunstone_2 from "public/assets/resources/sunstone/sunstone_rock_2.webp";
+import sunstone_3 from "public/assets/resources/sunstone/sunstone_rock_3.webp";
+import sunstone_4 from "public/assets/resources/sunstone/sunstone_rock_4.webp";
+import sunstone_5 from "public/assets/resources/sunstone/sunstone_rock_5.webp";
+import sunstone_6 from "public/assets/resources/sunstone/sunstone_rock_6.webp";
+import sunstone_7 from "public/assets/resources/sunstone/sunstone_rock_7.webp";
+import sunstone_8 from "public/assets/resources/sunstone/sunstone_rock_8.webp";
+import sunstone_9 from "public/assets/resources/sunstone/sunstone_rock_9.webp";
+import sunstone_10 from "public/assets/resources/sunstone/sunstone_rock_10.webp";
 
 import { ZoomContext } from "components/ZoomProvider";
 

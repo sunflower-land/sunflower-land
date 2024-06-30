@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import halfFullOilReserve from "assets/resources/oil/oil_reserve_half.webp";
+import halfFullOilReserve from "public/assets/resources/oil/oil_reserve_half.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -16,8 +16,8 @@ import {
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import selectBoxTL from "public/assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "public/assets/ui/select/selectbox_tr.png";
 import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";

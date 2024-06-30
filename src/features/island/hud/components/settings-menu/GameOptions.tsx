@@ -13,7 +13,7 @@ import { Label } from "components/ui/Label";
 import { shortAddress } from "lib/utils/shortAddress";
 import { translate } from "lib/i18n/translate";
 
-import walletIcon from "assets/icons/wallet.png";
+import walletIcon from "public/assets/icons/wallet.png";
 import { removeJWT } from "features/auth/actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -45,7 +45,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { AppearanceSettings } from "./general-settings/AppearanceSettings";
 import { FontSettings } from "./general-settings/FontSettings";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import ticket from "assets/icons/ticket.png";
+import ticket from "public/assets/icons/ticket.png";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;

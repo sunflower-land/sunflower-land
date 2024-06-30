@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 
-import humanDeath from "assets/npcs/human_death.gif";
+import humanDeath from "public/assets/npcs/human_death.gif";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { removeJWT } from "../actions/social";

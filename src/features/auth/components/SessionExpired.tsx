@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
-import humanDeath from "assets/npcs/human_death.gif";
+import humanDeath from "public/assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { removeJWT } from "../actions/social";
 import { WalletContext } from "features/wallet/WalletProvider";

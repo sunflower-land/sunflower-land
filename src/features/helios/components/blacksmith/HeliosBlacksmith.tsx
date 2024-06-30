@@ -5,7 +5,7 @@ import { Modal } from "components/ui/Modal";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 
-import building from "assets/buildings/blacksmith_building.gif";
+import building from "public/assets/buildings/blacksmith_building.gif";
 
 import { HeliosBlacksmithItems } from "./component/HeliosBlacksmithItems";
 import { SUNNYSIDE } from "assets/sunnyside";

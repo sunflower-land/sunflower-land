@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import classNames from "classnames";
 
-import npc from "assets/npcs/chef.gif";
-import doing from "assets/npcs/chef_doing.gif";
-import shadow from "assets/npcs/shadow.png";
+import npc from "public/assets/npcs/chef.gif";
+import doing from "public/assets/npcs/chef_doing.gif";
+import shadow from "public/assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";

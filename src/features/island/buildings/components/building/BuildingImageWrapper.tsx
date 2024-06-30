@@ -13,7 +13,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

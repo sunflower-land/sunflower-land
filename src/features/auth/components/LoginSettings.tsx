@@ -4,7 +4,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 
-import settingsIcon from "assets/icons/settings_disc.png";
+import settingsIcon from "public/assets/icons/settings_disc.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { createPortal } from "react-dom";
 import {

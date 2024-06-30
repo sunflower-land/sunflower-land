@@ -4,7 +4,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FactionDetailsPanel } from "./FactionDetailsPanel";
 import { FactionName } from "features/game/types/game";
 
-import factionsIcon from "assets/icons/factions.webp";
+import factionsIcon from "public/assets/icons/factions.webp";
 import { PledgeFaction } from "./PledgeFaction";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";

@@ -23,7 +23,7 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 
-import powerup from "assets/icons/level_up.png";
+import powerup from "public/assets/icons/level_up.png";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { FRUIT_PATCH_VARIANTS } from "../lib/alternateArt";
 

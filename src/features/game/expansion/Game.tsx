@@ -18,10 +18,10 @@ import { Panel } from "components/ui/Panel";
 import { Success } from "../components/Success";
 import { Syncing } from "../components/Syncing";
 
-import logo from "assets/brand/logo_v2.png";
-import easterlogo from "assets/brand/easterlogo.png";
-import sparkle from "assets/fx/sparkle2.gif";
-import ocean from "assets/decorations/ocean.webp";
+import logo from "public/assets/brand/logo_v2.png";
+import easterlogo from "public/assets/brand/easterlogo.png";
+import sparkle from "public/assets/fx/sparkle2.gif";
+import ocean from "public/assets/decorations/ocean.webp";
 
 import { Hoarding } from "../components/Hoarding";
 import { NoBumpkin } from "features/island/bumpkin/NoBumpkin";
@@ -33,7 +33,7 @@ import { Helios } from "features/helios/Helios";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
 
-import land from "assets/land/islands/island.webp";
+import land from "public/assets/land/islands/island.webp";
 import { IslandNotFound } from "./components/IslandNotFound";
 import { Rules } from "../components/Rules";
 import { Introduction } from "./components/Introduction";

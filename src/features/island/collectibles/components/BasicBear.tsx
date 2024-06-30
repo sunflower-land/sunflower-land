@@ -1,6 +1,6 @@
 import React from "react";
 
-import basicBear from "assets/sfts/bears/basic_bear.png";
+import basicBear from "public/assets/sfts/bears/basic_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BasicBear: React.FC = () => {

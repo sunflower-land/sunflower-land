@@ -1,6 +1,6 @@
 import React from "react";
 
-import goblinBear from "assets/sfts/bears/goblin_bear.webp";
+import goblinBear from "public/assets/sfts/bears/goblin_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoblinBear: React.FC = () => {

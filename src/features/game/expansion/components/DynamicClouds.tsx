@@ -3,12 +3,12 @@ import classNames from "classnames";
 
 import { Context } from "features/game/GameProvider";
 
-import cloud1 from "assets/land/clouds/cloud_1.webp";
-import cloud2 from "assets/land/clouds/cloud_2.webp";
-import cloud3 from "assets/land/clouds/cloud_3.webp";
-import cloud4 from "assets/land/clouds/cloud_4.webp";
-import cloud5 from "assets/land/clouds/cloud_5.webp";
-import cloud6 from "assets/land/clouds/cloud_6.webp";
+import cloud1 from "public/assets/land/clouds/cloud_1.webp";
+import cloud2 from "public/assets/land/clouds/cloud_2.webp";
+import cloud3 from "public/assets/land/clouds/cloud_3.webp";
+import cloud4 from "public/assets/land/clouds/cloud_4.webp";
+import cloud5 from "public/assets/land/clouds/cloud_5.webp";
+import cloud6 from "public/assets/land/clouds/cloud_6.webp";
 
 type CloudNumber = 1 | 2 | 3 | 4 | 5 | 6;
 

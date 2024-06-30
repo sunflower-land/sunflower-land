@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import blossomRoyale from "assets/sfts/blossom_royale.webp";
+import blossomRoyale from "public/assets/sfts/blossom_royale.webp";
 
 export const BlossomRoyale: React.FC = () => {
   return (

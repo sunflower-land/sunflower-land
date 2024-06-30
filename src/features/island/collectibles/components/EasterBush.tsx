@@ -1,7 +1,7 @@
 import React from "react";
 
-import easterBush from "assets/sfts/easter_bush.gif";
-import easterBushShadow from "assets/sfts/easter_bush_shadow.png";
+import easterBush from "public/assets/sfts/easter_bush.gif";
+import easterBushShadow from "public/assets/sfts/easter_bush_shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const EasterBush: React.FC = () => {

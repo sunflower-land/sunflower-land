@@ -2,8 +2,8 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet1 from "assets/resources/crimstone/crimstone_rock_one_drop.png";
-import dropSheet2 from "assets/resources/crimstone/crimstone_rock_three_drop.png";
+import dropSheet1 from "public/assets/resources/crimstone/crimstone_rock_one_drop.png";
+import dropSheet2 from "public/assets/resources/crimstone/crimstone_rock_three_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ZoomContext } from "components/ZoomProvider";
 import { getCrimstoneStage } from "../Crimstone";

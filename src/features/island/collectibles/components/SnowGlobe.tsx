@@ -1,6 +1,6 @@
 import React from "react";
 
-import snowglobe from "assets/decorations/snowglobe.gif";
+import snowglobe from "public/assets/decorations/snowglobe.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SnowGlobe: React.FC = () => {

@@ -21,9 +21,9 @@ import { Maturing } from "./components/Maturing";
 import { Harvesting } from "./components/Harvesting";
 import { CropMachineBuilding } from "features/game/types/game";
 
-import harvestedCropsImage from "assets/cropMachine/readyCrops.webp";
-import idleMachine from "assets/cropMachine/stage1_collector_empty.webp";
-import shadow from "assets/cropMachine/shadow.webp";
+import harvestedCropsImage from "public/assets/cropMachine/readyCrops.webp";
+import idleMachine from "public/assets/cropMachine/stage1_collector_empty.webp";
+import shadow from "public/assets/cropMachine/shadow.webp";
 import { AddSeedsInput } from "features/game/events/landExpansion/supplyCropMachine";
 import { hasFeatureAccess } from "lib/flags";
 

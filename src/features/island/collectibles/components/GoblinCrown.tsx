@@ -1,6 +1,6 @@
 import React from "react";
 
-import crown from "assets/sfts/goblin_crown.png";
+import crown from "public/assets/sfts/goblin_crown.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoblinCrown: React.FC = () => {

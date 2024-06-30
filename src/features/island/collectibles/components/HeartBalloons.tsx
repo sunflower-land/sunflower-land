@@ -1,6 +1,6 @@
 import React from "react";
 
-import heartBalloons from "assets/events/valentine/sfts/heart_balloons.png";
+import heartBalloons from "public/assets/events/valentine/sfts/heart_balloons.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HeartBalloons: React.FC = () => {

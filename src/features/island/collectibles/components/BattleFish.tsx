@@ -1,6 +1,6 @@
 import React from "react";
 
-import battleFish from "assets/fish/battle_fish.webp";
+import battleFish from "public/assets/fish/battle_fish.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BattleFish: React.FC = () => {

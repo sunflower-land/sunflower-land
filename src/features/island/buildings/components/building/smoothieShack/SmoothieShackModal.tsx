@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Modal } from "components/ui/Modal";
-import chefHat from "src/assets/icons/chef_hat.png";
+import chefHat from "public/assets/icons/chef_hat.png";
 
 import { Recipes } from "../../ui/Recipes";
 import {

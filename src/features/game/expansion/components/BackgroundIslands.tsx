@@ -1,13 +1,13 @@
 import React from "react";
 
-import lavaIsland from "assets/land/islands/lava_island.webp";
-import greenIsland from "assets/land/islands/green_island.webp";
-import cactusIsland from "assets/land/islands/cactus_island.webp";
-import crabAtoll from "assets/land/islands/crab_atoll.webp";
-import crossIsland from "assets/land/islands/cross_island.webp";
-import potionIsland from "assets/land/islands/potion_island.webp";
-import starfishAtoll from "assets/land/islands/starfish_atoll.webp";
-import tombStoneIsland from "assets/land/islands/tombstone_island.webp";
+import lavaIsland from "public/assets/land/islands/lava_island.webp";
+import greenIsland from "public/assets/land/islands/green_island.webp";
+import cactusIsland from "public/assets/land/islands/cactus_island.webp";
+import crabAtoll from "public/assets/land/islands/crab_atoll.webp";
+import crossIsland from "public/assets/land/islands/cross_island.webp";
+import potionIsland from "public/assets/land/islands/potion_island.webp";
+import starfishAtoll from "public/assets/land/islands/starfish_atoll.webp";
+import tombStoneIsland from "public/assets/land/islands/tombstone_island.webp";
 
 const ISLANDS_WIDTH = 1536;
 const ISLANDS_HEIGHT = 1088;

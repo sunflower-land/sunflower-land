@@ -14,7 +14,7 @@ import { SPAWNS } from "../lib/spawn";
 import { AudioController, WalkAudioController } from "../lib/AudioController";
 import { createErrorLogger } from "lib/errorLogger";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { Footsteps } from "assets/sound-effects/soundEffects";
+import { Footsteps } from "public/assets/sound-effects/soundEffects";
 import {
   MachineInterpreter as MMOMachineInterpreter,
   SceneId,
@@ -25,7 +25,7 @@ import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
 
-import defaultTilesetConfig from "assets/map/tileset.json";
+import defaultTilesetConfig from "public/assets/map/tileset.json";
 
 import {
   AudioLocalStorageKeys,

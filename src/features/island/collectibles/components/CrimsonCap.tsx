@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/decorations/crimson_cap.png";
+import image from "public/assets/decorations/crimson_cap.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CrimsonCap: React.FC = () => {

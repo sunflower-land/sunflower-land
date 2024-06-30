@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
 import { Button } from "components/ui/Button";
-import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
+import suspiciousGoblin from "public/assets/npcs/suspicious_goblin.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Forbidden: React.FC = () => {

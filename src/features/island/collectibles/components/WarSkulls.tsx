@@ -1,6 +1,6 @@
 import React from "react";
 
-import skulls from "assets/decorations/war_skulls.png";
+import skulls from "public/assets/decorations/war_skulls.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const WarSkulls: React.FC = () => {
   return (

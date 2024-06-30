@@ -1,4 +1,4 @@
-import clothesShopJson from "assets/map/clothe_shop.json";
+import clothesShopJson from "public/assets/map/clothe_shop.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

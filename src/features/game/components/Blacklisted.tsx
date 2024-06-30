@@ -1,6 +1,6 @@
 import React from "react";
 
-import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
+import suspiciousGoblin from "public/assets/npcs/suspicious_goblin.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Blacklisted: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import foliantCase from "assets/sfts/foliant_case.webp";
+import foliantCase from "public/assets/sfts/foliant_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Foliant: React.FC = () => {

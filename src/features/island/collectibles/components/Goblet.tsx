@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import goblet from "assets/sfts/goblet.webp";
+import goblet from "public/assets/sfts/goblet.webp";
 
 export const Goblet: React.FC = () => {
   return (

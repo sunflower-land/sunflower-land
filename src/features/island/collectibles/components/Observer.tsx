@@ -1,6 +1,6 @@
 import React from "react";
 
-import observer from "assets/decorations/observer.webp";
+import observer from "public/assets/decorations/observer.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Observer: React.FC = () => {

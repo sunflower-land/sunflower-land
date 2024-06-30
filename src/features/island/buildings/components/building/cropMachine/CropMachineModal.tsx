@@ -22,9 +22,9 @@ import {
   getOilTimeInMillis,
   getTotalOilMillisInMachine,
 } from "features/game/events/landExpansion/supplyCropMachine";
-import add from "assets/icons/plus.png";
+import add from "public/assets/icons/plus.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import oilBarrel from "assets/icons/oil_barrel.webp";
+import oilBarrel from "public/assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { CROP_SEEDS, CropName, CropSeedName } from "features/game/types/crops";
@@ -35,7 +35,7 @@ import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import lightning from "assets/icons/lightning.png";
+import lightning from "public/assets/icons/lightning.png";
 import { PackGrowthProgressBar } from "./components/PackGrowthProgressBar";
 import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";

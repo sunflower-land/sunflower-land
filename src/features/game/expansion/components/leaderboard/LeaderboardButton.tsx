@@ -3,7 +3,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import trophy from "assets/icons/trophy.png";
+import trophy from "public/assets/icons/trophy.png";
 
 export const LeaderboardButton: React.FC<{
   loaded: boolean;

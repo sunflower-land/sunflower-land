@@ -1,6 +1,6 @@
 import React from "react";
 
-import walrus from "assets/sfts/walrus.webp";
+import walrus from "public/assets/sfts/walrus.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Walrus: React.FC = () => {

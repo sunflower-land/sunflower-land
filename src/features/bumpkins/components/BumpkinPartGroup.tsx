@@ -3,11 +3,11 @@ import classNames from "classnames";
 import { OuterPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
 
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
-import selectBoxBL from "assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "assets/ui/select/selectbox_br.png";
-import lightning from "assets/icons/lightning.png";
+import selectBoxTL from "public/assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "public/assets/ui/select/selectbox_tr.png";
+import selectBoxBL from "public/assets/ui/select/selectbox_bl.png";
+import selectBoxBR from "public/assets/ui/select/selectbox_br.png";
+import lightning from "public/assets/icons/lightning.png";
 
 import { BumpkinPart, ITEM_IDS } from "features/game/types/bumpkin";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";

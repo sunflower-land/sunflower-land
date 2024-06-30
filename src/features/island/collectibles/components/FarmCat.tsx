@@ -1,6 +1,6 @@
 import React from "react";
 
-import cat from "assets/sfts/farm_cat.gif";
+import cat from "public/assets/sfts/farm_cat.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FarmCat: React.FC = () => {

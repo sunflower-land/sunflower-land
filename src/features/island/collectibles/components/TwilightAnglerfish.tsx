@@ -1,6 +1,6 @@
 import React from "react";
 
-import trophy from "assets/fish/twilight_anglerfish_trophy.png";
+import trophy from "public/assets/fish/twilight_anglerfish_trophy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TwilightAnglerfish: React.FC = () => {

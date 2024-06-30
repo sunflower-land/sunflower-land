@@ -1,5 +1,5 @@
-import kraken from "assets/ui/kraken.png";
-import ringDot from "assets/icons/fish_dot.png";
+import kraken from "public/assets/ui/kraken.png";
+import ringDot from "public/assets/icons/fish_dot.png";
 
 import React, { useRef, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";

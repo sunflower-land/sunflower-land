@@ -2,9 +2,9 @@ import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "assets/buildings/decorations.png";
-import retroGirl from "assets/npcs/retro_girl.gif";
-import shadow from "assets/npcs/shadow.png";
+import building from "public/assets/buildings/decorations.png";
+import retroGirl from "public/assets/npcs/retro_girl.gif";
+import shadow from "public/assets/npcs/shadow.png";
 
 import { Modal } from "components/ui/Modal";
 import { DecorationShopItems } from "./component/DecorationShopItems";

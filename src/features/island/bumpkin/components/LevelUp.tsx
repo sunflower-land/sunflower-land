@@ -20,7 +20,7 @@ import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { CROPS } from "features/game/types/crops";
 import { BUILDINGS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
-import worldIcon from "assets/icons/world_small.png";
+import worldIcon from "public/assets/icons/world_small.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";
 import {

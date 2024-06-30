@@ -9,10 +9,10 @@ import { getRelativeTime } from "lib/utils/time";
 
 import { FactionName } from "features/game/types/game";
 
-import chevron from "assets/icons/factions/sunflorians/chevron_one.webp";
+import chevron from "public/assets/icons/factions/sunflorians/chevron_one.webp";
 
-import mark from "assets/icons/faction_mark.webp";
-import factions from "assets/icons/factions.webp";
+import mark from "public/assets/icons/faction_mark.webp";
+import factions from "public/assets/icons/factions.webp";
 
 import { FACTION_EMBLEM_ICONS } from "features/world/ui/factions/components/ClaimEmblems";
 import { SquareIcon } from "components/ui/SquareIcon";

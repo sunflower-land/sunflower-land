@@ -3,7 +3,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { FeedbackIcons } from "./lib/types";
 import { Button } from "components/ui/Button";
-import potionMasterIdleSheet from "assets/npcs/potion_master_sheet_idle.png";
+import potionMasterIdleSheet from "public/assets/npcs/potion_master_sheet_idle.png";
 import { SpringValue } from "react-spring";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

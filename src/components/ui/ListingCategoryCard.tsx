@@ -7,8 +7,8 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import increase_arrow from "assets/icons/increase_arrow.png";
-import decrease_arrow from "assets/icons/decrease_arrow.png";
+import increase_arrow from "public/assets/icons/increase_arrow.png";
+import decrease_arrow from "public/assets/icons/decrease_arrow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "./SquareIcon";
 

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
+import suspiciousGoblin from "public/assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 import { Context } from "../GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
-import videoThumbnail from "assets/tutorials/video_thumbnail.png";
-import playIcon from "assets/icons/play.png";
+import videoThumbnail from "public/assets/tutorials/video_thumbnail.png";
+import playIcon from "public/assets/icons/play.png";
 import { ButtonPanel, OuterPanel } from "components/ui/Panel";
 import { ACHIEVEMENTS } from "features/game/types/achievements";
 import { getKeys } from "features/game/types/craftables";

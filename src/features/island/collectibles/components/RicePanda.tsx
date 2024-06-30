@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/rice_panda.webp";
+import image from "public/assets/sfts/rice_panda.webp";
 
 export const RicePanda: React.FC = () => {
   return (

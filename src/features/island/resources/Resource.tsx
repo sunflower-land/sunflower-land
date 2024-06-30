@@ -21,7 +21,7 @@ import { isLocked as isIronLocked } from "features/game/events/landExpansion/mov
 import { isLocked as isGoldLocked } from "features/game/events/landExpansion/moveGold";
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { Crimstone } from "features/game/expansion/components/resources/crimstone/Crimstone";
 import { Beehive } from "features/game/expansion/components/resources/beehive/Beehive";
 import { FlowerBed } from "../flowers/FlowerBed";
@@ -30,7 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
 import { IslandType } from "features/game/types/game";
 
-import cacti from "assets/resources/tree/cacti.webp";
+import cacti from "public/assets/resources/tree/cacti.webp";
 
 export const TREE_VARIANTS: Record<IslandType, string> = {
   basic: SUNNYSIDE.resource.tree,

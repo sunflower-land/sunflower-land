@@ -1,6 +1,6 @@
 import React from "react";
 
-import carrotSword from "assets/sfts/carrot_sword.png";
+import carrotSword from "public/assets/sfts/carrot_sword.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CarrotSword: React.FC = () => {

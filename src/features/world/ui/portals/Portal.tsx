@@ -21,7 +21,7 @@ import { Box } from "components/ui/Box";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "public/assets/icons/sfl.webp";
 import { IPortalDonation, PortalDonation } from "./PortalDonation";
 
 interface Props {

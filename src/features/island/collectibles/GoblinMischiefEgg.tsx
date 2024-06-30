@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/factions/goblin_mischief_egg.webp";
+import image from "public/assets/factions/goblin_mischief_egg.webp";
 
 export const GoblinMischiefEgg: React.FC = () => {
   return (

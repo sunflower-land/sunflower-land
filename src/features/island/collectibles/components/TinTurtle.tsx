@@ -1,6 +1,6 @@
 import React from "react";
 
-import tinTurtle from "assets/sfts/aoe/tin_turtle.webp";
+import tinTurtle from "public/assets/sfts/aoe/tin_turtle.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TinTurtle: React.FC = () => {

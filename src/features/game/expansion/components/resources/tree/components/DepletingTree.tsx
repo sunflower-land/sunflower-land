@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import choppedSheet from "assets/resources/tree/chopped_sheet.png";
+import choppedSheet from "public/assets/resources/tree/chopped_sheet.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";

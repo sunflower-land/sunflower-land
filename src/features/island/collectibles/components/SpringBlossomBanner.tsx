@@ -1,7 +1,7 @@
 import React from "react";
 
-import banner from "assets/decorations/banners/spring_banner.gif";
-import bannerShadow from "assets/decorations/banners/banner_shadow.webp";
+import banner from "public/assets/decorations/banners/spring_banner.gif";
+import bannerShadow from "public/assets/decorations/banners/banner_shadow.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SpringBlossomBanner: React.FC = () => {

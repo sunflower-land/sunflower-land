@@ -1,6 +1,6 @@
 import React from "react";
 
-import IdolCase from "assets/sfts/iron_idol_case.webp";
+import IdolCase from "public/assets/sfts/iron_idol_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const IronIdol: React.FC = () => {

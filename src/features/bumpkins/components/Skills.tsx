@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { SkillCategoryList } from "./SkillCategoryList";
 
-import seedSpecialist from "assets/skills/seed_specialist.png";
+import seedSpecialist from "public/assets/skills/seed_specialist.png";
 import { SkillPathDetails } from "./SkillPathDetails";
 import { Label } from "components/ui/Label";
 import { findLevelRequiredForNextSkillPoint } from "features/game/lib/level";

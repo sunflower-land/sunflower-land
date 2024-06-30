@@ -1,7 +1,7 @@
 import React from "react";
 
-import cabbageBoy from "assets/sfts/cabbage_boy.gif";
-import shadow from "assets/npcs/shadow.png";
+import cabbageBoy from "public/assets/sfts/cabbage_boy.gif";
+import shadow from "public/assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CabbageBoy: React.FC = () => {

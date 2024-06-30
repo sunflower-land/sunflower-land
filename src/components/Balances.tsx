@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import sflIcon from "assets/icons/sfl.webp";
-import coinsIcon from "assets/icons/coins.webp";
-import blockBucksIcon from "assets/icons/block_buck.png";
+import sflIcon from "public/assets/icons/sfl.webp";
+import coinsIcon from "public/assets/icons/coins.webp";
+import blockBucksIcon from "public/assets/icons/block_buck.png";
 
 import { setPrecision } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";

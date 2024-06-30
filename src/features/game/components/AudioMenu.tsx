@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Howler } from "howler";
-import play from "assets/icons/play.png";
-import pause from "assets/icons/pause.png";
-import arrow_next from "assets/icons/arrow_next.png";
-import arrow_previous from "assets/icons/arrow_previous.png";
-import sound_on from "assets/icons/sound_on.png";
-import sound_off from "assets/icons/sound_off.png";
+import play from "public/assets/icons/play.png";
+import pause from "public/assets/icons/pause.png";
+import arrow_next from "public/assets/icons/arrow_next.png";
+import arrow_previous from "public/assets/icons/arrow_previous.png";
+import sound_on from "public/assets/icons/sound_on.png";
+import sound_off from "public/assets/icons/sound_off.png";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "./CloseablePanel";
-import { Song } from "assets/songs/playlist";
+import { Song } from "public/assets/songs/playlist";
 import { PIXEL_SCALE } from "../lib/constants";
 import {
   AudioLocalStorageKeys,

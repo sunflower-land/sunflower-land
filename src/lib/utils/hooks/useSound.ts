@@ -1,11 +1,11 @@
-import { SOUNDS } from "assets/sound-effects/soundEffects";
+import { SOUNDS } from "public/assets/sound-effects/soundEffects";
 import { Howl } from "howler";
 import { useEffect } from "react";
-import willow_tree from "assets/songs/willow_tree.mp3";
-import barlow from "assets/sound-effects/bumpkin-recruiter.mp3";
-import graxle from "assets/sound-effects/goblin-recruiter.mp3";
-import nyx from "assets/sound-effects/nightshade-recruiter.mp3";
-import reginald from "assets/sound-effects/sunflorian-recruiter.mp3";
+import willow_tree from "public/assets/songs/willow_tree.mp3";
+import barlow from "public/assets/sound-effects/bumpkin-recruiter.mp3";
+import graxle from "public/assets/sound-effects/goblin-recruiter.mp3";
+import nyx from "public/assets/sound-effects/nightshade-recruiter.mp3";
+import reginald from "public/assets/sound-effects/sunflorian-recruiter.mp3";
 
 const HOWLERS = {
   open: new Howl({

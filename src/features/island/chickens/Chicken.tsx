@@ -2,13 +2,13 @@ import { useInterpret, useSelector } from "@xstate/react";
 import React, { useContext, useState } from "react";
 import classNames from "classnames";
 
-import hungryChicken from "assets/animals/chickens/hungry_2.gif";
-import happyChicken from "assets/animals/chickens/happy_2.gif";
-import walkingChickenSheet from "assets/animals/chickens/walking_sheet_2.png";
-import sleepingChicken from "assets/animals/chickens/sleeping_2.gif";
-import chickenShadow from "assets/animals/chickens/chicken_shadow.png";
-import layingEggSheet from "assets/animals/chickens/laying-egg-sheet_2.png";
-import wheatOnGround from "assets/animals/chickens/wheat_2.png";
+import hungryChicken from "public/assets/animals/chickens/hungry_2.gif";
+import happyChicken from "public/assets/animals/chickens/happy_2.gif";
+import walkingChickenSheet from "public/assets/animals/chickens/walking_sheet_2.png";
+import sleepingChicken from "public/assets/animals/chickens/sleeping_2.gif";
+import chickenShadow from "public/assets/animals/chickens/chicken_shadow.png";
+import layingEggSheet from "public/assets/animals/chickens/laying-egg-sheet_2.png";
+import wheatOnGround from "public/assets/animals/chickens/wheat_2.png";
 
 import { Context } from "features/game/GameProvider";
 
@@ -39,7 +39,7 @@ import { MachineState as GameMachineState } from "features/game/lib/gameMachine"
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { ZoomContext } from "components/ZoomProvider";
 import { isLocked } from "features/game/events/landExpansion/moveChicken";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

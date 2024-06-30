@@ -4,11 +4,11 @@ import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import Draggable from "react-draggable";
 import classNames from "classnames";
 
-import fruitPatch from "assets/fruit/apple/apple_tree.png";
-import goldStone from "assets/resources/gold_small.png";
-import ironStone from "assets/resources/iron_small.png";
-import crimstone from "assets/resources/crimstone/crimstone_rock_1.webp";
-import beehive from "assets/sfts/beehive.webp";
+import fruitPatch from "public/assets/fruit/apple/apple_tree.png";
+import goldStone from "public/assets/resources/gold_small.png";
+import ironStone from "public/assets/resources/iron_small.png";
+import crimstone from "public/assets/resources/crimstone/crimstone_rock_1.webp";
+import beehive from "public/assets/sfts/beehive.webp";
 
 import { FruitPatch } from "features/island/fruit/FruitPatch";
 import { ResourceBUttons } from "./ResourceButtons";

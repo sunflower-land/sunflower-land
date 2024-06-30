@@ -1,6 +1,6 @@
 import React from "react";
 
-import hungryCaterpillar from "assets/sfts/hungry_caterpillar.webp";
+import hungryCaterpillar from "public/assets/sfts/hungry_caterpillar.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HungryCaterpillar: React.FC = () => {

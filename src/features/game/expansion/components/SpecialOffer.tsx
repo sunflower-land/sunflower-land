@@ -16,8 +16,8 @@ import { acknowledgeSeasonPass } from "features/announcements/announcementsStora
 import { SEASONS, getSeasonalBanner } from "features/game/types/seasons";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
-import blockBuck from "assets/icons/block_buck.png";
-import lockIcon from "assets/skills/lock.png";
+import blockBuck from "public/assets/icons/block_buck.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 const isPromoting = (state: MachineState) => state.matches("specialOffer");

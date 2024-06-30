@@ -1,6 +1,6 @@
 import React from "react";
 
-import knightChicken from "assets/animals/chickens/knight_chicken.webp";
+import knightChicken from "public/assets/animals/chickens/knight_chicken.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const KnightChicken: React.FC = () => {

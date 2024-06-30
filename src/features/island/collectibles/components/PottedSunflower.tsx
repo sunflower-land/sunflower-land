@@ -1,6 +1,6 @@
 import React from "react";
 
-import pottedSunflower from "assets/decorations/potted_sunflower.png";
+import pottedSunflower from "public/assets/decorations/potted_sunflower.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PottedSunflower: React.FC = () => {

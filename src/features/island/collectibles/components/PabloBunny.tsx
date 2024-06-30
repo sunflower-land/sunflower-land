@@ -1,7 +1,7 @@
 import React from "react";
 
-import pablo from "assets/sfts/pablo_bunny.gif";
-import shadow from "assets/npcs/shadow.png";
+import pablo from "public/assets/sfts/pablo_bunny.gif";
+import shadow from "public/assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PabloBunny: React.FC = () => {

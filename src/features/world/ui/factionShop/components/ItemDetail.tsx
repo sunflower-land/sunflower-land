@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
 import { FactionName, InventoryItemName } from "features/game/types/game";
 
-import bg from "assets/ui/grey_background.png";
+import bg from "public/assets/ui/grey_background.png";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";

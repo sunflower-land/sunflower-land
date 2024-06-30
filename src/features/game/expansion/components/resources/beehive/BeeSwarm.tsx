@@ -1,6 +1,6 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import bee from "assets/icons/bee.webp";
+import bee from "public/assets/icons/bee.webp";
 
 export const BeeSwarm: React.FC = () => (
   <div

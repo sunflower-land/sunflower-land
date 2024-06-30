@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
-import secure from "assets/npcs/synced.gif";
+import secure from "public/assets/npcs/synced.gif";
 import { Context } from "../GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

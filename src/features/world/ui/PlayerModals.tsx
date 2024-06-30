@@ -1,8 +1,8 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
-import levelIcon from "assets/icons/level_up.png";
-import giftIcon from "assets/icons/gift.png";
+import levelIcon from "public/assets/icons/level_up.png";
+import giftIcon from "public/assets/icons/gift.png";
 
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { PIXEL_SCALE } from "features/game/lib/constants";

@@ -7,7 +7,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import React, { useContext } from "react";
 
-import chestIcon from "assets/icons/gift.png";
+import chestIcon from "public/assets/icons/gift.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";

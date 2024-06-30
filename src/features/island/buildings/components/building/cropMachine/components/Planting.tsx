@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import planting from "assets/cropMachine/stage2_collector_seed_planting_sheet.webp";
+import planting from "public/assets/cropMachine/stage2_collector_seed_planting_sheet.webp";
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 

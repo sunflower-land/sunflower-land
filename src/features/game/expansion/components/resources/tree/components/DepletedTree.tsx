@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import stump from "assets/resources/tree/stump.png";
-import cactiStump from "assets/resources/tree/cacti_stump.webp";
+import stump from "public/assets/resources/tree/stump.png";
+import cactiStump from "public/assets/resources/tree/cacti_stump.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

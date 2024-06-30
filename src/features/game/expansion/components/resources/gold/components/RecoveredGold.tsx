@@ -4,7 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import strikeSheet from "assets/resources/gold/gold_rock_spark.png";
+import strikeSheet from "public/assets/resources/gold/gold_rock_spark.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
@@ -12,7 +12,7 @@ import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { loadAudio, miningAudio } from "lib/utils/sfx";
-import gold from "assets/resources/gold_small.png";
+import gold from "public/assets/resources/gold_small.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 import { MachineState } from "features/game/lib/gameMachine";

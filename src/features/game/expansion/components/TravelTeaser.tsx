@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import raft from "assets/decorations/raft.png";
+import raft from "public/assets/decorations/raft.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -16,7 +16,7 @@ import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import speechBubble from "assets/ui/speech_border.png";
+import speechBubble from "public/assets/ui/speech_border.png";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";

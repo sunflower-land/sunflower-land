@@ -31,8 +31,8 @@ import {
 import { FeatureName, hasFeatureAccess } from "lib/flags";
 import { BuildingName } from "features/game/types/buildings";
 import { BuildingOilTank } from "../building/BuildingOilTank";
-import pumpkinSoup from "assets/food/pumpkin_soup.png";
-import powerup from "assets/icons/level_up.png";
+import pumpkinSoup from "public/assets/food/pumpkin_soup.png";
+import powerup from "public/assets/icons/level_up.png";
 
 interface Props {
   selected: Cookable;

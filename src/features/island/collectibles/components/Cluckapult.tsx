@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/cluckapult.webp";
+import image from "public/assets/sfts/cluckapult.webp";
 
 export const Cluckapult: React.FC = () => {
   return (

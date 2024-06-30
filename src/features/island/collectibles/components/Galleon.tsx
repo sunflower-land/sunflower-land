@@ -1,6 +1,6 @@
 import React from "react";
 
-import galleonCase from "assets/sfts/galleon_case.webp";
+import galleonCase from "public/assets/sfts/galleon_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Galleon: React.FC = () => {

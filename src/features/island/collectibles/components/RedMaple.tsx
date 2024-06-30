@@ -1,6 +1,6 @@
 import React from "react";
 
-import redMaple from "assets/decorations/red_maple.webp";
+import redMaple from "public/assets/decorations/red_maple.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RedMaple: React.FC = () => {

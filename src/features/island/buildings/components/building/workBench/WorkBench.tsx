@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import npc from "assets/npcs/blacksmith.gif";
-import shadow from "assets/npcs/shadow.png";
+import npc from "public/assets/npcs/blacksmith.gif";
+import shadow from "public/assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorkbenchModal } from "./components/WorkbenchModal";

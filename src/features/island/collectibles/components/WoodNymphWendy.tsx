@@ -1,6 +1,6 @@
 import React from "react";
 
-import wendy from "assets/sfts/wood_nymph_wendy.gif";
+import wendy from "public/assets/sfts/wood_nymph_wendy.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WoodNymphWendy: React.FC = () => {

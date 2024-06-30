@@ -2,9 +2,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { AchievementName } from "features/game/types/achievements";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-import workbench from "assets/tutorials/workbench.png";
-import harvesting from "assets/tutorials/harvesting.png";
-import cooking from "assets/tutorials/fire_pit.png";
+import workbench from "public/assets/tutorials/workbench.png";
+import harvesting from "public/assets/tutorials/harvesting.png";
+import cooking from "public/assets/tutorials/fire_pit.png";
 import { translate } from "lib/i18n/translate";
 
 export type GuidePath =

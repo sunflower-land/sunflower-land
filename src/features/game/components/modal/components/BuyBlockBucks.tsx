@@ -3,9 +3,9 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 
-import creditCard from "assets/icons/credit_card.png";
-import blockBucksIcon from "assets/icons/block_buck.png";
-import matic from "assets/icons/polygon-token.png";
+import creditCard from "public/assets/icons/credit_card.png";
+import blockBucksIcon from "public/assets/icons/block_buck.png";
+import matic from "public/assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";

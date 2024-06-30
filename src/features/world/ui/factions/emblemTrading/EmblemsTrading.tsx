@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 
-import tradeIcon from "assets/icons/trade.png";
+import tradeIcon from "public/assets/icons/trade.png";
 import {
   FloorPrices,
   getListingsFloorPrices,

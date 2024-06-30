@@ -1,6 +1,6 @@
 import React from "react";
 
-import trophy from "assets/fish/phantom_barracuda_trophy.png";
+import trophy from "public/assets/fish/phantom_barracuda_trophy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PhantomBarracuda: React.FC = () => {

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import house from "assets/buildings/house.png";
+import house from "public/assets/buildings/house.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";

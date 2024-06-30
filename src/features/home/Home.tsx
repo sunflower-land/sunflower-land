@@ -1,8 +1,8 @@
 import React, { useContext, useLayoutEffect, useMemo, useState } from "react";
 
-import tent from "assets/land/tent_inside.png";
-import house from "assets/land/house_inside.png";
-import manor from "assets/land/manor_inside.png";
+import tent from "public/assets/land/tent_inside.png";
+import house from "public/assets/land/house_inside.png";
+import manor from "public/assets/land/manor_inside.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Hud } from "features/island/hud/Hud";

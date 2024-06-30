@@ -7,11 +7,11 @@ import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
-import giftIcon from "assets/icons/gift.png";
-import chestIcon from "assets/icons/chest.png";
-import walletIcon from "assets/icons/wallet.png";
-import sfl from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
+import giftIcon from "public/assets/icons/gift.png";
+import chestIcon from "public/assets/icons/chest.png";
+import walletIcon from "public/assets/icons/wallet.png";
+import sfl from "public/assets/icons/sfl.webp";
+import lock from "public/assets/skills/lock.png";
 
 import Decimal from "decimal.js-light";
 import { OuterPanel } from "components/ui/Panel";

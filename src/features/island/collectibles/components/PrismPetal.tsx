@@ -1,5 +1,5 @@
 import React from "react";
-import prismPetal from "assets/flowers/prism_petal.webp";
+import prismPetal from "public/assets/flowers/prism_petal.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PrismPetal: React.FC = () => {

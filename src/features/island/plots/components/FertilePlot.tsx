@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { GrowthStage, Soil } from "features/island/plots/components/Soil";
 import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
 
-import powerup from "assets/icons/level_up.png";
+import powerup from "public/assets/icons/level_up.png";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";

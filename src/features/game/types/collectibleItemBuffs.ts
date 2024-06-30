@@ -1,7 +1,7 @@
 import { InventoryItemName } from "./game";
 import { BuffLabel } from ".";
-import powerup from "assets/icons/level_up.png";
-import lightning from "assets/icons/lightning.png";
+import powerup from "public/assets/icons/level_up.png";
+import lightning from "public/assets/icons/lightning.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";

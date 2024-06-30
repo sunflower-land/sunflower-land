@@ -1,7 +1,7 @@
 import React from "react";
 import classnames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
-import primaryButton from "assets/ui/light_button.png";
+import primaryButton from "public/assets/ui/light_button.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 interface Props {

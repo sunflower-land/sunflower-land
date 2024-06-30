@@ -9,7 +9,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { BuffLabel } from "features/game/types";
 import { ItemDetail } from "./components/ItemDetail";
 
-import shopIcon from "assets/icons/shop.png";
+import shopIcon from "public/assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";

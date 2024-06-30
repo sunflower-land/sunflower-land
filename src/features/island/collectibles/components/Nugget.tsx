@@ -1,6 +1,6 @@
 import React from "react";
 
-import nugget from "assets/sfts/nugget.gif";
+import nugget from "public/assets/sfts/nugget.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Nugget: React.FC = () => {

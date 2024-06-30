@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/decorations/giant_dawn_mushroom.png";
+import image from "public/assets/decorations/giant_dawn_mushroom.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GiantDawnMushroom: React.FC = () => {

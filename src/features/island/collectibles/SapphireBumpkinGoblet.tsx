@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/factions/sapphire_bumpkin_goblet.webp";
+import image from "public/assets/factions/sapphire_bumpkin_goblet.webp";
 
 export const SapphireBumpkinGoblet: React.FC = () => {
   return (

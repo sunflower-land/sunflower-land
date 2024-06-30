@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import smoothieShackDesk from "assets/buildings/smoothie_shack_desk.webp";
-import smoothieChef from "assets/npcs/smoothie.gif";
-import smoothieChefMaking from "assets/npcs/smoothie_making.gif";
+import smoothieShackDesk from "public/assets/buildings/smoothie_shack_desk.webp";
+import smoothieChef from "public/assets/npcs/smoothie.gif";
+import smoothieChefMaking from "public/assets/npcs/smoothie_making.gif";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";

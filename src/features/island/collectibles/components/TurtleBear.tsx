@@ -1,6 +1,6 @@
 import React from "react";
 
-import turtleBear from "assets/sfts/bears/turtle_bear.webp";
+import turtleBear from "public/assets/sfts/bears/turtle_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TurtleBear: React.FC = () => {

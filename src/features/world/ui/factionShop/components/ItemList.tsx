@@ -5,7 +5,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { formatNumber } from "lib/utils/formatNumber";
 
-import lightning from "assets/icons/lightning.png";
+import lightning from "public/assets/icons/lightning.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FactionName, InventoryItemName } from "features/game/types/game";

@@ -6,8 +6,8 @@ import { NPCFixed } from "features/island/bumpkin/components/NPC";
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getKeys } from "features/game/types/craftables";
-import chest from "assets/icons/chest.png";
-import letter from "assets/icons/letter.png";
+import chest from "public/assets/icons/chest.png";
+import letter from "public/assets/icons/letter.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Announcements } from "features/game/types/announcements";

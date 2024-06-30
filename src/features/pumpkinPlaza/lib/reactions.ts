@@ -1,10 +1,10 @@
 import { getBumpkinLevel } from "features/game/lib/level";
 import { GameState } from "features/game/types/game";
 
-import crown from "assets/sfts/goblin_crown.png";
-import thumbs_up from "assets/skills/green_thumb.png";
-import suspicious from "assets/icons/suspicious.png";
-import levelUp from "assets/icons/level_up.png";
+import crown from "public/assets/sfts/goblin_crown.png";
+import thumbs_up from "public/assets/skills/green_thumb.png";
+import suspicious from "public/assets/icons/suspicious.png";
+import levelUp from "public/assets/icons/level_up.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { translate } from "lib/i18n/translate";

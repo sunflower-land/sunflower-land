@@ -1,6 +1,6 @@
 import React from "react";
 
-import tree from "assets/sfts/christmas_tree.png";
+import tree from "public/assets/sfts/christmas_tree.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ChristmasTree: React.FC = () => {

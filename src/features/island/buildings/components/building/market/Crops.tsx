@@ -12,10 +12,10 @@ import { Fruit, FRUIT, GREENHOUSE_FRUIT } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
 import { getBumpkinLevel } from "features/game/lib/level";
-import lock from "assets/skills/lock.png";
-import lightning from "assets/icons/lightning.png";
-import greenhouse from "assets/icons/greenhouse.webp";
-import orange from "assets/resources/orange.png";
+import lock from "public/assets/skills/lock.png";
+import lightning from "public/assets/icons/lightning.png";
+import greenhouse from "public/assets/icons/greenhouse.webp";
+import orange from "public/assets/resources/orange.png";
 import {
   EXOTIC_CROPS,
   ExoticCrop,

@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor, useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import plus from "assets/icons/plus.png";
-import lightning from "assets/icons/lightning.png";
-import fullMoon from "assets/icons/full_moon.png";
+import plus from "public/assets/icons/plus.png";
+import lightning from "public/assets/icons/lightning.png";
+import fullMoon from "public/assets/icons/full_moon.png";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";

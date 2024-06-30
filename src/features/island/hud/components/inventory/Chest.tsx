@@ -10,24 +10,24 @@ import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { getChestBuds, getChestItems } from "./utils/inventory";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
-import chest from "assets/npcs/synced.gif";
-import lightning from "assets/icons/lightning.png";
+import chest from "public/assets/npcs/synced.gif";
+import lightning from "public/assets/icons/lightning.png";
 
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 
-import marketIcon from "assets/buildings/market_icon.png";
-import firePitIcon from "assets/buildings/fire_pit_icon.png";
-import workbenchIcon from "assets/buildings/workbench_icon.png";
-import kitchenIcon from "assets/buildings/kitchen_icon.png";
-import henHouseIcon from "assets/buildings/hen_house_icon.png";
-import bakeryIcon from "assets/buildings/bakery_icon.png";
-import deliIcon from "assets/buildings/deli_icon.png";
-import smoothieIcon from "assets/buildings/smoothie_shack_icon.png";
-import toolshedIcon from "assets/buildings/toolshed_icon.png";
-import warehouseIcon from "assets/buildings/warehouse_icon.png";
-import greenhouseIcon from "assets/icons/greenhouse.webp";
+import marketIcon from "public/assets/buildings/market_icon.png";
+import firePitIcon from "public/assets/buildings/fire_pit_icon.png";
+import workbenchIcon from "public/assets/buildings/workbench_icon.png";
+import kitchenIcon from "public/assets/buildings/kitchen_icon.png";
+import henHouseIcon from "public/assets/buildings/hen_house_icon.png";
+import bakeryIcon from "public/assets/buildings/bakery_icon.png";
+import deliIcon from "public/assets/buildings/deli_icon.png";
+import smoothieIcon from "public/assets/buildings/smoothie_shack_icon.png";
+import toolshedIcon from "public/assets/buildings/toolshed_icon.png";
+import warehouseIcon from "public/assets/buildings/warehouse_icon.png";
+import greenhouseIcon from "public/assets/icons/greenhouse.webp";
 
 import { BudName, isBudName } from "features/game/types/buds";
 import { CONFIG } from "lib/config";

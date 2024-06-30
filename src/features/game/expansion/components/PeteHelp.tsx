@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 
-import plaza from "assets/tutorials/plaza_screenshot1.png";
+import plaza from "public/assets/tutorials/plaza_screenshot1.png";
 import { Label } from "components/ui/Label";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { Button } from "components/ui/Button";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";

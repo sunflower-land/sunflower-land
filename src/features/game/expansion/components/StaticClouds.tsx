@@ -1,9 +1,9 @@
 import React from "react";
 
-import mainCloudsTop from "assets/land/clouds/main_clouds_top.webp";
-import mainCloudsLeft from "assets/land/clouds/main_clouds_left.webp";
-import mainCloudsRight from "assets/land/clouds/main_clouds_right.webp";
-import mainCloudsBottom from "assets/land/clouds/main_clouds_bottom.webp";
+import mainCloudsTop from "public/assets/land/clouds/main_clouds_top.webp";
+import mainCloudsLeft from "public/assets/land/clouds/main_clouds_left.webp";
+import mainCloudsRight from "public/assets/land/clouds/main_clouds_right.webp";
+import mainCloudsBottom from "public/assets/land/clouds/main_clouds_bottom.webp";
 
 const CLOUD_WIDTH = 1536;
 const CLOUD_HEIGHT = 1088;

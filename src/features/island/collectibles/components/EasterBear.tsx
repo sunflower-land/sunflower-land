@@ -1,6 +1,6 @@
 import React from "react";
 
-import easterBear from "assets/sfts/bears/easter_bear.png";
+import easterBear from "public/assets/sfts/bears/easter_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const EasterBear: React.FC = () => {

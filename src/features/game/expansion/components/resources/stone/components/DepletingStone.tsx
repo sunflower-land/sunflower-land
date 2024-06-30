@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "assets/resources/stone/stone_rock_drop.png";
+import dropSheet from "public/assets/resources/stone/stone_rock_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";

@@ -1,4 +1,4 @@
-import decorationShopJSON from "assets/map/decorations.json";
+import decorationShopJSON from "public/assets/map/decorations.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

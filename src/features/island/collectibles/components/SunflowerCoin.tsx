@@ -1,6 +1,6 @@
 import React from "react";
 
-import sunflowerCoin from "assets/sfts/sunflower_coin_case.webp";
+import sunflowerCoin from "public/assets/sfts/sunflower_coin_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SunflowerCoin: React.FC = () => {

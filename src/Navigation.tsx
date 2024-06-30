@@ -27,8 +27,8 @@ import { Modal } from "components/ui/Modal";
 import { PWAInstallProvider } from "features/pwa/PWAInstallProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import landing from "assets/brand/landing.webp";
-import greenBg from "assets/brand/green_bg.png";
+import landing from "public/assets/brand/landing.webp";
+import greenBg from "public/assets/brand/green_bg.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 

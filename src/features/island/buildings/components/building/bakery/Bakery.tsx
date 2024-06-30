@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import smoke from "assets/buildings/smoke.gif";
-import goblinChef from "assets/npcs/goblin_chef.gif";
-import goblinChefDoing from "assets/npcs/goblin_chef_doing.gif";
-import shadow from "assets/npcs/shadow.png";
+import smoke from "public/assets/buildings/smoke.gif";
+import goblinChef from "public/assets/npcs/goblin_chef.gif";
+import goblinChefDoing from "public/assets/npcs/goblin_chef_doing.gif";
+import shadow from "public/assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";

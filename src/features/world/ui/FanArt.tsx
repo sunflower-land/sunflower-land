@@ -2,10 +2,10 @@ import React, { useEffect, useRef } from "react";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import fanArt from "assets/fanArt/fan_art_1.png";
-import fanArt2 from "assets/fanArt/fan_art_2.png";
-import fanArt3 from "assets/fanArt/fan_art_3.png";
-import fanArt4 from "assets/fanArt/fan_art_4.gif";
+import fanArt from "public/assets/fanArt/fan_art_1.png";
+import fanArt2 from "public/assets/fanArt/fan_art_2.png";
+import fanArt3 from "public/assets/fanArt/fan_art_3.png";
+import fanArt4 from "public/assets/fanArt/fan_art_4.gif";
 
 import { FanArtNPC } from "./InteractableModals";
 import { Label } from "components/ui/Label";

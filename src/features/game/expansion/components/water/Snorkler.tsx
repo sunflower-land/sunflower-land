@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import goblinSnorkling from "assets/npcs/goblin_snorkling.gif";
-import bumpkin from "assets/npcs/snorkel_bumpkin.png";
+import goblinSnorkling from "public/assets/npcs/goblin_snorkling.gif";
+import bumpkin from "public/assets/npcs/snorkel_bumpkin.png";
 
 import { MapPlacement } from "../MapPlacement";
 import { Modal } from "components/ui/Modal";

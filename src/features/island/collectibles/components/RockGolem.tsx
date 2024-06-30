@@ -4,7 +4,7 @@ import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
 
-import golemSheet from "assets/sfts/rock_golem.png";
+import golemSheet from "public/assets/sfts/rock_golem.png";
 import { canMine } from "features/game/events/landExpansion/stoneMine";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useActor } from "@xstate/react";

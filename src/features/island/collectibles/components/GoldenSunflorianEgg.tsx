@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/factions/golden_sunflorian_egg.webp";
+import image from "public/assets/factions/golden_sunflorian_egg.webp";
 
 export const GoldenSunflorianEgg: React.FC = () => {
   return (

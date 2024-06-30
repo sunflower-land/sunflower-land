@@ -1,6 +1,6 @@
 import React from "react";
 
-import bale from "assets/sfts/aoe/bale.png";
+import bale from "public/assets/sfts/aoe/bale.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Bale: React.FC = () => {

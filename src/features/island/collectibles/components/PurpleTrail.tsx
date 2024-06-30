@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "assets/sfts/purple_trail.png";
+import image from "public/assets/sfts/purple_trail.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PurpleTrail: React.FC = () => {

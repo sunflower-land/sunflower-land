@@ -1,6 +1,6 @@
 import React from "react";
 
-import pineTree from "assets/decorations/pine_tree.png";
+import pineTree from "public/assets/decorations/pine_tree.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PineTree: React.FC = () => {

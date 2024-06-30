@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/sfts/novice_knight.webp";
+import image from "public/assets/sfts/novice_knight.webp";
 
 export const NoviceKnight: React.FC = () => {
   return (

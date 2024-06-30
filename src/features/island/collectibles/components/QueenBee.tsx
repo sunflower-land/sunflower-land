@@ -1,6 +1,6 @@
 import React from "react";
 
-import queenBee from "assets/sfts/queen_bee.webp";
+import queenBee from "public/assets/sfts/queen_bee.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const QueenBee: React.FC = () => {

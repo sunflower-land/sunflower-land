@@ -8,8 +8,8 @@ import { KingdomLeaderboard } from "features/game/expansion/components/leaderboa
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
-import selectBoxTL from "assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "assets/ui/select/selectbox_tr.png";
+import selectBoxTL from "public/assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "public/assets/ui/select/selectbox_tr.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { FactionName } from "features/game/types/game";
@@ -17,9 +17,9 @@ import { NPCName, NPC_WEARABLES } from "lib/npcs";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { isMobile } from "mobile-device-detect";
 
-import maximus from "assets/sfts/maximus.gif";
-import trophy from "assets/icons/trophy.png";
-import shadow from "assets/npcs/shadow.png";
+import maximus from "public/assets/sfts/maximus.gif";
+import trophy from "public/assets/icons/trophy.png";
+import shadow from "public/assets/npcs/shadow.png";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";

@@ -12,7 +12,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { InnerPanel } from "components/ui/Panel";
 import { SquareIcon } from "components/ui/SquareIcon";
-import lockIcon from "assets/skills/lock.png";
+import lockIcon from "public/assets/skills/lock.png";
 import { hasMoveRestriction } from "features/game/types/removeables";
 import {
   COLLECTIBLE_COMPONENTS,

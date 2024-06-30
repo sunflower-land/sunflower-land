@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "assets/factions/ruby_faction_goblet.webp";
+import image from "public/assets/factions/ruby_faction_goblet.webp";
 
 export const RubyFactionGoblet: React.FC = () => {
   return (

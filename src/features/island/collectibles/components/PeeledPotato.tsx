@@ -1,7 +1,7 @@
 import React from "react";
 
-import prizedPotato from "assets/sfts/peeled_potato.gif";
-import shadow from "assets/npcs/shadow.png";
+import prizedPotato from "public/assets/sfts/peeled_potato.gif";
+import shadow from "public/assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PeeledPotato: React.FC = () => {

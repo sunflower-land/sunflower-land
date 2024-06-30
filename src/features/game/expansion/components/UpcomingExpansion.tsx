@@ -8,8 +8,8 @@ import { Pontoon } from "./Pontoon";
 
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import landComplete from "assets/land/land_complete.png";
-import lockIcon from "assets/skills/lock.png";
+import landComplete from "public/assets/land/land_complete.png";
+import lockIcon from "public/assets/skills/lock.png";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useActor } from "@xstate/react";

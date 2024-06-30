@@ -13,9 +13,9 @@ import {
 } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { ChangeEvent, useContext, useState } from "react";
-import token from "assets/icons/sfl.webp";
-import lock from "assets/skills/lock.png";
-import tradeIcon from "assets/icons/trade.png";
+import token from "public/assets/icons/sfl.webp";
+import lock from "public/assets/skills/lock.png";
+import tradeIcon from "public/assets/icons/trade.png";
 import Decimal from "decimal.js-light";
 import { InnerPanel } from "components/ui/Panel";
 import { getBumpkinLevel } from "features/game/lib/level";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import bear from "assets/sfts/dawn_flower.png";
+import bear from "public/assets/sfts/dawn_flower.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const DawnFlower: React.FC = () => {

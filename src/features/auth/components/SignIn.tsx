@@ -5,15 +5,15 @@ import { Context } from "../lib/Provider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import metamaskIcon from "src/assets/icons/metamask_pixel.png";
-import walletIcon from "src/assets/icons/wallet.png";
-import phantomIcon from "src/assets/icons/phantom.svg";
-import okxIcon from "src/assets/icons/okx.svg";
-import cryptoComIcon from "src/assets/icons/crypto-com-logo.svg";
-import bitgetIcon from "src/assets/icons/bitget_logo.svg";
-import googleIcon from "src/assets/icons/sign_in_with_google.svg";
-import wechatIcon from "src/assets/icons/wechat.png";
-import greyButton from "src/assets/ui/grey_button.png";
+import metamaskIcon from "public/assets/icons/metamask_pixel.png";
+import walletIcon from "public/assets/icons/wallet.png";
+import phantomIcon from "public/assets/icons/phantom.svg";
+import okxIcon from "public/assets/icons/okx.svg";
+import cryptoComIcon from "public/assets/icons/crypto-com-logo.svg";
+import bitgetIcon from "public/assets/icons/bitget_logo.svg";
+import googleIcon from "public/assets/icons/sign_in_with_google.svg";
+import wechatIcon from "public/assets/icons/wechat.png";
+import greyButton from "public/assets/ui/grey_button.png";
 
 import { Label } from "components/ui/Label";
 import { Web3SupportedProviders } from "lib/web3SupportedProviders";

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import sunriseBloomRug from "assets/sfts/sunrise_bloom_rug.webp";
+import sunriseBloomRug from "public/assets/sfts/sunrise_bloom_rug.webp";
 
 export const SunriseBloomRug: React.FC = () => {
   return (

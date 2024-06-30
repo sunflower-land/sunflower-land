@@ -1,6 +1,6 @@
 import React from "react";
 
-import deathAnimation from "assets/npcs/human_death.gif";
+import deathAnimation from "public/assets/npcs/human_death.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Congestion: React.FC = () => {

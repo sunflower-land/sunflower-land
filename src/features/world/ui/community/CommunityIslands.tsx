@@ -2,8 +2,8 @@ import { OuterPanel } from "components/ui/Panel";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-import dignity from "assets/icons/dignity.png";
-import unicorn from "assets/icons/unicorn.png";
+import dignity from "public/assets/icons/dignity.png";
+import unicorn from "public/assets/icons/unicorn.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type CommunityIsland = {

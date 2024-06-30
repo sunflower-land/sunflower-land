@@ -4,7 +4,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import sprouting from "assets/cropMachine/stage3_collector_sprout_sheet.webp";
+import sprouting from "public/assets/cropMachine/stage3_collector_sprout_sheet.webp";
 import { calculateFPS } from "../lib/calculateFps";
 import { ZoomContext } from "components/ZoomProvider";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import flowerCart from "assets/sfts/flower_cart.webp";
+import flowerCart from "public/assets/sfts/flower_cart.webp";
 
 export const FlowerCart: React.FC = () => {
   return (

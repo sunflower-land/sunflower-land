@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
-import oilBarrels from "assets/land/oil_barrels.webp";
-import oilIcon from "assets/resources/oil.webp";
-import barrel from "assets/resources/oil_barrel.webp";
-import smoke from "assets/buildings/smoke.gif";
+import oilBarrels from "public/assets/land/oil_barrels.webp";
+import oilIcon from "public/assets/resources/oil.webp";
+import barrel from "public/assets/resources/oil_barrel.webp";
+import smoke from "public/assets/buildings/smoke.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";

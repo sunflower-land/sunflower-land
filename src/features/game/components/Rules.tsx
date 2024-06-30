@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import suspicious from "assets/icons/suspicious.png";
+import suspicious from "public/assets/icons/suspicious.png";
 import { Context } from "../GameProvider";
 import { Button } from "components/ui/Button";
 import { acknowledgeGameRules } from "features/announcements/announcementsStorage";

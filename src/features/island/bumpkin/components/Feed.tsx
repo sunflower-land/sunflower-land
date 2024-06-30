@@ -8,7 +8,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Consumable, isJuice } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
-import firePit from "src/assets/buildings/fire_pit.png";
+import firePit from "public/assets/buildings/fire_pit.png";
 import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";

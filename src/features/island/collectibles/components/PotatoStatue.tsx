@@ -1,6 +1,6 @@
 import React from "react";
 
-import potatoStatue from "assets/sfts/potato_statue.png";
+import potatoStatue from "public/assets/sfts/potato_statue.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PotatoStatue: React.FC = () => {

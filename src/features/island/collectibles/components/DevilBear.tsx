@@ -1,6 +1,6 @@
 import React from "react";
 
-import bear from "assets/sfts/bears/devil_bear.png";
+import bear from "public/assets/sfts/bears/devil_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const DevilBear: React.FC = () => {

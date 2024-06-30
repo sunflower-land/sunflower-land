@@ -1,6 +1,6 @@
 import React from "react";
 
-import egg from "assets/sfts/easter_donation_egg.webp";
+import egg from "public/assets/sfts/easter_donation_egg.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CommunityEgg: React.FC = () => {

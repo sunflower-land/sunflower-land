@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import capybara from "assets/sfts/capybara.webp";
+import capybara from "public/assets/sfts/capybara.webp";
 
 export const Capybara: React.FC = () => {
   return (

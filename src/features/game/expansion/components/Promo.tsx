@@ -1,5 +1,5 @@
 import { Button } from "components/ui/Button";
-import treasure from "assets/icons/chest.png";
+import treasure from "public/assets/icons/chest.png";
 
 import React, { useContext } from "react";
 import { Context } from "features/game/GameProvider";

@@ -1,11 +1,11 @@
 import React, { Fragment, useContext, useState } from "react";
 
-import springRaft from "assets/land/prestige_raft.png";
-import desertRaft from "assets/land/desert_prestige_raft.png";
-import springPrestige from "assets/announcements/spring_prestige.png";
-import desertPrestige from "assets/announcements/desert_prestige.png";
-import lockIcon from "assets/skills/lock.png";
-import land from "assets/land/islands/island.webp";
+import springRaft from "public/assets/land/prestige_raft.png";
+import desertRaft from "public/assets/land/desert_prestige_raft.png";
+import springPrestige from "public/assets/announcements/spring_prestige.png";
+import desertPrestige from "public/assets/announcements/desert_prestige.png";
+import lockIcon from "public/assets/skills/lock.png";
+import land from "public/assets/land/islands/island.webp";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";

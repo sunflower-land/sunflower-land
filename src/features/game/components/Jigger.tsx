@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
+import suspiciousGoblin from "public/assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
