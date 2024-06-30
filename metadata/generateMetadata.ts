@@ -3,10 +3,8 @@ import sharp from "sharp";
 
 // import image from "public/assets/food/bumpkin_salad.png";
 import { InventoryItemName } from "features/game/types/game";
-import { KNOWN_IDS } from "features/game/types";
+// import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CONFIG } from "lib/config";
-console.log({ CONFIG });
 
 // import { KNOWN_IDS } from "../src/features/game/types";
 
@@ -141,22 +139,25 @@ console.log({ CONFIG });
 // generateWearables();
 // generateCollectibles();
 
-async function generateImage({ name }: { name: InventoryItemName }) {
-  const ID = KNOWN_IDS[name];
+// async function generateImage({ name }: { name: InventoryItemName }) {
+//   const ID = KNOWN_IDS[name];
 
-  if (fs.existsSync(`public/erc1155/images/${ID}.png`)) {
-    return;
-  }
+//   if (fs.existsSync(`public/erc1155/images/${ID}.png`)) {
+//     return;
+//   }
 
-  const background = await sharp("public/erc1155/images/3x3_bg.png").toBuffer();
-  const itemImage = await sharp(ITEM_DETAILS[name].image).toBuffer();
+//   const background = await sharp("public/erc1155/images/3x3_bg.png").toBuffer();
+//   const itemImage = await sharp(ITEM_DETAILS[name].image).toBuffer();
 
-  // Composite item image onto background
-  const mergedImage = await sharp(background)
-    .composite([{ input: itemImage }])
-    .toBuffer();
+//   // Composite item image onto background
+//   const mergedImage = await sharp(background)
+//     .composite([{ input: itemImage }])
+//     .toBuffer();
 
-  fs.writeFileSync(`generated.png`, mergedImage);
-}
+//   fs.writeFileSync(`generated.png`, mergedImage);
+// }
 
-generateImage({ name: "Abandoned Bear" });
+// generateImage({ name: "Abandoned Bear" });
+
+const s: InventoryItemName = "Abandoned Bear";
+console.log("EHLLO WORLD", s, ITEM_DETAILS[s]);
