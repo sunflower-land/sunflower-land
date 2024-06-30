@@ -434,6 +434,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   requirements: "需要",
   "time.remaining": ENGLISH_TERMS["time.remaining"],
   expired: ENGLISH_TERMS.expired,
+  "sell.amount": "出售 {{amount}}",
+  "sell.inBulk": "批量销售",
 };
 
 const timeUnits: Record<TimeUnits, string> = {
@@ -1211,6 +1213,7 @@ const confirmationTerms: Record<ConfirmationTerms, string> = {
     "您确定要卖掉 {{cropAmount}} {{cropName}} 以换取 {{coinAmount}} 枚硬币吗？",
   "confirmation.buyCrops":
     "您确定要花 {{coinAmount}} 枚硬币购买 {{seedNo}} {{seedName}}s 吗？",
+  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -4080,6 +4083,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "你确定要补货吗？",
   "restock.tooManySeeds": "你的篮子里的种子太多了！",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "crops.noCropsToSell": ENGLISH_TERMS["crops.noCropsToSell"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
