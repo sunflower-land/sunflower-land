@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import clock from "public/assets/sfts/clock.webp";
+import clock from "assets/sfts/clock.webp";
 
 export const Clock: React.FC = () => {
   return (

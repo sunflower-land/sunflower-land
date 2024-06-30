@@ -1,4 +1,4 @@
-import mapJSON from "public/assets/map/nightshade_house.json";
+import mapJSON from "assets/map/nightshade_house.json";
 
 import { SceneId } from "../mmoMachine";
 import { NPCBumpkin } from "./BaseScene";

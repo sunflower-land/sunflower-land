@@ -1,6 +1,6 @@
 import React from "react";
 
-import chefBear from "public/assets/sfts/bears/chef_bear.png";
+import chefBear from "assets/sfts/bears/chef_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ChefBear: React.FC = () => {

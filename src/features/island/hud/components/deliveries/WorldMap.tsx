@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
-import worldMap from "public/assets/map/world_map.png";
-import lockIcon from "public/assets/icons/lock.png";
+import worldMap from "assets/map/world_map.png";
+import lockIcon from "assets/icons/lock.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import lock from "public/assets/skills/lock.png";
-import orange from "public/assets/resources/orange.png";
-import greenhouse from "public/assets/icons/greenhouse.webp";
+import lock from "assets/skills/lock.png";
+import orange from "assets/resources/orange.png";
+import greenhouse from "assets/icons/greenhouse.webp";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";

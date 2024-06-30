@@ -3,9 +3,9 @@ import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { BuffLabel } from ".";
 import { BumpkinItem } from "./bumpkin";
 
-import powerup from "public/assets/icons/level_up.png";
-import lightning from "public/assets/icons/lightning.png";
-import bee from "public/assets/icons/bee.webp";
+import powerup from "assets/icons/level_up.png";
+import lightning from "assets/icons/lightning.png";
+import bee from "assets/icons/bee.webp";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 

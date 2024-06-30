@@ -1,12 +1,12 @@
-import appleTree from "public/assets/fruit/apple/apple_tree.png";
-import orangeTree from "public/assets/fruit/orange/orange_tree.png";
-import blueberryBush from "public/assets/fruit/blueberry/blueberry_bush.png";
-import bananaTree from "public/assets/fruit/banana/banana_tree.png";
-import bananaTreeReady from "public/assets/fruit/banana/banana_tree_ready.png";
-import harvestedTree from "public/assets/fruit/harvested_tree.png";
-import harvestedBush from "public/assets/fruit/harvested_bush.png";
-import deadTree from "public/assets/fruit/dead_tree.webp";
-import bushShrub from "public/assets/fruit/bush_shrub.png";
+import appleTree from "assets/fruit/apple/apple_tree.png";
+import orangeTree from "assets/fruit/orange/orange_tree.png";
+import blueberryBush from "assets/fruit/blueberry/blueberry_bush.png";
+import bananaTree from "assets/fruit/banana/banana_tree.png";
+import bananaTreeReady from "assets/fruit/banana/banana_tree_ready.png";
+import harvestedTree from "assets/fruit/harvested_tree.png";
+import harvestedBush from "assets/fruit/harvested_bush.png";
+import deadTree from "assets/fruit/dead_tree.webp";
+import bushShrub from "assets/fruit/bush_shrub.png";
 import { FruitName } from "features/game/types/fruits";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 

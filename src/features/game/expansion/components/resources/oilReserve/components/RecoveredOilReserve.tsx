@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import fullOilReserve from "public/assets/resources/oil/oil_reserve_full.webp";
+import fullOilReserve from "assets/resources/oil/oil_reserve_full.webp";
 
 interface Props {
   hasDrill: boolean;

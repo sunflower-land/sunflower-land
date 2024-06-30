@@ -8,7 +8,7 @@ import {
   WearablesItem,
 } from "features/game/types/game";
 
-import bg from "public/assets/ui/grey_background.png";
+import bg from "assets/ui/grey_background.png";
 
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/nightshade_left_wall_candle.webp";
+import image from "assets/factions/nightshade_left_wall_candle.webp";
 
 export const NightshadeLeftWallSconce: React.FC = () => {
   return (

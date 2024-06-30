@@ -4,9 +4,9 @@ import { Button } from "components/ui/Button";
 
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import farmHandImage from "public/assets/tutorials/farmHands.png";
+import farmHandImage from "assets/tutorials/farmHands.png";
 import { Label } from "components/ui/Label";
-import lockIcon from "public/assets/skills/lock.png";
+import lockIcon from "assets/skills/lock.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";

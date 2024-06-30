@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import iron from "public/assets/resources/iron_small.png";
+import iron from "assets/resources/iron_small.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

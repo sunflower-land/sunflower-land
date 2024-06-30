@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
 
-import boat from "public/assets/decorations/isle_boat.gif";
+import boat from "assets/decorations/isle_boat.gif";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";

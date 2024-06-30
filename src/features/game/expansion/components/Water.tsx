@@ -2,9 +2,9 @@ import React, { useContext } from "react";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
-import goblinSwimming from "public/assets/npcs/goblin_swimming.gif";
-import cossies from "public/assets/decorations/cossies.png";
-import mushroomIsland from "public/assets/land/mushroom_island.png";
+import goblinSwimming from "assets/npcs/goblin_swimming.gif";
+import cossies from "assets/decorations/cossies.png";
+import mushroomIsland from "assets/land/mushroom_island.png";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";

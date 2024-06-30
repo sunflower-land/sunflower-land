@@ -1,6 +1,6 @@
 import React from "react";
 
-import humanDeath from "public/assets/npcs/human_death.gif";
+import humanDeath from "assets/npcs/human_death.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const DuplicateUser: React.FC = () => {

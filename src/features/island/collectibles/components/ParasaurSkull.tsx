@@ -1,6 +1,6 @@
 import React from "react";
 
-import skullCase from "public/assets/sfts/parasaur_skull_case.webp";
+import skullCase from "assets/sfts/parasaur_skull_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ParasaurSkull: React.FC = () => {

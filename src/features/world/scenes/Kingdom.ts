@@ -1,11 +1,11 @@
-import mapJSON from "public/assets/map/kingdom.json";
+import mapJSON from "assets/map/kingdom.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { translate } from "lib/i18n/translate";
-import { SOUNDS } from "public/assets/sound-effects/soundEffects";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 import {
   AudioLocalStorageKeys,
   getCachedAudioSetting,

@@ -1,6 +1,6 @@
 import React from "react";
 
-import ocean from "public/assets/decorations/ocean.webp";
+import ocean from "assets/decorations/ocean.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";

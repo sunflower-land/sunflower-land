@@ -1,9 +1,9 @@
 import React from "react";
-import fishingTutorial from "public/assets/tutorials/fishing.png";
-import fishingCodex from "public/assets/tutorials/fishing_codex.png";
+import fishingTutorial from "assets/tutorials/fishing.png";
+import fishingCodex from "assets/tutorials/fishing_codex.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import powerup from "public/assets/icons/level_up.png";
+import powerup from "assets/icons/level_up.png";
 import { CROP_LIFECYCLE } from "../plots/lib/plant";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { translate } from "lib/i18n/translate";

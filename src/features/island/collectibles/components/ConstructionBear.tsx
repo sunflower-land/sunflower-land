@@ -1,6 +1,6 @@
 import React from "react";
 
-import constructionBear from "public/assets/sfts/bears/construction_bear.png";
+import constructionBear from "assets/sfts/bears/construction_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ConstructionBear: React.FC = () => {

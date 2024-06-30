@@ -8662,7 +8662,7 @@ const items = {
     },
   },
   "Magic Bean": {
-    image: "public/assets/crops/magic_bean.png",
+    image: "assets/crops/magic_bean.png",
     description: {
       en: "What will grow?",
       pt: "What will grow?",
@@ -8692,7 +8692,7 @@ const items = {
     },
   },
   "Apple Seed": {
-    image: "public/assets/fruit/apple/apple_seed.png",
+    image: "assets/fruit/apple/apple_seed.png",
     description: {
       en: "Perfect for homemade Apple Pie",
       pt: "Perfect for homemade Apple Pie",
@@ -8702,7 +8702,7 @@ const items = {
     },
   },
   "Blueberry Seed": {
-    image: "public/assets/fruit/blueberry/blueberry_seed.png",
+    image: "assets/fruit/blueberry/blueberry_seed.png",
     description: {
       en: "A Goblin's weakness",
       pt: "A Goblin's weakness",
@@ -8712,7 +8712,7 @@ const items = {
     },
   },
   "Orange Seed": {
-    image: "public/assets/fruit/orange/orange_seed.png",
+    image: "assets/fruit/orange/orange_seed.png",
     description: {
       en: "Vitamin C to keep your Bumpkin Healthy",
       pt: "Vitamin C to keep your Bumpkin Healthy",
@@ -8722,7 +8722,7 @@ const items = {
     },
   },
   "Banana Plant": {
-    image: "public/assets/fruit/banana/banana_plant.png",
+    image: "assets/fruit/banana/banana_plant.png",
     description: {
       en: "Oh banana!",
       pt: "Oh banana!",
@@ -8732,7 +8732,7 @@ const items = {
     },
   },
   "Sunpetal Seed": {
-    image: "public/assets/flowers/sunpetal_seed.webp",
+    image: "assets/flowers/sunpetal_seed.webp",
     description: {
       en: "A sunpetal seed",
       pt: "A sunpetal seed",
@@ -8742,7 +8742,7 @@ const items = {
     },
   },
   "Bloom Seed": {
-    image: "public/assets/flowers/bloom_seed.webp",
+    image: "assets/flowers/bloom_seed.webp",
     description: {
       en: "A bloom seed",
       pt: "A bloom seed",
@@ -8752,7 +8752,7 @@ const items = {
     },
   },
   "Lily Seed": {
-    image: "public/assets/flowers/lily_seed.webp",
+    image: "assets/flowers/lily_seed.webp",
     description: {
       en: "A lily seed",
       pt: "A lily seed",
@@ -8762,7 +8762,7 @@ const items = {
     },
   },
   "Apple Pie": {
-    image: "public/assets/food/apple_pie.png",
+    image: "assets/food/apple_pie.png",
     description: {
       en: "Bumpkin Betty's famous recipe",
       pt: "Bumpkin Betty's famous recipe",
@@ -8772,7 +8772,7 @@ const items = {
     },
   },
   "Blueberry Jam": {
-    image: "public/assets/food/blueberry_jam.png",
+    image: "assets/food/blueberry_jam.png",
     description: {
       en: "Goblins will do anything for this jam",
       pt: "Goblins will do anything for this jam",
@@ -8782,7 +8782,7 @@ const items = {
     },
   },
   "Honey Cake": {
-    image: "public/assets/food/cakes/honey_cake.png",
+    image: "assets/food/cakes/honey_cake.png",
     description: {
       en: "A scrumptious cake!",
       pt: "A scrumptious cake!",
@@ -8792,7 +8792,7 @@ const items = {
     },
   },
   "Kale & Mushroom Pie": {
-    image: "public/assets/food/mushroom_kale_pie.png",
+    image: "assets/food/mushroom_kale_pie.png",
     description: {
       en: "A traditional Sapphiron recipe",
       pt: "A traditional Sapphiron recipe",
@@ -8802,7 +8802,7 @@ const items = {
     },
   },
   "Kale Stew": {
-    image: "public/assets/food/kale_stew.png",
+    image: "assets/food/kale_stew.png",
     description: {
       en: "A perfect Bumpkin Booster!",
       pt: "A perfect Bumpkin Booster!",
@@ -8812,7 +8812,7 @@ const items = {
     },
   },
   "Mushroom Jacket Potatoes": {
-    image: "public/assets/food/mushroom_jacket_potato.png",
+    image: "assets/food/mushroom_jacket_potato.png",
     description: {
       en: "Cram them taters with what ya got!",
       pt: "Cram them taters with what ya got!",
@@ -8822,7 +8822,7 @@ const items = {
     },
   },
   "Mushroom Soup": {
-    image: "public/assets/food/mushroom_soup.png",
+    image: "assets/food/mushroom_soup.png",
     description: {
       en: "Warm your Bumpkin's soul.",
       pt: "Warm your Bumpkin's soul.",
@@ -8832,7 +8832,7 @@ const items = {
     },
   },
   "Orange Cake": {
-    image: "public/assets/food/cakes/orange_cake.png",
+    image: "assets/food/cakes/orange_cake.png",
     description: {
       en: "Orange you glad we aren't cooking apples",
       pt: "Orange you glad we aren't cooking apples",
@@ -8842,7 +8842,7 @@ const items = {
     },
   },
   "Sunflower Crunch": {
-    image: "public/assets/food/sunflower_crunch.png",
+    image: "assets/food/sunflower_crunch.png",
     description: {
       en: "Crunchy goodness. Try not to burn it.",
       pt: "Crunchy goodness. Try not to burn it.",
@@ -8872,7 +8872,7 @@ const items = {
     },
   },
   Apple: {
-    image: "public/assets/resources/apple.png",
+    image: "assets/resources/apple.png",
     description: {
       en: "Perfect for homemade Apple Pie",
       pt: "Perfect for homemade Apple Pie",
@@ -8882,7 +8882,7 @@ const items = {
     },
   },
   Blueberry: {
-    image: "public/assets/resources/blueberry.png",
+    image: "assets/resources/blueberry.png",
     description: {
       en: "A Goblin's weakness",
       pt: "A Goblin's weakness",
@@ -8892,7 +8892,7 @@ const items = {
     },
   },
   Orange: {
-    image: "public/assets/resources/orange.png",
+    image: "assets/resources/orange.png",
     description: {
       en: "Vitamin C to keep your Bumpkin Healthy",
       pt: "Vitamin C to keep your Bumpkin Healthy",
@@ -8902,7 +8902,7 @@ const items = {
     },
   },
   Banana: {
-    image: "public/assets/resources/banana.png",
+    image: "assets/resources/banana.png",
     description: {
       en: "Oh banana!",
       pt: "Oh banana!",
@@ -8912,7 +8912,7 @@ const items = {
     },
   },
   Honey: {
-    image: "public/assets/resources/honey.png",
+    image: "assets/resources/honey.png",
     description: {
       en: "Used to sweeten your cooking",
       pt: "Used to sweeten your cooking",
@@ -8922,7 +8922,7 @@ const items = {
     },
   },
   "Apple Juice": {
-    image: "public/assets/food/apple_juice.png",
+    image: "assets/food/apple_juice.png",
     description: {
       en: "A crisp refreshing beverage",
       pt: "A crisp refreshing beverage",
@@ -8932,7 +8932,7 @@ const items = {
     },
   },
   "Orange Juice": {
-    image: "public/assets/food/orange_juice.png",
+    image: "assets/food/orange_juice.png",
     description: {
       en: "OJ matches perfectly with a Club Sandwich",
       pt: "OJ matches perfectly with a Club Sandwich",
@@ -8942,7 +8942,7 @@ const items = {
     },
   },
   "Purple Smoothie": {
-    image: "public/assets/food/purple_smoothie.png",
+    image: "assets/food/purple_smoothie.png",
     description: {
       en: "You can hardly taste the Cabbage",
       pt: "You can hardly taste the Cabbage",
@@ -8952,7 +8952,7 @@ const items = {
     },
   },
   "Bumpkin Detox": {
-    image: "public/assets/food/bumpkin_detox.png",
+    image: "assets/food/bumpkin_detox.png",
     description: {
       en: "Wash away the sins of last night",
       pt: "Wash away the sins of last night",
@@ -8962,7 +8962,7 @@ const items = {
     },
   },
   "Power Smoothie": {
-    image: "public/assets/food/power_smoothie.png",
+    image: "assets/food/power_smoothie.png",
     description: {
       en: "Official drink of the Bumpkin Powerlifting Society",
       pt: "Official drink of the Bumpkin Powerlifting Society",
@@ -8972,7 +8972,7 @@ const items = {
     },
   },
   "Bumpkin Roast": {
-    image: "public/assets/food/bumpkin_roast.png",
+    image: "assets/food/bumpkin_roast.png",
     description: {
       en: "A traditional Bumpkin dish",
       pt: "A traditional Bumpkin dish",
@@ -8982,7 +8982,7 @@ const items = {
     },
   },
   "Goblin Brunch": {
-    image: "public/assets/food/goblin_brunch.png",
+    image: "assets/food/goblin_brunch.png",
     description: {
       en: "A traditional Goblin dish",
       pt: "A traditional Goblin dish",
@@ -8992,7 +8992,7 @@ const items = {
     },
   },
   "Fruit Salad": {
-    image: "public/assets/food/fruit_salad.png",
+    image: "assets/food/fruit_salad.png",
     description: {
       en: "Fruit Salad, Yummy Yummy",
       pt: "Fruit Salad, Yummy Yummy",
@@ -9002,7 +9002,7 @@ const items = {
     },
   },
   "Kale Omelette": {
-    image: "public/assets/food/kale_omelette.png",
+    image: "assets/food/kale_omelette.png",
     description: {
       en: "A healthy breakfast",
       pt: "A healthy breakfast",
@@ -9012,7 +9012,7 @@ const items = {
     },
   },
   "Cabbers n Mash": {
-    image: "public/assets/food/cabbers_n_mash.png",
+    image: "assets/food/cabbers_n_mash.png",
     description: {
       en: "Cabbages and Mashed Potatoes",
       pt: "Cabbages and Mashed Potatoes",
@@ -9022,7 +9022,7 @@ const items = {
     },
   },
   "Fancy Fries": {
-    image: "public/assets/food/fancy_fries.png",
+    image: "assets/food/fancy_fries.png",
     description: {
       en: "Fantastic Fries",
       pt: "Fantastic Fries",
@@ -9032,7 +9032,7 @@ const items = {
     },
   },
   "Banana Blast": {
-    image: "public/assets/food/banana_blast.png",
+    image: "assets/food/banana_blast.png",
     description: {
       en: "The ultimate fruity fuel for those with a peel for power!",
       pt: "The ultimate fruity fuel for those with a peel for power!",
@@ -9062,7 +9062,7 @@ const items = {
     },
   },
   Iron: {
-    image: "public/assets/resources/iron_ore.png",
+    image: "assets/resources/iron_ore.png",
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -9072,7 +9072,7 @@ const items = {
     },
   },
   Crimstone: {
-    image: "public/assets/resources/crimstone.png",
+    image: "assets/resources/crimstone.png",
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -9082,7 +9082,7 @@ const items = {
     },
   },
   Gold: {
-    image: "public/assets/resources/gold_ore.png",
+    image: "assets/resources/gold_ore.png",
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -9102,7 +9102,7 @@ const items = {
     },
   },
   Sunstone: {
-    image: "public/assets/resources/sunstone/sunstone.png",
+    image: "assets/resources/sunstone/sunstone.png",
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -9112,7 +9112,7 @@ const items = {
     },
   },
   Oil: {
-    image: "public/assets/resources/oil.webp",
+    image: "assets/resources/oil.webp",
     description: {
       en: "Used to craft items",
       pt: "Used to craft items",
@@ -9272,7 +9272,7 @@ const items = {
     },
   },
   "Sand Drill": {
-    image: "public/assets/icons/drill.png",
+    image: "assets/icons/drill.png",
     description: {
       en: "Drill deep for uncommon or rare treasure",
       pt: "Perfurar profundamente por tesouros incomuns ou raros",
@@ -9282,7 +9282,7 @@ const items = {
     },
   },
   "Oil Drill": {
-    image: "public/assets/icons/oil_drill.webp",
+    image: "assets/icons/oil_drill.webp",
     description: {
       en: "Drill for oil",
       pt: "Drill for oil",
@@ -9292,7 +9292,7 @@ const items = {
     },
   },
   "Block Buck": {
-    image: "public/assets/icons/block_buck.png",
+    image: "assets/icons/block_buck.png",
     description: {
       en: "A valuable token in Sunflower Land!",
       pt: "Um token valioso em Sunflower Land!",
@@ -9302,7 +9302,7 @@ const items = {
     },
   },
   "Sunflower Statue": {
-    image: "public/assets/sfts/sunflower_statue.png",
+    image: "assets/sfts/sunflower_statue.png",
     description: {
       en: "A symbol of the holy token",
       pt: "A symbol of the holy token",
@@ -9312,7 +9312,7 @@ const items = {
     },
   },
   "Potato Statue": {
-    image: "public/assets/sfts/potato_statue.png",
+    image: "assets/sfts/potato_statue.png",
     description: {
       en: "The OG potato hustler flex",
       pt: "The OG potato hustler flex",
@@ -9322,7 +9322,7 @@ const items = {
     },
   },
   Nancy: {
-    image: "public/assets/sfts/nancy.png",
+    image: "assets/sfts/nancy.png",
     description: {
       en: "Keeps a few crows away. Crops grow 15% faster",
       pt: "Keeps a few crows away. Crops grow 15% faster",
@@ -9332,7 +9332,7 @@ const items = {
     },
   },
   Scarecrow: {
-    image: "public/assets/sfts/scarecrow.png",
+    image: "assets/sfts/scarecrow.png",
     description: {
       en: "A goblin scarecrow. Yield 20% more crops",
       pt: "A goblin scarecrow. Yield 20% more crops",
@@ -9342,7 +9342,7 @@ const items = {
     },
   },
   Kuebiko: {
-    image: "public/assets/sfts/kuebiko.gif",
+    image: "assets/sfts/kuebiko.gif",
     description: {
       en: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
       pt: "Even the shopkeeper is scared of this scarecrow. Seeds are free",
@@ -9353,7 +9353,7 @@ const items = {
     },
   },
   "Christmas Tree": {
-    image: "public/assets/sfts/christmas_tree.png",
+    image: "assets/sfts/christmas_tree.png",
     description: {
       en: "Receive a Santa Airdrop on Christmas day",
       pt: "Receive a Santa Airdrop on Christmas day",
@@ -9363,7 +9363,7 @@ const items = {
     },
   },
   Gnome: {
-    image: "public/assets/decorations/scarlet.png",
+    image: "assets/decorations/scarlet.png",
     description: {
       en: "A lucky gnome",
       pt: "A lucky gnome",
@@ -9373,7 +9373,7 @@ const items = {
     },
   },
   "Gold Egg": {
-    image: "public/assets/sfts/gold_egg.png",
+    image: "assets/sfts/gold_egg.png",
     description: {
       en: "Feed chickens without needing wheat",
       pt: "Feed chickens without needing wheat",
@@ -9383,7 +9383,7 @@ const items = {
     },
   },
   "Farm Cat": {
-    image: "public/assets/sfts/farm_cat.gif",
+    image: "assets/sfts/farm_cat.gif",
     description: {
       en: "Keep the rats away",
       pt: "Keep the rats away",
@@ -9393,7 +9393,7 @@ const items = {
     },
   },
   "Farm Dog": {
-    image: "public/assets/sfts/farm_dog.gif",
+    image: "assets/sfts/farm_dog.gif",
     description: {
       en: "Herd sheep with your farm dog",
       pt: "Herd sheep with your farm dog",
@@ -9403,7 +9403,7 @@ const items = {
     },
   },
   "Chicken Coop": {
-    image: "public/assets/sfts/chicken_coop.png",
+    image: "assets/sfts/chicken_coop.png",
     description: {
       en: "Collect 2x the amount of eggs",
       pt: "Collect 2x the amount of eggs",
@@ -9413,7 +9413,7 @@ const items = {
     },
   },
   "Golden Cauliflower": {
-    image: "public/assets/sfts/golden_cauliflower.webp",
+    image: "assets/sfts/golden_cauliflower.webp",
     description: {
       en: "Doubles cauliflower yield",
       pt: "Doubles cauliflower yield",
@@ -9423,7 +9423,7 @@ const items = {
     },
   },
   "Sunflower Rock": {
-    image: "public/assets/sfts/sunflower_rock.png",
+    image: "assets/sfts/sunflower_rock.png",
     description: {
       en: "The game that broke Polygon",
       pt: "The game that broke Polygon",
@@ -9433,7 +9433,7 @@ const items = {
     },
   },
   "Sunflower Tombstone": {
-    image: "public/assets/sfts/sunflower_tombstone.png",
+    image: "assets/sfts/sunflower_tombstone.png",
     description: {
       en: "In memory of Sunflower Farmers",
       pt: "In memory of Sunflower Farmers",
@@ -9443,7 +9443,7 @@ const items = {
     },
   },
   "Goblin Crown": {
-    image: "public/assets/sfts/goblin_crown.png",
+    image: "assets/sfts/goblin_crown.png",
     description: {
       en: "Summon the leader of the Goblins",
       pt: "Summon the leader of the Goblins",
@@ -9453,7 +9453,7 @@ const items = {
     },
   },
   Fountain: {
-    image: "public/assets/sfts/fountain.gif",
+    image: "assets/sfts/fountain.gif",
     description: {
       en: "A relaxing fountain for your farm",
       pt: "A relaxing fountain for your farm",
@@ -9463,7 +9463,7 @@ const items = {
     },
   },
   "Woody the Beaver": {
-    image: "public/assets/sfts/beaver.gif",
+    image: "assets/sfts/beaver.gif",
     description: {
       en: "Increase wood drops by 20%",
       pt: "Increase wood drops by 20%",
@@ -9473,7 +9473,7 @@ const items = {
     },
   },
   "Apprentice Beaver": {
-    image: "public/assets/sfts/apprentice_beaver.gif",
+    image: "assets/sfts/apprentice_beaver.gif",
     description: {
       en: "Trees recover 50% faster",
       pt: "Trees recover 50% faster",
@@ -9483,7 +9483,7 @@ const items = {
     },
   },
   "Foreman Beaver": {
-    image: "public/assets/sfts/construction_beaver.gif",
+    image: "assets/sfts/construction_beaver.gif",
     description: {
       en: "Cut trees without axes",
       pt: "Cut trees without axes",
@@ -9493,7 +9493,7 @@ const items = {
     },
   },
   "Mysterious Parsnip": {
-    image: "public/assets/sfts/mysterious_parsnip.png",
+    image: "assets/sfts/mysterious_parsnip.png",
     description: {
       en: "Parsnips grow 50% faster",
       pt: "Parsnips grow 50% faster",
@@ -9503,7 +9503,7 @@ const items = {
     },
   },
   "Carrot Sword": {
-    image: "public/assets/sfts/carrot_sword.png",
+    image: "assets/sfts/carrot_sword.png",
     description: {
       en: "Increase chance of a mutant crop appearing",
       pt: "Increase chance of a mutant crop appearing",
@@ -9513,7 +9513,7 @@ const items = {
     },
   },
   "Golden Bonsai": {
-    image: "public/assets/sfts/golden_bonsai.png",
+    image: "assets/sfts/golden_bonsai.png",
     description: {
       en: "Goblins love bonsai too",
       pt: "Goblins love bonsai too",
@@ -9523,7 +9523,7 @@ const items = {
     },
   },
   "Nyon Statue": {
-    image: "public/assets/sfts/nyon_statue.png",
+    image: "assets/sfts/nyon_statue.png",
     description: {
       en: "In memory of Nyon Lann",
       pt: "In memory of Nyon Lann",
@@ -9533,7 +9533,7 @@ const items = {
     },
   },
   "Homeless Tent": {
-    image: "public/assets/sfts/homeless_tent.png",
+    image: "assets/sfts/homeless_tent.png",
     description: {
       en: "A nice and cozy tent",
       pt: "A nice and cozy tent",
@@ -9543,7 +9543,7 @@ const items = {
     },
   },
   "Farmer Bath": {
-    image: "public/assets/sfts/farmer_bath.png",
+    image: "assets/sfts/farmer_bath.png",
     description: {
       en: "A beetroot scented bath for the farmers",
       pt: "A beetroot scented bath for the farmers",
@@ -9553,7 +9553,7 @@ const items = {
     },
   },
   "Mysterious Head": {
-    image: "public/assets/sfts/mysterious_head.png",
+    image: "assets/sfts/mysterious_head.png",
     description: {
       en: "A statue thought to protect farmers",
       pt: "A statue thought to protect farmers",
@@ -9563,7 +9563,7 @@ const items = {
     },
   },
   "Tunnel Mole": {
-    image: "public/assets/sfts/tunnel_mole.gif",
+    image: "assets/sfts/tunnel_mole.gif",
     description: {
       en: "Gives a 25% increase to stone mines",
       pt: "Gives a 25% increase to stone mines",
@@ -9573,7 +9573,7 @@ const items = {
     },
   },
   "Rocky the Mole": {
-    image: "public/assets/sfts/rocky_mole.gif",
+    image: "assets/sfts/rocky_mole.gif",
     description: {
       en: "Gives a 25% increase to iron mines",
       pt: "Gives a 25% increase to iron mines",
@@ -9583,7 +9583,7 @@ const items = {
     },
   },
   Nugget: {
-    image: "public/assets/sfts/nugget.gif",
+    image: "assets/sfts/nugget.gif",
     description: {
       en: "Gives a 25% increase to gold mines",
       pt: "Gives a 25% increase to gold mines",
@@ -9593,7 +9593,7 @@ const items = {
     },
   },
   "Rock Golem": {
-    image: "public/assets/sfts/rock_golem.gif",
+    image: "assets/sfts/rock_golem.gif",
     description: {
       en: "Gives a 10% chance to get 3x stone",
       pt: "Gives a 10% chance to get 3x stone",
@@ -9603,7 +9603,7 @@ const items = {
     },
   },
   Rooster: {
-    image: "public/assets/animals/chickens/rooster.gif",
+    image: "assets/animals/chickens/rooster.gif",
     description: {
       en: "Doubles the chance of dropping a mutant chicken",
       pt: "Doubles the chance of dropping a mutant chicken",
@@ -9613,7 +9613,7 @@ const items = {
     },
   },
   "Wicker Man": {
-    image: "public/assets/sfts/wicker_man.png",
+    image: "assets/sfts/wicker_man.png",
     description: {
       en: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
       pt: "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
@@ -9624,7 +9624,7 @@ const items = {
     },
   },
   "Pumpkin Soup": {
-    image: "public/assets/food/pumpkin_soup.png",
+    image: "assets/food/pumpkin_soup.png",
     description: {
       en: "A creamy soup that goblins love",
       pt: "A creamy soup that goblins love",
@@ -9634,7 +9634,7 @@ const items = {
     },
   },
   "Roasted Cauliflower": {
-    image: "public/assets/food/roasted_cauliflower.png",
+    image: "assets/food/roasted_cauliflower.png",
     description: {
       en: "A Goblin's favourite",
       pt: "A Goblin's favourite",
@@ -9644,7 +9644,7 @@ const items = {
     },
   },
   "Radish Pie": {
-    image: "public/assets/food/radish_pie.png",
+    image: "assets/food/radish_pie.png",
     description: {
       en: "Despised by humans, loved by goblins",
       pt: "Despised by humans, loved by goblins",
@@ -9654,7 +9654,7 @@ const items = {
     },
   },
   "Beetroot Cake": {
-    image: "public/assets/food/cakes/beetroot_cake.png",
+    image: "assets/food/cakes/beetroot_cake.png",
     description: {
       en: "Beetroot Cake",
       pt: "Beetroot Cake",
@@ -9664,7 +9664,7 @@ const items = {
     },
   },
   "Cabbage Cake": {
-    image: "public/assets/food/cakes/cabbage_cake.png",
+    image: "assets/food/cakes/cabbage_cake.png",
     description: {
       en: "Cabbage Cake",
       pt: "Cabbage Cake",
@@ -9674,7 +9674,7 @@ const items = {
     },
   },
   "Carrot Cake": {
-    image: "public/assets/food/cakes/carrot_cake.png",
+    image: "assets/food/cakes/carrot_cake.png",
     description: {
       en: "Carrot Cake",
       pt: "Carrot Cake",
@@ -9684,7 +9684,7 @@ const items = {
     },
   },
   "Cauliflower Cake": {
-    image: "public/assets/food/cakes/cauliflower_cake.png",
+    image: "assets/food/cakes/cauliflower_cake.png",
     description: {
       en: "Cauliflower Cake",
       pt: "Cauliflower Cake",
@@ -9694,7 +9694,7 @@ const items = {
     },
   },
   "Parsnip Cake": {
-    image: "public/assets/food/cakes/parsnip_cake.png",
+    image: "assets/food/cakes/parsnip_cake.png",
     description: {
       en: "Parsnip Cake",
       pt: "Parsnip Cake",
@@ -9704,7 +9704,7 @@ const items = {
     },
   },
   "Potato Cake": {
-    image: "public/assets/food/cakes/potato_cake.png",
+    image: "assets/food/cakes/potato_cake.png",
     description: {
       en: "Potato Cake",
       pt: "Potato Cake",
@@ -9714,7 +9714,7 @@ const items = {
     },
   },
   "Pumpkin Cake": {
-    image: "public/assets/food/cakes/pumpkin_cake.png",
+    image: "assets/food/cakes/pumpkin_cake.png",
     description: {
       en: "Pumpkin Cake",
       pt: "Pumpkin Cake",
@@ -9724,7 +9724,7 @@ const items = {
     },
   },
   "Radish Cake": {
-    image: "public/assets/food/cakes/radish_cake.png",
+    image: "assets/food/cakes/radish_cake.png",
     description: {
       en: "Radish Cake",
       pt: "Radish Cake",
@@ -9734,7 +9734,7 @@ const items = {
     },
   },
   "Sunflower Cake": {
-    image: "public/assets/food/cakes/sunflower_cake.png",
+    image: "assets/food/cakes/sunflower_cake.png",
     description: {
       en: "Sunflower Cake",
       pt: "Sunflower Cake",
@@ -9744,7 +9744,7 @@ const items = {
     },
   },
   "Wheat Cake": {
-    image: "public/assets/food/cakes/wheat_cake.png",
+    image: "assets/food/cakes/wheat_cake.png",
     description: {
       en: "Wheat Cake",
       pt: "Wheat Cake",
@@ -9754,7 +9754,7 @@ const items = {
     },
   },
   "Green Thumb": {
-    image: "public/assets/skills/green_thumb.png",
+    image: "assets/skills/green_thumb.png",
     description: {
       en: "Crops are worth 5% more",
       pt: "Crops are worth 5% more",
@@ -9764,7 +9764,7 @@ const items = {
     },
   },
   "Barn Manager": {
-    image: "public/assets/skills/barn_manager.png",
+    image: "assets/skills/barn_manager.png",
     description: {
       en: "Animals yield 10% more goods",
       pt: "Animals yield 10% more goods",
@@ -9774,7 +9774,7 @@ const items = {
     },
   },
   "Seed Specialist": {
-    image: "public/assets/skills/seed_specialist.png",
+    image: "assets/skills/seed_specialist.png",
     description: {
       en: "Crops grow 10% faster",
       pt: "Crops grow 10% faster",
@@ -9784,7 +9784,7 @@ const items = {
     },
   },
   Wrangler: {
-    image: "public/assets/skills/wrangler.png",
+    image: "assets/skills/wrangler.png",
     description: {
       en: "Animals produce goods 10% faster",
       pt: "Animals produce goods 10% faster",
@@ -9794,7 +9794,7 @@ const items = {
     },
   },
   Lumberjack: {
-    image: "public/assets/skills/lumberjack.png",
+    image: "assets/skills/lumberjack.png",
     description: {
       en: "Increase wood drops by 10%",
       pt: "Increase wood drops by 10%",
@@ -9804,7 +9804,7 @@ const items = {
     },
   },
   Prospector: {
-    image: "public/assets/skills/prospector.png",
+    image: "assets/skills/prospector.png",
     description: {
       en: "Increase stone drops by 20%",
       pt: "Increase stone drops by 20%",
@@ -9814,7 +9814,7 @@ const items = {
     },
   },
   Logger: {
-    image: "public/assets/skills/logger.png",
+    image: "assets/skills/logger.png",
     description: {
       en: "Axes last 50% longer",
       pt: "Axes last 50% longer",
@@ -9824,7 +9824,7 @@ const items = {
     },
   },
   "Gold Rush": {
-    image: "public/assets/skills/gold_rush.png",
+    image: "assets/skills/gold_rush.png",
     description: {
       en: "Increase gold drops by 50%",
       pt: "Increase gold drops by 50%",
@@ -9834,7 +9834,7 @@ const items = {
     },
   },
   Artist: {
-    image: "public/assets/skills/artist.png",
+    image: "assets/skills/artist.png",
     description: {
       en: "Save 10% on shop & blacksmith tools",
       pt: "Save 10% on shop & blacksmith tools",
@@ -9844,7 +9844,7 @@ const items = {
     },
   },
   Coder: {
-    image: "public/assets/skills/coder.png",
+    image: "assets/skills/coder.png",
     description: {
       en: "Crops yield 20% more",
       pt: "Crops yield 20% more",
@@ -9854,7 +9854,7 @@ const items = {
     },
   },
   "Liquidity Provider": {
-    image: "public/assets/skills/liquidity_provider.png",
+    image: "assets/skills/liquidity_provider.png",
     description: {
       en: "50% reduced SFL withdrawal fee",
       pt: "50% reduced SFL withdrawal fee",
@@ -9864,7 +9864,7 @@ const items = {
     },
   },
   "Discord Mod": {
-    image: "public/assets/skills/discord.png",
+    image: "assets/skills/discord.png",
     description: {
       en: "Yield 35% more wood",
       pt: "Yield 35% more wood",
@@ -9874,7 +9874,7 @@ const items = {
     },
   },
   Warrior: {
-    image: "public/assets/skills/warrior.png",
+    image: "assets/skills/warrior.png",
     description: {
       en: "Early access to land expansion",
       pt: "Early access to land expansion",
@@ -9884,7 +9884,7 @@ const items = {
     },
   },
   "Trading Ticket": {
-    image: "public/assets/icons/ticket.png",
+    image: "assets/icons/ticket.png",
     description: {
       en: "Free Trades! Woohoo!",
       pt: "Negociações grátis! Uhu!",
@@ -9894,7 +9894,7 @@ const items = {
     },
   },
   "Beta Pass": {
-    image: "public/assets/icons/beta_pass.png",
+    image: "assets/icons/beta_pass.png",
     description: {
       en: "Gain early access to features for testing.",
       pt: "Acesso antecipado a recursos para teste.",
@@ -9904,7 +9904,7 @@ const items = {
     },
   },
   "War Bond": {
-    image: "public/assets/icons/warBond.png",
+    image: "assets/icons/warBond.png",
     description: {
       en: "A mark of a true warrior",
       pt: "Uma marca de um verdadeiro guerreiro",
@@ -9934,7 +9934,7 @@ const items = {
     },
   },
   "Human War Banner": {
-    image: "public/assets/decorations/banners/human_banner.png",
+    image: "assets/decorations/banners/human_banner.png",
     description: {
       en: "A display of allegiance to the Human cause",
       pt: "Uma exibição de lealdade à causa humana",
@@ -9944,7 +9944,7 @@ const items = {
     },
   },
   "Goblin War Banner": {
-    image: "public/assets/decorations/banners/goblin_banner.png",
+    image: "assets/decorations/banners/goblin_banner.png",
     description: {
       en: "A display of allegiance to the Goblin cause",
       pt: "Uma exibição de lealdade à causa dos Goblins",
@@ -9954,7 +9954,7 @@ const items = {
     },
   },
   "Sunflorian Faction Banner": {
-    image: "public/assets/decorations/banners/factions/sunflorians_banner.webp",
+    image: "assets/decorations/banners/factions/sunflorians_banner.webp",
     description: {
       en: "A display of allegiance to the Sunflorian Faction",
       pt: "A display of allegiance to the Sunflorian Faction",
@@ -9964,7 +9964,7 @@ const items = {
     },
   },
   "Nightshade Faction Banner": {
-    image: "public/assets/decorations/banners/factions/nightshades_banner.webp",
+    image: "assets/decorations/banners/factions/nightshades_banner.webp",
     description: {
       en: "A display of allegiance to the Nightshade Faction",
       pt: "A display of allegiance to the Nightshade Faction",
@@ -9974,7 +9974,7 @@ const items = {
     },
   },
   "Bumpkin Faction Banner": {
-    image: "public/assets/decorations/banners/factions/bumpkins_banner.webp",
+    image: "assets/decorations/banners/factions/bumpkins_banner.webp",
     description: {
       en: "A display of allegiance to the Bumpkin Faction",
       pt: "A display of allegiance to the Bumpkin Faction",
@@ -9984,7 +9984,7 @@ const items = {
     },
   },
   "Goblin Faction Banner": {
-    image: "public/assets/decorations/banners/factions/goblins_banner.webp",
+    image: "assets/decorations/banners/factions/goblins_banner.webp",
     description: {
       en: "A display of allegiance to the Goblin Faction",
       pt: "A display of allegiance to the Goblin Faction",
@@ -9994,7 +9994,7 @@ const items = {
     },
   },
   "Australian Flag": {
-    image: "public/assets/sfts/flags/australia_flag.gif",
+    image: "assets/sfts/flags/australia_flag.gif",
     description: {
       en: "Australian flag",
       pt: "Australian flag",
@@ -10004,7 +10004,7 @@ const items = {
     },
   },
   "Belgian Flag": {
-    image: "public/assets/sfts/flags/belgium_flag.gif",
+    image: "assets/sfts/flags/belgium_flag.gif",
     description: {
       en: "Belgian flag",
       pt: "Belgian flag",
@@ -10014,7 +10014,7 @@ const items = {
     },
   },
   "Brazilian Flag": {
-    image: "public/assets/sfts/flags/brazil_flag.gif",
+    image: "assets/sfts/flags/brazil_flag.gif",
     description: {
       en: "Brazilian flag",
       pt: "Brazilian flag",
@@ -10024,7 +10024,7 @@ const items = {
     },
   },
   "Chinese Flag": {
-    image: "public/assets/sfts/flags/china_flag.gif",
+    image: "assets/sfts/flags/china_flag.gif",
     description: {
       en: "Chinese flag",
       pt: "Chinese flag",
@@ -10034,7 +10034,7 @@ const items = {
     },
   },
   "Finnish Flag": {
-    image: "public/assets/sfts/flags/finland_flag.gif",
+    image: "assets/sfts/flags/finland_flag.gif",
     description: {
       en: "Finnish flag",
       pt: "Finnish flag",
@@ -10044,7 +10044,7 @@ const items = {
     },
   },
   "French Flag": {
-    image: "public/assets/sfts/flags/france_flag.gif",
+    image: "assets/sfts/flags/france_flag.gif",
     description: {
       en: "French flag",
       pt: "French flag",
@@ -10054,7 +10054,7 @@ const items = {
     },
   },
   "German Flag": {
-    image: "public/assets/sfts/flags/germany_flag.gif",
+    image: "assets/sfts/flags/germany_flag.gif",
     description: {
       en: "German flag",
       pt: "German flag",
@@ -10064,7 +10064,7 @@ const items = {
     },
   },
   "Indonesian Flag": {
-    image: "public/assets/sfts/flags/indonesia_flag.gif",
+    image: "assets/sfts/flags/indonesia_flag.gif",
     description: {
       en: "Indonesian flag",
       pt: "Indonesian flag",
@@ -10074,7 +10074,7 @@ const items = {
     },
   },
   "Indian Flag": {
-    image: "public/assets/sfts/flags/india_flag.gif",
+    image: "assets/sfts/flags/india_flag.gif",
     description: {
       en: "Indian flag",
       pt: "Indian flag",
@@ -10084,7 +10084,7 @@ const items = {
     },
   },
   "Iranian Flag": {
-    image: "public/assets/sfts/flags/iran_flag.gif",
+    image: "assets/sfts/flags/iran_flag.gif",
     description: {
       en: "Iranian flag",
       pt: "Iranian flag",
@@ -10094,7 +10094,7 @@ const items = {
     },
   },
   "Italian Flag": {
-    image: "public/assets/sfts/flags/italy_flag.gif",
+    image: "assets/sfts/flags/italy_flag.gif",
     description: {
       en: "Italian flag",
       pt: "Italian flag",
@@ -10104,7 +10104,7 @@ const items = {
     },
   },
   "Japanese Flag": {
-    image: "public/assets/sfts/flags/japan_flag.gif",
+    image: "assets/sfts/flags/japan_flag.gif",
     description: {
       en: "Japanese flag",
       pt: "Japanese flag",
@@ -10114,7 +10114,7 @@ const items = {
     },
   },
   "Moroccan Flag": {
-    image: "public/assets/sfts/flags/morocco_flag.gif",
+    image: "assets/sfts/flags/morocco_flag.gif",
     description: {
       en: "Moroccan flag",
       pt: "Moroccan flag",
@@ -10124,7 +10124,7 @@ const items = {
     },
   },
   "Dutch Flag": {
-    image: "public/assets/sfts/flags/netherlands_flag.gif",
+    image: "assets/sfts/flags/netherlands_flag.gif",
     description: {
       en: "Dutch flag",
       pt: "Dutch flag",
@@ -10134,7 +10134,7 @@ const items = {
     },
   },
   "Philippine Flag": {
-    image: "public/assets/sfts/flags/philippines_flag.gif",
+    image: "assets/sfts/flags/philippines_flag.gif",
     description: {
       en: "Philippine flag",
       pt: "Philippine flag",
@@ -10144,7 +10144,7 @@ const items = {
     },
   },
   "Polish Flag": {
-    image: "public/assets/sfts/flags/poland_flag.gif",
+    image: "assets/sfts/flags/poland_flag.gif",
     description: {
       en: "Polish flag",
       pt: "Polish flag",
@@ -10154,7 +10154,7 @@ const items = {
     },
   },
   "Portuguese Flag": {
-    image: "public/assets/sfts/flags/portugal_flag.gif",
+    image: "assets/sfts/flags/portugal_flag.gif",
     description: {
       en: "Portuguese flag",
       pt: "Portuguese flag",
@@ -10164,7 +10164,7 @@ const items = {
     },
   },
   "Russian Flag": {
-    image: "public/assets/sfts/flags/russia_flag.gif",
+    image: "assets/sfts/flags/russia_flag.gif",
     description: {
       en: "Russian flag",
       pt: "Russian flag",
@@ -10174,7 +10174,7 @@ const items = {
     },
   },
   "Saudi Arabian Flag": {
-    image: "public/assets/sfts/flags/saudi_arabia_flag.gif",
+    image: "assets/sfts/flags/saudi_arabia_flag.gif",
     description: {
       en: "Saudi Arabian flag",
       pt: "Saudi Arabian flag",
@@ -10184,7 +10184,7 @@ const items = {
     },
   },
   "South Korean Flag": {
-    image: "public/assets/sfts/flags/south_korea_flag.gif",
+    image: "assets/sfts/flags/south_korea_flag.gif",
     description: {
       en: "South Korean flag",
       pt: "South Korean flag",
@@ -10194,7 +10194,7 @@ const items = {
     },
   },
   "Spanish Flag": {
-    image: "public/assets/sfts/flags/spain_flag.gif",
+    image: "assets/sfts/flags/spain_flag.gif",
     description: {
       en: "Spanish flag",
       pt: "Spanish flag",
@@ -10204,7 +10204,7 @@ const items = {
     },
   },
   "Sunflower Flag": {
-    image: "public/assets/sfts/flags/sunflower_flag.gif",
+    image: "assets/sfts/flags/sunflower_flag.gif",
     description: {
       en: "Sunflower flag",
       pt: "Sunflower flag",
@@ -10214,7 +10214,7 @@ const items = {
     },
   },
   "Thai Flag": {
-    image: "public/assets/sfts/flags/thailand_flag.gif",
+    image: "assets/sfts/flags/thailand_flag.gif",
     description: {
       en: "Thai flag",
       pt: "Thai flag",
@@ -10224,7 +10224,7 @@ const items = {
     },
   },
   "Turkish Flag": {
-    image: "public/assets/sfts/flags/turkey_flag.gif",
+    image: "assets/sfts/flags/turkey_flag.gif",
     description: {
       en: "Turkish flag",
       pt: "Turkish flag",
@@ -10234,7 +10234,7 @@ const items = {
     },
   },
   "Ukrainian Flag": {
-    image: "public/assets/sfts/flags/ukraine_flag.gif",
+    image: "assets/sfts/flags/ukraine_flag.gif",
     description: {
       en: "Ukrainian flag",
       pt: "Ukrainian flag",
@@ -10244,7 +10244,7 @@ const items = {
     },
   },
   "American Flag": {
-    image: "public/assets/sfts/flags/usa_flag.gif",
+    image: "assets/sfts/flags/usa_flag.gif",
     description: {
       en: "American flag",
       pt: "American flag",
@@ -10254,7 +10254,7 @@ const items = {
     },
   },
   "Vietnamese Flag": {
-    image: "public/assets/sfts/flags/vietnam_flag.gif",
+    image: "assets/sfts/flags/vietnam_flag.gif",
     description: {
       en: "Vietnamese flag",
       pt: "Vietnamese flag",
@@ -10264,7 +10264,7 @@ const items = {
     },
   },
   "Canadian Flag": {
-    image: "public/assets/sfts/flags/canadian_flag.gif",
+    image: "assets/sfts/flags/canadian_flag.gif",
     description: {
       en: "Canadian flag",
       pt: "Canadian flag",
@@ -10274,7 +10274,7 @@ const items = {
     },
   },
   "Singaporean Flag": {
-    image: "public/assets/sfts/flags/singaporean_flag.gif",
+    image: "assets/sfts/flags/singaporean_flag.gif",
     description: {
       en: "Singaporean flag",
       pt: "Singaporean flag",
@@ -10284,7 +10284,7 @@ const items = {
     },
   },
   "British Flag": {
-    image: "public/assets/sfts/flags/british_flag.gif",
+    image: "assets/sfts/flags/british_flag.gif",
     description: {
       en: "British flag",
       pt: "British flag",
@@ -10294,7 +10294,7 @@ const items = {
     },
   },
   "Sierra Leone Flag": {
-    image: "public/assets/sfts/flags/sierra_leone_flag.gif",
+    image: "assets/sfts/flags/sierra_leone_flag.gif",
     description: {
       en: "Sierra Leone flag",
       pt: "Sierra Leone flag",
@@ -10304,7 +10304,7 @@ const items = {
     },
   },
   "Romanian Flag": {
-    image: "public/assets/sfts/flags/romanian_flag.gif",
+    image: "assets/sfts/flags/romanian_flag.gif",
     description: {
       en: "Romanian flag",
       pt: "Romanian flag",
@@ -10314,7 +10314,7 @@ const items = {
     },
   },
   "Rainbow Flag": {
-    image: "public/assets/sfts/flags/rainbow_flag.gif",
+    image: "assets/sfts/flags/rainbow_flag.gif",
     description: {
       en: "Rainbow flag",
       pt: "Rainbow flag",
@@ -10324,7 +10324,7 @@ const items = {
     },
   },
   "Goblin Flag": {
-    image: "public/assets/sfts/flags/goblin_flag.gif",
+    image: "assets/sfts/flags/goblin_flag.gif",
     description: {
       en: "Goblin flag",
       pt: "Goblin flag",
@@ -10334,7 +10334,7 @@ const items = {
     },
   },
   "Pirate Flag": {
-    image: "public/assets/sfts/flags/pirate_flag.gif",
+    image: "assets/sfts/flags/pirate_flag.gif",
     description: {
       en: "Pirate flag",
       pt: "Pirate flag",
@@ -10344,7 +10344,7 @@ const items = {
     },
   },
   "Algerian Flag": {
-    image: "public/assets/sfts/flags/algerian_flag.gif",
+    image: "assets/sfts/flags/algerian_flag.gif",
     description: {
       en: "Algerian flag",
       pt: "Algerian flag",
@@ -10354,7 +10354,7 @@ const items = {
     },
   },
   "Mexican Flag": {
-    image: "public/assets/sfts/flags/mexican_flag.gif",
+    image: "assets/sfts/flags/mexican_flag.gif",
     description: {
       en: "Mexican flag",
       pt: "Mexican flag",
@@ -10364,7 +10364,7 @@ const items = {
     },
   },
   "Dominican Republic Flag": {
-    image: "public/assets/sfts/flags/dominican_republic_flag.gif",
+    image: "assets/sfts/flags/dominican_republic_flag.gif",
     description: {
       en: "Dominican Republic flag",
       pt: "Dominican Republic flag",
@@ -10374,7 +10374,7 @@ const items = {
     },
   },
   "Argentinian Flag": {
-    image: "public/assets/sfts/flags/argentinian_flag.gif",
+    image: "assets/sfts/flags/argentinian_flag.gif",
     description: {
       en: "Argentinian flag",
       pt: "Argentinian flag",
@@ -10384,7 +10384,7 @@ const items = {
     },
   },
   "Lithuanian Flag": {
-    image: "public/assets/sfts/flags/lithuanian_flag.gif",
+    image: "assets/sfts/flags/lithuanian_flag.gif",
     description: {
       en: "Lithuanian flag",
       pt: "Lithuanian flag",
@@ -10394,7 +10394,7 @@ const items = {
     },
   },
   "Malaysian Flag": {
-    image: "public/assets/sfts/flags/malaysian_flag.gif",
+    image: "assets/sfts/flags/malaysian_flag.gif",
     description: {
       en: "Malaysian flag",
       pt: "Malaysian flag",
@@ -10404,7 +10404,7 @@ const items = {
     },
   },
   "Colombian Flag": {
-    image: "public/assets/sfts/flags/colombian_flag.gif",
+    image: "assets/sfts/flags/colombian_flag.gif",
     description: {
       en: "Colombian flag",
       pt: "Colombian flag",
@@ -10414,7 +10414,7 @@ const items = {
     },
   },
   "Egg Basket": {
-    image: "public/assets/sfts/easter/basket.png",
+    image: "assets/sfts/easter/basket.png",
     description: {
       en: "Easter Event",
       pt: "Evento de Páscoa",
@@ -10424,7 +10424,7 @@ const items = {
     },
   },
   "Easter Bunny": {
-    image: "public/assets/sfts/easter/easter_bunny.gif",
+    image: "assets/sfts/easter/easter_bunny.gif",
     description: {
       en: "Earn 20% more Carrots",
       pt: "Ganhe 20% mais cenouras",
@@ -10434,7 +10434,7 @@ const items = {
     },
   },
   "Pablo The Bunny": {
-    image: "public/assets/sfts/pablo_bunny.gif",
+    image: "assets/sfts/pablo_bunny.gif",
     description: {
       en: "A magical Easter bunny",
       pt: "Um coelho mágico de Páscoa",
@@ -10444,7 +10444,7 @@ const items = {
     },
   },
   "Blue Egg": {
-    image: "public/assets/sfts/easter/blue_egg.png",
+    image: "assets/sfts/easter/blue_egg.png",
     description: {
       en: "A blue easter egg",
       pt: "Um ovo de Páscoa azul",
@@ -10454,7 +10454,7 @@ const items = {
     },
   },
   "Orange Egg": {
-    image: "public/assets/sfts/easter/orange_egg.png",
+    image: "assets/sfts/easter/orange_egg.png",
     description: {
       en: "An orange easter egg",
       pt: "Um ovo de Páscoa laranja",
@@ -10464,7 +10464,7 @@ const items = {
     },
   },
   "Green Egg": {
-    image: "public/assets/sfts/easter/green_egg.png",
+    image: "assets/sfts/easter/green_egg.png",
     description: {
       en: "A green easter egg",
       pt: "Um ovo de Páscoa verde",
@@ -10474,7 +10474,7 @@ const items = {
     },
   },
   "Yellow Egg": {
-    image: "public/assets/sfts/easter/yellow_egg.png",
+    image: "assets/sfts/easter/yellow_egg.png",
     description: {
       en: "A yellow easter egg",
       pt: "Um ovo de Páscoa amarelo",
@@ -10484,7 +10484,7 @@ const items = {
     },
   },
   "Red Egg": {
-    image: "public/assets/sfts/easter/red_egg.png",
+    image: "assets/sfts/easter/red_egg.png",
     description: {
       en: "A red easter egg",
       pt: "Um ovo de Páscoa vermelho",
@@ -10494,7 +10494,7 @@ const items = {
     },
   },
   "Pink Egg": {
-    image: "public/assets/sfts/easter/pink_egg.png",
+    image: "assets/sfts/easter/pink_egg.png",
     description: {
       en: "A pink easter egg",
       pt: "Um ovo de Páscoa rosa",
@@ -10504,7 +10504,7 @@ const items = {
     },
   },
   "Purple Egg": {
-    image: "public/assets/sfts/easter/purple_egg.png",
+    image: "assets/sfts/easter/purple_egg.png",
     description: {
       en: "A purple easter egg",
       pt: "Um ovo de Páscoa roxo",
@@ -10514,7 +10514,7 @@ const items = {
     },
   },
   "Engine Core": {
-    image: "public/assets/sfts/mom/engine_core.png",
+    image: "assets/sfts/mom/engine_core.png",
     description: {
       en: "The power of the sunflower",
       pt: "The power of the sunflower",
@@ -10524,7 +10524,7 @@ const items = {
     },
   },
   Observatory: {
-    image: "public/assets/sfts/mom/observatory.gif",
+    image: "assets/sfts/mom/observatory.gif",
     description: {
       en: "Explore the stars and improve scientific development",
       pt: "Explore the stars and improve scientific development",
@@ -10534,7 +10534,7 @@ const items = {
     },
   },
   "Goblin Key": {
-    image: "public/assets/sfts/quest/goblin_key.png",
+    image: "assets/sfts/quest/goblin_key.png",
     description: {
       en: "The Goblin Key",
       pt: "A Chave do Goblin",
@@ -10544,7 +10544,7 @@ const items = {
     },
   },
   "Sunflower Key": {
-    image: "public/assets/sfts/quest/sunflower_key.png",
+    image: "assets/sfts/quest/sunflower_key.png",
     description: {
       en: "The Sunflower Key",
       pt: "A Chave do Girassol",
@@ -10554,7 +10554,7 @@ const items = {
     },
   },
   "Ancient Goblin Sword": {
-    image: "public/assets/sfts/quest/ancient_goblin_sword.png",
+    image: "assets/sfts/quest/ancient_goblin_sword.png",
     description: {
       en: "An Ancient Goblin Sword",
       pt: "Uma Antiga Espada de Goblin",
@@ -10564,7 +10564,7 @@ const items = {
     },
   },
   "Ancient Human Warhammer": {
-    image: "public/assets/sfts/quest/ancient_human_warhammer.png",
+    image: "assets/sfts/quest/ancient_human_warhammer.png",
     description: {
       en: "An Ancient Human Warhammer",
       pt: "Um Antigo Martelo de Guerra Humano",
@@ -10574,7 +10574,7 @@ const items = {
     },
   },
   "Speed Chicken": {
-    image: "public/assets/animals/chickens/speed_chicken.gif",
+    image: "assets/animals/chickens/speed_chicken.gif",
     description: {
       en: "Produces eggs 10% faster",
       pt: "Produces eggs 10% faster",
@@ -10584,7 +10584,7 @@ const items = {
     },
   },
   "Fat Chicken": {
-    image: "public/assets/animals/chickens/fat_chicken.gif",
+    image: "assets/animals/chickens/fat_chicken.gif",
     description: {
       en: "10% less wheat needed to feed a chicken",
       pt: "10% less wheat needed to feed a chicken",
@@ -10594,7 +10594,7 @@ const items = {
     },
   },
   "Rich Chicken": {
-    image: "public/assets/animals/chickens/rich_chicken.webp",
+    image: "assets/animals/chickens/rich_chicken.webp",
     description: {
       en: "Yields 10% more eggs",
       pt: "Yields 10% more eggs",
@@ -10614,7 +10614,7 @@ const items = {
     },
   },
   "Chef Hat": {
-    image: "public/assets/icons/chef_hat.png",
+    image: "assets/icons/chef_hat.png",
     description: {
       en: "La couronne d'un boulanger légendaire !",
       pt: "A coroa de um padeiro lendário!",
@@ -10624,7 +10624,7 @@ const items = {
     },
   },
   "Rapid Growth": {
-    image: "public/assets/fertilisers/rapidGrowth.png",
+    image: "assets/fertilisers/rapidGrowth.png",
     description: {
       en: "Apply to a crop to grow twice as fast",
       pt: "Apply to a crop to grow twice as fast",
@@ -10634,7 +10634,7 @@ const items = {
     },
   },
   "Fire Pit": {
-    image: "public/assets/buildings/fire_pit.png",
+    image: "assets/buildings/fire_pit.png",
     description: {
       en: "Roast your Sunflowers, feed and level up your Bumpkin",
       pt: "Faça comidas, alimente e evolua seu Bumpkin",
@@ -10644,7 +10644,7 @@ const items = {
     },
   },
   Market: {
-    image: "public/assets/buildings/bettys_market.png",
+    image: "assets/buildings/bettys_market.png",
     description: {
       en: "Buy and sell at the Farmer's Market",
       pt: "Compre e venda no Mercado dos Agricultores",
@@ -10654,7 +10654,7 @@ const items = {
     },
   },
   "Town Center": {
-    image: "public/assets/buildings/town_center.png",
+    image: "assets/buildings/town_center.png",
     description: {
       en: "Gather around the town center for the latest news",
       pt: "Reúna-se ao redor do centro da cidade para as últimas notícias",
@@ -10664,7 +10664,7 @@ const items = {
     },
   },
   House: {
-    image: "public/assets/buildings/house.png",
+    image: "assets/buildings/house.png",
     description: {
       en: "A place to rest your head",
       pt: "Um lugar para descansar a cabeça",
@@ -10674,7 +10674,7 @@ const items = {
     },
   },
   Manor: {
-    image: "public/assets/buildings/manor.png",
+    image: "assets/buildings/manor.png",
     description: {
       en: "A place to rest your head",
       pt: "Um lugar para descansar a cabeça",
@@ -10684,7 +10684,7 @@ const items = {
     },
   },
   "Crop Machine": {
-    image: "public/assets/buildings/crop_machine.wep.webp",
+    image: "assets/buildings/crop_machine.wep.webp",
     description: {
       en: "Automate your crop production",
       pt: "Automatize suas plantações",
@@ -10694,7 +10694,7 @@ const items = {
     },
   },
   Kitchen: {
-    image: "public/assets/buildings/kitchen.png",
+    image: "assets/buildings/kitchen.png",
     description: {
       en: "Step up your cooking game",
       pt: "Melhore sua habilidade culinária",
@@ -10704,7 +10704,7 @@ const items = {
     },
   },
   Bakery: {
-    image: "public/assets/buildings/bakery.png",
+    image: "assets/buildings/bakery.png",
     description: {
       en: "Bake your favourite cakes",
       pt: "Asse seus bolos favoritos",
@@ -10714,7 +10714,7 @@ const items = {
     },
   },
   Workbench: {
-    image: "public/assets/buildings/workbench.png",
+    image: "assets/buildings/workbench.png",
     description: {
       en: "Craft tools to collect resources",
       pt: "Faça ferramentas para coletar recursos",
@@ -10724,7 +10724,7 @@ const items = {
     },
   },
   "Water Well": {
-    image: "public/assets/buildings/well1.png",
+    image: "assets/buildings/well1.png",
     description: {
       en: "Crops need water!",
       pt: "As plantações precisam de água!",
@@ -10734,7 +10734,7 @@ const items = {
     },
   },
   Tent: {
-    image: "public/assets/buildings/tent.png",
+    image: "assets/buildings/tent.png",
     description: {
       en: "(Discontinued)",
       pt: "(Descontinuado)",
@@ -10744,7 +10744,7 @@ const items = {
     },
   },
   "Hen House": {
-    image: "public/assets/buildings/hen_house.png",
+    image: "assets/buildings/hen_house.png",
     description: {
       en: "Grow your chicken empire",
       pt: "Expanda seu império de galinhas",
@@ -10754,7 +10754,7 @@ const items = {
     },
   },
   Deli: {
-    image: "public/assets/buildings/deli.png",
+    image: "assets/buildings/deli.png",
     description: {
       en: "Satisfy your appetite with these delicatessen foods!",
       pt: "Satisfaça seu apetite com esses alimentos delicatessen!",
@@ -10764,7 +10764,7 @@ const items = {
     },
   },
   "Smoothie Shack": {
-    image: "public/assets/buildings/smoothie_shack.webp",
+    image: "assets/buildings/smoothie_shack.webp",
     description: {
       en: "Freshly squeezed!",
       pt: "Produz sucos e batidas espremidos na hora!",
@@ -10774,7 +10774,7 @@ const items = {
     },
   },
   Toolshed: {
-    image: "public/assets/buildings/toolshed.png",
+    image: "assets/buildings/toolshed.png",
     description: {
       en: "Increase your workbench tool stock by 50%",
       pt: "Aumente seu estoque de ferramentas em 50%",
@@ -10784,7 +10784,7 @@ const items = {
     },
   },
   Warehouse: {
-    image: "public/assets/buildings/warehouse.png",
+    image: "assets/buildings/warehouse.png",
     description: {
       en: "Increase your seed stocks by 20%",
       pt: "Aumente seu estoque de sementes em 20%",
@@ -10884,7 +10884,7 @@ const items = {
     },
   },
   "War Skull": {
-    image: "public/assets/decorations/war_skulls.png",
+    image: "assets/decorations/war_skulls.png",
     description: {
       en: "Decorate the land with the bones of your enemies.",
       pt: "Decore a terra com os ossos de seus inimigos.",
@@ -10894,7 +10894,7 @@ const items = {
     },
   },
   "War Tombstone": {
-    image: "public/assets/decorations/war_tombstone.png",
+    image: "assets/decorations/war_tombstone.png",
     description: {
       en: "R.I.P",
       pt: "R.I.P",
@@ -10904,7 +10904,7 @@ const items = {
     },
   },
   "Undead Rooster": {
-    image: "public/assets/animals/chickens/undead_chicken.gif",
+    image: "assets/animals/chickens/undead_chicken.gif",
     description: {
       en: "An unfortunate casualty of the war. 10% increased egg yield.",
       pt: "Uma casualidade da guerra. 10% de aumento na produção de ovos.",
@@ -10914,7 +10914,7 @@ const items = {
     },
   },
   "Boiled Eggs": {
-    image: "public/assets/food/boiled_eggs.png",
+    image: "assets/food/boiled_eggs.png",
     description: {
       en: "Boiled Eggs are great for breakfast",
       pt: "Ovos cozidos são ótimos para o café da manhã",
@@ -10924,7 +10924,7 @@ const items = {
     },
   },
   "Bumpkin Broth": {
-    image: "public/assets/food/bumpkin_broth.png",
+    image: "assets/food/bumpkin_broth.png",
     description: {
       en: "A nutritious broth to replenish your Bumpkin",
       pt: "Um caldo nutritivo para repor seu Bumpkin",
@@ -10934,7 +10934,7 @@ const items = {
     },
   },
   "Mashed Potato": {
-    image: "public/assets/food/mashed_potato.png",
+    image: "assets/food/mashed_potato.png",
     description: {
       en: "My life is potato.",
       pt: "Minha vida é batata.",
@@ -10944,7 +10944,7 @@ const items = {
     },
   },
   "Bumpkin Salad": {
-    image: "public/assets/food/bumpkin_salad.png",
+    image: "assets/food/bumpkin_salad.png",
     description: {
       en: "Gotta keep your Bumpkin healthy!",
       pt: "Você precisa manter seu Bumpkin saudável!",
@@ -10954,7 +10954,7 @@ const items = {
     },
   },
   "Goblin's Treat": {
-    image: "public/assets/food/goblins_treat.png",
+    image: "assets/food/goblins_treat.png",
     description: {
       en: "Goblins go crazy for this stuff!",
       pt: "Goblins ficam loucos por isso!",
@@ -10964,7 +10964,7 @@ const items = {
     },
   },
   "Cauliflower Burger": {
-    image: "public/assets/food/cauliflower_burger.png",
+    image: "assets/food/cauliflower_burger.png",
     description: {
       en: "Calling all cauliflower lovers!",
       pt: "Chamando todos os amantes de couve-flor!",
@@ -10974,7 +10974,7 @@ const items = {
     },
   },
   "Club Sandwich": {
-    image: "public/assets/food/club_sandwich.png",
+    image: "assets/food/club_sandwich.png",
     description: {
       en: "Filled with Carrots and Roasted Sunflower Seeds",
       pt: "Recheado com cenouras e sementes de girassol torradas",
@@ -10984,7 +10984,7 @@ const items = {
     },
   },
   "Roast Veggies": {
-    image: "public/assets/food/roast_veggies.png",
+    image: "assets/food/roast_veggies.png",
     description: {
       en: "Even Goblins need to eat their veggies!",
       pt: "Até os Goblins precisam comer seus vegetais!",
@@ -10994,7 +10994,7 @@ const items = {
     },
   },
   Pancakes: {
-    image: "public/assets/food/pancakes.png",
+    image: "assets/food/pancakes.png",
     description: {
       en: "A great start to a Bumpkins day",
       pt: "Um ótimo começo para o dia de um Bumpkin",
@@ -11004,7 +11004,7 @@ const items = {
     },
   },
   "Fermented Carrots": {
-    image: "public/assets/food/fermented_carrots.png",
+    image: "assets/food/fermented_carrots.png",
     description: {
       en: "Got a surplus of carrots?",
       pt: "Tem um excedente de cenouras?",
@@ -11014,7 +11014,7 @@ const items = {
     },
   },
   Sauerkraut: {
-    image: "public/assets/food/sauerkraut.png",
+    image: "assets/food/sauerkraut.png",
     description: {
       en: "No more boring Cabbage!",
       pt: "Não mais repolho chato!",
@@ -11024,7 +11024,7 @@ const items = {
     },
   },
   "Reindeer Carrot": {
-    image: "public/assets/food/reindeer_carrot.png",
+    image: "assets/food/reindeer_carrot.png",
     description: {
       en: "Rudolph can't stop eating them!",
       pt: "Rudolph não consegue parar de comê-los!",
@@ -11034,7 +11034,7 @@ const items = {
     },
   },
   "Bumpkin ganoush": {
-    image: "public/assets/food/bumpkin_ganoush.png",
+    image: "assets/food/bumpkin_ganoush.png",
     description: {
       en: "Zesty roasted eggplant spread.",
       pt: "Espalhe berinjela assada com zeste.",
@@ -11044,7 +11044,7 @@ const items = {
     },
   },
   "Eggplant Cake": {
-    image: "public/assets/food/cakes/eggplant_cake.png",
+    image: "assets/food/cakes/eggplant_cake.png",
     description: {
       en: "Sweet farm-fresh dessert surprise.",
       pt: "Surpresa de sobremesa fresca da fazenda.",
@@ -11054,7 +11054,7 @@ const items = {
     },
   },
   Cornbread: {
-    image: "public/assets/food/corn_bread.png",
+    image: "assets/food/corn_bread.png",
     description: {
       en: "Hearty golden farm-fresh bread.",
       pt: "Pão de fazenda dourado e saudável.",
@@ -11064,7 +11064,7 @@ const items = {
     },
   },
   Popcorn: {
-    image: "public/assets/food/popcorn.png",
+    image: "assets/food/popcorn.png",
     description: {
       en: "Classic homegrown crunchy snack.",
       pt: "Lanche crocante caseiro clássico.",
@@ -11074,7 +11074,7 @@ const items = {
     },
   },
   Chowder: {
-    image: "public/assets/food/chowder.png",
+    image: "assets/food/chowder.png",
     description: {
       en: "Sailor's delight in a bowl! Dive in, there's treasure inside!",
       pt: "Delícia de marinheiro em uma tigela! Mergulhe, há tesouro dentro!",
@@ -11084,7 +11084,7 @@ const items = {
     },
   },
   Gumbo: {
-    image: "public/assets/food/gumbo.png",
+    image: "assets/food/gumbo.png",
     description: {
       en: "A pot full of magic! Every spoonful's a Mardi Gras parade!",
       pt: "Uma panela cheia de magia! Cada colherada é um desfile de Mardi Gras!",
@@ -11094,7 +11094,7 @@ const items = {
     },
   },
   "Fermented Fish": {
-    image: "public/assets/food/fermented_fish.png",
+    image: "assets/food/fermented_fish.png",
     description: {
       en: "Daring delicacy! Unleash the Viking within with every bite!",
       pt: "Delicadeza audaciosa! Liberte o Viking que há dentro com cada mordida!",
@@ -11104,7 +11104,7 @@ const items = {
     },
   },
   Explorer: {
-    image: "public/assets/achievements/explorer.png",
+    image: "assets/achievements/explorer.png",
     description: {
       en: "Expand your Land",
       pt: "Expand your Land",
@@ -11114,7 +11114,7 @@ const items = {
     },
   },
   "Busy Bumpkin": {
-    image: "public/assets/achievements/busy_bumpkin.png",
+    image: "assets/achievements/busy_bumpkin.png",
     description: {
       en: "Reach level 2",
       pt: "Reach level 2",
@@ -11124,7 +11124,7 @@ const items = {
     },
   },
   "Brilliant Bumpkin": {
-    image: "public/assets/achievements/brilliant_bumpkin.png",
+    image: "assets/achievements/brilliant_bumpkin.png",
     description: {
       en: "Reach level 20",
       pt: "Reach level 20",
@@ -11134,7 +11134,7 @@ const items = {
     },
   },
   "Sun Seeker": {
-    image: "public/assets/achievements/sun_seeker.png",
+    image: "assets/achievements/sun_seeker.png",
     description: {
       en: "Harvest Sunflower 100 times",
       pt: "Harvest Sunflower 100 times",
@@ -11144,7 +11144,7 @@ const items = {
     },
   },
   "Sunflower Superstar": {
-    image: "public/assets/achievements/sunflower_superstar.png",
+    image: "assets/achievements/sunflower_superstar.png",
     description: {
       en: "Harvest Sunflower 100,000 times",
       pt: "Harvest Sunflower 100,000 times",
@@ -11154,7 +11154,7 @@ const items = {
     },
   },
   "My life is potato": {
-    image: "public/assets/achievements/my_life_is_potato.png",
+    image: "assets/achievements/my_life_is_potato.png",
     description: {
       en: "Harvest Potato 5,000 times",
       pt: "Harvest Potato 5,000 times",
@@ -11164,7 +11164,7 @@ const items = {
     },
   },
   "Jack O'Latern": {
-    image: "public/assets/achievements/jack_o_lantern.png",
+    image: "assets/achievements/jack_o_lantern.png",
     description: {
       en: "Harvest Pumpkin 500 times",
       pt: "Harvest Pumpkin 500 times",
@@ -11174,7 +11174,7 @@ const items = {
     },
   },
   "20/20 Vision": {
-    image: "public/assets/achievements/20-20-vision.png",
+    image: "assets/achievements/20-20-vision.png",
     description: {
       en: "Harvest Carrot 10,000 times",
       pt: "Harvest Carrot 10,000 times",
@@ -11184,7 +11184,7 @@ const items = {
     },
   },
   "Cabbage King": {
-    image: "public/assets/achievements/cabbage_king.png",
+    image: "assets/achievements/cabbage_king.png",
     description: {
       en: "Harvest Cabbage 200 times",
       pt: "Harvest Cabbage 200 times",
@@ -11194,7 +11194,7 @@ const items = {
     },
   },
   "Beetroot Beast": {
-    image: "public/assets/achievements/beetrootBeast.png",
+    image: "assets/achievements/beetrootBeast.png",
     description: {
       en: "Harvest Beetroot 2,000 times",
       pt: "Harvest Beetroot 2,000 times",
@@ -11204,7 +11204,7 @@ const items = {
     },
   },
   "Cool Flower": {
-    image: "public/assets/achievements/cool_cauliflower.png",
+    image: "assets/achievements/cool_cauliflower.png",
     description: {
       en: "Harvest Cauliflower 100 times",
       pt: "Harvest Cauliflower 100 times",
@@ -11214,7 +11214,7 @@ const items = {
     },
   },
   "Patient Parsnips": {
-    image: "public/assets/achievements/patient_parsnip.png",
+    image: "assets/achievements/patient_parsnip.png",
     description: {
       en: "Harvest Parsnip 5,000 times",
       pt: "Harvest Parsnip 5,000 times",
@@ -11224,7 +11224,7 @@ const items = {
     },
   },
   "Rapid Radish": {
-    image: "public/assets/achievements/rapidRadish.png",
+    image: "assets/achievements/rapidRadish.png",
     description: {
       en: "Harvest Radish 200 times",
       pt: "Harvest Radish 200 times",
@@ -11234,7 +11234,7 @@ const items = {
     },
   },
   "Staple Crop": {
-    image: "public/assets/achievements/staple_crop.png",
+    image: "assets/achievements/staple_crop.png",
     description: {
       en: "Harvest Wheat 10,000 times",
       pt: "Harvest Wheat 10,000 times",
@@ -11244,7 +11244,7 @@ const items = {
     },
   },
   "Farm Hand": {
-    image: "public/assets/achievements/farm_hand.png",
+    image: "assets/achievements/farm_hand.png",
     description: {
       en: "Harvest crops 10,000 times",
       pt: "Harvest crops 10,000 times",
@@ -11254,7 +11254,7 @@ const items = {
     },
   },
   "Crop Champion": {
-    image: "public/assets/achievements/crop_champion.png",
+    image: "assets/achievements/crop_champion.png",
     description: {
       en: "Harvest 1 million crops",
       pt: "Harvest 1 million crops",
@@ -11264,7 +11264,7 @@ const items = {
     },
   },
   "Bread Winner": {
-    image: "public/assets/achievements/bread_winner.png",
+    image: "assets/achievements/bread_winner.png",
     description: {
       en: "Earn 0.001 SFL",
       pt: "Earn 0.001 SFL",
@@ -11274,7 +11274,7 @@ const items = {
     },
   },
   "Bumpkin Billionaire": {
-    image: "public/assets/achievements/bumpkin_billionaire.png",
+    image: "assets/achievements/bumpkin_billionaire.png",
     description: {
       en: "Earn 5,000 SFL",
       pt: "Earn 5,000 SFL",
@@ -11284,7 +11284,7 @@ const items = {
     },
   },
   "Big Spender": {
-    image: "public/assets/achievements/big_spender.png",
+    image: "assets/achievements/big_spender.png",
     description: {
       en: "Spend 10 SFL",
       pt: "Spend 10 SFL",
@@ -11294,7 +11294,7 @@ const items = {
     },
   },
   "High Roller": {
-    image: "public/assets/achievements/high_roller.png",
+    image: "assets/achievements/high_roller.png",
     description: {
       en: "Spend 7,500 SFL",
       pt: "Spend 7,500 SFL",
@@ -11304,7 +11304,7 @@ const items = {
     },
   },
   Timbeerrr: {
-    image: "public/assets/achievements/timber.png",
+    image: "assets/achievements/timber.png",
     description: {
       en: "Chop 150 trees",
       pt: "Chop 150 trees",
@@ -11314,7 +11314,7 @@ const items = {
     },
   },
   "Bumpkin Chainsaw Amateur": {
-    image: "public/assets/achievements/bumpkin_chainsaw_amateur.png",
+    image: "assets/achievements/bumpkin_chainsaw_amateur.png",
     description: {
       en: "Chop 5,000 trees",
       pt: "Chop 5,000 trees",
@@ -11324,7 +11324,7 @@ const items = {
     },
   },
   Driller: {
-    image: "public/assets/achievements/driller.png",
+    image: "assets/achievements/driller.png",
     description: {
       en: "Mine 50 stone rocks",
       pt: "Mine 50 stone rocks",
@@ -11334,7 +11334,7 @@ const items = {
     },
   },
   Canary: {
-    image: "public/assets/achievements/canary.png",
+    image: "assets/achievements/canary.png",
     description: {
       en: "Mine 1,000 stone rocks",
       pt: "Mine 1,000 stone rocks",
@@ -11344,7 +11344,7 @@ const items = {
     },
   },
   "Iron Eyes": {
-    image: "public/assets/achievements/iron_eyes.png",
+    image: "assets/achievements/iron_eyes.png",
     description: {
       en: "Mine 50 iron rocks",
       pt: "Mine 50 iron rocks",
@@ -11354,7 +11354,7 @@ const items = {
     },
   },
   "Something Shiny": {
-    image: "public/assets/achievements/something_shiny.png",
+    image: "assets/achievements/something_shiny.png",
     description: {
       en: "Mine 500 iron rocks",
       pt: "Mine 500 iron rocks",
@@ -11364,7 +11364,7 @@ const items = {
     },
   },
   "El Dorado": {
-    image: "public/assets/achievements/el-dorado.png",
+    image: "assets/achievements/el-dorado.png",
     description: {
       en: "Mine 50 gold rocks",
       pt: "Mine 50 gold rocks",
@@ -11374,7 +11374,7 @@ const items = {
     },
   },
   "Gold Fever": {
-    image: "public/assets/achievements/gold_fever.png",
+    image: "assets/achievements/gold_fever.png",
     description: {
       en: "Mine 500 gold rocks",
       pt: "Mine 500 gold rocks",
@@ -11384,7 +11384,7 @@ const items = {
     },
   },
   "Kiss the Cook": {
-    image: "public/assets/achievements/kiss_the_cook.png",
+    image: "assets/achievements/kiss_the_cook.png",
     description: {
       en: "Cook 20 meals",
       pt: "Cook 20 meals",
@@ -11394,7 +11394,7 @@ const items = {
     },
   },
   "Bakers Dozen": {
-    image: "public/assets/achievements/bakers_dozen.png",
+    image: "assets/achievements/bakers_dozen.png",
     description: {
       en: "Bake 13 cakes",
       pt: "Bake 13 cakes",
@@ -11404,7 +11404,7 @@ const items = {
     },
   },
   "Chef de Cuisine": {
-    image: "public/assets/achievements/chef_de_cuisine.png",
+    image: "assets/achievements/chef_de_cuisine.png",
     description: {
       en: "Cook 5,000 meals",
       pt: "Cook 5,000 meals",
@@ -11414,7 +11414,7 @@ const items = {
     },
   },
   Craftmanship: {
-    image: "public/assets/achievements/craftmanship.png",
+    image: "assets/achievements/craftmanship.png",
     description: {
       en: "Craft 100 tools",
       pt: "Craft 100 tools",
@@ -11424,7 +11424,7 @@ const items = {
     },
   },
   "Time to chop": {
-    image: "public/assets/achievements/time_to_chop.png",
+    image: "assets/achievements/time_to_chop.png",
     description: {
       en: "Craft 500 axes",
       pt: "Craft 500 axes",
@@ -11434,7 +11434,7 @@ const items = {
     },
   },
   Contractor: {
-    image: "public/assets/achievements/contractor.png",
+    image: "assets/achievements/contractor.png",
     description: {
       en: "Have 10 buildings constructed on your land",
       pt: "Have 10 buildings constructed on your land",
@@ -11444,7 +11444,7 @@ const items = {
     },
   },
   Museum: {
-    image: "public/assets/achievements/museum.png",
+    image: "assets/achievements/museum.png",
     description: {
       en: "Have 10 different kinds of rare items placed on your land",
       pt: "Have 10 different kinds of rare items placed on your land",
@@ -11564,7 +11564,7 @@ const items = {
     },
   },
   "White Tulips": {
-    image: "public/assets/decorations/white_tulips.png",
+    image: "assets/decorations/white_tulips.png",
     description: {
       en: "Keep the smell of goblins away.",
       pt: "Mantenha o cheiro dos goblins afastado.",
@@ -11574,7 +11574,7 @@ const items = {
     },
   },
   "Potted Sunflower": {
-    image: "public/assets/decorations/potted_sunflower.png",
+    image: "assets/decorations/potted_sunflower.png",
     description: {
       en: "Brighten up your land.",
       pt: "Ilumine sua terra.",
@@ -11584,7 +11584,7 @@ const items = {
     },
   },
   Cactus: {
-    image: "public/assets/decorations/cactus.png",
+    image: "assets/decorations/cactus.png",
     description: {
       en: "Saves water and makes your farm look stunning!",
       pt: "Economiza água e deixa sua fazenda deslumbrante!",
@@ -11594,7 +11594,7 @@ const items = {
     },
   },
   "Jack-o-lantern": {
-    image: "public/assets/sfts/jack_o_lantern.png",
+    image: "assets/sfts/jack_o_lantern.png",
     description: {
       en: "A Halloween special event item",
       pt: "Um item especial de evento de Halloween",
@@ -11604,7 +11604,7 @@ const items = {
     },
   },
   "Victoria Sisters": {
-    image: "public/assets/sfts/victoria_sisters.gif",
+    image: "assets/sfts/victoria_sisters.gif",
     description: {
       en: "The pumpkin loving sisters",
       pt: "As irmãs amantes de abóbora",
@@ -11614,7 +11614,7 @@ const items = {
     },
   },
   "Basic Bear": {
-    image: "public/assets/sfts/bears/basic_bear.png",
+    image: "assets/sfts/bears/basic_bear.png",
     description: {
       en: "A basic bear. Use this at Goblin Retreat to build a bear!",
       pt: "A basic bear. Use this at Goblin Retreat to build a bear!",
@@ -11624,7 +11624,7 @@ const items = {
     },
   },
   "Chef Bear": {
-    image: "public/assets/sfts/bears/chef_bear.png",
+    image: "assets/sfts/bears/chef_bear.png",
     description: {
       en: "Every chef needs a helping hand",
       pt: "Todo chef precisa de uma mãozinha",
@@ -11634,7 +11634,7 @@ const items = {
     },
   },
   "Construction Bear": {
-    image: "public/assets/sfts/bears/construction_bear.png",
+    image: "assets/sfts/bears/construction_bear.png",
     description: {
       en: "Always build in a bear market",
       pt: "Sempre construa em um mercado em baixa",
@@ -11644,7 +11644,7 @@ const items = {
     },
   },
   "Angel Bear": {
-    image: "public/assets/sfts/bears/angel_bear.png",
+    image: "assets/sfts/bears/angel_bear.png",
     description: {
       en: "Time to transcend peasant farming",
       pt: "Hora de transcender a agricultura camponesa",
@@ -11654,7 +11654,7 @@ const items = {
     },
   },
   "Badass Bear": {
-    image: "public/assets/sfts/bears/badass_bear.png",
+    image: "assets/sfts/bears/badass_bear.png",
     description: {
       en: "Nothing stands in your way.",
       pt: "Nada fica no seu caminho.",
@@ -11664,7 +11664,7 @@ const items = {
     },
   },
   "Bear Trap": {
-    image: "public/assets/sfts/bears/bear_trap.png",
+    image: "assets/sfts/bears/bear_trap.png",
     description: {
       en: "It's a trap!",
       pt: "É uma armadilha!",
@@ -11674,7 +11674,7 @@ const items = {
     },
   },
   "Brilliant Bear": {
-    image: "public/assets/sfts/bears/brilliant_bear.png",
+    image: "assets/sfts/bears/brilliant_bear.png",
     description: {
       en: "Pure brilliance!",
       pt: "Pura genialidade!",
@@ -11684,7 +11684,7 @@ const items = {
     },
   },
   "Classy Bear": {
-    image: "public/assets/sfts/bears/classy_bear.png",
+    image: "assets/sfts/bears/classy_bear.png",
     description: {
       en: "More SFL than you know what to do with it!",
       pt: "Mais SFL do que você sabe o que fazer com isso!",
@@ -11694,7 +11694,7 @@ const items = {
     },
   },
   "Farmer Bear": {
-    image: "public/assets/sfts/bears/farmer_bear.png",
+    image: "assets/sfts/bears/farmer_bear.png",
     description: {
       en: "Nothing quite like a hard day's work!",
       pt: "Nada como um dia de trabalho árduo!",
@@ -11704,7 +11704,7 @@ const items = {
     },
   },
   "Rich Bear": {
-    image: "public/assets/sfts/bears/rich_bear.png",
+    image: "assets/sfts/bears/rich_bear.png",
     description: {
       en: "A prized possession",
       pt: "Uma posse valorizada",
@@ -11714,7 +11714,7 @@ const items = {
     },
   },
   "Sunflower Bear": {
-    image: "public/assets/sfts/bears/sunflower_bear.png",
+    image: "assets/sfts/bears/sunflower_bear.png",
     description: {
       en: "A Bear's cherished crop",
       pt: "Uma colheita apreciada pelo urso",
@@ -11724,7 +11724,7 @@ const items = {
     },
   },
   "Christmas Bear": {
-    image: "public/assets/sfts/bears/christmas_bear.png",
+    image: "assets/sfts/bears/christmas_bear.png",
     description: {
       en: "Santa's favorite",
       pt: "Santa's favorite",
@@ -11734,7 +11734,7 @@ const items = {
     },
   },
   "Beta Bear": {
-    image: "public/assets/sfts/bears/sfl_bear.png",
+    image: "assets/sfts/bears/sfl_bear.png",
     description: {
       en: "A bear found through special testing events",
       pt: "Um urso encontrado através de eventos de teste especiais",
@@ -11744,7 +11744,7 @@ const items = {
     },
   },
   "Rainbow Artist Bear": {
-    image: "public/assets/sfts/bears/rainbow_artist_bear.png",
+    image: "assets/sfts/bears/rainbow_artist_bear.png",
     description: {
       en: "The owner is a beautiful bear artist!",
       pt: "O proprietário é um belo artista urso!",
@@ -11754,7 +11754,7 @@ const items = {
     },
   },
   "Cabbage Boy": {
-    image: "public/assets/sfts/cabbage_boy.gif",
+    image: "assets/sfts/cabbage_boy.gif",
     description: {
       en: "Don't wake the baby!",
       pt: "Não acorde o bebê!",
@@ -11764,7 +11764,7 @@ const items = {
     },
   },
   "Cabbage Girl": {
-    image: "public/assets/sfts/cabbage_girl.gif",
+    image: "assets/sfts/cabbage_girl.gif",
     description: {
       en: "Shhh it's sleeping",
       pt: "Shhh, está dormindo",
@@ -11774,7 +11774,7 @@ const items = {
     },
   },
   "Wood Nymph Wendy": {
-    image: "public/assets/sfts/wood_nymph_wendy.gif",
+    image: "assets/sfts/wood_nymph_wendy.gif",
     description: {
       en: "Cast an enchantment to entice the wood fairies.",
       pt: "Lance um encantamento para atrair as fadas da madeira.",
@@ -11784,7 +11784,7 @@ const items = {
     },
   },
   "Peeled Potato": {
-    image: "public/assets/sfts/peeled_potato.gif",
+    image: "assets/sfts/peeled_potato.gif",
     description: {
       en: "A precious potato, encourages bonus potatoes on harvest.",
       pt: "Uma batata preciosa, incentiva batatas extras na colheita.",
@@ -11794,7 +11794,7 @@ const items = {
     },
   },
   "Potent Potato": {
-    image: "public/assets/sfts/potato_mutant.gif",
+    image: "assets/sfts/potato_mutant.gif",
     description: {
       en: "Potent! Grants a 3% chance to get +10 potatoes on harvest.",
       pt: "Potente! Concede 3% de chance de obter +10 batatas na colheita.",
@@ -11804,7 +11804,7 @@ const items = {
     },
   },
   "Radical Radish": {
-    image: "public/assets/sfts/radish_mutant.gif",
+    image: "assets/sfts/radish_mutant.gif",
     description: {
       en: "Radical! Grants a 3% chance to get +10 radishes on harvest.",
       pt: "Radical! Concede 3% de chance de obter +10 rabanetes na colheita.",
@@ -11814,7 +11814,7 @@ const items = {
     },
   },
   "Stellar Sunflower": {
-    image: "public/assets/sfts/sunflower_mutant.gif",
+    image: "assets/sfts/sunflower_mutant.gif",
     description: {
       en: "Stellar! Grants a 3% chance to get +10 sunflowers on harvest.",
       pt: "Estelar! Concede 3% de chance de obter +10 girassóis na colheita.",
@@ -11824,7 +11824,7 @@ const items = {
     },
   },
   "Potted Potato": {
-    image: "public/assets/decorations/potted_potato.png",
+    image: "assets/decorations/potted_potato.png",
     description: {
       en: "Potato blood runs through your Bumpkin.",
       pt: "O sangue da batata corre pelo seu Bumpkin.",
@@ -11834,7 +11834,7 @@ const items = {
     },
   },
   "Potted Pumpkin": {
-    image: "public/assets/decorations/potted_pumpkin.webp",
+    image: "assets/decorations/potted_pumpkin.webp",
     description: {
       en: "Pumpkins for Bumpkins",
       pt: "Pumpkins for Bumpkins",
@@ -11844,7 +11844,7 @@ const items = {
     },
   },
   "Golden Crop": {
-    image: "public/assets/events/golden_crop/golden_crop.gif",
+    image: "assets/events/golden_crop/golden_crop.gif",
     description: {
       en: "A shiny golden crop",
       pt: "Uma safra dourada brilhante",
@@ -11854,7 +11854,7 @@ const items = {
     },
   },
   "Christmas Snow Globe": {
-    image: "public/assets/decorations/snowglobe.gif",
+    image: "assets/decorations/snowglobe.gif",
     description: {
       en: "Swirl the snow and watch it come to life",
       pt: "Gire a neve e veja-a ganhar vida",
@@ -11864,7 +11864,7 @@ const items = {
     },
   },
   "Immortal Pear": {
-    image: "public/assets/sfts/immortal_pear.webp",
+    image: "assets/sfts/immortal_pear.webp",
     description: {
       en: "Increase the survival of your fruit patches.",
       pt: "Increase the survival of your fruit patches.",
@@ -11874,7 +11874,7 @@ const items = {
     },
   },
   "Lady Bug": {
-    image: "public/assets/sfts/ladybug.gif",
+    image: "assets/sfts/ladybug.gif",
     description: {
       en: "An incredible bug that feeds on aphids. Improves Apple quality.",
       pt: "Um inseto incrível que se alimenta de pulgões. Melhora a qualidade da maçã.",
@@ -11884,7 +11884,7 @@ const items = {
     },
   },
   "Squirrel Monkey": {
-    image: "public/assets/sfts/squirrel_monkey.gif",
+    image: "assets/sfts/squirrel_monkey.gif",
     description: {
       en: "A natural orange predator. Orange Trees are scared when a Squirrel Monkey is around.",
       pt: "Um predador natural de laranjas. As árvores de laranja ficam assustadas quando um Macaco-Esquilo está por perto.",
@@ -11894,7 +11894,7 @@ const items = {
     },
   },
   "Black Bearry": {
-    image: "public/assets/sfts/black_bear.gif",
+    image: "assets/sfts/black_bear.gif",
     description: {
       en: "His favorite treat - plump, juicy blueberries. Gobbles them up by the handful!",
       pt: "Seu deleite favorito - Mirtilos suculentos e rechonchudos. Devora-os a punhados!",
@@ -11904,7 +11904,7 @@ const items = {
     },
   },
   "Devil Bear": {
-    image: "public/assets/sfts/bears/devil_bear.png",
+    image: "assets/sfts/bears/devil_bear.png",
     description: {
       en: "Better the Devil you know than the Devil you don't",
       pt: "Melhor o Diabo que você conhece do que o Diabo que você não conhece",
@@ -11914,7 +11914,7 @@ const items = {
     },
   },
   "Orange Squeeze": {
-    image: "public/assets/achievements/orange_squeeze.png",
+    image: "assets/achievements/orange_squeeze.png",
     description: {
       en: "Harvest Orange 100 times",
       pt: "Harvest Orange 100 times",
@@ -11924,7 +11924,7 @@ const items = {
     },
   },
   "Apple of my Eye": {
-    image: "public/assets/achievements/apple_of_my_eye.png",
+    image: "assets/achievements/apple_of_my_eye.png",
     description: {
       en: "Harvest Apple 500 times",
       pt: "Harvest Apple 500 times",
@@ -11934,7 +11934,7 @@ const items = {
     },
   },
   "Blue Chip": {
-    image: "public/assets/achievements/blue_chip.png",
+    image: "assets/achievements/blue_chip.png",
     description: {
       en: "Harvest Blueberry 5,000 times",
       pt: "Harvest Blueberry 5,000 times",
@@ -11944,7 +11944,7 @@ const items = {
     },
   },
   "Fruit Platter": {
-    image: "public/assets/achievements/fruit_platter.png",
+    image: "assets/achievements/fruit_platter.png",
     description: {
       en: "Harvest 50,000 fruits",
       pt: "Harvest 50,000 fruits",
@@ -11954,7 +11954,7 @@ const items = {
     },
   },
   "Ayam Cemani": {
-    image: "public/assets/animals/chickens/ayam_cemani.gif",
+    image: "assets/animals/chickens/ayam_cemani.gif",
     description: {
       en: "The rarest chicken in existence!",
       pt: "O frango mais raro que existe!",
@@ -11964,7 +11964,7 @@ const items = {
     },
   },
   "Collectible Bear": {
-    image: "public/assets/sfts/bears/collectible_bear.png",
+    image: "assets/sfts/bears/collectible_bear.png",
     description: {
       en: "A prized bear, still in mint condition!",
       pt: "Um urso valioso, ainda em condição de menta!",
@@ -11974,7 +11974,7 @@ const items = {
     },
   },
   "Cyborg Bear": {
-    image: "public/assets/sfts/bears/cyborg_bear.png",
+    image: "assets/sfts/bears/cyborg_bear.png",
     description: {
       en: "Hasta la vista, bear",
       pt: "Hasta la vista, urso",
@@ -11984,7 +11984,7 @@ const items = {
     },
   },
   "Maneki Neko": {
-    image: "public/assets/sfts/maneki_neko.gif",
+    image: "assets/sfts/maneki_neko.gif",
     description: {
       en: "The beckoning cat. Pull its arm and good luck will come",
       pt: "O gato da sorte. Puxe o braço e a boa sorte virá",
@@ -11994,7 +11994,7 @@ const items = {
     },
   },
   "Red Envelope": {
-    image: "public/assets/icons/red_envelope.png",
+    image: "assets/icons/red_envelope.png",
     description: {
       en: "Wow, you are lucky!",
       pt: "Uau, você tem sorte!",
@@ -12004,7 +12004,7 @@ const items = {
     },
   },
   "Love Letter": {
-    image: "public/assets/icons/love_letter.png",
+    image: "assets/icons/love_letter.png",
     description: {
       en: "Convey feelings of love",
       pt: "Expressar sentimentos de amor",
@@ -12014,7 +12014,7 @@ const items = {
     },
   },
   "Clam Shell": {
-    image: "public/assets/sfts/treasure/clam_shell.webp",
+    image: "assets/sfts/treasure/clam_shell.webp",
     description: {
       en: "A clam shell.",
       pt: "Uma concha de marisco.",
@@ -12074,7 +12074,7 @@ const items = {
     },
   },
   "Pirate Cake": {
-    image: "public/assets/food/cakes/pirate_cake.webp",
+    image: "assets/food/cakes/pirate_cake.webp",
     description: {
       en: "Great for Pirate themed birthday parties.",
       pt: "Great for Pirate themed birthday parties.",
@@ -12084,7 +12084,7 @@ const items = {
     },
   },
   "Abandoned Bear": {
-    image: "public/assets/sfts/bears/abandoned_bear.png",
+    image: "assets/sfts/bears/abandoned_bear.png",
     description: {
       en: "A bear that was left behind on the island.",
       pt: "Um urso que foi deixado para trás na ilha.",
@@ -12094,7 +12094,7 @@ const items = {
     },
   },
   "Turtle Bear": {
-    image: "public/assets/sfts/bears/turtle_bear.webp",
+    image: "assets/sfts/bears/turtle_bear.webp",
     description: {
       en: "Turtley enough for the turtle club.",
       pt: "Suficientemente tartarugoso para o clube da tartaruga.",
@@ -12104,7 +12104,7 @@ const items = {
     },
   },
   "T-Rex Skull": {
-    image: "public/assets/sfts/t_rex_skull.webp",
+    image: "assets/sfts/t_rex_skull.webp",
     description: {
       en: "A skull from a T-Rex! Amazing!",
       pt: "Um crânio de um T-Rex! Incrível!",
@@ -12114,7 +12114,7 @@ const items = {
     },
   },
   "Sunflower Coin": {
-    image: "public/assets/sfts/sunflower_coin.webp",
+    image: "assets/sfts/sunflower_coin.webp",
     description: {
       en: "A coin made of sunflowers.",
       pt: "Uma moeda feita de girassóis.",
@@ -12124,7 +12124,7 @@ const items = {
     },
   },
   Foliant: {
-    image: "public/assets/sfts/foliant.webp",
+    image: "assets/sfts/foliant.webp",
     description: {
       en: "A book of spells.",
       pt: "Um livro de feitiços.",
@@ -12134,7 +12134,7 @@ const items = {
     },
   },
   "Skeleton King Staff": {
-    image: "public/assets/sfts/skeleton_king_staff.webp",
+    image: "assets/sfts/skeleton_king_staff.webp",
     description: {
       en: "All hail the Skeleton King!",
       pt: "Toda a glória ao Rei Esquelético!",
@@ -12144,7 +12144,7 @@ const items = {
     },
   },
   "Lifeguard Bear": {
-    image: "public/assets/sfts/bears/lifeguard_bear.webp",
+    image: "assets/sfts/bears/lifeguard_bear.webp",
     description: {
       en: "Lifeguard Bear is here to save the day!",
       pt: "O Urso Salva-vidas está aqui para salvar o dia!",
@@ -12154,7 +12154,7 @@ const items = {
     },
   },
   "Snorkel Bear": {
-    image: "public/assets/sfts/bears/snorkel_bear.webp",
+    image: "assets/sfts/bears/snorkel_bear.webp",
     description: {
       en: "Snorkel Bear loves to swim.",
       pt: "O Urso Snorkel adora nadar.",
@@ -12164,7 +12164,7 @@ const items = {
     },
   },
   "Parasaur Skull": {
-    image: "public/assets/sfts/parasaur_skull.webp",
+    image: "assets/sfts/parasaur_skull.webp",
     description: {
       en: "A skull from a parasaur!",
       pt: "Um crânio de um parasaur!",
@@ -12174,7 +12174,7 @@ const items = {
     },
   },
   "Goblin Bear": {
-    image: "public/assets/sfts/bears/goblin_bear.webp",
+    image: "assets/sfts/bears/goblin_bear.webp",
     description: {
       en: "A goblin bear. It's a bit scary.",
       pt: "Um urso goblin. É um pouco assustador.",
@@ -12184,7 +12184,7 @@ const items = {
     },
   },
   "Golden Bear Head": {
-    image: "public/assets/sfts/golden_bear_head.webp",
+    image: "assets/sfts/golden_bear_head.webp",
     description: {
       en: "Spooky, but cool.",
       pt: "Assustador, mas legal.",
@@ -12194,7 +12194,7 @@ const items = {
     },
   },
   "Pirate Bear": {
-    image: "public/assets/sfts/bears/pirate_bear.webp",
+    image: "assets/sfts/bears/pirate_bear.webp",
     description: {
       en: "Argh, matey! Hug me!",
       pt: "Argh, pirata! Abraço!",
@@ -12204,7 +12204,7 @@ const items = {
     },
   },
   Galleon: {
-    image: "public/assets/sfts/galleon.webp",
+    image: "assets/sfts/galleon.webp",
     description: {
       en: "A toy ship, still in pretty good nick.",
       pt: "Um navio de brinquedo, ainda em muito bom estado.",
@@ -12214,7 +12214,7 @@ const items = {
     },
   },
   "Dinosaur Bone": {
-    image: "public/assets/sfts/dinosaur_bone.webp",
+    image: "assets/sfts/dinosaur_bone.webp",
     description: {
       en: "A Dinosaur Bone! What kind of creature was this?",
       pt: "Um Osso de Dinossauro! Que tipo de criatura era esta?",
@@ -12224,7 +12224,7 @@ const items = {
     },
   },
   "Human Bear": {
-    image: "public/assets/sfts/bears/human_bear.webp",
+    image: "assets/sfts/bears/human_bear.webp",
     description: {
       en: "A human bear. Even scarier than a goblin bear.",
       pt: "Um urso humano. Ainda mais assustador do que um urso goblin.",
@@ -12234,7 +12234,7 @@ const items = {
     },
   },
   "Wooden Compass": {
-    image: "public/assets/sfts/treasure/wooden_compass.webp",
+    image: "assets/sfts/treasure/wooden_compass.webp",
     description: {
       en: "It may not be high-tech, but it will always steer you in the right direction, wood you believe it?",
       pt: "Pode não ser alta tecnologia, mas sempre vai te guiar na direção certa, você acreditaria nisso?",
@@ -12245,7 +12245,7 @@ const items = {
     },
   },
   "Iron Compass": {
-    image: "public/assets/sfts/treasure/iron_compass.webp",
+    image: "assets/sfts/treasure/iron_compass.webp",
     description: {
       en: "Iron out your path to treasure! This compass is 'attract'-ive, and not just to the magnetic North!",
       pt: "Endireite seu caminho para o tesouro! Esta bússola é 'atrativa', e não apenas para o Norte magnético!",
@@ -12256,7 +12256,7 @@ const items = {
     },
   },
   "Emerald Compass": {
-    image: "public/assets/sfts/treasure/emerald_compass.webp",
+    image: "assets/sfts/treasure/emerald_compass.webp",
     description: {
       en: "Guide your way through the lush mysteries of life! This compass doesn't just point North, it points towards opulence and grandeur!",
       pt: "Guie seu caminho através dos mistérios exuberantes da vida! Esta bússola aponta para a opulência e grandiosidade!",
@@ -12267,7 +12267,7 @@ const items = {
     },
   },
   "Old Bottle": {
-    image: "public/assets/sfts/treasure/old_bottle.png",
+    image: "assets/sfts/treasure/old_bottle.png",
     description: {
       en: "Antique pirate bottle, echoing tales of high seas adventure.",
       pt: "Garrafa de pirata antiga, ecoando contos de aventura em alto mar.",
@@ -12277,7 +12277,7 @@ const items = {
     },
   },
   "Tiki Totem": {
-    image: "public/assets/sfts/tiki_totem.webp",
+    image: "assets/sfts/tiki_totem.webp",
     description: {
       en: "The Tiki Totem adds 0.1 wood to every tree you chop.",
       pt: "O Totem Tiki adiciona 0,1 madeira a cada árvore que você corta.",
@@ -12287,7 +12287,7 @@ const items = {
     },
   },
   "Lunar Calendar": {
-    image: "public/assets/sfts/lunar_calendar.webp",
+    image: "assets/sfts/lunar_calendar.webp",
     description: {
       en: "Crops now follow the lunar cycle! 10% increase to crop growth speed.",
       pt: "Os cultivos agora seguem o ciclo lunar! Aumento de 10% na velocidade de crescimento das plantações.",
@@ -12297,7 +12297,7 @@ const items = {
     },
   },
   "Heart of Davy Jones": {
-    image: "public/assets/sfts/heart_of_davy_jones.gif",
+    image: "assets/sfts/heart_of_davy_jones.gif",
     description: {
       en: "Whoever possesses it holds immense power over the seven seas, can dig for treasure without tiring.",
       pt: "Quem o possui detém um poder imenso sobre os sete mares, pode cavar tesouros sem se cansar.",
@@ -12307,7 +12307,7 @@ const items = {
     },
   },
   "Treasure Map": {
-    image: "public/assets/sfts/treasure/treasure_map.webp",
+    image: "assets/sfts/treasure/treasure_map.webp",
     description: {
       en: "An enchanted map that leads the holder to valuable treasure. +20% profit from beach bounty items.",
       pt: "Um mapa encantado que leva o portador a tesouros valiosos. +20% de lucro com a venda de itens de recompensa da praia.",
@@ -12317,7 +12317,7 @@ const items = {
     },
   },
   "Heart Balloons": {
-    image: "public/assets/events/valentine/sfts/heart_balloons.png",
+    image: "assets/events/valentine/sfts/heart_balloons.png",
     description: {
       en: "Use them as decorations for romantic occasions.",
       pt: "Use-os como decoração para ocasiões românticas.",
@@ -12327,7 +12327,7 @@ const items = {
     },
   },
   Flamingo: {
-    image: "public/assets/events/valentine/sfts/flamingo.webp",
+    image: "assets/events/valentine/sfts/flamingo.webp",
     description: {
       en: "Represents a symbol of love's beauty standing tall and confident.",
       pt: "Representa um símbolo da beleza do amor, alto e confiante.",
@@ -12337,7 +12337,7 @@ const items = {
     },
   },
   "Blossom Tree": {
-    image: "public/assets/events/valentine/sfts/blossom_tree.png",
+    image: "assets/events/valentine/sfts/blossom_tree.png",
     description: {
       en: "Its delicate petals symbolizes the beauty and fragility of love.",
       pt: "Suas delicadas pétalas simbolizam a beleza e fragilidade do amor.",
@@ -12347,7 +12347,7 @@ const items = {
     },
   },
   Pearl: {
-    image: "public/assets/sfts/treasure/pearl.webp",
+    image: "assets/sfts/treasure/pearl.webp",
     description: {
       en: "Shimmers in the sun.",
       pt: "Brilha ao sol.",
@@ -12357,7 +12357,7 @@ const items = {
     },
   },
   Pipi: {
-    image: "public/assets/sfts/treasure/pipi.webp",
+    image: "assets/sfts/treasure/pipi.webp",
     description: {
       en: "Plebidonax deltoides, found in the Pacific Ocean.",
       pt: "Plebidonax deltoides, encontrado no Oceano Pacífico.",
@@ -12367,7 +12367,7 @@ const items = {
     },
   },
   Seaweed: {
-    image: "public/assets/sfts/treasure/seaweed.webp",
+    image: "assets/sfts/treasure/seaweed.webp",
     description: {
       en: "Seaweed.",
       pt: "Algas marinhas.",
@@ -12377,7 +12377,7 @@ const items = {
     },
   },
   "Whale Bear": {
-    image: "public/assets/sfts/bears/whale_bear.webp",
+    image: "assets/sfts/bears/whale_bear.webp",
     description: {
       en: "It has a round, furry body like a bear, but with the fins, tail, and blowhole of a whale.",
       pt: "Tem um corpo redondo e peludo como um urso, mas com as barbatanas, cauda e sopro de uma baleia.",
@@ -12387,7 +12387,7 @@ const items = {
     },
   },
   "Valentine Bear": {
-    image: "public/assets/sfts/bears/love_bear.png",
+    image: "assets/sfts/bears/love_bear.png",
     description: {
       en: "For those who love.",
       pt: "Para aqueles que amam.",
@@ -12397,7 +12397,7 @@ const items = {
     },
   },
   "Easter Bear": {
-    image: "public/assets/sfts/bears/easter_bear.png",
+    image: "assets/sfts/bears/easter_bear.png",
     description: {
       en: "How can a Bunny lay eggs?",
       pt: "Como um coelho pode botar ovos?",
@@ -12407,7 +12407,7 @@ const items = {
     },
   },
   "Easter Bush": {
-    image: "public/assets/sfts/easter_bush.gif",
+    image: "assets/sfts/easter_bush.gif",
     description: {
       en: "What is inside?",
       pt: "O que tem dentro?",
@@ -12417,7 +12417,7 @@ const items = {
     },
   },
   "Giant Carrot": {
-    image: "public/assets/sfts/giant_carrot.png",
+    image: "assets/sfts/giant_carrot.png",
     description: {
       en: "A giant carrot stood, casting fun shadows, as rabbits gazed in wonder.",
       pt: "Uma cenoura gigante ficou, lançando sombras divertidas, enquanto coelhos observavam maravilhados.",
@@ -12427,7 +12427,7 @@ const items = {
     },
   },
   "Iron Idol": {
-    image: "public/assets/sfts/iron_idol.webp",
+    image: "assets/sfts/iron_idol.webp",
     description: {
       en: "The Idol adds 1 iron every time you mine iron.",
       pt: "O Ídolo adiciona 1 ferro toda vez que você minera ferro.",
@@ -12437,7 +12437,7 @@ const items = {
     },
   },
   "Genie Lamp": {
-    image: "public/assets/sfts/genie_lamp.png",
+    image: "assets/sfts/genie_lamp.png",
     description: {
       en: "A magical lamp that contains a genie who will grant you three wishes.",
       pt: "Uma lâmpada mágica que contém um gênio que concederá três desejos.",
@@ -12447,7 +12447,7 @@ const items = {
     },
   },
   "Emerald Turtle": {
-    image: "public/assets/sfts/aoe/emerald_turtle.webp",
+    image: "assets/sfts/aoe/emerald_turtle.webp",
     description: {
       en: "The Emerald Turtle gives +0.5 to any minerals you mine within its Area of Effect.",
       pt: "A Tartaruga Esmeralda dá +0,5 a quaisquer minerais que você minera dentro de sua Área de Efeito.",
@@ -12458,7 +12458,7 @@ const items = {
     },
   },
   "Tin Turtle": {
-    image: "public/assets/sfts/aoe/tin_turtle.webp",
+    image: "assets/sfts/aoe/tin_turtle.webp",
     description: {
       en: "The Tin Turtle gives +0.1 to Stones you mine within its Area of Effect.",
       pt: "A Tartaruga de Estanho dá +0,1 a Pedras que você minera dentro de sua Área de Efeito.",
@@ -12468,7 +12468,7 @@ const items = {
     },
   },
   "Basic Scarecrow": {
-    image: "public/assets/sfts/aoe/basic_scarecrow.png",
+    image: "assets/sfts/aoe/basic_scarecrow.png",
     description: {
       en: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
       pt: "Boost nearby Sunflowers, Potatoes and Pumpkins.",
@@ -12478,7 +12478,7 @@ const items = {
     },
   },
   Bale: {
-    image: "public/assets/sfts/aoe/bale.png",
+    image: "assets/sfts/aoe/bale.png",
     description: {
       en: "Boost nearby chickens.",
       pt: "Vizinho favorito das aves, fornece um retiro aconchegante para as galinhas",
@@ -12488,7 +12488,7 @@ const items = {
     },
   },
   "Sir Goldensnout": {
-    image: "public/assets/sfts/aoe/sir_goldensnout.png",
+    image: "assets/sfts/aoe/sir_goldensnout.png",
     description: {
       en: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
       pt: "A royal member, Sir GoldenSnout infuses your farm with sovereign prosperity through its golden manure.",
@@ -12499,7 +12499,7 @@ const items = {
     },
   },
   "Scary Mike": {
-    image: "public/assets/sfts/aoe/scary_mike.png",
+    image: "assets/sfts/aoe/scary_mike.png",
     description: {
       en: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
       pt: "Boost nearby Carrots, Cabbages, Soybeans, Beetroots, Cauliflowers and Parsnips",
@@ -12510,7 +12510,7 @@ const items = {
     },
   },
   "Laurie the Chuckle Crow": {
-    image: "public/assets/sfts/aoe/laurie.png",
+    image: "assets/sfts/aoe/laurie.png",
     description: {
       en: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
       pt: "Boost nearby Eggplant, Corn, Radish, Wheat and Kale",
@@ -12520,7 +12520,7 @@ const items = {
     },
   },
   "Freya Fox": {
-    image: "public/assets/sfts/freya_fox.png",
+    image: "assets/sfts/freya_fox.png",
     description: {
       en: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
       pt: "Enchanting guardian, boosts pumpkin growth with her mystical charm. Harvest abundant pumpkins under her watchful gaze.",
@@ -12531,7 +12531,7 @@ const items = {
     },
   },
   "Queen Cornelia": {
-    image: "public/assets/sfts/aoe/queen_cornelia.png",
+    image: "assets/sfts/aoe/queen_cornelia.png",
     description: {
       en: "Command the regal power of Queen Cornelia and experience a magnificent Area of Effect boost to your corn production. +1 Corn.",
       pt: "Comande o poder régio da Rainha Cornelia e experimente um magnífico impulso de Área de Efeito para a produção de milho. +1 Milho.",
@@ -12542,7 +12542,7 @@ const items = {
     },
   },
   "Compost Bin": {
-    image: "public/assets/composters/composter_basic.png",
+    image: "assets/composters/composter_basic.png",
     description: {
       en: "Produces bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes regularmente.",
@@ -12552,7 +12552,7 @@ const items = {
     },
   },
   "Turbo Composter": {
-    image: "public/assets/composters/composter_advanced.png",
+    image: "assets/composters/composter_advanced.png",
     description: {
       en: "Produces advanced bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes avançados regularmente.",
@@ -12562,7 +12562,7 @@ const items = {
     },
   },
   "Premium Composter": {
-    image: "public/assets/composters/composter_expert.png",
+    image: "assets/composters/composter_expert.png",
     description: {
       en: "Produces expert bait & fertiliser on a regular basis.",
       pt: "Produz iscas e fertilizantes especialistas regularmente.",
@@ -12572,7 +12572,7 @@ const items = {
     },
   },
   "Solar Flare Ticket": {
-    image: "public/assets/icons/solar_flare_ticket.png",
+    image: "assets/icons/solar_flare_ticket.png",
     description: {
       en: "A ticket used during the Solar Flare Season",
       pt: "Um ticket usado durante a Temporada de Solar Flare",
@@ -12582,7 +12582,7 @@ const items = {
     },
   },
   "Dawn Breaker Ticket": {
-    image: "public/assets/icons/dawn_breaker_ticket.png",
+    image: "assets/icons/dawn_breaker_ticket.png",
     description: {
       en: "A ticket used during the Dawn Breaker Season",
       pt: "Um ticket usado durante a Temporada Danw Breaker",
@@ -12592,7 +12592,7 @@ const items = {
     },
   },
   "Crow Feather": {
-    image: "public/assets/icons/crow_feather.webp",
+    image: "assets/icons/crow_feather.webp",
     description: {
       en: "A ticket used during the Witches' Eve Ticket Season",
       pt: "Um ticket usado durante Whiches' Eve",
@@ -12602,7 +12602,7 @@ const items = {
     },
   },
   "Mermaid Scale": {
-    image: "public/assets/icons/mermaid_scale.webp",
+    image: "assets/icons/mermaid_scale.webp",
     description: {
       en: "A ticket used during the Catch the Kraken Season",
       pt: "Um ticket usado durante a Temporada de Catch the Kraken",
@@ -12612,7 +12612,7 @@ const items = {
     },
   },
   "Tulip Bulb": {
-    image: "public/assets/icons/tulip_bulb.png",
+    image: "assets/icons/tulip_bulb.png",
     description: {
       en: "A ticket used during the Spring Blossom",
       pt: "Um ticket usado durante a ",
@@ -12622,7 +12622,7 @@ const items = {
     },
   },
   Scroll: {
-    image: "public/assets/icons/scroll.webp",
+    image: "assets/icons/scroll.webp",
     description: {
       en: "A ticket used during the Clash of Factions Season",
       pt: "Um ticket usado durante a temporada Clash of Factions",
@@ -12632,7 +12632,7 @@ const items = {
     },
   },
   "Bumpkin Emblem": {
-    image: "public/assets/icons/bumpkin_emblem.webp",
+    image: "assets/icons/bumpkin_emblem.webp",
     description: {
       en: "Show your allegiance to the Bumpkins",
       pt: "Show your allegiance to the Bumpkins",
@@ -12642,7 +12642,7 @@ const items = {
     },
   },
   "Goblin Emblem": {
-    image: "public/assets/icons/goblin_emblem.webp",
+    image: "assets/icons/goblin_emblem.webp",
     description: {
       en: "Show your allegiance to the Goblins",
       pt: "Show your allegiance to the Goblins",
@@ -12652,7 +12652,7 @@ const items = {
     },
   },
   "Nightshade Emblem": {
-    image: "public/assets/icons/nightshade_emblem.webp",
+    image: "assets/icons/nightshade_emblem.webp",
     description: {
       en: "Show your allegiance to the Nightshades",
       pt: "Show your allegiance to the Nightshades",
@@ -12662,7 +12662,7 @@ const items = {
     },
   },
   "Sunflorian Emblem": {
-    image: "public/assets/icons/sunflorian_emblem.webp",
+    image: "assets/icons/sunflorian_emblem.webp",
     description: {
       en: "Show your allegiance to the Sunflorians",
       pt: "Show your allegiance to the Sunflorians",
@@ -12672,7 +12672,7 @@ const items = {
     },
   },
   Mark: {
-    image: "public/assets/icons/faction_mark.webp",
+    image: "assets/icons/faction_mark.webp",
     description: {
       en: "Use these in the faction shop",
       pt: "Use these in the faction shop",
@@ -12682,7 +12682,7 @@ const items = {
     },
   },
   "Sunflower Supporter": {
-    image: "public/assets/icons/supporter_ticket.png",
+    image: "assets/icons/supporter_ticket.png",
     description: {
       en: "The mark of a true supporter of the game!",
       pt: "A marca de um verdadeiro apoiador do jogo!",
@@ -12692,7 +12692,7 @@ const items = {
     },
   },
   "Treasure Key": {
-    image: "public/assets/sfts/quest/sunflower_key.png",
+    image: "assets/sfts/quest/sunflower_key.png",
     description: {
       en: "Visit the plaza to unlock your reward",
       pt: "Visite o Plaza para desbloquear sua recompensa",
@@ -12702,7 +12702,7 @@ const items = {
     },
   },
   "Beach Ball": {
-    image: "public/assets/seasons/solar-flare/beach_ball.webp",
+    image: "assets/seasons/solar-flare/beach_ball.webp",
     description: {
       en: "Bouncy ball brings beachy vibes, blows boredom away.",
       pt: "A bola saltitante traz vibrações de praia, afasta o tédio.",
@@ -12712,7 +12712,7 @@ const items = {
     },
   },
   "Palm Tree": {
-    image: "public/assets/seasons/solar-flare/palm_tree.webp",
+    image: "assets/seasons/solar-flare/palm_tree.webp",
     description: {
       en: "Tall, beachy, shady and chic, palm trees make waves sashay.",
       pt: "Alto, de praia, sombreado e chique, as palmeiras fazem as ondas gingarem.",
@@ -12722,7 +12722,7 @@ const items = {
     },
   },
   Karkinos: {
-    image: "public/assets/seasons/solar-flare/karkinos.png",
+    image: "assets/seasons/solar-flare/karkinos.png",
     description: {
       en: "Pinchy but kind, the crabby cabbage-boosting addition to your farm!",
       pt: "Afiado mas gentil, adição de repolho “caranguejo” à sua fazenda!",
@@ -12732,7 +12732,7 @@ const items = {
     },
   },
   "Mushroom House": {
-    image: "public/assets/seasons/dawn-breaker/mushroom_house.png",
+    image: "assets/seasons/dawn-breaker/mushroom_house.png",
     description: {
       en: "A whimsical, fungi-abode where the walls sprout with charm and even the furniture has a 'spore-tacular' flair!",
       pt: "Uma morada fungosa e caprichosa onde as paredes brotam com charme e até os móveis têm um toque 'esporacular'!",
@@ -12762,7 +12762,7 @@ const items = {
     },
   },
   "Sunstone Rock": {
-    image: "public/assets/resources/sunstone/sunstone_rock_1.webp",
+    image: "assets/resources/sunstone/sunstone_rock_1.webp",
     description: {
       en: "A mineable rock to collect sunstone",
       pt: "A mineable rock to collect sunstone",
@@ -12772,7 +12772,7 @@ const items = {
     },
   },
   "Gold Rock": {
-    image: "public/assets/resources/gold_small.png",
+    image: "assets/resources/gold_small.png",
     description: {
       en: "A mineable rock to collect gold",
       pt: "Uma rocha minerável para coletar ouro",
@@ -12782,7 +12782,7 @@ const items = {
     },
   },
   "Iron Rock": {
-    image: "public/assets/resources/iron_small.png",
+    image: "assets/resources/iron_small.png",
     description: {
       en: "A mineable rock to collect iron",
       pt: "Uma rocha minerável para coletar ferro",
@@ -12792,7 +12792,7 @@ const items = {
     },
   },
   "Stone Rock": {
-    image: "public/assets/resources/stone_small.png",
+    image: "assets/resources/stone_small.png",
     description: {
       en: "A mineable rock to collect stone",
       pt: "Uma rocha minerável para coletar pedra",
@@ -12802,7 +12802,7 @@ const items = {
     },
   },
   "Crimstone Rock": {
-    image: "public/assets/resources/crimstone/crimstone_rock_1.webp",
+    image: "assets/resources/crimstone/crimstone_rock_1.webp",
     description: {
       en: "A mineable rock to collect crimstone",
       pt: "Uma rocha minerável para coletar Crimstone",
@@ -12812,7 +12812,7 @@ const items = {
     },
   },
   "Oil Reserve": {
-    image: "public/assets/resources/oil/oil_reserve_full.webp",
+    image: "assets/resources/oil/oil_reserve_full.webp",
     description: {
       en: "A source of oil",
       pt: "Uma reserva para coletar petróleo",
@@ -12842,7 +12842,7 @@ const items = {
     },
   },
   "Flower Bed": {
-    image: "public/assets/flowers/empty.webp",
+    image: "assets/flowers/empty.webp",
     description: {
       en: "An empty plot to plant flowers on",
       pt: "Um terreno vazio para plantar flores",
@@ -12862,7 +12862,7 @@ const items = {
     },
   },
   "Dirt Path": {
-    image: "public/assets/sfts/dirt_path.png",
+    image: "assets/sfts/dirt_path.png",
     description: {
       en: "Keep your farmer boots clean with a well trodden path.",
       pt: "Mantenha suas botas de fazendeiro limpas com um caminho bem pisado.",
@@ -12872,7 +12872,7 @@ const items = {
     },
   },
   Bush: {
-    image: "public/assets/decorations/bush.png",
+    image: "assets/decorations/bush.png",
     description: {
       en: "What's lurking in the bushes?",
       pt: "O que está espreitando nas moitas?",
@@ -12882,7 +12882,7 @@ const items = {
     },
   },
   Fence: {
-    image: "public/assets/decorations/fence.png",
+    image: "assets/decorations/fence.png",
     description: {
       en: "Add a touch of rustic charm to your farm.",
       pt: "Adicione um toque de charme rústico à sua fazenda.",
@@ -12892,7 +12892,7 @@ const items = {
     },
   },
   "Stone Fence": {
-    image: "public/assets/decorations/stone_fence.png",
+    image: "assets/decorations/stone_fence.png",
     description: {
       en: "Embrace the timeless elegance of a stone fence.",
       pt: "Abrace a elegância atemporal de uma cerca de pedra.",
@@ -12902,7 +12902,7 @@ const items = {
     },
   },
   Shrub: {
-    image: "public/assets/decorations/shrub.png",
+    image: "assets/decorations/shrub.png",
     description: {
       en: "Enhance your in-game landscaping with a beautiful shrub",
       pt: "Melhore seu paisagismo no jogo com um arbusto bonito",
@@ -12912,7 +12912,7 @@ const items = {
     },
   },
   "Pine Tree": {
-    image: "public/assets/decorations/pine_tree.png",
+    image: "assets/decorations/pine_tree.png",
     description: {
       en: "Standing tall and mighty, a needle-clad dream.",
       pt: "De pé alto e poderoso.",
@@ -12922,7 +12922,7 @@ const items = {
     },
   },
   "Field Maple": {
-    image: "public/assets/decorations/field_maple.webp",
+    image: "assets/decorations/field_maple.webp",
     description: {
       en: "A petite charmer that spreads its leaves like a delicate green canopy.",
       pt: "Um charme pequeno que espalha suas folhas como um dossel verde delicado.",
@@ -12932,7 +12932,7 @@ const items = {
     },
   },
   "Red Maple": {
-    image: "public/assets/decorations/red_maple.webp",
+    image: "assets/decorations/red_maple.webp",
     description: {
       en: "Fiery foliage and a heart full of autumnal warmth.",
       pt: "Folhagem ardente e um coração cheio de calor outonal.",
@@ -12942,7 +12942,7 @@ const items = {
     },
   },
   "Golden Maple": {
-    image: "public/assets/decorations/golden_maple.webp",
+    image: "assets/decorations/golden_maple.webp",
     description: {
       en: "Radiating brilliance with its shimmering golden leaves.",
       pt: "Irradiando brilho com suas folhas douradas cintilantes.",
@@ -12952,7 +12952,7 @@ const items = {
     },
   },
   "Solar Flare Banner": {
-    image: "public/assets/decorations/banners/solar_flare_banner.png",
+    image: "assets/decorations/banners/solar_flare_banner.png",
     description: {
       en: "?",
       pt: "?",
@@ -12962,7 +12962,7 @@ const items = {
     },
   },
   "Dawn Breaker Banner": {
-    image: "public/assets/decorations/banners/dawn_breaker_banner.png",
+    image: "assets/decorations/banners/dawn_breaker_banner.png",
     description: {
       en: "?",
       pt: "?",
@@ -12972,7 +12972,7 @@ const items = {
     },
   },
   "Witches' Eve Banner": {
-    image: "public/assets/decorations/banners/witches_eve_banner.webp",
+    image: "assets/decorations/banners/witches_eve_banner.webp",
     description: {
       en: "?",
       pt: "?",
@@ -12982,7 +12982,7 @@ const items = {
     },
   },
   "Catch the Kraken Banner": {
-    image: "public/assets/decorations/banners/catch_the_kraken_banner.webp",
+    image: "assets/decorations/banners/catch_the_kraken_banner.webp",
     description: {
       en: "The Kraken is here! The mark of a participant in the Catch the Kraken Season.",
       pt: "O Kraken está aqui! O símbolo de um participante na Temporada de Pegar o Kraken.",
@@ -12992,7 +12992,7 @@ const items = {
     },
   },
   "Spring Blossom Banner": {
-    image: "public/assets/decorations/banners/spring_banner.gif",
+    image: "assets/decorations/banners/spring_banner.gif",
     description: {
       en: "",
       pt: "",
@@ -13002,7 +13002,7 @@ const items = {
     },
   },
   "Clash of Factions Banner": {
-    image: "public/assets/decorations/banners/clash_of_factions_banner.webp",
+    image: "assets/decorations/banners/clash_of_factions_banner.webp",
     description: {
       en: "",
       pt: "",
@@ -13012,7 +13012,7 @@ const items = {
     },
   },
   "Lifetime Farmer Banner": {
-    image: "public/assets/decorations/banners/lifetime_farmer_banner.png",
+    image: "assets/decorations/banners/lifetime_farmer_banner.png",
     description: {
       en: "",
       pt: "",
@@ -13022,7 +13022,7 @@ const items = {
     },
   },
   "Luminous Lantern": {
-    image: "public/assets/decorations/lanterns/luminous_lantern.webp",
+    image: "assets/decorations/lanterns/luminous_lantern.webp",
     description: {
       en: "A bright paper lantern that illuminates the way.",
       pt: "Uma lanterna de papel brilhante que ilumina o caminho.",
@@ -13032,7 +13032,7 @@ const items = {
     },
   },
   "Radiance Lantern": {
-    image: "public/assets/decorations/lanterns/radiance_lantern.webp",
+    image: "assets/decorations/lanterns/radiance_lantern.webp",
     description: {
       en: "A radiant paper lantern that shines with a powerful light.",
       pt: "Uma lanterna de papel radiante que brilha com uma luz poderosa.",
@@ -13042,7 +13042,7 @@ const items = {
     },
   },
   "Ocean Lantern": {
-    image: "public/assets/decorations/lanterns/ocean_lantern.png",
+    image: "assets/decorations/lanterns/ocean_lantern.png",
     description: {
       en: "A wavy paper lantern that sways with the bobbing of the tide.",
       pt: "Uma lanterna de papel ondulante que balança com o movimento da maré.",
@@ -13052,7 +13052,7 @@ const items = {
     },
   },
   "Solar Lantern": {
-    image: "public/assets/decorations/lanterns/solar_lantern.png",
+    image: "assets/decorations/lanterns/solar_lantern.png",
     description: {
       en: "Harnessing the vibrant essence of sunflowers, the Solar Lantern emanates a warm and radiant glow.",
       pt: "Aproveitando a essência vibrante dos girassóis, a Lanterna Solar emana um brilho quente e radiante.",
@@ -13062,7 +13062,7 @@ const items = {
     },
   },
   "Aurora Lantern": {
-    image: "public/assets/decorations/lanterns/aurora_lantern.webp",
+    image: "assets/decorations/lanterns/aurora_lantern.webp",
     description: {
       en: "A paper lantern that transforms any space into a magical wonderland.",
       pt: "Uma lanterna de papel que transforma qualquer espaço em um mundo mágico.",
@@ -13072,7 +13072,7 @@ const items = {
     },
   },
   "Bonnie's Tombstone": {
-    image: "public/assets/decorations/bonnies_tombstone.png",
+    image: "assets/decorations/bonnies_tombstone.png",
     description: {
       en: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
       pt: "A spooky addition to any farm, Bonnie's Human Tombstone will send shivers down your spine.",
@@ -13083,7 +13083,7 @@ const items = {
     },
   },
   "Chestnut Fungi Stool": {
-    image: "public/assets/decorations/chestnut_fungi_stool.png",
+    image: "assets/decorations/chestnut_fungi_stool.png",
     description: {
       en: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
       pt: "The Chestnut Fungi Stool is a sturdy and rustic addition to any farm.",
@@ -13094,7 +13094,7 @@ const items = {
     },
   },
   "Crimson Cap": {
-    image: "public/assets/decorations/crimson_cap.png",
+    image: "assets/decorations/crimson_cap.png",
     description: {
       en: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
       pt: "A towering and vibrant mushroom, the Crimson Cap Giant Mushroom will bring life to your farm.",
@@ -13105,7 +13105,7 @@ const items = {
     },
   },
   "Dawn Umbrella Seat": {
-    image: "public/assets/decorations/dawn_umbrella_seat.png",
+    image: "assets/decorations/dawn_umbrella_seat.png",
     description: {
       en: "Keep those Eggplants dry during those rainy days with the Dawn Umbrella Seat.",
       pt: "Mantenha essas Berinjelas secas durante os dias chuvosos com o Guarda-chuva Assento da Aurora.",
@@ -13115,7 +13115,7 @@ const items = {
     },
   },
   "Eggplant Grill": {
-    image: "public/assets/decorations/eggplant_grill.png",
+    image: "assets/decorations/eggplant_grill.png",
     description: {
       en: "Get cooking with the Eggplant Grill, perfect for any outdoor meal.",
       pt: "Comece a cozinhar com a Churrasqueira de Berinjela, perfeita para qualquer refeição ao ar livre.",
@@ -13125,7 +13125,7 @@ const items = {
     },
   },
   "Giant Dawn Mushroom": {
-    image: "public/assets/decorations/giant_dawn_mushroom.png",
+    image: "assets/decorations/giant_dawn_mushroom.png",
     description: {
       en: "The Giant Dawn Mushroom is a majestic and magical addition to any farm.",
       pt: "O Cogumelo Gigante da Aurora é uma adição majestosa e mágica para qualquer fazenda.",
@@ -13135,7 +13135,7 @@ const items = {
     },
   },
   "Grubnash's Tombstone": {
-    image: "public/assets/decorations/grubnash_tombstone.png",
+    image: "assets/decorations/grubnash_tombstone.png",
     description: {
       en: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
       pt: "Add some mischievous charm with Grubnash's Goblin Tombstone.",
@@ -13145,7 +13145,7 @@ const items = {
     },
   },
   "Mahogany Cap": {
-    image: "public/assets/decorations/mahogony_cap.png",
+    image: "assets/decorations/mahogony_cap.png",
     description: {
       en: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
       pt: "Add a touch of sophistication with the Mahogany Cap Giant Mushroom.",
@@ -13156,7 +13156,7 @@ const items = {
     },
   },
   "Shroom Glow": {
-    image: "public/assets/decorations/shroom_glow.png",
+    image: "assets/decorations/shroom_glow.png",
     description: {
       en: "Illuminate your farm with the enchanting glow of Shroom Glow.",
       pt: "Ilumine sua fazenda com o brilho encantador do Brilho dos Cogumelos.",
@@ -13166,7 +13166,7 @@ const items = {
     },
   },
   "Toadstool Seat": {
-    image: "public/assets/decorations/toadstool_seat.png",
+    image: "assets/decorations/toadstool_seat.png",
     description: {
       en: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
       pt: "Sit back and relax on the whimsical Toadstool Mushroom Seat.",
@@ -13176,7 +13176,7 @@ const items = {
     },
   },
   Clementine: {
-    image: "public/assets/decorations/clementine.png",
+    image: "assets/decorations/clementine.png",
     description: {
       en: "The Clementine Gnome is a cheerful companion for your farming adventures.",
       pt: "O Gnomo Clementine é um companheiro alegre para suas aventuras na fazenda.",
@@ -13186,7 +13186,7 @@ const items = {
     },
   },
   Blossombeard: {
-    image: "public/assets/sfts/blossom_beard.webp",
+    image: "assets/sfts/blossom_beard.webp",
     description: {
       en: "The Blossombeard Gnome is a powerful companion for your farming adventures.",
       pt: "O Gnomo Blossombeard é um companheiro poderoso para suas aventuras na fazenda.",
@@ -13196,7 +13196,7 @@ const items = {
     },
   },
   "Desert Gnome": {
-    image: "public/assets/sfts/desert_gnome.webp",
+    image: "assets/sfts/desert_gnome.webp",
     description: {
       en: "A gnome that can survive the harshest of conditions.",
       pt: "A gnome that can survive the harshest of conditions.",
@@ -13206,7 +13206,7 @@ const items = {
     },
   },
   Cobalt: {
-    image: "public/assets/decorations/cobalt.png",
+    image: "assets/decorations/cobalt.png",
     description: {
       en: "The Cobalt Gnome adds a pop of color to your farm with his vibrant hat.",
       pt: "O Gnomo Cobalt adiciona um toque de cor à sua fazenda com seu chapéu vibrante.",
@@ -13216,7 +13216,7 @@ const items = {
     },
   },
   "Purple Trail": {
-    image: "public/assets/sfts/purple_trail.png",
+    image: "assets/sfts/purple_trail.png",
     description: {
       en: "Leave your opponents in a trail of envy with the mesmerizing and unique Purple Trail",
       pt: "Deixe seus oponentes com inveja com a trilha roxa única e fascinante",
@@ -13226,7 +13226,7 @@ const items = {
     },
   },
   Maximus: {
-    image: "public/assets/sfts/maximus.png",
+    image: "assets/sfts/maximus.png",
     description: {
       en: "Squash the competition with plump Maximus",
       pt: "Esmague a competição com o robusto Maximus",
@@ -13236,7 +13236,7 @@ const items = {
     },
   },
   Obie: {
-    image: "public/assets/sfts/obie.png",
+    image: "assets/sfts/obie.png",
     description: {
       en: "A fierce eggplant soldier",
       pt: "Um feroz soldado de Berinjela",
@@ -13246,7 +13246,7 @@ const items = {
     },
   },
   Hoot: {
-    image: "public/assets/sfts/hoot.png",
+    image: "assets/sfts/hoot.png",
     description: {
       en: "Hoot hoot! Have you solved my riddle yet?",
       pt: "Hoot hoot! Você já resolveu meu enigma?",
@@ -13256,7 +13256,7 @@ const items = {
     },
   },
   "Genie Bear": {
-    image: "public/assets/sfts/bears/genie_bear.png",
+    image: "assets/sfts/bears/genie_bear.png",
     description: {
       en: "Exactly what I wished for!",
       pt: "Exatamente o que eu desejei!",
@@ -13266,7 +13266,7 @@ const items = {
     },
   },
   "Betty Lantern": {
-    image: "public/assets/decorations/lanterns/betty_lantern.png",
+    image: "assets/decorations/lanterns/betty_lantern.png",
     description: {
       en: "It looks so real! I wonder how they crafted this.",
       pt: "Parece tão real! Eu me pergunto como eles fizeram isso.",
@@ -13276,7 +13276,7 @@ const items = {
     },
   },
   "Bumpkin Lantern": {
-    image: "public/assets/decorations/lanterns/bumpkin_lantern.png",
+    image: "assets/decorations/lanterns/bumpkin_lantern.png",
     description: {
       en: "Moving closer you hear murmurs of a living Bumpkin...creepy!",
       pt: "Aproximando-se, você ouve murmúrios de um Bumpkin vivo... assustador!",
@@ -13286,7 +13286,7 @@ const items = {
     },
   },
   "Eggplant Bear": {
-    image: "public/assets/sfts/bears/eggplant_bear.png",
+    image: "assets/sfts/bears/eggplant_bear.png",
     description: {
       en: "The mark of a generous eggplant whale.",
       pt: "O símbolo de uma baleia berinjela generosa.",
@@ -13296,7 +13296,7 @@ const items = {
     },
   },
   "Goblin Lantern": {
-    image: "public/assets/decorations/lanterns/goblin_lantern.png",
+    image: "assets/decorations/lanterns/goblin_lantern.png",
     description: {
       en: "A scary looking lantern",
       pt: "Uma lanterna com uma aparência assustadora",
@@ -13306,7 +13306,7 @@ const items = {
     },
   },
   "Dawn Flower": {
-    image: "public/assets/sfts/dawn_flower.png",
+    image: "assets/sfts/dawn_flower.png",
     description: {
       en: "Embrace the radiant beauty of the Dawn Flower as its delicate petals shimmer with the first light of day",
       pt: "Abraçe a beleza radiante da Flor da Aurora enquanto suas pétalas delicadas brilham com a primeira luz do dia",
@@ -13316,7 +13316,7 @@ const items = {
     },
   },
   "Gold Pass": {
-    image: "public/assets/icons/gold-pass.png",
+    image: "assets/icons/gold-pass.png",
     description: {
       en: "An exclusive pass that enables the holder to craft rare NFTs, trade, withdraw and access bonus content.",
       pt: "Um passe exclusivo que permite ao portador criar NFTs raros, negociar, sacar e acessar conteúdo bônus.",
@@ -13327,7 +13327,7 @@ const items = {
     },
   },
   Poppy: {
-    image: "public/assets/sfts/poppy.png",
+    image: "assets/sfts/poppy.png",
     description: {
       en: "The mystical corn kernel. +0.1 Corn per harvest,",
       pt: "O grão de milho místico. +0,1 Milho por colheita,",
@@ -13337,7 +13337,7 @@ const items = {
     },
   },
   "El Pollo Veloz": {
-    image: "public/assets/animals/chickens/el_pollo_veloz.gif",
+    image: "assets/animals/chickens/el_pollo_veloz.gif",
     description: {
       en: "Give me those eggs, fast! 4 hour speed boost on egg laying.",
       pt: "Dê-me esses ovos rápido! Aumento de velocidade de 4 horas na postura de ovos.",
@@ -13347,7 +13347,7 @@ const items = {
     },
   },
   "Grain Grinder": {
-    image: "public/assets/sfts/grain_grinder.png",
+    image: "assets/sfts/grain_grinder.png",
     description: {
       en: "Grind your grain and experience a delectable surge in Cake XP.",
       pt: "Moa seu grão e experimente um aumento delicioso no XP do bolo.",
@@ -13357,7 +13357,7 @@ const items = {
     },
   },
   Kernaldo: {
-    image: "public/assets/sfts/kernaldo.png",
+    image: "assets/sfts/kernaldo.png",
     description: {
       en: "The magical corn whisperer. +25% Corn Growth Speed.",
       pt: "O sussurro de milho mágico. +25% de Velocidade de Crescimento de Milho.",
@@ -13367,7 +13367,7 @@ const items = {
     },
   },
   Candles: {
-    image: "public/assets/decorations/candles.png",
+    image: "assets/decorations/candles.png",
     description: {
       en: "Enchant your farm with flickering spectral flames during Witches' Eve.",
       pt: "Encante sua fazenda com chamas espectrais cintilantes durante a Véspera das Bruxas.",
@@ -13377,7 +13377,7 @@ const items = {
     },
   },
   "Haunted Stump": {
-    image: "public/assets/decorations/haunted_stump.png",
+    image: "assets/decorations/haunted_stump.png",
     description: {
       en: "Summon spirits and add eerie charm to your farm.",
       pt: "Chame espíritos e adicione charme sinistro à sua fazenda.",
@@ -13387,7 +13387,7 @@ const items = {
     },
   },
   "Spooky Tree": {
-    image: "public/assets/decorations/spooky_tree.png",
+    image: "assets/decorations/spooky_tree.png",
     description: {
       en: "A hauntingly fun addition to your farm's decor!",
       pt: "Uma adição assustadoramente divertida à decoração da sua fazenda!",
@@ -13397,7 +13397,7 @@ const items = {
     },
   },
   Observer: {
-    image: "public/assets/decorations/observer.webp",
+    image: "assets/decorations/observer.webp",
     description: {
       en: "A perpetually roving eyeball, always vigilant and ever-watchful!",
       pt: "Um globo ocular em movimento perpétuo, sempre vigilante e sempre atento!",
@@ -13407,7 +13407,7 @@ const items = {
     },
   },
   "Crow Rock": {
-    image: "public/assets/decorations/crow_rock.webp",
+    image: "assets/decorations/crow_rock.webp",
     description: {
       en: "A crow perched atop a mysterious rock.",
       pt: "Um corvo empoleirado em uma rocha misteriosa.",
@@ -13417,7 +13417,7 @@ const items = {
     },
   },
   "Mini Corn Maze": {
-    image: "public/assets/decorations/mini_corn_maze.webp",
+    image: "assets/decorations/mini_corn_maze.webp",
     description: {
       en: "A memento of the beloved maze from the 2023 Witches' Eve season.",
       pt: "Uma lembrança do adorado labirinto da temporada Witches' Eve de 2023.",
@@ -13427,7 +13427,7 @@ const items = {
     },
   },
   "Giant Cabbage": {
-    image: "public/assets/sfts/giant_cabbage.png",
+    image: "assets/sfts/giant_cabbage.png",
     description: {
       en: "A giant cabbage.",
       pt: "A giant cabbage.",
@@ -13437,7 +13437,7 @@ const items = {
     },
   },
   "Giant Potato": {
-    image: "public/assets/sfts/giant_potato.png",
+    image: "assets/sfts/giant_potato.png",
     description: {
       en: "A giant potato.",
       pt: "A giant potato.",
@@ -13447,7 +13447,7 @@ const items = {
     },
   },
   "Giant Pumpkin": {
-    image: "public/assets/sfts/giant_pumpkin.png",
+    image: "assets/sfts/giant_pumpkin.png",
     description: {
       en: "A giant pumpkin.",
       pt: "A giant pumpkin.",
@@ -13457,7 +13457,7 @@ const items = {
     },
   },
   "Potion Ticket": {
-    image: "public/assets/icons/potion_point.png",
+    image: "assets/icons/potion_point.png",
     description: {
       en: "A reward from the Potion House. Use this to buy items from Garth.",
       pt: "A reward from the Potion House. Use this to buy items from Garth.",
@@ -13468,7 +13468,7 @@ const items = {
     },
   },
   "Lab Grown Carrot": {
-    image: "public/assets/sfts/lab_grown_carrot.gif",
+    image: "assets/sfts/lab_grown_carrot.gif",
     description: {
       en: "+0.2 Carrot Yield",
       pt: "+0.2 Carrot Yield",
@@ -13478,7 +13478,7 @@ const items = {
     },
   },
   "Lab Grown Pumpkin": {
-    image: "public/assets/sfts/lab_grown_pumpkin.gif",
+    image: "assets/sfts/lab_grown_pumpkin.gif",
     description: {
       en: "+0.3 Pumpkin Yield",
       pt: "+0.3 Pumpkin Yield",
@@ -13488,7 +13488,7 @@ const items = {
     },
   },
   "Lab Grown Radish": {
-    image: "public/assets/sfts/lab_grown_radish.gif",
+    image: "assets/sfts/lab_grown_radish.gif",
     description: {
       en: "+0.4 Radish Yield",
       pt: "+0.4 Radish Yield",
@@ -13498,7 +13498,7 @@ const items = {
     },
   },
   "Adirondack Potato": {
-    image: "public/assets/potion_house/adirondack_potato.png",
+    image: "assets/potion_house/adirondack_potato.png",
     description: {
       en: "A rugged spud, Adirondack style!",
       pt: "A rugged spud, Adirondack style!",
@@ -13508,7 +13508,7 @@ const items = {
     },
   },
   "Black Magic": {
-    image: "public/assets/potion_house/black_magic.png",
+    image: "assets/potion_house/black_magic.png",
     description: {
       en: "A dark and mysterious flower!",
       pt: "A dark and mysterious flower!",
@@ -13518,7 +13518,7 @@ const items = {
     },
   },
   Chiogga: {
-    image: "public/assets/potion_house/chiogga.png",
+    image: "assets/potion_house/chiogga.png",
     description: {
       en: "A rainbow beet!",
       pt: "A rainbow beet!",
@@ -13528,7 +13528,7 @@ const items = {
     },
   },
   "Golden Helios": {
-    image: "public/assets/potion_house/golden_helios.png",
+    image: "assets/potion_house/golden_helios.png",
     description: {
       en: "Sun-kissed grandeur!",
       pt: "Sun-kissed grandeur!",
@@ -13538,7 +13538,7 @@ const items = {
     },
   },
   "Purple Cauliflower": {
-    image: "public/assets/potion_house/purple_cauliflower.png",
+    image: "assets/potion_house/purple_cauliflower.png",
     description: {
       en: "A regal purple cauliflowser",
       pt: "A regal purple cauliflowser",
@@ -13548,7 +13548,7 @@ const items = {
     },
   },
   "Warty Goblin Pumpkin": {
-    image: "public/assets/potion_house/warty_goblin_pumpkin.png",
+    image: "assets/potion_house/warty_goblin_pumpkin.png",
     description: {
       en: "A whimsical, wart-covered pumpkin",
       pt: "A whimsical, wart-covered pumpkin",
@@ -13558,7 +13558,7 @@ const items = {
     },
   },
   "White Carrot": {
-    image: "public/assets/potion_house/white_carrot.png",
+    image: "assets/potion_house/white_carrot.png",
     description: {
       en: "A pale carrot with pale roots",
       pt: "A pale carrot with pale roots",
@@ -13568,7 +13568,7 @@ const items = {
     },
   },
   "Bud Ticket": {
-    image: "public/assets/icons/bud_ticket.png",
+    image: "assets/icons/bud_ticket.png",
     description: {
       en: "A guaranteed spot to mint a Bud at the Sunflower Land Buds NFT drop.",
       pt: "Um lugar garantido para mintar um Bud no lançamento de NFTs do Sunflower Land Buds.",
@@ -13579,7 +13579,7 @@ const items = {
     },
   },
   "Bud Seedling": {
-    image: "public/assets/icons/bud_seedling.png",
+    image: "assets/icons/bud_seedling.png",
     description: {
       en: "A seedling to be exchanged for a free Bud NFT",
       pt: "Uma muda a ser trocada por um Bud NFT gratuito",
@@ -13589,7 +13589,7 @@ const items = {
     },
   },
   "Town Sign": {
-    image: "public/assets/decorations/woodsign.png",
+    image: "assets/decorations/woodsign.png",
     description: {
       en: "Show your farm ID with pride!",
       pt: "Mostre sua identificação da fazenda com orgulho!",
@@ -13599,7 +13599,7 @@ const items = {
     },
   },
   "White Crow": {
-    image: "public/assets/decorations/white_crow.webp",
+    image: "assets/decorations/white_crow.webp",
     description: {
       en: "A mysterious and ethereal white crow",
       pt: "Um corvo branco misterioso e etéreo",
@@ -13609,7 +13609,7 @@ const items = {
     },
   },
   Earthworm: {
-    image: "public/assets/composters/earthworm.png",
+    image: "assets/composters/earthworm.png",
     description: {
       en: "A wriggly worm that attracts small fish.",
       pt: "A wriggly worm that attracts small fish.",
@@ -13619,7 +13619,7 @@ const items = {
     },
   },
   Grub: {
-    image: "public/assets/composters/grub.png",
+    image: "assets/composters/grub.png",
     description: {
       en: "A juicy grub - perfect for advanced fish.",
       pt: "A juicy grub - perfect for advanced fish.",
@@ -13629,7 +13629,7 @@ const items = {
     },
   },
   "Red Wiggler": {
-    image: "public/assets/composters/red_wiggler.png",
+    image: "assets/composters/red_wiggler.png",
     description: {
       en: "An exotic worm that entices rare fish.",
       pt: "An exotic worm that entices rare fish.",
@@ -13639,7 +13639,7 @@ const items = {
     },
   },
   "Fishing Lure": {
-    image: "public/assets/composters/fishing_lure.png",
+    image: "assets/composters/fishing_lure.png",
     description: {
       en: "Great for catching rare fish ! ",
       pt: "Great for catching rare fish ! ",
@@ -13655,7 +13655,7 @@ const items = {
         description: "Sprout Mix increases your crop yield from plots by +0.4",
       },
     ],
-    image: "public/assets/composters/sprout_mix.png",
+    image: "assets/composters/sprout_mix.png",
     description: {
       en: "Sprout Mix increases your crop yield from plots by +0.2",
       pt: "Sprout Mix increases your crop yield from plots by +0.2",
@@ -13665,7 +13665,7 @@ const items = {
     },
   },
   "Fruitful Blend": {
-    image: "public/assets/composters/fruitful_blend.png",
+    image: "assets/composters/fruitful_blend.png",
     description: {
       en: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
       pt: "Fruitful Blend boosts the yield of each fruit growing on fruit patches by +0.1",
@@ -13676,7 +13676,7 @@ const items = {
     },
   },
   "Rapid Root": {
-    image: "public/assets/composters/rapid_root.png",
+    image: "assets/composters/rapid_root.png",
     description: {
       en: "Rapid Root reduces crop growth time from plots by 50%",
       pt: "Rapid Root reduces crop growth time from plots by 50%",
@@ -13686,7 +13686,7 @@ const items = {
     },
   },
   Anchovy: {
-    image: "public/assets/fish/anchovy.png",
+    image: "assets/fish/anchovy.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13705,7 +13705,7 @@ const items = {
     },
   },
   Butterflyfish: {
-    image: "public/assets/fish/butterfly_fish.png",
+    image: "assets/fish/butterfly_fish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13724,7 +13724,7 @@ const items = {
     },
   },
   Blowfish: {
-    image: "public/assets/fish/blowfish.png",
+    image: "assets/fish/blowfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13743,7 +13743,7 @@ const items = {
     },
   },
   Clownfish: {
-    image: "public/assets/fish/clownfish.png",
+    image: "assets/fish/clownfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13762,7 +13762,7 @@ const items = {
     },
   },
   "Sea Bass": {
-    image: "public/assets/fish/sea_bass.png",
+    image: "assets/fish/sea_bass.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13781,7 +13781,7 @@ const items = {
     },
   },
   "Sea Horse": {
-    image: "public/assets/fish/seahorse.png",
+    image: "assets/fish/seahorse.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13800,7 +13800,7 @@ const items = {
     },
   },
   "Horse Mackerel": {
-    image: "public/assets/fish/horse_mackerel.png",
+    image: "assets/fish/horse_mackerel.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13819,7 +13819,7 @@ const items = {
     },
   },
   Squid: {
-    image: "public/assets/fish/squid.png",
+    image: "assets/fish/squid.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13838,7 +13838,7 @@ const items = {
     },
   },
   "Red Snapper": {
-    image: "public/assets/fish/red_snapper.png",
+    image: "assets/fish/red_snapper.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13857,7 +13857,7 @@ const items = {
     },
   },
   "Moray Eel": {
-    image: "public/assets/fish/moray_eel.png",
+    image: "assets/fish/moray_eel.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13876,7 +13876,7 @@ const items = {
     },
   },
   "Olive Flounder": {
-    image: "public/assets/fish/olive_flounder.png",
+    image: "assets/fish/olive_flounder.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13895,7 +13895,7 @@ const items = {
     },
   },
   Napoleanfish: {
-    image: "public/assets/fish/napoleonfish.png",
+    image: "assets/fish/napoleonfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13914,7 +13914,7 @@ const items = {
     },
   },
   Surgeonfish: {
-    image: "public/assets/fish/surgeonfish.png",
+    image: "assets/fish/surgeonfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13933,7 +13933,7 @@ const items = {
     },
   },
   "Zebra Turkeyfish": {
-    image: "public/assets/fish/zebra_turkeyfish.png",
+    image: "assets/fish/zebra_turkeyfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13952,7 +13952,7 @@ const items = {
     },
   },
   Ray: {
-    image: "public/assets/fish/ray.png",
+    image: "assets/fish/ray.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13971,7 +13971,7 @@ const items = {
     },
   },
   "Hammerhead shark": {
-    image: "public/assets/fish/hammerhead_shark.png",
+    image: "assets/fish/hammerhead_shark.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -13990,7 +13990,7 @@ const items = {
     },
   },
   Tuna: {
-    image: "public/assets/fish/tuna.png",
+    image: "assets/fish/tuna.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14009,7 +14009,7 @@ const items = {
     },
   },
   "Mahi Mahi": {
-    image: "public/assets/fish/mahi_mahi.png",
+    image: "assets/fish/mahi_mahi.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14028,7 +14028,7 @@ const items = {
     },
   },
   "Blue Marlin": {
-    image: "public/assets/fish/blue_marlin.png",
+    image: "assets/fish/blue_marlin.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14047,7 +14047,7 @@ const items = {
     },
   },
   Oarfish: {
-    image: "public/assets/fish/oarfish.png",
+    image: "assets/fish/oarfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14066,7 +14066,7 @@ const items = {
     },
   },
   "Football fish": {
-    image: "public/assets/fish/football_fish.png",
+    image: "assets/fish/football_fish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14085,7 +14085,7 @@ const items = {
     },
   },
   Sunfish: {
-    image: "public/assets/fish/sunfish.png",
+    image: "assets/fish/sunfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14104,7 +14104,7 @@ const items = {
     },
   },
   Coelacanth: {
-    image: "public/assets/fish/coelacanth.png",
+    image: "assets/fish/coelacanth.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14123,7 +14123,7 @@ const items = {
     },
   },
   "Whale Shark": {
-    image: "public/assets/fish/whale_shark.png",
+    image: "assets/fish/whale_shark.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14142,7 +14142,7 @@ const items = {
     },
   },
   "Barred Knifejaw": {
-    image: "public/assets/fish/barred_knifejaw.png",
+    image: "assets/fish/barred_knifejaw.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14161,7 +14161,7 @@ const items = {
     },
   },
   "Saw Shark": {
-    image: "public/assets/fish/saw_shark.png",
+    image: "assets/fish/saw_shark.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14180,7 +14180,7 @@ const items = {
     },
   },
   "White Shark": {
-    image: "public/assets/fish/white_shark.png",
+    image: "assets/fish/white_shark.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14199,7 +14199,7 @@ const items = {
     },
   },
   "Twilight Anglerfish": {
-    image: "public/assets/fish/twilight_anglerfish.png",
+    image: "assets/fish/twilight_anglerfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14219,7 +14219,7 @@ const items = {
     },
   },
   "Starlight Tuna": {
-    image: "public/assets/fish/starlight_tuna.png",
+    image: "assets/fish/starlight_tuna.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14239,7 +14239,7 @@ const items = {
     },
   },
   "Radiant Ray": {
-    image: "public/assets/fish/radiant_ray.png",
+    image: "assets/fish/radiant_ray.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14259,7 +14259,7 @@ const items = {
     },
   },
   "Phantom Barracuda": {
-    image: "public/assets/fish/phantom_barracuda.png",
+    image: "assets/fish/phantom_barracuda.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14279,7 +14279,7 @@ const items = {
     },
   },
   "Gilded Swordfish": {
-    image: "public/assets/fish/gilded_swordfish.png",
+    image: "assets/fish/gilded_swordfish.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14299,7 +14299,7 @@ const items = {
     },
   },
   "Crimson Carp": {
-    image: "public/assets/fish/crimson_carp.png",
+    image: "assets/fish/crimson_carp.png",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14319,7 +14319,7 @@ const items = {
     },
   },
   "Battle Fish": {
-    image: "public/assets/fish/battle_fish.webp",
+    image: "assets/fish/battle_fish.webp",
     howToGetItem: [
       {
         en: "Ocean fishing",
@@ -14339,7 +14339,7 @@ const items = {
     },
   },
   "Kraken Tentacle": {
-    image: "public/assets/sfts/kraken_tentacle.webp",
+    image: "assets/sfts/kraken_tentacle.webp",
     description: {
       en: "Dive into deep-sea mystery! This tentacle teases tales of ancient ocean legends and watery wonders.",
       pt: "Mergulhe no mistério do mar profundo! Este tentáculo provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
@@ -14349,7 +14349,7 @@ const items = {
     },
   },
   "Sapo Docuras": {
-    image: "public/assets/sfts/sapo_docuras.gif",
+    image: "assets/sfts/sapo_docuras.gif",
     description: {
       en: "A real treat!",
       pt: "Um verdadeiro agrado!",
@@ -14359,7 +14359,7 @@ const items = {
     },
   },
   "Sapo Travessuras": {
-    image: "public/assets/sfts/sapo_travessura.gif",
+    image: "assets/sfts/sapo_travessura.gif",
     description: {
       en: "Oh oh...someone was naughty",
       pt: "Oh oh... alguém foi travesso",
@@ -14369,7 +14369,7 @@ const items = {
     },
   },
   "Lifeguard Ring": {
-    image: "public/assets/decorations/lifeguard_ring.webp",
+    image: "assets/decorations/lifeguard_ring.webp",
     description: {
       en: "Stay afloat with style, your seaside savior!",
       pt: "Mantenha-se à tona com estilo, seu salvador à beira-mar!",
@@ -14379,7 +14379,7 @@ const items = {
     },
   },
   "Beach Umbrella": {
-    image: "public/assets/decorations/beach_umbrella.webp",
+    image: "assets/decorations/beach_umbrella.webp",
     description: {
       en: "Shade, shelter, and seaside chic in one sunny setup!",
       pt: "Sombra, abrigo e elegância à beira-mar em um único conjunto ensolarado!",
@@ -14389,7 +14389,7 @@ const items = {
     },
   },
   "Hideaway Herman": {
-    image: "public/assets/decorations/hideaway_herman.webp",
+    image: "assets/decorations/hideaway_herman.webp",
     description: {
       en: "Herman's here to hide, but always peeks for a party!",
       pt: "Herman está aqui para se esconder, mas sempre dá uma espiada em uma festa!",
@@ -14399,7 +14399,7 @@ const items = {
     },
   },
   "Shifty Sheldon": {
-    image: "public/assets/decorations/shifty_sheldon.webp",
+    image: "assets/decorations/shifty_sheldon.webp",
     description: {
       en: "Sheldon's sly, always scuttling to the next sandy surprise!",
       pt: "Sheldon é astuto, sempre se movendo para a próxima surpresa arenosa!",
@@ -14409,7 +14409,7 @@ const items = {
     },
   },
   "Tiki Torch": {
-    image: "public/assets/decorations/tiki_torch.webp",
+    image: "assets/decorations/tiki_torch.webp",
     description: {
       en: "Light the night, tropical vibes burning bright!",
       pt: "Ilumine a noite, vibrações tropicais brilhando intensamente!",
@@ -14419,7 +14419,7 @@ const items = {
     },
   },
   Surfboard: {
-    image: "public/assets/decorations/surfboard.webp",
+    image: "assets/decorations/surfboard.webp",
     description: {
       en: "Ride the waves of wonder, beach bliss on board!",
       pt: "Surfe nas ondas da maravilha, bliss de praia a bordo!",
@@ -14429,7 +14429,7 @@ const items = {
     },
   },
   Walrus: {
-    image: "public/assets/sfts/walrus.webp",
+    image: "assets/sfts/walrus.webp",
     description: {
       en: "With his trusty tusks and love for the deep, he'll ensure you reel in an extra fish every time",
       pt: "Com suas presas confiáveis e amor pelo fundo do mar, ele garantirá que você pesque um peixe extra toda vez",
@@ -14440,7 +14440,7 @@ const items = {
     },
   },
   Alba: {
-    image: "public/assets/sfts/alba.webp",
+    image: "assets/sfts/alba.webp",
     description: {
       en: "With her keen instincts, she ensures you get a little extra splash in your catch. 50% chance of +1 Basic Fish!",
       pt: "Com seus instintos afiados, ela garante que você receba um pouco de splash extra em sua pesca. 50% de chance de +1 Peixe Básico!",
@@ -14451,7 +14451,7 @@ const items = {
     },
   },
   "Knowledge Crab": {
-    image: "public/assets/sfts/knowledge_crab.webp",
+    image: "assets/sfts/knowledge_crab.webp",
     description: {
       en: "The Knowledge Crab doubles your Sprout Mix effect, making your soil treasures as rich as sea plunder!",
       pt: "O Caranguejo do Conhecimento duplica o efeito da sua Mistura de Broto, tornando seus tesouros de solo tão ricos quanto pilhagem do mar!",
@@ -14462,7 +14462,7 @@ const items = {
     },
   },
   Anchor: {
-    image: "public/assets/sfts/anchor.webp",
+    image: "assets/sfts/anchor.webp",
     description: {
       en: "Drop anchor with this nautical gem, making every spot seaworthy and splash-tastically stylish!",
       pt: "Ancore com esta joia náutica, tornando cada local próprio para navegação e estilisticamente espirituoso!",
@@ -14472,7 +14472,7 @@ const items = {
     },
   },
   "Rubber Ducky": {
-    image: "public/assets/sfts/rubber_ducky.webp",
+    image: "assets/sfts/rubber_ducky.webp",
     description: {
       en: "Float on fun with this classic quacker, bringing bubbly joy to every corner!",
       pt: "Flutue na diversão com este patinho clássico, trazendo alegria borbulhante para todos os cantos!",
@@ -14482,7 +14482,7 @@ const items = {
     },
   },
   "Kraken Head": {
-    image: "public/assets/sfts/kraken_head.webp",
+    image: "assets/sfts/kraken_head.webp",
     description: {
       en: "Dive into deep-sea mystery! This head teases tales of ancient ocean legends and watery wonders.",
       pt: "Mergulhe no mistério do mar profundo! Esta cabeça provoca contos de lendas oceânicas antigas e maravilhas aquáticas.",
@@ -14492,7 +14492,7 @@ const items = {
     },
   },
   "Banana Chicken": {
-    image: "public/assets/animals/chickens/banana_chicken.png",
+    image: "assets/animals/chickens/banana_chicken.png",
     description: {
       en: "A chicken that boosts bananas. What a world we live in.",
       pt: "Um frango que impulsiona bananas. Em que mundo vivemos?!",
@@ -14502,7 +14502,7 @@ const items = {
     },
   },
   "Crim Peckster": {
-    image: "public/assets/animals/chickens/crim_peckster.png",
+    image: "assets/animals/chickens/crim_peckster.png",
     description: {
       en: "A gem detective with a knack for unearthing Crimstones.",
       pt: "Um detetive de gemas com habilidade para desenterrar Crimstones.",
@@ -14512,7 +14512,7 @@ const items = {
     },
   },
   "Knight Chicken": {
-    image: "public/assets/animals/chickens/knight_chicken.webp",
+    image: "assets/animals/chickens/knight_chicken.webp",
     description: {
       en: "A strong and noble chicken boosting your oil yield.",
       pt: "A strong and noble chicken boosting your oil yield.",
@@ -14522,7 +14522,7 @@ const items = {
     },
   },
   "Skill Shrimpy": {
-    image: "public/assets/sfts/skill_shrimpy.png",
+    image: "assets/sfts/skill_shrimpy.png",
     description: {
       en: "Shrimpy's here to help! He'll ensure you get that extra XP from fish.",
       pt: "Shrimpy está aqui para ajudar! Ele garantirá que você obtenha XP extra de peixes.",
@@ -14532,7 +14532,7 @@ const items = {
     },
   },
   "Soil Krabby": {
-    image: "public/assets/sfts/soil_krabby.webp",
+    image: "assets/sfts/soil_krabby.webp",
     description: {
       en: "Speedy sifting with a smile! Enjoy a 10% composter speed boost with this crustaceous champ.",
       pt: "Peneira rápida com um sorriso! Desfrute de um aumento de velocidade de 10% no composto com este campeão crustáceo.",
@@ -14542,7 +14542,7 @@ const items = {
     },
   },
   Nana: {
-    image: "public/assets/sfts/nana.webp",
+    image: "assets/sfts/nana.webp",
     description: {
       en: "This rare beauty is a surefire way to boost your banana harvests.",
       pt: "Esta beleza rara é uma maneira infalível de impulsionar suas colheitas de banana.",
@@ -14552,7 +14552,7 @@ const items = {
     },
   },
   "Time Warp Totem": {
-    image: "public/assets/sfts/time_warp_totem.webp",
+    image: "assets/sfts/time_warp_totem.webp",
     description: {
       en: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
       pt: "2x speed for crops, trees, fruits, cooking & minerals. Only lasts for 2 hours",
@@ -14563,7 +14563,7 @@ const items = {
     },
   },
   "Community Coin": {
-    image: "public/assets/icons/community_coin.png",
+    image: "assets/icons/community_coin.png",
     description: {
       en: "A valued coin that can be exchanged for rewards",
       pt: "Uma moeda valiosa que pode ser trocada por recompensas",
@@ -14573,7 +14573,7 @@ const items = {
     },
   },
   "Arcade Token": {
-    image: "public/assets/icons/community_coin.png",
+    image: "assets/icons/community_coin.png",
     description: {
       en: "A token earned from mini-games and adventures. Can be exchanged for rewards.",
       pt: "Um token ganho de minijogos e aventuras. Pode ser trocado por recompensas.",
@@ -14583,7 +14583,7 @@ const items = {
     },
   },
   "Bumpkin Nutcracker": {
-    image: "public/assets/sfts/bumpkin_nutcracker.png",
+    image: "assets/sfts/bumpkin_nutcracker.png",
     description: {
       en: "A festive decoration from 2023.",
       pt: "Uma decoração festiva de 2023.",
@@ -14593,7 +14593,7 @@ const items = {
     },
   },
   "Festive Tree": {
-    image: "public/assets/sfts/festive_tree.png",
+    image: "assets/sfts/festive_tree.png",
     description: {
       en: "A festive tree available each holiday season. I wonder if it is big enough for santa to see?",
       pt: "Uma árvore festiva disponível em cada temporada de festas. Eu me pergunto se é grande o suficiente para o Papai Noel ver?",
@@ -14603,7 +14603,7 @@ const items = {
     },
   },
   "White Festive Fox": {
-    image: "public/assets/sfts/white-xmas-fox.png",
+    image: "assets/sfts/white-xmas-fox.png",
     description: {
       en: "The blessing of the White Fox inhabits the generous farms",
       pt: "A bênção da Raposa Branca habita as fazendas generosas",
@@ -14613,7 +14613,7 @@ const items = {
     },
   },
   "Grinx's Hammer": {
-    image: "public/assets/sfts/grinx_hammer.png",
+    image: "assets/sfts/grinx_hammer.png",
     description: {
       en: "The magical hammer from Grinx, the legendary Goblin Blacksmith.",
       pt: "O martelo mágico de Grinx, o lendário Ferreiro Goblin.",
@@ -14623,7 +14623,7 @@ const items = {
     },
   },
   Angelfish: {
-    image: "public/assets/fish/angel_fish.png",
+    image: "assets/fish/angel_fish.png",
     howToGetItem: [
       {
         en: "Beach fishing",
@@ -14642,7 +14642,7 @@ const items = {
     },
   },
   Halibut: {
-    image: "public/assets/fish/halibut.png",
+    image: "assets/fish/halibut.png",
     howToGetItem: [
       {
         en: "Beach fishing",
@@ -14661,7 +14661,7 @@ const items = {
     },
   },
   Parrotfish: {
-    image: "public/assets/fish/parrot_fish.png",
+    image: "assets/fish/parrot_fish.png",
     howToGetItem: [
       {
         en: "Beach fishing",
@@ -14700,7 +14700,7 @@ const items = {
     },
   },
   "Farmhand Coupon": {
-    image: "public/assets/icons/bud_ticket.png",
+    image: "assets/icons/bud_ticket.png",
     description: {
       en: "?",
       pt: "?",
@@ -14720,7 +14720,7 @@ const items = {
     },
   },
   Beehive: {
-    image: "public/assets/sfts/beehive.webp",
+    image: "assets/sfts/beehive.webp",
     description: {
       en: "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
       pt: "Uma colmeia agitada, produzindo mel a partir de flores em crescimento ativo; 10% de chance ao colher Mel de invocar um enxame de abelhas que polinizará todas as plantações em crescimento com um impulso de +0.2!",
@@ -14731,7 +14731,7 @@ const items = {
     },
   },
   "Red Pansy": {
-    image: "public/assets/flowers/red_pansy.webp",
+    image: "assets/flowers/red_pansy.webp",
     description: {
       en: "A red pansy.",
       pt: "Uma pansy vermelha.",
@@ -14741,7 +14741,7 @@ const items = {
     },
   },
   "Yellow Pansy": {
-    image: "public/assets/flowers/yellow_pansy.webp",
+    image: "assets/flowers/yellow_pansy.webp",
     description: {
       en: "A yellow pansy.",
       pt: "Uma pansy amarela.",
@@ -14751,7 +14751,7 @@ const items = {
     },
   },
   "Purple Pansy": {
-    image: "public/assets/flowers/purple_pansy.webp",
+    image: "assets/flowers/purple_pansy.webp",
     description: {
       en: "A purple pansy.",
       pt: "Uma pansy roxa.",
@@ -14761,7 +14761,7 @@ const items = {
     },
   },
   "White Pansy": {
-    image: "public/assets/flowers/white_pansy.webp",
+    image: "assets/flowers/white_pansy.webp",
     description: {
       en: "A white pansy.",
       pt: "Uma pansy branca.",
@@ -14771,7 +14771,7 @@ const items = {
     },
   },
   "Blue Pansy": {
-    image: "public/assets/flowers/blue_pansy.webp",
+    image: "assets/flowers/blue_pansy.webp",
     description: {
       en: "A blue pansy.",
       pt: "Uma pansy azul.",
@@ -14781,7 +14781,7 @@ const items = {
     },
   },
   "Red Cosmos": {
-    image: "public/assets/flowers/red_cosmos.webp",
+    image: "assets/flowers/red_cosmos.webp",
     description: {
       en: "A red cosmos.",
       pt: "Um cosmos vermelho.",
@@ -14791,7 +14791,7 @@ const items = {
     },
   },
   "Yellow Cosmos": {
-    image: "public/assets/flowers/yellow_cosmos.webp",
+    image: "assets/flowers/yellow_cosmos.webp",
     description: {
       en: "A yellow cosmos.",
       pt: "Um cosmos amarelo.",
@@ -14801,7 +14801,7 @@ const items = {
     },
   },
   "Purple Cosmos": {
-    image: "public/assets/flowers/purple_cosmos.webp",
+    image: "assets/flowers/purple_cosmos.webp",
     description: {
       en: "A purple cosmos.",
       pt: "Um cosmos roxo.",
@@ -14811,7 +14811,7 @@ const items = {
     },
   },
   "White Cosmos": {
-    image: "public/assets/flowers/white_cosmos.webp",
+    image: "assets/flowers/white_cosmos.webp",
     description: {
       en: "A white cosmos.",
       pt: "Um cosmos branco.",
@@ -14821,7 +14821,7 @@ const items = {
     },
   },
   "Blue Cosmos": {
-    image: "public/assets/flowers/blue_cosmos.webp",
+    image: "assets/flowers/blue_cosmos.webp",
     description: {
       en: "A blue cosmos.",
       pt: "Um cosmos azul.",
@@ -14831,7 +14831,7 @@ const items = {
     },
   },
   "Red Balloon Flower": {
-    image: "public/assets/flowers/red_balloon_flower.webp",
+    image: "assets/flowers/red_balloon_flower.webp",
     description: {
       en: "A red balloon flower.",
       pt: "Uma flor de balão vermelho.",
@@ -14841,7 +14841,7 @@ const items = {
     },
   },
   "Yellow Balloon Flower": {
-    image: "public/assets/flowers/yellow_balloon_flower.webp",
+    image: "assets/flowers/yellow_balloon_flower.webp",
     description: {
       en: "A yellow balloon flower.",
       pt: "Uma flor de balão amarelo.",
@@ -14851,7 +14851,7 @@ const items = {
     },
   },
   "Purple Balloon Flower": {
-    image: "public/assets/flowers/purple_balloon_flower.webp",
+    image: "assets/flowers/purple_balloon_flower.webp",
     description: {
       en: "A purple balloon flower.",
       pt: "Uma flor de balão roxo.",
@@ -14861,7 +14861,7 @@ const items = {
     },
   },
   "White Balloon Flower": {
-    image: "public/assets/flowers/white_balloon_flower.webp",
+    image: "assets/flowers/white_balloon_flower.webp",
     description: {
       en: "A white balloon flower.",
       pt: "Uma flor de balão branca.",
@@ -14871,7 +14871,7 @@ const items = {
     },
   },
   "Blue Balloon Flower": {
-    image: "public/assets/flowers/blue_balloon_flower.webp",
+    image: "assets/flowers/blue_balloon_flower.webp",
     description: {
       en: "A blue balloon flower.",
       pt: "Uma flor de balão azul.",
@@ -14881,7 +14881,7 @@ const items = {
     },
   },
   "Red Carnation": {
-    image: "public/assets/flowers/red_carnation.png",
+    image: "assets/flowers/red_carnation.png",
     description: {
       en: "A red carnation.",
       pt: "Um cravo vermelho.",
@@ -14891,7 +14891,7 @@ const items = {
     },
   },
   "Yellow Carnation": {
-    image: "public/assets/flowers/yellow_carnation.png",
+    image: "assets/flowers/yellow_carnation.png",
     description: {
       en: "A yellow carnation.",
       pt: "Um cravo amarelo.",
@@ -14901,7 +14901,7 @@ const items = {
     },
   },
   "Purple Carnation": {
-    image: "public/assets/flowers/purple_carnation.png",
+    image: "assets/flowers/purple_carnation.png",
     description: {
       en: "A purple carnation.",
       pt: "Um cravo roxo.",
@@ -14911,7 +14911,7 @@ const items = {
     },
   },
   "White Carnation": {
-    image: "public/assets/flowers/white_carnation.png",
+    image: "assets/flowers/white_carnation.png",
     description: {
       en: "A white carnation.",
       pt: "Um cravo branco.",
@@ -14921,7 +14921,7 @@ const items = {
     },
   },
   "Blue Carnation": {
-    image: "public/assets/flowers/blue_carnation.png",
+    image: "assets/flowers/blue_carnation.png",
     description: {
       en: "A blue carnation.",
       pt: "Um cravo azul.",
@@ -14931,7 +14931,7 @@ const items = {
     },
   },
   "Humming Bird": {
-    image: "public/assets/sfts/hummingbird.webp",
+    image: "assets/sfts/hummingbird.webp",
     description: {
       en: "A tiny jewel of the sky, the Humming Bird flits with colorful grace.",
       pt: "Um joia minúscula do céu, o Beija-flor flutua com graça colorida.",
@@ -14941,7 +14941,7 @@ const items = {
     },
   },
   "Queen Bee": {
-    image: "public/assets/sfts/queen_bee.webp",
+    image: "assets/sfts/queen_bee.webp",
     description: {
       en: "Majestic ruler of the hive, the Queen Bee buzzes with regal authority.",
       pt: "Régia majestosa da colmeia, a Abelha Rainha zumbindo com autoridade régia.",
@@ -14951,7 +14951,7 @@ const items = {
     },
   },
   "Flower Fox": {
-    image: "public/assets/sfts/flower_fox.webp",
+    image: "assets/sfts/flower_fox.webp",
     description: {
       en: "The Flower Fox, a playful creature adorned with petals, brings joy to the garden.",
       pt: "A Raposa Flor, uma criatura lúdica adornada com pétalas, traz alegria ao jardim.",
@@ -14961,7 +14961,7 @@ const items = {
     },
   },
   "Hungry Caterpillar": {
-    image: "public/assets/sfts/hungry_caterpillar.webp",
+    image: "assets/sfts/hungry_caterpillar.webp",
     description: {
       en: "Munching through leaves, the Hungry Caterpillar is always ready for a tasty adventure.",
       pt: "Devorando folhas, a Lagarta Faminta está sempre pronta para uma aventura saborosa.",
@@ -14971,7 +14971,7 @@ const items = {
     },
   },
   "Sunrise Bloom Rug": {
-    image: "public/assets/sfts/sunrise_bloom_rug.webp",
+    image: "assets/sfts/sunrise_bloom_rug.webp",
     description: {
       en: "Step onto the Sunrise Bloom Rug, where petals dance around a floral sunrise.",
       pt: "Pise no Tapete de Flores do Amanhecer, onde pétalas dançam ao redor de um nascer do sol floral.",
@@ -14981,7 +14981,7 @@ const items = {
     },
   },
   "Flower Rug": {
-    image: "public/assets/sfts/flower_rug.webp",
+    image: "assets/sfts/flower_rug.webp",
     description: {
       en: "Add a touch of nature's elegance to your home.",
       pt: "Add a touch of nature's elegance to your home.",
@@ -14991,7 +14991,7 @@ const items = {
     },
   },
   "Tea Rug": {
-    image: "public/assets/sfts/tea_rug.webp",
+    image: "assets/sfts/tea_rug.webp",
     description: {
       en: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
       pt: "Rug boasting a warm and inviting tea-colored hue that exudes comfort.",
@@ -15002,7 +15002,7 @@ const items = {
     },
   },
   "Green Field Rug": {
-    image: "public/assets/sfts/green_field_rug.webp",
+    image: "assets/sfts/green_field_rug.webp",
     description: {
       en: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
       pt: "A beautiful rug of deep green hue's reminiscent of a vibrant meadow in full bloom.",
@@ -15013,7 +15013,7 @@ const items = {
     },
   },
   "Blossom Royale": {
-    image: "public/assets/sfts/blossom_royale.webp",
+    image: "assets/sfts/blossom_royale.webp",
     description: {
       en: "The Blossom Royale, a giant flower in vibrant blue and pink, stands in majestic bloom.",
       pt: "O Royale da Flor, uma flor gigante em azul e rosa vibrantes, está em majestosa floração.",
@@ -15023,7 +15023,7 @@ const items = {
     },
   },
   Rainbow: {
-    image: "public/assets/sfts/rainbow.webp",
+    image: "assets/sfts/rainbow.webp",
     description: {
       en: "A cheerful Rainbow, bridging sky and earth with its colorful arch.",
       pt: "Um Arco-íris alegre, unindo o céu e a terra com seu arco colorido.",
@@ -15033,7 +15033,7 @@ const items = {
     },
   },
   "Enchanted Rose": {
-    image: "public/assets/sfts/enchanted_rose.webp",
+    image: "assets/sfts/enchanted_rose.webp",
     description: {
       en: "The Enchanted Rose, a symbol of eternal beauty, captivates with its magical allure.",
       pt: "A Rosa Encantada, um símbolo de beleza eterna, cativa com seu fascínio mágico.",
@@ -15043,7 +15043,7 @@ const items = {
     },
   },
   "Flower Cart": {
-    image: "public/assets/sfts/flower_cart.webp",
+    image: "assets/sfts/flower_cart.webp",
     description: {
       en: "The Flower Cart, brimming with blooms, is a mobile garden of floral delights.",
       pt: "O Carrinho de Flores, transbordante de flores, é um jardim móvel de delícias florais.",
@@ -15053,7 +15053,7 @@ const items = {
     },
   },
   Capybara: {
-    image: "public/assets/sfts/capybara.webp",
+    image: "assets/sfts/capybara.webp",
     description: {
       en: "The Capybara, a laid-back friend, enjoys lazy days by the water's edge.",
       pt: "A Capivara, uma amiga tranquila, desfruta de dias preguiçosos à beira da água.",
@@ -15063,7 +15063,7 @@ const items = {
     },
   },
   "Prism Petal": {
-    image: "public/assets/flowers/prism_petal.webp",
+    image: "assets/flowers/prism_petal.webp",
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
       pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
@@ -15073,7 +15073,7 @@ const items = {
     },
   },
   "Celestial Frostbloom": {
-    image: "public/assets/flowers/celestial_frostbloom.webp",
+    image: "assets/flowers/celestial_frostbloom.webp",
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
       pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
@@ -15083,7 +15083,7 @@ const items = {
     },
   },
   "Primula Enigma": {
-    image: "public/assets/flowers/primula_enigma.webp",
+    image: "assets/flowers/primula_enigma.webp",
     description: {
       en: "Wow! What a beautiful flower! I think this one is worthy of placing on your farm.",
       pt: "Uau! Que flor bonita! Acho que esta vale a pena colocar em sua fazenda.",
@@ -15093,7 +15093,7 @@ const items = {
     },
   },
   "Red Daffodil": {
-    image: "public/assets/flowers/red_daffodil.webp",
+    image: "assets/flowers/red_daffodil.webp",
     description: {
       en: "A red daffodil.",
       pt: "Um narciso vermelho.",
@@ -15103,7 +15103,7 @@ const items = {
     },
   },
   "Yellow Daffodil": {
-    image: "public/assets/flowers/yellow_daffodil.webp",
+    image: "assets/flowers/yellow_daffodil.webp",
     description: {
       en: "A yellow daffodil.",
       pt: "Um narciso amarelo.",
@@ -15113,7 +15113,7 @@ const items = {
     },
   },
   "Purple Daffodil": {
-    image: "public/assets/flowers/purple_daffodil.webp",
+    image: "assets/flowers/purple_daffodil.webp",
     description: {
       en: "A purple daffodil.",
       pt: "Um narciso roxo.",
@@ -15123,7 +15123,7 @@ const items = {
     },
   },
   "White Daffodil": {
-    image: "public/assets/flowers/white_daffodil.webp",
+    image: "assets/flowers/white_daffodil.webp",
     description: {
       en: "A white daffodil.",
       pt: "Um narciso branco.",
@@ -15133,7 +15133,7 @@ const items = {
     },
   },
   "Blue Daffodil": {
-    image: "public/assets/flowers/blue_daffodil.webp",
+    image: "assets/flowers/blue_daffodil.webp",
     description: {
       en: "A blue daffodil.",
       pt: "Um narciso azul.",
@@ -15143,7 +15143,7 @@ const items = {
     },
   },
   "Red Lotus": {
-    image: "public/assets/flowers/red_lotus.webp",
+    image: "assets/flowers/red_lotus.webp",
     description: {
       en: "A red lotus.",
       pt: "Um lótus vermelho.",
@@ -15153,7 +15153,7 @@ const items = {
     },
   },
   "Yellow Lotus": {
-    image: "public/assets/flowers/yellow_lotus.webp",
+    image: "assets/flowers/yellow_lotus.webp",
     description: {
       en: "A yellow lotus.",
       pt: "Um lótus amarelo.",
@@ -15163,7 +15163,7 @@ const items = {
     },
   },
   "Purple Lotus": {
-    image: "public/assets/flowers/purple_lotus.webp",
+    image: "assets/flowers/purple_lotus.webp",
     description: {
       en: "A purple lotus.",
       pt: "Um lótus roxo.",
@@ -15173,7 +15173,7 @@ const items = {
     },
   },
   "White Lotus": {
-    image: "public/assets/flowers/white_lotus.webp",
+    image: "assets/flowers/white_lotus.webp",
     description: {
       en: "A white lotus.",
       pt: "Um lótus branco.",
@@ -15183,7 +15183,7 @@ const items = {
     },
   },
   "Blue Lotus": {
-    image: "public/assets/flowers/blue_lotus.webp",
+    image: "assets/flowers/blue_lotus.webp",
     description: {
       en: "A blue lotus.",
       pt: "Um lótus azul.",
@@ -15193,7 +15193,7 @@ const items = {
     },
   },
   "Earn Alliance Banner": {
-    image: "public/assets/sfts/earn_alliance_banner.png",
+    image: "assets/sfts/earn_alliance_banner.png",
     description: {
       en: "A special event banner",
       pt: "Um banner de evento especial",
@@ -15203,7 +15203,7 @@ const items = {
     },
   },
   "Luxury Key": {
-    image: "public/assets/sfts/quest/luxury_key.png",
+    image: "assets/sfts/quest/luxury_key.png",
     description: {
       en: "Visit the plaza near woodlands to unlock your reward",
       pt: "Visite o Plaza perto de Woodlands para desbloquear sua recompensa",
@@ -15213,7 +15213,7 @@ const items = {
     },
   },
   "Rare Key": {
-    image: "public/assets/sfts/quest/rare_key.png",
+    image: "assets/sfts/quest/rare_key.png",
     description: {
       en: "Visit the beach to unlock your reward",
       pt: "Visite a praia para desbloquear sua recompensa",
@@ -15223,7 +15223,7 @@ const items = {
     },
   },
   "Prize Ticket": {
-    image: "public/assets/icons/prize_ticket.png",
+    image: "assets/icons/prize_ticket.png",
     description: {
       en: "A prized ticket. You can use it to enter the monthly goblin raffle.",
       pt: "Um ticket para entrar nos sorteios de prêmios",
@@ -15234,7 +15234,7 @@ const items = {
     },
   },
   "Baby Panda": {
-    image: "public/assets/sfts/baby_panda.png",
+    image: "assets/sfts/baby_panda.png",
     description: {
       en: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
       pt: "A cute panda from the Gas Hero event. Double experience for beginners during March.",
@@ -15245,7 +15245,7 @@ const items = {
     },
   },
   Baozi: {
-    image: "public/assets/sfts/baozi.webp",
+    image: "assets/sfts/baozi.webp",
     description: {
       en: "A delicious treat from the Lunar New Year event.",
       pt: "A delicious treat from the Lunar New Year event.",
@@ -15255,7 +15255,7 @@ const items = {
     },
   },
   "Community Egg": {
-    image: "public/assets/sfts/easter_donation_egg.webp",
+    image: "assets/sfts/easter_donation_egg.webp",
     description: {
       en: "Wow, you must really care about the community!",
       pt: "Wow, you must really care about the community!",
@@ -15265,7 +15265,7 @@ const items = {
     },
   },
   "Hungry Hare": {
-    image: "public/assets/sfts/hungryHare.png",
+    image: "assets/sfts/hungryHare.png",
     description: {
       en: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
       pt: "This ravenous rabbit hops through your farm. A special event item from Easter 2024",
@@ -15275,7 +15275,7 @@ const items = {
     },
   },
   "Turbo Sprout": {
-    image: "public/assets/sfts/turbo_sprout.webp",
+    image: "assets/sfts/turbo_sprout.webp",
     description: {
       en: "An engine that reduces the Green House's growth time by 50%.",
       pt: "An engine that reduces the Green House's growth time by 50%.",
@@ -15285,7 +15285,7 @@ const items = {
     },
   },
   Soybliss: {
-    image: "public/assets/sfts/soybliss.webp",
+    image: "assets/sfts/soybliss.webp",
     description: {
       en: "A unique soy creature that gives +1 Soybean yield.",
       pt: "A unique soy creature that gives +1 Soybean yield.",
@@ -15295,7 +15295,7 @@ const items = {
     },
   },
   "Grape Granny": {
-    image: "public/assets/sfts/grape_granny.webp",
+    image: "assets/sfts/grape_granny.webp",
     description: {
       en: "Wise matriarch nurturing grapes to flourish with +1 yield.",
       pt: "Wise matriarch nurturing grapes to flourish with +1 yield.",
@@ -15305,7 +15305,7 @@ const items = {
     },
   },
   "Royal Throne": {
-    image: "public/assets/sfts/royal_throne.webp",
+    image: "assets/sfts/royal_throne.webp",
     description: {
       en: "A throne fit for the highest ranking farmer.",
       pt: "A throne fit for the highest ranking farmer.",
@@ -15315,7 +15315,7 @@ const items = {
     },
   },
   "Lily Egg": {
-    image: "public/assets/sfts/lily_egg.webp",
+    image: "assets/sfts/lily_egg.webp",
     description: {
       en: "Tiny delight, grand beauty, endless wonder.",
       pt: "Tiny delight, grand beauty, endless wonder.",
@@ -15325,7 +15325,7 @@ const items = {
     },
   },
   Goblet: {
-    image: "public/assets/sfts/goblet.webp",
+    image: "assets/sfts/goblet.webp",
     description: {
       en: "A goblet that holds the finest of wines.",
       pt: "A goblet that holds the finest of wines.",
@@ -15335,7 +15335,7 @@ const items = {
     },
   },
   "Fancy Rug": {
-    image: "public/assets/sfts/fancy_rug.webp",
+    image: "assets/sfts/fancy_rug.webp",
     description: {
       en: "A rug that brings a touch of elegance to any room.",
       pt: "A rug that brings a touch of elegance to any room.",
@@ -15345,7 +15345,7 @@ const items = {
     },
   },
   Clock: {
-    image: "public/assets/sfts/clock.webp",
+    image: "assets/sfts/clock.webp",
     description: {
       en: "A Clock that keeps time with the gentle ticking of the seasons.",
       pt: "A Clock that keeps time with the gentle ticking of the seasons.",
@@ -15355,7 +15355,7 @@ const items = {
     },
   },
   Vinny: {
-    image: "public/assets/sfts/vinny.webp",
+    image: "assets/sfts/vinny.webp",
     description: {
       en: "Vinny, a friendly grapevine, is always ready for a chat.",
       pt: "Vinny, a friendly grapevine, is always ready for a chat.",
@@ -15365,7 +15365,7 @@ const items = {
     },
   },
   "Beetroot Blaze": {
-    image: "public/assets/food/beetroot_blaze.png",
+    image: "assets/food/beetroot_blaze.png",
     description: {
       en: "A spicy beetroot-infused magic mushroom dish",
       pt: "A spicy beetroot-infused magic mushroom dish",
@@ -15375,7 +15375,7 @@ const items = {
     },
   },
   "Rapid Roast": {
-    image: "public/assets/food/rapid_roast.png",
+    image: "assets/food/rapid_roast.png",
     description: {
       en: "For Bumpkins in a hurry...",
       pt: "For Bumpkins in a hurry...",
@@ -15385,7 +15385,7 @@ const items = {
     },
   },
   "Shroom Syrup": {
-    image: "public/assets/food/shroom_syrup.png",
+    image: "assets/food/shroom_syrup.png",
     description: {
       en: "The essence of bees and enchanted fungi",
       pt: "The essence of bees and enchanted fungi",
@@ -15395,7 +15395,7 @@ const items = {
     },
   },
   "Gaucho Rug": {
-    image: "public/assets/sfts/gaucho_rug.webp",
+    image: "assets/sfts/gaucho_rug.webp",
     description: {
       en: "A commerative rug to support South Brazil.",
       pt: "A commerative rug to support South Brazil.",
@@ -15405,7 +15405,7 @@ const items = {
     },
   },
   "Battlecry Drum": {
-    image: "public/assets/sfts/battlecry_drum.webp",
+    image: "assets/sfts/battlecry_drum.webp",
     description: {
       en: "",
       pt: "",
@@ -15415,7 +15415,7 @@ const items = {
     },
   },
   "Bullseye Board": {
-    image: "public/assets/sfts/bullseye_board.webp",
+    image: "assets/sfts/bullseye_board.webp",
     description: {
       en: "",
       pt: "",
@@ -15425,7 +15425,7 @@ const items = {
     },
   },
   "Chess Rug": {
-    image: "public/assets/sfts/chess_rug.webp",
+    image: "assets/sfts/chess_rug.webp",
     description: {
       en: "",
       pt: "",
@@ -15435,7 +15435,7 @@ const items = {
     },
   },
   Cluckapult: {
-    image: "public/assets/sfts/cluckapult.webp",
+    image: "assets/sfts/cluckapult.webp",
     description: {
       en: "",
       pt: "",
@@ -15445,7 +15445,7 @@ const items = {
     },
   },
   "Golden Gallant": {
-    image: "public/assets/sfts/golden_gallant.webp",
+    image: "assets/sfts/golden_gallant.webp",
     description: {
       en: "",
       pt: "",
@@ -15455,7 +15455,7 @@ const items = {
     },
   },
   "Golden Garrison": {
-    image: "public/assets/sfts/golden_garrison.webp",
+    image: "assets/sfts/golden_garrison.webp",
     description: {
       en: "",
       pt: "",
@@ -15465,7 +15465,7 @@ const items = {
     },
   },
   "Golden Guardian": {
-    image: "public/assets/sfts/golden_guardian.webp",
+    image: "assets/sfts/golden_guardian.webp",
     description: {
       en: "",
       pt: "",
@@ -15475,7 +15475,7 @@ const items = {
     },
   },
   "Novice Knight": {
-    image: "public/assets/sfts/novice_knight.webp",
+    image: "assets/sfts/novice_knight.webp",
     description: {
       en: "",
       pt: "",
@@ -15485,7 +15485,7 @@ const items = {
     },
   },
   "Regular Pawn": {
-    image: "public/assets/sfts/regular_pawn.webp",
+    image: "assets/sfts/regular_pawn.webp",
     description: {
       en: "",
       pt: "",
@@ -15495,7 +15495,7 @@ const items = {
     },
   },
   "Rookie Rook": {
-    image: "public/assets/sfts/rookie_rook.webp",
+    image: "assets/sfts/rookie_rook.webp",
     description: {
       en: "",
       pt: "",
@@ -15505,7 +15505,7 @@ const items = {
     },
   },
   "Silver Sentinel": {
-    image: "public/assets/sfts/silver_sentinel.webp",
+    image: "assets/sfts/silver_sentinel.webp",
     description: {
       en: "",
       pt: "",
@@ -15515,7 +15515,7 @@ const items = {
     },
   },
   "Silver Squire": {
-    image: "public/assets/sfts/silver_squire.webp",
+    image: "assets/sfts/silver_squire.webp",
     description: {
       en: "",
       pt: "",
@@ -15525,7 +15525,7 @@ const items = {
     },
   },
   "Silver Stallion": {
-    image: "public/assets/sfts/silver_stallion.webp",
+    image: "assets/sfts/silver_stallion.webp",
     description: {
       en: "",
       pt: "",
@@ -15535,7 +15535,7 @@ const items = {
     },
   },
   "Trainee Target": {
-    image: "public/assets/sfts/trainee_target.webp",
+    image: "assets/sfts/trainee_target.webp",
     description: {
       en: "",
       pt: "",
@@ -15545,7 +15545,7 @@ const items = {
     },
   },
   "Twister Rug": {
-    image: "public/assets/sfts/twister_rug.webp",
+    image: "assets/sfts/twister_rug.webp",
     description: {
       en: "",
       pt: "",
@@ -15555,7 +15555,7 @@ const items = {
     },
   },
   "Grape Seed": {
-    image: "public/assets/greenhouse/grape_seed.webp",
+    image: "assets/greenhouse/grape_seed.webp",
     description: {
       en: "A zesty and desired fruit.",
       pt: "A zesty and desired fruit.",
@@ -15565,7 +15565,7 @@ const items = {
     },
   },
   "Olive Seed": {
-    image: "public/assets/greenhouse/olive_seed.webp",
+    image: "assets/greenhouse/olive_seed.webp",
     description: {
       en: "A luxury for advanced farmers.",
       pt: "A luxury for advanced farmers.",
@@ -15575,7 +15575,7 @@ const items = {
     },
   },
   "Rice Seed": {
-    image: "public/assets/greenhouse/rice_seed.webp",
+    image: "assets/greenhouse/rice_seed.webp",
     description: {
       en: "Perfect for rations!",
       pt: "Perfect for rations!",
@@ -15585,7 +15585,7 @@ const items = {
     },
   },
   Grape: {
-    image: "public/assets/greenhouse/grape.webp",
+    image: "assets/greenhouse/grape.webp",
     description: {
       en: "A zesty and desired fruit.",
       pt: "A zesty and desired fruit.",
@@ -15595,7 +15595,7 @@ const items = {
     },
   },
   Olive: {
-    image: "public/assets/greenhouse/olive.webp",
+    image: "assets/greenhouse/olive.webp",
     description: {
       en: "A luxury for advanced farmers.",
       pt: "A luxury for advanced farmers.",
@@ -15605,7 +15605,7 @@ const items = {
     },
   },
   Rice: {
-    image: "public/assets/greenhouse/rice.webp",
+    image: "assets/greenhouse/rice.webp",
     description: {
       en: "Perfect for rations!",
       pt: "Perfect for rations!",
@@ -15615,7 +15615,7 @@ const items = {
     },
   },
   Antipasto: {
-    image: "public/assets/food/antipasto.webp",
+    image: "assets/food/antipasto.webp",
     description: {
       en: "Assorted bites, perfect for sharing.",
       pt: "Assorted bites, perfect for sharing.",
@@ -15625,7 +15625,7 @@ const items = {
     },
   },
   "Carrot Juice": {
-    image: "public/assets/food/carrot_juice.webp",
+    image: "assets/food/carrot_juice.webp",
     description: {
       en: "Refreshing juice, pressed fresh by bumpkins.",
       pt: "Refreshing juice, pressed fresh by bumpkins.",
@@ -15635,7 +15635,7 @@ const items = {
     },
   },
   "Seafood Basket": {
-    image: "public/assets/food/seafood_basket.webp",
+    image: "assets/food/seafood_basket.webp",
     description: {
       en: "Oceanic flavors, sourced by goblins.",
       pt: "Oceanic flavors, sourced by goblins.",
@@ -15645,7 +15645,7 @@ const items = {
     },
   },
   "Fish Burger": {
-    image: "public/assets/food/fish_burger.webp",
+    image: "assets/food/fish_burger.webp",
     description: {
       en: "Succulent burger, loved by seaside adventurers.",
       pt: "Succulent burger, loved by seaside adventurers.",
@@ -15655,7 +15655,7 @@ const items = {
     },
   },
   "Fish n Chips": {
-    image: "public/assets/food/fish_and_chips.webp",
+    image: "assets/food/fish_and_chips.webp",
     description: {
       en: "Classic seaside meal, loved by all.",
       pt: "Classic seaside meal, loved by all.",
@@ -15665,7 +15665,7 @@ const items = {
     },
   },
   "Fish Omelette": {
-    image: "public/assets/food/fish_omelette.webp",
+    image: "assets/food/fish_omelette.webp",
     description: {
       en: "Flavorful omelette, filled with oceanic treasures.",
       pt: "Flavorful omelette, filled with oceanic treasures.",
@@ -15675,7 +15675,7 @@ const items = {
     },
   },
   "Fried Calamari": {
-    image: "public/assets/food/fried_calamari.webp",
+    image: "assets/food/fried_calamari.webp",
     description: {
       en: "Crispy calamari rings, a delicious indulgence.",
       pt: "Crispy calamari rings, a delicious indulgence.",
@@ -15685,7 +15685,7 @@ const items = {
     },
   },
   "Fried Tofu": {
-    image: "public/assets/food/fried_tofu.png",
+    image: "assets/food/fried_tofu.png",
     description: {
       en: "Golden fried tofu, crafted with care.",
       pt: "Golden fried tofu, crafted with care.",
@@ -15695,7 +15695,7 @@ const items = {
     },
   },
   "Grape Juice": {
-    image: "public/assets/food/grape_juice.webp",
+    image: "assets/food/grape_juice.webp",
     description: {
       en: "Sweet and tangy juice, freshly squeezed.",
       pt: "Sweet and tangy juice, freshly squeezed.",
@@ -15705,7 +15705,7 @@ const items = {
     },
   },
   "Ocean's Olive": {
-    image: "public/assets/food/oceans_olive.webp",
+    image: "assets/food/oceans_olive.webp",
     description: {
       en: "Delightful oceanic dish, a true Sunflorian delicacy.",
       pt: "Delightful oceanic dish, a true Sunflorian delicacy.",
@@ -15715,7 +15715,7 @@ const items = {
     },
   },
   "Quick Juice": {
-    image: "public/assets/food/quick_juice.webp",
+    image: "assets/food/quick_juice.webp",
     description: {
       en: "Quick energy boost, a Goblin favourite.",
       pt: "Quick energy boost, a Goblin favourite.",
@@ -15725,7 +15725,7 @@ const items = {
     },
   },
   "Rice Bun": {
-    image: "public/assets/food/rice_bun.webp",
+    image: "assets/food/rice_bun.webp",
     description: {
       en: "Soft and fluffy rice bun, a favorite.",
       pt: "Soft and fluffy rice bun, a favorite.",
@@ -15735,7 +15735,7 @@ const items = {
     },
   },
   "Slow Juice": {
-    image: "public/assets/food/slow_juice.webp",
+    image: "assets/food/slow_juice.webp",
     description: {
       en: "Nutrient-rich juice, handcrafted by bumpkins.",
       pt: "Nutrient-rich juice, handcrafted by bumpkins.",
@@ -15745,7 +15745,7 @@ const items = {
     },
   },
   "Steamed Red Rice": {
-    image: "public/assets/food/red_rice.webp",
+    image: "assets/food/red_rice.webp",
     description: {
       en: "Perfectly steamed red rice, a bumpkin's delight.",
       pt: "Perfectly steamed red rice, a bumpkin's delight.",
@@ -15755,7 +15755,7 @@ const items = {
     },
   },
   "Sushi Roll": {
-    image: "public/assets/food/sushi_roll.webp",
+    image: "assets/food/sushi_roll.webp",
     description: {
       en: "Delicious sushi roll, skillfully prepared.",
       pt: "Delicious sushi roll, skillfully prepared.",
@@ -15765,7 +15765,7 @@ const items = {
     },
   },
   "The Lot": {
-    image: "public/assets/food/the_lot.webp",
+    image: "assets/food/the_lot.webp",
     description: {
       en: "Flavorful fruit blend, refreshing and nutritious.",
       pt: "Flavorful fruit blend, refreshing and nutritious.",
@@ -15775,7 +15775,7 @@ const items = {
     },
   },
   "Tofu Scramble": {
-    image: "public/assets/food/tofu_scramble.png",
+    image: "assets/food/tofu_scramble.png",
     description: {
       en: "Hearty scramble, packed with protein and flavor.",
       pt: "Hearty scramble, packed with protein and flavor.",
@@ -15785,7 +15785,7 @@ const items = {
     },
   },
   Greenhouse: {
-    image: "public/assets/buildings/greenhouse.webp",
+    image: "assets/buildings/greenhouse.webp",
     description: {
       en: "A sanctuary for sensitive crops",
       pt: "A sanctuary for sensitive crops",
@@ -15795,7 +15795,7 @@ const items = {
     },
   },
   "Rice Panda": {
-    image: "public/assets/sfts/rice_panda.webp",
+    image: "assets/sfts/rice_panda.webp",
     description: {
       en: "A smart panda never forgets to water the rice.",
       pt: "A smart panda never forgets to water the rice.",
@@ -15805,7 +15805,7 @@ const items = {
     },
   },
   "Benevolence Flag": {
-    image: "public/assets/sfts/benevolence_flag.png",
+    image: "assets/sfts/benevolence_flag.png",
     description: {
       en: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
       pt: "For players who have shown great benevolence by contributing significantly to the Bumpkins.",
@@ -15816,7 +15816,7 @@ const items = {
     },
   },
   "Devotion Flag": {
-    image: "public/assets/sfts/devotion_flag.png",
+    image: "assets/sfts/devotion_flag.png",
     description: {
       en: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
       pt: "For players who have shown unwavering devotion by donating extensively to the Nightshades, reflecting their cult-like dedication",
@@ -15827,7 +15827,7 @@ const items = {
     },
   },
   "Generosity Flag": {
-    image: "public/assets/sfts/generosity_flag.png",
+    image: "assets/sfts/generosity_flag.png",
     description: {
       en: "For players who have donated substantial resources to the Goblins.",
       pt: "For players who have donated substantial resources to the Goblins.",
@@ -15838,7 +15838,7 @@ const items = {
     },
   },
   "Splendor Flag": {
-    image: "public/assets/sfts/splendor_flag.png",
+    image: "assets/sfts/splendor_flag.png",
     description: {
       en: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
       pt: "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
@@ -15849,7 +15849,7 @@ const items = {
     },
   },
   "Jelly Lamp": {
-    image: "public/assets/sfts/jelly_lamp.webp",
+    image: "assets/sfts/jelly_lamp.webp",
     description: {
       en: "A lamp that brings a touch of luxury to any room.",
       pt: "A lamp that brings a touch of luxury to any room.",
@@ -15859,7 +15859,7 @@ const items = {
     },
   },
   "Paint Can": {
-    image: "public/assets/sfts/paint_can.png",
+    image: "assets/sfts/paint_can.png",
     description: {
       en: "A paint can discovered in the festival of colors",
       pt: "A paint can discovered in the festival of colors",
@@ -15869,7 +15869,7 @@ const items = {
     },
   },
   "Sunflorian Throne": {
-    image: "public/assets/factions/sunflorian_throne.webp",
+    image: "assets/factions/sunflorian_throne.webp",
     description: {
       en: "A throne fit for a Sunflorian.",
       pt: "A throne fit for a Sunflorian.",
@@ -15879,7 +15879,7 @@ const items = {
     },
   },
   "Nightshade Throne": {
-    image: "public/assets/factions/nightshade_throne.webp",
+    image: "assets/factions/nightshade_throne.webp",
     description: {
       en: "A throne fit for a Nightshade.",
       pt: "A throne fit for a Nightshade.",
@@ -15889,7 +15889,7 @@ const items = {
     },
   },
   "Goblin Throne": {
-    image: "public/assets/factions/goblin_throne.webp",
+    image: "assets/factions/goblin_throne.webp",
     description: {
       en: "A throne fit for a Goblin.",
       pt: "A throne fit for a Goblin.",
@@ -15899,7 +15899,7 @@ const items = {
     },
   },
   "Bumpkin Throne": {
-    image: "public/assets/factions/bumpkins_throne.webp",
+    image: "assets/factions/bumpkins_throne.webp",
     description: {
       en: "A throne fit for a Bumpkin.",
       pt: "A throne fit for a Bumpkin.",
@@ -15909,7 +15909,7 @@ const items = {
     },
   },
   "Golden Sunflorian Egg": {
-    image: "public/assets/factions/golden_sunflorian_egg.webp",
+    image: "assets/factions/golden_sunflorian_egg.webp",
     description: {
       en: "A jewelled egg created by the House of Sunflorian.",
       pt: "A jewelled egg created by the House of Sunflorian.",
@@ -15919,7 +15919,7 @@ const items = {
     },
   },
   "Goblin Mischief Egg": {
-    image: "public/assets/factions/goblin_mischief_egg.webp",
+    image: "assets/factions/goblin_mischief_egg.webp",
     description: {
       en: "A jewelled egg created by the House of Goblin.",
       pt: "A jewelled egg created by the House of Goblin.",
@@ -15929,7 +15929,7 @@ const items = {
     },
   },
   "Bumpkin Charm Egg": {
-    image: "public/assets/factions/bumpkin_charm_egg.webp",
+    image: "assets/factions/bumpkin_charm_egg.webp",
     description: {
       en: "A jewelled egg created by the House of Bumpkin.",
       pt: "A jewelled egg created by the House of Bumpkin.",
@@ -15939,7 +15939,7 @@ const items = {
     },
   },
   "Nightshade Veil Egg": {
-    image: "public/assets/factions/nightshade_veil_egg.webp",
+    image: "assets/factions/nightshade_veil_egg.webp",
     description: {
       en: "A jewelled egg created by the House of Nightshade.",
       pt: "A jewelled egg created by the House of Nightshade.",
@@ -15949,7 +15949,7 @@ const items = {
     },
   },
   "Emerald Goblin Goblet": {
-    image: "public/assets/factions/emerald_goblin_goblet.webp",
+    image: "assets/factions/emerald_goblin_goblet.webp",
     description: {
       en: "An emerald encrusted goblet.",
       pt: "An emerald encrusted goblet.",
@@ -15959,7 +15959,7 @@ const items = {
     },
   },
   "Opal Sunflorian Goblet": {
-    image: "public/assets/factions/opal_sunflorian_goblet.webp",
+    image: "assets/factions/opal_sunflorian_goblet.webp",
     description: {
       en: "An opal encrusted goblet.",
       pt: "An opal encrusted goblet.",
@@ -15969,7 +15969,7 @@ const items = {
     },
   },
   "Sapphire Bumpkin Goblet": {
-    image: "public/assets/factions/sapphire_bumpkin_goblet.webp",
+    image: "assets/factions/sapphire_bumpkin_goblet.webp",
     description: {
       en: "A sapphire encrusted goblet.",
       pt: "A sapphire encrusted goblet.",
@@ -15979,7 +15979,7 @@ const items = {
     },
   },
   "Amethyst Nightshade Goblet": {
-    image: "public/assets/factions/amethyst_nightshade_goblet.webp",
+    image: "assets/factions/amethyst_nightshade_goblet.webp",
     description: {
       en: "An amethyst encrusted goblet.",
       pt: "An amethyst encrusted goblet.",
@@ -15989,7 +15989,7 @@ const items = {
     },
   },
   "Golden Faction Goblet": {
-    image: "public/assets/factions/golden_faction_goblet.webp",
+    image: "assets/factions/golden_faction_goblet.webp",
     description: {
       en: "A golden goblet.",
       pt: "A golden goblet.",
@@ -15999,7 +15999,7 @@ const items = {
     },
   },
   "Ruby Faction Goblet": {
-    image: "public/assets/factions/ruby_faction_goblet.webp",
+    image: "assets/factions/ruby_faction_goblet.webp",
     description: {
       en: "A ruby encrusted goblet.",
       pt: "A ruby encrusted goblet.",
@@ -16009,7 +16009,7 @@ const items = {
     },
   },
   "Sunflorian Bunting": {
-    image: "public/assets/factions/sunflorian_victory_bunting.webp",
+    image: "assets/factions/sunflorian_victory_bunting.webp",
     description: {
       en: "Colorful flags celebrating the Sunflorian Faction.",
       pt: "Colorful flags celebrating the Sunflorian Faction.",
@@ -16019,7 +16019,7 @@ const items = {
     },
   },
   "Nightshade Bunting": {
-    image: "public/assets/factions/nightshade_victory_bunting.webp",
+    image: "assets/factions/nightshade_victory_bunting.webp",
     description: {
       en: "Colorful flags celebrating the Nightshade faction.",
       pt: "Colorful flags celebrating the Nightshade faction.",
@@ -16029,7 +16029,7 @@ const items = {
     },
   },
   "Goblin Bunting": {
-    image: "public/assets/factions/goblin_victory_bunting.webp",
+    image: "assets/factions/goblin_victory_bunting.webp",
     description: {
       en: "Colorful flags celebrating the Goblin faction.",
       pt: "Colorful flags celebrating the Goblin faction.",
@@ -16039,7 +16039,7 @@ const items = {
     },
   },
   "Bumpkin Bunting": {
-    image: "public/assets/factions/bumpkin_victory_bunting.webp",
+    image: "assets/factions/bumpkin_victory_bunting.webp",
     description: {
       en: "Colorful flags celebrating the Bumpkin faction.",
       pt: "Colorful flags celebrating the Bumpkin faction.",
@@ -16049,7 +16049,7 @@ const items = {
     },
   },
   "Sunflorian Candles": {
-    image: "public/assets/factions/sunflorian_candles.webp",
+    image: "assets/factions/sunflorian_candles.webp",
     description: {
       en: "Sunflorian Faction decorative candles.",
       pt: "Sunflorian Faction decorative candles.",
@@ -16059,7 +16059,7 @@ const items = {
     },
   },
   "Nightshade Candles": {
-    image: "public/assets/factions/nightshade_candles.webp",
+    image: "assets/factions/nightshade_candles.webp",
     description: {
       en: "Nightshade Faction decorative candles.",
       pt: "Nightshade Faction decorative candles.",
@@ -16069,7 +16069,7 @@ const items = {
     },
   },
   "Goblin Candles": {
-    image: "public/assets/factions/goblin_candles.webp",
+    image: "assets/factions/goblin_candles.webp",
     description: {
       en: "Goblin Faction decorative candles.",
       pt: "Goblin Faction decorative candles.",
@@ -16079,7 +16079,7 @@ const items = {
     },
   },
   "Bumpkin Candles": {
-    image: "public/assets/factions/bumpkin_candles.webp",
+    image: "assets/factions/bumpkin_candles.webp",
     description: {
       en: "Bumpkin Faction decorative candles.",
       pt: "Bumpkin Faction decorative candles.",
@@ -16089,7 +16089,7 @@ const items = {
     },
   },
   "Sunflorian Left Wall Sconce": {
-    image: "public/assets/factions/sunflorian_left_wall_candle.webp",
+    image: "assets/factions/sunflorian_left_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       pt: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
@@ -16099,7 +16099,7 @@ const items = {
     },
   },
   "Nightshade Left Wall Sconce": {
-    image: "public/assets/factions/nightshade_left_wall_candle.webp",
+    image: "assets/factions/nightshade_left_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       pt: "Illuminate your living quarters with a Nightshade Wall Sconce.",
@@ -16109,7 +16109,7 @@ const items = {
     },
   },
   "Goblin Left Wall Sconce": {
-    image: "public/assets/factions/goblin_left_wall_candle.webp",
+    image: "assets/factions/goblin_left_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Goblin Wall Sconce.",
       pt: "Illuminate your living quarters with a Goblin Wall Sconce.",
@@ -16119,7 +16119,7 @@ const items = {
     },
   },
   "Bumpkin Left Wall Sconce": {
-    image: "public/assets/factions/bumpkin_left_wall_candle.webp",
+    image: "assets/factions/bumpkin_left_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       pt: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
@@ -16129,7 +16129,7 @@ const items = {
     },
   },
   "Sunflorian Right Wall Sconce": {
-    image: "public/assets/factions/sunflorian_right_wall_candle.webp",
+    image: "assets/factions/sunflorian_right_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
       pt: "Illuminate your living quarters with a Sunflorian Wall Sconce.",
@@ -16139,7 +16139,7 @@ const items = {
     },
   },
   "Nightshade Right Wall Sconce": {
-    image: "public/assets/factions/nightshade_right_wall_candle.webp",
+    image: "assets/factions/nightshade_right_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Nightshade Wall Sconce.",
       pt: "Illuminate your living quarters with a Nightshade Wall Sconce.",
@@ -16149,7 +16149,7 @@ const items = {
     },
   },
   "Goblin Right Wall Sconce": {
-    image: "public/assets/factions/goblin_right_wall_candle.webp",
+    image: "assets/factions/goblin_right_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Goblin Wall Sconce.",
       pt: "Illuminate your living quarters with a Goblin Wall Sconce.",
@@ -16159,7 +16159,7 @@ const items = {
     },
   },
   "Bumpkin Right Wall Sconce": {
-    image: "public/assets/factions/bumpkin_right_wall_candle.webp",
+    image: "assets/factions/bumpkin_right_wall_candle.webp",
     description: {
       en: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
       pt: "Illuminate your living quarters with a Bumpkin Wall Sconce.",
@@ -16169,7 +16169,7 @@ const items = {
     },
   },
   "Gourmet Hourglass": {
-    image: "public/assets/factions/boosts/cooking_boost_full.webp",
+    image: "assets/factions/boosts/cooking_boost_full.webp",
     description: {
       en: "Reduces cooking time by 50% for 4 hours.",
       pt: "Reduces cooking time by 50% for 4 hours.",
@@ -16179,7 +16179,7 @@ const items = {
     },
   },
   "Harvest Hourglass": {
-    image: "public/assets/factions/boosts/crop_boost_full.webp",
+    image: "assets/factions/boosts/crop_boost_full.webp",
     description: {
       en: "Reduces crop growth time by 25% for 6 hours.",
       pt: "Reduces crop growth time by 25% for 6 hours.",
@@ -16189,7 +16189,7 @@ const items = {
     },
   },
   "Timber Hourglass": {
-    image: "public/assets/factions/boosts/wood_boost_full.webp",
+    image: "assets/factions/boosts/wood_boost_full.webp",
     description: {
       en: "Reduces tree recovery time by 25% for 4 hours.",
       pt: "Reduces tree recovery time by 25% for 4 hours.",
@@ -16199,7 +16199,7 @@ const items = {
     },
   },
   "Ore Hourglass": {
-    image: "public/assets/factions/boosts/mineral_boost_full.webp",
+    image: "assets/factions/boosts/mineral_boost_full.webp",
     description: {
       en: "Reduces mineral replenish cooldown by 50% for 3 hours.",
       pt: "Reduces mineral replenish cooldown by 50% for 3 hours.",
@@ -16209,7 +16209,7 @@ const items = {
     },
   },
   "Orchard Hourglass": {
-    image: "public/assets/factions/boosts/fruit_boost_full.webp",
+    image: "assets/factions/boosts/fruit_boost_full.webp",
     description: {
       en: "Reduces fruit growth time by 25% for 6 hours.",
       pt: "Reduces fruit growth time by 25% for 6 hours.",
@@ -16219,7 +16219,7 @@ const items = {
     },
   },
   "Blossom Hourglass": {
-    image: "public/assets/factions/boosts/flower_boost_full.webp",
+    image: "assets/factions/boosts/flower_boost_full.webp",
     description: {
       en: "Reduces flower growth time by 25% for 4 hours.",
       pt: "Reduces flower growth time by 25% for 4 hours.",
@@ -16229,7 +16229,7 @@ const items = {
     },
   },
   "Fisher's Hourglass": {
-    image: "public/assets/factions/boosts/fish_boost_full.webp",
+    image: "assets/factions/boosts/fish_boost_full.webp",
     description: {
       en: "Gives a 50% chance of +1 fish for 4 hours.",
       pt: "Gives a 50% chance of +1 fish for 4 hours.",
@@ -16239,7 +16239,7 @@ const items = {
     },
   },
   "Sunflorian Faction Rug": {
-    image: "public/assets/factions/sunflorian_faction_rug.webp",
+    image: "assets/factions/sunflorian_faction_rug.webp",
     description: {
       en: "A magnificent rug made by the talented Sunflorian faction artisans.",
       pt: "A magnificent rug made by the talented Sunflorian faction artisans.",
@@ -16250,7 +16250,7 @@ const items = {
     },
   },
   "Nightshade Faction Rug": {
-    image: "public/assets/factions/nightshade_faction_rug.webp",
+    image: "assets/factions/nightshade_faction_rug.webp",
     description: {
       en: "A magnificent rug made by the talented Nightshade faction artisans.",
       pt: "A magnificent rug made by the talented Nightshade faction artisans.",
@@ -16261,7 +16261,7 @@ const items = {
     },
   },
   "Goblin Faction Rug": {
-    image: "public/assets/factions/goblin_faction_rug.webp",
+    image: "assets/factions/goblin_faction_rug.webp",
     description: {
       en: "A magnificent rug made by the talented Goblin faction artisans.",
       pt: "A magnificent rug made by the talented Goblin faction artisans.",
@@ -16272,7 +16272,7 @@ const items = {
     },
   },
   "Bumpkin Faction Rug": {
-    image: "public/assets/factions/bumpkin_faction_rug.webp",
+    image: "assets/factions/bumpkin_faction_rug.webp",
     description: {
       en: "A magnificent rug made by the talented Bumpkin faction artisans.",
       pt: "A magnificent rug made by the talented Bumpkin faction artisans.",

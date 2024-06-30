@@ -1,6 +1,6 @@
 import React from "react";
 
-import cactus from "public/assets/decorations/cactus.png";
+import cactus from "assets/decorations/cactus.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Cactus: React.FC = () => {

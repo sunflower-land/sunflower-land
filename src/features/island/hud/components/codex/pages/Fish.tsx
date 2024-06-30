@@ -23,7 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 
-import giftIcon from "public/assets/icons/gift.png";
+import giftIcon from "assets/icons/gift.png";
 import { ResizableBar } from "components/ui/ProgressBar";
 
 const _farmActivity = (state: MachineState) => state.context.state.farmActivity;

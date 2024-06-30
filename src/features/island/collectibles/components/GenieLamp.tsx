@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
-import genieLamp from "public/assets/sfts/genie_lamp.png";
+import genieLamp from "assets/sfts/genie_lamp.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Revealing } from "features/game/components/Revealing";
@@ -11,7 +11,7 @@ import { useActor } from "@xstate/react";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 
-import genieImg from "public/assets/npcs/genie.png";
+import genieImg from "assets/npcs/genie.png";
 import { setImageWidth } from "lib/images";
 import { Button } from "components/ui/Button";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import farmerBath from "public/assets/sfts/farmer_bath.png";
+import farmerBath from "assets/sfts/farmer_bath.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FarmerBath: React.FC = () => {

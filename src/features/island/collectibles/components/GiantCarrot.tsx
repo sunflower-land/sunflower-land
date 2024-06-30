@@ -1,6 +1,6 @@
 import React from "react";
 
-import giantCarrot from "public/assets/sfts/giant_carrot.png";
+import giantCarrot from "assets/sfts/giant_carrot.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GiantCarrot: React.FC = () => {

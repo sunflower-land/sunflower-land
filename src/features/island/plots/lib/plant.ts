@@ -3,20 +3,20 @@ import { getKeys } from "features/game/types/craftables";
 import { CONFIG } from "lib/config";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
-  Sunflower: "public/assets/crops/sunflower/proc_sprite.png",
-  Potato: "public/assets/crops/potato/proc_sprite.png",
-  Pumpkin: "public/assets/crops/pumpkin/proc_sprite.png",
-  Carrot: "public/assets/crops/carrot/proc_sprite.png",
-  Cabbage: "public/assets/crops/cabbage/proc_sprite.png",
-  Beetroot: "public/assets/crops/beetroot/proc_sprite.png",
-  Cauliflower: "public/assets/crops/cauliflower/proc_sprite.png",
-  Parsnip: "public/assets/crops/parsnip/proc_sprite.png",
-  Eggplant: "public/assets/crops/eggplant/proc_sprite.png",
-  Corn: "public/assets/crops/corn/proc_sprite.png",
-  Radish: "public/assets/crops/radish/proc_sprite.png",
-  Wheat: "public/assets/crops/wheat/proc_sprite.png",
-  Kale: "public/assets/crops/kale/proc_sprite.png",
-  Soybean: "public/assets/crops/soybean/proc_sprite.png",
+  Sunflower: "assets/crops/sunflower/proc_sprite.png",
+  Potato: "assets/crops/potato/proc_sprite.png",
+  Pumpkin: "assets/crops/pumpkin/proc_sprite.png",
+  Carrot: "assets/crops/carrot/proc_sprite.png",
+  Cabbage: "assets/crops/cabbage/proc_sprite.png",
+  Beetroot: "assets/crops/beetroot/proc_sprite.png",
+  Cauliflower: "assets/crops/cauliflower/proc_sprite.png",
+  Parsnip: "assets/crops/parsnip/proc_sprite.png",
+  Eggplant: "assets/crops/eggplant/proc_sprite.png",
+  Corn: "assets/crops/corn/proc_sprite.png",
+  Radish: "assets/crops/radish/proc_sprite.png",
+  Wheat: "assets/crops/wheat/proc_sprite.png",
+  Kale: "assets/crops/kale/proc_sprite.png",
+  Soybean: "assets/crops/soybean/proc_sprite.png",
 };
 
 export const HARVEST_PROC_ANIMATION = {

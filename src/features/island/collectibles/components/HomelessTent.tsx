@@ -1,6 +1,6 @@
 import React from "react";
 
-import homelessTent from "public/assets/sfts/homeless_tent.png";
+import homelessTent from "assets/sfts/homeless_tent.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HomelessTent: React.FC = () => {

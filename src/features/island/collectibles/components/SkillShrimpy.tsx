@@ -1,6 +1,6 @@
 import React from "react";
 
-import skillShrimpy from "public/assets/sfts/skill_shrimpy.png";
+import skillShrimpy from "assets/sfts/skill_shrimpy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SkillShrimpy: React.FC = () => {

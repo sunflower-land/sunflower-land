@@ -1,20 +1,20 @@
 import React, { useContext, useRef, useState } from "react";
 import { Transition } from "@headlessui/react";
 
-import emptyPot from "public/assets/greenhouse/greenhouse_pot.webp";
-import grapeSeedling from "public/assets/greenhouse/grape_seedling.webp";
-import grapeGrowing from "public/assets/greenhouse/grape_growing.webp";
-import grapeAlmost from "public/assets/greenhouse/grape_almost.webp";
-import grapeReady from "public/assets/greenhouse/grape_ready.webp";
-import oliveSeedling from "public/assets/greenhouse/olive_seedling.webp";
-import oliveGrowing from "public/assets/greenhouse/olive_growing.webp";
-import oliveAlmost from "public/assets/greenhouse/olive_almost.webp";
-import oliveReady from "public/assets/greenhouse/olive_ready.webp";
-import riceSeedling from "public/assets/greenhouse/rice_seedling.webp";
-import riceGrowing from "public/assets/greenhouse/rice_growing.webp";
-import riceAlmost from "public/assets/greenhouse/rice_almost.webp";
-import riceReady from "public/assets/greenhouse/rice_ready.webp";
-import barrelIcon from "public/assets/resources/oil_barrel.webp";
+import emptyPot from "assets/greenhouse/greenhouse_pot.webp";
+import grapeSeedling from "assets/greenhouse/grape_seedling.webp";
+import grapeGrowing from "assets/greenhouse/grape_growing.webp";
+import grapeAlmost from "assets/greenhouse/grape_almost.webp";
+import grapeReady from "assets/greenhouse/grape_ready.webp";
+import oliveSeedling from "assets/greenhouse/olive_seedling.webp";
+import oliveGrowing from "assets/greenhouse/olive_growing.webp";
+import oliveAlmost from "assets/greenhouse/olive_almost.webp";
+import oliveReady from "assets/greenhouse/olive_ready.webp";
+import riceSeedling from "assets/greenhouse/rice_seedling.webp";
+import riceGrowing from "assets/greenhouse/rice_growing.webp";
+import riceAlmost from "assets/greenhouse/rice_almost.webp";
+import riceReady from "assets/greenhouse/rice_ready.webp";
+import barrelIcon from "assets/resources/oil_barrel.webp";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import {

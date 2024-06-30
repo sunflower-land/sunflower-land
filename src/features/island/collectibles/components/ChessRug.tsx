@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/sfts/chess_rug.webp";
+import image from "assets/sfts/chess_rug.webp";
 
 export const ChessRug: React.FC = () => {
   return (

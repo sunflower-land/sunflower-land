@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/opal_sunflorian_goblet.webp";
+import image from "assets/factions/opal_sunflorian_goblet.webp";
 
 export const OpalSunflorianGoblet: React.FC = () => {
   return (

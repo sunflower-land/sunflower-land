@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import classNames from "classnames";
-import token from "public/assets/icons/sfl.webp";
+import token from "assets/icons/sfl.webp";
 
-import matic from "public/assets/icons/polygon-token.png";
+import matic from "assets/icons/polygon-token.png";
 import { Button } from "components/ui/Button";
 import { wallet } from "lib/blockchain/wallet";
 import { fromWei, toBN, toWei } from "web3-utils";

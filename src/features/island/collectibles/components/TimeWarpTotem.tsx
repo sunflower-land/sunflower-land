@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import tikiTotem from "public/assets/sfts/time_warp_totem.webp";
-import fastForward from "public/assets/icons/fast_forward.png";
+import tikiTotem from "assets/sfts/time_warp_totem.webp";
+import fastForward from "assets/icons/fast_forward.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";

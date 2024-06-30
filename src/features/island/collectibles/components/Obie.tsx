@@ -1,7 +1,7 @@
 import React from "react";
 
-import obie from "public/assets/sfts/obie.gif";
-import shadow from "public/assets/npcs/shadow.png";
+import obie from "assets/sfts/obie.gif";
+import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Obie: React.FC = () => {

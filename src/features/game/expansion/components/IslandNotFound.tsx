@@ -1,7 +1,7 @@
 import { Panel } from "components/ui/Panel";
 import React from "react";
 import { Modal } from "components/ui/Modal";
-import humanDeath from "public/assets/npcs/human_death.gif";
+import humanDeath from "assets/npcs/human_death.gif";
 import { Button } from "components/ui/Button";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import lifeguardBear from "public/assets/sfts/bears/lifeguard_bear.webp";
+import lifeguardBear from "assets/sfts/bears/lifeguard_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const LifeguardBear: React.FC = () => {

@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import reel from "public/assets/ui/reel.png";
-import lightning from "public/assets/icons/lightning.png";
-import lockIcon from "public/assets/skills/lock.png";
-import fullMoon from "public/assets/icons/full_moon.png";
+import reel from "assets/ui/reel.png";
+import lightning from "assets/icons/lightning.png";
+import lockIcon from "assets/skills/lock.png";
+import fullMoon from "assets/icons/full_moon.png";
 
 import { ZoomContext } from "components/ZoomProvider";
 import Spritesheet, {

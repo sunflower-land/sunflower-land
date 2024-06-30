@@ -1,6 +1,6 @@
 import React from "react";
 
-import goldenBonsai from "public/assets/sfts/golden_bonsai.png";
+import goldenBonsai from "assets/sfts/golden_bonsai.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoldenBonsai: React.FC = () => {

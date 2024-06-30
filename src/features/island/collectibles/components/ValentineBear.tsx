@@ -1,6 +1,6 @@
 import React from "react";
 
-import valentineBear from "public/assets/sfts/bears/love_bear.png";
+import valentineBear from "assets/sfts/bears/love_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ValentineBear: React.FC = () => {

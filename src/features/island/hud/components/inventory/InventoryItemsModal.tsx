@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import chest from "public/assets/icons/chest.png";
+import chest from "assets/icons/chest.png";
 import Decimal from "decimal.js-light";
 import { Basket } from "./Basket";
 import { Chest } from "./Chest";

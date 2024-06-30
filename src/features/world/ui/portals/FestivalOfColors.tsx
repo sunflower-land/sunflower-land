@@ -6,7 +6,7 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 
-import factions from "public/assets/icons/factions.webp";
+import factions from "assets/icons/factions.webp";
 
 import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";

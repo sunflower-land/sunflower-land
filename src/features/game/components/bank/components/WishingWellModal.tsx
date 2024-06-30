@@ -4,9 +4,9 @@ import { Modal } from "components/ui/Modal";
 import ReCAPTCHA from "react-google-recaptcha";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import wisingWell from "public/assets/buildings/wishing_well.png";
-import goblinHead from "public/assets/npcs/goblin_head.png";
-import token from "public/assets/icons/sfl.webp";
+import wisingWell from "assets/buildings/wishing_well.png";
+import goblinHead from "assets/npcs/goblin_head.png";
+import token from "assets/icons/sfl.webp";
 
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -31,7 +31,7 @@ import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
 import { Label } from "components/ui/Label";
-import giftIcon from "public/assets/icons/gift.png";
+import giftIcon from "assets/icons/gift.png";
 import { Context } from "features/game/GameProvider";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Loading } from "features/auth/components";

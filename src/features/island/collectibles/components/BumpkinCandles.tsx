@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/bumpkin_candles.webp";
+import image from "assets/factions/bumpkin_candles.webp";
 
 export const BumpkinCandles: React.FC = () => {
   return (

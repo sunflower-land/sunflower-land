@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 
-import auctioneer from "public/assets/npcs/trivia.gif";
-import shadow from "public/assets/npcs/shadow.png";
+import auctioneer from "assets/npcs/trivia.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Action } from "components/ui/Action";

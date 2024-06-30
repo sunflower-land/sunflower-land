@@ -3,9 +3,9 @@ import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import building from "public/assets/buildings/farmersMarket.png";
-import retroGirl from "public/assets/npcs/exotic_girl.gif";
-import shadow from "public/assets/npcs/shadow.png";
+import building from "assets/buildings/farmersMarket.png";
+import retroGirl from "assets/npcs/exotic_girl.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { ExoticShopItems } from "./component/ExoticShopItems";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";

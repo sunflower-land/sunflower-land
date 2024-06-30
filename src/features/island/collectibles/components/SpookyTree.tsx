@@ -1,6 +1,6 @@
 import React from "react";
 
-import spookyTree from "public/assets/decorations/spooky_tree.png";
+import spookyTree from "assets/decorations/spooky_tree.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SpookyTree: React.FC = () => {

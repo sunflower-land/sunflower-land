@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/sfts/jelly_lamp.webp";
+import image from "assets/sfts/jelly_lamp.webp";
 
 export const JellyLamp: React.FC = () => {
   return (

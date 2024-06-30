@@ -1,6 +1,6 @@
 import React from "react";
 
-import bear from "public/assets/sfts/bears/bear_trap.png";
+import bear from "assets/sfts/bears/bear_trap.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BearTrap: React.FC = () => {

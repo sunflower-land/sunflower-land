@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Button } from "components/ui/Button";
-import token from "public/assets/icons/sfl.webp";
-import bg from "public/assets/ui/grey_background.png";
+import token from "assets/icons/sfl.webp";
+import bg from "assets/ui/grey_background.png";
 
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";

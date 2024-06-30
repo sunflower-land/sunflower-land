@@ -1,6 +1,6 @@
 import React from "react";
 
-import immortalPear from "public/assets/sfts/immortal_pear.webp";
+import immortalPear from "assets/sfts/immortal_pear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ImmortalPear: React.FC = () => {

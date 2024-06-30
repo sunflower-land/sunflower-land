@@ -1,10 +1,10 @@
 // banners
-import solarFlareBanner from "public/assets/decorations/banners/solar_flare_banner.png";
-import dawnBreakerBanner from "public/assets/decorations/banners/dawn_breaker_banner.png";
-import witchesEveBanner from "public/assets/decorations/banners/witches_eve_banner.webp";
-import catchTheKrakenBanner from "public/assets/decorations/banners/catch_the_kraken_banner.webp";
-import springBlossomBanner from "public/assets/decorations/banners/spring_banner.gif";
-import clashOfFactionsBanner from "public/assets/decorations/banners/clash_of_factions_banner.webp";
+import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
+import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
+import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
+import catchTheKrakenBanner from "assets/decorations/banners/catch_the_kraken_banner.webp";
+import springBlossomBanner from "assets/decorations/banners/spring_banner.gif";
+import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_banner.webp";
 
 export type SeasonName =
   | "Solar Flare"

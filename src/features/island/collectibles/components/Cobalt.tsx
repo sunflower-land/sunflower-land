@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "public/assets/decorations/cobalt.png";
+import image from "assets/decorations/cobalt.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Cobalt: React.FC = () => {

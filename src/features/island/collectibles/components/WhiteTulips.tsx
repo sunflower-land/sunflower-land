@@ -1,6 +1,6 @@
 import React from "react";
 
-import whiteTulip from "public/assets/decorations/white_tulips.png";
+import whiteTulip from "assets/decorations/white_tulips.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WhiteTulips: React.FC = () => {

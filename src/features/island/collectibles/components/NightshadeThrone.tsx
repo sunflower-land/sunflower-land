@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/nightshade_throne.webp";
+import image from "assets/factions/nightshade_throne.webp";
 
 export const NightshadeThrone: React.FC = () => {
   return (

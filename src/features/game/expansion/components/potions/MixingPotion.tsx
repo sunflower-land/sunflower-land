@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 
-import potionMasterIdleSheet from "public/assets/npcs/potion_master_sheet_idle.png";
-import potionMasterStartMixingSheet from "public/assets/npcs/potion_master_sheet_start_mixing.png";
-import potionMasterLoopMixingSheet from "public/assets/npcs/potion_master_sheet_loop_mixing.png";
-import potionMasterBombSheet from "public/assets/npcs/potion_master_sheet_bomb.png";
-import potionMasterSuccessSheet from "public/assets/npcs/potion_master_sheet_success.png";
+import potionMasterIdleSheet from "assets/npcs/potion_master_sheet_idle.png";
+import potionMasterStartMixingSheet from "assets/npcs/potion_master_sheet_start_mixing.png";
+import potionMasterLoopMixingSheet from "assets/npcs/potion_master_sheet_loop_mixing.png";
+import potionMasterBombSheet from "assets/npcs/potion_master_sheet_bomb.png";
+import potionMasterSuccessSheet from "assets/npcs/potion_master_sheet_success.png";
 import { SpringValue } from "react-spring";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
 import { useActor } from "@xstate/react";

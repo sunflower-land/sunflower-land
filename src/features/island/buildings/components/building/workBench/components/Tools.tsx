@@ -17,7 +17,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
-import lockIcon from "public/assets/skills/lock.png";
+import lockIcon from "assets/skills/lock.png";
 import { Label } from "components/ui/Label";
 import { capitalize } from "lib/utils/capitalize";
 import { IslandType } from "features/game/types/game";

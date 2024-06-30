@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GameState, InventoryItemName } from "features/game/types/game";
-import chest from "public/assets/icons/chest.png";
+import chest from "assets/icons/chest.png";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
 import { Chest } from "./inventory/Chest";

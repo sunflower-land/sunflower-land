@@ -1,6 +1,6 @@
 import React from "react";
 
-import rubberDucky from "public/assets/sfts/rubber_ducky.webp";
+import rubberDucky from "assets/sfts/rubber_ducky.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RubberDucky: React.FC = () => {

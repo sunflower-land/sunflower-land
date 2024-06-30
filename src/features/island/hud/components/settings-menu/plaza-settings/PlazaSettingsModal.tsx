@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Button } from "components/ui/Button";
 
-import SoundOffIcon from "public/assets/icons/sound_off.png";
+import SoundOffIcon from "assets/icons/sound_off.png";
 // import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";

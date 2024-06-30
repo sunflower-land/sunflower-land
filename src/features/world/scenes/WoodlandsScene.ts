@@ -1,6 +1,6 @@
-import woodlandsJSON from "public/assets/map/woodlands.json";
-import rabbitJson from "public/assets/map/rabbit_woodlands.json";
-import rabbitTileset from "public/assets/map/rabbit-tileset.json";
+import woodlandsJSON from "assets/map/woodlands.json";
+import rabbitJson from "assets/map/rabbit_woodlands.json";
+import rabbitTileset from "assets/map/rabbit-tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

@@ -7,53 +7,53 @@ import React, { memo } from "react";
  * Same as padding/margin order. Top, right, down, left
  * 0_1_1_0 = No top border, right border, bottom border and no bottom border
  */
-import fullEdge from "public/assets/land/dirt/1_1_1_1.png";
-import desertFullEdge from "public/assets/desert/land/dirt/1_1_1_1.png";
+import fullEdge from "assets/land/dirt/1_1_1_1.png";
+import desertFullEdge from "assets/desert/land/dirt/1_1_1_1.png";
 
-import noEdge from "public/assets/land/dirt/0_0_0_0.png";
-import desertNoEdge from "public/assets/desert/land/dirt/0_0_0_0.png";
+import noEdge from "assets/land/dirt/0_0_0_0.png";
+import desertNoEdge from "assets/desert/land/dirt/0_0_0_0.png";
 
-import topAndBottomEdge from "public/assets/land/dirt/1_0_1_0.png";
-import desertTopAndBottomEdge from "public/assets/desert/land/dirt/1_0_1_0.png";
+import topAndBottomEdge from "assets/land/dirt/1_0_1_0.png";
+import desertTopAndBottomEdge from "assets/desert/land/dirt/1_0_1_0.png";
 
-import topLeftAndBottomEdge from "public/assets/land/dirt/1_0_1_1.png";
-import desertTopLeftAndBottomEdge from "public/assets/desert/land/dirt/1_0_1_1.png";
+import topLeftAndBottomEdge from "assets/land/dirt/1_0_1_1.png";
+import desertTopLeftAndBottomEdge from "assets/desert/land/dirt/1_0_1_1.png";
 
-import topRightAndBottomEdge from "public/assets/land/dirt/1_1_1_0.png";
-import desertTopRightAndBottomEdge from "public/assets/desert/land/dirt/1_1_1_0.png";
+import topRightAndBottomEdge from "assets/land/dirt/1_1_1_0.png";
+import desertTopRightAndBottomEdge from "assets/desert/land/dirt/1_1_1_0.png";
 
-import topRightAndLeftEdge from "public/assets/land/dirt/1_1_0_1.png";
-import desertTopRightAndLeftEdge from "public/assets/desert/land/dirt/1_1_0_1.png";
+import topRightAndLeftEdge from "assets/land/dirt/1_1_0_1.png";
+import desertTopRightAndLeftEdge from "assets/desert/land/dirt/1_1_0_1.png";
 
-import rightBottomAndLeftEdge from "public/assets/land/dirt/0_1_1_1.png";
-import desertRightBottomAndLeftEdge from "public/assets/desert/land/dirt/0_1_1_1.png";
+import rightBottomAndLeftEdge from "assets/land/dirt/0_1_1_1.png";
+import desertRightBottomAndLeftEdge from "assets/desert/land/dirt/0_1_1_1.png";
 
-import rightAndLeftEdge from "public/assets/land/dirt/0_1_0_1.png";
-import desertRightAndLeftEdge from "public/assets/desert/land/dirt/0_1_0_1.png";
+import rightAndLeftEdge from "assets/land/dirt/0_1_0_1.png";
+import desertRightAndLeftEdge from "assets/desert/land/dirt/0_1_0_1.png";
 
-import rightEdge from "public/assets/land/dirt/0_1_0_0.png";
-import desertRightEdge from "public/assets/desert/land/dirt/0_1_0_0.png";
+import rightEdge from "assets/land/dirt/0_1_0_0.png";
+import desertRightEdge from "assets/desert/land/dirt/0_1_0_0.png";
 
-import bottomEdge from "public/assets/land/dirt/0_0_1_0.png";
-import desertBottomEdge from "public/assets/desert/land/dirt/0_0_1_0.png";
+import bottomEdge from "assets/land/dirt/0_0_1_0.png";
+import desertBottomEdge from "assets/desert/land/dirt/0_0_1_0.png";
 
-import topEdge from "public/assets/land/dirt/1_0_0_0.png";
-import desertTopEdge from "public/assets/desert/land/dirt/1_0_0_0.png";
+import topEdge from "assets/land/dirt/1_0_0_0.png";
+import desertTopEdge from "assets/desert/land/dirt/1_0_0_0.png";
 
-import leftEdge from "public/assets/land/dirt/0_0_0_1.png";
-import desertLeftEdge from "public/assets/desert/land/dirt/0_0_0_1.png";
+import leftEdge from "assets/land/dirt/0_0_0_1.png";
+import desertLeftEdge from "assets/desert/land/dirt/0_0_0_1.png";
 
-import topAndLeftEdge from "public/assets/land/dirt/1_0_0_1.png";
-import desertTopAndLeftEdge from "public/assets/desert/land/dirt/1_0_0_1.png";
+import topAndLeftEdge from "assets/land/dirt/1_0_0_1.png";
+import desertTopAndLeftEdge from "assets/desert/land/dirt/1_0_0_1.png";
 
-import bottomAndLeftEdge from "public/assets/land/dirt/0_0_1_1.png";
-import desertBottomAndLeftEdge from "public/assets/desert/land/dirt/0_0_1_1.png";
+import bottomAndLeftEdge from "assets/land/dirt/0_0_1_1.png";
+import desertBottomAndLeftEdge from "assets/desert/land/dirt/0_0_1_1.png";
 
-import topAndRightEdge from "public/assets/land/dirt/1_1_0_0.png";
-import desertTopAndRightEdge from "public/assets/desert/land/dirt/1_1_0_0.png";
+import topAndRightEdge from "assets/land/dirt/1_1_0_0.png";
+import desertTopAndRightEdge from "assets/desert/land/dirt/1_1_0_0.png";
 
-import bottomAndRightEdge from "public/assets/land/dirt/0_1_1_0.png";
-import desertBottomAndRightEdge from "public/assets/desert/land/dirt/0_1_1_0.png";
+import bottomAndRightEdge from "assets/land/dirt/0_1_1_0.png";
+import desertBottomAndRightEdge from "assets/desert/land/dirt/0_1_1_0.png";
 
 import { GameGrid } from "../placeable/lib/makeGrid";
 import { IslandType } from "features/game/types/game";

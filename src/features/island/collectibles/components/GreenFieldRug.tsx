@@ -1,6 +1,6 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import greenFieldRug from "public/assets/sfts/green_field_rug.webp";
+import greenFieldRug from "assets/sfts/green_field_rug.webp";
 
 export const GreenFieldRug: React.FC = () => {
   return (

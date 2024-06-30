@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/sunflorian_throne.webp";
+import image from "assets/factions/sunflorian_throne.webp";
 
 export const SunflorianThrone: React.FC = () => {
   return (

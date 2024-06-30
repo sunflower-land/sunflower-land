@@ -1,6 +1,6 @@
 import React from "react";
 
-import trophy from "public/assets/fish/starlight_tuna_trophy.png";
+import trophy from "assets/fish/starlight_tuna_trophy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const StarlightTuna: React.FC = () => {

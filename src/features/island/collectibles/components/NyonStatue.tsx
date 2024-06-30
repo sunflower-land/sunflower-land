@@ -3,7 +3,7 @@ import { Modal } from "components/ui/Modal";
 
 import { Panel } from "components/ui/Panel";
 
-import nyonStatue from "public/assets/sfts/nyon_statue.png";
+import nyonStatue from "assets/sfts/nyon_statue.png";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

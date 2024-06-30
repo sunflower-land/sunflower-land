@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import island from "public/assets/land/vip_island.png";
-import vipGift from "public/assets/decorations/vip_gift.png";
+import island from "assets/land/vip_island.png";
+import vipGift from "assets/decorations/vip_gift.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

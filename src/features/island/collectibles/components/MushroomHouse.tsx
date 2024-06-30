@@ -1,6 +1,6 @@
 import React from "react";
 
-import mushroomHouse from "public/assets/seasons/dawn-breaker/mushroom_house.png";
+import mushroomHouse from "assets/seasons/dawn-breaker/mushroom_house.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const MushroomHouse: React.FC = () => {

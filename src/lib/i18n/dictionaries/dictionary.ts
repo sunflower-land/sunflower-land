@@ -5,13 +5,13 @@ import { PORTUGUESE_TERMS } from "./portugueseDictionary";
 import { FRENCH_TERMS } from "./frenchDictionary";
 import { TranslationKeys } from "./types";
 
-// import british_flag from "public/assets/sfts/flags/british_flag.gif";
-// import usaFlag from "public/assets/sfts/flags/usa_flag.gif";
-// import brazilFlag from "public/assets/sfts/flags/brazil_flag.gif";
-// import portugalFlag from "public/assets/sfts/flags/portugal_flag.gif";
-// import franceFlag from "public/assets/sfts/flags/france_flag.gif";
-// import turkeyFlag from "public/assets/sfts/flags/turkey_flag.gif";
-// import chinaFlag from "public/assets/sfts/flags/china_flag.gif";
+// import british_flag from "assets/sfts/flags/british_flag.gif";
+// import usaFlag from "assets/sfts/flags/usa_flag.gif";
+// import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
+// import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
+// import franceFlag from "assets/sfts/flags/france_flag.gif";
+// import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
+// import chinaFlag from "assets/sfts/flags/china_flag.gif";
 
 export type LanguageCode = "en" | "fr" | "pt" | "tk" | "zh-CN";
 

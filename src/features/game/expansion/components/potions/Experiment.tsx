@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelTableBorderStyle } from "features/game/lib/style";
-import tableTop from "public/assets/ui/table_top.webp";
-import plant from "public/assets/decorations/planter_box.webp";
+import tableTop from "assets/ui/table_top.webp";
+import plant from "assets/decorations/planter_box.webp";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { POTIONS } from "./lib/potions";
 import { Box } from "./Box";
-import shadow from "public/assets/npcs/shadow.png";
+import shadow from "assets/npcs/shadow.png";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";

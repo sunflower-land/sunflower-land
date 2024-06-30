@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/golden_faction_goblet.webp";
+import image from "assets/factions/golden_faction_goblet.webp";
 
 export const GoldenFactionGoblet: React.FC = () => {
   return (

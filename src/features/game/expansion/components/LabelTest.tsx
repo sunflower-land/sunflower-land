@@ -3,10 +3,10 @@ import { Label } from "components/ui/Label";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
-import lock from "public/assets/skills/lock.png";
-import chest from "public/assets/icons/chest.png";
-import powerup from "public/assets/icons/level_up.png";
-import lightning from "public/assets/icons/lightning.png";
+import lock from "assets/skills/lock.png";
+import chest from "assets/icons/chest.png";
+import powerup from "assets/icons/level_up.png";
+import lightning from "assets/icons/lightning.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 

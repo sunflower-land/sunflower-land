@@ -1,6 +1,6 @@
 import React from "react";
 
-import soilKrabby from "public/assets/sfts/soil_krabby.webp";
+import soilKrabby from "assets/sfts/soil_krabby.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SoilKrabby: React.FC = () => {

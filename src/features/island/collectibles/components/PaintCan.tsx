@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/sfts/paint_can.png";
+import image from "assets/sfts/paint_can.png";
 
 export const PaintCan: React.FC = () => {
   return (

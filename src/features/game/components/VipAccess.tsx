@@ -4,8 +4,8 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import lock from "public/assets/skills/lock.png";
-import vipIcon from "public/assets/icons/vip.webp";
+import lock from "assets/skills/lock.png";
+import vipIcon from "assets/icons/vip.webp";
 import { hasFeatureAccess } from "lib/flags";
 import { TEST_FARM } from "../lib/constants";
 

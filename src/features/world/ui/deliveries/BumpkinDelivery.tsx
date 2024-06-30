@@ -7,11 +7,11 @@ import { useActor } from "@xstate/react";
 import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
-import giftIcon from "public/assets/icons/gift.png";
-import chestIcon from "public/assets/icons/chest.png";
-import sfl from "public/assets/icons/sfl.webp";
-import coinsImg from "public/assets/icons/coins.webp";
-import lockIcon from "public/assets/skills/lock.png";
+import giftIcon from "assets/icons/gift.png";
+import chestIcon from "assets/icons/chest.png";
+import sfl from "assets/icons/sfl.webp";
+import coinsImg from "assets/icons/coins.webp";
+import lockIcon from "assets/skills/lock.png";
 
 import { InlineDialogue } from "../TypingMessage";
 import Decimal from "decimal.js-light";

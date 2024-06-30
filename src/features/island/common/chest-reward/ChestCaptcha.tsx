@@ -1,15 +1,15 @@
 import React, { useRef, useState } from "react";
 
-import background1 from "public/assets/captcha/chest_background_1.png";
-import background2 from "public/assets/captcha/chest_background_2.png";
-import background3 from "public/assets/captcha/chest_background_3.png";
-import background4 from "public/assets/captcha/chest_background_4.png";
-import background5 from "public/assets/captcha/chest_background_5.png";
-import background6 from "public/assets/captcha/chest_background_6.png";
-import background7 from "public/assets/captcha/chest_background_7.png";
-import background8 from "public/assets/captcha/chest_background_8.png";
+import background1 from "assets/captcha/chest_background_1.png";
+import background2 from "assets/captcha/chest_background_2.png";
+import background3 from "assets/captcha/chest_background_3.png";
+import background4 from "assets/captcha/chest_background_4.png";
+import background5 from "assets/captcha/chest_background_5.png";
+import background6 from "assets/captcha/chest_background_6.png";
+import background7 from "assets/captcha/chest_background_7.png";
+import background8 from "assets/captcha/chest_background_8.png";
 
-import chest1 from "public/assets/npcs/synced.gif";
+import chest1 from "assets/npcs/synced.gif";
 
 import { addNoise } from "lib/images";
 import { randomBoolean, randomDouble, randomInt } from "lib/utils/random";

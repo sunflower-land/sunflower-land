@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import silhouette from "public/assets/bumpkins/silhouette.png";
+import silhouette from "assets/bumpkins/silhouette.png";
 
 import { Equipped as BumpkinParts } from "features/game/types/bumpkin";
 import { buildImage } from "../actions/buildImage";

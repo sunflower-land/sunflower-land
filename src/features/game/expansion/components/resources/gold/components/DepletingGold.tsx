@@ -2,9 +2,9 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "public/assets/resources/gold/gold_rock_drop.png";
+import dropSheet from "assets/resources/gold/gold_rock_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import gold from "public/assets/resources/gold_ore.png";
+import gold from "assets/resources/gold_ore.png";
 import { ZoomContext } from "components/ZoomProvider";
 
 const DROP_SHEET_FRAME_WIDTH = 112;

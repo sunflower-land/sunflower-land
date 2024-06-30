@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
-import sheet from "public/assets/sfts/squirrel_monkey_sheet.png";
-import shadow from "public/assets/npcs/shadow.png";
+import sheet from "assets/sfts/squirrel_monkey_sheet.png";
+import shadow from "assets/npcs/shadow.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Spritesheet from "components/animation/SpriteAnimator";
 import { ZoomContext } from "components/ZoomProvider";

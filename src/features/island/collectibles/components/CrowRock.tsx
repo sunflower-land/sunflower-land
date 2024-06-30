@@ -1,6 +1,6 @@
 import React from "react";
 
-import crowRock from "public/assets/decorations/crow_rock.webp";
+import crowRock from "assets/decorations/crow_rock.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CrowRock: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import freyaFox from "public/assets/sfts/freya_fox.png";
+import freyaFox from "assets/sfts/freya_fox.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FreyaFox: React.FC = () => {

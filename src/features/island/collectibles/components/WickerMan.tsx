@@ -5,7 +5,7 @@ import Spritesheet, {
 } from "components/animation/SpriteAnimator";
 import { burningSound, loadAudio } from "lib/utils/sfx";
 
-import wickerManFire from "public/assets/sfts/wicker_man_fire.png";
+import wickerManFire from "assets/sfts/wicker_man_fire.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ZoomContext } from "components/ZoomProvider";
 

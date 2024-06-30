@@ -7,7 +7,7 @@ import { Context } from "features/game/GameProvider";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import coins from "public/assets/icons/coins.webp";
+import coins from "assets/icons/coins.webp";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";

@@ -6,8 +6,8 @@ import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import bush from "public/assets/icons/decoration.png";
-import chest from "public/assets/icons/chest.png";
+import bush from "assets/icons/decoration.png";
+import chest from "assets/icons/chest.png";
 
 import { isMobile } from "mobile-device-detect";
 

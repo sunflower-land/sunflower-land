@@ -1,6 +1,6 @@
 import React from "react";
 
-import sunflowerStatue from "public/assets/sfts/sunflower_statue.png";
+import sunflowerStatue from "assets/sfts/sunflower_statue.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const SunflowerStatue: React.FC = () => {

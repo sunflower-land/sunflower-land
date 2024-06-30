@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import royalThrone from "public/assets/sfts/royal_throne.webp";
+import royalThrone from "assets/sfts/royal_throne.webp";
 
 export const RoyalThrone: React.FC = () => {
   return (

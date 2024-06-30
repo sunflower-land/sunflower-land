@@ -19,8 +19,8 @@ import { getRelativeTime } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { setPrecision } from "lib/utils/formatNumber";
 
-import sflIcon from "public/assets/icons/sfl.webp";
-import lock from "public/assets/skills/lock.png";
+import sflIcon from "assets/icons/sfl.webp";
+import lock from "assets/skills/lock.png";
 import { Box } from "components/ui/Box";
 import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 

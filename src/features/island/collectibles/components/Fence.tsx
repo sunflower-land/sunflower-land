@@ -7,24 +7,24 @@ import React from "react";
  * Same as padding/margin order. Top, right, down, left
  * 0_1_1_0 = No top border, right border, bottom border and no bottom border
  */
-import fullEdge from "public/assets/decorations/fence/1_1_1_1.png";
-import noEdge from "public/assets/decorations/fence/0_0_0_0.png";
-import topAndBottomEdge from "public/assets/decorations/fence/1_0_1_0.png";
-import topLeftAndBottomEdge from "public/assets/decorations/fence/1_0_1_1.png";
-import topRightAndBottomEdge from "public/assets/decorations/fence/1_1_1_0.png";
-import topRightAndLeftEdge from "public/assets/decorations/fence/1_1_0_1.png";
-import rightBottomAndLeftEdge from "public/assets/decorations/fence/0_1_1_1.png";
-import rightAndLeftEdge from "public/assets/decorations/fence/0_1_0_1.png";
+import fullEdge from "assets/decorations/fence/1_1_1_1.png";
+import noEdge from "assets/decorations/fence/0_0_0_0.png";
+import topAndBottomEdge from "assets/decorations/fence/1_0_1_0.png";
+import topLeftAndBottomEdge from "assets/decorations/fence/1_0_1_1.png";
+import topRightAndBottomEdge from "assets/decorations/fence/1_1_1_0.png";
+import topRightAndLeftEdge from "assets/decorations/fence/1_1_0_1.png";
+import rightBottomAndLeftEdge from "assets/decorations/fence/0_1_1_1.png";
+import rightAndLeftEdge from "assets/decorations/fence/0_1_0_1.png";
 
-import rightEdge from "public/assets/decorations/fence/0_1_0_0.png";
-import bottomEdge from "public/assets/decorations/fence/0_0_1_0.png";
-import topEdge from "public/assets/decorations/fence/1_0_0_0.png";
-import leftEdge from "public/assets/decorations/fence/0_0_0_1.png";
+import rightEdge from "assets/decorations/fence/0_1_0_0.png";
+import bottomEdge from "assets/decorations/fence/0_0_1_0.png";
+import topEdge from "assets/decorations/fence/1_0_0_0.png";
+import leftEdge from "assets/decorations/fence/0_0_0_1.png";
 
-import topAndLeftEdge from "public/assets/decorations/fence/1_0_0_1.png";
-import bottomAndLeftEdge from "public/assets/decorations/fence/0_0_1_1.png";
-import topAndRightEdge from "public/assets/decorations/fence/1_1_0_0.png";
-import bottomAndRightEdge from "public/assets/decorations/fence/0_1_1_0.png";
+import topAndLeftEdge from "assets/decorations/fence/1_0_0_1.png";
+import bottomAndLeftEdge from "assets/decorations/fence/0_0_1_1.png";
+import topAndRightEdge from "assets/decorations/fence/1_1_0_0.png";
+import bottomAndRightEdge from "assets/decorations/fence/0_1_1_0.png";
 
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/sfts/splendor_flag.png";
+import image from "assets/sfts/splendor_flag.png";
 
 export const SplendorFlag: React.FC = () => {
   return (

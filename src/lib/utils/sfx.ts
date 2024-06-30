@@ -1,4 +1,4 @@
-import { SOUNDS } from "public/assets/sound-effects/soundEffects";
+import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { Howl } from "howler";
 
 /**

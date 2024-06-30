@@ -1,6 +1,6 @@
 import React from "react";
 
-import hummingBird from "public/assets/sfts/hummingbird.webp";
+import hummingBird from "assets/sfts/hummingbird.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HummingBird: React.FC = () => {

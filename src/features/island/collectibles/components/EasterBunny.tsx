@@ -1,6 +1,6 @@
 import React from "react";
 
-import easterBunny from "public/assets/sfts/easter/easter_bunny_eggs.gif";
+import easterBunny from "assets/sfts/easter/easter_bunny_eggs.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const EasterBunny: React.FC = () => {

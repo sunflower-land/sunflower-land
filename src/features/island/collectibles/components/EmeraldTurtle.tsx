@@ -1,6 +1,6 @@
 import React from "react";
 
-import emeraldTurtle from "public/assets/sfts/aoe/emerald_turtle.webp";
+import emeraldTurtle from "assets/sfts/aoe/emerald_turtle.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const EmeraldTurtle: React.FC = () => {

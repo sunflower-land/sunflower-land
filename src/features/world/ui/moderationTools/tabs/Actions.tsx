@@ -3,7 +3,7 @@ import { Button } from "components/ui/Button";
 
 import { MuteModal } from "../components/Mute";
 
-import SoundOffIcon from "public/assets/icons/sound_off.png";
+import SoundOffIcon from "assets/icons/sound_off.png";
 import { UnMuteModal } from "../components/Unmute";
 
 type Props = {

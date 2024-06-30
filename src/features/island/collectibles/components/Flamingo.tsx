@@ -1,6 +1,6 @@
 import React from "react";
 
-import flamingo from "public/assets/events/valentine/sfts/flamingo.webp";
+import flamingo from "assets/events/valentine/sfts/flamingo.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Flamingo: React.FC = () => {

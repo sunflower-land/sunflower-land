@@ -3,9 +3,9 @@ import { SpecialEvent } from "features/game/types/specialEvents";
 import { SpecialEventModalContent } from "features/world/ui/SpecialEventModalContent";
 import React, { useState } from "react";
 
-import raft from "public/assets/decorations/rewards_raft.png";
-import shadow from "public/assets/npcs/shadow.png";
-import bob from "public/assets/decorations/one_planet_bob.gif";
+import raft from "assets/decorations/rewards_raft.png";
+import shadow from "assets/npcs/shadow.png";
+import bob from "assets/decorations/one_planet_bob.gif";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

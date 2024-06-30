@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState } from "react";
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import dropSheet from "public/assets/resources/sunstone/sunstone_drop.png";
+import dropSheet from "assets/resources/sunstone/sunstone_drop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ZoomContext } from "components/ZoomProvider";
 import { ITEM_DETAILS } from "features/game/types/images";

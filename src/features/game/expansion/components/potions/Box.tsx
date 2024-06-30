@@ -4,10 +4,10 @@ import React from "react";
 import { POTIONS } from "./lib/potions";
 import { FeedbackIcons } from "./lib/types";
 
-import selectBoxBL from "public/assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "public/assets/ui/select/selectbox_br.png";
-import selectBoxTL from "public/assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "public/assets/ui/select/selectbox_tr.png";
+import selectBoxBL from "assets/ui/select/selectbox_bl.png";
+import selectBoxBR from "assets/ui/select/selectbox_br.png";
+import selectBoxTL from "assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import { PotionName, PotionStatus } from "features/game/types/game";
 
 const INNER_CANVAS_WIDTH = 14;

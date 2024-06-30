@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/goblin_victory_bunting.webp";
+import image from "assets/factions/goblin_victory_bunting.webp";
 
 export const GoblinBunting: React.FC = () => {
   return (

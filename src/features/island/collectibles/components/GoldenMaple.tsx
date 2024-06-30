@@ -1,6 +1,6 @@
 import React from "react";
 
-import goldenMaple from "public/assets/decorations/golden_maple.webp";
+import goldenMaple from "assets/decorations/golden_maple.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoldenMaple: React.FC = () => {

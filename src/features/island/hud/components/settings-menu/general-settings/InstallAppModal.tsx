@@ -16,7 +16,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getMagicLink } from "features/auth/actions/magicLink";
 import { Label } from "components/ui/Label";
-import logo from "public/assets/brand/icon.png";
+import logo from "assets/brand/icon.png";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CopySvg } from "components/ui/CopyField";

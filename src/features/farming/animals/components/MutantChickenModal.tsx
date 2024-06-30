@@ -3,14 +3,14 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { MutantChicken } from "features/game/types/game";
 
-import richChicken from "public/assets/animals/chickens/rich_chicken.png";
-import fatChicken from "public/assets/animals/chickens/fat_chicken.png";
-import speedChicken from "public/assets/animals/chickens/speed_chicken.png";
-import ayamCemani from "public/assets/animals/chickens/ayam_cemani.png";
-import elPolloVeloz from "public/assets/animals/chickens/el_pollo_veloz.png";
-import bananaChicken from "public/assets/animals/chickens/banana_chicken.png";
-import crimPeckster from "public/assets/animals/chickens/crim_peckster.png";
-import knightChicken from "public/assets/animals/chickens/knight_chicken.png";
+import richChicken from "assets/animals/chickens/rich_chicken.png";
+import fatChicken from "assets/animals/chickens/fat_chicken.png";
+import speedChicken from "assets/animals/chickens/speed_chicken.png";
+import ayamCemani from "assets/animals/chickens/ayam_cemani.png";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.png";
+import bananaChicken from "assets/animals/chickens/banana_chicken.png";
+import crimPeckster from "assets/animals/chickens/crim_peckster.png";
+import knightChicken from "assets/animals/chickens/knight_chicken.png";
 
 import { Button } from "components/ui/Button";
 import { translate } from "lib/i18n/translate";

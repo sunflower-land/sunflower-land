@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "public/assets/decorations/dawn_umbrella_seat.png";
+import image from "assets/decorations/dawn_umbrella_seat.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const DawnUmbreallSeat: React.FC = () => {

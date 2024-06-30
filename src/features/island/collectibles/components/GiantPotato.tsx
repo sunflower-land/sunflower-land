@@ -1,6 +1,6 @@
 import React from "react";
 
-import giantPotato from "public/assets/sfts/giant_potato.png";
+import giantPotato from "assets/sfts/giant_potato.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GiantPotato: React.FC = () => {

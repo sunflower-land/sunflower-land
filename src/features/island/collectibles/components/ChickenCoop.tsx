@@ -1,6 +1,6 @@
 import React from "react";
 
-import coop from "public/assets/sfts/chicken_coop.png";
+import coop from "assets/sfts/chicken_coop.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const ChickenCoop: React.FC = () => {

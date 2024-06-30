@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/sfts/devotion_flag.png";
+import image from "assets/sfts/devotion_flag.png";
 
 export const DevotionFlag: React.FC = () => {
   return (

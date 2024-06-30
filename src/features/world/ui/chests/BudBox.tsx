@@ -9,8 +9,8 @@ import { Revealed } from "features/game/components/Revealed";
 
 import React, { useContext, useState } from "react";
 
-import budIcon from "public/assets/icons/bud.png";
-import chestIcon from "public/assets/icons/gift.png";
+import budIcon from "assets/icons/bud.png";
+import chestIcon from "assets/icons/gift.png";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";

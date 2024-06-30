@@ -1,6 +1,6 @@
 import React from "react";
 
-import image from "public/assets/decorations/grubnash_tombstone.png";
+import image from "assets/decorations/grubnash_tombstone.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GrubnashTombstone: React.FC = () => {

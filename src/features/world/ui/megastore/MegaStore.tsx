@@ -17,8 +17,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
-import lightning from "public/assets/icons/lightning.png";
-import shopIcon from "public/assets/icons/shop.png";
+import lightning from "assets/icons/lightning.png";
+import shopIcon from "assets/icons/shop.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { ModalOverlay } from "components/ui/ModalOverlay";

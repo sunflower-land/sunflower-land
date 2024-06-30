@@ -12,7 +12,7 @@ import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
-import token from "public/assets/icons/sfl.webp";
+import token from "assets/icons/sfl.webp";
 import classNames from "classnames";
 import { setPrecision } from "lib/utils/formatNumber";
 import { getKeys } from "features/game/types/craftables";

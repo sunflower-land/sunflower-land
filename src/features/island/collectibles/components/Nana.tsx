@@ -1,6 +1,6 @@
 import React from "react";
 
-import nana from "public/assets/sfts/nana.webp";
+import nana from "assets/sfts/nana.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Nana: React.FC = () => {

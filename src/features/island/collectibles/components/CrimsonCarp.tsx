@@ -1,6 +1,6 @@
 import React from "react";
 
-import trophy from "public/assets/fish/crimson_carp_trophy.png";
+import trophy from "assets/fish/crimson_carp_trophy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const CrimsonCarp: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import pirateBear from "public/assets/sfts/bears/pirate_bear.webp";
+import pirateBear from "assets/sfts/bears/pirate_bear.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const PirateBear: React.FC = () => {

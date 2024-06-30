@@ -1,22 +1,22 @@
 import { PIXEL_SCALE } from "./constants";
-import grayBorder from "public/assets/ui/panel/gray_border.png";
-import orangeBorder from "public/assets/ui/panel/orange_border.png";
-import redBorder from "public/assets/ui/panel/danger_border.png";
-import blueBorder from "public/assets/ui/panel/blue_border.png";
-import formulaBorder from "public/assets/ui/panel/formula_border.png";
-import calmBorder from "public/assets/ui/panel/calm_border.png";
-import vibrantBorder from "public/assets/ui/panel/vibrant_border.png";
-import lightBorder from "public/assets/ui/panel/light_border.png";
-import darkBorder from "public/assets/ui/panel/dark_border.png";
-import roomBorder from "public/assets/ui/panel/room_border.webp";
-import tableBorder from "public/assets/ui/panel/table_border2.webp";
-import greenBorder from "public/assets/ui/panel/green_border.png";
-import tabBorderStart from "public/assets/ui/panel/tab_border_start.png";
-import tabBorderMiddle from "public/assets/ui/panel/tab_border_middle.png";
-import tabBorderVerticalStart from "public/assets/ui/panel/vertical_tab_border_start.png";
-import tabBorderVerticalMiddle from "public/assets/ui/panel/vertical_tab_border_middle.png";
-import progressBarBorder from "public/assets/ui/progress/progress_bar_border.png";
-import speechBubbleBorder from "public/assets/ui/speech_bubble.webp";
+import grayBorder from "assets/ui/panel/gray_border.png";
+import orangeBorder from "assets/ui/panel/orange_border.png";
+import redBorder from "assets/ui/panel/danger_border.png";
+import blueBorder from "assets/ui/panel/blue_border.png";
+import formulaBorder from "assets/ui/panel/formula_border.png";
+import calmBorder from "assets/ui/panel/calm_border.png";
+import vibrantBorder from "assets/ui/panel/vibrant_border.png";
+import lightBorder from "assets/ui/panel/light_border.png";
+import darkBorder from "assets/ui/panel/dark_border.png";
+import roomBorder from "assets/ui/panel/room_border.webp";
+import tableBorder from "assets/ui/panel/table_border2.webp";
+import greenBorder from "assets/ui/panel/green_border.png";
+import tabBorderStart from "assets/ui/panel/tab_border_start.png";
+import tabBorderMiddle from "assets/ui/panel/tab_border_middle.png";
+import tabBorderVerticalStart from "assets/ui/panel/vertical_tab_border_start.png";
+import tabBorderVerticalMiddle from "assets/ui/panel/vertical_tab_border_middle.png";
+import progressBarBorder from "assets/ui/progress/progress_bar_border.png";
+import speechBubbleBorder from "assets/ui/speech_bubble.webp";
 
 const pixelizedBorderStyle: React.CSSProperties = {
   borderStyle: "solid",

@@ -1,6 +1,6 @@
 import React from "react";
 
-import giantPumpkin from "public/assets/sfts/giant_pumpkin.png";
+import giantPumpkin from "assets/sfts/giant_pumpkin.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GiantPumpkin: React.FC = () => {

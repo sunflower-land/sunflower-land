@@ -16,7 +16,7 @@ const INPUT_MAX_CHAR = 10;
 const MAX_NON_VIP_LISTINGS = 1;
 const MAX_SFL = 150;
 
-import walletIcon from "public/assets/icons/wallet.png";
+import walletIcon from "assets/icons/wallet.png";
 import classNames from "classnames";
 
 const CONTRIBUTORS = [

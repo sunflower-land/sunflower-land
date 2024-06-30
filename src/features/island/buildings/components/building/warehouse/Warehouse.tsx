@@ -1,6 +1,6 @@
 import React from "react";
 
-import warehouse from "public/assets/buildings/warehouse.png";
+import warehouse from "assets/buildings/warehouse.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";

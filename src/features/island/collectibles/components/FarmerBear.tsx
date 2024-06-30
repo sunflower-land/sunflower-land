@@ -1,6 +1,6 @@
 import React from "react";
 
-import bear from "public/assets/sfts/bears/farmer_bear.png";
+import bear from "assets/sfts/bears/farmer_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FarmerBear: React.FC = () => {

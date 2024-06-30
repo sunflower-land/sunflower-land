@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
-import more from "public/assets/ui/more.png";
-import settings from "public/assets/icons/settings.png";
-import sound_on from "public/assets/icons/sound_on.png";
+import more from "assets/ui/more.png";
+import settings from "assets/icons/settings.png";
+import sound_on from "assets/icons/sound_on.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -14,7 +14,7 @@ import {
   getFarmingSongCount,
   getGoblinSong,
   getGoblinSongCount,
-} from "public/assets/songs/playlist";
+} from "assets/songs/playlist";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useLocation } from "react-router-dom";
 import { GameOptionsModal } from "./settings-menu/GameOptions";

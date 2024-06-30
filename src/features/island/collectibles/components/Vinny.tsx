@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import vinny from "public/assets/sfts/vinny.webp";
+import vinny from "assets/sfts/vinny.webp";
 
 export const Vinny: React.FC = () => {
   return (

@@ -9,7 +9,7 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Equipped } from "features/game/types/bumpkin";
 
-import primaryButton from "public/assets/ui/light_button.png";
+import primaryButton from "assets/ui/light_button.png";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "public/assets/sfts/earn_alliance_banner.png";
+import banner from "assets/sfts/earn_alliance_banner.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const EarnAllianceBanner: React.FC = () => {

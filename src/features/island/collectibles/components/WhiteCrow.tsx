@@ -1,6 +1,6 @@
 import React from "react";
 
-import whiteCrow from "public/assets/decorations/white_crow.webp";
+import whiteCrow from "assets/decorations/white_crow.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WhiteCrow: React.FC = () => {

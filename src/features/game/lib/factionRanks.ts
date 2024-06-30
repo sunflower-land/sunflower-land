@@ -1,36 +1,36 @@
 import { FactionName } from "../types/game";
 
-import sunflorians_chevron_zero from "public/assets/icons/factions/sunflorians/chevron_zero.webp";
-import sunflorians_chevron_one from "public/assets/icons/factions/sunflorians/chevron_one.webp";
-import sunflorians_chevron_two from "public/assets/icons/factions/sunflorians/chevron_two.webp";
-import sunflorians_chevron_three from "public/assets/icons/factions/sunflorians/chevron_three.webp";
-import sunflorians_chevron_four from "public/assets/icons/factions/sunflorians/chevron_four.webp";
-import sunflorians_chevron_five from "public/assets/icons/factions/sunflorians/chevron_five.webp";
-import sunflorians_chevron_six from "public/assets/icons/factions/sunflorians/chevron_six.webp";
+import sunflorians_chevron_zero from "assets/icons/factions/sunflorians/chevron_zero.webp";
+import sunflorians_chevron_one from "assets/icons/factions/sunflorians/chevron_one.webp";
+import sunflorians_chevron_two from "assets/icons/factions/sunflorians/chevron_two.webp";
+import sunflorians_chevron_three from "assets/icons/factions/sunflorians/chevron_three.webp";
+import sunflorians_chevron_four from "assets/icons/factions/sunflorians/chevron_four.webp";
+import sunflorians_chevron_five from "assets/icons/factions/sunflorians/chevron_five.webp";
+import sunflorians_chevron_six from "assets/icons/factions/sunflorians/chevron_six.webp";
 
-import bumpkins_chevron_zero from "public/assets/icons/factions/bumpkins/chevron_zero.webp";
-import bumpkins_chevron_one from "public/assets/icons/factions/bumpkins/chevron_one.webp";
-import bumpkins_chevron_two from "public/assets/icons/factions/bumpkins/chevron_two.webp";
-import bumpkins_chevron_three from "public/assets/icons/factions/bumpkins/chevron_three.webp";
-import bumpkins_chevron_four from "public/assets/icons/factions/bumpkins/chevron_four.webp";
-import bumpkins_chevron_five from "public/assets/icons/factions/bumpkins/chevron_five.webp";
-import bumpkins_chevron_six from "public/assets/icons/factions/bumpkins/chevron_six.webp";
+import bumpkins_chevron_zero from "assets/icons/factions/bumpkins/chevron_zero.webp";
+import bumpkins_chevron_one from "assets/icons/factions/bumpkins/chevron_one.webp";
+import bumpkins_chevron_two from "assets/icons/factions/bumpkins/chevron_two.webp";
+import bumpkins_chevron_three from "assets/icons/factions/bumpkins/chevron_three.webp";
+import bumpkins_chevron_four from "assets/icons/factions/bumpkins/chevron_four.webp";
+import bumpkins_chevron_five from "assets/icons/factions/bumpkins/chevron_five.webp";
+import bumpkins_chevron_six from "assets/icons/factions/bumpkins/chevron_six.webp";
 
-import nightshades_chevron_zero from "public/assets/icons/factions/nightshades/chevron_zero.webp";
-import nightshades_chevron_one from "public/assets/icons/factions/nightshades/chevron_one.webp";
-import nightshades_chevron_two from "public/assets/icons/factions/nightshades/chevron_two.webp";
-import nightshades_chevron_three from "public/assets/icons/factions/nightshades/chevron_three.webp";
-import nightshades_chevron_four from "public/assets/icons/factions/nightshades/chevron_four.webp";
-import nightshades_chevron_five from "public/assets/icons/factions/nightshades/chevron_five.webp";
-import nightshades_chevron_six from "public/assets/icons/factions/nightshades/chevron_six.webp";
+import nightshades_chevron_zero from "assets/icons/factions/nightshades/chevron_zero.webp";
+import nightshades_chevron_one from "assets/icons/factions/nightshades/chevron_one.webp";
+import nightshades_chevron_two from "assets/icons/factions/nightshades/chevron_two.webp";
+import nightshades_chevron_three from "assets/icons/factions/nightshades/chevron_three.webp";
+import nightshades_chevron_four from "assets/icons/factions/nightshades/chevron_four.webp";
+import nightshades_chevron_five from "assets/icons/factions/nightshades/chevron_five.webp";
+import nightshades_chevron_six from "assets/icons/factions/nightshades/chevron_six.webp";
 
-import goblins_chevron_zero from "public/assets/icons/factions/goblins/chevron_zero.webp";
-import goblins_chevron_one from "public/assets/icons/factions/goblins/chevron_one.webp";
-import goblins_chevron_two from "public/assets/icons/factions/goblins/chevron_two.webp";
-import goblins_chevron_three from "public/assets/icons/factions/goblins/chevron_three.webp";
-import goblins_chevron_four from "public/assets/icons/factions/goblins/chevron_four.webp";
-import goblins_chevron_five from "public/assets/icons/factions/goblins/chevron_five.webp";
-import goblins_chevron_six from "public/assets/icons/factions/goblins/chevron_six.webp";
+import goblins_chevron_zero from "assets/icons/factions/goblins/chevron_zero.webp";
+import goblins_chevron_one from "assets/icons/factions/goblins/chevron_one.webp";
+import goblins_chevron_two from "assets/icons/factions/goblins/chevron_two.webp";
+import goblins_chevron_three from "assets/icons/factions/goblins/chevron_three.webp";
+import goblins_chevron_four from "assets/icons/factions/goblins/chevron_four.webp";
+import goblins_chevron_five from "assets/icons/factions/goblins/chevron_five.webp";
+import goblins_chevron_six from "assets/icons/factions/goblins/chevron_six.webp";
 
 type BumpkinRank =
   | "forager"

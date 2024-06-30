@@ -1,6 +1,6 @@
 import React from "react";
 
-import laurie from "public/assets/sfts/aoe/laurie.png";
+import laurie from "assets/sfts/aoe/laurie.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const LaurieTheChuckleCrow: React.FC = () => {
   return (

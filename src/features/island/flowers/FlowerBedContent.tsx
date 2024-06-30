@@ -5,7 +5,7 @@ import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import flowerBed from "public/assets/flowers/flower_bed_modal.png";
+import flowerBed from "assets/flowers/flower_bed_modal.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import {

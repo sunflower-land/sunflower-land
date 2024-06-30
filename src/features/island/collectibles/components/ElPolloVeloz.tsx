@@ -1,8 +1,8 @@
 import React from "react";
 
-import elPolloVeloz from "public/assets/animals/chickens/el_pollo_veloz.gif";
+import elPolloVeloz from "assets/animals/chickens/el_pollo_veloz.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import shadow from "public/assets/npcs/shadow.png";
+import shadow from "assets/npcs/shadow.png";
 
 export const ElPolloVeloz: React.FC = () => {
   return (

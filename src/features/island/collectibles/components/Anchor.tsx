@@ -1,6 +1,6 @@
 import React from "react";
 
-import anchor from "public/assets/sfts/anchor.webp";
+import anchor from "assets/sfts/anchor.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Anchor: React.FC = () => {

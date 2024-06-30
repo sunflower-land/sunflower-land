@@ -2,7 +2,7 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelSpeechBubbleBorderStyle } from "features/game/lib/style";
 
-import speechBubbleBottom from "public/assets/ui/speech_bubble_bottom.webp";
+import speechBubbleBottom from "assets/ui/speech_bubble_bottom.webp";
 
 interface Props {
   text: string;

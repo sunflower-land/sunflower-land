@@ -1,7 +1,7 @@
 import React from "react";
 
-import bush from "public/assets/decorations/bush.png";
-import springBush from "public/assets/decorations/flower_bush.png";
+import bush from "assets/decorations/bush.png";
+import springBush from "assets/decorations/flower_bush.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { IslandType } from "features/game/types/game";
 import { CollectibleProps } from "../Collectible";

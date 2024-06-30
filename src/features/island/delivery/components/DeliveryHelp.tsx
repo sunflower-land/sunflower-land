@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import chest from "public/assets/icons/chest.png";
+import chest from "assets/icons/chest.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const DeliveryHelp: React.FC = () => {

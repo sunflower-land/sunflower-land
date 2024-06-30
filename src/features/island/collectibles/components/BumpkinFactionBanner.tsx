@@ -1,6 +1,6 @@
 import React from "react";
 
-import banner from "public/assets/decorations/banners/factions/bumpkins_banner.webp";
+import banner from "assets/decorations/banners/factions/bumpkins_banner.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BumpkinFactionBanner: React.FC = () => {

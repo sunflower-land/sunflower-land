@@ -1,6 +1,6 @@
 import React from "react";
 
-import trophy from "public/assets/fish/radiant_ray_trophy.png";
+import trophy from "assets/fish/radiant_ray_trophy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RadiantRay: React.FC = () => {

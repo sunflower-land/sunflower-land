@@ -1,12 +1,12 @@
 import { Potion } from "./types";
 
-import orangeBottle from "public/assets/decorations/orange_bottle.webp";
-import blueBottle from "public/assets/decorations/blue_bottle.webp";
-import pinkBottle from "public/assets/decorations/pink_bottle.webp";
-import blackBottle from "public/assets/decorations/black_bottle.webp";
-import greenBottle from "public/assets/decorations/green_bottle.webp";
-import mustardBottle from "public/assets/decorations/mustard_bottle.webp";
-import whiteBottle from "public/assets/decorations/white_bottle.webp";
+import orangeBottle from "assets/decorations/orange_bottle.webp";
+import blueBottle from "assets/decorations/blue_bottle.webp";
+import pinkBottle from "assets/decorations/pink_bottle.webp";
+import blackBottle from "assets/decorations/black_bottle.webp";
+import greenBottle from "assets/decorations/green_bottle.webp";
+import mustardBottle from "assets/decorations/mustard_bottle.webp";
+import whiteBottle from "assets/decorations/white_bottle.webp";
 import { PotionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import suspiciousGoblin from "public/assets/npcs/suspicious_goblin.gif";
+import suspiciousGoblin from "assets/npcs/suspicious_goblin.gif";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 const SyncClockGuide =

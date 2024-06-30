@@ -1,6 +1,6 @@
 import React from "react";
 
-import hauntedStump from "public/assets/decorations/haunted_stump.png";
+import hauntedStump from "assets/decorations/haunted_stump.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const HauntedStump: React.FC = () => {

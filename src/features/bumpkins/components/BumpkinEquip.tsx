@@ -14,7 +14,7 @@ import { BumpkinPartGroup } from "./BumpkinPartGroup";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/types/craftables";
 
-import lightning from "public/assets/icons/lightning.png";
+import lightning from "assets/icons/lightning.png";
 
 import { Label } from "components/ui/Label";
 import classNames from "classnames";

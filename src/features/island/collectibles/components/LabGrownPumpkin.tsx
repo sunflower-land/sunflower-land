@@ -1,7 +1,7 @@
 import React from "react";
 
-import labGrownPumpkin from "public/assets/sfts/lab_grown_pumpkin.gif";
-import shadow from "public/assets/npcs/shadow16px.png";
+import labGrownPumpkin from "assets/sfts/lab_grown_pumpkin.gif";
+import shadow from "assets/npcs/shadow16px.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const LabGrownPumpkin: React.FC = () => {

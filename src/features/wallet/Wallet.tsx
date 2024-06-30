@@ -6,7 +6,7 @@ import { Wallets } from "features/auth/components/SignIn";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import { WalletAction } from "features/wallet/walletMachine";
 
-import walletIcon from "public/assets/icons/wallet.png";
+import walletIcon from "assets/icons/wallet.png";
 
 import { Context } from "features/game/GameProvider";
 import { WalletErrorMessage } from "features/wallet/components/WalletErrors";

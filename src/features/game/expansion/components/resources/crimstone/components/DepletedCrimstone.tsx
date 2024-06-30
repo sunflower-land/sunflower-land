@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import crimstone_1 from "public/assets/resources/crimstone/crimstone_rock_1.webp";
-import crimstone_2 from "public/assets/resources/crimstone/crimstone_rock_2.webp";
-import crimstone_3 from "public/assets/resources/crimstone/crimstone_rock_3.webp";
-import crimstone_4 from "public/assets/resources/crimstone/crimstone_rock_4.webp";
-import crimstone_5 from "public/assets/resources/crimstone/crimstone_rock_5.webp";
-import crimstone_6 from "public/assets/resources/crimstone/crimstone_rock_6.webp";
+import crimstone_1 from "assets/resources/crimstone/crimstone_rock_1.webp";
+import crimstone_2 from "assets/resources/crimstone/crimstone_rock_2.webp";
+import crimstone_3 from "assets/resources/crimstone/crimstone_rock_3.webp";
+import crimstone_4 from "assets/resources/crimstone/crimstone_rock_4.webp";
+import crimstone_5 from "assets/resources/crimstone/crimstone_rock_5.webp";
+import crimstone_6 from "assets/resources/crimstone/crimstone_rock_6.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { getCrimstoneStage } from "../Crimstone";

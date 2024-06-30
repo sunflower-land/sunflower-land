@@ -9,8 +9,8 @@ import React, { useContext } from "react";
 
 import Decimal from "decimal.js-light";
 
-import mark from "public/assets/icons/faction_mark.webp";
-import powerup from "public/assets/icons/level_up.png";
+import mark from "assets/icons/faction_mark.webp";
+import powerup from "assets/icons/level_up.png";
 import { RANKS, getFactionRanking } from "features/game/lib/factionRanks";
 
 interface Props {

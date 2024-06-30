@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
 
-import planted from "public/assets/crops/bean_planted.png";
-import ready from "public/assets/crops/bean_ready.png";
-import growing from "public/assets/crops/bean_growing.png";
-import magicBean from "public/assets/crops/magic_bean.png";
+import planted from "assets/crops/bean_planted.png";
+import ready from "assets/crops/bean_ready.png";
+import growing from "assets/crops/bean_growing.png";
+import magicBean from "assets/crops/magic_bean.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";

@@ -1,6 +1,6 @@
 import React from "react";
 
-import coins from "public/assets/icons/coins.webp";
+import coins from "assets/icons/coins.webp";
 
 import {
   AchievementName,

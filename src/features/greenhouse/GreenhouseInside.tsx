@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect } from "react";
 
-import background from "public/assets/land/greenhouse_inside.png";
+import background from "assets/land/greenhouse_inside.png";
 
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";

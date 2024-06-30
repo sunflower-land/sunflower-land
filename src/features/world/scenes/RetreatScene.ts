@@ -1,4 +1,4 @@
-import mapJSON from "public/assets/map/retreat.json";
+import mapJSON from "assets/map/retreat.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

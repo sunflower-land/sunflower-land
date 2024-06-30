@@ -1,6 +1,6 @@
 import React from "react";
 
-import bear from "public/assets/sfts/grinx_hammer.png";
+import bear from "assets/sfts/grinx_hammer.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GrinxsHammer: React.FC = () => {

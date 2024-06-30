@@ -6,7 +6,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { GameState } from "features/game/types/game";
 
-import chest from "public/assets/icons/chest.png";
+import chest from "assets/icons/chest.png";
 import { Button } from "components/ui/Button";
 import { Milestone as MilestoneDetail } from "features/game/types/milestones";
 import { getKeys } from "features/game/types/craftables";

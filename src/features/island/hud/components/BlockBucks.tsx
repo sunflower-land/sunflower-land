@@ -3,7 +3,7 @@ import Decimal from "decimal.js-light";
 
 import { InnerPanel } from "components/ui/Panel";
 
-import ticket from "public/assets/icons/block_buck.png";
+import ticket from "assets/icons/block_buck.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import classNames from "classnames";

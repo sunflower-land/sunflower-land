@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import lightningAnimation from "public/assets/npcs/human_death.gif";
+import lightningAnimation from "assets/npcs/human_death.gif";
 
 import * as Auth from "features/auth/lib/Provider";
 

@@ -36,7 +36,7 @@ import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { TradeCompleted } from "./ui/TradeCompleted";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
-import SoundOffIcon from "public/assets/icons/sound_off.png";
+import SoundOffIcon from "assets/icons/sound_off.png";
 import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";

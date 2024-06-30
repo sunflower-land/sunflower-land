@@ -3,9 +3,9 @@ import React, { useContext, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import coins from "public/assets/ui/coins.png";
-import speechBubble from "public/assets/ui/speech_border.png";
-import codex from "public/assets/icons/codex.webp";
+import coins from "assets/ui/coins.png";
+import speechBubble from "assets/ui/speech_border.png";
+import codex from "assets/icons/codex.webp";
 
 import { Codex } from "./Codex";
 import { hasNewOrders } from "features/island/delivery/lib/delivery";

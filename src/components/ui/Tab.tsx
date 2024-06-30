@@ -7,7 +7,7 @@ import {
   pixelTabBorderVerticalMiddleStyle,
 } from "features/game/lib/style";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import lockIcon from "public/assets/skills/lock.png";
+import lockIcon from "assets/skills/lock.png";
 import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 interface Props {

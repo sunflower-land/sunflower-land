@@ -1,6 +1,6 @@
 import React from "react";
 
-import scaryMike from "public/assets/sfts/aoe/scary_mike.png";
+import scaryMike from "assets/sfts/aoe/scary_mike.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 export const ScaryMike: React.FC = () => {
   return (

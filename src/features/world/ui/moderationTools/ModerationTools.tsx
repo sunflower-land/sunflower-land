@@ -14,7 +14,7 @@ import { PlayerList } from "./tabs/PlayerList";
 import { ChatHistory } from "./tabs/ChatHistory";
 import { Actions } from "./tabs/Actions";
 
-import discord from "public/assets/skills/discord.png";
+import discord from "assets/skills/discord.png";
 import { MachineInterpreter, Moderation } from "features/game/lib/gameMachine";
 
 export type Message = {

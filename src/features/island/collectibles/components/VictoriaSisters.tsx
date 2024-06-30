@@ -1,6 +1,6 @@
 import React from "react";
 
-import victoriaSisters from "public/assets/sfts/victoria_sisters.gif";
+import victoriaSisters from "assets/sfts/victoria_sisters.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const VictoriaSisters: React.FC = () => {

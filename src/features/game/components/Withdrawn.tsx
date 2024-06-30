@@ -1,7 +1,7 @@
 import { Button } from "components/ui/Button";
 import React, { useContext } from "react";
 
-import secure from "public/assets/npcs/synced.gif";
+import secure from "assets/npcs/synced.gif";
 import { wallet } from "lib/blockchain/wallet";
 import { shortAddress } from "lib/utils/shortAddress";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

@@ -1,7 +1,7 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import React, { useEffect, useState } from "react";
-import minting from "public/assets/npcs/minting.gif";
+import minting from "assets/npcs/minting.gif";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";

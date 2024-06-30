@@ -3,7 +3,7 @@ import classnames from "classnames";
 import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
 
-import primaryButton from "public/assets/ui/light_button.png";
+import primaryButton from "assets/ui/light_button.png";
 
 import { useLongPress } from "lib/utils/hooks/useLongPress";
 import { PIXEL_SCALE } from "features/game/lib/constants";

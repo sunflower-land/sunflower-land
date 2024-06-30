@@ -1,8 +1,8 @@
 import React from "react";
 
-import token from "public/assets/icons/sfl.webp";
+import token from "assets/icons/sfl.webp";
 
-import shop from "public/assets/buildings/shop_building.png";
+import shop from "assets/buildings/shop_building.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

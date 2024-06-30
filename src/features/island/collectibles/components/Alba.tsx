@@ -1,6 +1,6 @@
 import React from "react";
 
-import walrus from "public/assets/sfts/alba.webp";
+import walrus from "assets/sfts/alba.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Alba: React.FC = () => {

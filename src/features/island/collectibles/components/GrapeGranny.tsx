@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import grapeGranny from "public/assets/sfts/grape_granny.webp";
+import grapeGranny from "assets/sfts/grape_granny.webp";
 
 export const GrapeGranny: React.FC = () => {
   return (

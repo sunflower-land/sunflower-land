@@ -1,6 +1,6 @@
 import React from "react";
 
-import whiteFox from "public/assets/sfts/white-xmas-fox.png";
+import whiteFox from "assets/sfts/white-xmas-fox.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const WhiteFestiveFox: React.FC = () => {

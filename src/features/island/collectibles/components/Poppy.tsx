@@ -1,6 +1,6 @@
 import React from "react";
 
-import poppy from "public/assets/sfts/poppy.png";
+import poppy from "assets/sfts/poppy.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const Poppy: React.FC = () => {

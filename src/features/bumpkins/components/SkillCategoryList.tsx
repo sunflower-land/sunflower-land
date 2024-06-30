@@ -13,11 +13,11 @@ import { Context } from "features/game/GameProvider";
 import { setImageWidth } from "lib/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import animals from "public/assets/skills/land/skill-tree-icon/animals.png";
-import cooking from "public/assets/skills/land/skill-tree-icon/cooking.png";
-import crops from "public/assets/skills/land/skill-tree-icon/crops.png";
-import rocks from "public/assets/skills/land/skill-tree-icon/rocks.png";
-import trees from "public/assets/skills/land/skill-tree-icon/trees.png";
+import animals from "assets/skills/land/skill-tree-icon/animals.png";
+import cooking from "assets/skills/land/skill-tree-icon/cooking.png";
+import crops from "assets/skills/land/skill-tree-icon/crops.png";
+import rocks from "assets/skills/land/skill-tree-icon/rocks.png";
+import trees from "assets/skills/land/skill-tree-icon/trees.png";
 
 const iconList = {
   Crops: crops,

@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/nightshade_veil_egg.webp";
+import image from "assets/factions/nightshade_veil_egg.webp";
 
 export const NightshadeVeilEgg: React.FC = () => {
   return (

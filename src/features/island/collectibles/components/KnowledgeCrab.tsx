@@ -1,6 +1,6 @@
 import React from "react";
 
-import knowledgeCrab from "public/assets/sfts/knowledge_crab.webp";
+import knowledgeCrab from "assets/sfts/knowledge_crab.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const KnowledgeCrab: React.FC = () => {

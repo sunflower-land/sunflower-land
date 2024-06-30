@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Factions as FactionTranslations } from "lib/i18n/dictionaries/types";
 
-import giftIcon from "public/assets/icons/gift.png";
+import giftIcon from "assets/icons/gift.png";
 import { Context } from "features/game/GameProvider";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { MachineState } from "features/game/lib/gameMachine";

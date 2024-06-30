@@ -2,8 +2,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { Section, useScrollIntoView } from "lib/utils/hooks/useScrollIntoView";
 import React, { useContext, useLayoutEffect } from "react";
 
-import background from "public/assets/land/helios.webp";
-import ocean from "public/assets/decorations/ocean.webp";
+import background from "assets/land/helios.webp";
+import ocean from "assets/decorations/ocean.webp";
 import { Decorations } from "./components/decorations/Decorations";
 import { ExoticShop } from "./components/exoticShop/ExoticShop";
 import { HeliosSunflower } from "./components/HeliosSunflower";

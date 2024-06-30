@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import well from "public/assets/buildings/well1.png";
+import well from "assets/buildings/well1.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Modal } from "components/ui/Modal";

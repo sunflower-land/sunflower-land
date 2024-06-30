@@ -16,11 +16,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
-import lifeTimeFarmerBannerIcon from "public/assets/decorations/banners/lifetime_farmer_banner.png";
-import giftIcon from "public/assets/icons/gift.png";
-import blockBucksIcon from "public/assets/icons/block_buck.png";
-import xpIcon from "public/assets/icons/xp.png";
-import vipIcon from "public/assets/icons/vip.webp";
+import lifeTimeFarmerBannerIcon from "assets/decorations/banners/lifetime_farmer_banner.png";
+import giftIcon from "assets/icons/gift.png";
+import blockBucksIcon from "assets/icons/block_buck.png";
+import xpIcon from "assets/icons/xp.png";
+import vipIcon from "assets/icons/vip.webp";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";

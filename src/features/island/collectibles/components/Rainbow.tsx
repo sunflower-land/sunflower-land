@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import rainbow from "public/assets/sfts/rainbow.webp";
+import rainbow from "assets/sfts/rainbow.webp";
 
 export const Rainbow: React.FC = () => {
   return (

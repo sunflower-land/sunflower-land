@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import lilyEgg from "public/assets/sfts/lily_egg.webp";
+import lilyEgg from "assets/sfts/lily_egg.webp";
 
 export const LilyEgg: React.FC = () => {
   return (

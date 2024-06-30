@@ -1,6 +1,6 @@
 import React from "react";
 
-import dinoBoneCase from "public/assets/sfts/dinosaur_bone_case.webp";
+import dinoBoneCase from "assets/sfts/dinosaur_bone_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const DinosaurBone: React.FC = () => {

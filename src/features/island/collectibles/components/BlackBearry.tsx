@@ -1,7 +1,7 @@
 import React from "react";
 
-import blackBear from "public/assets/sfts/black_bear.gif";
-import shadow from "public/assets/npcs/shadow16px.png";
+import blackBear from "assets/sfts/black_bear.gif";
+import shadow from "assets/npcs/shadow16px.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BlackBearry: React.FC = () => {

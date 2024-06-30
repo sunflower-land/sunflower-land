@@ -1,87 +1,85 @@
-import dotenv from "dotenv";
-
-// Load environment variables from .env
-dotenv.config();
-
-const NETWORK = process.env.VITE_NETWORK as "mainnet" | "amoy";
-const DONATION_ADDRESS = process.env.VITE_DONATION_ADDRESS;
-const TREASURY_ADDRESS = process.env.VITE_TREASURY_ADDRESS as string;
+const NETWORK = import.meta.env.VITE_NETWORK as "mainnet" | "amoy";
+const DONATION_ADDRESS = import.meta.env.VITE_DONATION_ADDRESS;
+const TREASURY_ADDRESS = import.meta.env.VITE_TREASURY_ADDRESS as string;
 
 const POLYGON_CHAIN_ID = NETWORK === "mainnet" ? 137 : 80002;
 
-const API_URL = process.env.VITE_API_URL;
-const ROOM_URL = process.env.VITE_ROOM_URL;
+const API_URL = import.meta.env.VITE_API_URL;
+const ROOM_URL = import.meta.env.VITE_ROOM_URL;
 
-const WISHING_WELL_CONTRACT = process.env.VITE_WISHING_WELL_CONTRACT;
-const ACCOUNT_MINTER_CONTRACT = process.env.VITE_ACCOUNT_MINTER_CONTRACT;
-const POKO_ACCOUNT_MINTER_CONTRACT =
-  process.env.VITE_POKO_ACCOUNT_MINTER_CONTRACT;
-const FARM_CONTRACT = process.env.VITE_FARM_CONTRACT;
-const GAME_CONTRACT = process.env.VITE_GAME_CONTRACT;
-const WITHDRAWAL_CONTRACT = process.env.VITE_WITHDRAWAL_CONTRACT;
-const INVENTORY_CONTRACT = process.env.VITE_INVENTORY_CONTRACT;
-const PAIR_CONTRACT = process.env.VITE_PAIR_CONTRACT;
-const SESSION_CONTRACT = process.env.VITE_SESSION_CONTRACT;
-const TOKEN_CONTRACT = process.env.VITE_TOKEN_CONTRACT;
-const DISCORD_REDIRECT = process.env.VITE_DISCORD_REDIRECT;
-const CLIENT_VERSION = process.env.VITE_CLIENT_VERSION as string;
-const RELEASE_VERSION = process.env.VITE_RELEASE_VERSION as string;
-const RECAPTCHA_SITEKEY = process.env.VITE_RECAPTCHA_SITEKEY as string;
-const CLOUDFLARE_CAPTCHA_SITEKEY = process.env
+const WISHING_WELL_CONTRACT = import.meta.env.VITE_WISHING_WELL_CONTRACT;
+const ACCOUNT_MINTER_CONTRACT = import.meta.env.VITE_ACCOUNT_MINTER_CONTRACT;
+const POKO_ACCOUNT_MINTER_CONTRACT = import.meta.env
+  .VITE_POKO_ACCOUNT_MINTER_CONTRACT;
+const FARM_CONTRACT = import.meta.env.VITE_FARM_CONTRACT;
+const GAME_CONTRACT = import.meta.env.VITE_GAME_CONTRACT;
+const WITHDRAWAL_CONTRACT = import.meta.env.VITE_WITHDRAWAL_CONTRACT;
+const INVENTORY_CONTRACT = import.meta.env.VITE_INVENTORY_CONTRACT;
+const PAIR_CONTRACT = import.meta.env.VITE_PAIR_CONTRACT;
+const SESSION_CONTRACT = import.meta.env.VITE_SESSION_CONTRACT;
+const TOKEN_CONTRACT = import.meta.env.VITE_TOKEN_CONTRACT;
+const DISCORD_REDIRECT = import.meta.env.VITE_DISCORD_REDIRECT;
+const CLIENT_VERSION = import.meta.env.VITE_CLIENT_VERSION as string;
+const RELEASE_VERSION = import.meta.env.VITE_RELEASE_VERSION as string;
+const RECAPTCHA_SITEKEY = import.meta.env.VITE_RECAPTCHA_SITEKEY as string;
+const CLOUDFLARE_CAPTCHA_SITEKEY = import.meta.env
   .VITE_CLOUDFLARE_CAPTCHA_SITEKEY as string;
-const TRADER_CONTRACT = process.env.VITE_TRADER_CONTRACT as string;
-const FROG_CONTRACT = process.env.VITE_FROG_CONTRACT as string;
-const FROG_DONATION = process.env.VITE_FROG_DONATION as string;
-const BUMPKIN_DETAILS_CONTRACT = process.env
+const TRADER_CONTRACT = import.meta.env.VITE_TRADER_CONTRACT as string;
+const FROG_CONTRACT = import.meta.env.VITE_FROG_CONTRACT as string;
+const FROG_DONATION = import.meta.env.VITE_FROG_DONATION as string;
+const BUMPKIN_DETAILS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_DETAILS_CONTRACT as string;
-const BUMPKIN_ITEMS_CONTRACT = process.env
+const BUMPKIN_ITEMS_CONTRACT = import.meta.env
   .VITE_BUMPKIN_ITEMS_CONTRACT as string;
-const TADPOLE_CONTRACT = process.env.VITE_TADPOLE_CONTRACT as string;
-const INCUBATOR_CONTRACT = process.env.VITE_INCUBATOR_CONTRACT as string;
-const WHITELIST_TOKEN_CONTRACT = process.env
+const TADPOLE_CONTRACT = import.meta.env.VITE_TADPOLE_CONTRACT as string;
+const INCUBATOR_CONTRACT = import.meta.env.VITE_INCUBATOR_CONTRACT as string;
+const WHITELIST_TOKEN_CONTRACT = import.meta.env
   .VITE_WHITELIST_TOKEN_CONTRACT as string;
-const BUY_SFL_CONTRACT = process.env.VITE_BUY_SFL_CONTRACT as string;
-const BUMPKIN_CONTRACT = process.env.VITE_BUMPKIN_CONTRACT as string;
-const QUEST_CONTRACT = process.env.VITE_QUEST_CONTRACT as string;
-const LOST_AND_FOUND_CONTRACT = process.env
+const BUY_SFL_CONTRACT = import.meta.env.VITE_BUY_SFL_CONTRACT as string;
+const BUMPKIN_CONTRACT = import.meta.env.VITE_BUMPKIN_CONTRACT as string;
+const QUEST_CONTRACT = import.meta.env.VITE_QUEST_CONTRACT as string;
+const LOST_AND_FOUND_CONTRACT = import.meta.env
   .VITE_LOST_AND_FOUND_CONTRACT as string;
-const DAILY_REWARD_CONTRACT = process.env.VITE_DAILY_REWARD_CONTRACT as string;
-const QUICKSWAP_ROUTER_CONTRACT = process.env
+const DAILY_REWARD_CONTRACT = import.meta.env
+  .VITE_DAILY_REWARD_CONTRACT as string;
+const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
-const BUY_BLOCK_BUCKS_CONTRACT = process.env
+const BUY_BLOCK_BUCKS_CONTRACT = import.meta.env
   .VITE_BUY_BLOCK_BUCKS_CONTRACT as string;
-const WMATIC_CONTRACT = process.env.VITE_WMATIC_CONTRACT as string;
-const DEPOSIT_CONTRACT = process.env.VITE_DEPOSIT_CONTRACT as string;
-const BUD_DEPOSIT_CONTRACT = process.env.VITE_BUD_DEPOSIT_CONTRACT as string;
-const AUCTION_CONTRACT = process.env.VITE_AUCTION_CONTRACT as string;
-const BUD_CONTRACT = process.env.VITE_BUD_CONTRACT as string;
-const SEAL_CONTRACT = process.env.VITE_SEAL_CONTRACT as string;
-const ALCHEMY_RPC = process.env.VITE_ALCHEMY_RPC as string;
-const PROTECTED_IMAGE_URL = process.env.VITE_PRIVATE_IMAGE_URL as string;
-const POKO_API_KEY = process.env.VITE_POKO_API_KEY as string;
-const POKO_DIRECT_CHECKOUT_API_KEY = process.env
+const WMATIC_CONTRACT = import.meta.env.VITE_WMATIC_CONTRACT as string;
+const DEPOSIT_CONTRACT = import.meta.env.VITE_DEPOSIT_CONTRACT as string;
+const BUD_DEPOSIT_CONTRACT = import.meta.env
+  .VITE_BUD_DEPOSIT_CONTRACT as string;
+const AUCTION_CONTRACT = import.meta.env.VITE_AUCTION_CONTRACT as string;
+const BUD_CONTRACT = import.meta.env.VITE_BUD_CONTRACT as string;
+const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
+const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
+const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
+const POKO_API_KEY = import.meta.env.VITE_POKO_API_KEY as string;
+const POKO_DIRECT_CHECKOUT_API_KEY = import.meta.env
   .VITE_POKO_DIRECT_CHECKOUT_API_KEY as string;
-const WALLETCONNECT_PROJECT_ID = process.env
+const WALLETCONNECT_PROJECT_ID = import.meta.env
   .VITE_WALLETCONNECT_PROJECT_ID as string;
-const CHRISTMAS_EVENT_DONATION = process.env
+const CHRISTMAS_EVENT_DONATION = import.meta.env
   .VITE_CHRISTMAS_EVENT_DONATION as string;
 
 // Arcade Mini Games Donation Addresses
-const GREEDY_GOBLIN_DONATION = process.env
+const GREEDY_GOBLIN_DONATION = import.meta.env
   .VITE_GREEDY_GOBLIN_DONATION as string;
-const CHICKEN_FIGHT_DONATION = process.env
+const CHICKEN_FIGHT_DONATION = import.meta.env
   .VITE_CHICKEN_FIGHT_DONATION as string;
 
-const GAME_ANALYTICS_APP_ID = process.env.VITE_GAME_ANALYTICS_APP_ID as string;
-const GAME_ANALYTICS_PUB_KEY = process.env
+const GAME_ANALYTICS_APP_ID = import.meta.env
+  .VITE_GAME_ANALYTICS_APP_ID as string;
+const GAME_ANALYTICS_PUB_KEY = import.meta.env
   .VITE_GAME_ANALYTICS_PUB_KEY as string;
-const PORTAL_APP = process.env.VITE_PORTAL_APP as string;
-const PORTAL_GAME_URL = process.env.VITE_PORTAL_GAME_URL as string;
+const PORTAL_APP = import.meta.env.VITE_PORTAL_APP as string;
+const PORTAL_GAME_URL = import.meta.env.VITE_PORTAL_GAME_URL as string;
 
-const DEQUIPPER_CONTRACT = process.env.VITE_DEQUIPPER_CONTRACT as string;
-const SEQUENCE_ACCESS_KEY = process.env.VITE_SEQUENCE_ACCESS_KEY as string;
+const DEQUIPPER_CONTRACT = import.meta.env.VITE_DEQUIPPER_CONTRACT as string;
+const SEQUENCE_ACCESS_KEY = import.meta.env.VITE_SEQUENCE_ACCESS_KEY as string;
 
-const PORTAL_URL = process.env.VITE_ROOM_URL;
+const PORTAL_URL = import.meta.env.VITE_ROOM_URL;
 
 export const CONFIG = {
   DEQUIPPER_CONTRACT,

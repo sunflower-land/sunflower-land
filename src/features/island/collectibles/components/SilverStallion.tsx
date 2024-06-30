@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/sfts/silver_stallion.webp";
+import image from "assets/sfts/silver_stallion.webp";
 
 export const SilverStallion: React.FC = () => {
   return (

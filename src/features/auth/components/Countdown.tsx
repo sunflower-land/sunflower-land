@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import minting from "public/assets/npcs/minting.gif";
+import minting from "assets/npcs/minting.gif";
 import { secondsToString } from "lib/utils/time";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

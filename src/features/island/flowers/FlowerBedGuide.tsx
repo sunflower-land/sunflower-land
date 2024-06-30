@@ -1,12 +1,12 @@
 import React from "react";
-import flowersTutorial from "public/assets/tutorials/flowers.webp";
-import beeTutorial from "public/assets/tutorials/bees.webp";
+import flowersTutorial from "assets/tutorials/flowers.webp";
+import beeTutorial from "assets/tutorials/bees.webp";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import powerup from "public/assets/icons/level_up.png";
+import powerup from "assets/icons/level_up.png";
 import { ITEM_DETAILS } from "features/game/types/images";
-import bee from "public/assets/icons/bee.webp";
-import honey from "public/assets/resources/honey.png";
+import bee from "assets/icons/bee.webp";
+import honey from "assets/resources/honey.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {

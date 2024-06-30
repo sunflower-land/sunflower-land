@@ -8,7 +8,7 @@ import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { useParams } from "react-router-dom";
 import { SceneId } from "./mmoMachine";
-import ocean from "public/assets/decorations/ocean.webp";
+import ocean from "assets/decorations/ocean.webp";
 import PubSub from "pubsub-js";
 
 import {

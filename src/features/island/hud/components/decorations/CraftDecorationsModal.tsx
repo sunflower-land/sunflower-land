@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { InventoryItemName } from "features/game/types/game";
-import sunflower from "public/assets/decorations/bush.png";
+import sunflower from "assets/decorations/bush.png";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";

@@ -1,7 +1,7 @@
 import React from "react";
 
-import labGrownRadish from "public/assets/sfts/lab_grown_radish.gif";
-import shadow from "public/assets/npcs/shadow16px.png";
+import labGrownRadish from "assets/sfts/lab_grown_radish.gif";
+import shadow from "assets/npcs/shadow16px.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const LabGrownRadish: React.FC = () => {

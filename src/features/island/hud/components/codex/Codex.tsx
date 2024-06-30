@@ -22,10 +22,10 @@ import { Label } from "components/ui/Label";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
-import trophy from "public/assets/icons/trophy.png";
-import factions from "public/assets/icons/factions.webp";
-import chores from "public/assets/icons/chores.webp";
-import factionMark from "public/assets/icons/faction_mark.webp";
+import trophy from "assets/icons/trophy.png";
+import factions from "assets/icons/factions.webp";
+import chores from "assets/icons/chores.webp";
+import factionMark from "assets/icons/faction_mark.webp";
 import { TicketsLeaderboard } from "./pages/TicketsLeaderboard";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";

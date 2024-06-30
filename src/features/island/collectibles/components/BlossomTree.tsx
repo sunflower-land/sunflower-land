@@ -1,6 +1,6 @@
 import React from "react";
 
-import blossomTree from "public/assets/events/valentine/sfts/blossom_tree.png";
+import blossomTree from "assets/events/valentine/sfts/blossom_tree.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const BlossomTree: React.FC = () => {

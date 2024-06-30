@@ -10,7 +10,7 @@ import React from "react";
 import { RequirementLabel } from "../RequirementsLabel";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
-import lockIcon from "public/assets/skills/lock.png";
+import lockIcon from "assets/skills/lock.png";
 
 import { Label } from "../Label";
 import { secondsToString } from "lib/utils/time";

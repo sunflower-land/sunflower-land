@@ -8,8 +8,8 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useEffect } from "react";
 
-import sfl from "public/assets/icons/sfl.webp";
-import coins from "public/assets/icons/coins.webp";
+import sfl from "assets/icons/sfl.webp";
+import coins from "assets/icons/coins.webp";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";
 import { Label } from "components/ui/Label";

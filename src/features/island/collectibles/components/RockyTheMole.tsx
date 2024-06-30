@@ -1,6 +1,6 @@
 import React from "react";
 
-import rockyTheMole from "public/assets/sfts/rocky_mole.gif";
+import rockyTheMole from "assets/sfts/rocky_mole.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const RockyTheMole: React.FC = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 
-import tunnelMole from "public/assets/sfts/tunnel_mole.gif";
+import tunnelMole from "assets/sfts/tunnel_mole.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const TunnelMole: React.FC = () => {

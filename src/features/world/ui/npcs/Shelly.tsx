@@ -13,10 +13,10 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { OuterPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import selectBoxBL from "public/assets/ui/select/selectbox_bl.png";
-import selectBoxBR from "public/assets/ui/select/selectbox_br.png";
-import selectBoxTL from "public/assets/ui/select/selectbox_tl.png";
-import selectBoxTR from "public/assets/ui/select/selectbox_tr.png";
+import selectBoxBL from "assets/ui/select/selectbox_bl.png";
+import selectBoxBR from "assets/ui/select/selectbox_br.png";
+import selectBoxTL from "assets/ui/select/selectbox_tl.png";
+import selectBoxTR from "assets/ui/select/selectbox_tr.png";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";

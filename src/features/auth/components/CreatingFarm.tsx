@@ -1,6 +1,6 @@
 import React from "react";
 
-import donating from "public/assets/splash/goblin_donation.gif";
+import donating from "assets/splash/goblin_donation.gif";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-import miniCornMaze from "public/assets/decorations/mini_corn_maze.webp";
+import miniCornMaze from "assets/decorations/mini_corn_maze.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const MiniCornMaze: React.FC = () => {

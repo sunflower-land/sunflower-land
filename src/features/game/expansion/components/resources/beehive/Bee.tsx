@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { animated, config, useSpring } from "react-spring";
 import { Context } from "features/game/GameProvider";
-import bee from "public/assets/icons/bee.webp";
+import bee from "assets/icons/bee.webp";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";

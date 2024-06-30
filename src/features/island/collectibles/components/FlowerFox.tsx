@@ -1,6 +1,6 @@
 import React from "react";
 
-import flowerFox from "public/assets/sfts/flower_fox.webp";
+import flowerFox from "assets/sfts/flower_fox.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const FlowerFox: React.FC = () => {

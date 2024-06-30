@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import classNames from "classnames";
 
-import artisian from "public/assets/npcs/artisian.gif";
-import artisianDoing from "public/assets/npcs/artisian_doing.gif";
-import shadow from "public/assets/npcs/shadow.png";
+import artisian from "assets/npcs/artisian.gif";
+import artisianDoing from "assets/npcs/artisian_doing.gif";
+import shadow from "assets/npcs/shadow.png";
 
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";

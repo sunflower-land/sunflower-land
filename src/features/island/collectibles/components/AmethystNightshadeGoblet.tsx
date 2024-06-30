@@ -1,7 +1,7 @@
 import React from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import image from "public/assets/factions/amethyst_nightshade_goblet.webp";
+import image from "assets/factions/amethyst_nightshade_goblet.webp";
 
 export const AmethystNightshadeGoblet: React.FC = () => {
   return (

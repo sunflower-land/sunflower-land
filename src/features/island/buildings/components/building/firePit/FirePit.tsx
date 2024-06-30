@@ -14,9 +14,9 @@ import { useActor } from "@xstate/react";
 import { bakeryAudio, loadAudio } from "lib/utils/sfx";
 import { gameAnalytics } from "lib/gameAnalytics";
 
-import npc from "public/assets/npcs/cook.gif";
-import doing from "public/assets/npcs/cook_doing.gif";
-import shadow from "public/assets/npcs/shadow.png";
+import npc from "assets/npcs/cook.gif";
+import doing from "assets/npcs/cook_doing.gif";
+import shadow from "assets/npcs/shadow.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 

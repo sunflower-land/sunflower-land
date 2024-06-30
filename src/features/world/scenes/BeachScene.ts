@@ -1,4 +1,4 @@
-import mapJSON from "public/assets/map/beach.json";
+import mapJSON from "assets/map/beach.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";

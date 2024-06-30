@@ -1,5 +1,5 @@
-import chest from "public/assets/icons/chest.png";
-import sfl from "public/assets/icons/sfl.webp";
+import chest from "assets/icons/chest.png";
+import sfl from "assets/icons/sfl.webp";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useContext } from "react";

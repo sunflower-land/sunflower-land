@@ -5,8 +5,8 @@ import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 
-import bg from "public/assets/ui/grey_background.png";
-import sflIcon from "public/assets/icons/sfl.webp";
+import bg from "assets/ui/grey_background.png";
+import sflIcon from "assets/icons/sfl.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { getKeys } from "features/game/types/craftables";

@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-import fin from "public/assets/decorations/fin_sheet.png";
-import bumpkin from "public/assets/npcs/shark.png";
+import fin from "assets/decorations/fin_sheet.png";
+import bumpkin from "assets/npcs/shark.png";
 
 import Spritesheet from "components/animation/SpriteAnimator";
 

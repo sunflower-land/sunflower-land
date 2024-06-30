@@ -5,19 +5,19 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
-import tutorial from "public/assets/tutorials/composting.png";
-import powerup from "public/assets/icons/level_up.png";
+import tutorial from "assets/tutorials/composting.png";
+import powerup from "assets/icons/level_up.png";
 
-import compost from "public/assets/composters/compost.png";
-import basicIdle from "public/assets/composters/composter_basic.png";
-import basicComposting from "public/assets/composters/composter_basic_closed.png";
-import basicReady from "public/assets/composters/composter_basic_ready.png";
-import advancedIdle from "public/assets/composters/composter_advanced.png";
-import advancedComposting from "public/assets/composters/composter_advanced_closed.png";
-import advancedReady from "public/assets/composters/composter_advanced_ready.png";
-import expertIdle from "public/assets/composters/composter_expert.png";
-import expertComposting from "public/assets/composters/composter_expert_closed.png";
-import expertReady from "public/assets/composters/composter_expert_ready.png";
+import compost from "assets/composters/compost.png";
+import basicIdle from "assets/composters/composter_basic.png";
+import basicComposting from "assets/composters/composter_basic_closed.png";
+import basicReady from "assets/composters/composter_basic_ready.png";
+import advancedIdle from "assets/composters/composter_advanced.png";
+import advancedComposting from "assets/composters/composter_advanced_closed.png";
+import advancedReady from "assets/composters/composter_advanced_ready.png";
+import expertIdle from "assets/composters/composter_expert.png";
+import expertComposting from "assets/composters/composter_expert_closed.png";
+import expertReady from "assets/composters/composter_expert_ready.png";
 
 import {
   WORM,

@@ -7,7 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPC } from "features/island/bumpkin/components/NPC";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import building from "public/assets/buildings/auction_floor.png";
+import building from "assets/buildings/auction_floor.png";
 
 export const HeliosAuction: React.FC = () => {
   const { gameService } = useContext(Context);

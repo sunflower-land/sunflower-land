@@ -2,13 +2,13 @@ import React, { useContext, useState } from "react";
 
 import { redirectOAuth } from "features/auth/actions/oauth";
 import * as Auth from "features/auth/lib/Provider";
-import budIcon from "public/assets/icons/bud.png";
+import budIcon from "assets/icons/bud.png";
 
 // faction banners
-import bumpkinBanner from "public/assets/decorations/banners/factions/bumpkins_banner.webp";
-import sunflorianBanner from "public/assets/decorations/banners/factions/sunflorians_banner.webp";
-import goblinBanner from "public/assets/decorations/banners/factions/goblins_banner.webp";
-import nightshadeBanner from "public/assets/decorations/banners/factions/nightshades_banner.webp";
+import bumpkinBanner from "assets/decorations/banners/factions/bumpkins_banner.webp";
+import sunflorianBanner from "assets/decorations/banners/factions/sunflorians_banner.webp";
+import goblinBanner from "assets/decorations/banners/factions/goblins_banner.webp";
+import nightshadeBanner from "assets/decorations/banners/factions/nightshades_banner.webp";
 
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";

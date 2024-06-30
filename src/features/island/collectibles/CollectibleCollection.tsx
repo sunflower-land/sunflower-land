@@ -142,7 +142,7 @@ import { RadianceLantern } from "./components/RadianceLantern";
 import { Hoot } from "./components/Hoot";
 import { GenieBear } from "./components/GenieBear";
 import { BasicScarecrow } from "./components/BasicScarecrow";
-import lightning from "public/assets/icons/lightning.png";
+import lightning from "assets/icons/lightning.png";
 import { EmeraldTurtle } from "./components/EmeraldTurtle";
 import { TinTurtle } from "./components/TinTurtle";
 import { StoneFence } from "./components/StoneFence";

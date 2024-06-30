@@ -1,9 +1,9 @@
 import { useActor } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 
-import manekiNekoShaking from "public/assets/sfts/maneki_neko.gif";
-import manekiNeko from "public/assets/sfts/maneki_neko_idle.gif";
-import shadow from "public/assets/npcs/shadow16px.png";
+import manekiNekoShaking from "assets/sfts/maneki_neko.gif";
+import manekiNeko from "assets/sfts/maneki_neko_idle.gif";
+import shadow from "assets/npcs/shadow16px.png";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";

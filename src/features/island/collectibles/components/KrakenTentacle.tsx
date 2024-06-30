@@ -1,6 +1,6 @@
 import React from "react";
 
-import krakenTentacle from "public/assets/sfts/kraken_tentacle.webp";
+import krakenTentacle from "assets/sfts/kraken_tentacle.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const KrakenTentacle: React.FC = () => {

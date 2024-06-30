@@ -1,6 +1,6 @@
 import React from "react";
 
-import headCase from "public/assets/sfts/golden_bear_head_case.webp";
+import headCase from "assets/sfts/golden_bear_head_case.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const GoldenBearHead: React.FC = () => {

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import pontoon from "public/assets/land/levels/pontoon.gif";
-import island from "public/assets/land/islands/island.webp";
+import pontoon from "assets/land/levels/pontoon.gif";
+import island from "assets/land/islands/island.webp";
 
 import { ExpansionConstruction } from "features/game/types/game";
 import { PIXEL_SCALE } from "features/game/lib/constants";
