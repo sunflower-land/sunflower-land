@@ -1,6 +1,13 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS"
+    "module": "ESNext",
+    "paths": {
+      "features/*": ["src/features/*"],
+      "assets/*": ["src/assets/*"],
+      "lib/*": ["src/lib/*"],
+      "components/*": ["src/components/*"]
+    },
+    "suppressImplicitAnyIndexErrors": true
   }
 }

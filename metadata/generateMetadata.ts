@@ -1,6 +1,12 @@
 import * as fs from "fs";
 import sharp from "sharp";
-import image from "public/assets/food/bumpkin_salad.png";
+
+// import image from "public/assets/food/bumpkin_salad.png";
+import { InventoryItemName } from "features/game/types/game";
+import { KNOWN_IDS } from "features/game/types";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { CONFIG } from "lib/config";
+console.log({ CONFIG });
 
 // import { KNOWN_IDS } from "../src/features/game/types";
 
@@ -135,9 +141,15 @@ import image from "public/assets/food/bumpkin_salad.png";
 // generateWearables();
 // generateCollectibles();
 
-async function generateImage() {
+async function generateImage({ name }: { name: InventoryItemName }) {
+  const ID = KNOWN_IDS[name];
+
+  if (fs.existsSync(`public/erc1155/images/${ID}.png`)) {
+    return;
+  }
+
   const background = await sharp("public/erc1155/images/3x3_bg.png").toBuffer();
-  const itemImage = await sharp(image).toBuffer();
+  const itemImage = await sharp(ITEM_DETAILS[name].image).toBuffer();
 
   // Composite item image onto background
   const mergedImage = await sharp(background)
@@ -147,4 +159,4 @@ async function generateImage() {
   fs.writeFileSync(`generated.png`, mergedImage);
 }
 
-generateImage();
+generateImage({ name: "Abandoned Bear" });
