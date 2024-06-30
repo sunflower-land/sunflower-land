@@ -185,6 +185,8 @@ export type GeneralTerms =
   | "sell.all"
   | "sell.one"
   | "sell.ten"
+  | "sell.amount"
+  | "sell.inBulk"
   | "sell"
   | "session.expired"
   | "sfl/coins"
@@ -918,7 +920,8 @@ export type ConfirmSkill = "confirm.skillClaim";
 
 export type ConfirmationTerms =
   | "confirmation.sellCrops"
-  | "confirmation.buyCrops";
+  | "confirmation.buyCrops"
+  | "confirmation.enterAmount";
 
 export type Conversations =
   | "hank-intro.headline"
@@ -3092,7 +3095,8 @@ export type Restock =
   | "restock.one.buck"
   | "restock.sure"
   | "restock.tooManySeeds"
-  | "seeds.reachingInventoryLimit";
+  | "seeds.reachingInventoryLimit"
+  | "crops.noCropsToSell";
 
 export type RetreatTerms =
   | "retreatTerms.lookingForRareItems"

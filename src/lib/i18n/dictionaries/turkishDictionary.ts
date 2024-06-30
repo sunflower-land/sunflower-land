@@ -361,6 +361,8 @@ const generalTerms: Record<GeneralTerms, string> = {
   "sell.all": "Hepsini Sat",
   "sell.one": "1 Adet Sat",
   "sell.ten": "10 Adet Sat",
+  "sell.amount": ENGLISH_TERMS["sell.amount"],
+  "sell.inBulk": ENGLISH_TERMS["sell.inBulk"],
   "session.expired": "Oturum süresi doldu!",
   share: "Paylaş",
   skillPts: "Yetenek Puanları",
@@ -1310,6 +1312,7 @@ const composterDescription: Record<ComposterDescription, string> = {
 const confirmationTerms: Record<ConfirmationTerms, string> = {
   "confirmation.sellCrops": ENGLISH_TERMS["confirmation.sellCrops"],
   "confirmation.buyCrops": ENGLISH_TERMS["confirmation.buyCrops"],
+  "confirmation.enterAmount": ENGLISH_TERMS["confirmation.enterAmount"],
 };
 
 const confirmSkill: Record<ConfirmSkill, string> = {
@@ -4610,6 +4613,7 @@ const restock: Record<Restock, string> = {
   "restock.sure": "Yenilemek istediğinizden emin misiniz?",
   "restock.tooManySeeds": "Sepetinizde fazla tohum var!",
   "seeds.reachingInventoryLimit": ENGLISH_TERMS["seeds.reachingInventoryLimit"],
+  "crops.noCropsToSell": ENGLISH_TERMS["crops.noCropsToSell"],
 };
 
 const retreatTerms: Record<RetreatTerms, string> = {
